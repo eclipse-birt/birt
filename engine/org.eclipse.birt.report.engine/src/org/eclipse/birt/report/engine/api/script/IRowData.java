@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,8 +26,7 @@ public interface IRowData {
 	 *             returns null.
 	 * @throws ScriptException
 	 */
-	@Deprecated
-	Object getExpressionValue(String expression) throws ScriptException;
+	public Object getExpressionValue(String expression) throws ScriptException;
 
 	/**
 	 * @deprecated Now do not support get expression value by index. Return the
@@ -35,43 +34,41 @@ public interface IRowData {
 	 *             return if the i:th expression doesn't exist.
 	 * @throws ScriptException
 	 */
-	@Deprecated
-	Object getExpressionValue(int i) throws ScriptException;
+	public Object getExpressionValue(int i) throws ScriptException;
 
 	/**
 	 * Return the number of expressions bound to the current row.
-	 *
+	 * 
 	 * @deprecated
 	 */
-	@Deprecated
-	int getExpressionCount();
+	public int getExpressionCount();
 
 	/**
 	 * Return the value of the bouding exprssion.
-	 *
+	 * 
 	 * @param name
 	 * @throws Exception
 	 */
-	Object getColumnValue(String name) throws ScriptException;
+	public Object getColumnValue(String name) throws ScriptException;
 
 	/**
 	 * Return the value of the bouding exprssion by id.
-	 *
+	 * 
 	 * @param name
 	 * @throws Exception
 	 */
-	Object getColumnValue(int index) throws ScriptException;
+	public Object getColumnValue(int index) throws ScriptException;
 
 	/**
 	 * Return the name of the bouding exprssion by id.
-	 *
+	 * 
 	 * @param index
 	 */
-	String getColumnName(int index);
+	public String getColumnName(int index);
 
 	/**
 	 * Return the count of the bouding exprssions.
 	 */
-	int getColumnCount();
+	public int getColumnCount();
 
 }

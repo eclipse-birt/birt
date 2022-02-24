@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ public interface IPage {
 
 	/**
 	 * Saves last graphic state, and clips a rectangle area.
-	 *
+	 * 
 	 * @param startX x coordinate of left upper corner.
 	 * @param startY y coordinate of left upper corner.
 	 * @param width  width of the area.
@@ -40,7 +40,7 @@ public interface IPage {
 
 	/**
 	 * Draws text at specified position with specified styles.
-	 *
+	 * 
 	 * @param text
 	 * @param textX
 	 * @param textY
@@ -59,7 +59,7 @@ public interface IPage {
 	/**
 	 * Draws a line from the start position to the end position with the given line
 	 * width, color, and style.
-	 *
+	 * 
 	 * @param startX    the start X coordinate of the line
 	 * @param startY    the start Y coordinate of the line
 	 * @param endX      the end X coordinate of the line
@@ -72,7 +72,7 @@ public interface IPage {
 
 	/**
 	 * Draws the background color at the contentByteUnder of the pdf
-	 *
+	 * 
 	 * @param color  the color to be drawn
 	 * @param x      the start X coordinate
 	 * @param y      the start Y coordinate

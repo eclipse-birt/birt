@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,27 +21,27 @@ import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 
 public interface IPageBuffer {
 
-	void startContainer(IContent content, boolean isFirst, IContentEmitter emitter, boolean visible)
+	public void startContainer(IContent content, boolean isFirst, IContentEmitter emitter, boolean visible)
 			throws BirtException;
 
-	void endContainer(IContent content, boolean finished, IContentEmitter emitter, boolean visible)
+	public void endContainer(IContent content, boolean finished, IContentEmitter emitter, boolean visible)
 			throws BirtException;
 
-	void startContent(IContent content, IContentEmitter emitter, boolean visible) throws BirtException;
+	public void startContent(IContent content, IContentEmitter emitter, boolean visible) throws BirtException;
 
-	void setRepeated(boolean isRepeated);
+	public void setRepeated(boolean isRepeated);
 
-	boolean isRepeated();
+	public boolean isRepeated();
 
-	void flush() throws BirtException;
+	public void flush() throws BirtException;
 
-	boolean finished();
+	public boolean finished();
 
-	void openPage(INode[] nodeList) throws BirtException;
+	public void openPage(INode[] nodeList) throws BirtException;
 
-	void closePage(INode[] nodeList) throws BirtException;
+	public void closePage(INode[] nodeList) throws BirtException;
 
-	INode[] getNodeStack();
+	public INode[] getNodeStack();
 
-	void addTableColumnHint(TableColumnHint hint);
+	public void addTableColumnHint(TableColumnHint hint);
 }

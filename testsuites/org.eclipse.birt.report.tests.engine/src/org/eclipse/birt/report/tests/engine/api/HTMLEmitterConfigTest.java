@@ -4,20 +4,20 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLCompleteImageHandler;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.tests.engine.EngineCase;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * <b>HTMLEmitterConfig test</b>
@@ -38,19 +38,17 @@ public class HTMLEmitterConfigTest extends EngineCase {
 
 	/**
 	 * Test suite()
-	 *
+	 * 
 	 * @return
 	 */
 	public static Test suite() {
 		return new TestSuite(HTMLEmitterConfigTest.class);
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
-	@Override
 	protected void tearDown() throws Exception {
 
 		super.tearDown();

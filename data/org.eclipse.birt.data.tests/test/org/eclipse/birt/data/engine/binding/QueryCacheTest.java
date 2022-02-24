@@ -1,21 +1,18 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.binding;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.script.ScriptContext;
@@ -30,16 +27,17 @@ import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
-import org.junit.Test;
 
 import testutil.ConfigText;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 /**
- *
+ * 
  */
 
 public class QueryCacheTest extends APITestCase {
-	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Binding.TestData.TableName"),
 				ConfigText.getString("Binding.TestData.TableSQL"),
@@ -47,7 +45,7 @@ public class QueryCacheTest extends APITestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -154,9 +152,8 @@ public class QueryCacheTest extends APITestCase {
 		it = result.getResultIterator();
 		while (it.next()) {
 			IResultIterator subIt = it.getSecondaryIterator(new ScriptContext(), "test");
-			while (subIt.next()) {
+			while (subIt.next())
 				;
-			}
 			subIt.close();
 		}
 		it.close();
@@ -181,7 +178,7 @@ public class QueryCacheTest extends APITestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -221,7 +218,7 @@ public class QueryCacheTest extends APITestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test

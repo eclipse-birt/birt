@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -103,7 +103,6 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 	 * @deprecated please use
 	 *             {@link #createCubeQuery(CrosstabReportItemHandle, IDataQueryDefinition, IModelAdapter, boolean, boolean, boolean, boolean, boolean, boolean)}
 	 */
-	@Deprecated
 	public static ICubeQueryDefinition createCubeQuery(CrosstabReportItemHandle crosstabItem,
 			IDataQueryDefinition parentQuery, boolean needMeasure, boolean needRowDimension,
 			boolean needColumnDimension, boolean needBinding, boolean needSorting, boolean needFilter)
@@ -130,11 +129,11 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 
 		boolean isBoundToLinkedDataSet = CrosstabUtil.isBoundToLinkedDataSet(crosstabItem);
 
-		List<String> rowLevelNameList = new ArrayList<>();
-		List<String> columnLevelNameList = new ArrayList<>();
+		List<String> rowLevelNameList = new ArrayList<String>();
+		List<String> columnLevelNameList = new ArrayList<String>();
 
-		List<LevelViewHandle> levelViewList = new ArrayList<>();
-		Map<String, ILevelDefinition> levelMapping = new HashMap<>();
+		List<LevelViewHandle> levelViewList = new ArrayList<LevelViewHandle>();
+		Map<String, ILevelDefinition> levelMapping = new HashMap<String, ILevelDefinition>();
 
 		if (needMeasure) {
 			// add measure definitions
@@ -173,7 +172,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 		}
 
 		// Crosstab binding expression map
-		Map<String, String> exprMap = new HashMap<>();
+		Map<String, String> exprMap = new HashMap<String, String>();
 		if (isBoundToLinkedDataSet) {
 			exprMap = CrosstabUtil.getBindingExpressMap(crosstabItem);
 		}
@@ -207,7 +206,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 			Iterator bindingItr = ((ExtendedItemHandle) crosstabItem.getModelHandle()).columnBindingsIterator();
 
 			if (bindingItr != null) {
-				Map<String, String> cache = new HashMap<>();
+				Map<String, String> cache = new HashMap<String, String>();
 
 				while (bindingItr.hasNext()) {
 					ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next();
@@ -244,7 +243,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 		if (cell != null) {
 			List contents = cell.getContents();
 			for (Object obj : contents) {
-				if (obj instanceof DataItemHandle) {
+				if (obj != null && obj instanceof DataItemHandle) {
 					measureBindingName = ((DataItemHandle) obj).getResultSetColumn();
 					ComputedColumnHandle column = CrosstabUtil.getColumnHandle(crosstabItem, measureBindingName);
 					aggrFunc = (column != null) ? column.getAggregateFunction() : null;
@@ -365,12 +364,12 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 	private static void addEdgeMemberFilter(ICubeQueryDefinition cubeQuery, CrosstabReportItemHandle crosstabItem,
 			IModelAdapter modelAdapter, List<MemberValueHandle> members, Map<String, ILevelDefinition> levelMapping,
 			Map<String, String> exprMap) throws BirtException {
-		List<List<IScriptExpression>> allTargetLevels = new ArrayList<>();
-		List<List<List<IScriptExpression>>> allMemberValues = new ArrayList<>();
-		List<List<List<Boolean>>> allMemberFlags = new ArrayList<>();
-		int[] op = { 0 };
+		List<List<IScriptExpression>> allTargetLevels = new ArrayList<List<IScriptExpression>>();
+		List<List<List<IScriptExpression>>> allMemberValues = new ArrayList<List<List<IScriptExpression>>>();
+		List<List<List<Boolean>>> allMemberFlags = new ArrayList<List<List<Boolean>>>();
+		int[] op = new int[] { 0 };
 
-		Boolean[] updateAggFlag = { null };
+		Boolean[] updateAggFlag = new Boolean[] { null };
 
 		for (MemberValueHandle mvh : members) {
 			if (mvh == null) {
@@ -383,9 +382,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 			}
 
 			if (lv == null) {
-				List<IScriptExpression> targetLevels = new ArrayList<>();
-				List<List<IScriptExpression>> memberValues = new ArrayList<>();
-				List<List<Boolean>> memberFlags = new ArrayList<>();
+				List<IScriptExpression> targetLevels = new ArrayList<IScriptExpression>();
+				List<List<IScriptExpression>> memberValues = new ArrayList<List<IScriptExpression>>();
+				List<List<Boolean>> memberFlags = new ArrayList<List<Boolean>>();
 
 				traverseMemberFilter(crosstabItem, targetLevels, op, updateAggFlag, memberValues, memberFlags, mvh,
 						levelMapping, exprMap, modelAdapter, 1, new int[] { 1 });
@@ -396,14 +395,14 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 			}
 		}
 
-		List<IScriptExpression> mergedTargetLevels = new ArrayList<>();
-		Collection<Collection<IScriptExpression>> mergedMemberValues = new ArrayList<>();
+		List<IScriptExpression> mergedTargetLevels = new ArrayList<IScriptExpression>();
+		Collection<Collection<IScriptExpression>> mergedMemberValues = new ArrayList<Collection<IScriptExpression>>();
 
 		// TODO data engine should provider way better API to avoid this crappy
 		// logic.
 
 		// merge all target levels into one single list
-		List<String> keyList = new ArrayList<>();
+		List<String> keyList = new ArrayList<String>();
 
 		for (int i = 0; i < allTargetLevels.size(); i++) {
 			List<IScriptExpression> targetLevels = allTargetLevels.get(i);
@@ -446,7 +445,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 				if (startIdx == 0) {
 					mergedMemberValues.add(bucket);
 				} else {
-					List<IScriptExpression> newBucket = new ArrayList<>();
+					List<IScriptExpression> newBucket = new ArrayList<IScriptExpression>();
 
 					for (int k = 0; k < startIdx; k++) {
 						// fill with placeholder
@@ -562,7 +561,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 		if (updateAggFlag[0] == null) {
 			boolean needUpdateAgg = fch.updateAggregation();
 
-			updateAggFlag[0] = needUpdateAgg;
+			updateAggFlag[0] = Boolean.valueOf(needUpdateAgg);
 		}
 
 		// TODO only check value1 for now
@@ -602,10 +601,10 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 		List<Boolean> flagBucket;
 
 		if (pos[0] > values.size()) {
-			bucket = new ArrayList<>();
+			bucket = new ArrayList<IScriptExpression>();
 			values.add(bucket);
 
-			flagBucket = new ArrayList<>();
+			flagBucket = new ArrayList<Boolean>();
 			flags.add(flagBucket);
 
 			if (pos[0] > 1) {
@@ -628,10 +627,10 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 
 		if (depth > bucket.size()) {
 			bucket.add(val);
-			flagBucket.add(mark);
+			flagBucket.add(Boolean.valueOf(mark));
 		} else {
 			bucket.set(depth - 1, val);
-			flagBucket.set(depth - 1, mark);
+			flagBucket.set(depth - 1, Boolean.valueOf(mark));
 		}
 	}
 
@@ -639,10 +638,10 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 			MemberValueHandle member, Map<String, ILevelDefinition> levelMapping) {
 		IHierarchyDefinition targetHierarchy = null;
 		String targetLevelName = null;
-		List<List<Object>> values = new ArrayList<>();
+		List<List<Object>> values = new ArrayList<List<Object>>();
 
 		// the bucket to record output parameters
-		Object[] output = { targetLevelName, targetHierarchy };
+		Object[] output = new Object[] { targetLevelName, targetHierarchy };
 
 		traverseDrillMember(crosstabItem, output, member, levelMapping, values, 0);
 
@@ -654,7 +653,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 		drillDef.setTargetHierarchy(targetHierarchy);
 		drillDef.setTargetLevelName(targetLevelName);
 
-		List<Object[]> tuples = new ArrayList<>();
+		List<Object[]> tuples = new ArrayList<Object[]>();
 
 		for (int i = 0; i < values.size(); i++) {
 			List<Object> vals = values.get(i);
@@ -685,7 +684,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 
 		// record the tuple values
 		while (depth >= values.size()) {
-			values.add(new ArrayList<>());
+			values.add(new ArrayList<Object>());
 		}
 
 		Object val = member.getValue();
@@ -744,8 +743,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 
 	private static void addLevelSorting(List<LevelViewHandle> levelViews, Map<String, ILevelDefinition> levelMapping,
 			ICubeQueryDefinition cubeQuery, IModelAdapter modelAdapter) throws BirtException {
-		List<ILevelDefinition> levels = new ArrayList<>();
-		List<Object> values = new ArrayList<>();
+		List<ILevelDefinition> levels = new ArrayList<ILevelDefinition>();
+		List<Object> values = new ArrayList<Object>();
 
 		for (Iterator<LevelViewHandle> itr = levelViews.iterator(); itr.hasNext();) {
 			LevelViewHandle lv = itr.next();
@@ -788,8 +787,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 
 	private static void addLevelFilter(List<LevelViewHandle> levelViews, Map<String, ILevelDefinition> levelMapping,
 			ICubeQueryDefinition cubeQuery, IModelAdapter modelAdapter) throws BirtException {
-		List<ILevelDefinition> levels = new ArrayList<>();
-		List<Object> values = new ArrayList<>();
+		List<ILevelDefinition> levels = new ArrayList<ILevelDefinition>();
+		List<Object> values = new ArrayList<Object>();
 
 		for (Iterator<LevelViewHandle> itr = levelViews.iterator(); itr.hasNext();) {
 			LevelViewHandle lv = itr.next();
@@ -822,7 +821,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 						List<Expression> val1list = filterCon.getValue1ExpressionList().getListValue();
 
 						if (val1list != null) {
-							vals = new ArrayList<>();
+							vals = new ArrayList<ScriptExpression>();
 
 							for (Expression expr : val1list) {
 								vals.add(modelAdapter.adaptExpression(expr, ExpressionLocation.CUBE));
@@ -878,7 +877,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants {
 					List<Expression> val1list = filterCon.getValue1ExpressionList().getListValue();
 
 					if (val1list != null) {
-						vals = new ArrayList<>();
+						vals = new ArrayList<ScriptExpression>();
 
 						for (Expression expr : val1list) {
 							vals.add(modelAdapter.adaptExpression(expr, ExpressionLocation.CUBE));

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 /**
- *
+ * 
  */
 
 public class PublishLibraryAction implements IWorkbenchWindowActionDelegate {
@@ -42,27 +42,24 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate {
 	private IFile libFile = null;
 	private boolean selectLibrary = false;
 
-	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void init(IWorkbenchWindow window) {
 		// TODO Auto-generated method stub
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	@Override
 	public void run(IAction action) {
 		String fileName = null;
 		LibraryHandle libHandle = null;
-		if (!editLibrary() && !selectLibrary) {
+		if (editLibrary() == false && selectLibrary == false) {
 			return;
 		}
 
@@ -114,11 +111,10 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 * .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		if (selection instanceof TreeSelection) {
 			IFile file = null;

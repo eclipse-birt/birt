@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ import com.ibm.icu.util.ULocale;
 
 public class GroupingLookupHelper {
 
-	public enum ValueSeriesExprBuilder {
+	public static enum ValueSeriesExprBuilder {
 		OLDER_STYLE {
 
 			@Override
@@ -95,7 +95,7 @@ public class GroupingLookupHelper {
 
 	private Map<String, Integer> lhmAggExp = ChartUtil.newHashMap();
 
-	private List<String> lstAll = new ArrayList<>(8);
+	private List<String> lstAll = new ArrayList<String>(8);
 
 	private String strBaseAggExp = null;
 
@@ -108,7 +108,7 @@ public class GroupingLookupHelper {
 
 	/**
 	 * The expression index of sort key on Y grouping.
-	 *
+	 * 
 	 * @since BIRT 2.3
 	 **/
 	private int fYSortExprIndex = -1;
@@ -116,7 +116,7 @@ public class GroupingLookupHelper {
 	/**
 	 * Constructor. Finds all data expressions and aggregation expressions in the
 	 * chart model in the order and restore them in the lookup list
-	 *
+	 * 
 	 * @param cm     chart model
 	 * @param iae    IActionEvaluator to get the expressions in triggers
 	 * @param locale
@@ -141,10 +141,10 @@ public class GroupingLookupHelper {
 
 	/**
 	 * Constructor. Restore all expressions in the lookup list.
-	 *
+	 * 
 	 * @param dataExps data expressions collection
 	 * @param aggExps  aggregation expressions collection
-	 *
+	 * 
 	 */
 	public GroupingLookupHelper(Collection<String> dataExps, Collection<String> aggExps) {
 		this.valueSeriesExprBuilder = ValueSeriesExprBuilder.OLDER_STYLE;
@@ -156,14 +156,14 @@ public class GroupingLookupHelper {
 			String aggExp = aggIterator.next();
 
 			lstAll.add(dataExp);
-			lhmAggExp.put(generateKey(dataExp, aggExp), iLookup++);
+			lhmAggExp.put(generateKey(dataExp, aggExp), Integer.valueOf(iLookup++));
 		}
 	}
 
 	/**
 	 * Gets the list for all data expressions. Only for lookup, and can't be changed
 	 * directly.
-	 *
+	 * 
 	 * @return the list for all data expressions
 	 */
 	public List<String> getExpressions() {
@@ -172,7 +172,7 @@ public class GroupingLookupHelper {
 
 	/**
 	 * Indicates if evaluated expressions include sort keys
-	 *
+	 * 
 	 * @return true means sort keys needed
 	 */
 	private boolean needSortKeys() {
@@ -189,7 +189,7 @@ public class GroupingLookupHelper {
 
 	/**
 	 * Finds the index of base series according to the data expression .
-	 *
+	 * 
 	 * @param dataExp the data expression to lookup
 	 * @return the index of the data expression in the evaluator data
 	 */
@@ -200,7 +200,7 @@ public class GroupingLookupHelper {
 	/**
 	 * Finds the index of orthogonal series according to the combination of data
 	 * expression and aggregation expression.
-	 *
+	 * 
 	 * @param dataExp data expression
 	 * @param aggExp  aggregation expression. If it's null, will use aggregation
 	 *                expression of base series instead
@@ -221,7 +221,7 @@ public class GroupingLookupHelper {
 	 * Finds the index according to the combination of data expression and
 	 * aggregation expression in a batch. Note that all data expressions must match
 	 * the same aggregation expression.
-	 *
+	 * 
 	 * @param dataExpArray data expression array
 	 * @param aggExp       aggregation expression
 	 * @return the index array in the evaluator data
@@ -243,7 +243,7 @@ public class GroupingLookupHelper {
 		if (dataExp != null && dataExp.trim().length() > 0) {
 			String key = generateKey(dataExp, aggExp);
 			if (!lhmAggExp.containsKey(key)) {
-				lhmAggExp.put(key, iLookup++);
+				lhmAggExp.put(key, Integer.valueOf(iLookup++));
 				lstAll.add(dataExp);
 			}
 			return true;
@@ -414,7 +414,7 @@ public class GroupingLookupHelper {
 
 	/**
 	 * Add common sort expression by the specified expression.
-	 *
+	 * 
 	 * @param baseSD
 	 */
 	private void addCommonSortKey(SeriesDefinition baseSD) {
@@ -431,7 +431,7 @@ public class GroupingLookupHelper {
 
 	/**
 	 * Returns sort key of series definition.
-	 *
+	 * 
 	 * @param sd
 	 * @return
 	 */
@@ -446,7 +446,7 @@ public class GroupingLookupHelper {
 	/**
 	 * Simply gets aggregation expressions for the series definitions. If grouping
 	 * is not enabled, return null
-	 *
+	 * 
 	 * @param sd series definition
 	 * @return aggregation expressions for the series definitions, or null if
 	 *         grouping is disabled.
@@ -463,7 +463,7 @@ public class GroupingLookupHelper {
 	 * Gets aggregation expressions of orthogonal series definition. If base series
 	 * doesn't enable grouping, return null. If its own grouping is null, return the
 	 * one of base grouping, otherwise, return its own.
-	 *
+	 * 
 	 * @param orthoSD orthogonal series definition
 	 * @return If base series doesn't enable grouping, return null. If its own
 	 *         grouping is null, return the one of base grouping, otherwise, return
@@ -486,7 +486,7 @@ public class GroupingLookupHelper {
 	/**
 	 * Returns sort expression of base series, <code>-1</code> means no sort
 	 * expression is set for base series.
-	 *
+	 * 
 	 * @return
 	 * @since 2.3
 	 */
@@ -497,7 +497,7 @@ public class GroupingLookupHelper {
 	/**
 	 * Returns sort expression of Y grouping, <code>-1</code> means no sort
 	 * expression is set for Y grouping.
-	 *
+	 * 
 	 * @return
 	 * @since BIRT 2.3
 	 */

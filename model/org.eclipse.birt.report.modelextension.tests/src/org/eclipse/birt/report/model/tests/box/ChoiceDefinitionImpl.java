@@ -28,30 +28,27 @@ public class ChoiceDefinitionImpl implements IChoiceDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IChoiceDefn#getDisplayName()
 	 */
-	@Override
 	public String getDisplayNameID() {
 		return displayNameID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IChoiceDefn#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IChoiceDefn#getValue()
 	 */
-	@Override
 	public Object getValue() {
 		return value;
 	}

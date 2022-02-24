@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.eclipse.birt.report.engine.script.internal.ScriptExecutor;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
- *
+ * 
  */
 
 public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler {
@@ -60,7 +60,7 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler {
 	public OnPageBreakLayoutPageHandle(ExecutionContext executionContext) {
 		this.executionContext = executionContext;
 		this.emitter = new PageContentBuilder();
-		this.contents = new ArrayList<>();
+		this.contents = new ArrayList<IContent>();
 		Report report = executionContext.getReport();
 		if (report != null) {
 			existPageScript = ReportScriptExecutor.existPageScript(report, executionContext)
@@ -108,33 +108,31 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler {
 					}
 				}
 			}
-		} else if (!contents.contains(content)) {
-			doAddContent(content);
+		} else {
+			if (!contents.contains(content)) {
+				doAddContent(content);
+			}
 		}
 	}
 
 	private void doAddContent(IContent content) {
 		if (contents.size() == CONTENTS_CONVERTION_THRESHOLD) {
-			contents = new LinkedHashSet<>(contents);
+			contents = new LinkedHashSet<IContent>(contents);
 		}
 		contents.add(content);
 	}
 
 	private class PageBreakContentCollector implements IAreaVisitor {
 
-		@Override
 		public void visitText(ITextArea textArea) {
 		}
 
-		@Override
 		public void visitAutoText(ITemplateArea templateArea) {
 		}
 
-		@Override
 		public void visitImage(IImageArea imageArea) {
 		}
 
-		@Override
 		public void visitContainer(IContainerArea container) {
 			IContent content = ((ContainerArea) container).getContent();
 			if (content != null) {
@@ -150,7 +148,6 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler {
 
 	private class PageContentBuilder extends ContentEmitterAdapter {
 
-		@Override
 		public void startPage(IPageContent pageContent) throws BirtException {
 			initPageBuffer((PageContent) pageContent);
 			IArea pageArea = (IArea) pageContent.getExtension(IContent.LAYOUT_EXTENSION);
@@ -165,7 +162,6 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler {
 		}
 	}
 
-	@Override
 	public void onPage(long page, Object context) {
 		// if the page content is null, it means it is the last page end event
 		if (executionContext == null || pageContent == null) {

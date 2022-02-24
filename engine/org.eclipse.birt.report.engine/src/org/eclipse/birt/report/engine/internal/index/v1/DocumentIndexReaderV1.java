@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,16 +37,13 @@ public class DocumentIndexReaderV1 implements IDocumentIndexReader, ReportDocume
 		this.pageNumbers = pageNumbers;
 	}
 
-	@Override
 	public int getVersion() {
 		return VERSION_1;
 	}
 
-	@Override
 	public void close() {
 	}
 
-	@Override
 	public long getOffsetOfBookmark(String bookmark) throws IOException {
 		if (bookmarks != null) {
 			Long offset = bookmarks.get(bookmark);
@@ -57,7 +54,6 @@ public class DocumentIndexReaderV1 implements IDocumentIndexReader, ReportDocume
 		return -1L;
 	}
 
-	@Override
 	public long getOffsetOfInstance(String instanceId) throws IOException {
 		if (reportlets != null) {
 			Long offset = reportlets.get(instanceId);
@@ -68,7 +64,6 @@ public class DocumentIndexReaderV1 implements IDocumentIndexReader, ReportDocume
 		return -1L;
 	}
 
-	@Override
 	public long getPageOfBookmark(String bookmark) throws IOException {
 		if (pageNumbers != null) {
 			Long pageNumber = pageNumbers.get(bookmark);
@@ -79,10 +74,9 @@ public class DocumentIndexReaderV1 implements IDocumentIndexReader, ReportDocume
 		return -1L;
 	}
 
-	@Override
 	public List<String> getBookmarks() throws IOException {
 		if (pageNumbers != null) {
-			ArrayList<String> list = new ArrayList<>();
+			ArrayList<String> list = new ArrayList<String>();
 			for (String bookmark : pageNumbers.keySet()) {
 				if (bookmark != null && !bookmark.startsWith(TOCBuilder.TOC_PREFIX)) {
 					list.add(bookmark);
@@ -93,12 +87,10 @@ public class DocumentIndexReaderV1 implements IDocumentIndexReader, ReportDocume
 		return null;
 	}
 
-	@Override
 	public BookmarkContent getBookmark(String bookmark) {
 		return null;
 	}
 
-	@Override
 	public List<BookmarkContent> getBookmarkContents() throws IOException {
 		return null;
 	}

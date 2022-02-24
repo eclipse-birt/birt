@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -29,12 +29,12 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Data Type</b></em>', and utility methods for working with them. <!--
  * end-user-doc --> <!-- begin-model-doc -->
- *
+ * 
  * This type represents the possible data type values associated with chart
  * components.
- *
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataType()
  * @model
  * @generated
@@ -47,7 +47,7 @@ public enum DataType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #NUMERIC
 	 * @generated
 	 * @ordered
@@ -60,7 +60,7 @@ public enum DataType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #DATE_TIME
 	 * @generated
 	 * @ordered
@@ -73,7 +73,7 @@ public enum DataType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #TEXT
 	 * @generated
 	 * @ordered
@@ -83,7 +83,7 @@ public enum DataType implements Enumerator {
 	/**
 	 * The '<em><b>Numeric</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #NUMERIC_LITERAL
 	 * @model name="Numeric"
 	 * @generated
@@ -94,7 +94,7 @@ public enum DataType implements Enumerator {
 	/**
 	 * The '<em><b>Date Time</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #DATE_TIME_LITERAL
 	 * @model name="DateTime"
 	 * @generated
@@ -105,7 +105,7 @@ public enum DataType implements Enumerator {
 	/**
 	 * The '<em><b>Text</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #TEXT_LITERAL
 	 * @model name="Text"
 	 * @generated
@@ -116,15 +116,15 @@ public enum DataType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Data Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	private static final DataType[] VALUES_ARRAY = { NUMERIC_LITERAL, DATE_TIME_LITERAL, TEXT_LITERAL, };
+	private static final DataType[] VALUES_ARRAY = new DataType[] { NUMERIC_LITERAL, DATE_TIME_LITERAL, TEXT_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Data Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static final List<DataType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -132,7 +132,7 @@ public enum DataType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Data Type</b></em>' literal with the specified literal
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static DataType get(String literal) {
@@ -148,7 +148,7 @@ public enum DataType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Data Type</b></em>' literal with the specified name. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static DataType getByName(String name) {
@@ -164,7 +164,7 @@ public enum DataType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Data Type</b></em>' literal with the specified integer
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static DataType get(int value) {
@@ -181,21 +181,21 @@ public enum DataType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String literal;
@@ -203,10 +203,10 @@ public enum DataType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	DataType(int value, String name, String literal) {
+	private DataType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -214,30 +214,27 @@ public enum DataType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -245,7 +242,7 @@ public enum DataType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

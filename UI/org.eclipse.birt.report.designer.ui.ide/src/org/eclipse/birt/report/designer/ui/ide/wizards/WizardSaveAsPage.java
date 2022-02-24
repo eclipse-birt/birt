@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -96,12 +96,11 @@ public class WizardSaveAsPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.wizard.WizardPage#canFlipToNextPage()
 	 */
-	@Override
 	public boolean canFlipToNextPage() {
-		if (!validatePage()) {
+		if (validatePage() == false) {
 			return false;
 		}
 
@@ -116,12 +115,11 @@ public class WizardSaveAsPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	public void createControl(Composite parent) {
 
 		// create a composite with standard margins and spacing
@@ -137,7 +135,6 @@ public class WizardSaveAsPage extends WizardPage {
 
 		Listener listener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				validatePage();
 				try {
@@ -168,14 +165,13 @@ public class WizardSaveAsPage extends WizardPage {
 		if (originalFile != null) {
 			resourceGroup.setContainerFullPath(originalFile.getParent().getFullPath());
 			resourceGroup.setResource(originalFile.getName());
-		} else if (originalName != null) {
+		} else if (originalName != null)
 			resourceGroup.setResource(originalName);
-		}
 	}
 
 	/**
 	 * Sets the original file to use.
-	 *
+	 * 
 	 * @param originalFile the original file
 	 */
 	public void setOriginalFile(IFile originalFile) {
@@ -186,7 +182,7 @@ public class WizardSaveAsPage extends WizardPage {
 	 * Set the original file name to use. Used instead of
 	 * <code>setOriginalFile</code> when the original resource is not an IFile. Must
 	 * be called before <code>create</code>.
-	 *
+	 * 
 	 * @param originalName default file name
 	 */
 	public void setOriginalName(String originalName) {
@@ -195,7 +191,7 @@ public class WizardSaveAsPage extends WizardPage {
 
 	/**
 	 * Sets the model to use.
-	 *
+	 * 
 	 * @param ModuleHandle the original file
 	 */
 	public void setModel(ModuleHandle model) {
@@ -204,18 +200,17 @@ public class WizardSaveAsPage extends WizardPage {
 
 	/**
 	 * Returns whether this page's visual components all contain valid values.
-	 *
+	 * 
 	 * @return <code>true</code> if valid, and <code>false</code> otherwise
 	 */
 	public boolean validatePage() {
 		setErrorMessage(null);
 		if (!resourceGroup.areAllValuesValid()) {
-			if (!resourceGroup.getResource().equals("")) { //$NON-NLS-1$
+			if (!resourceGroup.getResource().equals("")) //$NON-NLS-1$
 				// if blank name
 				// then fail
 				// silently//$NON-NLS-1$
 				setErrorMessage(resourceGroup.getProblemMessage());
-			}
 			return false;
 		}
 		if (resourceGroup.getResource() != null && model instanceof LibraryHandle) {
@@ -244,7 +239,7 @@ public class WizardSaveAsPage extends WizardPage {
 
 	/**
 	 * Get the saving path
-	 *
+	 * 
 	 * @return the saving path
 	 */
 	public IPath getResult() {
@@ -255,13 +250,12 @@ public class WizardSaveAsPage extends WizardPage {
 		// as dialog was provided a default file name append the extension
 		// of the default filename to the new name
 		if (path.getFileExtension() == null) {
-			if (originalFile != null && originalFile.getFileExtension() != null) {
+			if (originalFile != null && originalFile.getFileExtension() != null)
 				path = path.addFileExtension(originalFile.getFileExtension());
-			} else if (originalName != null) {
+			else if (originalName != null) {
 				int pos = originalName.lastIndexOf('.');
-				if (++pos > 0 && pos < originalName.length()) {
+				if (++pos > 0 && pos < originalName.length())
 					path = path.addFileExtension(originalName.substring(pos));
-				}
 			}
 		}
 
@@ -269,7 +263,8 @@ public class WizardSaveAsPage extends WizardPage {
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
 		if (file.exists()) {
-			String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
+			String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
+					IDialogConstants.CANCEL_LABEL };
 			String question = Messages.getFormattedString("WizardSaveAsPage.OverwriteQuestion", //$NON-NLS-1$
 					new Object[] { path.toOSString() });
 			MessageDialog d = new MessageDialog(getShell(), Messages.getString("WizardSaveAsPage.Question"), //$NON-NLS-1$
@@ -341,7 +336,7 @@ class ResourceAndContainerGroup implements Listener {
 	/**
 	 * Create an instance of the group to allow the user to enter/select a container
 	 * and specify a resource name.
-	 *
+	 * 
 	 * @param parent             composite widget to parent the group
 	 * @param client             object interested in changes to the group's fields
 	 *                           value
@@ -357,7 +352,7 @@ class ResourceAndContainerGroup implements Listener {
 	/**
 	 * Create an instance of the group to allow the user to enter/select a container
 	 * and specify a resource name.
-	 *
+	 * 
 	 * @param parent             composite widget to parent the group
 	 * @param client             object interested in changes to the group's fields
 	 *                           value
@@ -374,7 +369,7 @@ class ResourceAndContainerGroup implements Listener {
 	/**
 	 * Create an instance of the group to allow the user to enter/select a container
 	 * and specify a resource name.
-	 *
+	 * 
 	 * @param parent             composite widget to parent the group
 	 * @param client             object interested in changes to the group's fields
 	 *                           value
@@ -397,7 +392,7 @@ class ResourceAndContainerGroup implements Listener {
 	/**
 	 * Returns a boolean indicating whether all controls in this group contain valid
 	 * values.
-	 *
+	 * 
 	 * @return boolean
 	 */
 	public boolean areAllValuesValid() {
@@ -406,7 +401,7 @@ class ResourceAndContainerGroup implements Listener {
 
 	/**
 	 * Creates this object's visual components.
-	 *
+	 * 
 	 * @param parent     org.eclipse.swt.widgets.Composite
 	 * @param heightHint height hint for the container selection widget group
 	 */
@@ -423,11 +418,10 @@ class ResourceAndContainerGroup implements Listener {
 		composite.setFont(font);
 
 		// container group
-		if (heightHint == SWT.DEFAULT) {
+		if (heightHint == SWT.DEFAULT)
 			containerGroup = new ContainerSelectionGroup(composite, this, true, null, showClosedProjects);
-		} else {
+		else
 			containerGroup = new ContainerSelectionGroup(composite, this, true, null, showClosedProjects, heightHint);
-		}
 
 		// resource name group
 		Composite nameGroup = new Composite(composite, SWT.NONE);
@@ -466,7 +460,7 @@ class ResourceAndContainerGroup implements Listener {
 	 * Returns an error message indicating the current problem with the value of a
 	 * control in the group, or an empty message if all controls in the group
 	 * contain valid values.
-	 *
+	 * 
 	 * @return java.lang.String
 	 */
 	public String getProblemMessage() {
@@ -475,7 +469,7 @@ class ResourceAndContainerGroup implements Listener {
 
 	/**
 	 * Returns the type of problem with the value of a control in the group.
-	 *
+	 * 
 	 * @return one of the PROBLEM_* constants
 	 */
 	public int getProblemType() {
@@ -492,10 +486,9 @@ class ResourceAndContainerGroup implements Listener {
 
 	/**
 	 * Handles events for all controls in the group.
-	 *
+	 * 
 	 * @param e org.eclipse.swt.widgets.Event
 	 */
-	@Override
 	public void handleEvent(Event e) {
 		validateControls();
 		if (client != null) {
@@ -512,7 +505,7 @@ class ResourceAndContainerGroup implements Listener {
 
 	/**
 	 * Sets the value of this page's container.
-	 *
+	 * 
 	 * @param path Full path to the container.
 	 */
 	public void setContainerFullPath(IPath path) {
@@ -537,7 +530,7 @@ class ResourceAndContainerGroup implements Listener {
 
 	/**
 	 * Sets the value of this page's resource name.
-	 *
+	 * 
 	 * @param value new value
 	 */
 	public void setResource(String value) {
@@ -549,7 +542,7 @@ class ResourceAndContainerGroup implements Listener {
 	 * Returns a <code>boolean</code> indicating whether a container name represents
 	 * a valid container resource in the workbench. An error message is stored for
 	 * future reference if the name does not represent a valid container.
-	 *
+	 * 
 	 * @return <code>boolean</code> indicating validity of the container name
 	 */
 	protected boolean validateContainer() {
@@ -593,9 +586,8 @@ class ResourceAndContainerGroup implements Listener {
 		problemType = PROBLEM_NONE;
 		problemMessage = "";//$NON-NLS-1$
 
-		if (!validateContainer() || !validateResourceName()) {
+		if (!validateContainer() || !validateResourceName())
 			return false;
-		}
 
 		IPath path = containerGroup.getContainerFullPath().append(resourceNameField.getText());
 		return validateFullResourcePath(path);
@@ -606,7 +598,7 @@ class ResourceAndContainerGroup implements Listener {
 	 * represents a valid new resource in the workbench. An error message is stored
 	 * for future reference if the path does not represent a valid new resource
 	 * path.
-	 *
+	 * 
 	 * @param resourcePath the path to validate
 	 * @return <code>boolean</code> indicating validity of the resource path
 	 */
@@ -633,7 +625,7 @@ class ResourceAndContainerGroup implements Listener {
 	 * Returns a <code>boolean</code> indicating whether the resource name rep-
 	 * resents a valid resource name in the workbench. An error message is stored
 	 * for future reference if the name does not represent a valid resource name.
-	 *
+	 * 
 	 * @return <code>boolean</code> indicating validity of the resource name
 	 */
 	protected boolean validateResourceName() {
@@ -687,7 +679,7 @@ class ContainerSelectionGroup extends Composite {
 
 	/**
 	 * Creates a new instance of the widget.
-	 *
+	 * 
 	 * @param parent                The parent widget of the group.
 	 * @param listener              A listener to forward events to. Can be null if
 	 *                              no listener is required.
@@ -701,7 +693,7 @@ class ContainerSelectionGroup extends Composite {
 
 	/**
 	 * Creates a new instance of the widget.
-	 *
+	 * 
 	 * @param parent                The parent widget of the group.
 	 * @param listener              A listener to forward events to. Can be null if
 	 *                              no listener is required.
@@ -716,7 +708,7 @@ class ContainerSelectionGroup extends Composite {
 
 	/**
 	 * Creates a new instance of the widget.
-	 *
+	 * 
 	 * @param parent                The parent widget of the group.
 	 * @param listener              A listener to forward events to. Can be null if
 	 *                              no listener is required.
@@ -733,7 +725,7 @@ class ContainerSelectionGroup extends Composite {
 
 	/**
 	 * Creates a new instance of the widget.
-	 *
+	 * 
 	 * @param parent                The parent widget of the group.
 	 * @param listener              A listener to forward events to. Can be null if
 	 *                              no listener is required.
@@ -750,13 +742,12 @@ class ContainerSelectionGroup extends Composite {
 		this.listener = listener;
 		this.allowNewContainerName = allowNewContainerName;
 		this.showClosedProjects = showClosedProjects;
-		if (message != null) {
+		if (message != null)
 			createContents(message, heightHint);
-		} else if (allowNewContainerName) {
+		else if (allowNewContainerName)
 			createContents(DEFAULT_MSG_NEW_ALLOWED, heightHint);
-		} else {
+		else
 			createContents(DEFAULT_MSG_SELECT_ONLY, heightHint);
-		}
 	}
 
 	/**
@@ -767,11 +758,10 @@ class ContainerSelectionGroup extends Composite {
 		selectedContainer = container;
 
 		if (allowNewContainerName) {
-			if (container == null) {
+			if (container == null)
 				containerNameField.setText("");//$NON-NLS-1$
-			} else {
+			else
 				containerNameField.setText(container.getFullPath().makeRelative().toString());
-			}
 		}
 
 		// fire an event so the parent can update its controls
@@ -792,7 +782,7 @@ class ContainerSelectionGroup extends Composite {
 
 	/**
 	 * Creates the contents of the composite.
-	 *
+	 * 
 	 * @param heightHint height hint for the drill down composite
 	 */
 	public void createContents(String message, int heightHint) {
@@ -821,7 +811,7 @@ class ContainerSelectionGroup extends Composite {
 
 	/**
 	 * Returns a new drill down viewer for this dialog.
-	 *
+	 * 
 	 * @param heightHint height hint for the drill down composite
 	 * @return a new drill down viewer
 	 */
@@ -843,7 +833,6 @@ class ContainerSelectionGroup extends Composite {
 		treeViewer.setSorter(new ViewerSorter());
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 				containerSelectionChanged((IContainer) selection.getFirstElement()); // allow
@@ -852,16 +841,14 @@ class ContainerSelectionGroup extends Composite {
 		});
 		treeViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				ISelection selection = event.getSelection();
 				if (selection instanceof IStructuredSelection) {
 					Object item = ((IStructuredSelection) selection).getFirstElement();
-					if (treeViewer.getExpandedState(item)) {
+					if (treeViewer.getExpandedState(item))
 						treeViewer.collapseToLevel(item, 1);
-					} else {
+					else
 						treeViewer.expandToLevel(item, 1);
-					}
 				}
 			}
 		});
@@ -878,16 +865,16 @@ class ContainerSelectionGroup extends Composite {
 	public IPath getContainerFullPath() {
 		if (allowNewContainerName) {
 			String pathName = containerNameField.getText();
-			if (pathName == null || pathName.length() < 1) {
+			if (pathName == null || pathName.length() < 1)
 				return null;
-			} else {
+			else
 				// The user may not have made this absolute so do it for them
 				return (new Path(pathName)).makeAbsolute();
-			}
-		} else if (selectedContainer == null) {
-			return null;
 		} else {
-			return selectedContainer.getFullPath();
+			if (selectedContainer == null)
+				return null;
+			else
+				return selectedContainer.getFullPath();
 		}
 	}
 
@@ -895,11 +882,10 @@ class ContainerSelectionGroup extends Composite {
 	 * Gives focus to one of the widgets in the group, as determined by the group.
 	 */
 	public void setInitialFocus() {
-		if (allowNewContainerName) {
+		if (allowNewContainerName)
 			containerNameField.setFocus();
-		} else {
+		else
 			treeViewer.getTree().setFocus();
-		}
 	}
 
 	/**
@@ -934,7 +920,6 @@ class ContainerContentProvider implements ITreeContentProvider {
 	 * The visual part that is using this content provider is about to be disposed.
 	 * Deallocate all allocated SWT resources.
 	 */
-	@Override
 	public void dispose() {
 	}
 
@@ -942,14 +927,12 @@ class ContainerContentProvider implements ITreeContentProvider {
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
 	 * Object)
 	 */
-	@Override
 	public Object[] getChildren(Object element) {
 		if (element instanceof IWorkspace) {
 			// check if closed projects should be shown
 			IProject[] allProjects = ((IWorkspace) element).getRoot().getProjects();
-			if (showClosedProjects) {
+			if (showClosedProjects)
 				return allProjects;
-			}
 
 			ArrayList accessibleProjects = new ArrayList();
 			for (int i = 0; i < allProjects.length; i++) {
@@ -983,7 +966,6 @@ class ContainerContentProvider implements ITreeContentProvider {
 	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
 	 * .lang.Object)
 	 */
-	@Override
 	public Object[] getElements(Object element) {
 		return getChildren(element);
 	}
@@ -992,11 +974,9 @@ class ContainerContentProvider implements ITreeContentProvider {
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object )
 	 */
-	@Override
 	public Object getParent(Object element) {
-		if (element instanceof IResource) {
+		if (element instanceof IResource)
 			return ((IResource) element).getParent();
-		}
 		return null;
 	}
 
@@ -1004,7 +984,6 @@ class ContainerContentProvider implements ITreeContentProvider {
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
 	 * Object)
 	 */
-	@Override
 	public boolean hasChildren(Object element) {
 		return getChildren(element).length > 0;
 	}
@@ -1012,14 +991,13 @@ class ContainerContentProvider implements ITreeContentProvider {
 	/*
 	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged
 	 */
-	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 
 	/**
 	 * Specify whether or not to show closed projects in the tree viewer. Default is
 	 * to show closed projects.
-	 *
+	 * 
 	 * @param show boolean if false, do not show closed projects in the tree
 	 */
 	public void showClosedProjects(boolean show) {

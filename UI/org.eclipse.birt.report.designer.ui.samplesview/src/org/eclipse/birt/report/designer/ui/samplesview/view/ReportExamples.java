@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -168,9 +168,8 @@ public class ReportExamples {
 		Event changeEvent = new Event();
 		changeEvent.type = SWT.Selection;
 		changeEvent.widget = element;
-		for (int i = 0; i < listenerList.size(); i++) {
+		for (int i = 0; i < listenerList.size(); i++)
 			((Listener) listenerList.get(i)).handleEvent(changeEvent);
-		}
 	}
 
 	public Object getSelectedElement() {
@@ -183,7 +182,6 @@ public class ReportExamples {
 		samplesTree.setLabelProvider(provider);
 		samplesTree.getTree().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TreeItem item = (TreeItem) e.item;
 				if (item != null) {
@@ -207,7 +205,6 @@ public class ReportExamples {
 			}
 
 			// handle double click here.
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				Object selectedObject = ((StructuredSelection) samplesTree.getSelection()).getFirstElement();
 				try {
@@ -228,15 +225,13 @@ public class ReportExamples {
 
 		samplesTree.getTree().addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				Object input = samplesTree.getInput();
 				if (input instanceof Object[]) {
 					Object[] array = (Object[]) input;
 					for (int i = 0; i < array.length; i++) {
-						if (array[i] instanceof ResourceEntry) {
+						if (array[i] instanceof ResourceEntry)
 							((ResourceEntry) array[i]).dispose();
-						}
 					}
 				}
 			}
@@ -244,7 +239,6 @@ public class ReportExamples {
 
 		samplesTree.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				Object obj = getSelectedElement();
 				if (obj instanceof TreeItem) {
@@ -280,62 +274,50 @@ public class ReportExamples {
 	private void refreshRoot() {
 		ResourceEntry contributionItem = new ResourceEntry() {
 
-			@Override
 			public String getName() {
 				return CONTRIBUTION_ITEM_TEXT;
 			}
 
-			@Override
 			public String getDisplayName() {
 				return CONTRIBUTION_ITEM_TEXT;
 			}
 
-			@Override
 			public Image getImage() {
 				return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
 			}
 
-			@Override
 			public URL getURL() {
 				return null;
 			}
 
-			@Override
 			public ResourceEntry getParent() {
 				return null;
 			}
 
-			@Override
 			public boolean hasChildren() {
 				return false;
 			}
 
-			@Override
 			public ResourceEntry[] getChildren() {
 				return new ResourceEntry[0];
 			}
 
-			@Override
 			public ResourceEntry[] getChildren(Filter filter) {
 				return new ResourceEntry[0];
 			}
 
-			@Override
 			public boolean isFile() {
 				return false;
 			}
 
-			@Override
 			public boolean isRoot() {
 				return false;
 			}
 
-			@Override
 			public void dispose() {
 
 			}
 
-			@Override
 			@SuppressWarnings("unchecked")
 			public Object getAdapter(Class adapter) {
 				return null;
@@ -410,7 +392,6 @@ public class ReportExamples {
 			super(shell);
 		}
 
-		@Override
 		protected Control createDialogArea(Composite parent) {
 			Composite container = (Composite) super.createDialogArea(parent);
 			setTitle(Messages.getString("ReportExamples.ContributeSamples.title")); //$NON-NLS-1$
@@ -434,7 +415,6 @@ public class ReportExamples {
 			link.setText(linkText);
 			link.addListener(SWT.Selection, new Listener() {
 
-				@Override
 				public void handleEvent(Event event) {
 					openLink("https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRT&bug_severity=enhancement"); //$NON-NLS-1$
 				}
@@ -444,7 +424,6 @@ public class ReportExamples {
 
 		}
 
-		@Override
 		protected void createButtonsForButtonBar(Composite parent) {
 			// create OK button by default
 			createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -467,7 +446,9 @@ public class ReportExamples {
 			try {
 				IWebBrowser browser = support.getExternalBrowser();
 				browser.openURL(new URL(urlEncodeForSpaces(href.toCharArray())));
-			} catch (MalformedURLException | PartInitException e) {
+			} catch (MalformedURLException e) {
+				openWebBrowserError(href, e);
+			} catch (PartInitException e) {
 				openWebBrowserError(href, e);
 			}
 		}
@@ -475,11 +456,11 @@ public class ReportExamples {
 		/**
 		 * This method encodes the url, removes the spaces from the url and replaces the
 		 * same with <code>"%20"</code>. This method is required to fix Bug 77840.
-		 *
+		 * 
 		 * @since 3.0.2
 		 */
 		private String urlEncodeForSpaces(char[] input) {
-			StringBuilder retu = new StringBuilder(input.length);
+			StringBuffer retu = new StringBuffer(input.length);
 			for (int i = 0; i < input.length; i++) {
 				if (input[i] == ' ') {
 					retu.append("%20"); //$NON-NLS-1$

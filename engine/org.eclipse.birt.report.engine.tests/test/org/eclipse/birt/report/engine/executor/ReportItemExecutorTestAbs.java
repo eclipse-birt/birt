@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,6 +20,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.Locale;
+
+import junit.framework.TestCase;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -46,12 +48,10 @@ import org.eclipse.birt.report.engine.emitter.XMLWriter;
 
 import com.ibm.icu.util.ULocale;
 
-import junit.framework.TestCase;
-
 /**
- *
+ * 
  * abstract class
- *
+ * 
  */
 abstract public class ReportItemExecutorTestAbs extends TestCase {
 
@@ -69,7 +69,7 @@ abstract public class ReportItemExecutorTestAbs extends TestCase {
 	 * While the comparing, the result is converted to upper case and removed all
 	 * the spaces including the line break. So here returns the result after
 	 * conversion.
-	 *
+	 * 
 	 * @return the upper-case XML file header without spaces
 	 */
 	protected String getUpperXMLHeaderNoSpace() {
@@ -87,7 +87,6 @@ abstract public class ReportItemExecutorTestAbs extends TestCase {
 			writer.open(out);
 		}
 
-		@Override
 		public void initialize(IEmitterServices services) {
 
 			this.services = services;
@@ -95,7 +94,7 @@ abstract public class ReportItemExecutorTestAbs extends TestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.engine.emitter.IReportEmitter#getEmitterServices()
 		 */
@@ -105,46 +104,40 @@ abstract public class ReportItemExecutorTestAbs extends TestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.engine.emitter.IReportEmitter#getOutputFormat()
 		 */
-		@Override
 		public String getOutputFormat() {
 			return "TEXT"; // $NON-NLS-1$
 		}
 
-		@Override
 		public void start(IReportContent report) {
 			writer.startWriter();
 			writer.openTag("report");
 		}
 
-		@Override
 		public void end(IReportContent report) {
 			writer.closeTag("report");
 			writer.endWriter();
 			writer.close();
 		}
 
-		@Override
 		public void startPage(IPageContent pageContent) {
 			writer.openTag("page");
 			writer.attribute("page-number", pageContent.getPageNumber());
 		}
 
-		@Override
 		public void endPage(IPageContent pageConent) {
 			writer.closeTag("page");
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.engine.emitter.IImageEmitter#startImage(org.eclipse.
 		 * birt.report.engine.content.ImageItemContent)
 		 */
-		@Override
 		public void startImage(IImageContent image) {
 			writer.openTag("image");
 			String source = "unknown";
@@ -166,7 +159,6 @@ abstract public class ReportItemExecutorTestAbs extends TestCase {
 			writer.closeTag("image");
 		}
 
-		@Override
 		public void startTable(ITableContent tableObj) {
 			writer.openTag("table");
 			writer.attribute("caption", tableObj.getCaption());
@@ -176,22 +168,18 @@ abstract public class ReportItemExecutorTestAbs extends TestCase {
 			}
 		}
 
-		@Override
 		public void endTable(ITableContent tableObj) {
 			writer.closeTag("Table");
 		}
 
-		@Override
 		public void startRow(IRowContent rowObj) {
 			writer.openTag("row");
 		}
 
-		@Override
 		public void endRow(IRowContent rowobj) {
 			writer.closeTag("row");
 		}
 
-		@Override
 		public void startCell(ICellContent cellObj) {
 			writer.openTag("cell");
 			writer.attribute("column", cellObj.getColumn());
@@ -199,78 +187,64 @@ abstract public class ReportItemExecutorTestAbs extends TestCase {
 			writer.attribute("col-span", cellObj.getColSpan());
 		}
 
-		@Override
 		public void endCell(ICellContent cell) {
 			writer.closeTag("cell");
 		}
 
-		@Override
 		public void startForeign(IForeignContent foreign) {
 			writer.openTag("foreign");
 			writer.attribute("raw-type", foreign.getRawType());
 			writer.closeTag("foreign");
 		}
 
-		@Override
 		public void startText(ITextContent textObj) {
 			writer.openTag("text");
 			writer.closeTag("text");
 		}
 
-		@Override
 		public void startLabel(ILabelContent label) {
 			writer.openTag("label");
 			writer.closeTag("label");
 		}
 
-		@Override
 		public void startAutoText(IAutoTextContent autoText) {
 			writer.openTag("auto-text");
 			writer.closeTag("auto-text");
 		}
 
-		@Override
 		public void startData(IDataContent data) {
 			writer.openTag("data");
 			writer.closeTag("data");
 		}
 
-		@Override
 		public void endList(IListContent list) {
 			writer.closeTag("list");
 		}
 
-		@Override
 		public void endListBand(IListBandContent listBand) {
 			writer.closeTag("list-band");
 		}
 
-		@Override
 		public void endTableBand(ITableBandContent band) {
 			writer.closeTag("table-band");
 		}
 
-		@Override
 		public void startList(IListContent list) {
 			writer.openTag("list");
 		}
 
-		@Override
 		public void startListBand(IListBandContent listBand) {
 			writer.openTag("list-band");
 		}
 
-		@Override
 		public void startTableBand(ITableBandContent band) {
 			writer.openTag("table-band");
 		}
 
-		@Override
 		public void endGroup(IGroupContent group) {
 			writer.closeTag("group");
 		}
 
-		@Override
 		public void startGroup(IGroupContent group) {
 			writer.openTag("group");
 		}

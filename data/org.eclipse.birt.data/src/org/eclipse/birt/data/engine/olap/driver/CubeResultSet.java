@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ public class CubeResultSet implements IResultSet {
 	private CubeQueryExecutorHelper cubeQueryExecutorHelper;
 
 	/**
-	 *
+	 * 
 	 * @param rsArray
 	 * @param view
 	 * @throws IOException
@@ -46,7 +46,7 @@ public class CubeResultSet implements IResultSet {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultSet
 	 * @param view
 	 * @param startingColumnIndex
@@ -60,7 +60,7 @@ public class CubeResultSet implements IResultSet {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -114,7 +114,6 @@ public class CubeResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.birt.data.jolap.driver.IResultSet#getColumnEdgeResult()
 	 */
-	@Override
 	public IEdgeAxis getColumnEdgeResult() {
 		return this.columnEdgeAxis;
 	}
@@ -122,7 +121,6 @@ public class CubeResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.birt.data.jolap.driver.IResultSet#getRowEdgeResult()
 	 */
-	@Override
 	public IEdgeAxis getRowEdgeResult() {
 		return this.rowEdgeAxis;
 	}
@@ -130,7 +128,6 @@ public class CubeResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.driver.IResultSet#getPageEdgeResult()
 	 */
-	@Override
 	public IEdgeAxis getPageEdgeResult() {
 		return this.pageEdgeAxis;
 	}
@@ -138,7 +135,6 @@ public class CubeResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.birt.data.jolap.driver.IResultSet#getMeasureResult()
 	 */
-	@Override
 	public IEdgeAxis[] getMeasureResult() {
 		return this.calculatedEdgeAxis;
 	}
@@ -148,7 +144,6 @@ public class CubeResultSet implements IResultSet {
 	 * org.eclipse.birt.data.engine.olap.driver.IResultSet#getMeasureResult(java.
 	 * lang.String)
 	 */
-	@Override
 	public IEdgeAxis getMeasureResult(String name) throws DataException {
 		int index = this.cubeView.getAggregationRegisterTable().getAggregationResultID(name);
 		return this.calculatedEdgeAxis[index];

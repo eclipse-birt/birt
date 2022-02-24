@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,7 +39,7 @@ public class DataSource implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this DataSource.
-	 *
+	 * 
 	 * @return type
 	 */
 	public java.lang.String getType() {
@@ -48,7 +48,7 @@ public class DataSource implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this DataSource.
-	 *
+	 * 
 	 * @param type
 	 */
 	public void setType(java.lang.String type) {
@@ -57,7 +57,7 @@ public class DataSource implements java.io.Serializable {
 
 	/**
 	 * Gets the displayName value for this DataSource.
-	 *
+	 * 
 	 * @return displayName
 	 */
 	public java.lang.String getDisplayName() {
@@ -66,7 +66,7 @@ public class DataSource implements java.io.Serializable {
 
 	/**
 	 * Sets the displayName value for this DataSource.
-	 *
+	 * 
 	 * @param displayName
 	 */
 	public void setDisplayName(java.lang.String displayName) {
@@ -75,7 +75,7 @@ public class DataSource implements java.io.Serializable {
 
 	/**
 	 * Gets the description value for this DataSource.
-	 *
+	 * 
 	 * @return description
 	 */
 	public java.lang.String getDescription() {
@@ -84,7 +84,7 @@ public class DataSource implements java.io.Serializable {
 
 	/**
 	 * Sets the description value for this DataSource.
-	 *
+	 * 
 	 * @param description
 	 */
 	public void setDescription(java.lang.String description) {
@@ -93,7 +93,7 @@ public class DataSource implements java.io.Serializable {
 
 	/**
 	 * Gets the isNative value for this DataSource.
-	 *
+	 * 
 	 * @return isNative
 	 */
 	public java.lang.Boolean getIsNative() {
@@ -102,7 +102,7 @@ public class DataSource implements java.io.Serializable {
 
 	/**
 	 * Sets the isNative value for this DataSource.
-	 *
+	 * 
 	 * @param isNative
 	 */
 	public void setIsNative(java.lang.Boolean isNative) {
@@ -111,18 +111,14 @@ public class DataSource implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof DataSource)) {
+		if (!(obj instanceof DataSource))
 			return false;
-		}
 		DataSource other = (DataSource) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -143,7 +139,6 @@ public class DataSource implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

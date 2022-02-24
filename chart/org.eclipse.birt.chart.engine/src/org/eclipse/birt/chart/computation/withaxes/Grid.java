@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,7 +36,7 @@ public final class Grid {
 
 	LineAttributes laMinorTicks;
 
-	public int getTickStyle(int iMajorOrMinor) {
+	public final int getTickStyle(int iMajorOrMinor) {
 		if (iMajorOrMinor == IConstants.MAJOR) {
 			return iMajorTickStyle;
 		} else if (iMajorOrMinor == IConstants.MINOR) {
@@ -45,7 +45,7 @@ public final class Grid {
 		return IConstants.TICK_NONE;
 	}
 
-	public LineAttributes getLineAttributes(int iMajorOrMinor) {
+	public final LineAttributes getLineAttributes(int iMajorOrMinor) {
 		if (iMajorOrMinor == IConstants.MAJOR) {
 			return laMajorGrid;
 		} else if (iMajorOrMinor == IConstants.MINOR) {
@@ -54,7 +54,7 @@ public final class Grid {
 		return null;
 	}
 
-	public int getMinorCountPerMajor() {
+	public final int getMinorCountPerMajor() {
 		return iMinorUnitsPerMajorUnit;
 	}
 

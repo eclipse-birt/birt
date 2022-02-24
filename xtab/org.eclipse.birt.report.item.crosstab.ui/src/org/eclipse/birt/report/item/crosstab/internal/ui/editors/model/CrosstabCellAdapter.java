@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param handle
 	 */
 	public CrosstabCellAdapter(CrosstabCellHandle handle) {
@@ -48,18 +48,17 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.
 	 * BaseCrosstabAdapter#getModelList()
 	 */
-	@Override
 	public List getModelList() {
 		return getCrosstabCellHandle().getContents();
 	}
 
 	/**
 	 * Gets the column number.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getColumnNumber() {
@@ -68,7 +67,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Sets the column number
-	 *
+	 * 
 	 * @param columnNumber
 	 */
 	public void setColumnNumber(int columnNumber) {
@@ -77,7 +76,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Gets the column span
-	 *
+	 * 
 	 * @return
 	 */
 	public int getColumnSpan() {
@@ -86,7 +85,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Sets the column span
-	 *
+	 * 
 	 * @param columnSpan
 	 */
 	public void setColumnSpan(int columnSpan) {
@@ -95,7 +94,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Gets the row number
-	 *
+	 * 
 	 * @return
 	 */
 	public int getRowNumber() {
@@ -104,7 +103,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Sets the row number
-	 *
+	 * 
 	 * @param rowNumber
 	 */
 	public void setRowNumber(int rowNumber) {
@@ -113,7 +112,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Gets the row span
-	 *
+	 * 
 	 * @return
 	 */
 	public int getRowSpan() {
@@ -122,7 +121,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Sets the row span
-	 *
+	 * 
 	 * @param rowSpan
 	 */
 	public void setRowSpan(int rowSpan) {
@@ -131,7 +130,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Gets the crosstab cell handle
-	 *
+	 * 
 	 * @return
 	 */
 	public CrosstabCellHandle getCrosstabCellHandle() {
@@ -140,10 +139,9 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
 	public String toString() {
 		return "rownumber == " //$NON-NLS-1$
 				+ getRowNumber() + " rowspan == " //$NON-NLS-1$
@@ -154,7 +152,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Gets the position type
-	 *
+	 * 
 	 * @return
 	 */
 	public String getPositionType() {
@@ -163,7 +161,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/**
 	 * Sets the position type
-	 *
+	 * 
 	 * @param positionType
 	 */
 	public void setPositionType(String positionType) {
@@ -172,12 +170,11 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.
 	 * BaseCrosstabAdapter#copyToTarget(org.eclipse.birt.report.item.crosstab.
 	 * internal.ui.editors.model.BaseCrosstabAdapter)
 	 */
-	@Override
 	public BaseCrosstabAdapter copyToTarget(BaseCrosstabAdapter crossAdapt) {
 		if (crossAdapt instanceof CrosstabCellAdapter) {
 			CrosstabCellAdapter copy = (CrosstabCellAdapter) crossAdapt;
@@ -232,7 +229,6 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 		return ""; //$NON-NLS-1$
 	}
 
-	@Override
 	public boolean handleValidate(Object obj) {
 		if (obj instanceof Object[]) {
 			Object[] objects = (Object[]) obj;
@@ -242,8 +238,10 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 			}
 			if (len == 1) {
 				return handleValidate(objects[0]);
-			} else if (isAllParameter(objects)) {
-				return true;
+			} else {
+				if (isAllParameter(objects)) {
+					return true;
+				}
 			}
 
 		}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ public class TimeIntervalHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of time interval.
-	 *
+	 * 
 	 * @param element the handle of the element which defines the structure
 	 * @param context the context of this structure
 	 */
@@ -37,7 +37,7 @@ public class TimeIntervalHandle extends StructureHandle {
 
 	/**
 	 * Sets the measure value.
-	 *
+	 * 
 	 * @param measure the measure value to set
 	 * @throws SemanticException
 	 */
@@ -48,7 +48,7 @@ public class TimeIntervalHandle extends StructureHandle {
 
 	/**
 	 * Returns the measure value.
-	 *
+	 * 
 	 * @return the measure value
 	 */
 
@@ -59,13 +59,13 @@ public class TimeIntervalHandle extends StructureHandle {
 	/**
 	 * Sets the unit of the time interval. The value can one of the following value
 	 * defined in <code>DesignChoiceConstants</code>:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_MINUTE</code>
 	 * <li><code>INTERVAL_HOUR</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param unit the unit to set
 	 * @throws SemanticException
 	 */
@@ -76,13 +76,13 @@ public class TimeIntervalHandle extends StructureHandle {
 	/**
 	 * Returns the unit of the time interval. The value can be one of the following
 	 * value defined in <code>DesignChoiceConstants</code>:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_MINUTE</code>
 	 * <li><code>INTERVAL_HOUR</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the unit
 	 */
 	public String getUnit() {

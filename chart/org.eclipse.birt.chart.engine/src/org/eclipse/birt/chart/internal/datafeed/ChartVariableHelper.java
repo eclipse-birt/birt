@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
  * The class provides some static methods for the chart variables.
- *
+ * 
  * @since 2.5
  */
 
@@ -37,7 +37,7 @@ public class ChartVariableHelper {
 
 	/**
 	 * Parse specified script, using correct expression instead of chart variables.
-	 *
+	 * 
 	 * @param script
 	 * @param currOrthoSeries
 	 * @param baseSD
@@ -69,7 +69,7 @@ public class ChartVariableHelper {
 
 	/**
 	 * Parse specified script, using correct expression instead of chart variables.
-	 *
+	 * 
 	 * @param script
 	 * @param categoryExpr
 	 * @param seriesExpr
@@ -83,7 +83,7 @@ public class ChartVariableHelper {
 		}
 
 		// Get symbols in script.
-		List<StringBuffer> symbols = new ArrayList<>();
+		List<StringBuffer> symbols = new ArrayList<StringBuffer>();
 		BufferedReader br = new BufferedReader(new StringReader(script));
 		boolean isComments = false;
 		boolean isCPlusCommnets = false;

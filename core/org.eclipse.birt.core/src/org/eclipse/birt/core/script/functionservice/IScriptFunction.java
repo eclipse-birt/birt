@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,48 +22,48 @@ package org.eclipse.birt.core.script.functionservice;
 public interface IScriptFunction extends IDescribable, INamedObject, IScriptFunctionExecutor {
 	/**
 	 * Return the Category this Script Function belongs to.
-	 *
+	 * 
 	 * @return
 	 */
-	IScriptFunctionCategory getCategory();
+	public IScriptFunctionCategory getCategory();
 
 	/**
 	 * Return the expected return data type of this Script Function. The return type
 	 * must be one of Birt Supported Data Type as listed in
 	 * org.eclipse.birt.core.data.DataType class.
-	 *
+	 * 
 	 * @return
 	 */
-	String getDataTypeName();
+	public String getDataTypeName();
 
 	/**
 	 * Return the argument definitions of this Script Function.
-	 *
+	 * 
 	 * @return
 	 */
-	IScriptFunctionArgument[] getArguments();
+	public IScriptFunctionArgument[] getArguments();
 
 	/**
-	 *
+	 * 
 	 */
-	boolean allowVarArguments();
+	public boolean allowVarArguments();
 
 	/**
 	 * Returns whether the function is visible.
-	 *
+	 * 
 	 */
-	boolean isVisible();
+	public boolean isVisible();
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
-	boolean isStatic();
+	public boolean isStatic();
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
-	boolean isConstructor();
+	public boolean isConstructor();
 
 }

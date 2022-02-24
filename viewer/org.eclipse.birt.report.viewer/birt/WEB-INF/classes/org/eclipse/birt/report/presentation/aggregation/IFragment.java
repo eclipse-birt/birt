@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -25,86 +25,86 @@ import org.eclipse.birt.core.exception.BirtException;
 /**
  * Web viewer Aggregation fragment interface.
  * <p>
- *
+ * 
  * @see BaseFragment
  */
 public interface IFragment {
 	/**
 	 * Get unique id of the corresponding UI gesture.
-	 *
+	 * 
 	 * @return id
 	 */
-	String getClientId();
+	public String getClientId();
 
 	/**
 	 * Get front end client name.
-	 *
+	 * 
 	 * @return id
 	 */
-	String getClientName();
+	public String getClientName();
 
 	/**
 	 * Gets the title ID for the html page.
-	 *
+	 * 
 	 * @return title id
 	 */
 
-	String getTitle();
+	public String getTitle();
 
 	/**
 	 * Is called to render the fragment. This may be a page, column or even a
 	 * portlet.
-	 *
+	 * 
 	 * @param request  the servlet request
 	 * @param response the servlet response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	void service(HttpServletRequest request, HttpServletResponse response)
+	public void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, BirtException;
 
 	/**
 	 * Call back funciton to invoke children fragments' service. It should be called
 	 * only by jsp pages. Control flows back to classes.
-	 *
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	void callBack(HttpServletRequest request, HttpServletResponse response)
+	public void callBack(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, BirtException;
 
 	/**
 	 * Add child to this fragment.
-	 *
+	 * 
 	 * @param child child fragment to be added.
 	 */
-	void addChild(IFragment child);
+	public void addChild(IFragment child);
 
 	/**
 	 * Returns a collection of all child fragments
-	 *
+	 * 
 	 * @return a collection containing objects implementing the interface fragment
 	 */
-	Collection getChildren();
+	public Collection getChildren();
 
 	/**
 	 * Building the web viewer composite.
 	 */
-	void buildComposite();
+	public void buildComposite();
 
 	/**
 	 * Set JSP page root.
-	 *
+	 * 
 	 * @param rootPath
 	 */
-	void setJSPRootPath(String rootPath);
+	public void setJSPRootPath(String rootPath);
 
 	/**
 	 * Get jsp page root.
-	 *
+	 * 
 	 * @return
 	 */
-	String getJSPRootPath();
+	public String getJSPRootPath();
 }

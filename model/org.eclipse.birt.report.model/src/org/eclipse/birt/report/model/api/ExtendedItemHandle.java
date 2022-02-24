@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.birt.report.model.extension.SimplePeerExtensibilityProvider.U
  * <p>
  * An extended element has a plug-in property that is a name of a Java class
  * that implements the behavior for the element.
- *
+ * 
  * @see org.eclipse.birt.report.model.elements.ExtendedItem
  */
 
@@ -65,7 +65,7 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 	 * Constructs the handle with the report design and the element it holds. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -76,7 +76,7 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 
 	/**
 	 * Returns the extension name defined by the extended item.
-	 *
+	 * 
 	 * @return the extension name as a string
 	 */
 
@@ -91,7 +91,7 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 	 * application must create an instance of the extension element first. The
 	 * created extended element reads its information cached by the handle and
 	 * de-serialize the extension model.
-	 *
+	 * 
 	 * @throws ExtendedElementException if the serialized model is invalid
 	 */
 
@@ -101,9 +101,9 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 
 	/**
 	 * Returns the interface <code>IReportItem</code> for extension.
-	 *
+	 * 
 	 * @return the interface <code>IReportItem</code> for extension
-	 *
+	 * 
 	 * @throws ExtendedElementException if the serialized model is invalid
 	 */
 
@@ -121,14 +121,14 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 	/**
 	 * Returns the list of extension property definition. All these properties are
 	 * just those defined in extension plugin.
-	 *
+	 * 
 	 * @return the list of extension property definition.
 	 */
 
 	public List getExtensionPropertyDefinitionList() {
-		if (((ExtendedItem) getElement()).getExtDefn() != null) {
+		if (((ExtendedItem) getElement()).getExtDefn() != null)
+
 			return ((ExtendedItem) getElement()).getExtDefn().getLocalProperties();
-		}
 
 		return Collections.EMPTY_LIST;
 
@@ -137,11 +137,10 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 	/**
 	 * Returns the methods defined on the extension element definition and the
 	 * methods defined within the extension model property inside.
-	 *
+	 * 
 	 * @return the list of methods
 	 */
 
-	@Override
 	public List getMethods() {
 		return ((ExtendedItem) getElement()).getMethods();
 	}
@@ -149,52 +148,49 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 	/**
 	 * Returns an iterator over filter. The iterator returns instances of
 	 * <code>FilterConditionHandle</code> that represents filter condition object.
-	 *
+	 * 
 	 * @return iterator over filters.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.FilterCondition
 	 */
 
 	public Iterator filtersIterator() {
 		PropertyHandle propHandle = getPropertyHandle(FILTER_PROP);
-		if (propHandle == null) {
+		if (propHandle == null)
 			return Collections.EMPTY_LIST.iterator();
-		}
 		return propHandle.iterator();
 	}
 
 	/**
 	 * Returns the external script defined in the extended element model.
-	 *
+	 * 
 	 * @return the script
 	 */
 
 	public String getExternalScript() {
 		String propName = ((ExtendedItem) getElement()).getScriptPropertyName();
-		if (propName == null) {
+		if (propName == null)
 			return null;
-		}
 		return getStringProperty(propName);
 	}
 
 	/**
 	 * Sets the scripts in the extension element model.
-	 *
+	 * 
 	 * @param theScript the script to be set
 	 * @throws SemanticException if fail to set the scripts
 	 */
 
 	public void setExternalScript(String theScript) throws SemanticException {
 		String propName = ((ExtendedItem) getElement()).getScriptPropertyName();
-		if (propName == null) {
+		if (propName == null)
 			return;
-		}
 		setStringProperty(propName, theScript);
 	}
 
 	/**
 	 * Returns the alternate text of this extended item.
-	 *
+	 * 
 	 * @return the alternate text of the extended item.
 	 */
 
@@ -204,20 +200,19 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 
 	/**
 	 * Returns the resource key of the alternate text of this extended item.
-	 *
+	 * 
 	 * @return the resource key of the alternate text
 	 */
 
-	@Override
 	public String getAltTextKey() {
 		return getStringProperty(ALTTEXT_KEY_PROP);
 	}
 
 	/**
 	 * Sets the alt text of this extended item.
-	 *
+	 * 
 	 * @param altText the alt text
-	 *
+	 * 
 	 * @throws SemanticException if the property is locked.
 	 */
 
@@ -227,30 +222,27 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 
 	/**
 	 * Sets the alt text id of this extended item.
-	 *
+	 * 
 	 * @param altTextKey the alt text id
-	 *
+	 * 
 	 * @throws SemanticException if the property is locked.
 	 */
 
-	@Override
 	public void setAltTextKey(String altTextKey) throws SemanticException {
 		setStringProperty(ALTTEXT_KEY_PROP, altTextKey);
 	}
 
 	/**
 	 * Returns functions that can be called in the given method.
-	 *
+	 * 
 	 * @param context the method name in string
-	 *
+	 * 
 	 * @return a list containing <code>IMethodInfo</code> for functions
 	 */
 
-	@Override
 	public List getMethods(String context) {
-		if (StringUtil.isBlank(context)) {
+		if (StringUtil.isBlank(context))
 			return null;
-		}
 
 		IReportItem extension = null;
 
@@ -287,13 +279,14 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 	 * Gets the map of all name/value pair. The property in the map is either set an
 	 * invalid value or the definition is not found. Key is the name of the property
 	 * and value is instance of <code>UndefinedPropertyInfo</code>.
-	 *
+	 * 
 	 * @return map of invalid property value or undefined property
 	 */
 	public Map<String, UndefinedPropertyInfo> getUndefinedProperties() {
 		PeerExtensibilityProvider provider = ((ExtendedItem) getElement()).getExtensibilityProvider();
 
-		Map<String, UndefinedPropertyInfo> propMap = new HashMap<>(provider.getInvalidPropertyValueMap());
+		Map<String, UndefinedPropertyInfo> propMap = new HashMap<String, UndefinedPropertyInfo>();
+		propMap.putAll(provider.getInvalidPropertyValueMap());
 		propMap.putAll(provider.getUndefinedPropertyMap());
 		return propMap;
 	}
@@ -303,23 +296,22 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 	 * contents reside. The value is the list of item that are illegal to be
 	 * inserted. Each item in the list is instance of
 	 * <code>IllegalContentInfo</code>.
-	 *
+	 * 
 	 * @return
 	 */
 	public Map<String, List<IllegalContentInfo>> getIllegalContents() {
 		PeerExtensibilityProvider provider = ((ExtendedItem) getElement()).getExtensibilityProvider();
 		Map<String, List<UndefinedChildInfo>> illegalChildren = provider.getIllegalContents();
-		if (illegalChildren == null || illegalChildren.isEmpty()) {
+		if (illegalChildren == null || illegalChildren.isEmpty())
 			return Collections.emptyMap();
-		}
 
-		Map<String, List<IllegalContentInfo>> transMap = new HashMap<>();
+		Map<String, List<IllegalContentInfo>> transMap = new HashMap<String, List<IllegalContentInfo>>();
 		Iterator<Entry<String, List<UndefinedChildInfo>>> iter = illegalChildren.entrySet().iterator();
 		while (iter.hasNext()) {
 			Entry<String, List<UndefinedChildInfo>> entry = iter.next();
 			List<UndefinedChildInfo> childList = entry.getValue();
 			if (childList != null && !childList.isEmpty()) {
-				List<IllegalContentInfo> transChildren = new ArrayList<>();
+				List<IllegalContentInfo> transChildren = new ArrayList<IllegalContentInfo>();
 				for (int i = 0; i < childList.size(); i++) {
 					UndefinedChildInfo infor = childList.get(i);
 					transChildren.add(new IllegalContentInfo(infor, module));
@@ -333,7 +325,7 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 
 	/**
 	 * Gets the extension version of this element.
-	 *
+	 * 
 	 * @return extension version of this element
 	 */
 	public String getExtensionVersion() {
@@ -342,7 +334,7 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 
 	/**
 	 * Sets the extension version of this element.
-	 *
+	 * 
 	 * @param extensionVersion
 	 * @throws SemanticException
 	 */
@@ -351,9 +343,9 @@ public class ExtendedItemHandle extends ReportItemHandle implements IExtendedIte
 	}
 
 	/**
-	 *
+	 * 
 	 * Makes a unique name for this element with the given name prefix.
-	 *
+	 * 
 	 * @param namePrefix the name prefix
 	 */
 

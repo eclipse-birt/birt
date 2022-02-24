@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -25,7 +25,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * A figure for page header& footer.
- *
+ * 
  */
 public class AreaFigure extends Figure {
 
@@ -48,10 +48,9 @@ public class AreaFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
-	@Override
 	protected void paintFigure(Graphics graphics) {
 		Rectangle rect = getClientArea().expand(DEFAULT_EXPAND);
 		Color forecolor = graphics.getForegroundColor();
@@ -73,7 +72,7 @@ public class AreaFigure extends Figure {
 
 	/**
 	 * Draws line with specified line style.
-	 *
+	 * 
 	 * @param graphics
 	 * @param rect      the rectangle to draw
 	 * @param position  the
@@ -99,10 +98,9 @@ public class AreaFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
 	 */
-	@Override
 	public Dimension getPreferredSize(int wHint, int hHint) {
 		validate();
 		return super.getPreferredSize(wHint, hHint);

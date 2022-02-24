@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,31 +19,31 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * column definition used by table content.
- *
- *
+ * 
+ * 
  */
 public interface IColumn extends IStyledElement {
 	/**
 	 * @return Return this column is a column header or not.
 	 */
-	boolean isColumnHeader();
+	public boolean isColumnHeader();
 
 	/**
 	 * @return Returns the width.
 	 */
-	DimensionType getWidth();
+	public DimensionType getWidth();
 
-	void setWidth(DimensionType width);
+	public void setWidth(DimensionType width);
 
 	/**
 	 * get the instance id of the column. the instance id is the unique id of the
 	 * content.
-	 *
+	 * 
 	 * @return
 	 */
-	InstanceID getInstanceID();
+	public InstanceID getInstanceID();
 
-	String getVisibleFormat();
+	public String getVisibleFormat();
 
 	/**
 	 * @return inline style
@@ -52,13 +52,13 @@ public interface IColumn extends IStyledElement {
 
 	void setInlineStyle(IStyle style);
 
-	void setGenerateBy(Object generateBy);
+	public void setGenerateBy(Object generateBy);
 
-	Object getGenerateBy();
+	public Object getGenerateBy();
 
-	boolean hasDataItemsInDetail();
+	public boolean hasDataItemsInDetail();
 
-	boolean isRepeated();
+	public boolean isRepeated();
 
-	void setRepeated(boolean isRepeated);
+	public void setRepeated(boolean isRepeated);
 }

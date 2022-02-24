@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ class AggregateObject {
 	private int id = -1;
 
 	/**
-	 *
+	 * 
 	 * @param aggr  aggregate exprssion
 	 * @param level pass level of this aggregateobject
 	 */
@@ -46,7 +46,7 @@ class AggregateObject {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return aggregate expression
 	 */
 	public AggregateExpression getAggregateExpr() {
@@ -55,7 +55,7 @@ class AggregateObject {
 
 	/**
 	 * set the aggregate expression
-	 *
+	 * 
 	 * @param expr
 	 */
 	void setAggreateExpr(AggregateExpression expr) {
@@ -64,7 +64,7 @@ class AggregateObject {
 
 	/**
 	 * get the aggregate pass level
-	 *
+	 * 
 	 * @return
 	 */
 	public int getPassLevel() {
@@ -73,7 +73,7 @@ class AggregateObject {
 
 	/**
 	 * set the aggregate pass level
-	 *
+	 * 
 	 * @param passLevel
 	 */
 	public void setPassLevel(int passLevel) {
@@ -82,7 +82,7 @@ class AggregateObject {
 
 	/**
 	 * if the aggregate can be calculated, it is available,return true
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isAvailable() {
@@ -91,7 +91,7 @@ class AggregateObject {
 
 	/**
 	 * set the aggregate available state
-	 *
+	 * 
 	 * @param canEvaluate
 	 */
 	public void setAvailable(boolean canEvaluate) {
@@ -99,7 +99,7 @@ class AggregateObject {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param id
 	 */
 	public void setRegisterId(int id) {
@@ -107,7 +107,7 @@ class AggregateObject {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public int getRegisterId() {
@@ -116,27 +116,25 @@ class AggregateObject {
 
 	/**
 	 * Compares equivalency of two aggregate expressions
-	 *
+	 * 
 	 * @param
 	 * @return
 	 */
-	@Override
 	public boolean equals(Object other) {
-		if (other == null || !(other instanceof AggregateObject)) {
+		if (other == null || !(other instanceof AggregateObject))
 			return false;
-		}
 		AggregateObject rhs = (AggregateObject) other;
 		if (!aggregateExp.getAggregation().getName().equals(rhs.getAggregateExpr().getAggregation().getName())
-				|| aggregateExp.getType() != rhs.getAggregateExpr().getType() || !this.getAggregateExpr().equals(rhs.getAggregateExpr())) {
+				|| aggregateExp.getType() != rhs.getAggregateExpr().getType())
 			return false;
-		}
+		if (!this.getAggregateExpr().equals(rhs.getAggregateExpr()))
+			return false;
 		return true;
 	}
 
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
-	@Override
 	public int hashCode() {
 		int result = 17;
 		result = 37 * result + aggregateExp.getAggregation().getName().hashCode();

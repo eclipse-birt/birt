@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import com.ibm.icu.util.Calendar;
 
 /**
  * The class is used to adjust vertical axes's location and scale.
- *
+ * 
  * @since 2.5
  */
 
@@ -43,7 +43,7 @@ public class VerticalAxesAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param verticalAxes
 	 * @param horizontalAxis
 	 * @param plotWithAxes
@@ -59,17 +59,16 @@ public class VerticalAxesAdjuster implements IAxisAdjuster {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.computation.withaxes.IAxisAdjuster#adjust()
 	 */
-	@Override
 	public void adjust() throws ChartException {
 		this.adjust(true);
 	}
 
 	/**
 	 * Adjusts the axes.
-	 *
+	 * 
 	 * @param checkAxisLabel whether the axis label should be considered as a factor
 	 *                       while computing coordinates and size of axis.
 	 * @throws ChartException
@@ -77,9 +76,9 @@ public class VerticalAxesAdjuster implements IAxisAdjuster {
 	public void adjust(boolean checkAxisLabel) throws ChartException {
 		AutoScale scX = fHorizontalAxis.getScale();
 
-		List<VerticalAxisAdjuster> values = new ArrayList<>();
-		List<VerticalAxisAdjuster> min = new ArrayList<>();
-		List<VerticalAxisAdjuster> max = new ArrayList<>();
+		List<VerticalAxisAdjuster> values = new ArrayList<VerticalAxisAdjuster>();
+		List<VerticalAxisAdjuster> min = new ArrayList<VerticalAxisAdjuster>();
+		List<VerticalAxisAdjuster> max = new ArrayList<VerticalAxisAdjuster>();
 
 		// Parses all vertical axes and put them into min/max/value origin
 		// set.
@@ -245,7 +244,7 @@ public class VerticalAxesAdjuster implements IAxisAdjuster {
 		for (int i = 0; i < values.size(); i++) {
 			VerticalAxisAdjuster vaa = values.get(i);
 			OneAxis oa = vaa.getVerticalAxis();
-			double axisCoordinate;
+			double axisCoordinate = 0;
 			double locationDelta = AxesAdjuster.getLocationDelta(scX, vaa.getVerticalAxis().getIntersectionValue());
 			axisCoordinate = scX.getEndPoints()[0] + locationDelta;
 			oa.setAxisCoordinate(axisCoordinate);
@@ -263,7 +262,7 @@ public class VerticalAxesAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Adjusts start and end of across axis, and returns axis coordinates.
-	 *
+	 * 
 	 * @param acrossAxis
 	 * @param dX
 	 * @param dLeftEdge
@@ -350,8 +349,10 @@ public class VerticalAxesAdjuster implements IAxisAdjuster {
 				if (dYAxisThickness < scX.getEndShift()) {
 					dX = scX.getEnd() - (dRightEdge - dX);
 				}
-			} else if (dYAxisThickness < scX.getStartShift()) {
-				dX = scX.getStart() - (dRightEdge - dX);
+			} else {
+				if (dYAxisThickness < scX.getStartShift()) {
+					dX = scX.getStart() - (dRightEdge - dX);
+				}
 			}
 
 			// 3. Get final x, xLeft, xRight. Set title coordinate.
@@ -427,8 +428,10 @@ public class VerticalAxesAdjuster implements IAxisAdjuster {
 				if (dYAxisThickness < scX.getStartShift()) {
 					dX = scX.getStart() - (dLeftEdge - dX);
 				}
-			} else if (dYAxisThickness < scX.getEndShift()) {
-				dX = scX.getEnd() - (dLeftEdge - dX);
+			} else {
+				if (dYAxisThickness < scX.getEndShift()) {
+					dX = scX.getEnd() - (dLeftEdge - dX);
+				}
 			}
 
 			// 3. Get final x, xLeft, xRight. Set title coordinate.

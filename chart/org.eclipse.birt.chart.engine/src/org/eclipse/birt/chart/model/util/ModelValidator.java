@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -21,22 +21,22 @@ package org.eclipse.birt.chart.model.util;
 
 import java.util.Map;
 
-import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.DialChart;
-import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.*;
+
 import org.eclipse.emf.common.util.DiagnosticChain;
+
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.EObjectValidator;
+
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
 
 /**
  * <!-- begin-user-doc --> The <b>Validator</b> for the model. <!-- end-user-doc
  * -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.ModelPackage
  * @generated
  */
@@ -44,7 +44,7 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static final ModelValidator INSTANCE = new ModelValidator();
@@ -53,7 +53,7 @@ public class ModelValidator extends EObjectValidator {
 	 * A constant for the {@link org.eclipse.emf.common.util.Diagnostic#getSource()
 	 * source} of diagnostic {@link org.eclipse.emf.common.util.Diagnostic#getCode()
 	 * codes} from this package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see org.eclipse.emf.common.util.Diagnostic#getSource()
 	 * @see org.eclipse.emf.common.util.Diagnostic#getCode()
 	 * @generated
@@ -64,7 +64,7 @@ public class ModelValidator extends EObjectValidator {
 	 * A constant with a fixed name that can be used as the base value for
 	 * additional hand written constants. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
@@ -73,7 +73,7 @@ public class ModelValidator extends EObjectValidator {
 	 * A constant with a fixed name that can be used as the base value for
 	 * additional hand written constants in a derived class. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
@@ -81,7 +81,7 @@ public class ModelValidator extends EObjectValidator {
 	/**
 	 * The cached base package validator. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected XMLTypeValidator xmlTypeValidator;
@@ -89,7 +89,7 @@ public class ModelValidator extends EObjectValidator {
 	/**
 	 * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ModelValidator() {
@@ -100,7 +100,7 @@ public class ModelValidator extends EObjectValidator {
 	/**
 	 * Returns the package of this validator switch. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -111,7 +111,7 @@ public class ModelValidator extends EObjectValidator {
 	/**
 	 * Calls <code>validateXXX</code> for the corresponding classifier of the model.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -137,7 +137,7 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public boolean validateChart(Chart chart, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -146,7 +146,7 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public boolean validateChartWithAxes(ChartWithAxes chartWithAxes, DiagnosticChain diagnostics,
@@ -156,7 +156,7 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public boolean validateChartWithoutAxes(ChartWithoutAxes chartWithoutAxes, DiagnosticChain diagnostics,
@@ -166,7 +166,7 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public boolean validateDialChart(DialChart dialChart, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -175,20 +175,19 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public boolean validateCoverageType(double coverageType, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = validateCoverageType_Min(coverageType, diagnostics, context);
-		if (result || diagnostics != null) {
+		if (result || diagnostics != null)
 			result &= validateCoverageType_Max(coverageType, diagnostics, context);
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @see #validateCoverageType_Min
 	 */
@@ -197,22 +196,21 @@ public class ModelValidator extends EObjectValidator {
 	/**
 	 * Validates the Min constraint of '<em>Coverage Type</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public boolean validateCoverageType_Min(double coverageType, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		boolean result = coverageType >= COVERAGE_TYPE__MIN__VALUE;
-		if (!result && diagnostics != null) {
+		if (!result && diagnostics != null)
 			reportMinViolation(ModelPackage.Literals.COVERAGE_TYPE, coverageType, COVERAGE_TYPE__MIN__VALUE, true,
 					diagnostics, context);
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @see #validateCoverageType_Max
 	 */
@@ -221,37 +219,35 @@ public class ModelValidator extends EObjectValidator {
 	/**
 	 * Validates the Max constraint of '<em>Coverage Type</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public boolean validateCoverageType_Max(double coverageType, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		boolean result = coverageType <= COVERAGE_TYPE__MAX__VALUE;
-		if (!result && diagnostics != null) {
+		if (!result && diagnostics != null)
 			reportMaxViolation(ModelPackage.Literals.COVERAGE_TYPE, coverageType, COVERAGE_TYPE__MAX__VALUE, true,
 					diagnostics, context);
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public boolean validateCoverageTypeObject(Double coverageTypeObject, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		boolean result = validateCoverageType_Min(coverageTypeObject, diagnostics, context);
-		if (result || diagnostics != null) {
+		if (result || diagnostics != null)
 			result &= validateCoverageType_Max(coverageTypeObject, diagnostics, context);
-		}
 		return result;
 	}
 
 	/**
 	 * Returns the resource locator that will be used to fetch messages for this
 	 * validator's diagnostics. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

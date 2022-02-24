@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +53,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent {
 
 	private ISelectDataCustomizeUI selectDataUI = null;
 
-	private ArrayList<ISelectDataComponent> components = new ArrayList<>();
+	private ArrayList<ISelectDataComponent> components = new ArrayList<ISelectDataComponent>();
 
 	private boolean isSingle = false;
 
@@ -76,7 +76,6 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent {
 		isSingle = true;
 	}
 
-	@Override
 	public Composite createArea(Composite parent) {
 		Composite cmp = new Composite(parent, SWT.NONE);
 		{
@@ -111,7 +110,6 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent {
 		final String strDesc = getGroupingDescription(axisIndex);
 		ISelectDataComponent subUIGroupY = new DefaultSelectDataComponent() {
 
-			@Override
 			public Composite createArea(Composite parent) {
 				Composite cmpGroup = new Composite(parent, SWT.NONE);
 				GridLayout glContent = new GridLayout();
@@ -153,14 +151,12 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent {
 		components.add(subUIGroupY);
 	}
 
-	@Override
 	public void selectArea(boolean selected, Object data) {
 		for (int i = 0; i < components.size(); i++) {
 			components.get(i).selectArea(selected, data);
 		}
 	}
 
-	@Override
 	public void dispose() {
 		for (int i = 0; i < components.size(); i++) {
 			components.get(i).dispose();

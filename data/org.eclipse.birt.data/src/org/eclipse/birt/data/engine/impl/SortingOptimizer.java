@@ -1,13 +1,13 @@
 /*
  *************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,9 +45,8 @@ public class SortingOptimizer {
 	private IBaseDataSetDesign dataSet = null;
 
 	public SortingOptimizer(IBaseDataSetDesign dataSet, IBaseQueryDefinition query) {
-		if (dataSet == null || query == null) {
+		if (dataSet == null || query == null)
 			return;
-		}
 		this.sortHints = dataSet.getSortHints();
 		this.dataSet = dataSet;
 		this.baseQuery = query;
@@ -59,17 +58,18 @@ public class SortingOptimizer {
 
 	public boolean acceptGroupSorting() {
 		// No sort hint and no group, no optimize
-		// No group sorting, no optimize
-		if (sortHints == null || groups == null || (queryExeHint != null && !queryExeHint.doSortBeforeGrouping())) {
+		if (sortHints == null || groups == null)
 			return false;
-		}
+
+		// No group sorting, no optimize
+		if (queryExeHint != null && !queryExeHint.doSortBeforeGrouping())
+			return false;
 
 		// Contains group interval, no optimize
 		for (Object o : groups) {
 			IGroupDefinition g = (IGroupDefinition) o;
-			if (g.getInterval() != IGroupDefinition.NO_INTERVAL) {
+			if (g.getInterval() != IGroupDefinition.NO_INTERVAL)
 				return false;
-			}
 		}
 
 		if (sortings != null) {
@@ -80,8 +80,9 @@ public class SortingOptimizer {
 				optimizeGroupSorting = true;
 				optimizeQuerySorting = true;
 			}
-		} else if (hintsMatcher.match(groups, new GroupDefnMatchInfo())) {
-			optimizeGroupSorting = true;
+		} else {
+			if (hintsMatcher.match(groups, new GroupDefnMatchInfo()))
+				optimizeGroupSorting = true;
 		}
 
 		return optimizeGroupSorting;
@@ -92,9 +93,11 @@ public class SortingOptimizer {
 			return false;
 		}
 
-		if (optimizeQuerySorting || hintsMatcher.match(this.sortings, new SortDefnMatchInfo())) {
+		if (optimizeQuerySorting)
 			return true;
-		}
+
+		if (hintsMatcher.match(this.sortings, new SortDefnMatchInfo()))
+			return true;
 
 		return false;
 	}
@@ -113,9 +116,8 @@ public class SortingOptimizer {
 		}
 
 		public boolean match(List<?> sorts, MatchInfo util) {
-			if (hints == null || hints.size() == 0 || hints.size() < sorts.size()) {
+			if (hints == null || hints.size() == 0 || hints.size() < sorts.size())
 				return false;
-			}
 
 			int pos = 0;
 			for (; pos < hints.size() && pos < sorts.size();) {
@@ -133,9 +135,8 @@ public class SortingOptimizer {
 			// For sortHints and sorting definitions:
 			// 1. SortHints contains all sorts conditions.
 			// 2. Sorts sequence match sortHints start from the first sort hint.
-			if (pos == sorts.size()) {
+			if (pos == sorts.size())
 				return true;
-			}
 
 			return false;
 		}
@@ -156,9 +157,8 @@ public class SortingOptimizer {
 		}
 
 		private void caculate(List<?> sorts, MatchInfo util) {
-			if (base == null || base.size() == 0) {
+			if (base == null || base.size() == 0)
 				return;
-			}
 
 			int pos = 0;
 			int j = 0;
@@ -200,23 +200,20 @@ public class SortingOptimizer {
 	}
 
 	interface MatchInfo {
-		String getKey(Object o);
+		public String getKey(Object o);
 
-		int getDirection(Object o);
+		public int getDirection(Object o);
 	}
 
 	class SortHintMatchInfo implements MatchInfo {
-		@Override
 		public String getKey(Object o) {
 			ISortDefinition sort = (ISortDefinition) o;
 			String key = sort.getColumn();
-			if (key == null) {
+			if (key == null)
 				key = sort.getExpression().getText();
-			}
 			return key;
 		}
 
-		@Override
 		public int getDirection(Object o) {
 			ISortDefinition sort = (ISortDefinition) o;
 			return sort.getSortDirection();
@@ -224,26 +221,22 @@ public class SortingOptimizer {
 	}
 
 	class SortDefnMatchInfo implements MatchInfo {
-		@Override
 		public String getKey(Object o) {
 			ISortDefinition sort = (ISortDefinition) o;
 
 			// No matching while sorting with local and strength.
-			if (sort.getSortLocale() != null || sort.getSortStrength() != ISortDefinition.ASCII_SORT_STRENGTH) {
+			if (sort.getSortLocale() != null || sort.getSortStrength() != ISortDefinition.ASCII_SORT_STRENGTH)
 				return null;
-			}
 
 			String sortKey = sort.getColumn();
-			if (sortKey == null) {
+			if (sortKey == null)
 				sortKey = sort.getExpression().getText();
-			} else {
+			else
 				sortKey = getColumnRefExpression(sortKey);
-			}
 
 			return getResolvedExpression(sortKey);
 		}
 
-		@Override
 		public int getDirection(Object o) {
 			ISortDefinition sort = (ISortDefinition) o;
 			return sort.getSortDirection();
@@ -251,14 +244,12 @@ public class SortingOptimizer {
 	}
 
 	class GroupDefnMatchInfo implements MatchInfo {
-		@Override
 		public String getKey(Object o) {
 			IGroupDefinition grp = (IGroupDefinition) o;
 			String rowExpr = getGroupKeyExpression(grp);
 			return getResolvedExpression(rowExpr);
 		}
 
-		@Override
 		public int getDirection(Object o) {
 			IGroupDefinition grp = (IGroupDefinition) o;
 			return grp.getSortDirection();
@@ -269,33 +260,26 @@ public class SortingOptimizer {
 		private MatchInfo grpInfo = new GroupDefnMatchInfo();
 		private MatchInfo sortInfo = new SortDefnMatchInfo();
 
-		@Override
 		public String getKey(Object o) {
-			if (o instanceof IGroupDefinition) {
+			if (o instanceof IGroupDefinition)
 				return grpInfo.getKey(o);
-			}
-			if (o instanceof ISortDefinition) {
+			if (o instanceof ISortDefinition)
 				return sortInfo.getKey(o);
-			}
 			return null;
 		}
 
-		@Override
 		public int getDirection(Object o) {
-			if (o instanceof IGroupDefinition) {
+			if (o instanceof IGroupDefinition)
 				return grpInfo.getDirection(o);
-			}
-			if (o instanceof ISortDefinition) {
+			if (o instanceof ISortDefinition)
 				return sortInfo.getDirection(o);
-			}
 			return IGroupDefinition.NO_SORT;
 		}
 	}
 
 	private String resolveDataSetExpr(String rowExpr) throws DataException {
-		if (rowExpr == null) {
+		if (rowExpr == null)
 			return null;
-		}
 
 		String dataSetExpr = null;
 		try {
@@ -303,16 +287,15 @@ public class SortingOptimizer {
 			Object binding = this.baseQuery.getBindings().get(bindingName);
 			if (binding != null) {
 				IBaseExpression expr = ((IBinding) binding).getExpression();
-				if (expr instanceof IScriptExpression) {
+				if (expr != null && expr instanceof IScriptExpression) {
 					dataSetExpr = ((IScriptExpression) expr).getText();
 					if (dataSetExpr != null) {
 						return resolveDataSetExpr(dataSetExpr);
 					}
 				}
 				return dataSetExpr;
-			} else {
+			} else
 				return rowExpr; // Already resolved.
-			}
 		} catch (BirtException e) {
 			throw DataException.wrap(e);
 		}
@@ -321,9 +304,8 @@ public class SortingOptimizer {
 	@SuppressWarnings("rawtypes")
 	private String resolveColumnAlias(String columnAlias) {
 		List rsHints = this.dataSet.getResultSetHints();
-		if (rsHints == null) {
+		if (rsHints == null)
 			return null;
-		}
 
 		String resolved = null;
 		IColumnDefinition col = null;
@@ -345,9 +327,8 @@ public class SortingOptimizer {
 			if (expr != null) {
 				String bindingName = ExpressionUtil.getColumnName(expr);
 				String column = resolveColumnAlias(bindingName);
-				if (column != null) { // Binding name is a column alias
+				if (column != null) // Binding name is a column alias
 					expr = ExpressionUtil.createDataSetRowExpression(column);
-				}
 			}
 		} catch (BirtException ignore) {
 			expr = null;

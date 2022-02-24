@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -80,10 +80,9 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#reset()
 	 */
-	@Override
 	public void reset() {
 		loTopLeft = null;
 		dWidth = 0;
@@ -133,7 +132,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the top-left location of the containing bounds.
-	 *
+	 * 
 	 * @param loTopLeft The top left co-ordinates of the bounding elliptical box for
 	 *                  the arc
 	 */
@@ -150,7 +149,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the angle extent for this arc.
-	 *
+	 * 
 	 * @param angleExtent The angle extent
 	 * @since 2.1
 	 */
@@ -161,11 +160,10 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the angle extent for this arc.
-	 *
+	 * 
 	 * @param endAngle The angle extent
 	 * @deprecated Use {@link #setAngleExtent()} instead.
 	 */
-	@Deprecated
 	public final void setEndAngle(double endAngle) {
 		this.dExtentInDegrees = endAngle;
 	}
@@ -173,14 +171,13 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 	/**
 	 * @return Returns the background.
 	 */
-	@Override
 	public final Fill getBackground() {
 		return ifBackground;
 	}
 
 	/**
 	 * Sets the backgound for this arc.
-	 *
+	 * 
 	 * @param ifBackground The background to set.
 	 */
 	public final void setBackground(Fill ifBackground) {
@@ -196,7 +193,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the width for the containing bounds.
-	 *
+	 * 
 	 * @param radius The width to set.
 	 */
 	public void setWidth(double width) {
@@ -212,7 +209,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the height for the containing bounds.
-	 *
+	 * 
 	 * @param radius The height to set.
 	 */
 	public void setHeight(double height) {
@@ -228,7 +225,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the start angle for this arc.
-	 *
+	 * 
 	 * @param startAngle The startAngle to set.
 	 */
 	public final void setStartAngle(double startAngle) {
@@ -237,7 +234,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the containing bounds of this arc.
-	 *
+	 * 
 	 * @param bo
 	 */
 	public final void setBounds(Bounds bo) {
@@ -248,7 +245,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Returns the full containing bounds of the complete ellipse.
-	 *
+	 * 
 	 * @return
 	 */
 	public Bounds getEllipseBounds() {
@@ -302,10 +299,9 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
 	 */
-	@Override
 	public Bounds getBounds() {
 		// calculate the actual bounds.
 		double x1, y1, x2, y2;
@@ -357,7 +353,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the outline for this arc.
-	 *
+	 * 
 	 * @param outline The outline to set.
 	 */
 	public final void setOutline(LineAttributes outline) {
@@ -373,7 +369,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the inner radius for this arc.
-	 *
+	 * 
 	 * @param innerRadius
 	 */
 	public void setInnerRadius(double innerRadius) {
@@ -389,7 +385,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the outer radius for this arc.
-	 *
+	 * 
 	 * @param outerRadius
 	 */
 	public void setOuterRadius(double outerRadius) {
@@ -398,10 +394,9 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	@Override
 	public PrimitiveRenderEvent copy() throws ChartException {
 		ArcRenderEvent are = new ArcRenderEvent(source);
 		if (outline != null) {
@@ -429,29 +424,26 @@ public class ArcRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
-	@Override
 	public void draw(IDeviceRenderer idr) throws ChartException {
 		idr.drawArc(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
-	@Override
 	public void fill(IDeviceRenderer idr) throws ChartException {
 		idr.fillArc(this);
 	}
 
-	@Override
 	public LineAttributes getLineAttributes() {
 		return getOutline();
 	}

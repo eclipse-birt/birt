@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -17,29 +17,38 @@ package org.eclipse.birt.chart.examples.radar.model.type.impl;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarTypeFactory;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage;
+
 import org.eclipse.birt.chart.model.ModelPackage;
+
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+
 import org.eclipse.birt.chart.model.data.DataPackage;
+
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
+
 import org.eclipse.birt.chart.model.type.TypePackage;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!--
  * end-user-doc -->
- *
+ * 
  * @generated
  */
 public class RadarTypePackageImpl extends EPackageImpl implements RadarTypePackage {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private EClass radarSeriesEClass = null;
@@ -53,7 +62,7 @@ public class RadarTypePackageImpl extends EPackageImpl implements RadarTypePacka
 	 * {@link #init init()}, which also performs initialization of the package, or
 	 * returns the registered package, if one already exists. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage#eNS_URI
 	 * @see #init()
@@ -65,7 +74,7 @@ public class RadarTypePackageImpl extends EPackageImpl implements RadarTypePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
@@ -73,22 +82,21 @@ public class RadarTypePackageImpl extends EPackageImpl implements RadarTypePacka
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and
 	 * for any others upon which it depends.
-	 *
+	 * 
 	 * <p>
 	 * This method is used to initialize {@link RadarTypePackage#eINSTANCE} when
 	 * that field is accessed. Clients should not invoke it directly. Instead, they
 	 * should simply access that field to obtain the package. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static RadarTypePackage init() {
-		if (isInited) {
+		if (isInited)
 			return (RadarTypePackage) EPackage.Registry.INSTANCE.getEPackage(RadarTypePackage.eNS_URI);
-		}
 
 		// Obtain or create and register package
 		RadarTypePackageImpl theRadarTypePackage = (RadarTypePackageImpl) (EPackage.Registry.INSTANCE
@@ -122,207 +130,187 @@ public class RadarTypePackageImpl extends EPackageImpl implements RadarTypePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EClass getRadarSeries() {
 		return radarSeriesEClass;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EReference getRadarSeries_Marker() {
 		return (EReference) radarSeriesEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EReference getRadarSeries_LineAttributes() {
 		return (EReference) radarSeriesEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_PaletteLineColor() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_BackgroundOvalTransparent() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EReference getRadarSeries_WebLineAttributes() {
 		return (EReference) radarSeriesEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_ShowWebLabels() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_ShowCatLabels() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_RadarAutoScale() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_WebLabelMax() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_WebLabelMin() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_WebLabelUnit() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_FillPolys() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_ConnectEndpoints() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EReference getRadarSeries_WebLabel() {
 		return (EReference) radarSeriesEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EReference getRadarSeries_CatLabel() {
 		return (EReference) radarSeriesEClass.getEStructuralFeatures().get(14);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EReference getRadarSeries_WebLabelFormatSpecifier() {
 		return (EReference) radarSeriesEClass.getEStructuralFeatures().get(15);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EReference getRadarSeries_CatLabelFormatSpecifier() {
 		return (EReference) radarSeriesEClass.getEStructuralFeatures().get(16);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EAttribute getRadarSeries_PlotSteps() {
 		return (EAttribute) radarSeriesEClass.getEStructuralFeatures().get(17);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public RadarTypeFactory getRadarTypeFactory() {
 		return (RadarTypeFactory) getEFactoryInstance();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
@@ -331,13 +319,12 @@ public class RadarTypePackageImpl extends EPackageImpl implements RadarTypePacka
 	 * Creates the meta-model objects for the package. This method is guarded to
 	 * have no affect on any invocation but its first. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) {
+		if (isCreated)
 			return;
-		}
 		isCreated = true;
 
 		// Create classes and their features
@@ -364,7 +351,7 @@ public class RadarTypePackageImpl extends EPackageImpl implements RadarTypePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -373,13 +360,12 @@ public class RadarTypePackageImpl extends EPackageImpl implements RadarTypePacka
 	 * Complete the initialization of the package and its meta-model. This method is
 	 * guarded to have no affect on any invocation but its first. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) {
+		if (isInitialized)
 			return;
-		}
 		isInitialized = true;
 
 		// Initialize package
@@ -472,7 +458,7 @@ public class RadarTypePackageImpl extends EPackageImpl implements RadarTypePacka
 	 * Initializes the annotations for
 	 * <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {

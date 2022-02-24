@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,12 +70,11 @@ public class TemplateReportItemPropertiesDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.CREATE_TEMPLATE_REPORT_ITEM_DIALOG_ID);
 		Composite container = new Composite(parent, SWT.NONE);
@@ -129,10 +128,9 @@ public class TemplateReportItemPropertiesDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		// if ( promptText.getText( ) == null
 		// || promptText.getText( ).trim( ).length( ) == 0 )
@@ -151,7 +149,7 @@ public class TemplateReportItemPropertiesDialog extends BaseDialog {
 
 	/**
 	 * Set the name.
-	 *
+	 * 
 	 * @param value
 	 */
 	final protected void setName(String value) {
@@ -160,7 +158,7 @@ public class TemplateReportItemPropertiesDialog extends BaseDialog {
 
 	/**
 	 * Get the name.
-	 *
+	 * 
 	 * @param value
 	 */
 	public String getName() {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,22 +70,20 @@ public class RenameListener extends KeyAdapter implements MouseListener, Selecti
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
-	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
-	@Override
 	public void mouseDown(MouseEvent e) {// prevent from conflicts
 		cancelTimer();
 		if (e.button != 1) {
@@ -95,11 +93,10 @@ public class RenameListener extends KeyAdapter implements MouseListener, Selecti
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
-	@Override
 	public void mouseUp(MouseEvent e) {
 		if (!readyToRename) {
 			return;
@@ -112,11 +109,9 @@ public class RenameListener extends KeyAdapter implements MouseListener, Selecti
 		final RenameAction renameAction = new RenameAction(sourceViewer);
 		timer.schedule(new TimerTask() {
 
-			@Override
 			public void run() {// Do rename
 				sourceViewer.getTree().getDisplay().asyncExec(new Runnable() {
 
-					@Override
 					public void run() {
 						renameAction.run();
 					}
@@ -129,30 +124,27 @@ public class RenameListener extends KeyAdapter implements MouseListener, Selecti
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.
 	 * KeyEvent)
 	 */
-	@Override
 	public void keyReleased(KeyEvent e) {
 		cancelTimer();
 		if (e.keyCode == SWT.F2 && e.stateMask == 0) {
 			if (selectedItem != null) {
 				RenameAction action = new RenameAction(sourceViewer);
-				if (action.isEnabled() && action.isHandled()) {
+				if (action.isEnabled() && action.isHandled())
 					action.run();
-				}
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		cancelTimer();
 		TreeItem lastSelect = selectedItem;
@@ -167,12 +159,11 @@ public class RenameListener extends KeyAdapter implements MouseListener, Selecti
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {// Do nothing
 	}
 
@@ -196,12 +187,11 @@ public class RenameListener extends KeyAdapter implements MouseListener, Selecti
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.
 	 * viewers.DoubleClickEvent)
 	 */
-	@Override
 	public void doubleClick(DoubleClickEvent event) {
 		// perform edit
 		cancelTimer();

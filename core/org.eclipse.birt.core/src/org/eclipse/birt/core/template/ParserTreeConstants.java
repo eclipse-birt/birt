@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -14,15 +14,16 @@
 package org.eclipse.birt.core.template;
 
 public interface ParserTreeConstants {
-	int JJTATTRIBUTE = 0;
-	int JJTEBODY_CONTENT = 1;
-	int JJTIMAGE = 2;
-	int JJTVALUEOF = 3;
-	int JJTVIEWTIMEVALUEOF = 4;
-	int JJTTEXT = 5;
-	int JJTTEMPLATE = 6;
+	public int JJTATTRIBUTE = 0;
+	public int JJTEBODY_CONTENT = 1;
+	public int JJTIMAGE = 2;
+	public int JJTVALUEOF = 3;
+	public int JJTVIEWTIMEVALUEOF = 4;
+	public int JJTTEXT = 5;
+	public int JJTTEMPLATE = 6;
 
-	String[] jjtNodeName = { "Attribute", "Ebody_content", "Image", "ValueOf", "ViewTimeValueOf", "Text", "Template", };
+	public String[] jjtNodeName = { "Attribute", "Ebody_content", "Image", "ValueOf", "ViewTimeValueOf", "Text",
+			"Template", };
 }
 /*
  * JavaCC - OriginalChecksum=ba1752d327cc368a7b995517dec13e68 (do not edit this

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.mozilla.javascript.Scriptable;
 
 /**
- *
+ * 
  */
 class QueryExecutionHelper {
 
@@ -102,7 +102,7 @@ class QueryExecutionHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param queryDefn
 	 * @param paramBindingIt
 	 * @param filterIt
@@ -149,10 +149,9 @@ class QueryExecutionHelper {
 			major = handle;
 			defineDataSet(handle,
 					new DataSetHandleProcessContext(major, useResultHints, keepDataSetFilter, allowAggregation));
-			if (interceptorContext != null) {
+			if (interceptorContext != null)
 				DefineDataSourceSetUtil.prepareForTransientQuery(sessionContext, (DataEngineImpl) dataEngine, handle,
 						queryDefn, null, interceptorContext);
-			}
 		}
 	}
 
@@ -175,24 +174,21 @@ class QueryExecutionHelper {
 					binding = adaptBinding(
 							(org.eclipse.birt.report.model.api.elements.structures.ComputedColumn) computedBinding);
 				}
-				if (binding == null || (disAllowAggregation && binding.getAggrFunction() != null)) {
+				if (binding == null || (disAllowAggregation && binding.getAggrFunction() != null))
 					continue;
-				}
 				queryDefn.addBinding(binding);
 			}
 
 			List parameterBindings = convertParamterBindings(paramBindingIt);
 
 			// add parameter binding
-			if (parameterBindings != null) {
+			if (parameterBindings != null)
 				queryDefn.getInputParamBindings().addAll(parameterBindings);
-			}
 
 			// add filter
 			List filters = convertFilters(filterIt);
-			if (filters != null) {
+			if (filters != null)
 				queryDefn.getFilters().addAll(filters);
-			}
 		} catch (DataException e) {
 			throw new AdapterException(e.getLocalizedMessage(), e);
 		}
@@ -201,15 +197,14 @@ class QueryExecutionHelper {
 	/**
 	 * NOTE: This binding is the temp binding, it would not be aggregation. The
 	 * binding is used when select value list for filter expression.
-	 *
+	 * 
 	 * @param structure
 	 * @return
 	 */
 	private IBinding adaptBinding(org.eclipse.birt.report.model.api.elements.structures.ComputedColumn structure) {
 		try {
-			if (structure == null) {
+			if (structure == null)
 				return null;
-			}
 			Binding result = new Binding(structure.getName());
 			if (structure.getExpression() != null) {
 				ScriptExpression expr = this.modelAdaptor.adaptExpression(structure.getExpressionProperty(
@@ -227,15 +222,14 @@ class QueryExecutionHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param filterIt
 	 * @return
 	 * @throws AdapterException
 	 */
 	private List convertFilters(Iterator filterIt) throws AdapterException {
-		if (filterIt == null) {
+		if (filterIt == null)
 			return null;
-		}
 
 		List filters = new ArrayList();
 		while (filterIt.hasNext()) {
@@ -248,14 +242,13 @@ class QueryExecutionHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param paramBindingIt
 	 * @return
 	 */
 	private List convertParamterBindings(Iterator paramBindingIt) {
-		if (paramBindingIt == null) {
+		if (paramBindingIt == null)
 			return null;
-		}
 
 		List parameterBindings = new ArrayList();
 		while (paramBindingIt.hasNext()) {
@@ -347,16 +340,15 @@ class QueryExecutionHelper {
 		}
 
 		protected void processUseResultHints(IBaseDataSetDesign baseDataSetDesign, DataSetHandle current) {
-			if (!useResultHints && current.equals(root)) {
+			if (useResultHints == false && current.equals(root)) {
 				baseDataSetDesign.getResultSetHints().clear();
 			}
 		}
 
 		protected void processFilters(IBaseDataSetDesign baseDataSetDesign, DataSetHandle current) {
 			if (!keepDataSetFilters) {
-				if (baseDataSetDesign.getFilters() != null) {
+				if (baseDataSetDesign.getFilters() != null)
 					baseDataSetDesign.getFilters().clear();
-				}
 			}
 		}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +65,7 @@ public class ColorBuilder extends Composite {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param parent a widget which will be the parent of the new instance (cannot
 	 *               be null)
 	 * @param style  the style of widget to construct
@@ -84,9 +84,8 @@ public class ColorBuilder extends Composite {
 
 	private void initColorBuilder(Composite parent, int style, boolean isFormStyle) {
 		setLayout(WidgetUtil.createSpaceGridLayout(2, 1));
-		if (isFormStyle) {
+		if (isFormStyle)
 			((GridLayout) getLayout()).horizontalSpacing = 3;
-		}
 
 		colorSelector = new ColorSelector(this);
 		GridData data = new GridData();
@@ -97,16 +96,15 @@ public class ColorBuilder extends Composite {
 		colorSelector.getButton().setToolTipText(Messages.getString("ColorBuilder.Button.ChooseColor")); //$NON-NLS-1$
 		colorSelector.addListener(new IPropertyChangeListener() {
 
-			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				predefinedColor = null;
 				processAction(colorSelector.getColorValue());
 			}
 		});
 
-		if (isFormStyle) {
+		if (isFormStyle)
 			combo = FormWidgetFactory.getInstance().createCCombo(this, false);
-		} else {
+		else {
 			combo = new CCombo(this, SWT.DROP_DOWN);
 			combo.setVisibleItemCount(30);
 		}
@@ -119,12 +117,10 @@ public class ColorBuilder extends Composite {
 		combo.add(NONE_CHOICE);
 		combo.addFocusListener(new FocusListener() {
 
-			@Override
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
 				handleComboFocusGainedEvent(e);
 			}
 
-			@Override
 			public void focusLost(org.eclipse.swt.events.FocusEvent e) {
 				handleComboFocusLostEvent(e);
 
@@ -133,12 +129,10 @@ public class ColorBuilder extends Composite {
 		});
 		combo.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleComboSelectedEvent(e);
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				handleComboDefaultSelectedEvent(e);
 			}
@@ -169,12 +163,10 @@ public class ColorBuilder extends Composite {
 		int index = 0;
 		int length = string.length();
 		do {
-			while ((index < length) && (string.charAt(index) != '&')) {
+			while ((index < length) && (string.charAt(index) != '&'))
 				index++;
-			}
-			if (++index >= length) {
+			if (++index >= length)
 				return string;
-			}
 			if (string.charAt(index) != '&') {
 				return string.substring(0, index - 1) + string.substring(index, length);
 			}
@@ -184,21 +176,17 @@ public class ColorBuilder extends Composite {
 	}
 
 	char _findMnemonic(String string) {
-		if (string == null) {
+		if (string == null)
 			return '\0';
-		}
 		int index = 0;
 		int length = string.length();
 		do {
-			while (index < length && string.charAt(index) != '&') {
+			while (index < length && string.charAt(index) != '&')
 				index++;
-			}
-			if (++index >= length) {
+			if (++index >= length)
 				return '\0';
-			}
-			if (string.charAt(index) != '&') {
+			if (string.charAt(index) != '&')
 				return Character.toLowerCase(string.charAt(index));
-			}
 			index++;
 		} while (index < length);
 		return '\0';
@@ -207,7 +195,6 @@ public class ColorBuilder extends Composite {
 	void initAccessible() {
 		AccessibleAdapter accessibleAdapter = new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				String name = null;
 				Label label = getAssociatedLabel();
@@ -217,7 +204,6 @@ public class ColorBuilder extends Composite {
 				e.result = name;
 			}
 
-			@Override
 			public void getKeyboardShortcut(AccessibleEvent e) {
 				String shortcut = null;
 				Label label = getAssociatedLabel();
@@ -233,7 +219,6 @@ public class ColorBuilder extends Composite {
 				e.result = shortcut;
 			}
 
-			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -242,7 +227,6 @@ public class ColorBuilder extends Composite {
 
 		combo.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				String name = null;
 				Label label = getAssociatedLabel();
@@ -252,12 +236,10 @@ public class ColorBuilder extends Composite {
 				e.result = name;
 			}
 
-			@Override
 			public void getKeyboardShortcut(AccessibleEvent e) {
 				e.result = "Alt+Down Arrow"; //$NON-NLS-1$
 			}
 
-			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -265,7 +247,6 @@ public class ColorBuilder extends Composite {
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(e.x, e.y);
 				if (getBounds().contains(testPoint)) {
@@ -273,7 +254,6 @@ public class ColorBuilder extends Composite {
 				}
 			}
 
-			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(location.x, location.y);
@@ -283,22 +263,18 @@ public class ColorBuilder extends Composite {
 				e.height = location.height;
 			}
 
-			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
-			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
-			@Override
 			public void getValue(AccessibleControlEvent e) {
 				e.result = combo.getText();
 			}
@@ -306,13 +282,11 @@ public class ColorBuilder extends Composite {
 
 		combo.getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
-
+				;
 			}
 
-			@Override
 			public void getValue(AccessibleControlEvent e) {
 				e.result = combo.getText();
 			}
@@ -322,7 +296,7 @@ public class ColorBuilder extends Composite {
 
 	/**
 	 * Sets the color choiceSet from DE model.
-	 *
+	 * 
 	 * @param choiceSet The color ChoiceSet.
 	 */
 	public void setChoiceSet(IChoiceSet choiceSet) {
@@ -340,28 +314,25 @@ public class ColorBuilder extends Composite {
 
 	/**
 	 * Parses the input string to a GRB object.
-	 *
+	 * 
 	 * @param string The input string.
 	 * @return The RGB object represented the string.
 	 */
 	protected RGB parseString(String string) {
 		int colors[] = ColorUtil.getRGBs(string);
-		if (colors != null) {
+		if (colors != null)
 			return new RGB(colors[0], colors[1], colors[2]);
-		}
 
 		StringTokenizer st = new StringTokenizer(string, " ,()");//$NON-NLS-1$
-		if (!st.hasMoreTokens()) {
+		if (!st.hasMoreTokens())
 			return null;
-		}
-		int[] rgb = { 0, 0, 0 };
+		int[] rgb = new int[] { 0, 0, 0 };
 		int index = 0;
 		while (st.hasMoreTokens()) {
 			try {
 				rgb[index] = Integer.decode(st.nextToken()).intValue();
-				if (rgb[index] < 0 || rgb[index] > 255) {
+				if (rgb[index] < 0 || rgb[index] > 255)
 					return null;
-				}
 				index++;
 			} catch (Exception e) {
 				return null;
@@ -372,7 +343,7 @@ public class ColorBuilder extends Composite {
 
 	/**
 	 * Processes the save action.
-	 *
+	 * 
 	 * @param rgb The new RGB value.
 	 */
 	protected void processAction(RGB rgb) {
@@ -385,7 +356,12 @@ public class ColorBuilder extends Composite {
 			combo.setText(newComboText);
 		}
 
-		if ((oldRgb == null && rgb == null) || (rgb != null && rgb.equals(oldRgb))) {
+		if (oldRgb == null && rgb == null) {
+			notifyListeners(SWT.Modify, null);
+			return;
+		}
+
+		if (rgb != null && rgb.equals(oldRgb)) {
 			notifyListeners(SWT.Modify, null);
 			return;
 		}
@@ -399,10 +375,9 @@ public class ColorBuilder extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
-	@Override
 	public void setEnabled(boolean enabled) {
 		combo.setEnabled(enabled);
 		colorSelector.setEnabled(enabled);
@@ -411,7 +386,7 @@ public class ColorBuilder extends Composite {
 
 	/**
 	 * Gets the current RGB value
-	 *
+	 * 
 	 * @return The current RGB value.
 	 */
 	public RGB getRGB() {
@@ -478,26 +453,26 @@ public class ColorBuilder extends Composite {
 	/*
 	 * public Point computeSize( int wHint, int hHint, boolean changed ) {
 	 * checkWidget( );
-	 *
+	 * 
 	 * int width = 0, height = 0;
-	 *
+	 * 
 	 * GC gc = new GC( combo ); Point labelExtent = gc.textExtent(
 	 * "RGB(255,255,255)" );//$NON-NLS-1$ gc.dispose( );
-	 *
+	 * 
 	 * Point labelSize = combo.computeSize( labelExtent.x, labelExtent.y, changed );
 	 * Point tableSize = colorSelector.getButton( ).computeSize( wHint, SWT.DEFAULT,
 	 * changed ); int borderWidth = getBorderWidth( );
-	 *
+	 * 
 	 * height = Math.max( hHint, Math.max( labelSize.y, tableSize.y ) + 2
 	 * borderWidth ); width = Math.max( wHint, labelSize.x + tableSize.x + 2 *
 	 * borderWidth );
-	 *
+	 * 
 	 * return new Point( width, height ); }
 	 */
 
 	/**
 	 * Returns the color in predefined format by model.
-	 *
+	 * 
 	 * @return Returns the predefinedColor.
 	 */
 	public String getPredefinedColor() {
@@ -514,9 +489,8 @@ public class ColorBuilder extends Composite {
 
 		String colorName = predefinedColor;
 		if (choiceSet != null) {
-			if (choiceSet.findChoiceByDisplayName(colorName) != null) {
+			if (choiceSet.findChoiceByDisplayName(colorName) != null)
 				colorName = choiceSet.findChoiceByDisplayName(colorName).getName();
-			}
 		}
 		int[] intRgb = ColorUtil.getRGBs(colorName);
 		RGB rgb = null;
@@ -553,8 +527,7 @@ public class ColorBuilder extends Composite {
 				setRGB(getRGB());
 			}
 			notifyListeners(SWT.Modify, null);
-		} else {
+		} else
 			processAction(rgb);
-		}
 	}
 }

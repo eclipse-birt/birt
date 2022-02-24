@@ -19,14 +19,13 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Abstract test case for PropertyType.
- *
+ * 
  */
 public abstract class PropertyTypeTestCase extends BaseTestCase {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -50,7 +49,7 @@ public abstract class PropertyTypeTestCase extends BaseTestCase {
 
 	/**
 	 * Test validateValue() method.
-	 *
+	 * 
 	 * @throws PropertyValueException
 	 */
 
@@ -58,7 +57,7 @@ public abstract class PropertyTypeTestCase extends BaseTestCase {
 
 	/**
 	 * Test validateInputString() method.
-	 *
+	 * 
 	 * @throws PropertyValueException
 	 */
 
@@ -66,7 +65,7 @@ public abstract class PropertyTypeTestCase extends BaseTestCase {
 
 	/**
 	 * Test validateXml() method.
-	 *
+	 * 
 	 * @throws PropertyValueException
 	 */
 
@@ -74,7 +73,7 @@ public abstract class PropertyTypeTestCase extends BaseTestCase {
 
 	/**
 	 * Test toDouble() method.
-	 *
+	 * 
 	 * @throws PropertyValueException
 	 *
 	 */
@@ -104,7 +103,7 @@ public abstract class PropertyTypeTestCase extends BaseTestCase {
 
 	/**
 	 * Test toDisplayString() method.
-	 *
+	 * 
 	 * @throws PropertyValueException
 	 *
 	 */
@@ -113,7 +112,7 @@ public abstract class PropertyTypeTestCase extends BaseTestCase {
 
 	/**
 	 * Test toNumber() method.
-	 *
+	 * 
 	 * @throws PropertyValueException
 	 *
 	 */

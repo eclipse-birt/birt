@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -73,7 +73,6 @@ public class JSResultSetRow extends ScriptableObject {
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
-	@Override
 	public String getClassName() {
 		return "ResultSetRow";
 	}
@@ -82,7 +81,6 @@ public class JSResultSetRow extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#has(int,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public boolean has(int index, Scriptable start) {
 		return this.has(String.valueOf(index), start);
 	}
@@ -91,7 +89,6 @@ public class JSResultSetRow extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#has(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public boolean has(String name, Scriptable start) {
 		try {
 			return exprManager.getExpr(name) != null;
@@ -104,7 +101,6 @@ public class JSResultSetRow extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#get(int,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public Object get(int index, Scriptable start) {
 		return this.get(String.valueOf(index), start);
 	}
@@ -113,15 +109,13 @@ public class JSResultSetRow extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public Object get(String name, Scriptable start) {
 		if (ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase(name)) {
-			if (this.helper.getParent() != null) {
+			if (this.helper.getParent() != null)
 				return helper.getParent().getScriptable();
-			} else {
+			else
 				throw Context.reportRuntimeError(
 						DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
-			}
 		}
 		int rowIndex = -1;
 		try {
@@ -203,7 +197,6 @@ public class JSResultSetRow extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#put(int,
 	 * org.mozilla.javascript.Scriptable, java.lang.Object)
 	 */
-	@Override
 	public void put(int index, Scriptable scope, Object value) {
 		throw new IllegalArgumentException("Put value on result set row is not supported.");
 	}
@@ -212,7 +205,6 @@ public class JSResultSetRow extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#put(java.lang.String,
 	 * org.mozilla.javascript.Scriptable, java.lang.Object)
 	 */
-	@Override
 	public void put(String name, Scriptable scope, Object value) {
 		throw new IllegalArgumentException("Put value on result set row is not supported.");
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,11 +31,10 @@ public class Row extends DesignElement implements IRow {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IRow#getHeight()
 	 */
 
-	@Override
 	public String getHeight() {
 		DimensionHandle height = ((RowHandle) handle).getHeight();
 		return (height == null ? null : height.getStringValue());
@@ -43,40 +42,36 @@ public class Row extends DesignElement implements IRow {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IRow#getBookmark()
 	 */
 
-	@Override
 	public String getBookmark() {
 		return ((RowHandle) handle).getBookmark();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IRow#setBookmark(java
 	 * .lang.String)
 	 */
 
-	@Override
 	public void setBookmark(String value) throws SemanticException {
 		setProperty(ITableRowModel.BOOKMARK_PROP, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
 	 * addHighlightRule
 	 * (org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
 	 */
 
-	@Override
 	public void addHighlightRule(IHighlightRule rule) throws SemanticException {
-		if (rule == null) {
+		if (rule == null)
 			return;
-		}
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
 		cmdStack.startNonUndoableTrans(null);
@@ -92,24 +87,22 @@ public class Row extends DesignElement implements IRow {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
 	 * getHighlightRules()
 	 */
 
-	@Override
 	public IHighlightRule[] getHighlightRules() {
 		return HighlightRuleMethodUtil.getHighlightRules(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
 	 * removeHighlightRules()
 	 */
 
-	@Override
 	public void removeHighlightRules() throws SemanticException {
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
@@ -126,17 +119,15 @@ public class Row extends DesignElement implements IRow {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
 	 * removeHighlightRule
 	 * (org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
 	 */
 
-	@Override
 	public void removeHighlightRule(IHighlightRule rule) throws SemanticException {
-		if (rule == null) {
+		if (rule == null)
 			return;
-		}
 
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
@@ -153,15 +144,13 @@ public class Row extends DesignElement implements IRow {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * addHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
 	 */
-	@Override
 	public void addHideRule(IHideRule rule) throws SemanticException {
-		if (rule == null) {
+		if (rule == null)
 			return;
-		}
 
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
@@ -178,28 +167,25 @@ public class Row extends DesignElement implements IRow {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * getHideRules()
 	 */
 
-	@Override
 	public IHideRule[] getHideRules() {
 		return HideRuleMethodUtil.getHideRules(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * removeHideRule (org.eclipse.birt.report.engine.api.script.element.IHideRule)
 	 */
 
-	@Override
 	public void removeHideRule(IHideRule rule) throws SemanticException {
-		if (rule == null) {
+		if (rule == null)
 			return;
-		}
 
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
@@ -216,12 +202,11 @@ public class Row extends DesignElement implements IRow {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * removeHideRules()
 	 */
 
-	@Override
 	public void removeHideRules() throws SemanticException {
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
 

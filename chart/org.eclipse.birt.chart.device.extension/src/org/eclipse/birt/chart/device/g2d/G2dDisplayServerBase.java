@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,8 +52,8 @@ public class G2dDisplayServerBase extends DisplayAdapter implements ITextLayoutF
 
 	protected Graphics2D _g2d;
 	protected int iDpiResolution = 0;
-	private static Map<String, BufferedImage> imageCache = new HashMap<>();
-	private static Map<Image, Size> sizeCache = new HashMap<>();
+	private static Map<String, BufferedImage> imageCache = new HashMap<String, BufferedImage>();
+	private static Map<Image, Size> sizeCache = new HashMap<Image, Size>();
 
 	@Override
 	public Object createFont(FontDefinition fd) {
@@ -144,7 +144,6 @@ public class G2dDisplayServerBase extends DisplayAdapter implements ITextLayoutF
 		return size;
 	}
 
-	@Override
 	public ChartTextLayout createTextLayout(String value, Map<? extends Attribute, ?> fontAttributes,
 			FontRenderContext frc) {
 		return new ChartTextLayout(value, fontAttributes, frc);

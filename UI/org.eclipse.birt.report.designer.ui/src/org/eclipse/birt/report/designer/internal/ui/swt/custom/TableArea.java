@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
 /**
- *
+ * 
  */
 
 public class TableArea extends Composite {
@@ -64,7 +64,6 @@ public class TableArea extends Composite {
 		createButtonBar();
 	}
 
-	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 		checkWidget();
 		Point tableSize = table.computeSize(wHint, hHint, changed);
@@ -92,7 +91,6 @@ public class TableArea extends Composite {
 				/**
 				 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.KeyEvent)
 				 */
-				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.keyCode == SWT.DEL && e.stateMask == 0 && !getSelection().isEmpty()) {
 						doRemove();
@@ -102,7 +100,6 @@ public class TableArea extends Composite {
 		}
 		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				if (getSelection().size() == 1) {
 					doEdit();
@@ -126,7 +123,6 @@ public class TableArea extends Composite {
 			setButtonLayout(newButton);
 			newButton.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					if (((ITableAreaModifier) modifier).newItem()) {
 						tableViewer.refresh();
@@ -141,7 +137,6 @@ public class TableArea extends Composite {
 		setButtonLayout(editButton);
 		editButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doEdit();
 			}
@@ -154,7 +149,6 @@ public class TableArea extends Composite {
 			setButtonLayout(removeButton);
 			removeButton.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					doRemove();
 				}
@@ -166,7 +160,6 @@ public class TableArea extends Composite {
 			setButtonLayout(removeAllButton);
 			removeAllButton.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					doRemoveAll();
 				}
@@ -180,7 +173,6 @@ public class TableArea extends Composite {
 			setButtonLayout(upButton);
 			upButton.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 					if (((ISortedTableAreaModifier) modifier).moveUp(selection.getFirstElement())) {
@@ -196,7 +188,6 @@ public class TableArea extends Composite {
 			setButtonLayout(downButton);
 			downButton.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 					if (((ISortedTableAreaModifier) modifier).moveDown(selection.getFirstElement())) {
@@ -211,7 +202,6 @@ public class TableArea extends Composite {
 
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateButtons();
 			}

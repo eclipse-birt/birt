@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -29,23 +29,23 @@ public interface IExtractionResults {
 	 * <code>IResultIterator</code>, or if it is ambiguous on which result set to
 	 * reference. In such case, one should obtain the result metadata from a
 	 * specific <code>IResultIterator<code>.
-	 *
+	 * 
 	 * @return The metadata of the first result set's detail row in this
 	 *         <code>IQueryResults<code>. Null if not available or ambiguous on
 	 *         which result set to reference.
 	 * @throws EngineException if error occurs during extraction
 	 */
-	IResultMetaData getResultMetaData() throws BirtException;
+	public IResultMetaData getResultMetaData() throws BirtException;
 
 	/**
 	 * Returns the current result's iterator. Repeated call of this method without
 	 * having advanced to the next result would return the same iterator at its
 	 * current state.
-	 *
+	 * 
 	 * @return The current result's iterator.
 	 * @throws EngineException if error occurs during extraction
 	 */
-	IDataIterator nextResultIterator() throws BirtException;
+	public IDataIterator nextResultIterator() throws BirtException;
 
 	/**
 	 * Closes all query result set(s) associated with this object; provides a hint
@@ -53,5 +53,5 @@ public interface IExtractionResults {
 	 * results might have iterators open on them. Iterators associated with the
 	 * query result sets are invalidated and can no longer be used.
 	 */
-	void close();
+	public void close();
 }

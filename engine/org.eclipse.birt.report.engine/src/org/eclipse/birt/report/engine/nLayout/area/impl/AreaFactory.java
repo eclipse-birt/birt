@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -31,9 +31,9 @@ import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 
 /**
- *
+ * 
  * area factory. create area object by content or area
- *
+ * 
  */
 public class AreaFactory {
 
@@ -42,7 +42,7 @@ public class AreaFactory {
 
 	protected LayoutEmitterAdapter emitter;
 
-	protected HashMap<Object, AbstractArea> areaCache = new HashMap<>();
+	protected HashMap<Object, AbstractArea> areaCache = new HashMap<Object, AbstractArea>();
 
 	public AreaFactory(LayoutEmitterAdapter emitter) {
 		this.emitter = emitter;
@@ -81,10 +81,12 @@ public class AreaFactory {
 									&& context.getEngineTaskType() == IEngineTask.TASK_RENDER))) {
 				context.addUnresolvedContent(content);
 				return new TemplateAreaLayout(parent, context, content);
-			} else if (PropertyUtil.isInlineElement(content)) {
-				return new InlineTextArea(parent, context, content);
 			} else {
-				return new BlockTextArea(parent, context, content);
+				if (PropertyUtil.isInlineElement(content)) {
+					return new InlineTextArea(parent, context, content);
+				} else {
+					return new BlockTextArea(parent, context, content);
+				}
 			}
 		default:
 			return null;
@@ -123,38 +125,51 @@ public class AreaFactory {
 		nestCount--;
 	}
 
-	protected AbstractArea createNewArea(ContainerArea parent, LayoutContext context, IContent content) {
-		switch (content.getContentType()) {
-		case IContent.CELL_CONTENT:
-			return new CellArea(parent, context, content);
-		case IContent.CONTAINER_CONTENT:
-			if (PropertyUtil.isInlineElement(content)) {
-				return new InlineContainerArea(parent, context, content);
-			} else {
-				return new BlockContainerArea(parent, context, content);
-			}
-		case IContent.LIST_CONTENT:
-			if (PropertyUtil.isInlineElement(content)) {
-				return new ListArea(parent, context, content);
-			} else {
-				return new ListArea(parent, context, content);
-			}
-		case IContent.DATA_CONTENT:
-		case IContent.LABEL_CONTENT:
-		case IContent.TEXT_CONTENT:
-			break;
+	protected AbstractArea createNewArea( ContainerArea parent,
+			LayoutContext context, IContent content )
+	{
+		switch ( content.getContentType( ) )
+		{
+			case IContent.CELL_CONTENT :
+				return new CellArea( parent, context, content );
+			case IContent.CONTAINER_CONTENT :
+				if ( PropertyUtil.isInlineElement( content ) )
+				{
+					return new InlineContainerArea( parent, context, content );
+				}
+				else
+				{
+					return new BlockContainerArea( parent, context, content );
+				}
+			case IContent.LIST_CONTENT :
+				if ( PropertyUtil.isInlineElement( content ) )
+				{
+					return new ListArea( parent, context, content );
+				}
+				else
+				{
+					return new ListArea( parent, context, content );
+				}
+			case IContent.DATA_CONTENT :
+			case IContent.LABEL_CONTENT :
+			case IContent.TEXT_CONTENT :
+				break;
 
-		case IContent.FOREIGN_CONTENT:
-			ContainerArea area;
-			if (PropertyUtil.isInlineElement(content)) {
-				area = new InlineContainerArea(parent, context, content);
-			} else {
-				area = new BlockContainerArea(parent, context, content);
-			}
-			if (context.isFixedLayout()) {
-				area.setPageBreakInside(IStyle.AVOID_VALUE);
-			}
-			return area;
+			case IContent.FOREIGN_CONTENT :
+				ContainerArea area;
+				if ( PropertyUtil.isInlineElement( content ) )
+				{
+					area = new InlineContainerArea( parent, context, content );
+				}
+				else
+				{
+					area = new BlockContainerArea( parent, context, content );
+				}
+				if ( context.isFixedLayout( ) )
+				{
+					area.setPageBreakInside( IStyle.AVOID_VALUE );
+				}
+				return area;
 
 		case IContent.IMAGE_CONTENT:
 			break;

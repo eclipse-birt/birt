@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.services.IDisposable;
 
 /**
- *
+ * 
  */
 
 public class CommandUtils {
@@ -63,9 +63,8 @@ public class CommandUtils {
 	public static void disposeParameter(String parameterId, Command command) throws NotDefinedException {
 		ParameterType parameterType = command.getParameterType(parameterId);
 		Object valueConverter = parameterType.getValueConverter();
-		if (valueConverter instanceof IDisposable) {
+		if (valueConverter instanceof IDisposable)
 			((IDisposable) valueConverter).dispose();
-		}
 	}
 
 	public static ICommandService getCommandService() {

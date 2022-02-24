@@ -1,25 +1,20 @@
 /*
  *************************************************************************
  * Copyright (c) 2004-2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.impl;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -33,13 +28,15 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.expression.InvalidExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.GregorianCalendar;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Tests script evaluation
@@ -148,7 +145,7 @@ public class ScriptEvalTest {
 		handleErrorTest("x.y", false);
 		handleErrorTest("x.y", false);
 		handleErrorTest("x.y", false);
-	}
+	};
 
 	private void handleErrorTest(String errScript, boolean compileError) throws Exception {
 		// Script runtime error should always be converted to DataException
@@ -186,7 +183,7 @@ public class ScriptEvalTest {
 	 */
 
 	/**
-	 *
+	 * 
 	 */
 	@Test
 	public void test_BOTTOM_PERCENT() {
@@ -199,7 +196,7 @@ public class ScriptEvalTest {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	@Test
 	public void test_TOP_PERCENT() {
@@ -212,7 +209,7 @@ public class ScriptEvalTest {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	@Test
 	public void test_BOTTOM_N() {
@@ -225,7 +222,7 @@ public class ScriptEvalTest {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	@Test
 	public void test_TOP_N() {
@@ -612,7 +609,7 @@ public class ScriptEvalTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	@Test
@@ -629,7 +626,7 @@ public class ScriptEvalTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	@Test

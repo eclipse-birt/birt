@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -49,7 +49,7 @@ abstract public class Accumulator {
 	 * This method is called before the the first onRow() call. This is an
 	 * opportunity to initialize any internal data structure. If the accumulator is
 	 * multi-pass, then this method will be called at the begin of each iteration.
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	public void start() throws DataException {
@@ -61,7 +61,7 @@ abstract public class Accumulator {
 	 * allocated to facilitate the calcuation. If the accumulator is multi-pass,
 	 * then this method will be called by the end of each iteration. getValue() may
 	 * be called after finish() of lass pass for SUMMARY_AGGR type of aggregation.
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	public void finish() throws DataException {
@@ -73,7 +73,7 @@ abstract public class Accumulator {
 	 * this aggregation expected. The number of arguments and their types are
 	 * defined by the Aggregation.getParameterDefn() method.
 	 * <p>
-	 *
+	 * 
 	 * Each argument can have type java.lang.Integer, java.lang.Double,
 	 * java.lang.Boolean, java.lang.String, java.util.Date, java.math.BigDecimal or
 	 * java.sql.Blob. It can also be null.
@@ -84,7 +84,7 @@ abstract public class Accumulator {
 	 * method may throw an RuntimeException or its subclass to indicate such an
 	 * error.
 	 * <p>
-	 *
+	 * 
 	 * @param rowValue Argument to the aggregate function calculated based on
 	 *                 current data row.
 	 * @throws DataException data type conversion will throw
@@ -98,7 +98,7 @@ abstract public class Accumulator {
 	 * java.lang.Integer, java.lang.Double, java.lang.Boolean, java.lang.String,
 	 * java.util.Date, java.math.BigDecimal or java.sql.Blob. Or it can be null to
 	 * indicate a null aggregate value.
-	 *
+	 * 
 	 * @return Aggregate value calculated over the processed rows
 	 */
 	abstract public Object getValue() throws DataException;

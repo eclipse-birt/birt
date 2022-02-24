@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,6 @@ import org.eclipse.ui.ISharedImages;
 
 public class CrossTabMeasureNodeProvider extends DefaultNodeProvider {
 
-	@Override
 	public Object[] getChildren(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		return new Object[] {
@@ -42,13 +41,11 @@ public class CrossTabMeasureNodeProvider extends DefaultNodeProvider {
 
 	}
 
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// do nothing
 
 	}
 
-	@Override
 	public Object getParent(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		try {
@@ -64,12 +61,10 @@ public class CrossTabMeasureNodeProvider extends DefaultNodeProvider {
 		return null;
 	}
 
-	@Override
 	public boolean hasChildren(Object model) {
 		return getChildren(model).length != 0;
 	}
 
-	@Override
 	public String getNodeDisplayName(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		try {
@@ -80,7 +75,6 @@ public class CrossTabMeasureNodeProvider extends DefaultNodeProvider {
 		return super.getNodeDisplayName(model);
 	}
 
-	@Override
 	public Image getNodeIcon(Object element) {
 		if (element instanceof DesignElementHandle && ((DesignElementHandle) element).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);

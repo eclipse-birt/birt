@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ public abstract class AbstractParameterGroup implements IParameterGroup {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param handle
 	 * @param engineTask
 	 */
@@ -49,11 +49,10 @@ public abstract class AbstractParameterGroup implements IParameterGroup {
 
 	/**
 	 * Adds parameter.
-	 *
+	 * 
 	 * @param parameter
 	 */
 
-	@Override
 	public void addParameter(IParameter parameter) {
 		childrenList.add(parameter);
 		parameter.setParentGroup(this);
@@ -61,7 +60,7 @@ public abstract class AbstractParameterGroup implements IParameterGroup {
 
 	/**
 	 * Returns parameter group handle.
-	 *
+	 * 
 	 * @return parameter group handle.
 	 */
 
@@ -71,13 +70,12 @@ public abstract class AbstractParameterGroup implements IParameterGroup {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.preview.parameter.IParameter#getChildren(
 	 * )
 	 */
 
-	@Override
 	public List getChildren() {
 		return childrenList;
 	}

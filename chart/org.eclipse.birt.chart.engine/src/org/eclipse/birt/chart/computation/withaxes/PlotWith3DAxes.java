@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,7 +68,7 @@ import com.ibm.icu.util.Calendar;
  * This class is capable of computing the content of a chart (with axes) based
  * on preferred sizes, text rotation, fit ability, scaling, etc and prepares it
  * for rendering.
- *
+ * 
  * WARNING: This is an internal class and subject to change
  */
 public class PlotWith3DAxes extends PlotWithAxes {
@@ -175,7 +175,7 @@ public class PlotWith3DAxes extends PlotWithAxes {
 		double xlen = xdz * dPointToPixel;
 		double ylen = (xdz + 1) * dPointToPixel / 2d;
 
-		List<Location3D> vertexList = new ArrayList<>();
+		List<Location3D> vertexList = new ArrayList<Location3D>();
 
 		Location3D bbl = goFactory.createLocation3D(-xlen / 2, -ylen / 2, -zlen / 2);
 		Location3D bbr = goFactory.createLocation3D(xlen / 2, -ylen / 2, -zlen / 2);
@@ -365,12 +365,11 @@ public class PlotWith3DAxes extends PlotWithAxes {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#compute(org.eclipse.
 	 * birt.chart.model.attribute.Bounds)
 	 */
-	@Override
 	public void compute(Bounds bo) throws ChartException, IllegalArgumentException {
 		bo = goFactory.scaleBounds(bo, dPointToPixel); // CONVERSION
 
@@ -489,7 +488,7 @@ public class PlotWith3DAxes extends PlotWithAxes {
 		double dStart, dEnd;
 
 		// COMPUTE PRIMARY-BASE-AXIS PROPERTIES AND ITS SCALE
-		AutoScale scPrimaryBase;
+		AutoScale scPrimaryBase = null;
 		dStart = dX;
 		dEnd = dX + dW;
 		scPrimaryBase = AutoScale.computeScale(ids, context.oaxPrimaryBase, context.dsiPrimaryBase,
@@ -498,7 +497,7 @@ public class PlotWith3DAxes extends PlotWithAxes {
 		// AXIS
 
 		// COMPUTE ANCILLARY-BASE-AXIS PROPERTIES AND ITS SCALE
-		AutoScale scAncillaryBase;
+		AutoScale scAncillaryBase = null;
 		dStart = dZ;
 		dEnd = dZ + dWZ;
 		scAncillaryBase = AutoScale.computeScale(ids, context.oaxAncillaryBase, context.dsiAncillary,
@@ -507,7 +506,7 @@ public class PlotWith3DAxes extends PlotWithAxes {
 		// ANCILLARY-BASE AXIS
 
 		// COMPUTE PRIMARY-ORTHOGONAL-AXIS PROPERTIES AND ITS SCALE
-		AutoScale scPrimaryOrthogonal;
+		AutoScale scPrimaryOrthogonal = null;
 		dStart = dY;
 		dEnd = dY + dH;
 		scPrimaryOrthogonal = AutoScale.computeScale(ids, context.oaxPrimaryOrthogonal, context.dsiOrthogonal,
@@ -664,7 +663,7 @@ public class PlotWith3DAxes extends PlotWithAxes {
 				return new DataSetIterator(new Calendar[] { new CDateTime(), new CDateTime() });
 			} else if ((iType & TEXT) == TEXT) {
 				// use orthogonal series identifier instead.
-				List<String> data = new ArrayList<>();
+				List<String> data = new ArrayList<String>();
 
 				if (osea.length > 0) {
 					// Revert the order since the last series is in the nearest
@@ -682,7 +681,7 @@ public class PlotWith3DAxes extends PlotWithAxes {
 
 		// Assume always use the first ancillary axis.
 		DataSetIterator dsi = getTypedDataSet(sea[0], iType);
-		List<Object> data = new ArrayList<>();
+		List<Object> data = new ArrayList<Object>();
 
 		for (int i = 0; i < osea.length; i++) {
 			if (dsi.hasNext()) {
@@ -709,7 +708,7 @@ public class PlotWith3DAxes extends PlotWithAxes {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#getMinMax(org.
 	 * eclipse.birt.chart.model.component.Axis, int)
 	 */
@@ -743,12 +742,14 @@ public class PlotWith3DAxes extends PlotWithAxes {
 				{
 					if (oMin == null) {
 						oMin = oV1;
-					} else if (NumberUtil.isBigNumber(oV1)) {
-						oMin = ((BigNumber) oMin).min((BigNumber) oV1);
 					} else {
-						final double dV1 = asDouble(oV1).doubleValue();
-						if (Math.min(asDouble(oMin).doubleValue(), dV1) == dV1) {
-							oMin = oV1;
+						if (NumberUtil.isBigNumber(oV1)) {
+							oMin = ((BigNumber) oMin).min((BigNumber) oV1);
+						} else {
+							final double dV1 = asDouble(oV1).doubleValue();
+							if (Math.min(asDouble(oMin).doubleValue(), dV1) == dV1) {
+								oMin = oV1;
+							}
 						}
 					}
 				}
@@ -757,12 +758,14 @@ public class PlotWith3DAxes extends PlotWithAxes {
 				{
 					if (oMax == null) {
 						oMax = oV2;
-					} else if (NumberUtil.isBigNumber(oV2)) {
-						oMax = ((BigNumber) oMax).max((BigNumber) oV2);
 					} else {
-						final double dV2 = asDouble(oV2).doubleValue();
-						if (Math.max(asDouble(oMax).doubleValue(), dV2) == dV2) {
-							oMax = oV2;
+						if (NumberUtil.isBigNumber(oV2)) {
+							oMax = ((BigNumber) oMax).max((BigNumber) oV2);
+						} else {
+							final double dV2 = asDouble(oV2).doubleValue();
+							if (Math.max(asDouble(oMax).doubleValue(), dV2) == dV2) {
+								oMax = oV2;
+							}
 						}
 					}
 				}
@@ -851,12 +854,11 @@ public class PlotWith3DAxes extends PlotWithAxes {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#
 	 * getSeriesRenderingHints(org.eclipse.birt.chart.model.data.SeriesDefinition,
 	 * org.eclipse.birt.chart.model.component.Series)
 	 */
-	@Override
 	public ISeriesRenderingHints getSeriesRenderingHints(SeriesDefinition sdOrthogonal, Series seOrthogonal)
 			throws ChartException, IllegalArgumentException {
 		if (seOrthogonal == null || seOrthogonal.getClass() == SeriesImpl.class) // EMPTY
@@ -1026,14 +1028,19 @@ public class PlotWith3DAxes extends PlotWithAxes {
 						} else {
 							try {
 								dZ = getLocation(scAncillary, oDataAncillary);
-							} catch (IllegalArgumentException | ChartException e) {
+							} catch (IllegalArgumentException e) {
+								dZ = dAncillaryZero;
+							} catch (ChartException e) {
 								dZ = dAncillaryZero;
 							}
 						}
 
 						try {
 							dX = getLocation(scOrthogonal, oDataOrthogonal);
-						} catch (IllegalArgumentException | ChartException dfex) {
+						} catch (IllegalArgumentException nvex) {
+							dX = dOrthogonalZero;
+							// dX = Double.NaN;
+						} catch (ChartException dfex) {
 							dX = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
 						}
 					} else {
@@ -1049,14 +1056,19 @@ public class PlotWith3DAxes extends PlotWithAxes {
 						} else {
 							try {
 								dZ = getLocation(scAncillary, oDataAncillary);
-							} catch (IllegalArgumentException | ChartException e) {
+							} catch (IllegalArgumentException e) {
+								dZ = dAncillaryZero;
+							} catch (ChartException e) {
 								dZ = dAncillaryZero;
 							}
 						}
 
 						try {
 							dY = getLocation(scOrthogonal, oDataOrthogonal);
-						} catch (IllegalArgumentException | ChartException dfex) {
+						} catch (IllegalArgumentException nvex) {
+							dY = dOrthogonalZero;
+							// dY = Double.NaN;
+						} catch (ChartException dfex) {
 							dY = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
 						}
 					}
@@ -1082,7 +1094,7 @@ public class PlotWith3DAxes extends PlotWithAxes {
 					} else if (oDataOrthogonal instanceof NumberDataElement) {
 						percentileValue = new Double(((NumberDataElement) oDataOrthogonal).getValue() / total);
 					}
-				} else if (isZeroValue) {
+				} else if (isZeroValue == true) {
 					percentileValue = new Double(1d / iOrthogonalCount);
 				}
 
@@ -1102,10 +1114,9 @@ public class PlotWith3DAxes extends PlotWithAxes {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#buildAxes()
 	 */
-	@Override
 	void buildAxes() throws IllegalArgumentException, ChartException {
 		final Axis[] axa = getModel().getPrimaryBaseAxes();
 		final Axis axPrimaryBase = axa[0]; // NOTE: FOR REL 1 AXIS RENDERS, WE
@@ -1383,7 +1394,6 @@ public class PlotWith3DAxes extends PlotWithAxes {
 			y = (oax.getLabelPosition() == IConstants.ABOVE) ? dTick1 + 1 : dTick2 - 1;
 		}
 
-		@Override
 		public Location[] getLocation(int index) {
 			Location[] los = new Location[1];
 
@@ -1425,7 +1435,6 @@ public class PlotWith3DAxes extends PlotWithAxes {
 			x = (oax.getLabelPosition() == IConstants.LEFT) ? dTick1 - 1 : dTick2 + 1;
 		}
 
-		@Override
 		public Location[] getLocation(int index) {
 			int y = (int) da.getCoordinate(index);
 			double sx = x;

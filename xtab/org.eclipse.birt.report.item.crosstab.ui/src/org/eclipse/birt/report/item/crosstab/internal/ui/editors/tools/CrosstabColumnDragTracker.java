@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param sourceEditPart
 	 * @param start
 	 * @param end
@@ -72,11 +72,10 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableDragGuideTracker#getDragWidth()
 	 */
-	@Override
 	protected Dimension getDragWidth(int start, int end) {
 //		return new Dimension( TableUtil.getMinWidth( getCrosstabTableEditPart( ),
 //				getStart( ) )
@@ -106,11 +105,10 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableDragGuideTracker#getMarqueeSelectionRectangle()
 	 */
-	@Override
 	protected Rectangle getMarqueeSelectionRectangle() {
 		IFigure figure = getCrosstabTableEditPart().getFigure();
 		Insets insets = figure.getInsets();
@@ -129,11 +127,10 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableDragGuideTracker#resize()
 	 */
-	@Override
 	protected void resize() {
 		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart().getParent();
 		int value = getMouseTrueValueX();
@@ -154,7 +151,7 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker {
 
 			int with = calculateWidth() + value;
 
-			int startWidth;
+			int startWidth = 0;
 
 			startWidth = CrosstabTableUtil.caleVisualWidth(part, getStart());
 
@@ -170,7 +167,7 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker {
 	/**
 	 * Calculates table layout size. For table supports auto layout, the layout size
 	 * need to be calculated when drawing.
-	 *
+	 * 
 	 * @return
 	 */
 	private int calculateWidth() {
@@ -189,8 +186,8 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker {
 		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart().getParent();
 		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter();
 
-		int startWidth;
-		int endWidth;
+		int startWidth = 0;
+		int endWidth = 0;
 		startWidth = CrosstabTableUtil.caleVisualWidth(part, start);
 		endWidth = CrosstabTableUtil.caleVisualWidth(part, end);
 
@@ -202,7 +199,7 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker {
 
 	/**
 	 * Resets size of column.
-	 *
+	 * 
 	 * @param start
 	 * @param end
 	 * @param value
@@ -211,8 +208,8 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker {
 		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart().getParent();
 		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter();
 
-		int startWidth;
-		int endWidth;
+		int startWidth = 0;
+		int endWidth = 0;
 
 		startWidth = CrosstabTableUtil.caleVisualWidth(part, start);
 		endWidth = CrosstabTableUtil.caleVisualWidth(part, end);

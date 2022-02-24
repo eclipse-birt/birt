@@ -25,26 +25,23 @@ public class EncryptionHelperImpl implements IEncryptionHelper {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IEncryptionHelper#encrypt
 	 * (java.lang.String)
 	 */
-	@Override
 	public String encrypt(String string) {
 		return PRE_FIX + string;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IEncryptionHelper#decrypt
 	 * (java.lang.String)
 	 */
-	@Override
 	public String decrypt(String string) {
-		if (string == null || !string.startsWith(PRE_FIX)) {
+		if (string == null || !string.startsWith(PRE_FIX))
 			return null;
-		}
 		return string.replaceFirst(PRE_FIX, ""); //$NON-NLS-1$
 	}
 

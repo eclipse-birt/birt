@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,14 +55,13 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	private Key[] getKeys() {
-		Key[] keys = { PREF_RESOURCE };
+		Key[] keys = new Key[] { PREF_RESOURCE };
 		return keys;
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
-	@Override
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -151,7 +150,6 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock {
 
 			controlTypeHelper.addListener(SWT.Selection, new Listener() {
 
-				@Override
 				public void handleEvent(Event event) {
 					resourceText.setText(event.text);
 				}
@@ -164,7 +162,6 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock {
 			browser.setLayoutData(data);
 			browser.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent event) {
 					DirectoryDialog dialog = new DirectoryDialog(
 							PlatformUI.getWorkbench().getDisplay().getActiveShell());
@@ -175,7 +172,7 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock {
 					if (folderName == null) {
 						return;
 					}
-					folderName = folderName.replace('\\', '/'); // $NON-NLS-1$
+					folderName = folderName.replace('\\', '/'); // $NON-NLS-1$ //$NON-NLS-2$
 					if (!folderName.endsWith("/")) //$NON-NLS-1$
 					{
 						folderName = folderName + "/"; //$NON-NLS-1$
@@ -207,7 +204,6 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock {
 		return DEFAULT_RESOURCE_FOLDER_DISPLAY + str;
 	}
 
-	@Override
 	protected void textChanged(Text textControl) {
 		Key key = (Key) textControl.getData();
 		String path = textControl.getText();
@@ -242,7 +238,6 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock {
 		fContext.statusChanged(null);
 	}
 
-	@Override
 	protected void updateText(Text curr) {
 		Key key = (Key) curr.getData();
 

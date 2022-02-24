@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,9 +26,9 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.util.ContentUtil;
 
 /**
- *
+ * 
  * the table content object which contains columns object and row objects
- *
+ * 
  */
 public class TableContentWrapper extends AbstractContentWrapper implements ITableContent {
 
@@ -44,7 +44,7 @@ public class TableContentWrapper extends AbstractContentWrapper implements ITabl
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param item the table deign
 	 */
 	public TableContentWrapper(ITableContent content, List columns) {
@@ -59,59 +59,53 @@ public class TableContentWrapper extends AbstractContentWrapper implements ITabl
 		this.columns = content.columns;
 	}
 
-	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitTable(this, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.content.ITableContent#addColumn(org.eclipse.
 	 * birt.report.engine.content.IColumn)
 	 */
-	@Override
 	public void addColumn(IColumn column) {
 		tableContent.addColumn(column);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getCaption()
 	 */
-	@Override
 	public String getCaption() {
 		return tableContent.getCaption();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getColumn(int)
 	 */
-	@Override
 	public IColumn getColumn(int index) {
 		return (IColumn) columns.get(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getColumnCount()
 	 */
-	@Override
 	public int getColumnCount() {
 		return columns.size();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getFooter()
 	 */
-	@Override
 	public ITableBandContent getFooter() {
 		if (footer == null) {
 			footer = new TableBandContentWrapper(tableContent.getFooter());
@@ -121,10 +115,9 @@ public class TableContentWrapper extends AbstractContentWrapper implements ITabl
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getHeader()
 	 */
-	@Override
 	public ITableBandContent getHeader() {
 		if (header == null) {
 			header = new TableBandContentWrapper(tableContent.getHeader());
@@ -134,44 +127,37 @@ public class TableContentWrapper extends AbstractContentWrapper implements ITabl
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#isHeaderRepeat()
 	 */
-	@Override
 	public boolean isHeaderRepeat() {
 		return tableContent.isHeaderRepeat();
 	}
 
-	@Override
 	public String getCaptionKey() {
 		return tableContent.getCaptionKey();
 	}
 
-	@Override
 	public void setCaption(String caption) {
 		tableContent.setCaption(caption);
 	}
 
-	@Override
 	public void setCaptionKey(String key) {
 		tableContent.setCaptionKey(key);
 	}
 
-	@Override
 	public void setHeaderRepeat(boolean repeat) {
 		tableContent.setHeaderRepeat(repeat);
 	}
 
-	@Override
 	public List getColumns() {
 		return tableContent.getColumns();
 	}
 
-	@Override
 	public DimensionType getWidth() {
 		if (getColumnCount() != tableContent.getColumnCount()) {
 			if (hasHorzPageBreak == null) {
-				hasHorzPageBreak = ContentUtil.hasHorzPageBreak(tableContent);
+				hasHorzPageBreak = Boolean.valueOf(ContentUtil.hasHorzPageBreak(tableContent));
 			}
 			if (Boolean.TRUE == hasHorzPageBreak) {
 				return null;
@@ -182,20 +168,17 @@ public class TableContentWrapper extends AbstractContentWrapper implements ITabl
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getSummary()
 	 */
-	@Override
 	public String getSummary() {
 		return tableContent.getSummary();
 	}
 
-	@Override
 	public void setSummary(String summary) {
 		tableContent.setSummary(summary);
 	}
 
-	@Override
 	public IContent cloneContent(boolean isDeep) {
 		if (isDeep) {
 			throw new UnsupportedOperationException();

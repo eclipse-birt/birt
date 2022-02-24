@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -28,7 +28,7 @@ import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * Data edit part
- *
+ * 
  */
 public class DataEditPart extends LabelEditPart {
 
@@ -38,7 +38,7 @@ public class DataEditPart extends LabelEditPart {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param model
 	 */
 	public DataEditPart(Object model) {
@@ -47,10 +47,9 @@ public class DataEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	@Override
 	protected IFigure createFigure() {
 		LabelFigure label = new LabelFigure();
 		label.setLayoutManager(new StackLayout());
@@ -61,7 +60,6 @@ public class DataEditPart extends LabelEditPart {
 	/**
 	 * Popup the builder for Data element
 	 */
-	@Override
 	public void performDirectEdit() {
 		DataItemHandle handle = (DataItemHandle) getModel();
 		/*
@@ -145,11 +143,10 @@ public class DataEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
-	@Override
 	public void refreshFigure() {
 		super.refreshFigure();
 
@@ -158,11 +155,10 @@ public class DataEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#getText()
 	 */
-	@Override
 	protected String getText() {
 		String text = ((DataItemHandle) getModel()).getResultSetColumn();
 		if (text == null || text.length() == 0) {
@@ -180,13 +176,12 @@ public class DataEditPart extends LabelEditPart {
 			// Note: Do not use LRMs since org.eclipse.draw2d.text or
 			// org.eclipse.swt.graphics.TextLayout (or their native peers) don't
 			// handle them correctly.
-			if (BidiUIUtils.INSTANCE.isDirectionRTL(getModel())) {
+			if (BidiUIUtils.INSTANCE.isDirectionRTL(getModel()))
 				text = BidiUIUtils.LRE + "[" + BidiUIUtils.RLE + text + //$NON-NLS-1$
 						BidiUIUtils.PDF + "]" + BidiUIUtils.PDF; //$NON-NLS-1$
-			} else {
+			else
 				// bidi_hcg end
 				text = "[" + text + "]"; //$NON-NLS-1$//$NON-NLS-2$
-			}
 		}
 		if (hasBindingFunction()) {
 			((LabelFigure) getFigure()).setSpecialPREFIX(PREFIX);
@@ -228,19 +223,17 @@ public class DataEditPart extends LabelEditPart {
 		} else {
 			displayName = bindingColumn.getDisplayName();
 		}
-		if (displayName == null) {
+		if (displayName == null)
 			displayName = bindingColumn.getColumnName();
-		}
 		return displayName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#hasText()
 	 */
-	@Override
 	protected boolean hasText() {
 		String text = ((DataItemHandle) getModel()).getResultSetColumn();
 

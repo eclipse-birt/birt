@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- *
+ * 
  */
 
 public class ExportToLibraryAction extends AbstractViewAction {
@@ -89,24 +89,21 @@ public class ExportToLibraryAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
 		if (getSelection() instanceof ReportDesignHandle) {
 			return true;
-		} else {
+		} else
 			return false;
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	@Override
 	public void run() {
 
 		ExportReportWizard exportReportWizard = new ExportReportWizard();
@@ -120,7 +117,7 @@ public class ExportToLibraryAction extends AbstractViewAction {
 		private ExportReportWizardPage page;
 
 		/**
-		 *
+		 * 
 		 */
 		public ExportReportWizard() {
 			super();
@@ -130,18 +127,16 @@ public class ExportToLibraryAction extends AbstractViewAction {
 
 		}
 
-		@Override
 		public Image getDefaultPageImage() {
 			return ReportPlugin.getImage("/icons/wizban/create_project_wizard.gif"); //$NON-NLS-1$
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 		 */
 
-		@Override
 		public boolean performFinish() {
 			// TODO Auto-generated method stub
 
@@ -163,11 +158,10 @@ public class ExportToLibraryAction extends AbstractViewAction {
 
 							/*
 							 * (non-Javadoc)
-							 *
+							 * 
 							 * @seeorg.eclipse.jface.dialogs.MessageDialog# createCustomArea
 							 * (org.eclipse.swt.widgets.Composite)
 							 */
-							@Override
 							protected Control createCustomArea(Composite parent) {
 								Composite container = new Composite(parent, SWT.NONE);
 								GridLayout gridLayout = new GridLayout();
@@ -179,12 +173,10 @@ public class ExportToLibraryAction extends AbstractViewAction {
 								chkbox.setText(REMEMBER_DECISION);
 								chkbox.addSelectionListener(new SelectionListener() {
 
-									@Override
 									public void widgetSelected(SelectionEvent e) {
 										saveDecision = !saveDecision;
 									}
 
-									@Override
 									public void widgetDefaultSelected(SelectionEvent e) {
 										saveDecision = false;
 									}
@@ -195,10 +187,9 @@ public class ExportToLibraryAction extends AbstractViewAction {
 
 							/*
 							 * (non-Javadoc)
-							 *
+							 * 
 							 * @see org.eclipse.jface.dialogs.MessageDialog#buttonPressed (int)
 							 */
-							@Override
 							protected void buttonPressed(int buttonId) {
 								switch (buttonId) {
 								case 0:
@@ -217,9 +208,8 @@ public class ExportToLibraryAction extends AbstractViewAction {
 							}
 
 						};
-						if (prefDialog.open() == 2) {
+						if (prefDialog.open() == 2)
 							return true;
-						}
 
 					}
 					if (getSelection() instanceof ReportDesignHandle) {

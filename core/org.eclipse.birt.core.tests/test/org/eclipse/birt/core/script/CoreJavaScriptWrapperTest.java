@@ -42,7 +42,6 @@ public class CoreJavaScriptWrapperTest extends TestCase {
 
 	IJavascriptWrapper coreWrapper;
 
-	@Override
 	@Before
 	public void setUp() throws Exception {
 		/*
@@ -61,7 +60,6 @@ public class CoreJavaScriptWrapperTest extends TestCase {
 		coreWrapper = new CoreJavaScriptWrapper();
 	}
 
-	@Override
 	@After
 	public void tearDown() {
 		Context.exit();

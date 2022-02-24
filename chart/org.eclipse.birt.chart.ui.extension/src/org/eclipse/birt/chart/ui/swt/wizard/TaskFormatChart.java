@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -112,7 +112,7 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	protected static final String DIAL_SERIES_SHEET_COLLECTION = "NeedleSheets"; //$NON-NLS-1$
 
-	protected Map<String, String[]> subtasksRegistry = new HashMap<>(7);
+	protected Map<String, String[]> subtasksRegistry = new HashMap<String, String[]>(7);
 
 	private IRegisteredSubtaskEntry rootSubtaskEntry = null;
 
@@ -146,7 +146,7 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	private Collection<IRegisteredSubtaskEntry> getRegisteredSubtasks() {
 		// Gets all registered subtasks from extension id.
-		Collection<IRegisteredSubtaskEntry> cRegisteredEntries = new ArrayList<>();
+		Collection<IRegisteredSubtaskEntry> cRegisteredEntries = new ArrayList<IRegisteredSubtaskEntry>();
 		Class<?> clazz = this.getClass();
 		if (rootSubtaskEntry != null) {
 			cRegisteredEntries.add(rootSubtaskEntry);
@@ -186,26 +186,25 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	/**
 	 * Sets the root node for all format chart nodes
-	 *
+	 * 
 	 * @param rootSubtaskEntry
 	 */
 	protected void setRootNode(IRegisteredSubtaskEntry rootSubtaskEntry) {
 		this.rootSubtaskEntry = rootSubtaskEntry;
 	}
 
-	@Override
 	protected void populateSubtasks() {
 		super.populateSubtasks();
 
-		htVisibleSheets = new LinkedHashMap<>(12);
-		htSheetCollections = new Hashtable<>();
+		htVisibleSheets = new LinkedHashMap<String, Object>(12);
+		htSheetCollections = new Hashtable<String, String[]>();
 
 		// Get collection of registered Sheets
 		Iterator<IRegisteredSubtaskEntry> iterEntries = getRegisteredSubtasks().iterator();
 
 		// Vector to be used to build a sorted list of registered sheets (sorted
 		// on provided node index)
-		Vector<IRegisteredSubtaskEntry> vSortedEntries = new Vector<>();
+		Vector<IRegisteredSubtaskEntry> vSortedEntries = new Vector<IRegisteredSubtaskEntry>();
 		while (iterEntries.hasNext()) {
 			IRegisteredSubtaskEntry entry = iterEntries.next();
 			if (vSortedEntries.isEmpty()) {
@@ -254,7 +253,7 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	/**
 	 * Checks if current subtask is visible.
-	 *
+	 * 
 	 * @param subtask subtask
 	 * @return visible or not
 	 */
@@ -265,7 +264,7 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	/**
 	 * Returns if tree view can support multiple value series
-	 *
+	 * 
 	 * @return
 	 */
 	protected boolean isMultipleValueSeriesAllowed() {
@@ -273,7 +272,6 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		return true;
 	}
 
-	@Override
 	public void updateTreeItem() {
 		super.updateTreeItem();
 
@@ -328,20 +326,21 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 			}
 		} else if ((iEnd - iStart) == 1) {
 			vSortedEntries.add(iEnd, entry);
-		} else if ((vSortedEntries.get(iStart)).getNodeIndex() == iNewIndex) {
-			vSortedEntries.add(iStart + 1, entry);
 		} else {
-			int iHalfwayPoint = (iEnd - iStart) / 2;
-			if ((vSortedEntries.get(iStart + iHalfwayPoint)).getNodeIndex() > iNewIndex) {
-				addEntrySorted(vSortedEntries, entry, iStart, (iStart + iHalfwayPoint));
+			if ((vSortedEntries.get(iStart)).getNodeIndex() == iNewIndex) {
+				vSortedEntries.add(iStart + 1, entry);
 			} else {
-				addEntrySorted(vSortedEntries, entry, (iStart + iHalfwayPoint), iEnd);
+				int iHalfwayPoint = (iEnd - iStart) / 2;
+				if ((vSortedEntries.get(iStart + iHalfwayPoint)).getNodeIndex() > iNewIndex) {
+					addEntrySorted(vSortedEntries, entry, iStart, (iStart + iHalfwayPoint));
+				} else {
+					addEntrySorted(vSortedEntries, entry, (iStart + iHalfwayPoint), iEnd);
+				}
 			}
 		}
 		return vSortedEntries;
 	}
 
-	@Override
 	public boolean registerSheetCollection(String sCollection, String[] saNodePaths) {
 		if (saNodePaths == null) {
 			return false;
@@ -367,12 +366,10 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		return registerSheetCollection(sCollection, subtasksRegistry.get(sCollection));
 	}
 
-	@Override
 	public String[] getRegisteredCollectionValue(String sCollection) {
 		return htSheetCollections.get(sCollection);
 	}
 
-	@Override
 	public boolean addCollectionInstance(String sCollection) {
 		if (!htSheetCollections.containsKey(sCollection)) {
 			return false;
@@ -385,7 +382,7 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 	}
 
 	private void addVisibleSubtask(String sNodeName) {
-		Vector<ISubtaskSheet> vSheets = new Vector<>();
+		Vector<ISubtaskSheet> vSheets = new Vector<ISubtaskSheet>();
 		// check if node exists in tree
 		if (htVisibleSheets.containsKey(sNodeName)) {
 			Object oSheets = htVisibleSheets.get(sNodeName);
@@ -398,14 +395,16 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 			}
 			vSheets.add(getSubtask(sNodeName));
 			htVisibleSheets.put(sNodeName, vSheets);
-		} else if (containSubtask(sNodeName)) {
-			vSheets.add(getSubtask(sNodeName));
-			htVisibleSheets.put(sNodeName, vSheets);
+		} else {
+			if (containSubtask(sNodeName)) {
+				vSheets.add(getSubtask(sNodeName));
+				htVisibleSheets.put(sNodeName, vSheets);
+			}
 		}
 	}
 
 	private void removeVisibleTask(String sNodeName) {
-		Vector<ISubtaskSheet> vSheets = new Vector<>();
+		Vector<ISubtaskSheet> vSheets = new Vector<ISubtaskSheet>();
 		// check if node exists in tree
 		if (htVisibleSheets.containsKey(sNodeName)) {
 			Object oSheets = htVisibleSheets.get(sNodeName);
@@ -420,14 +419,15 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 			int iLast = vSheets.lastIndexOf(getSubtask(sNodeName));
 			vSheets.remove(iLast);
 			htVisibleSheets.put(sNodeName, vSheets);
-		} else if (containSubtask(sNodeName)) {
-			int iLast = vSheets.lastIndexOf(getSubtask(sNodeName));
-			vSheets.remove(iLast);
-			htVisibleSheets.put(sNodeName, vSheets);
+		} else {
+			if (containSubtask(sNodeName)) {
+				int iLast = vSheets.lastIndexOf(getSubtask(sNodeName));
+				vSheets.remove(iLast);
+				htVisibleSheets.put(sNodeName, vSheets);
+			}
 		}
 	}
 
-	@Override
 	public boolean removeCollectionInstance(String sCollection) {
 		if (!htSheetCollections.containsKey(sCollection)) {
 			return false;
@@ -439,7 +439,6 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		return true;
 	}
 
-	@Override
 	public Chart getCurrentModelState() {
 		if (getContext() == null) {
 			return null;
@@ -447,7 +446,6 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		return ((ChartWizardContext) getContext()).getModel();
 	}
 
-	@Override
 	public void createControl(Composite parent) {
 		// Initialize all components.
 		initControl(parent);
@@ -482,7 +480,7 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	/**
 	 * Initialize components in these shell.
-	 *
+	 * 
 	 * @param parent parent composite.
 	 */
 	private void initControl(Composite parent) {
@@ -512,7 +510,6 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 				navTree.setLayoutData(gridData);
 				navTree.addListener(SWT.Selection, new Listener() {
 
-					@Override
 					public void handleEvent(Event event) {
 						switchToTreeItem((TreeItem) event.item);
 					}
@@ -526,7 +523,7 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 				@Override
 				public Control[] getChildren() {
 					Control[] children = super.getChildren();
-					List<Control> visibleChildren = new ArrayList<>();
+					List<Control> visibleChildren = new ArrayList<Control>();
 					for (Control child : children) {
 						if (child.isVisible()) {
 							visibleChildren.add(child);
@@ -563,7 +560,7 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	/**
 	 * Create detail sheet composite.
-	 *
+	 * 
 	 * @param parent parent composite.
 	 */
 	private void createDetailComposite(Composite parent) {
@@ -582,7 +579,7 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	/**
 	 * Create scrolled composite which contains detail sub-task sheet.
-	 *
+	 * 
 	 * @param detailComposite parent composite.
 	 * @param bScrolled       indicate if scrolled composite is needed
 	 */
@@ -622,11 +619,10 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask#switchTo
 	 * (java.lang.String, boolean)
 	 */
-	@Override
 	protected void switchTo(String sSubtaskPath, boolean needSelection) {
 		boolean bPreviewableOld = isSutaskPreviewable(getCurrentSubtask());
 		boolean bPreviewableNew = isSutaskPreviewable(getSubtask(sSubtaskPath));
@@ -662,7 +658,6 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		cmpSubtaskContainer.getParent().layout();
 	}
 
-	@Override
 	protected Composite createTitleArea(Composite parent) {
 		Composite cmpTitle = super.createTitleArea(parent);
 		// ( (GridData) cmpTitle.getLayoutData( ) ).heightHint = 250;
@@ -677,12 +672,10 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		return cmpTitle;
 	}
 
-	@Override
 	protected String getTitleAreaString() {
 		return Messages.getString("TaskFormatChart.Label.Preview"); //$NON-NLS-1$
 	}
 
-	@Override
 	protected void createSubtaskArea(Composite parent, ISubtaskSheet subtask) {
 		if (getNavigatorTree().getSelection().length > 0) {
 			lblNodeTitle.setText(getNavigatorTree().getSelection()[0].getText());
@@ -708,7 +701,6 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		control.setEnabled(false);
 	}
 
-	@Override
 	public IChartPreviewPainter createPreviewPainter() {
 		ChartPreviewPainter painter = new ChartPreviewPainter((ChartWizardContext) getContext());
 		getPreviewCanvas().addPaintListener(painter);
@@ -717,15 +709,16 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		return painter;
 	}
 
-	@Override
 	public void changeTask(Notification notification) {
 		if (isSutaskPreviewable(getCurrentSubtask())) {
 			if (getCurrentSubtask() instanceof ITaskChangeListener) {
 				// Delegate notification to previewable subtask
 				((ITaskChangeListener) getCurrentSubtask()).changeTask(notification);
 			}
-		} else if (previewPainter != null) {
-			doPreview();
+		} else {
+			if (previewPainter != null) {
+				doPreview();
+			}
 		}
 	}
 
@@ -838,7 +831,6 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		}
 	}
 
-	@Override
 	public void dispose() {
 		super.dispose();
 
@@ -858,10 +850,9 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask#getImage()
 	 */
-	@Override
 	public Image getImage() {
 		return UIHelper.getImage(ChartUIConstants.IMAGE_TASK_FORMAT);
 	}
@@ -874,7 +865,6 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		return getCurrentModelState();
 	}
 
-	@Override
 	public void doPreview() {
 		try {
 			final Chart chart = getPreviewChartModel();
@@ -882,7 +872,6 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 					null);
 			// Add a task to retrieve data and bind data to chart.
 			lpt.addTask(new LivePreviewTask() {
-				@Override
 				public void run() {
 					if (previewPainter != null) {
 						setParameter(ChartLivePreviewThread.PARAM_CHART_MODEL, ChartUIUtil.prepareLivePreview(chart,
@@ -893,13 +882,11 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 
 			// Add a task to render chart.
 			lpt.addTask(new LivePreviewTask() {
-				@Override
 				public void run() {
 					if (previewCanvas != null && previewCanvas.getDisplay() != null
 							&& !previewCanvas.getDisplay().isDisposed()) {
 						previewCanvas.getDisplay().syncExec(new Runnable() {
 
-							@Override
 							public void run() {
 								// Repaint chart.
 								if (previewPainter != null) {
@@ -921,12 +908,10 @@ public class TaskFormatChart extends TreeCompoundTask implements IUIManager, ITa
 		}
 	}
 
-	@Override
 	public Canvas getPreviewCanvas() {
 		return previewCanvas;
 	}
 
-	@Override
 	public boolean isPreviewable() {
 		return true;
 	}

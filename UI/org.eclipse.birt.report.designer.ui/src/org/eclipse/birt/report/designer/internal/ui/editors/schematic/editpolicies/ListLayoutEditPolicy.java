@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,18 +32,17 @@ import org.eclipse.gef.requests.CreateRequest;
 
 /**
  * add comment here
- *
+ * 
  */
 public class ListLayoutEditPolicy extends ConstrainedLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org
 	 * .eclipse.gef.EditPart, java.lang.Object)
 	 */
-	@Override
 	protected Command createAddCommand(EditPart child, Object constraint) {
 		// TODO Auto-generated method stub
 		return null;
@@ -51,21 +50,18 @@ public class ListLayoutEditPolicy extends ConstrainedLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#
 	 * createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
 	 */
-	@Override
 	protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	protected EditPolicy createChildEditPolicy(EditPart child) {
 		ReportElementResizablePolicy policy = new ReportElementResizablePolicy() {
 
-			@Override
 			protected List createSelectionHandles() {
 				List list = new ArrayList();
 
@@ -81,59 +77,54 @@ public class ListLayoutEditPolicy extends ConstrainedLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.
 	 * gef.requests.CreateRequest)
 	 */
-	@Override
 	protected Command getCreateCommand(CreateRequest request) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.
 	 * eclipse.gef.Request)
 	 */
-	@Override
 	protected Command getDeleteDependantCommand(Request request) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#
 	 * getResizeChildrenCommand(org.eclipse.gef.requests.ChangeBoundsRequest)
 	 */
-	@Override
 	protected Command getResizeChildrenCommand(ChangeBoundsRequest request) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#getConstraintFor(org
 	 * .eclipse.draw2d.geometry.Point)
 	 */
-	@Override
 	protected Object getConstraintFor(Point point) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#getConstraintFor(org
 	 * .eclipse.draw2d.geometry.Rectangle)
 	 */
-	@Override
 	protected Object getConstraintFor(Rectangle rect) {
 		return null;
 	}

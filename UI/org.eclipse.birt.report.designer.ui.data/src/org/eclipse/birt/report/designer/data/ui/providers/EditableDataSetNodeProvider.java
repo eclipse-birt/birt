@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -42,11 +42,10 @@ public class EditableDataSetNodeProvider extends DataSetNodeProvider {
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the menu.
-	 *
+	 * 
 	 * @param menu   the menu
 	 * @param object the object
 	 */
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 
 		if (((DataSetHandle) object).canEdit()) {
@@ -58,11 +57,10 @@ public class EditableDataSetNodeProvider extends DataSetNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
-	@Override
 	protected boolean performEdit(ReportElementHandle handle) {
 		DataSetHandle dsHandle = (DataSetHandle) handle;
 		if (!(dsHandle instanceof JointDataSetHandle || dsHandle instanceof DerivedDataSetHandle)
@@ -77,9 +75,8 @@ public class EditableDataSetNodeProvider extends DataSetNodeProvider {
 						PlatformUI.getWorkbench().getDisplay().getActiveShell(),
 						Messages.getString("dataSourceSelectionPage.title"), //$NON-NLS-1$
 						names);
-				if (dataSorucedialog.open() == Dialog.CANCEL) {
+				if (dataSorucedialog.open() == Dialog.CANCEL)
 					return false;
-				}
 				dsHandle.setDataSource(dataSorucedialog.getResult().toString());
 			} catch (SemanticException e) {
 				ExceptionHandler.handle(e);

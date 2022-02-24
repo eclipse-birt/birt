@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,8 +18,8 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.Expressio
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ExpressionPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -65,7 +65,6 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 		return text;
 	}
 
-	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
@@ -82,7 +81,6 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 	/**
 	 * After selection changed, re-sets UI data.
 	 */
-	@Override
 	public void load() {
 		ExpressionHelper helper = (ExpressionHelper) exprButton.getExpressionHelper();
 		helper.setContextObject(DEUtil.getInputFirstElement(this.getInput()));
@@ -123,22 +121,20 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
-	@Override
 	public Control getControl() {
 		return containerPane;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Control createControl(Composite parent) {
 		containerPane = FormWidgetFactory.getInstance().createComposite(parent);
 
@@ -149,19 +145,17 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 		}
 		containerPane.setLayout(layout);
 		if (multi) {
-			if (isFormStyle()) {
+			if (isFormStyle())
 				text = FormWidgetFactory.getInstance().createText(containerPane, "", //$NON-NLS-1$
 						SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
-			} else {
+			else
 				text = new Text(containerPane, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-			}
 			text.setLayoutData(new GridData(GridData.FILL_BOTH));
 		} else {
-			if (isFormStyle()) {
+			if (isFormStyle())
 				text = FormWidgetFactory.getInstance().createText(containerPane, "", SWT.MULTI); //$NON-NLS-1$
-			} else {
+			else
 				text = new Text(containerPane, SWT.MULTI | SWT.BORDER);
-			}
 			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.heightHint = text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y
 					- (isFormStyle() ? 0 : (text.getBorderWidth() * 2));
@@ -176,12 +170,10 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 		// } );
 		text.addFocusListener(new FocusListener() {
 
-			@Override
 			public void focusGained(FocusEvent e) {
 
 			}
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				handleFocusLostEvent();
 			}
@@ -190,11 +182,9 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 		if (getDescriptorProvider() instanceof ExpressionPropertyDescriptorProvider) {
 			Listener listener = new Listener() {
 
-				@Override
 				public void handleEvent(Event event) {
-					if (event.data instanceof String[]) {
+					if (event.data instanceof String[])
 						newValue = ((String[]) event.data)[0];
-					}
 					processAction();
 				}
 
@@ -227,14 +217,16 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 		}
 
 		try {
-			if (value == null && deValue != null) {
+			if (value == null && deValue != null)
 				save(value);
-			} else if (text.getText().trim().length() == 0) {
-				save(null);
-			} else {
-				Expression expression = new Expression(text.getText().trim(),
-						(String) text.getData(ExpressionButtonUtil.EXPR_TYPE));
-				save(expression);
+			else {
+				if (text.getText().trim().length() == 0)
+					save(null);
+				else {
+					Expression expression = new Expression(text.getText().trim(),
+							(String) text.getData(ExpressionButtonUtil.EXPR_TYPE));
+					save(expression);
+				}
 			}
 		} catch (SemanticException e1) {
 			text.setText(UIUtil.convertToGUIString(deValue == null ? null : deValue.getStringExpression()));
@@ -247,7 +239,6 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 		this.text.setText(text);
 	}
 
-	@Override
 	public void save(Object obj) throws SemanticException {
 		getDescriptorProvider().save(obj);
 

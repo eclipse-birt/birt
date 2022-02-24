@@ -19,7 +19,7 @@ import java.util.List;
  * An sorted iterator over the elements in a slot. Each call to
  * <code>getNext( )</code> returns a handle of type {@link DesignElementHandle}.
  * The elements in the list are sorted on the display name of the element.
- *
+ * 
  */
 
 public class SortedSlotIterator implements Iterator {
@@ -44,7 +44,7 @@ public class SortedSlotIterator implements Iterator {
 
 	/**
 	 * Constructs a sorted slot iterator with the given slot handle.
-	 *
+	 * 
 	 * @param handle handle to the slot over which to iterate
 	 */
 
@@ -58,7 +58,7 @@ public class SortedSlotIterator implements Iterator {
 	/**
 	 * Sorts the element in this slot according to the display label of each
 	 * element.
-	 *
+	 * 
 	 */
 
 	private void sort() {
@@ -77,14 +77,12 @@ public class SortedSlotIterator implements Iterator {
 	 */
 	// Implementation of iterator.remove( )
 
-	@Override
 	public void remove() {
 		// Not support
 	}
 
 	// Implementation of iterator.hasNext( )
 
-	@Override
 	public boolean hasNext() {
 		return posn < slotHandle.getCount();
 	}
@@ -92,13 +90,12 @@ public class SortedSlotIterator implements Iterator {
 	/**
 	 * Returns a handle to the next content element. The handle is one of the
 	 * various element classes derived from <code>DesignElementHandle</code>.
-	 *
+	 * 
 	 * @return a handle to the next content element.
 	 */
 
 	// Implementation of iterator.next( )
 
-	@Override
 	public Object next() {
 		return list.get(posn++);
 	}

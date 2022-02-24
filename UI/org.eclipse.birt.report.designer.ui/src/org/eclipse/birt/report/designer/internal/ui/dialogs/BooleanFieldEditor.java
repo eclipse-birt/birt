@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 /**
- *
+ *  
  */
 
 public class BooleanFieldEditor extends AbstractFieldEditor {
@@ -60,7 +60,7 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Creates a boolean field editor in the given style.
-	 *
+	 * 
 	 * @param name      the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param style     the style, either <code>DEFAULT</code> or
@@ -77,7 +77,7 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Creates a boolean field editor in the default style.
-	 *
+	 * 
 	 * @param name   the name of the preference this field editor works on
 	 * @param label  the label text of the field editor
 	 * @param parent the parent of the field editor's control
@@ -89,18 +89,15 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	protected void adjustForNumColumns(int numColumns) {
-		if (style == SEPARATE_LABEL) {
+		if (style == SEPARATE_LABEL)
 			numColumns--;
-		}
 		((GridData) checkBox.getLayoutData()).horizontalSpan = numColumns;
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		String text = getLabelText();
 		switch (style) {
@@ -113,9 +110,8 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 			GridData gd = new GridData();
 			gd.horizontalSpan = numColumns;
 			checkBox.setLayoutData(gd);
-			if (text != null) {
+			if (text != null)
 				checkBox.setText(text);
-			}
 		}
 	}
 
@@ -123,11 +119,10 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 	 * (non-Javadoc) Method declared on FieldEditor. Loads the value from the
 	 * preference store and sets it to the check box.
 	 */
-	@Override
 	protected void doLoad() {
 		if (checkBox != null) {
 			String value = getPreferenceStore().getString(getPreferenceName());
-			checkBox.setSelection(Boolean.parseBoolean(value));
+			checkBox.setSelection(Boolean.valueOf(value));
 			setOldValue(value);
 		}
 		markDirty(false);
@@ -137,29 +132,25 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 	 * (non-Javadoc) Method declared on FieldEditor. Loads the default value from
 	 * the preference store and sets it to the check box.
 	 */
-	@Override
 	protected void doLoadDefault() {
 		if (checkBox != null) {
-			String value = Boolean.toString(getPreferenceStore().getDefaultBoolean(getPreferenceName()));
+			String value = Boolean.valueOf(getPreferenceStore().getDefaultBoolean(getPreferenceName())).toString();
 			checkBox.setSelection(Boolean.getBoolean(value));
 			setDefaultValue(value);
 			if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-				if (store.hasLocalValue(getPreferenceName())) {
+				if (store.hasLocalValue(getPreferenceName()))
 					markDirty(true);
-				} else {
+				else
 					markDirty(false);
-				}
-			} else {
+			} else
 				markDirty(true);
-			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	protected void doStore() {
 		if (isDirty()) {
 			getPreferenceStore().setValue(getPreferenceName(), getPropValue());
@@ -180,7 +171,7 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns this field editor's current value.
-	 *
+	 * 
 	 * @return the value
 	 */
 	public boolean getBooleanValue() {
@@ -189,9 +180,9 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns the change button for this field editor.
-	 *
+	 * 
 	 * @param parent The Composite to create the receiver in.
-	 *
+	 * 
 	 * @return the change button
 	 */
 	protected Button getChangeControl(Composite parent) {
@@ -200,16 +191,14 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 			checkBox.setFont(parent.getFont());
 			checkBox.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
-					boolean value = checkBox.getSelection();
-					valueChanged(Boolean.parseBoolean(getDisplayValue()), value);
-					setPropValue(Boolean.toString(value));
+					Boolean value = Boolean.valueOf(checkBox.getSelection());
+					valueChanged(Boolean.valueOf(getDisplayValue()), value.booleanValue());
+					setPropValue(value.toString());
 				}
 			});
 			checkBox.addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					checkBox = null;
 				}
@@ -223,7 +212,6 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	public int getNumberOfControls() {
 		switch (style) {
 		case SEPARATE_LABEL:
@@ -236,7 +224,6 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	public void setFocus() {
 		if (checkBox != null) {
 			checkBox.setFocus();
@@ -246,7 +233,6 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	public void setLabelText(String text) {
 		super.setLabelText(text);
 		Label label = getLabelControl();
@@ -259,7 +245,7 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 	 * Informs this field editor's listener, if it has one, about a change to the
 	 * value (<code>VALUE</code> property) provided that the old and new values are
 	 * different.
-	 *
+	 * 
 	 * @param oldValue the old value
 	 * @param newValue the new value
 	 */
@@ -274,22 +260,19 @@ public class BooleanFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor.setEnabled
 	 */
-	@Override
 	public void setEnabled(boolean enabled, Composite parent) {
 		// Only call super if there is a label already
-		if (style == SEPARATE_LABEL) {
+		if (style == SEPARATE_LABEL)
 			super.setEnabled(enabled, parent);
-		}
 		getChangeControl(parent).setEnabled(enabled);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
 	 * #getValue()
 	 */
-	@Override
 	protected String getStringValue() {
 		return null;
 	}

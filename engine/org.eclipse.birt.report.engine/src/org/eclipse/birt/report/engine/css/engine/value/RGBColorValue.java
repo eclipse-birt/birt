@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's RGBColorValue.java to support BIRT's CSS rules
@@ -20,7 +20,7 @@ import org.w3c.dom.css.RGBColor;
 
 /**
  * This class represents RGB colors.
- *
+ * 
  */
 public class RGBColorValue extends Value implements RGBColor {
 
@@ -51,7 +51,6 @@ public class RGBColorValue extends Value implements RGBColor {
 	/**
 	 * The type of the value.
 	 */
-	@Override
 	public short getPrimitiveType() {
 		return CSSPrimitiveValue.CSS_RGBCOLOR;
 	}
@@ -59,7 +58,6 @@ public class RGBColorValue extends Value implements RGBColor {
 	/**
 	 * A string representation of the current value.
 	 */
-	@Override
 	public String getCssText() {
 		return "rgb(" + red.getCssText() + ", " + green.getCssText() + ", " + blue.getCssText() + ")";
 	}
@@ -67,7 +65,6 @@ public class RGBColorValue extends Value implements RGBColor {
 	/**
 	 * Implements {@link Value#getRed()}.
 	 */
-	@Override
 	public CSSPrimitiveValue getRed() throws DOMException {
 		return red;
 	}
@@ -75,7 +72,6 @@ public class RGBColorValue extends Value implements RGBColor {
 	/**
 	 * Implements {@link Value#getGreen()}.
 	 */
-	@Override
 	public CSSPrimitiveValue getGreen() throws DOMException {
 		return green;
 	}
@@ -83,12 +79,10 @@ public class RGBColorValue extends Value implements RGBColor {
 	/**
 	 * Implements {@link Value#getBlue()}.
 	 */
-	@Override
 	public CSSPrimitiveValue getBlue() throws DOMException {
 		return blue;
 	}
 
-	@Override
 	public RGBColor getRGBColorValue() throws DOMException {
 		return this;
 	}
@@ -96,12 +90,10 @@ public class RGBColorValue extends Value implements RGBColor {
 	/**
 	 * Returns a printable representation of the color.
 	 */
-	@Override
 	public String toString() {
 		return getCssText();
 	}
 
-	@Override
 	public boolean equals(Object value) {
 		if (value instanceof RGBColorValue) {
 			RGBColorValue color = (RGBColorValue) value;

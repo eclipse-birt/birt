@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -125,13 +125,12 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 				new String[][] { { new DateFormatter("ss").format(defaultDate), //$NON-NLS-1$
 						"ss" //$NON-NLS-1$
 				} });
-	}
+	};
 
 	private String[] getFormatDisplayItems(String type) {
 		String[][] formatPattern = (String[][]) formatMap.get(type);
-		if (formatPattern == null) {
+		if (formatPattern == null)
 			return new String[0];
-		}
 		String[] items = new String[formatPattern.length];
 		for (int i = 0; i < items.length; i++) {
 			items[i] = getFormatPattenString(formatPattern, i);
@@ -153,17 +152,14 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 	}
 
 	private String getDateFormatDisplayName(String dateType, String pattern) {
-		if (dateType == null) {
+		if (dateType == null)
 			return NONE;
-		}
 		String[][] formatPattern = (String[][]) formatMap.get(dateType);
-		if (pattern == null) {
+		if (pattern == null)
 			return NONE;
-		}
 		for (int i = 0; i < formatPattern.length; i++) {
-			if (pattern.equals(formatPattern[i][1])) {
+			if (pattern.equals(formatPattern[i][1]))
 				return getFormatPattenString(formatPattern, i);
-			}
 		}
 		return NONE;
 	}
@@ -184,9 +180,8 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 
 	private List getDateTypeNames(IChoice[] choices) {
 		List dateTypeList = new ArrayList();
-		if (choices == null) {
+		if (choices == null)
 			return dateTypeList;
-		}
 		for (int i = 0; i < choices.length; i++) {
 			dateTypeList.add(choices[i].getName());
 		}
@@ -205,43 +200,38 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 	private IChoice[] getLevelTypesByDateType() {
 		TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) input.getContainer();
 		String dataField = input.getColumnName();
-		if (hierarchy == null || dataField == null) {
+		if (hierarchy == null || dataField == null)
 			return null;
-		}
 		ResultSetColumnHandle column = OlapUtil.getDataField(OlapUtil.getHierarchyDataset(hierarchy), dataField);
-		if (column == null) {
+		if (column == null)
 			return OlapUtil.getDateTimeLevelTypeChoices();
-		}
 		String dataType = column.getDataType();
-		if (dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME)) {
+		if (dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME))
 			return OlapUtil.getDateTimeLevelTypeChoices();
-		} else if (dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATE)) {
+		else if (dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATE))
 			return OlapUtil.getDateLevelTypeChoices();
-		} else {
+		else
 			return OlapUtil.getTimeLevelTypeChoices();
-		}
 	}
 
 	private List getAvailableDateTypeNames() {
-		List dateTypeList = new ArrayList(getDateTypeNames(getLevelTypesByDateType()));
+		List dateTypeList = new ArrayList();
+		dateTypeList.addAll(getDateTypeNames(getLevelTypesByDateType()));
 		List levels = input.getContainer().getContents(IHierarchyModel.LEVELS_PROP);
 		for (int i = 0; i < levels.size(); i++) {
-			if (levels.get(i) == input) {
+			if (levels.get(i) == input)
 				continue;
-			}
 			dateTypeList.remove(((TabularLevelHandle) levels.get(i)).getDateTimeLevelType());
 		}
 		return dateTypeList;
 	}
 
 	public String getDateTypeDisplayName(String name) {
-		if (name == null) {
+		if (name == null)
 			return ""; //$NON-NLS-1$
-		}
 		return ChoiceSetFactory.getDisplayNameFromChoiceSet(name, OlapUtil.getDateTimeLevelTypeChoiceSet());
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.CUBE_DATE_LEVEL_DIALOG);
 		setTitle(Messages.getString("DateLevelDialog.Title")); //$NON-NLS-1$
@@ -296,7 +286,6 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 		nameText.setLayoutData(gd);
 		nameText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				checkOkButtonStatus();
 			}
@@ -317,7 +306,6 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 		typeCombo.setVisibleItemCount(30);
 		typeCombo.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkOkButtonStatus();
 				formatCombo.setItems(new String[0]);
@@ -337,7 +325,6 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 		formatCombo.setVisibleItemCount(30);
 		formatCombo.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkOkButtonStatus();
 			}
@@ -367,7 +354,6 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 						hyperLinkHelper.createContent(parent);
 						hyperLinkHelper.addListener(SWT.Modify, new Listener() {
 
-							@Override
 							public void handleEvent(Event event) {
 								hyperLinkHelper.update(false);
 							}
@@ -398,7 +384,6 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 						helper.createContent(parent);
 						helper.addListener(SWT.Modify, new Listener() {
 
-							@Override
 							public void handleEvent(Event event) {
 								helper.update(false);
 							}
@@ -410,7 +395,6 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 		}
 	}
 
-	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		checkOkButtonStatus();
@@ -419,27 +403,23 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 	protected void checkOkButtonStatus() {
 		if (nameText.getText() == null || nameText.getText().trim().equals("") //$NON-NLS-1$
 				|| typeCombo.getSelectionIndex() == -1 || formatCombo.getSelectionIndex() == -1) {
-			if (getButton(IDialogConstants.OK_ID) != null) {
+			if (getButton(IDialogConstants.OK_ID) != null)
 				getButton(IDialogConstants.OK_ID).setEnabled(false);
-			}
 			setMessage(null);
 			setErrorMessage(Messages.getString("DateLevelDialog.Message.BlankName")); //$NON-NLS-1$
 		} else if (!UIUtil.validateDimensionName(nameText.getText())) {
-			if (getButton(IDialogConstants.OK_ID) != null) {
+			if (getButton(IDialogConstants.OK_ID) != null)
 				getButton(IDialogConstants.OK_ID).setEnabled(false);
-			}
 			setMessage(null);
 			setErrorMessage(Messages.getString("LevelPropertyDialog.Message.NumericName")); //$NON-NLS-1$
 		} else {
-			if (getButton(IDialogConstants.OK_ID) != null) {
+			if (getButton(IDialogConstants.OK_ID) != null)
 				getButton(IDialogConstants.OK_ID).setEnabled(true);
-			}
 			setErrorMessage(null);
 			setMessage(Messages.getString("DateLevelDialog.Message")); //$NON-NLS-1$
 		}
 	}
 
-	@Override
 	protected void okPressed() {
 		try {
 			if (nameText.getText() != null && !nameText.getText().trim().equals("")) //$NON-NLS-1$
@@ -451,12 +431,11 @@ public class DateLevelDialog extends BaseTitleAreaDialog {
 				input.setDateTimeLevelType(getAvailableDateTypeNames().get(typeCombo.getSelectionIndex()).toString());
 			}
 			if (formatCombo.getText() != null) {
-				if (formatCombo.getText().equals(NONE)) {
+				if (formatCombo.getText().equals(NONE))
 					input.setDateTimeFormat(null);
-				} else {
+				else
 					input.setDateTimeFormat(getFormatPatternItems(getAvailableDateTypeNames()
 							.get(typeCombo.getSelectionIndex()).toString())[formatCombo.getSelectionIndex() - 1]);
-				}
 			}
 			if (helper != null) {
 				helper.validate();

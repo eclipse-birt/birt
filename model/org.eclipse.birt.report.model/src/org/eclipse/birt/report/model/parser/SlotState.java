@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 
 /**
- *
+ * 
  */
 
 public class SlotState extends AbstractParseState {
@@ -32,20 +32,20 @@ public class SlotState extends AbstractParseState {
 	protected ModuleParserHandler handler = null;
 
 	/**
-	 *
+	 * 
 	 */
 
 	protected int slotID;
 
 	/**
-	 *
+	 * 
 	 */
 
 	protected DesignElement container;
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param handler   the parser handler
 	 * @param container the container element
 	 * @param slot      the container slot number
@@ -60,7 +60,7 @@ public class SlotState extends AbstractParseState {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 
 	private void initLineNumber() {
@@ -73,11 +73,10 @@ public class SlotState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
-	@Override
 	public XMLParserHandler getHandler() {
 		return handler;
 	}

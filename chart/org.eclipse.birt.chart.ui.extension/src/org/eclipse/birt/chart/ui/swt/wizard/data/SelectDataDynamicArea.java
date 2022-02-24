@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,15 +34,15 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- *
+ * 
  */
 
 public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 
 	private ITask task = null;
 
-	protected List<ISelectDataComponent> subLeftAreas = new ArrayList<>();
-	protected List<ISelectDataComponent> subRightAreas = new ArrayList<>();
+	protected List<ISelectDataComponent> subLeftAreas = new ArrayList<ISelectDataComponent>();
+	protected List<ISelectDataComponent> subRightAreas = new ArrayList<ISelectDataComponent>();
 
 	protected Composite cmpLeftArea = null;
 	protected Composite cmpRightArea = null;
@@ -50,7 +50,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 
 	protected ISelectDataComponent bottomArea;
 
-	private int[] seriesIndex = {};
+	private int[] seriesIndex = new int[0];
 
 	public SelectDataDynamicArea(ITask task) {
 		this.task = task;
@@ -64,26 +64,22 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 		return getContext().getModel();
 	}
 
-	@Override
 	public void selectLeftBindingArea(boolean selected, Object data) {
 		for (int i = 0; i < subLeftAreas.size(); i++) {
 			subLeftAreas.get(i).selectArea(selected, data);
 		}
 	}
 
-	@Override
 	public void selectRightBindingArea(boolean selected, Object data) {
 		for (int i = 0; i < subRightAreas.size(); i++) {
 			subRightAreas.get(i).selectArea(selected, data);
 		}
 	}
 
-	@Override
 	public void selectBottomBindingArea(boolean selected, Object data) {
 		bottomArea.selectArea(selected, data);
 	}
 
-	@Override
 	public void dispose() {
 		List<ISelectDataComponent> list = subLeftAreas;
 		list.addAll(subRightAreas);
@@ -96,14 +92,12 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 		list.clear();
 	}
 
-	@Override
 	public ISelectDataComponent getAreaComponent(int areaType, SeriesDefinition seriesdefinition,
 			ChartWizardContext context, String sTitle) {
 		return ChartUIUtil.getSeriesUIProvider(seriesdefinition.getDesignTimeSeries()).getSeriesDataComponent(areaType,
 				seriesdefinition, context, sTitle);
 	}
 
-	@Override
 	public void refreshLeftBindingArea() {
 		subLeftAreas.clear();
 		Composite cmpContainer = cmpLeftArea.getParent();
@@ -113,7 +107,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 		cmpContainer.layout();
 	}
 
-	@Override
 	public void refreshRightBindingArea() {
 		subRightAreas.clear();
 		Composite cmpContainer = cmpRightArea.getParent();
@@ -123,7 +116,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 		cmpContainer.layout();
 	}
 
-	@Override
 	public void refreshBottomBindingArea() {
 		Composite cmpContainer = cmpBottomArea.getParent();
 		cmpBottomArea.dispose();
@@ -139,7 +131,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 				this);
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public void createLeftBindingArea(Composite parent) {
 		cmpLeftArea = ChartUIUtil.createCompositeWrapper(parent);
@@ -172,7 +163,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 		}
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public void createRightBindingArea(Composite parent) {
 		cmpRightArea = ChartUIUtil.createCompositeWrapper(parent);
@@ -203,7 +193,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 		return ((ChartWithAxes) getChartModel()).getAxes().get(0).getAssociatedAxes();
 	}
 
-	@Override
 	public void createBottomBindingArea(Composite parent) {
 		bottomArea = getContext().getChartType().getBaseUI(getChartModel(), this, getContext(), ""); //$NON-NLS-1$
 		cmpBottomArea = bottomArea.createArea(parent);
@@ -217,30 +206,25 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI {
 		return getBaseSeriesDefinitionForProcessing().getSeriesDefinitions();
 	}
 
-	@Override
 	public void layoutAll() {
 		if (cmpBottomArea != null && !cmpBottomArea.isDisposed()) {
 			cmpBottomArea.getParent().getParent().layout();
 		}
 	}
 
-	@Override
 	public int[] getSeriesIndex() {
 		return seriesIndex;
 	}
 
-	@Override
 	public void setSeriesIndex(int[] seriesIndex) {
 		this.seriesIndex = seriesIndex;
 	}
 
-	@Override
 	public void init() {
 		// Reset selected series index to 0
 		seriesIndex = new int[ChartUIUtil.getOrthogonalAxisNumber(getChartModel())];
 	}
 
-	@Override
 	public void notifyChange(Notification notification) {
 		// Do nothing
 	}

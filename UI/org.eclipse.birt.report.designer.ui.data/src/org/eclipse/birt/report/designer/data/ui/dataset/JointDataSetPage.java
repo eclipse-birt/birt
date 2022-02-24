@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -150,12 +150,11 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	public void createControl(Composite parent) {
 		setControl(this.createPageControl(parent));
 		setPageComplete(false);
@@ -163,11 +162,10 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * createPageControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Control createPageControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -199,7 +197,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * create top composite for page
-	 *
+	 * 
 	 * @param parent
 	 */
 	private void createTopComposite(Composite parent) {
@@ -217,7 +215,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * create left composite for page
-	 *
+	 * 
 	 * @param composite
 	 */
 	private void createLeftGroup(Composite composite) {
@@ -258,7 +256,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * create center composite for page
-	 *
+	 * 
 	 * @param composite
 	 */
 	private void createCenterGroup(Composite composite) {
@@ -275,7 +273,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * create right composite for page
-	 *
+	 * 
 	 * @param composite
 	 */
 	private void createRightGroup(Composite composite) {
@@ -312,7 +310,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * create bottom composite for page
-	 *
+	 * 
 	 * @param parent
 	 */
 	private void createBottomComposite(Composite parent) {
@@ -338,7 +336,6 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 		nameEditor.setToolTipText(Messages.getString("DataSetBasePage.tooltip")); //$NON-NLS-1$
 		nameEditor.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				if (StringUtil.isBlank(nameEditor.getText().trim())) {
 					setPageMessage(EMPTY_NAME, ERROR);
@@ -363,7 +360,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * cread radio button list for center composite
-	 *
+	 * 
 	 * @param composite
 	 */
 	private void createRadioButtonList(Composite composite) {
@@ -399,7 +396,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * checks if the name is duplicate
-	 *
+	 * 
 	 * @return Returns true if the name is duplicate,and false if it is duplicate
 	 */
 	private boolean isDuplicateName() {
@@ -409,26 +406,25 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * whether name contains ".", "/", "\", "!", ";", "," charactors
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
 	private boolean containInvalidCharactor(String name) {
-		if (name == null) {
+		if (name == null)
 			return false;
-		} else if (name.indexOf(".") > -1 || //$NON-NLS-1$
+		else if (name.indexOf(".") > -1 || //$NON-NLS-1$
 				name.indexOf("\\") > -1 || name.indexOf("/") > -1 || //$NON-NLS-1$ //$NON-NLS-2$
 				name.indexOf("!") > -1 || name.indexOf(";") > -1 || //$NON-NLS-1$ //$NON-NLS-2$
-				name.indexOf(",") > -1) {
+				name.indexOf(",") > -1) //$NON-NLS-1$
 			return true;
-		} else {
+		else
 			return false;
-		}
 	}
 
 	/**
 	 * get all data set list including those that should be referenced from librarys
-	 *
+	 * 
 	 * @return the list of data set
 	 */
 	private List getDataSets() {
@@ -444,39 +440,35 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 				for (int j = 0; j < nameList.size(); j++) {
 					DataSetHandle dataSet = Utility.findDataSet(nameList.get(j).toString());
 
-					if (dataSet != null && dataSet.getModuleHandle() instanceof LibraryHandle) {
+					if (dataSet != null && dataSet.getModuleHandle() instanceof LibraryHandle)
 						relative.add(dataSet);
-					}
 				}
 			}
 		}
 
 		for (int i = 0; i < relative.size(); i++) {
-			if (!dataSets.contains(relative.get(i))) {
+			if (!dataSets.contains(relative.get(i)))
 				dataSets.add(relative.get(i));
-			}
 		}
 		return dataSets;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
 	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
-	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		selectionChanged = true;
 
 		if (event.getSource() instanceof ComboViewer) {
 			this.setPageMessage(Messages.getString("JointDataSetPage.page.detail"), //$NON-NLS-1$
 					IMessageProvider.NONE);
-			if (((ComboViewer) event.getSource()).equals(rightDataSetChooser)) {
+			if (((ComboViewer) event.getSource()).equals(rightDataSetChooser))
 				leftSelected = false;
-			} else {
+			else
 				leftSelected = true;
-			}
 			if (((IStructuredSelection) event.getSelection()).getFirstElement() instanceof DataSetHandle) {
 				DataSetHandle handle = (DataSetHandle) ((IStructuredSelection) event.getSelection()).getFirstElement();
 				if (leftSelected) {
@@ -500,29 +492,26 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 				}
 			}
 		} else if (event.getSource() instanceof ListViewer) {
-			if (((ListViewer) event.getSource()).equals(rightColumnList)) {
+			if (((ListViewer) event.getSource()).equals(rightColumnList))
 				leftSelected = false;
-			} else {
+			else
 				leftSelected = true;
-			}
 			if (((IStructuredSelection) event.getSelection()).getFirstElement() instanceof DataSetViewData) {
 				DataSetViewData itemModel = (DataSetViewData) ((IStructuredSelection) event.getSelection())
 						.getFirstElement();
-				if (leftSelected) {
+				if (leftSelected)
 					leftColumnSelection = itemModel.getName();
-				} else {
+				else
 					rightColumnSelection = itemModel.getName();
-				}
 			}
 		}
-		if (!this.nameEditor.isDisposed()) {
+		if (!this.nameEditor.isDisposed())
 			setPageComplete(canPageComplete());
-		}
 	}
 
 	/**
 	 * populate columns for the selection changed of comboViewer
-	 *
+	 * 
 	 * @param columsItems
 	 */
 	private void populateColumns(DataSetViewData[] columsItems) {
@@ -543,7 +532,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * create joint datasetHandle
-	 *
+	 * 
 	 * @return
 	 */
 	public DataSetHandle createSelectedDataSet() {
@@ -565,20 +554,19 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * create joint data set
-	 *
+	 * 
 	 * @return
 	 * @throws SemanticException
 	 */
 	private DataSetHandle createJointDataSet() throws SemanticException {
 
 		String dataSetName = ""; //$NON-NLS-1$
-		if (nameEditor != null) {
+		if (nameEditor != null)
 			dataSetName = nameEditor.getText();
-		}
 		JointDataSetHandle dsHandle = Utility.newJointDataSet(dataSetName);
-		if (leftDataSetName.equals(rightDataSetName)) {
+		if (leftDataSetName.equals(rightDataSetName))
 			dsHandle.addDataSet(leftDataSetName);
-		} else {
+		else {
 			dsHandle.addDataSet(leftDataSetName);
 			dsHandle.addDataSet(rightDataSetName);
 		}
@@ -595,14 +583,13 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	private void addColumnHints(JointDataSetHandle dsHandle) throws SemanticException {
 		columnHintHandle = dsHandle.getPropertyHandle(DataSetHandle.COLUMN_HINTS_PROP);
-		if (columnHintHandle == null) {
+		if (columnHintHandle == null)
 			return;
-		}
 
 		columnHintHandle.clearValue();
 
-		List<ColumnHint> rightColumns = new ArrayList<>();
-		HashMap<String, ColumnHint> resultMap = new HashMap<>();
+		List<ColumnHint> rightColumns = new ArrayList<ColumnHint>();
+		HashMap<String, ColumnHint> resultMap = new HashMap<String, ColumnHint>();
 
 		String leftDsName = this.leftDataSetName;
 		String rightDsName = this.rightDataSetName;
@@ -641,9 +628,8 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 		for (Iterator<ColumnHint> iter = resultMap.values().iterator(); iter.hasNext();) {
 			ColumnHint item = iter.next();
-			if (item != null) {
+			if (item != null)
 				columnHintHandle.addItem(item);
-			}
 		}
 	}
 
@@ -652,9 +638,8 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 		for (int i = 0; i < right.size(); i++) {
 			ColumnHint item = right.get(i);
 			String columnAlias = (String) item.getProperty(null, ColumnHint.ALIAS_MEMBER);
-			if (columnAlias == null) {
+			if (columnAlias == null)
 				columnAlias = (String) item.getProperty(null, ColumnHint.COLUMN_NAME_MEMBER);
-			}
 
 			if (resultMap.containsKey(columnAlias)) {
 				ColumnHint oldItem = resultMap.get(columnAlias);
@@ -687,7 +672,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * Add the parameters of left and right dataset to JointDatasetHandle.
-	 *
+	 * 
 	 * @param dsHandle
 	 * @throws SemanticException
 	 */
@@ -716,11 +701,10 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 			}
 
 			// parameter count decreasing case
-			if (dsParameterHandle.getListValue() != null) {
+			if (dsParameterHandle.getListValue() != null)
 				while (i < dsParameterHandle.getListValue().size()) {
 					dsParameterHandle.removeItem(dsParameterHandle.getListValue().size() - 1);
 				}
-			}
 
 			// parameter count increasing case
 			for (; i < params.size(); i++) {
@@ -759,7 +743,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 	private static List<DataSetParameter> getDataSetParameters(String dataSetName, PropertyHandle parameterHandle,
 			int startPosition) {
 		Iterator paramterIterator = parameterHandle.iterator();
-		List<DataSetParameter> result = new ArrayList<>();
+		List<DataSetParameter> result = new ArrayList<DataSetParameter>();
 		int position = startPosition;
 		while (paramterIterator.hasNext()) {
 			DataSetParameterHandle paramter = (DataSetParameterHandle) (paramterIterator.next());
@@ -772,7 +756,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 	}
 
 	/**
-	 *
+	 * 
 	 * @param parameter
 	 * @return
 	 */
@@ -791,7 +775,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSetName
 	 * @param sourceParameterName
 	 * @return
@@ -802,7 +786,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * Create joint condition
-	 *
+	 * 
 	 * @return
 	 * @see org.eclipse.birt.report.model.api.elements.structures.JoinCondition
 	 */
@@ -820,72 +804,66 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * Whether the page can complete
-	 *
+	 * 
 	 * @return
 	 */
 	private boolean canPageComplete() {
 		if (leftDataSetName != null && rightDataSetName != null && leftColumnSelection != null
 				&& rightColumnSelection != null && !nameEditor.isDisposed()
-				&& !StringUtil.isBlank(nameEditor.getText().trim()) && !isDuplicateName()) {
+				&& !StringUtil.isBlank(nameEditor.getText().trim()) && !isDuplicateName())
 			return true;
-		} else {
+		else
 			return false;
-		}
 	}
 
 	/**
 	 * Provider class for comboViewer to view the list of data sets
-	 *
+	 * 
 	 */
 	static class DataSetComboProvider implements IStructuredContentProvider, ILabelProvider {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
 		 * java.lang.Object)
 		 */
-		@Override
 		public Object[] getElements(Object inputElement) {
 			return ((List) inputElement).toArray();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
-		@Override
 		public void dispose() {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
-		@Override
 		public Image getImage(Object element) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
-		@Override
 		public String getText(Object element) {
 			if (element instanceof DataSetHandle) {
 				return ((DataSetHandle) element).getQualifiedName();
@@ -895,95 +873,86 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
 		 * .lang.Object, java.lang.String)
 		 */
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
 	}
 
 	/**
-	 *
+	 * 
 	 * Provider class for listViewer to list the column items from data set
-	 *
+	 * 
 	 */
 	static class ColumnProvider implements IStructuredContentProvider, ILabelProvider {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
 		 * java.lang.Object)
 		 */
-		@Override
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof Object[]) {
+			if (inputElement instanceof Object[])
 				return (Object[]) inputElement;
-			} else {
+			else
 				return null;
-			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
-		@Override
 		public void dispose() {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
-		@Override
 		public Image getImage(Object element) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
-		@Override
 		public String getText(Object element) {
 			if (element instanceof DataSetViewData) {
 				return ((DataSetViewData) element).getName();
@@ -993,32 +962,29 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
 		 * .lang.Object, java.lang.String)
 		 */
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
@@ -1026,25 +992,22 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	class RadioSelectionLister implements SelectionListener {
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			selectionChanged = true;
 
 			if (e.getSource() instanceof Button) {
-				if (((Button) e.getSource()).equals(innerJoinButton)) {
+				if (((Button) e.getSource()).equals(innerJoinButton))
 					joinType = DesignChoiceConstants.JOIN_TYPE_INNER;
-				} else if (((Button) e.getSource()).equals(leftOuterJoinButton)) {
+				else if (((Button) e.getSource()).equals(leftOuterJoinButton))
 					joinType = DesignChoiceConstants.JOIN_TYPE_LEFT_OUT;
-				} else if (((Button) e.getSource()).equals(rightOuterJoinButton)) {
+				else if (((Button) e.getSource()).equals(rightOuterJoinButton))
 					joinType = DesignChoiceConstants.JOIN_TYPE_RIGHT_OUT;
-				} else if (((Button) e.getSource()).equals(fullOuterJoinButton)) {
+				else if (((Button) e.getSource()).equals(fullOuterJoinButton))
 					joinType = DesignChoiceConstants.JOIN_TYPE_FULL_OUT;
-				}
 
 			}
 		}
 
-		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);
 		}
@@ -1053,12 +1016,11 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * setContainer(org.eclipse.birt.report.designer.ui.dialogs.properties.
 	 * IPropertyPageContainer)
 	 */
-	@Override
 	public void setContainer(IPropertyPageContainer parentContainer) {
 		propertyPageContainer = parentContainer;
 
@@ -1066,11 +1028,10 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * canLeave()
 	 */
-	@Override
 	public boolean canLeave() {
 		try {
 			return modifyJointCondition();
@@ -1080,15 +1041,14 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws SemanticException
 	 */
 	private boolean modifyJointCondition() throws SemanticException {
 		JointDataSetHandle handle = null;
-		if (leftDataSetName == null || rightDataSetName == null) {
+		if (leftDataSetName == null || rightDataSetName == null)
 			return false;
-		}
 
 		if (propertyPageContainer instanceof DataSetEditor) {
 			handle = (JointDataSetHandle) ((DataSetEditor) propertyPageContainer).getModel();
@@ -1103,9 +1063,9 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 						// do nothing
 					}
 				}
-				if (leftDataSetName.equals(rightDataSetName)) {
+				if (leftDataSetName.equals(rightDataSetName))
 					handle.addDataSet(leftDataSetName);
-				} else {
+				else {
 					handle.addDataSet(leftDataSetName);
 					handle.addDataSet(rightDataSetName);
 				}
@@ -1117,9 +1077,8 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 					propertyHandle.removeItem(0);
 					propertyHandle.addItem(condition);
 					return true;
-				} else {
+				} else
 					return false;
-				}
 			}
 		}
 		return true;
@@ -1127,7 +1086,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/**
 	 * set page description
-	 *
+	 * 
 	 * @return
 	 */
 	private String getPageDescription() {
@@ -1136,16 +1095,14 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * performOk()
 	 */
-	@Override
 	public boolean performOk() {
 		try {
-			if (propertyHandle == null) {
+			if (propertyHandle == null)
 				return true;
-			}
 
 			return modifyJointCondition();
 		} catch (SemanticException e) {
@@ -1155,32 +1112,28 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * performCancel()
 	 */
-	@Override
 	public boolean performCancel() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * pageActivated()
 	 */
-	@Override
 	public void pageActivated() {
 		if (this.propertyPageContainer != null) {
 			setPageMessage(Messages.getString("JointDataSetPage.pageName"), IMessageProvider.NONE);//$NON-NLS-1$
 			JointDataSetHandle handle = (JointDataSetHandle) this.propertyPageContainer.getModel();
-			if (!nameEditor.isDisposed()) {
+			if (!nameEditor.isDisposed())
 				this.nameEditor.dispose();
-			}
-			if (!nameLabel.isDisposed()) {
+			if (!nameLabel.isDisposed())
 				this.nameLabel.dispose();
-			}
 			if (this.dataSetList != null) {
 				for (int i = 0; i < dataSetList.size(); i++) {
 					if (dataSetList.get(i) instanceof JointDataSetHandle && ((JointDataSetHandle) dataSetList.get(i))
@@ -1208,7 +1161,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 	}
 
 	/**
-	 *
+	 * 
 	 * @param joinType
 	 */
 	private void populateJoinType(String joinType) {
@@ -1237,7 +1190,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param expression
 	 * @param type
@@ -1300,7 +1253,7 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 	}
 
 	/**
-	 *
+	 * 
 	 * @param newMessage
 	 * @param type
 	 */
@@ -1314,21 +1267,19 @@ public class JointDataSetPage extends WizardPage implements ISelectionChangedLis
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
-	@Override
 	public String getToolTip() {
 		return Messages.getString("JointDataSetPage.pageName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		getControl().setFocus();

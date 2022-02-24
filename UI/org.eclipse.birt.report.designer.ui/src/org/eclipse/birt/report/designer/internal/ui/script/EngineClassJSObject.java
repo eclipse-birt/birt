@@ -1,11 +1,11 @@
 /* Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -28,8 +28,8 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
  */
 class EngineClassJSObject implements JSObjectMetaData {
 
-	private static JSMethod[] noMthods = {};
-	private static JSField[] noFields = {};
+	private static JSMethod[] noMthods = new JSMethod[0];
+	private static JSField[] noFields = new JSField[0];
 
 	private IClassInfo classInfo;
 	private boolean showPublic;
@@ -42,60 +42,49 @@ class EngineClassJSObject implements JSObjectMetaData {
 				|| "DataSource".equals(classInfo.getName()); //$NON-NLS-1$
 	}
 
-	@Override
 	public String getName() {
-		if (classInfo == null) {
+		if (classInfo == null)
 			return ""; //$NON-NLS-1$
-		}
 		return classInfo.getName();
 	}
 
 	// FIXME cache it.
-	@Override
 	public JSMethod[] getMethods() {
-		if (classInfo == null) {
+		if (classInfo == null)
 			return noMthods;
-		}
 		List methods = classInfo.getMethods();
 		List all = new ArrayList();
 		for (Iterator iter = methods.iterator(); iter.hasNext();) {
 			IMethodInfo method = (IMethodInfo) iter.next();
-			if (showPublic || method.isStatic()) {
+			if (showPublic || method.isStatic())
 				all.add(new EngineClassMethod(method));
-			}
 		}
 		Collections.sort(all);
 		return (JSMethod[]) all.toArray(new JSMethod[all.size()]);
 	}
 
-	@Override
 	public JSField[] getFields() {
-		if (classInfo == null) {
+		if (classInfo == null)
 			return noFields;
-		}
 		List members = classInfo.getMembers();
 		List all = new ArrayList();
 		for (Iterator iter = members.iterator(); iter.hasNext();) {
 			IMemberInfo member = (IMemberInfo) iter.next();
-			if (showPublic || member.isStatic()) {
+			if (showPublic || member.isStatic())
 				all.add(new EngineClassField(member));
-			}
 		}
 		Collections.sort(all);
 		return (JSField[]) all.toArray(new JSField[all.size()]);
 	}
 
-	@Override
 	public String getDescription() {
 		return null;
 	}
 
-	@Override
 	public int getVisibility() {
 		return 0;
 	}
 
-	@Override
 	public JSObjectMetaData getComponentType() {
 		return null;
 	}
@@ -112,12 +101,10 @@ class EngineClassJSObject implements JSObjectMetaData {
 			this.method = method;
 		}
 
-		@Override
 		public String getName() {
 			return method.getDisplayName();
 		}
 
-		@Override
 		public JSObjectMetaData getReturn() {
 			JSObjectMetaData meta = JSSyntaxContext.getEnginJSObject(method.getReturnType());
 			if (meta == null) {
@@ -130,7 +117,6 @@ class EngineClassJSObject implements JSObjectMetaData {
 			return meta;
 		}
 
-		@Override
 		public JSObjectMetaData[] getArguments() {
 			// TODO impl real argument info, currently simply use argument type
 
@@ -140,7 +126,7 @@ class EngineClassJSObject implements JSObjectMetaData {
 				// only process first arguemnt list
 				IArgumentInfoList ail = (IArgumentInfoList) itr.next();
 
-				List<JSObjectMetaData> args = new ArrayList<>();
+				List<JSObjectMetaData> args = new ArrayList<JSObjectMetaData>();
 
 				for (Iterator aitr = ail.argumentsIterator(); aitr.hasNext();) {
 					IArgumentInfo aif = (IArgumentInfo) aitr.next();
@@ -163,10 +149,9 @@ class EngineClassJSObject implements JSObjectMetaData {
 			return null;
 		}
 
-		@Override
 		public String getDisplayText() {
 			if (displayText == null) {
-				StringBuilder strbuf = new StringBuilder(getName());
+				StringBuffer strbuf = new StringBuffer(getName());
 				strbuf.append("("); //$NON-NLS-1$
 				for (Iterator iter = method.argumentListIterator(); iter.hasNext();) {
 					IArgumentInfoList element = (IArgumentInfoList) iter.next();
@@ -191,20 +176,16 @@ class EngineClassJSObject implements JSObjectMetaData {
 			return displayText;
 		}
 
-		@Override
 		public String getDescription() {
 			return null;
 		}
 
-		@Override
 		public int getVisibility() {
-			if (method.isStatic()) {
+			if (method.isStatic())
 				return EngineClassJSObject.VISIBILITY_STATIC;
-			}
 			return 0;
 		}
 
-		@Override
 		public int compareTo(Object obj) {
 			if (obj instanceof EngineClassMethod && ((EngineClassMethod) obj).getName() != null) {
 				return getName().compareToIgnoreCase(((EngineClassMethod) obj).getName());
@@ -226,28 +207,24 @@ class EngineClassJSObject implements JSObjectMetaData {
 			this.member = member;
 		}
 
-		@Override
 		public String getName() {
 			return member.getDisplayName();
 		}
 
-		@Override
 		public JSObjectMetaData getType() {
 			JSObjectMetaData meta = JSSyntaxContext.getEnginJSObject(member.getDataType());
-			if (meta == null) {
+			if (meta == null)
 				try {
 					return JSSyntaxContext.getJavaClassMeta(member.getDataType());
 				} catch (ClassNotFoundException e) {
 					return null;
 				}
-			}
 			return meta;
 		}
 
-		@Override
 		public String getDisplayText() {
 			if (displayText == null) {
-				StringBuilder strbuf = new StringBuilder(getName());
+				StringBuffer strbuf = new StringBuffer(getName());
 				strbuf.append(" "); //$NON-NLS-1$
 				strbuf.append(classInfo.getName());
 				displayText = strbuf.toString();
@@ -256,17 +233,14 @@ class EngineClassJSObject implements JSObjectMetaData {
 			return displayText;
 		}
 
-		@Override
 		public String getDescription() {
 			return null;
 		}
 
-		@Override
 		public int getVisibility() {
 			return 0;
 		}
 
-		@Override
 		public int compareTo(Object obj) {
 			if (obj instanceof EngineClassField && ((EngineClassField) obj).getName() != null) {
 				return getName().compareToIgnoreCase(((EngineClassField) obj).getName());

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -73,7 +73,7 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style
-	 *
+	 * 
 	 * @param parent
 	 * @param style
 	 */
@@ -83,7 +83,7 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 	/**
 	 * Constructs a new instance of this class given its parent , a style and time
-	 *
+	 * 
 	 * @param parent
 	 * @param style
 	 * @param hour
@@ -107,21 +107,19 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	@Override
 	public void actionPerformed(ActionEvent evt) {
 		buttonAction(value, false);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Widget#checkWidget()
 	 */
-	@Override
 	protected void checkWidget() {
 		// System.out.println("checkThis");
 	}
@@ -130,7 +128,7 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 	 * Adds the listener to the collection of listeners who will be notified when
 	 * the year value change, by sending it one of the messages defined in the
 	 * IPropertyChangeListener interface.
-	 *
+	 * 
 	 * @param listener
 	 */
 	public void addPropertyChangeListener(IPropertyChangeListener listener) {
@@ -141,7 +139,7 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 	/**
 	 * Removes the listener from the collection of listeners who will be notified
 	 * when the year value change
-	 *
+	 * 
 	 * @param listener
 	 */
 	public void removePropertyChangeListener(IPropertyChangeListener listener) {
@@ -150,7 +148,7 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 	/**
 	 * Fire the event when the year value change
-	 *
+	 * 
 	 * @param e
 	 */
 	public void firePropertyListener(PropertyChangeEvent e) {
@@ -163,12 +161,11 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.
 	 * jface.util.PropertyChangeEvent)
 	 */
-	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		firePropertyListener(event);
 	}
@@ -208,14 +205,12 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 	private void initActions() {
 		up.addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseDown(MouseEvent e) {
 				value = 1;
 				timer.start();
 
 			}
 
-			@Override
 			public void mouseUp(MouseEvent e) {
 				timer.stop();
 				buttonAction(1, true);
@@ -225,14 +220,12 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 		down.addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseDown(MouseEvent e) {
 				value = -1;
 				timer.start();
 
 			}
 
-			@Override
 			public void mouseUp(MouseEvent e) {
 				// System.out.println("2222222222222");
 				timer.stop();
@@ -286,7 +279,7 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 	/**
 	 * Gets time information.
-	 *
+	 * 
 	 * @return SpinnerTimeInfo
 	 */
 	public SpinnerTimeInfo getTimeInfo() {
@@ -296,7 +289,7 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 	/**
 	 * Sets the time information.
-	 *
+	 * 
 	 * @param info
 	 */
 	public void setTimeInfo(SpinnerTimeInfo info) {
@@ -317,7 +310,7 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 	/**
 	 * Store the time information.
-	 *
+	 * 
 	 * @author gao To change the template for this generated type comment go to
 	 *         Window - Preferences - Java - Code Generation - Code and Comments
 	 */
@@ -364,14 +357,12 @@ public class SpinnerTime extends Composite implements ActionListener, IPropertyC
 
 class SpinnerTimeLayout extends Layout {
 
-	@Override
 	protected Point computeSize(Composite composite, int wHint, int hHint, boolean changed) {
 
 		return new Point(85, 28);
 
 	}
 
-	@Override
 	protected void layout(Composite composite, boolean changed) {
 		Control[] children = composite.getChildren();
 		children[0].setBounds(0, 0, 21, 25);
@@ -410,13 +401,11 @@ class SpinnerTimeText extends Text {
 
 		addFocusListener(new FocusAdapter() {
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				// System.out.println( "lost" );
 				setValue(getText());
 			}
 
-			@Override
 			public void focusGained(FocusEvent e) {
 				// System.out.println( "gain" );
 				SpinnerTime.defaultText = SpinnerTimeText.this;
@@ -427,7 +416,6 @@ class SpinnerTimeText extends Text {
 
 		addKeyListener(new KeyAdapter() {
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.CR) {
 					setValue(getText());
@@ -438,12 +426,10 @@ class SpinnerTimeText extends Text {
 
 	}
 
-	@Override
 	protected void checkWidget() {
 		// System.out.println("checkTxext");
 	}
 
-	@Override
 	protected void checkSubclass() {
 
 	}

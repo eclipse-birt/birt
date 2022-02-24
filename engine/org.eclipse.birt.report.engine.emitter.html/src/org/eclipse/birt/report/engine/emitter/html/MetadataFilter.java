@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +65,6 @@ public class MetadataFilter implements IMetadataFilter {
 	private HashMap dataItemCache = new HashMap();
 	private HashMap rowHeaderFooterCache = new HashMap();
 
-	@Override
 	public HashMap needMetaData(ReportElementHandle elementHandle) {
 		HashMap resultMap = null;
 		if (elementHandle instanceof ExtendedItemHandle) {
@@ -172,14 +171,24 @@ public class MetadataFilter implements IMetadataFilter {
 			Boolean chacheResult = (Boolean) dataItemCache.get(elementHandle);
 			if (chacheResult == null) {
 				if (!isTopLevelElement(elementHandle)) {
-					if ((elementHandle.getStringProperty("dataSet") != null) || (((ReportItemHandle) elementHandle).getDataBindingReference() != null) || !isInHeaderFooter(elementHandle)) {
+					if (elementHandle.getStringProperty("dataSet") != null) {
+						dataItemCache.put(elementHandle, Boolean.FALSE);
+						return null;
+					}
+					if (((ReportItemHandle) elementHandle).getDataBindingReference() != null) {
+						dataItemCache.put(elementHandle, Boolean.FALSE);
+						return null;
+					}
+					if (!isInHeaderFooter(elementHandle)) {
 						dataItemCache.put(elementHandle, Boolean.FALSE);
 						return null;
 					}
 				}
 				dataItemCache.put(elementHandle, Boolean.TRUE);
-			} else if (!chacheResult.booleanValue()) {
-				return null;
+			} else {
+				if (!chacheResult.booleanValue()) {
+					return null;
+				}
 			}
 			resultMap = new HashMap();
 			resultMap.put(IMetadataFilter.KEY_OUTPUT_IID, Boolean.TRUE);
@@ -192,7 +201,7 @@ public class MetadataFilter implements IMetadataFilter {
 
 	/**
 	 * Is the element is a top level element?
-	 *
+	 * 
 	 * @param elementHandle
 	 * @return
 	 */
@@ -207,7 +216,7 @@ public class MetadataFilter implements IMetadataFilter {
 	/**
 	 * Checks if a element is in a table header/footer row, or group header/footer
 	 * row.
-	 *
+	 * 
 	 * @param text
 	 * @return
 	 */

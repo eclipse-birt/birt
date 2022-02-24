@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +32,8 @@ public class ClassMethodFieldBuffer {
 	private Map<Class, Map<String, Field>> classFields;
 
 	public ClassMethodFieldBuffer() {
-		classMethods = new HashMap<>();
-		classFields = new HashMap<>();
+		classMethods = new HashMap<Class, Map<MethodIdentifier, Method>>();
+		classFields = new HashMap<Class, Map<String, Field>>();
 	}
 
 	public void release() {
@@ -81,12 +81,14 @@ public class ClassMethodFieldBuffer {
 			Method m = c.getMethod(mi.getName(), mi.getParams());
 			Map<MethodIdentifier, Method> methods = classMethods.get(c);
 			if (methods == null) {
-				methods = new HashMap<>();
+				methods = new HashMap<MethodIdentifier, Method>();
 				classMethods.put(c, methods);
 			}
 			methods.put(mi, m);
 			return m;
-		} catch (SecurityException | NoSuchMethodException e) {
+		} catch (SecurityException e) {
+			throw new OdaException(e);
+		} catch (NoSuchMethodException e) {
 			throw new OdaException(e);
 		}
 	}
@@ -100,7 +102,7 @@ public class ClassMethodFieldBuffer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param c
 	 * @param fieldName
 	 * @return the saved field
@@ -114,12 +116,14 @@ public class ClassMethodFieldBuffer {
 			Field f = c.getField(fieldName);
 			Map<String, Field> fields = classFields.get(c);
 			if (fields == null) {
-				fields = new HashMap<>();
+				fields = new HashMap<String, Field>();
 				classFields.put(c, fields);
 			}
 			fields.put(fieldName, f);
 			return f;
-		} catch (SecurityException | NoSuchFieldException e) {
+		} catch (SecurityException e) {
+			throw new OdaException(e);
+		} catch (NoSuchFieldException e) {
 			throw new OdaException(e);
 		}
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -21,11 +21,15 @@ package org.eclipse.birt.report.model.adapter.oda.model.impl;
 import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter;
 import org.eclipse.birt.report.model.adapter.oda.model.DynamicList;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
+
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -49,7 +53,7 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 	 * The cached value of the '{@link #getParameterDefinition() <em>Parameter
 	 * Definition</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getParameterDefinition()
 	 * @generated
 	 * @ordered
@@ -59,7 +63,7 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 	/**
 	 * The cached value of the '{@link #getDynamicList() <em>Dynamic List</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getDynamicList()
 	 * @generated
 	 * @ordered
@@ -68,7 +72,7 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected DataSetParameterImpl() {
@@ -77,7 +81,7 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -87,17 +91,16 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ParameterDefinition getParameterDefinition() {
 		return parameterDefinition;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetParameterDefinition(ParameterDefinition newParameterDefinition,
@@ -108,55 +111,48 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, oldParameterDefinition,
 					newParameterDefinition);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setParameterDefinition(ParameterDefinition newParameterDefinition) {
 		if (newParameterDefinition != parameterDefinition) {
 			NotificationChain msgs = null;
-			if (parameterDefinition != null) {
+			if (parameterDefinition != null)
 				msgs = ((InternalEObject) parameterDefinition).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, null, msgs);
-			}
-			if (newParameterDefinition != null) {
+			if (newParameterDefinition != null)
 				msgs = ((InternalEObject) newParameterDefinition).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, null, msgs);
-			}
 			msgs = basicSetParameterDefinition(newParameterDefinition, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION,
 					newParameterDefinition, newParameterDefinition));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DynamicList getDynamicList() {
 		return dynamicList;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetDynamicList(DynamicList newDynamicList, NotificationChain msgs) {
@@ -165,45 +161,39 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, oldDynamicList, newDynamicList);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setDynamicList(DynamicList newDynamicList) {
 		if (newDynamicList != dynamicList) {
 			NotificationChain msgs = null;
-			if (dynamicList != null) {
+			if (dynamicList != null)
 				msgs = ((InternalEObject) dynamicList).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, null, msgs);
-			}
-			if (newDynamicList != null) {
+			if (newDynamicList != null)
 				msgs = ((InternalEObject) newDynamicList).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, null, msgs);
-			}
 			msgs = basicSetDynamicList(newDynamicList, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST,
 					newDynamicList, newDynamicList));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -219,7 +209,7 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -235,7 +225,7 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -253,7 +243,7 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -271,7 +261,7 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

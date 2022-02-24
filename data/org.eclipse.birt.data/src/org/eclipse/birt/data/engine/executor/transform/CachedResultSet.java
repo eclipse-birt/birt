@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +61,7 @@ import org.eclipse.birt.data.engine.storage.IDataSetWriter;
  * OdiResultSet is responsible for accessing data sources and some processing
  * like sorting and filtering on the rows returned. It provide APIs for the
  * upper layer to fetch data rows and get group information, etc.
- *
+ * 
  */
 public class CachedResultSet implements IResultIterator {
 
@@ -82,7 +82,7 @@ public class CachedResultSet implements IResultIterator {
 
 	/**
 	 * Constructs and intializes OdiResultSet based on data in a ODA result set
-	 *
+	 * 
 	 * @param query
 	 * @param meta
 	 * @param odaResultSet
@@ -101,7 +101,7 @@ public class CachedResultSet implements IResultIterator {
 	/**
 	 * Constructs and intializes OdiResultSet based on data in an
 	 * IJointDataSetPopulator
-	 *
+	 * 
 	 * @param query
 	 * @param meta
 	 * @param odaResultSet
@@ -147,7 +147,7 @@ public class CachedResultSet implements IResultIterator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param query
 	 * @param customDataSet
 	 * @param eventHandler
@@ -165,7 +165,7 @@ public class CachedResultSet implements IResultIterator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param query
 	 * @param meta
 	 * @param parentResultIterator
@@ -224,7 +224,7 @@ public class CachedResultSet implements IResultIterator {
 	/**
 	 * Returns all rows in the current group at the specified group level, as an
 	 * array of ResultObject objects.
-	 *
+	 * 
 	 * @param groupLevel
 	 * @return int[], group star index and end index
 	 * @throws DataException
@@ -253,7 +253,6 @@ public class CachedResultSet implements IResultIterator {
 	 * org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data
 	 * .engine.impl.document.StreamWrapper, boolean)
 	 */
-	@Override
 	public void doSave(StreamWrapper streamsWrapper, boolean isSubQuery) throws DataException {
 		if (streamsWrapper.getStreamForGroupInfo() != null) {
 			// save group info
@@ -262,7 +261,7 @@ public class CachedResultSet implements IResultIterator {
 		}
 
 		// save result class
-		if (!isSubQuery && (!isSummaryQuery(this.resultSetPopulator.getQuery()))
+		if (isSubQuery == false && (!isSummaryQuery(this.resultSetPopulator.getQuery()))
 				&& streamsWrapper.getStreamForResultClass() != null) {
 			// If autobinding is set, all the data set columns should be saved.
 			((ResultClass) populateResultClass(this.resultSetPopulator.getResultSetMetadata())).doSave(
@@ -323,11 +322,10 @@ public class CachedResultSet implements IResultIterator {
 
 	private IResultClass populateResultClass(IResultClass meta) throws DataException {
 		if (resultClass == null) {
-			List<ResultFieldMetadata> list = new ArrayList<>();
+			List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>();
 			for (int i = 1; i <= meta.getFieldCount(); i++) {
-				if (!meta.getFieldName(i).equals(ExprMetaUtil.POS_NAME)) {
+				if (!meta.getFieldName(i).equals(ExprMetaUtil.POS_NAME))
 					list.add(meta.getFieldMetaData(i));
-				}
 			}
 			resultClass = new ResultClass(list);
 		}
@@ -340,23 +338,20 @@ public class CachedResultSet implements IResultIterator {
 
 	/*
 	 * Close this data set
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#close()
 	 */
-	@Override
 	public void close() throws DataException {
-		if (this.resultSetPopulator == null || this.resultSetPopulator.getCache() == null) {
+		if (this.resultSetPopulator == null || this.resultSetPopulator.getCache() == null)
 			return; // already closed
-		}
 
 		this.resultSetPopulator.getCache().close();
 
 		resultSetPopulator = null;
 
 		try {
-			if (resultSet != null) {
+			if (resultSet != null)
 				resultSet.close();
-			}
 		} catch (DataException e) {
 			logger.logp(Level.FINE, className, "closeOdaResultSet", "Exception at CachedResultSet.close()", e);
 		}
@@ -365,7 +360,6 @@ public class CachedResultSet implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentResult()
 	 */
-	@Override
 	public IResultObject getCurrentResult() throws DataException {
 		assert this.resultSetPopulator != null && this.resultSetPopulator.getCache() != null;
 		return this.resultSetPopulator.getCache().getCurrentResult();
@@ -373,10 +367,9 @@ public class CachedResultSet implements IResultIterator {
 
 	/*
 	 * Advances row cursor, return false if no more rows.
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#next()
 	 */
-	@Override
 	public boolean next() throws DataException {
 		// Make sure that the result set has been opened.
 		assert this.resultSetPopulator != null && this.resultSetPopulator.getCache() != null;
@@ -391,7 +384,6 @@ public class CachedResultSet implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getEndingGroupLevel()
 	 */
-	@Override
 	public int getEndingGroupLevel() throws DataException {
 		return this.resultSetPopulator.getEndingGroupLevel();
 	}
@@ -399,27 +391,24 @@ public class CachedResultSet implements IResultIterator {
 	/**
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getStartingGroupLevel()
 	 */
-	@Override
 	public int getStartingGroupLevel() throws DataException {
 		return this.resultSetPopulator.getStartingGroupLevel();
 	}
 
 	/*
 	 * Rewinds row cursor to the first row at the specified group level
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#first(int)
 	 */
-	@Override
 	public void first(int groupLevel) throws DataException {
 		this.resultSetPopulator.first(groupLevel);
 	}
 
 	/*
 	 * Advances row cursor to the last row at the specified group level
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#last(int)
 	 */
-	@Override
 	public void last(int groupLevel) throws DataException {
 		this.resultSetPopulator.last(groupLevel);
 	}
@@ -427,7 +416,6 @@ public class CachedResultSet implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getResultClass()
 	 */
-	@Override
 	public IResultClass getResultClass() throws DataException {
 		return this.resultSetPopulator.getResultSetMetadata();
 	}
@@ -435,7 +423,6 @@ public class CachedResultSet implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentResultIndex()
 	 */
-	@Override
 	public int getCurrentResultIndex() throws DataException {
 		assert this.resultSetPopulator != null && this.resultSetPopulator.getCache() != null;
 		return this.resultSetPopulator.getCache().getCurrentIndex();
@@ -445,7 +432,6 @@ public class CachedResultSet implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentGroupIndex(int)
 	 */
-	@Override
 	public int getCurrentGroupIndex(int groupLevel) throws DataException {
 		return this.resultSetPopulator.getCurrentGroupIndex(groupLevel);
 	}
@@ -455,7 +441,6 @@ public class CachedResultSet implements IResultIterator {
 	 * org.eclipse.birt.data.engine.odi.IResultIterator#getGroupStartAndEndIndex(
 	 * int)
 	 */
-	@Override
 	public int[] getGroupStartAndEndIndex(int groupLevel) throws DataException {
 		return this.resultSetPopulator.getGroupStartAndEndIndex(groupLevel);
 	}
@@ -463,38 +448,34 @@ public class CachedResultSet implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getRowCount()
 	 */
-	@Override
 	public int getRowCount() throws DataException {
 		return this.resultSetPopulator.getCache().getCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getResultSetCache()
 	 */
-	@Override
 	public ResultSetCache getResultSetCache() {
 		return this.resultSetPopulator.getCache();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getExecutorHelper()
 	 */
-	@Override
 	public IExecutorHelper getExecutorHelper() {
-		if (handler != null) {
+		if (handler != null)
 			return this.handler.getExecutorHelper();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	/**
 	 * Set Oda ResultSet so that it could be closed when closing IResultIterator
-	 *
+	 * 
 	 * @param resultSet
 	 */
 	public void setOdaResultSet(ResultSet resultSet) {
@@ -503,11 +484,10 @@ public class CachedResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getAggrValue(java.lang.
 	 * String)
 	 */
-	@Override
 	public Object getAggrValue(String aggrName) throws DataException {
 		return this.aggrHolderManager.getAggrValue(aggrName);
 	}
@@ -515,7 +495,7 @@ public class CachedResultSet implements IResultIterator {
 	/**
 	 * Set the aggregation value holder from which the aggregation values are
 	 * fetched.
-	 *
+	 * 
 	 * @param holder
 	 * @throws DataException
 	 */
@@ -532,7 +512,7 @@ public class CachedResultSet implements IResultIterator {
 
 	/**
 	 * Clear the aggregation value holder for the re-calculation.
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	public void clearAggrValueHolder() throws DataException {
@@ -541,15 +521,14 @@ public class CachedResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.odi.IResultIterator#addIncrement(org.eclipse.
 	 * birt.data.engine.impl.document.StreamWrapper, int, boolean)
 	 */
-	@Override
 	public void incrementalUpdate(StreamWrapper streamsWrapper, int originalRowCount, boolean isSubQuery)
 			throws DataException {
-		if (!isSubQuery && (!isSummaryQuery(this.resultSetPopulator.getQuery()))
+		if (isSubQuery == false && (!isSummaryQuery(this.resultSetPopulator.getQuery()))
 				&& streamsWrapper.getStreamForResultClass() != null) {
 			IDataSetUpdater updater = DataSetStore.createUpdater(streamsWrapper.getStreamManager(), getResultClass(),
 					handler.getAppContext(), resultSetPopulator.getSession(),

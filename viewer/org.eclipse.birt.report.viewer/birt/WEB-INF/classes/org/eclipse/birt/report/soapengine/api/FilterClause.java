@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -40,7 +40,7 @@ public class FilterClause implements java.io.Serializable {
 
 	/**
 	 * Gets the column value for this FilterClause.
-	 *
+	 * 
 	 * @return column
 	 */
 	public org.eclipse.birt.report.soapengine.api.ColumnDefinition getColumn() {
@@ -49,7 +49,7 @@ public class FilterClause implements java.io.Serializable {
 
 	/**
 	 * Sets the column value for this FilterClause.
-	 *
+	 * 
 	 * @param column
 	 */
 	public void setColumn(org.eclipse.birt.report.soapengine.api.ColumnDefinition column) {
@@ -58,7 +58,7 @@ public class FilterClause implements java.io.Serializable {
 
 	/**
 	 * Gets the columnName value for this FilterClause.
-	 *
+	 * 
 	 * @return columnName
 	 */
 	public org.eclipse.birt.report.soapengine.api.BoundDataColumn getColumnName() {
@@ -67,7 +67,7 @@ public class FilterClause implements java.io.Serializable {
 
 	/**
 	 * Sets the columnName value for this FilterClause.
-	 *
+	 * 
 	 * @param columnName
 	 */
 	public void setColumnName(org.eclipse.birt.report.soapengine.api.BoundDataColumn columnName) {
@@ -76,7 +76,7 @@ public class FilterClause implements java.io.Serializable {
 
 	/**
 	 * Gets the filterOp value for this FilterClause.
-	 *
+	 * 
 	 * @return filterOp
 	 */
 	public java.lang.String getFilterOp() {
@@ -85,7 +85,7 @@ public class FilterClause implements java.io.Serializable {
 
 	/**
 	 * Sets the filterOp value for this FilterClause.
-	 *
+	 * 
 	 * @param filterOp
 	 */
 	public void setFilterOp(java.lang.String filterOp) {
@@ -94,7 +94,7 @@ public class FilterClause implements java.io.Serializable {
 
 	/**
 	 * Gets the operand value for this FilterClause.
-	 *
+	 * 
 	 * @return operand
 	 */
 	public java.lang.String[] getOperand() {
@@ -103,7 +103,7 @@ public class FilterClause implements java.io.Serializable {
 
 	/**
 	 * Sets the operand value for this FilterClause.
-	 *
+	 * 
 	 * @param operand
 	 */
 	public void setOperand(java.lang.String[] operand) {
@@ -120,18 +120,14 @@ public class FilterClause implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof FilterClause)) {
+		if (!(obj instanceof FilterClause))
 			return false;
-		}
 		FilterClause other = (FilterClause) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -152,7 +148,6 @@ public class FilterClause implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

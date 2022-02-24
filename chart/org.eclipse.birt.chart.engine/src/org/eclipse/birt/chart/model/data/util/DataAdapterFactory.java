@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -14,19 +14,15 @@
 
 package org.eclipse.birt.chart.model.data.util;
 
+import org.eclipse.birt.chart.model.data.*;
+
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
-import org.eclipse.birt.chart.model.data.BigNumberDataElement;
-import org.eclipse.birt.chart.model.data.BubbleDataSet;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
-import org.eclipse.birt.chart.model.data.DifferenceDataSet;
-import org.eclipse.birt.chart.model.data.GanttDataSet;
-import org.eclipse.birt.chart.model.data.MultipleActions;
-import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
@@ -47,7 +43,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> The <b>Adapter Factory </b> for the model. It
  * provides an adapter <code>createXXX</code> method for each class of the
  * model. <!-- end-user-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.data.DataPackage
  * @generated
  */
@@ -55,7 +51,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * The cached model package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected static DataPackage modelPackage;
@@ -63,7 +59,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * Creates an instance of the adapter factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DataAdapterFactory() {
@@ -77,7 +73,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This implementation returns <code>true</code> if the
 	 * object is either the model's package or is an instance object of the model.
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
@@ -95,10 +91,10 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The switch that delegates to the <code>createXXX</code> methods. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	protected DataSwitch<Adapter> modelSwitch = new DataSwitch<>() {
+	protected DataSwitch<Adapter> modelSwitch = new DataSwitch<Adapter>() {
 
 		@Override
 		public Adapter caseAction(Action object) {
@@ -224,7 +220,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * Creates an adapter for the <code>target</code>. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param target the object to adapt.
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
@@ -240,7 +236,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.Action
 	 * @generated
@@ -255,7 +251,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Data</em>}'. <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.BaseSampleData
 	 * @generated
@@ -270,7 +266,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Data Element</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.BigNumberDataElement
 	 * @generated
@@ -285,7 +281,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Set</em>}'. <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.BubbleDataSet
 	 * @generated
@@ -300,7 +296,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.DataElement
 	 * @generated
@@ -315,7 +311,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.DataSet
 	 * @generated
@@ -330,7 +326,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Data Element</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.DateTimeDataElement
 	 * @generated
@@ -345,7 +341,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Set</em>}'. <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.DateTimeDataSet
 	 * @generated
@@ -360,7 +356,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Data Set</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.DifferenceDataSet
 	 * @generated
@@ -375,7 +371,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Set</em>}'. <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.GanttDataSet
 	 * @generated
@@ -390,7 +386,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Actions</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.MultipleActions
 	 * @generated
@@ -405,7 +401,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Set</em>}'. <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.NullDataSet
 	 * @generated
@@ -420,7 +416,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Element</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.NumberDataElement
 	 * @generated
@@ -435,7 +431,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Set</em>}'. <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.NumberDataSet
 	 * @generated
@@ -450,7 +446,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Sample Data</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.OrthogonalSampleData
 	 * @generated
@@ -465,7 +461,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.Query
 	 * @generated
@@ -480,7 +476,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.Rule
 	 * @generated
@@ -495,7 +491,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.SampleData
 	 * @generated
@@ -510,7 +506,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Definition</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition
 	 * @generated
@@ -525,7 +521,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Grouping</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping
 	 * @generated
@@ -540,7 +536,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Set</em>}'. <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.StockDataSet
 	 * @generated
@@ -555,7 +551,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * Set</em>}'. <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.TextDataSet
 	 * @generated
@@ -570,7 +566,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.data.Trigger
 	 * @generated
@@ -582,7 +578,7 @@ public class DataAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * Creates a new adapter for the default case. <!-- begin-user-doc --> This
 	 * default implementation returns null. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @generated
 	 */

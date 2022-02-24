@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,19 +26,18 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 
 /**
- *
+ * 
  */
 
 public class CommentsTest extends HTMLReportEmitterTestCase {
 
-	@Override
 	public String getWorkSpace() {
 		// TODO Auto-generated method stub
 		return "./commentsTest";
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws EngineException
 	 * @throws IOException
 	 */
@@ -59,7 +58,7 @@ public class CommentsTest extends HTMLReportEmitterTestCase {
 		String content = new String(output.toByteArray());
 		output.close();
 
-		content = content.replace("\n", "\"\n\"+\\n");
+		content = content.replaceAll("\n", "\"\n\"+\\\\n");
 		String regex = "<!--comments1-->";
 		Matcher matcher = Pattern.compile(regex).matcher(content);
 		assertEquals(true, matcher.find());

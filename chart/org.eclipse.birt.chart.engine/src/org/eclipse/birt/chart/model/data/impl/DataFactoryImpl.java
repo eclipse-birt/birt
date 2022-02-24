@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -14,20 +14,16 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
+import org.eclipse.birt.chart.model.data.*;
+
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
-import org.eclipse.birt.chart.model.data.BigNumberDataElement;
-import org.eclipse.birt.chart.model.data.BubbleDataSet;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
-import org.eclipse.birt.chart.model.data.DifferenceDataSet;
-import org.eclipse.birt.chart.model.data.GanttDataSet;
-import org.eclipse.birt.chart.model.data.MultipleActions;
-import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
@@ -49,7 +45,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- *
+ * 
  * @generated
  */
 public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
@@ -57,7 +53,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 	/**
 	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static DataFactory init() {
@@ -76,7 +72,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 	/**
 	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DataFactoryImpl() {
@@ -85,7 +81,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -144,7 +140,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -159,7 +155,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -174,10 +170,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Action createAction() {
 		ActionImpl action = new ActionImpl();
 		return action;
@@ -185,10 +180,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public BaseSampleData createBaseSampleData() {
 		BaseSampleDataImpl baseSampleData = new BaseSampleDataImpl();
 		return baseSampleData;
@@ -196,10 +190,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public BigNumberDataElement createBigNumberDataElement() {
 		BigNumberDataElementImpl bigNumberDataElement = new BigNumberDataElementImpl();
 		return bigNumberDataElement;
@@ -207,10 +200,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public BubbleDataSet createBubbleDataSet() {
 		BubbleDataSetImpl bubbleDataSet = new BubbleDataSetImpl();
 		return bubbleDataSet;
@@ -218,10 +210,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DataElement createDataElement() {
 		DataElementImpl dataElement = new DataElementImpl();
 		return dataElement;
@@ -229,10 +220,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DataSet createDataSet() {
 		DataSetImpl dataSet = new DataSetImpl();
 		return dataSet;
@@ -240,10 +230,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DateTimeDataElement createDateTimeDataElement() {
 		DateTimeDataElementImpl dateTimeDataElement = new DateTimeDataElementImpl();
 		return dateTimeDataElement;
@@ -251,10 +240,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DateTimeDataSet createDateTimeDataSet() {
 		DateTimeDataSetImpl dateTimeDataSet = new DateTimeDataSetImpl();
 		return dateTimeDataSet;
@@ -262,10 +250,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DifferenceDataSet createDifferenceDataSet() {
 		DifferenceDataSetImpl differenceDataSet = new DifferenceDataSetImpl();
 		return differenceDataSet;
@@ -273,10 +260,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public GanttDataSet createGanttDataSet() {
 		GanttDataSetImpl ganttDataSet = new GanttDataSetImpl();
 		return ganttDataSet;
@@ -284,10 +270,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public MultipleActions createMultipleActions() {
 		MultipleActionsImpl multipleActions = new MultipleActionsImpl();
 		return multipleActions;
@@ -295,10 +280,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public NullDataSet createNullDataSet() {
 		NullDataSetImpl nullDataSet = new NullDataSetImpl();
 		return nullDataSet;
@@ -306,10 +290,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public NumberDataElement createNumberDataElement() {
 		NumberDataElementImpl numberDataElement = new NumberDataElementImpl();
 		return numberDataElement;
@@ -317,10 +300,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public NumberDataSet createNumberDataSet() {
 		NumberDataSetImpl numberDataSet = new NumberDataSetImpl();
 		return numberDataSet;
@@ -328,10 +310,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public OrthogonalSampleData createOrthogonalSampleData() {
 		OrthogonalSampleDataImpl orthogonalSampleData = new OrthogonalSampleDataImpl();
 		return orthogonalSampleData;
@@ -339,10 +320,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Query createQuery() {
 		QueryImpl query = new QueryImpl();
 		return query;
@@ -350,10 +330,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Rule createRule() {
 		RuleImpl rule = new RuleImpl();
 		return rule;
@@ -361,10 +340,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public SampleData createSampleData() {
 		SampleDataImpl sampleData = new SampleDataImpl();
 		return sampleData;
@@ -372,10 +350,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public SeriesDefinition createSeriesDefinition() {
 		SeriesDefinitionImpl seriesDefinition = new SeriesDefinitionImpl();
 		return seriesDefinition;
@@ -383,10 +360,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public SeriesGrouping createSeriesGrouping() {
 		SeriesGroupingImpl seriesGrouping = new SeriesGroupingImpl();
 		return seriesGrouping;
@@ -394,10 +370,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public StockDataSet createStockDataSet() {
 		StockDataSetImpl stockDataSet = new StockDataSetImpl();
 		return stockDataSet;
@@ -405,10 +380,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public TextDataSet createTextDataSet() {
 		TextDataSetImpl textDataSet = new TextDataSetImpl();
 		return textDataSet;
@@ -416,10 +390,9 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Trigger createTrigger() {
 		TriggerImpl trigger = new TriggerImpl();
 		return trigger;
@@ -427,7 +400,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Object createDataFromString(EDataType eDataType, String initialValue) {
@@ -436,7 +409,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDataToString(EDataType eDataType, Object instanceValue) {
@@ -445,17 +418,16 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DataPackage getDataPackage() {
 		return (DataPackage) getEPackage();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @deprecated
 	 * @generated
 	 */

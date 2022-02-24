@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ public class Segment {
 		boolean leftEdge;
 	}
 
-	LinkedList<SegmentEdge> edges = new LinkedList<>();
+	LinkedList<SegmentEdge> edges = new LinkedList<SegmentEdge>();
 	Object[][] sections;
 	Comparator comparator;
 
@@ -79,7 +79,6 @@ public class Segment {
 	 * @param left
 	 * @param right
 	 */
-	@Deprecated
 	void insertSection(Object left, Object right) {
 		// drop the normalize result
 		sections = null;
@@ -128,7 +127,7 @@ public class Segment {
 	public static final Object RIGHT_MOST_EDGE = "RIGHT";
 
 	public void normalize() {
-		LinkedList<Object[]> sects = new LinkedList<>();
+		LinkedList<Object[]> sects = new LinkedList<Object[]>();
 		// insert the first open in that segment if there is no open.
 		if (!edges.isEmpty()) {
 			SegmentEdge start = (SegmentEdge) edges.getFirst();
@@ -197,9 +196,8 @@ public class Segment {
 //		return false;
 //	}
 
-	@Override
 	public String toString() {
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 
 		normalize();
 

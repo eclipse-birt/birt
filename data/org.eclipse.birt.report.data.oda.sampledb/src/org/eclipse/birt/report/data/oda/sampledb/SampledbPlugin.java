@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 - 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +53,6 @@ public class SampledbPlugin extends BIRTPlugin {
 	/**
 	 * @see org.eclipse.core.runtime.Plugin#start(org.osgi.framework.BundleContext)
 	 */
-	@Override
 	public void start(BundleContext context) throws Exception {
 		logger.info("Sampledb plugin starts up. Current startCount=" + startCount);
 		synchronized (SampledbPlugin.class) {
@@ -69,7 +68,6 @@ public class SampledbPlugin extends BIRTPlugin {
 	/**
 	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
 	 */
-	@Override
 	public void stop(BundleContext context) throws Exception {
 		logger.info("Sampledb plugin stopping. Current startCount=" + startCount);
 		synchronized (SampledbPlugin.class) {
@@ -198,9 +196,11 @@ public class SampledbPlugin extends BIRTPlugin {
 				if (!removeDirectory(child)) {
 					success = false;
 				}
-			} else if (!child.delete()) {
-				logger.info("Failed to delete temp file " + child.getAbsolutePath());
-				success = false;
+			} else {
+				if (!child.delete()) {
+					logger.info("Failed to delete temp file " + child.getAbsolutePath());
+					success = false;
+				}
 			}
 		}
 		if (!dir.delete()) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -77,11 +77,9 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
-	@Override
 	public Control createControl(Composite parent) {
 		listener = new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!specCheckButtons.containsValue(e.getSource())) {
 					setOutputEnable(hideCheckbox.getSelection());
@@ -121,11 +119,10 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 		specRadio.setText(Messages.getString("VisibilityPage.Radio.SpecificOutputs")); //$NON-NLS-1$
 		WidgetUtil.createGridPlaceholder(container, 3, true, true);
 
-		if (isFormStyle()) {
+		if (isFormStyle())
 			group = FormWidgetFactory.getInstance().createGroup(container, ""); //$NON-NLS-1$
-		} else {
+		else
 			group = new Group(container, SWT.NONE);
-		}
 		group.setLayout(new GridLayout());
 		data = new GridData();
 		data.verticalSpan = 4;
@@ -143,7 +140,6 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 		return container;
 	}
 
-	@Override
 	public Control getControl() {
 		return container;
 	}
@@ -158,7 +154,6 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 		allExpression = new ExpressionComposite(container, isFormStyle());
 		allExpression.addListener(SWT.Modify, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				saveHideInfo();
 			}
@@ -183,7 +178,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 		if (emitters == null || emitters.length == 0) {
 			typeInfo = new String[] {};
 		} else {
-			List<String> temp = new ArrayList<>();
+			List<String> temp = new ArrayList<String>();
 			for (int i = 0; i < emitters.length; i++) {
 				EmitterInfo info = emitters[i];
 				if (!info.isHidden()) {
@@ -215,7 +210,6 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 			btn.addSelectionListener(listener);
 			expression.addListener(SWT.Modify, new Listener() {
 
-				@Override
 				public void handleEvent(Event event) {
 					saveHideInfo();
 				}
@@ -260,7 +254,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 
 	/**
 	 * Sets the enable status of output type.
-	 *
+	 * 
 	 * @param enable The enable status.
 	 */
 	private void setOutputEnable(boolean enable) {
@@ -275,9 +269,8 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 			}
 		} else {
 			for (int i = 0; i < children.length; i++) {
-				if (children[i] instanceof ExpressionComposite) {
+				if (children[i] instanceof ExpressionComposite)
 					continue;
-				}
 				children[i].setEnabled(enable);
 			}
 
@@ -316,9 +309,8 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 	}
 
 	private void dealParentLayout(Composite container) {
-		if (container == null) {
+		if (container == null)
 			return;
-		}
 		if (!(container instanceof ScrolledComposite)) {
 			dealParentLayout(container.getParent());
 			return;
@@ -329,7 +321,6 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 		control.layout();
 	}
 
-	@Override
 	public void save(Object obj) throws SemanticException {
 		// TODO Auto-generated method stub
 
@@ -337,7 +328,6 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 
 	private boolean inputChanged = false;
 
-	@Override
 	public void setInput(Object object) {
 		super.setInput(object);
 		getDescriptorProvider().setInput(object);
@@ -359,7 +349,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * AttributePage#refreshValues(java.util.Set)
 	 */
@@ -367,15 +357,13 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 	private Object oldInput = null;
 
 	private boolean needResetUI() {
-		if (oldInput == null) {
+		if (oldInput == null)
 			oldInput = getInput();
-		}
 		Iterator visibilities = outputDescriptorProvider.getVisibilityRulesIterator();
 		if ((visibilities == null || !visibilities.hasNext()) && hideCheckbox.getSelection()) {
 			if (!allRadio.getSelection()) {
-				if (oldInput.equals(getInput())) {
+				if (oldInput.equals(getInput()))
 					return false;
-				}
 			}
 			oldInput = getInput();
 			return true;
@@ -389,21 +377,17 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 				}
 			}
 			if (getCurrentContainer() == specContainer) {
-				if (!hideCheckbox.getSelection()) {
+				if (!hideCheckbox.getSelection())
 					return true;
-				}
 				return false;
-			} else {
+			} else
 				return true;
-			}
 		}
 	}
 
-	@Override
 	public void load() {
-		if (needResetUI()) {
+		if (needResetUI())
 			inputChanged();
-		}
 		doLoad();
 	}
 
@@ -422,9 +406,8 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 			hideCheckbox.setEnabled(false);
 			setOutputEnable(false);
 			return;
-		} else {
+		} else
 			hideCheckbox.setEnabled(true);
-		}
 
 		if (needResetUI()) {
 			hideCheckbox.setEnabled(true);
@@ -434,17 +417,15 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 			hideCheckbox.setSelection((visibilities != null) && visibilities.hasNext());
 			setOutputEnable(hideCheckbox.getSelection());
 
-			if (visibilities == null) {
+			if (visibilities == null)
 				return;
-			}
 
 			while (visibilities.hasNext()) {
 				Object obj = visibilities.next();
 				String format = outputDescriptorProvider.getFormat(obj);
 				Expression expression = outputDescriptorProvider.getExpression(obj);
-				if (expression == null) {
+				if (expression == null)
 					expression = new Expression(null, UIUtil.getDefaultScriptType()); // $NON-NLS-1$
-				}
 				if (outputDescriptorProvider.isFormatTypeAll(format)) {
 					allRadio.setSelection(true);
 					allExpression.setExpression(expression);
@@ -454,12 +435,10 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 				allRadio.setSelection(false);
 				specRadio.setSelection(true);
 
-				if (specCheckButtons.containsKey(format)) {
+				if (specCheckButtons.containsKey(format))
 					((Button) specCheckButtons.get(format)).setSelection(true);
-				}
-				if (specExpressions.containsKey(format)) {
+				if (specExpressions.containsKey(format))
 					((ExpressionComposite) specExpressions.get(format)).setExpression(expression);
-				}
 			}
 
 			setOutputInfo();
@@ -483,15 +462,12 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 				Object obj = visibilities.next();
 				String format = outputDescriptorProvider.getFormat(obj);
 				Expression expression = outputDescriptorProvider.getExpression(obj);
-				if (expression == null) {
+				if (expression == null)
 					expression = new Expression(null, UIUtil.getDefaultScriptType());
-				}
-				if (specCheckButtons.containsKey(format)) {
+				if (specCheckButtons.containsKey(format))
 					((Button) specCheckButtons.get(format)).setSelection(true);
-				}
-				if (specExpressions.containsKey(format)) {
+				if (specExpressions.containsKey(format))
 					((ExpressionComposite) specExpressions.get(format)).setExpression(expression);
-				}
 			}
 
 			for (int i = 0; i < outputDescriptorProvider.getTypeInfo().length; i++) {
@@ -525,12 +501,10 @@ public class OutputPropertyDescriptor extends PropertyDescriptor {
 
 	private Composite container;
 
-	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		super.setDescriptorProvider(provider);
-		if (provider instanceof OutputPropertyDescriptorProvider) {
+		if (provider instanceof OutputPropertyDescriptorProvider)
 			outputDescriptorProvider = (OutputPropertyDescriptorProvider) provider;
-		}
 	}
 
 }

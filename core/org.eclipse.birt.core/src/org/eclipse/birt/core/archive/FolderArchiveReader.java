@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,12 +30,12 @@ public class FolderArchiveReader implements IDocArchiveReader {
 
 	static Logger logger = Logger.getLogger(FolderArchiveReader.class.getName());
 	private String folderName;
-	private HashSet<RAFolderInputStream> inputStreams = new HashSet<>();
+	private HashSet<RAFolderInputStream> inputStreams = new HashSet<RAFolderInputStream>();
 	// content escape, allow folder and file get the same name
 	boolean contentEscape = false;
 
 	/**
-	 *
+	 * 
 	 * @param folderName
 	 * @param contentEscape old document should be false.
 	 * @throws IOException
@@ -64,37 +64,34 @@ public class FolderArchiveReader implements IDocArchiveReader {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#getName()
 	 */
 	/**
 	 * return the folder name as the report archive name
 	 */
-	@Override
 	public String getName() {
 		return folderName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#open()
 	 */
-	@Override
 	public void open() {
 		// Do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#close()
 	 */
-	@Override
 	public void close() throws IOException {
 		IOException exception = null;
 		synchronized (inputStreams) {
-			ArrayList<RAFolderInputStream> inputs = new ArrayList<>(inputStreams);
+			ArrayList<RAFolderInputStream> inputs = new ArrayList<RAFolderInputStream>(inputStreams);
 			for (RAFolderInputStream in : inputs) {
 				try {
 					in.close();
@@ -113,11 +110,10 @@ public class FolderArchiveReader implements IDocArchiveReader {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.core.archive.IDocArchiveReader#getStream(java.lang.String)
 	 */
-	@Override
 	public RAInputStream getStream(String relativePath) throws IOException {
 		String path = getFilePath(relativePath);
 
@@ -128,12 +124,10 @@ public class FolderArchiveReader implements IDocArchiveReader {
 		throw new FileNotFoundException(relativePath);
 	}
 
-	@Override
 	public RAInputStream getInputStream(String relativePath) throws IOException {
 		return getStream(relativePath);
 	}
 
-	@Override
 	public boolean exists(String relativePath) {
 		String fullPath = getFilePath(relativePath);
 		File fd = new File(fullPath);
@@ -143,9 +137,8 @@ public class FolderArchiveReader implements IDocArchiveReader {
 	/**
 	 * return a list of strings which are the relative path of streams
 	 */
-	@Override
 	public List<String> listStreams(String relativeStoragePath) throws IOException {
-		ArrayList<String> streamList = new ArrayList<>();
+		ArrayList<String> streamList = new ArrayList<String>();
 		String storagePath = getFolderPath(relativeStoragePath);
 		File dir = new File(storagePath);
 
@@ -167,14 +160,13 @@ public class FolderArchiveReader implements IDocArchiveReader {
 		return streamList;
 	}
 
-	@Override
 	public List<String> listAllStreams() throws IOException {
-		ArrayList<File> list = new ArrayList<>();
+		ArrayList<File> list = new ArrayList<File>();
 		ArchiveUtil.listAllFiles(new File(folderName), list);
 
-		ArrayList<String> streams = new ArrayList<>();
+		ArrayList<String> streams = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
-			String relativePath;
+			String relativePath = null;
 			File file = list.get(i);
 			relativePath = ArchiveUtil.getEntryName(folderName, file.getPath());
 			if (!ArchiveUtil.needSkip(relativePath)) {
@@ -186,10 +178,9 @@ public class FolderArchiveReader implements IDocArchiveReader {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#lock(java.lang.String)
 	 */
-	@Override
 	public Object lock(String stream) throws IOException {
 		String path = getFilePath(stream) + ".lck";
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance();
@@ -198,10 +189,9 @@ public class FolderArchiveReader implements IDocArchiveReader {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#unlock(java.lang.Object)
 	 */
-	@Override
 	public void unlock(Object lock) {
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance();
 		lockManager.unlock(lock);

@@ -18,29 +18,29 @@ import java.util.List;
 public interface ITimeFunction {
 	/**
 	 * Get the function name, see<code>IBuildInTimeFunction<code>
-	 *
+	 * 
 	 * @return
 	 */
-	String getName();
+	public String getName();
 
 	/**
 	 * Get the function display name.
-	 *
+	 * 
 	 * @return
 	 */
-	String getDisplayName();
+	public String getDisplayName();
 
 	/**
 	 * Get the function's description.
-	 *
+	 * 
 	 * @return
 	 */
-	String getDescription();
+	public String getDescription();
 
 	/**
 	 * Get argument info
-	 *
+	 * 
 	 * @return
 	 */
-	List<IArgumentInfo> getArguments();
+	public List<IArgumentInfo> getArguments();
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ class OdaResultSet implements IDataSetPopulator {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param rs
 	 * @throws DataException
 	 */
@@ -49,10 +49,9 @@ class OdaResultSet implements IDataSetPopulator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
-	@Override
 	public IResultObject next() throws DataException {
 		if (status == UNKNOWN) {
 			IResultObject resultObj = resultSet.fetch();
@@ -79,7 +78,6 @@ class OdaResultSet implements IDataSetPopulator {
 		 * @see org.eclipse.birt.data.engine.odi.IResultObject#getFieldValue(java.lang.
 		 * String)
 		 */
-		@Override
 		public Object getFieldValue(String fieldName) throws DataException {
 			return null;
 		}
@@ -87,7 +85,6 @@ class OdaResultSet implements IDataSetPopulator {
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.IResultObject#getFieldValue(int)
 		 */
-		@Override
 		public Object getFieldValue(int fieldIndex) throws DataException {
 			return null;
 		}
@@ -95,7 +92,6 @@ class OdaResultSet implements IDataSetPopulator {
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.IResultObject#getResultClass()
 		 */
-		@Override
 		public IResultClass getResultClass() {
 			try {
 				// return empty ResultClass object
@@ -111,7 +107,6 @@ class OdaResultSet implements IDataSetPopulator {
 		 * org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(java.lang.
 		 * String, java.lang.Object)
 		 */
-		@Override
 		public void setCustomFieldValue(String fieldName, Object value) throws DataException {
 			// do nothing
 		}
@@ -120,7 +115,6 @@ class OdaResultSet implements IDataSetPopulator {
 		 * @see org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(int,
 		 * java.lang.Object)
 		 */
-		@Override
 		public void setCustomFieldValue(int fieldIndex, Object value) throws DataException {
 			// do nothing
 		}

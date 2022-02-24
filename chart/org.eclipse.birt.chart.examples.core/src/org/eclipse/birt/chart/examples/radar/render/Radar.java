@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -103,12 +103,11 @@ public class Radar extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.render.ISeriesRenderer#compute(org.eclipse.birt
 	 * .chart.model.attribute.Bounds, org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
-	@Override
 	public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		final SeriesRenderingHints srh = (SeriesRenderingHints) isrh;
 
@@ -146,13 +145,12 @@ public class Radar extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.render.ISeriesRenderer#renderSeries(org.eclipse
 	 * .birt.chart.device.IPrimitiveRenderer,
 	 * org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
-	@Override
 	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		SeriesDefinition sd = getSeriesDefinition();
 		ChartWithoutAxes cwoa = (ChartWithoutAxes) getModel();
@@ -171,14 +169,13 @@ public class Radar extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.render.ISeriesRenderer#renderLegendGraphic(org
 	 * .eclipse.birt.chart.device.IPrimitiveRenderer,
 	 * org.eclipse.birt.chart.model.layout.Legend,
 	 * org.eclipse.birt.chart.model.attribute.Fill,
 	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
-	@Override
 	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
 			throws ChartException {
 
@@ -236,7 +233,7 @@ public class Radar extends BaseRenderer {
 					new Object[] { ls, sd }, Messages.getResourceBundle(getRunTimeContext().getULocale()));
 		}
 
-		Marker m;
+		Marker m = null;
 
 		// need
 		m = ls.getMarker();
@@ -250,7 +247,7 @@ public class Radar extends BaseRenderer {
 		if (m != null && m.isVisible()) {
 			renderMarker(lg, ipr, m,
 					goFactory.createLocation(bo.getLeft() + bo.getWidth() / 2, bo.getTop() + bo.getHeight() / 2),
-					ls.getLineAttributes(), fPaletteEntry, null, markerSize, false, false);
+					ls.getLineAttributes(), fPaletteEntry, null, Integer.valueOf(markerSize), false, false);
 		}
 	}
 
@@ -258,9 +255,8 @@ public class Radar extends BaseRenderer {
 			throws ChartException {
 
 		int iThisSeriesIndex = sd.getRunTimeSeries().indexOf(se);
-		if (iThisSeriesIndex == -1) {
+		if (iThisSeriesIndex == -1)
 			iThisSeriesIndex = getSeriesIndex();
-		}
 		final EList<Fill> elPalette = sd.getSeriesPalette().getEntries();
 		Fill fPaletteEntry = FillUtil.getPaletteFill(elPalette, iThisSeriesIndex);
 
@@ -316,7 +312,7 @@ public class Radar extends BaseRenderer {
 		Location lo = center.copyInstance();
 
 		LineAttributes lia = null;
-		LineAttributes wlia;
+		LineAttributes wlia = null;
 		RadarSeries rsd = getFirstSeries();
 		wlia = rsd.getWebLineAttributes();
 		if (wlia == null) {
@@ -396,14 +392,13 @@ public class Radar extends BaseRenderer {
 			ore.setBounds(goFactory.createBounds(center.getX() - spiderMag, center.getY() - spiderMag, spiderMag * 2,
 					spiderMag * 2));
 
-			Fill wPaletteEntry;
+			Fill wPaletteEntry = null;
 			Palette pa = sd.getSeriesPalette();
 			int ps = pa.getEntries().size();
 			int tscnt = getSeriesCount();
 			int palcnt = ps + tscnt + sc;
-			if (palcnt > ps) {
+			if (palcnt > ps)
 				palcnt = 1;
-			}
 
 			wPaletteEntry = FillUtil.getPaletteFill(pa.getEntries(), sc + 1);
 			if (wPaletteEntry instanceof ColorDefinition) {
@@ -642,9 +637,8 @@ public class Radar extends BaseRenderer {
 		List<Series> rts = sd.getRunTimeSeries();
 		int iThisSeriesIndex = rts.indexOf(se);
 
-		if (iThisSeriesIndex == -1) {
+		if (iThisSeriesIndex == -1)
 			iThisSeriesIndex = getSeriesIndex();
-		}
 
 		int totalSeriesCnt = getSeriesCount();
 		int currSeriesIdx = getSeriesIndex();
@@ -686,7 +680,7 @@ public class Radar extends BaseRenderer {
 		}
 
 		Location loAxis = goFactory.createLocation(centrePointX, centrePointY);
-		List<Location> loList = new LinkedList<>();
+		List<Location> loList = new LinkedList<Location>();
 
 		for (int index = 0; index < dpha.length; index++) {
 			DataPointHints dph = dpha[index];

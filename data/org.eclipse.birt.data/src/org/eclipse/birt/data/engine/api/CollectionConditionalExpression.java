@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api;
@@ -32,17 +32,14 @@ public class CollectionConditionalExpression extends BaseExpression implements I
 		this.operator = operator;
 	}
 
-	@Override
 	public Collection<IScriptExpression> getExpr() {
 		return this.expr;
 	}
 
-	@Override
 	public Collection<Collection<IScriptExpression>> getOperand() {
 		return this.operand;
 	}
 
-	@Override
 	public int getOperator() {
 		return this.operator;
 	}

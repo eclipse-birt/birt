@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,23 +50,23 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	private final IDeviceRenderer idr;
 
-	private final ArrayList<WrappedInstruction> alPlanes = new ArrayList<>(16);
+	private final ArrayList<WrappedInstruction> alPlanes = new ArrayList<WrappedInstruction>(16);
 
 	private Comparator<?> cpPlanes = null;
 
-	private final ArrayList<LineRenderEvent> alLines = new ArrayList<>(16);
+	private final ArrayList<LineRenderEvent> alLines = new ArrayList<LineRenderEvent>(16);
 
-	private final ArrayList<LineRenderEvent> alConnectionLines = new ArrayList<>(16);
+	private final ArrayList<LineRenderEvent> alConnectionLines = new ArrayList<LineRenderEvent>(16);
 
-	private final ArrayList<MarkerInstruction> alMarkers = new ArrayList<>(16);
+	private final ArrayList<MarkerInstruction> alMarkers = new ArrayList<MarkerInstruction>(16);
 
-	private final ArrayList<TextRenderEvent> alLabels = new ArrayList<>(16);
+	private final ArrayList<TextRenderEvent> alLabels = new ArrayList<TextRenderEvent>(16);
 
-	private final ArrayList<WrappedInstruction> alPlaneShadows = new ArrayList<>(4);
+	private final ArrayList<WrappedInstruction> alPlaneShadows = new ArrayList<WrappedInstruction>(4);
 
 	private Comparator<?> cpPlaneShadows = null;
 
-	public List<Object> al3D = new ArrayList<>(16);
+	public List<Object> al3D = new ArrayList<Object>(16);
 
 	private final boolean bTransposed;
 	private Chart cm;
@@ -96,15 +96,15 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Adds rendering Plane event to cache.
-	 *
+	 * 
 	 * @param pre As of now, supported types are RectanguleRenderEvent and
 	 *            PolygonRenderEvent
 	 */
-	public Object addPlane(PrimitiveRenderEvent pre, int iInstruction) {
+	public final Object addPlane(PrimitiveRenderEvent pre, int iInstruction) {
 		return addPlane(pre, iInstruction, 0);
 	}
 
-	public Object addPlane(PrimitiveRenderEvent pre, int iInstruction, int zorder_hint) {
+	public final Object addPlane(PrimitiveRenderEvent pre, int iInstruction, int zorder_hint) {
 		Object obj = null;
 		try {
 			WrappedInstruction wi;
@@ -128,15 +128,15 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 	/**
 	 * Adds rendering Plane event to cache. This Plane is usually a shadow or depth,
 	 * and will be in the lower z-order
-	 *
+	 * 
 	 * @param pre As of now, supported types are RectanguleRenderEvent and
 	 *            PolygonRenderEvent
 	 */
-	public void addPlaneShadow(PrimitiveRenderEvent pre, int iInstruction) {
+	public final void addPlaneShadow(PrimitiveRenderEvent pre, int iInstruction) {
 		addPlaneShadow(pre, iInstruction, 0);
 	}
 
-	public void addPlaneShadow(PrimitiveRenderEvent pre, int iInstruction, int zorder_hint) {
+	public final void addPlaneShadow(PrimitiveRenderEvent pre, int iInstruction, int zorder_hint) {
 		try {
 			if (pre instanceof I3DRenderEvent) {
 				al3D.add(new WrappedInstruction(this, pre.copy(), iInstruction, zorder_hint));
@@ -151,14 +151,14 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 	/**
 	 * Adds wrapped rendering event to cache. Never use this for 3D rendering event.
 	 */
-	public void addModel(WrappedInstruction wi) {
+	public final void addModel(WrappedInstruction wi) {
 		alPlanes.add(wi);
 	}
 
 	/**
 	 * Adds line rendering event to cache.
 	 */
-	public void addLine(LineRenderEvent lre) {
+	public final void addLine(LineRenderEvent lre) {
 		if (lre instanceof I3DRenderEvent) {
 			if (lre.getLineAttributes() != null && lre.getLineAttributes().isVisible()) {
 				PrimitiveRenderEvent lre1 = lre.copy();
@@ -172,14 +172,14 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 	/**
 	 * Adds marker connection line rendering event to cache.
 	 */
-	public void addConnectionLine(LineRenderEvent lre) {
+	public final void addConnectionLine(LineRenderEvent lre) {
 		alConnectionLines.add((LineRenderEvent) lre.copy());
 	}
 
 	/**
 	 * Adds text rendering event to cache.
 	 */
-	public void addLabel(TextRenderEvent tre) {
+	public final void addLabel(TextRenderEvent tre) {
 		if (tre instanceof I3DRenderEvent) {
 			al3D.add(tre.copy());
 		} else {
@@ -190,7 +190,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 	/**
 	 * Adds marker rendering event to cache.
 	 */
-	public void addMarker(PrimitiveRenderEvent pre, int iInstruction, double iMarkerSize, int zOrder) {
+	public final void addMarker(PrimitiveRenderEvent pre, int iInstruction, double iMarkerSize, int zOrder) {
 		try {
 			if (pre instanceof I3DRenderEvent) {
 				al3D.add(new MarkerInstruction(this, pre.copy(), iInstruction, iMarkerSize, zOrder));
@@ -205,13 +205,13 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 	/**
 	 * Flush the cache, perform all pending rendering tasks.
 	 */
-	public void flush() throws ChartException {
+	public final void flush() throws ChartException {
 		flushOptions(FLUSH_ALL);
 	}
 
 	/**
 	 * Flush the cache of specified types.
-	 *
+	 * 
 	 * @param options types
 	 * @see #FLUSH_3D
 	 * @see #FLUSH_LABLE
@@ -220,7 +220,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 	 * @see #FLUSH_PLANE
 	 * @since 2.2
 	 */
-	public void flushOptions(int options) throws ChartException {
+	public final void flushOptions(int options) throws ChartException {
 		// FLUSH PLANE SHADOWS
 		if ((options & FLUSH_PLANE_SHADOW) == FLUSH_PLANE_SHADOW) {
 			flushPlaneShadows(idr, alPlaneShadows, cpPlaneShadows);
@@ -258,7 +258,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Flush cached 3D elements.
-	 *
+	 * 
 	 * @param _idr
 	 * @param alBlocks
 	 * @throws ChartException
@@ -313,7 +313,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Flush cached labels.
-	 *
+	 * 
 	 * @param _idr
 	 * @param labels
 	 * @throws ChartException
@@ -333,7 +333,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Flush cached markers.
-	 *
+	 * 
 	 * @param _idr
 	 * @param markers
 	 * @throws ChartException
@@ -367,7 +367,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Flush cached lines.
-	 *
+	 * 
 	 * @param _idr
 	 * @param lines
 	 * @throws ChartException
@@ -387,7 +387,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Flush cached planes.
-	 *
+	 * 
 	 * @param _idr
 	 * @param planes
 	 * @throws ChartException
@@ -437,7 +437,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Flush cached plane shadows.
-	 *
+	 * 
 	 * @param _idr
 	 * @param planeShadows
 	 * @throws ChartException
@@ -502,7 +502,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Returns all cached connection lines.
-	 *
+	 * 
 	 * @return all cached connection lines.
 	 */
 	public List<LineRenderEvent> getAllConnectionLines() {
@@ -511,7 +511,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Returns all cached markers.
-	 *
+	 * 
 	 * @return all cached markers.
 	 */
 	public List<MarkerInstruction> getAllMarkers() {
@@ -520,7 +520,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Returns all cached labels.
-	 *
+	 * 
 	 * @return all cached labels.
 	 */
 	public List<TextRenderEvent> getAllLabels() {
@@ -544,7 +544,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 	/**
 	 * Create a new instance of <code>DeverredCache</code> according to current
 	 * device render and chart model.
-	 *
+	 * 
 	 * @return
 	 * @since 2.6.2
 	 */
@@ -564,7 +564,7 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 
 	/**
 	 * Enables if all 3D polygons in current deferred cache need antialiasing.
-	 *
+	 * 
 	 * @param antialiasing
 	 */
 	public void setAntialiasing(boolean antialiasing) {
@@ -614,7 +614,6 @@ public final class DeferredCache implements Comparable<DeferredCache> {
 		return 0;
 	}
 
-	@Override
 	public int compareTo(DeferredCache other) {
 		// Compare marker line's z order firstly
 		if (getMarkerNLineZOrder() != other.getMarkerNLineZOrder()) {

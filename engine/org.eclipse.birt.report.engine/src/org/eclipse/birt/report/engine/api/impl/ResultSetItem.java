@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,9 +38,16 @@ public class ResultSetItem implements IResultSetItem {
 	private DesignElementHandle handle;
 	private Locale locale;
 
+	/*
+	 * prevent default construction.
+	 */
+	private ResultSetItem() {
+
+	}
+
 	/**
 	 * construct result set meta data from result name and IResultMetaData
-	 *
+	 * 
 	 * @param resultSetName
 	 * @param metaData
 	 */
@@ -58,27 +65,24 @@ public class ResultSetItem implements IResultSetItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultSetName()
 	 */
-	@Override
 	public String getResultSetName() {
 		return resultSetName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultMetaData()
 	 */
-	@Override
 	public IResultMetaData getResultMetaData() {
 		return resultSetMetaData;
 	}
 
-	@Override
 	public String getResultSetDisplayName() {
 		if (handle instanceof ReportElementHandle) {
 			ReportElementHandle tmpHandle = (ReportElementHandle) handle;

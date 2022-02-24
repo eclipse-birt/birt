@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,26 +41,25 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The test case for structure factory method.
- *
+ * 
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testNewStructure()}</td>
  * <td>Creates the new Structure.</td>
  * <td>Structure are created successfully.</td>
  * </tr>
- *
+ * 
  * </table>
- *
+ * 
  */
 public class StructureFactoryTest extends BaseTestCase {
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		designHandle = new SessionHandle(ULocale.getDefault()).createDesign();
@@ -68,12 +67,12 @@ public class StructureFactoryTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * Tests nativeName property in OdaDataSetParam and OdaResultSetColumn
 	 * structure.
-	 *
+	 * 
 	 * change type of nativename property from 'string' to 'literalstring'.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -99,7 +98,7 @@ public class StructureFactoryTest extends BaseTestCase {
 	/**
 	 * Test the generic create element factory method.Create every type of element
 	 * which was defined in reportDesignConstents.
-	 *
+	 * 
 	 */
 
 	public void testNewStructure() {
@@ -161,7 +160,7 @@ public class StructureFactoryTest extends BaseTestCase {
 
 	/**
 	 * Test the specified element factory method for bound data column.
-	 *
+	 * 
 	 */
 
 	public void testNewBoundDataColumns() throws SemanticException {

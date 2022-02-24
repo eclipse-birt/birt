@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,13 +60,12 @@ public class Difference extends Line {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.Line#renderSeries(org.eclipse.birt.chart.device
 	 * .IPrimitiveRenderer, org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
-	@Override
 	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 
 		final ChartWithAxes cwa = (ChartWithAxes) getModel();
@@ -339,14 +338,13 @@ public class Difference extends Line {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.Line#renderLegendGraphic(org.eclipse.birt.chart
 	 * .device.IPrimitiveRenderer, org.eclipse.birt.chart.model.layout.Legend,
 	 * org.eclipse.birt.chart.model.attribute.Fill,
 	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
-	@Override
 	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
 			throws ChartException {
 		if ((bo.getWidth() == 0) && (bo.getHeight() == 0)) {
@@ -376,7 +374,6 @@ public class Difference extends Line {
 
 	}
 
-	@Override
 	protected int checkEntryInRange(Object entry, Object min, Object max) {
 		if (entry instanceof DifferenceEntry) {
 			double vP = ((DifferenceEntry) entry).getPositiveValue();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,42 +28,41 @@ public interface IEmitterServices {
 
 	/**
 	 * TODO: review, return IEmitterConfig, by format.
-	 *
+	 * 
 	 * @return emitter configuration of engine
 	 */
-	HashMap getEmitterConfig();
+	public HashMap getEmitterConfig();
 
 	/**
 	 * @return render options
 	 */
-	IRenderOption getRenderOption();
+	public IRenderOption getRenderOption();
 
 	/**
 	 * @return the current report name
 	 */
-	String getReportName();
+	public String getReportName();
 
 	/**
-	 *
+	 * 
 	 * @deprecated the user should use getReportContext().getRenderContext() to get
 	 *             the render options.
 	 * @return render context
 	 */
-	@Deprecated
-	Object getRenderContext();
+	public Object getRenderContext();
 
 	/**
 	 * @return the report runnable
 	 */
-	IReportRunnable getReportRunnable();
+	public IReportRunnable getReportRunnable();
 
 	/**
 	 * @param name option name
 	 * @return option value
 	 */
-	Object getOption(String name);
+	public Object getOption(String name);
 
-	IReportContext getReportContext();
+	public IReportContext getReportContext();
 
-	IReportEngine getReportEngine();
+	public IReportEngine getReportEngine();
 }

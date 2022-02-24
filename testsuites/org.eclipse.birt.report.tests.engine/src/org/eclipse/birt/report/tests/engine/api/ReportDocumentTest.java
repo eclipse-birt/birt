@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -16,7 +16,6 @@ package org.eclipse.birt.report.tests.engine.api;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,14 +57,12 @@ public class ReportDocumentTest extends EngineCase {
 		return new TestSuite(ReportDocumentTest.class);
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT("report_document.rptdesign", "report_document.rptdesign");
 	}
 
-	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
@@ -76,7 +73,7 @@ public class ReportDocumentTest extends EngineCase {
 	 */
 	public void testReportDocument() {
 
-		String report_design = path + INPUT_FOLDER + FileSystems.getDefault().getSeparator() + "report_document.rptdesign";
+		String report_design = path + INPUT_FOLDER + System.getProperty("file.separator") + "report_document.rptdesign";
 
 		String report_document = this.genOutputFile("report_document");
 
@@ -87,7 +84,7 @@ public class ReportDocumentTest extends EngineCase {
 
 			// checkTOC(done)
 			TOCNode root, tableNode, headerNode, groupNode, detailNode, footerNode;
-			ITOCTree tree;
+			ITOCTree tree = null;
 			tree = reportDoc.getTOCTree(null, ULocale.ENGLISH);
 			root = tree.findTOC("/");
 			assertNotNull("get root toc", root);
@@ -163,13 +160,13 @@ public class ReportDocumentTest extends EngineCase {
 			assertNotNull("return no parameters", params);
 
 			assertEquals("parameter amount isn't 2", 2, params.size());
-			assertNotNull("p1 parameter returned null", params.get("p1"));
-			assertNotNull("p2 parameter returned null", params.get("p2"));
-			assertEquals("p1 parameter returned wrong value", "p1string", params.get("p1"));
-			assertEquals("p1 parameter returned wrong value", new Integer(2), params.get("p2"));
+			assertNotNull("p1 parameter returned null", params.get(new String("p1")));
+			assertNotNull("p2 parameter returned null", params.get(new String("p2")));
+			assertEquals("p1 parameter returned wrong value", "p1string", params.get(new String("p1")));
+			assertEquals("p1 parameter returned wrong value", new Integer(2), params.get(new String("p2")));
 
 			// check report document name
-			String name = report_document.substring(report_document.indexOf("org"));
+			String name = report_document.substring(report_document.indexOf("org"), report_document.length());
 			name = name.replace('/', '\\');
 			assertEquals("return wrong report document name", name.replace('\\', '/'), reportDoc.getName()
 					.substring(reportDoc.getName().indexOf("org"), reportDoc.getName().length()).replace('\\', '/'));
@@ -188,7 +185,7 @@ public class ReportDocumentTest extends EngineCase {
 	 * test abnormal input arguments
 	 */
 	public void testReportDocument_abnormal() {
-		String report_design = path + INPUT_FOLDER + FileSystems.getDefault().getSeparator() + "report_document.rptdesign";
+		String report_design = path + INPUT_FOLDER + System.getProperty("file.separator") + "report_document.rptdesign";
 		String report_document = this.genOutputFile("report_document");
 
 		/*

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -98,17 +98,17 @@ public class ExtensionManager {
 	/**
 	 * emitterId to emitter info mapping
 	 */
-	protected HashMap<String, EmitterInfo> emitters = new HashMap<>();
+	protected HashMap<String, EmitterInfo> emitters = new HashMap<String, EmitterInfo>();
 
 	/**
 	 * output format to MIMEType mapping
 	 */
-	protected HashMap<String, String> format2MIMEType = new HashMap<>();
+	protected HashMap<String, String> format2MIMEType = new HashMap<String, String>();
 
 	/**
 	 * format to the default emitter id mapping
 	 */
-	private static HashMap<String, String> format2DefaultEmitterID = new HashMap<>();
+	private static HashMap<String, String> format2DefaultEmitterID = new HashMap<String, String>();
 	static {
 		format2DefaultEmitterID.put("doc", "org.eclipse.birt.report.engine.emitter.word");
 		format2DefaultEmitterID.put("docx", "org.eclipse.birt.report.engine.emitter.docx");
@@ -176,18 +176,16 @@ public class ExtensionManager {
 	 * not need to be synchronized
 	 */
 	private synchronized static void createInstance() {
-		if (sm_instance == null) {
+		if (sm_instance == null)
 			sm_instance = new ExtensionManager();
-		}
 	}
 
 	/**
 	 * @return the single instance for the extension manager
 	 */
 	static public ExtensionManager getInstance() {
-		if (sm_instance == null) {
+		if (sm_instance == null)
 			createInstance();
-		}
 
 		return sm_instance;
 	}
@@ -248,7 +246,7 @@ public class ExtensionManager {
 	public boolean getAllRows(String itemType) {
 		IConfigurationElement config = (IConfigurationElement) queryExtensions.get(itemType);
 		if (config != null) {
-			return Boolean.parseBoolean(config.getAttribute("getAllRows"));
+			return Boolean.valueOf(config.getAttribute("getAllRows")).booleanValue();
 		}
 		return false;
 	}
@@ -276,7 +274,7 @@ public class ExtensionManager {
 
 	/**
 	 * Creates a data extraction extension according to its extension id.
-	 *
+	 * 
 	 * @param id the extension id of a data extraction extension.
 	 * @return a data extraction extension.
 	 */
@@ -297,7 +295,7 @@ public class ExtensionManager {
 
 	/**
 	 * Creates a data extraction extension according to its format.
-	 *
+	 * 
 	 * @param format the format id of a data extraction extension.
 	 * @return a data extraction extension.
 	 */
@@ -354,7 +352,7 @@ public class ExtensionManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param itemType itemType the type of the extended item, i.e., "chart"
 	 * @return
 	 */
@@ -378,7 +376,7 @@ public class ExtensionManager {
 
 	/**
 	 * return all emitter informations
-	 *
+	 * 
 	 * @return all emitter informations
 	 */
 	public EmitterInfo[] getEmitterInfo() {
@@ -400,9 +398,8 @@ public class ExtensionManager {
 			String value = config.getAttribute(property);
 			if (value != null) {
 				Object object = config.createExecutableExtension(property);
-				if (object != null) {
+				if (object != null)
 					return object;
-				}
 			}
 		} catch (FrameworkException ex) {
 			if (logger.isLoggable(Level.WARNING)) {
@@ -418,9 +415,8 @@ public class ExtensionManager {
 	 */
 	protected void loadGenerationExtensionDefns() {
 		IExtension[] exts = getExtensions(EXTENSION_POINT_GENERATION);
-		if (exts == null) {
+		if (exts == null)
 			return;
-		}
 
 		for (int i = 0; i < exts.length; i++) {
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
@@ -489,7 +485,7 @@ public class ExtensionManager {
 				String overridePriority = configs[j].getAttribute("overridePriority");
 				int priority = 0;
 				if (null != overridePriority) {
-					priority = Integer.parseInt(overridePriority);
+					priority = Integer.valueOf(overridePriority).intValue();
 				}
 				String format = configs[j].getAttribute("format"); //$NON-NLS-1$
 				String mimeType = configs[j].getAttribute("mimeType"); //$NON-NLS-1$
@@ -502,11 +498,11 @@ public class ExtensionManager {
 				Boolean outDisplayNone = Boolean.valueOf(configs[j].getAttribute("outputDisplayNone"));
 				String fileExtension = configs[j].getAttribute("fileExtension");
 				Boolean isHidden = Boolean.valueOf(configs[j].getAttribute("isHidden"));
-				boolean needOutputResultSet = Boolean.parseBoolean(configs[j].getAttribute("needOutputResultSet"));
+				boolean needOutputResultSet = Boolean.valueOf(configs[j].getAttribute("needOutputResultSet"));
 				String isFormatDeprecated = configs[j].getAttribute("isFormatDeprecated");
 				boolean deprecated = false;
 				if (null != isFormatDeprecated) {
-					deprecated = Boolean.parseBoolean(isFormatDeprecated);
+					deprecated = Boolean.valueOf(isFormatDeprecated).booleanValue();
 				}
 				if (!Pattern.matches(emitterFormatPattern, format)) {
 					logger.log(Level.SEVERE, "\"" + format
@@ -592,9 +588,8 @@ public class ExtensionManager {
 	private IExtension[] getExtensions(String extensionPoint) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extPoint = registry.getExtensionPoint(extensionPoint);
-		if (extPoint == null) {
+		if (extPoint == null)
 			return null;
-		}
 
 		IExtension[] exts = extPoint.getExtensions();
 		logger.log(Level.FINE, "Start load extension point: {0}", extensionPoint); //$NON-NLS-1$

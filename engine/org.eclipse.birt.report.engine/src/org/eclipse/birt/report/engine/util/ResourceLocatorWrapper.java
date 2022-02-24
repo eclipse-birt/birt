@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005,2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,12 +29,12 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 public class ResourceLocatorWrapper {
 
 	private HashMap<URL, byte[]> cache;
-	private static final byte[] DUMMY_BYTES = {};
+	private static final byte[] DUMMY_BYTES = new byte[0];
 	private static final String RESOURCE_BUNDLE = "org.eclipse.birt.report.engine.i18n.Messages";
 	protected static Logger logger = Logger.getLogger(ResourceLocatorWrapper.class.getName(), RESOURCE_BUNDLE);
 
 	public ResourceLocatorWrapper() {
-		cache = new HashMap<>();
+		cache = new HashMap<URL, byte[]>();
 	}
 
 	public void dispose() {
@@ -45,7 +45,7 @@ public class ResourceLocatorWrapper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param fileName
 	 * @param fileType
 	 * @param appContext

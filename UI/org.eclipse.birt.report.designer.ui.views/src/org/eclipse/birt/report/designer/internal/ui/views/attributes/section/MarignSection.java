@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,27 +38,23 @@ public class MarignSection extends Section {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getMarignControl(parent);
 		getGridPlaceholder(parent);
 	}
 
-	@Override
 	public void layout() {
 		GridData gd = (GridData) marign.getControl().getLayoutData();
-		if (getLayoutNum() > 0) {
+		if (getLayoutNum() > 0)
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		} else {
+		else
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
-		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else {
+		} else
 			gd.grabExcessHorizontalSpace = fillMarign;
-		}
 	}
 
 	public MarignPropertyDescriptor getMarignControl() {
@@ -68,14 +64,12 @@ public class MarignSection extends Section {
 	protected MarignPropertyDescriptor getMarignControl(Composite parent) {
 		if (marign == null) {
 			marign = DescriptorToolkit.createMarignPropertyDescriptor(isFormStyle);
-			if (getProvider() != null) {
+			if (getProvider() != null)
 				marign.setDescriptorProvider(getProvider());
-			}
 			marign.createControl(parent);
 			marign.getControl().setLayoutData(new GridData());
 			marign.getControl().addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					marign = null;
 				}
@@ -100,7 +94,6 @@ public class MarignSection extends Section {
 		} else {
 			control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-				@Override
 				public void getName(AccessibleEvent e) {
 					Label lbl = getLabelControl();
 					if (lbl != null) {
@@ -122,9 +115,8 @@ public class MarignSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (marign != null) {
+		if (marign != null)
 			marign.setDescriptorProvider(provider);
-		}
 	}
 
 	private int width = -1;
@@ -137,7 +129,6 @@ public class MarignSection extends Section {
 		this.width = width;
 	}
 
-	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		marign.setInput(input);
@@ -153,44 +144,33 @@ public class MarignSection extends Section {
 		this.fillMarign = fillMarign;
 	}
 
-	@Override
 	public void load() {
-		if (marign != null && !marign.getControl().isDisposed()) {
+		if (marign != null && !marign.getControl().isDisposed())
 			marign.load();
-		}
 	}
 
-	@Override
 	public void reset() {
 		if (marign != null && !marign.getControl().isDisposed()) {
 			marign.reset();
 		}
 	}
 
-	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		}
-		if (marign != null) {
+		if (marign != null)
 			marign.setHidden(isHidden);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
-		}
 	}
 
-	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			displayLabel.setVisible(isVisible);
-		}
-		if (marign != null) {
+		if (marign != null)
 			marign.setVisible(isVisible);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			placeholderLabel.setVisible(isVisible);
-		}
 	}
 
 }

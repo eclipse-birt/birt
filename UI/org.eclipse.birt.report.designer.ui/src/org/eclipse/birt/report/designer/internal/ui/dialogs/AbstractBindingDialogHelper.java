@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,13 +37,12 @@ public abstract class AbstractBindingDialogHelper implements IBindingDialogHelpe
 	protected ExpressionProvider expressionProvider;
 	private Object itemContainer;
 
-	private String[] groups = {};
+	private String[] groups = new String[0];
 
 	public boolean isAggregate() {
 		return isAggregate;
 	}
 
-	@Override
 	public void setAggregate(boolean isAggregate) {
 		this.isAggregate = isAggregate;
 	}
@@ -52,7 +51,6 @@ public abstract class AbstractBindingDialogHelper implements IBindingDialogHelpe
 		return isMeasure;
 	}
 
-	@Override
 	public void setMeasure(boolean isMeasure) {
 		this.isMeasure = isMeasure;
 	}
@@ -61,7 +59,6 @@ public abstract class AbstractBindingDialogHelper implements IBindingDialogHelpe
 		return isTimePeriod;
 	}
 
-	@Override
 	public void setTimePeriod(boolean timePeriod) {
 		this.isTimePeriod = timePeriod;
 	}
@@ -70,7 +67,6 @@ public abstract class AbstractBindingDialogHelper implements IBindingDialogHelpe
 		return bindingHolder;
 	}
 
-	@Override
 	public void setBindingHolder(ReportItemHandle bindingHolder) {
 		this.bindingHolder = bindingHolder;
 	}
@@ -79,7 +75,6 @@ public abstract class AbstractBindingDialogHelper implements IBindingDialogHelpe
 		return binding;
 	}
 
-	@Override
 	public void setBinding(ComputedColumnHandle binding) {
 		this.binding = binding;
 		if (this.binding != null) {
@@ -105,7 +100,6 @@ public abstract class AbstractBindingDialogHelper implements IBindingDialogHelpe
 		return dialog;
 	}
 
-	@Override
 	public void setDialog(DataColumnBindingDialog dialog) {
 		this.dialog = dialog;
 	}
@@ -114,7 +108,6 @@ public abstract class AbstractBindingDialogHelper implements IBindingDialogHelpe
 		return expressionProvider;
 	}
 
-	@Override
 	public void setExpressionProvider(ExpressionProvider expressionProvider) {
 		this.expressionProvider = expressionProvider;
 	}
@@ -127,16 +120,13 @@ public abstract class AbstractBindingDialogHelper implements IBindingDialogHelpe
 		return this.itemContainer;
 	}
 
-	@Override
 	public boolean canProcessWithWarning() {
 		return true;
 	}
 
-	@Override
 	public boolean canProcessAggregation() {
-		if (bindingHolder instanceof ListingHandle) {
+		if (bindingHolder != null && bindingHolder instanceof ListingHandle)
 			return true;
-		}
 		return false;
 	}
 
@@ -145,7 +135,6 @@ public abstract class AbstractBindingDialogHelper implements IBindingDialogHelpe
 		composite.setSize(Math.max(size.x, 400), Math.max(size.y, isAggregate() ? 320 : 50));
 	}
 
-	@Override
 	public void setEditModal(boolean isEditModal) {
 
 	}

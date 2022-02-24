@@ -24,7 +24,7 @@ import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
- *
+ * 
  */
 
 public class NoRecalculateIVResultSet extends CachedResultSet {

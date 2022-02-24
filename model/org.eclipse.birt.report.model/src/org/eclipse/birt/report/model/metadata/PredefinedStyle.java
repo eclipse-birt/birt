@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * also have a display name id which is used to get localized display name, but
  * the internal name remains fixed across all locales. This ensures that a
  * design created in one locale can be used in another.
- *
+ * 
  */
 
 public class PredefinedStyle implements IPredefinedStyle {
@@ -66,18 +66,17 @@ public class PredefinedStyle implements IPredefinedStyle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.IPredefinedStyle#getDisplayNameKey ()
 	 */
-	@Override
 	public String getDisplayNameKey() {
 		return displayNameKey;
 	}
 
 	/**
 	 * Sets the display name ID. Done while creating the standard style.
-	 *
+	 * 
 	 * @param id the display name message ID to set
 	 */
 	public void setDisplayNameKey(String id) {
@@ -86,10 +85,9 @@ public class PredefinedStyle implements IPredefinedStyle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.IPredefinedStyle#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -97,7 +95,7 @@ public class PredefinedStyle implements IPredefinedStyle {
 	/**
 	 * Sets the internal name for this style. Must be done before adding the style
 	 * to the data dictionary.
-	 *
+	 * 
 	 * @param theName the name to set
 	 */
 	public void setName(String theName) {
@@ -105,16 +103,15 @@ public class PredefinedStyle implements IPredefinedStyle {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public String getType() {
 		return type;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param type
 	 */
 	public void setType(String type) {
@@ -123,14 +120,12 @@ public class PredefinedStyle implements IPredefinedStyle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
 	public String toString() {
-		if (!StringUtil.isBlank(getName())) {
+		if (!StringUtil.isBlank(getName()))
 			return getName();
-		}
 		return super.toString();
 	}
 }

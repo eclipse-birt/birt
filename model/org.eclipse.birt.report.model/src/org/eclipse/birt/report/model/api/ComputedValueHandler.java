@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ final class ComputedValueHandler extends CSSLengthValueHandler {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 * @param dimensionHandle
 	 */
 
@@ -40,7 +40,7 @@ final class ComputedValueHandler extends CSSLengthValueHandler {
 
 	/**
 	 * Returns the absolute value for other length property, instead of font size.
-	 *
+	 * 
 	 * @param relativeDimensionValue the relative dimension value
 	 * @return the absolute dimension value
 	 */
@@ -65,23 +65,20 @@ final class ComputedValueHandler extends CSSLengthValueHandler {
 		}
 
 		// if value is set in this element, then compute the absolute value
-		if (factoryHandle != null) {
+		if (factoryHandle != null)
 			return computeRelativeValue(absoluteFontSizeValue, relativeDimensionValue);
-		}
 
 		// if this property can inherit, then get the computed value from
 		// container directly
-		if (dimensionHandle.getPropertyDefn().canInherit()) {
+		if (dimensionHandle.getPropertyDefn().canInherit())
 			return dimensionHandleFromContainer.getAbsoluteValue();
-		}
 
 		// the property can not inherit, then get the default value
 		Object defaultValue = dimensionHandle.getPropertyDefn().getDefault();
 		if (defaultValue instanceof DimensionValue) {
 			DimensionValue defaultDimensionValue = (DimensionValue) defaultValue;
-			if (CSSLengthValueHandler.isAbsoluteUnit(defaultDimensionValue.getUnits())) {
+			if (CSSLengthValueHandler.isAbsoluteUnit(defaultDimensionValue.getUnits()))
 				return defaultDimensionValue;
-			}
 			return computeRelativeValue(absoluteFontSizeValue, defaultDimensionValue);
 		}
 		return null;
@@ -90,7 +87,7 @@ final class ComputedValueHandler extends CSSLengthValueHandler {
 	/**
 	 * Returns the font size dimension handle of the element which provides the
 	 * factual font size.
-	 *
+	 * 
 	 * @return the font size dimension handle
 	 */
 
@@ -124,23 +121,20 @@ final class ComputedValueHandler extends CSSLengthValueHandler {
 			if (computedPropertyFound) {
 				propValue = e.getElement().getStrategy().getPropertyFromElement(dimensionHandle.getModule(),
 						e.getElement(), fontSizePropDefn);
-				if (propValue != null) {
+				if (propValue != null)
 					break;
-				}
 			}
 
 			// If the property this dimension represents can not be inherited.
 
-			if (!dimensionHandle.propDefn.canInherit()) {
+			if (!dimensionHandle.propDefn.canInherit())
 				break;
-			}
 
 			e = e.getContainer();
 		}
 
-		if (e != null) {
+		if (e != null)
 			return e.getDimensionProperty(IStyleModel.FONT_SIZE_PROP);
-		}
 
 		return null;
 	}

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -54,7 +54,6 @@ public class Regression_122213 extends BaseTestCase {
 	private final static String libname1 = "regression_122213_lib1.xml";
 	private final static String libname2 = "regression_122213_lib2.xml";
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ public class ArchiveFileV1 implements IArchiveFile {
 	/**
 	 * streams in the file. each entry is a stream name and start, end pos pair.
 	 */
-	private HashMap<String, Entry> lookupMap = new HashMap<>();
+	private HashMap<String, Entry> lookupMap = new HashMap<String, Entry>();
 
 	public ArchiveFileV1(String archiveName, RandomAccessFile rf) throws IOException {
 		this.archiveName = archiveName;
@@ -59,7 +59,7 @@ public class ArchiveFileV1 implements IArchiveFile {
 	 * begining of the file, it contains: long: stream section postiton, always
 	 * zero. long: entry number. followed by entries in the archive, each entry
 	 * contains: utf8: stream name. long[2]: start offset, length.
-	 *
+	 * 
 	 * @throws IOException
 	 */
 	protected void readFileTable() throws IOException {
@@ -78,24 +78,20 @@ public class ArchiveFileV1 implements IArchiveFile {
 		}
 	}
 
-	@Override
 	public String getName() {
 		return archiveName;
 	}
 
-	@Override
 	public String getDependId() {
 		// Do not implement this api
 		return null;
 	}
 
-	@Override
 	public String getSystemId() {
 		// Do not implement this api
 		return null;
 	}
 
-	@Override
 	public void close() throws IOException {
 		if (rf != null) {
 			rf.close();
@@ -103,12 +99,10 @@ public class ArchiveFileV1 implements IArchiveFile {
 		}
 	}
 
-	@Override
 	public void setCacheSize(long cacheSize) {
 		// V1 doesn't support the cache size
 	}
 
-	@Override
 	public long getUsedCache() {
 		return 0;
 
@@ -116,32 +110,28 @@ public class ArchiveFileV1 implements IArchiveFile {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.archive.compound.ArchiveFile#createEntry(java.lang
 	 * .String)
 	 */
-	@Override
 	public synchronized ArchiveEntry createEntry(String name) throws IOException {
 		throw new IOException(CoreMessages.getString(ResourceConstants.READ_ONLY_ARCHIVE));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.core.archive.compound.ArchiveFile#exists(java.lang.String )
 	 */
-	@Override
 	public boolean exists(String name) {
 		return lookupMap.containsKey(name);
 	}
 
-	@Override
 	public void flush() throws IOException {
 		throw new IOException(CoreMessages.getString(ResourceConstants.READ_ONLY_ARCHIVE));
 	}
 
-	@Override
 	public ArchiveEntry openEntry(String name) throws IOException {
 		Entry entry = lookupMap.get(name);
 		if (entry != null) {
@@ -150,9 +140,8 @@ public class ArchiveFileV1 implements IArchiveFile {
 		throw new FileNotFoundException(name);
 	}
 
-	@Override
 	public List<String> listEntries(String namePattern) {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<String>();
 		Iterator<String> iter = lookupMap.keySet().iterator();
 		while (iter.hasNext()) {
 			String name = iter.next();
@@ -163,16 +152,13 @@ public class ArchiveFileV1 implements IArchiveFile {
 		return list;
 	}
 
-	@Override
 	public synchronized void refresh() throws IOException {
 	}
 
-	@Override
 	public synchronized boolean removeEntry(String name) throws IOException {
 		throw new IOException(CoreMessages.getString(ResourceConstants.READ_ONLY_ARCHIVE));
 	}
 
-	@Override
 	public Object lockEntry(String stream) throws IOException {
 		Entry entry = lookupMap.get(stream);
 		if (entry != null) {
@@ -181,7 +167,6 @@ public class ArchiveFileV1 implements IArchiveFile {
 		throw new FileNotFoundException("not exist stream " + stream);
 	}
 
-	@Override
 	public void unlockEntry(Object locker) throws IOException {
 		if (!(locker instanceof Entry)) {
 			throw new IOException(
@@ -189,7 +174,6 @@ public class ArchiveFileV1 implements IArchiveFile {
 		}
 	}
 
-	@Override
 	public long getLength() {
 		try {
 			return rf == null ? 0 : rf.length();
@@ -207,7 +191,6 @@ public class ArchiveFileV1 implements IArchiveFile {
 		throw new IOException(CoreMessages.getString(ResourceConstants.READ_ONLY_ARCHIVE));
 	}
 
-	@Override
 	public synchronized void save() throws IOException {
 		throw new IOException(CoreMessages.getString(ResourceConstants.READ_ONLY_ARCHIVE));
 	}

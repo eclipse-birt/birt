@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Test case for ElementDefn.
- *
+ * 
  */
 public class ElementDefnTest extends AbstractMetaTest {
 
@@ -43,7 +43,6 @@ public class ElementDefnTest extends AbstractMetaTest {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		def = new ElementDefn();
@@ -111,7 +110,7 @@ public class ElementDefnTest extends AbstractMetaTest {
 
 	/**
 	 * test adding three properties and checking their existance.
-	 *
+	 * 
 	 * @throws MetaDataException
 	 */
 	public void testAddThreeProperties() throws MetaDataException {
@@ -136,7 +135,7 @@ public class ElementDefnTest extends AbstractMetaTest {
 
 	/**
 	 * test adding two properties and geting them with their name.
-	 *
+	 * 
 	 * @throws MetaDataException
 	 */
 	public void testGetProperty() throws MetaDataException {
@@ -203,7 +202,7 @@ public class ElementDefnTest extends AbstractMetaTest {
 
 	/**
 	 * Tests getting local methods and getting methods.
-	 *
+	 * 
 	 */
 
 	public void testGetLocalMethodsAndGetMethods() {
@@ -256,7 +255,7 @@ public class ElementDefnTest extends AbstractMetaTest {
 
 	/**
 	 * Tests getting local expression and getting expression.
-	 *
+	 * 
 	 */
 
 	public void testGetLocalExpressionsAndGetExpression() {
@@ -353,7 +352,7 @@ public class ElementDefnTest extends AbstractMetaTest {
 
 	/**
 	 * test building.
-	 *
+	 * 
 	 * @throws MetaDataException
 	 */
 	public void testBuild() throws MetaDataException {
@@ -392,7 +391,7 @@ public class ElementDefnTest extends AbstractMetaTest {
 
 	/**
 	 * Test method definition and argument definition.
-	 *
+	 * 
 	 * @throws MetaDataParserException
 	 */
 	public void testMethod() throws MetaDataParserException {
@@ -465,11 +464,10 @@ public class ElementDefnTest extends AbstractMetaTest {
 					|| OdaDataSet.DESIGNER_STATE_PROP.equalsIgnoreCase(prop.getName())
 					|| OdaDataSet.EXTENSION_ID_PROP.equalsIgnoreCase(prop.getName())
 					|| OdaDataSet.RESULT_SET_PROP.equalsIgnoreCase(prop.getName())
-					|| OdaDataSet.PARAMETERS_PROP.equalsIgnoreCase(prop.getName())) {
+					|| OdaDataSet.PARAMETERS_PROP.equalsIgnoreCase(prop.getName()))
 				assertFalse(dataSetDefn.isPropertyVisible(prop.getName()));
-			} else {
+			else
 				assertTrue(dataSetDefn.isPropertyVisible(prop.getName()));
-			}
 		}
 
 		IElementDefn reportItemDefn = MetaDataDictionary.getInstance().getElement(ReportDesignConstants.REPORT_ITEM);

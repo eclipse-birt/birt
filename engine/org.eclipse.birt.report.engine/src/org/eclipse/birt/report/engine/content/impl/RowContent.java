@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,9 +30,9 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 
 /**
- *
+ * 
  * the row content object which contains cell content objects
- *
+ * 
  */
 public class RowContent extends AbstractContent implements IRowContent {
 
@@ -48,38 +48,33 @@ public class RowContent extends AbstractContent implements IRowContent {
 		this.groupId = row.getGroupId();
 	}
 
-	@Override
 	public int getContentType() {
 		return ROW_CONTENT;
 	}
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param row the row deign
 	 */
 	RowContent(IReportContent report) {
 		super(report);
 	}
 
-	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitRow(this, value);
 	}
 
-	@Override
 	public int getRowID() {
 		return rowID;
 	}
 
-	@Override
 	public void setRowID(int rowID) {
 		this.rowID = rowID;
 	}
 
 	private ITableContent table;
 
-	@Override
 	public ITableContent getTable() {
 		if (table != null) {
 			return table;
@@ -101,7 +96,6 @@ public class RowContent extends AbstractContent implements IRowContent {
 	static final protected short FIELD_ROW_GROUPID = 803;
 	static final protected short FIELD_ROW_REPEABLE = 804;
 
-	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (rowID != -1) {
@@ -119,12 +113,10 @@ public class RowContent extends AbstractContent implements IRowContent {
 
 	}
 
-	@Override
 	public boolean needSave() {
 		return true;
 	}
 
-	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_ROWID:
@@ -150,7 +142,6 @@ public class RowContent extends AbstractContent implements IRowContent {
 	/**
 	 * @return the groupId
 	 */
-	@Override
 	public String getGroupId() {
 		return groupId;
 	}
@@ -158,12 +149,10 @@ public class RowContent extends AbstractContent implements IRowContent {
 	/**
 	 * @param groupId the groupId to set
 	 */
-	@Override
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
 	}
 
-	@Override
 	public IGroupContent getGroup() {
 		IBandContent bandContent = getBand();
 		if (bandContent != null) {
@@ -175,7 +164,6 @@ public class RowContent extends AbstractContent implements IRowContent {
 		return null;
 	}
 
-	@Override
 	public IBandContent getBand() {
 		if (parent instanceof IBandContent) {
 			return (IBandContent) parent;
@@ -183,22 +171,19 @@ public class RowContent extends AbstractContent implements IRowContent {
 		return null;
 	}
 
-	@Override
 	protected IContent cloneContent() {
 		return new RowContent(this);
 	}
 
-	@Override
 	public void setRepeatable(boolean repeatable) {
 		this.repeatable = new Boolean(repeatable);
 	}
 
-	@Override
 	public boolean isRepeatable() {
 		if (repeatable != null) {
 			return repeatable.booleanValue();
 		}
-		if (generateBy instanceof RowDesign) {
+		if (generateBy != null && generateBy instanceof RowDesign) {
 			return ((RowDesign) generateBy).getRepeatable();
 		}
 		return true;

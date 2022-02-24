@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,6 @@ abstract public class GroupExecutor extends ReportItemExecutor {
 		super(manager, type);
 	}
 
-	@Override
 	public void close() throws BirtException {
 		endOfGroup = false;
 		hiddenDetail = false;
@@ -51,7 +50,6 @@ abstract public class GroupExecutor extends ReportItemExecutor {
 		rset = listingExecutor.rset;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		if (currentElement < totalElements) {
 			return true;
@@ -82,9 +80,8 @@ abstract public class GroupExecutor extends ReportItemExecutor {
 					if (currentElement < totalElements) {
 						return true;
 					}
-				} else {
+				} else
 					break;
-				}
 			}
 		} catch (BirtException ex) {
 			context.addException(this.getDesign(), ex);
@@ -92,7 +89,6 @@ abstract public class GroupExecutor extends ReportItemExecutor {
 		return false;
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		if (hasNextChild()) {
 			assert (currentElement < totalElements);
@@ -176,7 +172,7 @@ abstract public class GroupExecutor extends ReportItemExecutor {
 	 * for top level group, none for others. PAGE_BREAK_BEFORE_ALWAYS: always create
 	 * page break PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST: create page-break for
 	 * all groups except the first one.
-	 *
+	 * 
 	 * @param bandDesign
 	 */
 	protected void handlePageBreakBeforeOfGroup() {

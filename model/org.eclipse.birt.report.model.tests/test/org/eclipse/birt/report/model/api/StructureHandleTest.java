@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,7 @@ public class StructureHandleTest extends BaseTestCase {
 	 * <li>Replace the old structure with the new one
 	 * <li>Drop structure
 	 * </ul>
-	 *
+	 * 
 	 * @throws SemanticException if any exception.
 	 */
 
@@ -164,7 +164,7 @@ public class StructureHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests a SortKey and FilterCondition structure handles.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -230,7 +230,7 @@ public class StructureHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests a SelectionChoice structure handle.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -259,7 +259,7 @@ public class StructureHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests a PropertyMask structure handle.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -287,7 +287,7 @@ public class StructureHandleTest extends BaseTestCase {
 	/**
 	 * Tests a IncludeScript, IncludeLibrary, ConfigVariable, EmbeddedImage
 	 * structures handle.
-	 *
+	 * 
 	 * @throws SemanticException
 	 * @throws UnsupportedEncodingException
 	 */
@@ -368,7 +368,7 @@ public class StructureHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests a Hide structure handle.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -397,7 +397,7 @@ public class StructureHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests drop().
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -483,7 +483,7 @@ public class StructureHandleTest extends BaseTestCase {
 
 	/**
 	 * Test getExternalizedValue method.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -515,7 +515,7 @@ public class StructureHandleTest extends BaseTestCase {
 	 * If the user wants to update the filter member values later, the cached
 	 * structure needs to be updated. Otherwise, Model will throw a running time
 	 * exception indicating that the member reference is floating.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -538,7 +538,7 @@ public class StructureHandleTest extends BaseTestCase {
 	 * When copies a design element, its structure values are also copied. This
 	 * requires a non-null structure context. It is established in
 	 * DesignElement.copy().
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -561,7 +561,7 @@ public class StructureHandleTest extends BaseTestCase {
 	 * When <code>EmbeddedImage</code> has reference to library embedded image, the
 	 * method hasExtends in <code>EmbeddedImageHandle</code> return true, else
 	 * return false.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testEmbeddedImageExtendsFromLib() throws Exception {

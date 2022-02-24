@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -83,7 +83,7 @@ class PropertyRecordImpl extends SimpleRecord {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param propertyOwner the report element that has the property
 	 * @param name          the name of the property to change
 	 * @param value         the new value
@@ -105,7 +105,7 @@ class PropertyRecordImpl extends SimpleRecord {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param propertyOwner the element that has the property to set
 	 * @param prop          the definition of the property to set
 	 * @param value         the new value
@@ -131,13 +131,14 @@ class PropertyRecordImpl extends SimpleRecord {
 	/**
 	 * if the local value is a list, we should make a copy for the list to avoid the
 	 * old value in this record to be changed by further operation on the element.
-	 *
+	 * 
 	 * @param localValue
 	 * @return copyed local value if it is a list.
 	 */
 	private Object copyLocalValue(Object localValue) {
 		if (localValue instanceof List) {
-			ArrayList<Object> newValue = new ArrayList<>((List) localValue);
+			ArrayList<Object> newValue = new ArrayList<Object>();
+			newValue.addAll((List) localValue);
 			return newValue;
 		}
 
@@ -147,28 +148,25 @@ class PropertyRecordImpl extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget ()
 	 */
 
-	@Override
 	public DesignElement getTarget() {
-		if (eventTarget != null) {
+		if (eventTarget != null)
 			return eventTarget.getElement();
-		}
 
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
-	@Override
 	public NotificationEvent getEvent() {
 		// Use the same notification for the done/redone and undone states.
 
@@ -193,12 +191,11 @@ class PropertyRecordImpl extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
 	 * (boolean)
 	 */
 
-	@Override
 	protected void perform(boolean undo) {
 		Object value = null;
 		Object tmpOldValue = null;
@@ -223,9 +220,8 @@ class PropertyRecordImpl extends SimpleRecord {
 
 				value = EncryptionUtil.encrypt(propDefn, encryption, value);
 				element.setProperty(propDefn, value);
-				if (localEncryption == null) {
+				if (localEncryption == null)
 					element.setEncryptionHelper(propDefn, encryption);
-				}
 				return;
 			}
 
@@ -234,17 +230,15 @@ class PropertyRecordImpl extends SimpleRecord {
 			// if the element is cube, need to update layout in some cases
 			if (element instanceof Cube) {
 				Cube cube = (Cube) element;
-				if (cube.isBoundWithLayout(propDefn)) {
+				if (cube.isBoundWithLayout(propDefn))
 					cube.updateLayout(cube.getRoot());
-				}
 			} else if (element instanceof TabularDimension) {
 				TabularDimension dimension = (TabularDimension) element;
 				if (ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP.equals(propDefn.getName())) {
 					Module root = dimension.getRoot();
 					dimension.updateLayout(root);
-					if (root != null) {
+					if (root != null)
 						root.manageId(dimension, true);
-					}
 				}
 			}
 			return;
@@ -253,9 +247,8 @@ class PropertyRecordImpl extends SimpleRecord {
 		clearStructureContext(tmpOldValue);
 		setupStructureContext(value);
 
-		if (value == null || (value instanceof List && ((List) value).isEmpty())) {
+		if (value == null || (value instanceof List && ((List) value).isEmpty()))
 			element.setProperty(propDefn, value);
-		}
 	}
 
 	/**
@@ -263,18 +256,19 @@ class PropertyRecordImpl extends SimpleRecord {
 	 */
 
 	private void setupStructureContext(Object values) {
-		if ((values == null) || (values instanceof List && ((List) values).isEmpty())) {
+		if (values == null)
 			return;
-		}
+
+		if (values instanceof List && ((List) values).isEmpty())
+			return;
 
 		StructureContext context = new StructureContext(element, propDefn, null);
 
-		if (values instanceof Structure) {
+		if (values instanceof Structure)
 			context.add((Structure) values);
-		} else if (values instanceof List) {
-			for (int i = 0; i < ((List) values).size(); i++) {
+		else if (values instanceof List) {
+			for (int i = 0; i < ((List) values).size(); i++)
 				context.add((Structure) ((List) values).get(i));
-			}
 		}
 	}
 
@@ -283,9 +277,11 @@ class PropertyRecordImpl extends SimpleRecord {
 	 */
 
 	private void clearStructureContext(Object values) {
-		if ((values == null) || (values instanceof List && ((List) values).isEmpty())) {
+		if (values == null)
 			return;
-		}
+
+		if (values instanceof List && ((List) values).isEmpty())
+			return;
 
 		StructureContext context = new StructureContext(element, propDefn, null);
 
@@ -295,7 +291,8 @@ class PropertyRecordImpl extends SimpleRecord {
 		} else if (values instanceof List) {
 			// always remove the first one
 
-			List<Structure> structs = new ArrayList<>((List<Structure>) values);
+			List<Structure> structs = new ArrayList<Structure>();
+			structs.addAll((List<Structure>) values);
 			int count = structs.size();
 			for (int i = 0; i < count; i++) {
 				Structure struct = structs.get(i);
@@ -310,9 +307,9 @@ class PropertyRecordImpl extends SimpleRecord {
 	 * except for extends and style element references. Unlike the method
 	 * {@link #adjustReferenceClients(ReferenceableElement,boolean)}, this method
 	 * removes references from those elements that are referred.
-	 *
+	 * 
 	 * @param element the element to be deleted
-	 *
+	 * 
 	 */
 
 	private void adjustReferredClients(Structure struct) {
@@ -321,15 +318,13 @@ class PropertyRecordImpl extends SimpleRecord {
 		while (propDefns.hasNext()) {
 			PropertyDefn propDefn = (PropertyDefn) propDefns.next();
 
-			if (propDefn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE) {
+			if (propDefn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE)
 				continue;
-			}
 
 			Object value = struct.getLocalProperty(element.getRoot(), propDefn);
 
-			if (value == null || !((ElementRefValue) value).isResolved()) {
+			if (value == null || !((ElementRefValue) value).isResolved())
 				continue;
-			}
 
 			// since the structure is removed, change the property to unresolved
 			// status
@@ -341,17 +336,16 @@ class PropertyRecordImpl extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.validators.IValidatable#getValidators()
 	 */
-	@Override
 	public List<ValidationNode> getValidators() {
 		return ValidationExecutor.getValidationNodes(element, propDefn.getTriggerDefnSet(), false);
 	}
 
 	/**
 	 * Returns the definition of the property whose value is changed.
-	 *
+	 * 
 	 * @return the property definition
 	 */
 
@@ -361,29 +355,27 @@ class PropertyRecordImpl extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	@Override
 	protected List<RecordTask> getPostTasks() {
-		List<RecordTask> retValue = new ArrayList<>(super.getPostTasks());
-		if (!(element instanceof Cell)) {
+		List<RecordTask> retValue = new ArrayList<RecordTask>();
+		retValue.addAll(super.getPostTasks());
+
+		if (!(element instanceof Cell))
 			return retValue;
-		}
 
 		String propName = propDefn.getName();
 
 		if (!ICellModel.COL_SPAN_PROP.equalsIgnoreCase(propName) && !ICellModel.ROW_SPAN_PROP.equalsIgnoreCase(propName)
 				&& !ICellModel.COLUMN_PROP.equalsIgnoreCase(propName)
-				&& !ICellModel.DROP_PROP.equalsIgnoreCase(propName)) {
+				&& !ICellModel.DROP_PROP.equalsIgnoreCase(propName))
 			return retValue;
-		}
 
 		ReportItem compoundElement = LayoutUtil.getCompoundContainer(element);
-		if (compoundElement == null) {
+		if (compoundElement == null)
 			return retValue;
-		}
 
 		retValue.add(new LayoutRecordTask(compoundElement.getRoot(), compoundElement));
 		return retValue;

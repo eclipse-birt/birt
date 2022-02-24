@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,11 +34,12 @@ public class ReportResourceSynchronizer implements IReportResourceSynchronizer {
 	private static final Logger log = Logger.getLogger(ReportResourceSynchronizer.class.getName());
 
 	// protected ListenerList listeners = new ListenerList( );
-	private int[] eventTypes = { IReportResourceChangeEvent.NewResource, IReportResourceChangeEvent.LibraySaveChange,
-			IReportResourceChangeEvent.ImageResourceChange, IReportResourceChangeEvent.DataDesignSaveChange,
+	private int[] eventTypes = new int[] { IReportResourceChangeEvent.NewResource,
+			IReportResourceChangeEvent.LibraySaveChange, IReportResourceChangeEvent.ImageResourceChange,
+			IReportResourceChangeEvent.DataDesignSaveChange,
 			// IReportResourceChangeEvent.LibrayContentChange
 	};
-	private Map<Integer, List<IReportResourceChangeListener>> listeners = new HashMap<>();
+	private Map<Integer, List<IReportResourceChangeListener>> listeners = new HashMap<Integer, List<IReportResourceChangeListener>>();
 
 	protected boolean disabled = false;
 
@@ -48,13 +49,12 @@ public class ReportResourceSynchronizer implements IReportResourceSynchronizer {
 	private void internalAddListener(int type, IReportResourceChangeListener listener) {
 		List<IReportResourceChangeListener> list = listeners.get(type);
 		if (list == null) {
-			list = new ArrayList<>();
+			list = new ArrayList<IReportResourceChangeListener>();
 			listeners.put(type, list);
 		}
 		list.add(listener);
 	}
 
-	@Override
 	public void addListener(int type, IReportResourceChangeListener listener) {
 		if (disabled) {
 			return;
@@ -67,7 +67,6 @@ public class ReportResourceSynchronizer implements IReportResourceSynchronizer {
 
 	}
 
-	@Override
 	public void removeListener(int type, IReportResourceChangeListener listener) {
 		if (disabled) {
 			return;
@@ -100,7 +99,6 @@ public class ReportResourceSynchronizer implements IReportResourceSynchronizer {
 
 			SafeRunner.run(new SafeRunnable() {
 
-				@Override
 				public void run() throws Exception {
 					rcl.resourceChanged(event);
 				}
@@ -109,7 +107,6 @@ public class ReportResourceSynchronizer implements IReportResourceSynchronizer {
 
 	}
 
-	@Override
 	public void notifyResourceChanged(IReportResourceChangeEvent event) {
 		if (disabled) {
 			return;

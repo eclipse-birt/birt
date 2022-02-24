@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 /**
  * Implements of simple item that has no data rows.The constructor in sub class
  * must call super(ExtendedItemHandle).
- *
+ * 
  */
 
 public class SimpleRowItem implements IReportItem {
@@ -38,7 +38,7 @@ public class SimpleRowItem implements IReportItem {
 
 	/**
 	 * Constructors.
-	 *
+	 * 
 	 * @param item
 	 */
 
@@ -49,12 +49,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#addDataBinding(org.
 	 * eclipse.birt.report.model.api.simpleapi.IDataBinding)
 	 */
-	@Override
 	public void addDataBinding(IDataBinding binding) throws SemanticException {
 		item.addDataBinding(binding);
 
@@ -62,11 +61,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#addHideRule(org.
 	 * eclipse.birt.report.model.api.simpleapi.IHideRule)
 	 */
-	@Override
 	public void addHideRule(IHideRule rule) throws SemanticException {
 		item.addHideRule(rule);
 
@@ -74,12 +72,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#addHighlightRule(org.
 	 * eclipse.birt.report.model.api.simpleapi.IHighlightRule)
 	 */
-	@Override
 	public void addHighlightRule(IHighlightRule rule) throws SemanticException {
 		item.addHighlightRule(rule);
 
@@ -87,10 +84,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#getBookmark()
 	 */
-	@Override
 	public String getBookmark() {
 
 		return item.getBookmark();
@@ -98,23 +94,21 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#getDataBinding(java.
 	 * lang.String)
 	 */
-	@Override
 	public String getDataBinding(String bindingName) {
 		return item.getDataBinding(bindingName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#getDataBindings()
 	 */
-	@Override
 	public IDataBinding[] getDataBindings() {
 
 		return item.getDataBindings();
@@ -122,10 +116,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#getHeight()
 	 */
-	@Override
 	public String getHeight() {
 
 		return item.getHeight();
@@ -133,10 +126,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#getHideRules()
 	 */
-	@Override
 	public IHideRule[] getHideRules() {
 
 		return item.getHideRules();
@@ -144,11 +136,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#getHighlightRules()
 	 */
-	@Override
 	public IHighlightRule[] getHighlightRules() {
 
 		return item.getHighlightRules();
@@ -156,11 +147,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#getTocExpression()
 	 */
-	@Override
 	public String getTocExpression() {
 
 		return item.getTocExpression();
@@ -168,10 +158,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#getWidth()
 	 */
-	@Override
 	public String getWidth() {
 
 		return item.getWidth();
@@ -179,10 +168,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#getX()
 	 */
-	@Override
 	public String getX() {
 
 		return item.getX();
@@ -190,10 +178,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#getY()
 	 */
-	@Override
 	public String getY() {
 
 		return item.getY();
@@ -201,12 +188,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#removeDataBinding(
 	 * java.lang.String)
 	 */
-	@Override
 	public void removeDataBinding(String bindingName) throws SemanticException {
 
 		item.removeDataBinding(bindingName);
@@ -214,11 +200,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#removeDataBindings()
 	 */
-	@Override
 	public void removeDataBindings() throws SemanticException {
 
 		item.removeDataBindings();
@@ -226,12 +211,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#removeHideRule(org.
 	 * eclipse.birt.report.model.api.simpleapi.IHideRule)
 	 */
-	@Override
 	public void removeHideRule(IHideRule rule) throws SemanticException {
 
 		item.removeHideRule(rule);
@@ -240,11 +224,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#removeHideRules()
 	 */
-	@Override
 	public void removeHideRules() throws SemanticException {
 
 		item.removeHideRules();
@@ -253,12 +236,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#removeHighlightRule(
 	 * org.eclipse.birt.report.model.api.simpleapi.IHighlightRule)
 	 */
-	@Override
 	public void removeHighlightRule(IHighlightRule rule) throws SemanticException {
 
 		item.removeHighlightRule(rule);
@@ -267,12 +249,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#removeHighlightRules(
 	 * )
 	 */
-	@Override
 	public void removeHighlightRules() throws SemanticException {
 
 		item.removeHighlightRules();
@@ -281,12 +262,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#setBookmark(java.lang
 	 * .String)
 	 */
-	@Override
 	public void setBookmark(String value) throws SemanticException {
 
 		item.setBookmark(value);
@@ -295,11 +275,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#setHeight(double)
 	 */
-	@Override
 	public void setHeight(double dimension) throws SemanticException {
 
 		item.setHeight(dimension);
@@ -308,12 +287,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#setHeight(java.lang.
 	 * String)
 	 */
-	@Override
 	public void setHeight(String dimension) throws SemanticException {
 
 		item.setHeight(dimension);
@@ -322,12 +300,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#setTocExpression(java
 	 * .lang.String)
 	 */
-	@Override
 	public void setTocExpression(String expression) throws SemanticException {
 
 		item.setTocExpression(expression);
@@ -336,10 +313,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setWidth(double)
 	 */
-	@Override
 	public void setWidth(double dimension) throws SemanticException {
 
 		item.setWidth(dimension);
@@ -348,12 +324,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#setWidth(java.lang.
 	 * String)
 	 */
-	@Override
 	public void setWidth(String dimension) throws SemanticException {
 
 		item.setWidth(dimension);
@@ -362,10 +337,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setX(double)
 	 */
-	@Override
 	public void setX(double dimension) throws SemanticException {
 
 		item.setX(dimension);
@@ -374,11 +348,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setX(java.lang.
 	 * String)
 	 */
-	@Override
 	public void setX(String dimension) throws SemanticException {
 
 		item.setX(dimension);
@@ -387,10 +360,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setY(double)
 	 */
-	@Override
 	public void setY(double dimension) throws SemanticException {
 
 		item.setY(dimension);
@@ -399,11 +371,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setY(java.lang.
 	 * String)
 	 */
-	@Override
 	public void setY(String dimension) throws SemanticException {
 
 		item.setY(dimension);
@@ -412,10 +383,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportElement#getComments()
 	 */
-	@Override
 	public String getComments() {
 
 		return item.getComments();
@@ -423,11 +393,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportElement#getCustomXml()
 	 */
-	@Override
 	public String getCustomXml() {
 
 		return item.getCustomXml();
@@ -435,11 +404,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportElement#getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 
 		return item.getDisplayName();
@@ -447,12 +415,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportElement#getDisplayNameKey(
 	 * )
 	 */
-	@Override
 	public String getDisplayNameKey() {
 
 		return item.getDisplayNameKey();
@@ -460,10 +427,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportElement#getName()
 	 */
-	@Override
 	public String getName() {
 
 		return item.getName();
@@ -471,12 +437,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportElement#setComments(java.
 	 * lang.String)
 	 */
-	@Override
 	public void setComments(String theComments) throws SemanticException {
 
 		item.setComments(theComments);
@@ -485,12 +450,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportElement#setCustomXml(java.
 	 * lang.String)
 	 */
-	@Override
 	public void setCustomXml(String customXml) throws SemanticException {
 
 		item.setCustomXml(customXml);
@@ -499,12 +463,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportElement#setDisplayName(
 	 * java.lang.String)
 	 */
-	@Override
 	public void setDisplayName(String displayName) throws SemanticException {
 
 		item.setDisplayName(displayName);
@@ -513,12 +476,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportElement#setDisplayNameKey(
 	 * java.lang.String)
 	 */
-	@Override
 	public void setDisplayNameKey(String displayNameKey) throws SemanticException {
 
 		item.setDisplayNameKey(displayNameKey);
@@ -527,12 +489,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportElement#setName(java.lang.
 	 * String)
 	 */
-	@Override
 	public void setName(String name) throws SemanticException {
 
 		item.setName(name);
@@ -541,12 +502,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getNamedExpression
 	 * (java.lang.String)
 	 */
-	@Override
 	public String getNamedExpression(String name) {
 
 		return item.getNamedExpression(name);
@@ -554,10 +514,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getParent()
 	 */
-	@Override
 	public IDesignElement getParent() {
 
 		return item.getParent();
@@ -565,11 +524,10 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getQualifiedName()
 	 */
-	@Override
 	public String getQualifiedName() {
 
 		return item.getQualifiedName();
@@ -577,10 +535,9 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getStyle()
 	 */
-	@Override
 	public IStyle getStyle() {
 
 		return item.getStyle();
@@ -588,12 +545,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getUserProperty(
 	 * java.lang.String)
 	 */
-	@Override
 	public Object getUserProperty(String name) {
 
 		return item.getUserProperty(name);
@@ -601,12 +557,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#setNamedExpression
 	 * (java.lang.String, java.lang.String)
 	 */
-	@Override
 	public void setNamedExpression(String name, String exp) throws SemanticException {
 
 		item.setNamedExpression(name, exp);
@@ -615,13 +570,12 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#setUserProperty(
 	 * java.lang.String, java.lang.Object, java.lang.String)
 	 */
 
-	@Override
 	public void setUserProperty(String name, Object value, String type) throws SemanticException {
 
 		item.setUserProperty(name, value, type);
@@ -629,12 +583,11 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#setUserProperty(
 	 * java.lang.String, java.lang.String)
 	 */
-	@Override
 	public void setUserProperty(String name, String value) throws SemanticException {
 
 		item.setUserProperty(name, value);
@@ -642,13 +595,12 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#setCurrentView(org.
 	 * eclipse.birt.report.model.api.simpleapi.IDesignElement)
 	 */
 
-	@Override
 	public void setCurrentView(IDesignElement viewElement) throws SemanticException {
 		item.setCurrentView(viewElement);
 
@@ -656,21 +608,19 @@ public class SimpleRowItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
 	 */
-	@Override
 	public IReportDesign getReport() {
 		return item.getReport();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#
 	 * getUserPropertyExpression(java.lang.String)
 	 */
-	@Override
 	public Object getUserPropertyExpression(String name) {
 		return item.getUserPropertyExpression(name);
 	}

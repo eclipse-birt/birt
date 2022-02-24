@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.api;
 
 /**
  * ID represent the data set.
- *
+ * 
  * a data set is created by a sub query or a query. If it is created by a data
  * query, it will have a uniqe data set name. Otherwise, the data set id is
  * determinted by its parent data set, parent row id and the subquery name.
@@ -47,7 +47,7 @@ public class DataSetID {
 
 	/**
 	 * DataSetID of the subquery.
-	 *
+	 * 
 	 * @param parent    can't be null.
 	 * @param rowId
 	 * @param queryName can't be null.
@@ -66,7 +66,7 @@ public class DataSetID {
 
 	/**
 	 * DataSetID of the subquery.
-	 *
+	 * 
 	 * @param parent    can't be null.
 	 * @param cellId
 	 * @param queryName can't be null.
@@ -86,7 +86,7 @@ public class DataSetID {
 
 	/**
 	 * parent data set if any.
-	 *
+	 * 
 	 * @return parent data set
 	 */
 	public DataSetID getParentID() {
@@ -95,7 +95,7 @@ public class DataSetID {
 
 	/**
 	 * data set name if any.
-	 *
+	 * 
 	 * @return name of the data set.
 	 */
 	public String getDataSetName() {
@@ -104,7 +104,7 @@ public class DataSetID {
 
 	/**
 	 * query name if any.
-	 *
+	 * 
 	 * @return query name.
 	 */
 	public String getQueryName() {
@@ -113,7 +113,7 @@ public class DataSetID {
 
 	/**
 	 * row id in the parent data set.
-	 *
+	 * 
 	 * @return row id
 	 */
 	public long getRowID() {
@@ -122,7 +122,7 @@ public class DataSetID {
 
 	/**
 	 * cell id in the parent data set.
-	 *
+	 * 
 	 * @return cell id
 	 */
 	public String getCellID() {
@@ -131,7 +131,7 @@ public class DataSetID {
 
 	/**
 	 * create a dataset id of a normal query.
-	 *
+	 * 
 	 * @param dataSetName can't be null.
 	 */
 	public DataSetID(String dataSetName) {
@@ -141,7 +141,6 @@ public class DataSetID {
 		this.dataSetName = dataSetName;
 	}
 
-	@Override
 	public boolean equals(Object a) {
 		if (a instanceof DataSetID) {
 			DataSetID aid = (DataSetID) a;
@@ -168,7 +167,6 @@ public class DataSetID {
 		}
 	}
 
-	@Override
 	public String toString() {
 		if (dataSetName != null) {
 			return dataSetName;
@@ -180,7 +178,7 @@ public class DataSetID {
 
 	/**
 	 * Parse the dataSetID of a String
-	 *
+	 * 
 	 * @param dataSetId
 	 * @return DataSetID object
 	 */
@@ -190,7 +188,7 @@ public class DataSetID {
 
 	/**
 	 * Parse dataSetID.
-	 *
+	 * 
 	 * @param buffer
 	 * @param offset
 	 * @param length

@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +21,8 @@ import java.util.HashMap;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedRandomAccessFile;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * An implementation of the <tt>IDocumentManager</tt> interface. This class use
@@ -40,7 +40,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	private HashMap documentObjectMap = null;
 
 	/**
-	 *
+	 * 
 	 * @param dirName
 	 * @param managerName
 	 * @return
@@ -52,7 +52,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dirName
 	 * @param managerName
 	 * @return
@@ -71,7 +71,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dirName
 	 * @param managerName
 	 * @return
@@ -85,14 +85,14 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private FileDocumentManager() {
 		this.dataFileCacheSize = 0;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param fileCacheSize
 	 */
 	private FileDocumentManager(int fileCacheSize) {
@@ -100,7 +100,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dirName
 	 * @param managerName
 	 * @throws IOException
@@ -121,7 +121,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dirName
 	 * @param managerName
 	 * @throws IOException
@@ -152,9 +152,8 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 		while (true) {
 			try {
 				ObjectStructure structure = readObjectStructure();
-				if (structure.firstBlock >= 0) {
+				if (structure.firstBlock >= 0)
 					documentObjectMap.put(structure.name, structure);
-				}
 			} catch (EOFException e) {
 				return;
 			}
@@ -163,10 +162,9 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#close()
 	 */
-	@Override
 	public void close() throws IOException {
 		objectAccessFile.close();
 		oatAccessFile.close();
@@ -175,7 +173,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public void clearTmpFile() {
 		if (objectFile != null) {
@@ -194,11 +192,10 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#
 	 * createDocumentObject(java.lang.String)
 	 */
-	@Override
 	public IDocumentObject createDocumentObject(String documentObjectName) throws IOException {
 		ObjectStructure objectStructure = new ObjectStructure();
 		objectStructure.name = documentObjectName;
@@ -211,7 +208,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	}
 
 	/**
-	 *
+	 * 
 	 * @param structure
 	 * @throws IOException
 	 */
@@ -224,7 +221,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
@@ -238,7 +235,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
@@ -250,12 +247,11 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IDocumentManager#openDocumentObject(
 	 * java.lang.String)
 	 */
-	@Override
 	public IDocumentObject openDocumentObject(String documentObjectName) throws IOException {
 		ObjectStructure objectStructure = (ObjectStructure) this.documentObjectMap.get(documentObjectName);
 		if (objectStructure == null) {
@@ -267,23 +263,21 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IDocumentManager#exist(java.lang.
 	 * String)
 	 */
-	@Override
 	public boolean exist(String documentObjectName) {
 		return this.documentObjectMap.get(documentObjectName) != null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IObjectAllocTable#getNextBlock(int)
 	 */
-	@Override
 	public int getNextBlock(int blockNo) throws IOException {
 		oatAccessFile.seek(blockNo * 4L);
 		return oatAccessFile.readInt();
@@ -291,11 +285,10 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IObjectAllocTable#allocateBlock(int)
 	 */
-	@Override
 	public int allocateBlock(int blockNo) throws IOException {
 		int newBlock = findFreeBlock();
 		oatAccessFile.seek(blockNo * 4L);
@@ -305,12 +298,11 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IObjectAllocTable#setObjectLength(
 	 * java.lang.String, long)
 	 */
-	@Override
 	public void setObjectLength(String documentObjectName, long length) throws IOException {
 		ObjectStructure objectStructure = (ObjectStructure) documentObjectMap.get(documentObjectName);
 		if (objectStructure == null) {
@@ -323,10 +315,9 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#flush()
 	 */
-	@Override
 	public void flush() throws IOException {
 		objectAccessFile.flush();
 		oatAccessFile.flush();

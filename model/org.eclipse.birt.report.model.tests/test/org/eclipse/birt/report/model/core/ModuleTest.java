@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The Test Case of Class RootElement.
- *
+ * 
  * The RootElement is the root of the report design. It has some slots which
  * contain the Page, Section and Style etc. So we test the container-content
  * relationship. At the same time, the RootElement has more than one NameSpace
@@ -46,21 +46,21 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testElementID}</td>
  * <td>add element and check it</td>
  * <td>object is the same as orginal element</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>drop element and check it</td>
  * <td>orginal element is dropped</td>
  * </tr>
- *
+ * 
  * </table>
- *
+ * 
  */
 public class ModuleTest extends BaseTestCase {
 
@@ -70,7 +70,6 @@ public class ModuleTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -86,7 +85,6 @@ public class ModuleTest extends BaseTestCase {
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	@Override
 	protected void tearDown() throws Exception {
 		design = null;
 		designHandle = null;
@@ -125,7 +123,7 @@ public class ModuleTest extends BaseTestCase {
 	/**
 	 * Tests the id of all the elements after parsing are right. Test the id map in
 	 * the design is right.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -168,7 +166,7 @@ public class ModuleTest extends BaseTestCase {
 
 	/**
 	 * Tests the writer about the id.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -184,7 +182,7 @@ public class ModuleTest extends BaseTestCase {
 
 	/**
 	 * Adds an element into the module and test the id issues.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -263,7 +261,7 @@ public class ModuleTest extends BaseTestCase {
 	/**
 	 * Tests drag data source and data set. After draging ,should keep position
 	 * right.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -305,7 +303,7 @@ public class ModuleTest extends BaseTestCase {
 
 	/**
 	 * Tests refer to external resource file.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -324,7 +322,7 @@ public class ModuleTest extends BaseTestCase {
 
 	/**
 	 * Tests the message keys.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

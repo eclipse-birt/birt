@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodActio
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
@@ -50,6 +51,8 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstab
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -64,7 +67,7 @@ import org.eclipse.jface.action.Separator;
 import com.ibm.icu.text.Collator;
 
 /**
- *
+ * 
  */
 
 public class CrosstabCellMenuAdapterFactory implements IAdapterFactory {
@@ -148,7 +151,6 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory {
 
 	}
 
-	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adaptableObject instanceof CrosstabCellAdapter
 				&& ((CrosstabCellAdapter) adaptableObject).getCrosstabCellHandle() != null
@@ -160,7 +162,6 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory {
 
 				private ActionRegistry actionRegistry;
 
-				@Override
 				public void menuAboutToShow(IMenuManager manager) {
 					// items.length must be larger than 0
 					IContributionItem items[] = manager.getItems();
@@ -229,7 +230,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory {
 					 * Extended Items insert actions
 					 */
 
-					CategorizedElementSorter<IAction> elementSorter = new CategorizedElementSorter<>();
+					CategorizedElementSorter<IAction> elementSorter = new CategorizedElementSorter<IAction>();
 
 					List<ExtendedElementUIPoint> points = ExtensionPointManager.getInstance()
 							.getExtendedElementPoints();
@@ -268,7 +269,6 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory {
 
 					Collections.sort(actions, new Comparator<IAction>() {
 
-						@Override
 						public int compare(IAction o1, IAction o2) {
 							return Collator.getInstance().compare(o1.getText(), o2.getText());
 						}
@@ -291,7 +291,6 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory {
 					manager.add(subMenu);
 				}
 
-				@Override
 				public void setActionRegistry(ActionRegistry actionRegistry) {
 					this.actionRegistry = actionRegistry;
 				}
@@ -305,9 +304,8 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory {
 				}
 
 				private ActionRegistry getActionRegistry() {
-					if (actionRegistry == null) {
+					if (actionRegistry == null)
 						actionRegistry = new ActionRegistry();
-					}
 					return actionRegistry;
 				}
 			};
@@ -315,10 +313,28 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	@Override
 	public Class[] getAdapterList() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private CrosstabReportItemHandle getCrosstab(DesignElementHandle handle) {
+		if (handle == null) {
+			return null;
+		}
+
+		IReportItem item = null;
+		try {
+			item = ((ExtendedItemHandle) handle).getReportItem();
+		} catch (ExtendedElementException e) {
+			return null;
+		}
+
+		if (item instanceof CrosstabReportItemHandle) {
+			return (CrosstabReportItemHandle) item;
+		}
+
+		return getCrosstab(handle.getContainer());
 	}
 
 }

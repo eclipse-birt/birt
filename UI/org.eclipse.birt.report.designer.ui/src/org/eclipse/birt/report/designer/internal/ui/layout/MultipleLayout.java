@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,12 +43,11 @@ public class MultipleLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(org.eclipse.draw2d.
 	 * IFigure, int, int)
 	 */
-	@Override
 	protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
 		Rectangle rect = container.getParent().getClientArea().getCopy();
 		List list = container.getChildren();
@@ -88,10 +87,9 @@ public class MultipleLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 	 */
-	@Override
 	public void layout(IFigure container) {
 		List list = container.getChildren();
 		for (int i = 0; i < list.size(); i++) {

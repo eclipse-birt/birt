@@ -84,9 +84,8 @@ public class ExcelFileQuery implements IQuery {
 	private Map appContext = null;
 
 	public ExcelFileQuery(Properties connProperties) throws OdaException {
-		if (connProperties == null || connProperties.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP) == null) {
+		if (connProperties == null || connProperties.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP) == null)
 			throw new OdaException(Messages.getString("common_ARGUMENT_CANNOT_BE_NULL")); //$NON-NLS-1$
-		}
 
 		this.connProperties = connProperties;
 
@@ -118,7 +117,6 @@ public class ExcelFileQuery implements IQuery {
 	 * sets the value of two member variables: resultSetMetaData and
 	 * absoluteFileName
 	 */
-	@Override
 	public void prepare(String queryText) throws OdaException {
 		if (queryText == null) {
 			throw new OdaException(Messages.getString("common_NULL_QUERY_TEXT")); //$NON-NLS-1$
@@ -146,18 +144,15 @@ public class ExcelFileQuery implements IQuery {
 	 * @return
 	 */
 	private String formatQueryText(String queryText) {
-		StringBuilder result = new StringBuilder();
+		StringBuffer result = new StringBuffer();
 		String[] temp = queryText.trim().split(ExcelODAConstants.DELIMITER_SPACE);
 		for (int i = 0; i < temp.length; i++) {
-			if (temp[i].equalsIgnoreCase(ExcelODAConstants.KEYWORD_AS)) {
+			if (temp[i].equalsIgnoreCase(ExcelODAConstants.KEYWORD_AS))
 				temp[i] = temp[i].toUpperCase();
-			}
-			if (temp[i].equalsIgnoreCase(ExcelODAConstants.KEYWORD_FROM)) {
+			if (temp[i].equalsIgnoreCase(ExcelODAConstants.KEYWORD_FROM))
 				temp[i] = temp[i].toUpperCase();
-			}
-			if (temp[i].equalsIgnoreCase(ExcelODAConstants.KEYWORD_SELECT)) {
+			if (temp[i].equalsIgnoreCase(ExcelODAConstants.KEYWORD_SELECT))
 				temp[i] = temp[i].toUpperCase();
-			}
 			result.append(temp[i]).append(ExcelODAConstants.DELIMITER_SPACE);
 		}
 		return result.toString().trim();
@@ -187,9 +182,8 @@ public class ExcelFileQuery implements IQuery {
 				: createTempColumnTypes(columnCount);
 		resultSetMetaData = new ResultSetMetaData(allColumnNames, allColumnTypes);
 
-		if (allColumnNames.length != allColumnTypes.length) {
+		if (allColumnNames.length != allColumnTypes.length)
 			throw new OdaException(Messages.getString("invalid_excelfile_format")); //$NON-NLS-1$
-		}
 
 		// the array that contains the column names read from command
 		String[] queryColumnNames = null;
@@ -212,9 +206,8 @@ public class ExcelFileQuery implements IQuery {
 						? getQueryColumnTypes(allColumnNames, allColumnTypes, queryColumnNames)
 						: createTempColumnTypes(queryColumnNames.length);
 				queryColumnLables = this.hasColumnNames ? columnLabels : queryColumnNames;
-				if (queryColumnLables == null) {
+				if (queryColumnLables == null)
 					queryColumnLables = queryColumnNames;
-				}
 				this.resultSetMetaDataHelper = new ResultSetMetaDataHelper(queryColumnNames, queryColumnTypes,
 						queryColumnLables);
 				this.resultSetMetaData = new ResultSetMetaData(this.resultSetMetaDataHelper);
@@ -233,9 +226,8 @@ public class ExcelFileQuery implements IQuery {
 	 * @throws OdaException if the given text is empty
 	 */
 	private void validateNonEmptyQueryText(String formattedQuery) throws OdaException {
-		if (formattedQuery == null || formattedQuery.length() == 0) {
+		if (formattedQuery == null || formattedQuery.length() == 0)
 			throw new OdaException(Messages.getString("query_COMMAND_IS_EMPTY")); //$NON-NLS-1$
-		}
 	}
 
 	/**
@@ -261,9 +253,9 @@ public class ExcelFileQuery implements IQuery {
 	 * @return
 	 */
 	private Vector<String> getQueryColumnNamesVector(String queryColumnNames) {
-		Vector<String> result = new Vector<>();
+		Vector<String> result = new Vector<String>();
 		char[] chars = queryColumnNames.toCharArray();
-		List<Integer> indiceList = new ArrayList<>();
+		List<Integer> indiceList = new ArrayList<Integer>();
 		boolean inQuote = false;
 		boolean isEscaped = false;
 		int beginIndex = 0;
@@ -271,19 +263,17 @@ public class ExcelFileQuery implements IQuery {
 
 		for (int i = 0; i < chars.length; i++) {
 			if (chars[i] == '"') {
-				if (!isEscaped) {
+				if (!isEscaped)
 					inQuote = !inQuote;
-				} else {
+				else
 					isEscaped = !isEscaped;
-				}
 			} else if (chars[i] == '\\') {
 				isEscaped = !isEscaped;
 			} else if (chars[i] == ',') {
-				if (inQuote) {
+				if (inQuote)
 					continue;
-				} else {
+				else
 					indiceList.add(new Integer(i));
-				}
 			}
 		}
 
@@ -296,12 +286,11 @@ public class ExcelFileQuery implements IQuery {
 				beginIndex = endIndex + 1;
 
 				if (j == indiceList.size() - 1) {
-					result.add(queryColumnNames.substring(beginIndex).trim());
+					result.add(queryColumnNames.substring(beginIndex, queryColumnNames.length()).trim());
 				}
 			}
-		} else {
+		} else
 			result.add(queryColumnNames);
-		}
 
 		return result;
 	}
@@ -312,12 +301,12 @@ public class ExcelFileQuery implements IQuery {
 	 * @return
 	 */
 	private Vector<String> stripFormatInfoFromQueryColumnNames(Vector<String> queryColumnNames) {
-		Vector<String> columnNames = new Vector<>();
+		Vector<String> columnNames = new Vector<String>();
 
 		boolean isEscaped = false;
 
 		for (int i = 0; i < queryColumnNames.size(); i++) {
-			StringBuilder sb = new StringBuilder();
+			StringBuffer sb = new StringBuffer();
 			char[] chars = queryColumnNames.get(i).toCharArray();
 
 			if (chars[0] != ExcelODAConstants.DELIMITER_DOUBLEQUOTE) {
@@ -332,14 +321,12 @@ public class ExcelFileQuery implements IQuery {
 						isEscaped = !isEscaped;
 					}
 				} else if (chars[j] == '\\') {
-					if (isEscaped) {
+					if (isEscaped)
 						sb.append(chars[j]);
-					}
 
 					isEscaped = !isEscaped;
-				} else {
+				} else
 					sb.append(chars[j]);
-				}
 			}
 
 			columnNames.add(sb.toString());
@@ -359,9 +346,8 @@ public class ExcelFileQuery implements IQuery {
 	 * @return
 	 */
 	private String[] getQueryColumnTypes(String[] allColumnNames, String[] allColumnTypes, String[] queryColumnNames) {
-		if (!this.hasTypeLine) {
+		if (!this.hasTypeLine)
 			return null;
-		}
 
 		// the array that contains the types of column names read from a query
 		String[] queryColumnTypes = new String[queryColumnNames.length];
@@ -408,9 +394,8 @@ public class ExcelFileQuery implements IQuery {
 	 * @throws OdaException if the given query contains multiple table names
 	 */
 	private void validateSingleTableQuery(String[] parsedQuerySegments) throws OdaException {
-		if (getPreparedTableNames(parsedQuerySegments).split(ExcelODAConstants.DELIMITER_COMMA_VALUE).length != 1) {
+		if (getPreparedTableNames(parsedQuerySegments).split(ExcelODAConstants.DELIMITER_COMMA_VALUE).length != 1)
 			throw new OdaException(Messages.getString("query_DO_NOT_SUPPORT_CROSS_TABLE_QUERY")); //$NON-NLS-1$
-		}
 	}
 
 	/**
@@ -453,40 +438,34 @@ public class ExcelFileQuery implements IQuery {
 		try {
 			masterExcelFileSource.resetRowCounter();
 			if (!(metaDataType.trim().equalsIgnoreCase(NAME_LITERAL)
-					|| metaDataType.trim().equalsIgnoreCase(TYPE_LITERAL))) {
+					|| metaDataType.trim().equalsIgnoreCase(TYPE_LITERAL)))
 				throw new OdaException(Messages.getString("query_ARGUMENT_ERROR")); //$NON-NLS-1$
-			}
 
 			// if want to discover type information then just skip all the empty
 			// lines and the first line
 			if (metaDataType.trim().equalsIgnoreCase(TYPE_LITERAL)) {
-				while (masterExcelFileSource.isEmptyRow(masterExcelFileSource.readLine())) {
+				while (masterExcelFileSource.isEmptyRow(masterExcelFileSource.readLine()))
 					continue;
-				}
 			}
 			// Skip all the empty lines until reach the first line
 			List<String> columnNameLine;
-			while (masterExcelFileSource.isEmptyRow(columnNameLine = masterExcelFileSource.readLine())) {
+			while (masterExcelFileSource.isEmptyRow(columnNameLine = masterExcelFileSource.readLine()))
 				continue;
-			}
 
 			String[] result = masterExcelFileSource.getColumnNameArray(columnNameLine);
 
-			if (metaDataType.trim().equalsIgnoreCase(NAME_LITERAL)) {
+			if (metaDataType.trim().equalsIgnoreCase(NAME_LITERAL))
 				this.validateUniqueName(result);
-			}
-			if (metaDataType.trim().equalsIgnoreCase(TYPE_LITERAL)) {
+			if (metaDataType.trim().equalsIgnoreCase(TYPE_LITERAL))
 				validateColumnTypeConsistency(result);
-			}
 
 			return trimStringArray(result);
 
 		} catch (IOException e) {
 			throw new OdaException(e);
 		} finally {
-			if (masterExcelFileSource != null) {
+			if (masterExcelFileSource != null)
 				masterExcelFileSource.close();
-			}
 		}
 	}
 
@@ -515,9 +494,8 @@ public class ExcelFileQuery implements IQuery {
 	 * @return
 	 */
 	private boolean isWildCard(String cCN) {
-		if (cCN.equalsIgnoreCase(ExcelODAConstants.KEYWORD_ASTERISK)) {
+		if (cCN.equalsIgnoreCase(ExcelODAConstants.KEYWORD_ASTERISK))
 			return true;
-		}
 		return false;
 	}
 
@@ -530,9 +508,8 @@ public class ExcelFileQuery implements IQuery {
 	}
 
 	private void validateColumnTypeConsistency(String[] aCT) throws OdaException {
-		if (!this.hasTypeLine) {
+		if (!this.hasTypeLine)
 			return;
-		}
 		for (int i = 0; i < aCT.length; i++) {
 			if (!DataTypes.isValidType(aCT[i])) {
 				throw new OdaException(Messages.getString("dataTypes_TYPE_NAME_INVALID") + aCT[i]); //$NON-NLS-1$
@@ -543,9 +520,8 @@ public class ExcelFileQuery implements IQuery {
 	private int findOccuranceOfValueInStringArray(String value, String[] array) {
 		int count = 0;
 		for (int i = 0; i < array.length; i++) {
-			if (value.trim().equalsIgnoreCase(array[i].trim())) {
+			if (value.trim().equalsIgnoreCase(array[i].trim()))
 				count++;
-			}
 		}
 		return count;
 	}
@@ -556,9 +532,8 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	private String[] trimStringArray(String[] array) {
 		String[] result = new String[array.length];
-		for (int i = 0; i < result.length; i++) {
+		for (int i = 0; i < result.length; i++)
 			result[i] = array[i].trim();
-		}
 		return result;
 	}
 
@@ -583,7 +558,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setAppContext(java.lang
 	 * .Object)
 	 */
-	@Override
 	public void setAppContext(Object context) throws OdaException {
 		this.appContext = (Map) context;
 	}
@@ -591,7 +565,6 @@ public class ExcelFileQuery implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#close()
 	 */
-	@Override
 	public void close() throws OdaException {
 		maxRows = 0;
 		resultSetMetaData = null;
@@ -600,22 +573,18 @@ public class ExcelFileQuery implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getMetaData()
 	 */
-	@Override
 	public IResultSetMetaData getMetaData() throws OdaException {
-		if (resultSetMetaData == null) {
+		if (resultSetMetaData == null)
 			prepareMetaData(colInfo);
-		}
 		return resultSetMetaData;
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#executeQuery()
 	 */
-	@Override
 	public IResultSet executeQuery() throws OdaException {
-		if (this.isInvalidQuery) {
+		if (this.isInvalidQuery)
 			throw new OdaException(Messages.getString("query_COMMAND_NOT_VALID")); //$NON-NLS-1$
-		}
 
 		// Should only happen while designing the dataset
 		if (masterExcelFileSource == null) {
@@ -625,13 +594,11 @@ public class ExcelFileQuery implements IQuery {
 					(ResultSetMetaData) this.getMetaData());
 
 		}
-		if (this.resultSetMetaData != null) {
+		if (this.resultSetMetaData != null)
 			masterExcelFileSource.setRsmd(this.resultSetMetaData);
-		}
 
-		if (this.resultSetMetaDataHelper != null) {
+		if (this.resultSetMetaDataHelper != null)
 			masterExcelFileSource.setRsmdHelper(this.resultSetMetaDataHelper);
-		}
 
 		masterExcelFileSource.setStatementMaxRows(this.maxRows);
 
@@ -643,17 +610,14 @@ public class ExcelFileQuery implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setProperty(java.lang.String ,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setProperty(String name, String value) throws OdaException {
-		if (name.equals(ExcelODAConstants.CONN_WORKSHEETS_PROP)) {
+		if (name.equals(ExcelODAConstants.CONN_WORKSHEETS_PROP))
 			this.worksheetNames = value;
-		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setMaxRows(int)
 	 */
-	@Override
 	public void setMaxRows(int max) throws OdaException {
 		maxRows = max;
 	}
@@ -661,7 +625,6 @@ public class ExcelFileQuery implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getMaxRows()
 	 */
-	@Override
 	public int getMaxRows() throws OdaException {
 		return maxRows;
 	}
@@ -669,7 +632,6 @@ public class ExcelFileQuery implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#clearInParameters()
 	 */
-	@Override
 	public void clearInParameters() throws OdaException {
 		// only applies to input parameter
 	}
@@ -678,7 +640,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(java.lang.String,
 	 * int)
 	 */
-	@Override
 	public void setInt(String parameterName, int value) throws OdaException {
 		// only applies to named input parameter
 	}
@@ -686,7 +647,6 @@ public class ExcelFileQuery implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(int, int)
 	 */
-	@Override
 	public void setInt(int parameterId, int value) throws OdaException {
 		// only applies to input parameter
 	}
@@ -696,7 +656,6 @@ public class ExcelFileQuery implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setDouble(java.lang.String,
 	 * double)
 	 */
-	@Override
 	public void setDouble(String parameterName, double value) throws OdaException {
 		// only applies to named input parameter
 	}
@@ -704,7 +663,6 @@ public class ExcelFileQuery implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDouble(int, double)
 	 */
-	@Override
 	public void setDouble(int parameterId, double value) throws OdaException {
 		// only applies to input parameter
 	}
@@ -713,7 +671,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(java.lang
 	 * .String, java.math.BigDecimal)
 	 */
-	@Override
 	public void setBigDecimal(String parameterName, BigDecimal value) throws OdaException {
 		// only applies to named input parameter
 	}
@@ -722,7 +679,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(int,
 	 * java.math.BigDecimal)
 	 */
-	@Override
 	public void setBigDecimal(int parameterId, BigDecimal value) throws OdaException {
 		// only applies to input parameter
 	}
@@ -732,7 +688,6 @@ public class ExcelFileQuery implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setString(java.lang.String,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setString(String parameterName, String value) throws OdaException {
 		// only applies to named input parameter
 		System.out.println(parameterName);
@@ -742,7 +697,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setString(int,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setString(int parameterId, String value) throws OdaException {
 		// only applies to input parameter
 		System.out.println(value);
@@ -752,7 +706,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDate(java.lang.String,
 	 * java.sql.Date)
 	 */
-	@Override
 	public void setDate(String parameterName, Date value) throws OdaException {
 		// only applies to named input parameter
 	}
@@ -761,7 +714,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDate(int,
 	 * java.sql.Date)
 	 */
-	@Override
 	public void setDate(int parameterId, Date value) throws OdaException {
 		// only applies to input parameter
 	}
@@ -770,7 +722,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTime(java.lang.String,
 	 * java.sql.Time)
 	 */
-	@Override
 	public void setTime(String parameterName, Time value) throws OdaException {
 		// only applies to named input parameter
 	}
@@ -779,7 +730,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTime(int,
 	 * java.sql.Time)
 	 */
-	@Override
 	public void setTime(int parameterId, Time value) throws OdaException {
 		// only applies to input parameter
 	}
@@ -788,7 +738,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(java.lang.
 	 * String, java.sql.Timestamp)
 	 */
-	@Override
 	public void setTimestamp(String parameterName, Timestamp value) throws OdaException {
 		// only applies to named input parameter
 	}
@@ -797,7 +746,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(int,
 	 * java.sql.Timestamp)
 	 */
-	@Override
 	public void setTimestamp(int parameterId, Timestamp value) throws OdaException {
 		// only applies to input parameter
 	}
@@ -809,7 +757,6 @@ public class ExcelFileQuery implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String ,
 	 * boolean)
 	 */
-	@Override
 	public void setBoolean(String parameterName, boolean value) throws OdaException {
 		// only applies to named input parameter
 	}
@@ -819,7 +766,6 @@ public class ExcelFileQuery implements IQuery {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
 	 */
-	@Override
 	public void setBoolean(int parameterId, boolean value) throws OdaException {
 		// only applies to input parameter
 	}
@@ -831,7 +777,6 @@ public class ExcelFileQuery implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setObject(java.lang.String,
 	 * java.lang.Object)
 	 */
-	@Override
 	public void setObject(String parameterName, Object value) throws OdaException {
 		// only applies to named input parameter
 	}
@@ -842,7 +787,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(int,
 	 * java.lang.Object)
 	 */
-	@Override
 	public void setObject(int parameterId, Object value) throws OdaException {
 		// only applies to input parameter
 	}
@@ -852,7 +796,6 @@ public class ExcelFileQuery implements IQuery {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
 	 */
-	@Override
 	public void setNull(String parameterName) throws OdaException {
 		// only applies to named input parameter
 	}
@@ -862,7 +805,6 @@ public class ExcelFileQuery implements IQuery {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
 	 */
-	@Override
 	public void setNull(int parameterId) throws OdaException {
 		// only applies to input parameter
 	}
@@ -871,7 +813,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#findInParameter(java.lang
 	 * .String)
 	 */
-	@Override
 	public int findInParameter(String parameterName) throws OdaException {
 		// only applies to named input parameter
 		return 0;
@@ -880,7 +821,6 @@ public class ExcelFileQuery implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getParameterMetaData()
 	 */
-	@Override
 	public IParameterMetaData getParameterMetaData() throws OdaException {
 		return new ParameterMetaData();
 	}
@@ -889,7 +829,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setSortSpec(org.eclipse
 	 * .datatools.connectivity.oda.SortSpec)
 	 */
-	@Override
 	public void setSortSpec(SortSpec sortBy) throws OdaException {
 		// only applies to sorting, assumes not supported
 		throw new UnsupportedOperationException();
@@ -898,7 +837,6 @@ public class ExcelFileQuery implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getSortSpec()
 	 */
-	@Override
 	public SortSpec getSortSpec() throws OdaException {
 		// only applies to sorting
 		return null;
@@ -911,7 +849,6 @@ public class ExcelFileQuery implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setSpecification(org.eclipse
 	 * .datatools.connectivity.oda.spec.QuerySpecification)
 	 */
-	@Override
 	public void setSpecification(QuerySpecification querySpec) throws OdaException, UnsupportedOperationException {
 		// assumes no support
 		throw new UnsupportedOperationException();
@@ -922,7 +859,6 @@ public class ExcelFileQuery implements IQuery {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getSpecification()
 	 */
-	@Override
 	public QuerySpecification getSpecification() {
 		// assumes no support
 		return null;
@@ -933,7 +869,6 @@ public class ExcelFileQuery implements IQuery {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getEffectiveQueryText()
 	 */
-	@Override
 	public String getEffectiveQueryText() {
 		throw new UnsupportedOperationException();
 	}
@@ -943,7 +878,6 @@ public class ExcelFileQuery implements IQuery {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#cancel()
 	 */
-	@Override
 	public void cancel() throws OdaException, UnsupportedOperationException {
 		// assumes unable to cancel while executing a query
 		throw new UnsupportedOperationException();

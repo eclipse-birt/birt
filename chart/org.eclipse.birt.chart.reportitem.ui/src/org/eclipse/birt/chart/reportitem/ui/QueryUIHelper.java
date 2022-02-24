@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +65,7 @@ public final class QueryUIHelper {
 	}
 
 	public Collection<String> validate() {
-		List<String> problems = new ArrayList<>();
+		List<String> problems = new ArrayList<String>();
 		final QueryValidator[] qsqa = cm instanceof ChartWithAxes ? getValidators((ChartWithAxes) cm)
 				: getValidators((ChartWithoutAxes) cm);
 		for (int i = 0; i < qsqa.length; i++) {
@@ -75,11 +75,11 @@ public final class QueryUIHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cwa
 	 */
-	QueryValidator[] getValidators(ChartWithAxes cwa) {
-		final List<QueryValidator> alSeriesQueries = new ArrayList<>(4);
+	final QueryValidator[] getValidators(ChartWithAxes cwa) {
+		final List<QueryValidator> alSeriesQueries = new ArrayList<QueryValidator>(4);
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes()[0];
 		EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions();
 		if (elSD.size() != 1) {
@@ -111,7 +111,7 @@ public final class QueryUIHelper {
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes(axPrimaryBase, true);
 		for (int j = 0; j < axaOrthogonal.length; j++) {
 			elSD = axaOrthogonal[j].getSeriesDefinitions();
-			List<Query> queries = new ArrayList<>(elSD.size());
+			List<Query> queries = new ArrayList<Query>(elSD.size());
 			// DON'T CARE ABOUT SERIES DEFINITION QUERIES
 			for (int k = 0; k < elSD.size(); k++) {
 				SeriesDefinition vsd = elSD.get(k);
@@ -142,11 +142,11 @@ public final class QueryUIHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cwoa
 	 */
-	QueryValidator[] getValidators(ChartWithoutAxes cwoa) {
-		final List<QueryValidator> alSeriesQueries = new ArrayList<>(4);
+	final QueryValidator[] getValidators(ChartWithoutAxes cwoa) {
+		final List<QueryValidator> alSeriesQueries = new ArrayList<QueryValidator>(4);
 		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions();
 		if (elSD.size() != 1) {
 			return alSeriesQueries.toArray(new QueryDefineValidator[alSeriesQueries.size()]);
@@ -174,7 +174,7 @@ public final class QueryUIHelper {
 
 		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
 		elSD = bsd.getSeriesDefinitions(); // ALL ORTHOGONAL SERIES DEFINITIONS
-		List<Query> queries = new ArrayList<>(elSD.size());
+		List<Query> queries = new ArrayList<Query>(elSD.size());
 		for (int k = 0; k < elSD.size(); k++) {
 			SeriesDefinition vsd = elSD.get(k);
 			Series seOrthogonal = vsd.getDesignTimeSeries();
@@ -215,7 +215,6 @@ public final class QueryUIHelper {
 			this.qua = qua;
 		}
 
-		@Override
 		public void validate(List<String> al) {
 			if (qua.length == 0) {
 				al.add(Messages.getString("QueryHelper.NoDataDefinitionFor", sSeriesType)); //$NON-NLS-1$
@@ -249,7 +248,6 @@ public final class QueryUIHelper {
 			this.queries = queries;
 		}
 
-		@Override
 		public void validate(List<String> al) {
 			int size = vsds.size();
 			if (size > 1) {
@@ -291,7 +289,7 @@ public final class QueryUIHelper {
 
 	/**
 	 * Returns query definitions of chart.
-	 *
+	 * 
 	 * @param cm
 	 * @return query definition
 	 * @see ChartUIConstants#QUERY_CATEGORY
@@ -310,13 +308,13 @@ public final class QueryUIHelper {
 
 	/**
 	 * Returns query definitions of axes chart.
-	 *
+	 * 
 	 * @param cm
 	 * @return
 	 * @since 2.3
 	 */
 	static Map<String, Query[]> getQueryDefinitionsMap(ChartWithAxes cwa) {
-		Map<String, Query[]> queryMap = new HashMap<>();
+		Map<String, Query[]> queryMap = new HashMap<String, Query[]>();
 
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes()[0];
 		EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions();
@@ -335,8 +333,8 @@ public final class QueryUIHelper {
 		// QUERIES
 		Series seOrthogonal;
 		EList<Query> elOrthogonalSeries;
-		List<Query> yOptionQueryList = new ArrayList<>();
-		List<Query> valueQueryList = new ArrayList<>();
+		List<Query> yOptionQueryList = new ArrayList<Query>();
+		List<Query> valueQueryList = new ArrayList<Query>();
 
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes(axPrimaryBase, true);
 		for (Axis axis : axaOrthogonal) {
@@ -358,12 +356,12 @@ public final class QueryUIHelper {
 		}
 
 		if (yOptionQueryList.size() > 0) {
-			Query[] q = {};
+			Query[] q = new Query[] {};
 			queryMap.put(ChartUIConstants.QUERY_OPTIONAL, yOptionQueryList.toArray(q));
 		}
 
 		if (valueQueryList.size() > 0) {
-			Query[] q = {};
+			Query[] q = new Query[] {};
 			queryMap.put(ChartUIConstants.QUERY_VALUE, valueQueryList.toArray(q));
 		}
 
@@ -372,12 +370,12 @@ public final class QueryUIHelper {
 
 	/**
 	 * Returns query definitions of non-axes chart.
-	 *
+	 * 
 	 * @param cm
 	 * @return
 	 */
 	static Map<String, Query[]> getQueryDefinitionsMap(ChartWithoutAxes cwoa) {
-		Map<String, Query[]> queryMap = new HashMap<>();
+		Map<String, Query[]> queryMap = new HashMap<String, Query[]>();
 
 		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions();
 
@@ -393,8 +391,8 @@ public final class QueryUIHelper {
 
 		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
 
-		List<Query> yOptionQueryList = new ArrayList<>();
-		List<Query> valueQueryList = new ArrayList<>();
+		List<Query> yOptionQueryList = new ArrayList<Query>();
+		List<Query> valueQueryList = new ArrayList<Query>();
 
 		Series seOrthogonal;
 		EList<Query> elOrthogonalSeries;
@@ -417,12 +415,12 @@ public final class QueryUIHelper {
 		}
 
 		if (yOptionQueryList.size() > 0) {
-			Query[] q = {};
+			Query[] q = new Query[] {};
 			queryMap.put(ChartUIConstants.QUERY_OPTIONAL, yOptionQueryList.toArray(q));
 		}
 
 		if (valueQueryList.size() > 0) {
-			Query[] q = {};
+			Query[] q = new Query[] {};
 			queryMap.put(ChartUIConstants.QUERY_VALUE, valueQueryList.toArray(q));
 		}
 

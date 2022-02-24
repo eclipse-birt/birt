@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,9 +37,8 @@ public final class ComplexExpression extends BytecodeExpression {
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	@Override
 	public int getType() {
 		return CompiledExpression.TYPE_COMPLEX_EXPR;
 	}
@@ -47,38 +46,36 @@ public final class ComplexExpression extends BytecodeExpression {
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
 	public boolean equals(Object other) {
-		if (other == null || !(other instanceof ComplexExpression)) {
+		if (other == null || !(other instanceof ComplexExpression))
 			return false;
-		}
 
 		ComplexExpression expr2 = (ComplexExpression) other;
 
-		if ((m_subExpressions.size() != expr2.getSubExpressions().size()) || (m_tokenList.size() != expr2.getTokenList().size()) || (m_constantExpressions.size() != expr2.getConstantExpressions().size())) {
+		if (m_subExpressions.size() != expr2.getSubExpressions().size())
 			return false;
-		}
+		if (m_tokenList.size() != expr2.getTokenList().size())
+			return false;
+		if (m_constantExpressions.size() != expr2.getConstantExpressions().size())
+			return false;
 
 		// compare the sub expression
 		Iterator iter = expr2.getSubExpressions().iterator();
 		for (int i = 0; i < m_subExpressions.size(); i++) {
-			if (!m_subExpressions.get(i).equals(iter.next())) {
+			if (!m_subExpressions.get(i).equals(iter.next()))
 				return false;
-			}
 		}
 		// compare the token list
 		Iterator tokenIterator = expr2.getTokenList().iterator();
 		for (int i = 0; i < m_tokenList.size(); i++) {
-			if (!m_tokenList.get(i).equals(tokenIterator.next())) {
+			if (!m_tokenList.get(i).equals(tokenIterator.next()))
 				return false;
-			}
 		}
 		// compare the constant expression list
 		Iterator constantIterator = expr2.getConstantExpressions().iterator();
 		for (int i = 0; i < m_constantExpressions.size(); i++) {
-			if (!m_constantExpressions.get(i).equals(constantIterator.next())) {
+			if (!m_constantExpressions.get(i).equals(constantIterator.next()))
 				return false;
-			}
 		}
 		return true;
 	}
@@ -87,7 +84,7 @@ public final class ComplexExpression extends BytecodeExpression {
 	 * Adds a <code>Collection</code> of subexpressions to this
 	 * <code>ComplexExpression</code>. This is a helper method to consolidate nested
 	 * <code>ComplexExpression</code>.
-	 *
+	 * 
 	 * @param subExprs the <code>Collection</code> of subexpressions.
 	 */
 	void addSubExpressions(Collection subExprs) {
@@ -98,7 +95,7 @@ public final class ComplexExpression extends BytecodeExpression {
 	/**
 	 * Adds a subexpression to this <code>ComplexExpression</code>. Each
 	 * subexpression is an instance of <code>CompiledExpression</code>.
-	 *
+	 * 
 	 * @param subExpr the subexpression to add to this
 	 *                <code>CompiledExpression</code>.
 	 */
@@ -111,7 +108,7 @@ public final class ComplexExpression extends BytecodeExpression {
 	 * Adds a <code>Collection</code> of <code>ConstantExpression<code> to this
 	 * <code>ComplexExpression</code>. This is a helper method to consolidate nested
 	 * <code>ComplexExpression</code>.
-	 *
+	 * 
 	 * @param subExprs the <code>Collection<code> of <code>ConstantExpression<code>.
 	 */
 	void addContantsExpressions(Collection subExprs) {
@@ -123,7 +120,7 @@ public final class ComplexExpression extends BytecodeExpression {
 	 * Adds a <code>ConstantExpression</code> to this
 	 * <code>ComplexExpression</code>. This is a helper method to consolidate nested
 	 * <code>ComplexExpression</code>.
-	 *
+	 * 
 	 * @param subExprs the <code>ConstantExpression</code>.
 	 */
 	void addContantsExpressions(CompiledExpression subExprs) {
@@ -134,7 +131,7 @@ public final class ComplexExpression extends BytecodeExpression {
 	/**
 	 * add the token existing in the complex expression. These infomation can be
 	 * used in comparision.
-	 *
+	 * 
 	 * @param token
 	 */
 	void addTokenList(Integer token) {
@@ -143,7 +140,7 @@ public final class ComplexExpression extends BytecodeExpression {
 
 	/**
 	 * Returen a <code>Collection</code> of Token value.
-	 *
+	 * 
 	 * @return
 	 */
 	Collection getTokenList() {
@@ -153,7 +150,7 @@ public final class ComplexExpression extends BytecodeExpression {
 	/**
 	 * Returen a <code>Collection</code> of ConstantExpression value. These constant
 	 * expression is contains in the complex expression.
-	 *
+	 * 
 	 * @return
 	 */
 	public Collection getConstantExpressions() {
@@ -164,7 +161,7 @@ public final class ComplexExpression extends BytecodeExpression {
 	 * Returns a <code>Collection</code> of subexpressions in this
 	 * <code>ComplexExpression</code>. Each instance in the <code>Collection</code>
 	 * is a <code>CompiledExpression</code>.
-	 *
+	 * 
 	 * @return a <code>Collection</code> of subexpression associated with this
 	 *         <code>ComplexExpression</code>.
 	 */
@@ -174,37 +171,32 @@ public final class ComplexExpression extends BytecodeExpression {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.expression.BytecodeExpression#getGroupLevel()
 	 */
-	@Override
 	public int getGroupLevel() {
 		int result = -1;
 		boolean isOverall = false;
 		for (int i = 0; i < m_subExpressions.size(); i++) {
 			if (m_subExpressions.get(i) instanceof BytecodeExpression) {
 				int level = ((BytecodeExpression) m_subExpressions.get(i)).getGroupLevel();
-				if (level > result) {
+				if (level > result)
 					result = level;
-				}
-				if (level == 0) {
+				if (level == 0)
 					isOverall = true;
-				}
 			} else if (m_subExpressions.get(i) instanceof ColumnReferenceExpression) {
 				isOverall = true;
 			}
 		}
-		if (result != -1 && isOverall) {
+		if (result != -1 && isOverall)
 			result = 0;
-		}
 		return result;
 	}
 
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
-	@Override
 	public int hashCode() {
 		int result = 17;
 		for (int i = 0; i < m_subExpressions.size(); i++) {

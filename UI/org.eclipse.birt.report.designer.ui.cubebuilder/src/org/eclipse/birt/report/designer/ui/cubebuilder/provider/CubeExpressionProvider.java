@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,14 +45,12 @@ public class CubeExpressionProvider extends ExpressionProvider {
 
 	public CubeExpressionProvider(DesignElementHandle handle) {
 		super(handle);
-		if (handle instanceof TabularCubeHandle) {
+		if (handle instanceof TabularCubeHandle)
 			dataSetHandle = ((TabularCubeHandle) handle).getDataSet();
-		}
 		if (handle instanceof DimensionHandle) {
-			if (((DimensionHandle) handle).getDefaultHierarchy() instanceof TabularHierarchyHandle) {
+			if (((DimensionHandle) handle).getDefaultHierarchy() instanceof TabularHierarchyHandle)
 				dataSetHandle = OlapUtil
 						.getHierarchyDataset((TabularHierarchyHandle) ((DimensionHandle) handle).getDefaultHierarchy());
-			}
 		} else if (handle instanceof TabularHierarchyHandle) {
 			dataSetHandle = OlapUtil.getHierarchyDataset((TabularHierarchyHandle) handle);
 		} else if (handle instanceof TabularMeasureHandle) {
@@ -74,10 +72,12 @@ public class CubeExpressionProvider extends ExpressionProvider {
 	protected void addFilterToProvider() {
 		this.addFilter(new ExpressionFilter() {
 
-			@Override
 			public boolean select(Object parentElement, Object element) {
-				if ((ExpressionFilter.CATEGORY.equals(parentElement)
-						&& ExpressionProvider.CURRENT_CUBE.equals(element)) || (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element))) {
+				if (ExpressionFilter.CATEGORY.equals(parentElement)
+						&& ExpressionProvider.CURRENT_CUBE.equals(element)) {
+					return false;
+				}
+				if (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element)) {
 					return false;
 				}
 				return true;
@@ -85,7 +85,6 @@ public class CubeExpressionProvider extends ExpressionProvider {
 		});
 	}
 
-	@Override
 	protected List getCategoryList() {
 		List categoryList = super.getCategoryList();
 		if (dataSetHandle != null) {
@@ -94,7 +93,6 @@ public class CubeExpressionProvider extends ExpressionProvider {
 		return categoryList;
 	}
 
-	@Override
 	protected List getChildrenList(Object parent) {
 		if (DATASETS.equals(parent)) {
 			List dataSeList = new ArrayList();
@@ -117,7 +115,7 @@ public class CubeExpressionProvider extends ExpressionProvider {
 
 	/**
 	 * Get output parameters if handle has.
-	 *
+	 * 
 	 * @param handle
 	 * @return
 	 */
@@ -129,7 +127,7 @@ public class CubeExpressionProvider extends ExpressionProvider {
 		if (iter != null) {
 			while (iter.hasNext()) {
 				Object dataSetParameter = iter.next();
-				if (((DataSetParameterHandle) dataSetParameter).isOutput()) {
+				if (((DataSetParameterHandle) dataSetParameter).isOutput() == true) {
 					outputList.add(dataSetParameter);
 				}
 			}
@@ -137,7 +135,6 @@ public class CubeExpressionProvider extends ExpressionProvider {
 		return outputList;
 	}
 
-	@Override
 	public String getDisplayText(Object element) {
 		if (element instanceof DataSetHandle) {
 			return ((DataSetHandle) element).getName();
@@ -149,7 +146,6 @@ public class CubeExpressionProvider extends ExpressionProvider {
 		return super.getDisplayText(element);
 	}
 
-	@Override
 	public String getInsertText(Object element) {
 		if (element instanceof ResultSetColumnHandle || element instanceof DataSetParameterHandle) {
 			return DEUtil.getExpression(element);

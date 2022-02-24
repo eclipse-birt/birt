@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -27,7 +27,6 @@ public class IDEHyperLinkPage extends AttributePage {
 	private TextAndTwoButtonSection hyperLinkSection;
 	private IDEHyperLinkDescriptorProvider hyperLinkProvider;
 
-	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
 		container.setLayout(WidgetUtil.createGridLayout(4, 15));
@@ -37,21 +36,17 @@ public class IDEHyperLinkPage extends AttributePage {
 		hyperLinkSection.setProvider(hyperLinkProvider);
 		hyperLinkSection.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (hyperLinkProvider.hyperLinkSelected()) {
+				if (hyperLinkProvider.hyperLinkSelected())
 					hyperLinkSection.load();
-				}
 			}
 
 		});
 		hyperLinkSection.addSecondSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (hyperLinkProvider.hyperLinkDeleted()) {
+				if (hyperLinkProvider.hyperLinkDeleted())
 					hyperLinkSection.load();
-				}
 			}
 		});
 		hyperLinkSection.setWidth(300);
@@ -68,11 +63,10 @@ public class IDEHyperLinkPage extends AttributePage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * AttributePage#refresh()
 	 */
-	@Override
 	public void refresh() {
 		super.refresh();
 		if (hyperLinkSection != null && hyperLinkSection.getButtonControl() != null) {

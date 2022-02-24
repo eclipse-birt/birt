@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Represents a extended data source.
- *
+ * 
  * @see org.eclipse.birt.report.model.elements.OdaDataSource
  */
 
@@ -43,7 +43,7 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 	 * Constructs an extended data source handle with the given design and the
 	 * element. The application generally does not create handles directly. Instead,
 	 * it uses one of the navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -54,19 +54,18 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns the extension name defined by the extended item.
-	 *
+	 * 
 	 * @return the extension name as a string
 	 * @deprecated use <code>getExtensioID()</code>
 	 */
 
-	@Deprecated
 	public String getExtensionName() {
 		return null;
 	}
 
 	/**
 	 * Returns ID of the extension which extends this ODA data source.
-	 *
+	 * 
 	 * @return the extension ID
 	 */
 
@@ -76,24 +75,22 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Sets the driver name.
-	 *
+	 * 
 	 * @param driverName the name to set
 	 * @throws SemanticException if this property is locked.
 	 * @deprecated This property is removed.
 	 */
 
-	@Deprecated
 	public void setDriverName(String driverName) throws SemanticException {
 	}
 
 	/**
 	 * Returns the driver name.
-	 *
+	 * 
 	 * @return the driver name
 	 * @deprecated This property is removed.
 	 */
 
-	@Deprecated
 	public String getDriverName() {
 		return null;
 	}
@@ -101,10 +98,10 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 	/**
 	 * Returns the iterator for the private driver property list. The item over the
 	 * iterator is the instance of <code>ExtendedPropertyHandle</code>.
-	 *
+	 * 
 	 * @return the iterator over private driver property list defined on this data
 	 *         source.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty
 	 */
 
@@ -117,9 +114,9 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns a private driver property value with the given property name.
-	 *
+	 * 
 	 * @param name the name of a public driver property
-	 *
+	 * 
 	 * @return a public driver property value
 	 */
 
@@ -132,10 +129,10 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 	 * Sets a private driver property value with the given name and value. If the
 	 * property does not exist, it will be added into the property list. If the
 	 * property already exists, the value will be overwritten.
-	 *
+	 * 
 	 * @param name  the name of a public driver property
 	 * @param value the value of a public driver property
-	 *
+	 * 
 	 * @throws SemanticException if <code>name</code> is <code>null</code> or an
 	 *                           empty string after trimming.
 	 */
@@ -147,16 +144,14 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns the element definition of the element this handle represents.
-	 *
+	 * 
 	 * @return the element definition of the element this handle represents.
 	 */
 
-	@Override
 	public IElementDefn getDefn() {
 		ElementDefn extDefn = ((OdaDataSource) getElement()).getExtDefn();
-		if (extDefn != null) {
+		if (extDefn != null)
 			return extDefn;
-		}
 
 		return super.getDefn();
 	}
@@ -164,14 +159,14 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 	/**
 	 * Returns the list of extension property definition. All these properties are
 	 * just those defined in extension plugin.
-	 *
+	 * 
 	 * @return the list of extension property definition.
 	 */
 
 	public List getExtensionPropertyDefinitionList() {
-		if (((OdaDataSource) getElement()).getExtDefn() != null) {
+		if (((OdaDataSource) getElement()).getExtDefn() != null)
+
 			return ((OdaDataSource) getElement()).getExtDefn().getLocalProperties();
-		}
 
 		return Collections.EMPTY_LIST;
 
@@ -179,15 +174,14 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns the version of designer state.
-	 *
+	 * 
 	 * @return the version of designer state.
 	 */
 
 	public String getDesigerStateVersion() {
 		Object value = getProperty(DESIGNER_STATE_PROP);
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		assert value instanceof OdaDesignerState;
 
@@ -196,7 +190,7 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns the version of designer state.
-	 *
+	 * 
 	 * @param version the version of designer state.
 	 * @throws SemanticException if designer state property is locked.
 	 */
@@ -207,15 +201,14 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns the content of designer state as the string.
-	 *
+	 * 
 	 * @return the content of designer state as the string.
 	 */
 
 	public String getDesigerStateContentAsString() {
 		Object value = getProperty(DESIGNER_STATE_PROP);
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		assert value instanceof OdaDesignerState;
 
@@ -224,9 +217,9 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns the content of designer state as the string.
-	 *
+	 * 
 	 * @param content the content of designer state as the string.
-	 *
+	 * 
 	 * @throws SemanticException if designer state property is locked.
 	 */
 
@@ -236,15 +229,14 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns the content of designer state as the byte array.
-	 *
+	 * 
 	 * @return the content of designer state as the byte array.
 	 */
 
 	public byte[] getDesigerStateContentAsBlob() {
 		Object value = getProperty(DESIGNER_STATE_PROP);
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		assert value instanceof OdaDesignerState;
 
@@ -253,9 +245,9 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns the content of designer state as the byte.
-	 *
+	 * 
 	 * @param content the content of designer state as the byte.
-	 *
+	 * 
 	 * @throws SemanticException if designer state property is locked.
 	 */
 
@@ -265,7 +257,7 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Sets the version of designer state.
-	 *
+	 * 
 	 * @param version the version of designer state.
 	 */
 
@@ -274,13 +266,12 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 		if (value == null) {
 			OdaDesignerState designerState = new OdaDesignerState();
-			if (OdaDesignerState.VERSION_MEMBER.equalsIgnoreCase(memberName)) {
+			if (OdaDesignerState.VERSION_MEMBER.equalsIgnoreCase(memberName))
 				designerState.setVersion((String) memberValue);
-			} else if (OdaDesignerState.CONTENT_AS_STRING_MEMBER.equalsIgnoreCase(memberName)) {
+			else if (OdaDesignerState.CONTENT_AS_STRING_MEMBER.equalsIgnoreCase(memberName))
 				designerState.setContentAsString((String) memberValue);
-			} else if (OdaDesignerState.CONTENT_AS_BLOB_MEMBER.equalsIgnoreCase(memberName)) {
+			else if (OdaDesignerState.CONTENT_AS_BLOB_MEMBER.equalsIgnoreCase(memberName))
 				designerState.setContentAsBlob((byte[]) memberValue);
-			}
 
 			setProperty(DESIGNER_STATE_PROP, designerState);
 		} else {
@@ -288,9 +279,9 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 			OdaDesignerState designerState = (OdaDesignerState) value;
 			OdaDesignerStateHandle stateHandle = (OdaDesignerStateHandle) designerState.getHandle(propHandle);
 
-			if (OdaDesignerState.VERSION_MEMBER.equalsIgnoreCase(memberName)) {
+			if (OdaDesignerState.VERSION_MEMBER.equalsIgnoreCase(memberName))
 				stateHandle.setVersion((String) memberValue);
-			} else if (OdaDesignerState.CONTENT_AS_STRING_MEMBER.equalsIgnoreCase(memberName)) {
+			else if (OdaDesignerState.CONTENT_AS_STRING_MEMBER.equalsIgnoreCase(memberName)) {
 				getModuleHandle().getCommandStack()
 						.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_ITEM_MESSAGE));
 				stateHandle.setContentAsString((String) memberValue);
@@ -308,7 +299,7 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 	/**
 	 * Returns the oda designer state.
-	 *
+	 * 
 	 * @return a handle to the designer state property, return <code>null</code> if
 	 *         the designer state.
 	 * @see OdaDesignerStateHandle
@@ -319,28 +310,26 @@ public class OdaDataSourceHandle extends DataSourceHandle implements IOdaDataSou
 
 		OdaDesignerState designerState = (OdaDesignerState) propHandle.getValue();
 
-		if (designerState == null) {
+		if (designerState == null)
 			return null;
-		}
 
 		return (OdaDesignerStateHandle) designerState.getHandle(propHandle);
 	}
 
 	/**
 	 * Sets the designer state for a oda data source.
-	 *
+	 * 
 	 * @param designerState new designer state
 	 * @return a handle to the designer state
-	 *
+	 * 
 	 * @throws SemanticException if member of the designer state is not valid.
 	 */
 
 	public OdaDesignerStateHandle setDesignerState(OdaDesignerState designerState) throws SemanticException {
 		setProperty(IOdaDataSourceModel.DESIGNER_STATE_PROP, designerState);
 
-		if (designerState == null) {
+		if (designerState == null)
 			return null;
-		}
 		return (OdaDesignerStateHandle) designerState
 				.getHandle(getPropertyHandle(IOdaDataSourceModel.DESIGNER_STATE_PROP));
 	}

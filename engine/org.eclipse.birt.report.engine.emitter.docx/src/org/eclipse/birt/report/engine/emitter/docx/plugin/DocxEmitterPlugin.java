@@ -19,7 +19,6 @@ import org.osgi.framework.BundleContext;
 
 public class DocxEmitterPlugin extends BIRTPlugin {
 
-	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 	}

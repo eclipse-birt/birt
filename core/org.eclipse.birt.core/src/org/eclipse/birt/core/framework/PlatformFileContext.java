@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.core.framework;
@@ -29,7 +29,7 @@ public class PlatformFileContext implements IPlatformContext {
 
 	/**
 	 * PlatformFileContext Constructor
-	 *
+	 * 
 	 */
 	public PlatformFileContext() {
 		root = getSystemBirtHome();
@@ -38,7 +38,7 @@ public class PlatformFileContext implements IPlatformContext {
 
 	/**
 	 * PlatformFileContext Constructor( String , IPlatformConfig )
-	 *
+	 * 
 	 * @param root
 	 * @param platformConfig
 	 */
@@ -51,7 +51,6 @@ public class PlatformFileContext implements IPlatformContext {
 		arguments = config.getOSGiArguments();
 	}
 
-	@Override
 	public String getPlatform() {
 		return root;
 	}
@@ -63,7 +62,6 @@ public class PlatformFileContext implements IPlatformContext {
 	private String getSystemBirtHome() {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			@Override
 			public String run() {
 				String home = System.getProperty(IPlatformConfig.BIRT_HOME);
 				if (home == null || "".equals(home)) {

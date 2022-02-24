@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,9 +24,9 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
-import org.eclipse.birt.report.model.core.PropertySearchStrategy.PropertyValueInfo;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.core.PropertySearchStrategy.PropertyValueInfo;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -45,7 +45,7 @@ public class FactoryElementHandle {
 
 	/**
 	 * Constructs the factory element handle with the specified element handle.
-	 *
+	 * 
 	 * @param elementHandle
 	 */
 	FactoryElementHandle(DesignElementHandle elementHandle) {
@@ -62,18 +62,16 @@ public class FactoryElementHandle {
 	 * container. The list does not contain the private style that stores the local
 	 * value set by this element itself and the cascading computed style from
 	 * container.
-	 *
+	 * 
 	 * @return all the factory style handles
 	 */
 	public List<StyleHandle> getAllFactoryStyles() {
-		if (elementHandle == null) {
+		if (elementHandle == null)
 			return Collections.emptyList();
-		}
 
 		DesignElement element = elementHandle.getElement();
-		if (!(element instanceof StyledElement)) {
+		if (!(element instanceof StyledElement))
 			return Collections.emptyList();
-		}
 
 		Module module = elementHandle.getModule();
 
@@ -94,9 +92,8 @@ public class FactoryElementHandle {
 
 			// handle only style property, except name property and other
 			// non-style properties
-			if (!prop.isStyleProperty()) {
+			if (!prop.isStyleProperty())
 				continue;
-			}
 
 			if (!readSelectos) {
 				// get the self selectors
@@ -117,9 +114,8 @@ public class FactoryElementHandle {
 			// get value from the inherit ancestors
 			value = element.getPropertySearchStrategy().getPropertyFromParent(module, element, prop);
 			if (value != null) {
-				if (inheritStyle == null) {
+				if (inheritStyle == null)
 					inheritStyle = new Style(INHERIT_STYLE_NAME);
-				}
 				Object clonedValue = ModelUtil.copyValue(prop, value);
 				inheritStyle.setProperty(prop, clonedValue);
 
@@ -132,9 +128,8 @@ public class FactoryElementHandle {
 			// get value from the related container
 			value = element.getPropertySearchStrategy().getPropertyRelatedToContainer(module, element, prop);
 			if (value != null) {
-				if (relatedContainerStyle == null) {
+				if (relatedContainerStyle == null)
 					relatedContainerStyle = new Style(RELATED_CONTAINER_STYLE_NAME);
-				}
 				Object clonedValue = ModelUtil.copyValue(prop, value);
 				relatedContainerStyle.setProperty(prop, clonedValue);
 
@@ -145,18 +140,16 @@ public class FactoryElementHandle {
 			}
 		}
 
-		List<StyleHandle> styles = new ArrayList<>();
+		List<StyleHandle> styles = new ArrayList<StyleHandle>();
 
 		// add the shared style
 		SharedStyleHandle sharedStyle = elementHandle.getStyle();
-		if (sharedStyle != null) {
+		if (sharedStyle != null)
 			styles.add(sharedStyle);
-		}
 
 		// first add inherit style
-		if (inheritStyle != null) {
+		if (inheritStyle != null)
 			styles.add((StyleHandle) inheritStyle.getHandle(module));
-		}
 
 		// second, add self selectors
 		if (selfSelectors != null) {
@@ -173,9 +166,8 @@ public class FactoryElementHandle {
 		}
 
 		// last, add related container style
-		if (relatedContainerStyle != null) {
+		if (relatedContainerStyle != null)
 			styles.add((StyleHandle) relatedContainerStyle.getHandle(module));
-		}
 		return styles;
 	}
 
@@ -190,7 +182,7 @@ public class FactoryElementHandle {
 	 * shared style.</li>
 	 * <li>Performs property conversions as needed for the Factory context.</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param propName the name of the property to get
 	 * @return the factory property handle, or <code>null</code> if either 1) no
 	 *         property exists with the given name or 2) the property is a style

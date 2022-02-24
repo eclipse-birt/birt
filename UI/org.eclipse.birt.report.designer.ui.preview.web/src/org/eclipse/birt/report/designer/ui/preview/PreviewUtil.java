@@ -19,7 +19,7 @@ import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 
 /**
- *
+ * 
  */
 
 public class PreviewUtil {

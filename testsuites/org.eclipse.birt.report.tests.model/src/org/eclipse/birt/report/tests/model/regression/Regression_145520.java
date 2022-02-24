@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -62,14 +62,12 @@ public class Regression_145520 extends BaseTestCase {
 	 * @throws ContentException
 	 */
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT(REPORT, REPORT);
 	}
 
-	@Override
 	public void tearDown() {
 		removeResource();
 	}
@@ -104,7 +102,6 @@ public class Regression_145520 extends BaseTestCase {
 		DesignElementHandle focus = null;
 		NotificationEvent event = null;
 
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			this.focus = focus;
 			this.event = ev;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,9 +35,8 @@ public class TextItemScriptExecutor extends ScriptExecutor {
 		try {
 			ITextItem textItem = new TextItem(textItemHandle);
 			ITextItemEventHandler eh = getEventHandler(textItemHandle, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPrepare(textItem, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -51,15 +50,13 @@ public class TextItemScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			ITextItemInstance textItem = null;
-			if (content instanceof TextContent) {
+			if (content instanceof TextContent)
 				textItem = new TextItemInstance((ITextContent) content, context, RunningState.CREATE);
-			} else if (content instanceof ForeignContent) {
+			else if (content instanceof ForeignContent)
 				textItem = new TextItemInstance((IForeignContent) content, context, RunningState.CREATE);
-			}
 
-			if (handleScript(textItem, textItemDesign.getOnCreate(), context).didRun()) {
+			if (handleScript(textItem, textItemDesign.getOnCreate(), context).didRun())
 				return;
-			}
 			ITextItemEventHandler eh = getEventHandler(textItemDesign, context);
 			if (eh != null) {
 				eh.onCreate(textItem, context.getReportContext());
@@ -76,14 +73,12 @@ public class TextItemScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			ITextItemInstance textItem = null;
-			if (content instanceof TextContent) {
+			if (content instanceof TextContent)
 				textItem = new TextItemInstance((ITextContent) content, context, RunningState.RENDER);
-			} else if (content instanceof ForeignContent) {
+			else if (content instanceof ForeignContent)
 				textItem = new TextItemInstance((IForeignContent) content, context, RunningState.RENDER);
-			}
-			if (handleScript(textItem, textItemDesign.getOnRender(), context).didRun()) {
+			if (handleScript(textItem, textItemDesign.getOnRender(), context).didRun())
 				return;
-			}
 			ITextItemEventHandler eh = getEventHandler(textItemDesign, context);
 			if (eh != null) {
 				eh.onRender(textItem, context.getReportContext());
@@ -100,14 +95,12 @@ public class TextItemScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			ITextItemInstance textItem = null;
-			if (content instanceof TextContent) {
+			if (content instanceof TextContent)
 				textItem = new TextItemInstance((ITextContent) content, context, RunningState.PAGEBREAK);
-			} else if (content instanceof ForeignContent) {
+			else if (content instanceof ForeignContent)
 				textItem = new TextItemInstance((IForeignContent) content, context, RunningState.PAGEBREAK);
-			}
-			if (handleScript(textItem, textItemDesign.getOnPageBreak(), context).didRun()) {
+			if (handleScript(textItem, textItemDesign.getOnPageBreak(), context).didRun())
 				return;
-			}
 			ITextItemEventHandler eh = getEventHandler(textItemDesign, context);
 			if (eh != null) {
 				eh.onPageBreak(textItem, context.getReportContext());

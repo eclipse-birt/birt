@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -29,7 +29,6 @@ public class ExecutionOptimizeTest extends EngineCase {
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/executor/optimize/test.xml";
 
-	@Override
 	public void setUp() {
 		removeFile(REPORT_DESIGN);
 		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
@@ -37,7 +36,6 @@ public class ExecutionOptimizeTest extends EngineCase {
 		engine = createReportEngine();
 	}
 
-	@Override
 	public void tearDown() {
 		// shut down the engine.
 		engine.shutdown();

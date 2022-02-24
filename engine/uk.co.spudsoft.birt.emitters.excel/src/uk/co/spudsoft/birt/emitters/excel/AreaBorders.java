@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -120,9 +120,12 @@ public class AreaBorders {
 						&& ((borderStyleRight != null) || (borderWidthRight != null) || (borderColourRight != null)))
 				|| ((top >= 0)
 						&& ((borderStyleTop != null) || (borderWidthTop != null) || (borderColourTop != null)))) {
-			CSSValue[] cssStyle = { borderStyleBottom, borderStyleLeft, borderStyleRight, borderStyleTop };
-			CSSValue[] cssWidth = { borderWidthBottom, borderWidthLeft, borderWidthRight, borderWidthTop };
-			CSSValue[] cssColour = { borderColourBottom, borderColourLeft, borderColourRight, borderColourTop };
+			CSSValue[] cssStyle = new CSSValue[] { borderStyleBottom, borderStyleLeft, borderStyleRight,
+					borderStyleTop };
+			CSSValue[] cssWidth = new CSSValue[] { borderWidthBottom, borderWidthLeft, borderWidthRight,
+					borderWidthTop };
+			CSSValue[] cssColour = new CSSValue[] { borderColourBottom, borderColourLeft, borderColourRight,
+					borderColourTop };
 			return new AreaBorders(isMergedCells, bottom, left, right, top, cssStyle, cssWidth, cssColour);
 		}
 		return null;

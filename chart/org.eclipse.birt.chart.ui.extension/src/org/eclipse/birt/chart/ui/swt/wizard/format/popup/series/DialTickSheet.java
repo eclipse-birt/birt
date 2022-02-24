@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- *
+ * 
  */
 
 public class DialTickSheet extends AbstractPopupSheet implements Listener {
@@ -59,7 +59,6 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener {
 		this.series = series;
 	}
 
-	@Override
 	protected Composite getComponent(Composite parent) {
 		GridLayout glContent = new GridLayout();
 		glContent.numColumns = 2;
@@ -138,7 +137,6 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener {
 		return true;
 	}
 
-	@Override
 	public void handleEvent(Event event) {
 		boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
 		if (this.gacMajor.equals(event.widget)) {

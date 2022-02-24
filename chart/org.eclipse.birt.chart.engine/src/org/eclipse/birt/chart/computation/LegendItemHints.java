@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,9 +22,9 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
  */
 public final class LegendItemHints {
 
-	public enum Type {
+	public static enum Type {
 		LG_GROUPNAME, LG_ENTRY, LG_MINSLICE, LG_SEPERATOR
-	}
+	};
 
 	private final Type type;
 	private int index = -1;
@@ -153,7 +153,7 @@ public final class LegendItemHints {
 
 	/**
 	 * Set the item text.
-	 *
+	 * 
 	 * @param itemText
 	 */
 	public void setItemText(String itemText) {
@@ -177,49 +177,49 @@ public final class LegendItemHints {
 	/**
 	 * @return Returns the left.
 	 */
-	public double getLeft() {
+	public final double getLeft() {
 		return left;
 	}
 
 	/**
 	 * @return Returns the top.
 	 */
-	public double getTop() {
+	public final double getTop() {
 		return top;
 	}
 
 	/**
 	 * @return Returns the width.
 	 */
-	public double getWidth() {
+	public final double getWidth() {
 		return width;
 	}
 
 	/**
 	 * @return Returns the itemHeight.
 	 */
-	public double getItemHeight() {
+	public final double getItemHeight() {
 		return itemHeight;
 	}
 
 	/**
 	 * @return Returns the valueHeight.
 	 */
-	public double getValueHeight() {
+	public final double getValueHeight() {
 		return valueHeight;
 	}
 
 	/**
 	 * @return Returns the validItemLen.
 	 */
-	public int getValidItemLen() {
+	public final int getValidItemLen() {
 		return validItemLen;
 	}
 
 	/**
 	 * @return Returns the validValueLen.
 	 */
-	public int getValidValueLen() {
+	public final int getValidValueLen() {
 		return validValueLen;
 	}
 

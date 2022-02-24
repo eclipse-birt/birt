@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,7 +64,7 @@ public class DataUtil {
 
 	/**
 	 * Gets the columns list from the data set
-	 *
+	 * 
 	 * @param handle the handle of the data set
 	 * @return the list of the columns
 	 * @throws SemanticException
@@ -103,9 +103,9 @@ public class DataUtil {
 	/**
 	 * Generate computed columns for the given report item with the closest data set
 	 * available.
-	 *
+	 * 
 	 * @param handle the handle of the report item
-	 *
+	 * 
 	 * @return true if succeed,or fail if no column generated.
 	 */
 	public static List generateComputedColumns(ReportItemHandle handle) throws SemanticException {
@@ -126,11 +126,10 @@ public class DataUtil {
 				column.setDataType(resultSetColumn.getDataType());
 				ExpressionUtility.setBindingColumnExpression(resultSetColumn, column);
 				if (ExpressionUtil.hasAggregation(column.getExpression())) {
-					if (groupType.equals(DEUtil.TYPE_GROUP_GROUP)) {
+					if (groupType.equals(DEUtil.TYPE_GROUP_GROUP))
 						column.setAggregateOn(((GroupHandle) groupList.get(0)).getName());
-					} else if (groupType.equals(DEUtil.TYPE_GROUP_LISTING)) {
+					else if (groupType.equals(DEUtil.TYPE_GROUP_LISTING))
 						column.setAggregateOn(null);
-					}
 				}
 				columnList.add(column);
 			}
@@ -141,7 +140,7 @@ public class DataUtil {
 
 	/**
 	 * Creates a query for the given data set
-	 *
+	 * 
 	 * @param dataSet the handle of the data set
 	 * @return the query created
 	 * @throws BirtException
@@ -177,7 +176,7 @@ public class DataUtil {
 	/**
 	 * Gets prepared query, given Data set, Parameter binding, and useColumnHints,
 	 * useFilters information.
-	 *
+	 * 
 	 * @param dataSet        Given DataSet providing SQL query and parameters.
 	 * @param bindingParams  Given Parameter bindings providing binded parameters,
 	 *                       null if no binded parameters.
@@ -193,7 +192,7 @@ public class DataUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSet
 	 * @param useColumnHints
 	 * @param useFilters
@@ -290,7 +289,7 @@ public class DataUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param rowsToReturn
 	 * @return
@@ -322,7 +321,7 @@ public class DataUtil {
 	/**
 	 * Finds the data set by the given name. If not found, try to find the extended
 	 * data set.
-	 *
+	 * 
 	 * @param name the data set name
 	 * @return the data set handle
 	 */
@@ -333,7 +332,7 @@ public class DataUtil {
 	/**
 	 * Finds the data set by the given name. If not found, try to find the extended
 	 * data set.
-	 *
+	 * 
 	 * @param module the module handle
 	 * @param name   the data set name
 	 * @return the data set handle
@@ -357,7 +356,7 @@ public class DataUtil {
 
 	/**
 	 * Finds the extended data set by the given name.
-	 *
+	 * 
 	 * @param name the data set name
 	 * @return the extended data set handle, or null if not found
 	 */
@@ -376,12 +375,12 @@ public class DataUtil {
 
 	/**
 	 * Gets names of the available data sets and extended data sets
-	 *
+	 * 
 	 * @param module
 	 * @return
 	 */
 	public static List<String> getAvailableDataSetNames(ModuleHandle module) {
-		List<String> dataSets = new ArrayList<>();
+		List<String> dataSets = new ArrayList<String>();
 		if (module == null) {
 			return dataSets;
 		}
@@ -398,7 +397,7 @@ public class DataUtil {
 	}
 
 	public static List<ColumnHintHandle> getColumnHints(DataSetHandle dataSet) {
-		java.util.List<ColumnHintHandle> columnHints = new ArrayList<>();
+		java.util.List<ColumnHintHandle> columnHints = new ArrayList<ColumnHintHandle>();
 		if (dataSet != null) {
 			PropertyHandle hintHandle = dataSet.getPropertyHandle(DataSetHandle.COLUMN_HINTS_PROP);
 			if (hintHandle != null) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,22 +36,20 @@ import com.ibm.icu.util.StringTokenizer;
 
 /**
  * Class used to find a classpath based on projects or workspace
- *
+ * 
  * @deprecated
  */
-@Deprecated
 public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDatasetWorkspaceClasspathFinder {
 
 	public WorkspaceClassPathFinder() {
 	}
 
-	@Override
 	public String getClassPath(String projects) {
 		if (projects == null || projects.length() == 0) {
 			return null;
 		}
 
-		StringBuilder wbuf = new StringBuilder();
+		StringBuffer wbuf = new StringBuffer();
 
 		StringTokenizer token = new StringTokenizer(projects, PROPERTYSEPARATOR);
 		boolean hasHeader = false;
@@ -60,14 +58,13 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDat
 			List paths = getProjectPaths(projectName);
 			for (int i = 0; i < paths.size(); i++) {
 				String url = (String) paths.get(i);
-				if (url != null && url.length() != 0) {
+				if (url != null && url.length() != 0)
 					if (i == 0 && !hasHeader) {
 						wbuf.append(url);
 						hasHeader = true;
 					} else {
 						wbuf.append(PROPERTYSEPARATOR + url);
 					}
-				}
 			}
 
 		}
@@ -75,17 +72,16 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDat
 		return wbuf.toString();
 	}
 
-	@Override
 	public String getClassPath() {
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 
-		StringBuilder projectString = new StringBuilder(); // $NON-NLS-1$
+		String projectString = ""; //$NON-NLS-1$
 		for (int i = 0; i < projects.length; i++) {
 			IProject proj = projects[i];
-			projectString.append(proj.getName()).append(PROPERTYSEPARATOR);
+			projectString += proj.getName() + PROPERTYSEPARATOR;
 		}
 
-		return getClassPath(projectString.toString());
+		return getClassPath(projectString);
 	}
 
 	/**
@@ -218,7 +214,7 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDat
 	/**
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
-	 *
+	 * 
 	 * @param project IProject
 	 * @return boolean
 	 */

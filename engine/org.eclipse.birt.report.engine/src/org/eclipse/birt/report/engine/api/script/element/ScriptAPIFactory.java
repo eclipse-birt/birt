@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,10 +18,9 @@ import org.eclipse.birt.report.engine.script.internal.element.ScriptAPIBaseFacto
 
 /**
  * Class to create some structure instances.
- *
+ * 
  * @deprecated
  */
-@Deprecated
 public class ScriptAPIFactory implements IScriptAPIFactory {/*
 															 * Factory used to create the structure instance.
 															 */
@@ -35,16 +34,15 @@ public class ScriptAPIFactory implements IScriptAPIFactory {/*
 
 	/**
 	 * Returns the ODAProviderFactory instance.
-	 *
+	 * 
 	 * @return ODAProviderFactory instance.
 	 */
 
 	public static ScriptAPIFactory getInstance() {
 		if (instance == null) {
 			synchronized (ScriptAPIFactory.class) {
-				if (instance == null) {
+				if (instance == null)
 					instance = new ScriptAPIFactory();
-				}
 			}
 		}
 		return instance;
@@ -65,14 +63,13 @@ public class ScriptAPIFactory implements IScriptAPIFactory {/*
 	/**
 	 * Set the base factory for this class. This method should be called before any
 	 * other operation.
-	 *
+	 * 
 	 * @param base The real factory class used to create the script structure.
 	 */
 
 	public synchronized static void initeTheFactory(IScriptAPIFactory base) {
-		if (baseFactory != null) {
+		if (baseFactory != null)
 			return;
-		}
 
 		baseFactory = base;
 	}
@@ -87,71 +84,61 @@ public class ScriptAPIFactory implements IScriptAPIFactory {/*
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createDataBinding()
 	 */
-	@Override
 	public IDataBinding createDataBinding() {
-		if (baseFactory != null) {
+		if (baseFactory != null)
 			return baseFactory.createDataBinding();
-		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createFilterCondition()
 	 */
-	@Override
 	public IFilterCondition createFilterCondition() {
-		if (baseFactory != null) {
+		if (baseFactory != null)
 			return baseFactory.createFilterCondition();
-		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createHideRule()
 	 */
-	@Override
 	public IHideRule createHideRule() {
-		if (baseFactory != null) {
+		if (baseFactory != null)
 			return baseFactory.createHideRule();
-		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createHighLightRule()
 	 */
-	@Override
 	public IHighlightRule createHighLightRule() {
-		if (baseFactory != null) {
+		if (baseFactory != null)
 			return baseFactory.createHighLightRule();
-		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createSortCondition()
 	 */
-	@Override
 	public ISortCondition createSortCondition() {
-		if (baseFactory != null) {
+		if (baseFactory != null)
 			return baseFactory.createSortCondition();
-		}
 		return null;
 	}
 

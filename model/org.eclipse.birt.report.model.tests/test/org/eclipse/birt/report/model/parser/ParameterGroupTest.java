@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,13 +36,13 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected Result</th>
  * </tr>
- *
+ * 
  * <tr>
  * <td>testGetProperty</td>
  * <td>Read the property of ParameterGroup</td>
  * <td>They're identical to which defined in the design file</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>testParameters</td>
  * <td>Get the parameters in the ParameterGroup</td>
@@ -50,7 +50,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * the parameter of the parameter group, they should be the parameters definded
  * in the design file</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>testFlattenParameters</td>
  * <td>Call designHandle.getFlattenParameters() to get the flattened parameters
@@ -58,7 +58,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>Compare the parameters with a golden array, they should be identical</td>
  * </tr>
  * </table>
- *
+ * 
  */
 public class ParameterGroupTest extends BaseTestCase {
 
@@ -66,10 +66,9 @@ public class ParameterGroupTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign(FILE_NAME);
@@ -79,7 +78,7 @@ public class ParameterGroupTest extends BaseTestCase {
 	 * After read the design file, get properties from ParameterGroup, then compare
 	 * the properties with the design file. They should be identical to the design
 	 * file.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -104,7 +103,7 @@ public class ParameterGroupTest extends BaseTestCase {
 
 	/**
 	 * Test the parameters in this group.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testParameters() throws Exception {
@@ -133,7 +132,7 @@ public class ParameterGroupTest extends BaseTestCase {
 
 	/**
 	 * Tests flattern parameters method.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testFlattenParameters() throws Exception {
@@ -149,7 +148,7 @@ public class ParameterGroupTest extends BaseTestCase {
 
 	/**
 	 * Test SortedSlotIterator.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testSortedSlotIterator() throws Exception {
@@ -167,7 +166,7 @@ public class ParameterGroupTest extends BaseTestCase {
 
 	/**
 	 * Find a ParameterGroup by name.
-	 *
+	 * 
 	 * @param name the parameter group name.
 	 * @return the handle to the ParameterGroup of the provided name.
 	 */
@@ -185,7 +184,7 @@ public class ParameterGroupTest extends BaseTestCase {
 
 	/**
 	 * Write back the design file then compare it with a golden file.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

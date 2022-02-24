@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,11 +54,10 @@ public class URLParser {
 	/**
 	 * parse <code>classPath</code> into an array containing
 	 * <code>java.net.URL<code>
-	 *
+	 * 
 	 * &#64;param classPath
 	 *            : each path is separated with
 	 *            <code>Constants.CLASS_PATH_SEPERATOR</code>
-	 *
 	 * @return
 	 * @throws OdaException if error/exception occur during parsing
 	 */
@@ -67,7 +66,7 @@ public class URLParser {
 			return new URL[0];
 		}
 		String[] paths = classPath.split(String.valueOf(Constants.CLASS_PATH_SEPERATOR));
-		List<URL> urls = new ArrayList<>();
+		List<URL> urls = new ArrayList<URL>();
 		for (String path : paths) {
 			path = path.trim();
 			if (path.equals("")) //$NON-NLS-1$
@@ -142,23 +141,21 @@ public class URLParser {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param location
 	 * @return
 	 */
 	private String enableURI(String location) {
 		String result = location;
 		try {
-			if (File.separatorChar != '/') {
+			if (File.separatorChar != '/')
 				location = location.replace(File.separatorChar, '/');
-			}
 			if (location.startsWith("/")) {
 				result = new File(location).toURI().toASCIIString().replaceFirst(new File("/").toURI().toASCIIString(),
 						"/");
-			} else {
+			} else
 				result = new File(location).toURI().toASCIIString().replaceFirst(new File("").toURI().toASCIIString(),
 						"");
-			}
 		} catch (Exception e) {
 			return location;
 		}

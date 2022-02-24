@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,7 +66,7 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 	/**
 	 * set parameter choice value. The string value is in English locale, and needs
 	 * to be parsed back into object value based on the data type.
-	 *
+	 * 
 	 * @param value the string value for the object
 	 * @param type  the parameter data type
 	 */
@@ -107,14 +107,12 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IParameterSelectionChoice#getLabel()
 	 */
-	@Override
 	public String getLabel() {
-		if (labelKey == null) {
+		if (labelKey == null)
 			return label;
-		}
 
 		String ret = handle.getExternalizedValue(SelectionChoice.LABEL_RESOURCE_KEY_MEMBER,
 				SelectionChoice.LABEL_MEMBER, (locale == null) ? ULocale.getDefault() : ULocale.forLocale(locale));
@@ -123,10 +121,9 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}
@@ -134,7 +131,6 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 	/**
 	 * @return returns the choice value
 	 */
-	@Override
 	public Object getValue() {
 		return value;
 	}

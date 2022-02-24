@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -79,44 +79,40 @@ public class BubbleChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getName()
 	 */
-	@Override
 	public String getName() {
 		return TYPE_LITERAL;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getImage()
 	 */
-	@Override
 	public Image getImage() {
 		return imgIcon;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getHelp()
 	 */
-	@Override
 	public IHelpContent getHelp() {
 		return new HelpContentImpl(TYPE_LITERAL, Messages.getString("BubbleChart.Txt.HelpText")); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.
 	 * lang.String)
 	 */
-	@Override
 	public Collection<IChartSubType> getChartSubtypes(String sDimension, Orientation orientation) {
-		Vector<IChartSubType> vSubTypes = new Vector<>();
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>();
 		if (sDimension.equals(TWO_DIMENSION_TYPE)
 				|| sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName())) {
 			if (orientation.equals(Orientation.VERTICAL_LITERAL)) {
@@ -133,11 +129,10 @@ public class BubbleChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.
 	 * String, java.lang.String, java.lang.String)
 	 */
-	@Override
 	public Chart getModel(String sSubType, Orientation orientation, String sDimension, Chart currentChart) {
 		ChartWithAxes newChart = null;
 		if (currentChart != null) {
@@ -238,7 +233,7 @@ public class BubbleChart extends DefaultChartTypeImpl {
 				Axis xAxis = ((ChartWithAxes) currentChart).getAxes().get(0);
 
 				EList<Axis> axes = ((ChartWithAxes) currentChart).getAxes().get(0).getAssociatedAxes();
-				List<AxisType> axisTypes = new ArrayList<>();
+				List<AxisType> axisTypes = new ArrayList<AxisType>();
 				for (int i = 0, seriesIndex = 0; i < axes.size(); i++) {
 					if (!ChartPreviewPainter.isLivePreviewActive() && axes.get(i).isSetType()) {
 						axes.get(i).setType(AxisType.LINEAR_LITERAL);
@@ -352,33 +347,30 @@ public class BubbleChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions()
 	 */
-	@Override
 	public String[] getSupportedDimensions() {
 		return new String[] { TWO_DIMENSION_TYPE };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
-	@Override
 	public String getDefaultDimension() {
 		return TWO_DIMENSION_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition()
 	 */
-	@Override
 	public boolean supportsTransposition() {
 		return true;
 	}
@@ -388,7 +380,6 @@ public class BubbleChart extends DefaultChartTypeImpl {
 		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 	}
 
-	@Override
 	public ISelectDataComponent getBaseUI(Chart chart, ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
 			String sTitle) {
 		return new DefaultBaseSeriesComponent(ChartUIUtil.getBaseSeriesDefinitions(chart).get(0), context, sTitle);
@@ -396,30 +387,27 @@ public class BubbleChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("BubbleChart.Txt.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
-	@Override
 	public Series getSeries() {
 		return getSeries(true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
 	 */
-	@Override
 	public Series getSeries(boolean needInitialing) {
 		if (needInitialing) {
 			return BubbleSeriesImpl.create();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,10 +59,11 @@ public abstract class AttributePage extends TabPage implements IFastConsumerProc
 	 */
 	protected Object input;
 
-	@Override
 	public void refresh() {
 		Object element = DEUtil.getInputFirstElement(input);
-		if ((element == null) || (element instanceof DesignElementHandle && getTopContainer((DesignElementHandle) element) == null)) {
+		if (element == null)
+			return;
+		if (element instanceof DesignElementHandle && getTopContainer((DesignElementHandle) element) == null) {
 			return;
 		}
 
@@ -76,7 +77,6 @@ public abstract class AttributePage extends TabPage implements IFastConsumerProc
 		FormWidgetFactory.getInstance().adapt(container);
 	}
 
-	@Override
 	public void setInput(Object handle) {
 		deRegisterEventManager();
 		input = handle;
@@ -87,37 +87,33 @@ public abstract class AttributePage extends TabPage implements IFastConsumerProc
 	 * Removes model change listener.
 	 */
 	protected void deRegisterEventManager() {
-		if (UIUtil.getModelEventManager() != null) {
+		if (UIUtil.getModelEventManager() != null)
 			UIUtil.getModelEventManager().removeModelEventProcessor(this);
-		}
 	}
 
 	/**
 	 * Registers model change listener to DE elements.
 	 */
 	protected void registerEventManager() {
-		if (UIUtil.getModelEventManager() != null) {
+		if (UIUtil.getModelEventManager() != null)
 			UIUtil.getModelEventManager().addModelEventProcessor(this);
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.
 	 * IFastConsumerProcessor#isOverdued()
 	 */
-	@Override
 	public boolean isOverdued() {
 		return container == null || container.isDisposed();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#dispose()
 	 */
-	@Override
 	public void dispose() {
 		if (container != null && !container.isDisposed()) {
 			container.dispose();
@@ -140,11 +136,10 @@ public abstract class AttributePage extends TabPage implements IFastConsumerProc
 			sections = new SortMap();
 		}
 		int index = sections.getIndexOf(key);
-		if (index != -1) {
+		if (index != -1)
 			sections.putAt(sectionKey, section, index + 1);
-		} else {
+		else
 			sections.put(sectionKey, section);
-		}
 	}
 
 	public void addSectionBefore(String sectionKey, Section section, String key) {
@@ -152,11 +147,10 @@ public abstract class AttributePage extends TabPage implements IFastConsumerProc
 			sections = new SortMap();
 		}
 		int index = sections.getIndexOf(key);
-		if (index != -1) {
+		if (index != -1)
 			sections.putAt(sectionKey, section, index);
-		} else {
+		else
 			sections.put(sectionKey, section);
-		}
 	}
 
 	public void removeSection(String sectionKey) {
@@ -211,60 +205,53 @@ public abstract class AttributePage extends TabPage implements IFastConsumerProc
 		return (Section) sections.get(key);
 	}
 
-	@Override
 	public String getTabDisplayName() {
 		return null;
 	}
 
 	protected Composite container;
 
-	@Override
 	public void buildUI(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 		container.addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				deRegisterEventManager();
 			}
 		});
-		if (sections == null) {
+		if (sections == null)
 			sections = new SortMap();
-		}
 	}
 
-	@Override
 	public Control getControl() {
 		return container;
 	}
 
-	@Override
 	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 
 	}
 
-	@Override
 	public void clear() {
 
 	}
 
 	private boolean load = false;
 
-	@Override
 	public void postElementEvent() {
 		Object element = DEUtil.getInputFirstElement(input);
-		if ((element == null) || (element instanceof DesignElementHandle && getTopContainer((DesignElementHandle) element) == null)) {
+		if (element == null)
+			return;
+		if (element instanceof DesignElementHandle && getTopContainer((DesignElementHandle) element) == null) {
 			return;
 		}
 
 		Section[] sectionArray = getSections();
-		for (int i = 0; i < sectionArray.length; i++) {
-			if (!load) {
+		for (int i = 0; i < sectionArray.length; i++)
+			if (load == false) {
 				load = true;
 
 				Display.getDefault().timerExec(100, new Runnable() {
 
-					@Override
 					public void run() {
 						Section[] sectionArray = getSections();
 						for (int i = 0; i < sectionArray.length; i++) {
@@ -275,39 +262,33 @@ public abstract class AttributePage extends TabPage implements IFastConsumerProc
 					}
 				});
 			}
-		}
 	}
 
 	protected ModuleHandle getTopContainer(DesignElementHandle element) {
-		if (element instanceof ModuleHandle) {
+		if (element instanceof ModuleHandle)
 			return (ModuleHandle) element;
-		}
 		while (!(element.getContainer() instanceof ModuleHandle)) {
 			element = element.getContainer();
-			if (element == null) {
+			if (element == null)
 				return null;
-			}
 		}
 		return (ModuleHandle) element.getContainer();
 	}
 
-	@Override
 	public Object getAdapter(Class adapter) {
 		return null;
 	}
 
-	protected List<IPropertyChangeListener> listeners = new ArrayList<>();
+	protected List<IPropertyChangeListener> listeners = new ArrayList<IPropertyChangeListener>();
 
 	public void addPropertyChangeListener(IPropertyChangeListener listener) {
-		if (!listeners.contains(listener)) {
+		if (!listeners.contains(listener))
 			listeners.add(listener);
-		}
 	}
 
 	public void removePropertyChangeListener(IPropertyChangeListener listener) {
-		if (listeners.contains(listener)) {
+		if (listeners.contains(listener))
 			listeners.remove(listener);
-		}
 	}
 
 }

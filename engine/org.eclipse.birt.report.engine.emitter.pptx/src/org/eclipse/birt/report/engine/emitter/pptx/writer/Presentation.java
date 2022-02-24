@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -67,8 +67,8 @@ public class Presentation extends Component {
 
 	private final Package pkg;
 
-	private final HashMap<String, SlideMaster> slideMasters = new HashMap<>();
-	private final List<Slide> slides = new ArrayList<>();
+	private final HashMap<String, SlideMaster> slideMasters = new HashMap<String, SlideMaster>();
+	private final List<Slide> slides = new ArrayList<Slide>();
 	private String author, title, description, subject;
 	private PPTXRender render;
 	private int shapeId;
@@ -162,19 +162,16 @@ public class Presentation extends Component {
 		outputSlides();
 		writer.openTag(TAG_SLIDE_SZ);
 		// Set default page size to A4.
-		if (width == 0) {
+		if (width == 0)
 			width = 612;
-		}
-		if (height == 0) {
+		if (height == 0)
 			height = 792;
-		}
 
 		long convertedWidth = OOXmlUtil.convertPointerToEmus(width);
 		long convertedHeight = OOXmlUtil.convertPointerToEmus(height);
 
-		if (convertedHeight > MAX_SLIDE_HEIGHT) {
+		if (convertedHeight > MAX_SLIDE_HEIGHT)
 			convertedHeight = MAX_SLIDE_HEIGHT;
-		}
 		writer.attribute(TAG_CX, convertedWidth);
 		writer.attribute(TAG_CY, convertedHeight);
 		writer.closeTag(TAG_SLIDE_SZ);

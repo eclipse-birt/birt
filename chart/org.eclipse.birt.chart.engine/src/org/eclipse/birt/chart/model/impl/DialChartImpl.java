@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -41,7 +41,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 	 * The default value of the '{@link #isDialSuperimposition() <em>Dial
 	 * Superimposition</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @see #isDialSuperimposition()
 	 * @generated
 	 * @ordered
@@ -52,7 +52,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 	 * The cached value of the '{@link #isDialSuperimposition() <em>Dial
 	 * Superimposition</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @see #isDialSuperimposition()
 	 * @generated
 	 * @ordered
@@ -62,7 +62,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 	/**
 	 * This is true if the Dial Superimposition attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -70,7 +70,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected DialChartImpl() {
@@ -79,7 +79,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -89,61 +89,55 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isDialSuperimposition() {
 		return dialSuperimposition;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setDialSuperimposition(boolean newDialSuperimposition) {
 		boolean oldDialSuperimposition = dialSuperimposition;
 		dialSuperimposition = newDialSuperimposition;
 		boolean oldDialSuperimpositionESet = dialSuperimpositionESet;
 		dialSuperimpositionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DIAL_CHART__DIAL_SUPERIMPOSITION,
 					oldDialSuperimposition, dialSuperimposition, !oldDialSuperimpositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetDialSuperimposition() {
 		boolean oldDialSuperimposition = dialSuperimposition;
 		boolean oldDialSuperimpositionESet = dialSuperimpositionESet;
 		dialSuperimposition = DIAL_SUPERIMPOSITION_EDEFAULT;
 		dialSuperimpositionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.DIAL_CHART__DIAL_SUPERIMPOSITION,
 					oldDialSuperimposition, DIAL_SUPERIMPOSITION_EDEFAULT, oldDialSuperimpositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetDialSuperimposition() {
 		return dialSuperimpositionESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -157,7 +151,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -172,7 +166,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -187,7 +181,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -201,29 +195,27 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (dialSuperimposition: "); //$NON-NLS-1$
-		if (dialSuperimpositionESet) {
+		if (dialSuperimpositionESet)
 			result.append(dialSuperimposition);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#create()
 	 */
 	public static final ChartWithoutAxes create() {
@@ -234,17 +226,16 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.impl.ChartImpl#initialize()
 	 */
-	@Override
 	protected void initialize() {
 		super.initialize();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#create()
 	 */
 	public static final ChartWithoutAxes createDefault() {
@@ -255,10 +246,9 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.impl.ChartImpl#initialize()
 	 */
-	@Override
 	protected void initDefault() {
 		super.initDefault();
 	}
@@ -266,7 +256,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 	/**
 	 * @generated
 	 */
-	@Override
 	public DialChart copyInstance() {
 		DialChartImpl dest = new DialChartImpl();
 		dest.set(this);

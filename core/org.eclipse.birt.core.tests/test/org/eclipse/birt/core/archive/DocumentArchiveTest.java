@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -89,7 +89,7 @@ public class DocumentArchiveTest extends TestCase {
 		///////////////// Testing FileArchiveWriter /////////////////////////////
 		FileArchiveWriter compoundWriter = new FileArchiveWriter(fileArchiveName);
 		compoundWriter.initialize();
-		RAOutputStream out;
+		RAOutputStream out = null;
 
 		assertTrue(!compoundWriter.exists(coreStream));
 		out = compoundWriter.createRandomAccessStream(coreStream);
@@ -121,8 +121,8 @@ public class DocumentArchiveTest extends TestCase {
 		FileArchiveReader compoundReader = new FileArchiveReader(fileArchiveName);
 		compoundReader.open();
 
-		RAInputStream in;
-		String contentFromString;
+		RAInputStream in = null;
+		String contentFromString = "";
 
 		assertTrue(compoundReader.exists(coreStream));
 		assertTrue(compoundReader.exists(random1Stream));
@@ -206,7 +206,7 @@ public class DocumentArchiveTest extends TestCase {
 	/**
 	 * Utility funtion to read the content from RAInputStream and convert it to a
 	 * string.
-	 *
+	 * 
 	 * @param in
 	 * @return
 	 * @throws IOException
@@ -277,7 +277,6 @@ public class DocumentArchiveTest extends TestCase {
 			runningThread++;
 		}
 
-		@Override
 		public void run() {
 			try {
 				RAInputStream in = reader.getStream(name);

@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -47,7 +47,7 @@ public class ColumnDefinition implements IColumnDefinition {
 
 	/**
 	 * Assigns the indexed position to a Column definition.
-	 *
+	 * 
 	 * @param position 1-based position of column in the data row
 	 */
 	public void setColumnPosition(int position) {
@@ -57,7 +57,6 @@ public class ColumnDefinition implements IColumnDefinition {
 	/**
 	 * Gets the column name
 	 */
-	@Override
 	public String getColumnName() {
 		return name;
 	}
@@ -65,27 +64,24 @@ public class ColumnDefinition implements IColumnDefinition {
 	/**
 	 * Gets the column position
 	 */
-	@Override
 	public int getColumnPosition() {
 		return position;
 	}
 
 	/**
 	 * Gets the data type of the column.
-	 *
+	 * 
 	 * @return Data type as an integer.
 	 */
-	@Override
 	public int getDataType() {
 		return dataType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getNativeDataType()
 	 */
-	@Override
 	public int getNativeDataType() {
 		return nativeDataType;
 	}
@@ -94,7 +90,6 @@ public class ColumnDefinition implements IColumnDefinition {
 	 * Gets the alias of the column. An alias is a string that can be used
 	 * interchangably as the name to refer to a column.
 	 */
-	@Override
 	public String getAlias() {
 		return alias;
 	}
@@ -102,22 +97,19 @@ public class ColumnDefinition implements IColumnDefinition {
 	/**
 	 * Gets the search hint for the column
 	 */
-	@Override
 	public int getSearchHint() {
 		return searchHint;
 	}
 
-	@Override
 	public int getAnalysisType() {
 		return this.analysisType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getAnalysisName()
 	 */
-	@Override
 	public String getAnalysisColumn() {
 		return this.analysisColumn;
 	}
@@ -129,7 +121,6 @@ public class ColumnDefinition implements IColumnDefinition {
 	/**
 	 * Gets the export hint for the column
 	 */
-	@Override
 	public int getExportHint() {
 		return exportHint;
 	}
@@ -150,7 +141,7 @@ public class ColumnDefinition implements IColumnDefinition {
 
 	/**
 	 * Set the column native data type.
-	 *
+	 * 
 	 * @param typeCode a data type code defined by an underlying data source.
 	 */
 	public void setNativeDataType(int typeCode) {
@@ -174,7 +165,6 @@ public class ColumnDefinition implements IColumnDefinition {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getColumnNativeName()
 	 */
-	@Override
 	public String getColumnNativeName() {
 		return this.nativeName;
 	}
@@ -187,7 +177,6 @@ public class ColumnDefinition implements IColumnDefinition {
 		this.analysisType = analysisType;
 	}
 
-	@Override
 	public boolean isIndexColumn() {
 		return indexColumn;
 	}
@@ -196,7 +185,6 @@ public class ColumnDefinition implements IColumnDefinition {
 		this.indexColumn = indexColumn;
 	}
 
-	@Override
 	public boolean isCompressedColumn() {
 		return this.compressedColumn;
 	}
@@ -205,7 +193,6 @@ public class ColumnDefinition implements IColumnDefinition {
 		this.compressedColumn = compressedColumn;
 	}
 
-	@Override
 	public String getDisplayName() {
 		return this.displayName;
 	}

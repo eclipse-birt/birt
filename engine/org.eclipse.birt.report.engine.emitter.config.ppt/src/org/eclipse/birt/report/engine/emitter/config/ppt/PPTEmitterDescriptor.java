@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,6 @@ public class PPTEmitterDescriptor extends AbstractEmitterDescriptor {
 	protected static final String CHART_DPI = "ChartDpi";
 	protected static final String EXPORT_TO_OFFICE_2010_2013 = "Export2Office2010And2013";
 
-	@Override
 	protected void initOptions() {
 		loadDefaultValues("org.eclipse.birt.report.engine.emitter.config.ppt");
 		// Initializes the option for BIDIProcessing.
@@ -119,32 +118,29 @@ public class PPTEmitterDescriptor extends AbstractEmitterDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDescription()
 	 */
-	@Override
 	public String getDescription() {
 		return getMessage("PPTEmitter.Description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return getMessage("PPTEmitter.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#getID()
 	 */
-	@Override
 	public String getID() {
 		return "org.eclipse.birt.report.engine.emitter.ppt"; //$NON-NLS-1$
 	}

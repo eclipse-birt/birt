@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,21 +50,17 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 		this.emitter = emitter;
 		this.executor = new ReportItemExecutorBase() {
 
-			@Override
 			public void close() {
 			}
 
-			@Override
 			public IContent execute() {
 				return pageContent;
 			}
 
-			@Override
 			public IReportItemExecutor getNextChild() throws BirtException {
 				return reportExecutor.getNextChild();
 			}
 
-			@Override
 			public boolean hasNextChild() throws BirtException {
 				return reportExecutor.hasNextChild();
 			}
@@ -73,7 +69,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 		context.setPageLM(this);
 	}
 
-	@Override
 	public int getType() {
 		return LAYOUT_MANAGER_PAGE;
 	}
@@ -81,7 +76,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 	boolean isLastPage = false;
 	boolean isFirstPage = true;
 
-	@Override
 	public boolean layout() throws BirtException {
 		if (context.getCancelFlag()) {
 			close();
@@ -99,7 +93,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 		return hasNextPage;
 	}
 
-	@Override
 	public boolean isFinished() {
 		return isLastPage;
 	}
@@ -132,7 +125,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 		return content;
 	}
 
-	@Override
 	protected void start(boolean isFirst) throws BirtException {
 		context.getBufferFactory().refresh();
 		context.setPageBufferManager(createPageBuffer());
@@ -146,7 +138,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 		}
 	}
 
-	@Override
 	protected IContent getContent() {
 		return pageContent;
 	}
@@ -161,7 +152,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 		return bufferMgr;
 	}
 
-	@Override
 	protected void end(boolean finished) throws BirtException {
 		if (emitter != null) {
 			context.getPageBufferManager().endContainer(pageContent, finished, emitter, true);
@@ -185,7 +175,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 			nodes.add(current);
 		}
 
-		@Override
 		public String getOutputFormat() {
 			return emitter.getOutputFormat();
 		}
@@ -199,7 +188,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 			}
 		}
 
-		@Override
 		public void startContent(IContent content) {
 			if (current != null) {
 				if (content != null) {
@@ -213,7 +201,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 
 		}
 
-		@Override
 		public void endContent(IContent content) {
 			if (current != null) {
 				if (content != null) {
@@ -241,16 +228,13 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 
 	public static class PageContentBuffer implements IPageBuffer {
 
-		@Override
 		public boolean isRepeated() {
 			return false;
 		}
 
-		@Override
 		public void setRepeated(boolean isRepeated) {
 		}
 
-		@Override
 		public void endContainer(IContent content, boolean finished, IContentEmitter emitter, boolean visible)
 				throws BirtException {
 			if (content != null && visible) {
@@ -258,7 +242,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 			}
 		}
 
-		@Override
 		public void startContainer(IContent content, boolean isFirst, IContentEmitter emitter, boolean visible)
 				throws BirtException {
 			if (content != null && visible) {
@@ -267,7 +250,6 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 
 		}
 
-		@Override
 		public void startContent(IContent content, IContentEmitter emitter, boolean visible) throws BirtException {
 			if (content != null && visible) {
 				ContentEmitterUtil.startContent(content, emitter);
@@ -276,37 +258,31 @@ public class HTMLPageLM extends HTMLBlockStackingLM {
 
 		}
 
-		@Override
 		public void closePage(INode[] nodeList) {
 			// TODO Auto-generated method stub
 
 		}
 
-		@Override
 		public boolean finished() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
-		@Override
 		public void flush() {
 			// TODO Auto-generated method stub
 
 		}
 
-		@Override
 		public INode[] getNodeStack() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
 		public void openPage(INode[] nodeList) {
 			// TODO Auto-generated method stub
 
 		}
 
-		@Override
 		public void addTableColumnHint(TableColumnHint hint) {
 			// TODO Auto-generated method stub
 

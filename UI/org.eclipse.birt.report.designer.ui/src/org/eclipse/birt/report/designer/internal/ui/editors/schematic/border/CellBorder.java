@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,11 +42,10 @@ public class CellBorder extends LineBorder {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
 	 * LineBorder#getInsets(org.eclipse.draw2d.IFigure)
 	 */
-	@Override
 	public Insets getInsets(IFigure figure) {
 		if (borderInsets != null) {
 			return new Insets(borderInsets).add(paddingInsets);
@@ -57,11 +56,10 @@ public class CellBorder extends LineBorder {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
 	 * LineBorder#getBorderInsets()
 	 */
-	@Override
 	public Insets getBorderInsets() {
 		if (borderInsets != null) {
 			return new Insets(borderInsets);
@@ -72,7 +70,7 @@ public class CellBorder extends LineBorder {
 
 	/**
 	 * Sets the border insets.
-	 *
+	 * 
 	 * @param borderInsets
 	 */
 	public void setBorderInsets(Insets borderInsets) {
@@ -81,11 +79,10 @@ public class CellBorder extends LineBorder {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
 	 * BaseBorder#setPaddingInsets(org.eclipse.draw2d.geometry.Insets)
 	 */
-	@Override
 	public void setPaddingInsets(Insets in) {
 		if (in == null || (in.left == 0 && in.right == 0 && in.top == 0 && in.bottom == 0)) {
 			paddingInsets = new Insets(DEFAULTINSETS);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -71,7 +71,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 * @param model , the model of preference page.
 	 */
 	public GeneralPreferencePage(Object model) {
@@ -80,7 +80,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Constructor with theme.
-	 *
+	 * 
 	 * @param model
 	 * @param theme
 	 */
@@ -90,16 +90,14 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 		this.model = model;
 		this.theme = theme;
 
-		if (theme instanceof ReportItemThemeHandle) {
+		if (theme instanceof ReportItemThemeHandle)
 			isReportItemTheme = true;
-		}
 	}
 
 	/**
 	 * @see org.eclipse.jface.preference.
 	 *      FieldEditorPreferencePage#createFieldEditors()
 	 */
-	@Override
 	protected void createFieldEditors() {
 		// super.createFieldEditors( );
 
@@ -131,7 +129,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void createStyleNameControl() {
 		Composite nameComp = new Composite(getFieldEditorParent(), SWT.NULL);
@@ -147,13 +145,11 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 		preStyle.setText(Messages.getString("GeneralPreferencePage.label.predefinedStyle")); //$NON-NLS-1$
 		preStyle.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (!preStyle.getSelection()) {
+				if (preStyle.getSelection() == false) {
 					return;
 				}
 				setPredefinedStyle(true);
@@ -190,11 +186,9 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 
 		preName.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkPageValid();
 			}
@@ -204,13 +198,11 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 		cusStyle.setText(Messages.getString("GeneralPreferencePage.label.customStyle")); //$NON-NLS-1$
 		cusStyle.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (!cusStyle.getSelection()) {
+				if (cusStyle.getSelection() == false) {
 					return;
 				}
 				setPredefinedStyle(false);
@@ -234,7 +226,6 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 		cusName.setLayoutData(data);
 		cusName.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				checkPageValid();
 
@@ -263,10 +254,9 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#initialize()
 	 */
-	@Override
 	protected void initialize() {
 		if (model instanceof StyleHandle) {
 			if (((StyleHandle) model).isPredefined() || isReportItemTheme) {
@@ -300,10 +290,9 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performOk()
 	 */
-	@Override
 	public boolean performOk() {
 		if (storeName()) {
 			return super.performOk();
@@ -402,7 +391,6 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 		return isValid();
 	}
 
-	@Override
 	protected void checkState() {
 		boolean result = isValid();
 		if (result) {
@@ -413,7 +401,6 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 	/*
 	 * (non-Javadoc) Method declared on IDialog.
 	 */
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (visible) {
@@ -425,7 +412,6 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 		}
 	}
 
-	@Override
 	protected String[] getPreferenceNames() {
 		return new String[] { StyleHandle.CAN_SHRINK_PROP, StyleHandle.SHOW_IF_BLANK_PROP, };
 	}

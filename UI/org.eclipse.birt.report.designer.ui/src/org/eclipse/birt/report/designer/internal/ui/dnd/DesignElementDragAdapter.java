@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param viewer
 	 */
 	public DesignElementDragAdapter(StructuredViewer viewer) {
@@ -49,7 +49,6 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter {
 	/**
 	 * @see DragSourceAdapter#dragFinished(DragSourceEvent)
 	 */
-	@Override
 	public void dragFinished(DragSourceEvent event) {
 		if (event.doit) {
 			TemplateTransfer.getInstance().setTemplate(null);
@@ -62,22 +61,19 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter {
 	/**
 	 * @see DragSourceAdapter#dragSetData(DragSourceEvent)
 	 */
-	@Override
 	public void dragSetData(DragSourceEvent event) {
 //		IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
 //		Object[] objects = selection.toList( ).toArray( );
 
 		// fix bug 116180
 		Object[] objects = selectionList.toArray();
-		if (TemplateTransfer.getInstance().isSupportedType(event.dataType)) {
+		if (TemplateTransfer.getInstance().isSupportedType(event.dataType))
 			event.data = objects;
-		}
 	}
 
 	/**
 	 * @see DragSourceAdapter#dragStart(DragSourceEvent)
 	 */
-	@Override
 	public void dragStart(DragSourceEvent event) {
 		boolean doit = !getViewer().getSelection().isEmpty();
 		if (doit) {
@@ -85,18 +81,15 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter {
 			selectionList = selection.toList();
 			Object[] objects = selection.toList().toArray();
 			if (validateType(objects)) {
-				for (int i = 0; i < objects.length; i++) {
+				for (int i = 0; i < objects.length; i++)
 					if (!validateTransfer(objects[i])) {
 						doit = false;
 						break;
 					}
-				}
-			} else {
+			} else
 				doit = false;
-			}
-			if (doit) {
+			if (doit)
 				TemplateTransfer.getInstance().setTemplate(objects);
-			}
 		}
 		event.doit = doit;
 		if (Policy.TRACING_DND_DRAG && doit) {
@@ -106,7 +99,7 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter {
 
 	/**
 	 * Validates every transfer element
-	 *
+	 * 
 	 * @param transfer every transfer element
 	 * @return if transfer element can be dragged
 	 */
@@ -116,7 +109,7 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter {
 	 * Validates types of transfer elements.
 	 * <p>
 	 * Default implementation is verify all types of transfer elements are same
-	 *
+	 * 
 	 * @param transfer transfer elements
 	 * @return type is same or not
 	 */
@@ -138,18 +131,17 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter {
 		// Drag the elements if selected ones are the same type.
 		Class type = null;
 		for (int i = 0; i < objects.length; i++) {
-			if (type == null) {
+			if (type == null)
 				type = objects[i].getClass();
-			} else if (!type.equals(objects[i].getClass())) {
+			else if (!type.equals(objects[i].getClass()))
 				return false;
-			}
 		}
 		return true;
 	}
 
 	/**
 	 * Returns viewer
-	 *
+	 * 
 	 * @return viewer
 	 */
 	protected StructuredViewer getViewer() {

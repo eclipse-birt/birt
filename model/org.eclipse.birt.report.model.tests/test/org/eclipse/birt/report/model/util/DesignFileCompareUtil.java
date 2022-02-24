@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -15,10 +15,8 @@ package org.eclipse.birt.report.model.util;
 
 import java.io.InputStream;
 import java.util.HashSet;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -44,7 +42,10 @@ public class DesignFileCompareUtil {
 	}
 
 	private boolean compareElement(Node e1, Node e2) {
-		if (!e1.getNodeName().equals(e2.getNodeName()) || !compareAttrs(e1.getAttributes(), e2.getAttributes())) {
+		if (!e1.getNodeName().equals(e2.getNodeName())) {
+			return false;
+		}
+		if (!compareAttrs(e1.getAttributes(), e2.getAttributes())) {
 			return false;
 		}
 		NodeList enl1 = e1.getChildNodes();
@@ -65,9 +66,8 @@ public class DesignFileCompareUtil {
 	private boolean compareAttrs(NamedNodeMap a1, NamedNodeMap a2) {
 		int length1 = a1 == null ? 0 : a1.getLength();
 		int length2 = a2 == null ? 0 : a2.getLength();
-		if (length1 != length2) {
+		if (length1 != length2)
 			return false;
-		}
 		for (int i = 0; i < length1; i++) {
 			Attr attr1 = (Attr) a1.item(i);
 			Attr attr2 = (Attr) a2.item(i);

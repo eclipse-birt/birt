@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -95,7 +95,7 @@ import org.mozilla.javascript.Context;
 
 /**
  * TODO: Please document
- *
+ * 
  * @version $Revision$ $Date$
  */
 public class DataSourceSelectionPage extends WizardPage {
@@ -154,12 +154,11 @@ public class DataSourceSelectionPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	public void createControl(Composite parent) {
 		helper = new DataSourceSelectionHelper();
 
@@ -189,23 +188,19 @@ public class DataSourceSelectionPage extends WizardPage {
 
 		dataSourceList.setContentProvider(new IStructuredContentProvider() {
 
-			@Override
 			public Object[] getElements(Object inputElement) {
 				return (Object[]) inputElement;
 			}
 
-			@Override
 			public void dispose() {
 			}
 
-			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 		});
 
 		dataSourceList.setLabelProvider(new LabelProvider() {
 
-			@Override
 			public String getText(Object element) {
 				String displayName = null;
 				if (element instanceof ExtensionManifest) {
@@ -224,7 +219,6 @@ public class DataSourceSelectionPage extends WizardPage {
 
 		dataSourceList.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				validateDataSourceName();
 				prevSelectedDataSourceType = getSelectedDataSource();
@@ -256,7 +250,6 @@ public class DataSourceSelectionPage extends WizardPage {
 
 		dataSourceName.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				validateDataSourceName();
 			}
@@ -274,7 +267,7 @@ public class DataSourceSelectionPage extends WizardPage {
 
 	/**
 	 * Setup DSChoiceListRadio layout
-	 *
+	 * 
 	 * @param composite
 	 */
 	private void setupDSChoiceListRadio(Composite composite) {
@@ -290,11 +283,10 @@ public class DataSourceSelectionPage extends WizardPage {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				enableNonCP(dsChoiceListRadio.getSelection());
 
@@ -311,7 +303,7 @@ public class DataSourceSelectionPage extends WizardPage {
 
 	/**
 	 * Setup ConnectionProfileRadio layout
-	 *
+	 * 
 	 * @param composite
 	 */
 	private void setupConnectionProfileRadio(Composite composite) {
@@ -325,11 +317,10 @@ public class DataSourceSelectionPage extends WizardPage {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				enableNonCP(!connectionProfileRadio.getSelection());
 
@@ -344,7 +335,7 @@ public class DataSourceSelectionPage extends WizardPage {
 
 	/**
 	 * Enable or disable non connection profile components
-	 *
+	 * 
 	 * @param bool
 	 */
 	private void enableNonCP(boolean bool) {
@@ -355,14 +346,12 @@ public class DataSourceSelectionPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.wizard.IWizardPage#getNextPage()
 	 */
-	@Override
 	public IWizardPage getNextPage() {
-		if (isCPSelected()) {
+		if (isCPSelected())
 			return getNextPageCP();
-		}
 
 		prevSelectedDataSourceType = getSelectedDataSource();
 		if (prevSelectedDataSourceType instanceof ExtensionManifest) {
@@ -371,18 +360,16 @@ public class DataSourceSelectionPage extends WizardPage {
 			String dataSourceExtensionID = ((ExtensionManifest) prevSelectedDataSourceType).getExtensionID();
 			IWizardPage nextPage = getExtensionDataSourcePage(dataSourceElementID, dataSourceDisplayName,
 					dataSourceExtensionID);
-			if (nextPage != null) {
+			if (nextPage != null)
 				return nextPage;
-			}
 		}
 		return helper.getNextPage(prevSelectedDataSourceType);
 	}
 
 	public IWizardPage getExtensionDataSourcePage(String dataSourceElementID, String dataSourceDisplayName,
 			String dataSourceExtensionID) {
-		if (dsName == null) {
+		if (dsName == null)
 			dsName = dataSourceDisplayName;
-		}
 		DesignSessionRequest request = null;
 		try {
 			URI applURI = DTPUtil.getInstance().getBIRTResourcePath();
@@ -406,14 +393,13 @@ public class DataSourceSelectionPage extends WizardPage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	private IWizardPage getNextPageCP() {
 		try {
-			if (m_designSession == null) {
+			if (m_designSession == null)
 				m_designSession = DataSourceDesignSession.startNewDesignFromProfile();
-			}
 
 			ResourceIdentifiers designResourceIds = DesignFactory.eINSTANCE.createResourceIdentifiers();
 			designResourceIds.setApplResourceBaseURI(DTPUtil.getInstance().getBIRTResourcePath());
@@ -439,13 +425,11 @@ public class DataSourceSelectionPage extends WizardPage {
 		 * @see org.eclipse.datatools.connectivity.oda.design.ui.designsession.
 		 * DataSourceDesignSession .IDesignNameValidator#isValid(java.lang.String)
 		 */
-		@Override
 		public boolean isValid(String designName) throws OdaException {
-			if (Utility.checkDataSourceName(designName)) { // name already
-				// used
+			if (Utility.checkDataSourceName(designName)) // name already
+															// used
 				throw new OdaException(Messages.getFormattedString("datasource.editor.duplicatedName", //$NON-NLS-1$
 						new Object[] { designName }));
-			}
 
 			if (containInvalidCharactor(designName)) // name contains
 														// invalid special
@@ -460,7 +444,7 @@ public class DataSourceSelectionPage extends WizardPage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSourceElementID
 	 * @return
 	 */
@@ -468,12 +452,11 @@ public class DataSourceSelectionPage extends WizardPage {
 		useODAV3 = true;
 
 		try {
-			if (m_designSession == null) {
+			if (m_designSession == null)
 				m_designSession = DataSourceDesignSession.startNewDesign(dataSourceElementID, dsName, null, request);
-			} else {
+			else
 				// preserve user edits on custom wizard page, if appropriate
 				m_designSession.restartNewDesign(dataSourceElementID, dsName, null, request);
-			}
 			m_designSession.setUseProfileSelectionPage(false);
 			return m_designSession.getWizardStartingPage();
 		} catch (OdaException e) {
@@ -484,7 +467,7 @@ public class DataSourceSelectionPage extends WizardPage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSourceElement
 	 * @return
 	 */
@@ -532,17 +515,16 @@ public class DataSourceSelectionPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.wizard.IWizardPage#canFlipToNextPage()
 	 */
-	@Override
 	public boolean canFlipToNextPage() {
 		return (getMessageType() != ERROR) && !isPageComplete();
 	}
 
 	/**
 	 * checks if the name is duplicate
-	 *
+	 * 
 	 * @return Returns true if the name is duplicate,and false if it is duplicate
 	 */
 	private boolean isDuplicateName() {
@@ -552,17 +534,15 @@ public class DataSourceSelectionPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.IDialogPage#setVisible(boolean)
 	 */
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		getControl().setFocus();
 
-		if (isCPSelected()) {
+		if (isCPSelected())
 			return;
-		}
 
 		if (visible && dataSourceList.getInput() != null) {
 			if (prevSelectedDataSourceType == null) {
@@ -573,7 +553,7 @@ public class DataSourceSelectionPage extends WizardPage {
 		}
 
 		// rollback the data source created just now
-		if (visible && dataSourceIsCreated) {
+		if (visible && dataSourceIsCreated == true) {
 			getActivityStack().rollback();
 			dataSourceIsCreated = false;
 		}
@@ -583,7 +563,6 @@ public class DataSourceSelectionPage extends WizardPage {
 		if (isCPSelected()) {
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 
-				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException {
 					try {
 						IPath location = Path
@@ -615,38 +594,35 @@ public class DataSourceSelectionPage extends WizardPage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean createSelectedDataSource() {
 		createSelectedDataSourceInit();
 
-		if (isCPSelected()) {
+		if (isCPSelected())
 			return createSelectedDataSourceODAV3();
-		}
 
 		if (!(getSelectedDataSource() instanceof ExtensionManifest)) {
 			return createNoneODASelectedDataSource();
 		}
-		if (useODAV3) {
+		if (useODAV3)
 			return createSelectedDataSourceODAV3();
-		} else {
+		else
 			return createSelectedDataSourceODAV2();
-		}
 	}
 
 	public boolean createExtensionDataSource() {
 		createSelectedDataSourceInit();
-		if (useODAV3) {
+		if (useODAV3)
 			return createSelectedDataSourceODAV3();
-		} else {
+		else
 			return createSelectedDataSourceODAV2();
-		}
 	}
 
 	/**
 	 * To start a Model transaction and get Handles ready
-	 *
+	 * 
 	 */
 	protected void createSelectedDataSourceInit() {
 		getActivityStack().startTrans(CREATE_DATA_SOURCE_TRANS_NAME);
@@ -657,25 +633,24 @@ public class DataSourceSelectionPage extends WizardPage {
 
 	/**
 	 * whether name contains ".", "/", "\", "!", ";", "," charactors
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
 	private boolean containInvalidCharactor(String name) {
-		if (name == null) {
+		if (name == null)
 			return false;
-		} else if (name.indexOf(".") > -1 || //$NON-NLS-1$
+		else if (name.indexOf(".") > -1 || //$NON-NLS-1$
 				name.indexOf("\\") > -1 || name.indexOf("/") > -1 || //$NON-NLS-1$ //$NON-NLS-2$
 				name.indexOf("!") > -1 || name.indexOf(";") > -1 || //$NON-NLS-1$ //$NON-NLS-2$
-				name.indexOf(",") > -1) {
+				name.indexOf(",") > -1) //$NON-NLS-1$
 			return true;
-		} else {
+		else
 			return false;
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	private boolean createNoneODASelectedDataSource() {
@@ -691,12 +666,13 @@ public class DataSourceSelectionPage extends WizardPage {
 		} else {
 			dsHandle = helper.createNoneOdaDataSourceHandle(dsName, prevSelectedDataSourceType);
 		}
-		if (dsHandle == null) {
+		if (dsHandle == null)
 			return false;
-		}
 		try {
 			slotHandle.add(dsHandle);
-		} catch (ContentException | NameException e) {
+		} catch (ContentException e) {
+			ExceptionHandler.handle(e);
+		} catch (NameException e) {
 			ExceptionHandler.handle(e);
 		}
 
@@ -710,7 +686,7 @@ public class DataSourceSelectionPage extends WizardPage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	private boolean createSelectedDataSourceODAV3() {
@@ -736,7 +712,7 @@ public class DataSourceSelectionPage extends WizardPage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	private boolean createSelectedDataSourceODAV2() {
@@ -764,7 +740,7 @@ public class DataSourceSelectionPage extends WizardPage {
 
 	/**
 	 * Commit to Model
-	 *
+	 * 
 	 */
 	private void createSelectedDataSourceTearDown() {
 		dataSourceIsCreated = true;
@@ -772,7 +748,7 @@ public class DataSourceSelectionPage extends WizardPage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public CommandStack getActivityStack() {
@@ -780,7 +756,7 @@ public class DataSourceSelectionPage extends WizardPage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	private Object getSelectedDataSource() {
@@ -788,7 +764,7 @@ public class DataSourceSelectionPage extends WizardPage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	private boolean isCPSelected() {

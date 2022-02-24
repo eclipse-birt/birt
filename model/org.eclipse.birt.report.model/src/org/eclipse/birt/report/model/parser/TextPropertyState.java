@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ public class TextPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#
 	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement element,
 	 * )
@@ -55,7 +55,7 @@ public class TextPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#
 	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement element,
 	 * String propName, IStructure struct)
@@ -69,13 +69,12 @@ public class TextPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
 	 * Attributes)
 	 */
 
-	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		name = attrs.getValue(DesignSchemaConstants.NAME_ATTRIB);
 		if (StringUtil.isBlank(name)) {
@@ -111,38 +110,33 @@ public class TextPropertyState extends AbstractPropertyState {
 		}
 
 		String keyValue = attrs.getValue(DesignSchemaConstants.KEY_ATTRIB);
-		if (keyValue == null) {
+		if (keyValue == null)
 			return;
-		}
 
-		if (struct != null) {
+		if (struct != null)
 			setMember(struct, propDefn.getName(), keyName, keyValue);
-		} else {
+		else
 			setProperty(keyName, keyValue);
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
-	@Override
 	public void end() {
 		String value = text.toString();
 
-		if (struct != null) {
+		if (struct != null)
 			setMember(struct, propDefn.getName(), name, value);
-		} else {
+		else {
 			// backward compatible
-			if (IReportItemModel.ALTTEXT_PROP.equals(name)) {
+			if (IReportItemModel.ALTTEXT_PROP.equals(name))
 				setProperty(name, new Expression(value, ExpressionType.CONSTANT));
-			} else {
+			else
 				setProperty(name, value);
-			}
-			if (!StringUtil.isBlank(keyValue)) {
+			if (!StringUtil.isBlank(keyValue))
 				setProperty(name + IDesignElementModel.ID_SUFFIX, keyValue);
-			}
 		}
 	}
 
@@ -155,12 +149,11 @@ public class TextPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
 	 */
 
-	@Override
 	protected AbstractParseState generalJumpTo() {
 		if (propDefn != null && (element instanceof TextItem && ITextItemModel.CONTENT_PROP.equalsIgnoreCase(name))
 				&& handler.versionNumber >= VersionUtil.VERSION_3_2_16) {

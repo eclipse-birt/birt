@@ -41,7 +41,7 @@ import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 public class QueryValidator {
 
 	/**
-	 *
+	 * 
 	 * @param query
 	 * @param cubeHandle
 	 * @throws DataException
@@ -49,11 +49,10 @@ public class QueryValidator {
 	 */
 	public static void validateTimeFunctionInCubeQuery(ICubeQueryDefinition query, CubeHandle cubeHandle)
 			throws DataException, AdapterException {
-		if (cubeHandle == null) {
+		if (cubeHandle == null)
 			return;
-		}
 
-		Map<String, IDimensionDefinition> dimensionMap = new HashMap<>();
+		Map<String, IDimensionDefinition> dimensionMap = new HashMap<String, IDimensionDefinition>();
 		IEdgeDefinition columnEdge = query.getEdge(ICubeQueryDefinition.COLUMN_EDGE);
 		if (columnEdge != null) {
 			List<IDimensionDefinition> dimensions = columnEdge.getDimensions();
@@ -94,7 +93,7 @@ public class QueryValidator {
 
 	/**
 	 * time dimension used in time function is not in xTab
-	 *
+	 * 
 	 * @param cube
 	 * @param function
 	 * @return
@@ -115,7 +114,7 @@ public class QueryValidator {
 			}
 			TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) handle.getDefaultHierarchy();
 			List levels = hierhandle.getContents(TabularHierarchyHandle.LEVELS_PROP);
-			List<String> levelTypes = new ArrayList<>();
+			List<String> levelTypes = new ArrayList<String>();
 
 			for (int i = 0; i < levels.size(); i++) {
 				TabularLevelHandle level = (TabularLevelHandle) levels.get(i);
@@ -141,7 +140,7 @@ public class QueryValidator {
 
 	/**
 	 * time dimension used in time function is in xTab
-	 *
+	 * 
 	 * @param cube
 	 * @param function
 	 * @return
@@ -150,7 +149,7 @@ public class QueryValidator {
 	 */
 	private static void validateTimeFunction(IDimensionDefinition timeDimension, CubeHandle cubeHandle,
 			ITimeFunction function) throws AdapterException, DataException {
-		List<String> levelTypes = new ArrayList<>();
+		List<String> levelTypes = new ArrayList<String>();
 
 		if (cubeHandle != null) {
 			String dimensionName = function.getTimeDimension();

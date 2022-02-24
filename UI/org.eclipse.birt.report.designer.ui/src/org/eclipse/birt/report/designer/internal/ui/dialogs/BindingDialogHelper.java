@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -101,7 +101,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 /**
- *
+ * 
  */
 
 public class BindingDialogHelper extends AbstractBindingDialogHelper {
@@ -141,8 +141,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 	protected Button btnGroup, btnDisplayNameID, btnRemoveDisplayNameID;
 	protected Composite paramsComposite;
 
-	protected Map<String, Control> paramsMap = new LinkedHashMap<>();
-	protected Map<String, String[]> paramsValueMap = new HashMap<>();
+	protected Map<String, Control> paramsMap = new LinkedHashMap<String, Control>();
+	protected Map<String, String[]> paramsValueMap = new HashMap<String, String[]>();
 
 	protected Composite composite;
 	protected Text txtDisplayName, txtDisplayNameID;
@@ -157,7 +157,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
-	@Override
 	public void createContent(Composite parent) {
 
 		isCreate = getBinding() == null;
@@ -179,7 +178,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 			cmbName.setVisibleItemCount(30);
 			cmbName.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					modifyDialogContent();
 
@@ -201,7 +199,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 			txtName.setLayoutData(gd);
 			txtName.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					modifyDialogContent();
 					validate();
@@ -215,7 +212,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		lbDisplayNameID.setText(DISPLAY_NAME_ID);
 		lbDisplayNameID.addTraverseListener(new TraverseListener() {
 
-			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 					e.detail = SWT.TRAVERSE_NONE;
@@ -235,7 +231,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		btnDisplayNameID.setToolTipText(Messages.getString("ResourceKeyDescriptor.button.browse.tooltip")); //$NON-NLS-1$
 		btnDisplayNameID.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent event) {
 				openKeySelectionDialog();
 			}
@@ -246,7 +241,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		btnRemoveDisplayNameID.setToolTipText(Messages.getString("ResourceKeyDescriptor.button.reset.tooltip")); //$NON-NLS-1$
 		btnRemoveDisplayNameID.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent event) {
 				txtDisplayNameID.setText(EMPTY_STRING);
 				txtDisplayName.setText(EMPTY_STRING);
@@ -261,7 +255,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		txtDisplayName = new Text(composite, SWT.BORDER);
 		txtDisplayName.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				modifyDialogContent();
 			}
@@ -276,12 +269,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		cmbType.setVisibleItemCount(30);
 		cmbType.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				validate();
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				modifyDialogContent();
 
@@ -303,7 +294,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 		btnAllowExport.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				modifyDialogContent();
 			}
@@ -344,7 +334,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private boolean hasInitDialog = false;
 
-	@Override
 	public void initDialog() {
 		cmbType.setItems(dataTypes);
 		// txtDisplayName.setFocus( );
@@ -376,14 +365,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 						ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next();
 						if (isAggregate()) {
 							if (computedColumn.getAggregateFunction() == null
-									|| computedColumn.getAggregateFunction().equals("")) {
+									|| computedColumn.getAggregateFunction().equals("")) //$NON-NLS-1$
 								continue;
-							}
 						} else {
 							if (computedColumn.getAggregateFunction() != null
-									&& !computedColumn.getAggregateFunction().equals("")) {
+									&& !computedColumn.getAggregateFunction().equals("")) //$NON-NLS-1$
 								continue;
-							}
 						}
 						cmbName.add(computedColumn.getName());
 					}
@@ -408,52 +395,50 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 					setTypeSelect(getDataTypeDisplayName(DesignChoiceConstants.COLUMN_DATA_TYPE_STRING));
 				}
 			}
-		} else if (isRef) {
-			int i = 0;
-			for (Iterator iterator = getBindingHolder().getDataBindingReference().getColumnBindings()
-					.iterator(); iterator.hasNext();) {
-				ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next();
-				if (isAggregate()) {
-					if (computedColumn.getAggregateFunction() == null
-							|| computedColumn.getAggregateFunction().equals("")) {
-						continue;
-					}
-				} else {
-					if (computedColumn.getAggregateFunction() != null
-							&& !computedColumn.getAggregateFunction().equals("")) {
-						continue;
-					}
-				}
-				cmbName.add(computedColumn.getName());
-				if (getBinding().getName().equals(computedColumn.getName())) {
-					cmbName.select(i);
-				}
-				i++;
-			}
-			setDisplayName(getBinding().getDisplayName());
-			setDisplayNameID(getBinding().getDisplayNameID());
-			setAllowExport(getBinding().allowExport());
-			for (i = 0; i < DATA_TYPE_CHOICES.length; i++) {
-				if (DATA_TYPE_CHOICES[i].getName().equals(getBinding().getDataType())) {
-					setTypeSelect(DATA_TYPE_CHOICES[i].getDisplayName());
-					break;
-				}
-			}
-			setDataFieldExpression(getBinding());
 		} else {
-			setName(getBinding().getName());
-			setDisplayName(getBinding().getDisplayName());
-			setDisplayNameID(getBinding().getDisplayNameID());
-			setAllowExport(getBinding().allowExport());
-			if (getBinding().getDataType() != null) {
-				if (DATA_TYPE_CHOICE_SET.findChoice(getBinding().getDataType()) != null) {
-					setTypeSelect(DATA_TYPE_CHOICE_SET.findChoice(getBinding().getDataType()).getDisplayName());
-				} else {
-					// the old type 'any'
-					cmbType.setText(""); //$NON-NLS-1$
+			if (isRef) {
+				int i = 0;
+				for (Iterator iterator = getBindingHolder().getDataBindingReference().getColumnBindings()
+						.iterator(); iterator.hasNext();) {
+					ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next();
+					if (isAggregate()) {
+						if (computedColumn.getAggregateFunction() == null
+								|| computedColumn.getAggregateFunction().equals("")) //$NON-NLS-1$
+							continue;
+					} else {
+						if (computedColumn.getAggregateFunction() != null
+								&& !computedColumn.getAggregateFunction().equals("")) //$NON-NLS-1$
+							continue;
+					}
+					cmbName.add(computedColumn.getName());
+					if (getBinding().getName().equals(computedColumn.getName()))
+						cmbName.select(i);
+					i++;
 				}
+				setDisplayName(getBinding().getDisplayName());
+				setDisplayNameID(getBinding().getDisplayNameID());
+				setAllowExport(getBinding().allowExport());
+				for (i = 0; i < DATA_TYPE_CHOICES.length; i++) {
+					if (DATA_TYPE_CHOICES[i].getName().equals(getBinding().getDataType())) {
+						setTypeSelect(DATA_TYPE_CHOICES[i].getDisplayName());
+						break;
+					}
+				}
+				setDataFieldExpression(getBinding());
+			} else {
+				setName(getBinding().getName());
+				setDisplayName(getBinding().getDisplayName());
+				setDisplayNameID(getBinding().getDisplayNameID());
+				setAllowExport(getBinding().allowExport());
+				if (getBinding().getDataType() != null) {
+					if (DATA_TYPE_CHOICE_SET.findChoice(getBinding().getDataType()) != null)
+						setTypeSelect(DATA_TYPE_CHOICE_SET.findChoice(getBinding().getDataType()).getDisplayName());
+					else
+						// the old type 'any'
+						cmbType.setText(""); //$NON-NLS-1$
+				}
+				setDataFieldExpression(getBinding());
 			}
-			setDataFieldExpression(getBinding());
 		}
 
 		if (!isCreate) {
@@ -519,9 +504,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private String[] getFunctionDisplayNames() {
 		IAggrFunction[] choices = getFunctions();
-		if (choices == null) {
+		if (choices == null)
 			return new String[0];
-		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -533,9 +517,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 	protected IAggrFunction getFunctionByDisplayName(String displayName) {
 		IAggrFunction[] choices = getFunctions();
-		if (choices == null) {
+		if (choices == null)
 			return null;
-		}
 
 		for (int i = 0; i < choices.length; i++) {
 			if (choices[i].getDisplayName().equals(displayName)) {
@@ -569,9 +552,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 			txtParam.setText(paramsValueMap.get(param.getName())[0]);
 			txtParam.setData(ExpressionButtonUtil.EXPR_TYPE, paramsValueMap.get(param.getName())[1]);
 			ExpressionButton button = (ExpressionButton) txtParam.getData(ExpressionButtonUtil.EXPR_BUTTON);
-			if (button != null) {
+			if (button != null)
 				button.refresh();
-			}
 			return;
 		}
 		if (binding != null) {
@@ -587,7 +569,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 	/**
 	 * fill the cmbDataField with binding holder's bindings
-	 *
+	 * 
 	 * @param param
 	 */
 	protected void initDataFields(Combo cmbDataField, IParameterDefn param) {
@@ -596,9 +578,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 			cmbDataField.setText(paramsValueMap.get(param.getName())[0]);
 			cmbDataField.setData(ExpressionButtonUtil.EXPR_TYPE, paramsValueMap.get(param.getName())[1]);
 			ExpressionButton button = (ExpressionButton) cmbDataField.getData(ExpressionButtonUtil.EXPR_BUTTON);
-			if (button != null) {
+			if (button != null)
 				button.refresh();
-			}
 			return;
 		}
 		if (binding != null) {
@@ -614,9 +595,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 				}
 			}
 
-			if (expressionHandle == null) {
+			if (expressionHandle == null)
 				expressionHandle = binding.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER);
-			}
 
 			ExpressionButtonUtil.initExpressionButtonControl(cmbDataField, expressionHandle);
 		}
@@ -645,41 +625,42 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 			if (binding != null && binding.getAggregateOn() != null) {
 				btnGroup.setSelection(true);
 				btnTable.setSelection(false);
-				if (!isRef) {
+				if (!isRef)
 					cmbGroup.setEnabled(true);
-				}
 				for (int i = 0; i < groups.length; i++) {
 					if (groups[i].equals(binding.getAggregateOn())) {
 						cmbGroup.select(i);
 						return;
 					}
 				}
-			} else // BUG 201963
-			if (this.container instanceof DesignElementHandle && ((DesignElementHandle) this.container).getContainer()
-					.getContainer() instanceof TableGroupHandle) {
-				TableGroupHandle groupHandle = (TableGroupHandle) ((DesignElementHandle) this.container).getContainer()
-						.getContainer();
-				for (int i = 0; i < groups.length; i++) {
-					if (groups[i].equals(groupHandle.getName())) {
-						cmbGroup.select(i);
-					}
-				}
-				btnTable.setSelection(false);
-				btnGroup.setSelection(true);
-			} else if (this.container instanceof ListGroupHandle) {
-				ListGroupHandle groupHandle = (ListGroupHandle) this.container;
-				for (int i = 0; i < groups.length; i++) {
-					if (groups[i].equals(groupHandle.getName())) {
-						cmbGroup.select(i);
-					}
-				}
-				btnTable.setSelection(false);
-				btnGroup.setSelection(true);
 			} else {
-				btnTable.setSelection(true);
-				btnGroup.setSelection(false);
-				cmbGroup.select(0);
-				cmbGroup.setEnabled(false);
+				// BUG 201963
+				if (this.container instanceof DesignElementHandle && ((DesignElementHandle) this.container)
+						.getContainer().getContainer() instanceof TableGroupHandle) {
+					TableGroupHandle groupHandle = (TableGroupHandle) ((DesignElementHandle) this.container)
+							.getContainer().getContainer();
+					for (int i = 0; i < groups.length; i++) {
+						if (groups[i].equals(groupHandle.getName())) {
+							cmbGroup.select(i);
+						}
+					}
+					btnTable.setSelection(false);
+					btnGroup.setSelection(true);
+				} else if (this.container instanceof ListGroupHandle) {
+					ListGroupHandle groupHandle = (ListGroupHandle) this.container;
+					for (int i = 0; i < groups.length; i++) {
+						if (groups[i].equals(groupHandle.getName())) {
+							cmbGroup.select(i);
+						}
+					}
+					btnTable.setSelection(false);
+					btnGroup.setSelection(true);
+				} else {
+					btnTable.setSelection(true);
+					btnGroup.setSelection(false);
+					cmbGroup.select(0);
+					cmbGroup.setEnabled(false);
+				}
 			}
 		} else {
 			btnGroup.setEnabled(false);
@@ -688,16 +669,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		}
 	}
 
-	@Override
 	public String[] getGroups() {
 		if (getBindingHolder() instanceof ListingHandle) {
 			ListingHandle listingHandle = (ListingHandle) getBindingHolder();
 			List groupNames = new ArrayList();
 			for (int i = 0; i < listingHandle.getGroups().getCount(); i++) {
 				String groupName = ((GroupHandle) listingHandle.getGroups().get(i)).getName();
-				if (groupName != null) {
+				if (groupName != null)
 					groupNames.add(groupName);
-				}
 			}
 			return (String[]) groupNames.toArray(new String[0]);
 		} else {
@@ -715,44 +694,38 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 	}
 
 	private void setName(String name) {
-		if (name != null && txtName != null) {
+		if (name != null && txtName != null)
 			txtName.setText(name);
-		}
 	}
 
 	private void setDisplayName(String displayName) {
-		if (displayName != null && txtDisplayName != null) {
+		if (displayName != null && txtDisplayName != null)
 			txtDisplayName.setText(displayName);
-		}
 	}
 
 	private void setDisplayNameID(String displayNameID) {
-		if (displayNameID != null && txtDisplayNameID != null) {
+		if (displayNameID != null && txtDisplayNameID != null)
 			txtDisplayNameID.setText(displayNameID);
-		}
 	}
 
 	private void setAllowExport(boolean allowExport) {
-		if (btnAllowExport != null) {
+		if (btnAllowExport != null)
 			btnAllowExport.setSelection(allowExport);
-		}
 	}
 
 	private void setTypeSelect(String typeSelect) {
 		if (dataTypes != null && cmbType != null) {
-			if (typeSelect != null) {
+			if (typeSelect != null)
 				cmbType.select(getItemIndex(cmbType.getItems(), typeSelect));
-			} else {
+			else
 				cmbType.select(0);
-			}
 		}
 	}
 
 	private int getItemIndex(String[] items, String item) {
 		for (int i = 0; i < items.length; i++) {
-			if (items[i].equals(item)) {
+			if (items[i].equals(item))
 				return i;
-			}
 		}
 		return -1;
 	}
@@ -769,7 +742,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 		cmbFunction.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				modifyDialogContent();
 				handleFunctionSelectEvent();
@@ -788,9 +760,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.numColumns = 3;
 		Layout parentLayout = paramsComposite.getParent().getLayout();
-		if (parentLayout instanceof GridLayout) {
+		if (parentLayout instanceof GridLayout)
 			layout.horizontalSpacing = ((GridLayout) parentLayout).horizontalSpacing;
-		}
 		paramsComposite.setLayout(layout);
 
 		createFilterCondition(composite, gd);
@@ -813,23 +784,20 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		aggOnComposite.setLayout(layout);
 
 		btnTable = new Button(aggOnComposite, SWT.RADIO);
-		if (getBindingHolder() instanceof TableHandle) {
+		if (getBindingHolder() instanceof TableHandle)
 			btnTable.setText(TABLE);
-		} else if (getBindingHolder() instanceof ListHandle) {
+		else if (getBindingHolder() instanceof ListHandle)
 			btnTable.setText(LIST);
-		} else if (getBindingHolder() instanceof GridHandle) {
+		else if (getBindingHolder() instanceof GridHandle)
 			btnTable.setText(GRID);
-		} else {
+		else
 			btnTable.setText(ALL);
-		}
 
 		btnTable.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				modifyDialogContent();
 				cmbGroup.setEnabled(false);
@@ -838,7 +806,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 		btnTable.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = UIUtil.stripMnemonic(lblAggOn.getText()) + UIUtil.stripMnemonic(btnTable.getText());
 			}
@@ -850,11 +817,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		btnGroup.setText(GROUP);
 		btnGroup.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				modifyDialogContent();
 				cmbGroup.setEnabled(true);
@@ -863,7 +828,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 		btnGroup.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = UIUtil.stripMnemonic(lblAggOn.getText()) + UIUtil.stripMnemonic(btnGroup.getText());
 			}
@@ -874,14 +838,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		cmbGroup.setVisibleItemCount(30);
 		cmbGroup.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				modifyDialogContent();
 			}
 		});
 		cmbFunction.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				modifyDialogContent();
 			}
@@ -912,7 +874,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 		txtFilter.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent arg0) {
 				modifyDialogContent();
 				validate();
@@ -932,7 +893,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		createExpressionButton(composite, txtExpression);
 		txtExpression.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				modifyDialogContent();
 				validate();
@@ -1040,7 +1000,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 								dialog.setCanFinish(false);
 								setErrorMessage(Messages.getFormattedString("BindingDialogHelper.error.empty", //$NON-NLS-1$
 										new String[] { param.getDisplayName().replaceAll("\\(&[a-zA-Z0-9]\\)", "")
-												.replace("&", "") }));
+												.replaceAll("&", "") }));
 								return;
 							}
 						}
@@ -1060,11 +1020,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 	}
 
 	private void dialogCanFinish() {
-		if (!isAllowEmyptExpression() && !hasModified && isEditModal()) {
+		if (!isAllowEmyptExpression() && !hasModified && isEditModal())
 			dialog.setCanFinish(false);
-		} else {
+		else
 			dialog.setCanFinish(true);
-		}
 	}
 
 	/**
@@ -1072,9 +1031,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 	 * combo box filled with binding holder's computed column.
 	 */
 	protected void handleFunctionSelectEvent() {
-		if (isRef) {
+		if (isRef)
 			return;
-		}
 		Control[] children = paramsComposite.getChildren();
 		for (int i = 0; i < children.length; i++) {
 			children[i].dispose();
@@ -1095,9 +1053,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 						if (controls[i] instanceof Label
 								&& ((GridData) controls[i].getLayoutData()).horizontalSpan == 1) {
 							int labelWidth = controls[i].getBounds().width - controls[i].getBorderWidth() * 2;
-							if (labelWidth > width) {
+							if (labelWidth > width)
 								width = labelWidth;
-							}
 						}
 					}
 				}
@@ -1107,9 +1064,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 					lblParam.setText(param.getDisplayName() + Messages.getString("BindingDialogHelper.text.Colon")); //$NON-NLS-1$
 					GridData gd = new GridData();
 					gd.widthHint = lblParam.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
-					if (gd.widthHint < width) {
+					if (gd.widthHint < width)
 						gd.widthHint = width;
-					}
 					lblParam.setLayoutData(gd);
 
 					if (param.isDataField()) {
@@ -1122,10 +1078,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 						cmbDataField.addModifyListener(new ModifyListener() {
 
-							@Override
 							public void modifyText(ModifyEvent e) {
 								modifyDialogContent();
-
+								;
 								validate();
 								paramsValueMap.put(param.getName(), new String[] { cmbDataField.getText(),
 										(String) cmbDataField.getData(ExpressionButtonUtil.EXPR_TYPE) });
@@ -1134,7 +1089,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 						cmbDataField.addSelectionListener(new SelectionAdapter() {
 
-							@Override
 							public void widgetSelected(SelectionEvent e) {
 								String expr = getColumnBindingExpressionByName(cmbDataField);
 								if (expr != null) {
@@ -1156,7 +1110,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 						final Text txtParam = new Text(paramsComposite, SWT.BORDER | SWT.MULTI);
 						txtParam.addModifyListener(new ModifyListener() {
 
-							@Override
 							public void modifyText(ModifyEvent e) {
 								modifyDialogContent();
 								validate();
@@ -1199,7 +1152,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 	protected void createExpressionButton(Composite parent, final Control control) {
 		Listener listener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				modifyDialogContent();
 				validate();
@@ -1227,54 +1179,44 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		List elementsList = DEUtil.getVisiableColumnBindingsList(this.bindingHolder);
 		for (Iterator iterator = elementsList.iterator(); iterator.hasNext();) {
 			ComputedColumnHandle binding = (ComputedColumnHandle) iterator.next();
-			if (binding.getName().equals(combo.getText())) {
+			if (binding.getName().equals(combo.getText()))
 				return ExpressionButtonUtil.getCurrentExpressionConverter(combo).getBindingExpression(combo.getText());
-			}
 		}
 		return null;
 	}
 
-	@Override
 	public void validate() {
 		verifyInput();
 		updateRemoveBtnState();
 	}
 
-	@Override
 	public boolean differs(ComputedColumnHandle binding) {
 		if (isAggregate()) {
-			if ((txtName != null && !strEquals(txtName.getText(), binding.getName())) || (cmbName != null && !strEquals(cmbName.getText(), binding.getName()))) {
+			if (txtName != null && !strEquals(txtName.getText(), binding.getName()))
 				return true;
-			}
-			if (btnAllowExport.getSelection() != binding.allowExport()) {
+			if (cmbName != null && !strEquals(cmbName.getText(), binding.getName()))
 				return true;
-			}
-			if (!strEquals(binding.getDisplayName(), txtDisplayName.getText())) {
+			if (btnAllowExport.getSelection() != binding.allowExport())
 				return true;
-			}
-			if (!strEquals(binding.getDisplayNameID(), txtDisplayNameID.getText())) {
+			if (!strEquals(binding.getDisplayName(), txtDisplayName.getText()))
 				return true;
-			}
-			if (!strEquals(binding.getDataType(), getDataType())) {
+			if (!strEquals(binding.getDisplayNameID(), txtDisplayNameID.getText()))
 				return true;
-			}
+			if (!strEquals(binding.getDataType(), getDataType()))
+				return true;
 			try {
 				if (!strEquals(DataAdapterUtil.adaptModelAggregationType(binding.getAggregateFunction()),
-						getFunctionByDisplayName(cmbFunction.getText()).getName())) {
+						getFunctionByDisplayName(cmbFunction.getText()).getName()))
 					return true;
-				}
 			} catch (AdapterException e) {
 			}
 
-			if (!expressionEquals(binding.getExpressionProperty(ComputedColumn.FILTER_MEMBER), txtFilter)) {
+			if (!expressionEquals(binding.getExpressionProperty(ComputedColumn.FILTER_MEMBER), txtFilter))
 				return true;
-			}
-			if (btnTable.getSelection() == (binding.getAggregateOn() != null)) {
+			if (btnTable.getSelection() == (binding.getAggregateOn() != null))
 				return true;
-			}
-			if (!btnTable.getSelection() && !binding.getAggregateOn().equals(cmbGroup.getText())) {
+			if (!btnTable.getSelection() && !binding.getAggregateOn().equals(cmbGroup.getText()))
 				return true;
-			}
 
 			boolean hasArguments = false;
 
@@ -1291,52 +1233,47 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 				hasArguments = true;
 			}
 
-			if (!hasArguments && !paramsMap.isEmpty()) {
+			if (!hasArguments && !paramsMap.isEmpty())
 				return true;
-			}
 		} else {
-			if ((txtName != null && !strEquals(txtName.getText(), binding.getName())) || (cmbName != null && !strEquals(cmbName.getText(), binding.getName()))) {
+			if (txtName != null && !strEquals(txtName.getText(), binding.getName()))
 				return true;
-			}
-			if (!strEquals(txtDisplayName.getText(), binding.getDisplayName())) {
+			if (cmbName != null && !strEquals(cmbName.getText(), binding.getName()))
 				return true;
-			}
-			if (!strEquals(txtDisplayNameID.getText(), binding.getDisplayNameID())) {
+			if (!strEquals(txtDisplayName.getText(), binding.getDisplayName()))
 				return true;
-			}
-			if (btnAllowExport.getSelection() != binding.allowExport()) {
+			if (!strEquals(txtDisplayNameID.getText(), binding.getDisplayNameID()))
 				return true;
-			}
-			if (!strEquals(getDataType(), binding.getDataType())) {
+			if (btnAllowExport.getSelection() != binding.allowExport())
 				return true;
-			}
-			if (!expressionEquals(binding.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER), txtExpression)) {
+			if (!strEquals(getDataType(), binding.getDataType()))
 				return true;
-			}
+			if (!expressionEquals(binding.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER), txtExpression))
+				return true;
 		}
 		return false;
 	}
 
 	private boolean expressionEquals(ExpressionHandle expressionHandle, Text text) {
 		if (expressionHandle == null) {
-			if (text.getText().trim().length() == 0) {
+			if (text.getText().trim().length() == 0)
 				return true;
-			}
-		} else if (strEquals(expressionHandle.getStringExpression(), text.getText())
-				&& strEquals(expressionHandle.getType(), (String) text.getData(ExpressionButtonUtil.EXPR_TYPE))) {
-			return true;
+		} else {
+			if (strEquals(expressionHandle.getStringExpression(), text.getText())
+					&& strEquals(expressionHandle.getType(), (String) text.getData(ExpressionButtonUtil.EXPR_TYPE)))
+				return true;
 		}
 		return false;
 	}
 
 	private boolean expressionEquals(ExpressionHandle expressionHandle, String[] strs) {
 		if (expressionHandle == null) {
-			if (strs == null || strs[0].trim().length() == 0) {
+			if (strs == null || strs[0].trim().length() == 0)
 				return true;
-			}
-		} else if (strs != null && strEquals(expressionHandle.getStringExpression(), strs[0])
-				&& strEquals(expressionHandle.getType(), strs[1])) {
-			return true;
+		} else {
+			if (strs != null && strEquals(expressionHandle.getStringExpression(), strs[0])
+					&& strEquals(expressionHandle.getType(), strs[1]))
+				return true;
 		}
 		return false;
 	}
@@ -1353,15 +1290,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 	}
 
 	private boolean strEquals(String left, String right) {
-		if (left == right) {
+		if (left == right)
 			return true;
-		}
-		if (left == null) {
+		if (left == null)
 			return "".equals(right); //$NON-NLS-1$
-		}
-		if (right == null) {
+		if (right == null)
 			return "".equals(left); //$NON-NLS-1$
-		}
 		return left.equals(right);
 	}
 
@@ -1383,11 +1317,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		return ""; //$NON-NLS-1$
 	}
 
-	@Override
 	public ComputedColumnHandle editBinding(ComputedColumnHandle binding) throws SemanticException {
-		if (isRef) {
+		if (isRef)
 			return getBindingColumn();
-		}
 		if (isAggregate()) {
 			binding.setDisplayName(txtDisplayName.getText());
 			binding.setDisplayNameID(txtDisplayNameID.getText());
@@ -1439,23 +1371,19 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 		return binding;
 	}
 
-	@Override
 	public ComputedColumnHandle newBinding(ReportItemHandle bindingHolder, String name) throws SemanticException {
-		if (isRef) {
+		if (isRef)
 			return getBindingColumn();
-		}
 		ComputedColumn column = StructureFactory.newComputedColumn(bindingHolder,
 				name == null ? txtName.getText() : name);
 		ComputedColumnHandle binding = DEUtil.addColumn(bindingHolder, column, true);
 		return editBinding(binding);
 	}
 
-	@Override
 	public void setContainer(Object container) {
 		this.container = container;
 	}
 
-	@Override
 	public boolean canProcessWithWarning() {
 
 		if (!isAggregate()) {
@@ -1496,7 +1424,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 						if (expression != null) {
 							if (bindingList != null) {
 								String bindingName = ExpressionUtil.getColumnBindingName(expression[0]);
-								if (bindingName != null) {
+								if (bindingName != null)
 									for (ComputedColumnHandle bindingHandle : bindingList) {
 										if (bindingHandle.getName().equals(bindingName)) {
 											if (!param.supportDataType(
@@ -1508,12 +1436,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 											}
 										}
 									}
-								}
 							}
 
 							if (columnList != null) {
 								String columnName = ExpressionUtil.getColumnName(expression[0]);
-								if (columnName != null) {
+								if (columnName != null)
 									for (ResultSetColumn column : columnList) {
 										if (column.getColumnName().equals(columnName)) {
 											if (!param.supportDataType(
@@ -1525,7 +1452,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 											}
 										}
 									}
-								}
 							}
 						}
 					}
@@ -1560,25 +1486,23 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private String[] getBaseNames() {
 		List<String> resources = SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResources();
-		if (resources == null) {
+		if (resources == null)
 			return null;
-		} else {
+		else
 			return resources.toArray(new String[0]);
-		}
 	}
 
 	private URL[] getAvailableResourceUrls() {
-		List<URL> urls = new ArrayList<>();
+		List<URL> urls = new ArrayList<URL>();
 		String[] baseNames = getBaseNames();
-		if (baseNames == null) {
+		if (baseNames == null)
 			return urls.toArray(new URL[0]);
-		} else {
+		else {
 			for (int i = 0; i < baseNames.length; i++) {
 				URL url = SessionHandleAdapter.getInstance().getReportDesignHandle().findResource(baseNames[i],
 						IResourceLocator.MESSAGE_FILE);
-				if (url != null) {
+				if (url != null)
 					urls.add(url);
-				}
 			}
 			return urls.toArray(new URL[0]);
 		}
@@ -1586,9 +1510,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private URL[] getResourceURLs() {
 		String[] baseNames = getBaseNames();
-		if (baseNames == null) {
+		if (baseNames == null)
 			return null;
-		} else {
+		else {
 			URL[] urls = new URL[baseNames.length];
 			for (int i = 0; i < baseNames.length; i++) {
 				urls[i] = SessionHandleAdapter.getInstance().getReportDesignHandle().findResource(baseNames[i],
@@ -1604,7 +1528,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private boolean isEditModal = false;
 
-	@Override
 	public void setEditModal(boolean isEditModal) {
 		this.isEditModal = isEditModal;
 	}
@@ -1614,7 +1537,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper {
 	}
 
 	public void modifyDialogContent() {
-		if (hasInitDialog && isEditModal() && !hasModified) {
+		if (hasInitDialog && isEditModal() && hasModified == false) {
 			hasModified = true;
 			validate();
 		}

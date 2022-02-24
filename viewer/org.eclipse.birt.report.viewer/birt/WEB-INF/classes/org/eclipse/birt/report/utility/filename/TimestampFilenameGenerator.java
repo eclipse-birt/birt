@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * File name generator which inserts a time stamp in the name.
- *
+ * 
  * @see TimestampFilenameGeneratorFactory
  */
 public class TimestampFilenameGenerator implements IFilenameGenerator {
@@ -28,7 +28,7 @@ public class TimestampFilenameGenerator implements IFilenameGenerator {
 	public String datePattern;
 
 	/**
-	 *
+	 * 
 	 */
 	public TimestampFilenameGenerator() {
 		this(null);
@@ -36,7 +36,7 @@ public class TimestampFilenameGenerator implements IFilenameGenerator {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param datePattern date pattern to use
 	 */
 	public TimestampFilenameGenerator(String datePattern) {
@@ -48,10 +48,9 @@ public class TimestampFilenameGenerator implements IFilenameGenerator {
 
 	/**
 	 * Returns a file name containing a formatted time stamp.
-	 *
+	 * 
 	 * @see IFilenameGenerator#getFilename(String, String, String, Map)
 	 */
-	@Override
 	public String getFilename(String baseName, String fileExtension, String outputType, Map options) {
 		DateFormat dateFormatter = new SimpleDateFormat(datePattern);
 		if (fileExtension == null) {

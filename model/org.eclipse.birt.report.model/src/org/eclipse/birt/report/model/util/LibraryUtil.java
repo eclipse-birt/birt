@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.metadata.NamePropertyType;
 
 /**
  * The utility class for the library related operation.
- *
+ * 
  */
 
 public class LibraryUtil {
@@ -46,13 +46,13 @@ public class LibraryUtil {
 	/**
 	 * Checks whether the library with given name space/URL can be included in the
 	 * given module.
-	 *
+	 * 
 	 * @param module          the module to include library
 	 * @param namespace       the library name space
 	 * @param url             the URL of the library file
 	 * @param outermostModule the root of the module, its host must be null
 	 * @return the matched library
-	 *
+	 * 
 	 * @throws LibraryException
 	 */
 
@@ -74,11 +74,14 @@ public class LibraryUtil {
 
 				// the case: the same name spaces but different library files.
 
-				
+				if (!foundPath.equalsIgnoreCase(tmpPath)) {
+					throw new LibraryException(module, new String[] { namespace },
+							LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE);
+				}
 
 				// the library has already been included.
 
-				if (!foundPath.equalsIgnoreCase(tmpPath) || (module.getLibraryWithNamespace(namespace, IAccessControl.DIRECTLY_INCLUDED_LEVEL) != null)) {
+				if (module.getLibraryWithNamespace(namespace, IAccessControl.DIRECTLY_INCLUDED_LEVEL) != null) {
 					throw new LibraryException(module, new String[] { namespace },
 							LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE);
 				}
@@ -112,33 +115,30 @@ public class LibraryUtil {
 
 	/**
 	 * Inserts load libraries into the given map.
-	 *
+	 * 
 	 * @param reloadLibs the map contains reload libraries, the name space is key
 	 *                   and the library instance is the value
 	 * @param library    the given library
 	 */
 
 	public static void insertReloadLibs(Map<String, Library> reloadLibs, Library library) {
-		if (reloadLibs == null || reloadLibs == Collections.EMPTY_MAP) {
+		if (reloadLibs == null || reloadLibs == Collections.EMPTY_MAP)
 			return;
-		}
 
 		Set<String> namespaces = reloadLibs.keySet();
 
 		List<Library> tmpLibs = library.getAllLibraries();
 		String namespace = library.getNamespace();
 
-		if (!namespaces.contains(namespace)) {
+		if (!namespaces.contains(namespace))
 			reloadLibs.put(namespace, library);
-		}
 
 		for (int i = 0; i < tmpLibs.size(); i++) {
 			Library tmpLib = tmpLibs.get(i);
 			namespace = tmpLib.getNamespace();
 
-			if (!namespaces.contains(namespace)) {
+			if (!namespaces.contains(namespace))
 				reloadLibs.put(namespace, library);
-			}
 
 			reloadLibs.put(namespace, tmpLib);
 		}
@@ -146,7 +146,7 @@ public class LibraryUtil {
 
 	/**
 	 * Inserts a default theme to the library slot.
-	 *
+	 * 
 	 * @param library the target library
 	 * @param theme   the theme to insert
 	 */
@@ -176,10 +176,10 @@ public class LibraryUtil {
 	 * export report design to library. Comparing with the obsolute file name path,
 	 * if file is the same , throw <code>SemanticException</code> which error code
 	 * is include recursive error.
-	 *
+	 * 
 	 * For example , the path of library is "C:\test\lib.xml" .The followings will
 	 * throw semantic exception:
-	 *
+	 * 
 	 * <ul>
 	 * <li>design file and library in the same folder:</li>
 	 * <li><list-property name="libraries"> <structure>
@@ -192,7 +192,7 @@ public class LibraryUtil {
 	 * <property name="fileName">..\test\lib.xml</property>
 	 * <property name="namespace">lib</property> </structure> </list-property></li>
 	 * </ul>
-	 *
+	 * 
 	 * @param designToExport      handle of the report design to export
 	 * @param targetLibraryHandle handle of target library
 	 * @return if contains the same absolute file path , return true; else return

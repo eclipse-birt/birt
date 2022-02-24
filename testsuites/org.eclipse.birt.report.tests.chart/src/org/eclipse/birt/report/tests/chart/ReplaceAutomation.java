@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -37,14 +37,14 @@ public class ReplaceAutomation {
 	/**
 	 * Change 'saveAs' to 'save' and change 'compareTextFile( XX , XX )' to
 	 * 'compareTextFile( XX )'
-	 *
+	 * 
 	 * @param pckgname page name such as '/script/','/parser/.
 	 * @param writeDir write directory. such as 'c:\test\".
 	 * @throws Exception
 	 */
 	private void getClasses() throws Exception {
 		// Get a File object for the package
-		File directory;
+		File directory = null;
 
 		String path = pckgname.replace('.', '/');
 
@@ -102,7 +102,7 @@ public class ReplaceAutomation {
 
 	/**
 	 * Locates the folder where the unit test java source file is saved.
-	 *
+	 * 
 	 * @return the path name where the test java source file locates.
 	 */
 
@@ -116,12 +116,10 @@ public class ReplaceAutomation {
 				URL url = source.getLocation();
 				pathBase = url.getPath();
 
-				if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
+				if (pathBase.endsWith("bin/")) //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 4);
-				}
-				if (pathBase.endsWith("bin")) { //$NON-NLS-1$
+				if (pathBase.endsWith("bin")) //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 3);
-				}
 			}
 		}
 
@@ -146,7 +144,7 @@ public class ReplaceAutomation {
 
 	/**
 	 * Replace text with regex expression.
-	 *
+	 * 
 	 * @param str
 	 * @return
 	 */

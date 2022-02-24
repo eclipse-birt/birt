@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -134,9 +134,12 @@ public class TableContentLayout {
 				if (!isColumnHidden(column)) {
 					visibleColumns.add(column);
 					current++;
-				} else if (!hasHiddenColumns) {
-					hasHiddenColumns = true;
-					leastColumnIdToBeAjusted = i;
+				} else {
+					if (!hasHiddenColumns) {
+						hasHiddenColumns = true;
+						leastColumnIdToBeAjusted = i;
+					}
+
 				}
 				adjustedColumnIds[i] = (current >= 0 ? current : 0);
 			}
@@ -217,7 +220,7 @@ public class TableContentLayout {
 
 	/**
 	 * reset the table model.
-	 *
+	 * 
 	 */
 	public void reset() {
 		// keepUnresolvedCells( );
@@ -244,7 +247,7 @@ public class TableContentLayout {
 
 	/**
 	 * create a row in the table model
-	 *
+	 * 
 	 * @param content row content
 	 */
 	public Row createRow(Object rowContent, boolean isHidden) {
@@ -259,7 +262,7 @@ public class TableContentLayout {
 				Cell[] cells = row.cells;
 				// update the status of last row
 				Cell[] lastCells = rows[rowCount - 1].cells;
-
+				;
 				for (int cellId = 0; cellId < realColCount; cellId++) {
 					Cell lastCell = lastCells[cellId];
 					if (lastCell.status == Cell.CELL_SPANED) {
@@ -299,10 +302,10 @@ public class TableContentLayout {
 
 	/**
 	 * create a cell in the current row.
-	 *
+	 * 
 	 * if the cell content is not empty put it into the table if the cell is empty:
 	 * if the cell has been used, drop the cell else, put it into the table.
-	 *
+	 * 
 	 * @param cellId  column index of the cell.
 	 * @param rowSpan row span of the cell
 	 * @param colSpan col span of the cell
@@ -379,6 +382,7 @@ public class TableContentLayout {
 				cellId = cellId + cells[cellId].getColSpan() - 1;
 			}
 		}
+		return;
 	}
 
 	public void resolveDropCells(int bandId, boolean finished) {
@@ -462,7 +466,7 @@ public class TableContentLayout {
 
 	/**
 	 * fill empty cells in the table.
-	 *
+	 * 
 	 * @param rowId   row index
 	 * @param colId   col index
 	 * @param rowSize fill area size
@@ -471,12 +475,10 @@ public class TableContentLayout {
 	protected void fillEmptyCells(int rowId, int colId, int rowSize, int colSize) {
 		int lastRowId = rowId + rowSize;
 		int lastColId = colId + colSize;
-		if (lastRowId > rowCount) {
+		if (lastRowId > rowCount)
 			lastRowId = rowCount;
-		}
-		if (lastColId > colCount) {
+		if (lastColId > colCount)
 			lastColId = colCount;
-		}
 
 		// keep the last row for page hint
 		if (lastRowId > 0 && rows[lastRowId - 1] != null) {
@@ -499,7 +501,7 @@ public class TableContentLayout {
 
 	/**
 	 * we never change both the row span and col span at the same time.
-	 *
+	 * 
 	 * @param cell       the cell to be changed
 	 * @param newRowSpan new row span
 	 * @param newColSpan new col span
@@ -601,7 +603,10 @@ public class TableContentLayout {
 			}
 		}
 		IColumn column = cell.getColumnInstance();
-		if ((column == null) || isColumnHidden(column)) {
+		if (column == null) {
+			return false;
+		}
+		if (isColumnHidden(column)) {
 			return false;
 		}
 
@@ -644,11 +649,10 @@ public class TableContentLayout {
 	}
 
 	public ITableContent getWrappedTableContent() {
-		if (wrappedTable != null) {
+		if (wrappedTable != null)
 			return wrappedTable;
-		} else {
+		else
 			return tableContent;
-		}
 	}
 
 	public ICellContent getWrappedCellContent(ICellContent cellContent) {

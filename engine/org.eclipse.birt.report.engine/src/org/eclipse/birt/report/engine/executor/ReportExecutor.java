@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
  * etc. The output of the executor, for now, is a specific output format, i.e.,
  * HTML, FO or PDF, with the help of the emitter extensions.
  * <p>
- *
+ * 
  * The report instance creation logic is subject to further abstraction, because
  * it is needed in both report generation and report presentation. This is
  * because report document (not supported for now) does not store each report
@@ -54,7 +54,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
  * output format, but also be a report document. Data would then come from
  * database in factory engine, and from report document in the presentation
  * engine.
- *
+ * 
  */
 public class ReportExecutor implements IReportExecutor {
 	// the report execution context
@@ -75,10 +75,10 @@ public class ReportExecutor implements IReportExecutor {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param context the executor context
 	 * @param emitter the report emitter
-	 *
+	 * 
 	 */
 	public ReportExecutor(ExecutionContext context) {
 		this.context = context;
@@ -87,7 +87,6 @@ public class ReportExecutor implements IReportExecutor {
 		this.uniqueId = 0;
 	}
 
-	@Override
 	public IReportContent execute() throws BirtException {
 		reportContent = new ReportContent(report);
 		reportContent.setExecutionContext(context);
@@ -132,7 +131,6 @@ public class ReportExecutor implements IReportExecutor {
 		return reportContent;
 	}
 
-	@Override
 	public void close() throws BirtException {
 		TOCBuilder builder = context.getTOCBuilder();
 		if (builder != null) {
@@ -154,7 +152,6 @@ public class ReportExecutor implements IReportExecutor {
 
 	int currentItem;
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		if (reportletExecutor != null) {
 			return reportletExecutor.getNextChild();
@@ -168,7 +165,6 @@ public class ReportExecutor implements IReportExecutor {
 		return null;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		if (reportletExecutor != null) {
 			return reportletExecutor.hasNextChild();
@@ -191,7 +187,6 @@ public class ReportExecutor implements IReportExecutor {
 		return uniqueId++;
 	}
 
-	@Override
 	public IReportItemExecutor createPageExecutor(long pageNumber, MasterPageDesign pageDesign) throws BirtException {
 		// only execute once for the same page design
 		IPageContent pageContent = (IPageContent) pages.get(pageDesign);

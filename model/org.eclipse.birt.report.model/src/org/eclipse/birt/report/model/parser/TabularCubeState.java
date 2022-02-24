@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ public class TabularCubeState extends ReportElementState {
 	/**
 	 * Constructs the cube state with the design parser handler, the container
 	 * element and the container slot of the cube.
-	 *
+	 * 
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -54,24 +54,22 @@ public class TabularCubeState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
 	 */
 
-	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
 	 * Attributes)
 	 */
 
-	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new TabularCube();
 		initElement(attrs, true);
@@ -79,10 +77,9 @@ public class TabularCubeState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#end()
 	 */
-	@Override
 	public void end() throws SAXException {
 		List dimensionConditions = (List) element.getLocalProperty(this.handler.module,
 				ITabularCubeModel.DIMENSION_CONDITIONS_PROP);
@@ -101,33 +98,30 @@ public class TabularCubeState extends ReportElementState {
 						// get the join condition list from the cached map
 						List tempJoinConditions = (List) temp.getLocalProperty(handler.module,
 								DimensionCondition.JOIN_CONDITIONS_MEMBER);
-						if (tempJoinConditions == null) {
+						if (tempJoinConditions == null)
 							tempJoinConditions = new ArrayList();
-						}
 
 						// get the join condition list set in the current and
 						// merge them with the cached ones
 						List joinConditions = (List) condition.getLocalProperty(handler.module,
 								DimensionCondition.JOIN_CONDITIONS_MEMBER);
-						if (joinConditions != null) {
+						if (joinConditions != null)
 							tempJoinConditions.addAll(joinConditions);
-						}
 
 						// put back the join conditions
-						if (!tempJoinConditions.isEmpty()) {
+						if (!tempJoinConditions.isEmpty())
 							temp.setProperty(DimensionCondition.JOIN_CONDITIONS_MEMBER, tempJoinConditions);
-						}
 					}
 				}
 			}
 		}
 
-		List conditionList = new ArrayList(mergedConditions.values());
-		if (!conditionList.isEmpty()) {
+		List conditionList = new ArrayList();
+		conditionList.addAll(mergedConditions.values());
+		if (!conditionList.isEmpty())
 			element.setProperty(ITabularCubeModel.DIMENSION_CONDITIONS_PROP, conditionList);
-		} else {
+		else
 			element.setProperty(ITabularCubeModel.DIMENSION_CONDITIONS_PROP, null);
-		}
 		super.end();
 	}
 }

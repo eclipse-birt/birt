@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 
 /**
  * The data set item used in data UI.
- *
+ * 
  */
 public class DataSetViewData {
 
@@ -143,7 +143,7 @@ public class DataSetViewData {
 	/**
 	 * This method returns the display name and if the display name is null it
 	 * returns the name
-	 *
+	 * 
 	 * @return Returns the displayName.
 	 */
 	public String getDisplayName() {
@@ -160,7 +160,7 @@ public class DataSetViewData {
 
 	/**
 	 * This method just returns the display name. It doesn't do any null checks
-	 *
+	 * 
 	 * @return the display name
 	 */
 	public String getRealDisplayName() {
@@ -170,7 +170,7 @@ public class DataSetViewData {
 	/**
 	 * This is equivalent to setDisplayName. It is just added for conveninence in
 	 * case of java bean introspection.
-	 *
+	 * 
 	 * @param displayName
 	 */
 	public void setRealDisplayName(String displayName) {
@@ -286,7 +286,7 @@ public class DataSetViewData {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public String getDisplayNameKey() {
@@ -294,7 +294,7 @@ public class DataSetViewData {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param displayNameKey
 	 */
 	public void setDisplayNameKey(String displayNameKey) {
@@ -303,9 +303,8 @@ public class DataSetViewData {
 
 	public static String getDataTypeDisplayName(String typeName) {
 		for (int i = 0; i < dataTypes.length; i++) {
-			if (dataTypes[i].getName().equals(typeName)) {
+			if (dataTypes[i].getName().equals(typeName))
 				return dataTypes[i].getDisplayName();
-			}
 		}
 		return typeName;
 	}
@@ -419,7 +418,7 @@ public class DataSetViewData {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return the ActionHandle instance
 	 */
 	public ActionHandle getActionHandle() {
@@ -427,7 +426,7 @@ public class DataSetViewData {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param actionHandle the ActionHandle to set
 	 */
 	public void setActionHandle(ActionHandle actionHandle) {

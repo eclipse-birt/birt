@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2011 Actuate Corporation.
- *
+ * Copyright (c) 2004, 2011 Actuate Corporation. 
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -74,7 +74,7 @@ import org.eclipse.ui.dialogs.PropertyPage;
 
 /**
  * Presents data set editor dialog.
- *
+ * 
  */
 
 @SuppressWarnings("deprecation")
@@ -116,20 +116,18 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 		}
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.DATA_SET_EDITOR_ID);
 		return super.createDialogArea(parent);
 	}
 
-	@Override
 	protected boolean needRememberLastSize() {
 		return true;
 	}
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param parentShell
 	 */
 	public DataSetEditor(Shell parentShell, DataSetHandle ds, boolean needToFocusOnOutput, boolean isNewlyCreated) {
@@ -164,13 +162,14 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 		boolean containsDataSource = ExternalUIUtil.containsDataSource(ds);
 		if (containsDataSource) {
 			addPageTo("/", DATA_SOURCE_SELECTION_PAGE, Messages.getString("dataset.editor.dataSource"), null, //$NON-NLS-1$ //$NON-NLS-2$
-					new DataSetDataSourceSelectionPage());
+					new DataSetDataSourceSelectionPage()); //$NON-NLS-3$
 
 			if (DesignSessionUtil.hasValidOdaDesignUIExtension(dataSourceType)) {
 				addCustomPageODAV3((OdaDataSetHandle) ds, dataSourceType, dataSetType);
-			} else {
-				addBirtPage(dataSourceType, dataSetType);
 			}
+
+			else
+				addBirtPage(dataSourceType, dataSetType);
 		}
 		// add common pages, just like computedColumn page, parameter page,
 		// output column page etc.
@@ -187,7 +186,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * add page for org.eclipse.datatools.connectivity.oda.design.ui.dataSource
-	 *
+	 * 
 	 * @param dataSetHandle
 	 */
 	private void addCustomPageODAV3(OdaDataSetHandle dataSetHandle, String dataSourceType, String dataSetType) {
@@ -201,18 +200,19 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 					.getDataSetUIElement(dataSourceType, dataSetType).supportsInParameters();
 			includeOutputParameterPage = UIManifestExplorer.getInstance()
 					.getDataSetUIElement(dataSourceType, dataSetType).supportsOutParameters();
-		} catch (OdaException | URISyntaxException e) {
+		} catch (OdaException e) {
+			ExceptionHandler.handle(e);
+		} catch (URISyntaxException e) {
 			ExceptionHandler.handle(e);
 		}
 
-		if (m_designSession != null) {
+		if (m_designSession != null)
 			populateEditorPage(m_designSession);
-		}
 	}
 
 	/**
 	 * populate editor page
-	 *
+	 * 
 	 * @param m_designSession
 	 * @param dataSourceType
 	 * @param dataSetType
@@ -228,9 +228,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 				addPageTo(dataSetEditorPage.getPagePath(), dataSetEditorPage.getPageId(), dataSetEditorPage.getTitle(),
 						null, propertyPageWrapper);
 
-				if (dataSetEditorPage.hasInitialFocus()) {
+				if (dataSetEditorPage.hasInitialFocus())
 					setDefaultNode(dataSetEditorPage.getPageId());
-				}
 			}
 		} catch (OdaException ex) {
 			ExceptionHandler.handle(ex);
@@ -239,7 +238,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * add several common use page for Birt data set editor
-	 *
+	 * 
 	 * @param ds
 	 */
 	protected void addCommonPages(DataSetHandle ds) {
@@ -260,9 +259,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 			addComputedColumnsPage();
 			// flatfile driver need not parameter page to be displayed.
-			if (includeInputParameterPage) {
+			if (includeInputParameterPage)
 				addParametersPage();
-			}
 			addDataSetFilterPage();
 
 			addPropertyBindingPage();
@@ -270,9 +268,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 			// Setting page
 			addDataSetSettingPage(ds);
 			// Output parameters page
-			if (includeOutputParameterPage) {
+			if (includeOutputParameterPage)
 				addOutputParameterPreviewPage();
-			}
 
 			addResultSetPreviewPage();
 
@@ -329,7 +326,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 	protected void addComputedColumnsPage() {
 		// Computed column page
 		addPageTo("/", COMPUTED_COLUMNS_PAGE, Messages.getString("dataset.editor.computedColumns"), null, //$NON-NLS-1$ //$NON-NLS-2$
-				new AdvancedDataSetComputedColumnsPage());
+				new AdvancedDataSetComputedColumnsPage());//$NON-NLS-3$
 	}
 
 	protected void addResultSetPreviewPage() {
@@ -370,18 +367,17 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 	protected void addPropertyBindingPage() {
 		// Property binding page
 		addPageTo("/", DATASOURCE_EDITOR_PROPERTY_PAGE, Messages.getString("datasource.editor.property"), null, //$NON-NLS-1$ //$NON-NLS-2$
-				new PropertyBindingPage());
+				new PropertyBindingPage());//$NON-NLS-3$
 	}
 
 	private void setPageFocus() {
-		if (needToFocusOnOutput) {
+		if (needToFocusOnOutput)
 			setDefaultNode(OUTPUTCOLUMN_PAGE);
-		}
 	}
 
 	/**
 	 * add page for org.eclipse.birt.report.designer.ui.odadatasource
-	 *
+	 * 
 	 * @param dataSourceType
 	 * @param dataSetType
 	 */
@@ -390,9 +386,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 			IConfigurationElement element = DataSetProvider.findDataSetElement(dataSetType, dataSourceType);
 			if (element != null) {
 				String supportParameterPage = element.getAttribute("addsDataSetParametersPage"); //$NON-NLS-1$
-				if (supportParameterPage != null) {
-					includeInputParameterPage = Boolean.parseBoolean(supportParameterPage);
-				}
+				if (supportParameterPage != null)
+					includeInputParameterPage = Boolean.valueOf(supportParameterPage).booleanValue();
 
 				// Now get all the editor pages
 				IConfigurationElement[] editorPages = element.getChildren("dataSetEditorPage");//$NON-NLS-1$
@@ -402,7 +397,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 						IPropertyPage page = (IPropertyPage) editorPages[n].createExecutableExtension("class");//$NON-NLS-1$
 						addPageTo(editorPages[n].getAttribute("path"), editorPages[n].getAttribute("name"), //$NON-NLS-1$ //$NON-NLS-2$
 								editorPages[n].getAttribute("displayName"), null, page);//$NON-NLS-1$
-						if (!hasFocus) {
+						if (hasFocus == false) {
 							String initFocusAttr = editorPages[n].getAttribute("initFocus"); //$NON-NLS-1$
 							if (initFocusAttr != null && initFocusAttr.equalsIgnoreCase("true")) //$NON-NLS-1$
 							{
@@ -421,7 +416,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 	}
 
 	/**
-	 *
+	 * 
 	 * @param ds
 	 */
 	protected void addDataSetSettingPage(DataSetHandle ds) {
@@ -433,17 +428,15 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyDialog
 	 * #performOk()
 	 */
-	@Override
 	public boolean performOk() {
 		try {
-			if (m_designSession != null) {
+			if (m_designSession != null)
 				m_designSession.finish();
-			}
 		} catch (OdaException e) {
 		}
 		itemModelManager.destory(false);
@@ -455,9 +448,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 	 */
 	public void updateDataSetDesign(IPropertyPage page) {
 		try {
-			if (this.getCurrentNode() != null && this.getCurrentNode().getPage() != page) {
+			if (this.getCurrentNode() != null && this.getCurrentNode().getPage() != page)
 				return;
-			}
 			if (m_designSession != null) {
 				// restart the oda design session with a new request
 				// based on the latest state of the data set handle
@@ -470,23 +462,23 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 				// try to preserve the existing editor pages if feasible
 				boolean hasResetEditorPages = m_designSession.restartEditDesign(request, false);
 
-				if (hasResetEditorPages) {
+				if (hasResetEditorPages)
 					populateDataSetEditor();
-				}
 			}
-		} catch (OdaException | URISyntaxException e) {
+		} catch (OdaException e) {
+			logger.log(Level.WARNING, e.getLocalizedMessage(), e);
+		} catch (URISyntaxException e) {
 			logger.log(Level.WARNING, e.getLocalizedMessage(), e);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyDialog
 	 * #performCancel()
 	 */
-	@Override
 	public boolean performCancel() {
 		if (m_designSession != null) {
 			m_designSession.cancel();
@@ -498,7 +490,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * Returns the current model handle.
-	 *
+	 * 
 	 */
 	public DataSetHandle getHandle() {
 		return (DataSetHandle) getModel();
@@ -506,11 +498,10 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.window.Window#createContents(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	protected Control createContents(Composite parent) {
 		String title = Messages.getFormattedString("dataset.edit", new String[] { getHandle().getName() });//$NON-NLS-1$
 		getShell().setText(title);
@@ -527,7 +518,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * Gets all columns items from dataset list
-	 *
+	 * 
 	 * @return DataSetViewData[]
 	 * @throws BirtException
 	 */
@@ -537,7 +528,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * Gets all columns items from dataset list
-	 *
+	 * 
 	 * @param useColumnHint
 	 * @param suppressErrorMessage
 	 * @return DataSetViewData[]
@@ -549,7 +540,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * Set the modelChanged status to "true"
-	 *
+	 * 
 	 */
 	public void enableLinkedParamChanged() {
 		this.itemModelManager.enableLinkedParamChanged();
@@ -564,29 +555,26 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws OdaException
 	 */
 	public DataSetDesign getCurrentDataSetDesign() throws OdaException {
 		if (m_designSession != null) {
 			DesignSessionResponse response = m_designSession.flush().getResponse();
-			if (response.getSessionStatus() != SessionStatus.OK_LITERAL) {
+			if (response.getSessionStatus() != SessionStatus.OK_LITERAL)
 				return null;
-			}
 			DataSetDesign dataSetDesign = response.getDataSetDesign();
 			return dataSetDesign;
-		} else {
+		} else
 			return null;
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		super.okPressed();
 
@@ -603,9 +591,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 			for (int n = 0; n < nodes.length; n++) {
 				// Check whether the current page can be closed
 				if (nodes[n].getPage() instanceof DataSetParametersPage) {
-					if (viewer == null || viewer.getTree() == null) {
+					if (viewer == null || viewer.getTree() == null)
 						return;
-					}
 
 					DataSetParametersPage page = (DataSetParametersPage) nodes[n].getPage();
 					if (!page.canFinish() && !viewer.getTree().isDisposed()) {
@@ -624,15 +611,14 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * get current PropertyPage
-	 *
+	 * 
 	 * @return
 	 */
 	private PropertyPage getCurrentPropertyPage() {
 		if (getCurrentNode() != null) {
 			IPropertyPage ipropertyPage = getCurrentNode().getPage();
-			if (ipropertyPage instanceof PropertyPageWrapper) {
+			if (ipropertyPage instanceof PropertyPageWrapper)
 				return ((PropertyPageWrapper) ipropertyPage).getPropertyPage();
-			}
 		}
 
 		return null;
@@ -640,7 +626,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * populate dataSetEditor page in design session
-	 *
+	 * 
 	 */
 	private void populateDataSetEditor() {
 		if (m_designSession == null) {
@@ -665,9 +651,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 						nodes[n].removePageControl();
 						nodes[n].setPage(propertyPageWrapper);
 						nodes[n].setContainer(this);
-						if (this.getCurrentNode().getId().equals(dataSetEditorPage.getPageId())) {
+						if (this.getCurrentNode().getId().equals(dataSetEditorPage.getPageId()))
 							currentNode = propertyPageWrapper;
-						}
 						break;
 					}
 				}
@@ -680,21 +665,19 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferencePageContainer#getPreferenceStore
 	 * ()
 	 */
-	@Override
 	public IPreferenceStore getPreferenceStore() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferencePageContainer#updateButtons()
 	 */
-	@Override
 	public void updateButtons() {
 		if (getOkButton() != null) {
 			PropertyPage propertyPage = this.getCurrentPropertyPage();
@@ -707,31 +690,27 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 	}
 
 	public void updateOKButtonStatus(boolean isEnabled) {
-		if (getOkButton() != null) {
+		if (getOkButton() != null)
 			getOkButton().setEnabled(isEnabled);
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferencePageContainer#updateMessage()
 	 */
-	@Override
 	public void updateMessage() {
 		PropertyPage propertyPage = getCurrentPropertyPage();
 
-		if (propertyPage != null) {
+		if (propertyPage != null)
 			setMessage(propertyPage.getMessage(), propertyPage.getMessageType());
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferencePageContainer#updateTitle()
 	 */
-	@Override
 	public void updateTitle() {
 		// TODO Auto-generated method stub
 
@@ -739,12 +718,11 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyDialog
 	 * #createTitleArea(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Composite createTitleArea(Composite parent) {
 		GridLayout layout = (GridLayout) parent.getLayout();
 		layout.numColumns = 2;
@@ -758,7 +736,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 	}
 
 	/**
-	 *
+	 * 
 	 * @param parent
 	 */
 	private void createMessageComposite(Composite parent) {
@@ -766,7 +744,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 	}
 
 	/**
-	 *
+	 * 
 	 * @param parent
 	 */
 	private void createToolbarComposite(Composite parent) {
@@ -775,13 +753,12 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyDialog
 	 * # showSelectionPage(org.eclipse.birt.report.designer.ui.dialogs.properties.
 	 * PropertyNode)
 	 */
-	@Override
 	public void showSelectionPage(PropertyNode selectedNode) {
 		super.showSelectionPage(selectedNode);
 
@@ -799,7 +776,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * whether support input parameter
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean supportsInParameters() {
@@ -808,7 +785,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 	/**
 	 * whether support output parameter
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean supportsOutputParameters() {
@@ -829,7 +806,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 		/**
 		 * Start action
-		 *
+		 * 
 		 * @param ds model to be listened
 		 */
 		public void start(DataSetHandle dataSet, boolean needToFocusOnOutput) {
@@ -837,9 +814,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 			this.ds = dataSet;
 
-			if (ds instanceof OdaDataSetHandle) {
+			if (ds instanceof OdaDataSetHandle)
 				this.savedQueryText = ((OdaDataSetHandle) ds).getQueryText();
-			}
 
 			setContextLoader(dataSet);
 
@@ -850,16 +826,15 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 		}
 
 		/**
-		 *
+		 * 
 		 * @param dataSet
 		 */
 		protected void setContextLoader(DataSetHandle dataSet) {
 			// set context class loader
 			oldContextLoader = Thread.currentThread().getContextClassLoader();
 			ClassLoader parentLoader = oldContextLoader;
-			if (parentLoader == null) {
+			if (parentLoader == null)
 				parentLoader = this.getClass().getClassLoader();
-			}
 			ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader(parentLoader,
 					dataSet.getModuleHandle());
 			Thread.currentThread().setContextClassLoader(newContextLoader);
@@ -867,7 +842,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 		/**
 		 * Destroy action
-		 *
+		 * 
 		 * @param rollback true: rollback to savedItemModel false: do nothing
 		 */
 		public void destory(boolean rollback) {
@@ -875,6 +850,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 				if (ds instanceof OdaDataSetHandle) {
 					try {
 						((OdaDataSetHandle) ds).setQueryText(this.savedQueryText);
+					} catch (SemanticException e) {
+						// should not arrive here.
 					} catch (BirtException e) {
 						// should not arrive here
 					}
@@ -886,9 +863,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 			Thread.currentThread().setContextClassLoader(oldContextLoader);
 			DataSetProvider.getCurrentInstance().clear(ds);
 
-			if (ds != null) {
+			if (ds != null)
 				ds.removeListener(this);
-			}
 		}
 
 		/*
@@ -896,21 +872,20 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 		 * .eclipse.birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			itemModelChanged = true;
 		}
 
 		/**
 		 * Set the linked parameter changed status to 'true'
-		 *
+		 * 
 		 */
 		public void enableLinkedParamChanged() {
 			linkedParameterChanged = true;
 		}
 
 		/**
-		 *
+		 * 
 		 * @return the model changed or not
 		 */
 		public boolean modelChanged() {
@@ -919,7 +894,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 		/**
 		 * Gets all columns items from dataset list
-		 *
+		 * 
 		 * @return DataSetItemModel[]
 		 * @throws BirtException
 		 */
@@ -932,7 +907,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 
 		/**
 		 * Gets all columns items from dataset list
-		 *
+		 * 
 		 * @param useColumnHint
 		 * @param suppressErrorMessage
 		 * @return DataSetItemModel[]
@@ -949,7 +924,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 	}
 
 	protected static Set<String> getInternalPageNames() {
-		Set<String> result = new HashSet<>();
+		Set<String> result = new HashSet<String>();
 
 		result.add(DATASET_SETTINGS_PAGE);
 		result.add(OUTPUT_PARAMETER_PREVIEW_PAGE);
@@ -966,20 +941,17 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 		IExtensionRegistry extReg = Platform.getExtensionRegistry();
 		IExtensionPoint extPoint = extReg.getExtensionPoint(extensionName);
 
-		if (extPoint == null) {
+		if (extPoint == null)
 			return result;
-		}
 
 		IExtension[] exts = extPoint.getExtensions();
-		if (exts == null) {
+		if (exts == null)
 			return result;
-		}
 
 		for (int e = 0; e < exts.length; e++) {
 			IConfigurationElement[] configElems = exts[e].getConfigurationElements();
-			if (configElems == null) {
+			if (configElems == null)
 				continue;
-			}
 
 			for (int i = 0; i < configElems.length; i++) {
 				if (configElems[i].getName().equals("dataSetUI")) {
@@ -987,9 +959,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements IPreference
 					if (elems != null && elems.length > 0) {
 						for (int j = 0; j < elems.length; j++) {
 							String value = elems[j].getAttribute("id");
-							if (value != null) {
+							if (value != null)
 								result.add(value);
-							}
 						}
 					}
 				}

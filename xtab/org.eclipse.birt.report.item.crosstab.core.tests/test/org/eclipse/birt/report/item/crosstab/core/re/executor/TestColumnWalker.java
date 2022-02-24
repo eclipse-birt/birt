@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,6 +16,8 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.EdgeCursor;
+
+import junit.framework.TestCase;
 
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -32,10 +34,8 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 import com.ibm.icu.util.ULocale;
 
-import junit.framework.TestCase;
-
 /**
- *
+ * 
  */
 
 public class TestColumnWalker extends TestCase implements ICrosstabConstants {
@@ -43,7 +43,6 @@ public class TestColumnWalker extends TestCase implements ICrosstabConstants {
 	private IDesignEngine engine;
 	private ModuleHandle module;
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		ThreadResources.setLocale(ULocale.ENGLISH);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * POJO DataSourceWizardPage to define the data source class paths
- *
+ * 
  */
 
 public class ClassPathsWizardPage extends DataSourceWizardPage {
@@ -43,41 +43,33 @@ public class ClassPathsWizardPage extends DataSourceWizardPage {
 		helper.setWizardPage(this);
 	}
 
-	@Override
 	public Properties collectCustomProperties() {
-		if (properties == null) {
+		if (properties == null)
 			properties = new Properties();
-		}
 
 		return helper.collectCustomProperties(properties);
 	}
 
-	@Override
 	public void setInitialProperties(Properties dataSourceProps) {
 		properties = dataSourceProps;
-		if (properties == null) {
+		if (properties == null)
 			properties = new Properties();
-		}
 
-		if (helper == null) {
+		if (helper == null)
 			return; // ignore, wait till createPageCustomControl to initialize
-		}
 		helper.setInitialProperties(properties);
 	}
 
-	@Override
 	public void refresh() {
 		if (helper != null) {
 			helper.refresh();
 		}
 	}
 
-	@Override
 	protected Runnable createTestConnectionRunnable(final IConnectionProfile profile) {
 		return helper.createTestConnectionRunnable(profile);
 	}
 
-	@Override
 	public void createPageCustomControl(Composite parent) {
 		helper.setResourceIdentifiers(this.getHostResourceIdentifiers());
 		helper.createPageCustomControl(parent);

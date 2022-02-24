@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class PropertyTabUITest implements IPropertyTabUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#
 	 * addPropertyListener(org.eclipse.birt.report.designer.ui.extensions.
 	 * IPropertyListener)
@@ -49,7 +49,7 @@ public class PropertyTabUITest implements IPropertyTabUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#
 	 * removePropertyListener(org.eclipse.birt.report.designer.ui.extensions.
 	 * IPropertyListener)
@@ -61,12 +61,11 @@ public class PropertyTabUITest implements IPropertyTabUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#buildUI(org.
 	 * eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public void buildUI(Composite composite) {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -76,7 +75,6 @@ public class PropertyTabUITest implements IPropertyTabUI {
 		text = new Text(composite, SWT.NONE);
 		text.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				for (Iterator iter = listeners.iterator(); iter.hasNext();) {
 					((IPropertyListener) iter.next()).propertyChanged("test1", ((Text) e.getSource()).getText());
@@ -88,18 +86,17 @@ public class PropertyTabUITest implements IPropertyTabUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#
 	 * getTabDisplayName()
 	 */
-	@Override
 	public String getTabDisplayName() {
 		return "TabTest";
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#
 	 * setPropertyValue(java.lang.String,
 	 * org.eclipse.birt.report.designer.ui.extensions.IPropertyValue)
@@ -111,19 +108,16 @@ public class PropertyTabUITest implements IPropertyTabUI {
 
 	}
 
-	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public Control getControl() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void setInput(Object elements) {
 		// TODO Auto-generated method stub
 

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -127,7 +127,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * Constructor. This is for renderTask.
-	 *
+	 * 
 	 * @param document
 	 * @param page
 	 * @param locale
@@ -158,7 +158,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * Constructor. This is for runAndRender task.
-	 *
+	 * 
 	 * @param locale
 	 * @param isEmbeddable
 	 * @param isRtl
@@ -183,17 +183,15 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse
 	 * .birt.report.engine.api.IAction,
 	 * org.eclipse.birt.report.engine.api.script.IReportContext)
 	 */
 
-	@Override
 	public String getURL(IAction actionDefn, IReportContext context) {
-		if (actionDefn == null) {
+		if (actionDefn == null)
 			return null;
-		}
 
 		switch (actionDefn.getType()) {
 		case IAction.ACTION_BOOKMARK: {
@@ -215,25 +213,22 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse
 	 * .birt.report.engine.api.IAction, java.lang.Object)
 	 */
-	@Override
 	public String getURL(IAction actionDefn, Object context) {
-		if (actionDefn == null) {
+		if (actionDefn == null)
 			return null;
-		}
-		if (context instanceof IReportContext) {
+		if (context instanceof IReportContext)
 			return getURL(actionDefn, (IReportContext) context);
-		}
 
 		throw new IllegalArgumentException("The context is of wrong type."); //$NON-NLS-1$
 	}
 
 	/**
 	 * Build URI
-	 *
+	 * 
 	 * @param action
 	 * @param context
 	 * @return
@@ -244,9 +239,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 		if (runnable != null) {
 			ModuleHandle moduleHandle = runnable.getDesignHandle().getModuleHandle();
 			URL url = moduleHandle.findResource(actionURL, -1);
-			if (url != null) {
+			if (url != null)
 				actionURL = url.toString();
-			}
 		}
 
 		return actionURL;
@@ -254,16 +248,15 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * Build URL for bookmark.
-	 *
+	 * 
 	 * @param action
 	 * @param context
 	 * @return the bookmark url
 	 */
 
 	protected String buildBookmarkAction(IAction action, IReportContext context) {
-		if (action == null || context == null) {
+		if (action == null || context == null)
 			return null;
-		}
 
 		// Get Base URL
 		String baseURL = getBaseUrl(context);
@@ -281,7 +274,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 		}
 
 		// Save the URL String
-		StringBuilder link = new StringBuilder();
+		StringBuffer link = new StringBuffer();
 
 		boolean realBookmark = false;
 
@@ -375,9 +368,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 			link.append(ParameterAccessor.getQueryParameterString(ParameterAccessor.PARAM_BOOKMARK, bookmark));
 
 			// Bookmark is TOC name.
-			if (!action.isBookmark()) {
+			if (!action.isBookmark())
 				link.append(ParameterAccessor.getQueryParameterString(ParameterAccessor.PARAM_ISTOC, "true")); //$NON-NLS-1$
-			}
 		}
 
 		return link.toString();
@@ -385,23 +377,22 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * Build URL for extract data.
-	 *
+	 * 
 	 * @param action
 	 * @param context
 	 * @return the data url
 	 */
 	protected String buildDataAction(IDataAction action, IReportContext context) {
-		if (action == null || context == null) {
+		if (action == null || context == null)
 			return null;
-		}
 
-		boolean encodePaths;
+		boolean encodePaths = false;
 		String actionString = action.getActionString();
 		Map params = UrlUtility.extractUriParameters(actionString);
 		String anchor = UrlUtility.getAnchor(actionString);
 
 		String encodedPathsString = (String) params.get(ParameterAccessor.PARAM_ENCODED_PATHS);
-		encodePaths = (encodedPathsString != null && Boolean.parseBoolean(encodedPathsString));
+		encodePaths = (encodedPathsString != null && Boolean.valueOf(encodedPathsString).booleanValue());
 
 		// Get Base URL
 		String baseURL = getBaseUrl(context);
@@ -457,7 +448,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * Returns the base URL from the report context.
-	 *
+	 * 
 	 * @param context report context
 	 * @return base URL
 	 */
@@ -488,18 +479,17 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * builds URL for drillthrough action
-	 *
+	 * 
 	 * @param action  instance of the IAction instance
 	 * @param context the context for building the action string
 	 * @return a URL
 	 */
 	protected String buildDrillAction(IAction action, IReportContext context) {
-		if (action == null || context == null) {
+		if (action == null || context == null)
 			return null;
-		}
 
 		String baseURL = getBaseUrl(context);
-		StringBuilder link = new StringBuilder();
+		StringBuffer link = new StringBuffer();
 		String reportName = getReportName(context, action);
 
 		if (reportName != null && !reportName.equals("")) //$NON-NLS-1$
@@ -516,9 +506,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 			// add format support
 			String format = action.getFormat();
-			if (format == null || format.length() == 0) {
+			if (format == null || format.length() == 0)
 				format = hostFormat;
-			}
 			if (format != null && format.length() > 0) {
 				link.append(ParameterAccessor.getQueryParameterString(ParameterAccessor.PARAM_FORMAT, format));
 			}
@@ -653,10 +642,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 								ParameterAccessor.getQueryParameterString(ParameterAccessor.PARAM_BOOKMARK, bookmark));
 
 						// Bookmark is TOC name.
-						if (!action.isBookmark()) {
+						if (!action.isBookmark())
 							link.append(
 									ParameterAccessor.getQueryParameterString(ParameterAccessor.PARAM_ISTOC, "true")); //$NON-NLS-1$
-						}
 					}
 
 				} catch (UnsupportedEncodingException e) {
@@ -670,7 +658,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * Gets the effective report path.
-	 *
+	 * 
 	 * @param context
 	 * @param action
 	 * @return the effective report path
@@ -742,7 +730,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * Replace URL with extract servlet pattern
-	 *
+	 * 
 	 * @param baseURL
 	 * @return
 	 */
@@ -755,16 +743,15 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 		}
 
 		int index = url.lastIndexOf("/"); //$NON-NLS-1$
-		if (index >= 0) {
+		if (index >= 0)
 			url = url.substring(0, index);
-		}
 
 		return url + IBirtConstants.SERVLET_PATH_EXTRACT;
 	}
 
 	/**
 	 * Create the extract URL with options
-	 *
+	 * 
 	 * @param action
 	 * @param link
 	 * @return
@@ -805,7 +792,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * Returns the viewing session ID.
-	 *
+	 * 
 	 * @return the viewing session ID
 	 */
 	public String getViewingSessionId() {
@@ -814,7 +801,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler {
 
 	/**
 	 * Sets the viewing session ID.
-	 *
+	 * 
 	 * @param viewingSessionId the viewing session id
 	 */
 	public void setViewingSessionId(String viewingSessionId) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -58,7 +58,6 @@ public class IGetParameterDefinitionTaskTest extends EngineCase {
 		return new TestSuite(IGetParameterDefinitionTaskTest.class);
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -70,7 +69,6 @@ public class IGetParameterDefinitionTaskTest extends EngineCase {
 		assertTrue(task.getErrors().size() == 0);
 	}
 
-	@Override
 	protected void tearDown() throws Exception {
 		task.close();
 		super.tearDown();
@@ -312,7 +310,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase {
 		 */
 		String cpg1 = "NewCascadingParameterGroup";
 
-		String[][] values1 = { { "USA" } };
+		String[][] values1 = new String[][] { { "USA" } };
 		Collection col;
 		col = task.getSelectionListForCascadingGroup(cpg1, values1);
 		assertEquals(3, col.size());

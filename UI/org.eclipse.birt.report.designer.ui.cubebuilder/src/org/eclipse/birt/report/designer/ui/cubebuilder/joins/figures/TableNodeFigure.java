@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,20 +45,18 @@ public class TableNodeFigure extends Panel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#useLocalCoordinates()
 	 */
-	@Override
 	protected boolean useLocalCoordinates() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.IFigure#getMinimumSize(int, int)
 	 */
-	@Override
 	public Dimension getMinimumSize(int wHint, int hHint) {
 
 		return getPreferredSize();
@@ -66,7 +64,7 @@ public class TableNodeFigure extends Panel {
 
 	/**
 	 * Sets the color of the figure , when it is selected.
-	 *
+	 * 
 	 */
 	public void setSelectedColors() {
 		this.setOpaque(true);
@@ -76,7 +74,7 @@ public class TableNodeFigure extends Panel {
 
 	/**
 	 * Sets the color of the figure when it is deselected.
-	 *
+	 * 
 	 */
 	public void setDeselectedColors() {
 		this.setOpaque(true);

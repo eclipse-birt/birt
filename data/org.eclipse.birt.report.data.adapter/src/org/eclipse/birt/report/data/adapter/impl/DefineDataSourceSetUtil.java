@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -41,9 +41,8 @@ public class DefineDataSourceSetUtil {
 
 	public static void defineDataSourceAndDataSet(DataSetHandle dataSet, DataRequestSession sessionImpl)
 			throws BirtException {
-		if (dataSet == null) {
+		if (dataSet == null)
 			return;
-		}
 
 		IModelAdapter modelAdaptor = sessionImpl.getModelAdaptor();
 		DataSourceHandle dataSource = dataSet.getDataSource();
@@ -77,9 +76,8 @@ public class DefineDataSourceSetUtil {
 	public static void defineDataSourceAndDataSet(DataSetHandle dataSet, DataEngine dataEngine,
 			IModelAdapter modelAdaptor, QueryExecutionHelper.DataSetHandleProcessContext context) throws BirtException {
 
-		if (dataSet == null) {
+		if (dataSet == null)
 			return;
-		}
 
 		DataSourceHandle dataSource = dataSet.getDataSource();
 		if (dataSource != null
@@ -113,14 +111,13 @@ public class DefineDataSourceSetUtil {
 			dataEngine.defineDataSet(design);
 		}
 
-		if (context != null) {
+		if (context != null)
 			context.process(design, dataSet);
-		}
 	}
 
 	/**
 	 * prepare for transient query
-	 *
+	 * 
 	 * @param sessionContext
 	 * @param dataEngine
 	 * @param handle
@@ -130,20 +127,17 @@ public class DefineDataSourceSetUtil {
 	public static void prepareForTransientQuery(DataSessionContext dContext, DataEngineImpl dataEngine,
 			DataSetHandle handle, IQueryDefinition queryDefn, IDataQueryDefinition[] registedQueries,
 			IDataSetInterceptorContext interceptorContext) throws BirtException {
-		if (interceptorContext == null) {
+		if (interceptorContext == null)
 			return;
-		}
 
 		IBaseDataSetDesign design = null;
 		if (handle == null) {
 			if (queryDefn.getDataSetName() == null) {
-				if (queryDefn.getSourceQuery() != null && queryDefn.getSourceQuery() instanceof IQueryDefinition) {
+				if (queryDefn.getSourceQuery() != null && queryDefn.getSourceQuery() instanceof IQueryDefinition)
 					design = dataEngine
 							.getDataSetDesign(((IQueryDefinition) queryDefn.getSourceQuery()).getDataSetName());
-				}
-			} else {
+			} else
 				design = dataEngine.getDataSetDesign(queryDefn.getDataSetName());
-			}
 		} else {
 			design = dataEngine.getDataSetDesign(handle.getQualifiedName());
 		}
@@ -153,7 +147,6 @@ public class DefineDataSourceSetUtil {
 					queryDefn, registedQueries, dContext, dataEngine.getSession().getTempDir(), interceptorContext);
 			dataEngine.addShutdownListener(new IShutdownListener() {
 
-				@Override
 				public void dataEngineShutdown() {
 					try {
 						dataSetInterceptor.close();

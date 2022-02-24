@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,7 +39,7 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	/**
 	 * Gets the columnIndex value for this FormatRuleCondition.
-	 *
+	 * 
 	 * @return columnIndex
 	 */
 	public java.lang.Integer getColumnIndex() {
@@ -48,7 +48,7 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	/**
 	 * Sets the columnIndex value for this FormatRuleCondition.
-	 *
+	 * 
 	 * @param columnIndex
 	 */
 	public void setColumnIndex(java.lang.Integer columnIndex) {
@@ -57,7 +57,7 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	/**
 	 * Gets the operator value for this FormatRuleCondition.
-	 *
+	 * 
 	 * @return operator
 	 */
 	public java.lang.String getOperator() {
@@ -66,7 +66,7 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	/**
 	 * Sets the operator value for this FormatRuleCondition.
-	 *
+	 * 
 	 * @param operator
 	 */
 	public void setOperator(java.lang.String operator) {
@@ -75,7 +75,7 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	/**
 	 * Gets the value1 value for this FormatRuleCondition.
-	 *
+	 * 
 	 * @return value1
 	 */
 	public java.lang.String getValue1() {
@@ -84,7 +84,7 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	/**
 	 * Sets the value1 value for this FormatRuleCondition.
-	 *
+	 * 
 	 * @param value1
 	 */
 	public void setValue1(java.lang.String value1) {
@@ -93,7 +93,7 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	/**
 	 * Gets the value2 value for this FormatRuleCondition.
-	 *
+	 * 
 	 * @return value2
 	 */
 	public java.lang.String getValue2() {
@@ -102,7 +102,7 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	/**
 	 * Sets the value2 value for this FormatRuleCondition.
-	 *
+	 * 
 	 * @param value2
 	 */
 	public void setValue2(java.lang.String value2) {
@@ -111,18 +111,14 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof FormatRuleCondition)) {
+		if (!(obj instanceof FormatRuleCondition))
 			return false;
-		}
 		FormatRuleCondition other = (FormatRuleCondition) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -143,7 +139,6 @@ public class FormatRuleCondition implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

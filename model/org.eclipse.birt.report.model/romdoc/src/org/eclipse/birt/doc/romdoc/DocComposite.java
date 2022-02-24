@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,6 @@ public abstract class DocComposite extends DocObject {
 		return defn;
 	}
 
-	@Override
 	public String getName() {
 		return defn.getName();
 	}
@@ -59,10 +58,9 @@ public abstract class DocComposite extends DocObject {
 	static class PropComparator implements Comparator {
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
-		@Override
 		public int compare(Object arg0, Object arg1) {
 			PropertyDefn prop1 = (PropertyDefn) arg0;
 			PropertyDefn prop2 = (PropertyDefn) arg1;
@@ -74,9 +72,8 @@ public abstract class DocComposite extends DocObject {
 		Iterator iter = properties.iterator();
 		while (iter.hasNext()) {
 			DocProperty prop = (DocProperty) iter.next();
-			if (prop.getName().equals(name)) {
+			if (prop.getName().equals(name))
 				return prop;
-			}
 		}
 		return null;
 	}

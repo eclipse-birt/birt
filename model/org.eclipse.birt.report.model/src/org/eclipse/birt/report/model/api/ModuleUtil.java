@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -125,7 +125,7 @@ public class ModuleUtil {
 		DesignElement element = null;
 
 		/**
-		 *
+		 * 
 		 * @param element
 		 * @param theModule
 		 */
@@ -139,7 +139,6 @@ public class ModuleUtil {
 			module.addElementID(module);
 		}
 
-		@Override
 		public AbstractParseState createStartState() {
 			return new StartState();
 		}
@@ -150,7 +149,6 @@ public class ModuleUtil {
 
 		class StartState extends InnerParseState {
 
-			@Override
 			public AbstractParseState startElement(String tagName) {
 				if (DesignSchemaConstants.STRUCTURE_TAG.equalsIgnoreCase(tagName)) {
 					ActionStructureState state = new ActionStructureState(ActionParserHandler.this, element);
@@ -165,7 +163,7 @@ public class ModuleUtil {
 
 	/**
 	 * Deserialize an input stream into an Action.
-	 *
+	 * 
 	 * @param streamData a stream represent an action.
 	 * @return an internal Action structure
 	 * @throws DesignFileException if the exception occur when interpret the stream
@@ -178,7 +176,7 @@ public class ModuleUtil {
 
 	/**
 	 * Deserialize an input stream into an Action.
-	 *
+	 * 
 	 * @param streamData a stream represent an action.
 	 * @param element
 	 * @return an internal Action structure
@@ -202,7 +200,7 @@ public class ModuleUtil {
 
 		if (streamData == null) {
 			Action action = StructureFactory.createAction();
-			List<Action> actions = new ArrayList<>();
+			List<Action> actions = new ArrayList<Action>();
 			actions.add(action);
 
 			e.setProperty(propDefn, actions);
@@ -210,9 +208,8 @@ public class ModuleUtil {
 			return getActionHandle(e.getHandle(module));
 		}
 
-		if (!streamData.markSupported()) {
+		if (!streamData.markSupported())
 			streamData = new BufferedInputStream(streamData);
-		}
 
 		assert streamData.markSupported();
 		parse(handler, streamData, ""); //$NON-NLS-1$
@@ -230,7 +227,7 @@ public class ModuleUtil {
 
 	/**
 	 * Gets the action handle of this element.
-	 *
+	 * 
 	 * @param element
 	 * @return action handle
 	 */
@@ -241,15 +238,14 @@ public class ModuleUtil {
 		assert actions != null && actions.size() == 1;
 		Action action = (Action) actions.get(0);
 
-		if (action == null) {
+		if (action == null)
 			return null;
-		}
 		return (ActionHandle) action.getHandle(propHandle);
 	}
 
 	/**
 	 * Auxiliary method to help parse the input stream.
-	 *
+	 * 
 	 * @param handler    the parse handler
 	 * @param streamData the input stream
 	 * @throws DesignFileException any exception if error happens
@@ -275,7 +271,9 @@ public class ModuleUtil {
 			// Invalid xml error is found
 
 			throw new DesignFileException(null, errors, e);
-		} catch (ParserConfigurationException | IOException e) {
+		} catch (ParserConfigurationException e) {
+			throw new DesignFileException(null, handler.getErrorHandler().getErrors(), e);
+		} catch (IOException e) {
 			throw new DesignFileException(null, handler.getErrorHandler().getErrors(), e);
 		}
 	}
@@ -284,7 +282,7 @@ public class ModuleUtil {
 	 * Deserializes a string into an ActionHandle, notice that the handle is faked,
 	 * the action is not in the design tree, the operation to the handle is not able
 	 * to be undone.
-	 *
+	 * 
 	 * @param strData a string represent an action.
 	 * @return a handle to the action.
 	 * @throws DesignFileException if the exception occur when interpret the stream
@@ -299,7 +297,7 @@ public class ModuleUtil {
 	 * Deserialize a string into an ActionHandle, notice that the handle is faked,
 	 * the action is not in the design tree, the operation to the handle is not able
 	 * to be undoned.
-	 *
+	 * 
 	 * @param strData a string represent an action.
 	 * @param element
 	 * @return a handle to the action.
@@ -324,7 +322,7 @@ public class ModuleUtil {
 
 	/**
 	 * Serialize an action into a stream, the stream is in UTF-8 encoding.
-	 *
+	 * 
 	 * @param action a given action structure.
 	 * @return an output stream represent the action xml data.
 	 * @throws IOException if I/O exception occur when writing the stream.
@@ -346,7 +344,7 @@ public class ModuleUtil {
 	private static class SectionXMLWriter extends IndentableXMLWriter {
 
 		/**
-		 *
+		 * 
 		 * @param os
 		 * @param signature
 		 * @throws IOException
@@ -365,7 +363,7 @@ public class ModuleUtil {
 
 		/**
 		 * Wirte the action in to a stream.
-		 *
+		 * 
 		 * @param os
 		 * @param action
 		 * @throws IOException
@@ -375,7 +373,6 @@ public class ModuleUtil {
 			writeAction(action);
 		}
 
-		@Override
 		protected Module getModule() {
 			return null;
 		}
@@ -383,7 +380,7 @@ public class ModuleUtil {
 
 	/**
 	 * Justifies whether a given input stream is a valid report design.
-	 *
+	 * 
 	 * @param sessionHandle the current session of the report design
 	 * @param fileName      the file name of the report design
 	 * @param is            the input stream of the report design
@@ -405,7 +402,7 @@ public class ModuleUtil {
 	/**
 	 * Justifies whether a library resource with the given file name is a valid
 	 * library.
-	 *
+	 * 
 	 * @param sessionHandle the current session of the library
 	 * @param fileName      the file name of the library
 	 * @param is            the input stream of the library
@@ -429,7 +426,7 @@ public class ModuleUtil {
 	 * design/library, return <code>ModuleUtil.REPORT_DESIGN</code>/
 	 * <code>ModuleUtil.LIBRARY</code>, otherwise, <code>ModuleUtil.INVALID</code>
 	 * is return.
-	 *
+	 * 
 	 * @param sessionHandle the current session of the library
 	 * @param fileName      the file name of the library
 	 * @param is            the input stream of the library
@@ -467,7 +464,6 @@ public class ModuleUtil {
 			super(new ModuleParserErrorHandler());
 		}
 
-		@Override
 		public AbstractParseState createStartState() {
 			return new StartState();
 		}
@@ -478,12 +474,10 @@ public class ModuleUtil {
 
 		class StartState extends InnerParseState {
 
-			@Override
 			public AbstractParseState startElement(String tagName) {
 				if (DesignSchemaConstants.REPORT_TAG.equalsIgnoreCase(tagName)
-						|| DesignSchemaConstants.LIBRARY_TAG.equalsIgnoreCase(tagName)) {
+						|| DesignSchemaConstants.LIBRARY_TAG.equalsIgnoreCase(tagName))
 					return new VersionState();
-				}
 				return super.startElement(tagName);
 			}
 		}
@@ -494,13 +488,11 @@ public class ModuleUtil {
 
 		class VersionState extends InnerParseState {
 
-			@Override
 			public void parseAttrs(Attributes attrs) throws XMLParserException {
 				String version = attrs.getValue(DesignSchemaConstants.VERSION_ATTRIB);
 				VersionParserHandler.this.version = version;
 			}
 
-			@Override
 			public void end() throws SAXException {
 			}
 		}
@@ -510,7 +502,7 @@ public class ModuleUtil {
 	 * Checks whether the input stream holds a version number before some specific
 	 * features is supported. This method is used to remind user that opening this
 	 * stream may need to convert the original file automatically.
-	 *
+	 * 
 	 * @param streamData the input stream
 	 * @return a list whose entry is of <code>IVersionInfo</code> type. Each kind of
 	 *         automatical conversion information is stored in one instance of
@@ -547,18 +539,16 @@ public class ModuleUtil {
 				isSupportedUnknownVersion = module.getOptions().isSupportedUnknownVersion();
 			}
 			List<IVersionInfo> retList = ModelUtil.checkVersion(version, isSupportedUnknownVersion);
-			if (hasCompatibilities(module)) {
+			if (hasCompatibilities(module))
 				retList.add(new VersionInfo(version, VersionInfo.EXTENSION_COMPATIBILITY));
-			}
 			return retList;
 		} catch (DesignFileException e) {
 			if (data != null) {
 				VersionParserHandler handler = new VersionParserHandler();
 
 				InputStream inputStreamToParse = new ByteArrayInputStream(data);
-				if (!inputStreamToParse.markSupported()) {
+				if (!inputStreamToParse.markSupported())
 					inputStreamToParse = new BufferedInputStream(streamData);
-				}
 
 				parse(handler, inputStreamToParse, filename);
 
@@ -570,18 +560,16 @@ public class ModuleUtil {
 
 	private static boolean hasCompatibilities(Module module) {
 		VersionControlMgr versionMgr = module.getVersionManager();
-		if (versionMgr.hasExtensionCompatibilities()) {
+		if (versionMgr.hasExtensionCompatibilities())
 			return true;
-		}
 
 		// check included libraries
 		List<Library> libs = module.getAllLibraries();
 		if (libs != null && !libs.isEmpty()) {
 			for (int i = 0; i < libs.size(); i++) {
 				Library lib = libs.get(i);
-				if (lib.getVersionManager().hasExtensionCompatibilities()) {
+				if (lib.getVersionManager().hasExtensionCompatibilities())
 					return true;
-				}
 			}
 		}
 		return false;
@@ -591,7 +579,7 @@ public class ModuleUtil {
 	 * Checks whether the opening design file holds a version number before the some
 	 * specific features is supported. This method is used to remind user that
 	 * opening the file may need convert the original file automatically.
-	 *
+	 * 
 	 * @param fileName the file name with full path of the design file
 	 * @return a list whose entry is of <code>IVersionInfo</code> type. Each kind of
 	 *         automatical conversion information is stored in one instance of
@@ -642,7 +630,7 @@ public class ModuleUtil {
 
 	/**
 	 * Returns externalized message for the given locale.
-	 *
+	 * 
 	 * @param element the report element.
 	 * @param key     the display key property value
 	 * @param value   the property value
@@ -651,27 +639,23 @@ public class ModuleUtil {
 	 */
 
 	public static String getExternalizedValue(DesignElementHandle element, String key, String value, ULocale locale) {
-		if (element == null) {
+		if (element == null)
 			return value;
-		}
 
 		DesignElement tmpElement = element.getElement();
 		while (tmpElement != null) {
 			Module root = tmpElement.getRoot();
-			if (root == null) {
+			if (root == null)
 				break;
-			}
 
 			String externalizedText = root.getMessage(key, locale);
-			if (externalizedText != null) {
+			if (externalizedText != null)
 				return externalizedText;
-			}
 
-			if (!tmpElement.isVirtualElement()) {
+			if (!tmpElement.isVirtualElement())
 				tmpElement = tmpElement.getExtendsElement();
-			} else {
+			else
 				tmpElement = tmpElement.getVirtualParent();
-			}
 		}
 
 		return value;
@@ -682,7 +666,7 @@ public class ModuleUtil {
 	 * pad. When user extends an library cube to design, the hierarchy handle from
 	 * the joint condition should be same with the virtual hierarchy in the reprot
 	 * design cube.
-	 *
+	 * 
 	 * @param conditionHierarchy the hierarchy handle from the dimension joint
 	 *                           condition structure.
 	 * @param cubeHierarchy      the hierarchy handle from the cube.
@@ -691,23 +675,19 @@ public class ModuleUtil {
 	public static boolean isEqualHierarchiesForJointCondition(HierarchyHandle conditionHierarchy,
 			HierarchyHandle cubeHierarchy) {
 
-		if (conditionHierarchy == cubeHierarchy) {
+		if (conditionHierarchy == cubeHierarchy)
 			return true;
-		}
 
 		if ((conditionHierarchy != null) && (cubeHierarchy != null)) {
-			if (conditionHierarchy.equals(cubeHierarchy)) {
+			if (conditionHierarchy.equals(cubeHierarchy))
 				return true;
-			}
 
 			DesignElement virtualParent = cubeHierarchy.getElement().getVirtualParent();
-			if (virtualParent == null) {
+			if (virtualParent == null)
 				return false;
-			}
 
-			if (conditionHierarchy.getElement().equals(virtualParent)) {
+			if (conditionHierarchy.getElement().equals(virtualParent))
 				return true;
-			}
 
 			return false;
 		}
@@ -718,35 +698,32 @@ public class ModuleUtil {
 	 * checks if the name of the element is valid. The following case the name will
 	 * be considered as invalid.
 	 * <li>contains the following characters: "/","\\", ".", "!", ";",","</li>
-	 *
+	 * 
 	 * @param elementHandle the design element need to be checked the name property
 	 *                      value.
 	 * @param propName      the property name which is name property type of this
 	 *                      design element.
 	 * @param nameValue     the value of the name property.
-	 *
+	 * 
 	 * @return true if the value of the name property is valid, false if it is not
 	 *         valid.
 	 */
 	public static boolean isValidElementName(DesignElementHandle elementHandle, String propName, String nameValue) {
 		PropertyDefn propDefn = (PropertyDefn) elementHandle.getPropertyDefn(propName);
 
-		if (propDefn == null) {
+		if (propDefn == null)
 			return false;
-		}
 
 		PropertyType propType = propDefn.getType();
 
-		if (propType.getTypeCode() != PropertyType.NAME_TYPE) {
+		if (propType.getTypeCode() != PropertyType.NAME_TYPE)
 			return false;
-		}
 
 		ElementDefn metaData = (ElementDefn) elementHandle.getDefn();
 
 		if ((nameValue == null) || StringUtil.isEmpty(nameValue)) {
-			if (metaData.getNameOption() == MetaDataConstants.REQUIRED_NAME) {
+			if (metaData.getNameOption() == MetaDataConstants.REQUIRED_NAME)
 				return false;
-			}
 		}
 		try {
 			Module module = elementHandle.getModule();
@@ -756,9 +733,8 @@ public class ModuleUtil {
 			NameExecutor executor = new NameExecutor(module, element);
 			if (executor.hasNamespace()) {
 				DesignElement existedElement = executor.getElement(nameValue);
-				if (existedElement != null) {
+				if (existedElement != null)
 					return false;
-				}
 			}
 			return true;
 		} catch (PropertyValueException e) {
@@ -769,7 +745,7 @@ public class ModuleUtil {
 
 	/**
 	 * checks is the name value is valid for the design element.
-	 *
+	 * 
 	 * @param elementHandle element need to be checked for the name.
 	 * @param nameValue     name of the element.
 	 * @return true if the name is valid, false if the name is not valid.
@@ -782,19 +758,20 @@ public class ModuleUtil {
 
 	/**
 	 * Determine if the value1 of this filter condition is a list.
-	 *
+	 * 
 	 * @param filter the filter need to check
 	 * @return true if the value1 value is a list, false if it is a single value.
-	 *
+	 * 
 	 */
 	public static boolean isListFilterValue(FilterConditionHandle filter) {
-		if (filter == null) {
+		if (filter == null)
 			return false;
-		}
 
-		if (DesignChoiceConstants.FILTER_OPERATOR_IN.equals(filter.getOperator()) || DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals(filter.getOperator())) {
+		if (DesignChoiceConstants.FILTER_OPERATOR_IN.equals(filter.getOperator()))
 			return true;
-		}
+
+		if (DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals(filter.getOperator()))
+			return true;
 
 		return false;
 
@@ -802,19 +779,20 @@ public class ModuleUtil {
 
 	/**
 	 * Determine if the value1 of this map rule condition is a list.
-	 *
+	 * 
 	 * @param rule the map rule need to check
 	 * @return true if the value1 value is a list, false if it is a single value.
-	 *
+	 * 
 	 */
 	public static boolean isListStyleRuleValue(StyleRuleHandle rule) {
-		if (rule == null) {
+		if (rule == null)
 			return false;
-		}
 
-		if (DesignChoiceConstants.MAP_OPERATOR_IN.equals(rule.getOperator()) || DesignChoiceConstants.MAP_OPERATOR_NOT_IN.equals(rule.getOperator())) {
+		if (DesignChoiceConstants.MAP_OPERATOR_IN.equals(rule.getOperator()))
 			return true;
-		}
+
+		if (DesignChoiceConstants.MAP_OPERATOR_NOT_IN.equals(rule.getOperator()))
+			return true;
 
 		return false;
 
@@ -822,19 +800,20 @@ public class ModuleUtil {
 
 	/**
 	 * Determine if the value1 of this filter condition is a list.
-	 *
+	 * 
 	 * @param filter the filter need to check
 	 * @return true if the value1 value is a list, false if it is a single value.
-	 *
+	 * 
 	 */
 	public static boolean isListFilterValue(FilterConditionElementHandle filter) {
-		if (filter == null) {
+		if (filter == null)
 			return false;
-		}
 
-		if (DesignChoiceConstants.FILTER_OPERATOR_IN.equals(filter.getOperator()) || DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals(filter.getOperator())) {
+		if (DesignChoiceConstants.FILTER_OPERATOR_IN.equals(filter.getOperator()))
 			return true;
-		}
+
+		if (DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals(filter.getOperator()))
+			return true;
 
 		return false;
 
@@ -842,7 +821,7 @@ public class ModuleUtil {
 
 	/**
 	 * Convert param type to column data type.
-	 *
+	 * 
 	 * @param type
 	 * @return
 	 */
@@ -853,7 +832,7 @@ public class ModuleUtil {
 
 	/**
 	 * Convert column data type to param type.
-	 *
+	 * 
 	 * @param type
 	 * @return
 	 */
@@ -864,7 +843,7 @@ public class ModuleUtil {
 
 	/**
 	 * Gets the script id if instance has expression.
-	 *
+	 * 
 	 * @param instance <code>PropertyHandle</code> which type or sub type should be
 	 *                 script or expression.
 	 * @return the script uid if type or sub type is script or expression, null if
@@ -872,16 +851,15 @@ public class ModuleUtil {
 	 */
 
 	public static String getScriptUID(Object instance) {
-		if (isValidScript(instance)) {
+		if (isValidScript(instance))
 			return XPathUtil.getXPath(instance);
-		}
 		return null;
 	}
 
 	/**
 	 * Gets the script id if instance has expression. Support list-value which sub
 	 * type is expression.
-	 *
+	 * 
 	 * @param instance <code>PropertyHandle</code> which type or sub type should be
 	 *                 script or expression.
 	 * @param index    index should be in valid range, should be more than zero and
@@ -891,15 +869,14 @@ public class ModuleUtil {
 	 */
 
 	public static String getScriptUID(Object instance, int index) {
-		if (isValidScript(instance)) {
+		if (isValidScript(instance))
 			return XPathUtil.getXPath(instance, index);
-		}
 		return null;
 	}
 
 	/**
 	 * Gets the script value.
-	 *
+	 * 
 	 * @param module module handle
 	 * @param uid    the script uid
 	 * @return the script value if script uid is valid;else return null.
@@ -907,23 +884,20 @@ public class ModuleUtil {
 
 	public static String getScript(ModuleHandle module, String uid) {
 		Object instance = XPathUtil.getInstance(module, uid);
-		if (instance == null) {
+		if (instance == null)
 			return null;
-		}
 
-		if (instance instanceof String) {
+		if (instance instanceof String)
 			return (String) instance;
-		}
 
-		if (isValidScript(instance)) {
+		if (isValidScript(instance))
 			return ((SimpleValueHandle) instance).getStringValue();
-		}
 		return null;
 	}
 
 	/**
 	 * Gets the script object .
-	 *
+	 * 
 	 * @param module module handle
 	 * @param uid    the script uid
 	 * @return the script object if script uid is valid;else return null.
@@ -932,16 +906,15 @@ public class ModuleUtil {
 	public static Object getScriptObject(ModuleHandle module, String uid) {
 		Object instance = XPathUtil.getInstance(module, uid);
 
-		if (isValidScript(instance)) {
+		if (isValidScript(instance))
 			return instance;
-		}
 
 		return null;
 	}
 
 	/**
 	 * Checks instance's type is script or not.
-	 *
+	 * 
 	 * @param instance <code>PropertyHandle</code> which type need to be checked.
 	 * @return return true if it is script,else return false.
 	 */
@@ -951,12 +924,12 @@ public class ModuleUtil {
 			SimpleValueHandle temp = (SimpleValueHandle) instance;
 			PropertyDefn defn = (PropertyDefn) temp.getDefn();
 			if (defn.getTypeCode() == IPropertyType.LIST_TYPE) {
-				if (defn.getSubType().getTypeCode() == IPropertyType.EXPRESSION_TYPE) {
+				if (defn.getSubType().getTypeCode() == IPropertyType.EXPRESSION_TYPE)
 					return true;
-				}
-			} else if (defn.getTypeCode() == IPropertyType.EXPRESSION_TYPE
-					|| defn.getTypeCode() == IPropertyType.SCRIPT_TYPE) {
-				return true;
+			} else {
+				if (defn.getTypeCode() == IPropertyType.EXPRESSION_TYPE
+						|| defn.getTypeCode() == IPropertyType.SCRIPT_TYPE)
+					return true;
 			}
 		}
 		return false;
@@ -966,21 +939,19 @@ public class ModuleUtil {
 	/**
 	 * Returns the serialized id for the given element. The serialized id may or may
 	 * not be equal to the element id. It is for the BIRT internal usage.
-	 *
+	 * 
 	 * @param element the element
 	 * @return the serialized id of the given element
 	 */
 
 	public static long gerSerializedID(DesignElementHandle element) {
-		if (element == null) {
+		if (element == null)
 			return DesignElement.NO_ID;
-		}
 
 		if (element instanceof MultiViewsHandle || element.getContainer() instanceof MultiViewsHandle) {
 			DesignElementHandle tmpContainer = element.getContainer();
-			if (tmpContainer != null) {
+			if (tmpContainer != null)
 				return tmpContainer.getID();
-			}
 		}
 
 		return element.getID();
@@ -989,7 +960,7 @@ public class ModuleUtil {
 	/**
 	 * Gets the current version of the report files when users want to save it
 	 * calling Model's related APIs.
-	 *
+	 * 
 	 * @return the current version of the report files
 	 */
 	public static String getReportVersion() {
@@ -1000,7 +971,7 @@ public class ModuleUtil {
 	 * Compares two specifies report version. 1 returned if the former of the two is
 	 * greater than the latter, 0 if former equals to the latter and -1 if the
 	 * former smaller than the latter.
-	 *
+	 * 
 	 * @param version1
 	 * @param version2
 	 * @return 1 returned if the former of the two is greater than the latter, 0 if
@@ -1019,23 +990,21 @@ public class ModuleUtil {
 	 * Checks whether a library with the specified file name is directly or
 	 * indirectly included by the module. The given file name must be absolute.
 	 * Method will not correctly handle the case if file name is relative.
-	 *
+	 * 
 	 * @param moduleHandle the module handle which to include the library
 	 * @param fileName     the absolute file name of the library
 	 * @return true if a library is found to be directly or indirectly included by
 	 *         the module, otherwise false
 	 */
 	public static boolean isInclude(ModuleHandle moduleHandle, String fileName) {
-		if (moduleHandle == null || StringUtil.isBlank(fileName)) {
+		if (moduleHandle == null || StringUtil.isBlank(fileName))
 			return false;
-		}
 
 		URL fileLocation = ModelUtil.getURLPresentation(fileName);
 
 		// if fileLocation is null, return false
-		if (fileLocation == null) {
+		if (fileLocation == null)
 			return false;
-		}
 
 		return moduleHandle.getModule().getLibraryByLocation(fileLocation.toExternalForm(),
 				IAccessControl.ARBITARY_LEVEL) == null ? false : true;
@@ -1044,38 +1013,35 @@ public class ModuleUtil {
 	/**
 	 * Gets all the elements that is kind of the specified type. All the type should
 	 * be the constants in {{@link ReportDesignConstants}.
-	 *
+	 * 
 	 * @param moduleHandle the module handle that the elements reside in
 	 * @param elementType  the type of the elements to retrieve
 	 * @return the list of the elements that is kind of the specified type
 	 */
 	public static List<DesignElementHandle> getElementsByType(ModuleHandle moduleHandle, String elementType) {
-		if (moduleHandle == null || StringUtil.isBlank(elementType)) {
+		if (moduleHandle == null || StringUtil.isBlank(elementType))
 			return Collections.emptyList();
-		}
 		IElementDefn elementDefn = MetaDataDictionary.getInstance().getElement(elementType);
 		return getElementsByType(moduleHandle, elementDefn);
 	}
 
 	/**
 	 * Gets all the elements that is kind of the specified type.
-	 *
+	 * 
 	 * @param moduleHandle the module handle that the elements reside in
 	 * @param elementType  the type of the elements to retrieve
 	 * @return the list of the elements that is kind of the specified type
 	 */
 	private static List<DesignElementHandle> getElementsByType(ModuleHandle moduleHandle, IElementDefn elementType) {
-		if (moduleHandle == null || elementType == null) {
+		if (moduleHandle == null || elementType == null)
 			return Collections.emptyList();
-		}
-		List<DesignElementHandle> retList = new ArrayList<>();
+		List<DesignElementHandle> retList = new ArrayList<DesignElementHandle>();
 		Module module = moduleHandle.getModule();
 		List<DesignElement> elements = module.getAllElements();
 		if (elements != null) {
 			for (DesignElement element : elements) {
-				if (element != null && element.getDefn().isKindOf(elementType)) {
+				if (element != null && element.getDefn().isKindOf(elementType))
 					retList.add(element.getHandle(module));
-				}
 			}
 		}
 		return retList;
@@ -1083,7 +1049,7 @@ public class ModuleUtil {
 
 	/**
 	 * Validates the given group name. Returned value is a valid one.
-	 *
+	 * 
 	 * @param groupHandle
 	 * @param groupName
 	 * @return

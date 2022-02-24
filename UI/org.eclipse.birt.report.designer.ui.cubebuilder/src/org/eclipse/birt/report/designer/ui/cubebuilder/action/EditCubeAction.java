@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
- *
+ * 
  * @version $Revision: 1.6 $ $Date: 2007/06/01 07:05:21 $
  */
 public class EditCubeAction extends AbstractElementAction {
@@ -52,21 +52,19 @@ public class EditCubeAction extends AbstractElementAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#doAction()
 	 */
-	@Override
 	protected boolean doAction() throws Exception {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Edit cube action >> Runs ..."); //$NON-NLS-1$
 		}
 		TabularCubeHandle cubeHandle = null;
-		if (getSelection() instanceof TabularCubeHandle) {
+		if (getSelection() instanceof TabularCubeHandle)
 			cubeHandle = (TabularCubeHandle) getSelection();
-		} else if (getSelection() instanceof PropertyHandle) {
+		else if (getSelection() instanceof PropertyHandle)
 			cubeHandle = (TabularCubeHandle) ((PropertyHandle) getSelection()).getElementHandle();
-		}
 		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(), cubeHandle);
 		if (getSelection() instanceof CubeHandle) {
 			dialog.showPage(CubeBuilder.DATASETSELECTIONPAGE);
@@ -78,32 +76,28 @@ public class EditCubeAction extends AbstractElementAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
-		if (getSelection() instanceof TabularCubeHandle) {
+		if (getSelection() instanceof TabularCubeHandle)
 			return ((TabularCubeHandle) getSelection()).canEdit();
-		} else if (getSelection() instanceof PropertyHandle
-				&& ((PropertyHandle) getSelection()).getElementHandle() instanceof TabularCubeHandle) {
+		else if (getSelection() instanceof PropertyHandle
+				&& ((PropertyHandle) getSelection()).getElementHandle() instanceof TabularCubeHandle)
 			return true;
-		} else {
+		else
 			return false;
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#getTransactionLabel()
 	 */
-	@Override
 	protected String getTransactionLabel() {
-		if (getSelection() instanceof CubeHandle) {
+		if (getSelection() instanceof CubeHandle)
 			return Messages.getFormattedString("cube.edit", new String[] { ((CubeHandle) getSelection()).getName() }); //$NON-NLS-1$
-		}
 		return super.getTransactionLabel();
 	}
 }

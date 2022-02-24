@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -86,35 +86,31 @@ public class SimpleCharStream {
 				if (tokenBegin > 2048) {
 					bufpos = maxNextCharInd = 0;
 					available = tokenBegin;
-				} else if (tokenBegin < 0) {
+				} else if (tokenBegin < 0)
 					bufpos = maxNextCharInd = 0;
-				} else {
+				else
 					ExpandBuff(false);
-				}
-			} else if (available > tokenBegin) {
+			} else if (available > tokenBegin)
 				available = bufsize;
-			} else if ((tokenBegin - available) < 2048) {
+			else if ((tokenBegin - available) < 2048)
 				ExpandBuff(true);
-			} else {
+			else
 				available = tokenBegin;
-			}
 		}
 
 		int i;
 		try {
-			i = inputStream.read(buffer, maxNextCharInd, available - maxNextCharInd);
-			if (i == -1) {
+			if ((i = inputStream.read(buffer, maxNextCharInd, available - maxNextCharInd)) == -1) {
 				inputStream.close();
 				throw new java.io.IOException();
-			} else {
+			} else
 				maxNextCharInd += i;
-			}
+			return;
 		} catch (java.io.IOException e) {
 			--bufpos;
 			backup(0);
-			if (tokenBegin == -1) {
+			if (tokenBegin == -1)
 				tokenBegin = bufpos;
-			}
 			throw e;
 		}
 	}
@@ -137,9 +133,8 @@ public class SimpleCharStream {
 			prevCharIsCR = false;
 			if (c == '\n') {
 				prevCharIsLF = true;
-			} else {
+			} else
 				line += (column = 1);
-			}
 		}
 
 		switch (c) {
@@ -165,16 +160,14 @@ public class SimpleCharStream {
 		if (inBuf > 0) {
 			--inBuf;
 
-			if (++bufpos == bufsize) {
+			if (++bufpos == bufsize)
 				bufpos = 0;
-			}
 
 			return buffer[bufpos];
 		}
 
-		if (++bufpos >= maxNextCharInd) {
+		if (++bufpos >= maxNextCharInd)
 			FillBuff();
-		}
 
 		char c = buffer[bufpos];
 
@@ -187,7 +180,6 @@ public class SimpleCharStream {
 	 * @see #getEndColumn
 	 */
 
-	@Deprecated
 	public int getColumn() {
 		return bufcolumn[bufpos];
 	}
@@ -197,7 +189,6 @@ public class SimpleCharStream {
 	 * @see #getEndLine
 	 */
 
-	@Deprecated
 	public int getLine() {
 		return bufline[bufpos];
 	}
@@ -221,10 +212,8 @@ public class SimpleCharStream {
 	public void backup(int amount) {
 
 		inBuf += amount;
-		bufpos -= amount;
-		if (bufpos < 0) {
+		if ((bufpos -= amount) < 0)
 			bufpos += bufsize;
-		}
 	}
 
 	public SimpleCharStream(java.io.Reader dstream, int startline, int startcolumn, int buffersize) {
@@ -295,19 +284,18 @@ public class SimpleCharStream {
 	}
 
 	public String GetImage() {
-		if (bufpos >= tokenBegin) {
+		if (bufpos >= tokenBegin)
 			return new String(buffer, tokenBegin, bufpos - tokenBegin + 1);
-		} else {
+		else
 			return new String(buffer, tokenBegin, bufsize - tokenBegin) + new String(buffer, 0, bufpos + 1);
-		}
 	}
 
 	public char[] GetSuffix(int len) {
 		char[] ret = new char[len];
 
-		if ((bufpos + 1) >= len) {
+		if ((bufpos + 1) >= len)
 			System.arraycopy(buffer, bufpos - len + 1, ret, 0, len);
-		} else {
+		else {
 			System.arraycopy(buffer, bufsize - (len - bufpos - 1), ret, 0, len - bufpos - 1);
 			System.arraycopy(buffer, 0, ret, len - bufpos - 1, bufpos + 1);
 		}
@@ -350,11 +338,10 @@ public class SimpleCharStream {
 			bufcolumn[j] = newCol + columnDiff;
 
 			while (i++ < len) {
-				if (bufline[j = start % bufsize] != bufline[++start % bufsize]) {
+				if (bufline[j = start % bufsize] != bufline[++start % bufsize])
 					bufline[j] = newLine++;
-				} else {
+				else
 					bufline[j] = newLine;
-				}
 			}
 		}
 

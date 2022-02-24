@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -20,9 +20,9 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
 import org.eclipse.birt.chart.ui.swt.AbstractLineStyleChooserComposite;
-import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
@@ -107,15 +107,15 @@ public class GanttLineAttributesComposite extends Composite implements Selection
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void init() {
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-		vListeners = new Vector<>();
+		vListeners = new Vector<Listener>();
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void placeComponents() {
 		FillLayout flMain = new FillLayout();
@@ -224,7 +224,6 @@ public class GanttLineAttributesComposite extends Composite implements Selection
 		return ptSize;
 	}
 
-	@Override
 	public void setEnabled(boolean bState) {
 		boolean bEnableUI = true;
 		if (this.bEnableVisibility) {
@@ -232,21 +231,20 @@ public class GanttLineAttributesComposite extends Composite implements Selection
 			bEnableUI = context.getUIFactory().canEnableUI(btnVisible);
 		}
 		if (this.bEnableStyles) {
-			lblStyle.setEnabled(bState && bEnableUI);
-			cmbStyle.setEnabled(bState && bEnableUI);
+			lblStyle.setEnabled(bState & bEnableUI);
+			cmbStyle.setEnabled(bState & bEnableUI);
 		}
 		if (this.bEnableWidths) {
-			lblWidth.setEnabled(bState && bEnableUI);
-			iscWidth.setEnabled(bState && bEnableUI);
+			lblWidth.setEnabled(bState & bEnableUI);
+			iscWidth.setEnabled(bState & bEnableUI);
 		}
 		if (this.bEnableColor) {
-			lblColor.setEnabled(bState && bEnableUI);
-			cmbColor.setEnabled(bState && bEnableUI);
+			lblColor.setEnabled(bState & bEnableUI);
+			cmbColor.setEnabled(bState & bEnableUI);
 		}
 		this.bEnabled = bState;
 	}
 
-	@Override
 	public boolean isEnabled() {
 		return this.bEnabled;
 	}
@@ -301,11 +299,10 @@ public class GanttLineAttributesComposite extends Composite implements Selection
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Object widget = e.widget;
 		if (widget == btnVisible) {
@@ -337,11 +334,10 @@ public class GanttLineAttributesComposite extends Composite implements Selection
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -393,11 +389,10 @@ public class GanttLineAttributesComposite extends Composite implements Selection
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		if (cmbColor != null && cmbColor.equals(event.widget)) {
 			fireValueChangedEvent(GanttLineAttributesComposite.COLOR_CHANGED_EVENT, cmbColor.getFill(),

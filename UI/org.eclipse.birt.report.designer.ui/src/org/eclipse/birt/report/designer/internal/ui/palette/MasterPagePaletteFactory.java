@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -31,7 +31,7 @@ import org.eclipse.ui.ISharedImages;
 
 /**
  * Factory to populate Master Page graphical editor palette root.
- *
+ * 
  */
 public class MasterPagePaletteFactory extends DesignerPaletteFactory {
 
@@ -98,7 +98,7 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory {
 
 	/**
 	 * Creates the palette and returns the palette
-	 *
+	 * 
 	 * @return the editor palette
 	 */
 	public static PaletteRoot createPalette() {
@@ -108,7 +108,6 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory {
 
 		IExtension extension = new IExtension.Stub() {
 
-			@Override
 			public String getExtendsionIdentify() {
 				return GuiExtensionManager.PALETTE_MASTERPAGE;
 			}
@@ -119,7 +118,7 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory {
 
 	/**
 	 * Creates BIRT Master Page specified categories and items.
-	 *
+	 * 
 	 * @return PaletteContainer containing BIRT Master Page specified categories
 	 */
 	private static PaletteContainer createAutoTextDrawer() {
@@ -127,7 +126,7 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory {
 				ReportPlatformUIImages.getImageDescriptor(ISharedImages.IMG_OBJ_FOLDER));
 		List entries = new ArrayList();
 
-		CombinedTemplateCreationEntry combined;
+		CombinedTemplateCreationEntry combined = null;
 
 		combined = createAutoText(AUTOTEXT_PAGE, AUTOTEXT_TOOLTIP_PAGE, IReportElementConstants.AUTOTEXT_PAGE);
 		entries.add(combined);
@@ -171,7 +170,7 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory {
 				IReportElementConstants.AUTOTEXT_VARIABLE);
 		entries.add(combined);
 
-//	Remove unsupported function
+//	Remove unsupported function			
 //		combined = createAutoText( AUTOTEXT_PAGE_X_OF_Y,
 //				AUTOTEXT_TOOLTIP_PAGE_X_OF_Y,
 //				IReportElementConstants.AUTOTEXT_PAGEXOFY );

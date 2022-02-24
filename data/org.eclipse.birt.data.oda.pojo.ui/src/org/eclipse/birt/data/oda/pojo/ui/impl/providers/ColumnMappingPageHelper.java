@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,12 +43,12 @@ public class ColumnMappingPageHelper {
 	private List<IMethodParameter> currentColumnParams;
 
 	public ColumnMappingPageHelper() {
-		names = new HashSet<>();
-		definitions = new ArrayList<>();
+		names = new HashSet<String>();
+		definitions = new ArrayList<ColumnDefinition>();
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cd
 	 * @return the ColumnDefinition added
 	 */
@@ -72,9 +72,8 @@ public class ColumnMappingPageHelper {
 	}
 
 	public boolean isUniqueColumnName(String name) {
-		if (name == null || name.trim().length() == 0) {
+		if (name == null || name.trim().length() == 0)
 			return false;
-		}
 
 		return !names.contains(name);
 	}
@@ -86,11 +85,13 @@ public class ColumnMappingPageHelper {
 				int lastIndex = name.lastIndexOf('_');
 				String index = name.substring(lastIndex + 1);
 				name = name.substring(0, lastIndex + 1) + (Integer.parseInt(index) + 1);
-			} else if (name.endsWith("_")) //$NON-NLS-1$
-			{
-				name += "1"; //$NON-NLS-1$
 			} else {
-				name += "_1"; //$NON-NLS-1$
+				if (name.endsWith("_")) //$NON-NLS-1$
+				{
+					name += "1"; //$NON-NLS-1$
+				} else {
+					name += "_1"; //$NON-NLS-1$
+				}
 			}
 		}
 		return name;
@@ -133,9 +134,8 @@ public class ColumnMappingPageHelper {
 	}
 
 	public boolean isValidParamName(VariableParameter vp, String name, String type) {
-		if (vp == null || vp.getName() == null || vp.getDataType() == null) {
+		if (vp == null || vp.getName() == null || vp.getDataType() == null)
 			return false;
-		}
 
 		List<IMethodParameter> allParams = getAllParameters();
 
@@ -150,9 +150,9 @@ public class ColumnMappingPageHelper {
 			for (int k = 0; k < allParams.size(); k++) {
 				IMethodParameter item = allParams.get(k);
 				if (item instanceof VariableParameter) {
-					if (!vp.equals(item) && name.equals(((VariableParameter) item).getName())) {
+					if (!vp.equals(item) && name.equals(((VariableParameter) item).getName()))
+
 						return type.equals(((VariableParameter) item).getDataType());
-					}
 				}
 			}
 		}
@@ -165,7 +165,7 @@ public class ColumnMappingPageHelper {
 
 	/**
 	 * switch with its previous element
-	 *
+	 * 
 	 * @param index
 	 */
 	public void moveColumnDefinitionUp(int index) {
@@ -178,7 +178,7 @@ public class ColumnMappingPageHelper {
 
 	/**
 	 * switch with its next element
-	 *
+	 * 
 	 * @param index
 	 */
 	public void moveColumnDefinitionDown(int index) {
@@ -216,9 +216,8 @@ public class ColumnMappingPageHelper {
 	public IMappingSource[] createMappingPath(List<Member> backs) {
 		IMappingSource[] result = new IMappingSource[backs.size()];
 
-		if (currentColumnParams == null) {
-			currentColumnParams = new ArrayList<>();
-		}
+		if (currentColumnParams == null)
+			currentColumnParams = new ArrayList<IMethodParameter>();
 
 		int index = 1;
 		for (int i = 0; i < result.length; i++) {
@@ -226,7 +225,7 @@ public class ColumnMappingPageHelper {
 			if (m instanceof Field) {
 				result[i] = new FieldSource(m.getName());
 			} else if (m instanceof Method) {
-				List<IMethodParameter> params = new ArrayList<>();
+				List<IMethodParameter> params = new ArrayList<IMethodParameter>();
 				for (Class c : ((Method) m).getParameterTypes()) {
 					index = getUniqueParamIndex();
 					MethodParameterType pt = MethodParameterType.getInstance(c);
@@ -271,9 +270,8 @@ public class ColumnMappingPageHelper {
 	}
 
 	public void clearParametersCache() {
-		if (this.currentColumnParams != null) {
+		if (this.currentColumnParams != null)
 			this.currentColumnParams.clear();
-		}
 	}
 
 }

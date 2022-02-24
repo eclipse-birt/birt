@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -48,7 +48,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 	/**
 	 * The default value of the '{@link #isEnable() <em>Enable</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isEnable()
 	 * @generated
 	 * @ordered
@@ -58,7 +58,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 	/**
 	 * The cached value of the '{@link #isEnable() <em>Enable</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isEnable()
 	 * @generated
 	 * @ordered
@@ -68,7 +68,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 	/**
 	 * This is true if the Enable attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -77,7 +77,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 	/**
 	 * The default value of the '{@link #getLegendBehavior() <em>Legend
 	 * Behavior</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLegendBehavior()
 	 * @generated
 	 * @ordered
@@ -87,7 +87,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 	/**
 	 * The cached value of the '{@link #getLegendBehavior() <em>Legend
 	 * Behavior</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLegendBehavior()
 	 * @generated
 	 * @ordered
@@ -97,7 +97,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 	/**
 	 * This is true if the Legend Behavior attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -105,7 +105,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected InteractivityImpl() {
@@ -114,7 +114,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -124,115 +124,103 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isEnable() {
 		return enable;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setEnable(boolean newEnable) {
 		boolean oldEnable = enable;
 		enable = newEnable;
 		boolean oldEnableESet = enableESet;
 		enableESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INTERACTIVITY__ENABLE, oldEnable,
 					enable, !oldEnableESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetEnable() {
 		boolean oldEnable = enable;
 		boolean oldEnableESet = enableESet;
 		enable = ENABLE_EDEFAULT;
 		enableESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INTERACTIVITY__ENABLE, oldEnable,
 					ENABLE_EDEFAULT, oldEnableESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetEnable() {
 		return enableESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LegendBehaviorType getLegendBehavior() {
 		return legendBehavior;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setLegendBehavior(LegendBehaviorType newLegendBehavior) {
 		LegendBehaviorType oldLegendBehavior = legendBehavior;
 		legendBehavior = newLegendBehavior == null ? LEGEND_BEHAVIOR_EDEFAULT : newLegendBehavior;
 		boolean oldLegendBehaviorESet = legendBehaviorESet;
 		legendBehaviorESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INTERACTIVITY__LEGEND_BEHAVIOR,
 					oldLegendBehavior, legendBehavior, !oldLegendBehaviorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetLegendBehavior() {
 		LegendBehaviorType oldLegendBehavior = legendBehavior;
 		boolean oldLegendBehaviorESet = legendBehaviorESet;
 		legendBehavior = LEGEND_BEHAVIOR_EDEFAULT;
 		legendBehaviorESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INTERACTIVITY__LEGEND_BEHAVIOR,
 					oldLegendBehavior, LEGEND_BEHAVIOR_EDEFAULT, oldLegendBehaviorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetLegendBehavior() {
 		return legendBehaviorESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -248,7 +236,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -266,7 +254,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -284,7 +272,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -300,28 +288,25 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (enable: "); //$NON-NLS-1$
-		if (enableESet) {
+		if (enableESet)
 			result.append(enable);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", legendBehavior: "); //$NON-NLS-1$
-		if (legendBehaviorESet) {
+		if (legendBehaviorESet)
 			result.append(legendBehavior);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -337,7 +322,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity {
 	/**
 	 * @generated
 	 */
-	@Override
 	public Interactivity copyInstance() {
 		InteractivityImpl dest = new InteractivityImpl();
 		dest.set(this);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public class ChartExpressionButton implements IExpressionButton {
 
 	protected final ExpressionButton eb;
 	protected final ChartExpressionHelper eHelper;
-	protected final Vector<Listener> listeners = new Vector<>();
+	protected final Vector<Listener> listeners = new Vector<Listener>();
 	protected EAttributeAccessor<String> accessor;
 
 	public ChartExpressionButton(Composite parent, Control control, ExtendedItemHandle eih, IExpressionProvider ep,
@@ -63,7 +63,6 @@ public class ChartExpressionButton implements IExpressionButton {
 		exprCodec = ChartModelHelper.instance().createExpressionCodec();
 		eb = ExpressionButtonUtil.createExpressionButton(parent, control, ep, eih, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				onChange();
 			}
@@ -79,7 +78,6 @@ public class ChartExpressionButton implements IExpressionButton {
 
 	private class ControlListener implements Listener {
 
-		@Override
 		public void handleEvent(Event event) {
 			switch (event.type) {
 			case SWT.KeyDown:
@@ -147,57 +145,47 @@ public class ChartExpressionButton implements IExpressionButton {
 		save();
 	}
 
-	@Override
 	public void addListener(Listener listener) {
 		if (listener != null) {
 			listeners.add(listener);
 		}
 	}
 
-	@Override
 	public String getExpression() {
 		exprCodec.setExpression(eHelper.getExpression());
 		exprCodec.setType(eHelper.getExpressionType());
 		return exprCodec.encode();
 	}
 
-	@Override
 	public void setExpression(String expr) {
 		setExpression(expr, false);
 	}
 
-	@Override
 	public String getDisplayExpression() {
 		return eHelper.getExpression();
 	}
 
-	@Override
 	public boolean isEnabled() {
 		return eb.isEnabled();
 	}
 
-	@Override
 	public void setEnabled(boolean bEnabled) {
 		eb.setEnabled(bEnabled);
 	}
 
-	@Override
 	public void setAccessor(EAttributeAccessor<String> accessor) {
 		this.accessor = accessor;
 		load();
 	}
 
-	@Override
 	public String getExpressionType() {
 		return eHelper.getExpressionType();
 	}
 
-	@Override
 	public boolean isCube() {
 		return eHelper.isCube();
 	}
 
-	@Override
 	public void setBindingName(String bindingName, boolean bNotifyEvents) {
 		if (bindingName != null && bindingName.length() > 0) {
 			exprCodec.setBindingName(bindingName, isCube(), eHelper.getExpressionType());
@@ -216,7 +204,6 @@ public class ChartExpressionButton implements IExpressionButton {
 		lastExpr.setType(eHelper.getExpressionType());
 	}
 
-	@Override
 	public void setExpression(String expr, boolean bNotifyEvents) {
 		if (expr != null && expr.length() > 0) {
 			exprCodec.decode(expr);
@@ -236,19 +223,17 @@ public class ChartExpressionButton implements IExpressionButton {
 		lastExpr.setType(eHelper.getExpressionType());
 	}
 
-	@Override
 	public void setAssitField(IAssistField assistField) {
 		eHelper.setAssitField(assistField);
 	}
 
-	@Override
 	public void setPredefinedQuery(Object[] predefinedQuery) {
 		if (predefinedQuery == null) {
 			return;
 		}
 		boolean isCube = isCube();
 
-		Set<IExpressionDescriptor> set = new LinkedHashSet<>();
+		Set<IExpressionDescriptor> set = new LinkedHashSet<IExpressionDescriptor>();
 		for (Object obj : predefinedQuery) {
 			set.add(ExpressionDescriptor.getInstance(obj, isCube));
 		}
@@ -257,9 +242,9 @@ public class ChartExpressionButton implements IExpressionButton {
 	}
 
 	private Collection<IExpressionDescriptor> filterDuplicate(Collection<IExpressionDescriptor> exprDescs) {
-		Set<IExpressionDescriptor> set = new LinkedHashSet<>();
-		Set<String> bindingNames = new LinkedHashSet<>();
-		List<IExpressionDescriptor> otherDescs = new LinkedList<>();
+		Set<IExpressionDescriptor> set = new LinkedHashSet<IExpressionDescriptor>();
+		Set<String> bindingNames = new LinkedHashSet<String>();
+		List<IExpressionDescriptor> otherDescs = new LinkedList<IExpressionDescriptor>();
 
 		for (IExpressionDescriptor desc : exprDescs) {
 			if (desc.isColumnBinding()) {
@@ -283,7 +268,7 @@ public class ChartExpressionButton implements IExpressionButton {
 
 	/**
 	 * Returns the handle of expression helper.
-	 *
+	 * 
 	 * @return instance of ChartExpressionHelper
 	 */
 	public ChartExpressionHelper getExpressionHelper() {

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -15,22 +15,21 @@
 package org.eclipse.birt.chart.model.component.util;
 
 import java.util.List;
+
 import java.util.Map;
 
+import org.eclipse.birt.chart.model.component.*;
+
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
-import org.eclipse.birt.chart.model.component.CurveFitting;
-import org.eclipse.birt.chart.model.component.Dial;
-import org.eclipse.birt.chart.model.component.DialRegion;
 import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
-import org.eclipse.birt.chart.model.component.Needle;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -41,7 +40,7 @@ import org.eclipse.emf.ecore.EObject;
  * with the actual class of the object and proceeding up the inheritance
  * hierarchy until a non-null result is returned, which is the result of the
  * switch. <!-- end-user-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage
  * @generated
  */
@@ -49,7 +48,7 @@ public class ComponentSwitch<T> {
 
 	/**
 	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected static ComponentPackage modelPackage;
@@ -57,7 +56,7 @@ public class ComponentSwitch<T> {
 	/**
 	 * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ComponentSwitch() {
@@ -70,7 +69,7 @@ public class ComponentSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -82,7 +81,7 @@ public class ComponentSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -99,7 +98,7 @@ public class ComponentSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -108,109 +107,95 @@ public class ComponentSwitch<T> {
 		case ComponentPackage.AXIS: {
 			Axis axis = (Axis) theEObject;
 			T result = caseAxis(axis);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.CHART_PREFERENCES: {
 			ChartPreferences chartPreferences = (ChartPreferences) theEObject;
 			T result = caseChartPreferences(chartPreferences);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.CURVE_FITTING: {
 			CurveFitting curveFitting = (CurveFitting) theEObject;
 			T result = caseCurveFitting(curveFitting);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.DIAL: {
 			Dial dial = (Dial) theEObject;
 			T result = caseDial(dial);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.DIAL_REGION: {
 			DialRegion dialRegion = (DialRegion) theEObject;
 			T result = caseDialRegion(dialRegion);
-			if (result == null) {
+			if (result == null)
 				result = caseMarkerRange(dialRegion);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY: {
 			@SuppressWarnings("unchecked")
 			Map.Entry<String, DataSet> eStringToDataSetMapEntry = (Map.Entry<String, DataSet>) theEObject;
 			T result = caseEStringToDataSetMapEntry(eStringToDataSetMapEntry);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.GRID: {
 			Grid grid = (Grid) theEObject;
 			T result = caseGrid(grid);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.LABEL: {
 			Label label = (Label) theEObject;
 			T result = caseLabel(label);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.MARKER_LINE: {
 			MarkerLine markerLine = (MarkerLine) theEObject;
 			T result = caseMarkerLine(markerLine);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.MARKER_RANGE: {
 			MarkerRange markerRange = (MarkerRange) theEObject;
 			T result = caseMarkerRange(markerRange);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.NEEDLE: {
 			Needle needle = (Needle) theEObject;
 			T result = caseNeedle(needle);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.SCALE: {
 			Scale scale = (Scale) theEObject;
 			T result = caseScale(scale);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ComponentPackage.SERIES: {
 			Series series = (Series) theEObject;
 			T result = caseSeries(series);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		default:
@@ -222,7 +207,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Axis</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Axis</em>'.
@@ -237,7 +222,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Chart
 	 * Preferences</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Chart
 	 *         Preferences</em>'.
@@ -252,7 +237,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Curve
 	 * Fitting</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Curve
 	 *         Fitting</em>'.
@@ -267,7 +252,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Dial</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Dial</em>'.
@@ -282,7 +267,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Dial
 	 * Region</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Dial
 	 *         Region</em>'.
@@ -297,7 +282,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Grid</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Grid</em>'.
@@ -312,7 +297,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Label</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Label</em>'.
@@ -327,7 +312,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Marker
 	 * Line</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Marker
 	 *         Line</em>'.
@@ -342,7 +327,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Marker
 	 * Range</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Marker
 	 *         Range</em>'.
@@ -357,7 +342,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Needle</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Needle</em>'.
@@ -372,7 +357,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Scale</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Scale</em>'.
@@ -387,7 +372,7 @@ public class ComponentSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Series</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Series</em>'.
@@ -403,7 +388,7 @@ public class ComponentSwitch<T> {
 	 * To Data Set Map Entry</em>'. <!-- begin-user-doc --> This implementation
 	 * returns null; returning a non-null result will terminate the switch. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>EString
 	 *         To Data Set Map Entry</em>'.
@@ -419,7 +404,7 @@ public class ComponentSwitch<T> {
 	 * '<em>EObject</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>EObject</em>'.

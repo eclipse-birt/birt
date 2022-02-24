@@ -29,11 +29,11 @@ public interface IFileSystemFactory {
 	/**
 	 * ID for File System Factory extension.
 	 */
-	String EXTENSION_FILE_SYSTEM_FACTORY = IFileSystemFactory.class.getName();
+	static String EXTENSION_FILE_SYSTEM_FACTORY = IFileSystemFactory.class.getName();
 
 	/**
 	 * Creates file object according to file path.
-	 *
+	 * 
 	 * @param fileName file path
 	 * @return file object
 	 */
@@ -41,7 +41,7 @@ public interface IFileSystemFactory {
 
 	/**
 	 * Creates file object according to file URI.
-	 *
+	 * 
 	 * @param uri file URI
 	 * @return file object
 	 */
@@ -49,7 +49,7 @@ public interface IFileSystemFactory {
 
 	/**
 	 * Creates archive file with specific arguments.
-	 *
+	 * 
 	 * @param systemId     system id
 	 * @param fileName     file name
 	 * @param mode         file mode

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -99,7 +99,6 @@ public class RenameInputDialog extends BaseDialog {
 	// }
 	// }
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -127,7 +126,6 @@ public class RenameInputDialog extends BaseDialog {
 		text.setLayoutData(gd);
 		text.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				String textName = text.getText().trim();
 				if (textName.length() == 0) {
@@ -175,13 +173,11 @@ public class RenameInputDialog extends BaseDialog {
 		}
 	}
 
-	@Override
 	protected void okPressed() {
 		setResult(text.getText());
 		super.okPressed();
 	}
 
-	@Override
 	protected Control createContents(Composite parent) {
 		Control composite = super.createContents(parent);
 		if (text.getText().trim().length() == 0) {

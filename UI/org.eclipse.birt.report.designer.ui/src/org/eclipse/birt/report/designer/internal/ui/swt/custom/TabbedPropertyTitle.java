@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,25 +70,28 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 	 */
 	public int marginHeight = 4;
 
+	private FormWidgetFactory factory;
+
 	private ToolBar toolbar;
 
 	// private Button resetButton;
 
 	/**
 	 * Constructor for TabbedPropertyTitle.
-	 *
+	 * 
 	 * @param parent  the parent composite.
 	 * @param factory the widget factory for the tabbed property sheet
 	 */
 	public TabbedPropertyTitle(Composite parent, FormWidgetFactory factory) {
 		super(parent, SWT.NONE);
+		this.factory = factory;
+
 		bg = factory.getColors().getColor(FormColors.TB_BG);
 		gbg = factory.getColors().getColor(FormColors.TB_GBG);
 		border = factory.getColors().getColor(FormColors.TB_BORDER);
 
 		this.addPaintListener(new PaintListener() {
 
-			@Override
 			public void paintControl(PaintEvent e) {
 				if (image == null && (text == null || text.equals(BLANK))) {
 					label.setVisible(false);
@@ -101,17 +104,14 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 
 		this.addFocusListener(new FocusListener() {
 
-			@Override
 			public void focusGained(FocusEvent e) {
 				if (toolbar != null) {
 					toolbar.setFocus();
 
-				} else {
+				} else
 					getParent().setFocus();
-				}
 			}
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				// TODO Auto-generated method stub
 
@@ -130,7 +130,6 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 
 		label = new CLabel(this, SWT.NONE) {
 
-			@Override
 			public Point computeSize(int wHint, int hHint, boolean changed) {
 				Point p = super.computeSize(wHint, hHint, changed);
 				p.y = p.y + 2;
@@ -235,7 +234,7 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 
 	/**
 	 * Set the text label.
-	 *
+	 * 
 	 * @param text the text label.
 	 */
 	public void setTitle(String text, Image image) {
@@ -273,9 +272,8 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 				while (toolbar.getItemCount() > 0) {
 					ToolItem item = toolbar.getItem(0);
 					IAction action = (IAction) actionMap.get(item);
-					if (action != null) {
+					if (action != null)
 						action.removePropertyChangeListener(this);
-					}
 					item.dispose();
 				}
 				actionMap.clear();
@@ -311,9 +309,11 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 			}
 			updateToolBar();
 			label.layout();
-		} else if (toolbar != null) {
-			toolbar.dispose();
-			toolbar = null;
+		} else {
+			if (toolbar != null) {
+				toolbar.dispose();
+				toolbar = null;
+			}
 		}
 	}
 
@@ -323,7 +323,6 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 		if (toolItemListener == null) {
 			toolItemListener = new Listener() {
 
-				@Override
 				public void handleEvent(Event event) {
 					switch (event.type) {
 					case SWT.Selection:
@@ -383,7 +382,6 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 
 	private Color border;
 
-	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		updateToolBar();
 	}
@@ -398,12 +396,10 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 				IAction action = (IAction) actionMap.get(item);
 				if (action != null) {
 					ImageDescriptor image = null;
-					if (action.getImageDescriptor() != null) {
+					if (action.getImageDescriptor() != null)
 						image = action.getImageDescriptor();
-					}
-					if (image != null) {
+					if (image != null)
 						item.setImage(localManager.createImageWithDefault(image));
-					}
 
 					item.setToolTipText(action.getToolTipText());
 					if (IAction.AS_CHECK_BOX == action.getStyle()) {
@@ -417,9 +413,8 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 			disposeOldImages();
 			imageManager = localManager;
 
-			if (toolbar.isFocusControl()) {
+			if (toolbar.isFocusControl())
 				toolbar.setFocus();
-			}
 		}
 	}
 
@@ -430,7 +425,6 @@ public class TabbedPropertyTitle extends Composite implements IPropertyChangeLis
 		}
 	}
 
-	@Override
 	public void dispose() {
 		super.dispose();
 		disposeOldImages();

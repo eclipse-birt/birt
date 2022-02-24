@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 
 /**
  * List element handle adapter
- *
+ * 
  */
 public class ListHandleAdapter extends ReportItemtHandleAdapter {
 
@@ -61,10 +61,9 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter {
 	/**
 	 * Gets the Children iterator. This children relationship is determined by GUI
 	 * requirement. This is not the model children relationship.
-	 *
+	 * 
 	 * @return Children iterator
 	 */
-	@Override
 	public List getChildren() {
 		ListHandle handle = getListHandle();
 		SlotHandle slotHandle = handle.getHeader();
@@ -99,7 +98,6 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter {
 		addChild(new ListBandProxy(slotHandle, ListBandProxy.LIST_FOOTER));
 		Comparator com = new Comparator() {
 
-			@Override
 			public int compare(Object o1, Object o2) {
 				if (o1 instanceof ListBandProxy && o2 instanceof ListBandProxy) {
 					ListBandProxy band1 = (ListBandProxy) o1;
@@ -150,7 +148,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Inserts a group into list.
-	 *
+	 * 
 	 * @throws ContentException
 	 * @throws NameException
 	 */
@@ -168,7 +166,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Provides remove band function.
-	 *
+	 * 
 	 * @param model
 	 */
 	public void remove(Object model) {
@@ -182,7 +180,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Provides remove group function.
-	 *
+	 * 
 	 * @param group
 	 * @throws SemanticException
 	 */
@@ -193,7 +191,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the Children with index
-	 *
+	 * 
 	 * @return children on given position.
 	 */
 	public Object getChild(int id) {

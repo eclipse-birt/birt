@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +21,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
  * crosstab.
  */
 public interface IAggregationCellViewProvider {
-	int SWITCH_VIEW_TYPE = 0;
-	int CHANGE_ORIENTATION_TYPE = 1;
+	public static final int SWITCH_VIEW_TYPE = 0;
+	public static final int CHANGE_ORIENTATION_TYPE = 1;
 
 	int defalutUpdateType = SWITCH_VIEW_TYPE;
 
@@ -46,7 +46,6 @@ public interface IAggregationCellViewProvider {
 	/**
 	 * @deprecated use {@link #switchView(SwitchCellInfo)}
 	 */
-	@Deprecated
 	void switchView(AggregationCellHandle cell);
 
 	/**
@@ -72,7 +71,6 @@ public interface IAggregationCellViewProvider {
 	/**
 	 * @deprecated use {@link #canSwitch(SwitchCellInfo)}
 	 */
-	@Deprecated
 	boolean canSwitch(AggregationCellHandle cell);
 
 	/**

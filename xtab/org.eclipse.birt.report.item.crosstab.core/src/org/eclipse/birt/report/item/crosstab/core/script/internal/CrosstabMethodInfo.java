@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -42,7 +42,7 @@ public class CrosstabMethodInfo extends MethodInfo {
 
 	private void initArgumentList(Class<?>[] argumentList) {
 		if (argumentInfos == null) {
-			argumentInfos = new ArrayList<>();
+			argumentInfos = new ArrayList<CrosstabArgumentInfoList>();
 		}
 
 		String[] argNames = populateArgNames(argumentList);
@@ -85,7 +85,6 @@ public class CrosstabMethodInfo extends MethodInfo {
 		return null;
 	}
 
-	@Override
 	public Iterator argumentListIterator() {
 		if (argumentInfos == null) {
 			return Collections.EMPTY_LIST.iterator();
@@ -101,15 +100,14 @@ public class CrosstabMethodInfo extends MethodInfo {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getJavaDoc()
 	 */
-	@Override
 	public String getJavaDoc() {
 		return javaDoc.get(getMethod().getName());
 	}
 
-	private final static Map<String, String> javaDoc = new HashMap<>();
+	private final static Map<String, String> javaDoc = new HashMap<String, String>();
 
 	static {
 		javaDoc.put("onPrepareCrosstab", "/**\n" //$NON-NLS-1$ //$NON-NLS-2$

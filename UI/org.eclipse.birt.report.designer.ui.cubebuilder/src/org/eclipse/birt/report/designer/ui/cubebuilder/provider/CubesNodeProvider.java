@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,11 +32,10 @@ public class CubesNodeProvider extends DefaultNodeProvider {
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the given menu.
-	 *
+	 * 
 	 * @param menu   the menu
 	 * @param object the object
 	 */
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		NewCubeAction action = new NewCubeAction(Messages.getString("cube.action.new"));//$NON-NLS-1$
 		menu.add(action);
@@ -44,22 +43,19 @@ public class CubesNodeProvider extends DefaultNodeProvider {
 
 	}
 
-	@Override
 	public Object[] getChildren(Object model) {
 		return ((SlotHandle) model).getElementHandle().getRoot().getVisibleCubes().toArray();
 	}
 
 	/**
 	 * Gets the display name of the node.
-	 *
+	 * 
 	 * @param model the object
 	 */
-	@Override
 	public String getNodeDisplayName(Object object) {
 		return Messages.getString("DefaultNodeProvider.Tree.Cubes"); //$NON-NLS-1$
 	}
 
-	@Override
 	public Image getNodeIcon(Object model) {
 		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);

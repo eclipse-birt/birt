@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class AxisTickCoordinates implements Cloneable {
 
 	/**
 	 * Resets the start and end coordinates.
-	 *
+	 * 
 	 * @param dStart
 	 * @param dEnd
 	 */
@@ -73,7 +73,7 @@ public class AxisTickCoordinates implements Cloneable {
 	/**
 	 * Returns the coordinates of specified ticks. For the sake of performance,
 	 * invokers need to ensure the index correct.
-	 *
+	 * 
 	 * @param index tick index
 	 * @return
 	 */
@@ -111,7 +111,7 @@ public class AxisTickCoordinates implements Cloneable {
 	 * Returns the normalized tick coordinates. that means the start point is always
 	 * zero, and the array lines forward. For the sake of performance, invokers need
 	 * to ensure the index correct.
-	 *
+	 * 
 	 * @param index tick index
 	 * @return
 	 */
@@ -119,7 +119,6 @@ public class AxisTickCoordinates implements Cloneable {
 		return getCoordinate(index) - dStart;
 	}
 
-	@Override
 	public Object clone() {
 		try {
 			AxisTickCoordinates cl = (AxisTickCoordinates) super.clone();

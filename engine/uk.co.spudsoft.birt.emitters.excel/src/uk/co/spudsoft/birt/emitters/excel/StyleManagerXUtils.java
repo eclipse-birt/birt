@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -29,6 +29,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+import org.apache.poi.xssf.usermodel.XSSFShape;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -44,14 +45,13 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 /**
  * StyleManagerXUtils is an extension of the StyleManagerUtils to provide
  * XSSFWorkbook specific functionality.
- *
+ * 
  * @author Jim Talbut
  *
  */
 public class StyleManagerXUtils extends StyleManagerUtils {
 
 	private static Factory factory = new StyleManagerUtils.Factory() {
-		@Override
 		public StyleManagerUtils create(Logger log) {
 			return new StyleManagerXUtils(log);
 		}
@@ -76,7 +76,7 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 
 	/**
 	 * Converts a BIRT border style into a POI BorderStyle.
-	 *
+	 * 
 	 * @param birtBorder The BIRT border style.
 	 * @param width      The width of the border as understood by BIRT.
 	 * @return A POI BorderStyle object.
@@ -179,13 +179,16 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 		// "," + rgbByte[1] + "," + rgbByte[2] + "," + rgbByte[3] + "]" );
 		// XSSFColor result = new XSSFColor(rgbByte);
 		IndexedColorMap colorMap = new DefaultIndexedColorMap();
-		XSSFColor result = new XSSFColor(rgbByte, colorMap);
+		XSSFColor result = new XSSFColor( rgbByte, colorMap );
 		return result;
 	}
 
 	@Override
 	public void addColourToFont(Workbook workbook, Font font, String colour) {
-		if ((colour == null) || IStyle.TRANSPARENT_VALUE.equals(colour)) {
+		if (colour == null) {
+			return;
+		}
+		if (IStyle.TRANSPARENT_VALUE.equals(colour)) {
 			return;
 		}
 		if (font instanceof XSSFFont) {
@@ -200,7 +203,10 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 
 	@Override
 	public void addBackgroundColourToStyle(Workbook workbook, CellStyle style, String colour) {
-		if ((colour == null) || IStyle.TRANSPARENT_VALUE.equals(colour)) {
+		if (colour == null) {
+			return;
+		}
+		if (IStyle.TRANSPARENT_VALUE.equals(colour)) {
 			return;
 		}
 		if (style instanceof XSSFCellStyle) {
@@ -246,7 +252,7 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 	@Override
 	public int anchorDyFromPoints(float height, float rowHeight) {
 		// return (int) (height * XSSFShape.EMU_PER_POINT);
-		return (int) (height * Units.EMU_PER_POINT);
+		return (int)( height * Units.EMU_PER_POINT );
 	}
 
 	@Override

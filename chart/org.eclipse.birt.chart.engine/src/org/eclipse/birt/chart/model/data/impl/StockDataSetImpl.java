@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -31,7 +31,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected StockDataSetImpl() {
@@ -40,7 +40,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -50,10 +50,10 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet {
 
 	/**
 	 * A convenience method to create an initialized 'StockDataSet' instance
-	 *
+	 * 
 	 * @param oValues The Collection (of StockEntry) or StockEntry[] of values
 	 *                associated with this dataset
-	 *
+	 * 
 	 * @return
 	 */
 	public static final StockDataSet create(Object oValues) {
@@ -65,7 +65,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet {
 
 	/**
 	 * This method performs any initialization of the instance when created
-	 *
+	 * 
 	 * Note: Manually written
 	 */
 	protected void initialize() {
@@ -74,7 +74,6 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet {
 	/**
 	 * @generated
 	 */
-	@Override
 	public StockDataSet copyInstance() {
 		StockDataSetImpl dest = new StockDataSetImpl();
 		dest.set(this);

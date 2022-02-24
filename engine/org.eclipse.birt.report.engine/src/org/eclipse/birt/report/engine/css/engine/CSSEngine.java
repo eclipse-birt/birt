@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's CSSEngine.java to support BIRT's CSS rules
@@ -58,7 +58,7 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 
 	/**
 	 * Creates a new CSSEngine.
-	 *
+	 * 
 	 * @param p   The css parser.
 	 * @param pm  The property value managers.
 	 * @param ctx The CSS context.
@@ -90,7 +90,7 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 
 	/**
 	 * Parses and creates a property value from string.
-	 *
+	 * 
 	 * @param idx   The property index.
 	 * @param value The property value.
 	 */
@@ -137,7 +137,7 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 
 	/**
 	 * Parses and creates a style declaration.
-	 *
+	 * 
 	 * @param value The style declaration text.
 	 */
 	public CSSStyleDeclaration parseStyleDeclaration(String value) {
@@ -162,7 +162,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		 * <b>SAC</b>: Implements
 		 * {@link DocumentHandler#property(String,LexicalUnit,boolean)}.
 		 */
-		@Override
 		public void property(String name, LexicalUnit value, boolean important) throws CSSException {
 			int i = pm.getPropertyIndex(name);
 			if (i == -1) {
@@ -194,7 +193,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#startDocument(InputSource)}.
 		 */
-		@Override
 		public void startDocument(InputSource source) throws CSSException {
 			throw new InternalError();
 		}
@@ -202,7 +200,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#endDocument(InputSource)}.
 		 */
-		@Override
 		public void endDocument(InputSource source) throws CSSException {
 			throw new InternalError();
 		}
@@ -210,7 +207,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#comment(String)}.
 		 */
-		@Override
 		public void comment(String text) throws CSSException {
 			// We always ignore the comments.
 		}
@@ -218,7 +214,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#ignorableAtRule(String)}.
 		 */
-		@Override
 		public void ignorableAtRule(String atRule) throws CSSException {
 			throw new InternalError();
 		}
@@ -227,7 +222,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		 * <b>SAC</b>: Implements
 		 * {@link DocumentHandler#namespaceDeclaration(String,String)}.
 		 */
-		@Override
 		public void namespaceDeclaration(String prefix, String uri) throws CSSException {
 			throw new InternalError();
 		}
@@ -236,7 +230,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		 * <b>SAC</b>: Implements
 		 * {@link DocumentHandler#importStyle(String,SACMediaList,String)}.
 		 */
-		@Override
 		public void importStyle(String uri, SACMediaList media, String defaultNamespaceURI) throws CSSException {
 			throw new InternalError();
 		}
@@ -244,7 +237,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#startMedia(SACMediaList)}.
 		 */
-		@Override
 		public void startMedia(SACMediaList media) throws CSSException {
 			throw new InternalError();
 		}
@@ -252,7 +244,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#endMedia(SACMediaList)}.
 		 */
-		@Override
 		public void endMedia(SACMediaList media) throws CSSException {
 			throw new InternalError();
 		}
@@ -260,7 +251,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#startPage(String,String)}.
 		 */
-		@Override
 		public void startPage(String name, String pseudo_page) throws CSSException {
 			throw new InternalError();
 		}
@@ -268,7 +258,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#endPage(String,String)}.
 		 */
-		@Override
 		public void endPage(String name, String pseudo_page) throws CSSException {
 			throw new InternalError();
 		}
@@ -276,7 +265,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#startFontFace()}.
 		 */
-		@Override
 		public void startFontFace() throws CSSException {
 			throw new InternalError();
 		}
@@ -284,7 +272,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#endFontFace()}.
 		 */
-		@Override
 		public void endFontFace() throws CSSException {
 			throw new InternalError();
 		}
@@ -292,7 +279,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#startSelector(SelectorList)}.
 		 */
-		@Override
 		public void startSelector(SelectorList selectors) throws CSSException {
 			throw new InternalError();
 		}
@@ -300,7 +286,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		/**
 		 * <b>SAC</b>: Implements {@link DocumentHandler#endSelector(SelectorList)}.
 		 */
-		@Override
 		public void endSelector(SelectorList selectors) throws CSSException {
 			throw new InternalError();
 		}
@@ -309,7 +294,6 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		 * <b>SAC</b>: Implements
 		 * {@link DocumentHandler#property(String,LexicalUnit,boolean)}.
 		 */
-		@Override
 		public void property(String name, LexicalUnit value, boolean important) throws CSSException {
 			throw new InternalError();
 		}
@@ -317,7 +301,7 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 
 	/**
 	 * if the prop is inheritable.
-	 *
+	 * 
 	 * @param propidx
 	 * @return true, it is inheritable
 	 */
@@ -328,7 +312,7 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 
 	/**
 	 * compute a single style value.
-	 *
+	 * 
 	 * @param elt     the element which owns the style
 	 * @param propidx style index
 	 * @param v       specified value

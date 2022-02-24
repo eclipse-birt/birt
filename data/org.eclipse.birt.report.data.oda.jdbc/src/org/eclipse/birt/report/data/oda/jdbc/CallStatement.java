@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,9 +47,9 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfilePro
 import com.ibm.icu.util.ULocale;
 
 /**
- *
+ * 
  * The class implements the org.eclipse.birt.data.oda.IAdvancedQuery interface.
- *
+ * 
  */
 
 public class CallStatement implements IAdvancedQuery {
@@ -89,14 +89,14 @@ public class CallStatement implements IAdvancedQuery {
 	private static final String ORACLE_FLOAT_NAME = "FLOAT";//$NON-NLS-1$
 	private static final String ORACLE_CURSOR_NAME = "REF CURSOR";//$NON-NLS-1$
 	private static final int ORACLE_CURSOR_TYPE = -10;
-	private Map<String, java.sql.ResultSet> outputParameterResultSetsMap = new LinkedHashMap<>();
+	private Map<String, java.sql.ResultSet> outputParameterResultSetsMap = new LinkedHashMap<String, java.sql.ResultSet>();
 	private int resultIndex = 0;
 	private boolean isExecuted = false;
 	private static JdbcResourceHandle resourceHandle = new JdbcResourceHandle(ULocale.getDefault());
 
 	/**
 	 * assertNull(Object o)
-	 *
+	 * 
 	 * @param o the object that need to be tested null or not. if null, throw
 	 *          exception
 	 */
@@ -108,10 +108,10 @@ public class CallStatement implements IAdvancedQuery {
 	}
 
 	/**
-	 *
+	 * 
 	 * Constructor CallableStatement(java.sql.Connection connection) use JDBC's
 	 * Connection to construct it.
-	 *
+	 * 
 	 */
 	public CallStatement(java.sql.Connection connection) throws OdaException {
 		if (connection != null)
@@ -129,7 +129,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#prepare(java.lang.String)
 	 */
-	@Override
 	public void prepare(String command) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, CallStatement.class.getName(), "prepare",
 				"CallableStatement.prepare( \"" + command + "\" )");
@@ -159,7 +158,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setAppContext(java.lang.Object)
 	 */
-	@Override
 	public void setAppContext(Object context) throws OdaException {
 		if (context instanceof Map) {
 			parameterDefn = (IParameterMetaData) (((Map) context)
@@ -172,11 +170,9 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setProperty(java.lang.String,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setProperty(String name, String value) throws OdaException {
-		if (name == null) {
+		if (name == null)
 			throw new NullPointerException("name is null");
-		}
 
 		if (name.equals("queryTimeOut")) {
 			// Ignore null or empty value
@@ -227,7 +223,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#close()
 	 */
-	@Override
 	public void close() throws OdaException {
 		logger.logp(java.util.logging.Level.FINER, CallStatement.class.getName(), "close", "CallStatement.close( )");
 		try {
@@ -239,9 +234,8 @@ public class CallStatement implements IAdvancedQuery {
 		} catch (SQLException e) {
 			try {
 				if (DBConfig.getInstance().qualifyPolicy(this.conn.getMetaData().getDriverName(),
-						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION)) {
+						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
 					return;
-				}
 			} catch (SQLException e1) {
 
 			}
@@ -252,7 +246,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setMaxRows(int)
 	 */
-	@Override
 	public void setMaxRows(int max) {
 		logger.logp(java.util.logging.Level.FINEST, CallStatement.class.getName(), "setMaxRows",
 				"CallStatement.setMaxRows( " + max + " )");
@@ -265,7 +258,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getMaxRows()
 	 */
-	@Override
 	public int getMaxRows() {
 		logger.logp(java.util.logging.Level.FINEST, CallStatement.class.getName(), "getMaxRows",
 				"CallStatement.getMaxRows( )");
@@ -276,14 +268,12 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getMetaData()
 	 */
-	@Override
 	public IResultSetMetaData getMetaData() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, CallStatement.class.getName(), "getMetaData",
 				"CallableStatement.getMetaData( )");
 
-		if (this.cachedResultMetaData != null) {
+		if (this.cachedResultMetaData != null)
 			return this.cachedResultMetaData;
-		}
 
 		java.sql.ResultSetMetaData resultmd = null;
 		try {
@@ -304,11 +294,10 @@ public class CallStatement implements IAdvancedQuery {
 			try {
 				this.cachedResultSet = executeQuery();
 
-				if (this.cachedResultSet != null) {
+				if (this.cachedResultSet != null)
 					cachedResultMetaData = cachedResultSet.getMetaData();
-				} else {
+				else
 					cachedResultMetaData = new SPResultSetMetaData(null);
-				}
 			} catch (OdaException e) {
 				cachedResultSet = null;
 			} catch (NullPointerException ex) {
@@ -321,7 +310,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#executeQuery()
 	 */
-	@Override
 	public IResultSet executeQuery() throws OdaException {
 		logger.logp(java.util.logging.Level.FINER, CallStatement.class.getName(), "executeQuery",
 				"CallableStatement.executeQuery( )");
@@ -357,9 +345,8 @@ public class CallStatement implements IAdvancedQuery {
 				while (true) {
 					int rowCount = callStat.getUpdateCount();
 					if (rowCount != -1) {
-						if (!callStat.getMoreResults() && callStat.getUpdateCount() == -1) {
+						if (callStat.getMoreResults() == false && callStat.getUpdateCount() == -1)
 							break;
-						}
 						continue;
 					} else {
 						rs = callStat.getResultSet();
@@ -367,19 +354,17 @@ public class CallStatement implements IAdvancedQuery {
 					}
 				}
 			}
-			if (rs != null) {
+			if (rs != null)
 				return new ResultSet(conn, rs);
-			}
 
 			this.populateOutputParamResultSet();
 			java.sql.ResultSet resultSet = this.outputParameterResultSetsMap.size() == 0 ? null
 					: this.outputParameterResultSetsMap.values().iterator().next();
 
-			if (resultSet != null) {
+			if (resultSet != null)
 				return new ResultSet(conn, resultSet);
-			} else {
+			else
 				return new SPResultSet(null);
-			}
 		} catch (SQLException e) {
 			throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_RETURN, e);
 		}
@@ -390,10 +375,9 @@ public class CallStatement implements IAdvancedQuery {
 			for (int i = 1; i <= parameterDefn.getParameterCount(); i++) {
 				if (parameterDefn.getParameterMode(i) == IParameterMetaData.parameterModeOut) {
 					Object expected = callStat.getObject(i);
-					if (expected instanceof java.sql.ResultSet) {
+					if (expected instanceof java.sql.ResultSet)
 						this.outputParameterResultSetsMap.put(parameterDefn.getParameterName(i),
 								(java.sql.ResultSet) expected);
-					}
 				}
 			}
 		}
@@ -405,7 +389,7 @@ public class CallStatement implements IAdvancedQuery {
 	 * get parameter metadata for callableStatement, if metadata is null or data
 	 * mode is unknown or SQLException is thrown, register output parameter on
 	 * DatabaseMetadata, else register output parameter on statement's metadata.
-	 *
+	 * 
 	 * @throws OdaException
 	 */
 	private void registerOutputParameter() throws OdaException {
@@ -428,22 +412,20 @@ public class CallStatement implements IAdvancedQuery {
 	 * recognizable to us as we just can't tell for sure on jdbc level
 	 */
 	private int getParameterType(int i) throws OdaException {
-		if (parameterDefn.getParameterType(i) != Types.CHAR) {
+		if (parameterDefn.getParameterType(i) != Types.CHAR)
 			return parameterDefn.getParameterType(i);
-		}
 
 		try {
 			IParameterMetaData paramMetaData = getParameterMetaData();
-			if (paramMetaData != null && paramMetaData.getParameterCount() >= i) {
+			if (paramMetaData != null && paramMetaData.getParameterCount() >= i)
 				return paramMetaData.getParameterType(i);
-			}
 		} catch (Exception ex) {
 		}
 		return parameterDefn.getParameterType(i);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param position
 	 * @param type
 	 * @throws OdaException
@@ -458,7 +440,7 @@ public class CallStatement implements IAdvancedQuery {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param position
 	 * @param type
 	 * @throws OdaException
@@ -475,7 +457,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#execute()
 	 */
-	@Override
 	public boolean execute() throws OdaException {
 		logger.logp(java.util.logging.Level.FINER, CallStatement.class.getName(), "execute",
 				"CallableStatement.execute( )");
@@ -486,15 +467,13 @@ public class CallStatement implements IAdvancedQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#cancel()
 	 */
-	@Override
 	public void cancel() throws OdaException, UnsupportedOperationException {
 		try {
-			if (this.callStat != null) {
+			if (this.callStat != null)
 				this.callStat.cancel();
-			}
 		} catch (Exception e) {
 		}
 
@@ -508,9 +487,8 @@ public class CallStatement implements IAdvancedQuery {
 
 		try {
 			IConnectionPoolManager manager = ConnectionPoolFactory.getInstance();
-			if (manager != null) {
+			if (manager != null)
 				manager.closeConnection(this.conn);
-			}
 		} catch (Exception e) {
 
 		}
@@ -520,7 +498,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(java.lang.String,
 	 * int)
 	 */
-	@Override
 	public void setInt(String parameterName, int value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -534,9 +511,8 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_INT_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_INT_VALUE, e);
-			}
 		} catch (RuntimeException e1) {
 			rethrowRunTimeException(e1, ERRMSG_SET_PARAMETER + parameterName);
 		}
@@ -545,7 +521,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(int, int)
 	 */
-	@Override
 	public void setInt(int parameterId, int value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -563,7 +538,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setDouble(java.lang.String,
 	 * double)
 	 */
-	@Override
 	public void setDouble(String parameterName, double value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -577,9 +551,8 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DUBLE_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DUBLE_VALUE, e);
-			}
 		} catch (RuntimeException e1) {
 			rethrowRunTimeException(e1, ERRMSG_SET_PARAMETER + parameterName);
 		}
@@ -588,7 +561,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDouble(int, double)
 	 */
-	@Override
 	public void setDouble(int parameterId, double value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -606,7 +578,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(java.lang.String,
 	 * java.math.BigDecimal)
 	 */
-	@Override
 	public void setBigDecimal(String parameterName, BigDecimal value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -622,9 +593,8 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BIGDECIMAL_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BIGDECIMAL_VALUE, e);
-			}
 		} catch (RuntimeException e1) {
 			rethrowRunTimeException(e1, ERRMSG_SET_PARAMETER + parameterName);
 		}
@@ -634,7 +604,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(int,
 	 * java.math.BigDecimal)
 	 */
-	@Override
 	public void setBigDecimal(int parameterId, BigDecimal value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -654,7 +623,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setString(java.lang.String,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setString(String parameterName, String value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -668,9 +636,8 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_STRING_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_STRING_VALUE, e);
-			}
 		} catch (RuntimeException e1) {
 			rethrowRunTimeException(e1, ERRMSG_SET_PARAMETER + parameterName);
 		}
@@ -680,7 +647,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setString(int,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setString(int parameterId, String value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -697,7 +663,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDate(java.lang.String,
 	 * java.sql.Date)
 	 */
-	@Override
 	public void setDate(String parameterName, Date value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -711,9 +676,8 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DATE_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DATE_VALUE, e);
-			}
 		} catch (RuntimeException e1) {
 			rethrowRunTimeException(e1, ERRMSG_SET_PARAMETER + parameterName);
 		}
@@ -723,7 +687,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDate(int,
 	 * java.sql.Date)
 	 */
-	@Override
 	public void setDate(int parameterId, Date value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -740,7 +703,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTime(java.lang.String,
 	 * java.sql.Time)
 	 */
-	@Override
 	public void setTime(String parameterName, Time value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -754,9 +716,8 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIME_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIME_VALUE, e);
-			}
 		} catch (RuntimeException e1) {
 			rethrowRunTimeException(e1, ERRMSG_SET_PARAMETER + parameterName);
 		}
@@ -766,7 +727,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTime(int,
 	 * java.sql.Time)
 	 */
-	@Override
 	public void setTime(int parameterId, Time value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -784,7 +744,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(java.lang.String,
 	 * java.sql.Timestamp)
 	 */
-	@Override
 	public void setTimestamp(String parameterName, Timestamp value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -800,9 +759,8 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIMESTAMP_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIMESTAMP_VALUE, e);
-			}
 		} catch (RuntimeException e1) {
 			rethrowRunTimeException(e1, ERRMSG_SET_PARAMETER + parameterName);
 		}
@@ -812,7 +770,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(int,
 	 * java.sql.Timestamp)
 	 */
-	@Override
 	public void setTimestamp(int parameterId, Timestamp value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -832,7 +789,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String,
 	 * boolean)
 	 */
-	@Override
 	public void setBoolean(String parameterName, boolean value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -848,9 +804,8 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BOOLEAN_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BOOLEAN_VALUE, e);
-			}
 		} catch (RuntimeException e1) {
 			rethrowRunTimeException(e1, ERRMSG_SET_PARAMETER + parameterName);
 		}
@@ -859,7 +814,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
 	 */
-	@Override
 	public void setBoolean(int parameterId, boolean value) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -874,23 +828,21 @@ public class CallStatement implements IAdvancedQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setObject(java.lang.String,
 	 * java.lang.Object)
 	 */
-	@Override
 	public void setObject(String parameterName, Object value) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(int,
 	 * java.lang.Object)
 	 */
-	@Override
 	public void setObject(int parameterId, Object value) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -898,7 +850,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
 	 */
-	@Override
 	public void setNull(String parameterName) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -910,7 +861,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
 	 */
-	@Override
 	public void setNull(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -929,7 +879,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRow(java.lang.
 	 * String)
 	 */
-	@Override
 	public IParameterRowSet setNewRow(String parameterName) throws OdaException {
 		return null;
 	}
@@ -937,7 +886,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRow(int)
 	 */
-	@Override
 	public IParameterRowSet setNewRow(int parameterId) throws OdaException {
 		return null;
 	}
@@ -947,7 +895,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRowSet(java.lang.
 	 * String)
 	 */
-	@Override
 	public IParameterRowSet setNewRowSet(String parameterName) throws OdaException {
 		return null;
 	}
@@ -955,7 +902,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRowSet(int)
 	 */
-	@Override
 	public IParameterRowSet setNewRowSet(int parameterId) throws OdaException {
 		return null;
 	}
@@ -964,7 +910,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getInt(java.lang.
 	 * String)
 	 */
-	@Override
 	public int getInt(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -977,16 +922,14 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getInt(int)
 	 */
-	@Override
 	public int getInt(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -994,7 +937,9 @@ public class CallStatement implements IAdvancedQuery {
 		} catch (SQLException e) {
 			try {
 				return retryToGetParameterValue(parameterId);
-			} catch (OdaException | SQLException e2) {
+			} catch (OdaException e1) {
+				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE, e);
+			} catch (SQLException e2) {
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE, e);
 			}
 		}
@@ -1003,9 +948,8 @@ public class CallStatement implements IAdvancedQuery {
 	// get parameter value when getMoreResult should be called.
 	private int retryToGetParameterValue(int parameterId) throws OdaException, SQLException {
 		IResultSet rs = this.getResultSet();
-		while (rs.next()) {
+		while (rs.next())
 			;
-		}
 		return callStat.getInt(parameterId);
 	}
 
@@ -1014,7 +958,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getDouble(java.lang.
 	 * String)
 	 */
-	@Override
 	public double getDouble(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1027,16 +970,14 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_DOUBLE_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_DOUBLE_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getDouble(int)
 	 */
-	@Override
 	public double getDouble(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1051,7 +992,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBigDecimal(java.lang
 	 * .String)
 	 */
-	@Override
 	public BigDecimal getBigDecimal(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1064,16 +1004,14 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBigDecimal(int)
 	 */
-	@Override
 	public BigDecimal getBigDecimal(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1088,7 +1026,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getString(java.lang.
 	 * String)
 	 */
-	@Override
 	public String getString(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1101,16 +1038,14 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_STRING_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_STRING_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getString(int)
 	 */
-	@Override
 	public String getString(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1124,7 +1059,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getDate(java.lang.
 	 * String)
 	 */
-	@Override
 	public Date getDate(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1137,16 +1071,14 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_DATE_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_DATE_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getDate(int)
 	 */
-	@Override
 	public Date getDate(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1160,7 +1092,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getTime(java.lang.
 	 * String)
 	 */
-	@Override
 	public Time getTime(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1173,16 +1104,14 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_TIME_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_TIME_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getTime(int)
 	 */
-	@Override
 	public Time getTime(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1197,7 +1126,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getTimestamp(java.lang.
 	 * String)
 	 */
-	@Override
 	public Timestamp getTimestamp(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1210,16 +1138,14 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_TIMESTAMP_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_TIMESTAMP_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getTimestamp(int)
 	 */
-	@Override
 	public Timestamp getTimestamp(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1231,11 +1157,10 @@ public class CallStatement implements IAdvancedQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(java.lang.
 	 * String)
 	 */
-	@Override
 	public IBlob getBlob(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1249,18 +1174,16 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(int)
 	 */
-	@Override
 	public IBlob getBlob(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1273,11 +1196,10 @@ public class CallStatement implements IAdvancedQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(java.lang.
 	 * String)
 	 */
-	@Override
 	public IClob getClob(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1291,18 +1213,16 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_CLOB_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_CLOB_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(int)
 	 */
-	@Override
 	public IClob getClob(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1318,7 +1238,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(java.lang.
 	 * String)
 	 */
-	@Override
 	public boolean getBoolean(String parameterName) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1331,16 +1250,14 @@ public class CallStatement implements IAdvancedQuery {
 				} catch (SQLException e1) {
 					throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE, e1);
 				}
-			} else {
+			} else
 				throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE, e);
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(int)
 	 */
-	@Override
 	public boolean getBoolean(int parameterId) throws OdaException {
 		assertNotNull(callStat);
 		try {
@@ -1352,22 +1269,20 @@ public class CallStatement implements IAdvancedQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getObject(int)
 	 */
-	@Override
 	public Object getObject(int parameterId) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getObject(java.lang.
 	 * String)
 	 */
-	@Override
 	public Object getObject(String parameterName) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -1375,9 +1290,8 @@ public class CallStatement implements IAdvancedQuery {
 	private int findParameterPositionByAppContext(String name) throws OdaException {
 		if (this.parameterDefn != null) {
 			for (int i = 1; i <= this.parameterDefn.getParameterCount(); i++) {
-				if (this.parameterDefn.getParameterName(i).equals(name)) {
+				if (this.parameterDefn.getParameterName(i).equals(name))
 					return i;
-				}
 			}
 		}
 		return -1;
@@ -1387,7 +1301,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getRow(java.lang.
 	 * String)
 	 */
-	@Override
 	public IParameterRowSet getRow(String parameterName) throws OdaException {
 		return null;
 	}
@@ -1395,24 +1308,20 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getResultSet()
 	 */
-	@Override
 	public IResultSet getResultSet() throws OdaException {
 		try {
-			if (!this.isExecuted) {
+			if (!this.isExecuted)
 				this.execute();
-			}
 			if (this.outputParameterResultSetsMap.size() > 0) {
 				return new ResultSet(conn,
 						this.outputParameterResultSetsMap.get(this.resultSetNames[this.resultIndex]));
 			}
-			if (!this.isExecuted) {
+			if (!this.isExecuted)
 				rs = callStat.getResultSet();
-			}
-			if (rs != null) {
+			if (rs != null)
 				return new ResultSet(conn, rs);
-			} else {
+			else
 				return new SPResultSet(null);
-			}
 		} catch (SQLException e) {
 			throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET, e);
 		}
@@ -1423,36 +1332,30 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getResultSet(java.lang.
 	 * String)
 	 */
-	@Override
 	public IResultSet getResultSet(String resultSetName) throws OdaException {
 		if (this.outputParameterResultSetsMap.size() > 0
-				&& this.outputParameterResultSetsMap.containsKey(resultSetName)) {
+				&& this.outputParameterResultSetsMap.containsKey(resultSetName))
 			return new ResultSet(conn, this.outputParameterResultSetsMap.get(resultSetName));
-		}
 		throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET, -1);
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getMoreResults()
 	 */
-	@Override
 	public boolean getMoreResults() throws OdaException {
 		try {
-			if (!this.isExecuted) {
+			if (!this.isExecuted)
 				this.execute();
-			}
 
 			if (this.outputParameterResultSetsMap.size() > 0) {
 				this.resultIndex++;
-				if (this.resultIndex >= this.outputParameterResultSetsMap.size()) {
+				if (this.resultIndex >= this.outputParameterResultSetsMap.size())
 					return false;
-				}
 				return true;
 			}
 			boolean flag = callStat.getMoreResults();
-			if (flag) {
+			if (flag)
 				this.rs = this.callStat.getResultSet();
-			}
 			return flag;
 		} catch (SQLException e) {
 			throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET, e);
@@ -1462,7 +1365,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getRow(int)
 	 */
-	@Override
 	public IParameterRowSet getRow(int parameterId) throws OdaException {
 		return null;
 	}
@@ -1472,22 +1374,18 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getMetaDataOf(java.lang
 	 * .String)
 	 */
-	@Override
 	public IResultSetMetaData getMetaDataOf(String resultSetName) throws OdaException {
 		if (this.outputParameterResultSetsMap.size() == 0
-				|| this.outputParameterResultSetsMap.get(resultSetName) == null) {
+				|| this.outputParameterResultSetsMap.get(resultSetName) == null)
 			this.getMetaData();
-		}
-		if (this.outputParameterResultSetsMap.get(resultSetName) != null) {
+		if (this.outputParameterResultSetsMap.get(resultSetName) != null)
 			try {
 
-				if (this.outputParameterResultSetsMap.get(resultSetName) != null) {
+				if (this.outputParameterResultSetsMap.get(resultSetName) != null)
 					return new ResultSetMetaData(this.outputParameterResultSetsMap.get(resultSetName).getMetaData());
-				}
 			} catch (SQLException e) {
 				throw new JDBCException(ResourceConstants.RESULTSET_METADATA_CANNOT_GET, e);
 			}
-		}
 		return null;
 	}
 
@@ -1495,7 +1393,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#findInParameter(java.lang.
 	 * String)
 	 */
-	@Override
 	public int findInParameter(String parameterName) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -1509,7 +1406,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#findOutParameter(java.
 	 * lang.String)
 	 */
-	@Override
 	public int findOutParameter(String parameterName) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -1521,36 +1417,32 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getParameterMetaData()
 	 */
-	@Override
 	public IParameterMetaData getParameterMetaData() throws OdaException {
 		/* redirect the call to JDBC callableStatement.getParameterMetaData */
 		assertNotNull(callStat);
 
-		if (this.cachedParameterMetaData != null) {
+		if (this.cachedParameterMetaData != null)
 			return this.cachedParameterMetaData;
-		}
 		int[] positionArray = paramUtil.getParameterPositions();
 
 		List<ParameterDefn> paramMetaList1 = this.getCallableParamMetaData();
-		List<ParameterDefn> paramMetaList2 = new ArrayList<>();
+		List<ParameterDefn> paramMetaList2 = new ArrayList<ParameterDefn>();
 
 		int containsReturnValue = 0;
 		if (paramMetaList1.size() > 0) {
 			if (((ParameterDefn) paramMetaList1.get(0)).getParamInOutType() == 5) {
-				if (paramUtil.containsReturnValue()) {
+				if (paramUtil.containsReturnValue())
 					paramMetaList2.add(((ParameterDefn) paramMetaList1.get(0)));
-				}
 				containsReturnValue++;
 			}
 		}
 
 		for (int i = 0; i < positionArray.length; i++) {
 			int index = positionArray[i]; // 1-based
-			if (paramMetaList1.size() >= index + containsReturnValue) {
+			if (paramMetaList1.size() >= index + containsReturnValue)
 				paramMetaList2.add(paramMetaList1.get(index - 1 + containsReturnValue));
-			} else {
+			else
 				throw new OdaException(ResourceConstants.PREPARESTATEMENT_PARAMETER_METADATA_CANNOT_GET);
-			}
 		}
 		cachedParameterMetaData = new SPParameterMetaData(paramMetaList2);
 		return cachedParameterMetaData;
@@ -1560,7 +1452,7 @@ public class CallStatement implements IAdvancedQuery {
 	 * get parameter metadata from database matadata
 	 */
 	private List<ParameterDefn> getCallableParamMetaData() throws OdaException {
-		List<ParameterDefn> params = new ArrayList<>();
+		List<ParameterDefn> params = new ArrayList<ParameterDefn>();
 
 		try {
 			DatabaseMetaData metaData = conn.getMetaData();
@@ -1599,7 +1491,7 @@ public class CallStatement implements IAdvancedQuery {
 	/**
 	 * Calls JDBC DatabaseMetaData to find parameter definitions for a stored
 	 * procedure
-	 *
+	 * 
 	 * @param schemaPattern        Pattern for matching schema name. If null,
 	 *                             matches any schema. If empty, matches current
 	 *                             user's schema
@@ -1626,16 +1518,14 @@ public class CallStatement implements IAdvancedQuery {
 				p.setPrecision(rs.getInt("PRECISION"));
 				p.setScale(rs.getInt("SCALE"));
 				p.setIsNullable(rs.getInt("NULLABLE"));
-				if (p.getParamType() == Types.OTHER) {
+				if (p.getParamType() == Types.OTHER)
 					correctParamType(p);
-				}
 				params.add(p);
 			}
 		} finally {
 			// Make sure result set is closed in case of error
-			if (rs != null) {
+			if (rs != null)
 				rs.close();
-			}
 		}
 
 	}
@@ -1652,12 +1542,14 @@ public class CallStatement implements IAdvancedQuery {
 			} else {
 				return spElement.getName();
 			}
-		} else if (dmd.storesLowerCaseIdentifiers()) {
-			return spElement.getName().toLowerCase();
-		} else if (dmd.storesUpperCaseIdentifiers()) {
-			return spElement.getName().toUpperCase();
 		} else {
-			return spElement.getName();
+			if (dmd.storesLowerCaseIdentifiers()) {
+				return spElement.getName().toLowerCase();
+			} else if (dmd.storesUpperCaseIdentifiers()) {
+				return spElement.getName().toUpperCase();
+			} else {
+				return spElement.getName();
+			}
 		}
 	}
 
@@ -1667,20 +1559,18 @@ public class CallStatement implements IAdvancedQuery {
 	private void correctParamType(ParameterDefn parameterDefn) {
 		String parameterName = parameterDefn.getParamTypeName().toUpperCase();
 
-		if (parameterName.equals(ORACLE_FLOAT_NAME)) {
+		if (parameterName.equals(ORACLE_FLOAT_NAME))
 			parameterDefn.setParamType(Types.FLOAT);
-		} else if (parameterName.equals(ORACLE_CURSOR_NAME)) {
+		else if (parameterName.equals(ORACLE_CURSOR_NAME))
 			parameterDefn.setParamType(ORACLE_CURSOR_TYPE);
-		} else {
+		else
 			parameterDefn.setParamType(Types.VARCHAR);
-		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setSortSpec(org.eclipse.
 	 * datatools.connectivity.oda.SortSpec)
 	 */
-	@Override
 	public void setSortSpec(SortSpec sortBy) throws OdaException {
 		setSortSpec(null, sortBy);
 	}
@@ -1690,7 +1580,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setSortSpec(java.lang.
 	 * String, org.eclipse.datatools.connectivity.oda.SortSpec)
 	 */
-	@Override
 	public void setSortSpec(String resultSetName, SortSpec sortBy) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("setSortSpec is not supported.");
@@ -1702,7 +1591,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getSortSpec()
 	 */
-	@Override
 	public SortSpec getSortSpec() throws OdaException {
 		UnsupportedOperationException e = new UnsupportedOperationException("setSortSpec is not supported.");
 		logger.logp(java.util.logging.Level.FINEST, CallStatement.class.getName(), "getSortSpec",
@@ -1712,12 +1600,11 @@ public class CallStatement implements IAdvancedQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setSpecification(org.eclipse.
 	 * datatools.connectivity.oda.spec.QuerySpecification)
 	 */
-	@Override
 	public void setSpecification(QuerySpecification querySpec) throws OdaException, UnsupportedOperationException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("setSpecification is not supported.");
@@ -1729,20 +1616,18 @@ public class CallStatement implements IAdvancedQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getSpecification()
 	 */
-	@Override
 	public QuerySpecification getSpecification() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getEffectiveQueryText()
 	 */
-	@Override
 	public String getEffectiveQueryText() {
 		throw new UnsupportedOperationException();
 	}
@@ -1752,7 +1637,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getSortSpec(java.lang.
 	 * String)
 	 */
-	@Override
 	public SortSpec getSortSpec(String resultSetName) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("setSortSpec is not supported.");
@@ -1764,7 +1648,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#clearInParameters()
 	 */
-	@Override
 	public void clearInParameters() throws OdaException {
 		try {
 			assertNotNull(callStat);
@@ -1790,7 +1673,6 @@ public class CallStatement implements IAdvancedQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#wasNull()
 	 */
-	@Override
 	public boolean wasNull() throws OdaException {
 		return false;
 	}
@@ -1799,7 +1681,6 @@ public class CallStatement implements IAdvancedQuery {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getResultSetNames()
 	 */
-	@Override
 	public String[] getResultSetNames() throws OdaException {
 		return resultSetNames;
 	}

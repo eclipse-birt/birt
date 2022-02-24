@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,9 +61,9 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 /**
- *
+ * 
  * Utility class to get meta data and data from data set
- *
+ * 
  */
 public final class DataSetProvider {
 
@@ -75,7 +75,7 @@ public final class DataSetProvider {
 	private static DataSetProvider instance = null;
 
 	// column hash table
-	private Map<DataSetHandle, DataSetViewData[]> htColumns = new LinkedHashMap<>(10,
+	private Map<DataSetHandle, DataSetViewData[]> htColumns = new LinkedHashMap<DataSetHandle, DataSetViewData[]>(10,
 			(float) 0.75, true) {
 
 		private static final long serialVersionUID = 4685315474104939633L;
@@ -83,14 +83,15 @@ public final class DataSetProvider {
 		/*
 		 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
 		 */
-		@Override
 		protected boolean removeEldestEntry(final Map.Entry eldest) {
 			return size() > 10;
 		}
 	};
 
-	private static Hashtable<String, IConfigurationElement> htDataSourceExtensions = new Hashtable<>(
+	private static Hashtable<String, IConfigurationElement> htDataSourceExtensions = new Hashtable<String, IConfigurationElement>(
 			10);
+
+	private boolean needToFocusOnOutput = true;
 
 	/**
 	 * @return
@@ -100,19 +101,18 @@ public final class DataSetProvider {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public static DataSetProvider getCurrentInstance() {
-		if (instance == null) {
+		if (instance == null)
 			instance = newInstance();
-		}
 		return instance;
 	}
 
 	/**
 	 * get columns data by data set name
-	 *
+	 * 
 	 * @param dataSetName
 	 * @param refresh
 	 * @return
@@ -129,7 +129,7 @@ public final class DataSetProvider {
 
 	/**
 	 * get column data by data set handle
-	 *
+	 * 
 	 * @param dataSet
 	 * @param refresh
 	 * @return
@@ -140,7 +140,7 @@ public final class DataSetProvider {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSet
 	 * @param refresh
 	 * @param useColumnHints Only applicable if the list is refreshed.
@@ -192,7 +192,7 @@ public final class DataSetProvider {
 	 * populate all output columns in viewer display. The output columns is
 	 * retrieved from oda dataset handles's RESULT_SET_PROP and
 	 * COMPUTED_COLUMNS_PROP.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	public DataSetViewData[] populateAllOutputColumns(DataSetHandle dataSetHandle, DataRequestSession session)
@@ -200,9 +200,8 @@ public final class DataSetProvider {
 		try {
 			DataService.getInstance().registerSession(dataSetHandle, session);
 			IResultMetaData metaData = session.getDataSetMetaData(dataSetHandle, false);
-			if (metaData == null) {
+			if (metaData == null)
 				return new DataSetViewData[0];
-			}
 			DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount()];
 
 			for (int i = 0; i < metaData.getColumnCount(); i++) {
@@ -242,11 +241,13 @@ public final class DataSetProvider {
 					items[i].setRemoveDuplicateValues(hint.isCompressed());
 					items[i].setAlias(hint.getAlias());
 					items[i].setActionHandle(hint.getActionHandle());
-				} else if (items[i].isComputedColumn()) {
-					items[i].setAnalysis(null);
-					items[i].setAnalysisColumn(null);
 				} else {
-					items[i].setAnalysisColumn(null);
+					if (items[i].isComputedColumn()) {
+						items[i].setAnalysis(null);
+						items[i].setAnalysisColumn(null);
+					} else {
+						items[i].setAnalysisColumn(null);
+					}
 				}
 			}
 			return items;
@@ -257,7 +258,7 @@ public final class DataSetProvider {
 
 	/**
 	 * get Cached metadata
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	public DataSetViewData[] populateAllCachedMetaData(DataSetHandle dataSetHandle, DataRequestSession session)
@@ -306,12 +307,14 @@ public final class DataSetProvider {
 				items[i].setIndexColumn(hint.isIndexColumn());
 				items[i].setRemoveDuplicateValues(hint.isCompressed());
 				items[i].setActionHandle(hint.getActionHandle());
-			} else if (items[i].isComputedColumn()) {
-				items[i].setAnalysis(null);
-				items[i].setAnalysisColumn(null);
 			} else {
-				items[i].setAnalysis(null);
-				items[i].setAnalysisColumn(null);
+				if (items[i].isComputedColumn()) {
+					items[i].setAnalysis(null);
+					items[i].setAnalysisColumn(null);
+				} else {
+					items[i].setAnalysis(null);
+					items[i].setAnalysisColumn(null);
+				}
 			}
 		}
 		return items;
@@ -320,28 +323,26 @@ public final class DataSetProvider {
 	/**
 	 * update the columns of the DataSetHandle and put the new DataSetViewData[]
 	 * into htColumns
-	 *
+	 * 
 	 * @param dataSet
 	 * @param dsItemModel
 	 */
 	public void updateColumnsOfDataSetHandle(DataSetHandle dataSet, DataSetViewData[] dsItemModel) {
-		if (dataSet == null || dsItemModel == null || dsItemModel.length == 0) {
+		if (dataSet == null || dsItemModel == null || dsItemModel.length == 0)
 			return;
-		}
 		htColumns.put(dataSet, dsItemModel);
 	}
 
 	/**
 	 * This function should be called very carefully. Presently it is only called in
 	 * DataSetEditorDialog#performCancel.
-	 *
+	 * 
 	 * @param dataSet
 	 * @param itemModel
 	 */
 	public void setModelOfDataSetHandle(DataSetHandle dataSet, DataSetViewData[] dsItemModel) {
-		if (dataSet == null || dsItemModel == null) {
+		if (dataSet == null || dsItemModel == null)
 			return;
-		}
 
 		updateModel(dataSet, dsItemModel);
 		cleanUnusedResultSetColumn(dataSet, dsItemModel);
@@ -350,9 +351,8 @@ public final class DataSetProvider {
 	}
 
 	private ColumnHintHandle findColumnHint(DataSetHandle handle, String columnName) {
-		if (columnName == null || columnName.trim().length() == 0) {
+		if (columnName == null || columnName.trim().length() == 0)
 			return null;
-		}
 
 		ColumnHintHandle hint = null;
 		if (handle instanceof DerivedDataSetHandle) {
@@ -386,7 +386,7 @@ public final class DataSetProvider {
 
 	/**
 	 * To rollback original datasetHandle, clean unused resultset columm
-	 *
+	 * 
 	 * @param dataSetHandle
 	 * @param dsItemModel
 	 */
@@ -420,7 +420,7 @@ public final class DataSetProvider {
 
 	/**
 	 * To rollback original datasetHandle, clean unused computed columm
-	 *
+	 * 
 	 * @param dataSetHandle
 	 * @param dsItemModel
 	 */
@@ -453,12 +453,12 @@ public final class DataSetProvider {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param rowsToReturn
 	 * @return
 	 */
-	private QueryDefinition getQueryDefinition(IBaseDataSetDesign dataSetDesign, int rowsToReturn) {
+	private final QueryDefinition getQueryDefinition(IBaseDataSetDesign dataSetDesign, int rowsToReturn) {
 		if (dataSetDesign != null) {
 			QueryDefinition defn = new QueryDefinition(null);
 			defn.setDataSetName(dataSetDesign.getName());
@@ -487,7 +487,8 @@ public final class DataSetProvider {
 	 * @param bindingParams
 	 * @return
 	 */
-	public QueryDefinition getQueryDefinition(IBaseDataSetDesign dataSetDesign, ParamBindingHandle[] bindingParams) {
+	public final QueryDefinition getQueryDefinition(IBaseDataSetDesign dataSetDesign,
+			ParamBindingHandle[] bindingParams) {
 		return getQueryDefinition(dataSetDesign, bindingParams, -1);
 	}
 
@@ -590,11 +591,12 @@ public final class DataSetProvider {
 
 	/**
 	 * Get cached data set item model. If none is cached, return null;
-	 *
+	 * 
 	 * @param ds
 	 * @param columns
 	 */
 	public DataSetViewData[] getCachedDataSetItemModel(DataSetHandle ds, boolean needToFocusOnOutput) {
+		this.needToFocusOnOutput = needToFocusOnOutput;
 		DataSetViewData[] result = this.htColumns.get(ds);
 		if (result == null) {
 
@@ -755,9 +757,8 @@ public final class DataSetProvider {
 
 		loadResourceFolderScriptLibs(handle, urls);
 
-		if (urls.size() == 0) {
+		if (urls.size() == 0)
 			return parent;
-		}
 
 		return new URLClassLoader(urls.toArray(new URL[0]), parent);
 	}
@@ -767,25 +768,25 @@ public final class DataSetProvider {
 		while (it.hasNext()) {
 			ScriptLibHandle libHandle = (ScriptLibHandle) it.next();
 			URL url = handle.findResource(libHandle.getName(), IResourceLocator.LIBRARY);
-			if (url != null) {
+			if (url != null)
 				urls.add(url);
-			}
 		}
 	}
 
 	private static List<URL> getClassPathURLs(String reportFilePath) {
-		List<URL> urls = new ArrayList<>(getDefaultViewerScriptLibURLs());
+		List<URL> urls = new ArrayList<URL>();
+		urls.addAll(getDefaultViewerScriptLibURLs());
 		urls.addAll(getWorkspaceProjectURLs(reportFilePath));
 		return urls;
 	}
 
 	/**
 	 * Return the URLs of ScriptLib jars.
-	 *
+	 * 
 	 * @return
 	 */
 	private static List<URL> getDefaultViewerScriptLibURLs() {
-		List<URL> urls = new ArrayList<>();
+		List<URL> urls = new ArrayList<URL>();
 		try {
 			Bundle bundle = EclipseUtil.getBundle(VIEWER_NAMESPACE);
 
@@ -793,9 +794,8 @@ public final class DataSetProvider {
 			Enumeration bundleFile = bundle.getEntryPaths(BIRT_SCRIPTLIB);
 			while (bundleFile.hasMoreElements()) {
 				String o = bundleFile.nextElement().toString();
-				if (o.endsWith(".jar")) {
+				if (o.endsWith(".jar"))
 					urls.add(bundle.getResource(o));
-				}
 			}
 			URL classes = bundle.getEntry(BIRT_CLASSES);
 			if (classes != null) {
@@ -809,7 +809,7 @@ public final class DataSetProvider {
 
 	/**
 	 * Return the URLs of Workspace projects.
-	 *
+	 * 
 	 * @return
 	 */
 	private static List<URL> getWorkspaceProjectURLs(String reportFilePath) {
@@ -818,7 +818,7 @@ public final class DataSetProvider {
 
 	/**
 	 * clear cached metadata for specified dataSetHandle
-	 *
+	 * 
 	 * @param dataSetHandle
 	 */
 	public void clear(DataSetHandle dataSetHandle) {

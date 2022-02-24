@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004-2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -30,7 +30,7 @@ public class DefaultRegisteredSubtaskEntryImpl extends DefaultRegisteredEntry<IS
 			ISubtaskSheet sheet) {
 		super(sheet, sDisplayName, sNodePath);
 		try {
-			double nodeIndexWithPriority = Double.parseDouble(sNodeIndex);
+			double nodeIndexWithPriority = Double.valueOf(sNodeIndex);
 			nodeIndex = (int) nodeIndexWithPriority;
 			priority = (int) (nodeIndexWithPriority * 10 - nodeIndex * 10);
 		} catch (NumberFormatException e) {
@@ -40,32 +40,28 @@ public class DefaultRegisteredSubtaskEntryImpl extends DefaultRegisteredEntry<IS
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#
 	 * getRegisteredNodePath()
 	 */
-	@Override
 	public int getNodeIndex() {
 		return nodeIndex;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#
 	 * getRegisteredNodePath()
 	 */
-	@Override
 	public String getNodePath() {
 		return sNodePath;
 	}
 
-	@Override
 	public ISubtaskSheet getSheet() {
 		return getInstance();
 	}
 
-	@Override
 	public String getDisplayName() {
 		return getName();
 	}
@@ -74,7 +70,7 @@ public class DefaultRegisteredSubtaskEntryImpl extends DefaultRegisteredEntry<IS
 	 * Returns the priority when multiple entries has the same node index. The
 	 * values are between 0 to 9. For instance, nodeIndex in extension point is
 	 * 10.1, which means priority is 1.
-	 *
+	 * 
 	 * @return priority value
 	 * @since 3.7
 	 */

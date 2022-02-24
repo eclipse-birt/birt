@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQuery;
 
 /**
- *
+ * 
  */
 
 public class QueryPrepareUtil {
@@ -57,11 +57,10 @@ public class QueryPrepareUtil {
 
 		String rootQueryResultID = QueryResultIDUtil.get1PartID(queryResultID);
 		String parentQueryResultID = null;
-		if (rootQueryResultID != null) {
+		if (rootQueryResultID != null)
 			parentQueryResultID = QueryResultIDUtil.get2PartID(queryResultID);
-		} else {
+		else
 			rootQueryResultID = queryResultID;
-		}
 
 		QueryResultInfo queryResultInfo = new QueryResultInfo(rootQueryResultID, parentQueryResultID, null, null, -1);
 		RDLoad rdLoad = RDUtil.newLoad(dataEngine.getSession().getTempDir(), dataEngine.getContext(), queryResultInfo);

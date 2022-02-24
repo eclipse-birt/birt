@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,13 +20,13 @@ import org.eclipse.birt.report.model.core.DesignElement;
 /**
  * Represents exceptions encountered during crosstab actions, it will include a
  * reference to the element which causes the error.
- *
+ * 
  */
 
 public class CrosstabException extends SemanticException {
 
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = 7908514127634678177L;
 	/**

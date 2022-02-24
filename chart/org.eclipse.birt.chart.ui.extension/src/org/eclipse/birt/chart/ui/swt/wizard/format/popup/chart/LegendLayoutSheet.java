@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -93,7 +93,6 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements Listener, M
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_LEGEND_LAYOUT);
 	}
 
-	@Override
 	protected Composite getComponent(Composite parent) {
 		Composite cmpContent = new Composite(parent, SWT.NONE);
 		cmpContent.setLayout(new GridLayout());
@@ -311,11 +310,10 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements Listener, M
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events
 	 * .ModifyEvent)
 	 */
-	@Override
 	public void modifyText(ModifyEvent e) {
 		if (e.widget.equals(txtWrapping)) {
 			if (!TextEditorComposite.TEXT_RESET_MODEL.equals(e.data)) {
@@ -330,11 +328,10 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements Listener, M
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(fccBackground)) {
 			getBlockForProcessing().setBackground((Fill) event.data);
@@ -364,22 +361,20 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements Listener, M
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Object oSource = e.getSource();
 		Legend legend = getBlockForProcessing();

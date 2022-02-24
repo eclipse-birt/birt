@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,12 +51,12 @@ public class GroupHandleProvider implements IFormHandleProvider {
 	/**
 	 * Column properties.
 	 */
-	private String[] columnKeys = { GroupHandle.GROUP_NAME_PROP, GroupHandle.KEY_EXPR_PROP };
+	private String[] columnKeys = new String[] { GroupHandle.GROUP_NAME_PROP, GroupHandle.KEY_EXPR_PROP };
 
 	/**
 	 * Column widths.
 	 */
-	private static int[] columnWidth = { 250, 250 };
+	private static int[] columnWidth = new int[] { 250, 250 };
 
 	/**
 	 * Model processor, provide data process of Group model.
@@ -75,11 +75,10 @@ public class GroupHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnNames()
 	 */
-	@Override
 	public String[] getColumnNames() {
 		if (columnNames == null) {
 			columnNames = modelAdapter.getColumnNames(columnKeys);
@@ -89,22 +88,20 @@ public class GroupHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getTitle()
 	 */
-	@Override
 	public String getTitle() {
 		return Messages.getString("GroupHandleProvider.Label.Groups"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
-	@Override
 	public CellEditor[] getEditors(Table table) {
 		if (editors == null) {
 			editors = new TextCellEditor[columnKeys.length];
@@ -116,44 +113,40 @@ public class GroupHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
-	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws SemanticException {
 		return modelAdapter.moveItem(input.get(0), oldPos, newPos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doDeleteItem(int)
 	 */
-	@Override
 	public boolean doDeleteItem(int pos) throws SemanticException {
 		return modelAdapter.deleteItem(input.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doAddItem(int)
 	 */
-	@Override
 	public boolean doAddItem(int pos) {
 		return UIUtil.createGroup((DesignElementHandle) input.get(0));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doEditItem(int)
 	 */
-	@Override
 	public boolean doEditItem(int pos) {
 		ListingHandle listingHandle = (ListingHandle) input.get(0);
 		GroupHandle groupHandle = (GroupHandle) listingHandle.getGroups().get(pos);
@@ -166,11 +159,10 @@ public class GroupHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
-	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		String key = columnKeys[columnIndex];
 		return modelAdapter.getText(element, key);
@@ -178,22 +170,20 @@ public class GroupHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
-	@Override
 	public String getImagePath(Object element, int columnIndex) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
-	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof List) {
 			input = (List) inputElement;
@@ -207,22 +197,20 @@ public class GroupHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
-	@Override
 	public boolean canModify(Object element, String property) {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
-	@Override
 	public Object getValue(Object element, String property) {
 		int index = Arrays.asList(columnNames).indexOf(property);
 
@@ -232,12 +220,11 @@ public class GroupHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
 	 * java.lang.Object)
 	 */
-	@Override
 	public boolean modify(Object data, String property, Object value) throws NameException, SemanticException {
 		int index = Arrays.asList(columnNames).indexOf(property);
 		String key = columnKeys[index];
@@ -252,31 +239,28 @@ public class GroupHandleProvider implements IFormHandleProvider {
 				String[] choices = modelAdapter.getChoiceSet(input.get(0), columnKeys[index]);
 				strValue = choices[intValue];
 			}
-		} else {
+		} else
 			strValue = (String) value;
-		}
 		return modelAdapter.setStringValue(input.get(0), data, key, strValue);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnWidths()
 	 */
-	@Override
 	public int[] getColumnWidths() {
 		return columnWidth;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.
 	 * NotificationEvent)
 	 */
-	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		if (event instanceof ContentEvent) {
 			return true;
@@ -284,19 +268,16 @@ public class GroupHandleProvider implements IFormHandleProvider {
 
 		if (event instanceof PropertyEvent) {
 			String propertyName = ((PropertyEvent) event).getPropertyName();
-			if (GroupHandle.GROUP_NAME_PROP.equals(propertyName) || GroupHandle.KEY_EXPR_PROP.equals(propertyName)) {
+			if (GroupHandle.GROUP_NAME_PROP.equals(propertyName) || GroupHandle.KEY_EXPR_PROP.equals(propertyName))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	@Override
 	public boolean isEditable() {
 		return true;
 	}
 
-	@Override
 	public Image getImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;

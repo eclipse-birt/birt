@@ -76,14 +76,15 @@ public class PDFPageDevice implements IPageDevice {
 
 	protected PDFPage currentPage = null;
 
-	protected HashMap<Float, PdfTemplate> templateMap = new HashMap<>();
+	protected HashMap<Float, PdfTemplate> templateMap = new HashMap<Float, PdfTemplate>();
 
-	protected HashMap<String, PdfTemplate> imageCache = new HashMap<>();
+	protected HashMap<String, PdfTemplate> imageCache = new HashMap<String, PdfTemplate>();
 
 	/**
 	 * the iText and Birt engine version info.
 	 */
-	protected static String[] versionInfo = { BundleVersionUtil.getBundleVersion("org.eclipse.birt.report.engine") };
+	protected static String[] versionInfo = new String[] {
+			BundleVersionUtil.getBundleVersion("org.eclipse.birt.report.engine") };
 
 	protected final static int MAX_PAGE_WIDTH = 14400000; // 200 inch
 	protected final static int MAX_PAGE_HEIGHT = 14400000; // 200 inch
@@ -125,7 +126,7 @@ public class PDFPageDevice implements IPageDevice {
 			// appendPDF, and take a list of strings of PDF files to
 			// append to the end.
 			// this is where we will test the merge
-			List<InputStream> pdfs = new ArrayList<>();
+			List<InputStream> pdfs = new ArrayList<InputStream>();
 
 			// removed using the runtime instance of the report and switched to using the
 			// designtime
@@ -211,15 +212,16 @@ public class PDFPageDevice implements IPageDevice {
 					// check size of PDFs to make sure we aren't calling this on a 0 size array
 					if (pdfs.size() > 0) {
 						// this hasn't been initialized yet, open the doc
-						if (!this.doc.isOpen()) {
+						if (!this.doc.isOpen())
 							this.doc.open();
-						}
 						concatPDFs(pdfs, false);
 					}
 				}
 			}
 			// End Modification
-		} catch (DocumentException | BirtException be) {
+		} catch (DocumentException de) {
+			logger.log(Level.SEVERE, de.getMessage(), de);
+		} catch (BirtException be) {
 			logger.log(Level.SEVERE, be.getMessage(), be);
 		}
 	}
@@ -258,7 +260,6 @@ public class PDFPageDevice implements IPageDevice {
 		return imageCache;
 	}
 
-	@Override
 	public void close() throws Exception {
 		if (!doc.isOpen()) {
 			// to ensure we create a PDF file
@@ -269,7 +270,7 @@ public class PDFPageDevice implements IPageDevice {
 		// appendPDF, and take a list of strings of PDF files to
 		// append to the end.
 		// this is where we will test the merge
-		List<InputStream> pdfs = new ArrayList<>();
+		List<InputStream> pdfs = new ArrayList<InputStream>();
 
 		// removed using the runtime instance of the report and switched to using the
 		// designtime
@@ -366,7 +367,6 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
-	@Override
 	public IPage newPage(int width, int height, Color backgroundColor) {
 		int w = Math.min(width, MAX_PAGE_WIDTH);
 		int h = Math.min(height, MAX_PAGE_HEIGHT);
@@ -419,10 +419,10 @@ public class PDFPageDevice implements IPageDevice {
 
 	/**
 	 * Patched PDF to Combine PDF Files
-	 *
+	 * 
 	 * Given a list of PDF Files When a user wants to append PDf files to a PDF
 	 * emitter output Then Append the PDF files to the output stream or output file
-	 *
+	 * 
 	 * @param streamOfPDFFiles
 	 * @param paginate
 	 */
@@ -431,7 +431,7 @@ public class PDFPageDevice implements IPageDevice {
 		Document document = doc;
 		try {
 			List<InputStream> pdfs = streamOfPDFFiles;
-			List<PdfReader> readers = new ArrayList<>();
+			List<PdfReader> readers = new ArrayList<PdfReader>();
 			int totalPages = 0;
 			Iterator<InputStream> iteratorPDFs = pdfs.iterator();
 

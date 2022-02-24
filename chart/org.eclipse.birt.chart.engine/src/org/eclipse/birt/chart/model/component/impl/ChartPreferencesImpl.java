@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -43,13 +43,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @deprecated only reserved for compatibility
  */
-@Deprecated
 public class ChartPreferencesImpl extends EObjectImpl implements ChartPreferences {
 
 	/**
 	 * The cached value of the '{@link #getLabels() <em>Labels</em>}' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLabels()
 	 * @generated
 	 * @ordered
@@ -59,7 +58,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 	/**
 	 * The cached value of the '{@link #getBlocks() <em>Blocks</em>}' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getBlocks()
 	 * @generated
 	 * @ordered
@@ -68,7 +67,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected ChartPreferencesImpl() {
@@ -77,7 +76,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -87,33 +86,31 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<Label> getLabels() {
 		if (labels == null) {
-			labels = new EObjectContainmentEList<>(Label.class, this, ComponentPackage.CHART_PREFERENCES__LABELS);
+			labels = new EObjectContainmentEList<Label>(Label.class, this, ComponentPackage.CHART_PREFERENCES__LABELS);
 		}
 		return labels;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<Block> getBlocks() {
 		if (blocks == null) {
-			blocks = new EObjectContainmentEList<>(Block.class, this, ComponentPackage.CHART_PREFERENCES__BLOCKS);
+			blocks = new EObjectContainmentEList<Block>(Block.class, this, ComponentPackage.CHART_PREFERENCES__BLOCKS);
 		}
 		return blocks;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -129,7 +126,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -145,7 +142,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -166,7 +163,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -184,7 +181,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -201,7 +198,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 	/**
 	 * @generated
 	 */
-	@Override
 	public ChartPreferences copyInstance() {
 		ChartPreferencesImpl dest = new ChartPreferencesImpl();
 		dest.set(this);

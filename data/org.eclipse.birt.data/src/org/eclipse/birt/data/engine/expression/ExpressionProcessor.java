@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -28,8 +28,8 @@ import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.impl.aggregation.JSAggrValueObject;
-import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -40,7 +40,7 @@ import org.mozilla.javascript.Scriptable;
  * query is executed. <br>
  * ExpressionProcessor compiles the expression into Rhino byte code for faster
  * evaluation at runtime.
- *
+ * 
  */
 public class ExpressionProcessor implements IExpressionProcessor {
 	/**
@@ -73,7 +73,7 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	private MultiPassExpressionCompiler currentHelper;
 
 	/**
-	 *
+	 * 
 	 * @return the instance of ExpressionProcessor
 	 */
 	public ExpressionProcessor(DataSetRuntime dataSet) {
@@ -82,13 +82,12 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param computedColumns
 	 * @param rsPopulator
 	 * @param dataSetRuntime
 	 * @throws DataException
 	 */
-	@Override
 	public void evaluateMultiPassExprOnCmp(IComputedColumnsState iccState, boolean useResultSetMeta)
 			throws DataException {
 		assert (iccState != null);
@@ -141,7 +140,7 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param context
 	 * @param exprType
 	 * @param currentGroupLevel
@@ -153,9 +152,8 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	private void setHandle(ScriptContext context, int exprType, int currentGroupLevel,
 			MultiPassExpressionCompiler helper, IBaseExpression baseExpression, boolean useResultSetMeta)
 			throws DataException {
-		if (baseExpression == null) {
+		if (baseExpression == null)
 			return;
-		}
 		ExpressionInfo exprInfo;
 		if (baseExpression instanceof IScriptExpression) {
 			exprInfo = new ExpressionInfo((IScriptExpression) baseExpression, exprType, currentGroupLevel,
@@ -175,7 +173,7 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param exprArray
 	 * @param arrayType
 	 * @param rsPopulator
@@ -184,7 +182,6 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	 * @param isDataSetMode
 	 * @throws DataException
 	 */
-	@Override
 	public void evaluateMultiPassExprOnGroup(Object[] exprArray, int[] currentGroupLevel, int arrayType)
 			throws DataException {
 		assert exprArray != null;
@@ -203,14 +200,13 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param list
 	 * @return
 	 * @throws DataException
 	 */
-	@Override
 	public boolean hasAggregateExpr(List list) throws DataException {
-		boolean hasAggregate;
+		boolean hasAggregate = false;
 
 		MultiPassExpressionCompiler helper = new MultiPassExpressionCompiler(rsPopulator, baseQuery,
 				dataset.getScriptScope(), availableAggrList,
@@ -230,12 +226,11 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expression
 	 * @return
 	 * @throws DataException
 	 */
-	@Override
 	public boolean hasAggregation(IBaseExpression expression) {
 		boolean hasAggregate = false;
 
@@ -259,7 +254,7 @@ public class ExpressionProcessor implements IExpressionProcessor {
 
 	/**
 	 * calculate the aggregate in available iccstates
-	 *
+	 * 
 	 * @param computedColumns
 	 * @param helper
 	 * @throws DataException
@@ -284,22 +279,20 @@ public class ExpressionProcessor implements IExpressionProcessor {
 		}
 		Scriptable aggrObj = table.getJSAggrValueObject();
 		dataset.setJSTempAggrValueObject(aggrObj);
-
+		;
 		for (int i = 0; i < aggrList.size(); i++) {
 			AggregateObject obj = (AggregateObject) aggrList.get(i);
 			obj.setAvailable(true);
-			if (availableAggrList == null) {
+			if (availableAggrList == null)
 				availableAggrList = new ArrayList();
-			}
-			if (!availableAggrList.contains(obj)) {
+			if (!availableAggrList.contains(obj))
 				availableAggrList.add(obj);
-			}
 		}
 	}
 
 	/**
 	 * compile conditional expression
-	 *
+	 * 
 	 * @param baseExpression
 	 * @param parser
 	 * @throws DataException
@@ -318,7 +311,7 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param baseExpression
 	 * @throws DataException
 	 */
@@ -329,15 +322,12 @@ public class ExpressionProcessor implements IExpressionProcessor {
 			IScriptExpression op = condition.getExpression();
 			IBaseExpression op1 = condition.getOperand1();
 			IBaseExpression op2 = condition.getOperand2();
-			if (op != null) {
+			if (op != null)
 				helper.compileExpression(op, context);
-			}
-			if (op1 != null) {
+			if (op1 != null)
 				compileBaseExpression(op1, helper, context);
-			}
-			if (op2 != null) {
+			if (op2 != null)
 				compileBaseExpression(op2, helper, context);
-			}
 		} else if (baseExpression instanceof IScriptExpression) {
 			IScriptExpression scriptExpr = (IScriptExpression) baseExpression;
 			helper.compileExpression(scriptExpr, context);
@@ -352,7 +342,7 @@ public class ExpressionProcessor implements IExpressionProcessor {
 
 	/**
 	 * Return the index of group according to the given group text.
-	 *
+	 * 
 	 * @param groupText
 	 * @return The index of group
 	 */
@@ -371,7 +361,7 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
@@ -391,7 +381,6 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	 * org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor#getScope
 	 * ()
 	 */
-	@Override
 	public Scriptable getScope() throws DataException {
 		return this.dataset.getScriptScope();
 	}
@@ -401,7 +390,6 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	 * setResultSetPopulator(org.eclipse.birt.data.engine.executor.transform.
 	 * ResultSetPopulator)
 	 */
-	@Override
 	public void setResultSetPopulator(ResultSetPopulator rsPopulator) {
 		this.rsPopulator = rsPopulator;
 	}
@@ -410,7 +398,6 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	 * @see org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor#
 	 * setDataSetMode(boolean)
 	 */
-	@Override
 	public void setDataSetMode(boolean isDataSetMode) {
 		this.isDataSetMode = isDataSetMode;
 	}
@@ -420,7 +407,6 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	 * org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor#setQuery
 	 * (org.eclipse.birt.data.engine.executor.BaseQuery)
 	 */
-	@Override
 	public void setQuery(BaseQuery query) {
 		this.baseQuery = query;
 	}
@@ -429,7 +415,6 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	 * @see org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor#
 	 * setResultIterator(org.eclipse.birt.data.engine.odi.IResultIterator)
 	 */
-	@Override
 	public void setResultIterator(IResultIterator resultIterator) {
 		this.resultIterator = resultIterator;
 		// TODO: this code needs further review
@@ -440,18 +425,16 @@ public class ExpressionProcessor implements IExpressionProcessor {
 	 * @see
 	 * org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor#clear()
 	 */
-	@Override
 	public void clear() {
-		if (availableAggrList != null) {
+		if (availableAggrList != null)
 			availableAggrList.clear();
-		}
 		availableAggrList = null;
 	}
 }
 
 /**
- *
- *
+ * 
+ * 
  */
 class ExpressionInfo {
 
@@ -461,7 +444,7 @@ class ExpressionInfo {
 	boolean customerChecked = false;
 
 	/**
-	 *
+	 * 
 	 * @param scriptExpression
 	 * @param exprType
 	 * @param currentGroupLevel
@@ -476,7 +459,7 @@ class ExpressionInfo {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	IScriptExpression getScriptExpression() {
@@ -484,7 +467,7 @@ class ExpressionInfo {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	int getExprType() {
@@ -492,7 +475,7 @@ class ExpressionInfo {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	int getCurrentGroupLevel() {
@@ -500,7 +483,7 @@ class ExpressionInfo {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	boolean useCustomerChecked() {

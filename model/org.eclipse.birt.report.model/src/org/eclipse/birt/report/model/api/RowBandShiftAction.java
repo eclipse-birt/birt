@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -28,7 +28,7 @@ public class RowBandShiftAction extends RowBandAction {
 
 	/**
 	 * Constructs a default <code>RowBandAdapter</code>.
-	 *
+	 * 
 	 * @param adapter the adapter to work on tables and grids.
 	 */
 
@@ -38,7 +38,7 @@ public class RowBandShiftAction extends RowBandAction {
 
 	/**
 	 * Checks whether the shift operation can be done with the given parameters
-	 *
+	 * 
 	 * @param parameters parameters needed by insert operation.
 	 * @return <code>true</code> indicates the shift operation can be done.
 	 *         Otherwise <code>false</code>.
@@ -48,28 +48,25 @@ public class RowBandShiftAction extends RowBandAction {
 		// if table has parent, its layout can't be changed. so can't do insert
 		// operation.
 
-		if (adapter.hasParent()) {
+		if (adapter.hasParent())
 			return false;
-		}
 
 		int destIndex = parameters.getDestIndex();
 		int sourceIndex = parameters.getSourceIndex();
 
 		SlotHandle slotHandle = getSlotHandle(parameters);
-		if ((slotHandle == null) || sourceIndex < 0 || sourceIndex >= slotHandle.getCount()) {
+		if (slotHandle == null)
 			return false;
-		}
-		if (destIndex < 0 || destIndex > slotHandle.getCount()) {
+		if (sourceIndex < 0 || sourceIndex >= slotHandle.getCount())
 			return false;
-		}
-		if (sourceIndex == destIndex) {
+		if (destIndex < 0 || destIndex > slotHandle.getCount())
 			return false;
-		}
+		if (sourceIndex == destIndex)
+			return false;
 
 		RowHandle sourceHandle = (RowHandle) slotHandle.get(sourceIndex);
-		if (destIndex > 0) {
+		if (destIndex > 0)
 			--destIndex;
-		}
 
 		// check source row and the upper of target row is rectangle and hasn't
 		// row span.
@@ -88,17 +85,16 @@ public class RowBandShiftAction extends RowBandAction {
 	/**
 	 * Does shift operation with the given parameters. Now only allow to shift table
 	 * row in the same slot.
-	 *
+	 * 
 	 * @param parameters parameters needed by insert operation.
 	 * @throws SemanticException
 	 */
 
 	protected void doShift(RowOperationParameters parameters) throws SemanticException {
-		if (!canShift(parameters)) {
+		if (!canShift(parameters))
 			throw new SemanticError(adapter.getElementHandle().getElement(),
 					new String[] { adapter.getElementHandle().getName() },
 					SemanticError.DESIGN_EXCEPTION_ROW_SHIFT_FORBIDDEN);
-		}
 
 		int destIndex = parameters.getDestIndex();
 		int sourceIndex = parameters.getSourceIndex();
@@ -119,9 +115,8 @@ public class RowBandShiftAction extends RowBandAction {
 			// the position; else needn't do it.
 
 			slotHandle.drop(sourceIndex);
-			if ((sourceIndex < destIndex) && (destIndex > 0)) {
+			if ((sourceIndex < destIndex) && (destIndex > 0))
 				--destIndex;
-			}
 			slotHandle.paste(copiedRow.getHandle(slotHandle.getModule()), destIndex);
 		} catch (SemanticException e) {
 			stack.rollback();

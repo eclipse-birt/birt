@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import javax.olap.OLAPException;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 
 /**
- *
+ * 
  *
  */
 public class SubRowDataAccessor extends RowDataAccessor {
@@ -30,7 +30,7 @@ public class SubRowDataAccessor extends RowDataAccessor {
 	private RowDataAccessorService service;
 
 	/**
-	 *
+	 * 
 	 * @param service
 	 * @param parentNavigator
 	 * @param startingLevel
@@ -50,7 +50,6 @@ public class SubRowDataAccessor extends RowDataAccessor {
 	 * org.eclipse.birt.data.engine.olap.cursor.RowDataAccessor#populateEdgeInfo(
 	 * boolean)
 	 */
-	@Override
 	public void initialize(boolean isPage) throws IOException {
 		if (startingLevel < 0) {
 			edgeStart = 0;
@@ -66,11 +65,9 @@ public class SubRowDataAccessor extends RowDataAccessor {
 		edgeTraverse = new EdgeTraverse(this.parentNavigator.edgeDimensRelation, edgeStart, edgeEnd);
 	}
 
-	@Override
 	public boolean edge_relative(int arg0) throws OLAPException {
-		if (arg0 == 0) {
+		if (arg0 == 0)
 			return true;
-		}
 		int position = this.edgeTraverse.currentPosition + arg0;
 		if (position >= this.edgeDimensRelation.traverseLength) {
 			this.edge_afterLast();
@@ -81,11 +78,10 @@ public class SubRowDataAccessor extends RowDataAccessor {
 			return false;
 		} else {
 			for (int i = 0; i < Math.abs(arg0); i++) {
-				if (arg0 > 0) {
+				if (arg0 > 0)
 					this.edge_next();
-				} else {
+				else
 					this.edge_previous();
-				}
 			}
 			return true;
 		}

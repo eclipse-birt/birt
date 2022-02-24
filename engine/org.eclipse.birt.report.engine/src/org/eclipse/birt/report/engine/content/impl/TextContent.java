@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,7 +36,6 @@ public class TextContent extends AbstractContent implements ITextContent {
 		text = textContent.getText();
 	}
 
-	@Override
 	public int getContentType() {
 		return TEXT_CONTENT;
 	}
@@ -49,23 +48,20 @@ public class TextContent extends AbstractContent implements ITextContent {
 		super(content);
 	}
 
-	@Override
 	public String getText() {
 		return text;
 	}
 
-	@Override
 	public void setText(String text) {
 		this.text = text;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
 	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitText(this, value);
 	}
@@ -100,7 +96,6 @@ public class TextContent extends AbstractContent implements ITextContent {
 
 	static final protected short FIELD_TEXT = 1100;
 
-	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (text != null) {
@@ -109,7 +104,6 @@ public class TextContent extends AbstractContent implements ITextContent {
 		}
 	}
 
-	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_TEXT:
@@ -120,7 +114,6 @@ public class TextContent extends AbstractContent implements ITextContent {
 		}
 	}
 
-	@Override
 	public boolean needSave() {
 		if (text != null) {
 			return true;
@@ -128,7 +121,6 @@ public class TextContent extends AbstractContent implements ITextContent {
 		return super.needSave();
 	}
 
-	@Override
 	protected IContent cloneContent() {
 		return new TextContent(this);
 	}

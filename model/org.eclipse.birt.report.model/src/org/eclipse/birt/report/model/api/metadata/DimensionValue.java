@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,8 +41,8 @@ import com.ibm.icu.util.ULocale;
  * <li>ex (x-height)</li>
  * <li>% (percentage)</li>
  * </ul>
- *
- *
+ * 
+ * 
  * @see org.eclipse.birt.report.model.api.util.DimensionUtil
  */
 
@@ -120,7 +120,7 @@ public class DimensionValue {
 
 	/**
 	 * Constructs a DimensionValue given its measure and unit.
-	 *
+	 * 
 	 * @param theMeasure numeric measure
 	 * @param theUnits   units part for the dimension.
 	 * @throws IllegalArgumentException if the unit is not supported.
@@ -129,13 +129,12 @@ public class DimensionValue {
 	public DimensionValue(double theMeasure, String theUnits) {
 		measure = theMeasure;
 
-		if (StringUtil.isBlank(theUnits)) {
+		if (StringUtil.isBlank(theUnits))
 			units = DEFAULT_UNIT;
-		} else if (DimensionValueUtil.isValidUnit(theUnits)) {
+		else if (DimensionValueUtil.isValidUnit(theUnits))
 			units = theUnits;
-		} else {
+		else
 			throw new IllegalArgumentException("The unit " + theUnits + " is not supported."); //$NON-NLS-1$//$NON-NLS-2$
-		}
 	}
 
 	/**
@@ -152,7 +151,7 @@ public class DimensionValue {
 
 	/**
 	 * Returns the measure portion of the dimension.
-	 *
+	 * 
 	 * @return the measure
 	 */
 
@@ -162,7 +161,7 @@ public class DimensionValue {
 
 	/**
 	 * Returns the units portion of the dimension.
-	 *
+	 * 
 	 * @return the units.
 	 */
 
@@ -177,14 +176,13 @@ public class DimensionValue {
 	 * <li>null</li>
 	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param value the dimension string to parse
 	 * @return a dimension object representing the dimension string.
 	 * @throws PropertyValueException if the string is not valid
 	 * @deprecated replaced by {@link StringUtil#parse(String)}
 	 */
 
-	@Deprecated
 	public static DimensionValue parse(String value) throws PropertyValueException {
 		return DimensionValueUtil.doParse(value, false, null);
 	}
@@ -200,14 +198,13 @@ public class DimensionValue {
 	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[u]], u is the one of the allowed units</li>
 	 * </ul>
 	 * <p>
-	 *
+	 * 
 	 * @param value the string to parse
 	 * @return a dimension object
 	 * @throws PropertyValueException if the string is not valid
 	 * @deprecated replaced by
 	 *             {@link StringUtil#parseInput(String, com.ibm.icu.util.ULocale)}
 	 */
-	@Deprecated
 	public static DimensionValue parseInput(String value) throws PropertyValueException {
 		return DimensionValueUtil.doParse(value, true, ThreadResources.getLocale());
 	}
@@ -217,11 +214,10 @@ public class DimensionValue {
 	 * be converted into a format like "#.###", there is no group separator and
 	 * remains at most 3 digits after the decimal separator. e.g:
 	 * "12,000,000.12345cm" will be converted into "12000000.123"
-	 *
+	 * 
 	 * @return The string presentation of this dimension value.
 	 */
 
-	@Override
 	public String toString() {
 		// ".0", ".00" or ".000" that tacks onto the end of integers is
 		// eliminate.
@@ -234,7 +230,7 @@ public class DimensionValue {
 	/**
 	 * Returns the dimension value in localized format.
 	 * <p>
-	 *
+	 * 
 	 * @return localized format for this instance.
 	 */
 
@@ -247,7 +243,7 @@ public class DimensionValue {
 
 	/**
 	 * Finds index of the first unit character( pt, %, pc... ) in the String.
-	 *
+	 * 
 	 * @param value an input string
 	 * @return index of the first letter. Return -1 if no letter found in the String
 	 *         value.
@@ -271,22 +267,22 @@ public class DimensionValue {
 	 * object with the same measure and the same type of unit. The two dimension
 	 * values with different units are not equal, although they can be converted to
 	 * same measure
-	 *
+	 * 
 	 * @param obj the object to compare this dimension value against.
-	 *
+	 * 
 	 * @return <CODE>true</CODE> if this dimension value is equal to the given one;
 	 *         <CODE>false</CODE> otherwise.
 	 */
 
-	@Override
 	public boolean equals(Object obj) {
-		if (obj == this) {
+		if (obj == this)
 			return true;
-		}
 
-		if ((obj == null) || (getClass() != obj.getClass())) {
+		if (obj == null)
 			return false;
-		}
+
+		if (getClass() != obj.getClass())
+			return false;
 
 		DimensionValue dv = (DimensionValue) obj;
 
@@ -305,25 +301,24 @@ public class DimensionValue {
 	 * Double.doubleToLongBits(double), of the primitive <code>double</code> value
 	 * represented by the measure of this <code>DimensionValue</code> object. That
 	 * is, the hash code is the value of the expression: <blockquote>
-	 *
+	 * 
 	 * <pre>
 	 * int result = 17 + 37 * (int) (m &circ; (m &gt;&gt;&gt; 32));
 	 * result = 37 * result + getUnits().toLowerCase().hashCode();
 	 * </pre>
-	 *
+	 * 
 	 * </blockquote> where <code>m</code> is defined by: <blockquote>
-	 *
+	 * 
 	 * <pre>
-	 *
+	 * 
 	 * long m = Double.doubleToLongBits(this.getMeasure());
 	 * </pre>
-	 *
+	 * 
 	 * </blockquote>
-	 *
+	 * 
 	 * @return the hash code value for this object.
 	 */
 
-	@Override
 	public int hashCode() {
 		int result = 17;
 

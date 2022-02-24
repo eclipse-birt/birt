@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.build;
@@ -25,7 +25,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
 
 /**
- *
+ * 
  * this custom task implements retrail logic, it's a task container. Tasks in
  * this container will retry <code>retrial</code> times, the interval also can
  * be set following attributes can be set: <br>
@@ -61,7 +61,7 @@ public class ReliableTask extends Task implements TaskContainer {
 	protected int interval = 0;
 
 	/**
-	 *
+	 * 
 	 * @param retrial
 	 */
 	public void setRetrial(int retrial) {
@@ -69,7 +69,7 @@ public class ReliableTask extends Task implements TaskContainer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param property
 	 */
 	public void setFailProperty(String property) {
@@ -77,7 +77,7 @@ public class ReliableTask extends Task implements TaskContainer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param interval
 	 */
 	public void setInterval(int interval) {
@@ -85,7 +85,7 @@ public class ReliableTask extends Task implements TaskContainer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param f
 	 */
 	public void setFailOnError(boolean f) {
@@ -95,21 +95,19 @@ public class ReliableTask extends Task implements TaskContainer {
 	/**
 	 * Add a nested task to container.
 	 * <p>
-	 *
+	 * 
 	 * @param nestedTask Nested task to execute
 	 *                   <p>
 	 */
-	@Override
 	public void addTask(Task nestedTask) {
 		nestedTasks.addElement(nestedTask);
 	}
 
 	/**
 	 * Execute all nestedTasks and retry.
-	 *
+	 * 
 	 * @throws BuildException if one of the nested tasks fails.
 	 */
-	@Override
 	public void execute() throws BuildException {
 		boolean pass = false;
 		int count = 0;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,11 +30,11 @@ import org.xml.sax.Attributes;
 
 /**
  * Parses the property content. The XML file is like:
- *
+ * 
  * <pre>
  *                            &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  * </pre>
- *
+ * 
  * The supported tags are:
  * <ul>
  * <li>property,
@@ -97,7 +97,7 @@ public class PropertyContentState extends AbstractParseState {
 	/**
 	 * Constructs the design parse state with the design file parser handler. This
 	 * constructor is used when this property to parse is a property of one element.
-	 *
+	 * 
 	 * @param theHandler the design file parser handler
 	 * @param element    the element which holds this property
 	 * @param tagName
@@ -114,12 +114,11 @@ public class PropertyContentState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	@Override
 	public final void parseAttrs(Attributes attrs) throws XMLParserException {
 		super.parseAttrs(attrs);
 
@@ -140,44 +139,39 @@ public class PropertyContentState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
-	@Override
 	public XMLParserHandler getHandler() {
 		return handler;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
 	 */
 
-	@Override
 	public final AbstractParseState jumpTo() {
 		// If this state can not be parsed properly, any states in it are
 		// ignored.
 
-		if (!valid) {
+		if (!valid)
 			return new AnyElementState(handler);
-		}
 
-		AbstractParseState state;
+		AbstractParseState state = null;
 
 		// general jump to
 
 		int maxJump = 5;
 		state = generalJumpTo();
 		for (int i = 1; i < maxJump; i++) {
-			if (state != null && state.jumpTo() != null) {
+			if (state != null && state.jumpTo() != null)
 				state = state.jumpTo();
-			}
 		}
-		if (state != null) {
+		if (state != null)
 			return state;
-		}
 
 		// super jump to
 		return super.jumpTo();
@@ -186,15 +180,14 @@ public class PropertyContentState extends AbstractParseState {
 	/**
 	 * Jumps to the specified state that the current state needs to go when some
 	 * version controlled condition is satisfied.
-	 *
+	 * 
 	 * @return the other state.
 	 */
 
 	protected final AbstractParseState generalJumpTo() {
 		PropertyDefn defn = element.getPropertyDefn(name);
-		if (defn == null) {
+		if (defn == null)
 			return new ContentNodeState(tagName, handler, parentNode, attributes);
-		}
 
 		AbstractPropertyState state = null;
 		if (tagName.equalsIgnoreCase(DesignSchemaConstants.PROPERTY_TAG)) {

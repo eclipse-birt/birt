@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -38,9 +38,9 @@ public class PasteAction extends AbstractViewAction {
 
 	/**
 	 * Create a new paste action with given selection and default text
-	 *
+	 * 
 	 * @param selectedObject the selected object,which cannot be null
-	 *
+	 * 
 	 */
 	public PasteAction(Object selectedObject) {
 		this(selectedObject, DEFAULT_TEXT);
@@ -48,7 +48,7 @@ public class PasteAction extends AbstractViewAction {
 
 	/**
 	 * Create a new paste action with given selection and text
-	 *
+	 * 
 	 * @param selectedObject the selected object,which cannot be null
 	 * @param text           the text of the action
 	 */
@@ -65,7 +65,6 @@ public class PasteAction extends AbstractViewAction {
 	 * the steps needed to carry out this action. The default implementation of this
 	 * method in <code>Action</code> does nothing.
 	 */
-	@Override
 	public void run() {
 		List infoList = new ArrayList();
 		if (!canPaste(infoList)) {
@@ -94,10 +93,9 @@ public class PasteAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
 		/*
 		 * Fixed bug 231728. We decide to always enable Paste action and do check only
@@ -115,7 +113,6 @@ public class PasteAction extends AbstractViewAction {
 		return Clipboard.getDefault().getContents();
 	}
 
-	@Override
 	public Object getSelection() {
 		Object selection = super.getSelection();
 		if (selection instanceof StructuredSelection) {

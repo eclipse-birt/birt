@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -44,7 +44,7 @@ public class Object3D {
 
 	private int iZmax;
 
-	private HashMap<Object3D, Boolean> hmSwap = new HashMap<>();
+	private HashMap<Object3D, Boolean> hmSwap = new HashMap<Object3D, Boolean>();
 
 	protected static final IGObjectFactory goFactory = GObjectFactory.instance();
 
@@ -64,7 +64,7 @@ public class Object3D {
 
 	/**
 	 * Construction by an array of 3d coordinates
-	 *
+	 * 
 	 * @param the points that constitue the 3D object. If there are more than 2
 	 *            points the order of points decides the orientation of the surface.
 	 *            Only the outside face is painted, unless the object is
@@ -77,7 +77,7 @@ public class Object3D {
 
 	/**
 	 * Construction by an array of 3d coordinates
-	 *
+	 * 
 	 * @param loa
 	 * @param inverted invert the order of points to change the surface orientation
 	 */
@@ -135,7 +135,7 @@ public class Object3D {
 	/**
 	 * return the normal (orientation) vector of the plane determined by points pt0,
 	 * pt1 and pt2
-	 *
+	 * 
 	 * @param pt0
 	 * @param pt1
 	 * @param pt2
@@ -327,7 +327,7 @@ public class Object3D {
 	public void clip(Engine3D engine) {
 		byte retval;
 
-		List<Vector> lst = new ArrayList<>();
+		List<Vector> lst = new ArrayList<Vector>();
 
 		switch (va.length) {
 		case 0:
@@ -456,7 +456,12 @@ public class Object3D {
 		int thisPointsNumber = viewVa.length;
 		int comparedPointsNumber = comparedObj.getViewerVectors().length;
 
-		if (thisPointsNumber == 0 || comparedPointsNumber == 0 || (thisPointsNumber < 3 && comparedPointsNumber < 3)) {
+		if (thisPointsNumber == 0 || comparedPointsNumber == 0) {
+			// skip empty object.
+			return true;
+		}
+
+		if (thisPointsNumber < 3 && comparedPointsNumber < 3) {
 			// test two lines or point in a line.
 			return true;
 		}
@@ -494,7 +499,7 @@ public class Object3D {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return true if the point vPoint is on the outer sider of the plane
 	 *         determined by the vNorm and d
 	 */
@@ -513,7 +518,7 @@ public class Object3D {
 	/**
 	 * return whether all point of the obj is outside/inside the plane determinded
 	 * by normal and d
-	 *
+	 * 
 	 * @param normal
 	 * @param d
 	 * @param obj
@@ -530,8 +535,10 @@ public class Object3D {
 				if (p < -1E-7) {
 					return false;
 				}
-			} else if (p > 1E-7) {
-				return false;
+			} else {
+				if (p > 1E-7) {
+					return false;
+				}
 			}
 		}
 
@@ -608,7 +615,7 @@ public class Object3D {
 
 	/**
 	 * Removed duplicate points to avoid wrong computations later.
-	 *
+	 * 
 	 * @param loa
 	 * @return
 	 */
@@ -643,14 +650,17 @@ public class Object3D {
 		if (next) {
 			if (index + 1 > va.length - 1) {
 				return 0;
-			} else {
+			} else
 				return index + 1;
-			}
 
-		} else if (index - 1 < 0) {
-			return va.length - 1;
-		} else {
-			return index - 1;
+		}
+
+		else {
+			if (index - 1 < 0)
+				return va.length - 1;
+			else
+				return index - 1;
+
 		}
 	}
 

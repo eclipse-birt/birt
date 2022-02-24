@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,19 +34,16 @@ public class ByteArrayRAOutputStream extends RAOutputStream {
 		this.offset = 0;
 	}
 
-	@Override
 	public long getOffset() throws IOException {
 		return offset;
 	}
 
-	@Override
 	public long length() throws IOException {
 		return length;
 	}
 
 	private byte writeBuffer[] = new byte[8];
 
-	@Override
 	public void writeInt(int v) throws IOException {
 		writeBuffer[0] = (byte) (v >>> 24);
 		writeBuffer[1] = (byte) (v >>> 16);
@@ -55,7 +52,6 @@ public class ByteArrayRAOutputStream extends RAOutputStream {
 		write(writeBuffer, 0, 4);
 	}
 
-	@Override
 	public void writeLong(long v) throws IOException {
 		writeBuffer[0] = (byte) (v >>> 56);
 		writeBuffer[1] = (byte) (v >>> 48);
@@ -79,7 +75,6 @@ public class ByteArrayRAOutputStream extends RAOutputStream {
 		}
 	}
 
-	@Override
 	public void write(int b) throws IOException {
 		increase_buffer(offset + 1);
 		buffer[offset] = (byte) (b & 0xFF);
@@ -89,7 +84,6 @@ public class ByteArrayRAOutputStream extends RAOutputStream {
 		}
 	}
 
-	@Override
 	public void write(byte[] buff, int off, int len) throws IOException {
 		increase_buffer(offset + len);
 		System.arraycopy(buff, off, buffer, offset, len);

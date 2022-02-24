@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -22,7 +22,7 @@ import javax.servlet.WriteListener;
 /**
  * This class extends and mocks an abstract ServletOutputStream class for Viewer
  * UnitTest
- *
+ * 
  */
 public class ServletOutputStreamSimulator extends ServletOutputStream {
 	/**
@@ -40,7 +40,7 @@ public class ServletOutputStreamSimulator extends ServletOutputStream {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param out
 	 */
 	public ServletOutputStreamSimulator(OutputStream out) {
@@ -49,10 +49,9 @@ public class ServletOutputStreamSimulator extends ServletOutputStream {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.io.OutputStream#write(int)
 	 */
-	@Override
 	public void write(int b) throws IOException {
 		out.write(b);
 	}

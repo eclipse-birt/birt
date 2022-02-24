@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,10 +46,10 @@ class ContextCopyPasteBasePolicy {
 	/**
 	 * Returns the element with context information such as xpath, element id and
 	 * the location of the design module.
-	 *
+	 * 
 	 * @param source the source element
 	 * @param root   the module of the source element
-	 *
+	 * 
 	 * @return the instance of <code>ContextCopiedElement</code> with context
 	 *         information.
 	 */
@@ -65,20 +65,17 @@ class ContextCopyPasteBasePolicy {
 		if (!StringUtil.isBlank(extendsName)) {
 			String namespace = StringUtil.extractNamespace(extendsName);
 			Library lib = root.getLibraryWithNamespace(namespace);
-			if (lib != null) {
+			if (lib != null)
 				libLocation = lib.getLocation();
-			}
 
 			DesignElement element = source.getExtendsElement();
-			if (element != null) {
+			if (element != null)
 				extendsElementID = element.getID();
-			}
 		}
 
 		String location = null;
-		if (root != null && root.getSystemId() != null) {
+		if (root != null && root.getSystemId() != null)
 			location = root.getLocation();
-		}
 
 		DesignElement destination = null;
 
@@ -99,9 +96,8 @@ class ContextCopyPasteBasePolicy {
 		}
 
 		List<PropertyBinding> propertyBindings = null;
-		if (root != null) {
+		if (root != null)
 			propertyBindings = root.getPropertyBindings(source);
-		}
 
 		return new ContextCopiedElement(destination, localized, xpath, location, libLocation, extendsElementID,
 				propertyBindings);
@@ -110,16 +106,16 @@ class ContextCopyPasteBasePolicy {
 	/**
 	 * Checks whether the given copy is valid for pasting. Following cases are
 	 * invalid:
-	 *
+	 * 
 	 * <ul>
 	 * <li>the instance is <code>null</code>.
 	 * <li>the instance does not contain the localized copy.
 	 * </ul>
-	 *
+	 * 
 	 * @param context the context of container
 	 * @param module  the module of the element to paste
 	 * @param copy    the given copy
-	 *
+	 * 
 	 * @return <code>true</code> is the copy is good for pasting. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -209,12 +205,12 @@ class ContextCopyPasteBasePolicy {
 	/**
 	 * Checks whether the <code>content</code> can be pasted. And if localization is
 	 * needed, localize property values to <code>content</code>.
-	 *
+	 * 
 	 * @param context the place where the content is to pasted
 	 * @param content the content
 	 * @param module  the root of the context
 	 * @return the element copy that should be added into the context
-	 *
+	 * 
 	 */
 
 	public IDesignElement preWorkForPaste(ContainerContext context, IElementCopy content, Module module) {
@@ -232,21 +228,18 @@ class ContextCopyPasteBasePolicy {
 		}
 
 		String location = copy.getRootLocation();
-		if (location == null) {
+		if (location == null)
 			return copy.getLocalizedCopy();
-		}
 
 		DesignElement copiedElement = copy.getCopy();
 
 		DesignSessionImpl session = module.getSession();
 		Module copiedRoot = session.getOpenedModule(location);
-		if (copiedRoot == null) {
+		if (copiedRoot == null)
 			return copy.getLocalizedCopy();
-		}
 
-		if (copiedRoot == module) {
+		if (copiedRoot == module)
 			return copy.getUnlocalizedCopy();
-		}
 
 		String nameSpace = StringUtil.extractNamespace(copiedElement.getExtendsName());
 
@@ -254,46 +247,42 @@ class ContextCopyPasteBasePolicy {
 		// localize it or not
 		if (!StringUtil.isEmpty(nameSpace)) {
 			Library lib = module.getLibraryWithNamespace(nameSpace);
-			if (lib == null) {
+			if (lib == null)
 				return copy.getLocalizedCopy();
-			}
 
 			long extendsElementID = copy.getExtendsElementID();
-			if (extendsElementID == DesignElement.NO_ID) {
+			if (extendsElementID == DesignElement.NO_ID)
 				return copy.getLocalizedCopy();
-			}
 
 			// gets the location of the library which contains the copied
 			// extends.
 			String libLocation = copy.getLibLocation();
+			if (libLocation == null)
+				return copy.getLocalizedCopy();
+
 			// validates the location of the library which contains the copied
 			// extends is the same as the location of the library of the target
 			// container
-			if ((libLocation == null) || !libLocation.equals(lib.getLocation())) {
+			if (!libLocation.equals(lib.getLocation()))
 				return copy.getLocalizedCopy();
-			}
 
 			Library copiedLib = copiedRoot.getLibraryWithNamespace(nameSpace);
-			if (copiedLib == null) {
+			if (copiedLib == null)
 				return copy.getLocalizedCopy();
-			}
 
 			// validates the location of the newly open library is the same as
 			// the location of the library which contains the extends element.
 
-			if (!libLocation.equals(copiedLib.getLocation())) {
+			if (!libLocation.equals(copiedLib.getLocation()))
 				return copy.getLocalizedCopy();
-			}
 
 			DesignElement libElement = lib.getElementByID(extendsElementID);
-			if (libElement == null) {
+			if (libElement == null)
 				return copy.getLocalizedCopy();
-			}
 
 			DesignElement copyLibElement = copiedLib.getElementByID(extendsElementID);
-			if (libElement.getDefn() != copyLibElement.getDefn()) {
+			if (libElement.getDefn() != copyLibElement.getDefn())
 				return copy.getLocalizedCopy();
-			}
 		}
 
 		return copy.getCopy();
@@ -301,9 +290,8 @@ class ContextCopyPasteBasePolicy {
 
 	public void copyPropertyBindings(IElementCopy copy, DesignElementHandle target) throws SemanticException {
 		if (target == null || target.getRoot() == null
-				|| target.getRoot().getPropertyDefn(IModuleModel.PROPERTY_BINDINGS_PROP) == null) {
+				|| target.getRoot().getPropertyDefn(IModuleModel.PROPERTY_BINDINGS_PROP) == null)
 			return;
-		}
 		for (PropertyBinding propBinding : ((ContextCopiedElement) copy).getPropertyBindings()) {
 			target.setPropertyBinding(propBinding.getName(),
 					propBinding.getExpressionProperty(PropertyBinding.VALUE_MEMBER));

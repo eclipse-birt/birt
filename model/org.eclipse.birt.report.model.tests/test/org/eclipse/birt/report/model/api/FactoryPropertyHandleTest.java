@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,43 +29,42 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testGetValues()}</td>
  * <td>Test choice value for the property of dimension with extended choice</td>
  * <td>getXXXValue() should return right result.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Test dimension value for the property of dimension with extended choice
  * </td>
  * <td>getXXXValue() should return right result.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Test choice value for the property of integer with extended choice</td>
  * <td>getXXXValue() should return right result.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Test integer value for the property of integer with extended choice</td>
  * <td>getXXXValue() should return right result.</td>
  * </tr>
- *
+ * 
  * </table>
- *
- *
- *
+ * 
+ * 
+ * 
  */
 public class FactoryPropertyHandleTest extends BaseTestCase {
 
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 

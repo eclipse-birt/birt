@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,6 @@ public class AbstractOdfWriter implements IOdfWriter {
 	protected int bookmarkId = 0;
 	protected int imageId = 75;
 
-	@Override
 	public void startTable(String name, StyleEntry style) {
 		writer.openTag("table:table");
 
@@ -46,28 +45,24 @@ public class AbstractOdfWriter implements IOdfWriter {
 		}
 	}
 
-	@Override
 	public void endTable() {
 		writer.closeTag("table:table");
 	}
 
-	@Override
 	public void startTableHeader() {
 		writer.openTag("table:table-header-rows");
 	}
 
-	@Override
 	public void endTableHeader() {
 		writer.closeTag("table:table-header-rows");
 	}
 
 	/**
-	 *
+	 * 
 	 * @param style  style of the row
 	 * @param height height of current row, if heigh equals 1 then ignore height
 	 * @param type   header or normal
 	 */
-	@Override
 	public void startTableRow(StyleEntry rowStyle) {
 		writer.openTag("table:table-row");
 		if (rowStyle != null) {
@@ -75,22 +70,18 @@ public class AbstractOdfWriter implements IOdfWriter {
 		}
 	}
 
-	@Override
 	public void endTableRow() {
 		writer.closeTag("table:table-row");
 	}
 
-	@Override
 	public void startTableRowGroup() {
 		writer.openTag("table:table-row-group");
 	}
 
-	@Override
 	public void endTableRowGroup() {
 		writer.closeTag("table:table-row-group");
 	}
 
-	@Override
 	public void startTableCell(StyleEntry style, SpanInfo spanInfo) {
 		writer.openTag("table:table-cell");
 		if (style != null) {
@@ -102,12 +93,10 @@ public class AbstractOdfWriter implements IOdfWriter {
 		}
 	}
 
-	@Override
 	public void endTableCell() {
 		writer.closeTag("table:table-cell");
 	}
 
-	@Override
 	public void writeAutoText(int type) {
 		if (type == IAutoTextContent.PAGE_NUMBER) {
 			writer.openTag("text:page-number");
@@ -118,7 +107,6 @@ public class AbstractOdfWriter implements IOdfWriter {
 		}
 	}
 
-	@Override
 	public void writeColumn(StyleEntry[] colStyles) {
 		int i = 0;
 		while (i < colStyles.length) {
@@ -152,7 +140,6 @@ public class AbstractOdfWriter implements IOdfWriter {
 		}
 	}
 
-	@Override
 	public void writeSpanCell(SpanInfo info) {
 		writer.openTag("table:covered-table-cell");
 		StyleEntry style = info.getStyle();
@@ -166,7 +153,6 @@ public class AbstractOdfWriter implements IOdfWriter {
 		writer.closeTag("table:covered-table-cell");
 	}
 
-	@Override
 	public void writeEmptyCell() {
 		writer.openTag("table:table-cell");
 		insertHiddenParagraph();
@@ -223,7 +209,6 @@ public class AbstractOdfWriter implements IOdfWriter {
 		writer.closeTag(baseType + ":a");
 	}
 
-	@Override
 	public void close() throws IOException {
 		writer.close();
 	}
@@ -237,7 +222,6 @@ public class AbstractOdfWriter implements IOdfWriter {
 		writer.closeTag("text:p");
 	}
 
-	@Override
 	public void writeString(String txt) {
 		if (txt == null) {
 			return;

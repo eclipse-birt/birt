@@ -1,17 +1,17 @@
 /*
  ******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ * 
  ******************************************************************************
  */
 
@@ -58,9 +58,9 @@ import org.mozilla.javascript.Scriptable;
  * A prepared query which access an ODA data source.
  */
 public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPreparedQuery {
-	private enum ValidateStatus {
+	private static enum ValidateStatus {
 		ok, unknown, fail
-	}
+	};
 
 	private ValidateStatus validateStatus;
 
@@ -75,9 +75,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 		super(dataEngine, queryDefn, dataSetDesign, appContext != null ? appContext : new HashMap(), visitor);
 		Object[] params = { dataEngine, queryDefn, dataSetDesign, appContext };
 		logger.exiting(PreparedOdaDSQuery.class.getName(), "PreparedOdaDSQuery", params);
-		if (queryDefn.getQueryExecutionHints().enablePushDown()) {
+		if (queryDefn.getQueryExecutionHints().enablePushDown())
 			populateComputedColumnDataType(dataSetDesign);
-		}
 		validateStatus = ValidateStatus.unknown;
 	}
 
@@ -101,7 +100,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
 	 */
-	@Override
 	protected QueryExecutor newExecutor() throws DataException {
 		return new OdaDSQueryExecutor();
 	}
@@ -112,17 +110,14 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 	 * @return
 	 */
 	private static Map copyProperties(Map publicProps, Map privateProps) {
-		if (publicProps.isEmpty() && privateProps.isEmpty()) {
+		if (publicProps.isEmpty() && privateProps.isEmpty())
 			return null; // nothing to copy
-		}
 
 		Map driverProps = new HashMap();
-		if (!publicProps.isEmpty()) {
+		if (!publicProps.isEmpty())
 			driverProps.putAll(publicProps);
-		}
-		if (!privateProps.isEmpty()) {
+		if (!privateProps.isEmpty())
 			driverProps.putAll(privateProps);
-		}
 
 		return driverProps;
 	}
@@ -133,9 +128,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 	 * @throws DataException
 	 */
 	private static void addProperty(IDataSourceQuery odiDSQuery, Map props) throws DataException {
-		if (props == null) {
+		if (props == null)
 			return; // nothing to add
-		}
 
 		Set entries = props.entrySet();
 		Iterator it = entries.iterator();
@@ -143,9 +137,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 			Map.Entry entry = (Map.Entry) it.next();
 			String propName = (String) entry.getKey();
 			String value = (String) entry.getValue();
-			if (propName == null || propName.length() == 0) {
+			if (propName == null || propName.length() == 0)
 				continue; // skip empty property name
-			}
 
 			odiDSQuery.addProperty(propName, value);
 		}
@@ -154,7 +147,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
 	 */
-	@Override
 	public Collection getParameterMetaData() throws DataException {
 		OdaDSQueryExecutor exec = new OdaDSQueryExecutor();
 		return exec.getParameterMetaData();
@@ -165,7 +157,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 	 * org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#execute(org.eclipse
 	 * .birt.data.engine.api.IQueryResults, org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public IQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		this.initializeExecution(outerResults, scope);
 
@@ -174,20 +165,19 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#initializeExecution
 	 * (org.eclipse.birt.data.engine.api.IBaseQueryResults,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	protected void initializeExecution(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		this.configureParameterHints(queryDefn, appContext, scope);
 	}
 
 	/**
 	 * A work-around to set the user defined parameter metadata
-	 *
+	 * 
 	 * @param querySpec
 	 * @param appContext
 	 * @param scope
@@ -195,14 +185,15 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 	 */
 	private void configureParameterHints(IQueryDefinition querySpec, Map appContext, Scriptable scope)
 			throws DataException {
-		if ((querySpec == null) || (querySpec.getQueryResultsID() != null)) {
+		if (querySpec == null)
 			return;
-		}
+
+		if (querySpec.getQueryResultsID() != null)
+			return;
 
 		List paramList = dataSetDesign.getParameters();
-		if (paramList == null || paramList.size() == 0) {
+		if (paramList == null || paramList.size() == 0)
 			return;
-		}
 
 		if (((IOdaDataSetDesign) dataSetDesign).getExtensionID()
 				.equals("org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet")) {
@@ -212,9 +203,9 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 	}
 
 	/**
-	 *
+	 * 
 	 * Concrete class of DSQueryExecutor used in PreparedExtendedDSQuery
-	 *
+	 * 
 	 */
 	public class OdaDSQueryExecutor extends DSQueryExecutor {
 		// prepared query
@@ -234,7 +225,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource(
 		 * )
 		 */
-		@Override
 		protected IDataSource createOdiDataSource() throws DataException {
 			OdaDataSourceRuntime extDS = (OdaDataSourceRuntime) dataSource;
 			assert extDS != null;
@@ -242,9 +232,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 			// Obtains an odi data source matching the dynamic definition
 			// of the extended data source
 			String driverName = extDS.getExtensionID();
-			if (driverName == null || driverName.length() == 0) {
+			if (driverName == null || driverName.length() == 0)
 				throw new DataException(ResourceConstants.MISSING_DATASOURCE_EXT_ID, extDS.getName());
-			}
 
 			ValidationContext validationContext = null;
 			if (queryDefn.getQueryExecutionHints().enablePushDown()) {
@@ -255,9 +244,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 					Map driverProps = copyProperties(((OdaDataSourceRuntime) dataSource).getPublicProperties(),
 							((OdaDataSourceRuntime) dataSource).getPrivateProperties());
 
-					if (driverProps != null) {
+					if (driverProps != null)
 						connProperties.putAll(driverProps);
-					}
 
 					QuerySpecHelper.setValidationConnectionContext(validationContext, connProperties, appContext);
 				}
@@ -265,11 +253,10 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 
 			Map driverProps;
 			// merge public and private driver properties into a single Map
-			if (validationContext == null || validationContext.getConnection() == null) {
+			if (validationContext == null || validationContext.getConnection() == null)
 				driverProps = copyProperties(extDS.getPublicProperties(), extDS.getPrivateProperties());
-			} else {
+			else
 				driverProps = validationContext.getConnection().getProperties();
-			}
 
 			// calls ODI Data Source Factory to provide an ODI data source
 			// object that matches the given properties
@@ -292,13 +279,12 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
 		 */
-		@Override
 		protected IQuery createOdiQuery() throws DataException {
 			OdaDataSetRuntime extDataSet = (OdaDataSetRuntime) dataSet;
 			assert extDataSet != null;
 			assert odiDataSource != null;
 
-			IDataSourceQuery odiQuery;
+			IDataSourceQuery odiQuery = null;
 			String dataSetType = extDataSet.getExtensionID();
 			String dataText = extDataSet.getQueryText();
 
@@ -314,9 +300,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 							.getOptimizedCombinedQuerySpec();
 					if (optimizedDataSets != null) {
 						for (Map.Entry<String, QuerySpecification> entry : optimizedDataSets.entrySet()) {
-							if (entry.getKey().equals(extDataSet.getName())) {
+							if (entry.getKey().equals(extDataSet.getName()))
 								combinedQuerySpec = entry.getValue();
-							}
 						}
 					}
 				}
@@ -355,82 +340,83 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 						filters.removeAll(toBeRemovedFilters);
 					}
 
-					if (queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery().size() > 0) {
+					if (queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery().size() > 0)
 						extDataSet.getComputedColumns()
 								.addAll(queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery());
-					}
 
-					if (queryOptimizeHints.getFilterNeededMerge().size() > 0) {
+					if (queryOptimizeHints.getFilterNeededMerge().size() > 0)
 						extDataSet.getFilters().addAll(queryOptimizeHints.getFilterNeededMerge());
-					}
 				}
-			} else if (queryDefn.getQueryExecutionHints().enablePushDown()) {
-				ValidationContext validationContext = ((OdaDataSetRuntime) dataSet).getValidationContext();
+			} else {
+				if (queryDefn.getQueryExecutionHints().enablePushDown()) {
+					ValidationContext validationContext = ((OdaDataSetRuntime) dataSet).getValidationContext();
 
-				if (validationContext != null) {
-					validationContext.setQueryText(((IOdaDataSetDesign) dataSetDesign).getQueryText());
-					// Change to use the specific ValidationContext API in
-					// next release.
-					validationContext.setData("org.eclipse.birt.data.applicationContext", this.getAppContext());
-					OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(queryDefn,
-							(IOdaDataSetDesign) dataSetDesign);
-					rollbackHelper.collectOriginalInfo();
-					try {
-						if (validateStatus == ValidateStatus.unknown || validateStatus == ValidateStatus.ok) {
-							querySpec = OdaQueryOptimizationUtil.optimizeExecution(
-									((OdaDataSourceRuntime) dataEngine
-											.getDataSourceRuntime(dataSetDesign.getDataSourceName())).getExtensionID(),
-									validationContext, (IOdaDataSetDesign) dataSetDesign, queryDefn,
-									dataEngine.getSession(), appContext, contextVisitor);
-						}
+					if (validationContext != null) {
+						validationContext.setQueryText(((IOdaDataSetDesign) dataSetDesign).getQueryText());
+						// Change to use the specific ValidationContext API in
+						// next release.
+						validationContext.setData("org.eclipse.birt.data.applicationContext", this.getAppContext());
+						OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(queryDefn,
+								(IOdaDataSetDesign) dataSetDesign);
+						rollbackHelper.collectOriginalInfo();
+						try {
+							if (validateStatus == ValidateStatus.unknown || validateStatus == ValidateStatus.ok) {
+								querySpec = OdaQueryOptimizationUtil.optimizeExecution(
+										((OdaDataSourceRuntime) dataEngine
+												.getDataSourceRuntime(dataSetDesign.getDataSourceName()))
+														.getExtensionID(),
+										validationContext, (IOdaDataSetDesign) dataSetDesign, queryDefn,
+										dataEngine.getSession(), appContext, contextVisitor);
+							}
 
-						if (querySpec != null && validateStatus == ValidateStatus.unknown) {
-							try {
-								if (queryOptimizeHints != null) {
-									List<IColumnDefinition> trimmedColumns = queryOptimizeHints.getTrimmedColumns()
-											.get(extDataSet.getName());
+							if (querySpec != null && validateStatus == ValidateStatus.unknown) {
+								try {
+									if (queryOptimizeHints != null) {
+										List<IColumnDefinition> trimmedColumns = queryOptimizeHints.getTrimmedColumns()
+												.get(extDataSet.getName());
 
-									if (trimmedColumns != null) {
-										for (IColumnDefinition col : trimmedColumns) {
-											querySpec.getResultSetSpecification().getResultProjection()
-													.hideResultColumn(new ColumnIdentifier(col.getColumnName()));
-											Iterator iter = extDataSet.getResultSetHints().iterator();
-											while (iter.hasNext()) {
-												IColumnDefinition columnDefn = (IColumnDefinition) iter.next();
-												if (columnDefn.getColumnName().equals(col.getColumnName())) {
-													extDataSet.getResultSetHints().remove(columnDefn);
-													break;
+										if (trimmedColumns != null) {
+											for (IColumnDefinition col : trimmedColumns) {
+												querySpec.getResultSetSpecification().getResultProjection()
+														.hideResultColumn(new ColumnIdentifier(col.getColumnName()));
+												Iterator iter = extDataSet.getResultSetHints().iterator();
+												while (iter.hasNext()) {
+													IColumnDefinition columnDefn = (IColumnDefinition) iter.next();
+													if (columnDefn.getColumnName().equals(col.getColumnName())) {
+														extDataSet.getResultSetHints().remove(columnDefn);
+														break;
+													}
 												}
 											}
-										}
 
-										Iterator iter = extDataSet.getResultSetHints().iterator();
-										while (iter.hasNext()) {
-											ColumnDefinition columnDefn = (ColumnDefinition) iter.next();
-											columnDefn.setColumnPosition(0);
+											Iterator iter = extDataSet.getResultSetHints().iterator();
+											while (iter.hasNext()) {
+												ColumnDefinition columnDefn = (ColumnDefinition) iter.next();
+												columnDefn.setColumnPosition(0);
+											}
 										}
 									}
+									// querySpec.getBaseQuery( )
+									querySpec.validate(validationContext);
+									validateStatus = validateStatus.ok;
+								} catch (OdaException ex) {
+									validateStatus = validateStatus.fail;
+									querySpec = null;
+									logger.log(Level.WARNING, ex.getLocalizedMessage(), ex);
+								} catch (Throwable e) {
+									logger.log(Level.WARNING, e.getLocalizedMessage(), e);
+									throw new DataException(ResourceConstants.FAIL_PUSH_DOWM_FILTER, e);
 								}
-								// querySpec.getBaseQuery( )
-								querySpec.validate(validationContext);
-								validateStatus = validateStatus.ok;
-							} catch (OdaException ex) {
-								validateStatus = validateStatus.fail;
-								querySpec = null;
-								logger.log(Level.WARNING, ex.getLocalizedMessage(), ex);
-							} catch (Throwable e) {
-								logger.log(Level.WARNING, e.getLocalizedMessage(), e);
-								throw new DataException(ResourceConstants.FAIL_PUSH_DOWM_FILTER, e);
 							}
+						} catch (DataException e) {
+							exception = e;
 						}
-					} catch (DataException e) {
-						exception = e;
-					}
-					if (querySpec == null) {
-						// roll back changes made in
-						// <code>dataSetDesign</code> and
-						// <code>queryDefn</code>
-						rollbackHelper.rollback();
+						if (querySpec == null) {
+							// roll back changes made in
+							// <code>dataSetDesign</code> and
+							// <code>queryDefn</code>
+							rollbackHelper.rollback();
+						}
 					}
 				}
 			}
@@ -439,11 +425,10 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 					extDataSet.getDataSource().getExtensionID())
 					|| FilterPrepareUtil.containsExternalFilter(queryDefn.getFilters(), dataSetType,
 							extDataSet.getDataSource().getExtensionID())) {
-				if (exception != null) {
+				if (exception != null)
 					throw exception;
-				} else {
+				else
 					throw new DataException(ResourceConstants.FAIL_PUSH_DOWM_FILTER);
-				}
 			}
 
 			odiQuery = odiDataSource.newQuery(dataSetType, dataText, this.fromCache(), this.contextVisitor);
@@ -456,12 +441,11 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery.DSQueryExecutor#
 		 * fromCache()
 		 */
-		@Override
 		protected boolean fromCache() throws DataException {
 			if (queryDefn.getQueryExecutionHints().enablePushDown()) {
 				// When there is pushdown occur, clear data set cache, due to cached data may
@@ -484,7 +468,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#populateOdiQuery()
 		 */
-		@Override
 		protected void populateOdiQuery() throws DataException {
 			super.populateOdiQuery();
 
@@ -540,7 +523,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		@Override
 		protected IResultIterator executeOdiQuery(IEventHandler eventHandler) throws DataException {
 			dataSetAfterOpen();
 			OdaDataSetRuntime odaDataSet = (OdaDataSetRuntime) dataSet;
@@ -554,7 +536,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#prepareOdiQuery()
 		 */
-		@Override
 		protected void prepareOdiQuery() throws DataException {
 			IDataSourceQuery odiDSQuery = (IDataSourceQuery) odiQuery;
 			assert odiDSQuery != null;
@@ -570,7 +551,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 		 * Implements IPreparedQuery.getParameterMetadata. This method prepares the odi
 		 * data source and query, and returns the query's parameter metadata as a
 		 * Collection of ParameterMetadata objects.
-		 *
+		 * 
 		 * @return
 		 */
 		private Collection getParameterMetaData() throws DataException {
@@ -603,9 +584,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery implements IPrep
 			assert odiPreparedQuery != null;
 
 			Collection odiParamsInfo = odiPreparedQuery.getParameterMetaData();
-			if (odiParamsInfo == null || odiParamsInfo.isEmpty()) {
+			if (odiParamsInfo == null || odiParamsInfo.isEmpty())
 				return null;
-			}
 
 			// iterates thru the most up-to-date collection, and
 			// wraps each of the ODI parameter metadata object

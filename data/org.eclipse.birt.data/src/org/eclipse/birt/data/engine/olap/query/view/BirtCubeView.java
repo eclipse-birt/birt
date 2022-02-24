@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +55,7 @@ import org.mozilla.javascript.Scriptable;
  * edges:rowEdgeView, coulumnEdgeView, measureEdgeView. A BirtCubeView has
  * association with a CubeCursor. This association will provide a user a way to
  * get data for the current intersection of the multi-dimensional selection.
- *
+ * 
  */
 public class BirtCubeView {
 	private BirtEdgeView columnEdgeView, rowEdgeView, pageEdgeView;
@@ -76,7 +76,7 @@ public class BirtCubeView {
 
 	/**
 	 * Constructor: construct the row/column/measure EdgeView.
-	 *
+	 * 
 	 * @param queryExecutor
 	 * @throws DataException
 	 */
@@ -120,7 +120,7 @@ public class BirtCubeView {
 	}
 
 	private CubeAggrDefn[] getAggrDefnsFromOperations() {
-		List<CubeAggrDefn> result = new ArrayList<>();
+		List<CubeAggrDefn> result = new ArrayList<CubeAggrDefn>();
 		for (IPreparedCubeOperation pco : this.preparedCubeOperations) {
 			result.addAll(Arrays.asList(pco.getNewCubeAggrDefns()));
 		}
@@ -151,7 +151,7 @@ public class BirtCubeView {
 
 	/**
 	 * Constructor: construct the row/column/measure EdgeView. for test usage
-	 *
+	 * 
 	 * @param queryExecutor
 	 * @throws DataException
 	 */
@@ -161,21 +161,20 @@ public class BirtCubeView {
 
 	/**
 	 * Get cubeCursor for current cubeView.
-	 *
+	 * 
 	 * @param stopSign
 	 * @return CubeCursor
 	 * @throws OLAPException
 	 * @throws DataException
 	 */
 	public CubeCursor getCubeCursor(StopSign stopSign, ICube cube) throws OLAPException, DataException {
-		if (cubeCursor == null) {
+		if (cubeCursor == null)
 			cubeCursor = createCubeCursor(stopSign, this.getCubeQueryDefinition(), cube);
-		}
 		return cubeCursor;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param stopSign
 	 * @return
 	 * @throws DataException
@@ -185,13 +184,11 @@ public class BirtCubeView {
 			throws DataException, OLAPException {
 		if (query.getQueryResultsID() != null) {
 			int version = new VersionManager(executor.getContext()).getVersion(query.getQueryResultsID());
-			if (version < VersionManager.VERSION_4_2_3) {
+			if (version < VersionManager.VERSION_4_2_3)
 				queryExecutor = new QueryExecutorV0();
-			}
 		}
-		if (queryExecutor == null) {
+		if (queryExecutor == null)
 			queryExecutor = new QueryExecutorV1();
-		}
 		try {
 			parentResultSet = queryExecutor.execute(this, stopSign, cube, this.fetcher);
 		} catch (IOException e) {
@@ -210,7 +207,7 @@ public class BirtCubeView {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
@@ -222,7 +219,7 @@ public class BirtCubeView {
 
 	/**
 	 * Get cubeCursor for current cubeView.
-	 *
+	 * 
 	 * @param stopSign
 	 * @return CubeCursor
 	 * @throws OLAPException
@@ -237,14 +234,12 @@ public class BirtCubeView {
 				this.getAggrDefnsFromOperations());
 
 		int startingColumnLevelIndex = -1, startingRowLevelIndex = -1;
-		if (startingColumnLevel != null) {
+		if (startingColumnLevel != null)
 			startingColumnLevelIndex = CubeQueryDefinitionUtil.getLevelIndex(this.getCubeQueryDefinition(),
 					startingColumnLevel, ICubeQueryDefinition.COLUMN_EDGE);
-		}
-		if (startingRowLevel != null) {
+		if (startingRowLevel != null)
 			startingRowLevelIndex = CubeQueryDefinitionUtil.getLevelIndex(this.getCubeQueryDefinition(),
 					startingRowLevel, ICubeQueryDefinition.ROW_EDGE);
-		}
 		if (startingColumnLevelIndex == -1 && startingRowLevelIndex == -1) {
 			startingColumnLevelIndex = CubeQueryDefinitionUtil
 					.getLevelsOnEdge(this.getCubeQueryDefinition().getEdge(ICubeQueryDefinition.COLUMN_EDGE)).length
@@ -264,7 +259,7 @@ public class BirtCubeView {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public IQueryExecutor getQueryExecutor() {
@@ -272,7 +267,7 @@ public class BirtCubeView {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public CubeQueryExecutor getCubeQueryExecutor() {
@@ -280,7 +275,7 @@ public class BirtCubeView {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public IResultSet getResultSet() {
@@ -317,7 +312,7 @@ public class BirtCubeView {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public BirtEdgeView[] getMeasureEdgeView() {
@@ -328,9 +323,8 @@ public class BirtCubeView {
 			calculatedMemberViews = new BirtEdgeView[members.length];
 			int index = 0;
 			for (int i = 0; i < members.length; i++) {
-				if (rsIDSet.contains(Integer.valueOf(members[i].getRsID()))) {
+				if (rsIDSet.contains(Integer.valueOf(members[i].getRsID())))
 					continue;
-				}
 				calculatedMemberViews[index] = this.createBirtEdgeView(members[i]);
 				rsIDSet.add(Integer.valueOf(members[i].getRsID()));
 				index++;
@@ -340,7 +334,7 @@ public class BirtCubeView {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public Map getMeasureMapping() {
@@ -348,19 +342,18 @@ public class BirtCubeView {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param edgeDefn
 	 * @return
 	 */
 	private BirtEdgeView createBirtEdgeView(IEdgeDefinition edgeDefn, int type) {
-		if (edgeDefn == null) {
+		if (edgeDefn == null)
 			return null;
-		}
 		return new BirtEdgeView(this, edgeDefn, type);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param calculatedMember
 	 * @return
 	 */

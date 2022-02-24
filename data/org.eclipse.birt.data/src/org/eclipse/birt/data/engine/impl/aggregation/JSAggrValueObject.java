@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,6 @@ public class JSAggrValueObject extends ScriptableObject {
 	/*
 	 * @see org.mozilla.javascript.Scriptable#getClassName()
 	 */
-	@Override
 	public String getClassName() {
 		return "_RESERVED_AGGR_VALUE";
 	}
@@ -65,7 +64,6 @@ public class JSAggrValueObject extends ScriptableObject {
 	 * @see org.mozilla.javascript.Scriptable#has(int,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public boolean has(int index, Scriptable start) {
 		return index > 0 && index < this.aggrCount;
 	}
@@ -74,7 +72,6 @@ public class JSAggrValueObject extends ScriptableObject {
 	 * @see org.mozilla.javascript.Scriptable#get(int,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public Object get(int index, Scriptable start) {
 		if (index < 0 || index >= this.aggrCount) {
 			// Should never get here
@@ -90,7 +87,7 @@ public class JSAggrValueObject extends ScriptableObject {
 
 	/**
 	 * Get the aggregate value
-	 *
+	 * 
 	 * @param aggrIndex
 	 * @return
 	 * @throws DataException
@@ -107,11 +104,10 @@ public class JSAggrValueObject extends ScriptableObject {
 
 			if (aggrInfo.aggregation.getType() == IAggrFunction.SUMMARY_AGGR) {
 				// Aggregate on the whole list: there is only one group
-				if (aggrInfo.groupLevel == 0) {
+				if (aggrInfo.groupLevel == 0)
 					groupIndex = 0;
-				} else {
+				else
 					groupIndex = this.odiResult.getCurrentGroupIndex(aggrInfo.groupLevel);
-				}
 			} else {
 				groupIndex = this.odiResult.getCurrentResultIndex();
 			}
@@ -132,7 +128,7 @@ public class JSAggrValueObject extends ScriptableObject {
 
 	/**
 	 * Get aggregation's count
-	 *
+	 * 
 	 * @return
 	 */
 	int getAggrCount() {
@@ -141,16 +137,15 @@ public class JSAggrValueObject extends ScriptableObject {
 
 	/**
 	 * Get the aggregate value list.
-	 *
+	 * 
 	 * @param i
 	 * @return
 	 */
 	public List getAggregateValues(int i) {
-		if (i < this.aggrCount) {
+		if (i < this.aggrCount)
 			return aggrValues[i];
-		} else {
+		else
 			return null;
-		}
 	}
 
 }

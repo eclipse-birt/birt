@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -57,11 +57,10 @@ import org.eclipse.swt.widgets.Text;
 /**
  * MarkerIconDialog is invoked when the user chooses "icon" from Marker Type
  * Combo box.
- *
+ * 
  * @deprecated This dialog is deprecated. Use the general image dialog
  *             {@link org.eclipse.birt.chart.ui.swt.composites.ImageDialog}.
  */
-@Deprecated
 public class MarkerIconDialog extends TrayDialog implements SelectionListener, ModifyListener {
 
 	protected transient Button btnURL;
@@ -98,13 +97,13 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 
 	private ImageStatus urlImagePreviewStat;
 
-	private enum ImageStatus {
+	private static enum ImageStatus {
 		IMAGE_URL_INVALID, IMAGE_CANNOT_DISPLAY, IMAGE_CAN_DISPLAY
 	}
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param parent      shell of LineSeriesAttributeComposite
 	 * @param iconPalette retrieved from LineSeries
 	 */
@@ -121,7 +120,6 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 		this.context = context;
 	}
 
-	@Override
 	protected Control createContents(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.DIALOG_MARKER_ICON);
 
@@ -151,7 +149,6 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 		return c;
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite cmpContent = new Composite(parent, SWT.NONE);
 		cmpContent.setLayout(new GridLayout());
@@ -171,7 +168,6 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 		return cmpContent;
 	}
 
-	@Override
 	protected Control createButtonBar(Composite parent) {
 		Control cmp = super.createButtonBar(parent);
 		updateButton();
@@ -180,7 +176,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 
 	/**
 	 * Selection Area locates in the top of the dialog.
-	 *
+	 * 
 	 * @param parent dialog composite
 	 */
 	protected void createSelectionArea(Composite parent) {
@@ -210,7 +206,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 
 	/**
 	 * List Area locates in the left middle of the dialog.
-	 *
+	 * 
 	 * @param parent dialog composite
 	 */
 	private void createListArea(Composite parent) {
@@ -234,7 +230,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 
 	/**
 	 * Preview Area locates in the right middle of the dialog.
-	 *
+	 * 
 	 * @param composite dialog composite
 	 */
 	private void createPreviewArea(Composite composite) {
@@ -250,7 +246,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 
 	/**
 	 * Switch in the Selection Area (URI or Local).
-	 *
+	 * 
 	 * @param type 0: URI_TYPE; 1: LOCAL_TYPE
 	 */
 	private void switchTo(int type) {
@@ -372,7 +368,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 
 	/**
 	 * Preview the image when it is a local image file.
-	 *
+	 * 
 	 * @param uri Image absolute path without "file:///"
 	 */
 	private ImageStatus preview(String uri) {
@@ -431,7 +427,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 	/**
 	 * If there is no palette associated with the marker, create a new palette.
 	 * Otherwise, add the icon into the palette.
-	 *
+	 * 
 	 */
 	private boolean checkIcon() {
 		if (selectedType == URI_TYPE) {
@@ -476,7 +472,6 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 		return true;
 	}
 
-	@Override
 	protected void okPressed() {
 		if (!checkIcon()) {
 			return;
@@ -486,11 +481,10 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(btnURL)) {
 			switchTo(URI_TYPE);
@@ -530,7 +524,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 			try {
 				String path = fileChooser.open();
 				if (path != null) {
-					path = new StringBuilder("file:///").append(path).toString(); //$NON-NLS-1$
+					path = new StringBuffer("file:///").append(path).toString(); //$NON-NLS-1$
 					preview(path);
 
 					if (selectedType == EMBEDDED_TYPE) {
@@ -567,23 +561,21 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent event) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.
 	 * ModifyEvent)
 	 */
-	@Override
 	public void modifyText(ModifyEvent e) {
 		if (e.widget.equals(uriEditor)) {
 			boolean isTextEmpty = trimString(uriEditor.getText()) != null;
@@ -602,7 +594,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 	/**
 	 * Trim a string. Removes leading and trailing blanks. If the resulting string
 	 * is empty, normalizes the string to an null string.
-	 *
+	 * 
 	 * @param value the string to trim
 	 * @return the trimmed string, or null if the string is empty
 	 */
@@ -619,7 +611,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 	}
 
 	/**
-	 *
+	 * 
 	 * @return Returns an icon palette to Line series.
 	 */
 	public Fill getFill() {

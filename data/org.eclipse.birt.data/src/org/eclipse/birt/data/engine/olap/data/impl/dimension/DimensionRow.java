@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.olap.data.util.IStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
 
 /**
- *
+ * 
  */
 
 public class DimensionRow implements IComparableStructure {
@@ -41,10 +41,9 @@ public class DimensionRow implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.util.IStructure#getFieldValues()
 	 */
-	@Override
 	public Object[] getFieldValues() {
 		ArrayList fieldList = new ArrayList();
 
@@ -61,36 +60,33 @@ public class DimensionRow implements IComparableStructure {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public static IStructureCreator getCreator() {
-		if (creator == null) {
+		if (creator == null)
 			creator = new DimesionMemberCreator();
-		}
 		return creator;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	@Override
 	public int compareTo(Object o) {
 		assert o != null;
 		assert o instanceof DimensionRow;
 		int result = 0;
 		DimensionRow other = (DimensionRow) o;
-		if (members.length == 0) {
+		if (members.length == 0)
 			return 0;
-		}
 		return CompareUtil.compare(members[members.length - 1].getKeyValues(),
 				other.members[members.length - 1].getKeyValues());
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public Member[] getMembers() {
@@ -98,7 +94,7 @@ public class DimensionRow implements IComparableStructure {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param members
 	 */
 	public void setMembers(Member[] members) {
@@ -108,7 +104,7 @@ public class DimensionRow implements IComparableStructure {
 }
 
 /**
- *
+ * 
  * @author Administrator
  *
  */
@@ -116,12 +112,11 @@ class DimesionMemberCreator implements IStructureCreator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.olap.data.util.IStructureCreator#createInstance(java.
 	 * lang.Object[])
 	 */
-	@Override
 	public IStructure createInstance(Object[] fields) {
 		Member[] levelMembers = new Member[((Integer) fields[0]).intValue()];
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 /**
  * The helper class provides functions to easy access value axes and its
  * location.
- *
+ * 
  * @since 2.5
  */
 
@@ -55,7 +55,7 @@ class ValueAxesHelper {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param plotWithAxes
 	 * @param aax
 	 * @param plotBounds
@@ -92,7 +92,7 @@ class ValueAxesHelper {
 	/**
 	 * Adjusts the range of all orthogonal axes according to the computed thickness
 	 * of category axis.
-	 *
+	 * 
 	 * @param plotWithAxes
 	 * @param aax
 	 * @param plotBounds
@@ -142,7 +142,7 @@ class ValueAxesHelper {
 
 	/**
 	 * Returns all instances of OneAxis.
-	 *
+	 * 
 	 * @return
 	 */
 	OneAxis[] getValueAxes() {
@@ -151,7 +151,7 @@ class ValueAxesHelper {
 
 	/**
 	 * Returns the start location for specified value axis.
-	 *
+	 * 
 	 * @param valueAxisIndex
 	 * @return
 	 */
@@ -159,17 +159,20 @@ class ValueAxesHelper {
 		double start = 0;
 		if (fAllValueAxes.length == 1 || valueAxisIndex == 0) {
 			start = (!this.fAllAxes.areAxesSwapped()) ? (fTop + fHeight) : fLeft;
-		} else if (!this.fAllAxes.areAxesSwapped()) {
-			start = fTop + fHeight * (1 - fAllAxesPercents[valueAxisIndex - 1] / fPercentTotal);
 		} else {
-			start = fLeft + fWidth * fAllAxesPercents[valueAxisIndex - 1] / fPercentTotal;
+
+			if (!this.fAllAxes.areAxesSwapped()) {
+				start = fTop + fHeight * (1 - fAllAxesPercents[valueAxisIndex - 1] / fPercentTotal);
+			} else {
+				start = fLeft + fWidth * fAllAxesPercents[valueAxisIndex - 1] / fPercentTotal;
+			}
 		}
 		return start;
 	}
 
 	/**
 	 * Returns the end location for specified value axis.
-	 *
+	 * 
 	 * @param valueAxisIndex
 	 * @return
 	 */
@@ -177,10 +180,12 @@ class ValueAxesHelper {
 		double end = 0;
 		if (fAllValueAxes.length == 1) {
 			end = (!this.fAllAxes.areAxesSwapped()) ? fTop : fLeft + fWidth;
-		} else if (!this.fAllAxes.areAxesSwapped()) {
-			end = fTop + fHeight * (1 - fAllAxesPercents[valueAxisIndex] / fPercentTotal);
 		} else {
-			end = fLeft + fWidth * fAllAxesPercents[valueAxisIndex] / fPercentTotal;
+			if (!this.fAllAxes.areAxesSwapped()) {
+				end = fTop + fHeight * (1 - fAllAxesPercents[valueAxisIndex] / fPercentTotal);
+			} else {
+				end = fLeft + fWidth * fAllAxesPercents[valueAxisIndex] / fPercentTotal;
+			}
 		}
 		return end;
 	}

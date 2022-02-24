@@ -1,18 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
+
+import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -21,11 +23,9 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * Test case for DimensionValue.
- *
+ * 
  */
 public class DimensionValueTest extends BaseTestCase {
 
@@ -34,14 +34,13 @@ public class DimensionValueTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * test getters and setters.
-	 *
+	 * 
 	 */
 	public void testGetterAndSetter() {
 		try {
@@ -63,9 +62,9 @@ public class DimensionValueTest extends BaseTestCase {
 
 	/**
 	 * test parsing.
-	 *
+	 * 
 	 * @throws PropertyValueException if failed to parse value
-	 *
+	 * 
 	 */
 	public void testParse() throws PropertyValueException {
 		value = DimensionValue.parse(null);
@@ -119,7 +118,7 @@ public class DimensionValueTest extends BaseTestCase {
 
 	/**
 	 * Test toDisplayString().
-	 *
+	 * 
 	 */
 
 	public void testToDisplayString() {

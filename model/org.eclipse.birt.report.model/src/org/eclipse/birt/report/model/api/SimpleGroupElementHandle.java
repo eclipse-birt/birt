@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +61,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 	/**
 	 * Constructs a handle to deal with a list of report elements. The contents of
 	 * the given list should be design element handles.
-	 *
+	 * 
 	 * @param moduleHandle the handle of module
 	 * @param elements     a list of handles of design elements. If a item is not
 	 *                     <code>DesignElementHandle</code>, it is ignored.
@@ -78,50 +78,45 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getElements()
 	 */
 
-	@Override
 	public List getElements() {
 		return elements;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getModule()
 	 */
 
-	@Override
 	public Module getModule() {
 		return module;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getModuleHandle()
 	 */
 
-	@Override
 	public ModuleHandle getModuleHandle() {
 		return (ModuleHandle) module.getHandle(module);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getCommonProperties
 	 * ()
 	 */
 
-	@Override
 	public List getCommonProperties() {
-		if (elements.size() == 1) {
+		if (elements.size() == 1)
 			return Collections
 					.unmodifiableList(((DesignElementHandle) elements.get(0)).getElement().getPropertyDefns());
-		}
 
 		List minProps = getMinPropDefns();
 		List commonProps = new ArrayList(minProps);
@@ -142,7 +137,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/**
 	 * Returns the property definition list that has the minimum size.
-	 *
+	 * 
 	 * @return the property definition list that has the minimum size.
 	 */
 
@@ -152,9 +147,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 		for (int j = 0; j < elements.size(); j++) {
 			Object item = elements.get(j);
-			if (!(item instanceof DesignElementHandle)) {
+			if (!(item instanceof DesignElementHandle))
 				return Collections.EMPTY_LIST;
-			}
 
 			List propDefns = ((DesignElementHandle) item).getElement().getPropertyDefns();
 
@@ -169,33 +163,28 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isSameType()
 	 */
 
-	@Override
 	public boolean isSameType() {
-		if (elements.size() == 0) {
+		if (elements.size() == 0)
 			return false;
-		}
 
 		IElementDefn baseDefn = null;
 
 		for (int i = 0; i < elements.size(); i++) {
 			Object item = elements.get(i);
-			if (!(item instanceof DesignElementHandle)) {
+			if (!(item instanceof DesignElementHandle))
 				return false;
-			}
 
 			IElementDefn elemDefn = ((DesignElementHandle) item).getDefn();
 
-			if (baseDefn == null) {
+			if (baseDefn == null)
 				baseDefn = elemDefn;
-			}
 
-			if (elemDefn != baseDefn) {
+			if (elemDefn != baseDefn)
 				return false;
-			}
 		}
 
 		return true;
@@ -203,13 +192,12 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.GroupElementHandle#visiblePropertyIterator
 	 * ()
 	 */
 
-	@Override
 	public Iterator visiblePropertyIterator() {
 		List list = getCommonProperties();
 		final List visibleList = new ArrayList();
@@ -226,12 +214,11 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyVisible
 	 * (java.lang.String)
 	 */
 
-	@Override
 	protected boolean isPropertyVisible(String propName) {
 		List elements = getElements();
 		for (int i = 0; i < elements.size(); i++) {
@@ -241,9 +228,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 			// property exsits and set to invisible in ROM, then it is invisible
 			// too.
 
-			if (propertyHandle != null && !propertyHandle.isVisible() || propertyHandle == null) {
+			if (propertyHandle != null && !propertyHandle.isVisible() || propertyHandle == null)
 				return false;
-			}
 		}
 
 		// if the group is in master page, property toc, bookmark, pagebreak
@@ -254,12 +240,11 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.GroupElementHandle#clearLocalProperties ()
 	 */
 
-	@Override
 	public void clearLocalProperties() throws SemanticException {
 		ActivityStack stack = module.getActivityStack();
 		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.CLEAR_PROPERTIES_MESSAGE));
@@ -269,9 +254,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 			while (iter.hasNext()) {
 				GroupPropertyHandle propHandle = (GroupPropertyHandle) iter.next();
 				DesignElementHandle elementHandle = null;
-				if (elements != null && !elements.isEmpty()) {
+				if (elements != null && !elements.isEmpty())
 					elementHandle = (DesignElementHandle) elements.get(0);
-				}
 
 				String propName = propHandle.getPropertyDefn().getName();
 
@@ -324,11 +308,10 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#
 	 * clearLocalPropertiesIncludeSubElement ()
 	 */
-	@Override
 	public void clearLocalPropertiesIncludeSubElement() throws SemanticException {
 		ActivityStack stack = module.getActivityStack();
 		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.CLEAR_PROPERTIES_MESSAGE));
@@ -384,7 +367,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/**
 	 * Clear local values of elementHandle include sub element.
-	 *
+	 * 
 	 * @param elementHandle
 	 * @throws SemanticException
 	 */
@@ -428,28 +411,24 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.GroupElementHandle#isExtendedElements()
 	 */
 
-	@Override
 	public boolean isExtendedElements() {
-		if (elements.isEmpty()) {
+		if (elements.isEmpty())
 			return false;
-		}
 
 		for (Iterator iter = elements.iterator(); iter.hasNext();) {
 			Object next = iter.next();
-			if (!(next instanceof DesignElementHandle)) {
+			if (!(next instanceof DesignElementHandle))
 				return false;
-			}
 
 			DesignElementHandle designHandle = (DesignElementHandle) next;
 
-			if (designHandle.getExtends() == null) {
+			if (designHandle.getExtends() == null)
 				return false;
-			}
 
 		}
 
@@ -460,31 +439,27 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.GroupElementHandle#
 	 * hasVirtualExtendsElements()
 	 */
 
-	@Override
 	protected boolean allExtendedElements() {
 
-		if (elements.isEmpty()) {
+		if (elements.isEmpty())
 			return false;
-		}
 
 		for (Iterator iter = elements.iterator(); iter.hasNext();) {
 			Object next = iter.next();
-			if (!(next instanceof DesignElementHandle)) {
+			if (!(next instanceof DesignElementHandle))
 				return false;
-			}
 
 			DesignElementHandle elementHandle = (DesignElementHandle) next;
 
 			// Design without extends element and virtual extends element
 
-			if ((elementHandle.getExtends() == null) && (elementHandle.getElement().getBaseId() <= 0)) {
+			if ((elementHandle.getExtends() == null) && (elementHandle.getElement().getBaseId() <= 0))
 				return false;
-			}
 
 		}
 
@@ -495,12 +470,11 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyReadOnly
 	 * (java.lang.String)
 	 */
 
-	@Override
 	protected boolean isPropertyReadOnly(String propName) {
 		for (int i = 0; i < elements.size(); i++) {
 			PropertyHandle propertyHandle = ((DesignElementHandle) elements.get(i)).getPropertyHandle(propName);
@@ -508,9 +482,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 			// if the property is not defined, then it is read-only; if it
 			// exsits and set to read-only in ROM, then it is read-only too.
 
-			if (propertyHandle != null && propertyHandle.isReadOnly() || propertyHandle == null) {
+			if (propertyHandle != null && propertyHandle.isReadOnly() || propertyHandle == null)
 				return true;
-			}
 		}
 
 		// if the group is in master page, property toc, bookmark, pagebreak
@@ -521,9 +494,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/**
 	 * Returns if the property need to be hiden under some cases.
-	 *
+	 * 
 	 * @param propName the property name to check
-	 *
+	 * 
 	 * @return true if the property need to be hiden under some cases, false
 	 *         otherwise.
 	 */
@@ -532,9 +505,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 		if (!(IReportItemModel.BOOKMARK_PROP.equals(propName) || IReportItemModel.TOC_PROP.equals(propName)
 				|| IStyleModel.PAGE_BREAK_AFTER_PROP.equals(propName)
 				|| IStyleModel.PAGE_BREAK_BEFORE_PROP.equals(propName)
-				|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equals(propName) || ICellModel.DROP_PROP.equals(propName))) {
+				|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equals(propName) || ICellModel.DROP_PROP.equals(propName)))
 			return false;
-		}
 
 		for (int i = 0; i < elements.size(); i++) {
 			DesignElementHandle current = ((DesignElementHandle) elements.get(i));
@@ -547,15 +519,13 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 					if (container == null) {
 						continue;
 					}
-					if (!(container.getContainer() instanceof GroupHandle)) {
+					if (!(container.getContainer() instanceof GroupHandle))
 						return true;
-					}
 				}
 			} else {
 				while (container != null) {
-					if (container instanceof MasterPageHandle) {
+					if (container instanceof MasterPageHandle)
 						return true;
-					}
 					container = container.getContainer();
 				}
 			}
@@ -566,12 +536,11 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getPropertyHandle
 	 * (java.lang.String)
 	 */
 
-	@Override
 	public GroupPropertyHandle getPropertyHandle(String propName) {
 		List commProps = getCommonProperties();
 		for (int i = 0; i < commProps.size(); i++) {
@@ -586,13 +555,12 @@ public class SimpleGroupElementHandle extends GroupElementHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.GroupElementHandle#isInGroup(org.eclipse
 	 * .birt.report.model.api.DesignElementHandle)
 	 */
 
-	@Override
 	protected boolean isInGroup(DesignElementHandle element) {
 		return elements.contains(element);
 	}

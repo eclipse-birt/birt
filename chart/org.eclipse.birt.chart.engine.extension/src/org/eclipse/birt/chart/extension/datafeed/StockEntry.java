@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,7 +36,7 @@ public final class StockEntry implements IDataPointEntry {
 	private double dClose;
 
 	/**
-	 *
+	 * 
 	 * @param dOpen
 	 * @param dLow
 	 * @param dHigh
@@ -50,7 +50,7 @@ public final class StockEntry implements IDataPointEntry {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param oaFourComponents
 	 */
 	public StockEntry(Object[] oaFourComponents) {
@@ -66,10 +66,9 @@ public final class StockEntry implements IDataPointEntry {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
 	public String toString() {
 		return getFormattedString(null, ULocale.getDefault());
 	}
@@ -77,60 +76,59 @@ public final class StockEntry implements IDataPointEntry {
 	/**
 	 * @return Returns the close.
 	 */
-	public double getClose() {
+	public final double getClose() {
 		return dClose;
 	}
 
 	/**
 	 * @param close The close to set.
 	 */
-	public void setClose(double close) {
+	public final void setClose(double close) {
 		this.dClose = close;
 	}
 
 	/**
 	 * @return Returns the high.
 	 */
-	public double getHigh() {
+	public final double getHigh() {
 		return dHigh;
 	}
 
 	/**
 	 * @param high The high to set.
 	 */
-	public void setHigh(double high) {
+	public final void setHigh(double high) {
 		this.dHigh = high;
 	}
 
 	/**
 	 * @return Returns the low.
 	 */
-	public double getLow() {
+	public final double getLow() {
 		return dLow;
 	}
 
 	/**
 	 * @param low The low to set.
 	 */
-	public void setLow(double low) {
+	public final void setLow(double low) {
 		this.dLow = low;
 	}
 
 	/**
 	 * @return Returns the open.
 	 */
-	public double getOpen() {
+	public final double getOpen() {
 		return dOpen;
 	}
 
 	/**
 	 * @param open The open to set.
 	 */
-	public void setOpen(double open) {
+	public final void setOpen(double open) {
 		this.dOpen = open;
 	}
 
-	@Override
 	public String getFormattedString(String type, FormatSpecifier formatter, ULocale locale) {
 		String str = null;
 		try {
@@ -160,7 +158,6 @@ public final class StockEntry implements IDataPointEntry {
 		return str;
 	}
 
-	@Override
 	public String getFormattedString(FormatSpecifier formatter, ULocale locale) {
 		StringBuilder sb = new StringBuilder();
 		sb.append('H');
@@ -174,7 +171,6 @@ public final class StockEntry implements IDataPointEntry {
 		return sb.toString();
 	}
 
-	@Override
 	public boolean isValid() {
 		return (!(Double.isNaN(dHigh) || Double.isNaN(dLow) || Double.isNaN(dClose) || Double.isNaN(dOpen)));
 	}

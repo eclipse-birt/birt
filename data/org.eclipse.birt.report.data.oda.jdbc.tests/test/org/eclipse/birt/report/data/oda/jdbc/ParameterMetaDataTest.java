@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,21 +14,21 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- *
+ * 
  * Testcase for ParameterMetaData
- *
+ * 
  */
 public class ParameterMetaDataTest {
 
@@ -148,12 +148,10 @@ public class ParameterMetaDataTest {
 	public void testIsNullable() throws Exception {
 		for (int i = 1; i < Pmd.getParameterCount() + 1; i++) {
 			int result = java.sql.ParameterMetaData.parameterNullableUnknown;
-			if (Pmd.isNullable(i) == IParameterMetaData.parameterNullable) {
+			if (Pmd.isNullable(i) == IParameterMetaData.parameterNullable)
 				result = java.sql.ParameterMetaData.parameterNullable;
-			}
-			if (Pmd.isNullable(i) == IParameterMetaData.parameterNoNulls) {
+			if (Pmd.isNullable(i) == IParameterMetaData.parameterNoNulls)
 				result = java.sql.ParameterMetaData.parameterNoNulls;
-			}
 			assertEquals(result, jdbcPmd.isNullable(i));
 		}
 	}

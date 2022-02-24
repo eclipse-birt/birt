@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api;
@@ -32,7 +32,7 @@ public interface IPreparedQuery extends IBasePreparedQuery {
 	 * Returns the same {@link org.eclipse.birt.data.engine.api.IQueryDefinition}
 	 * used to prepare this instance, without any changes.
 	 */
-	IQueryDefinition getReportQueryDefn();
+	public IQueryDefinition getReportQueryDefn();
 
 	/**
 	 * Returns a collection of
@@ -41,13 +41,13 @@ public interface IPreparedQuery extends IBasePreparedQuery {
 	 * the collection has no implied meaning. A parameter's position value, if
 	 * defined, is specified in a <code>IParameterMetaData</code>. Each parameter
 	 * can be of input and/or output mode.
-	 *
+	 * 
 	 * @return The collection of <code>IParameterMetaData</code> to describe the
 	 *         meta-data of all parameters defined in this prepared query. Returns
 	 *         null if no parameters are defined, or if no parameter metadata is
 	 *         available.
 	 */
-	Collection getParameterMetaData() throws BirtException;
+	public Collection getParameterMetaData() throws BirtException;
 
 	/**
 	 * Executes the prepared execution plan. This returns a
@@ -59,35 +59,35 @@ public interface IPreparedQuery extends IBasePreparedQuery {
 	 * this method. The Data Engine is responsible for setting up necessary
 	 * Javascript objects to facilitate evaluation of data related expressions
 	 * (e.g., those that uses the Javascript "row" object).
-	 *
+	 * 
 	 * @param queryScope The Javascript scope for evaluating query's script
 	 *                   expressions. This is expected to be a top-level scope with
 	 *                   the Data Engine's global scope at its top prototype chain.
 	 */
-	IQueryResults execute(Scriptable queryScope) throws BirtException;
+	public IQueryResults execute(Scriptable queryScope) throws BirtException;
 
 	/**
 	 * Executes the prepared execution plan as an inner query that appears within
 	 * the scope of another query. The outer query must have been prepared and
 	 * executed, and its results given as a parameter to this method.
-	 *
+	 * 
 	 * @param outerResults <code>IQueryResults</code> for the executed outer query
 	 * @param queryScope   Javascript defined for this runtime instance of report
 	 *                     query.
 	 * @return The <code>IQueryResults</code> object for this report query
 	 */
-	IQueryResults execute(IQueryResults outerResults, Scriptable queryScope) throws BirtException;
+	public IQueryResults execute(IQueryResults outerResults, Scriptable queryScope) throws BirtException;
 
 	/**
 	 * Executes the prepared execution plan as an inner query that appears within
 	 * the scope of another query. The outer query must have been prepared and
 	 * executed, and its results given as a parameter to this method.
-	 *
+	 * 
 	 * @param outerResults
 	 * @param scope
 	 * @return
 	 * @throws DataException
 	 */
-	IQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException;
+	public IQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException;
 
 }

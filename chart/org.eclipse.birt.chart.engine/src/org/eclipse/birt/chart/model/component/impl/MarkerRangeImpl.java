@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -78,7 +78,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getOutline()
 	 * @generated
 	 * @ordered
@@ -88,7 +88,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getFill()
 	 * @generated
 	 * @ordered
@@ -98,7 +98,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * The cached value of the '{@link #getStartValue() <em>Start Value</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getStartValue()
 	 * @generated
 	 * @ordered
@@ -108,7 +108,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * The cached value of the '{@link #getEndValue() <em>End Value</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getEndValue()
 	 * @generated
 	 * @ordered
@@ -118,7 +118,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -128,7 +128,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * The default value of the ' {@link #getLabelAnchor() <em>Label Anchor</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLabelAnchor()
 	 * @generated
 	 * @ordered
@@ -138,7 +138,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLabelAnchor()
 	 * @generated
 	 * @ordered
@@ -148,7 +148,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * This is true if the Label Anchor attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -158,7 +158,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format
 	 * Specifier</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -168,7 +168,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}'
 	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getTriggers()
 	 * @generated
 	 * @ordered
@@ -178,7 +178,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * The cached value of the '{@link #getCursor() <em>Cursor</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getCursor()
 	 * @generated
 	 * @ordered
@@ -187,7 +187,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected MarkerRangeImpl() {
@@ -196,7 +196,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -206,17 +206,16 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LineAttributes getOutline() {
 		return outline;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetOutline(LineAttributes newOutline, NotificationChain msgs) {
@@ -225,55 +224,48 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.MARKER_RANGE__OUTLINE, oldOutline, newOutline);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setOutline(LineAttributes newOutline) {
 		if (newOutline != outline) {
 			NotificationChain msgs = null;
-			if (outline != null) {
+			if (outline != null)
 				msgs = ((InternalEObject) outline).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__OUTLINE, null, msgs);
-			}
-			if (newOutline != null) {
+			if (newOutline != null)
 				msgs = ((InternalEObject) newOutline).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__OUTLINE, null, msgs);
-			}
 			msgs = basicSetOutline(newOutline, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__OUTLINE, newOutline,
 					newOutline));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Fill getFill() {
 		return fill;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFill(Fill newFill, NotificationChain msgs) {
@@ -282,55 +274,48 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.MARKER_RANGE__FILL, oldFill, newFill);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setFill(Fill newFill) {
 		if (newFill != fill) {
 			NotificationChain msgs = null;
-			if (fill != null) {
+			if (fill != null)
 				msgs = ((InternalEObject) fill).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__FILL, null, msgs);
-			}
-			if (newFill != null) {
+			if (newFill != null)
 				msgs = ((InternalEObject) newFill).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__FILL, null, msgs);
-			}
 			msgs = basicSetFill(newFill, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__FILL, newFill,
 					newFill));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DataElement getStartValue() {
 		return startValue;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetStartValue(DataElement newStartValue, NotificationChain msgs) {
@@ -339,55 +324,48 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.MARKER_RANGE__START_VALUE, oldStartValue, newStartValue);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setStartValue(DataElement newStartValue) {
 		if (newStartValue != startValue) {
 			NotificationChain msgs = null;
-			if (startValue != null) {
+			if (startValue != null)
 				msgs = ((InternalEObject) startValue).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__START_VALUE, null, msgs);
-			}
-			if (newStartValue != null) {
+			if (newStartValue != null)
 				msgs = ((InternalEObject) newStartValue).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__START_VALUE, null, msgs);
-			}
 			msgs = basicSetStartValue(newStartValue, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__START_VALUE,
 					newStartValue, newStartValue));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DataElement getEndValue() {
 		return endValue;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetEndValue(DataElement newEndValue, NotificationChain msgs) {
@@ -396,55 +374,48 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.MARKER_RANGE__END_VALUE, oldEndValue, newEndValue);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setEndValue(DataElement newEndValue) {
 		if (newEndValue != endValue) {
 			NotificationChain msgs = null;
-			if (endValue != null) {
+			if (endValue != null)
 				msgs = ((InternalEObject) endValue).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__END_VALUE, null, msgs);
-			}
-			if (newEndValue != null) {
+			if (newEndValue != null)
 				msgs = ((InternalEObject) newEndValue).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__END_VALUE, null, msgs);
-			}
 			msgs = basicSetEndValue(newEndValue, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__END_VALUE, newEndValue,
 					newEndValue));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Label getLabel() {
 		return label;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
@@ -453,109 +424,96 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.MARKER_RANGE__LABEL, oldLabel, newLabel);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setLabel(Label newLabel) {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
-			if (label != null) {
+			if (label != null)
 				msgs = ((InternalEObject) label).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__LABEL, null, msgs);
-			}
-			if (newLabel != null) {
+			if (newLabel != null)
 				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__LABEL, null, msgs);
-			}
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__LABEL, newLabel,
 					newLabel));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Anchor getLabelAnchor() {
 		return labelAnchor;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setLabelAnchor(Anchor newLabelAnchor) {
 		Anchor oldLabelAnchor = labelAnchor;
 		labelAnchor = newLabelAnchor == null ? LABEL_ANCHOR_EDEFAULT : newLabelAnchor;
 		boolean oldLabelAnchorESet = labelAnchorESet;
 		labelAnchorESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__LABEL_ANCHOR,
 					oldLabelAnchor, labelAnchor, !oldLabelAnchorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetLabelAnchor() {
 		Anchor oldLabelAnchor = labelAnchor;
 		boolean oldLabelAnchorESet = labelAnchorESet;
 		labelAnchor = LABEL_ANCHOR_EDEFAULT;
 		labelAnchorESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.MARKER_RANGE__LABEL_ANCHOR,
 					oldLabelAnchor, LABEL_ANCHOR_EDEFAULT, oldLabelAnchorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetLabelAnchor() {
 		return labelAnchorESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public FormatSpecifier getFormatSpecifier() {
 		return formatSpecifier;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs) {
@@ -564,51 +522,44 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setFormatSpecifier(FormatSpecifier newFormatSpecifier) {
 		if (newFormatSpecifier != formatSpecifier) {
 			NotificationChain msgs = null;
-			if (formatSpecifier != null) {
+			if (formatSpecifier != null)
 				msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER, null, msgs);
-			}
-			if (newFormatSpecifier != null) {
+			if (newFormatSpecifier != null)
 				msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER, null, msgs);
-			}
 			msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER,
 					newFormatSpecifier, newFormatSpecifier));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<Trigger> getTriggers() {
 		if (triggers == null) {
-			triggers = new EObjectContainmentEList<>(Trigger.class, this,
+			triggers = new EObjectContainmentEList<Trigger>(Trigger.class, this,
 					ComponentPackage.MARKER_RANGE__TRIGGERS);
 		}
 		return triggers;
@@ -616,17 +567,16 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Cursor getCursor() {
 		return cursor;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetCursor(Cursor newCursor, NotificationChain msgs) {
@@ -635,45 +585,39 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.MARKER_RANGE__CURSOR, oldCursor, newCursor);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setCursor(Cursor newCursor) {
 		if (newCursor != cursor) {
 			NotificationChain msgs = null;
-			if (cursor != null) {
+			if (cursor != null)
 				msgs = ((InternalEObject) cursor).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__CURSOR, null, msgs);
-			}
-			if (newCursor != null) {
+			if (newCursor != null)
 				msgs = ((InternalEObject) newCursor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_RANGE__CURSOR, null, msgs);
-			}
 			msgs = basicSetCursor(newCursor, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__CURSOR, newCursor,
 					newCursor));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -701,7 +645,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -731,7 +675,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -772,7 +716,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -811,7 +755,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -841,29 +785,27 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (labelAnchor: "); //$NON-NLS-1$
-		if (labelAnchorESet) {
+		if (labelAnchorESet)
 			result.append(labelAnchor);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * A convenience method provided to add a marker range instance to an axis
-	 *
+	 * 
 	 * @param ax        the axis which the marker range will be created on.
 	 * @param deStart   start range.
 	 * @param deEnd     end range.
@@ -875,7 +817,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * A convenience method provided to add a marker range instance to an axis
-	 *
+	 * 
 	 * @param ax           the axis which the marker range will be created on.
 	 * @param deStart      start range.
 	 * @param deEnd        end range.
@@ -909,7 +851,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 
 	/**
 	 * A convenience method provided to add a marker range instance to an axis
-	 *
+	 * 
 	 * @param ax           the axis which the marker range will be created on.
 	 * @param deStart      start range.
 	 * @param deEnd        end range.
@@ -952,7 +894,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange {
 	/**
 	 * @generated
 	 */
-	@Override
 	public MarkerRange copyInstance() {
 		MarkerRangeImpl dest = new MarkerRangeImpl();
 		dest.set(this);

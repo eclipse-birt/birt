@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -86,11 +86,11 @@ public class InputParameterDialog extends BaseDialog {
 	private ScrolledComposite scrollPane;
 
 	private List params;
-	private Map<String, Object> paramValues = new HashMap<>();
+	private Map<String, Object> paramValues = new HashMap<String, Object>();
 	private List<IParameterAdapter> paramAdatpers = new ArrayList();
 
-	private List<IParameterControlHelper> controlHelpers = new ArrayList<>();
-	private Map<IParameter, SelectionParameterControlHelper> postCascadeParamLists = new HashMap<>();
+	private List<IParameterControlHelper> controlHelpers = new ArrayList<IParameterControlHelper>();
+	private Map<IParameter, SelectionParameterControlHelper> postCascadeParamLists = new HashMap<IParameter, SelectionParameterControlHelper>();
 
 	public InputParameterDialog(Shell parentShell, List params, Map paramValues) {
 		super(parentShell, Messages.getString("InputParameterDialog.msg.title")); //$NON-NLS-1$
@@ -101,10 +101,13 @@ public class InputParameterDialog extends BaseDialog {
 		}
 	}
 
-	@Override
 	protected void okPressed() {
 
-		if (!validateParameters() || !validateAdapters()) {
+		if (!validateParameters()) {
+			return;
+		}
+
+		if (!validateAdapters()) {
 			return;
 		}
 		super.okPressed();
@@ -132,7 +135,6 @@ public class InputParameterDialog extends BaseDialog {
 		return true;
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -269,12 +271,10 @@ class InternalParameterSelectionChoice implements IParameterSelectionChoice {
 		this._value = value;
 	}
 
-	@Override
 	public Object getValue() {
 		return _value;
 	}
 
-	@Override
 	public String getLabel() {
 		return _label;
 	}
@@ -293,12 +293,10 @@ enum InputParameterSelectionChoice implements IParameterSelectionChoice {
 		_value = value;
 	}
 
-	@Override
 	public Object getValue() {
 		return _value;
 	}
 
-	@Override
 	public String getLabel() {
 		return _label;
 	}
@@ -306,8 +304,8 @@ enum InputParameterSelectionChoice implements IParameterSelectionChoice {
 
 interface IParameterControlHelper {
 
-	String NULL_VALUE_STR = ParameterUtil.LABEL_NULL;
-	String EMPTY_VALUE_STR = "";//$NON-NLS-1$
+	public static final String NULL_VALUE_STR = ParameterUtil.LABEL_NULL;
+	public static final String EMPTY_VALUE_STR = "";//$NON-NLS-1$
 
 	void createControl(Composite parent, Object parameter, Object lastValue);
 
@@ -326,7 +324,7 @@ abstract class AbstractParameterControlHelper implements IParameterControlHelper
 	protected String paramterHandleName;
 	protected boolean isStringType = false;
 
-	protected Map<String, Object> lastConfigValues = new HashMap<>();
+	protected Map<String, Object> lastConfigValues = new HashMap<String, Object>();
 	protected Object defaultValue;
 
 	protected Label controlLabel;
@@ -337,7 +335,6 @@ abstract class AbstractParameterControlHelper implements IParameterControlHelper
 		this.parameterDialog = dialog;
 	}
 
-	@Override
 	public void createControl(Composite parent, Object para, Object lastValue) {
 		this.parent = parent;
 		init(para, lastValue);
@@ -360,12 +357,10 @@ abstract class AbstractParameterControlHelper implements IParameterControlHelper
 		}
 	}
 
-	@Override
 	public Map<String, Object> getResults() {
 		return lastConfigValues;
 	}
 
-	@Override
 	public boolean validate() {
 		return validateRequiredItem() && validateDataType();
 	}
@@ -430,7 +425,7 @@ abstract class AbstractParameterControlHelper implements IParameterControlHelper
 
 	/**
 	 * Only get first value,if default is Multiple values,should not use this
-	 *
+	 * 
 	 * @param param
 	 * @return
 	 */
@@ -511,9 +506,9 @@ abstract class AbstractParameterControlHelper implements IParameterControlHelper
 			} else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type)
 					|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type)) {
 				double value = Double.parseDouble(str);
-				if (Double.isInfinite(value)) {
+				if (Double.isInfinite(value))
 					formatStr = str;
-				} else {
+				else {
 					if (DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED.equals(formatPattern)) {
 						formatPattern = null;
 					}
@@ -576,12 +571,10 @@ class StaticTextParameterControlHelper extends AbstractParameterControlHelper {
 
 	private Text input = null;
 
-	@Override
 	protected void prepare() {
 		needTypeCheck = true;
 	}
 
-	@Override
 	protected void createParameterControl() {
 		createText();
 	}
@@ -591,7 +584,6 @@ class StaticTextParameterControlHelper extends AbstractParameterControlHelper {
 		input.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		input.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				Text input = (Text) e.getSource();
 				putConfigValue(paramterHandleName, input.getText());
@@ -617,7 +609,6 @@ class CheckBoxParameterControlHelper extends AbstractParameterControlHelper {
 		super(dialog);
 	}
 
-	@Override
 	protected void createParameterControl() {
 		createCheckBox();
 	}
@@ -630,11 +621,9 @@ class CheckBoxParameterControlHelper extends AbstractParameterControlHelper {
 		btnCheck.setText(Messages.getString("InputParameterDialog.boolean.checked"));
 		btnCheck.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Button button = (Button) e.getSource();
 				putConfigValue(paramterHandleName, button.getSelection());
@@ -652,7 +641,7 @@ class CheckBoxParameterControlHelper extends AbstractParameterControlHelper {
 		if (value == null) {
 			return false;
 		}
-		return Boolean.parseBoolean(value.toString());
+		return Boolean.valueOf(value.toString());
 	}
 }
 
@@ -662,12 +651,10 @@ class RadioParameterControlHelper extends AbstractParameterControlHelper {
 		super(dialog);
 	}
 
-	@Override
 	protected void createParameterControl() {
 		doCreateRadioParameter();
 	}
 
-	@Override
 	protected void prepare() {
 		needTypeCheck = true;
 		list = parameter.getValueList();
@@ -685,7 +672,7 @@ class RadioParameterControlHelper extends AbstractParameterControlHelper {
 	}
 
 	private List<IParameterSelectionChoice> list;
-	private List<Button> radioItems = new ArrayList<>();
+	private List<Button> radioItems = new ArrayList<Button>();
 
 	private void doCreateRadioParameter() {
 		for (int i = 0; i < list.size(); i++) {
@@ -728,11 +715,9 @@ class RadioParameterControlHelper extends AbstractParameterControlHelper {
 		button.setData(buttonData);
 		button.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Button button = (Button) e.getSource();
 				putConfigValue(paramterHandleName, button.getData());
@@ -753,11 +738,11 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 	private boolean performed = false;
 	boolean isCascade = false;
 
-	protected List<IParameterSelectionChoice> valueList = new ArrayList<>();
+	protected List<IParameterSelectionChoice> valueList = new ArrayList<IParameterSelectionChoice>();
 	private boolean isCascadeGroup;
 	private CascadingParameterGroup cascadeGroup;
 
-	protected List<String> controlResetItems = new ArrayList<>();
+	protected List<String> controlResetItems = new ArrayList<String>();
 
 	public SelectionParameterControlHelper(InputParameterDialog dialog) {
 		super(dialog);
@@ -765,7 +750,6 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 
 	abstract Control getControl();
 
-	@Override
 	protected void prepare() {
 		super.prepare();
 		prepareValueList();
@@ -874,7 +858,7 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 	 * If the combo is cascade then: If the value in the combo data list: then
 	 * select the value else: then select the first item if items exists else : then
 	 * set the value to combo
-	 *
+	 * 
 	 * @param value
 	 * @param combo
 	 * @param listParam
@@ -887,22 +871,26 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 			combo.setText(value == null ? NULL_VALUE_STR : value.toString());
 			listParam.setSelectionValue(combo.getText());
 			putConfigValue(listParam.getHandle().getName(), combo.getText());
-		} else if (combo.getItemCount() > 0) {
-			combo.select(0);
-			listParam.setSelectionValue(combo.getText());
-			putConfigValue(listParam.getHandle().getName(), combo.getData(String.valueOf(combo.getSelectionIndex())));
 		} else {
-			putConfigValue(listParam.getHandle().getName(), null);
+			if (combo.getItemCount() > 0) {
+				combo.select(0);
+				listParam.setSelectionValue(combo.getText());
+				putConfigValue(listParam.getHandle().getName(),
+						combo.getData(String.valueOf(combo.getSelectionIndex())));
+			} else {
+				putConfigValue(listParam.getHandle().getName(), null);
+			}
+
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * set the default selected item in combo
-	 *
+	 * 
 	 * @param selectIndex :indicate which item will be selected
 	 * @param combo       : Combo
-	 *
+	 * 
 	 */
 	protected void setSelectValueAfterInitCombo(int selectIndex, Combo combo) {
 		boolean found = dealWithValueInComboList(selectIndex, defaultValue, combo, parameter);
@@ -914,7 +902,7 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 	/**
 	 * If value in combo data list ,then select it and return true; else do nothing
 	 * and return false
-	 *
+	 * 
 	 * @param selectIndex : indicate which item will be selected
 	 * @param value       : the value which will be selected
 	 * @param combo
@@ -946,8 +934,8 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 	}
 
 	protected void initListValue(Object value, org.eclipse.swt.widgets.List list, ScalarParameter listParam) {
-		List<Object> newValueList = new ArrayList<>();
-		List<Object> oldvalueList = new ArrayList<>();
+		List<Object> newValueList = new ArrayList<Object>();
+		List<Object> oldvalueList = new ArrayList<Object>();
 
 		if (value instanceof Object[]) {
 			oldvalueList = Arrays.asList((Object[]) value);
@@ -980,12 +968,10 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 		List localValueList = parameter.getValueList();
 		for (Object o : localValueList) {
 			Object choiceValue = ((IParameterSelectionChoice) o).getValue();
-			if (InputParameterSelectionChoice.BLANKVALUECHOICE.getValue().equals(choiceValue)) {
+			if (InputParameterSelectionChoice.BLANKVALUECHOICE.getValue().equals(choiceValue))
 				containsBlank = true;
-			}
-			if (null == choiceValue) {
+			if (null == choiceValue)
 				containsNull = true;
-			}
 		}
 
 		if (isStringType && !isRequired && !containsBlank) {
@@ -1016,7 +1002,7 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 	/**
 	 * If defaultValue is not null and it is in the list, then construct a new
 	 * SelectionChoice with defaultValue and add it to the list
-	 *
+	 * 
 	 * @param defaultValueLabel
 	 * @param defaultValue
 	 * @param list
@@ -1037,7 +1023,7 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 	/**
 	 * To check that whether the defaultValue is in the value list If in list,return
 	 * true;else return false.
-	 *
+	 * 
 	 * @param defaultValue
 	 * @param list
 	 * @return
@@ -1065,7 +1051,7 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 
 	/**
 	 * If the value is in the data,return true;else return false
-	 *
+	 * 
 	 * @param value
 	 * @param comboData
 	 * @return
@@ -1084,14 +1070,14 @@ abstract class SelectionParameterControlHelper extends AbstractParameterControlH
 	/**
 	 * test whether this ScalarParameter is used in cascade group If the param is
 	 * the first item of group,then return false.
-	 *
+	 * 
 	 * @param listParam
 	 * @return
 	 */
 	private boolean isCascadeParameter(ScalarParameter param) {
 		boolean result = false;
 		IParameterGroup group = param.getParentGroup();
-		if (group instanceof CascadingParameterGroup) {
+		if (group != null && group instanceof CascadingParameterGroup) {
 			List child = param.getParentGroup().getChildren();
 			if (child != null && child.size() > 1) {
 				for (int i = 1; i < child.size(); i++) {
@@ -1141,12 +1127,10 @@ class ComboParameterControlHelper extends SelectionParameterControlHelper {
 
 	private Combo combo;
 
-	@Override
 	Control getControl() {
 		return combo;
 	}
 
-	@Override
 	protected void createParameterControl() {
 		createCombo();
 	}
@@ -1167,12 +1151,10 @@ class ComboParameterControlHelper extends SelectionParameterControlHelper {
 
 		combo.addFocusListener(new FocusListener() {
 
-			@Override
 			public void focusGained(FocusEvent e) {
 
 			}
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				if (!(parameter instanceof ComboBoxParameter)) {
 					return;
@@ -1198,11 +1180,9 @@ class ComboParameterControlHelper extends SelectionParameterControlHelper {
 
 		combo.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Combo combo = (Combo) e.getSource();
 				if (combo.getSelectionIndex() != -1) {
@@ -1260,7 +1240,6 @@ class ListParameterControlHelper extends SelectionParameterControlHelper {
 
 	private ListViewer listViewer;
 
-	@Override
 	Control getControl() {
 		return listViewer.getList();
 	}
@@ -1269,7 +1248,6 @@ class ListParameterControlHelper extends SelectionParameterControlHelper {
 		super(dialog);
 	}
 
-	@Override
 	protected void createParameterControl() {
 		initControlLabelLayout();
 		createListParamer();
@@ -1293,11 +1271,9 @@ class ListParameterControlHelper extends SelectionParameterControlHelper {
 
 		listViewer.getList().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) e.getSource();
 

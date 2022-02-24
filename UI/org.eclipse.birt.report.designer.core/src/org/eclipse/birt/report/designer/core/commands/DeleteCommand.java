@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,8 +47,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
  * Deletes single, multiple objects or do nothing.
- *
- *
+ * 
+ * 
  */
 
 public class DeleteCommand extends Command {
@@ -76,7 +76,7 @@ public class DeleteCommand extends Command {
 
 	/**
 	 * Deletes the command
-	 *
+	 * 
 	 * @param model the model
 	 */
 
@@ -89,7 +89,6 @@ public class DeleteCommand extends Command {
 	 * executable.
 	 */
 
-	@Override
 	public void execute() {
 		if (DesignerConstants.TRACING_COMMANDS) {
 			System.out.println("DeleteCommand >> Starts ... "); //$NON-NLS-1$
@@ -105,7 +104,7 @@ public class DeleteCommand extends Command {
 					if (DesignerConstants.TRACING_COMMANDS) {
 						System.out.println("DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
 								+ item.getStructName());
-
+						;
 					}
 					// remove cached image
 					String key = ImageManager.getInstance()
@@ -169,10 +168,13 @@ public class DeleteCommand extends Command {
 				new DeleteRowCommand(handle).execute();
 			} else if (handle instanceof ColumnHandle) {
 				new DeleteColumnCommand(handle).execute();
-			} else if (isClear()) {
-				handle.dropAndClear();
 			} else {
-				handle.drop();
+				if (isClear()) {
+					handle.dropAndClear();
+				} else {
+					handle.drop();
+				}
+
 			}
 		}
 	}
@@ -218,10 +220,9 @@ public class DeleteCommand extends Command {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	@Override
 	public boolean canExecute() {
 		return canDrop(model);
 	}
@@ -229,11 +230,14 @@ public class DeleteCommand extends Command {
 	/**
 	 * Returns the object can be deleted. If the parent can be deleted, the children
 	 * will be skippedl
-	 *
+	 * 
 	 * @param source single or multiple objects
 	 */
 	protected boolean canDrop(Object source) {
-		if ((SessionHandleAdapter.getInstance().getReportDesignHandle() == null) || (source == null)) {
+		if (SessionHandleAdapter.getInstance().getReportDesignHandle() == null) {
+			return false;
+		}
+		if (source == null) {
 			return false;
 		}
 		if (source instanceof List) {
@@ -250,25 +254,21 @@ public class DeleteCommand extends Command {
 
 			// If the container can drop, the children will be skipped
 			for (int i = 0; i < array.length; i++) {
-				if (DNDUtil.checkContainerExists(array[i], array)) {
+				if (DNDUtil.checkContainerExists(array[i], array))
 					continue;
-				}
 				// 267156 Can't delete all master pages
 				if (array[i] instanceof MasterPageHandle) {
 					int masterPageCount = SessionHandleAdapter.getInstance().getReportDesignHandle().getMasterPages()
 							.getCount();
 					for (int j = 0; j < array.length; j++) {
-						if (array[j] instanceof MasterPageHandle) {
+						if (array[j] instanceof MasterPageHandle)
 							masterPageCount--;
-						}
 					}
-					if (masterPageCount == 0) {
+					if (masterPageCount == 0)
 						return false;
-					}
 				}
-				if (!canDrop(array[i])) {
+				if (!canDrop(array[i]))
 					return false;
-				}
 			}
 			return true;
 		}
@@ -303,11 +303,10 @@ public class DeleteCommand extends Command {
 			return ((DesignElementHandle) source).canDrop();
 
 		} else if (source instanceof LibraryHandle) {
-			if (((LibraryHandle) source).getHostHandle() != null) {
+			if (((LibraryHandle) source).getHostHandle() != null)
 				return true;
-			} else {
+			else
 				return false;
-			}
 		} else if (source instanceof CssStyleSheetHandle) {
 			DesignElementHandle elementHandle = ((CssStyleSheetHandle) source).getContainerHandle();
 			if (elementHandle instanceof ReportDesignHandle) {
@@ -320,9 +319,8 @@ public class DeleteCommand extends Command {
 
 		} else if (source instanceof ScriptObjectNode) {
 			return true;
-		} else {
+		} else
 			return false;
-		}
 
 		// return (source instanceof ReportElementHandle
 		// // && (SessionHandleAdapter.getInstance( ).getReportDesignHandle()

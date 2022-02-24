@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param handle
 	 */
 	public NormalCrosstabCellAdapter(CrosstabCellHandle handle) {
@@ -41,20 +41,18 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
-	@Override
 	public int hashCode() {
 		return getCrosstabItemHandle().hashCode();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
 	public boolean equals(Object obj) {
 		// if ( obj == getCrosstabItemHandle( ) )
 		// {
@@ -72,11 +70,10 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.util.IVirtualValidator#handleValidate
 	 * (java.lang.Object)
 	 */
-	@Override
 	public boolean handleValidate(Object obj) {
 		boolean bool = super.handleValidate(obj);
 		if (bool) {
@@ -97,9 +94,8 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter {
 				for (int i = 0; i < len; i++) {
 					Object temp = objects[i];
 
-					if (temp instanceof LevelAttributeHandle) {
+					if (temp instanceof LevelAttributeHandle)
 						temp = ((LevelAttributeHandle) temp).getElementHandle();
-					}
 
 					if (temp instanceof MeasureHandle || temp instanceof MeasureGroupHandle) {
 						if (getPositionType().equals(ICrosstabCellAdapterFactory.CELL_MEASURE)
@@ -111,17 +107,14 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter {
 					} else if (temp instanceof LevelHandle) {
 						if (i > 0) {
 							Object preObj = objects[i - 1];
-							if (preObj instanceof LevelAttributeHandle) {
+							if (preObj instanceof LevelAttributeHandle)
 								preObj = ((LevelAttributeHandle) preObj).getElementHandle();
-							}
-							if (!(preObj instanceof LevelHandle)) {
+							if (!(preObj instanceof LevelHandle))
 								return false;
-							}
 							DesignElementHandle container = ((LevelHandle) temp).getContainer();
 							DesignElementHandle preContainer = ((LevelHandle) preObj).getContainer();
-							if (container != preContainer) {
+							if (container != preContainer)
 								return false;
-							}
 						}
 						isValidate = handleValidate(temp);
 					} else {
@@ -149,15 +142,13 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter {
 		if (obj instanceof LevelAttributeHandle) {
 			LevelAttributeHandle lah = (LevelAttributeHandle) obj;
 			LevelHandle lh = (LevelHandle) lah.getElementHandle();
-			if (handleValidate(CrosstabAdaptUtil.getDimensionHandle(lh))) {
+			if (handleValidate(CrosstabAdaptUtil.getDimensionHandle(lh)))
 				return true;
-			}
 
 			if (getCrosstabCellHandle() != null && getCrosstabCellHandle().getContainer() instanceof LevelViewHandle) {
 				LevelViewHandle lvh = (LevelViewHandle) getCrosstabCellHandle().getContainer();
-				if (lvh.getCubeLevel() == lh) {
+				if (lvh.getCubeLevel() == lh)
 					return true;
-				}
 			}
 		}
 

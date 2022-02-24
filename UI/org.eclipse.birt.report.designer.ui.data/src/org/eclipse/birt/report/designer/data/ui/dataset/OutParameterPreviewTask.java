@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -34,7 +34,6 @@ public class OutParameterPreviewTask extends DatasetPreviewTask {
 		super(engine);
 	}
 
-	@Override
 	protected QueryDefinition constructQuery(DataSetHandle dataset, DataRequestSession session) throws BirtException {
 		QueryDefinition query = super.constructQuery(dataset, session);
 
@@ -46,9 +45,8 @@ public class OutParameterPreviewTask extends DatasetPreviewTask {
 		for (int n = 1; n <= paramsSize; n++) {
 			DataSetParameterHandle paramDefn = (DataSetParameterHandle) paramIter.next();
 			// get output parameters alone
-			if (!paramDefn.isOutput()) {
+			if (!paramDefn.isOutput())
 				continue;
-			}
 
 			String bindingName = paramDefn.getName();
 			IBinding binding = new Binding(bindingName);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public class Dimension implements IDimension {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param documentManager
 	 * @param hierarchy
@@ -120,10 +120,9 @@ public class Dimension implements IDimension {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.cube.IDimension#getAllRows()
 	 */
-	@Override
 	public IDiskArray getAllRows(StopSign stopSign) throws IOException {
 		try {
 			return hierarchy.readAllRows(stopSign);
@@ -135,7 +134,7 @@ public class Dimension implements IDimension {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param position
 	 * @return
 	 * @throws IOException
@@ -145,7 +144,7 @@ public class Dimension implements IDimension {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param positionArray
 	 * @param stopSign
 	 * @return
@@ -156,9 +155,8 @@ public class Dimension implements IDimension {
 				positionArray.size());
 
 		for (int i = 0; i < positionArray.size(); i++) {
-			if (stopSign.isStopped()) {
+			if (stopSign.isStopped())
 				break;
-			}
 			int pos = ((Integer) positionArray.get(i)).intValue();
 			resultArray.add(hierarchy.readRowByPosition(pos));
 		}
@@ -166,7 +164,7 @@ public class Dimension implements IDimension {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param offset
 	 * @return
 	 * @throws IOException
@@ -176,7 +174,7 @@ public class Dimension implements IDimension {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param level
 	 * @param keyValue
 	 * @return
@@ -185,14 +183,13 @@ public class Dimension implements IDimension {
 	 */
 	public IDiskArray find(Level level, Object[] keyValue) throws IOException, DataException {
 		DiskIndex index = level.getDiskIndex();
-		if (index == null) {
+		if (index == null)
 			return null;
-		}
 		return index.find(keyValue);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param level
 	 * @param keyValue
 	 * @return
@@ -218,7 +215,7 @@ public class Dimension implements IDimension {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param level
 	 * @param keyValue
 	 * @return
@@ -227,14 +224,13 @@ public class Dimension implements IDimension {
 	 */
 	public IndexKey findFirst(Level level, Object[] keyValue) throws IOException, DataException {
 		DiskIndex index = level.getDiskIndex();
-		if (index == null) {
+		if (index == null)
 			return null;
-		}
 		return index.findFirst(keyValue);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param level
 	 * @param selections
 	 * @return Dimension index array.
@@ -251,10 +247,9 @@ public class Dimension implements IDimension {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#findAll()
 	 */
-	@Override
 	public IDiskArray findAll() throws IOException {
 		IDiskArray result = new BufferedPrimitiveDiskArray(length);
 		int lastPos = length() - 1;
@@ -266,50 +261,45 @@ public class Dimension implements IDimension {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#getHierarchy()
 	 */
-	@Override
 	public IHierarchy getHierarchy() {
 		return hierarchy;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#isTime()
 	 */
-	@Override
 	public boolean isTime() {
 		return isTime;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#length()
 	 */
-	@Override
 	public int length() {
 		return length;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#close()
 	 */
-	@Override
 	public void close() throws IOException {
 		hierarchy.close();
 	}

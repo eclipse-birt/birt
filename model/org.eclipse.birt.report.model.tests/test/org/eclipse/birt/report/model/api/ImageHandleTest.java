@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,61 +30,60 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testChangeImageType()}</td>
  * <td>Sets a valid uri image.</td>
  * <td>The image is correctly set.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Sets a valid embedded image.</td>
  * <td>The image is correctly set.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Sets a valid expression image.</td>
  * <td>The image is correctly set.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetImageProperties()}</td>
  * <td>Gets different properties, like Color, Dimension</td>
  * <td>The property value or handle is returned correctly.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testSearchFile()}</td>
  * <td>The image file exists.</td>
  * <td>The image is valid and no exception.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>The image file does not exist.</td>
  * <td>Throws <code>SemanticException</code> with error code.
  * <code>SEMANTIC_ERROR_IMAGE_FILE_NOT_EXIST.</code></td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testSetImageProperties()}</td>
  * <td>Gets different properties.</td>
  * <td>Values are set correctly and the output file matches with the golden
  * file.</td>
  * </tr>
- *
+ * 
  * </table>
- *
- *
+ * 
+ * 
  */
 
 public class ImageHandleTest extends BaseTestCase {
 
 	ImageHandle fileImage, exprImage, urlImage;
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("ImageItemHandleTest.xml"); //$NON-NLS-1$
@@ -102,7 +101,7 @@ public class ImageHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the image file searching mechanism.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -118,8 +117,8 @@ public class ImageHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to set different kinds of image source.
-	 *
-	 *
+	 * 
+	 * 
 	 * @throws SemanticException if the image source is invalid.
 	 */
 
@@ -152,7 +151,7 @@ public class ImageHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to set different kinds of properties of an image.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -245,7 +244,7 @@ public class ImageHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to get all kinds of properties of an image.
-	 *
+	 * 
 	 */
 
 	public void testGetImageProperties() {
@@ -288,7 +287,7 @@ public class ImageHandleTest extends BaseTestCase {
 
 	/**
 	 * Test getImageName with prefix.
-	 *
+	 * 
 	 */
 
 	public void testGetImageName() {
@@ -308,9 +307,9 @@ public class ImageHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests source property.
-	 *
+	 * 
 	 * @throws DesignFileException
-	 *
+	 * 
 	 */
 
 	public void testGetSource() throws DesignFileException {

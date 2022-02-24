@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,14 +42,14 @@ public class ChartEngine {
 
 	/**
 	 * Retrieves a singleton instance of the Chart Engine
-	 *
+	 * 
 	 * Initializes the OSGi Platform framework to load chart extension bundles
 	 * unless the STANDALONE flag was set in PlatformConfig property.
-	 *
+	 * 
 	 * If the config is null, it will use the BIRT_HOME JVM property to find the
 	 * OSGi chart bundles. Subsequent calls to this method will ignore the config
 	 * parameter .
-	 *
+	 * 
 	 * @param config The OSGi platform configuration. Can be null.
 	 */
 	public static ChartEngine instance(PlatformConfig config) {
@@ -67,7 +67,7 @@ public class ChartEngine {
 
 	/**
 	 * Returns a singleton instance of the Chart Engine
-	 *
+	 * 
 	 * @return A singleton instance of the Chart Engine
 	 */
 	public static ChartEngine instance() {
@@ -77,20 +77,19 @@ public class ChartEngine {
 	/**
 	 * Retrieve the Serializer interface, used for loading/saving chart design
 	 * from/to an XML stream
-	 *
+	 * 
 	 * @return A Serializer instance
 	 * @deprecated The Serializer instance is decoupled from the ChartEngine. To
 	 *             obtain a instance of SerializerImpl use: SerializerImpl.instance(
 	 *             ).
 	 */
-	@Deprecated
 	public Serializer getSerializer() {
 		return SerializerImpl.instance();
 	}
 
 	/**
 	 * Returns the IChartGenerator interface used to run and render charts
-	 *
+	 * 
 	 * @return IChartGenerator
 	 */
 	public IGenerator getGenerator() {
@@ -99,7 +98,7 @@ public class ChartEngine {
 
 	/**
 	 * Loads a device renderer, required by IChartGenerator to render charts
-	 *
+	 * 
 	 * @param deviceID The type of output. Examples are dv.SWT, dv.PNG, dv.JPG,
 	 *                 dv.PDF, dv.SVG
 	 * @return An IDeviceRenderer instance
@@ -113,11 +112,11 @@ public class ChartEngine {
 	/**
 	 * Retrieves the first instance of a data set processor registered as an
 	 * extension for a given series type.
-	 *
+	 * 
 	 * @param cSeries The Class instance associated with the given series type
-	 *
+	 * 
 	 * @return A newly created instance of a registered data set processor extension
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	public final IDataSetProcessor getDataSetProcessor(Class cSeries) throws ChartException {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -159,11 +159,11 @@ import com.ibm.icu.util.ULocale;
  * <li>Merging properties: DE stores custom and default properties separately.
  * In FPE, they are merged.</li>
  * <p>
- *
+ * 
  * This class visits the Design Engine's IR to create a new IR for FPE. It is
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
- *
+ * 
  * <p>
  * special consideration in styles
  * <p>
@@ -175,7 +175,7 @@ import com.ibm.icu.util.ULocale;
  * remove the text-decoration from the container's styles.
  * <li>BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
- *
+ * 
  */
 public class EngineIRVisitor extends DesignVisitor {
 	/**
@@ -249,9 +249,9 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param handle the entry point to the DE report design IR
-	 *
+	 * 
 	 */
 	public EngineIRVisitor(ReportDesignHandle handle) {
 		super();
@@ -260,7 +260,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * translate the DE's IR to FPE's IR.
-	 *
+	 * 
 	 * @return FPE's IR.
 	 */
 	public Report translate() {
@@ -283,12 +283,11 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.DesignVisitor#visitReportDesign(org.eclipse
 	 * .birt.report.model.api.ReportDesignHandle)
 	 */
-	@Override
 	public void visitReportDesign(ReportDesignHandle handle) {
 
 		Map<String, Expression> userProperties = createUserProperties(handle);
@@ -301,9 +300,8 @@ public class EngineIRVisitor extends DesignVisitor {
 		// CODE MODULES
 
 		ULocale locale = handle.getLocale();
-		if (locale != null) {
+		if (locale != null)
 			report.setLocale(locale.toString());
-		}
 
 		// Sets the report default style
 		createReportDefaultStyles(handle);
@@ -408,16 +406,15 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * setup the user properties expression map
-	 *
+	 * 
 	 * @param userProperties   user defined named expressions in design file
 	 * @param namedExpressions the data structure that hold named expressions
 	 */
 	private Map<String, Expression> createUserProperties(DesignElementHandle handle) {
 		List propDefns = handle.getUserProperties();
-		if (propDefns == null || propDefns.isEmpty()) {
+		if (propDefns == null || propDefns.isEmpty())
 			return null;
-		}
-		Map<String, Expression> propExprs = new HashMap<>(propDefns.size());
+		Map<String, Expression> propExprs = new HashMap<String, Expression>(propDefns.size());
 		for (int i = 0; i < propDefns.size(); i++) {
 			UserPropertyDefn userDef = (UserPropertyDefn) propDefns.get(i);
 			Expression expr = org.eclipse.birt.report.engine.util.ExpressionUtil.createUserProperty(handle, userDef);
@@ -430,7 +427,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * setup the master page object from the base master page handle.
-	 *
+	 * 
 	 * @param page   page object
 	 * @param handle page handle
 	 */
@@ -480,13 +477,11 @@ public class EngineIRVisitor extends DesignVisitor {
 		}
 	}
 
-	@Override
 	protected void visitDesignElement(DesignElementHandle obj) {
 		// any unsupported element
 		currentElement = null;
 	}
 
-	@Override
 	public void visitGraphicMasterPage(GraphicMasterPageHandle handle) {
 		GraphicMasterPageDesign page = new GraphicMasterPageDesign();
 
@@ -517,7 +512,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		currentElementId = -1;
 	}
 
-	@Override
 	public void visitSimpleMasterPage(SimpleMasterPageHandle handle) {
 		SimpleMasterPageDesign page = new SimpleMasterPageDesign();
 
@@ -548,7 +542,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(page);
 	}
 
-	@Override
 	public void visitList(ListHandle handle) {
 		// Create ListItem
 		ListItemDesign listItem = new ListItemDesign();
@@ -593,7 +586,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(listItem);
 	}
 
-	@Override
 	public void visitFreeForm(FreeFormHandle handle) {
 		// Create Free form element
 		FreeFormItemDesign container = new FreeFormItemDesign();
@@ -611,7 +603,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(container);
 	}
 
-	@Override
 	public void visitTextDataItem(TextDataHandle handle) {
 		DynamicTextItemDesign dynamicTextItem = new DynamicTextItemDesign();
 
@@ -620,7 +611,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		ExpressionHandle valueExprHandle = handle.getExpressionProperty(TextDataHandle.VALUE_EXPR_PROP);
 		Expression valueExpr = createExpression(valueExprHandle);
 		String contentType = handle.getContentType();
-
+		;
 		dynamicTextItem.setContent(valueExpr);
 		dynamicTextItem.setContentType(contentType);
 		dynamicTextItem.setJTidy(handle.isJTidy());
@@ -630,7 +621,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(dynamicTextItem);
 	}
 
-	@Override
 	public void visitLabel(LabelHandle handle) {
 		// Create Label Item
 		LabelItemDesign labelItem = new LabelItemDesign();
@@ -653,7 +643,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(labelItem);
 	}
 
-	@Override
 	public void visitAutoText(AutoTextHandle handle) {
 		AutoTextItemDesign autoTextItem = new AutoTextItemDesign();
 		setupReportItem(autoTextItem, handle);
@@ -663,7 +652,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(autoTextItem);
 	}
 
-	@Override
 	public void visitDataItem(DataItemHandle handle) {
 		// Create data item
 		DataItemDesign data = new DataItemDesign();
@@ -691,7 +679,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(data);
 	}
 
-	@Override
 	public void visitGrid(GridHandle handle) {
 		// Create Grid Item
 		GridItemDesign grid = new GridItemDesign();
@@ -738,7 +725,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(grid);
 	}
 
-	@Override
 	public void visitImage(ImageHandle handle) {
 		// Create Image Item
 		ImageItemDesign image = new ImageItemDesign();
@@ -791,7 +777,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		design.setAltTextKey(handle.getAltTextKey());
 	}
 
-	@Override
 	public void visitTable(TableHandle handle) {
 		// Create Table Item
 		TableItemDesign table = new TableItemDesign();
@@ -1100,7 +1085,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		}
 	}
 
-	@Override
 	public void visitColumn(ColumnHandle handle) {
 		// Create a Column, mostly used in Table or Grid
 		ColumnDesign col = new ColumnDesign();
@@ -1135,7 +1119,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(col);
 	}
 
-	@Override
 	public void visitRow(RowHandle handle) {
 		// Create a Row, mostly used in Table and Grid Item
 		RowDesign row = new RowDesign();
@@ -1189,9 +1172,32 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(row);
 	}
 
+	private boolean isContainer(ReportElementHandle handle) {
+		if (handle instanceof TextItemHandle) {
+			return false;
+		}
+		if (handle instanceof DataItemHandle) {
+			return false;
+		}
+		if (handle instanceof LabelHandle) {
+			return false;
+		}
+		if (handle instanceof TextDataHandle) {
+			return false;
+		}
+		if (handle instanceof ExtendedItemHandle) {
+			return false;
+		}
+		if (handle instanceof ImageHandle) {
+			return false;
+		}
+		return true;
+
+	}
+
 	/**
 	 * Sets up cell element's style attribute.
-	 *
+	 * 
 	 * @param cell   engine's styled cell element.
 	 * @param handle DE's styled cell element.
 	 */
@@ -1205,7 +1211,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		}
 	}
 
-	@Override
 	public void visitCell(CellHandle handle) {
 		// Create a Cell
 		CellDesign cell = new CellDesign();
@@ -1312,7 +1317,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * create a list band using the items in slot.
-	 *
+	 * 
 	 * @param elements items in DE's IR
 	 * @return ListBand.
 	 */
@@ -1333,11 +1338,10 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * create a list group using the DE's ListGroup.
-	 *
+	 * 
 	 * @param handle De's list group
 	 * @return engine's list group
 	 */
-	@Override
 	public void visitListGroup(ListGroupHandle handle) {
 		ListGroupDesign listGroup = new ListGroupDesign();
 
@@ -1374,11 +1378,10 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * create a table group using the DE's TableGroup.
-	 *
+	 * 
 	 * @param handle De's table group
 	 * @return engine's table group
 	 */
-	@Override
 	public void visitTableGroup(TableGroupHandle handle) {
 		TableGroupDesign tableGroup = new TableGroupDesign();
 
@@ -1413,7 +1416,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		setCurrentElement(tableGroup);
 	}
 
-	@Override
 	public void visitTextItem(TextItemHandle handle) {
 		// Create Text Item
 		TextItemDesign textItem = new TextItemDesign();
@@ -1433,12 +1435,11 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.DesignVisitor#visitExtendedItem(org.eclipse
 	 * .birt.report.model.api.ExtendedItemHandle)
 	 */
-	@Override
 	protected void visitExtendedItem(ExtendedItemHandle obj) {
 		ExtendedItemDesign extendedItem = new ExtendedItemDesign();
 		setupReportItem(extendedItem, obj);
@@ -1450,14 +1451,13 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * process extended item's children.
-	 *
+	 * 
 	 * @param extendedItem
 	 * @param extendedHandle
 	 */
 	private void handleExtendedItemChildren(ExtendedItemDesign extendedItem, ExtendedItemHandle extendedHandle) {
-		if (extendedHandle == null) {
+		if (extendedHandle == null)
 			return;
-		}
 
 		Iterator propIter = extendedHandle.getPropertyIterator();
 		while (propIter.hasNext()) {
@@ -1482,7 +1482,6 @@ public class EngineIRVisitor extends DesignVisitor {
 		}
 	}
 
-	@Override
 	public void visitTemplateReportItem(TemplateReportItemHandle obj) {
 		TemplateDesign template = new TemplateDesign();
 		setupTemplateReportElement(template, obj);
@@ -1514,6 +1513,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		// bookmark
 		ExpressionHandle bookmarkExpr = handle.getExpressionProperty(GroupHandle.BOOKMARK_PROP);
 		group.setBookmark(createExpression(bookmarkExpr));
+		;
 
 		// set up OnCreate, OnRender, OnPageBreak
 		String onCreate = handle.getOnCreate();
@@ -1547,7 +1547,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * create a table band using the items in slot.
-	 *
+	 * 
 	 * @param elements items in DE's IR
 	 * @return TableBand.
 	 */
@@ -1568,7 +1568,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * Creates the property visibility
-	 *
+	 * 
 	 * @param visibilityRulesIterator the handle's rules iterator
 	 * @return null only if the iterator is null or it contains no rules, otherwise
 	 *         VisibilityDesign
@@ -1589,7 +1589,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * Creates the visibility rule( i.e. the hide)
-	 *
+	 * 
 	 * @param handle the DE's handle
 	 * @return the created visibility rule
 	 */
@@ -1608,7 +1608,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * setup the attribute of report item
-	 *
+	 * 
 	 * @param item   Engine's Report Item
 	 * @param handle DE's report item.
 	 */
@@ -1677,7 +1677,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * setup report element attribute
-	 *
+	 * 
 	 * @param elem   engine's report element
 	 * @param handle DE's report element
 	 */
@@ -1700,7 +1700,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * setup template report element attribute
-	 *
+	 * 
 	 * @param elem   engine's template report element
 	 * @param handle DE's report element
 	 */
@@ -1715,7 +1715,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * create a Action.
-	 *
+	 * 
 	 * @param handle action in DE
 	 * @return action in Engine.
 	 */
@@ -1749,7 +1749,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 			drillThrough.setBookmarkType(
 					!DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC.equals(handle.getTargetBookmarkType()));
-			Map<String, List<Expression>> params = new HashMap<>();
+			Map<String, List<Expression>> params = new HashMap<String, List<Expression>>();
 			Iterator paramIte = handle.paramBindingsIterator();
 			while (paramIte.hasNext()) {
 				ParamBindingHandle member = (ParamBindingHandle) paramIte.next();
@@ -1782,7 +1782,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * create a highlight rule from a structure handle.
-	 *
+	 * 
 	 * @param ruleHandle rule in the MODEL.
 	 * @return rule design, null if exist any error.
 	 */
@@ -1808,7 +1808,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * create highlight defined in the handle.
-	 *
+	 * 
 	 * @param item styled item.
 	 */
 	protected void setupHighlight(StyledElementDesign item, Expression defaultExpr) {
@@ -1840,7 +1840,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * setup a Map.
-	 *
+	 * 
 	 * @param item styled item;
 	 */
 	protected void setupMap(StyledElementDesign item, Expression defaultExpr) {
@@ -1870,7 +1870,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * create a map rule.
-	 *
+	 * 
 	 * @param obj map rule in DE.
 	 * @return map rule in ENGINE.
 	 */
@@ -1910,7 +1910,7 @@ public class EngineIRVisitor extends DesignVisitor {
 	/**
 	 * Checks if a given style is in report's style list, if not, assign a unique
 	 * name to it and then add it to the style list.
-	 *
+	 * 
 	 * @param style The <code>StyleDeclaration</code> object.
 	 * @return the name of the style.
 	 */
@@ -1978,7 +1978,10 @@ public class EngineIRVisitor extends DesignVisitor {
 		if (pageBreak == null) {
 			return null;
 		}
-		if (DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals(pageBreak) || DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals(pageBreak)) {
+		if (DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals(pageBreak)) {
+			return IStyle.CSS_ALWAYS_VALUE;
+		}
+		if (DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals(pageBreak)) {
 			return IStyle.CSS_ALWAYS_VALUE;
 		}
 		if (DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO.equals(pageBreak)) {
@@ -2017,9 +2020,8 @@ public class EngineIRVisitor extends DesignVisitor {
 	}
 
 	private void createDataFormat(DesignElementHandle handle, StyleDeclaration style) {
-		if (handle == null) {
+		if (handle == null)
 			return;
-		}
 
 		Set<String> propertyNames = StyleUtil.customName2Index.keySet();
 		for (String propertyName : propertyNames) {
@@ -2057,9 +2059,8 @@ public class EngineIRVisitor extends DesignVisitor {
 					formatSetValid = true;
 				}
 
-				if (formatSetValid) {
+				if (formatSetValid)
 					style.setProperty(StyleUtil.customName2Index.get(propertyName), formatSet);
-				}
 			}
 		}
 	}
@@ -2100,20 +2101,17 @@ public class EngineIRVisitor extends DesignVisitor {
 		MemberHandle prop = handle.getMember(name);
 		if (prop != null) {
 			Object value = prop.getContext().getLocalValue(module);
-			if (value != null) {
+			if (value != null)
 				return prop.getStringValue();
-			}
 
 			// for highlight rule, reutrn the referred style local value
 			if (handle instanceof HighlightRuleHandle) {
 				StyleHandle styleHandle = ((HighlightRuleHandle) handle).getStyle();
-				if (styleHandle == null) {
+				if (styleHandle == null)
 					return null;
-				}
 				FactoryPropertyHandle propHandle = styleHandle.getFactoryPropertyHandle(name);
-				if (propHandle == null) {
+				if (propHandle == null)
 					return null;
-				}
 				return propHandle.getStringValue();
 			} else {
 				return null;
@@ -2131,9 +2129,8 @@ public class EngineIRVisitor extends DesignVisitor {
 	}
 
 	private void createDataFormat(StructureHandle handle, IStyle style) {
-		if (handle == null) {
+		if (handle == null)
 			return;
-		}
 
 		Set<String> propertyNames = StyleUtil.customName2Index.keySet();
 		for (String propertyName : propertyNames) {
@@ -2171,9 +2168,8 @@ public class EngineIRVisitor extends DesignVisitor {
 					formatSetValid = true;
 				}
 
-				if (formatSetValid) {
+				if (formatSetValid)
 					style.setProperty(StyleUtil.customName2Index.get(propertyName), formatSet);
-				}
 			}
 		}
 	}
@@ -2340,7 +2336,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 	/**
 	 * Creates the body style for master page.
-	 *
+	 * 
 	 * @param design the master page design
 	 * @return the content style
 	 */
@@ -2374,7 +2370,7 @@ public class EngineIRVisitor extends DesignVisitor {
 	}
 
 	private List<Expression> createExpression(ExpressionListHandle exprHandles) {
-		List<Expression> listExprs = new ArrayList<>();
+		List<Expression> listExprs = new ArrayList<Expression>();
 		List<org.eclipse.birt.report.model.api.Expression> exprs = exprHandles.getListValue();
 		if (exprs != null) {
 			for (org.eclipse.birt.report.model.api.Expression expr : exprs) {

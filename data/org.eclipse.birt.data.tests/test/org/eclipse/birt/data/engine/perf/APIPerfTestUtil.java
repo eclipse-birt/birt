@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,32 +17,33 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.perf.util.SizeOfUtil;
-import org.eclipse.birt.data.engine.perf.util.SizeOfUtil.SizePoint;
 import org.eclipse.birt.data.engine.perf.util.TimeUtil;
+import org.eclipse.birt.data.engine.perf.util.SizeOfUtil.SizePoint;
 import org.eclipse.birt.data.engine.perf.util.TimeUtil.TimePoint;
 
 /**
  * interface of Query info provider
  */
 interface QueryInfo {
-	IBaseDataSourceDesign getDataSource() throws Exception;
+	public IBaseDataSourceDesign getDataSource() throws Exception;
 
-	IBaseDataSetDesign getDataSet() throws Exception;
+	public IBaseDataSetDesign getDataSet() throws Exception;
 
-	QueryDefinition getQueryDefn() throws Exception;
+	public QueryDefinition getQueryDefn() throws Exception;
 
-	String[] getExprNames() throws Exception;
+	public String[] getExprNames() throws Exception;
 }
 
 /**
  * A basic class used to test the performance of DtE API in aspects of time and
  * space bench mark.
- *
+ * 
  * This can also be used as an demonstration to design other performance test.
  */
 public class APIPerfTestUtil {
@@ -58,7 +59,7 @@ public class APIPerfTestUtil {
 
 	/**
 	 * Set queryInfo provider
-	 *
+	 * 
 	 * @param queryInfo
 	 */
 	public void setQueryInfo(QueryInfo queryInfo) {
@@ -68,14 +69,14 @@ public class APIPerfTestUtil {
 
 	/**
 	 * Test feature of time benchmark between sequential operations
-	 *
+	 * 
 	 * Basic monitered event for time bench mark test. 1: start data engine 2: do
 	 * query execution 3: do retrive data 4: whole operation
-	 *
+	 * 
 	 * Define new bench mark test, please follow below steps: 1: define which event
 	 * needs to be monitered 2: define the function which do the real bench mark
 	 * test 3: output returned result
-	 *
+	 * 
 	 * @param isAverageValue
 	 * @throws Exception
 	 */
@@ -84,7 +85,7 @@ public class APIPerfTestUtil {
 
 		// prepare monitored event
 		final int len = 23;
-		String[] eventStr = { formatStr1("start data engine", len), formatStr1("do query execution", len),
+		String[] eventStr = new String[] { formatStr1("start data engine", len), formatStr1("do query execution", len),
 				formatStr1("do retreive data", len), formatStr1("whole operation", len) };
 
 		String prefix = "time consumed for event: ";
@@ -109,7 +110,7 @@ public class APIPerfTestUtil {
 	 * According to passed loopCount, the value is calculted by repeatedly calling
 	 * the function of doing the real bench mark to compute the avergae value of
 	 * operation.
-	 *
+	 * 
 	 * @param eventCount
 	 * @param loopCount
 	 * @return bench mark value of time
@@ -128,11 +129,10 @@ public class APIPerfTestUtil {
 
 			for (int i = 0; i < eventCount; i++) {
 				long timeSpan;
-				if (i < eventCount - 1) {
+				if (i < eventCount - 1)
 					timeSpan = TimeUtil.instance.getTimePointSpan(tpArray[i], tpArray[i + 1]);
-				} else {
+				else
 					timeSpan = TimeUtil.instance.getTimePointSpan(tpArray[0], tpArray[i]);
-				}
 
 				timeSpanArray[j][i] = timeSpan;
 			}
@@ -157,7 +157,7 @@ public class APIPerfTestUtil {
 
 	/**
 	 * Do time space bench mark
-	 *
+	 * 
 	 * @param tpArray
 	 * @throws Exception
 	 */
@@ -182,9 +182,8 @@ public class APIPerfTestUtil {
 
 		String[] exprs = queryInfo.getExprNames();
 		while (ri.next()) {
-			if (exprs == null) {
+			if (exprs == null)
 				continue;
-			}
 
 			for (int j = 0; j < exprs.length; j++) {
 				ri.getValue(exprs[j]);
@@ -201,11 +200,11 @@ public class APIPerfTestUtil {
 
 	/**
 	 * Test feature of space benchmark between sequential operations
-	 *
+	 * 
 	 * Basic monitered event for space bench mark test. 1: do query execution 2: do
 	 * retrive data 3: close result iterator 4: close query result 5: close data
 	 * engine 6: whole operation
-	 *
+	 * 
 	 * @param isAverageValue
 	 * @throws Exception
 	 */
@@ -214,7 +213,7 @@ public class APIPerfTestUtil {
 
 		// prepare monitered event
 		final int len = 23;
-		String[] eventStr = { formatStr1("do query execution", len), formatStr1("do retreive data", len),
+		String[] eventStr = new String[] { formatStr1("do query execution", len), formatStr1("do retreive data", len),
 				formatStr1("close result iterator", len), formatStr1("close query results", len),
 				formatStr1("close data engine", len), formatStr1("whole operation", len) };
 
@@ -254,11 +253,10 @@ public class APIPerfTestUtil {
 
 			for (int i = 0; i < eventCount; i++) {
 				long sizeSpan;
-				if (i < eventCount - 1) {
+				if (i < eventCount - 1)
 					sizeSpan = SizeOfUtil.instance.getSizePointSpan(spArray[i], spArray[i + 1]);
-				} else {
+				else
 					sizeSpan = SizeOfUtil.instance.getSizePointSpan(spArray[0], spArray[i]);
-				}
 
 				spaceSpan[j][i] = sizeSpan;
 			}
@@ -283,7 +281,7 @@ public class APIPerfTestUtil {
 
 	/**
 	 * Run test of memory consumed change
-	 *
+	 * 
 	 * @param spArray output sizePointArray
 	 */
 	private void doSpaceBenchMarkOnce(SizePoint[] spArray) throws Exception {
@@ -330,7 +328,7 @@ public class APIPerfTestUtil {
 
 	/**
 	 * Format long value
-	 *
+	 * 
 	 * @param value
 	 * @param length
 	 * @return string
@@ -340,18 +338,17 @@ public class APIPerfTestUtil {
 		value = isPostive ? value : value * -1;
 
 		String result = formatStr2("" + value, length - 1);
-		if (isPostive) {
+		if (isPostive)
 			result = " " + result;
-		} else {
+		else
 			result = "-" + result;
-		}
 
 		return result;
 	}
 
 	/**
 	 * Add space char to the end of string
-	 *
+	 * 
 	 * @param inputStr
 	 * @param length
 	 * @return string
@@ -362,7 +359,7 @@ public class APIPerfTestUtil {
 
 	/**
 	 * Add space char to the beginning of string
-	 *
+	 * 
 	 * @param inputStr
 	 * @param length
 	 * @return string
@@ -373,21 +370,19 @@ public class APIPerfTestUtil {
 
 	/**
 	 * Format string, add space char to the string
-	 *
+	 * 
 	 * @param inputStr
 	 * @param length
 	 * @param appendToTail
 	 * @return string
 	 */
 	private static String formatStr(String inputStr, int length, boolean appendToTail) {
-		if (inputStr == null) {
+		if (inputStr == null)
 			return null;
-		}
 
 		int inputLen = inputStr.length();
-		if (inputLen >= length) {
+		if (inputLen >= length)
 			return inputStr;
-		}
 
 		int appendLen = length - inputLen;
 		char[] appendChar = new char[appendLen];
@@ -396,11 +391,10 @@ public class APIPerfTestUtil {
 		}
 
 		String result;
-		if (appendToTail) {
+		if (appendToTail == true)
 			result = inputStr + new String(appendChar);
-		} else {
+		else
 			result = new String(appendChar) + inputStr;
-		}
 
 		return result;
 	}

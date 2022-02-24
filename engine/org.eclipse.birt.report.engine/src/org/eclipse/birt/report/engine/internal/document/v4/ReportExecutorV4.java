@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,24 +30,20 @@ public class ReportExecutorV4 extends AbstractReportExecutor {
 		bodyExecutor = new ReportBodyExecutor(manager, null);
 	}
 
-	@Override
 	public void close() {
 		bodyExecutor.close();
 		super.close();
 	}
 
-	@Override
 	public IReportContent execute() {
 		bodyExecutor.execute();
 		return reportContent;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		return bodyExecutor.hasNextChild();
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		return bodyExecutor.getNextChild();
 	}

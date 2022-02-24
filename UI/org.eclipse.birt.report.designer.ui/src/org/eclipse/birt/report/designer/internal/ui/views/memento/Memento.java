@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -27,19 +27,16 @@ public class Memento implements IMemento {
 		this.builder = builder;
 	}
 
-	@Override
 	public IMemento createChild(String id) {
 		return null;
 	}
 
-	@Override
 	public IMemento createChild(String id, String type) {
 		MementoElement child = builder.createElement(id, type);
 		memento.addChild(child);
 		return builder.createMemento(child);
 	}
 
-	@Override
 	public IMemento getChild(String id) {
 		// Get the nodes.
 		MementoElement[] children = memento.getChildren();
@@ -61,7 +58,6 @@ public class Memento implements IMemento {
 		return null;
 	}
 
-	@Override
 	public IMemento[] getChildren(String id) {
 		MementoElement[] children = memento.getChildren();
 		int size = children.length;
@@ -81,7 +77,6 @@ public class Memento implements IMemento {
 		return mementos;
 	}
 
-	@Override
 	public IMemento[] getChildren() {
 		MementoElement[] children = memento.getChildren();
 		int size = children.length;
@@ -97,7 +92,6 @@ public class Memento implements IMemento {
 		return mementos;
 	}
 
-	@Override
 	public Float getFloat(String key) {
 		Object value = memento.getAttribute(key);
 
@@ -111,12 +105,10 @@ public class Memento implements IMemento {
 		return null;
 	}
 
-	@Override
 	public String getID() {
 		return memento.getKey();
 	}
 
-	@Override
 	public Integer getInteger(String key) {
 		Object value = memento.getAttribute(key);
 
@@ -130,7 +122,6 @@ public class Memento implements IMemento {
 		return null;
 	}
 
-	@Override
 	public String getString(String key) {
 		Object value = memento.getAttribute(key);
 
@@ -141,7 +132,6 @@ public class Memento implements IMemento {
 		return null;
 	}
 
-	@Override
 	public String getTextData() {
 		Object value = memento.getValue();
 		if (value != null) {
@@ -151,31 +141,26 @@ public class Memento implements IMemento {
 		return null;
 	}
 
-	@Override
 	public void putFloat(String key, float value) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void putInteger(String key, int value) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void putMemento(IMemento memento) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void putString(String key, String value) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void putTextData(String data) {
 		// TODO Auto-generated method stub
 
@@ -193,25 +178,21 @@ public class Memento implements IMemento {
 		this.builder = builder;
 	}
 
-	@Override
 	public String[] getAttributeKeys() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public Boolean getBoolean(String key) {
 		// TODO Auto-generated method stub
 		return Boolean.FALSE;
 	}
 
-	@Override
 	public String getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void putBoolean(String key, boolean value) {
 		// TODO Auto-generated method stub
 

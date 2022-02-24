@@ -32,7 +32,7 @@ public class ModuleMediatorTarget implements IMediatorTarget {
 
 	public ModuleMediatorTarget(ModuleHandle model) {
 		this.model = model;
-		listeners = new HashMap<>();
+		listeners = new HashMap<ITargetDisposeListener, IDisposeListener>();
 	}
 
 	@Override
@@ -61,7 +61,6 @@ public class ModuleMediatorTarget implements IMediatorTarget {
 		return false;
 	}
 
-	@Override
 	public void addDisposeListener(final ITargetDisposeListener listener) {
 		if (model != null && listener != null) {
 			if (listeners.containsKey(listener)) {
@@ -70,7 +69,6 @@ public class ModuleMediatorTarget implements IMediatorTarget {
 
 			IDisposeListener modelListener = new IDisposeListener() {
 
-				@Override
 				public void moduleDisposed(ModuleHandle targetElement, DisposeEvent ev) {
 					listener.dispose(new ModuleMediatorTarget(targetElement));
 				}
@@ -81,7 +79,6 @@ public class ModuleMediatorTarget implements IMediatorTarget {
 		}
 	}
 
-	@Override
 	public void removeDisposeListener(ITargetDisposeListener listener) {
 		if (model != null && listener != null) {
 			IDisposeListener modelListener = listeners.remove(listener);

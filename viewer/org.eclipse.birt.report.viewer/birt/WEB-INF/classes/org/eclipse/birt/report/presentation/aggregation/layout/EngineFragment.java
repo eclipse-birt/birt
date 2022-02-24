@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -52,20 +52,19 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 /**
  * Fragment that handle PFE related tasks.
  * <p>
- *
+ * 
  * @see FramesetFragment
  */
 public class EngineFragment extends BirtBaseFragment {
 
 	/**
 	 * Anything before do service.
-	 *
+	 * 
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	@Override
 	protected void doPreService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		IContext context = new BirtContext(request, response);
@@ -82,9 +81,8 @@ public class EngineFragment extends BirtBaseFragment {
 			// get extract format
 			String extractFormat = ParameterAccessor.getExtractFormat(request);
 			String extractExtension = ParameterAccessor.getExtractExtension(request);
-			if (extractExtension != null) {
+			if (extractExtension != null)
 				extractFormat = ParameterAccessor.getExtractFormat(extractExtension);
-			}
 
 			// get extract file name
 			String docFile = attrBean.getReportDocumentName();
@@ -95,11 +93,10 @@ public class EngineFragment extends BirtBaseFragment {
 
 			// set mime type
 			String mimeType = ParameterAccessor.getExtractionMIMEType(extractFormat, extractExtension);
-			if (mimeType != null && mimeType.length() > 0) {
+			if (mimeType != null && mimeType.length() > 0)
 				response.setContentType(mimeType);
-			} else {
+			else
 				response.setContentType("application/octet-stream"); //$NON-NLS-1$
-			}
 		} else if (IBirtConstants.SERVLET_PATH_DOCUMENT.equalsIgnoreCase(request.getServletPath())) {
 			// generate document file from report design file.
 			BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
@@ -118,11 +115,10 @@ public class EngineFragment extends BirtBaseFragment {
 				mimeType = ReportEngineService.getInstance().getMIMEType(format);
 			}
 
-			if (mimeType != null && mimeType.length() > 0) {
+			if (mimeType != null && mimeType.length() > 0)
 				response.setContentType(mimeType);
-			} else {
+			else
 				response.setContentType("application/octet-stream"); //$NON-NLS-1$
-			}
 
 			if (!ParameterAccessor.isGetImageOperator(request)) {
 				if (ParameterAccessor.PARAM_FORMAT_HTML.equals(ParameterAccessor.getFormat(request))) {
@@ -144,13 +140,12 @@ public class EngineFragment extends BirtBaseFragment {
 
 	/**
 	 * Render the report in html/pdf format by calling engine service.
-	 *
+	 * 
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
@@ -205,12 +200,14 @@ public class EngineFragment extends BirtBaseFragment {
 						fault.setFaultReason(
 								BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT));
 						throw fault;
-					} else // If document isn't completed, throw Exception
-					if (attrBean.isDocumentProcessing()) {
-						AxisFault fault = new AxisFault();
-						fault.setFaultReason(
-								BirtResources.getMessage(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING));
-						throw fault;
+					} else {
+						// If document isn't completed, throw Exception
+						if (attrBean.isDocumentProcessing()) {
+							AxisFault fault = new AxisFault();
+							fault.setFaultReason(BirtResources
+									.getMessage(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING));
+							throw fault;
+						}
 					}
 
 					attrBean.setDocumentInUrl(true);
@@ -242,7 +239,9 @@ public class EngineFragment extends BirtBaseFragment {
 					BirtUtility.doPrintAction(inputStream, request, response);
 				}
 			}
-		} catch (ViewerException | RemoteException e) {
+		} catch (ViewerException e) {
+			handleException(request, response, e);
+		} catch (RemoteException e) {
 			handleException(request, response, e);
 		}
 	}
@@ -269,7 +268,6 @@ public class EngineFragment extends BirtBaseFragment {
 	/**
 	 * Override implementation of doPostService.
 	 */
-	@Override
 	protected String doPostService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		return null;

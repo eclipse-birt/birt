@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -27,16 +27,16 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
  * Provides the copy operation to the column band in the grid/table.
- *
+ * 
  */
 
 abstract class ColumnBandCopyAction extends ColumnBandAction {
 
 	/**
 	 * Constructs a <code>ColumnBandCopyAction</code> for the copy action.
-	 *
+	 * 
 	 * @param adapter the adapter to work on tables and grids.
-	 *
+	 * 
 	 */
 
 	public ColumnBandCopyAction(ColumnBandAdapter adapter) {
@@ -45,7 +45,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 
 	/**
 	 * Copies the column object and cells under it to the adapter.
-	 *
+	 * 
 	 * @param columnNumber the column number
 	 * @return the copied column band that includes the copied column and cells
 	 * @throws SemanticException if the copy operation on the column
@@ -55,9 +55,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 	protected ColumnBandData copyColumnBand(int columnNumber) throws SemanticException {
 		ColumnBandData data = new ColumnBandData();
 
-		if (columnNumber <= 0) {
+		if (columnNumber <= 0)
 			return null;
-		}
 
 		TableColumn clonedColumn = copyColumn(adapter.getColumns(), columnNumber);
 		List cells = cloneCells(adapter.getCellsUnderColumn(columnNumber), columnNumber);
@@ -65,18 +64,22 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 		data.setColumn(clonedColumn);
 		data.setCells(cells);
 
-		if (!isRectangleArea(cells, 1) || adapter.hasDroppingCell(cells)) {
+		if (!isRectangleArea(cells, 1))
 			throw new SemanticError(adapter.getElementHandle().getElement(),
 					new String[] { Integer.toString(columnNumber), adapter.getElementHandle().getName() },
 					SemanticError.DESIGN_EXCEPTION_COLUMN_COPY_FORBIDDEN);
-		}
+
+		if (adapter.hasDroppingCell(cells))
+			throw new SemanticError(adapter.getElementHandle().getElement(),
+					new String[] { Integer.toString(columnNumber), adapter.getElementHandle().getName() },
+					SemanticError.DESIGN_EXCEPTION_COLUMN_COPY_FORBIDDEN);
 
 		return data;
 	}
 
 	/**
 	 * Makes new copies of a list of cell handles with the given column number.
-	 *
+	 * 
 	 * @param cells        a list of cells.
 	 * @param columnNumber the column number
 	 * @return a list containing new cloned cells
@@ -105,13 +108,12 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 	/**
 	 * Returns the context information of a cell. The cell must reside in a valid
 	 * row container.
-	 *
+	 * 
 	 * @param cell the cell handle
 	 * @param row  the row that contains the context information
 	 * @return a new <code>CellContextInfo</code> object
 	 */
 
-	@Override
 	protected CellContextInfo getCellContextInfo(Cell cell, RowHandle row) {
 		DesignElementHandle rowContainer = row.getContainer();
 		int slotId = rowContainer.findContentSlot(row);
@@ -140,19 +142,19 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 	 * Returns insert positions of <code>copiedCells</code> if the cells are
 	 * inserted to the beginning of row or at the end of the row. Each element in
 	 * the return value is an integer, which can be
-	 *
+	 * 
 	 * <ul>
 	 * <li>0 -- insert to the beginning of row
 	 * <li>-1 -- insert to the end of the row
 	 * </ul>
-	 *
+	 * 
 	 * And for other cases, the position is not calculated here.
-	 *
+	 * 
 	 * @param size        the size of the array to be return.
 	 * @param columnIndex the column index where copied cells are pasted
 	 * @param isInsert    <code>true</code> if this is an insert and paste action.
 	 *                    Otherwise <code>false</code>.
-	 *
+	 * 
 	 * @return an array containing insert positions
 	 */
 
@@ -165,11 +167,10 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 		if (isInsert && (columnIndex == 0 || columnIndex == columnCount - 1)) {
 			insertPosition = new int[size];
 
-			if (columnIndex == 0) {
+			if (columnIndex == 0)
 				Arrays.fill(insertPosition, 0);
-			} else {
+			else
 				Arrays.fill(insertPosition, -1);
-			}
 		}
 
 		return insertPosition;
@@ -179,7 +180,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 	 * Performs insert and paste or paste operations. Removes cells in
 	 * <code>originalCells</code> if <code>isInsert</code> is <code>true</code>.
 	 * Then inserts cells in <code>copiedCells</code> to the element.
-	 *
+	 * 
 	 * @param copiedCells   a list containing cells that is to be inserted.
 	 * @param originalCells a list containing cells that is to be deleted.
 	 * @param columnIndex   the column index where copied cells are pasted
@@ -201,9 +202,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 		for (int i = 0; !isInsert && i < originalCells.size(); i++) {
 			CellContextInfo contextInfo = (CellContextInfo) originalCells.get(i);
 			CellHandle cell = contextInfo.getCell().handle(adapter.getModule());
-			if (!isInsert) {
+			if (!isInsert)
 				cell.getContainerSlotHandle().drop(cell);
-			}
 		}
 
 		// adds the copied cells to the destination.
@@ -222,11 +222,10 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 			// get correct insertion position information
 
 			int pos;
-			if (insertPosition == null) {
+			if (insertPosition == null)
 				pos = adapter.findCellPosition(row, columnIndex, isInsert);
-			} else {
+			else
 				pos = insertPosition[i];
-			}
 
 			// to avoid duplicate names in the same name space, rename nested
 			// elements here.
@@ -234,17 +233,16 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 			CellHandle cell = contextInfo.getCell().handle(adapter.getModule());
 			adapter.getModule().getModuleHandle().rename(cell);
 
-			if (pos != -1) {
+			if (pos != -1)
 				row.addElement(cell, ITableRowModel.CONTENT_SLOT, pos);
-			} else {
+			else
 				row.addElement(cell, ITableRowModel.CONTENT_SLOT);
-			}
 		}
 	}
 
 	/**
 	 * Copies a column with the given column slot and the column number.
-	 *
+	 * 
 	 * @param columns     the column slot
 	 * @param columnIndex the column number
 	 * @return a new column instance
@@ -253,9 +251,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction {
 	protected TableColumn copyColumn(SlotHandle columns, int columnIndex) {
 		TableColumn column = ColumnHelper.findColumn(adapter.getModule(), columns.getSlot(), columnIndex);
 
-		if (column == null) {
+		if (column == null)
 			return null;
-		}
 
 		TableColumn clonedColumn = null;
 

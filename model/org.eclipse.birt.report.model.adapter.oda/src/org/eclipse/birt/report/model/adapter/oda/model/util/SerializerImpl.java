@@ -1,13 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- *
+ * Copyright (c) 2004 Actuate Corporation. 
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
- * Contributors:
+ * 
+ * Contributors: 
  * Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -46,7 +46,7 @@ public class SerializerImpl implements Serializer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return A singleton instance of the chart serializer
 	 */
 	public static synchronized final Serializer instance() {
@@ -58,12 +58,11 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart
 	 * .model.Chart, java.io.OutputStream)
 	 */
 
-	@Override
 	public void write(DesignValues cModel, OutputStream os) throws IOException {
 		DocumentRoot documentRoot = ModelFactory.eINSTANCE.createDocumentRoot();
 		documentRoot.setDesignValues(cModel);
@@ -82,7 +81,7 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
 	 */
 	protected DesignValues read(InputStream is) throws IOException {
@@ -103,15 +102,13 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
 	 */
 
-	@Override
 	public DesignValues read(String values) throws IOException {
-		if (values == null) {
+		if (values == null)
 			return null;
-		}
 
 		ByteArrayInputStream bis = new ByteArrayInputStream(values.getBytes(IConstants.CHAR_ENCODING));
 
@@ -124,21 +121,18 @@ public class SerializerImpl implements Serializer {
 	}
 
 	private void convertDesignParametersToAdapterParameters(DesignValues retValues) {
-		if (retValues == null) {
+		if (retValues == null)
 			return;
-		}
 
 		org.eclipse.datatools.connectivity.oda.design.DataSetParameters designParams = retValues
 				.getDataSetParameters1();
-		if (designParams == null || designParams.eContents().isEmpty()) {
+		if (designParams == null || designParams.eContents().isEmpty())
 			return;
-		}
 
 		String version = retValues.getVersion();
 		float floatVersion = Float.parseFloat(version);
-		if (floatVersion > 1.5) {
+		if (floatVersion > 1.5)
 			return;
-		}
 
 		DataSetParameters adapterParams = SchemaConversionUtil.convertToAdapterParameters(designParams);
 
@@ -150,15 +144,13 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
 	 */
 
-	@Override
 	public String write(DesignValues values) throws IOException {
-		if (values == null) {
+		if (values == null)
 			return null;
-		}
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		write(values, bos);

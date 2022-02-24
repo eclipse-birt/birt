@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.timefunction;
@@ -25,7 +25,6 @@ public class ReferenceDate implements IReferenceDate {
 		this.referenceDate = referenceDate;
 	}
 
-	@Override
 	public Date getDate() {
 		return this.referenceDate;
 	}

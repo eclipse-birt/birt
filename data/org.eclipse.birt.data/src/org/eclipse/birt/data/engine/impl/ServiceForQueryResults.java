@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +21,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -83,7 +83,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	private static Logger logger = Logger.getLogger(ServiceForQueryResults.class.getName());
 
 	/**
-	 *
+	 * 
 	 * @param context
 	 * @param scope
 	 * @param nestedLevel
@@ -115,7 +115,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param queryExecutor
 	 * @return
 	 * @throws DataException
@@ -129,7 +129,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getScope()
 	 */
-	@Override
 	public Scriptable getScope() {
 		return this.scope;
 	}
@@ -138,7 +137,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getNestedLevel()
 	 */
-	@Override
 	public int getNestedLevel() {
 		return this.nestedLevel;
 	}
@@ -146,7 +144,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getQueryDefn()
 	 */
-	@Override
 	public IBaseQueryDefinition getQueryDefn() {
 		return queryDefn;
 	}
@@ -154,7 +151,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getPreparedQuery()
 	 */
-	@Override
 	public IPreparedQuery getPreparedQuery() {
 		return this.reportQuery;
 	}
@@ -162,7 +158,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getGroupLevel()
 	 */
-	@Override
 	public int getGroupLevel() {
 		if (queryService instanceof PreparedSubquery) {
 			PreparedSubquery subQuery = (PreparedSubquery) queryService;
@@ -175,7 +170,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntime(int)
 	 */
-	@Override
 	public DataSetRuntime getDataSetRuntime() {
 		return queryExecutor.getDataSet();
 	}
@@ -183,19 +177,17 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntimeList()
 	 */
-	@Override
 	public DataSetRuntime[] getDataSetRuntimes(int count) {
 		assert count >= 0;
 
 		DataSetRuntime[] dsRuns = new DataSetRuntime[count];
 
 		if (count > 1) {
-			DataSetRuntime[] innerDsRuns;
+			DataSetRuntime[] innerDsRuns = null;
 			IQueryExecutor executor = queryExecutor;
 			innerDsRuns = executor.getNestedDataSets(count - 1);
-			for (int i = 0; i < count - 1; i++) {
+			for (int i = 0; i < count - 1; i++)
 				dsRuns[i] = innerDsRuns[i];
-			}
 		}
 
 		dsRuns[count - 1] = queryExecutor.getDataSet();
@@ -205,7 +197,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getResultMetaData()
 	 */
-	@Override
 	public IResultMetaData getResultMetaData() throws DataException {
 		return queryExecutor.getResultMetaData();
 	}
@@ -213,7 +204,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getResultIterator()
 	 */
-	@Override
 	public IResultIterator executeQuery() throws DataException {
 		queryExecutor.execute(new EventHandler());
 		return queryExecutor.getOdiResultSet();
@@ -236,7 +226,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#handleProcessEndOfDataSet
 		 * (org.eclipse.birt.data.engine.odi.IResultIterator)
 		 */
-		@Override
 		public void handleEndOfDataSetProcess(IResultIterator resultIterator) throws DataException {
 			jsResultSetRow = new JSResultSetRow(resultIterator, exprManager, queryExecutor.getQueryScope(), helper,
 					session.getEngineContext().getScriptContext());
@@ -249,11 +238,9 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		 * @see
 		 * org.eclipse.birt.data.engine.odi.IEventHandler#getValue(java.lang.String)
 		 */
-		@Override
 		public Object getValue(IResultObject rsObject, int index, String name) throws DataException {
-			if (jsResultSetRow == null) {
+			if (jsResultSetRow == null)
 				return rsObject.getFieldValue(index);
-			}
 
 			return jsResultSetRow.getValue(rsObject, index, name);
 		}
@@ -261,19 +248,18 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#isRowID(java.lang.String)
 		 */
-		@Override
 		public boolean isRowID(int index, String name) throws DataException {
 			IBaseExpression baseExpr = exprManager.getExpr(name);
 			if (baseExpr instanceof IScriptExpression) {
 				String exprText = ((IScriptExpression) baseExpr).getText();
-				if (exprText == null) {
+				if (exprText == null)
 					return false;
-				} else if (exprText.trim().equalsIgnoreCase("dataSetRow[0]")
-						|| exprText.trim().equalsIgnoreCase("dataSetRow._rowPosition")) {
+				else if (exprText.trim().equalsIgnoreCase("dataSetRow[0]")
+						|| exprText.trim().equalsIgnoreCase("dataSetRow._rowPosition"))
+
 					return true;
-				} else {
+				else
 					return false;
-				}
 			}
 			return false;
 
@@ -281,46 +267,41 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.odi.IEventHandler#getBaseExpr(java.lang.String)
 		 */
-		@Override
 		public IBinding getBinding(String name) throws DataException {
-			if (name == null) {
+			if (name == null)
 				return null;
-			}
 			return ServiceForQueryResults.this.exprManager.getBinding(name);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getExecutorHelper()
 		 */
-		@Override
 		public IExecutorHelper getExecutorHelper() {
 			return this.helper;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.odi.IEventHandler#setExecutorHelper(org.eclipse.
 		 * birt.data.engine.impl.IExecutorHelper)
 		 */
-		@Override
 		public void setExecutorHelper(IExecutorHelper helper) {
 			this.helper = helper;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getColumnMappings()
 		 */
-		@Override
 		public Map getColumnBindings() throws DataException {
 			Map result = new HashMap();
 			List groupBindingColumns = exprManager.getBindingExprs();
@@ -337,22 +318,21 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getColumnMappings()
 		 */
-		@Override
 		public List<IBinding> getAllColumnBindings() {
 			return getColumnBindings(ServiceForQueryResults.this.queryDefn);
 		}
 
 		/**
 		 * Get column bindings of certain query.
-		 *
+		 * 
 		 * @param defn
 		 * @return
 		 */
 		private List<IBinding> getColumnBindings(IBaseQueryDefinition defn) {
-			List<IBinding> result = new ArrayList<>();
+			List<IBinding> result = new ArrayList<IBinding>();
 			Iterator temp = defn.getBindings().keySet().iterator();
 			while (temp.hasNext()) {
 				Object key = temp.next();
@@ -375,12 +355,12 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param groups
 		 * @return
 		 */
 		private List<IBinding> populateGroupColumnBindings(Iterator groups) {
-			List<IBinding> result = new ArrayList<>();
+			List<IBinding> result = new ArrayList<IBinding>();
 
 			while (groups.hasNext()) {
 				IGroupDefinition gd = (IGroupDefinition) groups.next();
@@ -391,12 +371,12 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param subs
 		 * @return
 		 */
 		private List<IBinding> populateSubQueryColumnBindings(Iterator subs) {
-			List<IBinding> result = new ArrayList<>();
+			List<IBinding> result = new ArrayList<IBinding>();
 
 			while (subs.hasNext()) {
 				IBaseQueryDefinition defn1 = (IBaseQueryDefinition) subs.next();
@@ -408,20 +388,18 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getAppContext()
 		 */
-		@Override
 		public Map getAppContext() {
 			return queryExecutor.getAppContext();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getAggrDefinitions()
 		 */
-		@Override
 		public List getAggrDefinitions() throws DataException {
 			List result = populateAggrDefinitions();
 			sort(result);
@@ -431,7 +409,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		/**
 		 * Populate a list of AggrDefinitions which is defined by user in column
 		 * binding.
-		 *
+		 * 
 		 * @return
 		 * @throws DataException
 		 */
@@ -458,7 +436,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 
 		/**
 		 * Populate One AggrDefinition according to given binding name.
-		 *
+		 * 
 		 * @param result
 		 * @param cx
 		 * @param compiler
@@ -475,9 +453,8 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 				IAggrFunction aggrFunction = AggregationManager.getInstance().getAggregation(binding.getAggrFunction());
 				// Before new aggregation extension point is introduced,
 				// The binding expression is serve as first argument of aggregation.
-				if (binding.getExpression() != null) {
+				if (binding.getExpression() != null)
 					argument.add(0, binding.getExpression());
-				}
 				IBaseExpression[] compiledArgu = populateAggregationArgument(cx, compiler, binding, argument,
 						aggrFunction);
 
@@ -492,7 +469,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 
 		/**
 		 * Return if a binding is an Aggregation Binding.
-		 *
+		 * 
 		 * @param binding
 		 * @return
 		 * @throws DataException
@@ -504,7 +481,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		/**
 		 * Populate the aggregation binding argument. Please note the binding expression
 		 * will serve as first argument of a binding in case of necessary.
-		 *
+		 * 
 		 * @param cx
 		 * @param compiler
 		 * @param binding
@@ -527,7 +504,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 
 		/**
 		 * Sort the binding according to their calculation level.
-		 *
+		 * 
 		 * @param aggrDefns
 		 * @throws DataException
 		 */
@@ -545,9 +522,8 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 						exprs.add(aggrDefn.getArgument()[x]);
 					}
 
-					if (aggrDefn.getFilter() != null) {
+					if (aggrDefn.getFilter() != null)
 						exprs.add(aggrDefn.getFilter());
-					}
 
 					Set aggrRefs = new HashSet();
 
@@ -562,9 +538,8 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 
 					int groupLevelInAggr = getGroupLevel(aggrRefs);
 
-					if (!use0AggrLevel) {
+					if (!use0AggrLevel)
 						groupLevel = groupLevelInAggr;
-					}
 
 					aggrRefMap.put(aggrDefn.getName(), aggrRefs);
 
@@ -584,49 +559,46 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 			int groupLevel = -1;
 			while (it.hasNext()) {
 				IAggrInfo aggr = (IAggrInfo) it.next();
-				if (groupLevel < aggr.getGroupLevel()) {
+				if (groupLevel < aggr.getGroupLevel())
 					groupLevel = aggr.getGroupLevel();
-				}
 			}
 			return groupLevel;
 		}
 
 		/**
 		 * Sort the aggregation definition list according to their calculation level.
-		 *
+		 * 
 		 * @param aggrDefns
 		 */
 		private void sortAggrDefnsAccordingToCalLvl(List aggrDefns) {
 			Collections.sort(aggrDefns, new Comparator() {
 
-				@Override
 				public int compare(Object o1, Object o2) {
 					assert o1 instanceof IAggrInfo;
 					assert o2 instanceof IAggrInfo;
 					int round1 = ((IAggrInfo) o1).getRound();
 					int round2 = ((IAggrInfo) o2).getRound();
-					if (round1 == round2) {
+					if (round1 == round2)
 						return 0;
-					}
-					if (round1 > round2) {
+					if (round1 > round2)
 						return 1;
-					} else {
+					else
 						return -1;
-					}
 				}
 			});
 		}
 
 		/**
 		 * Populate the calculation level of the aggr defns.
-		 *
+		 * 
 		 * @param aggrDefns
 		 * @param nameMap
 		 * @param aggrRefMap
 		 * @param aggrRefGroupLevelMap
 		 */
 		private void popualteCalcuateRound(List aggrDefns, Map nameMap, Map aggrRefMap, Map aggrRefGroupLevelMap) {
-			List aggrDefnsCopy = new ArrayList(aggrDefns);
+			List aggrDefnsCopy = new ArrayList();
+			aggrDefnsCopy.addAll(aggrDefns);
 			int calculateRound = -1;
 			while (aggrDefnsCopy.size() > 0) {
 				calculateRound++;
@@ -655,7 +627,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 
 		/**
 		 * Popualte a binding name <--> binding map.
-		 *
+		 * 
 		 * @param aggrDefns
 		 * @return
 		 */
@@ -669,7 +641,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param expr
 		 * @return
 		 * @throws BirtException
@@ -680,7 +652,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param aggrReferences
 		 * @param exprs
 		 * @param aggrMap
@@ -709,15 +681,14 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 					continue;
 				}
 
-				if (result[i] != base) {
+				if (result[i] != base)
 					throw new DataException(ResourceConstants.INVALID_NESTED_AGGR_GROUP, aggrInfo.getName());
-				}
 			}
 			return result.length == 0 ? false : base;
 		}
 
 		/**
-		 *
+		 * 
 		 * @param aggrReferences
 		 * @param expr
 		 * @param aggrMap
@@ -757,7 +728,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		 * Populate the aggregation references, return whether the aggregation should be
 		 * calculated on OVERALL level, which is indicated by reference to "dataSetRow"
 		 * java script object.
-		 *
+		 * 
 		 * @param aggrReferences
 		 * @param expr
 		 * @param aggrMap
@@ -791,18 +762,16 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param expr
 		 * @return
 		 * @throws DataException
 		 */
 		private boolean isConstantExpr(IBaseExpression expr) throws DataException {
-			if (expr == null) {
+			if (expr == null)
 				return true;
-			}
-			if (!(expr instanceof IScriptExpression)) {
+			if (!(expr instanceof IScriptExpression))
 				return false;
-			}
 			try {
 				return ExpressionUtil.extractColumnExpressions(((IScriptExpression) expr).getText()).isEmpty()
 						&& (!hasDataSetRowReference((IScriptExpression) expr));
@@ -811,7 +780,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 			}
 		}
 
-		@Override
 		public DataSetRuntime getDataSetRuntime() {
 			return ServiceForQueryResults.this.getDataSetRuntime();
 		}
@@ -823,7 +791,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	 * .data.engine.odi.IResultIterator, java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public IQueryResults execSubquery(IResultIterator iterator, IQueryExecutor parentExecutor, String subQueryName,
 			Scriptable subScope) throws DataException {
 		return queryService.execSubquery(iterator, parentExecutor, subQueryName, subScope);
@@ -832,7 +799,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#close()
 	 */
-	@Override
 	public void close() {
 		if (queryExecutor != null) {
 			queryExecutor.close();
@@ -844,11 +810,10 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#
 	 * validateQueryColumBinding()
 	 */
-	@Override
 	public void validateQuery() throws DataException {
 		this.exprManager.validateColumnBinding();
 		this.validateFilters();
@@ -860,7 +825,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	 * org.eclipse.birt.data.engine.impl.IQueryService#getBaseExpression(java.lang.
 	 * String)
 	 */
-	@Override
 	public IBaseExpression getBindingExpr(String exprName) throws DataException {
 		return this.exprManager.getExpr(exprName);
 	}
@@ -870,7 +834,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	 * org.eclipse.birt.data.engine.impl.IQueryService#getAutoBindingExpr(java.lang.
 	 * String)
 	 */
-	@Override
 	public IScriptExpression getAutoBindingExpr(String exprName) {
 		return this.exprManager.getAutoBindingExpr(exprName);
 	}
@@ -880,7 +843,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	 * org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getAllBindingExprs(
 	 * )
 	 */
-	@Override
 	public List getAllBindingExprs() {
 		return this.exprManager.getBindingExprs();
 	}
@@ -889,7 +851,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#
 	 * getAllAutoBindingExprs()
 	 */
-	@Override
 	public Map getAllAutoBindingExprs() {
 		return this.exprManager.getAutoBindingExprMap();
 	}
@@ -898,11 +859,9 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.IServiceForQueryResults#initAutoBinding()
 	 */
-	@Override
 	public void initAutoBinding() throws DataException {
-		if (!needAutoBinding()) {
+		if (needAutoBinding() == false)
 			return;
-		}
 		IResultClass metaData = queryExecutor.getOdiResultClass();
 		if (metaData == null) {
 			// Failed to fetch meta data during query preparation
@@ -944,52 +903,49 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	 * @return
 	 */
 	private boolean needAutoBinding() {
-		if (this.queryDefn instanceof IQueryDefinition) {
+		if (this.queryDefn instanceof IQueryDefinition)
 			return ((IQueryDefinition) queryDefn).needAutoBinding();
-		}
 
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param filters
 	 * @throws DataException
 	 */
 	private void validateFilters() throws DataException {
 		for (int i = 0; i < this.queryDefn.getFilters().size(); i++) {
 			IFilterDefinition filter = (IFilterDefinition) this.queryDefn.getFilters().get(i);
-			if (hasRowNumRefExpr(filter.getExpression())) {
+			if (hasRowNumRefExpr(filter.getExpression()))
 				throw new DataException(ResourceConstants.FILTER_EXPR_CONTAIN_ROW_NUM);
-			}
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param sorts
 	 * @throws DataException
 	 */
 	private void validateSorts() throws DataException {
 		for (int i = 0; i < this.queryDefn.getSorts().size(); i++) {
 			ISortDefinition sort = (ISortDefinition) this.queryDefn.getSorts().get(i);
-			if (hasRowNumRefExpr(sort.getExpression())) {
+			if (hasRowNumRefExpr(sort.getExpression()))
 				throw new DataException(ResourceConstants.SORT_EXPR_CONTAIN_ROW_NUM);
-			}
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 * @throws BirtException
 	 * @throws DataException
 	 */
 	private boolean hasRowNumRefExpr(IBaseExpression expr) throws DataException {
-		if (expr instanceof IScriptExpression) {
+		if (expr instanceof IScriptExpression)
 			return hasRowNumRefExpr((IScriptExpression) expr);
-		} else if (expr instanceof IConditionalExpression) {
+		else if (expr instanceof IConditionalExpression) {
 			IConditionalExpression ce = (IConditionalExpression) expr;
 			return hasRowNumRefExpr(ce.getExpression()) || hasRowNumRefExpr(ce.getOperand1())
 					|| hasRowNumRefExpr(ce.getOperand2());
@@ -998,7 +954,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 * @throws BirtException
@@ -1006,12 +962,10 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	 */
 	private boolean hasRowNumRefExpr(IScriptExpression expr) throws DataException {
 		try {
-			if (expr == null || expr.getText() == null || BaseExpression.constantId.equals(expr.getScriptId())) {
+			if (expr == null || expr.getText() == null || BaseExpression.constantId.equals(expr.getScriptId()))
 				return false;
-			}
-			if (expr.getText().matches(".*\\Qrow.__rownum\\E.*")) {
+			if (expr.getText().matches(".*\\Qrow.__rownum\\E.*"))
 				return true;
-			}
 			return findRowNumReferenceInBindings(ExpressionUtil.extractColumnExpressions(expr.getText()));
 		} catch (BirtException e) {
 			throw new DataException(e.getLocalizedMessage());
@@ -1019,7 +973,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param bindingNames
 	 * @param bindings
 	 * @return
@@ -1029,40 +983,35 @@ public class ServiceForQueryResults implements IServiceForQueryResults {
 		for (int i = 0; i < bindingNames.size(); i++) {
 			IBinding binding = (IBinding) this.queryDefn.getBindings()
 					.get(((IColumnBinding) bindingNames.get(i)).getResultSetColumnName());
-			if (binding == null) {
+			if (binding == null)
 				return false;
-			}
 			IBaseExpression expr = binding.getExpression();
-			if (hasRowNumRefExpr(expr)) {
+			if (hasRowNumRefExpr(expr))
 				return true;
-			}
 		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getStartingRawID()
 	 */
-	@Override
 	public int getStartingRawID() throws DataException {
 		return this.startingRawId;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getQueryExecutor()
 	 */
-	@Override
 	public IQueryExecutor getQueryExecutor() throws DataException {
 		return this.queryExecutor;
 	}
 
-	@Override
 	public DataEngineSession getSession() {
 		return session;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,6 @@ public class ReportContentWriterV3 implements IReportContentWriter {
 	/**
 	 * close the content writer
 	 */
-	@Override
 	public void close() {
 		if (cntStream != null) {
 			try {
@@ -74,10 +73,9 @@ public class ReportContentWriterV3 implements IReportContentWriter {
 
 	/**
 	 * get the current offset.
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public long getOffset() {
 		return cntOffset;
 	}
@@ -98,12 +96,11 @@ public class ReportContentWriterV3 implements IReportContentWriter {
 
 	/**
 	 * write the content into the stream.
-	 *
+	 * 
 	 * @param content the content object.
 	 * @return the content object's offset.
 	 * @throws IOException
 	 */
-	@Override
 	public long writeContent(IContent content) throws IOException {
 		// write the index into the stream
 		updateIndex(content);
@@ -151,12 +148,11 @@ public class ReportContentWriterV3 implements IReportContentWriter {
 
 	/**
 	 * save the content and its children into the streams.
-	 *
+	 * 
 	 * @param content the content object
 	 * @return the offset of this content object.
 	 * @throws IOException
 	 */
-	@Override
 	public long writeFullContent(IContent content) throws IOException {
 		long offset = writeContent(content);
 		Iterator iter = content.getChildren().iterator();
@@ -189,9 +185,9 @@ public class ReportContentWriterV3 implements IReportContentWriter {
 	/**
 	 * There is a content start from the offset, which parent start from the
 	 * parentOffset.
-	 *
+	 * 
 	 * update the index for that object.
-	 *
+	 * 
 	 * @param parentOffset
 	 * @param offset
 	 * @throws IOException

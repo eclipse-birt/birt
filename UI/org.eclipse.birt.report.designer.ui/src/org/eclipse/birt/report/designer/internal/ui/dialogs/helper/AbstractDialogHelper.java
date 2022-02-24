@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,16 +32,15 @@ public abstract class AbstractDialogHelper implements IDialogHelper {
 	protected Map<String, Object> props;
 	protected Object container;
 
-	@Override
 	public void addListener(int eventType, Listener listener) {
 		if (listeners == null) {
-			listeners = new HashMap<>();
+			listeners = new HashMap<Integer, List<Listener>>();
 		}
 
 		List<Listener> list = listeners.get(eventType);
 
 		if (list == null) {
-			list = new ArrayList<>();
+			list = new ArrayList<Listener>();
 			listeners.put(eventType, list);
 		}
 
@@ -51,11 +50,9 @@ public abstract class AbstractDialogHelper implements IDialogHelper {
 
 	}
 
-	@Override
 	public void createContent(Composite parent) {
 	}
 
-	@Override
 	public Object getProperty(String key) {
 		if (props != null) {
 			return props.get(key);
@@ -64,7 +61,6 @@ public abstract class AbstractDialogHelper implements IDialogHelper {
 		return null;
 	}
 
-	@Override
 	public void removeListener(int eventType, Listener listener) {
 		if (listeners != null) {
 			List<Listener> list = listeners.get(eventType);
@@ -75,34 +71,28 @@ public abstract class AbstractDialogHelper implements IDialogHelper {
 		}
 	}
 
-	@Override
 	public void setContainer(Object container) {
 		this.container = container;
 	}
 
-	@Override
 	public void setProperty(String key, Object value) {
 		if (props == null) {
-			props = new HashMap<>();
+			props = new HashMap<String, Object>();
 		}
 
 		props.put(key, value);
 	}
 
-	@Override
 	public void validate() {
 	}
 
-	@Override
 	public String[] getErrors() {
 		return new String[0];
 	}
 
-	@Override
 	public void update(boolean inward) {
 	}
 
-	@Override
 	public Control getControl() {
 		return null;
 	}

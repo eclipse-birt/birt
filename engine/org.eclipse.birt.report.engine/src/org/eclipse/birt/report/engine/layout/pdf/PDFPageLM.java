@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.layout.content.BlockStackingExecutor;
 
 /**
- *
+ * 
  * TODO add multi-column support
  */
 public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayoutManager {
@@ -72,7 +72,6 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 		this.emitter = emitter;
 	}
 
-	@Override
 	protected void initialize() throws BirtException {
 		createRoot();
 		context.setMaxHeight(page.getRoot().getHeight());
@@ -94,7 +93,7 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 
 	/**
 	 * support body auto resize, remove invalid header and footer
-	 *
+	 * 
 	 * @param page
 	 */
 	protected void updateBodySize(PageArea page) {
@@ -128,7 +127,7 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 
 	/**
 	 * layout page header area
-	 *
+	 * 
 	 */
 	protected void layoutHeader() throws BirtException {
 		IContent headerContent = pageContent.getPageHeader();
@@ -143,7 +142,7 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 
 	/**
 	 * layout page footer area
-	 *
+	 * 
 	 */
 	protected void layoutFooter() throws BirtException {
 		IContent footerContent = pageContent.getPageFooter();
@@ -174,10 +173,9 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 		}
 	}
 
-	@Override
 	public boolean layout() throws BirtException {
 		if (!context.isCancel()) {
-			boolean childBreak;
+			boolean childBreak = true;
 			startPage();
 			childBreak = layoutChildren();
 			if (!childBreak) {
@@ -216,8 +214,10 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 					context.setPageCount(context.getPageCount() - 1);
 				}
 				return;
-			} else if (!isLast) {
-				return;
+			} else {
+				if (!isLast) {
+					return;
+				}
 			}
 		}
 
@@ -247,7 +247,6 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 		}
 	}
 
-	@Override
 	public boolean isPageEmpty() {
 		if (page != null) {
 			IContainerArea body = page.getBody();
@@ -258,7 +257,6 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 		return true;
 	}
 
-	@Override
 	protected void createRoot() {
 		root = new PageArea(pageContent);
 		page = (PageArea) root;
@@ -369,12 +367,10 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 
 	}
 
-	@Override
 	protected IReportItemExecutor createExecutor() {
 		return new BlockStackingExecutor(content, new ReportStackingExecutor(reportExecutor));
 	}
 
-	@Override
 	protected void closeLayout() {
 		int overFlowType = context.getPageOverflow();
 
@@ -429,7 +425,6 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 		pageRoot.setWidth((int) (rootWidth / scale));
 	}
 
-	@Override
 	protected boolean addToRoot(AbstractArea area) {
 		root.addChild(area);
 		area.setAllocatedPosition(currentIP + offsetX, currentBP + offsetY);
@@ -446,7 +441,6 @@ public class PDFPageLM extends PDFBlockContainerLM implements IBlockStackingLayo
 		return true;
 	}
 
-	@Override
 	protected boolean isRootEmpty() {
 		if (page != null) {
 			IContainerArea body = page.getBody();

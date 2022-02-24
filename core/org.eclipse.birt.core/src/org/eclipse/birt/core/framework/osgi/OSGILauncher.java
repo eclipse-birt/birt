@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,6 +46,7 @@ public class OSGILauncher extends PlatformLauncher {
 	/** the class used to start the elipse framework */
 	private static final String ECLIPSE_STARTER = "org.eclipse.core.runtime.adaptor.EclipseStarter";
 
+	private static String PluginId = "org.eclipse.birt.core";
 	private PlatformConfig platformConfig;
 	private File platformDirectory;
 	private URL osgiFramework;
@@ -67,12 +68,10 @@ public class OSGILauncher extends PlatformLauncher {
 	private static final String CONFIG_FOLDER = "configuration";//$NON-NLS-1$
 	private static final String INSTANCE_FOLDER = "workspace";//$NON-NLS-1$
 
-	@Override
 	public void startup(final PlatformConfig config) throws FrameworkException {
 		try {
 			java.security.AccessController.doPrivileged(new java.security.PrivilegedExceptionAction<Object>() {
 
-				@Override
 				public Object run() throws Exception {
 					doStartup(config);
 					return null;
@@ -219,7 +218,7 @@ public class OSGILauncher extends PlatformLauncher {
 		properties.put(PROP_OSGI_INSTALL_AREA, platformDirectory.getAbsolutePath()); // $NON-NLS-1$
 
 		/* setup the osgi framework, it is the osgi.jar in the platform/plugins */
-		properties.put("osgi.framework", osgiFramework.toExternalForm()); //$NON-NLS-1$
+		properties.put("osgi.framework", osgiFramework.toExternalForm()); //$NON-NLS-1$ //$NON-NLS-2$
 
 		/* setup the config area, it is the /configuration under platform */
 		String configArea = getProperty(properties, PROP_OSGI_CONFIGURATION_AREA);
@@ -250,9 +249,8 @@ public class OSGILauncher extends PlatformLauncher {
 
 	private HashMap loadConfiguration(URL url) {
 		HashMap result = null;
-		if (url == null) {
+		if (url == null)
 			return result;
-		}
 		try {
 			url = new URL(url, CONFIG_FILE);
 		} catch (MalformedURLException e) {
@@ -260,6 +258,7 @@ public class OSGILauncher extends PlatformLauncher {
 		}
 
 		Properties tempProp = new Properties();
+		;
 
 		try {
 			result = new HashMap();
@@ -268,13 +267,12 @@ public class OSGILauncher extends PlatformLauncher {
 				is = url.openStream();
 				tempProp.load(is);
 			} finally {
-				if (is != null) {
+				if (is != null)
 					try {
 						is.close();
 					} catch (IOException e) {
 						// ignore failure to close
 					}
-				}
 			}
 		} catch (IOException e) {
 			// do nothing so far
@@ -293,7 +291,7 @@ public class OSGILauncher extends PlatformLauncher {
 
 	/**
 	 * return the property value.
-	 *
+	 * 
 	 * @param properties
 	 * @param name
 	 * @return value, must be none empty string or NULL.
@@ -314,11 +312,9 @@ public class OSGILauncher extends PlatformLauncher {
 		return frameworkContextClassLoader;
 	}
 
-	@Override
 	public void shutdown() {
 		java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
 
-			@Override
 			public Object run() {
 				doShutdown();
 				return null;
@@ -366,32 +362,29 @@ public class OSGILauncher extends PlatformLauncher {
 	 * Searches for the given target directory starting in the "plugins"
 	 * subdirectory of the given location. If one is found then this location is
 	 * returned; otherwise an exception is thrown.
-	 *
+	 * 
 	 * @param target
-	 *
+	 * 
 	 * @return the location where target directory was found
 	 * @param start the location to begin searching
 	 */
 	protected String searchFor(final String target, String start) {
 		FileFilter filter = new FileFilter() {
 
-			@Override
 			public boolean accept(File candidate) {
 				return candidate.getName().equals(target) || candidate.getName().startsWith(target + "_"); //$NON-NLS-1$
 			}
 		};
 		File[] candidates = new File(start).listFiles(filter); // $NON-NLS-1$
-		if (candidates == null) {
+		if (candidates == null)
 			return null;
-		}
 		String[] arrays = new String[candidates.length];
 		for (int i = 0; i < arrays.length; i++) {
 			arrays[i] = candidates[i].getName();
 		}
 		int result = findMax(arrays);
-		if (result == -1) {
+		if (result == -1)
 			return null;
-		}
 		return candidates[result].getAbsolutePath().replace(File.separatorChar, '/')
 				+ (candidates[result].isDirectory() ? "/" : ""); //$NON-NLS-1$//$NON-NLS-2$
 	}
@@ -404,16 +397,17 @@ public class OSGILauncher extends PlatformLauncher {
 			String version = ""; //$NON-NLS-1$ // Note: directory with version suffix is always > than directory
 									// without version suffix
 			int index = name.indexOf('_');
-			if (index != -1) {
+			if (index != -1)
 				version = name.substring(index + 1);
-			}
 			Object currentVersion = getVersionElements(version);
 			if (maxVersion == null) {
 				result = i;
 				maxVersion = currentVersion;
-			} else if (compareVersion((Object[]) maxVersion, (Object[]) currentVersion) < 0) {
-				result = i;
-				maxVersion = currentVersion;
+			} else {
+				if (compareVersion((Object[]) maxVersion, (Object[]) currentVersion) < 0) {
+					result = i;
+					maxVersion = currentVersion;
+				}
 			}
 		}
 		return result;
@@ -421,7 +415,7 @@ public class OSGILauncher extends PlatformLauncher {
 
 	/**
 	 * Compares version strings.
-	 *
+	 * 
 	 * @param left
 	 * @param right
 	 * @return result of comparison, as integer; <code><0</code> if left < right;
@@ -431,21 +425,18 @@ public class OSGILauncher extends PlatformLauncher {
 
 		int result = ((Integer) left[0]).compareTo((Integer) right[0]); // compare
 		// major
-		if (result != 0) {
+		if (result != 0)
 			return result;
-		}
 
 		result = ((Integer) left[1]).compareTo((Integer) right[1]); // compare
 		// minor
-		if (result != 0) {
+		if (result != 0)
 			return result;
-		}
 
 		result = ((Integer) left[2]).compareTo((Integer) right[2]); // compare
 		// service
-		if (result != 0) {
+		if (result != 0)
 			return result;
-		}
 
 		return ((String) left[3]).compareTo((String) right[3]); // compare
 		// qualifier
@@ -455,7 +446,7 @@ public class OSGILauncher extends PlatformLauncher {
 	 * Do a quick parse of version identifier so its elements can be correctly
 	 * compared. If we are unable to parse the full version, remaining elements are
 	 * initialized with suitable defaults.
-	 *
+	 * 
 	 * @param version
 	 * @return an array of size 4; first three elements are of type Integer
 	 *         (representing major, minor and service) and the fourth element is of
@@ -463,9 +454,8 @@ public class OSGILauncher extends PlatformLauncher {
 	 *         else will cause exceptions in the caller.
 	 */
 	private Object[] getVersionElements(String version) {
-		if (version.endsWith(".jar")) { //$NON-NLS-1$
+		if (version.endsWith(".jar")) //$NON-NLS-1$
 			version = version.substring(0, version.length() - 4);
-		}
 		Object[] result = { 0, 0, 0, "" }; //$NON-NLS-1$
 		StringTokenizer t = new StringTokenizer(version, "."); //$NON-NLS-1$
 		String token;
@@ -491,7 +481,7 @@ public class OSGILauncher extends PlatformLauncher {
 
 	/**
 	 * return the bundle named by symbolic name
-	 *
+	 * 
 	 * @param symbolicName the bundle name
 	 * @return bundle object
 	 */
@@ -535,19 +525,16 @@ public class OSGILauncher extends PlatformLauncher {
 			super(urls, parent);
 		}
 
-		@Override
 		public URL getResource(String name) {
 			URL resource = findResource(name);
 			if (resource == null) {
 				ClassLoader parent = getParent();
-				if (parent != null) {
+				if (parent != null)
 					resource = parent.getResource(name);
-				}
 			}
 			return resource;
 		}
 
-		@Override
 		protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
 			Class<?> clazz = null;
 			synchronized (ChildFirstURLClassLoader.class) {
@@ -561,11 +548,10 @@ public class OSGILauncher extends PlatformLauncher {
 			}
 			if (clazz == null) {
 				ClassLoader parent = getParent();
-				if (parent != null) {
+				if (parent != null)
 					clazz = parent.loadClass(name);
-				} else {
+				else
 					clazz = getSystemClassLoader().loadClass(name);
-				}
 			}
 			if (resolve) {
 				resolveClass(clazz);
@@ -583,15 +569,14 @@ public class OSGILauncher extends PlatformLauncher {
 			// framework itself.
 			ProtectionDomain domain = OSGILauncher.class.getProtectionDomain();
 			CodeSource source = null;
-			if (domain != null) {
+			if (domain != null)
 				source = OSGILauncher.class.getProtectionDomain().getCodeSource();
-			}
 			if (domain == null || source == null) {
 				throw new FrameworkException(
 						"Can not automatically set the security manager. Please use a policy file.");
 			}
 			// get the list of codesource URLs to grant AllPermission to
-			URL[] rootURLs = { source.getLocation(), osgiFramework };
+			URL[] rootURLs = new URL[] { source.getLocation(), osgiFramework };
 			// replace the security policy
 			Policy eclipsePolicy = new OSGIPolicy(Policy.getPolicy(), rootURLs);
 			Policy.setPolicy(eclipsePolicy);

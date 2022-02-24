@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- *
+ * 
  */
 
 public class InsertGroupMenuAction extends SelectionAction {
@@ -45,7 +45,7 @@ public class InsertGroupMenuAction extends SelectionAction {
 
 	/**
 	 * Updates then current menu.
-	 *
+	 * 
 	 * @param menu the current menu
 	 */
 	public void updateMenu(MenuManager menu) {
@@ -53,7 +53,6 @@ public class InsertGroupMenuAction extends SelectionAction {
 		run();
 	}
 
-	@Override
 	protected boolean calculateEnabled() {
 		return true;
 
@@ -61,9 +60,8 @@ public class InsertGroupMenuAction extends SelectionAction {
 
 	/**
 	 * Runs action.
-	 *
+	 * 
 	 */
-	@Override
 	public void run() {
 		menu.removeAll();
 		menu.update(true);
@@ -72,11 +70,12 @@ public class InsertGroupMenuAction extends SelectionAction {
 			menu.add(actions[i]);
 		}
 		menu.update(true);
+		return;
 	}
 
 	/**
 	 * Gets the first selected object.
-	 *
+	 * 
 	 * @return The first selected object
 	 */
 	protected Object getFirstElement() {
@@ -89,7 +88,7 @@ public class InsertGroupMenuAction extends SelectionAction {
 
 	/**
 	 * Gets element handles.
-	 *
+	 * 
 	 * @return element handles
 	 */
 	protected List getElements() {

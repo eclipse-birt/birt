@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ public class ResultSetIndex {
 
 	private static class QueryResultSets {
 
-		Map<String, ResultSets> results = new HashMap<>();
+		Map<String, ResultSets> results = new HashMap<String, ResultSets>();
 
 		void addResultSet(String parent, String rawId, String rset) {
 			ResultSets rsets = results.get(parent);
@@ -51,15 +51,17 @@ public class ResultSetIndex {
 
 		ResultSets getResultSets(String parent) {
 			ResultSets rsets = results.get(parent);
+			if (rsets == null) {
+				return null;
+			}
 			return rsets;
 		}
 	}
 
 	private static class ResultSets {
 
-		static Comparator<ResultSetEntry> comparator = new Comparator<>() {
+		static Comparator<ResultSetEntry> comparator = new Comparator<ResultSetEntry>() {
 
-			@Override
 			public int compare(ResultSetEntry e1, ResultSetEntry e2) {
 				if (e1.row == e2.row) {
 					return 0;
@@ -71,8 +73,8 @@ public class ResultSetIndex {
 			}
 		};
 		ResultSetEntry[] entries;
-		Collection<ResultSetEntry> rsets = new ArrayList<>();
-		Map<String, String> stringIdResets = new HashMap<>();
+		Collection<ResultSetEntry> rsets = new ArrayList<ResultSetEntry>();
+		Map<String, String> stringIdResets = new HashMap<String, String>();
 
 		void addResultSet(String rawId, String rset) {
 			try {
@@ -158,7 +160,7 @@ public class ResultSetIndex {
 		}
 	}
 
-	private Map<String, QueryResultSets> queries = new HashMap<>();
+	private Map<String, QueryResultSets> queries = new HashMap<String, QueryResultSets>();
 
 	public void addResultSet(String query, String parent, String rawId, String rset) {
 		QueryResultSets rsets = queries.get(query);

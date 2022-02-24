@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.gef.EditPolicy;
 /**
  * The Editpart is create in the library editor when the seleection object form
  * outline is not a visual element.
- *
+ * 
  */
 public class EmptyEditPart extends ReportElementEditPart {
 
@@ -47,7 +47,7 @@ public class EmptyEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#elementChanged(org.eclipse.birt.report.model.api.
@@ -60,23 +60,21 @@ public class EmptyEditPart extends ReportElementEditPart {
 
 	/*
 	 * Doesn't install any police (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#createEditPolicies()
 	 */
-	@Override
 	protected void createEditPolicies() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
-	@Override
 	public void refreshFigure() {
 		getFigure().setSize(getFigure().getParent().getClientArea().getSize());
 		// if(getModel() instanceof LibRootModel)
@@ -98,36 +96,31 @@ public class EmptyEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	@Override
 	protected IFigure createFigure() {
 		return new EmptyFigure();
 	}
 
 	/*
 	 * Doesn't install any police include install by parent (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.EditPart#installEditPolicy(java.lang.Object,
 	 * org.eclipse.gef.EditPolicy)
 	 */
-	@Override
 	public void installEditPolicy(Object role, EditPolicy editPolicy) {
 		// do nother
 	}
 
-	@Override
 	public DesignElementHandleAdapter creatDesignElementHandleAdapter() {
 		return HandleAdapterFactory.getInstance().getDesignElementHandleAdapter(getModel(), this);
 	}
 
-	@Override
 	public Object getAdapter(Class key) {
 		if (key == ISelectionFilter.class) {
 			return new ISelectionFilter() {
 
-				@Override
 				public List filterEditpart(List editparts) {
 					List retValue = new ArrayList(editparts);
 					for (int i = 0; i < editparts.size(); i++) {

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -25,7 +25,7 @@ public interface IComboProvider {
 	 * <p>
 	 * NOTE: The caller code must explicitly invoke <code>Imaage.dispose()</code> to
 	 * release system resources.
-	 *
+	 * 
 	 * @param item    The model object.
 	 * @param width   The width of the image.
 	 * @param height  The height of the image.
@@ -37,21 +37,21 @@ public interface IComboProvider {
 
 	/**
 	 * Gets the models.
-	 *
+	 * 
 	 * @return The array contains model objects.
 	 */
 	Object[] getItems();
 
 	/**
 	 * Gets the display models.
-	 *
+	 * 
 	 * @return The array contains model display objects.
 	 */
 	Object[] getDisplayItems();
 
 	/**
 	 * Sets models.
-	 *
+	 * 
 	 * @param items The array contains model objects.
 	 */
 	void setItems(Object[] items);

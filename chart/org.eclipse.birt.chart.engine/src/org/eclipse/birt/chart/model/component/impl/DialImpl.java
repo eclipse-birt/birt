@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -80,7 +80,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The default value of the '{@link #getStartAngle() <em>Start Angle</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getStartAngle()
 	 * @generated
 	 * @ordered
@@ -90,7 +90,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #getStartAngle() <em>Start Angle</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getStartAngle()
 	 * @generated
 	 * @ordered
@@ -100,7 +100,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * This is true if the Start Angle attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -109,7 +109,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The default value of the '{@link #getStopAngle() <em>Stop Angle</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getStopAngle()
 	 * @generated
 	 * @ordered
@@ -119,7 +119,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #getStopAngle() <em>Stop Angle</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getStopAngle()
 	 * @generated
 	 * @ordered
@@ -129,7 +129,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * This is true if the Stop Angle attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -138,7 +138,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The default value of the '{@link #getRadius() <em>Radius</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRadius()
 	 * @generated
 	 * @ordered
@@ -148,7 +148,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #getRadius() <em>Radius</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRadius()
 	 * @generated
 	 * @ordered
@@ -158,7 +158,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * This is true if the Radius attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -168,7 +168,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	 * The cached value of the '{@link #getLineAttributes() <em>Line
 	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -178,7 +178,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getFill()
 	 * @generated
 	 * @ordered
@@ -188,7 +188,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #getDialRegions() <em>Dial Regions</em>}'
 	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getDialRegions()
 	 * @generated
 	 * @ordered
@@ -198,7 +198,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getMajorGrid()
 	 * @generated
 	 * @ordered
@@ -208,7 +208,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #getMinorGrid() <em>Minor Grid</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getMinorGrid()
 	 * @generated
 	 * @ordered
@@ -218,7 +218,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #getScale() <em>Scale</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getScale()
 	 * @generated
 	 * @ordered
@@ -228,7 +228,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The default value of the '{@link #isInverseScale() <em>Inverse Scale</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isInverseScale()
 	 * @generated
 	 * @ordered
@@ -238,7 +238,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #isInverseScale() <em>Inverse Scale</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isInverseScale()
 	 * @generated
 	 * @ordered
@@ -248,7 +248,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * This is true if the Inverse Scale attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -257,7 +257,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -268,7 +268,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format
 	 * Specifier</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -277,7 +277,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected DialImpl() {
@@ -286,7 +286,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -296,179 +296,160 @@ public class DialImpl extends EObjectImpl implements Dial {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public double getStartAngle() {
 		return startAngle;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setStartAngle(double newStartAngle) {
 		double oldStartAngle = startAngle;
 		startAngle = newStartAngle;
 		boolean oldStartAngleESet = startAngleESet;
 		startAngleESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__START_ANGLE, oldStartAngle,
 					startAngle, !oldStartAngleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetStartAngle() {
 		double oldStartAngle = startAngle;
 		boolean oldStartAngleESet = startAngleESet;
 		startAngle = START_ANGLE_EDEFAULT;
 		startAngleESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.DIAL__START_ANGLE, oldStartAngle,
 					START_ANGLE_EDEFAULT, oldStartAngleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetStartAngle() {
 		return startAngleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public double getStopAngle() {
 		return stopAngle;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setStopAngle(double newStopAngle) {
 		double oldStopAngle = stopAngle;
 		stopAngle = newStopAngle;
 		boolean oldStopAngleESet = stopAngleESet;
 		stopAngleESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__STOP_ANGLE, oldStopAngle,
 					stopAngle, !oldStopAngleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetStopAngle() {
 		double oldStopAngle = stopAngle;
 		boolean oldStopAngleESet = stopAngleESet;
 		stopAngle = STOP_ANGLE_EDEFAULT;
 		stopAngleESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.DIAL__STOP_ANGLE, oldStopAngle,
 					STOP_ANGLE_EDEFAULT, oldStopAngleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetStopAngle() {
 		return stopAngleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public double getRadius() {
 		return radius;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setRadius(double newRadius) {
 		double oldRadius = radius;
 		radius = newRadius;
 		boolean oldRadiusESet = radiusESet;
 		radiusESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__RADIUS, oldRadius, radius,
 					!oldRadiusESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetRadius() {
 		double oldRadius = radius;
 		boolean oldRadiusESet = radiusESet;
 		radius = RADIUS_EDEFAULT;
 		radiusESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.DIAL__RADIUS, oldRadius,
 					RADIUS_EDEFAULT, oldRadiusESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetRadius() {
 		return radiusESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LineAttributes getLineAttributes() {
 		return lineAttributes;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs) {
@@ -477,55 +458,48 @@ public class DialImpl extends EObjectImpl implements Dial {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.DIAL__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setLineAttributes(LineAttributes newLineAttributes) {
 		if (newLineAttributes != lineAttributes) {
 			NotificationChain msgs = null;
-			if (lineAttributes != null) {
+			if (lineAttributes != null)
 				msgs = ((InternalEObject) lineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__LINE_ATTRIBUTES, null, msgs);
-			}
-			if (newLineAttributes != null) {
+			if (newLineAttributes != null)
 				msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__LINE_ATTRIBUTES, null, msgs);
-			}
 			msgs = basicSetLineAttributes(newLineAttributes, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__LINE_ATTRIBUTES,
 					newLineAttributes, newLineAttributes));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Fill getFill() {
 		return fill;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFill(Fill newFill, NotificationChain msgs) {
@@ -534,50 +508,43 @@ public class DialImpl extends EObjectImpl implements Dial {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__FILL,
 					oldFill, newFill);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setFill(Fill newFill) {
 		if (newFill != fill) {
 			NotificationChain msgs = null;
-			if (fill != null) {
+			if (fill != null)
 				msgs = ((InternalEObject) fill).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__FILL, null, msgs);
-			}
-			if (newFill != null) {
+			if (newFill != null)
 				msgs = ((InternalEObject) newFill).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__FILL, null, msgs);
-			}
 			msgs = basicSetFill(newFill, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__FILL, newFill, newFill));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<DialRegion> getDialRegions() {
 		if (dialRegions == null) {
-			dialRegions = new EObjectContainmentEList<>(DialRegion.class, this,
+			dialRegions = new EObjectContainmentEList<DialRegion>(DialRegion.class, this,
 					ComponentPackage.DIAL__DIAL_REGIONS);
 		}
 		return dialRegions;
@@ -585,17 +552,16 @@ public class DialImpl extends EObjectImpl implements Dial {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Grid getMajorGrid() {
 		return majorGrid;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMajorGrid(Grid newMajorGrid, NotificationChain msgs) {
@@ -604,55 +570,48 @@ public class DialImpl extends EObjectImpl implements Dial {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.DIAL__MAJOR_GRID, oldMajorGrid, newMajorGrid);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setMajorGrid(Grid newMajorGrid) {
 		if (newMajorGrid != majorGrid) {
 			NotificationChain msgs = null;
-			if (majorGrid != null) {
+			if (majorGrid != null)
 				msgs = ((InternalEObject) majorGrid).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__MAJOR_GRID, null, msgs);
-			}
-			if (newMajorGrid != null) {
+			if (newMajorGrid != null)
 				msgs = ((InternalEObject) newMajorGrid).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__MAJOR_GRID, null, msgs);
-			}
 			msgs = basicSetMajorGrid(newMajorGrid, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__MAJOR_GRID, newMajorGrid,
 					newMajorGrid));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Grid getMinorGrid() {
 		return minorGrid;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMinorGrid(Grid newMinorGrid, NotificationChain msgs) {
@@ -661,55 +620,48 @@ public class DialImpl extends EObjectImpl implements Dial {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.DIAL__MINOR_GRID, oldMinorGrid, newMinorGrid);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setMinorGrid(Grid newMinorGrid) {
 		if (newMinorGrid != minorGrid) {
 			NotificationChain msgs = null;
-			if (minorGrid != null) {
+			if (minorGrid != null)
 				msgs = ((InternalEObject) minorGrid).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__MINOR_GRID, null, msgs);
-			}
-			if (newMinorGrid != null) {
+			if (newMinorGrid != null)
 				msgs = ((InternalEObject) newMinorGrid).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__MINOR_GRID, null, msgs);
-			}
 			msgs = basicSetMinorGrid(newMinorGrid, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__MINOR_GRID, newMinorGrid,
 					newMinorGrid));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Scale getScale() {
 		return scale;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetScale(Scale newScale, NotificationChain msgs) {
@@ -718,108 +670,95 @@ public class DialImpl extends EObjectImpl implements Dial {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__SCALE,
 					oldScale, newScale);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setScale(Scale newScale) {
 		if (newScale != scale) {
 			NotificationChain msgs = null;
-			if (scale != null) {
+			if (scale != null)
 				msgs = ((InternalEObject) scale).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__SCALE, null, msgs);
-			}
-			if (newScale != null) {
+			if (newScale != null)
 				msgs = ((InternalEObject) newScale).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__SCALE, null, msgs);
-			}
 			msgs = basicSetScale(newScale, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__SCALE, newScale, newScale));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isInverseScale() {
 		return inverseScale;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setInverseScale(boolean newInverseScale) {
 		boolean oldInverseScale = inverseScale;
 		inverseScale = newInverseScale;
 		boolean oldInverseScaleESet = inverseScaleESet;
 		inverseScaleESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__INVERSE_SCALE, oldInverseScale,
 					inverseScale, !oldInverseScaleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetInverseScale() {
 		boolean oldInverseScale = inverseScale;
 		boolean oldInverseScaleESet = inverseScaleESet;
 		inverseScale = INVERSE_SCALE_EDEFAULT;
 		inverseScaleESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.DIAL__INVERSE_SCALE,
 					oldInverseScale, INVERSE_SCALE_EDEFAULT, oldInverseScaleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetInverseScale() {
 		return inverseScaleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Label getLabel() {
 		return label;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
@@ -828,54 +767,47 @@ public class DialImpl extends EObjectImpl implements Dial {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__LABEL,
 					oldLabel, newLabel);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setLabel(Label newLabel) {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
-			if (label != null) {
+			if (label != null)
 				msgs = ((InternalEObject) label).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__LABEL, null, msgs);
-			}
-			if (newLabel != null) {
+			if (newLabel != null)
 				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__LABEL, null, msgs);
-			}
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__LABEL, newLabel, newLabel));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public FormatSpecifier getFormatSpecifier() {
 		return formatSpecifier;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs) {
@@ -884,45 +816,39 @@ public class DialImpl extends EObjectImpl implements Dial {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.DIAL__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setFormatSpecifier(FormatSpecifier newFormatSpecifier) {
 		if (newFormatSpecifier != formatSpecifier) {
 			NotificationChain msgs = null;
-			if (formatSpecifier != null) {
+			if (formatSpecifier != null)
 				msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__FORMAT_SPECIFIER, null, msgs);
-			}
-			if (newFormatSpecifier != null) {
+			if (newFormatSpecifier != null)
 				msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.DIAL__FORMAT_SPECIFIER, null, msgs);
-			}
 			msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL__FORMAT_SPECIFIER,
 					newFormatSpecifier, newFormatSpecifier));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -950,7 +876,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -986,7 +912,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -1036,7 +962,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1084,7 +1010,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1120,40 +1046,35 @@ public class DialImpl extends EObjectImpl implements Dial {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (startAngle: "); //$NON-NLS-1$
-		if (startAngleESet) {
+		if (startAngleESet)
 			result.append(startAngle);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", stopAngle: "); //$NON-NLS-1$
-		if (stopAngleESet) {
+		if (stopAngleESet)
 			result.append(stopAngle);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", radius: "); //$NON-NLS-1$
-		if (radiusESet) {
+		if (radiusESet)
 			result.append(radius);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", inverseScale: "); //$NON-NLS-1$
-		if (inverseScaleESet) {
+		if (inverseScaleESet)
 			result.append(inverseScale);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -1168,7 +1089,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected final void initialize() {
 		// Outline
@@ -1216,7 +1137,7 @@ public class DialImpl extends EObjectImpl implements Dial {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected final void initDefault() {
 		// Outline
@@ -1254,7 +1175,6 @@ public class DialImpl extends EObjectImpl implements Dial {
 	/**
 	 * @generated
 	 */
-	@Override
 	public Dial copyInstance() {
 		DialImpl dest = new DialImpl();
 		dest.set(this);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -30,12 +30,12 @@ public class SpecialCharacterTest extends TestCase {
 	/**
 	 * test stream name contains invalid characters, such as: :, ::, %, ., .., /, \,
 	 * //, \\
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void doTest(IDocArchiveWriter writer, IDocArchiveReader reader) throws IOException {
-		final String[] fileNames = { "d:/abc.txt", "../abc/txt", "./txt", "...txt", "....txt", ".//.txt", "%25.txt",
-				":.txt", "::", "\\\\.txt", "\\.txt" };
+		final String[] fileNames = new String[] { "d:/abc.txt", "../abc/txt", "./txt", "...txt", "....txt", ".//.txt",
+				"%25.txt", ":.txt", "::", "\\\\.txt", "\\.txt" };
 
 		for (String fileName : fileNames) {
 			RAOutputStream ws = writer.createRandomAccessStream(fileName);

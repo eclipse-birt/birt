@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -86,7 +86,7 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param parent
 	 * @param iStyle
 	 */
@@ -98,8 +98,8 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 		super(parent, SWT.NONE);
 		this.iStyle = iStyle;
 		this.sUnit = unit;
-		vModifyListeners = new Vector<>();
-		vFractionListeners = new Vector<>();
+		vModifyListeners = new Vector<ModifyListener>();
+		vFractionListeners = new Vector<Listener>();
 		this.setLayout(new FillLayout());
 
 		numberFormat = ChartUIUtil.getDefaultNumberFormatInstance();
@@ -138,10 +138,9 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
-	@Override
 	public void setEnabled(boolean bState) {
 		bEnabled = bState;
 		txtValue.setEnabled(bState);
@@ -152,26 +151,22 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Control#isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
 		return bEnabled;
 	}
 
-	@Override
 	public boolean isSetValue() {
 		return bValueIsSet;
 	}
 
-	@Override
 	public void unsetValue() {
 		bValueIsSet = false;
 		txtValue.setText(""); //$NON-NLS-1$
 	}
 
-	@Override
 	public void setValue(double value) {
 		bOriginalValueIsSet = true;
 		bValueIsSet = true;
@@ -179,17 +174,14 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 		txtValue.setText(numberFormat.format(value));
 	}
 
-	@Override
 	public double getValue() {
 		return dValue;
 	}
 
-	@Override
 	public void setToolTipText(String string) {
 		txtValue.setToolTipText(string);
 	}
 
-	@Override
 	public void addModifyListener(ModifyListener listener) {
 		vModifyListeners.add(listener);
 	}
@@ -198,18 +190,16 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 		vModifyListeners.remove(listener);
 	}
 
-	@Override
 	public void addFractionListener(Listener listener) {
 		vFractionListeners.add(listener);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events
 	 * .ModifyEvent)
 	 */
-	@Override
 	public void modifyText(ModifyEvent e) {
 		this.bTextModified = true;
 		fireEvent(true);
@@ -217,21 +207,19 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events
 	 * .FocusEvent)
 	 */
-	@Override
 	public void focusGained(FocusEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events
 	 * .FocusEvent)
 	 */
-	@Override
 	public void focusLost(FocusEvent e) {
 		if (bTextModified) {
 			bTextModified = false;
@@ -241,11 +229,10 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.
 	 * KeyEvent)
 	 */
-	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
 			if (bTextModified) {
@@ -257,11 +244,10 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events
 	 * .KeyEvent)
 	 */
-	@Override
 	public void keyReleased(KeyEvent e) {
 	}
 
@@ -352,7 +338,6 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -360,7 +345,6 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 
 		getAccessible().addAccessibleTextListener(new AccessibleTextAdapter() {
 
-			@Override
 			public void getCaretOffset(AccessibleTextEvent e) {
 				e.offset = txtValue.getCaretPosition();
 			}
@@ -368,7 +352,6 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -376,7 +359,6 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 				}
 			}
 
-			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -386,22 +368,18 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 				e.height = location.height;
 			}
 
-			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_TEXT;
 			}
 
-			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
-			@Override
 			public void getValue(AccessibleControlEvent e) {
 				e.result = txtValue.getText();
 			}
@@ -411,7 +389,6 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
 		ChartUIUtil.addScreenReaderAccessibility(this, txtValue);
 	}
 
-	@Override
 	public Text getTextControl() {
 		return txtValue;
 	}

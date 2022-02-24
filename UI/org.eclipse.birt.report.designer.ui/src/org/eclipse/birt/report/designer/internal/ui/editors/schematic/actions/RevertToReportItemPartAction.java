@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- *
+ * 
  */
 
 public class RevertToReportItemPartAction extends WrapperSelectionAction {
@@ -38,19 +38,18 @@ public class RevertToReportItemPartAction extends WrapperSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
 	 * WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.
 	 * ISelection)
 	 */
-	@Override
 	protected IAction createActionHandler(ISelection model) {
 		return new RevertToReportItemAction(model);
 	}
 
 	/**
 	 * Gets the activity stack of the report
-	 *
+	 * 
 	 * @return returns the stack
 	 */
 	protected CommandStack getActiveCommandStack() {

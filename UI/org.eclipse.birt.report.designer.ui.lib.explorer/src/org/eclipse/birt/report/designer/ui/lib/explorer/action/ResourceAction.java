@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,14 +68,14 @@ public abstract class ResourceAction extends Action {
 	private static final String BUNDLE_PROTOCOL = "bundleresource://"; //$NON-NLS-1$
 
 	/** The created files during fils are copied. */
-	private static final Collection<File> createdFiles = new HashSet<>();
+	private static final Collection<File> createdFiles = new HashSet<File>();
 
 	/** The resource explorer page. */
 	private final LibraryExplorerTreeViewPage viewerPage;
 
 	/**
 	 * Constructs an action with the specified text and the specified viewer.
-	 *
+	 * 
 	 * @param actionText the specified text
 	 * @param viewer     the resource explorer page
 	 */
@@ -87,7 +87,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Returns the tree viewer in resource explorer.
-	 *
+	 * 
 	 * @return the tree viewer in resource explorer.
 	 */
 	protected TreeViewer getTreeViewer() {
@@ -96,7 +96,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Returns the shell for this workbench site.
-	 *
+	 * 
 	 * @return the shell for this workbench site
 	 */
 	protected Shell getShell() {
@@ -113,10 +113,9 @@ public abstract class ResourceAction extends Action {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see java.lang.Runnable#run()
 			 */
-			@Override
 			public void run() {
 				if (viewerPage != null) {
 					viewerPage.refreshRoot();
@@ -127,12 +126,12 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Returns all expanded resources, include sub path.
-	 *
+	 * 
 	 * @param resources the resources to expand
 	 * @return all expanded resources, include sub path.
 	 */
 	protected Collection<?> expandResources(Collection<?> resources) {
-		Collection<Object> libraries = new HashSet<>();
+		Collection<Object> libraries = new HashSet<Object>();
 
 		if (resources != null && !resources.isEmpty()) {
 			retrieveReources(libraries, resources);
@@ -142,7 +141,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Retrieves resources in files to the specified collection.
-	 *
+	 * 
 	 * @param libraries the specified collection.
 	 * @param files     the resources to be rereieved.
 	 */
@@ -154,43 +153,37 @@ public abstract class ResourceAction extends Action {
 					&& ((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.LIBRARY) {
 				LibraryHandle library = (LibraryHandle) ((ResourceEntryWrapper) element)
 						.getAdapter(LibraryHandle.class);
-				if (library.getFileName().startsWith(BUNDLE_PROTOCOL)) {
+				if (library.getFileName().startsWith(BUNDLE_PROTOCOL))
 					return;
-				}
 				libraries.add(library);
 			} else if (element instanceof ResourceEntryWrapper
 					&& ((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.CSS_STYLE_SHEET) {
 				CssStyleSheetHandle library = (CssStyleSheetHandle) ((ResourceEntryWrapper) element)
 						.getAdapter(CssStyleSheetHandle.class);
-				if (library.getFileName().startsWith(BUNDLE_PROTOCOL)) {
+				if (library.getFileName().startsWith(BUNDLE_PROTOCOL))
 					return;
-				}
 				libraries.add(library);
 			} else if (element instanceof LibraryHandle) {
 				LibraryHandle library = (LibraryHandle) element;
-				if (library.getFileName().startsWith(BUNDLE_PROTOCOL)) {
+				if (library.getFileName().startsWith(BUNDLE_PROTOCOL))
 					return;
-				}
 				libraries.add(library);
 			} else if (element instanceof CssStyleSheetHandle) {
 				CssStyleSheetHandle library = (CssStyleSheetHandle) element;
-				if (library.getFileName().startsWith(BUNDLE_PROTOCOL)) {
+				if (library.getFileName().startsWith(BUNDLE_PROTOCOL))
 					return;
-				}
 				libraries.add(library);
 			} else if (element instanceof ReportResourceEntry
 					&& ((ReportResourceEntry) element).getReportElement() instanceof LibraryHandle) {
 				LibraryHandle library = (LibraryHandle) ((ReportResourceEntry) element).getReportElement();
-				if (library.getFileName().startsWith(BUNDLE_PROTOCOL)) {
+				if (library.getFileName().startsWith(BUNDLE_PROTOCOL))
 					return;
-				}
 				libraries.add(library);
 			} else if (element instanceof ReportResourceEntry
 					&& ((ReportResourceEntry) element).getReportElement() instanceof CssStyleSheetHandle) {
 				CssStyleSheetHandle library = (CssStyleSheetHandle) ((ReportResourceEntry) element).getReportElement();
-				if (library.getFileName().startsWith(BUNDLE_PROTOCOL)) {
+				if (library.getFileName().startsWith(BUNDLE_PROTOCOL))
 					return;
-				}
 				libraries.add(library);
 			} else if (element instanceof PathResourceEntry) {
 				libraries.add(element);
@@ -205,11 +198,11 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Returns the currently selected resources.
-	 *
+	 * 
 	 * @return the currently selected resources.
 	 */
 	protected Collection<?> getSelectedResources() {
-		Collection<?> resources = new ArrayList<>();
+		Collection<?> resources = new ArrayList<Object>();
 		ISelection selection = (viewerPage == null ? null : viewerPage.getSelection());
 
 		if (selection instanceof IStructuredSelection) {
@@ -220,7 +213,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Checks if the selected resources can be modified.
-	 *
+	 * 
 	 * @return <code>true</code> if the selected resources can be modified,
 	 *         <code>false</code> otherwise.
 	 */
@@ -251,7 +244,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Checks if the selected container can be insertted into.
-	 *
+	 * 
 	 * @return <code>true</code> if the selected container can be insertted into,
 	 *         <code>false</code> otherwise.
 	 * @throws IOException if an I/O error occurs.
@@ -262,13 +255,13 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Returns the current selected file.
-	 *
+	 * 
 	 * @return the current selected file.
 	 * @throws IOException if an I/O error occurs.
 	 */
 	protected Collection<File> getSelectedFiles() throws IOException {
 		Collection<?> currentResource = getSelectedResources();
-		Collection<File> files = new HashSet<>();
+		Collection<File> files = new HashSet<File>();
 
 		if (currentResource == null) {
 			return files;
@@ -299,7 +292,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Returns the current selected container.
-	 *
+	 * 
 	 * @return the current selected container.
 	 * @throws IOException if an I/O error occurs.
 	 */
@@ -329,7 +322,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Checks if there is fragment resource in the specified resources.
-	 *
+	 * 
 	 * @param resources the resources to check.
 	 * @return <code>true</code> if any fragment reource is included in the
 	 *         soecified resources, <code>false</code> otherwise.
@@ -350,7 +343,7 @@ public abstract class ResourceAction extends Action {
 	/**
 	 * Creates an instance of <copy>IRunnableWithProgress</copy> for copying the
 	 * specified source file to the specified target file.
-	 *
+	 * 
 	 * @param srcFile    the specified source file.
 	 * @param targetFile the specified target file.
 	 * @return the instance of <code>IRunnableWithProgress</code>.
@@ -360,11 +353,10 @@ public abstract class ResourceAction extends Action {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
 			 * .core.runtime.IProgressMonitor)
 			 */
-			@Override
 			public synchronized final void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				monitor.beginTask(null, IProgressMonitor.UNKNOWN);
@@ -392,7 +384,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Copys a folder to another folder.
-	 *
+	 * 
 	 * @param srcFolder    the source folder
 	 * @param targetFolder the target folder
 	 * @throws IOException if an error occurs.
@@ -403,7 +395,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Copys a folder to another folder.
-	 *
+	 * 
 	 * @param srcFolder    the source folder
 	 * @param targetFolder the target folder
 	 * @param monitor      the progress monitor to use to display progress and
@@ -442,7 +434,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Copys a file to another file.
-	 *
+	 * 
 	 * @param srcFile  the source file
 	 * @param destFile the target file
 	 * @throws IOException if an error occurs.
@@ -493,7 +485,7 @@ public abstract class ResourceAction extends Action {
 	/**
 	 * Converts the specified instance of <code>URL</code> to an instance of
 	 * <code>File</code>.
-	 *
+	 * 
 	 * @param url the specified URL to convert.
 	 * @return the instance of <code>File</code>.
 	 * @throws IOException if an I/O error occurs.
@@ -504,7 +496,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Opens an editor on the specified library file.
-	 *
+	 * 
 	 * @param file the specified library to open.
 	 */
 	protected void openLibrary(File file, boolean forceRefresh) {
@@ -516,7 +508,7 @@ public abstract class ResourceAction extends Action {
 	/**
 	 * Opens an editor on the specified library file, and refresh the specified
 	 * library explorer page.
-	 *
+	 * 
 	 * @param viewer the library explorer page
 	 * @param file   the specified library to open.
 	 */
@@ -528,7 +520,7 @@ public abstract class ResourceAction extends Action {
 	/**
 	 * Opens an editor on the specified designer file, and refresh the specified
 	 * library explorer page.
-	 *
+	 * 
 	 * @param viewer the designer explorer page
 	 * @param file   the specified designer to open.
 	 */
@@ -540,7 +532,7 @@ public abstract class ResourceAction extends Action {
 	/**
 	 * Opens an editor on the specified file, and refresh the specified library
 	 * explorer page.
-	 *
+	 * 
 	 * @param viewer the designer explorer page
 	 * @param file   the specified file to open.
 	 */
@@ -562,10 +554,9 @@ public abstract class ResourceAction extends Action {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see java.lang.Runnable#run()
 			 */
-			@Override
 			public void run() {
 				try {
 					EditorUtil.openEditor(viewer, file, editorId);
@@ -580,7 +571,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Notifies model for the reource chang.
-	 *
+	 * 
 	 * @param fileNames the resource's file name.
 	 */
 	protected void fireResourceChanged(String... fileNames) {
@@ -614,7 +605,7 @@ public abstract class ResourceAction extends Action {
 	/**
 	 * Creates an instance of <copy>IRunnableWithProgress</copy> for removing
 	 * resources.
-	 *
+	 * 
 	 * @return the instance of <code>IRunnableWithProgress</code>.
 	 */
 	protected IRunnableWithProgress createDeleteRunnable(final Collection<File> files) {
@@ -622,11 +613,10 @@ public abstract class ResourceAction extends Action {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
 			 * .core.runtime.IProgressMonitor)
 			 */
-			@Override
 			public synchronized final void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				monitor.beginTask(null, IProgressMonitor.UNKNOWN);
@@ -653,7 +643,7 @@ public abstract class ResourceAction extends Action {
 	/**
 	 * Creates an instance of <copy>IRunnableWithProgress</copy> for renaming the
 	 * specified source file to the specified target file.
-	 *
+	 * 
 	 * @param srcFile    the specified source file.
 	 * @param targetFile the specified target file.
 	 * @return the instance of <code>IRunnableWithProgress</code>.
@@ -663,11 +653,10 @@ public abstract class ResourceAction extends Action {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
 			 * .core.runtime.IProgressMonitor)
 			 */
-			@Override
 			public synchronized final void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				monitor.beginTask(null, IProgressMonitor.UNKNOWN);
@@ -689,7 +678,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Renames the source file to target file.
-	 *
+	 * 
 	 * @param srcFile  the source file
 	 * @param destFile the target file
 	 */
@@ -704,7 +693,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Removes the specified file or folder.
-	 *
+	 * 
 	 * @param file the specified file or folder to remove.
 	 * @return <code>true</code> if and only if the specified file is successfully
 	 *         deleted; <code>false</code> otherwise
@@ -715,7 +704,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Removes the specified file or folder.
-	 *
+	 * 
 	 * @param file    the specified file or folder to remove.
 	 * @param monitor the progress monitor to use to display progress and receive
 	 *                requests for cancelation.
@@ -740,7 +729,7 @@ public abstract class ResourceAction extends Action {
 
 	/**
 	 * Removes the specified file
-	 *
+	 * 
 	 * @param file the specified file to remove.
 	 * @return <code>true</code> if and only if the specified file is successfully
 	 *         deleted; <code>false</code> otherwise

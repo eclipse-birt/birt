@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 public class AggregationCellHandle extends CrosstabCellHandle implements IAggregationCellConstants, ICrosstabConstants {
 
 	/**
-	 *
+	 * 
 	 * @param handle
 	 */
 	AggregationCellHandle(DesignElementHandle handle) {
@@ -42,7 +42,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 
 	/**
 	 * Gets the referred row cube level of this aggregation applied on.
-	 *
+	 * 
 	 * @return the referred row cube level
 	 */
 	public LevelHandle getAggregationOnRow() {
@@ -57,7 +57,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 
 	/**
 	 * Gets the referred column cube level of this aggregation applied on.
-	 *
+	 * 
 	 * @return the referred column cube level
 	 */
 	public LevelHandle getAggregationOnColumn() {
@@ -72,7 +72,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 
 	/**
 	 * Gets the referred row cube level of this aggregation cell to span over.
-	 *
+	 * 
 	 * @return the referred row cube level
 	 */
 	public LevelHandle getSpanOverOnRow() {
@@ -87,7 +87,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 
 	/**
 	 * Gets the referred column cube level of this aggregation cell to span over.
-	 *
+	 * 
 	 * @return the referred column cube level
 	 */
 	public LevelHandle getSpanOverOnColumn() {
@@ -102,7 +102,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 
 	/**
 	 * Set the referred row cube level of this aggregation cell to span over.
-	 *
+	 * 
 	 * @return the referred row cube level
 	 */
 	public void setSpanOverOnRow(LevelHandle level) throws SemanticException {
@@ -111,7 +111,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 
 	/**
 	 * Set the referred column cube level of this aggregation cell to span over.
-	 *
+	 * 
 	 * @return the referred column cube level
 	 */
 	public void setSpanOverOnColumn(LevelHandle level) throws SemanticException {
@@ -120,7 +120,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 
 	/**
 	 * Set the referred row cube level of this aggregation applied on.
-	 *
+	 * 
 	 * @return the referred row cube level
 	 */
 	public void setAggregationOnRow(LevelHandle level) throws SemanticException {
@@ -129,7 +129,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 
 	/**
 	 * Set the referred column cube level of this aggregation applied on.
-	 *
+	 * 
 	 * @return the referred column cube level
 	 */
 	public void setAggregationOnColumn(LevelHandle level) throws SemanticException {
@@ -140,7 +140,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 	 * Gets row/column cube level. The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 *
+	 * 
 	 * @param axisType row/column axis type
 	 * @return row/column level if found, otherwise null
 	 */
@@ -159,15 +159,14 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 	 * Gets the name of the cube dimension where the referred level lying. The axis
 	 * type can be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 *
+	 * 
 	 * @param axisType row/column axis type
 	 * @return name of the cube dimension
 	 */
 	public String getDimensionName(int axisType) {
 		LevelHandle cubeLevel = getLevel(axisType);
-		if (cubeLevel == null) {
+		if (cubeLevel == null)
 			return null;
-		}
 		DesignElementHandle hierarchy = cubeLevel.getContainer();
 		DesignElementHandle dimension = hierarchy == null ? null : hierarchy.getContainer();
 		return dimension == null ? null : dimension.getQualifiedName();
@@ -178,9 +177,9 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 	 * Gets name of the referred cube level. The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 *
+	 * 
 	 * @param axisType row/column axis type
-	 *
+	 * 
 	 * @return name of the cube level
 	 */
 	public String getLevelName(int axisType) {
@@ -199,7 +198,7 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 	 * axis type can be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. Returned value is 0-based
 	 * integer.
-	 *
+	 * 
 	 * @param axisType row/column axis type
 	 * @return position index of the referred row/column dimension if found,
 	 *         otherwise -1
@@ -213,19 +212,17 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 	 * Gets the referred row/column dimension view.The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 *
+	 * 
 	 * @param axisType row/column axis type
 	 * @return dimension view if found, otherwise null;
 	 */
 	public DimensionViewHandle getDimensionView(int axisType) {
 		ExtendedItemHandle crosstab = (ExtendedItemHandle) getCrosstabHandle();
-		if (crosstab == null) {
+		if (crosstab == null)
 			return null;
-		}
 		CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem(crosstab);
-		if (crosstabItem == null) {
+		if (crosstabItem == null)
 			return null;
-		}
 		DimensionViewHandle dimensionView = crosstabItem.getDimension(getDimensionName(axisType));
 		return dimensionView;
 	}
@@ -236,16 +233,15 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. Returned value is 0-based
 	 * integer.
-	 *
+	 * 
 	 * @param axisType row/column axis type
 	 * @return position index of the referred row/column level if found, otherwise
 	 *         -1
 	 */
 	public int getLevelViewIndex(int axisType) {
 		DimensionViewHandle dimensionView = getDimensionView(axisType);
-		if (dimensionView == null) {
+		if (dimensionView == null)
 			return -1;
-		}
 		LevelViewHandle levelView = dimensionView.getLevel(getLevelName(axisType));
 		return levelView == null ? -1 : levelView.getIndex();
 	}
@@ -254,30 +250,27 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 	 * Gets the referred row/column level view.The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 *
+	 * 
 	 * @param axisType row/column axis type
 	 * @return level view if found, otherwise null;
 	 */
 	public LevelViewHandle getLevelView(int axisType) {
 		DimensionViewHandle dimensionView = getDimensionView(axisType);
-		if (dimensionView == null) {
+		if (dimensionView == null)
 			return null;
-		}
 		return dimensionView.getLevel(getLevelName(axisType));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#getPredefinedStyles ()
 	 */
-	@Override
 	public List getPredefinedStyles() {
 		AbstractCrosstabItemHandle container = getContainer();
-		if (container == null) {
+		if (container == null)
 			return Collections.EMPTY_LIST;
-		}
 
 		List styles = new ArrayList();
 
@@ -288,34 +281,30 @@ public class AggregationCellHandle extends CrosstabCellHandle implements IAggreg
 				LevelHandle column = getAggregationOnColumn();
 				LevelHandle row = getAggregationOnRow();
 				if (row == null) {
-					if (crosstab.getDimensionCount(ROW_AXIS_TYPE) > 0) {
+					if (crosstab.getDimensionCount(ROW_AXIS_TYPE) > 0)
 						styles.add(CROSSTAB_ROW_GRAND_TOTAL_SELECTOR);
-					}
 				} else {
 					DimensionViewHandle dimensionView = getDimensionView(ROW_AXIS_TYPE);
 					LevelViewHandle levelView = getLevelView(ROW_AXIS_TYPE);
 					if (dimensionView != null && levelView != null) {
 						int index = dimensionView.getIndex();
 						if (!(index == crosstab.getDimensionCount(ROW_AXIS_TYPE) - 1
-								&& levelView.getIndex() == dimensionView.getLevelCount() - 1)) {
+								&& levelView.getIndex() == dimensionView.getLevelCount() - 1))
 							styles.add(CROSSTAB_ROW_SUB_TOTAL_SELECTOR);
-						}
 					}
 				}
 
 				if (column == null) {
-					if (crosstab.getDimensionCount(COLUMN_AXIS_TYPE) > 0) {
+					if (crosstab.getDimensionCount(COLUMN_AXIS_TYPE) > 0)
 						styles.add(CROSSTAB_COLUMN_GRAND_TOTAL_SELECTOR);
-					}
 				} else {
 					DimensionViewHandle dimensionView = getDimensionView(COLUMN_AXIS_TYPE);
 					LevelViewHandle levelView = getLevelView(COLUMN_AXIS_TYPE);
 					if (dimensionView != null && levelView != null) {
 						int index = dimensionView.getIndex();
 						if (!(index == crosstab.getDimensionCount(COLUMN_AXIS_TYPE) - 1
-								&& levelView.getIndex() == dimensionView.getLevelCount() - 1)) {
+								&& levelView.getIndex() == dimensionView.getLevelCount() - 1))
 							styles.add(CROSSTAB_COLUMN_SUB_TOTAL_SELECTOR);
-						}
 					}
 				}
 			}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,12 +43,11 @@ import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
- *
+ * 
  */
 
 public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEditPolicy {
 
-	@Override
 	protected Command getCreateCommand(CreateRequest request) {
 		// EditPart after = getInsertionReference( request );
 
@@ -132,13 +131,12 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies
 	 * .ReportFlowLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
 	 * org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
 	 */
-	@Override
 	protected Command createAddCommand(EditPart parent, EditPart child, EditPart after) {
 		Object parentObj = parent.getModel();
 		// Object source = child.getModel( );
@@ -181,11 +179,10 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 	private Class getArrayType(Object[] array) {
 		Class type = null;
 		for (int i = 0; i < array.length; i++) {
-			if (type == null) {
+			if (type == null)
 				type = array[i].getClass();
-			} else if (type != array[i].getClass()) {
+			else if (type != array[i].getClass())
 				return null;
-			}
 		}
 		return type;
 	}

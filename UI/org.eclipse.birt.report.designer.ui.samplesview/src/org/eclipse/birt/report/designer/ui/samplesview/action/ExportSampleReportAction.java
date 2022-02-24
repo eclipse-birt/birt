@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.TreeItem;
 public class ExportSampleReportAction extends Action implements Listener {
 
 	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details"; //$NON-NLS-1$
-	private static final String[] REPORTDESIGN_FILENAME_PATTERN = { "*.rptdesign" //$NON-NLS-1$
+	private static final String[] REPORTDESIGN_FILENAME_PATTERN = new String[] { "*.rptdesign" //$NON-NLS-1$
 	};
 
 	private static final String ACTION_TEXT = Messages.getString("SampleReportsView.Action.exportSampleReport"); //$NON-NLS-1$
@@ -47,7 +47,6 @@ public class ExportSampleReportAction extends Action implements Listener {
 		composite.addSelectedListener(this);
 	}
 
-	@Override
 	public void run() {
 		Object selectedElement = ((TreeItem) composite.getSelectedElement()).getData();
 		if (selectedElement == null || !(selectedElement instanceof ReportDesignHandle)) {
@@ -59,9 +58,8 @@ public class ExportSampleReportAction extends Action implements Listener {
 		final FileDialog saveDialog = new FileDialog(composite.getShell(), SWT.SAVE);
 		saveDialog.setFilterExtensions(REPORTDESIGN_FILENAME_PATTERN);
 		saveDialog.setFileName(reportName);
-		if (saveDialog.open() == null) {
+		if (saveDialog.open() == null)
 			return;
-		}
 
 		PlaceResources.copy(composite.getShell(), saveDialog.getFilterPath(), saveDialog.getFileName(), filename);
 
@@ -72,21 +70,18 @@ public class ExportSampleReportAction extends Action implements Listener {
 		}
 	}
 
-	@Override
 	public void handleEvent(Event event) {
-		if (event.widget == null || !(event.widget instanceof TreeItem)) {
+		if (event.widget == null || !(event.widget instanceof TreeItem))
 			setEnabled(false);
-		}
 		TreeItem item = (TreeItem) event.widget;
 		if (item == null) {
 			super.setEnabled(false);
 			return;
 		}
 		Object selectedElement = item.getData();
-		if (selectedElement == null) {
+		if (selectedElement == null)
 			super.setEnabled(false);
-		} else {
+		else
 			super.setEnabled(selectedElement instanceof ReportDesignHandle);
-		}
 	}
 }

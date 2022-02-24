@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -41,7 +41,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </ol>
  * <p>
  * <b>Test Description:</b>
- *
+ * 
  * @author Tianli Zhang
  */
 
@@ -51,7 +51,6 @@ public class Regression_159499 extends BaseTestCase {
 	private final static String LIB = "Regression_159499_lib.xml"; //$NON-NLS-1$
 	private final static String LIB_TEMP = "Regression_159499_lib_temp.xml";
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -61,7 +60,6 @@ public class Regression_159499 extends BaseTestCase {
 		copyResource_INPUT(LIB_TEMP, LIB_TEMP);
 	}
 
-	@Override
 	public void tearDown() {
 		removeResource();
 	}
@@ -76,7 +74,7 @@ public class Regression_159499 extends BaseTestCase {
 	 * "Label", set Style for TOC.
 	 * <p>
 	 * <br>
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 * @throws IOException
@@ -117,7 +115,7 @@ public class Regression_159499 extends BaseTestCase {
 	 * <li>4, New a report, extend the label from the library.
 	 * <p>
 	 * <br>
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 * @throws IOException
@@ -175,7 +173,7 @@ public class Regression_159499 extends BaseTestCase {
 	 * <li>4, Set Style2 for TOC
 	 * <p>
 	 * <br>
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -222,7 +220,7 @@ public class Regression_159499 extends BaseTestCase {
 	 * <P>
 	 * <p>
 	 * <br>
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 * @throws SemanticException
@@ -276,7 +274,7 @@ public class Regression_159499 extends BaseTestCase {
 	 * <P>
 	 * <p>
 	 * <br>
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 * @throws SemanticException

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -37,196 +37,195 @@ import org.eclipse.birt.report.viewer.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
- *
+ * 
+ * 
  * <tr>
  * <td>{@link #testInitParameter()}</td>
  * <td>Initialize parameters from ServletContext</td>
  * <td>Parameter value should be same as the one that put into
  * ServletContext</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetParameter()}</td>
  * <td>Get parameter from HttpServletRequest</td>
  * <td>Parameter value is correct from HttpServletRequest. The encoding is
  * UTF-8.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGenerateFileName()}</td>
  * <td>Generate output pdf file name</td>
  * <td>The file name can be generated from report name or document name(Only
  * support ASCII).Else,use the default file name "BIRTReport.pdf".</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetConfigFileName()}</td>
  * <td>Generate cached config file name</td>
  * <td>The config file name should be same as the report name.Use the different
  * suffix.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetOutputFormat()}</td>
  * <td>Get output format of report</td>
  * <td>Output format should be from http request. If it is HTM, regard it as
  * HTML also.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetParameterFormat()}</td>
  * <td>Get parameter format of report</td>
  * <td>Parameter format should be from http request.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetLocaleFromString()}</td>
  * <td>Generate Locale Object from String</td>
  * <td>Should generate correct Locale object from String.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetLocale()}</td>
  * <td>Get Locale Object from http request</td>
  * <td>Locale should be generated from URL parameter.If not,returns request
  * locale.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetParameterValues()}</td>
  * <td>Get parameter values from http request</td>
  * <td>Parameter values should be correct from HttpServletRequest. The encoding
  * is UTF-8.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetReportParameter()}</td>
  * <td>Get report parameter value from http request</td>
  * <td>The parameter value should be according to the defined logic. The
  * encoding is UTF-8.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetBookmark()}</td>
  * <td>Get target bookmark from http request</td>
  * <td>If set page information, ignore bookmark and return null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetPage()}</td>
  * <td>Get target report page from http request</td>
  * <td>Return correct page number,if null or less then 1, return 1.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testIsDisplayText()}</td>
  * <td>Return parameter name</td>
  * <td>If it is display text of parameter, return parameter name.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testIsOverwrite()}</td>
  * <td>Return isOverwrite setting</td>
  * <td>This setting can be from URL.If not, use the default setting from context
  * config.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testIsOverwrite()}</td>
  * <td>Return isOverwrite setting</td>
  * <td>This setting can be from URL.If not, use the default setting from context
  * config.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testIsReportParameterExist()}</td>
  * <td>Return if parameter is in URL</td>
  * <td>Return true or false</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testIsIidReportlet()}</td>
  * <td>Return if reportlet is from instanceid</td>
  * <td>Return true or false</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testIsBookmarkReportlet()}</td>
  * <td>Return if reportlet is from bookmark</td>
  * <td>Return true or false</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetReportletId()}</td>
  * <td>Return reportlet id</td>
  * <td>Reportlet id should be from instanceid or bookmark.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetReportletId()}</td>
  * <td>Return reportlet id</td>
  * <td>Reportlet id should be from instanceid or bookmark.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetMaxRows()}</td>
  * <td>Return maxRows setting</td>
  * <td>MaxRows setting can be set in URL.If not, use the default setting from
  * context.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetResourceFolder()}</td>
  * <td>Return reourceFolder setting</td>
  * <td>ResourceFolder setting can be set in URL.If not, use the default setting
  * from context.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testIsValidFilePath()}</td>
  * <td>Validate the current file path.</td>
  * <td>Return true of false</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetReport()}</td>
  * <td>Return the report file path.</td>
  * <td>Return absolute path.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetReportDocument()}</td>
  * <td>Return the report document file path.</td>
  * <td>Return absolute path.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetSelectedColumns()}</td>
  * <td>Get selected column list.</td>
  * <td>Return correct list.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testHtmlEncode()}</td>
  * <td>Return html encoded string.</td>
  * <td>Return correct string.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testPushAppContext()}</td>
  * <td>Push user-defined application context object into engine context .</td>
  * <td>Return engine context map.</td>
  * </tr>
- *
+ * 
  * </table>
- *
+ * 
  */
 public class ParameterAccessorTest extends BaseTestCase {
 
 	private static final String DEFAULT_TEST_REPORT = "test.rptdesign"; //$NON-NLS-1$
 
-	@Override
 	public void setUp() throws Exception {
 		ParameterAccessor.reset();
 		super.setUp();
@@ -237,7 +236,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for initParameter method.
 	 * <P>
 	 * Initialize parameters should be from ServletContext.
-	 *
+	 * 
 	 */
 	public void verifyInitParameter() {
 		String root_folder = root.getAbsolutePath();
@@ -317,7 +316,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * <p>
 	 * The cached config file should be side of the current report design file.
 	 * Current,support two types design file: rptdesign, rpttemplate
-	 *
+	 * 
 	 */
 	public void testGetConfigFileName() {
 		// preview a report
@@ -340,7 +339,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * <li>If format is HTM from URL, return the format as HTML also.</li>
 	 * <li>Else, return the received format.</li>
 	 * </ol>
-	 *
+	 * 
 	 */
 	public void testGetOutputFormat() {
 		// format is null
@@ -361,7 +360,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for getFormat( HttpServletRequest, String ) method
 	 * <p>
 	 * Get current parameter format from URL.
-	 *
+	 * 
 	 */
 	public void testGetParameterFormat() {
 		String paramName = "SampleParam"; //$NON-NLS-1$
@@ -383,7 +382,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for getLocaleFromString method
 	 * <p>
 	 * Returns correct Locale
-	 *
+	 * 
 	 */
 	public void testGetLocaleFromString() {
 		assertNull(ParameterAccessor.getLocaleFromString(null));
@@ -423,7 +422,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for getParameterValues method
 	 * <p>
 	 * Get parameter values collection by name from http request
-	 *
+	 * 
 	 */
 	public void testGetParameterValues() {
 		String paramName = "param"; //$NON-NLS-1$
@@ -485,7 +484,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * <p>
 	 * Returns correct bookmard from http request.If set page information, returns
 	 * null.
-	 *
+	 * 
 	 */
 	public void testGetBookmark() {
 		String bookmark = "bookmark"; //$NON-NLS-1$
@@ -509,7 +508,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for getPage method
 	 * <p>
 	 * Returns correct report page.If page is null or less then 1, set as 1.
-	 *
+	 * 
 	 */
 	public void testGetPage() {
 		request.setServletPath("/frameset");
@@ -531,7 +530,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for isDisplayText method
 	 * <p>
 	 * Returns parameter name.
-	 *
+	 * 
 	 */
 	public void testIsDisplayText() {
 		String paramName = "param"; //$NON-NLS-1$
@@ -545,7 +544,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * <p>
 	 * Returns correct isOverwrite setting. If don't set it in http request,use
 	 * default setting from context
-	 *
+	 * 
 	 */
 	public void testIsOverwrite() {
 		// Don't set in http request
@@ -563,7 +562,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * <p>
 	 * Check if parameter is in http request. If parameter is a null parameter,also
 	 * return true.
-	 *
+	 * 
 	 */
 	public void testIsReportParameterExist() {
 		String paramName = "param"; //$NON-NLS-1$
@@ -586,7 +585,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for isIidReportlet method
 	 * <p>
 	 * Check if reportlet is from instanceid.
-	 *
+	 * 
 	 */
 	public void testIsIidReportlet() {
 		// Don't set anything
@@ -607,7 +606,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for isBookmarkReportlet method
 	 * <p>
 	 * Check if reportlet is from bookmark.
-	 *
+	 * 
 	 */
 	public void testIsBookmarkReportlet() {
 		// Don't set anything
@@ -635,7 +634,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * <li>If isIidReportlet is true, return instanceid as reportlet id.</li>
 	 * <li>Else if isBookmarkReportlet is true,return bookmark as reportlet id.</li>
 	 * <ol>
-	 *
+	 * 
 	 */
 	public void testGetReportletId() {
 		String instanceid = "instanceid"; //$NON-NLS-1$
@@ -664,7 +663,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for getMaxRows method
 	 * <p>
 	 * Returns the maxrows setting
-	 *
+	 * 
 	 */
 	public void testGetMaxRows() {
 		int DEFAULT_MAX_ROWS = 500;
@@ -690,7 +689,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for getResourceFolder method
 	 * <p>
 	 * Returns the resource folder
-	 *
+	 * 
 	 */
 	public void testGetResourceFolder() {
 		// Don't set anything
@@ -738,7 +737,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * <li>If it is relative path, returns the absolute path that is relative to the
 	 * document folder.</li>
 	 * <ol>
-	 *
+	 * 
 	 */
 	public void testGetReport() {
 		// Absolute path
@@ -807,7 +806,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for getSelectedColumns method
 	 * <p>
 	 * Get selected column list.
-	 *
+	 * 
 	 */
 	public void testGetSelectedColumns() {
 		assertNotNull(ParameterAccessor.getSelectedColumns(request));
@@ -835,7 +834,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for htmlEncode method
 	 * <p>
 	 * Returns HTML encoded string
-	 *
+	 * 
 	 */
 	public void testHtmlEncode() {
 		assertNull(ParameterAccessor.htmlEncode(null));
@@ -851,7 +850,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 * TestCase for pushAppContext method
 	 * <p>
 	 * Push user-defined application context object into engine context
-	 *
+	 * 
 	 */
 	public void testPushAppContext() {
 		Map map = null;

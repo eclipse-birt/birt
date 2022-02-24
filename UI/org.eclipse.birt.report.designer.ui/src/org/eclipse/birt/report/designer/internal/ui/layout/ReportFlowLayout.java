@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -35,7 +35,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  */
 /**
  * @author David Michonneau
- *
+ * 
  */
 public class ReportFlowLayout extends AbstractHintLayout {
 
@@ -99,7 +99,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 	/**
 	 * Constructs a ReportFlowLayout with horizontal orientation.
-	 *
+	 * 
 	 * @since 2.0
 	 */
 	public ReportFlowLayout() {
@@ -114,7 +114,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	 * <li>{@link #ALIGN_LEFTTOP}
 	 * <li>{@link #ALIGN_RIGHTBOTTOM}
 	 * </ul>
-	 *
+	 * 
 	 * @return the major alignment
 	 * @since 2.0
 	 */
@@ -125,7 +125,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	/**
 	 * Returns the spacing in pixels to be used between children in the direction
 	 * parallel to the layout's orientation.
-	 *
+	 * 
 	 * @return the major spacing
 	 */
 	public int getMajorSpacing() {
@@ -141,7 +141,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	 * <li>{@link #ALIGN_LEFTTOP}
 	 * <li>{@link #ALIGN_RIGHTBOTTOM}
 	 * </ul>
-	 *
+	 * 
 	 * @return the minor alignment
 	 * @since 2.0
 	 */
@@ -151,7 +151,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 	/**
 	 * Returns the spacing to be used between children within a row/column.
-	 *
+	 * 
 	 * @return the minor spacing
 	 */
 	public int getMinorSpacing() {
@@ -161,9 +161,8 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	protected Insets getFigureMargin(IFigure f) {
 		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint(f);
 		Insets margin = INSETS_SINGLETON;
-		if (constraint != null) {
+		if (constraint != null)
 			margin = constraint.getMargin();
-		}
 
 		if ((margin == null || margin == INSETS_SINGLETON) && f instanceof IReportElementFigure) {
 			margin = ((IReportElementFigure) f).getMargin();
@@ -185,7 +184,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	/**
 	 * Initializes state data for laying out children, based on the Figure given as
 	 * input.
-	 *
+	 * 
 	 * @param parent the parent figure
 	 * @since 2.0
 	 */
@@ -199,7 +198,6 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	/**
 	 * @see org.eclipse.draw2d.LayoutManager#layout(IFigure)
 	 */
-	@Override
 	public void layout(IFigure parent) {
 		data = new WorkingData();
 		Rectangle relativeArea = parent.getClientArea().getCopy();
@@ -250,12 +248,12 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	/**
 	 * Layouts one row of components. This is done based on the layout's
 	 * orientation, minor alignment and major alignment.
-	 *
+	 * 
 	 * @param parent the parent figure
 	 * @since 2.0
 	 */
 	protected void layoutRow(IFigure parent) {
-		int majorAdjustment;
+		int majorAdjustment = 0;
 		int minorAdjustment = 0;
 		int correctMajorAlignment = majorAlignment;
 		// int correctMinorAlignment = minorAlignment;
@@ -330,9 +328,11 @@ public class ReportFlowLayout extends AbstractHintLayout {
 							}
 						}
 					}
-				} else if (correctMinorAlignment == ALIGN_CENTER) {
-					data.bounds[j].y = data.bounds[j].y - minorAdjustment
-							+ (parentArea.height - data.rowY - data.bounds[j].height) / 2;
+				} else {
+					if (correctMinorAlignment == ALIGN_CENTER) {
+						data.bounds[j].y = data.bounds[j].y - minorAdjustment
+								+ (parentArea.height - data.rowY - data.bounds[j].height) / 2;
+					}
 				}
 
 			}
@@ -354,7 +354,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 	/**
 	 * Sets the given bounds for the child figure input.
-	 *
+	 * 
 	 * @param parent the parent figure
 	 * @param child  the child figure
 	 * @param bounds the size of the child to be set
@@ -370,7 +370,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	 * Sets flag based on layout orientation. If in horizontal orientation, all
 	 * figures will have the same height. If in vertical orientation, all figures
 	 * will have the same width.
-	 *
+	 * 
 	 * @param value fill state desired
 	 * @since 2.0
 	 */
@@ -387,7 +387,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	 * <li>{@link #ALIGN_LEFTTOP}
 	 * <li>{@link #ALIGN_RIGHTBOTTOM}
 	 * </ul>
-	 *
+	 * 
 	 * @param align the major alignment
 	 * @since 2.0
 	 */
@@ -398,7 +398,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	/**
 	 * Sets the spacing in pixels to be used between children in the direction
 	 * parallel to the layout's orientation.
-	 *
+	 * 
 	 * @param n the major spacing
 	 * @since 2.0
 	 */
@@ -415,7 +415,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	 * <li>{@link #ALIGN_LEFTTOP}
 	 * <li>{@link #ALIGN_RIGHTBOTTOM}
 	 * </ul>
-	 *
+	 * 
 	 * @param align the minor alignment
 	 * @since 2.0
 	 */
@@ -425,7 +425,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 	/**
 	 * Sets the spacing to be used between children within a row/column.
-	 *
+	 * 
 	 * @param n the minor spacing
 	 * @since 2.0
 	 */
@@ -436,14 +436,12 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	private int getDisplay(IFigure element) {
 
 		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint(element);
-		if (constraint != null) {
+		if (constraint != null)
 			return constraint.getDisplay();
-		} else {
+		else
 			return ReportItemConstraint.BLOCK;
-		}
 	}
 
-	@Override
 	public Object getConstraint(IFigure child) {
 		return constraints.get(child);
 	}
@@ -451,10 +449,9 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	/**
 	 * Sets the layout constraint of the given figure. The constraints can only be
 	 * of type {@link ReportItemConstraint}.
-	 *
+	 * 
 	 * @see LayoutManager#setConstraint(IFigure, Object)
 	 */
-	@Override
 	public void setConstraint(IFigure figure, Object newConstraint) {
 		super.setConstraint(figure, newConstraint);
 		if (newConstraint != null) {
@@ -475,7 +472,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 				if (dimension.width <= 0) {
 					if (constraint.getMeasure() != 0
 							&& DesignChoiceConstants.UNITS_PERCENTAGE.equals(constraint.getUnits())) {
-						int trueWidth;
+						int trueWidth = wHint;
 						// if (trueWidth <= 0)
 						{
 							trueWidth = getParentClientArea(child);
@@ -523,7 +520,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 				if (dimension.width <= 0) {
 					if (constraint.getMeasure() != 0
 							&& DesignChoiceConstants.UNITS_PERCENTAGE.equals(constraint.getUnits())) {
-						int trueWidth;
+						int trueWidth = wHint;
 						// if (trueWidth <= 0)
 						{
 							trueWidth = getParentClientArea(child);
@@ -568,15 +565,12 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	 * @see org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(IFigure, int,
 	 *      int)
 	 */
-	@Override
 	protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
 		// Subtract out the insets from the hints
-		if (wHint > -1) {
+		if (wHint > -1)
 			wHint = Math.max(0, wHint - container.getInsets().getWidth());
-		}
-		if (hHint > -1) {
+		if (hHint > -1)
 			hHint = Math.max(0, hHint - container.getInsets().getHeight());
-		}
 
 		// Figure out the new hint that we are interested in based on the
 		// orientation
@@ -659,19 +653,16 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.draw2d.AbstractHintLayout#calculateMinimumSize(org.eclipse.draw2d
 	 * .IFigure, int, int)
 	 */
-	@Override
 	protected Dimension calculateMinimumSize(IFigure container, int wHint, int hHint) {
-		if (wHint > -1) {
+		if (wHint > -1)
 			wHint = Math.max(0, wHint - container.getInsets().getWidth());
-		}
-		if (hHint > -1) {
+		if (hHint > -1)
 			hHint = Math.max(0, hHint - container.getInsets().getHeight());
-		}
 
 		// Figure out the new hint that we are interested in based on the
 		// orientation
@@ -709,7 +700,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 			if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(layoutPreference)
 					&& child instanceof IFixLayoutHelper) {
 				updateChild(child, wHint);
-				int display;
+				int display = ReportItemConstraint.BLOCK;
 				display = getDisplay(child);
 				if (display == ReportItemConstraint.INLINE && child instanceof LabelFigure
 						&& (lastChild != null && getDisplay(lastChild) == ReportItemConstraint.INLINE)) {
@@ -718,10 +709,12 @@ public class ReportFlowLayout extends AbstractHintLayout {
 					if (childSize.width == wHint - width - getMinorSpacing()) {
 						childSize = ((IFixLayoutHelper) child).getFixMinimumSize(-1, hHint);
 					}
-				} else if (display == ReportItemConstraint.INLINE) {
-					childSize = ((IFixLayoutHelper) child).getFixMinimumSize(-1, hHint);
 				} else {
-					childSize = ((IFixLayoutHelper) child).getFixMinimumSize(wHint, hHint);
+					if (display == ReportItemConstraint.INLINE) {
+						childSize = ((IFixLayoutHelper) child).getFixMinimumSize(-1, hHint);
+					} else {
+						childSize = ((IFixLayoutHelper) child).getFixMinimumSize(wHint, hHint);
+					}
 				}
 			} else {
 				childSize = child.getMinimumSize(wHint, hHint);
@@ -744,7 +737,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 				// new row.
 				if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(layoutPreference)
 						&& child instanceof IFixLayoutHelper) {
-					int display;
+					int display = ReportItemConstraint.BLOCK;
 					display = getDisplay(child);
 
 					if (display == ReportItemConstraint.INLINE) {
@@ -803,7 +796,6 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 	private class AutoLayoutStrategy implements IFlowLayoutStrategy {
 
-		@Override
 		public void layout(IFigure parent, WorkingData data) {
 			Iterator iterator = parent.getChildren().iterator();
 			int dx;
@@ -841,9 +833,8 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 				if (data.rowCount > data.rowPos) {
 					if ((data.rowWidth + r.width > data.maxWidth) || display == ReportItemConstraint.BLOCK
-							|| lastDisplay == ReportItemConstraint.BLOCK) {
+							|| lastDisplay == ReportItemConstraint.BLOCK)
 						layoutRow(parent);
-					}
 				}
 				lastDisplay = display;
 
@@ -867,7 +858,6 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	}
 
 	private class FixLayoutStrategy implements IFlowLayoutStrategy {
-		@Override
 		public void layout(IFigure parent, WorkingData data) {
 			Iterator iterator = parent.getChildren().iterator();
 			int dx;
@@ -905,9 +895,8 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 				if (data.rowCount > data.rowPos) {
 					if ((data.rowWidth + r.width > data.maxWidth) || display == ReportItemConstraint.BLOCK
-							|| lastDisplay == ReportItemConstraint.BLOCK) {
+							|| lastDisplay == ReportItemConstraint.BLOCK)
 						layoutRow(parent);
-					}
 				}
 				lastDisplay = display;
 				r.x = data.rowX;

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -26,7 +26,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  * Description: Error message pops up when I want to transfer a label in a table
  * cell to a template item which is defined in a library.
- *
+ * 
  * Steps to reproduce:
  * <ol>
  * <li>Drag a table defined in a library into a report design.
@@ -49,7 +49,6 @@ public class Regression_117676 extends BaseTestCase {
 	private final static String INPUT = "regression_117676.xml"; //$NON-NLS-1$
 	private final static String LIBRARY = "regression_117676_lib.xml";//$NON-NLS-1$
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -92,14 +92,14 @@ public class FolderSelectionGroup {
 
 	/**
 	 * Default Constructor
-	 *
+	 * 
 	 */
 	public FolderSelectionGroup() {
 	}
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param labelText
 	 * @param buttonText
 	 * @param dialogTitle
@@ -117,7 +117,7 @@ public class FolderSelectionGroup {
 
 	/**
 	 * Create group
-	 *
+	 * 
 	 * @param parent
 	 */
 	public void create(Composite parent) {
@@ -146,7 +146,6 @@ public class FolderSelectionGroup {
 		text.setText(this.textValue);
 		text.addVerifyListener(new VerifyListener() {
 
-			@Override
 			public void verifyText(VerifyEvent e) {
 				e.doit = e.text.indexOf(DELIMITER) < 0;
 			}
@@ -158,7 +157,6 @@ public class FolderSelectionGroup {
 		button.setText(this.buttonText);
 		button.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent event) {
 				dialog = new DirectoryDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 

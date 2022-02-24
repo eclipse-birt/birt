@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -58,7 +58,7 @@ public interface Cursor extends IChartObject {
 	 * </p>
 	 * <!-- end-user-doc --> <!-- begin-model-doc --> The type attribute indicates
 	 * the cursor type. <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.CursorType
 	 * @see #isSetType()
@@ -75,7 +75,7 @@ public interface Cursor extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.CursorType
 	 * @see #isSetType()
@@ -89,7 +89,7 @@ public interface Cursor extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(CursorType)
@@ -101,7 +101,7 @@ public interface Cursor extends IChartObject {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}'
 	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Type</em>' attribute is set.
 	 * @see #unsetType()
 	 * @see #getType()
@@ -117,7 +117,7 @@ public interface Cursor extends IChartObject {
 	 * <!-- end-user-doc --> <!-- begin-model-doc --> The attribute stores custom
 	 * cursor images, it might be image uri or embedded image. <!-- end-model-doc
 	 * -->
-	 *
+	 * 
 	 * @return the value of the '<em>Image</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getCursor_Image()
 	 * @model containment="true" extendedMetaData="kind='element' name='Image'"
@@ -128,7 +128,6 @@ public interface Cursor extends IChartObject {
 	/**
 	 * @generated
 	 */
-	@Override
 	Cursor copyInstance();
 
 } // Cursor

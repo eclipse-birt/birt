@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,18 +18,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- *
+ * 
  */
 public class MapDesign {
 
 	/**
 	 * rules defined in this map
 	 */
-	protected ArrayList<MapRuleDesign> rules = new ArrayList<>();
+	protected ArrayList<MapRuleDesign> rules = new ArrayList<MapRuleDesign>();
 
 	/**
 	 * get the rule count.
-	 *
+	 * 
 	 * @return total rule count defined in this map.
 	 */
 	public int getRuleCount() {
@@ -38,7 +38,7 @@ public class MapDesign {
 
 	/**
 	 * add map rule.
-	 *
+	 * 
 	 * @param rule rule to be added
 	 */
 	public void addRule(MapRuleDesign rule) {
@@ -47,7 +47,7 @@ public class MapDesign {
 
 	/**
 	 * get rule at index.
-	 *
+	 * 
 	 * @param index rule index
 	 * @return rule
 	 */

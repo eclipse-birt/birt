@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- *
+ * 
  */
 
 public class CreateChartAction extends ContextSelectionAction {
@@ -48,7 +48,6 @@ public class CreateChartAction extends ContextSelectionAction {
 		setText(TEXT);
 	}
 
-	@Override
 	protected boolean calculateEnabled() {
 		List selected = getSelectedObjects();
 
@@ -65,7 +64,10 @@ public class CreateChartAction extends ContextSelectionAction {
 			return false;
 		}
 		Object[] objs = ElementAdapterManager.getAdapters(model, IReportItemViewProvider.class);
-		if (objs == null || objs.length > 1 || ((ReportItemHandle) model).getViews().size() != 0 || !((ReportItemHandle) model).canAddView("Chart"))//$NON-NLS-1$
+		if (objs == null || objs.length > 1) {
+			return false;
+		}
+		if (((ReportItemHandle) model).getViews().size() != 0 || !((ReportItemHandle) model).canAddView("Chart"))//$NON-NLS-1$
 		{
 			return false;
 		}
@@ -74,10 +76,9 @@ public class CreateChartAction extends ContextSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	@Override
 	public void run() {
 		try {
 			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.CreateChartViewCommand", //$NON-NLS-1$

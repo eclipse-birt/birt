@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * Presents list band figure figure for list band edit part
- *
+ * 
  */
 public class ListBandControlFigure extends Figure {
 
@@ -77,10 +77,9 @@ public class ListBandControlFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
-	@Override
 	protected void paintFigure(Graphics graphics) {
 		graphics.setForegroundColor(ReportColorConstants.ShadowLineColor);
 		graphics.setLineStyle(SWT.LINE_SOLID);
@@ -114,10 +113,9 @@ public class ListBandControlFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
 	 */
-	@Override
 	public Dimension getPreferredSize(int wHint, int hHint) {
 		// return CONTROL_SIZE;//88, 19
 		Dimension dimension = new Dimension(0, CONTROL_SIZE.height);
@@ -144,11 +142,10 @@ public class ListBandControlFigure extends Figure {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.draw2d.MouseListener#mousePressed(org.eclipse.draw2d.
 		 * MouseEvent)
 		 */
-		@Override
 		public void mousePressed(MouseEvent me) {
 			state = !state;
 			IFigure parent = this;
@@ -164,30 +161,27 @@ public class ListBandControlFigure extends Figure {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.draw2d.MouseListener#mouseReleased(org.eclipse.draw2d
 		 * .MouseEvent)
 		 */
-		@Override
 		public void mouseReleased(MouseEvent me) {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.draw2d.MouseListener#mouseDoubleClicked(org.eclipse.draw2d
 		 * .MouseEvent)
 		 */
-		@Override
 		public void mouseDoubleClicked(MouseEvent me) {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 		 */
-		@Override
 		protected void paintFigure(Graphics graphics) {
 			// graphics.setBackgroundColor( ColorConstants.white );
 			Rectangle rect = getBounds().getCopy().shrink(6, 6);
@@ -252,10 +246,9 @@ public class ListBandControlFigure extends Figure {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 		 */
-		@Override
 		protected void paintFigure(Graphics graphics) {
 			Rectangle rect = getClientArea().getCopy();
 			// String text = ( ( (ListBandProxy) getOwner( ).getModel( )
@@ -292,10 +285,9 @@ public class ListBandControlFigure extends Figure {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 		 */
-		@Override
 		protected void paintFigure(Graphics graphics) {
 			Rectangle rect = getClientArea().getCopy();
 			graphics.drawImage(getImage(), rect.x, rect.y);
@@ -337,10 +329,9 @@ public class ListBandControlFigure extends Figure {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 		 */
-		@Override
 		protected void paintFigure(Graphics graphics) {
 			graphics.setForegroundColor(ColorConstants.black);
 
@@ -360,20 +351,18 @@ public class ListBandControlFigure extends Figure {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 		 */
-		@Override
 		protected DragTracker createDragTracker() {
 			return new MenuTracker(getOwner());
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.gef.handles.AbstractHandle#addNotify()
 		 */
-		@Override
 		public void addNotify() {
 		}
 	}
@@ -389,10 +378,9 @@ public class ListBandControlFigure extends Figure {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.gef.tools.DragEditPartsTracker#handleButtonUp(int)
 		 */
-		@Override
 		protected boolean handleButtonUp(int button) {
 			boolean bool = super.handleButtonUp(button);
 			if (button == 1) {

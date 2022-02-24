@@ -36,32 +36,28 @@ public class MessagesImpl implements IMessages {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.
 	 * String)
 	 */
 
-	@Override
 	public String getMessage(String key, Locale locale) {
-		if (Locale.ENGLISH.equals(locale)) {
+		if (Locale.ENGLISH.equals(locale))
 			return englishResourceBundle.getString(key);
-		}
 
 		return "Not supported locale"; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.
 	 * String)
 	 */
 
-	@Override
 	public String getMessage(String key, ULocale locale) {
-		if (ULocale.ENGLISH.equals(locale)) {
+		if (ULocale.ENGLISH.equals(locale))
 			return englishResourceBundle.getString(key);
-		}
 
 		return "Not supported locale"; //$NON-NLS-1$
 	}

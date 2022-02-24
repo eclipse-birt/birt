@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,33 +35,29 @@ public class TextItemInstance extends ForeignTextInstance implements ITextItemIn
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance#getText(
 	 * )
 	 */
-	@Override
 	public String getText() {
-		if (content instanceof ITextContent) {
+		if (content instanceof ITextContent)
 			return ((ITextContent) content).getText();
-		}
 		return super.getText();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance#setText(
 	 * java.lang.String)
 	 */
-	@Override
 	public void setText(String value) {
-		if (content instanceof ITextContent) {
+		if (content instanceof ITextContent)
 			((ITextContent) content).setText(value);
-		} else {
+		else
 			super.setText(value);
-		}
 	}
 
 }

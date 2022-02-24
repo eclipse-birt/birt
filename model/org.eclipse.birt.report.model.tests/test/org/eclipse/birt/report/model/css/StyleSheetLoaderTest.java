@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,11 +43,10 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		SessionHandle session = new DesignEngine(new DesignConfig()).newSessionHandle((ULocale) null);
@@ -62,7 +61,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 
 	/**
 	 * Tests get css style sheet's file name when load css file.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -77,7 +76,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 
 	/**
 	 * Tests a normal input css file, and all the input is loaded into the report.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -192,7 +191,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 
 	/**
 	 * Tests all the right input is loaded into the report.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -220,7 +219,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 	/**
 	 * Tests a css file with wrong at rule key word. The parser will ignore it and
 	 * parse on.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -234,7 +233,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 	/**
 	 * Tests a css file with wrong selector. The parser will ignore the entire
 	 * selector and its declaration and parse on.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -316,7 +315,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 
 	/**
 	 * Tests warnings related.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -330,7 +329,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 
 		List<StyleSheetParserException> errors = styleSheet.getWarnings(style.getName());
 		assertEquals(4, errors.size());
-		StyleSheetParserException e;
+		StyleSheetParserException e = null;
 		e = errors.get(0);
 		assertEquals(StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE, e.getErrorCode());
 		assertEquals(CssPropertyConstants.ATTR_FONT, e.getCSSPropertyName());
@@ -367,7 +366,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 
 	/**
 	 * Tests warnings related.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -387,7 +386,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 	/**
 	 * Tests a group styles has a same property with a given property name. Each one
 	 * in the list is instance of <code>StyleHandle</code>.
-	 *
+	 * 
 	 * @param styles
 	 * @param propName
 	 * @param value

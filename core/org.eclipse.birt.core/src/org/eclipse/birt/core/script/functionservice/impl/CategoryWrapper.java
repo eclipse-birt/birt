@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,19 +31,19 @@ import com.ibm.icu.text.Collator;
 /**
  * This class wraps a function that defined by user using java to a scriptable
  * object that processable by Rhino.
- *
+ * 
  */
 
 public class CategoryWrapper extends ScriptableObject {
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient IScriptFunctionCategory category;
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param category
 	 * @throws BirtException
 	 */
@@ -57,11 +57,10 @@ public class CategoryWrapper extends ScriptableObject {
 			this.defineProperty(functions[i].getName(), new BaseFunction() {
 
 				/**
-				 *
+				 * 
 				 */
 				private static final long serialVersionUID = 1L;
 
-				@Override
 				public Object call(Context cx, final Scriptable scope, Scriptable thisObj, java.lang.Object[] args) {
 					Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects(args);
 					try {
@@ -71,7 +70,6 @@ public class CategoryWrapper extends ScriptableObject {
 						IScriptFunctionContext wrappedScriptFunctionContext = scriptFunctionContext;
 						if (wrappedScriptFunctionContext != null) {
 							wrappedScriptFunctionContext = new IScriptFunctionContext() {
-								@Override
 								public Object findProperty(String name) {
 									if ("compare_locale".equals(name)) //$NON-NLS-1$
 									{
@@ -102,9 +100,8 @@ public class CategoryWrapper extends ScriptableObject {
 				}
 
 				private IScriptFunctionContext getIScriptFunctionContext(Scriptable scope) {
-					if (scope == null) {
+					if (scope == null)
 						return null;
-					}
 					Object obj = scope.get(
 							org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCTION_BEAN_NAME,
 							scope);
@@ -115,14 +112,12 @@ public class CategoryWrapper extends ScriptableObject {
 				}
 
 				private Collator getCollator(Scriptable scope) {
-					if (scope == null) {
+					if (scope == null)
 						return null;
-					}
 					Scriptable prototype = scope.getPrototype();
 					Object obj = org.mozilla.javascript.UniqueTag.NOT_FOUND;
-					if (prototype != null) {
+					if (prototype != null)
 						obj = prototype.get("compare_locale", prototype);
-					}
 					if (obj == org.mozilla.javascript.UniqueTag.NOT_FOUND) {
 						return getCollator(scope.getParentScope());
 					}

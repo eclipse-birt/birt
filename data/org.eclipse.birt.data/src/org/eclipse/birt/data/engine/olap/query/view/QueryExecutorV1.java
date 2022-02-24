@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,8 +54,8 @@ import org.eclipse.birt.data.engine.olap.util.CubeNestAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.DrillFilterHelper;
 
 /**
- *
- *
+ * 
+ * 
  */
 public class QueryExecutorV1 implements IQueryExecutor {
 
@@ -72,7 +72,6 @@ public class QueryExecutorV1 implements IQueryExecutor {
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	@Override
 	public IResultSet execute(BirtCubeView view, StopSign stopSign, ICube cube, IBindingValueFetcher fetcher)
 			throws IOException, BirtException {
 		CubeQueryExecutor executor = view.getCubeQueryExecutor();
@@ -84,9 +83,8 @@ public class QueryExecutorV1 implements IQueryExecutor {
 				view.getAggregationRegisterTable().getCalculatedMembers(), executor.getScope(),
 				executor.getSession().getEngineContext().getScriptContext());
 
-		if (cube_Aggregation == null || cube_Aggregation.length == 0) {
+		if (cube_Aggregation == null || cube_Aggregation.length == 0)
 			return null;
-		}
 
 		drilled_aggregation = DrillFilterHelper.preparedDrillAggregation(executor.getCubeQueryDefinition(),
 				cube_Aggregation);
@@ -288,7 +286,7 @@ public class QueryExecutorV1 implements IQueryExecutor {
 						rs[i + rsLenBefore] = result[i];
 					}
 				} else if (rsLenBefore == rsLenAfter) {
-					List<IAggregationResultSet> mergedResult = new ArrayList<>();
+					List<IAggregationResultSet> mergedResult = new ArrayList<IAggregationResultSet>();
 					for (int i = 0; i < rs.length; i++) {
 						if (rs[i].getAggregationDefinition().getAggregationFunctions() != null
 								&& rs[i] instanceof MergedAggregationResultSet) {
@@ -336,9 +334,9 @@ public class QueryExecutorV1 implements IQueryExecutor {
 			if (DrillFilterHelper.containsDrillFilter(view.getCubeQueryDefinition())) {
 				IPreparedCubeOperation[] ops = view.getPreparedCubeOperations();
 
-				List<PreparedAddingNestAggregations> operations = new ArrayList<>();
-				List<CubeNestAggrDefn> nestedAggr = new ArrayList<>();
-				List<AggregationDefinition> aggregations = new ArrayList<>();
+				List<PreparedAddingNestAggregations> operations = new ArrayList<PreparedAddingNestAggregations>();
+				List<CubeNestAggrDefn> nestedAggr = new ArrayList<CubeNestAggrDefn>();
+				List<AggregationDefinition> aggregations = new ArrayList<AggregationDefinition>();
 
 				for (int i = 0; i < ops.length; i++) {
 					List<AggregationDefinition> nested_aggregation = ops[i].getAggregationDefintions();
@@ -384,12 +382,10 @@ public class QueryExecutorV1 implements IQueryExecutor {
 
 				rs = drillOp.execute(rs, drillRs, view.getCubeQueryDefinition());
 				return rs;
-			} else {
+			} else
 				return resultSet;
-			}
-		} else {
+		} else
 			return resultSet;
-		}
 	}
 
 	private void incrementExecute(IAggregationResultSet[] baseResultSets, IncrementExecutionHint ieh)
@@ -418,9 +414,8 @@ public class QueryExecutorV1 implements IQueryExecutor {
 		CubeQueryExecutor executor = view.getCubeQueryExecutor();
 		// If not load from local dir
 		if (executor.getCubeQueryDefinition().getQueryResultsID() == null) {
-			if (saveToRD || executor.getCubeQueryDefinition().cacheQueryResults()) {
+			if (saveToRD || executor.getCubeQueryDefinition().cacheQueryResults())
 				id = executor.getSession().getQueryResultIDUtil().nextID();
-			}
 
 			rs = executeQuery(view, aggrDefns, saveToRD, id, fetcher);
 		} else {
@@ -442,20 +437,23 @@ public class QueryExecutorV1 implements IQueryExecutor {
 				QueryExecutorUtil.initLoadedAggregationResultSets(rs, getSavedAggregations());
 				// TODO:Currently, share the same queryResultsID with the shared report item in
 				// the report document if the report document exists
-			} else if (executor.getContext().getDocReader() != null
-					&& executor.getContext().getMode() != DataEngineContext.MODE_GENERATION) {
-				rs = AggregationResultSetSaveUtil.load(executor.getCubeQueryDefinition().getQueryResultsID(),
-						executor.getContext().getDocReader(), new VersionManager(executor.getContext()).getVersion(id),
-						cubeQueryExecutorHelper.getMemoryCacheSize());
-
-				if (view.getCubeQueryExecutionHints() == null) {
-					CubeQueryExecutorHints hints = new CubeQueryExecutorHints();
-					view.getCubeQueryExecutionHints().executeCubeOperation(false);
-				}
-
-				QueryExecutorUtil.initLoadedAggregationResultSets(rs, getSavedAggregations());
 			} else {
-				rs = executeQuery(view, aggrDefns, saveToRD, id, fetcher);
+				if (executor.getContext().getDocReader() != null
+						&& executor.getContext().getMode() != DataEngineContext.MODE_GENERATION) {
+					rs = AggregationResultSetSaveUtil.load(executor.getCubeQueryDefinition().getQueryResultsID(),
+							executor.getContext().getDocReader(),
+							new VersionManager(executor.getContext()).getVersion(id),
+							cubeQueryExecutorHelper.getMemoryCacheSize());
+
+					if (view.getCubeQueryExecutionHints() == null) {
+						CubeQueryExecutorHints hints = new CubeQueryExecutorHints();
+						view.getCubeQueryExecutionHints().executeCubeOperation(false);
+					}
+
+					QueryExecutorUtil.initLoadedAggregationResultSets(rs, getSavedAggregations());
+				} else {
+					rs = executeQuery(view, aggrDefns, saveToRD, id, fetcher);
+				}
 			}
 		}
 		executor.setQueryResultsId(id);
@@ -505,7 +503,7 @@ public class QueryExecutorV1 implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param parentResultSet
 	 * @param view
 	 * @param startingColumnLevelIndex
@@ -513,7 +511,6 @@ public class QueryExecutorV1 implements IQueryExecutor {
 	 * @return
 	 * @throws IOException
 	 */
-	@Override
 	public IResultSet executeSubQuery(IResultSet parentResultSet, BirtCubeView view, int startingColumnLevelIndex,
 			int startingRowLevelIndex) throws IOException {
 		return new CubeResultSet(parentResultSet, view, cubeQueryExecutorHelper, startingColumnLevelIndex,

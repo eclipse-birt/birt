@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005, 2006 IBM Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -82,7 +82,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.svg/trace"); //$NON-NLS-1$
 
 	/**
-	 *
+	 * 
 	 */
 	private IUpdateNotifier _iun = null;
 
@@ -107,7 +107,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 	static private final String XMLNSXINK = "http://www.w3.org/1999/xlink"; //$NON-NLS-1$
 
 	/**
-	 *
+	 * 
 	 */
 	protected Object oOutputIdentifier = null;
 
@@ -151,7 +151,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
 	 * java.lang.Object)
@@ -205,7 +205,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param os
 	 * @throws ChartException
 	 */
@@ -248,14 +248,14 @@ public class SVGRendererImpl extends SwingRendererImpl {
 
 	/**
 	 * Writes the XML document to an output stream
-	 *
+	 * 
 	 * @param svgDocument
 	 * @param outputStream
 	 * @throws Exception
 	 */
 	private void writeDocumentToOutputStream(Document svgDocument, OutputStream outputStream) throws Exception {
 		if (svgDocument != null && outputStream != null) {
-			OutputStreamWriter writer;
+			OutputStreamWriter writer = null;
 
 			writer = SecurityUtil.newOutputStreamWriter(outputStream, "UTF-8"); //$NON-NLS-1$
 
@@ -276,7 +276,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 
 	/**
 	 * Check to see if we should change the implementation of the TransformFactory.
-	 *
+	 * 
 	 */
 	private void checkForTransformFactoryImpl() {
 		try {
@@ -291,7 +291,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 	/**
 	 * Creates an SVG document and assigns width and height to the root "svg"
 	 * element.
-	 *
+	 * 
 	 * @return Document the SVG document
 	 * @throws Exception
 	 */
@@ -333,7 +333,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.device.IStructureDefinitionListener#changeStructure(
 	 * org.eclipse.birt.chart.event.StructureChangeEvent)
@@ -355,9 +355,8 @@ public class SVGRendererImpl extends SwingRendererImpl {
 
 	protected void removeGroupStructure(Object block) {
 		if ((block instanceof TitleBlock) || (block instanceof Legend) || (block instanceof Plot)
-				|| (block instanceof LabelBlock) || (block instanceof Series) || (block instanceof DataPointHints)) {
+				|| (block instanceof LabelBlock) || (block instanceof Series) || (block instanceof DataPointHints))
 			svggc.popParent();
-		}
 	}
 
 	protected void addGroupStructure(Object block) {
@@ -390,7 +389,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.IPrimitiveRenderer#enableInteraction(org.
 	 * eclipse.birt.chart.event.InteractionEvent)
 	 */
@@ -582,7 +581,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderListener#drawText(org.eclipse.
 	 * birt.chart.event.TextRenderEvent)

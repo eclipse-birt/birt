@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -44,7 +44,7 @@ public class SeriesRenderingHints implements ISeriesRenderingHints {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param pwoa
 	 * @param dpha
 	 * @param dsiBase
@@ -71,7 +71,6 @@ public class SeriesRenderingHints implements ISeriesRenderingHints {
 		}
 	}
 
-	@Override
 	public final DataPointHints[] getDataPoints() {
 		return dpha;
 	}
@@ -120,43 +119,39 @@ public class SeriesRenderingHints implements ISeriesRenderingHints {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints#getDataSetStructure()
 	 */
-	@Override
 	public int getDataSetStructure() {
 		return iDataSetStructure;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getBaseDataSet()
 	 */
-	@Override
 	public DataSetIterator getBaseDataSet() {
 		return dsiBase;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints#getOrthogonalDataSet()
 	 */
-	@Override
 	public DataSetIterator getOrthogonalDataSet() {
 		return dsiOrthogonal;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getClientAreaBounds(
 	 * boolean)
 	 */
-	@Override
 	public Bounds getClientAreaBounds(boolean bReduceByInsets) {
 		final Bounds boClientArea = goFactory.copyOf(pwoa.getPlotBounds());
 		if (bReduceByInsets) {

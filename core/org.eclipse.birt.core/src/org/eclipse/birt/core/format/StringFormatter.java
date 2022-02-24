@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,11 +25,11 @@ import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.util.ULocale;
 
 /**
- *
- *
+ * 
+ * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting
- *
+ * 
  */
 public class StringFormatter implements IFormatter {
 
@@ -89,14 +89,13 @@ public class StringFormatter implements IFormatter {
 	 * @deprecated since 2.1
 	 * @return
 	 */
-	@Deprecated
 	public StringFormatter(Locale locale) {
 		this(ULocale.forLocale(locale));
 	}
 
 	/**
 	 * constructor with a format string argument
-	 *
+	 * 
 	 * @param format the format string
 	 */
 	public StringFormatter(String format) {
@@ -105,7 +104,7 @@ public class StringFormatter implements IFormatter {
 
 	/**
 	 * Constructor with the format string and locale
-	 *
+	 * 
 	 * @param format the format string
 	 * @param locale the locale
 	 */
@@ -118,7 +117,6 @@ public class StringFormatter implements IFormatter {
 	 * @deprecated since 2.1
 	 * @return
 	 */
-	@Deprecated
 	public StringFormatter(String format, Locale locale) {
 		this(format, ULocale.forLocale(locale));
 	}
@@ -132,7 +130,7 @@ public class StringFormatter implements IFormatter {
 			return;
 		}
 		char c = ' ';
-		StringBuilder scan = new StringBuilder(format);
+		StringBuffer scan = new StringBuffer(format);
 		int len = scan.length();
 
 		for (int i = 0; i < len; i++) {
@@ -183,9 +181,9 @@ public class StringFormatter implements IFormatter {
 	}
 
 	/**
-	 *
+	 * 
 	 * getLoacle() method, return the locale value.
-	 *
+	 * 
 	 */
 	public ULocale getULocale() {
 		return this.locale;
@@ -195,15 +193,14 @@ public class StringFormatter implements IFormatter {
 	 * @deprecated since 2.1
 	 * @return
 	 */
-	@Deprecated
 	public Locale getLocale() {
 		return getULocale().toLocale();
 	}
 
 	/**
-	 *
+	 * 
 	 * setLoacle() method, set the locale value.
-	 *
+	 * 
 	 */
 	public void setLocale(ULocale theLocale) {
 		locale = theLocale;
@@ -213,7 +210,6 @@ public class StringFormatter implements IFormatter {
 	 * @deprecated since 2.1
 	 * @return
 	 */
-	@Deprecated
 	public void setLocale(Locale theLocale) {
 		setLocale(ULocale.forLocale(theLocale));
 	}
@@ -224,49 +220,47 @@ public class StringFormatter implements IFormatter {
 	 * @return
 	 */
 	private String handleCase(String val, char option) {
-		if (option == '<') {
+		if (option == '<')
 			return UCharacter.toLowerCase(locale, val);
-		} else if (option == '>') {
+		else if (option == '>')
 			return UCharacter.toUpperCase(locale, val);
-		} else {
+		else
 			return val;
-		}
 
 	}
 
 	/**
-	 *
+	 * 
 	 * returns the formated string for the string parameter.
 	 * <li>'@' - character or space
 	 * <li>'&' - character or empty
 	 * <li>'&lt;' - tolower
 	 ** <li>'>' - toupper
 	 * <li>'!' - left to right
-	 *
+	 * 
 	 * @param str format string
-	 *
+	 * 
 	 */
 	public String format(String str) {
 		if (trim && str != null) {
 			str = str.trim();
 		}
 
-		if (formatPattern == null || formatPattern.length() == 0 || formatPattern.equals("Unformatted")) { //$NON-NLS-1$
+		if (formatPattern == null || formatPattern.length() == 0 || formatPattern.equals("Unformatted")) //$NON-NLS-1$
 			return str;
-		}
 
 		int len = str.length();
 		int col = natt + nand;
 		int ext = 0;
-		StringBuilder orig = new StringBuilder(str);
-		StringBuilder fstr = new StringBuilder(this.formatPattern);
-		StringBuilder ret = new StringBuilder(""); //$NON-NLS-1$
+		StringBuffer orig = new StringBuffer(str);
+		StringBuffer fstr = new StringBuffer(this.formatPattern);
+		StringBuffer ret = new StringBuffer(""); //$NON-NLS-1$
 		int i = 0;
 		// offset of the process position.
 		int pos = 0;
 
 		// length of the format string;
-		int len2;
+		int len2 = 0;
 
 		char fc = ' ';
 
@@ -290,9 +284,8 @@ public class StringFormatter implements IFormatter {
 			case ('&'):
 				// character or space
 				if (ext > 0 || len == 0) {
-					if (fc == '@') {
+					if (fc == '@')
 						ret.append(' ');
-					}
 					ext--;
 				} else {
 					sc = orig.substring(pos, pos + 1);
@@ -326,7 +319,7 @@ public class StringFormatter implements IFormatter {
 
 	/**
 	 * Parses the input string into a unformatted string type.
-	 *
+	 * 
 	 * @param str the input string to parse
 	 * @return the string
 	 * @throws ParseException if the specified string cannot be parsed according to
@@ -338,9 +331,9 @@ public class StringFormatter implements IFormatter {
 		{
 			return str;
 		}
-		StringBuilder orig = new StringBuilder(str);
-		StringBuilder fstr = new StringBuilder(""); //$NON-NLS-1$
-		StringBuilder ret = new StringBuilder(""); //$NON-NLS-1$
+		StringBuffer orig = new StringBuffer(str);
+		StringBuffer fstr = new StringBuffer(""); //$NON-NLS-1$
+		StringBuffer ret = new StringBuffer(""); //$NON-NLS-1$
 
 		for (int i = 0; i < formatPattern.length(); i++) {
 			if (formatPattern.charAt(i) != '!' && formatPattern.charAt(i) != '>' && formatPattern.charAt(i) != '<'
@@ -424,7 +417,6 @@ public class StringFormatter implements IFormatter {
 		this.trim = trim;
 	}
 
-	@Override
 	public String formatValue(Object value) {
 		assert value instanceof String;
 		return format((String) value);

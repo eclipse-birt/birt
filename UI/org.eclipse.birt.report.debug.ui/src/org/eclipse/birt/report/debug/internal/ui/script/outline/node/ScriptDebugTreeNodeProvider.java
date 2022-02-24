@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,12 +33,11 @@ public class ScriptDebugTreeNodeProvider extends ScriptTreeNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.providers.
 	 * ScriptTreeNodeProvider#performRequest(java.lang.Object,
 	 * org.eclipse.gef.Request)
 	 */
-	@Override
 	public boolean performRequest(Object model, Request request) throws Exception {
 		if (request.getType().equals(IRequestConstants.REQUEST_TYPE_EDIT)) {
 			return performEdit(model);

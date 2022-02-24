@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ public class StringCalculator extends BigDecimalCalculator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#add(
 	 * java.lang.Object, java.lang.Object)
@@ -41,7 +41,7 @@ public class StringCalculator extends BigDecimalCalculator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#divide
 	 * (java.lang.Object, java.lang.Object)
@@ -53,7 +53,7 @@ public class StringCalculator extends BigDecimalCalculator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#
 	 * multiply(java.lang.Object, java.lang.Object)
 	 */
@@ -64,7 +64,7 @@ public class StringCalculator extends BigDecimalCalculator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#
 	 * safeDivide(java.lang.Object, java.lang.Object, java.lang.Number)
 	 */
@@ -75,7 +75,7 @@ public class StringCalculator extends BigDecimalCalculator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#
 	 * subtract(java.lang.Object, java.lang.Object)
 	 */

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -47,11 +47,10 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#fromString(java.lang.
 	 * String, org.eclipse.birt.chart.model.data.DataSet)
 	 */
-	@Override
 	public DataSet fromString(String sDataSetRepresentation, DataSet ds) throws ChartException {
 		// NO-OP IMPL
 		return null;
@@ -59,12 +58,11 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#populate(java.lang.Object,
 	 * org.eclipse.birt.chart.model.data.DataSet)
 	 */
-	@Override
 	public DataSet populate(Object oResultSetDef, DataSet ds) throws ChartException {
 		// NO-OP IMPL
 		return null;
@@ -72,12 +70,11 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt
 	 * .chart.model.data.DataSet)
 	 */
-	@Override
 	public Object getMinimum(DataSet ds) throws ChartException {
 		// NO-OP IMPL
 		return null;
@@ -85,12 +82,11 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt
 	 * .chart.model.data.DataSet)
 	 */
-	@Override
 	public Object getMaximum(DataSet ds) throws ChartException {
 		// NO-OP IMPL
 		return null;
@@ -98,11 +94,10 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getExpectedStringFormat()
 	 */
-	@Override
 	public String getExpectedStringFormat() {
 		// NO-OP IMPL
 		return null;
@@ -110,27 +105,25 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getLocale()
 	 */
-	@Override
 	public Locale getLocale() {
 		return getULocale().toLocale();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getULocale()
 	 */
-	@Override
 	public ULocale getULocale() {
 		return (lcl == null) ? ULocale.getDefault() : lcl;
 	}
 
 	/**
 	 * A convenience method provided to associate a locale with a display server
-	 *
+	 * 
 	 * @param lcl The locale to be set
 	 */
 	public final void setLocale(ULocale lcl) {
@@ -139,19 +132,18 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#toString(java.lang.Object[]
 	 * )
 	 */
-	@Override
 	public String toString(Object[] columnData) throws ChartException {
 		if (columnData == null || columnData.length == 0) {
 			throw new ChartException(ChartEnginePlugin.ID, ChartException.DATA_SET,
 					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
 					Messages.getResourceBundle(getULocale()));
 		}
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); //$NON-NLS-1$
 
 		// Gets the data type first
@@ -202,13 +194,12 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 
 	/**
 	 * Formats sample data representation to escape delimiter
-	 *
+	 * 
 	 * @param str original string
 	 */
 	protected String formatString(String str) {
-		if (str == null) {
+		if (str == null)
 			return ""; //$NON-NLS-1$
-		}
 		return str.replaceAll("\\,", "\\\\,"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
@@ -217,7 +208,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 	 * computed with aggregation function. By default, all the indexes will be added
 	 * to the array. And this method should be overridden for some special chart
 	 * types, such as bubble, stock...
-	 *
+	 * 
 	 * @param series
 	 * @return
 	 */
@@ -231,11 +222,10 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor {
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	@Override
 	public List<Query> getDataDefinitionsForGrouping(Series series) {
-		List<Query> list = new ArrayList<>(1);
+		List<Query> list = new ArrayList<Query>(1);
 		EList<Query> elDD = series.getDataDefinition();
 		int IDs[] = getDataDefIdsForGrouping(series);
 

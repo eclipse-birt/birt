@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
@@ -66,7 +66,7 @@ public class BeforeDataSetFilled extends ChartTestCase {
 
 	/**
 	 * execute application
-	 *
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -111,7 +111,7 @@ public class BeforeDataSetFilled extends ChartTestCase {
 
 	{
 		// Data Set
-		final Object[][] data = { { "x1", new Integer(1), "g1" }, { "x2", new Integer(2), "g2" },
+		final Object[][] data = new Object[][] { { "x1", new Integer(1), "g1" }, { "x2", new Integer(2), "g2" },
 				{ "x3", new Integer(3), "g1" }, { "x4", new Integer(4), "g3" }, { "x5", new Integer(5), "g2" },
 				{ "x6", new Integer(6), "g1" }, { "x7", new Integer(7), "g3" }, { "x8", new Integer(8), "g2" },
 				{ "x9", new Integer(9), "g2" }, { "x0", new Integer(0), "g2" }, };
@@ -122,11 +122,9 @@ public class BeforeDataSetFilled extends ChartTestCase {
 
 				int idx = 0;
 
-				@Override
 				public void close() {
 				}
 
-				@Override
 				public Object evaluate(String expression) {
 					if ("X".equals(expression)) {
 						return data[idx][0];
@@ -138,18 +136,15 @@ public class BeforeDataSetFilled extends ChartTestCase {
 					return null;
 				}
 
-				@Override
 				public Object evaluateGlobal(String expression) {
 					return evaluate(expression);
 				}
 
-				@Override
 				public boolean first() {
 					idx = 0;
 					return true;
 				}
 
-				@Override
 				public boolean next() {
 					idx++;
 					return (idx < 9);

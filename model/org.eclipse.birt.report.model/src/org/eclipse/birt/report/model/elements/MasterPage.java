@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * provides methods to access the most common properties. Use the
  * {@link org.eclipse.birt.report.model.api.MasterPageHandle}class to change the
  * properties.
- *
+ * 
  */
 
 public abstract class MasterPage extends StyledElement implements IMasterPageModel {
@@ -54,7 +54,7 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 
 	/**
 	 * Constructs the master page with a required name.
-	 *
+	 * 
 	 * @param theName the required name
 	 */
 
@@ -67,7 +67,7 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 	 * and orientation. If the page type is set to one of the standard sizes, then
 	 * the height and width properties are ignored. Orientation affects standard
 	 * sizes, but is ignored for custom sizes.
-	 *
+	 * 
 	 * @param module the report design
 	 * @return the page size in application units
 	 */
@@ -115,21 +115,18 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 		try {
 			String sessionUnit = module.getSession().getUnits();
 
-			if (height != null) {
+			if (height != null)
 				size.y = DimensionUtil.convertTo(height, sessionUnit, sessionUnit).getMeasure();
-			}
 
-			if (width != null) {
+			if (width != null)
 				size.x = DimensionUtil.convertTo(width, sessionUnit, sessionUnit).getMeasure();
-			}
 		} catch (PropertyValueException e) {
 			// dimension value should have be validated.
 
 			assert false;
 		} catch (IllegalArgumentException e) {
-			if (!DesignChoiceConstants.PAGE_SIZE_CUSTOM.equalsIgnoreCase(type)) {
+			if (!DesignChoiceConstants.PAGE_SIZE_CUSTOM.equalsIgnoreCase(type))
 				throw e;
-			}
 
 			// if the page is custom type and the page size cannot be converted
 
@@ -149,7 +146,7 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 
 	/**
 	 * Checks if current orientation type is "Landscape".
-	 *
+	 * 
 	 * @param module module
 	 * @param type   master page type
 	 * @return true if and only if the orientation type is "Landscape".
@@ -162,7 +159,7 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 
 	/**
 	 * Checks if current page size type is DeisgnChoiceConstants..
-	 *
+	 * 
 	 * @param module module.
 	 * @param type   master page type.
 	 * @return true if and only if current page size type is "Customer".
@@ -175,7 +172,7 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 	/**
 	 * Returns the content area rectangle in application units. The content area is
 	 * the portion of the page after subtracting the four margins.
-	 *
+	 * 
 	 * @param module the report design
 	 * @return the content area rectangle in application units
 	 */
@@ -192,12 +189,11 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module) {
 		List<SemanticException> list = super.validate(module);
 
@@ -214,19 +210,17 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
 	 * .birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.ContainerInfo,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	@Override
 	public List<SemanticException> checkContent(Module module, ContainerContext containerInfo, DesignElement content) {
 		List<SemanticException> errors = super.checkContent(module, containerInfo, content);
-		if (!errors.isEmpty()) {
+		if (!errors.isEmpty())
 			return errors;
-		}
 
 		errors.addAll(
 				MasterPageContextContainmentValidator.getInstance().validateForAdding(module, containerInfo, content));
@@ -236,7 +230,7 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
 	 * .birt.report.model.elements.Module,
@@ -244,12 +238,10 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 	 * org.eclipse.birt.report.model.metadata.IElementDefn)
 	 */
 
-	@Override
 	public List<SemanticException> checkContent(Module module, ContainerContext containerInfo, IElementDefn defn) {
 		List<SemanticException> errors = super.checkContent(module, containerInfo, defn);
-		if (!errors.isEmpty()) {
+		if (!errors.isEmpty())
 			return errors;
-		}
 
 		errors.addAll(MasterPageContextContainmentValidator.getInstance().validateForAdding(module,
 				containerInfo == null ? null : containerInfo.getElement(), defn));
@@ -260,7 +252,7 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 	/**
 	 * Returns the predefined height/width with the given property name, the
 	 * orientation of the page and predefined values.
-	 *
+	 * 
 	 * @param propName         the property name
 	 * @param isLandScape      <code>true</code> if the page orientation is
 	 *                         landscape. Otherwise <code>false</code>.
@@ -275,18 +267,16 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 	private DimensionValue getPredefinedDimension(String propName, boolean isLandScape, String predefinedWidth,
 			String predefinedHeight) throws PropertyValueException {
 		if (IMasterPageModel.HEIGHT_PROP.equals(propName)) {
-			if (!isLandScape) {
+			if (!isLandScape)
 				return DimensionValue.parse(predefinedHeight);
-			}
 
 			return DimensionValue.parse(predefinedWidth);
 
 		}
 
 		if (IMasterPageModel.WIDTH_PROP.equals(propName)) {
-			if (!isLandScape) {
+			if (!isLandScape)
 				return DimensionValue.parse(predefinedWidth);
-			}
 
 			return DimensionValue.parse(predefinedHeight);
 		}
@@ -299,13 +289,12 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse
 	 * .birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	@Override
 	public Object getProperty(Module module, ElementPropertyDefn prop) {
 		String propName = prop.getName();
 
@@ -314,9 +303,8 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 
 			// for the custom page, do not need the special function call.
 
-			if (DesignChoiceConstants.PAGE_SIZE_CUSTOM.equalsIgnoreCase(pageType)) {
+			if (DesignChoiceConstants.PAGE_SIZE_CUSTOM.equalsIgnoreCase(pageType))
 				return super.getProperty(module, prop);
-			}
 
 			boolean isLandScape = isLandscape(module);
 			try {

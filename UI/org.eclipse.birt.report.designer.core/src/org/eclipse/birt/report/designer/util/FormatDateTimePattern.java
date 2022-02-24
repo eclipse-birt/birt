@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -32,9 +32,9 @@ public class FormatDateTimePattern {
 	public static final String DATETIEM_FORMAT_TYPE_SECONTDS = "datetiem_format_type_secontds"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_GENERAL_TIME = "datetiem_format_type_general_time"; //$NON-NLS-1$
 
-	private static final String[] customCategories = { DATETIEM_FORMAT_TYPE_YEAR, DATETIEM_FORMAT_TYPE_SHORT_YEAR,
-			DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR, DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR, DATETIEM_FORMAT_TYPE_MONTH,
-			DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK, DATETIEM_FORMAT_TYPE_DAY_OF_MONTH,
+	private static final String[] customCategories = new String[] { DATETIEM_FORMAT_TYPE_YEAR,
+			DATETIEM_FORMAT_TYPE_SHORT_YEAR, DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR, DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR,
+			DATETIEM_FORMAT_TYPE_MONTH, DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK, DATETIEM_FORMAT_TYPE_DAY_OF_MONTH,
 			DATETIEM_FORMAT_TYPE_MEDIUM_DAY_OF_YEAR, DATETIEM_FORMAT_TYPE_MINUTES, DATETIEM_FORMAT_TYPE_SECONTDS,
 			DATETIEM_FORMAT_TYPE_GENERAL_TIME, };
 
@@ -99,7 +99,7 @@ public class FormatDateTimePattern {
 
 	/**
 	 * Retrieves format pattern from arrays given format type categorys.
-	 *
+	 * 
 	 * @param category Given format type category.
 	 * @return The corresponding format pattern string.
 	 */

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,6 +24,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,7 +58,7 @@ import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * The selector of charts in Swing JPanel.
- *
+ * 
  */
 public final class SwingChartViewerSelector extends JPanel implements IUpdateNotifier, ComponentListener {
 
@@ -74,7 +75,7 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 	/**
 	 * Contructs the layout with a container for displaying chart and a control
 	 * panel for selecting chart attributes.
-	 *
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -120,10 +121,9 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#update()
 	 */
-	@Override
 	public void regenerateChart() {
 		bNeedsGeneration = true;
 		repaint();
@@ -131,45 +131,40 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#update()
 	 */
-	@Override
 	public void repaintChart() {
 		repaint();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#peerInstance()
 	 */
-	@Override
 	public Object peerInstance() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getDesignTimeModel()
 	 */
-	@Override
 	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
 	 */
-	@Override
 	public Chart getRunTimeModel() {
 		return gcs.getChartModel();
 	}
 
-	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 
@@ -203,11 +198,11 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 
 	/**
 	 * Presents the Exceptions if the chart cannot be displayed properly.
-	 *
+	 * 
 	 * @param g2d
 	 * @param ex
 	 */
-	private void showException(Graphics2D g2d, Exception ex) {
+	private final void showException(Graphics2D g2d, Exception ex) {
 		String sWrappedException = ex.getClass().getName();
 		Throwable th = ex;
 		while (ex.getCause() != null) {
@@ -281,11 +276,10 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
 	 * ComponentEvent)
 	 */
-	@Override
 	public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
@@ -293,11 +287,10 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
 	 * ComponentEvent)
 	 */
-	@Override
 	public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
@@ -305,22 +298,20 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
 	 * ComponentEvent)
 	 */
-	@Override
 	public void componentResized(ComponentEvent e) {
 		bNeedsGeneration = true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
 	 * ComponentEvent)
 	 */
-	@Override
 	public void componentShown(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
@@ -371,7 +362,6 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 
 			jcbModels.addActionListener(new ActionListener() {
 
-				@Override
 				public void actionPerformed(ActionEvent e) {
 					int index = jcbModels.getSelectedIndex();
 					if (index == 7) {
@@ -420,11 +410,60 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
+		 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
+		 * ComponentEvent)
+		 */
+		public void componentHidden(ComponentEvent cev) {
+			setVisible(false);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
+		 * ComponentEvent)
+		 */
+		public void componentMoved(ComponentEvent cev) {
+			JFrame jf = (JFrame) cev.getComponent();
+			Rectangle r = jf.getBounds();
+			setLocation(r.x, r.y + r.height);
+			setSize(r.width, 50);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
+		 * ComponentEvent)
+		 */
+		public void componentResized(ComponentEvent cev) {
+			JFrame jf = (JFrame) cev.getComponent();
+			Rectangle r = jf.getBounds();
+			setLocation(r.x, r.y + r.height);
+			setSize(r.width, 50);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+		 * ComponentEvent)
+		 */
+		public void componentShown(ComponentEvent cev) {
+			JFrame jf = (JFrame) cev.getComponent();
+			Rectangle r = jf.getBounds();
+			setLocation(r.x, r.y + r.height);
+			setSize(r.width, 50);
+			setVisible(true);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see
 		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			int i = jcbModels.getSelectedIndex();
 			cm = PrimitiveCharts.createChart(i);
@@ -440,11 +479,13 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 					if (ax.getType() == AxisType.LINEAR_LITERAL) {
 						ax.setType(AxisType.LOGARITHMIC_LITERAL);
 					}
-				} else if (ax.getType() == AxisType.LOGARITHMIC_LITERAL) {
-					ax.setType(AxisType.LINEAR_LITERAL);
+				} else {
+					if (ax.getType() == AxisType.LOGARITHMIC_LITERAL) {
+						ax.setType(AxisType.LINEAR_LITERAL);
+					}
 				}
 
-				if (jcbPercent.isSelected()) {
+				if (jcbPercent.isSelected() == true) {
 					ax.setFormatSpecifier(JavaNumberFormatSpecifierImpl.create("0'%'"));//$NON-NLS-1$
 				} else {
 					ax.setFormatSpecifier(null);

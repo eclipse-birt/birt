@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +51,7 @@ public class ChartTextRenderer extends TextRendererAdapter {
 	protected ITextLayoutFactory textLayoutFactory;
 
 	/**
-	 *
+	 * 
 	 */
 	public ChartTextRenderer(IDisplayServer dispServer) {
 		super(dispServer);
@@ -64,7 +64,7 @@ public class ChartTextRenderer extends TextRendererAdapter {
 	/**
 	 * This method renders the 'shadow' at an offset from the text 'rotated
 	 * rectangle' subsequently rendered.
-	 *
+	 * 
 	 * @param renderer
 	 * @param labelPosition The position of the label w.r.t. the location specified
 	 *                      by 'location'
@@ -73,7 +73,6 @@ public class ChartTextRenderer extends TextRendererAdapter {
 	 * @param label         The chart model structure containing the encapsulated
 	 *                      text (and attributes) to be rendered
 	 */
-	@Override
 	public final void renderShadowAtLocation(IPrimitiveRenderer renderer, int labelPosition, Location location,
 			Label label) throws ChartException {
 		final ColorDefinition cdShadow = label.getShadowColor();
@@ -106,7 +105,7 @@ public class ChartTextRenderer extends TextRendererAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param renderer
 	 * @param labelPosition IConstants. LEFT, RIGHT, ABOVE or BELOW
 	 * @param location      POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR EDGE
@@ -114,7 +113,6 @@ public class ChartTextRenderer extends TextRendererAdapter {
 	 * @param label
 	 * @throws ChartException
 	 */
-	@Override
 	public final void renderTextAtLocation(IPrimitiveRenderer renderer, int labelPosition, Location location,
 			Label label) throws ChartException {
 		final ColorDefinition colorDef = label.getCaption().getColor();
@@ -167,13 +165,12 @@ public class ChartTextRenderer extends TextRendererAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param renderer
 	 * @param boBlock
 	 * @param taBlock
 	 * @param label
 	 */
-	@Override
 	public final void renderTextInBlock(IDeviceRenderer renderer, Bounds boBlock, TextAlignment taBlock, Label label)
 			throws ChartException {
 		Text t = label.getCaption();
@@ -1465,7 +1462,7 @@ public class ChartTextRenderer extends TextRendererAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param g2d
 	 * @param f
 	 * @param dX

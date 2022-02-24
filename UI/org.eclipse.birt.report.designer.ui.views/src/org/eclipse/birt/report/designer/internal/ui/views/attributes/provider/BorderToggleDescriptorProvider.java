@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -26,18 +26,14 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 	private String property;
 
 	public String getPosition() {
-		if (property.equals(StyleHandle.BORDER_LEFT_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_LEFT_STYLE_PROP))
 			return BorderInfomation.BORDER_LEFT;
-		}
-		if (property.equals(StyleHandle.BORDER_RIGHT_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_RIGHT_STYLE_PROP))
 			return BorderInfomation.BORDER_RIGHT;
-		}
-		if (property.equals(StyleHandle.BORDER_TOP_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_TOP_STYLE_PROP))
 			return BorderInfomation.BORDER_TOP;
-		}
-		if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP))
 			return BorderInfomation.BORDER_BOTTOM;
-		}
 		return null;
 	}
 
@@ -45,20 +41,15 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 		this.property = property;
 	}
 
-	@Override
 	public String getImageName() {
-		if (property.equals(StyleHandle.BORDER_LEFT_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_LEFT_STYLE_PROP))
 			return IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_LEFT;
-		}
-		if (property.equals(StyleHandle.BORDER_RIGHT_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_RIGHT_STYLE_PROP))
 			return IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_RIGHT;
-		}
-		if (property.equals(StyleHandle.BORDER_TOP_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_TOP_STYLE_PROP))
 			return IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_TOP;
-		}
-		if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP))
 			return IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_BOTTOM;
-		}
 		return ""; //$NON-NLS-1$
 	}
 
@@ -67,24 +58,18 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 		return null;
 	}
 
-	@Override
 	public String getTooltipText() {
-		if (property.equals(StyleHandle.BORDER_LEFT_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_LEFT_STYLE_PROP))
 			return Messages.getString("BordersPage.Tooltip.Left"); //$NON-NLS-1$
-		}
-		if (property.equals(StyleHandle.BORDER_RIGHT_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_RIGHT_STYLE_PROP))
 			return Messages.getString("BordersPage.Tooltip.Right"); //$NON-NLS-1$
-		}
-		if (property.equals(StyleHandle.BORDER_TOP_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_TOP_STYLE_PROP))
 			return Messages.getString("BordersPage.Tooltip.Top"); //$NON-NLS-1$
-		}
-		if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP)) {
+		if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP))
 			return Messages.getString("BordersPage.Tooltip.Bottom"); //$NON-NLS-1$
-		}
 		return ""; //$NON-NLS-1$
 	}
 
-	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
@@ -99,7 +84,6 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 		}
 	}
 
-	@Override
 	public Object load() {
 		BorderInfomation info = new BorderInfomation();
 		if (property.equals(StyleHandle.BORDER_LEFT_STYLE_PROP)) {
@@ -151,7 +135,6 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 		return info;
 	}
 
-	@Override
 	public void save(Object value) throws SemanticException {
 		BorderInfomation info = (BorderInfomation) value;
 
@@ -161,9 +144,8 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 		if (rgb != null) {
 			colorValue = ColorUtil.formRGB(rgb.red, rgb.green, rgb.blue);
 			color = ColorUtil.format(colorValue, ColorUtil.INT_FORMAT);
-		} else {
+		} else
 			color = null;
-		}
 
 		if (info.getPosition().equals(BorderInfomation.BORDER_TOP)) {
 			save(StyleHandle.BORDER_TOP_STYLE_PROP, info.getOriginStyle());
@@ -185,13 +167,11 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 
 	}
 
-	@Override
 	void handleModifyEvent() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void reset() throws SemanticException {
 		if (getPosition().equals(BorderInfomation.BORDER_TOP)) {
 			save(StyleHandle.BORDER_TOP_STYLE_PROP, null);

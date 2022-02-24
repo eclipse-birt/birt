@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 /**
  * The compatible parser for parsing structure values. This is the base class
  * for all compatible structure parser.
- *
+ * 
  */
 
 abstract class CompatibleStructureState extends StructureState {
@@ -31,7 +31,7 @@ abstract class CompatibleStructureState extends StructureState {
 	/**
 	 * Constructs the compatible state for parsing the given structure member
 	 * property value.
-	 *
+	 * 
 	 * @param theHandler the parser handler
 	 * @param element    the design element
 	 * @param propDefn   the property definition
@@ -45,7 +45,7 @@ abstract class CompatibleStructureState extends StructureState {
 
 	/**
 	 * Constructs the compatible state for parsing the given element property value.
-	 *
+	 * 
 	 * @param theHandler the parser handler
 	 * @param element    the design element
 	 */
@@ -56,7 +56,7 @@ abstract class CompatibleStructureState extends StructureState {
 
 	/**
 	 * Constructs the state of the structure which is in one structure list.
-	 *
+	 * 
 	 * @param theHandler the design parser handler
 	 * @param element    the element holding this structure
 	 * @param propDefn   the definition of the property which holds this structure
@@ -74,24 +74,22 @@ abstract class CompatibleStructureState extends StructureState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#generalJumpTo()
 	 */
 
-	@Override
 	protected AbstractParseState generalJumpTo() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo
 	 * ()
 	 */
 
-	@Override
 	protected AbstractParseState versionConditionalJumpTo() {
 		return null;
 	}

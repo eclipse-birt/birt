@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -40,10 +40,10 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * parameters when the user types the ? keyword. It also shows a list of
  * available columns or tables depending on whether the user has entered a table
  * or a schema before the (.) dot keyword.
- *
+ * 
  * If both a schema and a table have the same name the results are
  * unpredictable.
- *
+ * 
  * @version $Revision: 1.18 $ $Date: 2009/07/07 06:50:16 $
  */
 
@@ -54,7 +54,7 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 	private long timeout; // milliseconds
 
 	/**
-	 *
+	 *  
 	 */
 	public JdbcSQLContentAssistProcessor(long milliseconds) {
 		super();
@@ -86,11 +86,10 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * computeCompletionProposals(org.eclipse.jface.text.ITextViewer, int)
 	 */
-	@Override
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		try {
 			if (offset > viewer.getTopIndexStartOffset()) {
@@ -112,56 +111,51 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * computeContextInformation(org.eclipse.jface.text.ITextViewer, int)
 	 */
-	@Override
 	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * getCompletionProposalAutoActivationCharacters()
 	 */
-	@Override
 	public char[] getCompletionProposalAutoActivationCharacters() {
 		return new char[] { '.' }; // $NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * getContextInformationAutoActivationCharacters()
 	 */
-	@Override
 	public char[] getContextInformationAutoActivationCharacters() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.text.contentassist.IContentAssistProcessor#getErrorMessage(
 	 * )
 	 */
-	@Override
 	public String getErrorMessage() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * getContextInformationValidator()
 	 */
-	@Override
 	public IContextInformationValidator getContextInformationValidator() {
 		return null;
 	}
@@ -223,7 +217,8 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 						}
 					}
 				}
-			} catch (BadLocationException | SQLException e) {
+			} catch (BadLocationException e) {
+			} catch (SQLException e) {
 			}
 		}
 		return null;
@@ -393,9 +388,9 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 //        }
 //        catch(Exception ex)
 //        {
-//
+//            
 //        }
-//
+//        
 //        return '"';
 //    }
 

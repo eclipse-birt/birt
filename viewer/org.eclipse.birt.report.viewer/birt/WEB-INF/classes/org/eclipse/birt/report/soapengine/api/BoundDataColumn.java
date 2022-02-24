@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,7 +36,7 @@ public class BoundDataColumn implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this BoundDataColumn.
-	 *
+	 * 
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -45,7 +45,7 @@ public class BoundDataColumn implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this BoundDataColumn.
-	 *
+	 * 
 	 * @param name
 	 */
 	public void setName(java.lang.String name) {
@@ -54,7 +54,7 @@ public class BoundDataColumn implements java.io.Serializable {
 
 	/**
 	 * Gets the expression value for this BoundDataColumn.
-	 *
+	 * 
 	 * @return expression
 	 */
 	public java.lang.String getExpression() {
@@ -63,7 +63,7 @@ public class BoundDataColumn implements java.io.Serializable {
 
 	/**
 	 * Sets the expression value for this BoundDataColumn.
-	 *
+	 * 
 	 * @param expression
 	 */
 	public void setExpression(java.lang.String expression) {
@@ -72,7 +72,7 @@ public class BoundDataColumn implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this BoundDataColumn.
-	 *
+	 * 
 	 * @return type
 	 */
 	public java.lang.String getType() {
@@ -81,7 +81,7 @@ public class BoundDataColumn implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this BoundDataColumn.
-	 *
+	 * 
 	 * @param type
 	 */
 	public void setType(java.lang.String type) {
@@ -90,18 +90,14 @@ public class BoundDataColumn implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof BoundDataColumn)) {
+		if (!(obj instanceof BoundDataColumn))
 			return false;
-		}
 		BoundDataColumn other = (BoundDataColumn) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -120,7 +116,6 @@ public class BoundDataColumn implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

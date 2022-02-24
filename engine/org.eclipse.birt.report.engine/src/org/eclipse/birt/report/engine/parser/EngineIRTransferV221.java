@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,9 +69,9 @@ public class EngineIRTransferV221 extends DesignVisitor {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param handle the entry point to the DE report design IR
-	 *
+	 * 
 	 */
 	public EngineIRTransferV221(ReportDesignHandle handle, Report report) {
 		super();
@@ -81,7 +81,7 @@ public class EngineIRTransferV221 extends DesignVisitor {
 
 	/**
 	 * translate the DE's IR to FPE's IR.
-	 *
+	 * 
 	 * @return FPE's IR.
 	 */
 	public void transfer() {
@@ -91,12 +91,11 @@ public class EngineIRTransferV221 extends DesignVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.DesignVisitor#visitReportDesign(org.eclipse
 	 * .birt.report.model.api.ReportDesignHandle)
 	 */
-	@Override
 	public void visitReportDesign(ReportDesignHandle handle) {
 		// Handle Master Page
 		SlotHandle pageSlot = handle.getMasterPages();
@@ -120,7 +119,6 @@ public class EngineIRTransferV221 extends DesignVisitor {
 		}
 	}
 
-	@Override
 	public void visitList(ListHandle handle) {
 		// get ListItem
 		ListItemDesign listItem = (ListItemDesign) report.getReportItemByID(handle.getID());
@@ -153,7 +151,6 @@ public class EngineIRTransferV221 extends DesignVisitor {
 		}
 	}
 
-	@Override
 	public void visitFreeForm(FreeFormHandle handle) {
 		// Set up each individual item in a free form container
 		SlotHandle slot = handle.getReportItems();
@@ -162,7 +159,6 @@ public class EngineIRTransferV221 extends DesignVisitor {
 		}
 	}
 
-	@Override
 	public void visitGrid(GridHandle handle) {
 		// Create Grid Item
 		GridItemDesign grid = new GridItemDesign();
@@ -183,7 +179,6 @@ public class EngineIRTransferV221 extends DesignVisitor {
 		fixGridDummyCell(grid);
 	}
 
-	@Override
 	public void visitTable(TableHandle handle) {
 		// get Table Item
 		TableItemDesign table = (TableItemDesign) report.getReportItemByID(handle.getID());
@@ -218,7 +213,6 @@ public class EngineIRTransferV221 extends DesignVisitor {
 		fixTableDummyCell(table);
 	}
 
-	@Override
 	public void visitRow(RowHandle handle) {
 		// Cells in a row
 		SlotHandle cellSlot = handle.getCells();
@@ -227,7 +221,6 @@ public class EngineIRTransferV221 extends DesignVisitor {
 		}
 	}
 
-	@Override
 	public void visitCell(CellHandle handle) {
 		// Cell contents
 		SlotHandle contentSlot = handle.getContent();
@@ -238,7 +231,7 @@ public class EngineIRTransferV221 extends DesignVisitor {
 
 	/**
 	 * create a list band using the items in slot.
-	 *
+	 * 
 	 * @param elements items in DE's IR
 	 * @return ListBand.
 	 */
@@ -253,11 +246,10 @@ public class EngineIRTransferV221 extends DesignVisitor {
 
 	/**
 	 * create a list group using the DE's ListGroup.
-	 *
+	 * 
 	 * @param handle De's list group
 	 * @return engine's list group
 	 */
-	@Override
 	public void visitListGroup(ListGroupHandle handle) {
 		ListGroupDesign listGroup = (ListGroupDesign) report.getReportItemByID(handle.getID());
 
@@ -276,11 +268,10 @@ public class EngineIRTransferV221 extends DesignVisitor {
 
 	/**
 	 * create a table group using the DE's TableGroup.
-	 *
+	 * 
 	 * @param handle De's table group
 	 * @return engine's table group
 	 */
-	@Override
 	public void visitTableGroup(TableGroupHandle handle) {
 		TableGroupDesign tableGroup = (TableGroupDesign) report.getReportItemByID(handle.getID());
 

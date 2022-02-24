@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -398,7 +398,7 @@ public class TableArea extends RepeatableArea {
 		 * rowId 3. udpate the rowSpan in collection 2 4. add all rows to layout
 		 */
 
-		List<RowArea> rows = new ArrayList<>();
+		List<RowArea> rows = new ArrayList<RowArea>();
 		collectRows(this, layout, rows);
 		int rowCount = getRowCountNeedResolved(rows, nextRowId);
 		boolean resolved = false;
@@ -600,7 +600,7 @@ public class TableArea extends RepeatableArea {
 		/**
 		 * Calculates the column width for the table. the return value should be each
 		 * column width in point.
-		 *
+		 * 
 		 * @param columns             The column width specified in report design.
 		 * @param tableWidth          The suggested table width. If isTableWidthDefined
 		 *                            is true, this value is user defined table width;
@@ -675,42 +675,47 @@ public class TableArea extends RepeatableArea {
 								tableWidth);
 					}
 				}
-			} else if (percentageList.isEmpty()) {
-				int left = tableWidth - fixedLength;
-				int eachWidth = left / unsetList.size();
-				for (int i = 0; i < unsetList.size(); i++) {
-					Integer index = (Integer) unsetList.get(i);
-					resolvedColumnWidth[index.intValue()] = eachWidth;
-				}
-			} else {
-				float leftPercentage = (((float) (tableWidth - fixedLength)) / tableWidth) * 100.0f;
-				if (leftPercentage <= total) {
-					double ratio = leftPercentage / total;
-					for (int i = 0; i < unsetList.size(); i++) {
-						Integer index = (Integer) unsetList.get(i);
-						resolvedColumnWidth[index.intValue()] = 0;
-					}
-					for (int i = 0; i < percentageList.size(); i++) {
-						Integer index = (Integer) percentageList.get(i);
-						columns[index.intValue()] = new DimensionType(columns[index.intValue()].getMeasure() * ratio,
-								columns[index.intValue()].getUnits());
-						resolvedColumnWidth[index.intValue()] = getDimensionValue(table, columns[index.intValue()],
-								tableWidth);
-					}
-				} else {
-					int usedLength = fixedLength;
-					for (int i = 0; i < percentageList.size(); i++) {
-						Integer index = (Integer) percentageList.get(i);
-						int width = getDimensionValue(table, columns[index.intValue()], tableWidth);
-						usedLength += width;
-						resolvedColumnWidth[index.intValue()] = width;
-
-					}
-					int left = tableWidth - usedLength;
+			}
+			// unsetList is not empty.
+			else {
+				if (percentageList.isEmpty()) {
+					int left = tableWidth - fixedLength;
 					int eachWidth = left / unsetList.size();
 					for (int i = 0; i < unsetList.size(); i++) {
 						Integer index = (Integer) unsetList.get(i);
 						resolvedColumnWidth[index.intValue()] = eachWidth;
+					}
+				} else {
+					float leftPercentage = (((float) (tableWidth - fixedLength)) / tableWidth) * 100.0f;
+					if (leftPercentage <= total) {
+						double ratio = leftPercentage / total;
+						for (int i = 0; i < unsetList.size(); i++) {
+							Integer index = (Integer) unsetList.get(i);
+							resolvedColumnWidth[index.intValue()] = 0;
+						}
+						for (int i = 0; i < percentageList.size(); i++) {
+							Integer index = (Integer) percentageList.get(i);
+							columns[index.intValue()] = new DimensionType(
+									columns[index.intValue()].getMeasure() * ratio,
+									columns[index.intValue()].getUnits());
+							resolvedColumnWidth[index.intValue()] = getDimensionValue(table, columns[index.intValue()],
+									tableWidth);
+						}
+					} else {
+						int usedLength = fixedLength;
+						for (int i = 0; i < percentageList.size(); i++) {
+							Integer index = (Integer) percentageList.get(i);
+							int width = getDimensionValue(table, columns[index.intValue()], tableWidth);
+							usedLength += width;
+							resolvedColumnWidth[index.intValue()] = width;
+
+						}
+						int left = tableWidth - usedLength;
+						int eachWidth = left / unsetList.size();
+						for (int i = 0; i < unsetList.size(); i++) {
+							Integer index = (Integer) unsetList.get(i);
+							resolvedColumnWidth[index.intValue()] = eachWidth;
+						}
 					}
 				}
 			}
@@ -736,12 +741,10 @@ public class TableArea extends RepeatableArea {
 
 				}
 			}
-			if (startCol < 0) {
+			if (startCol < 0)
 				startCol = 0;
-			}
-			if (endCol < 0) {
+			if (endCol < 0)
 				endCol = 0;
-			}
 
 			boolean isTableWidthDefined = false;
 			int specifiedWidth = getDimensionValue(table, table.getWidth(), maxWidth);
@@ -754,6 +757,64 @@ public class TableArea extends RepeatableArea {
 				isTableWidthDefined = false;
 			}
 			return formalize(columns, tableWidth, isTableWidthDefined);
+		}
+
+		public int[] resolve(int specifiedWidth, int maxWidth) {
+			assert (specifiedWidth <= maxWidth);
+			int columnNumber = table.getColumnCount();
+			int[] columns = new int[columnNumber];
+			int columnWithWidth = 0;
+			int colSum = 0;
+
+			for (int j = 0; j < table.getColumnCount(); j++) {
+				IColumn column = table.getColumn(j);
+				int columnWidth = getDimensionValue(table, column.getWidth(), width);
+				if (columnWidth > 0) {
+					columns[j] = columnWidth;
+					colSum += columnWidth;
+					columnWithWidth++;
+				} else {
+					columns[j] = -1;
+				}
+			}
+
+			if (columnWithWidth == columnNumber) {
+				if (colSum <= maxWidth) {
+					return columns;
+				} else {
+					float delta = colSum - maxWidth;
+					for (int i = 0; i < columnNumber; i++) {
+						columns[i] -= (int) (delta * columns[i] / colSum);
+					}
+					return columns;
+				}
+			} else {
+				if (specifiedWidth == 0) {
+					if (colSum < maxWidth) {
+						distributeLeftWidth(columns, (maxWidth - colSum) / (columnNumber - columnWithWidth));
+					} else {
+						redistributeWidth(columns,
+								colSum - maxWidth + (columnNumber - columnWithWidth) * maxWidth / columnNumber,
+								maxWidth, colSum);
+					}
+				} else {
+					if (colSum < specifiedWidth) {
+						distributeLeftWidth(columns, (specifiedWidth - colSum) / (columnNumber - columnWithWidth));
+					} else {
+						if (colSum < maxWidth) {
+							distributeLeftWidth(columns, (maxWidth - colSum) / (columnNumber - columnWithWidth));
+						} else {
+							redistributeWidth(columns,
+									colSum - specifiedWidth
+											+ (columnNumber - columnWithWidth) * specifiedWidth / columnNumber,
+									specifiedWidth, colSum);
+						}
+					}
+
+				}
+
+			}
+			return columns;
 		}
 
 		private void redistributeWidth(int cols[], int delta, int sum, int currentSum) {
@@ -806,7 +867,7 @@ public class TableArea extends RepeatableArea {
 
 		/**
 		 * get cell width
-		 *
+		 * 
 		 * @param startColumn
 		 * @param endColumn
 		 * @return
@@ -833,6 +894,25 @@ public class TableArea extends RepeatableArea {
 		 * array of position for each column
 		 */
 		protected int[] xPositions = null;
+
+		/**
+		 * Creates a hidden column at X position 0.
+		 * 
+		 * @author bidi_hcg
+		 */
+		private void addDummyColumnForRTL(int[] colWidth) {
+			this.colWidth = new int[columnNumber + 1];
+			System.arraycopy(colWidth, 0, this.colWidth, 0, columnNumber);
+			this.colWidth[columnNumber] = xPositions[columnNumber - 1];
+
+			int[] newXPositions = new int[columnNumber + 1];
+			System.arraycopy(xPositions, 0, newXPositions, 0, columnNumber);
+			xPositions = newXPositions;
+			xPositions[columnNumber] = 0;
+
+			tableWidth += this.colWidth[columnNumber - 1];
+			++columnNumber;
+		}
 	}
 
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,14 +14,14 @@
 
 package org.eclipse.birt.chart.tests.engine.util;
 
+import junit.framework.TestCase;
+
 import org.eclipse.birt.chart.internal.model.ContinuedFraction;
 import org.eclipse.birt.chart.internal.model.Fraction;
 import org.eclipse.birt.chart.internal.model.FractionApproximator;
 
-import junit.framework.TestCase;
-
 /**
- *
+ * 
  */
 
 public class FractionTest extends TestCase {
@@ -204,15 +204,15 @@ public class FractionTest extends TestCase {
 	 * public void testPlus( ) { Fraction f1 = new Fraction( 1, 3 ); Fraction f2 =
 	 * new Fraction( 1, 6 ); Fraction f3 = new Fraction( 1, 2 ); f1.plus( f2 );
 	 * assertEquals( f1, f3 ); }
-	 *
+	 * 
 	 * public void testSubtract( ) { Fraction f1 = new Fraction( 1, 3 ); Fraction f2
 	 * = new Fraction( 1, 6 ); Fraction f3 = new Fraction( 1, 2 ); f3.subtract( f2
 	 * ); assertEquals( f3, f1 ); }
-	 *
+	 * 
 	 * public void testMultiply( ) { Fraction f1 = new Fraction( 1, 3 ); Fraction f2
 	 * = new Fraction( 1, 6 ); Fraction f3 = new Fraction( 1, 2 ); f1.multiply( f3
 	 * ); assertEquals( f1, f2 ); }
-	 *
+	 * 
 	 * public void testDivide( ) { Fraction f1 = new Fraction( 1, 3 ); Fraction f2 =
 	 * new Fraction( 1, 6 ); Fraction f3 = new Fraction( 1, 2 ); f2.divide( f1 );
 	 * assertEquals( f2, f3 ); }

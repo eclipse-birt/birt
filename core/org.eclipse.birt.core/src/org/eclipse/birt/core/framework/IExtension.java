@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ public interface IExtension {
 	 *
 	 * @return the configuration elements declared by this extension
 	 */
-	IConfigurationElement[] getConfigurationElements();
+	public IConfigurationElement[] getConfigurationElements();
 
 	/**
 	 * Returns the namespace for this extension. This value can be used in various
@@ -44,13 +44,13 @@ public interface IExtension {
 	 * the understanding that these APIs may well change in incompatible ways until
 	 * they reach their finished, stable form (post-3.0).
 	 * </p>
-	 *
+	 * 
 	 * @return the namespace for this extension
 	 * @see Platform#getBundle(String)
 	 * @see IExtensionRegistry
 	 * @since 3.0
 	 */
-	String getNamespace();
+	public String getNamespace();
 
 	/**
 	 * Returns the unique identifier of the extension point to which this extension
@@ -58,7 +58,7 @@ public interface IExtension {
 	 *
 	 * @return the unique identifier of the relevant extension point
 	 */
-	String getExtensionPointUniqueIdentifier();
+	public String getExtensionPointUniqueIdentifier();
 
 	/**
 	 * Returns a displayable label for this extension. Returns the empty string if
@@ -71,7 +71,7 @@ public interface IExtension {
 	 * @return a displayable string label for this extension, possibly the empty
 	 *         string
 	 */
-	String getLabel();
+	public String getLabel();
 
 	/**
 	 * Returns the simple identifier of this extension, or <code>null</code> if this
@@ -83,7 +83,7 @@ public interface IExtension {
 	 * @return the simple identifier of the extension (e.g. <code>"main"</code>) or
 	 *         <code>null</code>
 	 */
-	String getSimpleIdentifier();
+	public String getSimpleIdentifier();
 
 	/**
 	 * Returns the unique identifier of this extension, or <code>null</code> if this
@@ -94,5 +94,5 @@ public interface IExtension {
 	 * @return the unique identifier of the extension (e.g.
 	 *         <code>"com.example.acme.main"</code>), or <code>null</code>
 	 */
-	String getUniqueIdentifier();
+	public String getUniqueIdentifier();
 }

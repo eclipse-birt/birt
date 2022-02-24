@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,18 +25,18 @@ public interface IDimensionModel {
 	 * type of Time.
 	 */
 
-	String IS_TIME_TYPE_PROP = "isTimeType"; //$NON-NLS-1$
+	static final String IS_TIME_TYPE_PROP = "isTimeType"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property which defines the default hierarchy element in it.
 	 */
-	String DEFAULT_HIERARCHY_PROP = "defaultHierarchy"; //$NON-NLS-1$
+	static final String DEFAULT_HIERARCHY_PROP = "defaultHierarchy"; //$NON-NLS-1$
 
 	/**
 	 * Identifier of the slot that holds a list of Hierarchy elements.
 	 */
 
-	String HIERARCHIES_PROP = "hierarchies"; //$NON-NLS-1$
+	static final String HIERARCHIES_PROP = "hierarchies"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that defines the expression to calculate ACL for the

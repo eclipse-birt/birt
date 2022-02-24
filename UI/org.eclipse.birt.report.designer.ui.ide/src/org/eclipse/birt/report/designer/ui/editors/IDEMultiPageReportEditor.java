@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,7 +62,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 	/**
 	 * Report element ID marker attribute. It's used to record the report element in
 	 * the marker.
-	 *
+	 * 
 	 * @see #getAttribute(String, String)
 	 */
 	public static final String ELEMENT_ID = "ElementId"; //$NON-NLS-1$
@@ -84,13 +84,11 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 		/**
 		 * does when resource changed
 		 */
-		@Override
 		public void resourceChanged(IResourceChangeEvent event) {
 			IResourceDelta delta = event.getDelta();
 			try {
-				if (delta != null) {
+				if (delta != null)
 					delta.accept(this);
-				}
 			} catch (CoreException exception) {
 				// What should be done here?
 			}
@@ -99,11 +97,9 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 		/**
 		 * is visit successful
 		 */
-		@Override
 		public boolean visit(final IResourceDelta delta) {
-			if (delta == null || !delta.getResource().equals(getFile(getEditorInput()))) {
+			if (delta == null || !delta.getResource().equals(getFile(getEditorInput())))
 				return true;
-			}
 
 			if (delta.getKind() == IResourceDelta.REMOVED) {
 				Display display = getSite().getShell().getDisplay();
@@ -114,7 +110,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 					// in the initialize() method.
 					display.asyncExec(new Runnable() {
 
-						@Override
 						public void run() {
 							if (!isDirty()) {
 								closeEditor(false);
@@ -145,7 +140,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 
 								Display.getDefault().asyncExec(new Runnable() {
 
-									@Override
 									public void run() {
 										closedStatus.remove(file);
 									}
@@ -157,7 +151,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 					final IFile newFile = ResourcesPlugin.getWorkspace().getRoot().getFile(delta.getMovedToPath());
 					display.asyncExec(new Runnable() {
 
-						@Override
 						public void run() {
 							FileEditorInput input = new FileEditorInput(newFile);
 							setAllInput(input);
@@ -229,7 +222,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 		}
 	}
 
-	@Override
 	protected void setInput(IEditorInput input) {
 
 		// The workspace never changes for an editor. So, removing and re-adding
@@ -259,14 +251,13 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 		return null;
 	}
 
-	private static List<IResource> closedStatus = new ArrayList<>();
+	private static List<IResource> closedStatus = new ArrayList<IResource>();
 
-	@Override
 	public void partActivated(IWorkbenchPart part) {
 		super.partActivated(part);
-		if (part != this) {
+		if (part != this)
+
 			return;
-		}
 		if (isWorkspaceResource) {
 			final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 			if (!file.exists()) {
@@ -298,7 +289,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 				}
 				Display.getDefault().asyncExec(new Runnable() {
 
-					@Override
 					public void run() {
 						closedStatus.remove(file);
 					}
@@ -307,7 +297,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 		}
 	}
 
-	@Override
 	protected void addPages() {
 		super.addPages();
 		if (isWorkspaceResource) {
@@ -321,10 +310,9 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 
 	/**
 	 * Deletes existed problem markers and adds new markers
-	 *
+	 * 
 	 * @throws CoreException
 	 */
-	@Override
 	public void refreshMarkers(IEditorInput input) throws CoreException {
 		IResource file = getFile(input);
 		if (file != null) {
@@ -348,7 +336,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 				ErrorDetail errorDetail = (ErrorDetail) list.get(i);
 				IMarker marker = file.createMarker(ProblemMarkID);
 
-				Map<String, Object> attrib = new HashMap<>();
+				Map<String, Object> attrib = new HashMap<String, Object>();
 
 				// The first part is from error list, the other is from warning
 				// list
@@ -374,11 +362,10 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#doSave
 	 * (org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
 	public void doSave(IProgressMonitor monitor) {
 		super.doSave(monitor);
 		try {
@@ -387,7 +374,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 		}
 	}
 
-	@Override
 	public void doSaveAs() {
 		super.doSaveAs();
 		try {
@@ -398,11 +384,10 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#dispose ()
 	 */
-	@Override
 	public void dispose() {
 		try {
 			clearMarkers();
@@ -417,7 +402,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 
 	/**
 	 * Deletes all markers
-	 *
+	 * 
 	 * @throws CoreException
 	 */
 	protected void clearMarkers() throws CoreException {
@@ -429,12 +414,11 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#getAdapter
 	 * (java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class type) {
 		if (type == ILibraryProvider.class) {
 			return new LibraryProvider();
@@ -452,7 +436,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 		return super.getAdapter(type);
 	}
 
-	@Override
 	protected IReportProvider getProvider() {
 		if (reportProvider == null) {
 			reportProvider = new IDEFileReportProvider();
@@ -460,9 +443,8 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 		return reportProvider;
 	}
 
-	@Override
 	protected boolean prePageChanges(Object oldPage, Object newPage) {
-		boolean isNewPageValid;
+		boolean isNewPageValid = true;
 		boolean isOldDirty = true;
 		if (oldPage instanceof IReportEditorPage) {
 			isOldDirty = ((IReportEditorPage) oldPage).isDirty();
@@ -485,7 +467,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor {
 		return isNewPageValid;
 	}
 
-	@Override
 	protected void confirmSave() {
 		if (isWorkspaceResource) {
 			IFile file = ((IFileEditorInput) getEditorInput()).getFile();

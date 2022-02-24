@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,21 +30,19 @@ public abstract class PojoDataSetFromIterator implements IPojoDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#open(java.lang.Object,
 	 * Map<String, Object>)
 	 */
-	@Override
 	public void open(Object appContext, Map<String, Object> dataSetParamValues) throws OdaException {
 		iterator = fetchPojos();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#next()
 	 */
-	@Override
 	public Object next() throws OdaException {
 		if (iterator == null) {
 			return null;
@@ -62,10 +60,9 @@ public abstract class PojoDataSetFromIterator implements IPojoDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#close()
 	 */
-	@Override
 	public void close() throws OdaException {
 		iterator = null;
 	}

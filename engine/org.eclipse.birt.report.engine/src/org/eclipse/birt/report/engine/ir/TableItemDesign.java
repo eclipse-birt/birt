@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 , 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- *
+ * 
  * Tabel item.
- *
+ * 
  */
 public class TableItemDesign extends ListingDesign {
 
@@ -41,22 +41,21 @@ public class TableItemDesign extends ListingDesign {
 	/**
 	 * column defined
 	 */
-	protected ArrayList<ColumnDesign> columns = new ArrayList<>();
+	protected ArrayList<ColumnDesign> columns = new ArrayList<ColumnDesign>();
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.
 	 * report.engine.ir.ReportItemVisitor)
 	 */
-	@Override
 	public Object accept(IReportItemVisitor visitor, Object value) {
 		return visitor.visitTableItem(this, value);
 	}
 
 	/**
 	 * add column into the column define.
-	 *
+	 * 
 	 * @param column column to be added.
 	 */
 	public void addColumn(ColumnDesign column) {
@@ -70,7 +69,7 @@ public class TableItemDesign extends ListingDesign {
 
 	/**
 	 * get column count.
-	 *
+	 * 
 	 * @return count of the column.
 	 */
 	public int getColumnCount() {
@@ -79,7 +78,7 @@ public class TableItemDesign extends ListingDesign {
 
 	/**
 	 * get column defines.
-	 *
+	 * 
 	 * @param index index of the column.
 	 * @return column define.
 	 */
@@ -97,7 +96,7 @@ public class TableItemDesign extends ListingDesign {
 
 	/**
 	 * set tabel caption.
-	 *
+	 * 
 	 * @param captionKey resource key
 	 * @param caption    caption
 	 */
@@ -122,7 +121,7 @@ public class TableItemDesign extends ListingDesign {
 
 	/**
 	 * set table summary
-	 *
+	 * 
 	 * @param summary summary
 	 */
 	public void setSummary(String summary) {
@@ -131,7 +130,7 @@ public class TableItemDesign extends ListingDesign {
 
 	/**
 	 * get table summary
-	 *
+	 * 
 	 * @return Return table summary
 	 */
 	public String getSummary() {

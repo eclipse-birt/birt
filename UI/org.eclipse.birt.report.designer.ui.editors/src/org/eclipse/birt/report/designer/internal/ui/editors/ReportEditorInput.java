@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput,
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param input
 	 */
 	public ReportEditorInput(IPathEditorInput input) {
@@ -49,7 +49,7 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput,
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param file
 	 */
 	public ReportEditorInput(File file) {
@@ -58,104 +58,93 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput,
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput#
 	 * getStorage()
 	 */
-	@Override
 	public IStorage getStorage() throws CoreException {
 		return new ReportStorage();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#exists()
 	 */
-	@Override
 	public boolean exists() {
 		return file.exists();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
 	 */
-	@Override
 	public ImageDescriptor getImageDescriptor() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#getName()
 	 */
-	@Override
 	public String getName() {
 		return file.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#getPersistable()
 	 */
-	@Override
 	public IPersistableElement getPersistable() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
 	 */
-	@Override
 	public String getToolTipText() {
 		return file.getAbsolutePath();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class adapter) {
 		return Platform.getAdapterManager().getAdapter(this, adapter);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IPathEditorInput#getPath()
 	 */
-	@Override
 	public IPath getPath() {
 		return new Path(file.getAbsolutePath());
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on Object.
-	 *
+	 * 
 	 * The <code>ReportEditorInput</code> implementation of this <code>Object</code>
 	 * method bases the equality of two <code>ReportEditorInput</code> objects on
 	 * the equality of their underlying file.
 	 */
-	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (obj instanceof IPathEditorInput) {
 			obj = new ReportEditorInput((IPathEditorInput) obj);
 		}
-		if (!(obj instanceof ReportEditorInput)) {
+		if (!(obj instanceof ReportEditorInput))
 			return false;
-		}
 		return file.equals(((ReportEditorInput) obj).file);
 	}
 
@@ -170,7 +159,6 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput,
 
 	private class ReportStorage implements IStorage {
 
-		@Override
 		public InputStream getContents() throws CoreException {
 			try {
 				return new FileInputStream(file);
@@ -180,22 +168,18 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput,
 			}
 		}
 
-		@Override
 		public IPath getFullPath() {
 			return ReportEditorInput.this.getPath();
 		}
 
-		@Override
 		public String getName() {
 			return ReportEditorInput.this.getName();
 		}
 
-		@Override
 		public boolean isReadOnly() {
 			return !file.canWrite();
 		}
 
-		@Override
 		public Object getAdapter(Class adapter) {
 			return ReportEditorInput.this.getAdapter(adapter);
 		}
@@ -204,20 +188,18 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput,
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IPersistableElement#getFactoryId()
 	 */
-	@Override
 	public String getFactoryId() {
 		return ReportEditorInputFactory.ID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IPersistable#saveState(org.eclipse.ui.IMemento)
 	 */
-	@Override
 	public void saveState(IMemento memento) {
 		ReportEditorInputFactory.saveState(memento, this);
 	}

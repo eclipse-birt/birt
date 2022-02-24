@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,16 +14,26 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.EngineCase;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
+import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -44,14 +54,12 @@ public class DatasetPreviewTaskTest extends EngineCase {
 	IReportDocument document;
 	IDatasetPreviewTask previewTask;
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeFile(REPORT_DESIGN);
 
 	}
 
-	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 	}
@@ -106,7 +114,7 @@ public class DatasetPreviewTaskTest extends EngineCase {
 
 	/**
 	 * access all the data in the results, no exception should be throw out.
-	 *
+	 * 
 	 * @param results
 	 * @return row count in the result.
 	 * @throws BirtException
@@ -130,5 +138,34 @@ public class DatasetPreviewTaskTest extends EngineCase {
 		}
 		results.close();
 		return rowCount;
+	}
+
+	private Set<InstanceID> getAllInstanceIds(IReportDocument document)
+			throws EngineException, UnsupportedEncodingException {
+		Set<InstanceID> instanceIds = new HashSet<InstanceID>();
+		IRenderTask task = engine.createRenderTask(document);
+
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+		// create the render options
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setOutputFormat("html");
+		option.setOutputStream(ostream);
+		option.setEnableMetadata(true);
+		// set the render options
+		task.setRenderOption(option);
+		assertTrue(task.getRenderOption().equals(option));
+		task.render();
+		task.close();
+
+		String content = ostream.toString("utf-8");
+		// get all the instance ids
+		Pattern iidPattern = Pattern.compile("iid=\"([^\"]*)\"");
+		Matcher matcher = iidPattern.matcher(content);
+		while (matcher.find()) {
+			String strIid = matcher.group(1);
+			InstanceID iid = InstanceID.parse(strIid);
+			instanceIds.add(iid);
+		}
+		return instanceIds;
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -101,7 +101,7 @@ public class DataSetToCache {
 
 	/**
 	 * Initialize
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	private void init(IResultClass rsMeta, DataEngineSession session) throws DataException {
@@ -113,7 +113,7 @@ public class DataSetToCache {
 
 	/**
 	 * Remove all temp columns.
-	 *
+	 * 
 	 * @param meta
 	 * @return
 	 * @throws DataException
@@ -144,12 +144,12 @@ public class DataSetToCache {
 		IBaseDataSetDesign dataSetDesign = cacheManager.getCurrentDataSetDesign();
 		if (dataSetDesign instanceof IIncreCacheDataSetDesign) {
 			IIncreCacheDataSetDesign icDataSetDesign = (IIncreCacheDataSetDesign) dataSetDesign;
-			increCacheMode = icDataSetDesign.getCacheMode();
+			increCacheMode = Integer.valueOf(icDataSetDesign.getCacheMode());
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param stopSign
 	 * @return next data
 	 * @throws DataException
@@ -196,7 +196,7 @@ public class DataSetToCache {
 
 	/**
 	 * @throws DataException
-	 *
+	 * 
 	 */
 	private void removeCacheObject() throws DataException {
 		DataSetCacheManager dataSetCacheManager = getDataSetCacheManager();
@@ -210,13 +210,12 @@ public class DataSetToCache {
 	 */
 	private IResultObject fetchFromDataSet() throws DataException {
 		IResultObject resultObject = null;
-		if (odaDataSet != null) {
+		if (odaDataSet != null)
 			resultObject = odaDataSet.fetch();
-		} else if (customDataSet != null) {
+		else if (customDataSet != null)
 			resultObject = customDataSet.fetch();
-		} else if (populator != null) {
+		else if (populator != null)
 			resultObject = this.populator.next();
-		}
 		return resultObject;
 	}
 
@@ -229,7 +228,7 @@ public class DataSetToCache {
 
 	/**
 	 * Init save util
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	private void saveInit(IDataSetCacheObject dataSetCachedObject) throws DataException {
@@ -248,7 +247,7 @@ public class DataSetToCache {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	private DataSetCacheManager getDataSetCacheManager() {

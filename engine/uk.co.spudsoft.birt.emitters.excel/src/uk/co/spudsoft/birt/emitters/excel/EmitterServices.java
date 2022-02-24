@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -31,7 +31,7 @@ public class EmitterServices {
 	/**
 	 * Convert an Object to a boolean, with quite a few options about the class of
 	 * the Object.
-	 *
+	 * 
 	 * @param options      The task options to extract the value from.
 	 * @param birtContent  The leaf node to look for UserProperties
 	 * @param name         The name of the value to extract from options.
@@ -113,7 +113,7 @@ public class EmitterServices {
 
 	/**
 	 * Search for an emitter option and return it as a string
-	 *
+	 * 
 	 * @param options      The task options to extract the value from.
 	 * @param birtContent  The leaf node to look for UserProperties
 	 * @param name         The name of the value to extract from options.
@@ -168,7 +168,7 @@ public class EmitterServices {
 
 	/**
 	 * Search for an emitter option and return it as a string
-	 *
+	 * 
 	 * @param options       The task options to extract the value from.
 	 * @param reportContent The report
 	 * @param name          The name of the value to extract from options.
@@ -204,7 +204,7 @@ public class EmitterServices {
 
 	/**
 	 * Search for an emitter option and return it as an integer
-	 *
+	 * 
 	 * @param options      The task options to extract the value from.
 	 * @param birtContent  The leaf node to look for UserProperties
 	 * @param name         The name of the value to extract from options.
@@ -265,7 +265,7 @@ public class EmitterServices {
 	/**
 	 * Convert an Object to a boolean, with quite a few options about the class of
 	 * the Object.
-	 *
+	 * 
 	 * @param value        A value that can be of any type.
 	 * @param defaultValue Value to return if value is null.
 	 * @return true if value in some way represents a boolean TRUE value.

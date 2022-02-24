@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -14,7 +14,6 @@
 package org.eclipse.birt.report.designer.internal.ui.views.outline.providers;
 
 import java.util.ArrayList;
-
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -22,11 +21,11 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 
 /**
- *
- *
+ * 
+ * 
  * Provider for the List element. - Generates the context menu - Implements the
  * getChildren method.
- *
+ * 
  */
 
 public class ListProvider extends DefaultNodeProvider {
@@ -34,23 +33,21 @@ public class ListProvider extends DefaultNodeProvider {
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry for the given object and adds them to the menu
-	 *
+	 * 
 	 * @param menu   the menu
 	 * @param object the object
 	 */
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		super.createContextMenu(sourceViewer, object, menu);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.providers.
 	 * INodeProvider#getChildren(org.eclipse.birt.report.designer.core.facade.model.
 	 * ModelContainer)
 	 */
-	@Override
 	public Object[] getChildren(Object object) {
 		if (object instanceof ListHandle) {
 			// List element children.

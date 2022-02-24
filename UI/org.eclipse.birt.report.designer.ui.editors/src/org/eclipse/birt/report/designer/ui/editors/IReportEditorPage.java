@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -24,30 +24,30 @@ public interface IReportEditorPage extends IFormPage {
 
 	/**
 	 * invoke on page was brought to report editor top.
-	 *
+	 * 
 	 * @param prePage the last top page.
 	 * @return
 	 */
-	boolean onBroughtToTop(IReportEditorPage prePage);
+	public boolean onBroughtToTop(IReportEditorPage prePage);
 
 	/**
 	 * Set the page stale type.
-	 *
+	 * 
 	 * @param type
 	 */
-	void markPageStale(int type);
+	public void markPageStale(int type);
 
 	/**
 	 * Get the page stale type.
-	 *
+	 * 
 	 * @return
 	 */
-	int getStaleType();
+	public int getStaleType();
 
 	/**
 	 * Set page input.
-	 *
+	 * 
 	 * @param input
 	 */
-	void setInput(IEditorInput input);
+	public void setInput(IEditorInput input);
 }

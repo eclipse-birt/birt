@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class StorageDocumentProvider extends DocumentProvider {
 
 	/**
 	 * Creates a new document provider.
-	 *
+	 * 
 	 */
 	public StorageDocumentProvider() {
 		super();
@@ -41,7 +41,7 @@ public class StorageDocumentProvider extends DocumentProvider {
 
 	/**
 	 * Creates a new document provider with the specified saveable part.
-	 *
+	 * 
 	 * @param part the saveable part.
 	 */
 	public StorageDocumentProvider(ISaveablePart part) {
@@ -51,7 +51,7 @@ public class StorageDocumentProvider extends DocumentProvider {
 	/**
 	 * Initializes the given document from the given editor input using the given
 	 * character encoding.
-	 *
+	 * 
 	 * @param document    the document to be initialized
 	 * @param editorInput the input from which to derive the content of the document
 	 * @param encoding    the character encoding used to read the editor input
@@ -59,7 +59,6 @@ public class StorageDocumentProvider extends DocumentProvider {
 	 *         <code>false</code> otherwise
 	 * @throws CoreException if the given editor input cannot be accessed
 	 */
-	@Override
 	protected boolean setDocumentContent(IDocument document, IEditorInput editorInput, String encoding)
 			throws CoreException {
 		IStorage storage = null;
@@ -84,19 +83,17 @@ public class StorageDocumentProvider extends DocumentProvider {
 
 	/**
 	 * Returns the persisted encoding for the given element.
-	 *
+	 * 
 	 * @param element the element for which to get the persisted encoding
 	 * @return the persisted encoding
 	 */
-	@Override
 	protected String getPersistedEncoding(Object element) {
 		if (element instanceof IStorageEditorInput) {
 			IStorage storage;
 			try {
 				storage = ((IStorageEditorInput) element).getStorage();
-				if (storage instanceof IEncodedStorage) {
+				if (storage instanceof IEncodedStorage)
 					return ((IEncodedStorage) storage).getCharset();
-				}
 			} catch (CoreException e) {
 				return null;
 			}
@@ -104,12 +101,10 @@ public class StorageDocumentProvider extends DocumentProvider {
 		return null;
 	}
 
-	@Override
 	public boolean isModifiable(Object element) {
 		return !isReadOnly(element);
 	}
 
-	@Override
 	public boolean isReadOnly(Object element) {
 		IStorage storage = null;
 		try {

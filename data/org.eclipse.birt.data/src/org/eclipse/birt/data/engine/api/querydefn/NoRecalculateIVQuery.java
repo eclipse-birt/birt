@@ -31,12 +31,12 @@ import org.eclipse.birt.data.engine.core.DataException;
  * <p>
  * The optimize query will only do no recalculate filtering based on the
  * previous query result set.
- *
+ * 
  */
 
 public class NoRecalculateIVQuery extends QueryDefnDelegator {
 	private IBaseQueryDefinition sourceQuery;
-	private HashMap<String, IBinding> bindingsMap = new HashMap<>();
+	private HashMap<String, IBinding> bindingsMap = new HashMap<String, IBinding>();
 	private List<IFilterDefinition> filters;
 	private List<ISortDefinition> sortings;
 	private List groups;
@@ -74,52 +74,42 @@ public class NoRecalculateIVQuery extends QueryDefnDelegator {
 		}
 	}
 
-	@Override
 	public List getGroups() {
 		return groups;
 	}
 
-	@Override
 	public void addBinding(IBinding binding) throws DataException {
 		this.bindingsMap.put(binding.getBindingName(), binding);
 	}
 
-	@Override
 	public Map getBindings() {
 		return this.bindingsMap;
 	}
 
-	@Override
 	public List getFilters() {
 		return filters;
 	}
 
-	@Override
 	public List getSorts() {
 		return sortings;
 	}
 
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}
 
-	@Override
 	public IBaseQueryDefinition getSourceQuery() {
 		return sourceQuery;
 	}
 
-	@Override
 	public IQueryDefinition getBaseQuery() {
 		return (IQueryDefinition) baseQuery;
 	}
 
-	@Override
 	public void setSourceQuery(IBaseQueryDefinition object) {
 		sourceQuery = object;
 	}

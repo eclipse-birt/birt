@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -52,7 +52,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 /**
  * This tag is used to preview report content fast. This tag will output report
  * to browser directly.
- *
+ * 
  */
 public class ReportTag extends AbstractViewerTag {
 
@@ -88,10 +88,9 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * process tag function
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.taglib.AbstractBaseTag#__process()
 	 */
-	@Override
 	public void __process() throws Exception {
 		boolean isIFrame = true;
 
@@ -196,7 +195,7 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * Initializes the report service, if necessary.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	private void initializeReportService() throws BirtException {
@@ -209,7 +208,7 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * Process report generation with IFrame
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	private void __processWithIFrame() throws Exception {
@@ -222,57 +221,51 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * DIV Appearance style
-	 *
+	 * 
 	 * @return
 	 */
 	protected String __handleDivAppearance() {
-		StringBuilder style = new StringBuilder(" style='"); //$NON-NLS-1$
+		String style = " style='"; //$NON-NLS-1$
 
 		// position
-		if (viewer.getPosition() != null) {
-			style.append("position:").append(viewer.getPosition()).append(";"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getPosition() != null)
+			style += "position:" + viewer.getPosition() + ";"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// height
-		if (viewer.getHeight() >= 0) {
-			style.append("height:").append(viewer.getHeight()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getHeight() >= 0)
+			style += "height:" + viewer.getHeight() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// width
-		if (viewer.getWidth() >= 0) {
-			style.append("width:").append(viewer.getWidth()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getWidth() >= 0)
+			style += "width:" + viewer.getWidth() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// top
-		if (viewer.getTop() != null) {
-			style.append("top:").append(viewer.getTop()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getTop() != null)
+			style += "top:" + viewer.getTop() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// left
-		if (viewer.getLeft() != null) {
-			style.append("left:").append(viewer.getLeft()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getLeft() != null)
+			style = style + "left:" + viewer.getLeft() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// scroll
 		if (SCROLLING_YES.equalsIgnoreCase(viewer.getScrolling())) {
-			style.append("overflow:scroll"); //$NON-NLS-1$
+			style = style + "overflow:scroll"; //$NON-NLS-1$
 		} else if (SCROLLING_AUTO.equalsIgnoreCase(viewer.getScrolling())) {
-			style.append("overflow:auto"); //$NON-NLS-1$
+			style = style + "overflow:auto"; //$NON-NLS-1$
 		}
 
 		// style
-		if (viewer.getStyle() != null) {
-			style.append(viewer.getStyle()).append(";"); //$NON-NLS-1$
-		}
+		if (viewer.getStyle() != null)
+			style += viewer.getStyle() + ";"; //$NON-NLS-1$
 
-		style.append("' "); //$NON-NLS-1$
+		style += "' "; //$NON-NLS-1$
 
-		return style.toString();
+		return style;
 	}
 
 	/**
 	 * Handle style content
-	 *
+	 * 
 	 * @param content
 	 * @param Exception
 	 * @return
@@ -280,9 +273,8 @@ public class ReportTag extends AbstractViewerTag {
 	protected String __handleStyle(String content) throws Exception {
 		String style = BLANK_STRING;
 
-		if (content == null) {
+		if (content == null)
 			return style;
-		}
 
 		// parse style content
 		Pattern p = Pattern.compile("<\\s*style[^\\>]*\\>", //$NON-NLS-1$
@@ -303,16 +295,15 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * Returns body style content
-	 *
+	 * 
 	 * @param content
 	 * @return
 	 */
 	protected String __handleBodyStyle(String content) {
 		String bodyStyleId = BLANK_STRING;
 
-		if (content == null) {
+		if (content == null)
 			return bodyStyleId;
-		}
 
 		Pattern p = Pattern.compile("<\\s*body([^\\>]*)\\>", //$NON-NLS-1$
 				Pattern.CASE_INSENSITIVE);
@@ -320,9 +311,8 @@ public class ReportTag extends AbstractViewerTag {
 		if (m.find()) {
 			for (int i = 1; i < m.groupCount() + 1; i++) {
 				String group = m.group(i);
-				if (group == null) {
+				if (group == null)
 					continue;
-				}
 
 				Pattern pl = Pattern.compile("class\\s*=\\s*\"([^\"]+)\"", //$NON-NLS-1$
 						Pattern.CASE_INSENSITIVE);
@@ -343,22 +333,20 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * Handle script content
-	 *
+	 * 
 	 * @param content
 	 * @return
 	 */
 	protected String __handleScript(String content) {
 		String script = BLANK_STRING;
 
-		if (content == null) {
+		if (content == null)
 			return script;
-		}
 
 		// get head content
 		String head = __handleHead(content);
-		if (head == null) {
+		if (head == null)
 			return script;
-		}
 
 		// clear the comment fragments
 		Pattern p = Pattern.compile("<\\s*!--"); //$NON-NLS-1$
@@ -380,9 +368,8 @@ public class ReportTag extends AbstractViewerTag {
 		while (m.find()) {
 			int start = m.start();
 			int end = head.toLowerCase().indexOf("</script>", start); //$NON-NLS-1$
-			if (end > 0) {
+			if (end > 0)
 				script = script + head.substring(start, end + 9) + "\n"; //$NON-NLS-1$
-			}
 		}
 
 		return script;
@@ -390,14 +377,13 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * Handle head content
-	 *
+	 * 
 	 * @param content
 	 * @return
 	 */
 	protected String __handleHead(String content) {
-		if (content == null) {
+		if (content == null)
 			return BLANK_STRING;
-		}
 
 		String head = BLANK_STRING;
 
@@ -418,16 +404,15 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * Handle body content
-	 *
+	 * 
 	 * @param content
 	 * @return
 	 */
 	protected String __handleBody(String content) {
 		String body = content;
 
-		if (content == null) {
+		if (content == null)
 			return BLANK_STRING;
-		}
 
 		try {
 			Pattern p = Pattern.compile("<\\s*body[^\\>]*\\>", //$NON-NLS-1$
@@ -451,7 +436,7 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * handle generate report content
-	 *
+	 * 
 	 * @param out
 	 * @throws Exception
 	 */
@@ -465,7 +450,7 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * Render context from document file
-	 *
+	 * 
 	 * @param out
 	 * @throws Exception
 	 */
@@ -494,15 +479,14 @@ public class ReportTag extends AbstractViewerTag {
 						this.options, null);
 			}
 		} finally {
-			if (doc != null) {
+			if (doc != null)
 				doc.close();
-			}
 		}
 	}
 
 	/**
 	 * Render report content from design file
-	 *
+	 * 
 	 * @param out
 	 * @throws Exception
 	 */
@@ -539,7 +523,7 @@ public class ReportTag extends AbstractViewerTag {
 			// preview reportlet
 			String documentName = session.getCachedReportDocument(viewer.getReportDesign(), viewer.getId());
 			List<Exception> errors = ReportEngineService.getInstance().runReport(request, runnable, documentName,
-					locale, timeZone, params, displayTexts, viewer.getMaxRowsOfRecords());
+					locale, timeZone, params, displayTexts, Integer.valueOf(viewer.getMaxRowsOfRecords()));
 
 			if (errors != null && !errors.isEmpty()) {
 				for (Iterator<Exception> i = errors.iterator(); i.hasNext();) {
@@ -555,27 +539,25 @@ public class ReportTag extends AbstractViewerTag {
 		} else {
 			// preview report
 			ReportEngineService.getInstance().runAndRenderReport(runnable, out, this.options, params, Boolean.TRUE,
-					null, null, displayTexts, reportTitle, viewer.getMaxRowsOfRecords());
+					null, null, displayTexts, reportTitle, Integer.valueOf(viewer.getMaxRowsOfRecords()));
 		}
 	}
 
 	/**
 	 * Handle report parameters
-	 *
+	 * 
 	 * @param reportDesignHandle
 	 * @param params
 	 * @return
 	 */
 	protected Map __handleParameters(IViewerReportDesignHandle reportDesignHandle, Map params) throws Exception {
-		if (params == null) {
+		if (params == null)
 			params = new HashMap();
-		}
 
 		// get report parameter handle list
 		List parameterList = BirtUtility.getParameterList(reportDesignHandle);
-		if (parameterList == null) {
+		if (parameterList == null)
 			return params;
-		}
 
 		// get parameter map
 		Map paramMap = viewer.getParameters();
@@ -603,16 +585,14 @@ public class ReportTag extends AbstractViewerTag {
 					if (!(paramObj instanceof String)) {
 						if (isMultiValue) {
 							Object[] values;
-							if (paramObj instanceof Object[]) {
+							if (paramObj instanceof Object[])
 								values = (Object[]) paramObj;
-							} else {
+							else
 								values = new Object[] { paramObj };
-							}
 
 							for (int i = 0; i < values.length; i++) {
-								if (values[i] instanceof String) {
+								if (values[i] != null && values[i] instanceof String)
 									values[i] = getParameterValue(parameterHandle, field, (String) values[i]);
-								}
 							}
 
 							params.put(paramName, values);
@@ -623,11 +603,10 @@ public class ReportTag extends AbstractViewerTag {
 						// handle parameter using String value
 						paramValue = getParameterValue(parameterHandle, field, (String) paramObj);
 
-						if (isMultiValue) {
+						if (isMultiValue)
 							params.put(paramName, new Object[] { paramValue });
-						} else {
+						else
 							params.put(paramName, paramValue);
-						}
 					}
 				} else {
 					// set default value as parameter value;
@@ -643,7 +622,7 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * parse parameter value by string value
-	 *
+	 * 
 	 * @param handle
 	 * @param field
 	 * @param value
@@ -672,7 +651,7 @@ public class ReportTag extends AbstractViewerTag {
 
 	/**
 	 * Returns Report Service Object
-	 *
+	 * 
 	 * @return
 	 */
 	protected IViewerReportService getReportService() {

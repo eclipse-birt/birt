@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,6 @@ public class RotatedTextPresentationImpl extends ReportItemPresentationBase {
 
 	private RotatedTextItem textItem;
 
-	@Override
 	public void setModelObject(ExtendedItemHandle modelHandle) {
 		try {
 			textItem = (RotatedTextItem) modelHandle.getReportItem();
@@ -48,12 +47,10 @@ public class RotatedTextPresentationImpl extends ReportItemPresentationBase {
 		}
 	}
 
-	@Override
 	public int getOutputType() {
 		return OUTPUT_AS_IMAGE;
 	}
 
-	@Override
 	public Object onRowSets(IBaseResultSet[] results) throws BirtException {
 		if (textItem == null) {
 			return null;

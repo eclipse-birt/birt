@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -58,7 +58,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Actuate Corporation
- *
+ * 
  */
 public class SeriesGroupingComposite extends Composite implements SelectionListener {
 
@@ -86,9 +86,9 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	private Composite fCmpAggregate;
 
-	private List<Text> fAggParamtersTextWidgets = new ArrayList<>();
+	private List<Text> fAggParamtersTextWidgets = new ArrayList<Text>();
 
-	private Map<Button, Text> fExprBuilderWidgetsMap = new HashMap<>();
+	private Map<Button, Text> fExprBuilderWidgetsMap = new HashMap<Button, Text>();
 
 	private Composite fAggParameterComposite;
 
@@ -186,19 +186,17 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 		iscInterval.addSelectionListener(this);
 		iscInterval.addFocusListener(new FocusListener() {
 
-			@Override
 			public void focusGained(FocusEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				String text = iscInterval.getText();
 				if (text == null || text.trim().length() == 0) {
 					text = "0"; //$NON-NLS-1$
 				}
-				fGrouping.setGroupingInterval(Double.parseDouble(text));
+				fGrouping.setGroupingInterval(Double.valueOf(text).doubleValue());
 			}
 
 		});
@@ -206,16 +204,15 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.swt.events.VerifyListener#verifyText(org.eclipse.swt.events.
 			 * VerifyEvent)
 			 */
-			@Override
 			public void verifyText(VerifyEvent e) {
 				// Check if current format of text is correct, only allow "9999.99" format.
 				String text = ((Text) e.getSource()).getText();
 				if (e.text != null && e.text.length() > 0) {
-					StringBuilder sb = new StringBuilder();
+					StringBuffer sb = new StringBuffer();
 					sb.append(text.substring(0, e.start));
 					sb.append(e.text);
 					sb.append(text.substring(e.start));
@@ -283,7 +280,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/**
 	 * Initialize widgets data and status.
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	private void initDataNWidgetsStatus() {
@@ -307,7 +304,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/**
 	 * Set all buttons status.
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	protected void setButtonsStatus() {
@@ -319,7 +316,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/**
 	 * Set all interval buttons status.
-	 *
+	 * 
 	 * @param bEnableUI
 	 * @since 2.3
 	 */
@@ -338,7 +335,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/**
 	 * Set selection status of grouping enabled button.
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	protected void setGroupingButtonSelection() {
@@ -347,7 +344,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/**
 	 * Set the enabled status of grouping enabled button.
-	 *
+	 * 
 	 * @param enabled
 	 * @since 2.3
 	 */
@@ -402,7 +399,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/**
 	 * Populate aggregate parameters widgets.
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	private void populateAggParameters() {
@@ -423,7 +420,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/**
 	 * Reset grouping units items.
-	 *
+	 * 
 	 * @param grouping
 	 * @param isGroupingEnableUI
 	 * @since BIRT 2.3
@@ -462,7 +459,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/**
 	 * Check if specified datat ype name is Text grouping type.
-	 *
+	 * 
 	 * @param dataTypeName
 	 * @return
 	 * @since BIRT 2.3
@@ -473,7 +470,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/**
 	 * Check if specified data type name is DateTime grouping type.
-	 *
+	 * 
 	 * @param dataTypeName
 	 * @return
 	 * @since BIRT 2.3
@@ -503,11 +500,10 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Object oSource = e.getSource();
 		if (oSource.equals(cmbType)) {
@@ -519,8 +515,8 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 			boolean bEnabled = isDateTimeGrouping(selName) || isTextGrouping(selName);
 			resetGroupingUnitsCombo(bEnableUI);
 
-			lblUnit.setEnabled(bEnableUI && bEnabled);
-			cmbUnit.setEnabled(bEnableUI && bEnabled);
+			lblUnit.setEnabled(bEnableUI & bEnabled);
+			cmbUnit.setEnabled(bEnableUI & bEnabled);
 			lblInterval.setEnabled(bEnableUI);
 			iscInterval.setEnabled(bEnableUI);
 
@@ -558,13 +554,13 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 			try {
 				aggFuncName = ((String[]) cmbAggregate.getData())[cmbAggregate.getSelectionIndex()];
 			} catch (Exception e1) {
-
+				;
 			}
 
 			showAggregateParameters(aggFuncName);
 			getShell().pack();
 		} else if (oSource.equals(iscInterval)) {
-			fGrouping.setGroupingInterval(Double.parseDouble(iscInterval.getText()));
+			fGrouping.setGroupingInterval(Double.valueOf(iscInterval.getText()).doubleValue());
 		} else if (isAggParametersWidget(oSource)) {
 			setAggParameter((Text) oSource);
 		} else if (isBuilderBtnWidget(oSource)) {
@@ -642,13 +638,11 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 				txtArg.addSelectionListener(this);
 				txtArg.addFocusListener(new FocusListener() {
 
-					@Override
 					public void focusGained(FocusEvent e) {
 						// TODO Auto-generated method stub
 
 					}
 
-					@Override
 					public void focusLost(FocusEvent e) {
 						setAggParameter((Text) e.getSource());
 					}
@@ -697,12 +691,11 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 }

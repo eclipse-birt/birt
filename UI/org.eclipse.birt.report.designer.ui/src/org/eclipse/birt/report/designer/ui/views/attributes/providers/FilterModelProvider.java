@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  * Filter data processor
- *
+ * 
  */
 public class FilterModelProvider {
 
@@ -45,7 +45,7 @@ public class FilterModelProvider {
 	/**
 	 * The property field indicates current filter type, the flag is different
 	 * between table and crosstab.
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	protected String fFilterPropertyName;
@@ -60,7 +60,7 @@ public class FilterModelProvider {
 	/**
 	 * Constant, represents empty String array.
 	 */
-	protected static final String[] EMPTY = {};
+	protected static final String[] EMPTY = new String[0];
 
 	public FilterModelProvider() {
 		fFilterPropertyName = TableHandle.FILTER_PROP;
@@ -68,7 +68,7 @@ public class FilterModelProvider {
 
 	/**
 	 * Gets the display names of the given property keys.
-	 *
+	 * 
 	 * @param keys Property keys
 	 * @return String array contains display names
 	 */
@@ -84,31 +84,28 @@ public class FilterModelProvider {
 
 	/**
 	 * Gets all elements of the given input.
-	 *
+	 * 
 	 * @param input The input object.
 	 * @return Filters array.
 	 */
 	public Object[] getElements(List input) {
 		Object obj = input.get(0);
-		if (!(obj instanceof DesignElementHandle)) {
+		if (!(obj instanceof DesignElementHandle))
 			return EMPTY;
-		}
 		DesignElementHandle element = (DesignElementHandle) obj;
 		PropertyHandle propertyHandle = element.getPropertyHandle(fFilterPropertyName);
 		Iterator iterator = propertyHandle.iterator();
-		if (iterator == null) {
+		if (iterator == null)
 			return EMPTY;
-		}
 		List list = new ArrayList();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
 			list.add(iterator.next());
-		}
 		return list.toArray();
 	}
 
 	/**
 	 * Gets property display name of a given element.
-	 *
+	 * 
 	 * @param element Filter object
 	 * @param key     Property key
 	 * @return The text according the key
@@ -138,7 +135,7 @@ public class FilterModelProvider {
 
 	/**
 	 * Saves new property value to filter
-	 *
+	 * 
 	 * @param element  Filter object
 	 * @param key      Property key
 	 * @param newValue new value
@@ -148,9 +145,8 @@ public class FilterModelProvider {
 			throws NameException, SemanticException {
 		if (!key.equals(FilterCondition.OPERATOR_MEMBER)) {
 			String value = DEUtil.getExpression(getResultSetColumn(newValue));
-			if (value != null) {
+			if (value != null)
 				newValue = value;
-			}
 		}
 		// if ( !( element instanceof StructureHandle ) )
 		// {
@@ -170,11 +166,10 @@ public class FilterModelProvider {
 		StructureHandle handle = (StructureHandle) element;
 		if (key.equals(FilterCondition.OPERATOR_MEMBER)) {
 			IChoice choice = choiceSet.findChoiceByDisplayName(newValue);
-			if (choice == null) {
+			if (choice == null)
 				saveValue = null;
-			} else {
+			else
 				saveValue = choice.getName();
-			}
 		}
 		handle.getMember(key).setStringValue(saveValue);
 		return true;
@@ -182,7 +177,7 @@ public class FilterModelProvider {
 
 	/**
 	 * Gets the choice set of one property
-	 *
+	 * 
 	 * @param item ReportItem object
 	 * @param key  Property key
 	 * @return Choice set
@@ -200,7 +195,7 @@ public class FilterModelProvider {
 
 	/**
 	 * Gets all columns in a dataSet.
-	 *
+	 * 
 	 * @param handle ReportItem object
 	 * @return Columns array.
 	 */
@@ -231,7 +226,7 @@ public class FilterModelProvider {
 
 	/**
 	 * Moves one item from a position to another.
-	 *
+	 * 
 	 * @param item   DesignElement object
 	 * @param oldPos The item's current position
 	 * @param newPos The item's new position
@@ -247,7 +242,7 @@ public class FilterModelProvider {
 
 	/**
 	 * Deletes an item.
-	 *
+	 * 
 	 * @param item DesignElement object
 	 * @param pos  The item's current position
 	 * @return True if success, otherwise false.
@@ -260,9 +255,8 @@ public class FilterModelProvider {
 		}
 
 		try {
-			if (propertyHandle.getListValue() == null || propertyHandle.getListValue().size() == 0) {
+			if (propertyHandle.getListValue() == null || propertyHandle.getListValue().size() == 0)
 				element.setProperty(fFilterPropertyName, null);
-			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 		}
@@ -272,7 +266,7 @@ public class FilterModelProvider {
 
 	/**
 	 * Inserts one item into the given position.
-	 *
+	 * 
 	 * @param item DesignElement object
 	 * @param pos  The position.
 	 * @return True if success, otherwise false.

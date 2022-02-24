@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,15 +39,15 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test ReportItemHandle.
- *
+ * 
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
- *
+ * 
+ * 
  * <tr>
  * <td>testParseProperties()</td>
  * <td>Gets visibility rules, parameter bindings in elements and tests whether
@@ -55,45 +55,45 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>Returned values match with the design file. If "format" values are not
  * defined, the default value "all" is used.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>The number of visibility rules in elements.</td>
  * <td>The number is 2.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>The number of parameter bindings in the label.</td>
  * <td>The number is 0.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>The number of parameter bindings in the data.</td>
  * <td>The number is 2.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>testWriteProperties</td>
  * <td>The default format value in the visibility rule.</td>
  * <td>The default value can be written out to the design file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Sets "format" and "valueExpr" properties of a visibility rule.</td>
  * <td>"format" and "valueExpr" can be written out and the output file matches
  * with the golden file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Sets "name" and "express" properties of a parameter binding.</td>
  * <td>"name" and "express" can be written out and the output file matches with
  * the golden file.</td>
  * </tr>
- *
+ * 
  */
 
 public class ReportItemParseTest extends BaseTestCase {
@@ -102,11 +102,10 @@ public class ReportItemParseTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -115,7 +114,7 @@ public class ReportItemParseTest extends BaseTestCase {
 
 	/**
 	 * Test to read hide rules.
-	 *
+	 * 
 	 * @throws Exception if open the design file with errors.
 	 */
 
@@ -262,7 +261,7 @@ public class ReportItemParseTest extends BaseTestCase {
 
 	/**
 	 * Test to write hide rules to the design file.
-	 *
+	 * 
 	 * @throws Exception if open/write the design file with IO errors.
 	 */
 
@@ -369,7 +368,7 @@ public class ReportItemParseTest extends BaseTestCase {
 
 	/**
 	 * Test translate TOC expression to TOC structure.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -441,7 +440,7 @@ public class ReportItemParseTest extends BaseTestCase {
 
 	/**
 	 * Test write a TOC structure.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
  * an <code>Element</code> child node whose tag name is body. All other nodes
  * that need to be processed are descendant nodes of "body" node.
  * <p>
- *
+ * 
  */
 public class TextParser {
 
@@ -57,7 +57,7 @@ public class TextParser {
 
 	/**
 	 * Parse the input text to get a DOM tree.
-	 *
+	 * 
 	 * @param text     the text to be parsed
 	 * @param textType the text type (case-insensitive). Valid types includes
 	 *                 auto,plain,html. If null, it is regarded as auto; if set to
@@ -66,9 +66,8 @@ public class TextParser {
 	 */
 	public Document parse(String text, String textType) {
 		// Handle null case
-		if (text == null || text.length() == 0) {
+		if (text == null || text.length() == 0)
 			return null;
-		}
 
 		// If the type is null or auto, resets the text type based on the
 		// content prefix
@@ -82,14 +81,13 @@ public class TextParser {
 			}
 
 			// Checks if the first six characters are "<html>"
-			if ((len - index) >= 6 && text.substring(index, index + 6).equalsIgnoreCase(HTML_PREFIX)) {
+			if ((len - index) >= 6 && text.substring(index, index + 6).equalsIgnoreCase(HTML_PREFIX))
 				textType = TEXT_TYPE_HTML;
-			} else if ((len - index) >= 4 && text.substring(index, index + 4).equalsIgnoreCase(RTF_PREFIX)) {
+			else if ((len - index) >= 4 && text.substring(index, index + 4).equalsIgnoreCase(RTF_PREFIX))
 				textType = TEXT_TYPE_RTF;
-			} else {
+			else
 				textType = TEXT_TYPE_PLAIN; // Assume plain text in any other
-				// cases
-			}
+			// cases
 		}
 
 		Document doc = null;
@@ -107,9 +105,8 @@ public class TextParser {
 			assert false; // Not supported yet
 			return null;
 		} else {
-			if (!TEXT_TYPE_PLAIN.equalsIgnoreCase(textType)) {
+			if (!TEXT_TYPE_PLAIN.equalsIgnoreCase(textType))
 				logger.log(Level.WARNING, "Invalid text type. The content is treated as plain text."); //$NON-NLS-1$
-			}
 			doc = new PlainTextParser().parsePlainText(text);
 
 		}
@@ -125,7 +122,7 @@ public class TextParser {
 
 	/**
 	 * Parse the input stream to get a DOM tree.
-	 *
+	 * 
 	 * @param in       the input stream
 	 * @param textType the text type (case-insensitive). Valid types includes
 	 *                 auto,plain,html. If null, it is regarded as auto; if set to
@@ -134,22 +131,20 @@ public class TextParser {
 	 */
 	public Document parse(InputStream in, String textType) {
 		// Handle the null case
-		if (in == null) {
+		if (in == null)
 			return null;
-		}
 
 		InputStream tmpInputStream = in;
 
 		// If the type is null or auto, resets the text type based on the
 		// content prefix
 		if (null == textType || TEXT_TYPE_AUTO.equalsIgnoreCase(textType)) {
-			StringBuilder buf = new StringBuilder();
+			StringBuffer buf = new StringBuffer();
 			int chr;
 			try {
 				// Skips the white space
-				while ((chr = in.read()) != -1 && Character.isWhitespace((char) chr)) {
+				while ((chr = in.read()) != -1 && Character.isWhitespace((char) chr))
 					buf.append((char) chr);
-				}
 
 				// Reads the next (up-to) six characters
 				for (int headLen = 0; headLen < 6 && chr != -1; headLen++) {
@@ -158,17 +153,15 @@ public class TextParser {
 				}
 
 				// Checks the type of text
-				if (buf.toString().toLowerCase().endsWith(HTML_PREFIX)) {
+				if (buf.toString().toLowerCase().endsWith(HTML_PREFIX))
 					textType = TEXT_TYPE_HTML;
-				} else if (buf.toString().toLowerCase().endsWith(RTF_PREFIX)) {
+				else if (buf.toString().toLowerCase().endsWith(RTF_PREFIX))
 					textType = TEXT_TYPE_RTF;
-				} else {
+				else
 					textType = TEXT_TYPE_PLAIN;
-				}
 
-				if (chr != -1) {
+				if (chr != -1)
 					buf.append((char) chr);
-				}
 
 				// Pushes back the characters that are read for text type
 				// detection
@@ -186,15 +179,14 @@ public class TextParser {
 
 		Document doc = null;
 
-		if (TEXT_TYPE_HTML.equalsIgnoreCase(textType)) {
+		if (TEXT_TYPE_HTML.equalsIgnoreCase(textType))
 			doc = new HTMLTextParser().parseHTML(tmpInputStream);
-		} else if (TEXT_TYPE_RTF.equals(textType)) {
+		else if (TEXT_TYPE_RTF.equals(textType)) {
 			assert false; // not supported
 			return null;
 		} else {
-			if (!TEXT_TYPE_PLAIN.equalsIgnoreCase(textType)) {
+			if (!TEXT_TYPE_PLAIN.equalsIgnoreCase(textType))
 				logger.log(Level.WARNING, "Invalid text type. The content is treated as plain text."); //$NON-NLS-1$
-			}
 			// All other types are considered as the plain text.
 			doc = new PlainTextParser().parsePlainText(tmpInputStream);
 

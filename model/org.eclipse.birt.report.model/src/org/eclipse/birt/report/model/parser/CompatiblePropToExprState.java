@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ class CompatiblePropToExprState extends CompatiblePropertyState {
 
 	/**
 	 * Constructs a compatible state.
-	 *
+	 * 
 	 * @param theHandler the handler to parse the design file.
 	 * @param element    the data item
 	 */
@@ -50,18 +50,17 @@ class CompatiblePropToExprState extends CompatiblePropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		handleDefaultValueList(handler.module, element, propDefn, nameValue, handler.versionNumber, text.toString());
 	}
 
 	/**
 	 * Handles the compatibility case for specified properties.
-	 *
+	 * 
 	 * @param value the value
 	 * @return the value has been compromised
 	 */
@@ -84,7 +83,7 @@ class CompatiblePropToExprState extends CompatiblePropertyState {
 
 		Object newValue = null;
 		if (tmpType == IPropertyType.LIST_TYPE) {
-			List<Expression> newList = new ArrayList<>();
+			List<Expression> newList = new ArrayList<Expression>();
 			newList.add(new Expression(value, ExpressionType.CONSTANT));
 			newValue = newList;
 		} else {
@@ -97,9 +96,8 @@ class CompatiblePropToExprState extends CompatiblePropertyState {
 			// ignore this exception. must be ROM error.
 		}
 
-		if (newValue == null) {
+		if (newValue == null)
 			return;
-		}
 
 		element.setProperty(propDefn, newValue);
 	}

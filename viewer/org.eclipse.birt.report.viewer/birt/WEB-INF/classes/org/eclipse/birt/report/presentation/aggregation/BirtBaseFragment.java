@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -14,7 +14,6 @@
 package org.eclipse.birt.report.presentation.aggregation;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,24 +66,24 @@ import org.eclipse.birt.report.service.api.IViewerReportService;
  * </ul>
  * </ul>
  * </i>
- *
+ * 
  * <P>
  * All fragments except parameter-related fragments (fragments inside "Parameter
  * Fragment") has only one instance. They represents the basic Birt viewer
  * layout. They are initialized in servlet's initialization phase and shared by
  * all servlet requests.
- *
+ * 
  * <P>
  * Those parameter-related fragments are created dynamically for each individual
  * servlet request. Their composite structure is determined by report design.
- *
+ * 
  * <P>
  * Each framgent serves as a back-end or "code behand" class that encapsulates
  * all the logic that is necessary for renderring the interface. A jsp page with
  * the same name will serve as the front-end interface. You can have multiple
  * front-end jsp pages as you want to achieve various UI effects. All these jsp
  * page sets share the same back-end fragments.
- *
+ * 
  */
 public class BirtBaseFragment extends AbstractBaseFragment {
 	/**
@@ -104,13 +103,12 @@ public class BirtBaseFragment extends AbstractBaseFragment {
 
 	/**
 	 * Base class implementation of post service process.
-	 *
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	@Override
 	protected String doPostService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setHeader("Cache-Control", "no-store"); //$NON-NLS-1$//$NON-NLS-2$
@@ -124,7 +122,6 @@ public class BirtBaseFragment extends AbstractBaseFragment {
 	/**
 	 * Get report service instance.
 	 */
-	@Override
 	protected IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}

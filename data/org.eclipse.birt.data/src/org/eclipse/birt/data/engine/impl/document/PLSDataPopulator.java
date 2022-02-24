@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,7 +62,7 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param targetGroups
 	 * @param docIt
 	 * @throws DataException
@@ -77,16 +77,15 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 
 	/**
 	 * Return the enclosed document iterator.
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public ResultIterator getDocumentIterator() {
 		return this.docIt;
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void populateEmptyInfo() {
 		this.isEmpty = !(this.currentBoundary != null
@@ -95,37 +94,32 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 
 	/**
 	 * Populate the boundaries info.
-	 *
+	 * 
 	 * @param targetGroups
 	 * @throws DataException
 	 */
 	private void populateBoundary(List<IGroupInstanceInfo> targetGroups) throws DataException {
 		// Make a copy to user input.
-		List<IGroupInstanceInfo> groups = new ArrayList<>(targetGroups);
+		List<IGroupInstanceInfo> groups = new ArrayList<IGroupInstanceInfo>(targetGroups);
 
 		// Sort the copy
 		Collections.sort(groups, new Comparator<IGroupInstanceInfo>() {
 
-			@Override
 			public int compare(IGroupInstanceInfo arg0, IGroupInstanceInfo arg1) {
-				if (arg0.getGroupLevel() < arg1.getGroupLevel()) {
+				if (arg0.getGroupLevel() < arg1.getGroupLevel())
 					return -1;
-				}
-				if (arg0.getGroupLevel() > arg1.getGroupLevel()) {
+				if (arg0.getGroupLevel() > arg1.getGroupLevel())
 					return 1;
-				}
-				if (arg0.getRowId() < arg1.getRowId()) {
+				if (arg0.getRowId() < arg1.getRowId())
 					return -1;
-				}
-				if (arg0.getRowId() > arg1.getRowId()) {
+				if (arg0.getRowId() > arg1.getRowId())
 					return 1;
-				}
 				return 0;
 			}
 		});
 
 		// Here the groups has been sorted.
-		List<Boundary> boundaries = new LinkedList<>();
+		List<Boundary> boundaries = new LinkedList<Boundary>();
 		tag: for (IGroupInstanceInfo info : groups) {
 			int[] groupStartEndingIndex = docIt.getExprResultSet().getGroupStartAndEndIndex(info.getGroupLevel());
 			for (int i = 0; i < groupStartEndingIndex.length; i = i + 2) {
@@ -135,9 +129,8 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 
 					// Try to merge the boundaries.
 					for (Boundary target : boundaries) {
-						if (b.containedBy(target)) {
+						if (b.containedBy(target))
 							continue tag;
-						}
 					}
 
 					// If failed to merge, simply add to boundaries list.
@@ -149,13 +142,11 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 
 		Collections.sort(boundaries, new Comparator<Boundary>() {
 
-			@Override
 			public int compare(Boundary o1, Boundary o2) {
-				if (o1.start < o2.start) {
+				if (o1.start < o2.start)
 					return -1;
-				} else if (o1.start > o2.start) {
+				else if (o1.start > o2.start)
 					return 1;
-				}
 				return 0;
 			}
 
@@ -173,7 +164,7 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param groups
 	 * @param boundaries
 	 * @throws DataException
@@ -184,16 +175,15 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 
 		for (int i = 0; i <= matteredGroupLevel; i++) {
 			int[] starEndGroupIndex = this.docIt.getExprResultSet().getGroupStartAndEndIndex(i);
-			List<Boundary> temp = new ArrayList<>(boundaries);
+			List<Boundary> temp = new ArrayList<Boundary>(boundaries);
 			for (int j = 0; j < starEndGroupIndex.length; j = j + 2) {
 				// If all the boundaries are processed, then continue to process next group
 				// level.
-				if (temp.isEmpty()) {
+				if (temp.isEmpty())
 					break;
-				}
 
 				// Feed all the boundaries of current starting/ending group index to this list
-				List<Boundary> contained = new ArrayList<>();
+				List<Boundary> contained = new ArrayList<Boundary>();
 
 				Iterator<Boundary> it = temp.iterator();
 				while (it.hasNext()) {
@@ -229,25 +219,22 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws BirtException
 	 */
-	@Override
 	public void close() throws BirtException {
 		this.docIt.close();
 	}
 
 	/**
 	 * Move to next qualified row.
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
-	@Override
 	public boolean next() throws DataException {
-		if (this.isEmpty) {
+		if (this.isEmpty)
 			return false;
-		}
 		try {
 			while (docIt.next()) {
 				if (docIt.getExprResultSet().getCurrentIndex() < this.currentBoundary.start) {
@@ -275,9 +262,9 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @author Work
-	 *
+	 * 
 	 */
 	protected static class Boundary {
 
@@ -294,7 +281,7 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 		int endGroupLevel;
 
 		/**
-		 *
+		 * 
 		 * @param groupLevel
 		 * @param start
 		 * @param end
@@ -308,7 +295,7 @@ public class PLSDataPopulator implements IPLSDataPopulator {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param target
 		 * @return
 		 */

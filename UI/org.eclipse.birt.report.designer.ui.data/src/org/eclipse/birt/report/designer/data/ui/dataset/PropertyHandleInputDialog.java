@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
 
 /**
- *
+ * 
  */
 
 abstract class PropertyHandleInputDialog extends StatusDialog {
@@ -48,17 +48,15 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 		this.structureOrHandle = structureOrHandle;
 	}
 
-	@Override
 	protected boolean isResizable() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.window.Window#create()
 	 */
-	@Override
 	public void create() {
 		super.create();
 
@@ -75,12 +73,11 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		GridLayout layout = new GridLayout(3, false);
@@ -104,7 +101,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 
 	/**
 	 * Create customized controls
-	 *
+	 * 
 	 * @param parent
 	 */
 	protected abstract void createCustomControls(Composite parent);
@@ -112,14 +109,13 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	protected void validateSyntax() {
 		IStatus status = validateSyntax(structureOrHandle);
 
-		if (status != null) {
+		if (status != null)
 			updateStatus(status);
-		}
 	}
 
 	/**
 	 * Syntax check which determines whether to enable the Ok button
-	 *
+	 * 
 	 * @param structureOrHandle
 	 * @return
 	 */
@@ -128,7 +124,6 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	private void addListeners() {
 		getShell().addListener(SWT.Close, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				rollback();
 			}
@@ -137,22 +132,19 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
-		if (validateSemantics()) {
+		if (validateSemantics())
 			super.okPressed();
-		}
 	}
 
 	protected boolean validateSemantics() {
 		IStatus status = validateSemantics(structureOrHandle);
 
-		if (status == null) {
+		if (status == null)
 			return true;
-		}
 
 		updateStatus(status);
 
@@ -161,7 +153,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 
 	/**
 	 * Semantics check which determines whether to close the window
-	 *
+	 * 
 	 * @param structureOrHandle
 	 * @return
 	 */
@@ -169,10 +161,9 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
 	 */
-	@Override
 	protected void cancelPressed() {
 		rollback();
 
@@ -181,7 +172,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 
 	/**
 	 * Roll back to the original status when necessary.
-	 *
+	 * 
 	 */
 	protected abstract void rollback();
 
@@ -190,7 +181,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -199,7 +190,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cellLabel
 	 * @return
 	 */
@@ -210,7 +201,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	protected Status getOKStatus() {
@@ -218,7 +209,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param severity
 	 * @param message
 	 * @return
@@ -228,7 +219,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param obj
 	 * @param propertyName
 	 * @param value
@@ -245,7 +236,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param obj
 	 * @param propertyName
 	 * @return

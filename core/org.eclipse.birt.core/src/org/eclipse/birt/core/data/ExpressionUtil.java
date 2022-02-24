@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -182,7 +182,6 @@ public final class ExpressionUtil {
 	 * @return
 	 * @deprecated
 	 */
-	@Deprecated
 	public static String createRowExpression(int index) {
 		return ROW_INDICATOR + "[" + index + "]";
 	}
@@ -209,9 +208,8 @@ public final class ExpressionUtil {
 	public static String getColumnBindingName(String oldExpression) throws BirtException {
 		List<IColumnBinding> columnsLists = extractColumnExpressions(oldExpression, ExpressionUtil.ROW_INDICATOR);
 		if (columnsLists.size() != 1
-				|| !ExpressionParserUtility.isDirectColumnRef(oldExpression, ExpressionUtil.ROW_INDICATOR)) {
+				|| !ExpressionParserUtility.isDirectColumnRef(oldExpression, ExpressionUtil.ROW_INDICATOR))
 			return null;
-		}
 		return columnsLists.get(0).getResultSetColumnName();
 	}
 
@@ -227,9 +225,8 @@ public final class ExpressionUtil {
 		List<IColumnBinding> columnsLists = extractColumnExpressions(oldExpression,
 				ExpressionUtil.DATASET_ROW_INDICATOR);
 		if (columnsLists.size() != 1
-				|| !ExpressionParserUtility.isDirectColumnRef(oldExpression, ExpressionUtil.DATASET_ROW_INDICATOR)) {
+				|| !ExpressionParserUtility.isDirectColumnRef(oldExpression, ExpressionUtil.DATASET_ROW_INDICATOR))
 			return null;
-		}
 		return columnsLists.get(0).getResultSetColumnName();
 	}
 
@@ -262,9 +259,8 @@ public final class ExpressionUtil {
 	 */
 	public static List<IColumnBinding> extractColumnExpressions(String oldExpression, String indicator)
 			throws BirtException {
-		if (oldExpression == null || oldExpression.trim().length() == 0) {
+		if (oldExpression == null || oldExpression.trim().length() == 0)
 			return Collections.emptyList();
-		}
 
 		try {
 			return ExpressionParserUtility.compileColumnExpression(new ExpressionParserUtility(), oldExpression,
@@ -282,9 +278,8 @@ public final class ExpressionUtil {
 	 * @throws BirtException
 	 */
 	public static boolean hasAggregation(String expression) {
-		if (expression == null) {
+		if (expression == null)
 			return false;
-		}
 
 		try {
 			return ExpressionParserUtility.hasAggregation(expression, ExpressionUtil.ROW_INDICATOR)
@@ -313,17 +308,16 @@ public final class ExpressionUtil {
 	 * @return
 	 */
 	public static String toNewExpression(String oldExpression) {
-		if (oldExpression == null) {
+		if (oldExpression == null)
 			return null;
-		}
 
 		char[] chars = oldExpression.toCharArray();
 
 		// 5 is the minium length of expression that can cantain a row
 		// expression
-		if (chars.length < 5) {
+		if (chars.length < 5)
 			return oldExpression;
-		} else {
+		else {
 			ParseIndicator status = new ParseIndicator(0, 0, false, false, true, true);
 
 			for (int i = 0; i < chars.length; i++) {
@@ -363,17 +357,16 @@ public final class ExpressionUtil {
 	 * @return
 	 */
 	public static String updateParentQueryReferenceExpression(String oldExpression, boolean isParameterBinding) {
-		if (oldExpression == null) {
+		if (oldExpression == null)
 			return null;
-		}
 
 		char[] chars = oldExpression.toCharArray();
 
 		// 7 is the minium length of expression that can cantain a row
 		// expression
-		if (chars.length < 7) {
+		if (chars.length < 7)
 			return oldExpression;
-		} else {
+		else {
 			ParseIndicator status = new ParseIndicator(0, 0, false, false, true, true);
 
 			for (int i = 0; i < chars.length; i++) {
@@ -473,21 +466,18 @@ public final class ExpressionUtil {
 
 		if ((!omitNextQuote) && chars[i] == '"') {
 			candidateKey1 = !candidateKey1;
-			if (candidateKey1) {
+			if (candidateKey1)
 				candidateKey2 = true;
-			}
 		}
 		if ((!omitNextQuote) && chars[i] == '\'') {
 			candidateKey2 = !candidateKey2;
-			if (candidateKey2) {
+			if (candidateKey2)
 				candidateKey1 = true;
-			}
 		}
-		if (chars[i] == '\\') {
+		if (chars[i] == '\\')
 			omitNextQuote = true;
-		} else {
+		else
 			omitNextQuote = false;
-		}
 
 		return new ParseIndicator(retrieveSize, i, candidateKey1, omitNextQuote, candidateKey1, candidateKey2);
 	}
@@ -499,9 +489,8 @@ public final class ExpressionUtil {
 	 * @return
 	 */
 	private static boolean isValidProceeding(char operator) {
-		if ((operator >= 'A' && operator <= 'Z') || (operator >= 'a' && operator <= 'z') || operator == '_') {
+		if ((operator >= 'A' && operator <= 'Z') || (operator >= 'a' && operator <= 'z') || operator == '_')
 			return false;
-		}
 
 		return true;
 	}
@@ -519,9 +508,8 @@ public final class ExpressionUtil {
 			String[] splited = jointColumName.split("::");
 
 			result[0] = splited[0];
-			if (result[0].endsWith("1") || result[0].endsWith("2")) {
+			if (result[0].endsWith("1") || result[0].endsWith("2"))
 				result[1] = result[0].substring(0, result[0].length() - 1);
-			}
 		}
 
 		return result;
@@ -542,9 +530,8 @@ public final class ExpressionUtil {
 	 */
 
 	public static String getDataSetNameWithoutPrefix(String fullDataSetName) {
-		if (fullDataSetName == null) {
+		if (fullDataSetName == null)
 			return null;
-		}
 
 		String dataSetName = fullDataSetName;
 		String temp[] = fullDataSetName.split("\\Q.\\E"); //$NON-NLS-1$
@@ -574,7 +561,6 @@ public final class ExpressionUtil {
 	 * @return get the first measure name in this expression
 	 * @throws CoreException
 	 */
-	@Deprecated
 	public static String getReferencedMeasure(String expr) throws CoreException {
 		Set<String> names = OlapExpressionCompiler.getReferencedMeasure(expr);
 		return names.isEmpty() ? null : names.iterator().next();
@@ -598,9 +584,8 @@ public final class ExpressionUtil {
 	 * @return
 	 */
 	public static String replaceParameterName(String expr, String paramOldName, String paramNewName) {
-		if (expr == null || paramOldName == null || paramNewName == null) {
+		if (expr == null || paramOldName == null || paramNewName == null)
 			return expr;
-		}
 
 		expr = expr.replaceAll("\\Qparams[\"\\E" + paramOldName + "\\Q\"]\\E", "params[\"" + paramNewName + "\"]");
 		expr = expr.replaceAll("\\Qparams.\\E" + paramOldName, "params." + paramNewName);
@@ -698,17 +683,14 @@ class ColumnBinding implements IColumnBinding {
 		this.level = level;
 	}
 
-	@Override
 	public String getResultSetColumnName() {
 		return this.columnName;
 	}
 
-	@Override
 	public String getBoundExpression() {
 		return this.expression;
 	}
 
-	@Override
 	public int getOuterLevel() {
 		return level;
 	}

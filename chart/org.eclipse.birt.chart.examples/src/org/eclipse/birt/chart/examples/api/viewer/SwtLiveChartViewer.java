@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -83,7 +83,7 @@ public class SwtLiveChartViewer extends Composite implements PaintListener {
 
 	/**
 	 * execute application
-	 *
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -98,9 +98,8 @@ public class SwtLiveChartViewer extends Composite implements PaintListener {
 
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
+			if (!display.readAndDispatch())
 				display.sleep();
-			}
 		}
 		display.dispose();
 	}
@@ -267,11 +266,10 @@ public class SwtLiveChartViewer extends Composite implements PaintListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events
 	 * .PaintEvent)
 	 */
-	@Override
 	public final void paintControl(PaintEvent e) {
 		Rectangle d = this.getClientArea();
 		if (bFirstPaint) {
@@ -301,7 +299,6 @@ public class SwtLiveChartViewer extends Composite implements PaintListener {
 
 		Display.getDefault().timerExec(500, new Runnable() {
 
-			@Override
 			public void run() {
 				chartRefresh();
 			}
@@ -311,7 +308,7 @@ public class SwtLiveChartViewer extends Composite implements PaintListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)

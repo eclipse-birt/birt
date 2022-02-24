@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.engine.api;
@@ -49,26 +49,22 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 
 	/**
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onDesignImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
-	@Deprecated
-	@Override
 	public String onDesignImage(IImage image, Object context) {
 		return handleImage(image, context, "design", true); //$NON-NLS-1$
 	}
 
 	/**
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onDocImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
-	@Deprecated
-	@Override
 	public String onDocImage(IImage image, Object context) {
 		// TODO Auto-generated method stub
 		return null;
@@ -76,13 +72,11 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 
 	/**
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onURLImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
-	@Deprecated
-	@Override
 	public String onURLImage(IImage image, Object context) {
 		assert (image != null);
 		String uri = image.getID();
@@ -94,20 +88,18 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 
 	/**
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onCustomImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
-	@Deprecated
-	@Override
 	public String onCustomImage(IImage image, Object context) {
 		return handleImage(image, context, "custom", false); //$NON-NLS-1$
 	}
 
 	/**
 	 * returns a unique file name based on a directory and name prefix
-	 *
+	 * 
 	 * @param imageDir directory to store the image
 	 * @param prefix   prefix for the file name
 	 * @return a file name
@@ -118,7 +110,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 
 	/**
 	 * creates a unique tempoary file to store an image
-	 *
+	 * 
 	 * @param imageDir directory to put image into
 	 * @param prefix   file name prefix
 	 * @param postfix  file name postfix
@@ -141,7 +133,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 	 * <li>the hashcode of the image handler
 	 * <li>creation time of the image handler
 	 * <li>image count created by the image handler
-	 *
+	 * 
 	 * @return return the unique count for filename
 	 */
 	synchronized private String genUniqueCount() {
@@ -151,20 +143,18 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 
 	/**
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onFileImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
-	@Deprecated
-	@Override
 	public String onFileImage(IImage image, Object context) {
 		return handleImage(image, context, "file", true); //$NON-NLS-1$
 	}
 
 	/**
 	 * handles an image report item and returns an image URL
-	 *
+	 * 
 	 * @param image   represents the image design information
 	 * @param context context information
 	 * @param prefix  image prefix in URL
@@ -225,7 +215,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 
 	/**
 	 * Handle a temporary image .
-	 *
+	 * 
 	 * @param image   represents the image design information
 	 * @param prefix  image prefix in URL
 	 * @param needMap whether image map is needed
@@ -235,7 +225,6 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 		try {
 			String fileName = AccessController.doPrivileged(new PrivilegedExceptionAction<String>() {
 
-				@Override
 				public String run() throws IOException {
 					File tempFile = File.createTempFile(prefix, ".img");
 					image.writeImage(tempFile);
@@ -258,7 +247,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 
 	/**
 	 * returns the unique identifier for the image
-	 *
+	 * 
 	 * @param image the image object
 	 * @return the image id
 	 */
@@ -271,7 +260,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 
 	/**
 	 * get image
-	 *
+	 * 
 	 * @param out      the output stream of image
 	 * @param imageDir the image directory
 	 * @param imageID  id of image
@@ -282,11 +271,11 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 		// avoid
 		// user uses this API read arbitrary file in disk.
 		if (imageID.indexOf("./") != -1 || imageID.indexOf(".\\") != -1) {
-			throw new EngineException(MessageConstants.MISSING_IMAGE_FILE_ERROR); // $NON-NLS-1$
+			throw new EngineException(MessageConstants.MISSING_IMAGE_FILE_ERROR); // $NON-NLS-1$ //$NON-NLS-2$
 		}
 		File imageFile = new File(imageDir, imageID);
 		if (!imageFile.exists()) {
-			throw new EngineException(MessageConstants.MISSING_IMAGE_FILE_ERROR); // $NON-NLS-1$
+			throw new EngineException(MessageConstants.MISSING_IMAGE_FILE_ERROR); // $NON-NLS-1$ //$NON-NLS-2$
 		}
 		InputStream in = null;
 		try {

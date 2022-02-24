@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,7 +50,6 @@ public class InlineTextArea extends InlineContainerArea implements ILayout {
 		super(area);
 	}
 
-	@Override
 	public void layout() throws BirtException {
 		initialize();
 		removeHyperlinkForBlankText();
@@ -72,7 +71,6 @@ public class InlineTextArea extends InlineContainerArea implements ILayout {
 		}
 	}
 
-	@Override
 	public InlineTextArea cloneArea() {
 		InlineTextArea newArea = new InlineTextArea(this);
 		if (isInHeader()) {
@@ -81,7 +79,6 @@ public class InlineTextArea extends InlineContainerArea implements ILayout {
 		return newArea;
 	}
 
-	@Override
 	protected void addToExtension(InlineContainerArea area) {
 		addLineToExtension((InlineTextArea) area);
 	}
@@ -132,7 +129,6 @@ public class InlineTextArea extends InlineContainerArea implements ILayout {
 		}
 	}
 
-	@Override
 	protected void close(boolean isLastLine) throws BirtException {
 		super.close(isLastLine);
 		if (isLastLine) {
@@ -142,7 +138,6 @@ public class InlineTextArea extends InlineContainerArea implements ILayout {
 		checkDisplayNone();
 	}
 
-	@Override
 	protected boolean checkPageBreak() throws BirtException {
 		boolean ret = false;
 		if (!isInInlineStacking && context.isAutoPageBreak()) {
@@ -159,7 +154,6 @@ public class InlineTextArea extends InlineContainerArea implements ILayout {
 		return ret;
 	}
 
-	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
 		if (force) {
 			// current line will be the last line in current page.

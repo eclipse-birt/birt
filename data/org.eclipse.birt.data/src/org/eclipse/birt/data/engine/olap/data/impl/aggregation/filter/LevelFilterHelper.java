@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper;
 
 /**
- *
+ * 
  */
 
 public class LevelFilterHelper {
@@ -53,7 +53,7 @@ public class LevelFilterHelper {
 	/**
 	 * @throws IOException
 	 * @throws DataException
-	 *
+	 * 
 	 */
 	public LevelFilterHelper(Dimension dimension, List simpleLevelFilters, List levelFilters)
 			throws DataException, IOException {
@@ -65,7 +65,7 @@ public class LevelFilterHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param jsFilters
 	 * @param isBreakHierarchy
 	 * @return
@@ -75,9 +75,8 @@ public class LevelFilterHelper {
 	public IDiskArray getJSFilterResult(List jsFilters, boolean isBreakHierarchy) throws DataException, IOException {
 
 		if ((simplelevelFilters == null || simplelevelFilters.size() == 0)
-				&& (levelFilters == null || levelFilters.size() == 0) && (jsFilters == null || jsFilters.size() == 0)) {
+				&& (levelFilters == null || levelFilters.size() == 0) && (jsFilters == null || jsFilters.size() == 0))
 			return null;
-		}
 		List dimFilterList = new ArrayList();
 		List topBottomfilterList = new ArrayList();
 		for (int j = 0; j < jsFilters.size(); j++) {
@@ -119,7 +118,7 @@ public class LevelFilterHelper {
 
 	/**
 	 * get the top/bottom filter selected dimension positions.
-	 *
+	 * 
 	 * @param topBottomfilterList
 	 * @param isBreakHierarchy
 	 * @return
@@ -145,7 +144,7 @@ public class LevelFilterHelper {
 
 	/**
 	 * get all selected dimension positions.
-	 *
+	 * 
 	 * @param dimValueArrayList
 	 * @param filterHelper
 	 * @param dimPositionArray
@@ -163,11 +162,10 @@ public class LevelFilterHelper {
 			int end = size;
 			if (filterHelper.isPercent()) {
 				int n = FilterUtil.getTargetN(size, filterHelper.getN());
-				if (filterHelper.isTop()) {
+				if (filterHelper.isTop())
 					start = size - n;
-				} else {
+				else
 					end = n;
-				}
 			}
 			for (int j = start; j < end; j++) {
 				ValueObject aggrValue = (ValueObject) dimValues.get(j);
@@ -181,7 +179,7 @@ public class LevelFilterHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param pos
 	 * @param dimFilterList
 	 * @throws IOException
@@ -202,7 +200,7 @@ public class LevelFilterHelper {
 	 * evaluate the filter to dimension positions in <code>dimPosition</code> and
 	 * store the evaluate result to <code>dimValueArrayList</code>, which contains
 	 * one or multiple IDiskArray instances.
-	 *
+	 * 
 	 * @param levels
 	 * @param filter
 	 * @param isBreakHierarchy
@@ -217,15 +215,14 @@ public class LevelFilterHelper {
 		int index = getIndex(levels, filter.getTargetLevel().getLevelName());
 
 		// for time dimension we ignore target level
-		if (index < 0) {
+		if (index < 0)
 			index = 0;
-		}
 
 		Member[] preMembers = null;
 		Object[] preValue = null;
 		IDiskArray dimValueArray = null;
 		int n = -1;
-		if (!filter.isPercent()) {
+		if (filter.isPercent() == false) {
 			n = (int) filter.getN();
 		}
 		// when using break hierarchy mode, it applies top/bottom filters to the
@@ -257,7 +254,7 @@ public class LevelFilterHelper {
 			}
 			preMembers = dimRow.getMembers();
 			Object[] levelValue = dimRow.getMembers()[index].getKeyValues();
-			if (preValue == null || !shareParentLevels || CompareUtil.compare(preValue, levelValue) != 0) {
+			if (preValue == null || shareParentLevels == false || CompareUtil.compare(preValue, levelValue) != 0) {
 				Object value = filter.evaluateFilterExpr(rowAccessor);
 				range = new IntRange(pos.intValue(), pos.intValue());
 				dimValueArray.add(new ValueObject(value, range));
@@ -305,11 +302,10 @@ public class LevelFilterHelper {
 							}
 						}
 					}
-					if (isSelectedByAny) {
+					if (isSelectedByAny)
 						break;
-					}
 				}
-				if (!isSelectedByAny) {
+				if (isSelectedByAny == false) {
 					isSelectedByAll = false;
 					break;
 				}
@@ -322,7 +318,7 @@ public class LevelFilterHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 * @throws IOException
@@ -335,14 +331,13 @@ public class LevelFilterHelper {
 		}
 
 		Map validFilterMap = getValidFilterMap();
-		if (validFilterMap.isEmpty()) {
+		if (validFilterMap.isEmpty())
 			return;
-		}
 		this.dimPosition = populateValidPositions(validFilterMap);
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 * @throws IOException
 	 */
@@ -352,7 +347,7 @@ public class LevelFilterHelper {
 		int filterCount = 0;
 		for (int i = 0; i < simplelevelFilters.size(); i++) {
 			SimpleLevelFilter filter = (SimpleLevelFilter) simplelevelFilters.get(i);
-			if (!filter.getDimensionName().equals(dimension.getName())) {
+			if (filter.getDimensionName().equals(dimension.getName()) == false) {
 				continue;
 			}
 			int index = getIndex(levels, filter.getLevelName());
@@ -383,7 +378,7 @@ public class LevelFilterHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param levels
 	 * @param levelName
 	 * @return
@@ -444,7 +439,7 @@ public class LevelFilterHelper {
 }
 
 /**
- *
+ * 
  */
 class IntRange {
 

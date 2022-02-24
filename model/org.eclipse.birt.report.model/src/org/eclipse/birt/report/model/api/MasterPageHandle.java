@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,8 +26,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
  * Represents a master page. The master page is an abstract element that defines
  * the basic properties of a printed page. The derived elements, Simple and
  * Graphic Master Pages, provide content that appears on the page itself.
- *
- *
+ * 
+ * 
  * @see org.eclipse.birt.report.model.elements.MasterPage
  * @see DimensionHandle
  */
@@ -38,7 +38,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 	 * Constructs a master-page handle with the given design and the element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -52,7 +52,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 	 * or a custom size. Note that the size returned <em>will not</em> match the
 	 * <code>getWidth</code> and <code>getHeight</code> values unless the page uses
 	 * a custom size.
-	 *
+	 * 
 	 * @return the actual page size in application units
 	 */
 
@@ -62,28 +62,26 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Returns the the effective width of the page.
-	 *
+	 * 
 	 * @return the effective width of the page. Return value is a DimensionValue,
 	 *         the measure of it is the width measure of the page, unit is that set
 	 *         on the session.
 	 * @deprecated
 	 */
 
-	@Deprecated
 	public DimensionValue getEffectiveWidth() {
 		return new DimensionValue(getSize().x, module.getSession().getUnits());
 	}
 
 	/**
 	 * Returns the the effective height of the page.
-	 *
+	 * 
 	 * @return the effective height of the page. Return value is a DimensionValue,
 	 *         the measure of it is the height measure of the page, unit is that set
 	 *         on the session.
 	 * @deprecated
 	 */
 
-	@Deprecated
 	public DimensionValue getEffectiveHeight() {
 		return new DimensionValue(getSize().y, module.getSession().getUnits());
 	}
@@ -91,14 +89,14 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 	/**
 	 * Returns the type of the page. The return type of the page is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>PAGE_SIZE_CUSTOM</code>
 	 * <li><code>PAGE_SIZE_US_LETTER</code>
 	 * <li><code>PAGE_SIZE_US_LEGAL</code>
 	 * <li><code>PAGE_SIZE_A4</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the type of the page
 	 */
 
@@ -109,16 +107,16 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 	/**
 	 * Sets the type of the page. The input type of the page is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>PAGE_SIZE_CUSTOM</code>
 	 * <li><code>PAGE_SIZE_US_LETTER</code>
 	 * <li><code>PAGE_SIZE_US_LEGAL</code>
 	 * <li><code>PAGE_SIZE_A4</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param type the type of the page
-	 *
+	 * 
 	 * @throws SemanticException if the property is locked or the input value is not
 	 *                           one of the above.
 	 */
@@ -130,13 +128,13 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 	/**
 	 * Returns the page orientation. The return type of the page is defined in
 	 * <code>DesignChoiceConstants</code> can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>PAGE_ORIENTATION_AUTO</code>
 	 * <li><code>PAGE_ORIENTATION_PORTRAIT</code>
 	 * <li><code>PAGE_ORIENTATION_LANDSCAPE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the page orientation
 	 */
 
@@ -147,13 +145,13 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 	/**
 	 * Returns the page orientation. The input type of the page is defined in
 	 * <code>DesignChoiceConstants</code> can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>PAGE_ORIENTATION_AUTO</code>
 	 * <li><code>PAGE_ORIENTATION_PORTRAIT</code>
 	 * <li><code>PAGE_ORIENTATION_LANDSCAPE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param orientation the page orientation
 	 * @throws SemanticException if the property is locked or the input value is not
 	 *                           one of the above.
@@ -165,7 +163,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets a dimension handle to work with the height of the page.
-	 *
+	 * 
 	 * @return a DimensionHandle to work with the height
 	 */
 
@@ -175,7 +173,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets a dimension handle to work with the width of the page.
-	 *
+	 * 
 	 * @return DimensionHandle to work with the width
 	 */
 
@@ -185,7 +183,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets a dimension handle to work with the margin on the bottom side.
-	 *
+	 * 
 	 * @return a DimensionHandle for the bottom margin.
 	 */
 
@@ -195,7 +193,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets a dimension handle to work with the margin on the left side.
-	 *
+	 * 
 	 * @return a DimensionHandle for the left margin.
 	 */
 
@@ -205,7 +203,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets a dimension handle to work with the margin on the right side.
-	 *
+	 * 
 	 * @return a DimensionHandle for the right margin.
 	 */
 
@@ -215,7 +213,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets a dimension handle to work with the margin on the top side.
-	 *
+	 * 
 	 * @return a DimensionHandle for the top margin.
 	 */
 
@@ -225,7 +223,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets the effective page height.
-	 *
+	 * 
 	 * @return the page height
 	 */
 
@@ -235,7 +233,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets the effective page width.
-	 *
+	 * 
 	 * @return the page width
 	 */
 
@@ -245,7 +243,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets the script of onPageStart method.
-	 *
+	 * 
 	 * @return the script of onPageStart method.
 	 */
 	public String getOnPageStart() {
@@ -254,7 +252,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Sets the script of onPageStart method.
-	 *
+	 * 
 	 * @param onPageStart the script of onPageStart method.
 	 * @throws SemanticException if the property is locked by masks.
 	 */
@@ -264,7 +262,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Gets the script of onPageEnd method.
-	 *
+	 * 
 	 * @return the script of onPageEnd method.
 	 */
 	public String getOnPageEnd() {
@@ -273,7 +271,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Sets the script of onPageEnd method.
-	 *
+	 * 
 	 * @param onPageEnd the script of onPageEnd method.
 	 * @throws SemanticException if the property is locked by masks.
 	 */
@@ -283,7 +281,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Returns the number of columns in the report.
-	 *
+	 * 
 	 * @return the number of columns in the report
 	 */
 
@@ -293,7 +291,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Sets the number of columns in the report.
-	 *
+	 * 
 	 * @param count the number of columns in the report
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -304,7 +302,7 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 
 	/**
 	 * Returns a handle to work with the the space between columns.
-	 *
+	 * 
 	 * @return a DimensionHandle to deal with the space between columns.
 	 */
 

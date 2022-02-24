@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -81,7 +81,7 @@ public final class OneAxis {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param axModel
 	 * @param axisType
 	 */
@@ -99,7 +99,7 @@ public final class OneAxis {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param _iOrientation
 	 * @param _iLabelLocation
 	 * @param _iLabelRotation
@@ -137,46 +137,46 @@ public final class OneAxis {
 	/**
 	 * @return
 	 */
-	public double getAxisCoordinate() {
+	public final double getAxisCoordinate() {
 		return dAxisRenderingCoordinate;
 	}
 
 	/**
 	 * @return
 	 */
-	public Location3D getAxisCoordinate3D() {
+	public final Location3D getAxisCoordinate3D() {
 		return locAxisRenderingCoordinate;
 	}
 
 	/**
 	 * @return
 	 */
-	public double getTitleCoordinate() {
+	public final double getTitleCoordinate() {
 		return dTitleRenderingCoordinate;
 	}
 
 	/**
 	 * @return
 	 */
-	public int getLabelPosition() {
+	public final int getLabelPosition() {
 		return iLabelPosition;
 	}
 
 	/**
 	 * @return
 	 */
-	public int getTitlePosition() {
+	public final int getTitlePosition() {
 		return iTitlePosition;
 	}
 
 	/**
 	 * @return
 	 */
-	public Axis getModelAxis() {
+	public final Axis getModelAxis() {
 		return axModel;
 	}
 
-	void setGridProperties(LineAttributes laMajorGrid, LineAttributes laMinorGrid, LineAttributes laMajorTicks,
+	final void setGridProperties(LineAttributes laMajorGrid, LineAttributes laMinorGrid, LineAttributes laMajorTicks,
 			LineAttributes laMinorTicks, int iMajorTickStyle, int iMinorTickStyle, int iMinorUnitsPerMajorUnit) {
 		gr.laMajorGrid = laMajorGrid;
 		gr.laMinorGrid = laMinorGrid;
@@ -190,25 +190,25 @@ public final class OneAxis {
 	/**
 	 * @return
 	 */
-	public Grid getGrid() {
+	public final Grid getGrid() {
 		return gr;
 	}
 
 	/**
 	 * @return
 	 */
-	public int getOrientation() {
+	public final int getOrientation() {
 		return iOrientation;
 	}
 
 	/**
 	 * @return
 	 */
-	public boolean isCategoryScale() {
+	public final boolean isCategoryScale() {
 		return bCategoryScale;
 	}
 
-	public boolean isTickBwtweenCategories() {
+	public final boolean isTickBwtweenCategories() {
 		// The default value of TickBwtweenCategories is true, and it should
 		// only take effect for category scale. Which means
 		// TickBwtweenCategories can only be false when
@@ -216,7 +216,7 @@ public final class OneAxis {
 		return !bCategoryScale || bTickBwteenCategories;
 	}
 
-	public Chart getChartModel() {
+	public final Chart getChartModel() {
 		if (axModel == null) {
 			return null;
 		}
@@ -237,7 +237,7 @@ public final class OneAxis {
 	/**
 	 * @return
 	 */
-	boolean isAxisLabelStaggered() {
+	final boolean isAxisLabelStaggered() {
 		if (axModel == null) {
 			return false;
 		}
@@ -255,7 +255,7 @@ public final class OneAxis {
 		return axModel.isStaggered();
 	}
 
-	int getLableShowingInterval() {
+	final int getLableShowingInterval() {
 		if (axModel == null) {
 			return 1;
 		}
@@ -270,7 +270,7 @@ public final class OneAxis {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param _sc
 	 */
 	void set(AutoScale _sc) {
@@ -300,56 +300,56 @@ public final class OneAxis {
 	/**
 	 * @return
 	 */
-	public LineAttributes getLineAttributes() {
+	public final LineAttributes getLineAttributes() {
 		return lia;
 	}
 
 	/**
 	 * @return
 	 */
-	public IntersectionValue getIntersectionValue() {
+	public final IntersectionValue getIntersectionValue() {
 		return iv;
 	}
 
 	/**
 	 * @return
 	 */
-	public Label getLabel() {
+	public final Label getLabel() {
 		return la;
 	}
 
 	/**
 	 * @return
 	 */
-	public Label getTitle() {
+	public final Label getTitle() {
 		return laTitle;
 	}
 
 	/**
 	 * @return
 	 */
-	public FormatSpecifier getFormatSpecifier() {
+	public final FormatSpecifier getFormatSpecifier() {
 		return axModel.getFormatSpecifier();
 	}
 
 	/**
 	 * @return
 	 */
-	public RunTimeContext getRunTimeContext() {
+	public final RunTimeContext getRunTimeContext() {
 		return sc.getRunTimeContext();
 	}
 
 	/**
 	 * @return Returns the bShowLabels.
 	 */
-	public boolean isShowLabels() {
+	public final boolean isShowLabels() {
 		return bShowLabels;
 	}
 
 	/**
 	 * @param bShowLabels The bShowLabels to set.
 	 */
-	public void setShowLabels(boolean bShowLabels) {
+	public final void setShowLabels(boolean bShowLabels) {
 		this.bShowLabels = bShowLabels;
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,16 +56,14 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.script.IScriptClassLoader#loadClass(java.lang.String,
 	 * java.lang.ClassLoader)
 	 */
-	@Override
 	public Class<?> loadClass(String className, ClassLoader parentLoader) throws ClassNotFoundException {
-		if (className == null) {
+		if (className == null)
 			return null;
-		}
 
 		Class<?> c = null;
 		ClassNotFoundException ex = null;
@@ -119,16 +117,14 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter {
 			final ClassLoader parentLoader) {
 		return AccessController.doPrivileged(new PrivilegedAction<Class<?>>() {
 
-			@Override
 			public Class<?> run() {
 				String classPath = System.getProperty(classPathKey);
-				if (classPath == null || classPath.length() == 0 || className == null) {
+				if (classPath == null || classPath.length() == 0 || className == null)
 					return null;
-				}
 				String[] classPathArray = classPath.split(EngineConstants.PROPERTYSEPARATOR, -1);
 				URL[] urls = null;
 				if (classPathArray.length != 0) {
-					List<URL> l = new ArrayList<>();
+					List<URL> l = new ArrayList<URL>();
 					for (int i = 0; i < classPathArray.length; i++) {
 						String cpValue = classPathArray[i];
 						File file = new File(cpValue);

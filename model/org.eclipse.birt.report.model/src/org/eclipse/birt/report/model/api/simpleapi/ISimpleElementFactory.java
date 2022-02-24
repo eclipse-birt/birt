@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,250 +41,250 @@ import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 
 public interface ISimpleElementFactory {
 
-	int MULTI_ROW_ITEM = 0;
+	final int MULTI_ROW_ITEM = 0;
 
-	int SIMPLE_ROW_ITEM = 1;
+	final int SIMPLE_ROW_ITEM = 1;
 
 	/**
 	 * Creates the scriptable object for the corresponding element handles.
-	 *
+	 * 
 	 * @param handle the element handle
 	 * @param type   the expected data row type. Can be <code>MULTI_ROW_ITEM</code>
 	 *               or <code>EMPTY_ROW_ITEM</code>
 	 * @return the scriptable object
 	 */
 
-	IReportItem wrapExtensionElement(ExtendedItemHandle handle, int type);
+	public IReportItem wrapExtensionElement(ExtendedItemHandle handle, int type);
 
 	/**
 	 * Create <code>IHideRule</code> instance
-	 *
+	 * 
 	 * @return IHideRule
 	 */
 
-	IHideRule createHideRule();
+	public IHideRule createHideRule();
 
 	/**
 	 * Create <code>IHideRule</code> instance
-	 *
+	 * 
 	 * @param rule the structure to create corresponding IHideRule instance.
 	 * @return IHideRule
 	 */
 
-	IHideRule createHideRule(HideRule rule);
+	public IHideRule createHideRule(HideRule rule);
 
 	/**
 	 * Create <code>IHideRule</code> instance
-	 *
+	 * 
 	 * @param handle the element handle to create corresponding IHideRule instance.
 	 * @return IHideRule
 	 */
 
-	IHideRule createHideRule(HideRuleHandle handle);
+	public IHideRule createHideRule(HideRuleHandle handle);
 
 	/**
 	 * Creates the filter structure.
-	 *
+	 * 
 	 * @return the filter
 	 */
 
-	IFilterCondition createFilterCondition();
+	public IFilterCondition createFilterCondition();
 
 	/**
 	 * Creates the IFilterCondition instance.
-	 *
+	 * 
 	 * @param condition the structure to create corresponding IFilterCondition
 	 *                  instance.
 	 * @return the IFilterCondition instance
 	 */
 
-	IFilterCondition createFilterCondition(FilterCondition condition);
+	public IFilterCondition createFilterCondition(FilterCondition condition);
 
 	/**
 	 * Creates the IFilterCondition instance.
-	 *
+	 * 
 	 * @param handle the element handle to create corresponding IFilterCondition
 	 *               instance.
 	 * @return the IFilterCondition instance
 	 */
 
-	IFilterCondition createFilterCondition(FilterConditionHandle handle);
+	public IFilterCondition createFilterCondition(FilterConditionHandle handle);
 
 	/**
 	 * Creates the data biinding structure.
-	 *
+	 * 
 	 * @return the data binding
 	 */
 
-	IDataBinding createDataBinding();
+	public IDataBinding createDataBinding();
 
 	/**
 	 * Creates the data biinding structure.
-	 *
+	 * 
 	 * @param columnHandle the computed column handle
 	 * @return the data binding
 	 */
 
-	IDataBinding createDataBinding(ComputedColumnHandle columnHandle);
+	public IDataBinding createDataBinding(ComputedColumnHandle columnHandle);
 
 	/**
 	 * Creates the data biinding structure.
-	 *
+	 * 
 	 * @param column the computed column
 	 * @return the data binding
 	 */
 
-	IDataBinding createDataBinding(ComputedColumn column);
+	public IDataBinding createDataBinding(ComputedColumn column);
 
 	/**
 	 * Creates the sort structure.
-	 *
+	 * 
 	 * @return the sort
 	 */
 
-	ISortCondition createSortCondition();
+	public ISortCondition createSortCondition();
 
 	/**
 	 * Creates the sort structure.
-	 *
+	 * 
 	 * @param sort the structure to create corresponding ISortCondition instance.
 	 * @return the sort
 	 */
 
-	ISortCondition createSortCondition(SortKey sort);
+	public ISortCondition createSortCondition(SortKey sort);
 
 	/**
 	 * Creates the sort structure.
-	 *
+	 * 
 	 * @param handle the element handle that holds the SortCondition structure
 	 * @return the sort
 	 */
 
-	ISortCondition createSortCondition(SortKeyHandle sortHandle);
+	public ISortCondition createSortCondition(SortKeyHandle sortHandle);
 
 	/**
 	 * Creates the action structure.
-	 *
+	 * 
 	 * @param action the structure handle
 	 * @param handle the element handle that holds the action structure
 	 * @return the action
 	 */
 
-	IAction createAction(ActionHandle action, ReportItemHandle handle);
+	public IAction createAction(ActionHandle action, ReportItemHandle handle);
 
 	/**
 	 * Create the action structure.
-	 *
+	 * 
 	 * @return the action.
 	 */
-	IAction createAction();
+	public IAction createAction();
 
 	/**
 	 * Creates the IDesignElement instance.
-	 *
+	 * 
 	 * @param handle the element handle to create corresponding IDesignElement
 	 *               instance.
 	 * @return the IDesignElement instance
 	 */
 
-	IDesignElement getElement(DesignElementHandle handle);
+	public IDesignElement getElement(DesignElementHandle handle);
 
 	/**
 	 * Creates the IDataSet instance.
-	 *
+	 * 
 	 * @param handle the element handle to create corresponding IDataSet instance.
 	 * @return the IDataSet instance
 	 */
 
-	IDataSet createDataSet(DataSetHandle handle);
+	public IDataSet createDataSet(DataSetHandle handle);
 
 	/**
 	 * Creates the IResultSetColumn instance.
-	 *
+	 * 
 	 * @param handle the element handle to create corresponding IResultSetColumn
 	 *               instance.
 	 * @return the IResultSetColumn instance
 	 */
 
-	IResultSetColumn createResultSetColumn(ResultSetColumnHandle columnHandle);
+	public IResultSetColumn createResultSetColumn(ResultSetColumnHandle columnHandle);
 
 	/**
 	 * Creates the IResultSetColumn instance.
-	 *
+	 * 
 	 * @return the IResultSetColumn instance
 	 */
 
-	IResultSetColumn createResultSetColumn();
+	public IResultSetColumn createResultSetColumn();
 
 	/**
 	 * Creates the IDataSource instance.
-	 *
+	 * 
 	 * @param handle the element handle to create corresponding IDataSource
 	 *               instance.
 	 * @return the IDataSource instance
 	 */
 
-	IDataSource createDataSource(DataSourceHandle handle);
+	public IDataSource createDataSource(DataSourceHandle handle);
 
 	/**
 	 * Create <code>IHighlightRule</code> instance
-	 *
+	 * 
 	 * @return IHighlightRule
 	 */
 
-	IHighlightRule createHighlightRule();
+	public IHighlightRule createHighlightRule();
 
 	/**
 	 * Create <code>IHighlightRule</code> instance
-	 *
+	 * 
 	 * @param highlightRule the structure to create corresponding IHighlightRule
 	 *                      instance.
 	 * @return IHighlightRule
 	 */
 
-	IHighlightRule createHighlightRule(HighlightRule highlightRule);
+	public IHighlightRule createHighlightRule(HighlightRule highlightRule);
 
 	/**
 	 * Create <code>IHighlightRule</code> instance
-	 *
+	 * 
 	 * @param handle the element handle to create corresponding IHighlightRule
 	 *               instance.
 	 * @return IHighlightRule
 	 */
 
-	IHighlightRule createHighlightRule(HighlightRuleHandle handle);
+	public IHighlightRule createHighlightRule(HighlightRuleHandle handle);
 
 	/**
 	 * Create <code>IStyle</code> instance
-	 *
+	 * 
 	 * @param handle the element handle to create corresponding IStyle instance.
 	 * @return IStyle
 	 */
 
-	IStyle createStyle(StyleHandle style);
+	public IStyle createStyle(StyleHandle style);
 
 	/**
 	 * Creates <code>IFilterConditionElement</code> instance.
-	 *
+	 * 
 	 * @param handle the filterConditionElement handle to create corresponding
 	 *               IFilterConditionElement instance.
 	 * @return IFilterConditionElement
 	 */
-	IFilterConditionElement createFilterConditionElement(FilterConditionElementHandle handle);
+	public IFilterConditionElement createFilterConditionElement(FilterConditionElementHandle handle);
 
 	/**
 	 * Create <code>ISortElement</code> instance.
-	 *
+	 * 
 	 * @param handle the handle to create corresponding ISortElement instance.
 	 * @return ISortElement
 	 */
-	ISortElement createSortElement(SortElementHandle handle);
+	public ISortElement createSortElement(SortElementHandle handle);
 
 	/**
 	 * Creates <code>IExpression</code> instance.
-	 *
+	 * 
 	 * @return IExpression
 	 */
 
-	IExpression createExpression();
+	public IExpression createExpression();
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -51,7 +51,7 @@ public class TokenMgrError extends Error {
 	 * equivalents in the given string
 	 */
 	protected static final String addEscapes(String str) {
-		StringBuilder retval = new StringBuilder();
+		StringBuffer retval = new StringBuffer();
 		char ch;
 		for (int i = 0; i < str.length(); i++) {
 			switch (str.charAt(i)) {
@@ -82,10 +82,9 @@ public class TokenMgrError extends Error {
 				retval.append("\\\\");
 				continue;
 			default:
-				ch = str.charAt(i);
-				if (ch < 0x20 || ch > 0x7e) {
+				if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
 					String s = "0000" + Integer.toString(ch, 16);
-					retval.append("\\u" + s.substring(s.length() - 4));
+					retval.append("\\u" + s.substring(s.length() - 4, s.length()));
 				} else {
 					retval.append(ch);
 				}
@@ -121,7 +120,6 @@ public class TokenMgrError extends Error {
 	 *
 	 * from this method for such cases in the release version of your parser.
 	 */
-	@Override
 	public String getMessage() {
 		return super.getMessage();
 	}

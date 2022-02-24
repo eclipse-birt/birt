@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +21,8 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
@@ -76,7 +76,7 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor whose parent is given. The combo box lists
 	 * is <code>null</code> initially.
-	 *
+	 * 
 	 * @param parent the parent control
 	 */
 	public ComboBoxExpressionCellEditor(Composite parent) {
@@ -87,7 +87,7 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor whose parent is given. The combo box lists
 	 * is initialized with the given items.
-	 *
+	 * 
 	 * @param parent the parent control
 	 * @param items  the combo box list to be initialized
 	 */
@@ -98,7 +98,7 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor whose parent and style are given. The combo
 	 * box lists is initialized with the given items.
-	 *
+	 * 
 	 * @param parent the parent control
 	 * @param items  the combo box list to be initialized
 	 * @param style  the style of this editor
@@ -110,7 +110,7 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 
 	/**
 	 * Returns the list of choices for the combo box
-	 *
+	 * 
 	 * @return the list of choices for the combo box
 	 */
 	public String[] getItems() {
@@ -119,7 +119,7 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 
 	/**
 	 * Sets the list of choices for the combo box
-	 *
+	 * 
 	 * @param items the list of choices for the combo box
 	 */
 	public void setItems(String[] items) {
@@ -135,9 +135,8 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 		if (comboBox != null && items != null) {
 			comboBox.removeAll();
 
-			for (int i = 0; i < items.length; i++) {
+			for (int i = 0; i < items.length; i++)
 				comboBox.add(items[i], i);
-			}
 
 			setValueValid(true);
 			selection = 0;
@@ -147,7 +146,6 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	@Override
 	protected Control createContents(Composite cell) {
 		Color bg = cell.getBackground();
 		composite = new Composite(cell, getStyle());
@@ -160,7 +158,6 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 		comboBox.setFont(cell.getFont());
 		comboBox.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Object newValue = comboBox.getText();
 				if (newValue != null) {
@@ -177,7 +174,6 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 				}
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				Object newValue = comboBox.getText();
 				if (newValue != null) {
@@ -198,11 +194,10 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.
 			 * FocusEvent)
 			 */
-			@Override
 			public void focusLost(FocusEvent e) {
 				if (btnPopup != null && !btnPopup.isFocusControl()
 						&& Display.getCurrent().getCursorControl() != btnPopup) {
@@ -238,7 +233,6 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
 		ExpressionBuilder dialog = new ExpressionBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
 				comboBox.getText());
@@ -253,11 +247,9 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	@Override
 	protected void updateContents(Object value) {
-		if (comboBox == null) {
+		if (comboBox == null)
 			return;
-		}
 
 		String text = "";//$NON-NLS-1$
 		if (value != null) {
@@ -272,20 +264,18 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	@Override
 	protected void doSetFocus() {
 		comboBox.setFocus();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doGetValue()
 	 */
-	@Override
 	protected Object doGetValue() {
 		int selection = comboBox.getSelectionIndex();
 		if (selection == -1) {
@@ -301,11 +291,10 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 	 * display on the right hand side of the dialog cell editor. Subclasses may
 	 * extend or reimplement.
 	 * </p>
-	 *
+	 * 
 	 * @param parent the parent control
 	 * @return the new button control
 	 */
-	@Override
 	protected Button createButton(Composite parent) {
 		btnPopup = super.createButton(parent);
 		return btnPopup;
@@ -322,7 +311,6 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 	 *             instead
 	 */
 
-	@Deprecated
 	public void addFilter(ExpressionFilter filter) {
 
 	}
@@ -331,7 +319,6 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 	 * @deprecated Please use setExpressionProvider ( IExpressionProvider provider )
 	 *             instead
 	 */
-	@Deprecated
 	public void setDataSetList(List list) {
 
 	}

@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.i18n;
 
 /**
  * Provide message key constants for a message that needs to be localized.
- *
+ * 
  */
 public class MessageConstants {
 	// test

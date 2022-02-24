@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
@@ -40,7 +40,7 @@ public class OdaDataSetAdapter extends OdaDataSetDesign {
 
 	/**
 	 * Adapts a model oda data set handle
-	 *
+	 * 
 	 * @param modelDataSet     model handle
 	 * @param propBindingScope Javascript scope in which to evaluate property
 	 *                         binding expressions. If null, property binding is not
@@ -77,9 +77,8 @@ public class OdaDataSetAdapter extends OdaDataSetDesign {
 		// result set name
 		setPrimaryResultSetName(modelDataSet.getResultSetName());
 
-		if (modelDataSet.getPropertyHandle(IOdaDataSetModel.RESULT_SET_NUMBER_PROP).isSet()) {
+		if (modelDataSet.getPropertyHandle(IOdaDataSetModel.RESULT_SET_NUMBER_PROP).isSet())
 			setPrimaryResultSetNumber(modelDataSet.getResultSetNumber());
-		}
 		// static ROM properties defined by the ODA driver extension
 		Map staticProps = DataAdapterUtil.getExtensionProperties(modelDataSet,
 				modelDataSet.getExtensionPropertyDefinitionList());

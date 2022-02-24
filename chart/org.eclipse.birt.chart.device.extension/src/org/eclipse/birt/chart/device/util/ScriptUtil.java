@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -27,7 +27,7 @@ public class ScriptUtil {
 
 	/**
 	 * Add the value of categoryData, valueData, and valueSeriesName into script.
-	 *
+	 * 
 	 * @param str
 	 * @param dph
 	 */
@@ -68,7 +68,7 @@ public class ScriptUtil {
 
 	/**
 	 * Return the correct string according the the data type.
-	 *
+	 * 
 	 * @param oValue
 	 * @return the formatted string
 	 */
@@ -92,16 +92,15 @@ public class ScriptUtil {
 
 	/**
 	 * This method transforms a string to JS string constants.
-	 *
+	 * 
 	 * @param s
 	 * @return escaped js value
 	 */
 	public static String transformToJsConstants(String s) {
-		if (s == null) {
+		if (s == null)
 			return null;
-		}
 
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		int length = s.length();
 		for (int i = 0; i < length; i++) {
 			char c = s.charAt(i);
@@ -140,7 +139,7 @@ public class ScriptUtil {
 	/**
 	 * This method transforms a string to HTML text. e.g. '\r\n' to '<br>
 	 * '.
-	 *
+	 * 
 	 * @param s
 	 * @return converted HTML text
 	 */
@@ -149,7 +148,7 @@ public class ScriptUtil {
 			return IConstants.EMPTY_STRING;
 		}
 
-		return s.replace("\r\n", "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
+		return s.replaceAll("\r\n", "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 }

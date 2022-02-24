@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * @author Administrator
- *
+ * 
  */
 public class RequesterTag extends AbstractBaseTag {
 
@@ -51,10 +51,9 @@ public class RequesterTag extends AbstractBaseTag {
 
 	/**
 	 * Then entry to initialize tag
-	 *
+	 * 
 	 * @throws Exception
 	 */
-	@Override
 	public void __init() {
 		super.__init();
 
@@ -65,10 +64,9 @@ public class RequesterTag extends AbstractBaseTag {
 	/**
 	 * When reach the start tag, fire this operation If set isCustom as true, use
 	 * FORM to create user-defined parameter page
-	 *
+	 * 
 	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
 	 */
-	@Override
 	public int doStartTag() throws JspException {
 		try {
 
@@ -81,17 +79,15 @@ public class RequesterTag extends AbstractBaseTag {
 
 					// create DIV object to contain requester page
 					writer.write("<DIV "); //$NON-NLS-1$
-					if (viewer.getId() != null) {
+					if (viewer.getId() != null)
 						writer.write(" ID=\"" + viewer.getId() + "\" "); //$NON-NLS-1$ //$NON-NLS-2$
-					}
 					writer.write(__handleDivAppearance() + ">\n"); //$NON-NLS-1$
 
 					// create form
 					writer.write("<FORM NAME=\"" + viewer.getName() + "\" METHOD=\"post\" "); //$NON-NLS-1$ //$NON-NLS-2$
 					writer.write(" action=\"" + viewer.createURI(null, viewingSessionId) + "\""); //$NON-NLS-1$ //$NON-NLS-2$
-					if (viewer.getTarget() != null) {
+					if (viewer.getTarget() != null)
 						writer.write(" target=\"" + viewer.getTarget() + "\""); //$NON-NLS-1$//$NON-NLS-2$
-					}
 					writer.write(">\n"); //$NON-NLS-1$
 				}
 			} else {
@@ -108,7 +104,6 @@ public class RequesterTag extends AbstractBaseTag {
 	/**
 	 * Process only if the attributes are validated. Overrides default doEndTag().
 	 */
-	@Override
 	public int doEndTag() throws JspException {
 		try {
 			if (__validate()) {
@@ -126,10 +121,9 @@ public class RequesterTag extends AbstractBaseTag {
 
 	/**
 	 * Validate the tag. *
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.taglib.AbstractBaseTag#__validate()
 	 */
-	@Override
 	public boolean __validate() throws Exception {
 		if (validated != null) {
 			return validated.booleanValue();
@@ -179,7 +173,7 @@ public class RequesterTag extends AbstractBaseTag {
 	/**
 	 * Validate the requester id. Requester id only can include number, letter and
 	 * underline
-	 *
+	 * 
 	 * @return
 	 */
 	protected boolean __validateRequesterId() {
@@ -191,7 +185,6 @@ public class RequesterTag extends AbstractBaseTag {
 	/**
 	 * Handle event before doEndTag
 	 */
-	@Override
 	protected void __beforeEndTag() {
 		// Save requester id
 		pageContext.setAttribute(viewer.getId(), viewer.getId());
@@ -199,10 +192,9 @@ public class RequesterTag extends AbstractBaseTag {
 
 	/**
 	 * process tag function
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.taglib.AbstractBaseTag#__process()
 	 */
-	@Override
 	public void __process() throws Exception {
 		if (viewer.isCustom()) {
 			JspWriter writer = pageContext.getOut();
@@ -216,138 +208,122 @@ public class RequesterTag extends AbstractBaseTag {
 
 	/**
 	 * Handle use IFrame to show parameter page.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	protected void __handleIFrame() throws Exception {
 		JspWriter writer = pageContext.getOut();
 
 		// create IFrame object
-		StringBuilder iframe = new StringBuilder("<iframe "); //$NON-NLS-1$
-		if (viewer.getId() != null) {
-			iframe.append(" id=\"").append(viewer.getId()).append("\" ");//$NON-NLS-1$ //$NON-NLS-2$
-		}
+		String iframe = "<iframe "; //$NON-NLS-1$
+		if (viewer.getId() != null)
+			iframe += " id=\"" + viewer.getId() + "\" ";//$NON-NLS-1$ //$NON-NLS-2$
 
 		// name
-		if (viewer.getName() != null) {
-			iframe.append(" name=\"").append(viewer.getName()).append("\" ");//$NON-NLS-1$ //$NON-NLS-2$
-		}
+		if (viewer.getName() != null)
+			iframe += " name=\"" + viewer.getName() + "\" ";//$NON-NLS-1$ //$NON-NLS-2$
 
 		// src, force "__cache" as false
 		String src = viewer.createURI(IBirtConstants.VIEWER_PARAMETER, null) + "&" //$NON-NLS-1$
 				+ ParameterAccessor.PARAM_NOCACHE_PARAMETER;
-		iframe.append(" src=\"").append(src).append("\" "); //$NON-NLS-1$ //$NON-NLS-2$
+		iframe += " src=\"" + src + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// border
-		iframe.append(" frameborder=\"").append(viewer.getFrameborder()).append("\" "); //$NON-NLS-1$ //$NON-NLS-2$
+		iframe += " frameborder=\"" + viewer.getFrameborder() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// scrolling
-		if (viewer.getScrolling() != null) {
-			iframe.append(" scrolling = \"").append(viewer.getScrolling()).append("\" "); //$NON-NLS-1$ //$NON-NLS-2$
-		}
+		if (viewer.getScrolling() != null)
+			iframe += " scrolling = \"" + viewer.getScrolling() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
 
-		iframe.append(__handleAppearance()).append("></iframe>\r\n"); //$NON-NLS-1$
+		iframe += __handleAppearance() + "></iframe>\r\n"; //$NON-NLS-1$
 
-		writer.write(iframe.toString());
+		writer.write(iframe);
 	}
 
 	/**
 	 * IFRAME Appearance style
-	 *
+	 * 
 	 * @return
 	 */
 	protected String __handleAppearance() {
-		StringBuilder style = new StringBuilder(" style='"); //$NON-NLS-1$
+		String style = " style='"; //$NON-NLS-1$
 
 		// style
-		if (viewer.getStyle() != null) {
-			style.append(viewer.getStyle()).append(";"); //$NON-NLS-1$
-		}
+		if (viewer.getStyle() != null)
+			style += viewer.getStyle() + ";"; //$NON-NLS-1$
 
 		// position
-		if (viewer.getPosition() != null) {
-			style.append("position:").append(viewer.getPosition()).append(";"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getPosition() != null)
+			style += "position:" + viewer.getPosition() + ";"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// height
-		if (viewer.getHeight() >= 0) {
-			style.append("height:").append(viewer.getHeight()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getHeight() >= 0)
+			style += "height:" + viewer.getHeight() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// width
-		if (viewer.getWidth() >= 0) {
-			style.append("width:").append(viewer.getWidth()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getWidth() >= 0)
+			style += "width:" + viewer.getWidth() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// top
-		if (viewer.getTop() != null) {
-			style.append("top:").append(viewer.getTop()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getTop() != null)
+			style += "top:" + viewer.getTop() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// left
-		if (viewer.getLeft() != null) {
-			style.append("left:").append(viewer.getLeft()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getLeft() != null)
+			style = style + "left:" + viewer.getLeft() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
-		style.append("' "); //$NON-NLS-1$
+		style += "' "; //$NON-NLS-1$
 
-		return style.toString();
+		return style;
 	}
 
 	/**
 	 * DIV Appearance style
-	 *
+	 * 
 	 * @return
 	 */
 	protected String __handleDivAppearance() {
-		StringBuilder style = new StringBuilder(" style='"); //$NON-NLS-1$
+		String style = " style='"; //$NON-NLS-1$
 
 		// position
-		if (viewer.getPosition() != null) {
-			style.append("position:").append(viewer.getPosition()).append(";"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getPosition() != null)
+			style += "position:" + viewer.getPosition() + ";"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// height
-		if (viewer.getHeight() >= 0) {
-			style.append("height:").append(viewer.getHeight()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getHeight() >= 0)
+			style += "height:" + viewer.getHeight() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// width
-		if (viewer.getWidth() >= 0) {
-			style.append("width:").append(viewer.getWidth()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getWidth() >= 0)
+			style += "width:" + viewer.getWidth() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// top
-		if (viewer.getTop() != null) {
-			style.append("top:").append(viewer.getTop()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getTop() != null)
+			style += "top:" + viewer.getTop() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// left
-		if (viewer.getLeft() != null) {
-			style.append("left:").append(viewer.getLeft()).append("px;"); //$NON-NLS-1$//$NON-NLS-2$
-		}
+		if (viewer.getLeft() != null)
+			style = style + "left:" + viewer.getLeft() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// scroll
 		if (viewer.getScrolling() != null && SCROLLING_YES.equalsIgnoreCase(viewer.getScrolling())) {
-			style.append("overflow:scroll"); //$NON-NLS-1$
+			style = style + "overflow:scroll"; //$NON-NLS-1$
 		} else {
-			style.append("overflow:auto"); //$NON-NLS-1$
+			style = style + "overflow:auto"; //$NON-NLS-1$
 		}
 
 		// style
-		if (viewer.getStyle() != null) {
-			style.append(viewer.getStyle()).append(";"); //$NON-NLS-1$
-		}
+		if (viewer.getStyle() != null)
+			style += viewer.getStyle() + ";"; //$NON-NLS-1$
 
-		style.append("' "); //$NON-NLS-1$
+		style += "' "; //$NON-NLS-1$
 
-		return style.toString();
+		return style;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	@Override
 	public void setId(String id) {
 		viewer.setId(id);
 	}
@@ -377,7 +353,7 @@ public class RequesterTag extends AbstractBaseTag {
 	 * @param isCustom the isCustom to set
 	 */
 	public void setIsCustom(String isCustom) {
-		viewer.setCustom(Boolean.parseBoolean(isCustom));
+		viewer.setCustom(Boolean.valueOf(isCustom).booleanValue());
 	}
 
 	/**
@@ -500,7 +476,7 @@ public class RequesterTag extends AbstractBaseTag {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param emitterId the emitter id to set
 	 */
 	public void setEmitterId(String emitterId) {
@@ -508,7 +484,7 @@ public class RequesterTag extends AbstractBaseTag {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param pageOverflow page overflow
 	 */
 	public void setPageOverflow(String pageOverflow) {
@@ -573,7 +549,7 @@ public class RequesterTag extends AbstractBaseTag {
 
 	/**
 	 * Add parameter value
-	 *
+	 * 
 	 * @param name
 	 * @param value
 	 */

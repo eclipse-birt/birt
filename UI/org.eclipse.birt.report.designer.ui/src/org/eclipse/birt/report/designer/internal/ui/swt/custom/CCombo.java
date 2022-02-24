@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
@@ -104,21 +104,17 @@ public final class CCombo extends Composite {
 		super(parent, style = checkStyle(style));
 
 		int textStyle = SWT.SINGLE;
-		if ((style & SWT.READ_ONLY) != 0) {
+		if ((style & SWT.READ_ONLY) != 0)
 			textStyle |= SWT.READ_ONLY;
-		}
-		if ((style & SWT.FLAT) != 0) {
+		if ((style & SWT.FLAT) != 0)
 			textStyle |= SWT.FLAT;
-		}
 		text = new Text(this, textStyle);
 		int arrowStyle = SWT.ARROW | SWT.DOWN;
-		if ((style & SWT.FLAT) != 0) {
+		if ((style & SWT.FLAT) != 0)
 			arrowStyle |= SWT.FLAT;
-		}
 		arrow = new Button(this, arrowStyle);
 
 		listener = new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 				if (popup == event.widget) {
 					popupEvent(event);
@@ -138,26 +134,24 @@ public final class CCombo extends Composite {
 				}
 				if (CCombo.this == event.widget) {
 					comboEvent(event);
+					return;
 				}
 
 			}
 		};
 
 		int[] comboEvents = { SWT.Dispose, SWT.Move, SWT.Resize };
-		for (int i = 0; i < comboEvents.length; i++) {
+		for (int i = 0; i < comboEvents.length; i++)
 			this.addListener(comboEvents[i], listener);
-		}
 
 		int[] textEvents = { SWT.KeyDown, SWT.KeyUp, SWT.Modify, SWT.MouseDown, SWT.MouseUp, SWT.Traverse, SWT.FocusIn,
 				SWT.FocusOut };
-		for (int i = 0; i < textEvents.length; i++) {
+		for (int i = 0; i < textEvents.length; i++)
 			text.addListener(textEvents[i], listener);
-		}
 
 		int[] arrowEvents = { SWT.Selection, SWT.FocusIn, SWT.FocusOut };
-		for (int i = 0; i < arrowEvents.length; i++) {
+		for (int i = 0; i < arrowEvents.length; i++)
 			arrow.addListener(arrowEvents[i], listener);
-		}
 
 		createPopup(null, -1);
 		initAccessible();
@@ -191,9 +185,8 @@ public final class CCombo extends Composite {
 	 */
 	public void add(String string) {
 		checkWidget();
-		if (string == null) {
+		if (string == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		list.add(string);
 	}
 
@@ -217,9 +210,8 @@ public final class CCombo extends Composite {
 	 */
 	public void add(String string, int index) {
 		checkWidget();
-		if (string == null) {
+		if (string == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		list.add(string, index);
 	}
 
@@ -237,9 +229,8 @@ public final class CCombo extends Composite {
 	 */
 	public void addModifyListener(ModifyListener listener) {
 		checkWidget();
-		if (listener == null) {
+		if (listener == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		TypedListener typedListener = new TypedListener(listener);
 		addListener(SWT.Modify, typedListener);
 	}
@@ -258,9 +249,8 @@ public final class CCombo extends Composite {
 	 */
 	public void addSelectionListener(SelectionListener listener) {
 		checkWidget();
-		if (listener == null) {
+		if (listener == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		TypedListener typedListener = new TypedListener(listener);
 		addListener(SWT.Selection, typedListener);
 		addListener(SWT.DefaultSelection, typedListener);
@@ -269,13 +259,11 @@ public final class CCombo extends Composite {
 	void arrowEvent(Event event) {
 		switch (event.type) {
 		case SWT.FocusIn: {
-			if (hasFocus) {
+			if (hasFocus)
 				return;
-			}
 			hasFocus = true;
-			if (getEditable()) {
+			if (getEditable())
 				text.selectAll();
-			}
 			Event e = new Event();
 			e.time = event.time;
 			notifyListeners(SWT.FocusIn, e);
@@ -283,15 +271,12 @@ public final class CCombo extends Composite {
 		}
 		case SWT.FocusOut: {
 			event.display.asyncExec(new Runnable() {
-				@Override
 				public void run() {
-					if (CCombo.this.isDisposed()) {
+					if (CCombo.this.isDisposed())
 						return;
-					}
 					Control focusControl = getDisplay().getFocusControl();
-					if (focusControl == arrow || focusControl == list || focusControl == text) {
+					if (focusControl == arrow || focusControl == list || focusControl == text)
 						return;
-					}
 					hasFocus = false;
 					Event e = new Event();
 					notifyListeners(SWT.FocusOut, e);
@@ -342,7 +327,6 @@ public final class CCombo extends Composite {
 		}
 	}
 
-	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 		checkWidget();
 		int width = 0, height = 0;
@@ -361,12 +345,10 @@ public final class CCombo extends Composite {
 
 		height = Math.max(textSize.y, arrowSize.y);
 		width = Math.max(textWidth + 2 * spacer + arrowSize.x + 2 * borderWidth, listSize.x);
-		if (wHint != SWT.DEFAULT) {
+		if (wHint != SWT.DEFAULT)
 			width = wHint;
-		}
-		if (hHint != SWT.DEFAULT) {
+		if (hHint != SWT.DEFAULT)
 			height = hHint;
-		}
 		return new Point(width + 2 * borderWidth, height + 2 * borderWidth);
 	}
 
@@ -375,42 +357,32 @@ public final class CCombo extends Composite {
 		popup = new Shell(getShell(), SWT.NO_TRIM | SWT.ON_TOP);
 		int style = getStyle();
 		int listStyle = SWT.SINGLE | SWT.V_SCROLL;
-		if ((style & SWT.FLAT) != 0) {
+		if ((style & SWT.FLAT) != 0)
 			listStyle |= SWT.FLAT;
-		}
-		if ((style & SWT.RIGHT_TO_LEFT) != 0) {
+		if ((style & SWT.RIGHT_TO_LEFT) != 0)
 			listStyle |= SWT.RIGHT_TO_LEFT;
-		}
-		if ((style & SWT.LEFT_TO_RIGHT) != 0) {
+		if ((style & SWT.LEFT_TO_RIGHT) != 0)
 			listStyle |= SWT.LEFT_TO_RIGHT;
-		}
 		list = new List(popup, listStyle);
-		if (font != null) {
+		if (font != null)
 			list.setFont(font);
-		}
-		if (foreground != null) {
+		if (foreground != null)
 			list.setForeground(foreground);
-		}
-		if (background != null) {
+		if (background != null)
 			list.setBackground(background);
-		}
 
 		int[] popupEvents = { SWT.Close, SWT.Paint, SWT.Deactivate };
-		for (int i = 0; i < popupEvents.length; i++) {
+		for (int i = 0; i < popupEvents.length; i++)
 			popup.addListener(popupEvents[i], listener);
-		}
 		int[] listEvents = { SWT.MouseUp, SWT.Selection, SWT.Traverse, SWT.KeyDown, SWT.KeyUp, SWT.FocusIn,
 				SWT.FocusOut, SWT.Dispose };
-		for (int i = 0; i < listEvents.length; i++) {
+		for (int i = 0; i < listEvents.length; i++)
 			list.addListener(listEvents[i], listener);
-		}
 
-		if (items != null) {
+		if (items != null)
 			list.setItems(items);
-		}
-		if (selectionIndex != -1) {
+		if (selectionIndex != -1)
 			list.setSelection(selectionIndex);
-		}
 	}
 
 	/**
@@ -450,9 +422,8 @@ public final class CCombo extends Composite {
 	}
 
 	public void dropDown(boolean drop) {
-		if (drop == isDropped()) {
+		if (drop == isDropped())
 			return;
-		}
 		if (!drop) {
 			popup.setVisible(false);
 			text.setFocus();
@@ -477,9 +448,8 @@ public final class CCombo extends Composite {
 		list.setBounds(1, 1, Math.max(size.x - 2, listSize.x), listSize.y);
 
 		int index = list.getSelectionIndex();
-		if (index != -1) {
+		if (index != -1)
 			list.setTopIndex(index);
-		}
 		Display display = getDisplay();
 		Rectangle listRect = list.getBounds();
 		Rectangle parentRect = display.map(getParent(), null, getBounds());
@@ -489,15 +459,13 @@ public final class CCombo extends Composite {
 		int height = listRect.height + 2;
 		int x = parentRect.x;
 		int y = parentRect.y + comboSize.y;
-		if (y + height > displayRect.y + displayRect.height) {
+		if (y + height > displayRect.y + displayRect.height)
 			y = parentRect.y - height;
-		}
 		popup.setBounds(x, y, width, height);
 		popup.setVisible(true);
 		list.setFocus();
 	}
 
-	@Override
 	public Control[] getChildren() {
 		checkWidget();
 		return new Control[0];
@@ -505,7 +473,7 @@ public final class CCombo extends Composite {
 
 	/**
 	 * Gets the editable state.
-	 *
+	 * 
 	 * @return true if the contents can be edited
 	 *
 	 * @exception SWTException
@@ -605,7 +573,7 @@ public final class CCombo extends Composite {
 	/**
 	 * Gets the selection.
 	 * <p>
-	 *
+	 * 
 	 * @return a point representing the selection start and end
 	 *
 	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS) when called from the wrong
@@ -635,13 +603,11 @@ public final class CCombo extends Composite {
 		return list.getSelectionIndex();
 	}
 
-	@Override
 	public int getStyle() {
 		int style = super.getStyle();
 		style &= ~SWT.READ_ONLY;
-		if (!text.getEditable()) {
+		if (!text.getEditable())
 			style |= SWT.READ_ONLY;
-		}
 		return style;
 	}
 
@@ -666,9 +632,9 @@ public final class CCombo extends Composite {
 	 * Gets the height of the combo's text field.
 	 * <p>
 	 * The operation will fail if the height cannot be queried from the OS.
-	 *
+	 * 
 	 * @return the height of the combo's text field.
-	 *
+	 * 
 	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)        when called from the
 	 *                                                         wrong thread
 	 * @exception SWTError(ERROR_WIDGET_DISPOSED)              when the widget has
@@ -684,9 +650,9 @@ public final class CCombo extends Composite {
 	/**
 	 * Gets the text limit.
 	 * <p>
-	 *
+	 * 
 	 * @return the text limit
-	 *
+	 * 
 	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                                                  thread
 	 * @exception SWTError(ERROR_WIDGET_DISPOSED)       when the widget has been
@@ -710,7 +676,7 @@ public final class CCombo extends Composite {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 *
+	 * 
 	 * @since 3.0
 	 */
 	public int getVisibleItemCount() {
@@ -735,9 +701,8 @@ public final class CCombo extends Composite {
 	 */
 	public int indexOf(String string) {
 		checkWidget();
-		if (string == null) {
+		if (string == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		return list.indexOf(string);
 	}
 
@@ -760,29 +725,25 @@ public final class CCombo extends Composite {
 	 */
 	public int indexOf(String string, int start) {
 		checkWidget();
-		if (string == null) {
+		if (string == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		return list.indexOf(string, start);
 	}
 
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
-			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
 		});
 
 		getAccessible().addAccessibleTextListener(new AccessibleTextAdapter() {
-			@Override
 			public void getCaretOffset(AccessibleTextEvent e) {
 				e.offset = text.getCaretPosition();
 			}
 		});
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
-			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -790,7 +751,6 @@ public final class CCombo extends Composite {
 				}
 			}
 
-			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -800,22 +760,18 @@ public final class CCombo extends Composite {
 				e.height = location.height;
 			}
 
-			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
-			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
-			@Override
 			public void getValue(AccessibleControlEvent e) {
 				e.result = getText();
 			}
@@ -826,7 +782,6 @@ public final class CCombo extends Composite {
 		return popup.getVisible();
 	}
 
-	@Override
 	public boolean isFocusControl() {
 		checkWidget();
 		if (text.isFocusControl() || arrow.isFocusControl() || list.isFocusControl() || popup.isFocusControl()) {
@@ -836,9 +791,8 @@ public final class CCombo extends Composite {
 	}
 
 	void internalLayout() {
-		if (isDropped()) {
+		if (isDropped())
 			dropDown(false);
-		}
 
 		Rectangle rect = getClientArea();
 		int width = rect.width;
@@ -860,13 +814,11 @@ public final class CCombo extends Composite {
 			}
 			break;
 		case SWT.FocusIn: {
-			if (hasFocus) {
+			if (hasFocus)
 				return;
-			}
 			hasFocus = true;
-			if (getEditable()) {
+			if (getEditable())
 				text.selectAll();
-			}
 			Event e = new Event();
 			e.time = event.time;
 			notifyListeners(SWT.FocusIn, e);
@@ -874,15 +826,12 @@ public final class CCombo extends Composite {
 		}
 		case SWT.FocusOut: {
 			event.display.asyncExec(new Runnable() {
-				@Override
 				public void run() {
-					if (CCombo.this.isDisposed()) {
+					if (CCombo.this.isDisposed())
 						return;
-					}
 					Control focusControl = getDisplay().getFocusControl();
-					if (focusControl == arrow || focusControl == list || focusControl == text) {
+					if (focusControl == arrow || focusControl == list || focusControl == text)
 						return;
-					}
 					hasFocus = false;
 					Event e = new Event();
 					notifyListeners(SWT.FocusOut, e);
@@ -891,14 +840,12 @@ public final class CCombo extends Composite {
 			break;
 		}
 		case SWT.MouseUp: {
-			if (event.button != 1) {
+			if (event.button != 1)
 				return;
-			}
 			dropDown(false);
 			int index = list.getSelectionIndex();
-			if (index == -1) {
+			if (index == -1)
 				return;
-			}
 			text.setText(list.getItem(index));
 			text.selectAll();
 			list.setSelection(index);
@@ -953,9 +900,8 @@ public final class CCombo extends Composite {
 			if (event.character == SWT.CR) {
 				dropDown(false);
 				int index = list.getSelectionIndex();
-				if (index == -1) {
+				if (index == -1)
 					return;
-				}
 				text.setText(list.getItem(index));
 				text.selectAll();
 				list.setSelection(index);
@@ -1010,9 +956,8 @@ public final class CCombo extends Composite {
 
 			// At this point the widget may have been disposed.
 			// If so, do not continue.
-			if (isDisposed()) {
+			if (isDisposed())
 				break;
-			}
 			Event e = new Event();
 			e.time = event.time;
 			e.character = event.character;
@@ -1060,17 +1005,14 @@ public final class CCombo extends Composite {
 		}
 	}
 
-	@Override
 	public void redraw() {
 		super.redraw();
 		text.redraw();
 		arrow.redraw();
-		if (popup.isVisible()) {
+		if (popup.isVisible())
 			list.redraw();
-		}
 	}
 
-	@Override
 	public void redraw(int x, int y, int width, int height, boolean all) {
 		super.redraw(x, y, width, height, true);
 	}
@@ -1135,16 +1077,15 @@ public final class CCombo extends Composite {
 	 */
 	public void remove(String string) {
 		checkWidget();
-		if (string == null) {
+		if (string == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		list.remove(string);
 	}
 
 	/**
 	 * Removes all items.
 	 * <p>
-	 *
+	 * 
 	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                                                  thread
 	 * @exception SWTError(ERROR_WIDGET_DISPOSED)       when the widget has been
@@ -1170,9 +1111,8 @@ public final class CCombo extends Composite {
 	 */
 	public void removeModifyListener(ModifyListener listener) {
 		checkWidget();
-		if (listener == null) {
+		if (listener == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		removeListener(SWT.Modify, listener);
 	}
 
@@ -1190,9 +1130,8 @@ public final class CCombo extends Composite {
 	 */
 	public void removeSelectionListener(SelectionListener listener) {
 		checkWidget();
-		if (listener == null) {
+		if (listener == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		removeListener(SWT.Selection, listener);
 		removeListener(SWT.DefaultSelection, listener);
 	}
@@ -1227,19 +1166,15 @@ public final class CCombo extends Composite {
 		}
 	}
 
-	@Override
 	public void setBackground(Color color) {
 		super.setBackground(color);
 		background = color;
-		if (text != null) {
+		if (text != null)
 			text.setBackground(color);
-		}
-		if (list != null) {
+		if (list != null)
 			list.setBackground(color);
-		}
-		if (arrow != null) {
+		if (arrow != null)
 			arrow.setBackground(color);
-		}
 	}
 
 	/**
@@ -1263,27 +1198,21 @@ public final class CCombo extends Composite {
 		text.setEditable(editable);
 	}
 
-	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
-		if (popup != null) {
+		if (popup != null)
 			popup.setVisible(false);
-		}
-		if (text != null) {
+		if (text != null)
 			text.setEnabled(enabled);
-		}
-		if (arrow != null) {
+		if (arrow != null)
 			arrow.setEnabled(enabled);
-		}
 	}
 
-	@Override
 	public boolean setFocus() {
 		checkWidget();
 		return text.setFocus();
 	}
 
-	@Override
 	public void setFont(Font font) {
 		super.setFont(font);
 		this.font = font;
@@ -1292,19 +1221,15 @@ public final class CCombo extends Composite {
 		internalLayout();
 	}
 
-	@Override
 	public void setForeground(Color color) {
 		super.setForeground(color);
 		foreground = color;
-		if (text != null) {
+		if (text != null)
 			text.setForeground(color);
-		}
-		if (list != null) {
+		if (list != null)
 			list.setForeground(color);
-		}
-		if (arrow != null) {
+		if (arrow != null)
 			arrow.setForeground(color);
-		}
 	}
 
 	/**
@@ -1325,9 +1250,8 @@ public final class CCombo extends Composite {
 	 */
 	public void setItem(int index, String string) {
 		checkWidget();
-		if (string == null) {
+		if (string == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		list.setItem(index, string);
 	}
 
@@ -1345,12 +1269,10 @@ public final class CCombo extends Composite {
 	 */
 	public void setItems(String[] items) {
 		checkWidget();
-		if (items == null) {
+		if (items == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
-		if (!text.getEditable()) {
+		if (!text.getEditable())
 			text.setText(""); //$NON-NLS-1$
-		}
 		list.setItems(items);
 	}
 
@@ -1368,9 +1290,8 @@ public final class CCombo extends Composite {
 	 */
 	public void setSelection(Point selection) {
 		checkWidget();
-		if (selection == null) {
+		if (selection == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		text.setSelection(selection.x, selection.y);
 	}
 
@@ -1387,9 +1308,8 @@ public final class CCombo extends Composite {
 	 */
 	public void setText(String string) {
 		checkWidget();
-		if (string == null) {
+		if (string == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		int index = list.indexOf(string);
 		if (index == -1) {
 			list.deselectAll();
@@ -1404,7 +1324,7 @@ public final class CCombo extends Composite {
 
 	/**
 	 * Sets the text limit.
-	 *
+	 * 
 	 * @param limit new text limit
 	 *
 	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS) when called from the wrong
@@ -1418,7 +1338,6 @@ public final class CCombo extends Composite {
 		text.setTextLimit(limit);
 	}
 
-	@Override
 	public void setToolTipText(String string) {
 		checkWidget();
 		super.setToolTipText(string);
@@ -1426,12 +1345,10 @@ public final class CCombo extends Composite {
 		text.setToolTipText(string);
 	}
 
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
-		if (!visible) {
+		if (!visible)
 			popup.setVisible(false);
-		}
 	}
 
 	/**
@@ -1447,27 +1364,24 @@ public final class CCombo extends Composite {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 *
+	 * 
 	 * @since 3.0
 	 */
 	public void setVisibleItemCount(int count) {
 		checkWidget();
-		if (count < 0) {
+		if (count < 0)
 			return;
-		}
 		visibleItemCount = count;
 	}
 
 	void textEvent(Event event) {
 		switch (event.type) {
 		case SWT.FocusIn: {
-			if (hasFocus) {
+			if (hasFocus)
 				return;
-			}
 			hasFocus = true;
-			if (getEditable()) {
+			if (getEditable())
 				text.selectAll();
-			}
 			Event e = new Event();
 			e.time = event.time;
 			notifyListeners(SWT.FocusIn, e);
@@ -1475,15 +1389,12 @@ public final class CCombo extends Composite {
 		}
 		case SWT.FocusOut: {
 			event.display.asyncExec(new Runnable() {
-				@Override
 				public void run() {
-					if (CCombo.this.isDisposed()) {
+					if (CCombo.this.isDisposed())
 						return;
-					}
 					Control focusControl = getDisplay().getFocusControl();
-					if (focusControl == arrow || focusControl == list || focusControl == text) {
+					if (focusControl == arrow || focusControl == list || focusControl == text)
 						return;
-					}
 					hasFocus = false;
 					Event e = new Event();
 					notifyListeners(SWT.FocusOut, e);
@@ -1502,17 +1413,15 @@ public final class CCombo extends Composite {
 			}
 			// At this point the widget may have been disposed.
 			// If so, do not continue.
-			if (isDisposed()) {
+			if (isDisposed())
 				break;
-			}
 
 			if (event.keyCode == SWT.ARROW_UP || event.keyCode == SWT.ARROW_DOWN) {
 				if ((event.stateMask & SWT.ALT) != 0) {
 					boolean dropped = isDropped();
 					text.selectAll();
-					if (!dropped) {
+					if (!dropped)
 						setFocus();
-					}
 					dropDown(!dropped);
 					break;
 				}
@@ -1532,16 +1441,14 @@ public final class CCombo extends Composite {
 //				}
 				// At this point the widget may have been disposed.
 				// If so, do not continue.
-				if (isDisposed()) {
+				if (isDisposed())
 					break;
-				}
 			}
 
 			if (!getEditable()) {
 				boolean dropped = isDropped();
-				if (!dropped) {
+				if (!dropped)
 					setFocus();
-				}
 				dropDown(!dropped);
 				if (!dropped) {
 					setMatchSelection(event);
@@ -1576,21 +1483,22 @@ public final class CCombo extends Composite {
 			break;
 		}
 		case SWT.MouseDown: {
-			if ((event.button != 1) || text.getEditable()) {
+			if (event.button != 1)
 				return;
-			}
+			if (text.getEditable())
+				return;
 			boolean dropped = isDropped();
 			text.selectAll();
-			if (!dropped) {
+			if (!dropped)
 				setFocus();
-			}
 			dropDown(!dropped);
 			break;
 		}
 		case SWT.MouseUp: {
-			if ((event.button != 1) || text.getEditable()) {
+			if (event.button != 1)
 				return;
-			}
+			if (text.getEditable())
+				return;
 			text.selectAll();
 			break;
 		}
@@ -1622,7 +1530,7 @@ public final class CCombo extends Composite {
 
 	/**
 	 * @param event
-	 *
+	 * 
 	 */
 	private void setMatchSelection(Event event) {
 		int index = fintMatchItem(event.character);

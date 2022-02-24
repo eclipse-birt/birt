@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -30,19 +30,16 @@ public class TemplateLayout extends Layout {
 		super(context, parent, content);
 	}
 
-	@Override
 	protected void closeLayout() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void layout() throws BirtException {
 		boolean isInline = parent instanceof IInlineStackingLayout;
 		if (isInline) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +17,6 @@ package org.eclipse.birt.report.model.api;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -54,7 +53,7 @@ public class GroupPropertyHandle {
 	 * Constructs a handle to deal with an common property within a group of
 	 * elements. The given property definition should be a common property shared by
 	 * the collection of elements.
-	 *
+	 * 
 	 * @param handle   Handles to a collection of elements.
 	 * @param propDefn definition of the property.
 	 */
@@ -73,7 +72,7 @@ public class GroupPropertyHandle {
 	 * <p>
 	 * If all element has a <code>null</code> value for this property, it is
 	 * considered that they share the same value.
-	 *
+	 * 
 	 * @return <code>true</code> if the group of element share the same value.
 	 */
 
@@ -82,9 +81,8 @@ public class GroupPropertyHandle {
 
 		// List with no content.
 
-		if (!iter.hasNext()) {
+		if (!iter.hasNext())
 			return false;
-		}
 
 		DesignElementHandle elemHandle = (DesignElementHandle) iter.next();
 
@@ -96,8 +94,12 @@ public class GroupPropertyHandle {
 			elemHandle = (DesignElementHandle) iter.next();
 			Object value = getPropertyValue(elemHandle);
 
-			if (!Objects.equals(baseValue, value)) {
-				return false;
+			if (baseValue == null) {
+				if (value != null)
+					return false;
+			} else {
+				if (!baseValue.equals(value))
+					return false;
 			}
 		}
 
@@ -106,25 +108,24 @@ public class GroupPropertyHandle {
 
 	/**
 	 * Gets the property value of the given element
-	 *
+	 * 
 	 * @param elementHandle the handle of the given element
-	 *
+	 * 
 	 * @return the property value
 	 */
 	private Object getPropertyValue(DesignElementHandle elementHandle) {
-		if (propDefn.getTypeCode() == IPropertyType.STRUCT_TYPE) {
+		if (propDefn.getTypeCode() == IPropertyType.STRUCT_TYPE)
 			return elementHandle.getProperty(propDefn.getName());
-		} else if (propDefn.allowExpression()) {
+		else if (propDefn.allowExpression())
 			return elementHandle.getElement().getProperty(elementHandle.module, propDefn);
-		} else {
+		else
 			return elementHandle.getStringProperty(propDefn.getName());
-		}
 	}
 
 	/**
 	 * Value will be returned as string only if all values of this property are
 	 * equal within the collection of elements.
-	 *
+	 * 
 	 * @return The value as string if all the element values for the property are
 	 *         equal. Return null, if elements have different value for the
 	 *         property.
@@ -134,9 +135,8 @@ public class GroupPropertyHandle {
 	public String getStringValue() {
 		DesignElementHandle element = getSameValueElementHandle();
 
-		if (element == null) {
+		if (element == null)
 			return null;
-		}
 
 		return element.getStringProperty(propDefn.getName());
 	}
@@ -144,7 +144,7 @@ public class GroupPropertyHandle {
 	/**
 	 * Value will be returned as string only if all values of this property are
 	 * equal within the collection of elements and one of them has a local value.
-	 *
+	 * 
 	 * @return The value as string if all the element values for the property are
 	 *         equal and one of them has a local value. Return null, if elements
 	 *         have different value for the property or none of them has a local
@@ -153,9 +153,8 @@ public class GroupPropertyHandle {
 
 	public String getLocalStringValue() {
 		Object value = getLocalValue();
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		DesignElementHandle element = (DesignElementHandle) handle.getElements().get(0);
 
@@ -166,23 +165,21 @@ public class GroupPropertyHandle {
 	/**
 	 * Value will be returned only if all values of this property are equal within
 	 * the collection of elements and one of them has a local value.
-	 *
+	 * 
 	 * @return The value if all the element values for the property are equal and
 	 *         one of them has a local value. Return null, if elements have
 	 *         different value for the property or none of them has a local value.
 	 */
 
 	protected Object getLocalValue() {
-		if (!shareSameValue()) {
+		if (!shareSameValue())
 			return null;
-		}
 		List elements = handle.getElements();
 		for (int i = 0; i < elements.size(); i++) {
 			DesignElementHandle element = (DesignElementHandle) elements.get(i);
 			Object value = element.getElement().getLocalProperty(element.getModule(), propDefn);
-			if (value != null) {
+			if (value != null)
 				return value;
-			}
 		}
 		return null;
 	}
@@ -190,7 +187,7 @@ public class GroupPropertyHandle {
 	/**
 	 * Value will be returned as string only if all values of this property are
 	 * equal within the collection of elements. The value return are localized.
-	 *
+	 * 
 	 * @return The localized value as string if all the element values for the
 	 *         property are equal. Return null, if elements have different value for
 	 *         the property.
@@ -198,9 +195,8 @@ public class GroupPropertyHandle {
 	 */
 
 	public String getDisplayValue() {
-		if (!shareSameValue()) {
+		if (!shareSameValue())
 			return null;
-		}
 
 		// List must contain at least one element.
 		// return the property value from the first element.
@@ -213,7 +209,7 @@ public class GroupPropertyHandle {
 	/**
 	 * Set the object value on a group of elements. This operation will be executed
 	 * within a transaction, it will be rollbacked if any set operation failed.
-	 *
+	 * 
 	 * @param value the object value to set
 	 * @throws SemanticException if the property is undefined on an element or the
 	 *                           value is invalid.
@@ -242,7 +238,7 @@ public class GroupPropertyHandle {
 	/**
 	 * Set the string value on a group of elements. This operation will be executed
 	 * within a transaction, it will be rollbacked if any set operation failed.
-	 *
+	 * 
 	 * @param value the string value to set
 	 * @throws SemanticException if the property is undefined on an element or the
 	 *                           string value is invalid.
@@ -255,7 +251,7 @@ public class GroupPropertyHandle {
 
 	/**
 	 * Return the property definition.
-	 *
+	 * 
 	 * @return the property definition.
 	 */
 
@@ -265,7 +261,7 @@ public class GroupPropertyHandle {
 
 	/**
 	 * Clears the value of the property on every element.
-	 *
+	 * 
 	 * @throws SemanticException If the value cannot be cleared.
 	 */
 
@@ -288,14 +284,13 @@ public class GroupPropertyHandle {
 			}
 
 			actStack.commit();
-		} else {
+		} else
 			setValue(null);
-		}
 	}
 
 	/**
 	 * Tests if this property is an extension defined property.
-	 *
+	 * 
 	 * @return <code>true</code> if this property is an extension defined property,
 	 *         <code>false</code> otherwise.
 	 */
@@ -304,16 +299,15 @@ public class GroupPropertyHandle {
 		for (Iterator iter = handle.getElements().iterator(); iter.hasNext();) {
 			DesignElementHandle elemHandle = (DesignElementHandle) iter.next();
 			if (elemHandle instanceof ExtendedItemHandle
-					&& ((ExtendedItem) elemHandle.getElement()).isExtensionModelProperty(propDefn.getName())) {
+					&& ((ExtendedItem) elemHandle.getElement()).isExtensionModelProperty(propDefn.getName()))
 				return true;
-			}
 		}
 		return false;
 	}
 
 	/**
 	 * Tests if this property is an extension defined xml property.
-	 *
+	 * 
 	 * @return <code>true</code> if this property is an extension defined xml
 	 *         property, <code>false</code> otherwise.
 	 */
@@ -322,9 +316,8 @@ public class GroupPropertyHandle {
 		for (Iterator iter = handle.getElements().iterator(); iter.hasNext();) {
 			DesignElementHandle elemHandle = (DesignElementHandle) iter.next();
 			if (elemHandle instanceof ExtendedItemHandle
-					&& ((ExtendedItem) elemHandle.getElement()).isExtensionXMLProperty(propDefn.getName())) {
+					&& ((ExtendedItem) elemHandle.getElement()).isExtensionXMLProperty(propDefn.getName()))
 				return true;
-			}
 		}
 		return false;
 	}
@@ -333,15 +326,14 @@ public class GroupPropertyHandle {
 	 * Returns the element reference value list if the property is element
 	 * referenceable type. The list of available elements are sorted by their names
 	 * lexicographically.
-	 *
+	 * 
 	 * @return list of the reference element value.
 	 */
 
 	public List getReferenceableElementList() {
 		List elements = handle.getElements();
-		if (elements == null || elements.isEmpty()) {
+		if (elements == null || elements.isEmpty())
 			return Collections.EMPTY_LIST;
-		}
 
 		DesignElementHandle element = (DesignElementHandle) elements.get(0);
 		PropertyHandle propHandle = element.getPropertyHandle(propDefn.getName());
@@ -362,17 +354,15 @@ public class GroupPropertyHandle {
 	 * GroupPropertyHandle</code>. <code>GroupElementHandle</code> and the the
 	 * property definition are same.</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param target the property or group property handle
 	 * @return <code>true</code> if the two property handles are considerred as
 	 *         same. Otherwise <code>false</code>.
 	 */
 
-	@Override
 	public boolean equals(Object target) {
-		if (!(target instanceof PropertyHandle) && !(target instanceof GroupPropertyHandle)) {
+		if (!(target instanceof PropertyHandle) && !(target instanceof GroupPropertyHandle))
 			return false;
-		}
 
 		if (target instanceof PropertyHandle) {
 			DesignElementHandle targetElement = ((PropertyHandle) target).getElementHandle();
@@ -387,7 +377,7 @@ public class GroupPropertyHandle {
 	/**
 	 * Checks whether a property is visible in the property sheet. The visible
 	 * property is visible in all <code>elements</code>.
-	 *
+	 * 
 	 * @return <code>true</code> if it is visible. Otherwise <code>false</code>.
 	 */
 
@@ -398,7 +388,7 @@ public class GroupPropertyHandle {
 	/**
 	 * Checks whether a property is read-only in the property sheet. The read-only
 	 * property is read-only in all <code>elements</code>.
-	 *
+	 * 
 	 * @return <code>true</code> if it is read-only. Otherwise <code>false</code>.
 	 */
 
@@ -408,7 +398,7 @@ public class GroupPropertyHandle {
 
 	/**
 	 * Gets the property message.
-	 *
+	 * 
 	 * @return the property message.
 	 */
 	private String changePropertyMessage() {
@@ -419,7 +409,7 @@ public class GroupPropertyHandle {
 	/**
 	 * Gets the value of the property. Value will be returned as object only if all
 	 * values of this property are equal within the collection of elements.
-	 *
+	 * 
 	 * @return The value if all the element values for the property are equal.
 	 *         Return null, if elements have different value for the property.
 	 * @see SimpleValueHandle#getValue()
@@ -428,9 +418,8 @@ public class GroupPropertyHandle {
 	public Object getValue() {
 		DesignElementHandle element = getSameValueElementHandle();
 
-		if (element == null) {
+		if (element == null)
 			return null;
-		}
 
 		if (propDefn.allowExpression()) {
 			if (propDefn.isListType()) {
@@ -450,9 +439,8 @@ public class GroupPropertyHandle {
 	 * element and share the same value of the property.
 	 */
 	private DesignElementHandle getSameValueElementHandle() {
-		if (!shareSameValue()) {
+		if (!shareSameValue())
 			return null;
-		}
 
 		// List must contain at least one element.
 		// return the property value from the first element.

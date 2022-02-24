@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 	protected LevelViewHandle focus = null;
 
 	/**
-	 *
+	 * 
 	 * @param theCrosstab
 	 * @param levelView
 	 */
@@ -57,7 +57,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param measureList
 	 * @param functionList
 	 * @param levelView
@@ -66,9 +66,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 	 */
 	CrosstabCellHandle addSubTotal(List<MeasureViewHandle> measureList, List<String> functionList,
 			boolean needTransaction) throws SemanticException {
-		if (focus == null || !isValidParameters(functionList, measureList)) {
+		if (focus == null || !isValidParameters(functionList, measureList))
 			return null;
-		}
 
 		verifyTotalMeasureFunctions(focus.getAxisType(), functionList, measureList);
 
@@ -89,10 +88,9 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 		}
 
 		try {
-			if (focus.getAggregationHeader() == null) {
+			if (focus.getAggregationHeader() == null)
 				focus.getAggregationHeaderProperty()
 						.add(CrosstabExtendedItemFactory.createCrosstabCell(focus.getModuleHandle()));
-			}
 
 			// adjust the measure aggregations
 			if (crosstab != null && measureList != null) {
@@ -142,7 +140,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 
 	/**
 	 * Removes the sub-total.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void removeSubTotal() throws SemanticException {
@@ -173,7 +171,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 
 	/**
 	 * Removes the sub-total on particular measure.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void removeSubTotal(int measureIndex) throws SemanticException {
@@ -207,19 +205,17 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param levelView
 	 * @throws SemanticException
 	 */
 	public void validateLevelView() throws SemanticException {
-		if (crosstab == null) {
+		if (crosstab == null)
 			return;
-		}
 
 		String levelName = focus.getCubeLevelName();
-		if (levelName == null || levelName.length() == 0) {
+		if (levelName == null || levelName.length() == 0)
 			return;
-		}
 		int axisType = focus.getAxisType();
 		String measureDirection = crosstab.getMeasureDirection();
 		boolean isInnerMost = focus.isInnerMost();
@@ -240,7 +236,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 
 	/**
 	 * Checks whether to do validation for the level view.
-	 *
+	 * 
 	 * @param axisType
 	 * @param isInnerMost
 	 * @param measureDirection
@@ -249,22 +245,23 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 	private boolean needValidate(int axisType, boolean isInnerMost, String measureDirection) {
 		// if the leve view is innermost, we need to validate aggregations
 		// whether the measure direction is horizontal or vertical
+		if (isInnerMost)
+			return true;
+
 		// if measure direction is horizontal, then we only validate levels in
 		// column axis
-		if (isInnerMost || (MEASURE_DIRECTION_HORIZONTAL.equals(measureDirection) && axisType == COLUMN_AXIS_TYPE)) {
+		if (MEASURE_DIRECTION_HORIZONTAL.equals(measureDirection) && axisType == COLUMN_AXIS_TYPE)
 			return true;
-		}
 
 		// if measure direction is vertical, then we only validate levels in row
 		// axis
-		if (MEASURE_DIRECTION_VERTICAL.equals(measureDirection) && axisType == ROW_AXIS_TYPE) {
+		if (MEASURE_DIRECTION_VERTICAL.equals(measureDirection) && axisType == ROW_AXIS_TYPE)
 			return true;
-		}
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param aggregationLevelList
 	 * @throws SemanticException
 	 */
@@ -280,27 +277,23 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 	/**
 	 * Gets the aggregation function of this level view applying on the specified
 	 * measure view.
-	 *
+	 * 
 	 * @param measureView
 	 * @return
 	 */
 	public String getAggregationFunction(MeasureViewHandle measureView) {
 		// if level view is null, or aggregation header is not set, or cube
 		// level is not set, then return empty
-		if (focus == null) {
+		if (focus == null)
 			return null;
-		}
 		String levelName = focus.getCubeLevelName();
-		if (focus.getAggregationHeader() == null || levelName == null || levelName.length() <= 0
-				|| measureView == null) {
+		if (focus.getAggregationHeader() == null || levelName == null || levelName.length() <= 0 || measureView == null)
 			return null;
-		}
 
 		// if crosstab is not found, or level and measure not reside in the same
 		// one then return null
-		if (crosstab == null || crosstab != measureView.getCrosstab()) {
+		if (crosstab == null || crosstab != measureView.getCrosstab())
 			return null;
-		}
 
 		if (focus.isInnerMost()) {
 			String function = CrosstabModelUtil.getAggregationFunction(crosstab, measureView.getCell());
@@ -318,9 +311,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 			AggregationCellHandle cell = measureView.getAggregationCell(j);
 			if (levelName.equals(cell.getModelHandle().getStringProperty(propName))) {
 				String function = CrosstabModelUtil.getAggregationFunction(crosstab, cell);
-				if (function != null) {
+				if (function != null)
 					return function;
-				}
 			}
 		}
 
@@ -330,7 +322,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 	/**
 	 * Gets the measure view list that define aggregations for the given level view.
 	 * Each item in the list is an instance of <code>MeasureViewHandle</code> .
-	 *
+	 * 
 	 * @param levelView
 	 * @return
 	 */
@@ -338,21 +330,20 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 		// if level view is null, or aggregation header is not set, or cube
 		// level is not set, then return empty
 		if (focus.getAggregationHeader() == null || focus.getCubeLevelName() == null
-				|| focus.getCubeLevelName().length() <= 0 || (crosstab == null)) {
+				|| focus.getCubeLevelName().length() <= 0)
 			return Collections.emptyList();
-		}
+		if (crosstab == null)
+			return Collections.emptyList();
 
 		int axisType = focus.getAxisType();
 		String levelName = focus.getCubeLevelName();
-		List<MeasureViewHandle> measures = new ArrayList<>();
+		List<MeasureViewHandle> measures = new ArrayList<MeasureViewHandle>();
 		for (int i = 0; i < crosstab.getMeasureCount(); i++) {
 			MeasureViewHandle measureView = crosstab.getMeasure(i);
-			if (measures.contains(measureView)) {
+			if (measures.contains(measureView))
 				continue;
-			}
-			if (CrosstabModelUtil.isAggregationOn(measureView, levelName, axisType)) {
+			if (CrosstabModelUtil.isAggregationOn(measureView, levelName, axisType))
 				measures.add(measureView);
-			}
 		}
 		return measures;
 	}
@@ -360,7 +351,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 	/**
 	 * Gets the aggregation function for the level view sub-total. If the level view
 	 * is null or not define any sub-total, return null.
-	 *
+	 * 
 	 * @param measureView
 	 * @param function
 	 * @return
@@ -370,9 +361,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask {
 		// if level view is null, or aggregation header is not set, or cube
 		// level is not set, then return empty
 		if (focus.getAggregationHeader() == null || focus.getCubeLevelName() == null
-				|| focus.getCubeLevelName().length() <= 0 || measureView == null) {
+				|| focus.getCubeLevelName().length() <= 0 || measureView == null)
 			return;
-		}
 
 		// if crosstab is not found, or level and measure not reside in the same
 		// one then return null

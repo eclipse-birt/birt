@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
  * Parses the "ex-property" tag. We use the "ex-property" tag if the element
  * property or structure member is an extended property mostly for use with ODA
  * property.
- *
+ * 
  */
 
 public class ExtendedPropertyState extends StructureState {
@@ -42,7 +42,7 @@ public class ExtendedPropertyState extends StructureState {
 	protected String encryptionID = null;
 
 	/**
-	 *
+	 * 
 	 * @param theHandler
 	 * @param element
 	 * @param propDefn
@@ -53,44 +53,39 @@ public class ExtendedPropertyState extends StructureState {
 		// till now, there is structure ODAProperty can be written as
 		// ex-property.
 
-		if (IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP.equalsIgnoreCase(propDefn.getName())) {
+		if (IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP.equalsIgnoreCase(propDefn.getName()))
 			struct = new ExtendedProperty();
-		} else {
+		else
 			handler.getErrorHandler().semanticError(
 					new DesignParserException(DesignParserException.DESIGN_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE));
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
-	@Override
 	public AbstractParseState startElement(String tagName) {
 		assert struct instanceof ExtendedProperty;
 
 		int tagValue = tagName.toLowerCase().hashCode();
-		if (ParserSchemaConstants.NAME_ATTRIB == tagValue) {
+		if (ParserSchemaConstants.NAME_ATTRIB == tagValue)
 			return new TextState(handler, struct, ExtendedProperty.NAME_MEMBER);
-		}
-		if (ParserSchemaConstants.VALUE_TAG == tagValue) {
+		if (ParserSchemaConstants.VALUE_TAG == tagValue)
 			return new TextState(handler, struct, ExtendedProperty.VALUE_MEMBER);
-		}
 
 		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		super.parseAttrs(attrs);
 		encryptionID = attrs.getValue(DesignSchemaConstants.ENCRYPTION_ID_ATTRIB);
@@ -98,7 +93,6 @@ public class ExtendedPropertyState extends StructureState {
 		assert struct instanceof ExtendedProperty;
 	}
 
-	@Override
 	public void end() throws SAXException {
 		super.end();
 		String encryptionID = ((ExtendedProperty) struct).getEncryptionID();
@@ -109,9 +103,8 @@ public class ExtendedPropertyState extends StructureState {
 			boolean isEncryptable = false;
 			List<IElementPropertyDefn> hidePrivatePropsList = null;
 			IElementDefn tmpElementDefn = element.getDefn();
-			if (tmpElementDefn instanceof ODAExtensionElementDefn) {
+			if (tmpElementDefn instanceof ODAExtensionElementDefn)
 				hidePrivatePropsList = ((ODAExtensionElementDefn) tmpElementDefn).getHidePrivateProps();
-			}
 			IElementPropertyDefn oadPropertyDefn = null;
 			if (hidePrivatePropsList != null && hidePrivatePropsList.size() > 0) {
 				for (IElementPropertyDefn defn : hidePrivatePropsList) {

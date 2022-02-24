@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Hierarchy;
 
 /**
- *
+ * 
  */
 
 public class CubeMaterializer {
@@ -45,7 +45,7 @@ public class CubeMaterializer {
 	private DataEngine dataEngine;
 
 	/**
-	 *
+	 * 
 	 * @param pathName
 	 * @param managerName
 	 * @throws BirtOlapException
@@ -56,7 +56,7 @@ public class CubeMaterializer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param pathName
 	 * @param managerName
 	 * @param cacheSize
@@ -77,7 +77,7 @@ public class CubeMaterializer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 * @throws IOException
 	 */
@@ -88,17 +88,16 @@ public class CubeMaterializer {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void setShutdownListener() {
-		if (dataEngine == null) {
+		if (dataEngine == null)
 			return;
-		}
 		dataEngine.addShutdownListener(new DocManagerReleaser(dataEngine));
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public IDocumentManager getDocumentManager() {
@@ -123,7 +122,7 @@ public class CubeMaterializer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param hierarchy
 	 * @return
@@ -139,7 +138,7 @@ public class CubeMaterializer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param hierarchy
 	 * @return
@@ -155,7 +154,7 @@ public class CubeMaterializer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param dimensions
 	 * @param factTable
@@ -166,14 +165,13 @@ public class CubeMaterializer {
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	@Deprecated
 	public void createCube(String name, String[][] keyColumnNames, IDimension[] dimensions, IDatasetIterator factTable,
 			String[] measureColumns, StopSign stopSign) throws IOException, BirtException {
 		createCube(name, keyColumnNames, keyColumnNames, dimensions, factTable, measureColumns, 0, stopSign);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param factTableJointColumnNames
 	 * @param DimJointColumnNames
@@ -192,7 +190,7 @@ public class CubeMaterializer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param factTableJointColumnNames
 	 * @param DimJointColumnNames
@@ -217,7 +215,7 @@ public class CubeMaterializer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cubeName
 	 * @param writer
 	 * @throws IOException
@@ -270,7 +268,7 @@ public class CubeMaterializer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param writer
 	 * @param stopSign
@@ -299,7 +297,7 @@ public class CubeMaterializer {
 
 	/**
 	 * @throws IOException
-	 *
+	 * 
 	 */
 	public void close() throws IOException {
 		documentManager.flush();

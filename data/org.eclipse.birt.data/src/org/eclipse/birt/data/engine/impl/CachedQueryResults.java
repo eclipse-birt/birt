@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- *
+ * 
  */
 
 public class CachedQueryResults implements IQueryResults {
@@ -40,7 +40,7 @@ public class CachedQueryResults implements IQueryResults {
 	private static Logger logger = Logger.getLogger(CachedQueryResults.class.getName());
 
 	/**
-	 *
+	 * 
 	 * @param context
 	 * @param queryResultID
 	 * @throws DataException
@@ -63,53 +63,46 @@ public class CachedQueryResults implements IQueryResults {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getPreparedQuery()
 	 */
-	@Override
 	public IPreparedQuery getPreparedQuery() {
 		return this.pQuery;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultIterator()
 	 */
-	@Override
 	public IResultIterator getResultIterator() throws BirtException {
 		return resultIterator;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultMetaData()
 	 */
-	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		return resultIterator.getResultMetaData();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#close()
 	 */
-	@Override
 	public void close() throws BirtException {
-		if (resultIterator != null) {
+		if (resultIterator != null)
 			resultIterator.close();
-		}
 		NamingRelationUtil.merge(this.session, this.getPreparedQuery().getReportQueryDefn(), this);
 	}
 
-	@Override
 	public String getID() {
 		return queryResultID;
 	}
 
-	@Override
 	public void cancel() {
 		// TODO Auto-generated method stub
 	}
@@ -120,21 +113,19 @@ public class CachedQueryResults implements IQueryResults {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IBaseQueryResults#setName(java.lang.String)
 	 */
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}

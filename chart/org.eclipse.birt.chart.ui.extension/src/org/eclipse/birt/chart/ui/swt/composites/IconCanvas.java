@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 /**
  * Special Canvas class used to display the image.
- *
+ * 
  */
 public class IconCanvas extends Canvas {
 
@@ -43,7 +43,7 @@ public class IconCanvas extends Canvas {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param parent
 	 */
 	public IconCanvas(final Composite parent) {
@@ -52,17 +52,16 @@ public class IconCanvas extends Canvas {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param parent
 	 * @param style
-	 *
+	 * 
 	 */
 	public IconCanvas(final Composite parent, int style) {
 		super(parent, style);
 
 		addPaintListener(new PaintListener() {
 
-			@Override
 			public void paintControl(final PaintEvent event) {
 				paint(event.gc);
 			}
@@ -71,10 +70,9 @@ public class IconCanvas extends Canvas {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Widget#dispose()
 	 */
-	@Override
 	public void dispose() {
 		if (sourceImage != null && !sourceImage.isDisposed()) {
 			sourceImage.dispose();
@@ -100,9 +98,8 @@ public class IconCanvas extends Canvas {
 			imageRect = imageRect.intersection(imageBound);
 			Rectangle destRect = TransformUtil.transformRect(transform, imageRect);
 
-			if (screenImage != null) {
+			if (screenImage != null)
 				screenImage.dispose();
-			}
 			screenImage = new Image(getDisplay(), clientRect.width, clientRect.height);
 			GC newGC = new GC(screenImage);
 			newGC.setClipping(clientRect);
@@ -129,12 +126,10 @@ public class IconCanvas extends Canvas {
 		AffineTransform af = transform;
 		double sx = af.getScaleX(), sy = af.getScaleY();
 		double tx = af.getTranslateX(), ty = af.getTranslateY();
-		if (tx > 0) {
+		if (tx > 0)
 			tx = 0;
-		}
-		if (ty > 0) {
+		if (ty > 0)
 			ty = 0;
-		}
 
 		Rectangle imageBound = sourceImage.getBounds();
 		int cw = getClientArea().width, ch = getClientArea().height;
@@ -148,9 +143,8 @@ public class IconCanvas extends Canvas {
 			if (imageBound.width * sx > cw) {
 				horizontal.setMaximum((int) (imageBound.width * sx));
 				horizontal.setEnabled(true);
-				if (((int) -tx) > horizontal.getMaximum() - cw) {
+				if (((int) -tx) > horizontal.getMaximum() - cw)
 					tx = -horizontal.getMaximum() + cw;
-				}
 			} else {
 				horizontal.setEnabled(false);
 				tx = (cw - imageBound.width * sx) / 2;
@@ -165,9 +159,8 @@ public class IconCanvas extends Canvas {
 			if (imageBound.height * sy > ch) {
 				vertical.setMaximum((int) (imageBound.height * sy));
 				vertical.setEnabled(true);
-				if (((int) -ty) > vertical.getMaximum() - ch) {
+				if (((int) -ty) > vertical.getMaximum() - ch)
 					ty = -vertical.getMaximum() + ch;
-				}
 			} else {
 				vertical.setEnabled(false);
 				ty = (ch - imageBound.height * sy) / 2;
@@ -185,9 +178,9 @@ public class IconCanvas extends Canvas {
 
 	/**
 	 * Load the image from a file
-	 *
+	 * 
 	 * @param filename
-	 *
+	 * 
 	 */
 	public Image loadImage(String filename) {
 		if (sourceImage != null && !sourceImage.isDisposed()) {
@@ -207,7 +200,7 @@ public class IconCanvas extends Canvas {
 
 	/**
 	 * Load the image from a URL.
-	 *
+	 * 
 	 * @param url
 	 */
 	public Image loadImage(URL url) {
@@ -229,9 +222,9 @@ public class IconCanvas extends Canvas {
 
 	/**
 	 * Load the image from a file
-	 *
+	 * 
 	 * @param filename
-	 *
+	 * 
 	 */
 	public Image loadImage(InputStream is) {
 		if (sourceImage != null && !sourceImage.isDisposed()) {
@@ -253,9 +246,8 @@ public class IconCanvas extends Canvas {
 	 * Adjust the image onto the canvas
 	 */
 	public void fitCanvas() {
-		if (sourceImage == null) {
+		if (sourceImage == null)
 			return;
-		}
 		Rectangle imageBound = sourceImage.getBounds();
 		Rectangle destRect = getClientArea();
 		double sx = (double) destRect.width / (double) imageBound.width;
@@ -270,9 +262,8 @@ public class IconCanvas extends Canvas {
 	 * Show the image with the original size
 	 */
 	public void showOriginal() {
-		if (sourceImage == null) {
+		if (sourceImage == null)
 			return;
-		}
 		transform = new AffineTransform();
 		syncScrollBars();
 	}
@@ -292,7 +283,7 @@ public class IconCanvas extends Canvas {
 
 	/**
 	 * Perform a zooming operation.
-	 *
+	 * 
 	 * @param dx
 	 * @param dy
 	 * @param scale

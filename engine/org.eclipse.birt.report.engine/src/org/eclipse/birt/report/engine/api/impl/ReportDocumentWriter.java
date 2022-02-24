@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 
 /**
- *
+ * 
  */
 public class ReportDocumentWriter implements ReportDocumentConstants {
 	static private Logger logger = Logger.getLogger(ReportDocumentWriter.class.getName());
@@ -150,7 +150,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants {
 
 	/**
 	 * save the design into the stream.
-	 *
+	 * 
 	 * @param design design handler
 	 */
 	public ReportRunnable saveDesign(ReportRunnable runnable, ReportRunnable originalRunnable) throws EngineException {
@@ -186,7 +186,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants {
 
 	/**
 	 * save the paramters into the stream.
-	 *
+	 * 
 	 * @param paramters HashMap cotains (name, value) pair.
 	 */
 	public void saveParamters(HashMap map) {
@@ -265,6 +265,21 @@ public class ReportDocumentWriter implements ReportDocumentConstants {
 		}
 	}
 
+	private void writeMap(DataOutputStream stream, HashMap map) throws Exception {
+		if (map == null) {
+			map = new HashMap();
+		}
+		IOUtil.writeLong(stream, map.size());
+		Iterator iter = map.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			String key = (String) entry.getKey();
+			Long value = (Long) entry.getValue();
+			IOUtil.writeString(stream, key);
+			IOUtil.writeLong(stream, value.longValue());
+		}
+	}
+
 	public void setPageCount(long pageCount) {
 		this.pageCount = pageCount;
 	}
@@ -281,7 +296,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants {
 
 	public void saveReportletDocument(String bookmark, InstanceID iid) throws IOException {
 		RAOutputStream out = archive.createOutputStream(REPORTLET_DOCUMENT_STREAM);
-		try (out) {
+		try {
 			IOUtil.writeInt(out, REPORTLET_DOCUMENT_VERSION_0);
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 			DataOutputStream s = new DataOutputStream(buffer);
@@ -289,6 +304,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants {
 			IOUtil.writeString(s, iid == null ? null : iid.toUniqueString());
 			out.writeInt(buffer.size());
 			out.write(buffer.toByteArray());
+		} finally {
+			out.close();
 		}
 	}
 

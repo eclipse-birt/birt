@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -53,11 +53,11 @@ public final class StackedSeriesLookup {
 		htSeriesToStackGroup = SecurityUtil.newHashtable();
 	}
 
-	public List<StackGroup> getStackGroups(Axis ax) {
+	public final List<StackGroup> getStackGroups(Axis ax) {
 		return htAxisToStackGroups.get(ax);
 	}
 
-	public int getSeriesCount(Axis ax) {
+	public final int getSeriesCount(Axis ax) {
 		final List<StackGroup> alSG = htAxisToStackGroups.get(ax);
 		if (alSG == null || alSG.isEmpty()) {
 			return 0;
@@ -76,7 +76,7 @@ public final class StackedSeriesLookup {
 	 * @param se
 	 * @return The stack group associated with a specified Series
 	 */
-	public StackGroup getStackGroup(Series se) {
+	public final StackGroup getStackGroup(Series se) {
 		return htSeriesToStackGroup.get(se);
 	}
 
@@ -86,14 +86,14 @@ public final class StackedSeriesLookup {
 	 * @return An AxisUnit corresponding to a given stack group and specified unit
 	 *         index
 	 */
-	public AxisSubUnit getSubUnit(StackGroup sg, int iUnitIndex) {
+	public final AxisSubUnit getSubUnit(StackGroup sg, int iUnitIndex) {
 		if (sg == null || !htSeriesToStackGroup.contains(sg)) {
 			return null;
 		}
 
 		// IF NOT YET INITIALIZED, DO SO LAZILY
 		if (sg.alUnitPositions == null) {
-			sg.alUnitPositions = new ArrayList<>(8);
+			sg.alUnitPositions = new ArrayList<AxisSubUnit>(8);
 		}
 
 		// IF NOT YET CONTAINED, ADD LAZILY
@@ -108,23 +108,23 @@ public final class StackedSeriesLookup {
 	 * Returns an AxisUnit needed to 'remember' the position of the next stacked bar
 	 * to be rendered. If a series is not 'stackable' or not 'set as stacked', this
 	 * method will return 'null'.
-	 *
+	 * 
 	 * @param ax
 	 * @param se
 	 * @param iUnitIndex
-	 *
+	 * 
 	 * @return unit
 	 */
-	public AxisSubUnit getUnit(Series se, int iUnitIndex) {
+	public final AxisSubUnit getUnit(Series se, int iUnitIndex) {
 		// LOOKUP STACKED GROUP FOR SERIES
 		StackGroup sg = htSeriesToStackGroup.get(se);
 		return getSubUnit(sg, iUnitIndex);
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void resetSubUnits() {
+	public final void resetSubUnits() {
 		Enumeration<StackGroup> e = htSeriesToStackGroup.elements();
 		StackGroup sg;
 		AxisSubUnit asu;
@@ -141,13 +141,13 @@ public final class StackedSeriesLookup {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cwa
 	 * @return
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
-	public static StackedSeriesLookup create(ChartWithAxes cwa, RunTimeContext rtc)
+	public static final StackedSeriesLookup create(ChartWithAxes cwa, RunTimeContext rtc)
 			throws ChartException, IllegalArgumentException {
 		if (cwa == null) // NPE CHECK
 		{
@@ -171,7 +171,7 @@ public final class StackedSeriesLookup {
 			iSharedUnitCount = 0;
 			sgSingle = null; // RESET PER AXIS
 			EList<SeriesDefinition> sdList = axaOrthogonal[i].getSeriesDefinitions();
-			List<StackGroup> alSGCopies = new ArrayList<>(4);
+			List<StackGroup> alSGCopies = new ArrayList<StackGroup>(4);
 			iSharedUnitCount = 0;
 
 			for (SeriesDefinition sd : sdList) // EACH SERIES DEFINITION
@@ -243,45 +243,47 @@ public final class StackedSeriesLookup {
 										// LOOKUP
 									}
 								}
-							} else if (se.isStacked()) {
-								if (k > 0 && !bStackedSet) {
-									throw new IllegalArgumentException(MessageFormat.format(
-											Messages.getResourceBundle(rtc.getULocale())
-													.getString("exception.stacked.unstacked.mix.series"), //$NON-NLS-1$
-											new Object[] { sd })
-
-									);
-								}
-								if (k == 0) // ONE GROUP FOR ALL STACKED
-								// SERIES
-								{
-									sg = new StackGroup(-1); // UNSET
-									// BECAUSE
-									// DOESNT
-									// SHARE AXIS
-									// UNITS
-									alSGCopies.add(sg);
-								}
-								bStackedSet = true;
-								ssl.htSeriesToStackGroup.put(se, sg);
-								sg.addSeries(se); // REQUIRE REVERSE
-								// LOOKUP
 							} else {
-								if (k > 0 && bStackedSet) {
-									throw new IllegalArgumentException(MessageFormat.format(
-											Messages.getResourceBundle(rtc.getULocale())
-													.getString("exception.stacked.unstacked.mix.series"), //$NON-NLS-1$
-											new Object[] { sd })
+								if (se.isStacked()) {
+									if (k > 0 && !bStackedSet) {
+										throw new IllegalArgumentException(MessageFormat.format(
+												Messages.getResourceBundle(rtc.getULocale())
+														.getString("exception.stacked.unstacked.mix.series"), //$NON-NLS-1$
+												new Object[] { sd })
 
-									);
+										);
+									}
+									if (k == 0) // ONE GROUP FOR ALL STACKED
+									// SERIES
+									{
+										sg = new StackGroup(-1); // UNSET
+										// BECAUSE
+										// DOESNT
+										// SHARE AXIS
+										// UNITS
+										alSGCopies.add(sg);
+									}
+									bStackedSet = true;
+									ssl.htSeriesToStackGroup.put(se, sg);
+									sg.addSeries(se); // REQUIRE REVERSE
+									// LOOKUP
+								} else {
+									if (k > 0 && bStackedSet) {
+										throw new IllegalArgumentException(MessageFormat.format(
+												Messages.getResourceBundle(rtc.getULocale())
+														.getString("exception.stacked.unstacked.mix.series"), //$NON-NLS-1$
+												new Object[] { sd })
+
+										);
+									}
+									sg = new StackGroup(-1); // NEW GROUP FOR
+									// EACH UNSTACKED
+									// SERIES
+									alSGCopies.add(sg);
+									ssl.htSeriesToStackGroup.put(se, sg);
+									sg.addSeries(se); // REQUIRE REVERSE
+									// LOOKUP
 								}
-								sg = new StackGroup(-1); // NEW GROUP FOR
-								// EACH UNSTACKED
-								// SERIES
-								alSGCopies.add(sg);
-								ssl.htSeriesToStackGroup.put(se, sg);
-								sg.addSeries(se); // REQUIRE REVERSE
-								// LOOKUP
 							}
 						} else if (se.canShareAxisUnit()) {
 							sg = new StackGroup(iSharedUnitIndex++); // NEW
@@ -340,20 +342,22 @@ public final class StackedSeriesLookup {
 									sgSingle.addSeries(se); // REQUIRE
 									// REVERSE
 									// LOOKUP
-								} else if (canSideBySide(se)) {
-									sg = new StackGroup(iSharedUnitIndex++); // ONE
-									// PER
-									// UNSTACKED
-									// SERIES
-									// (SHARED
-									// INDEX
-									// IS
-									// SET)
-									iSharedUnitCount++;
-									alSGCopies.add(sg);
-									ssl.htSeriesToStackGroup.put(se, sg);
-									sg.addSeries(se); // REQUIRE REVERSE
-									// LOOKUP
+								} else {
+									if (canSideBySide(se)) {
+										sg = new StackGroup(iSharedUnitIndex++); // ONE
+										// PER
+										// UNSTACKED
+										// SERIES
+										// (SHARED
+										// INDEX
+										// IS
+										// SET)
+										iSharedUnitCount++;
+										alSGCopies.add(sg);
+										ssl.htSeriesToStackGroup.put(se, sg);
+										sg.addSeries(se); // REQUIRE REVERSE
+										// LOOKUP
+									}
 								}
 							} else
 							// e.g. each line series in its own stack
@@ -380,9 +384,8 @@ public final class StackedSeriesLookup {
 				}
 			}
 
-			if (iSharedUnitCount < 1) {
+			if (iSharedUnitCount < 1)
 				iSharedUnitCount = 1;
-			}
 			for (int j = 0; j < alSGCopies.size(); j++) {
 				sg = alSGCopies.get(j);
 				sg.updateCount(iSharedUnitCount);
@@ -394,7 +397,7 @@ public final class StackedSeriesLookup {
 		return ssl;
 	}
 
-	public int getUnitCount() {
+	public final int getUnitCount() {
 		return iCachedUnitCount;
 	}
 

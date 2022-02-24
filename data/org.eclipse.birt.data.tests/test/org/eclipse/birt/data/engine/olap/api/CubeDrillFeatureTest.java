@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,9 +37,10 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
-import org.junit.Test;
 
 import testutil.BaseTestCase;
+
+import org.junit.Test;
 
 public class CubeDrillFeatureTest extends BaseTestCase {
 
@@ -47,7 +48,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 
 	/**
 	 * Test basic drill up operation Drill on the first dimension
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -154,7 +155,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 
 	/**
 	 * Drill on the first dimension with duplicated second dimension
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -237,7 +238,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 
 	/**
 	 * Drill on the second dimension
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -336,7 +337,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 
 	/**
 	 * Drill on the first and second dimension
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -443,7 +444,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 
 	/**
 	 * Drill on the first, second, third dimension
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -563,7 +564,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 
 	/**
 	 * Drill on the first, second and the sub total.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -693,7 +694,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 
 	/**
 	 * Drill coexists nested aggregation with running aggregation
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -825,7 +826,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 
 	/**
 	 * Drill coexists nested aggregation with normal aggregation
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -961,7 +962,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 
 	/**
 	 * Test the getExtend from dimension cursor.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1084,7 +1085,7 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 		columnEdgeBindingNames.add("binding7");
 
 		List edgeCursors = cursor.getOrdinateEdge();
-		StringBuilder strBuffer = new StringBuilder();
+		StringBuffer strBuffer = new StringBuffer();
 		for (int i = 0; i < edgeCursors.size(); i++) {
 			EdgeCursor eCursor = (EdgeCursor) edgeCursors.get(i);
 			strBuffer.append("Edge Cursor " + i + "\n");
@@ -1141,34 +1142,30 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 			edge1 = (EdgeCursor) (cursor.getOrdinateEdge().get(index));
 			index++;
 		}
-		if (rowEdgeBindingNames != null && !rowEdgeBindingNames.isEmpty()) {
+		if (rowEdgeBindingNames != null && !rowEdgeBindingNames.isEmpty())
 			edge2 = (EdgeCursor) (cursor.getOrdinateEdge().get(index));
-		}
 		DimensionCursor columnCursor1 = null;
-		if (edge1 != null) {
+		if (edge1 != null)
 			columnCursor1 = (DimensionCursor) edge1.getDimensionCursor().get(0);
-		}
 
 		String[] lines = new String[columnEdgeBindingNames.size()];
 		for (int i = 0; i < columnEdgeBindingNames.size(); i++) {
 			lines[i] = "		                                                                           ";
 		}
 
-		if (edge1 != null) {
+		if (edge1 != null)
 			while (edge1.next()) {
 				for (int i = 0; i < columnEdgeBindingNames.size(); i++) {
 					lines[i] += cursor.getObject(columnEdgeBindingNames.get(i).toString()) + "		";
 				}
 			}
-		}
 
-		if (rowAggr != null) {
+		if (rowAggr != null)
 			lines[lines.length - 1] += "Total";
-		}
 
-		StringBuilder output = new StringBuilder();
+		String output = "";
 		for (int i = 0; i < lines.length; i++) {
-			output.append("\n").append(lines[i]);
+			output += "\n" + lines[i];
 		}
 
 		while (edge2.next()) {
@@ -1176,10 +1173,9 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 			for (int i = 0; i < rowEdgeBindingNames.size(); i++) {
 				line += cursor.getObject(rowEdgeBindingNames.get(i).toString()) + "		";
 			}
-			if (edge1 != null) {
+			if (edge1 != null)
 				edge1.beforeFirst();
-			}
-			if (edge1 != null) {
+			if (edge1 != null)
 				while (edge1.next()) {
 					if (subTotal == null) {
 						line += cursor.getObject(measureBindingNames) + "		";
@@ -1192,14 +1188,15 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 						}
 					}
 				}
-			} else if (subTotal == null) {
-				line += cursor.getObject(measureBindingNames) + "		";
+			else {
+				if (subTotal == null) {
+					line += cursor.getObject(measureBindingNames) + "		";
+				}
 			}
 
-			if (rowAggr != null) {
+			if (rowAggr != null)
 				line += cursor.getObject(rowAggr);
-			}
-			output.append("\n").append(line);
+			output += "\n" + line;
 		}
 
 		if (columnAggr != null) {
@@ -1208,14 +1205,13 @@ public class CubeDrillFeatureTest extends BaseTestCase {
 			while (edge1.next()) {
 				line += cursor.getObject(columnAggr) + "		";
 			}
-			if (overallAggr != null) {
+			if (overallAggr != null)
 				line += cursor.getObject(overallAggr);
-			}
 
-			output.append("\n").append(line);
+			output += "\n" + line;
 		}
 
-		return output.toString();
+		return output;
 	}
 
 }

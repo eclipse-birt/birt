@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -84,7 +84,7 @@ public class StyleSheetParserException extends ModelException {
 
 	/**
 	 * Constructs the parser exception with the error code.
-	 *
+	 * 
 	 * @param name    the name of the style or rule which has errors
 	 * @param errCode the error code of the exception
 	 */
@@ -97,7 +97,7 @@ public class StyleSheetParserException extends ModelException {
 	/**
 	 * Constructs a parser exception with the error code and string arguments used
 	 * to format error messages.
-	 *
+	 * 
 	 * @param errCode  used to retrieve a piece of externalized message displayed to
 	 *                 end user
 	 * @param propName the property name
@@ -113,7 +113,7 @@ public class StyleSheetParserException extends ModelException {
 	/**
 	 * Constructs a parser exception with the error code, string arguments used to
 	 * format error messages and nested exception.
-	 *
+	 * 
 	 * @param errCode  used to retrieve a piece of externalized message displayed to
 	 *                 end user
 	 * @param propName the property name
@@ -129,7 +129,7 @@ public class StyleSheetParserException extends ModelException {
 
 	/**
 	 * Gets the name of the style or rule which has the errors.
-	 *
+	 * 
 	 * @return the name of the style or the rule
 	 */
 
@@ -139,7 +139,7 @@ public class StyleSheetParserException extends ModelException {
 
 	/**
 	 * Gets the CSS property name.
-	 *
+	 * 
 	 * @return the CSS property name
 	 */
 
@@ -149,7 +149,7 @@ public class StyleSheetParserException extends ModelException {
 
 	/**
 	 * Gets the CSS property text.
-	 *
+	 * 
 	 * @return the CSS property text
 	 */
 
@@ -159,11 +159,10 @@ public class StyleSheetParserException extends ModelException {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	@Override
 	public String getLocalizedMessage() {
 		if (sResourceKey == DESIGN_EXCEPTION_PROPERTY_NOT_SUPPORTED
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE

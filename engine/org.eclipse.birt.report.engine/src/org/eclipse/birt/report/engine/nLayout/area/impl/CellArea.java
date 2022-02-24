@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -47,7 +47,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 		CELL_DEFAULT.setPaddingRight(DEFAULT_PADDING);
 		CELL_DEFAULT.setPaddingBottom(DEFAULT_PADDING);
 		CELL_DEFAULT.setPaddingLeft(DEFAULT_PADDING);
-	}
+	};
 
 	public CellArea(ContainerArea parent, LayoutContext context, IContent content) {
 		super(parent, context, content);
@@ -107,7 +107,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 		this.rowSpan = rowSpan;
 	}
 
-	@Override
 	public void close() throws BirtException {
 		height = currentBP + getOffsetY() + localProperties.getPaddingBottom();
 		// We don't update background image here. As the row height may be
@@ -119,7 +118,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 		checkDisplayNone();
 	}
 
-	@Override
 	public void initialize() throws BirtException {
 		ICellContent cellContent = (ICellContent) content;
 		rowSpan = cellContent.getRowSpan();
@@ -177,7 +175,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 		}
 	}
 
-	@Override
 	protected void buildProperties(IContent content, LayoutContext context) {
 		IStyle style = content.getComputedStyle();
 		boxStyle = new BoxStyle();
@@ -225,7 +222,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 		textAlign = content.getComputedStyle().getProperty(IStyle.STYLE_TEXT_ALIGN);
 	}
 
-	@Override
 	public CellArea cloneArea() {
 		CellArea cell = new CellArea(this);
 		cell.setRowSpan(rowSpan);
@@ -234,7 +230,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 		return cell;
 	}
 
-	@Override
 	public void update(AbstractArea area) throws BirtException {
 		super.update(area);
 		// width exceed the cell with or negative margin
@@ -243,22 +238,18 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 		}
 	}
 
-	@Override
 	public boolean isPageBreakAfterAvoid() {
 		return false;
 	}
 
-	@Override
 	public boolean isPageBreakBeforeAvoid() {
 		return false;
 	}
 
-	@Override
 	public boolean isPageBreakInsideAvoid() {
 		return false;
 	}
 
-	@Override
 	public CellArea deepClone() {
 		CellArea cell = (CellArea) super.deepClone();
 		cell.setRowSpan(rowSpan);

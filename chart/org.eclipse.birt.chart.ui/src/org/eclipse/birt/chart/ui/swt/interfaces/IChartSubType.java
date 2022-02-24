@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -19,11 +19,11 @@ import org.eclipse.swt.graphics.Image;
  */
 public interface IChartSubType {
 
-	String getName();
+	public String getName();
 
-	Image getImage();
+	public Image getImage();
 
-	String getDescription();
+	public String getDescription();
 
 	/**
 	 * Returns the display name of the chart subType.
@@ -31,5 +31,5 @@ public interface IChartSubType {
 	 * @return Chart subType display name.
 	 * @since Version 2.1
 	 */
-	String getDisplayName();
+	public String getDisplayName();
 }

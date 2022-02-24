@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,34 +34,34 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Unit test for Choice and extended choice parse.
- *
+ * 
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td width="33%" height="16">{@link #testChoiceWithProperty()}</td>
  * <td width="33%" height="16">Sets/gets normal predefined choice property.</td>
  * <td>Sets/gets values correctly.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16"></td>
  * <td width="33%" height="16">Sets/gets baseType value for an extended choice
  * property.</td>
  * <td>Sets/gets values correctly.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16"></td>
  * <td width="33%" height="16">Sets an undefined choice for a choice set.</td>
  * <td>Throws a <code>PropertyValueException</code> with the code
  * <code>CHOICE_NOT_FOUND</code></td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16"></td>
  * <td width="33%" height="16">Sets a invalid baseType choice for an extended
@@ -69,33 +69,32 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>Throws a <code>PropertyValueException</code> with the code
  * <code>INVALID_VALUE</code></td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16">{@link #testChoiceWithMember()}</td>
  * <td width="33%" height="16">Sets/gets normal and default predefined choice
  * property.</td>
  * <td>Sets/gets values correctly.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16"></td>
  * <td width="33%" height="16">Sets an undefined choice for a choice set.</td>
  * <td>Throws a <code>PropertyValueException</code> with the code
  * <code>CHOICE_NOT_FOUND</code></td>
  * </tr>
- *
+ * 
  * </table>
- *
+ * 
  */
 
 public class ChoiceParseTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("ChoiceParseTest.xml"); //$NON-NLS-1$
@@ -104,9 +103,9 @@ public class ChoiceParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the choice and extended choice property.
-	 *
+	 * 
 	 * <p>
-	 *
+	 * 
 	 * Test cases are:
 	 * <ul>
 	 * <li>Sets/gets normal predefined choice property.
@@ -114,7 +113,7 @@ public class ChoiceParseTest extends BaseTestCase {
 	 * <li>Sets an undefined choice for a choice set.
 	 * <li>sets a invalid baseType choice for an extended choice set.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testChoiceWithProperty() throws Exception {
@@ -148,7 +147,7 @@ public class ChoiceParseTest extends BaseTestCase {
 		// sets an undefined choice for a choice set.
 
 		try {
-			styleHandle.setFontWeight("450"); //$NON-NLS-1$
+			styleHandle.setFontWeight(new String("450")); //$NON-NLS-1$
 			fail();
 		} catch (PropertyValueException e) {
 			assertEquals(e.getErrorCode(), PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND);
@@ -165,7 +164,7 @@ public class ChoiceParseTest extends BaseTestCase {
 		// sets a invalid choice for a choice set.
 
 		try {
-			style1.getHandle(design).setProperty(Style.FONT_SIZE_PROP, "asdf"); //$NON-NLS-1$
+			style1.getHandle(design).setProperty(Style.FONT_SIZE_PROP, new String("asdf")); //$NON-NLS-1$
 			fail();
 		} catch (PropertyValueException e) {
 			assertEquals(e.getErrorCode(), PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE);
@@ -194,15 +193,15 @@ public class ChoiceParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the choice and extended choice with the member.
-	 *
+	 * 
 	 * <p>
-	 *
+	 * 
 	 * Test cases are:
 	 * <ul>
 	 * <li>Sets/gets normal and default predefined choice property.
 	 * <li>Sets an undefined choice for a choice set.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testChoiceWithMember() throws Exception {
@@ -258,8 +257,8 @@ public class ChoiceParseTest extends BaseTestCase {
 	/**
 	 * Test value of 'verticalAlign' property is valid or not. If value of
 	 * 'verticalAlign' property is not one of 'top','bottom' or 'middle',
-	 *
-	 *
+	 * 
+	 * 
 	 * @throws Exception
 	 */
 

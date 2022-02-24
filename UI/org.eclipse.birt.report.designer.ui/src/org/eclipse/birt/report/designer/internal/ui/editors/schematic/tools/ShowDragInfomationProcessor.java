@@ -32,7 +32,7 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 
 /**
- *
+ * 
  */
 
 public class ShowDragInfomationProcessor {
@@ -61,7 +61,6 @@ public class ShowDragInfomationProcessor {
 		if (labelFigure == null) {
 			labelFigure = new Label();
 			labelFigure.setBorder(new MarginBorder(new Insets(0, 3, 0, 0)) {
-				@Override
 				public void paint(IFigure figure, Graphics graphics, Insets insets) {
 					tempRect.setBounds(getPaintRectangle(figure, insets));
 					if (getWidth() % 2 != 0) {
@@ -104,9 +103,8 @@ public class ShowDragInfomationProcessor {
 	public void removeLabelFigue() {
 		if (labelFigure != null) {
 			LayerManager lm = (LayerManager) editpart.getViewer().getEditPartRegistry().get(LayerManager.ID);
-			if (lm == null) {
+			if (lm == null)
 				return;
-			}
 			lm.getLayer(LayerConstants.FEEDBACK_LAYER).remove(labelFigure);
 			labelFigure = null;
 		}
@@ -170,9 +168,8 @@ public class ShowDragInfomationProcessor {
 
 	protected void addFeedback(IFigure figure) {
 		LayerManager lm = (LayerManager) editpart.getViewer().getEditPartRegistry().get(LayerManager.ID);
-		if (lm == null) {
+		if (lm == null)
 			return;
-		}
 		lm.getLayer(LayerConstants.FEEDBACK_LAYER).add(figure);
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,21 +26,20 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 /**
- *
+ * 
  */
 
 public class ReloadCssStyleHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
 	 * .ExecutionEvent)
 	 */
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		boolean retBoolean;
+		boolean retBoolean = true;
 		super.execute(event);
 		Object container = null;
 
@@ -49,9 +48,8 @@ public class ReloadCssStyleHandler extends SelectionHandler {
 		// if ( obj instanceof List )
 		{
 			List tmpList = (List) obj;
-			if (tmpList.size() < 1) {
+			if (tmpList.size() < 1)
 				return Boolean.TRUE;
-			}
 			obj = tmpList.get(0);
 		}
 		if (obj instanceof CssStyleSheetHandle) {
@@ -97,19 +95,21 @@ public class ReloadCssStyleHandler extends SelectionHandler {
 				}
 			}
 
-		} else if (container instanceof ReportDesignHandle) {
-			try {
-				((ReportDesignHandle) container).reloadCss(cssCtyleSheetHandle);
-			} catch (SemanticException e) {
-				ExceptionHandler.handle(e);
-				return false;
-			}
-		} else if (container instanceof AbstractThemeHandle) {
-			try {
-				((AbstractThemeHandle) container).reloadCss(cssCtyleSheetHandle);
-			} catch (SemanticException e) {
-				ExceptionHandler.handle(e);
-				return false;
+		} else {
+			if (container instanceof ReportDesignHandle) {
+				try {
+					((ReportDesignHandle) container).reloadCss(cssCtyleSheetHandle);
+				} catch (SemanticException e) {
+					ExceptionHandler.handle(e);
+					return false;
+				}
+			} else if (container instanceof AbstractThemeHandle) {
+				try {
+					((AbstractThemeHandle) container).reloadCss(cssCtyleSheetHandle);
+				} catch (SemanticException e) {
+					ExceptionHandler.handle(e);
+					return false;
+				}
 			}
 		}
 

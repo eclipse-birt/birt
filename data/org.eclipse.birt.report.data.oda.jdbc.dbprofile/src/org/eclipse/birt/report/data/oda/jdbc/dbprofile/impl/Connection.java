@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2008, 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -55,7 +55,6 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties)
 	 */
-	@Override
 	public void open(Properties connProperties) throws OdaException {
 		OdaException originalEx = null;
 		try {
@@ -72,9 +71,8 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 		// check if no DTP managed JDBC connection available, try use local properties
 		// to connect
 		try {
-			if (!isOpen()) {
+			if (!isOpen())
 				openJdbcConnection(connProperties);
-			}
 			if (this.jdbcConn != null && this.appContext != null) {
 				// Set the app context with this connection to be used
 				this.appContext.put(Constants.ODACurrentOpenConnection, this.jdbcConn);
@@ -82,9 +80,8 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 		} catch (OdaException ex) {
 			// not able to open with local properties; throw the original exception if
 			// exists
-			if (originalEx != null) {
+			if (originalEx != null)
 				throw originalEx;
-			}
 			throw new OdaException(Messages.connection_openFailed);
 		}
 	}
@@ -101,23 +98,21 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	/**
 	 * Internal method to open a connection based on the specified database
 	 * connection profile.
-	 *
+	 * 
 	 * @param dbProfile
 	 * @throws OdaException
 	 */
 	public void open(IConnectionProfile dbProfile) throws OdaException {
 		super.jdbcConn = null;
 		m_dbProfile = dbProfile;
-		if (m_dbProfile == null) {
+		if (m_dbProfile == null)
 			throw new OdaException(Messages.connection_nullProfile);
-		}
 
 		// connect via the db profile
 		IStatus connectStatus = openWithProfile(m_dbProfile);
 
-		if (connectStatus == null || connectStatus.getSeverity() > IStatus.INFO) {
+		if (connectStatus == null || connectStatus.getSeverity() > IStatus.INFO)
 			throw new OdaException(getStatusException(connectStatus));
-		}
 
 		super.jdbcConn = getJDBCConnection(m_dbProfile);
 	}
@@ -125,31 +120,27 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	/**
 	 * For internal use only. An utility method to open a connection based on the
 	 * properties defined in the specified connection profile.
-	 *
+	 * 
 	 * @since 3.7.2
 	 */
 	public static IStatus openWithProfile(IConnectionProfile connProfile) {
-		if (connProfile instanceof OdaConnectionProfile) {
+		if (connProfile instanceof OdaConnectionProfile)
 			return ((OdaConnectionProfile) connProfile).connectSynchronously(); // handles re-connection
-		}
 
 		return connProfile.connect();
 	}
 
 	private java.sql.Connection getJDBCConnection(IConnectionProfile dbProfile) {
-		if (dbProfile == null) {
+		if (dbProfile == null)
 			return null;
-		}
 
 		IManagedConnection mgtConn = dbProfile.getManagedConnection(JDBC_CONN_TYPE);
-		if (mgtConn == null) {
+		if (mgtConn == null)
 			return null;
-		}
 
 		org.eclipse.datatools.connectivity.IConnection connObj = mgtConn.getConnection();
-		if (connObj == null) {
+		if (connObj == null)
 			return null;
-		}
 
 		java.sql.Connection jdbcConn = (java.sql.Connection) connObj.getRawConnection();
 		return jdbcConn;
@@ -160,7 +151,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	 * a profile store file is specified, load the referenced profile instance from
 	 * the profile store. Otherwise, create a transient profile instance if profile
 	 * base properties are available.
-	 *
+	 * 
 	 * @param connProperties
 	 * @return the loaded connection profile; may be null if properties are invalid
 	 *         or insufficient
@@ -175,7 +166,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	 * application context. If a profile store file is specified, load the
 	 * referenced profile instance from the profile store. Otherwise, create a
 	 * transient profile instance if profile base properties are available.
-	 *
+	 * 
 	 * @param connProperties
 	 * @param appContext
 	 * @return the loaded connection profile; may be null if properties are invalid
@@ -227,13 +218,12 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 		// definition type,
 		// to get the effective properties to open a connection
 		String defnType = dbProfileProps.getProperty(IDriverMgmtConstants.PROP_DEFN_TYPE);
-		Map<String, String> appContext = new HashMap<>();
+		Map<String, String> appContext = new HashMap<String, String>();
 		appContext.put(IPropertyProvider.ODA_CONSUMER_ID, defnType);
 
 		Properties adjustedDbProfileProps = ProviderUtil.getEffectiveProperties(dbProfileProps, appContext);
-		if (dbProfileProps.equals(adjustedDbProfileProps)) {
+		if (dbProfileProps.equals(adjustedDbProfileProps))
 			return dataSourceProperties; // no adjustment is applicable
-		}
 
 		// adapt adjusted db profile properties back to data source properties
 		return PropertyAdapter.adaptToDataSourcePropertyNames(adjustedDbProfileProps);
@@ -242,7 +232,6 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */
-	@Override
 	public void close() throws OdaException {
 		if (m_dbProfile != null) {
 			closeProfile(m_dbProfile);
@@ -256,53 +245,47 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 
 	/**
 	 * Close the specified connection profile.
-	 *
+	 * 
 	 * @param dbProfile
 	 * @deprecated As of 2.5.2, replaced by
 	 *             {@link #closeProfile(IConnectionProfile)}
 	 */
-	@Deprecated
 	protected static void close(IConnectionProfile dbProfile) {
 		closeProfile(dbProfile);
 	}
 
 	/**
 	 * Utility method to close the specified connection profile.
-	 *
+	 * 
 	 * @param connProfile
 	 * @since 2.5.2
 	 */
 	public static void closeProfile(IConnectionProfile connProfile) {
-		if (connProfile == null) {
+		if (connProfile == null)
 			return; // nothing to close
-		}
 
-		if (connProfile instanceof OdaConnectionProfile) {
+		if (connProfile instanceof OdaConnectionProfile)
 			((OdaConnectionProfile) connProfile).close();
-		} else {
+		else
 			connProfile.disconnect(null); // does nothing if already disconnected
-		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
-	@Override
 	public boolean isOpen() throws OdaException {
-		if (m_dbProfile != null) {
+		if (m_dbProfile != null)
 			return (m_dbProfile.getConnectionState() == IConnectionProfile.CONNECTED_STATE);
-		}
 
 		return super.isOpen();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#newQuery(java.lang.String)
 	 */
-	@Override
 	public IQuery newQuery(String dataSetType) throws OdaException {
 		// ignores the specified dataSetType,
 		// as this driver currently supports only one data set type, and
@@ -312,7 +295,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 
 	/**
 	 * Returns the connection profile instance for this db connection.
-	 *
+	 * 
 	 * @return
 	 */
 	protected IConnectionProfile getDbProfile() {
@@ -325,17 +308,15 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 
 	/**
 	 * Internal method to collect the first exception from the specified status.
-	 *
+	 * 
 	 * @param status may be null
 	 */
 	public static Throwable getStatusException(IStatus status) {
-		if (status == null) {
+		if (status == null)
 			return null;
-		}
 		Throwable ex = status.getException();
-		if (ex != null) {
+		if (ex != null)
 			return ex;
-		}
 
 		// find first exception from its children
 		IStatus[] childrenStatus = status.getChildren();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,21 +35,21 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 
 /**
  * Test cases for CopyUtil class.
- *
+ * 
  */
 
 public class CopyUtilTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>Copy/Paste label without extends.
 	 * <li>Copy/Paste label and table with extends.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testCopyPasteInSameDesign() throws Exception {
@@ -107,12 +107,12 @@ public class CopyUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests copy, delete and past label with extends in the same design.
-	 *
+	 * 
 	 * Test cases:
 	 * <ul>
 	 * <li>Copy/Delete/Paste label with extends in the same design.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -129,16 +129,16 @@ public class CopyUtilTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>Copy/Paste label without extends cross design.
 	 * <li>Copy/Paste label with extends cross design.
 	 * <li>Copy/Paste table without extends cross design.
 	 * <li>Copy/Paste table without extends cross design.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testCopyPasteCrossDesign() throws Exception {
@@ -179,16 +179,16 @@ public class CopyUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests copy, delete and past label with extends cross design.
-	 *
+	 * 
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>Copy/Delete/Paste label with extends cross design. The library of target
 	 * design does not contain the extended label.
 	 * <li>Copy/Delete/Paste label with extends cross design. The library of target
 	 * design contains the extended label.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testCutPasteCrossDesign() throws Exception {
@@ -232,13 +232,13 @@ public class CopyUtilTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>the copy item is invalid
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testInvalidPaste() throws Exception {
@@ -256,7 +256,7 @@ public class CopyUtilTest extends BaseTestCase {
 	/**
 	 * Tests copy extended item with unknown extension name correctly and ensure
 	 * that there is no NullPointException
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testCopyExtendedItemWithUnknowExtensionName() throws Exception {
@@ -273,7 +273,7 @@ public class CopyUtilTest extends BaseTestCase {
 	/**
 	 * Tests copy and paste extended item correctly and the structure in the
 	 * extended item can be dropped successfully.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testCopyExtendedItem() throws Exception {
@@ -297,7 +297,7 @@ public class CopyUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests copy and paste an element with property bindings.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testCopyWithBinding() throws Exception {

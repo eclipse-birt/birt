@@ -19,7 +19,7 @@ import org.eclipse.swt.graphics.Cursor;
 
 /**
  * add comment here
- *
+ * 
  */
 public class EditorGuideDragTracker extends DragEditPartsTracker {
 
@@ -30,16 +30,13 @@ public class EditorGuideDragTracker extends DragEditPartsTracker {
 		super(sourceEditPart);
 	}
 
-	@Override
 	protected boolean isMove() {
 		return true;
 	}
 
-	@Override
 	protected Cursor calculateCursor() {
-		if (isInState(STATE_INVALID)) {
+		if (isInState(STATE_INVALID))
 			return Cursors.NO;
-		}
 		return getCurrentCursor();
 	}
 

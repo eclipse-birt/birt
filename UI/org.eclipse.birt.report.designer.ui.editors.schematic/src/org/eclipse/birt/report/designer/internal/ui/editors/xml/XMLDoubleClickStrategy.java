@@ -1,34 +1,29 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.editors.xml;
 
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.ITextDoubleClickStrategy;
-import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.*;
 
 public class XMLDoubleClickStrategy implements ITextDoubleClickStrategy {
 
 	protected ITextViewer fText;
 
-	@Override
 	public void doubleClicked(ITextViewer part) {
 		int pos = part.getSelectedRange().x;
 
-		if (pos < 0) {
+		if (pos < 0)
 			return;
-		}
 
 		fText = part;
 
@@ -51,15 +46,13 @@ public class XMLDoubleClickStrategy implements ITextDoubleClickStrategy {
 					pos -= 2;
 					continue;
 				}
-				if (c == Character.LINE_SEPARATOR || c == '\"') {
+				if (c == Character.LINE_SEPARATOR || c == '\"')
 					break;
-				}
 				--pos;
 			}
 
-			if (c != '\"') {
+			if (c != '\"')
 				return false;
-			}
 
 			startPos = pos;
 
@@ -69,14 +62,12 @@ public class XMLDoubleClickStrategy implements ITextDoubleClickStrategy {
 
 			while (pos < length) {
 				c = doc.getChar(pos);
-				if (c == Character.LINE_SEPARATOR || c == '\"') {
+				if (c == Character.LINE_SEPARATOR || c == '\"')
 					break;
-				}
 				++pos;
 			}
-			if (c != '\"') {
+			if (c != '\"')
 				return false;
-			}
 
 			endPos = pos;
 
@@ -102,9 +93,8 @@ public class XMLDoubleClickStrategy implements ITextDoubleClickStrategy {
 
 			while (pos >= 0) {
 				c = doc.getChar(pos);
-				if (!Character.isJavaIdentifierPart(c)) {
+				if (!Character.isJavaIdentifierPart(c))
 					break;
-				}
 				--pos;
 			}
 
@@ -115,9 +105,8 @@ public class XMLDoubleClickStrategy implements ITextDoubleClickStrategy {
 
 			while (pos < length) {
 				c = doc.getChar(pos);
-				if (!Character.isJavaIdentifierPart(c)) {
+				if (!Character.isJavaIdentifierPart(c))
 					break;
-				}
 				++pos;
 			}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,22 +32,22 @@ public class SwtUtil {
 	private static final ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.extension/util"); //$NON-NLS-1$
 
 	/** The field maps the standard cursor types to SWT cursor types. */
-	public static final Map<CursorType, Integer> CURSOR_MAP = new HashMap<>();
+	public static final Map<CursorType, Integer> CURSOR_MAP = new HashMap<org.eclipse.birt.chart.model.attribute.CursorType, Integer>();
 	static {
-		CURSOR_MAP.put(CursorType.CROSSHAIR, SWT.CURSOR_CROSS);
-		CURSOR_MAP.put(CursorType.DEFAULT, SWT.CURSOR_ARROW);
-		CURSOR_MAP.put(CursorType.POINTER, SWT.CURSOR_HAND);
-		CURSOR_MAP.put(CursorType.MOVE, SWT.CURSOR_SIZEALL);
-		CURSOR_MAP.put(CursorType.TEXT, SWT.CURSOR_IBEAM);
-		CURSOR_MAP.put(CursorType.WAIT, SWT.CURSOR_WAIT);
-		CURSOR_MAP.put(CursorType.ERESIZE, SWT.CURSOR_SIZEE);
-		CURSOR_MAP.put(CursorType.NE_RESIZE, SWT.CURSOR_SIZENE);
-		CURSOR_MAP.put(CursorType.NW_RESIZE, SWT.CURSOR_SIZENW);
-		CURSOR_MAP.put(CursorType.NRESIZE, SWT.CURSOR_SIZEN);
-		CURSOR_MAP.put(CursorType.SE_RESIZE, SWT.CURSOR_SIZESE);
-		CURSOR_MAP.put(CursorType.SW_RESIZE, SWT.CURSOR_SIZESW);
-		CURSOR_MAP.put(CursorType.SRESIZE, SWT.CURSOR_SIZES);
-		CURSOR_MAP.put(CursorType.WRESIZE, SWT.CURSOR_SIZEW);
+		CURSOR_MAP.put(CursorType.CROSSHAIR, Integer.valueOf(SWT.CURSOR_CROSS));
+		CURSOR_MAP.put(CursorType.DEFAULT, Integer.valueOf(SWT.CURSOR_ARROW));
+		CURSOR_MAP.put(CursorType.POINTER, Integer.valueOf(SWT.CURSOR_HAND));
+		CURSOR_MAP.put(CursorType.MOVE, Integer.valueOf(SWT.CURSOR_SIZEALL));
+		CURSOR_MAP.put(CursorType.TEXT, Integer.valueOf(SWT.CURSOR_IBEAM));
+		CURSOR_MAP.put(CursorType.WAIT, Integer.valueOf(SWT.CURSOR_WAIT));
+		CURSOR_MAP.put(CursorType.ERESIZE, Integer.valueOf(SWT.CURSOR_SIZEE));
+		CURSOR_MAP.put(CursorType.NE_RESIZE, Integer.valueOf(SWT.CURSOR_SIZENE));
+		CURSOR_MAP.put(CursorType.NW_RESIZE, Integer.valueOf(SWT.CURSOR_SIZENW));
+		CURSOR_MAP.put(CursorType.NRESIZE, Integer.valueOf(SWT.CURSOR_SIZEN));
+		CURSOR_MAP.put(CursorType.SE_RESIZE, Integer.valueOf(SWT.CURSOR_SIZESE));
+		CURSOR_MAP.put(CursorType.SW_RESIZE, Integer.valueOf(SWT.CURSOR_SIZESW));
+		CURSOR_MAP.put(CursorType.SRESIZE, Integer.valueOf(SWT.CURSOR_SIZES));
+		CURSOR_MAP.put(CursorType.WRESIZE, Integer.valueOf(SWT.CURSOR_SIZEW));
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class SwtUtil {
 
 	/**
 	 * Open the given url in default browser.
-	 *
+	 * 
 	 * @param url
 	 */
 	public static void openURL(String href) {
@@ -87,7 +87,6 @@ public class SwtUtil {
 		if (p == null) {
 			Thread launcher = new Thread() {
 
-				@Override
 				public void run() {
 					try {
 						/*
@@ -116,23 +115,22 @@ public class SwtUtil {
 	 * RIPPED FROM ECLIPSE BROWSER IMPLEMENTATION. <br>
 	 * This method encodes the url, removes the spaces from the url and replaces the
 	 * same with <code>"%20"</code>. This method is required to fix Bug 77840.
-	 *
+	 * 
 	 */
 	private static String urlEncodeForSpaces(char[] input) {
-		StringBuilder retu = new StringBuilder(input.length);
+		StringBuffer retu = new StringBuffer(input.length);
 		for (int i = 0; i < input.length; i++) {
-			if (input[i] == ' ') {
+			if (input[i] == ' ')
 				retu.append("%20"); //$NON-NLS-1$
-			} else {
+			else
 				retu.append(input[i]);
-			}
 		}
 		return retu.toString();
 	}
 
 	/**
 	 * RIPPED FROM ECLIPSE BROWSER IMPLEMENTATION. <br>
-	 *
+	 * 
 	 * @param href
 	 * @return
 	 * @throws IOException

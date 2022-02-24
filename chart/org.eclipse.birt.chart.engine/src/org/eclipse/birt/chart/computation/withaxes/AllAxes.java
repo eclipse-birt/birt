@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -52,7 +52,7 @@ public final class AllAxes implements IConstants {
 
 	}
 
-	void initOverlays(int _iAxisCount, int _iOverlayOrientation) {
+	final void initOverlays(int _iAxisCount, int _iOverlayOrientation) {
 		if (_iAxisCount > 0) {
 			oa = new OneAxis[_iAxisCount];
 		} else {
@@ -61,11 +61,11 @@ public final class AllAxes implements IConstants {
 		iOverlayOrientation = _iOverlayOrientation;
 	}
 
-	void defineAncillaryBase(OneAxis axBase) {
+	final void defineAncillaryBase(OneAxis axBase) {
 		axAncillaryBase = axBase;
 	}
 
-	void definePrimary(OneAxis axPrimary) {
+	final void definePrimary(OneAxis axPrimary) {
 		int iOrientation = axPrimary.getOrientation();
 		if (iOrientation == HORIZONTAL) {
 			if (bAxesSwapped) {
@@ -82,15 +82,15 @@ public final class AllAxes implements IConstants {
 		}
 	}
 
-	void defineOverlay(int iAxisIndex, OneAxis axOverlay) {
+	final void defineOverlay(int iAxisIndex, OneAxis axOverlay) {
 		oa[iAxisIndex] = axOverlay;
 	}
 
-	public OneAxis getOverlay(int iAxisIndex) {
+	public final OneAxis getOverlay(int iAxisIndex) {
 		return oa[iAxisIndex];
 	}
 
-	double getMaxStartShift() {
+	final double getMaxStartShift() {
 		double dMaxSS = 0;
 		for (int i = 0; i < getOverlayCount(); i++) {
 			if (oa[i].getScale() != null && oa[i].getScale().getStartShift() > dMaxSS) {
@@ -100,7 +100,7 @@ public final class AllAxes implements IConstants {
 		return dMaxSS;
 	}
 
-	double getMaxEndShift() {
+	final double getMaxEndShift() {
 		double dMaxES = 0;
 		for (int i = 0; i < getOverlayCount(); i++) {
 			if (oa[i].getScale() != null && oa[i].getScale().getEndShift() > dMaxES) {
@@ -110,36 +110,36 @@ public final class AllAxes implements IConstants {
 		return dMaxES;
 	}
 
-	public int getOverlayCount() {
+	public final int getOverlayCount() {
 		return oa == null ? 0 : oa.length;
 	}
 
-	int getOrientation() {
+	final int getOrientation() {
 		return iOverlayOrientation;
 	}
 
-	void setBlockCordinates(double _dStart, double _dLength) {
+	final void setBlockCordinates(double _dStart, double _dLength) {
 		dStart = _dStart;
 		dLength = _dLength;
 	}
 
-	double getStart() {
+	final double getStart() {
 		return dStart;
 	}
 
-	double getLength() {
+	final double getLength() {
 		return dLength;
 	}
 
-	public OneAxis getPrimaryBase() {
+	public final OneAxis getPrimaryBase() {
 		return axPrimaryBase;
 	}
 
-	public OneAxis getPrimaryOrthogonal() {
+	public final OneAxis getPrimaryOrthogonal() {
 		return axPrimaryOrthogonal;
 	}
 
-	public OneAxis getAncillaryBase() {
+	public final OneAxis getAncillaryBase() {
 		return axAncillaryBase;
 	}
 
@@ -147,12 +147,12 @@ public final class AllAxes implements IConstants {
 		return bAxesSwapped;
 	}
 
-	void swapAxes(boolean _bAxesSwapped) {
+	final void swapAxes(boolean _bAxesSwapped) {
 		bAxesSwapped = _bAxesSwapped;
 		iOverlayOrientation = _bAxesSwapped ? HORIZONTAL : VERTICAL;
 	}
 
-	boolean anyOverlayPositionedAt(int iMinOrMax) {
+	final boolean anyOverlayPositionedAt(int iMinOrMax) {
 		final int iOC = getOverlayCount();
 		for (int i = 0; i < iOC; i++) {
 			if (getOverlay(i).getIntersectionValue().getType() == iMinOrMax) {
@@ -162,7 +162,7 @@ public final class AllAxes implements IConstants {
 		return false;
 	}
 
-	public Insets getInsets() {
+	public final Insets getInsets() {
 		return insClientArea;
 	}
 }

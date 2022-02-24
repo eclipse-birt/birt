@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.elements.Translation;
 /**
  * Notification event that says that the contents of user-defined message is
  * added, dropped, or changed. The target element is the report design.
- *
+ * 
  */
 
 public class CustomMsgEvent extends NotificationEvent {
@@ -56,7 +56,7 @@ public class CustomMsgEvent extends NotificationEvent {
 	/**
 	 * Constructs the event with the user-defined message and the action causing
 	 * this event.
-	 *
+	 * 
 	 * @param design      the report design
 	 * @param translation the user-defined message
 	 * @param theAction   the action causing this event.
@@ -70,12 +70,11 @@ public class CustomMsgEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
 	 * )
 	 */
-	@Override
 	public int getEventType() {
 		return CUSTOM_MSG_EVENT;
 	}
@@ -83,7 +82,7 @@ public class CustomMsgEvent extends NotificationEvent {
 	/**
 	 * Returns the action causing this event. One of {@link #ADD}, {@link #DROP}, or
 	 * {@link #CHANGE}.
-	 *
+	 * 
 	 * @return the action causing this event.
 	 */
 
@@ -93,7 +92,7 @@ public class CustomMsgEvent extends NotificationEvent {
 
 	/**
 	 * Returns the user-defined message that changes.
-	 *
+	 * 
 	 * @return the user-defined message that changes.
 	 */
 

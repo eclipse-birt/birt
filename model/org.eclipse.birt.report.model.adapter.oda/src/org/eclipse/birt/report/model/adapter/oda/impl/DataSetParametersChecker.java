@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ class DataSetParametersChecker {
 	private boolean ambiguous = false;
 
 	/**
-	 *
+	 * 
 	 */
 	private final DataSetDesign setDesign;
 
@@ -59,16 +59,15 @@ class DataSetParametersChecker {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 
 	List<IAmbiguousParameterNode> process() {
 		DataSetParameters params = setDesign.getParameters();
-		if (params == null) {
+		if (params == null)
 			return Collections.emptyList();
-		}
 
-		List<IAmbiguousParameterNode> ambiguousParameters = new ArrayList<>(4);
+		List<IAmbiguousParameterNode> ambiguousParameters = new ArrayList<IAmbiguousParameterNode>(4);
 
 		OdaDataSetParameterHandle existingParamHandle = null;
 
@@ -81,22 +80,20 @@ class DataSetParametersChecker {
 			DataElementAttributes dataAttrs = paramDefn.getAttributes();
 			if (dataAttrs != null) {
 				existingParamHandle = findDataSetParameterByName(dataAttrs.getName(),
-						dataAttrs.getPosition(), dataAttrs.getNativeDataTypeCode(),
+						Integer.valueOf(dataAttrs.getPosition()), Integer.valueOf(dataAttrs.getNativeDataTypeCode()),
 						setDefinedParamIter);
 			}
 
 			// if the name is equal or nothing is found, then no need to do
 			// check further
-			if (!ambiguous || existingParamHandle == null) {
+			if (ambiguous == false || existingParamHandle == null)
 				continue;
-			}
 
 			DataSetParameterChecker oneChecker = new DataSetParameterChecker(paramDefn, existingParamHandle);
 
 			List<IAmbiguousAttribute> attrs = oneChecker.process();
-			if (attrs == null || attrs.isEmpty()) {
+			if (attrs == null || attrs.isEmpty())
 				continue;
-			}
 
 			IAmbiguousParameterNode node = new AmbiguousParameterNode(existingParamHandle, attrs);
 			ambiguousParameters.add(node);
@@ -107,7 +104,7 @@ class DataSetParametersChecker {
 
 	/**
 	 * Returns the matched data set parameter by given name and position.
-	 *
+	 * 
 	 * @param dataSetParamName the data set parameter name
 	 * @param position         the position
 	 * @param params           the iterator of data set parameters
@@ -116,9 +113,8 @@ class DataSetParametersChecker {
 
 	private OdaDataSetParameterHandle findDataSetParameterByName(String dataSetParamName, Integer position,
 			Integer nativeDataType, Iterator params) {
-		if (position == null) {
+		if (position == null)
 			return null;
-		}
 
 		while (params.hasNext()) {
 			OdaDataSetParameterHandle param = (OdaDataSetParameterHandle) params.next();
@@ -130,9 +126,8 @@ class DataSetParametersChecker {
 
 			// case 1: if the native name is not blank, just use it.
 
-			if (!StringUtil.isBlank(tmpNativeName) && tmpNativeName.equals(dataSetParamName)) {
+			if (!StringUtil.isBlank(tmpNativeName) && tmpNativeName.equals(dataSetParamName))
 				return param;
-			}
 
 			// case 2: if the native name is blank, match native data type and
 			// position

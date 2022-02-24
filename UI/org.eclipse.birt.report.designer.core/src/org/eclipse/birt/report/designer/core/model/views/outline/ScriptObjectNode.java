@@ -33,13 +33,11 @@ public class ScriptObjectNode implements IScriptTreeNode, IMenuListener {
 		this.parent = parent;
 	}
 
-	@Override
 	public Object[] getChildren() {
 		// TODO Auto-generated method stub
 		return new Object[0];
 	}
 
-	@Override
 	public Object getParent() {
 		return this.parent;
 	}
@@ -48,17 +46,15 @@ public class ScriptObjectNode implements IScriptTreeNode, IMenuListener {
 		return parent.getPropertyDefn().getName();
 	}
 
-	@Override
 	public void menuAboutToShow(IMenuManager manager) {
 		manager.add(new ResetScriptAction());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
 	public boolean equals(Object arg0) {
 		if (arg0 == this) {
 			return true;
@@ -70,12 +66,10 @@ public class ScriptObjectNode implements IScriptTreeNode, IMenuListener {
 		return false;
 	}
 
-	@Override
 	public int hashCode() {
 		int hashCode = 13;
-		if (parent != null) {
+		if (parent != null)
 			hashCode += parent.hashCode() * 7;
-		}
 		return hashCode;
 	}
 
@@ -84,7 +78,6 @@ public class ScriptObjectNode implements IScriptTreeNode, IMenuListener {
 			super(ACTION_TEXT);
 		}
 
-		@Override
 		public void run() {
 			CommandStack commandStack = parent.getElementHandle().getModuleHandle().getCommandStack();
 			commandStack.startPersistentTrans(ACTION_TEXT);

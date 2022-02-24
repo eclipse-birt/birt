@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ public class MeasureViewTask extends AbstractCrosstabModelTask {
 	protected MeasureViewHandle focus = null;
 
 	/**
-	 *
+	 * 
 	 * @param theCrosstab
 	 * @param levelView
 	 */
@@ -47,7 +47,7 @@ public class MeasureViewTask extends AbstractCrosstabModelTask {
 
 	/**
 	 * Removes header cell for current measure.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void removeHeader() throws SemanticException {
@@ -75,7 +75,7 @@ public class MeasureViewTask extends AbstractCrosstabModelTask {
 	/**
 	 * Adds header cell for current measure. If header cell already exists, this
 	 * method just does nothing.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void addHeader() throws SemanticException {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,10 +40,9 @@ import com.ibm.icu.util.StringTokenizer;
 /**
  * Copy the seletion of the project in the debug lauch.The key name is
  * user.projectname.
- *
+ * 
  * @deprecated
  */
-@Deprecated
 public class DebugStartupClass implements IStartup {
 
 	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
@@ -52,10 +51,9 @@ public class DebugStartupClass implements IStartup {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IStartup#earlyStartup()
 	 */
-	@Override
 	public void earlyStartup() {
 		WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder();
 		// Register a classpath finder class to the viewer
@@ -86,7 +84,6 @@ public class DebugStartupClass implements IStartup {
 		}
 		Display.getDefault().asyncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				int openCount = 0;
 				try {
@@ -122,7 +119,7 @@ public class DebugStartupClass implements IStartup {
 	/**
 	 * Returns the current active report editor in current active page or current
 	 * active workbench.
-	 *
+	 * 
 	 * @return
 	 */
 	public static FormEditor getActiveReportEditor() {

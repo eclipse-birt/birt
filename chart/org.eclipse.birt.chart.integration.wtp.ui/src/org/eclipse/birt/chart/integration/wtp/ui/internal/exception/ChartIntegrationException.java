@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.Status;
 
 /**
  * Implement CoreException
- *
+ * 
  */
 public class ChartIntegrationException extends CoreException {
 
@@ -31,7 +31,7 @@ public class ChartIntegrationException extends CoreException {
 
 	/**
 	 * Default Constructor
-	 *
+	 * 
 	 * @param status
 	 */
 	public ChartIntegrationException(IStatus status) {
@@ -40,14 +40,13 @@ public class ChartIntegrationException extends CoreException {
 
 	/**
 	 * Cast CoreException with message and exception
-	 *
+	 * 
 	 * @param message
 	 * @param e
 	 */
 	public static CoreException getException(String message, Exception e) {
-		if (message == null) {
+		if (message == null)
 			message = e.getMessage();
-		}
 
 		Status status = new Status(IStatus.ERROR, ChartWTPUIPlugin.PLUGIN_ID, IStatus.ERROR, message, e);
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -59,7 +60,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- *
+ * 
  */
 
 public class CrosstabGrandTotalDialog extends BaseDialog {
@@ -97,7 +98,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog {
 		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	@Override
 	protected void okPressed() {
 		CommandStack stack = getActionStack();
 
@@ -109,9 +109,8 @@ public class CrosstabGrandTotalDialog extends BaseDialog {
 			functionList.add(getFunctionNames()[0]);
 			try {
 				CrosstabCellHandle cellHandle = reportItemHandle.addGrandTotal(axis, measureList, functionList);
-				if (cellHandle != null) {
+				if (cellHandle != null)
 					CrosstabUIHelper.createGrandTotalLabel(cellHandle);
-				}
 				stack.commit();
 			} catch (SemanticException e) {
 				stack.rollback();
@@ -164,11 +163,10 @@ public class CrosstabGrandTotalDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	protected Control createContents(Composite parent) {
 		GridData gdata;
 		GridLayout glayout;
@@ -221,7 +219,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog {
 		dataFieldCombo.setVisibleItemCount(30);
 		dataFieldCombo.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
@@ -247,7 +244,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog {
 
 		titleArea.addPaintListener(new PaintListener() {
 
-			@Override
 			public void paintControl(PaintEvent e) {
 				e.gc.setForeground(titleArea.getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW));
 				Rectangle bounds = titleArea.getClientArea();
@@ -267,7 +263,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog {
 
 	/**
 	 * Refreshes the OK button state.
-	 *
+	 * 
 	 */
 	protected void updateButtons() {
 		getOkButton().setEnabled(isConditionOK());
@@ -301,17 +297,35 @@ public class CrosstabGrandTotalDialog extends BaseDialog {
 		return retValue;
 	}
 
+	private String[] getFunctionDisplayNames() {
+		IChoice[] choices = getFunctions();
+		if (choices == null)
+			return new String[0];
+
+		String[] displayNames = new String[choices.length];
+		for (int i = 0; i < choices.length; i++) {
+			displayNames[i] = choices[i].getDisplayName();
+		}
+		return displayNames;
+
+	}
+
 	private String[] getFunctionNames() {
 		IChoice[] choices = getFunctions();
-		if (choices == null) {
+		if (choices == null)
 			return new String[0];
-		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
 			displayNames[i] = choices[i].getName();
 		}
 		return displayNames;
+	}
+
+	private String getFunctionDisplayName(String name) {
+		return ChoiceSetFactory.getDisplayNameFromChoiceSet(name,
+				DEUtil.getMetaDataDictionary().getElement(ReportDesignConstants.MEASURE_ELEMENT)
+						.getProperty(IMeasureModel.FUNCTION_PROP).getAllowedChoices());
 	}
 
 	private IChoice[] getFunctions() {

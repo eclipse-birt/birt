@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public class CompatibleBoundColumnExprState extends CompatibleMiscExpressionStat
 
 	/**
 	 * Constructs a compatible state.
-	 *
+	 * 
 	 * @param theHandler the handler to parse the design file.
 	 * @param element    the data item
 	 * @param propDefn
@@ -49,25 +49,22 @@ public class CompatibleBoundColumnExprState extends CompatibleMiscExpressionStat
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 
-		if (value == null) {
+		if (value == null)
 			return;
-		}
 
 		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(element, handler.module);
 
 		// not to create bound data columns locally.
 
-		if (target != null) {
+		if (target != null)
 			setupBoundDataColumns(target, value, false);
-		}
 
 		// keep the expression as same.
 

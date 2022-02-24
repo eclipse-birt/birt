@@ -66,11 +66,11 @@ public class MetaDataBuilder {
 
 	public void addMethodInfo(ClassInfo classInfo, MethodInfo methodInfo) throws MetaDataException {
 		if (methodInfo.isConstructor()) {
-			if (classInfo.getConstructor() == null) {
+			if (classInfo.getConstructor() == null)
 				classInfo.setConstructor(methodInfo);
-			}
-		} else if (classInfo.findMethod(methodInfo.getName()) == null) {
-			classInfo.addMethod(methodInfo);
+		} else {
+			if (classInfo.findMethod(methodInfo.getName()) == null)
+				classInfo.addMethod(methodInfo);
 		}
 	}
 

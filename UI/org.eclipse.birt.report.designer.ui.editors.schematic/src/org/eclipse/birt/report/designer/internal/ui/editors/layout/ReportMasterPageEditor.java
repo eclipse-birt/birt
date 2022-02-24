@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -40,21 +40,19 @@ public abstract class ReportMasterPageEditor extends ReportEditorWithRuler {
 	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#initializeGraphicalViewer()
 	 */
-	@Override
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		// setViewContentsAsMasterPage( );
 
 	}
 
-	@Override
 	protected void setContents() {
 		setViewContentsAsMasterPage();
 	}
 
 	/**
 	 * Set view's contents.
-	 *
+	 * 
 	 * @param model design handle of master page
 	 */
 	public void setViewContentsAsMasterPage() {
@@ -66,7 +64,9 @@ public abstract class ReportMasterPageEditor extends ReportEditorWithRuler {
 			masterPage = DesignElementFactory.getInstance(designHandle.getModuleHandle()).newSimpleMasterPage(null);
 			try {
 				designHandle.getMasterPages().add(masterPage);
-			} catch (ContentException | NameException e) {
+			} catch (ContentException e) {
+				ExceptionUtil.handle(e);
+			} catch (NameException e) {
 				ExceptionUtil.handle(e);
 			}
 		} else {
@@ -79,11 +79,10 @@ public abstract class ReportMasterPageEditor extends ReportEditorWithRuler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.
 	 * AbstractReportGraphicalEditorWithFlyoutPalette#getPaletteRoot()
 	 */
-	@Override
 	protected PaletteRoot getPaletteRoot() {
 		if (paletteRoot == null) {
 			paletteRoot = MasterPagePaletteFactory.createPalette();
@@ -93,13 +92,12 @@ public abstract class ReportMasterPageEditor extends ReportEditorWithRuler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette
 	 * #performRequest(org.eclipse.birt.report.designer
 	 * .core.util.mediator.request.ReportRequest)
 	 */
-	@Override
 	public void performRequest(IMediatorRequest request) {
 		ReportRequest rq = (ReportRequest) request;
 
@@ -128,11 +126,10 @@ public abstract class ReportMasterPageEditor extends ReportEditorWithRuler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette#getMultiPageEditor()
 	 */
-	@Override
 	protected IEditorPart getMultiPageEditor() {
 		return null;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -80,19 +80,23 @@ public class BufferTest extends TestCase {
 
 	static void testWriteByte(ArchiveWriter writer) throws IOException {
 		RAOutputStream out = writer.createOutputStream(ENTRY_NAME);
-		try (out) {
+		try {
 			for (int i = 0; i < LENGTH; i++) {
 				out.write(i);
 			}
+		} finally {
+			out.close();
 		}
 	}
 
 	static void testReadByte(ArchiveReader reader) throws IOException {
 		RAInputStream in = reader.getInputStream(ENTRY_NAME);
-		try (in) {
+		try {
 			for (int i = 0; i < LENGTH; i++) {
 				int v = in.read();
 			}
+		} finally {
+			in.close();
 		}
 	}
 
@@ -117,17 +121,19 @@ public class BufferTest extends TestCase {
 
 	static void testWriteInteger(ArchiveWriter writer) throws IOException {
 		RAOutputStream out = writer.createOutputStream(ENTRY_NAME);
-		try (out) {
+		try {
 			int length = LENGTH / 4;
 			for (int i = 0; i < length; i++) {
 				out.writeInt(i);
 			}
+		} finally {
+			out.close();
 		}
 	}
 
 	static void testReadInteger(ArchiveReader reader) throws IOException {
 		RAInputStream in = reader.getInputStream(ENTRY_NAME);
-		try (in) {
+		try {
 			int count = 0;
 			try {
 				while (true) {
@@ -139,6 +145,8 @@ public class BufferTest extends TestCase {
 			if (count != LENGTH / 4) {
 				System.out.print("x");
 			}
+		} finally {
+			in.close();
 		}
 	}
 
@@ -162,17 +170,19 @@ public class BufferTest extends TestCase {
 
 	static void testWriteLong(ArchiveWriter writer) throws IOException {
 		RAOutputStream out = writer.createOutputStream(ENTRY_NAME);
-		try (out) {
+		try {
 			int length = LENGTH / 8;
 			for (int i = 0; i < length; i++) {
 				out.writeLong(i);
 			}
+		} finally {
+			out.close();
 		}
 	}
 
 	static void testReadLong(ArchiveReader reader) throws IOException {
 		RAInputStream in = reader.getInputStream(ENTRY_NAME);
-		try (in) {
+		try {
 			int count = 0;
 			try {
 				while (true) {
@@ -184,6 +194,8 @@ public class BufferTest extends TestCase {
 			if (count != LENGTH / 8) {
 				System.out.print("x");
 			}
+		} finally {
+			in.close();
 		}
 	}
 
@@ -206,11 +218,11 @@ public class BufferTest extends TestCase {
 
 	}
 
-	static int[] sizes = { 1, 7, 13, 31, 61, 113, 251, 509, 1021, 2039, 4091, 4093 };
+	static int[] sizes = new int[] { 1, 7, 13, 31, 61, 113, 251, 509, 1021, 2039, 4091, 4093 };
 
 	static void testWriteBytes(ArchiveWriter writer) throws IOException {
 		RAOutputStream out = writer.createOutputStream(ENTRY_NAME);
-		try (out) {
+		try {
 			byte[] data = new byte[8192];
 			int length = 0;
 			int count = 0;
@@ -220,12 +232,14 @@ public class BufferTest extends TestCase {
 				length += size;
 				count++;
 			}
+		} finally {
+			out.close();
 		}
 	}
 
 	static void testReadBytes(ArchiveReader reader) throws IOException {
 		RAInputStream in = reader.getInputStream(ENTRY_NAME);
-		try (in) {
+		try {
 
 			byte[] data = new byte[8192];
 			int length = 0;
@@ -236,6 +250,8 @@ public class BufferTest extends TestCase {
 				count++;
 				length += size;
 			}
+		} finally {
+			in.close();
 		}
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,77 +15,73 @@
 package org.eclipse.birt.report.engine.content;
 
 /**
- *
+ * 
  * The content of foreign object is not handle by report engine.
- *
+ * 
  * It is the object's responsibility to convert itself to standard content type.
- *
+ * 
  * Such as object described in HTML/RTF or other format.
- *
+ * 
  * For foreign object in "text/html" format, the PDF writer output the standard
  * content while the HTML writer output the raw value directly.
- *
+ * 
  */
 public interface IForeignContent extends IContent {
 
 	/** the content is an string which contains HTML content */
-	String HTML_TYPE = "text/html";
+	public final String HTML_TYPE = "text/html";
 	/** the content is an string which contains plain text */
-	String TEXT_TYPE = "text/plaintext";
+	public final String TEXT_TYPE = "text/plaintext";
 	/**
 	 * the content is an template. In this condition the raw value should be a
 	 * Object[2], the first object is the template text, the second object is the
 	 * value map.
 	 */
-	String TEMPLATE_TYPE = "text/template";
+	public final String TEMPLATE_TYPE = "text/template";
 	/** the content is the output of a extenal item, it is byte[] */
-	String EXTERNAL_TYPE = "object/external";
+	public final String EXTERNAL_TYPE = "object/external";
 	/** the content is an image content which define the image */
-	String IMAGE_TYPE = "binary/image";
+	public final String IMAGE_TYPE = "binary/image";
 	/** the content is unkown */
-	String UNKNOWN_TYPE = "binary/unknown";
+	public final String UNKNOWN_TYPE = "binary/unknown";
 	/** the object value */
-	String VALUE_TYPE = "binary/value";
+	public final String VALUE_TYPE = "binary/value";
 
 	/**
 	 * the orginal format of the object. such as: "text/html", "text/rtf", "xml/svg"
 	 * etc.
-	 *
+	 * 
 	 * @return type of the content
 	 */
-	String getRawType();
+	public String getRawType();
 
 	void setRawType(String type);
 
-	String getRawKey();
+	public String getRawKey();
 
 	void setRawKey(String rawKey);
 
 	/**
 	 * the orignal content describe in raw format.
-	 *
+	 * 
 	 * @return Returns the content. Caller knows how to cast this object
 	 */
-	Object getRawValue();
+	public Object getRawValue();
 
 	void setRawValue(Object value);
 
 	/**
 	 * @return Returns the altText.
 	 */
-	@Override
-	String getAltText();
+	public String getAltText();
 
-	@Override
-	String getAltTextKey();
+	public String getAltTextKey();
 
-	@Override
-	void setAltText(String altText);
+	public void setAltText(String altText);
 
-	@Override
-	void setAltTextKey(String key);
+	public void setAltTextKey(String key);
 
-	void setJTidy(boolean jTidy);
+	public void setJTidy(boolean jTidy);
 
-	boolean isJTidy();
+	public boolean isJTidy();
 }

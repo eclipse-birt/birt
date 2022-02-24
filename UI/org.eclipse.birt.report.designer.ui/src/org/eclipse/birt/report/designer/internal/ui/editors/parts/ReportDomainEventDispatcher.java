@@ -27,7 +27,7 @@ import org.eclipse.swt.events.TraverseEvent;
 
 /**
  * add comment here
- *
+ * 
  */
 public class ReportDomainEventDispatcher extends DomainEventDispatcher {
 
@@ -44,7 +44,6 @@ public class ReportDomainEventDispatcher extends DomainEventDispatcher {
 	/**
 	 * @see EventDispatcher#dispatchKeyTraversed(TraverseEvent)
 	 */
-	@Override
 	public void dispatchKeyTraversed(TraverseEvent e) {
 		IFigure focusOwner = null;
 		// List list = getViewer().getSelectedEditParts();
@@ -89,9 +88,8 @@ public class ReportDomainEventDispatcher extends DomainEventDispatcher {
 	}
 
 	private boolean isFocusEligible(IFigure fig) {
-		if (fig == null || !fig.isFocusTraversable() || !fig.isShowing()) {
+		if (fig == null || !fig.isFocusTraversable() || !fig.isShowing())
 			return false;
-		}
 		return true;
 	}
 

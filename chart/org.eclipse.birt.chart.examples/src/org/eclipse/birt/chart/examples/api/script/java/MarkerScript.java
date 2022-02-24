@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,21 +23,20 @@ import org.eclipse.birt.chart.script.IChartScriptContext;
 import com.ibm.icu.util.ULocale;
 
 /**
- *
+ * 
  */
 
 public class MarkerScript extends ChartEventHandlerAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerLine(
 	 * org.eclipse.birt.chart.model.component.Axis,
 	 * org.eclipse.birt.chart.model.component.MarkerLine,
 	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	@Override
 	public void beforeDrawMarkerLine(Axis axis, MarkerLine mLine, IChartScriptContext icsc) {
 		ULocale.setDefault(ULocale.US);
 		if (icsc.getULocale().equals(ULocale.US)) {
@@ -48,14 +47,13 @@ public class MarkerScript extends ChartEventHandlerAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerRange(
 	 * org.eclipse.birt.chart.model.component.Axis,
 	 * org.eclipse.birt.chart.model.component.MarkerRange,
 	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	@Override
 	public void beforeDrawMarkerRange(Axis axis, MarkerRange mRange, IChartScriptContext icsc) {
 		mRange.getLabel().getCaption().getColor().set(225, 104, 105);
 	}

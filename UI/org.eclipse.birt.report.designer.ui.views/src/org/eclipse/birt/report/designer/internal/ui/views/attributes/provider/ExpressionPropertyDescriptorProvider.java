@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,11 +34,10 @@ public class ExpressionPropertyDescriptorProvider extends PropertyDescriptorProv
 	}
 
 	public boolean isEnable() {
-		if (DEUtil.getInputSize(input) != 1) {
+		if (DEUtil.getInputSize(input) != 1)
 			return false;
-		} else {
+		else
 			return true;
-		}
 	}
 
 	public ExpressionProvider getExpressionProvider() {
@@ -46,12 +45,10 @@ public class ExpressionPropertyDescriptorProvider extends PropertyDescriptorProv
 		if (lst != null && lst.size() == 1) {
 			DesignElementHandle elementHandle = (DesignElementHandle) lst.get(0);
 			return new ExpressionProvider(elementHandle);
-		} else {
+		} else
 			return null;
-		}
 	}
 
-	@Override
 	public boolean isReadOnly() {
 		if (DEUtil.getInputElements(input).size() > 0) {
 			DesignElementHandle handle = (DesignElementHandle) DEUtil.getInputFirstElement(input);
@@ -63,7 +60,6 @@ public class ExpressionPropertyDescriptorProvider extends PropertyDescriptorProv
 		return false;
 	}
 
-	@Override
 	public Object load() {
 		Object value = null;
 		if (input instanceof GroupElementHandle) {

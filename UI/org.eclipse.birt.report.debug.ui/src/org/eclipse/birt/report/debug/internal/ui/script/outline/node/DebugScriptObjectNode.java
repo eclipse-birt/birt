@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class DebugScriptObjectNode extends ScriptObjectNode implements IMenuList
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param handle
 	 * @param parent
 	 */
@@ -43,7 +43,7 @@ public class DebugScriptObjectNode extends ScriptObjectNode implements IMenuList
 
 	/**
 	 * Gets the property handle
-	 *
+	 * 
 	 * @return
 	 */
 	public PropertyHandle getPropertyHandle() {
@@ -52,24 +52,22 @@ public class DebugScriptObjectNode extends ScriptObjectNode implements IMenuList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.action.IMenuListener#menuAboutToShow(org.eclipse.jface.
 	 * action.IMenuManager)
 	 */
-	@Override
 	public void menuAboutToShow(IMenuManager manager) {
 		manager.add(new ScriptEditAction(this, TEXT));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode#
 	 * equals(java.lang.Object)
 	 */
-	@Override
 	public boolean equals(Object obj) {
 		boolean bool = super.equals(obj);
 		if (obj instanceof DebugScriptObjectNode) {
@@ -80,12 +78,11 @@ public class DebugScriptObjectNode extends ScriptObjectNode implements IMenuList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode#
 	 * getParent()
 	 */
-	@Override
 	public Object getParent() {
 		if (nodeParent != null) {
 			return nodeParent;
@@ -95,7 +92,7 @@ public class DebugScriptObjectNode extends ScriptObjectNode implements IMenuList
 
 	/**
 	 * Sets the node parent
-	 *
+	 * 
 	 * @param nodeParent
 	 */
 	public void setNodeParent(Object nodeParent) {

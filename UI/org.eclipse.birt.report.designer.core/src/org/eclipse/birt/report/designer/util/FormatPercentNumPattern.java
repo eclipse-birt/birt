@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Returns the default percent symbol position for given locale
-	 *
+	 * 
 	 * @param locale
 	 * @return
 	 */
@@ -53,7 +53,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param category
 	 */
 	public FormatPercentNumPattern(String category) {
@@ -63,14 +63,13 @@ public class FormatPercentNumPattern extends FormatNumberPattern {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #getPattern()
 	 */
-	@Override
 	public String getPattern() {
 		String numStr = "###0"; //$NON-NLS-1$
-		String decStr; //$NON-NLS-1$
+		String decStr = ""; //$NON-NLS-1$
 
 		String positivePatt = numStr;
 		String negativePatt = null;
@@ -123,11 +122,10 @@ public class FormatPercentNumPattern extends FormatNumberPattern {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #setPattern(java.lang.String)
 	 */
-	@Override
 	public void setPattern(String patternStr) {
 		String patt = valPattern(patternStr);
 
@@ -150,22 +148,22 @@ public class FormatPercentNumPattern extends FormatNumberPattern {
 				this.symPos = FormatNumberPattern.SYMBOL_POSITION_AFTER;
 			}
 		}
+		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
 	 * #getDefaultPatt()
 	 */
-	@Override
 	protected String getDefaultPatt() {
 		return DEFAULT_PERCENT_PATTERN;
 	}
 
 	/**
 	 * ��Get decPlaces
-	 *
+	 * 
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces() {
@@ -174,7 +172,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set decPlaces
-	 *
+	 * 
 	 * @param decPlaces The decPlaces to set.
 	 */
 	public void setDecPlaces(int decPlaces) {
@@ -190,7 +188,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set UseSep
-	 *
+	 * 
 	 * @param useSep The useSep to set.
 	 */
 	public void setUseSep(boolean useSep) {
@@ -207,7 +205,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set useBracket
-	 *
+	 * 
 	 * @param useBracket The useBracket to set.
 	 */
 	public void setUseBracket(boolean useBracket) {
@@ -223,7 +221,7 @@ public class FormatPercentNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set SymPos
-	 *
+	 * 
 	 * @param symPos The symPos to set.
 	 */
 	public void setSymPos(String symPos) {

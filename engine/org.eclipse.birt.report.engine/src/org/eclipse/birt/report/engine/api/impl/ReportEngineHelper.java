@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -73,7 +73,7 @@ public class ReportEngineHelper {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param engine the report engine
 	 */
 	public ReportEngineHelper(ReportEngine engine) {
@@ -87,7 +87,7 @@ public class ReportEngineHelper {
 	 * ReportRunnable object, embedded images and parameter definitions can be
 	 * retrieved. Constructing an engine task requires a report design runnable
 	 * object.
-	 *
+	 * 
 	 * @param designName the full path of the report design file
 	 * @return a report design runnable object
 	 * @throws EngineException throwed when the input file does not exist, or the
@@ -124,10 +124,10 @@ public class ReportEngineHelper {
 	 * ReportRunnable object, embedded images and parameter definitions can be
 	 * retrieved. Constructing an engine task requires a report design
 	 * runnableobject.
-	 *
+	 * 
 	 * And the user must close the report design stream after get the
 	 * IReportRunnable.
-	 *
+	 * 
 	 * @param designStream the report design input stream
 	 * @return a report design runnable object
 	 * @throws EngineException throwed when the input stream is null, or the stream
@@ -142,10 +142,10 @@ public class ReportEngineHelper {
 	 * ReportRunnable object, embedded images and parameter definitions can be
 	 * retrieved. Constructing an engine task requires a report design
 	 * runnableobject.
-	 *
+	 * 
 	 * And the user must close the report design stream after get the
 	 * IReportRunnable.
-	 *
+	 * 
 	 * @param designName   the stream's name
 	 * @param designStream the report design input stream
 	 * @return a report design runnable object
@@ -171,10 +171,10 @@ public class ReportEngineHelper {
 	 * <li>resourceLocator
 	 * <li>resourceFolder If the options contains no property, copy the property
 	 * from the engine config.
-	 *
+	 * 
 	 * Disable Semantic Check as default unless PARSER_SEMANTIC_CHECK_KEY is
 	 * specified
-	 *
+	 * 
 	 * @param options
 	 */
 	protected void intializeModuleOptions(Map options) {
@@ -230,7 +230,7 @@ public class ReportEngineHelper {
 	 * ReportRunnable object, embedded images and parameter definitions can be
 	 * retrieved. Constructing an engine task requires a report design runnable
 	 * object.
-	 *
+	 * 
 	 * @param designStream the report design input stream
 	 * @return a report design runnable object
 	 * @throws EngineException throwed when the input stream is null, or the stream
@@ -245,7 +245,7 @@ public class ReportEngineHelper {
 	/**
 	 * creates an engine task for running and rendering report directly to output
 	 * format
-	 *
+	 * 
 	 * @param reportRunnable the runnable report design object
 	 * @return a run and render report task
 	 */
@@ -259,7 +259,7 @@ public class ReportEngineHelper {
 
 	/**
 	 * returns all supported output formats through BIRT engine emitter extensions
-	 *
+	 * 
 	 * @return all supported output formats through BIRT engine emitter extensions
 	 */
 	public String[] getSupportedFormats() {
@@ -271,13 +271,13 @@ public class ReportEngineHelper {
 	 * several emitters for a same format, then the default emitter specified by
 	 * EngineConfig is used, if no default emitter is specified in EngineConfig,
 	 * then the first emitter is used.
-	 *
+	 * 
 	 * @return all emitter info through BIRT engine emitter extension
 	 */
 	public synchronized EmitterInfo[] getEmitterInfo() {
 		if (emitterInfos == null) {
 			EngineConfig config = engine.getConfig();
-			Map<String, EmitterInfo> emitters = new HashMap<>();
+			Map<String, EmitterInfo> emitters = new HashMap<String, EmitterInfo>();
 			EmitterInfo[] tempEmitterInfo = extensionMgr.getEmitterInfo();
 			for (EmitterInfo emitterInfo : tempEmitterInfo) {
 				String format = emitterInfo.getFormat();
@@ -310,7 +310,7 @@ public class ReportEngineHelper {
 
 	/**
 	 * the MIME type for the specific formatted supported by the extension.
-	 *
+	 * 
 	 * @param format      the output format
 	 * @param extensionID the extension ID, which could be null if only one plugin
 	 *                    supports the output format
@@ -348,10 +348,12 @@ public class ReportEngineHelper {
 				} else {
 					reader = new FileArchiveReader(docArchiveName);
 				}
-			} else if (docArchiveName.endsWith("\\") || docArchiveName.endsWith("/")) {
-				reader = new FolderArchiveReader(docArchiveName);
 			} else {
-				reader = new FileArchiveReader(docArchiveName);
+				if (docArchiveName.endsWith("\\") || docArchiveName.endsWith("/")) {
+					reader = new FolderArchiveReader(docArchiveName);
+				} else {
+					reader = new FileArchiveReader(docArchiveName);
+				}
 			}
 		} catch (IOException e) {
 			throw new EngineException(e.getLocalizedMessage());

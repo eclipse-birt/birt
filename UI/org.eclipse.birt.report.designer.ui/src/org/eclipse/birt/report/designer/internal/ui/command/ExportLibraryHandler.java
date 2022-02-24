@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- *
+ * 
  */
 
 public class ExportLibraryHandler extends SelectionHandler {
@@ -86,12 +86,11 @@ public class ExportLibraryHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
 	 * .ExecutionEvent)
 	 */
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		boolean retBoolean = true;
 		super.execute(event);
@@ -109,7 +108,7 @@ public class ExportLibraryHandler extends SelectionHandler {
 		private ExportReportWizardPage page;
 
 		/**
-		 *
+		 * 
 		 */
 		public ExportReportWizard() {
 			super();
@@ -119,18 +118,16 @@ public class ExportLibraryHandler extends SelectionHandler {
 
 		}
 
-		@Override
 		public Image getDefaultPageImage() {
 			return ReportPlugin.getImage("/icons/wizban/create_project_wizard.gif"); //$NON-NLS-1$
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 		 */
 
-		@Override
 		public boolean performFinish() {
 			// TODO Auto-generated method stub
 
@@ -152,11 +149,10 @@ public class ExportLibraryHandler extends SelectionHandler {
 
 							/*
 							 * (non-Javadoc)
-							 *
+							 * 
 							 * @seeorg.eclipse.jface.dialogs.MessageDialog# createCustomArea
 							 * (org.eclipse.swt.widgets.Composite)
 							 */
-							@Override
 							protected Control createCustomArea(Composite parent) {
 								Composite container = new Composite(parent, SWT.NONE);
 								GridLayout gridLayout = new GridLayout();
@@ -168,12 +164,10 @@ public class ExportLibraryHandler extends SelectionHandler {
 								chkbox.setText(REMEMBER_DECISION);
 								chkbox.addSelectionListener(new SelectionListener() {
 
-									@Override
 									public void widgetSelected(SelectionEvent e) {
 										saveDecision = !saveDecision;
 									}
 
-									@Override
 									public void widgetDefaultSelected(SelectionEvent e) {
 										saveDecision = false;
 									}
@@ -184,10 +178,9 @@ public class ExportLibraryHandler extends SelectionHandler {
 
 							/*
 							 * (non-Javadoc)
-							 *
+							 * 
 							 * @see org.eclipse.jface.dialogs.MessageDialog#buttonPressed (int)
 							 */
-							@Override
 							protected void buttonPressed(int buttonId) {
 								switch (buttonId) {
 								case 0:
@@ -206,9 +199,8 @@ public class ExportLibraryHandler extends SelectionHandler {
 							}
 
 						};
-						if (prefDialog.open() == 2) {
+						if (prefDialog.open() == 2)
 							return true;
-						}
 
 					}
 					if (selection instanceof ReportDesignHandle) {

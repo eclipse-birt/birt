@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -76,11 +76,10 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.ui.dialogs.ISelectionStatusValidator#validate(java.lang
 		 * .Object[])
 		 */
-		@Override
 		public IStatus validate(Object[] selection) {
 			int nSelected = selection.length;
 
@@ -127,11 +126,10 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite rt = (Composite) super.createDialogArea(parent);
 		Composite pane = new Composite(rt, 0);
@@ -149,11 +147,10 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.
 			 * swt.events.ModifyEvent)
 			 */
-			@Override
 			public void modifyText(ModifyEvent e) {
 				filename = text.getText().trim().toLowerCase();
 				updateOKStatus();
@@ -172,12 +169,12 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog {
 
 	/**
 	 * Selects the specified path in the tree viewer.
-	 *
+	 * 
 	 * @param path the path to select.
 	 */
 	private void selectPath(String path) {
 		String parent = new File(path).getParent();
-		List<String> folders = new ArrayList<>();
+		List<String> folders = new ArrayList<String>();
 
 		while (parent != null) {
 			folders.add(parent);
@@ -221,9 +218,8 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog {
 		if (path != null) {
 			File file = new File(path);
 			if (file.exists() && !MessageDialog.openConfirm(UIUtil.getDefaultShell(), "Question",
-					Messages.getFormattedString("NewResourceFileDialog.FileExists", new String[] { file.getName() }))) {
+					Messages.getFormattedString("NewResourceFileDialog.FileExists", new String[] { file.getName() })))
 				return;
-			}
 		}
 		super.okPressed();
 	}

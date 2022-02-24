@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * Manager and container for document styles.
- *
+ * 
  * Style entries must be created using the StyleBuilder methods. Before the
  * style entry is added to the style manager, its properties must be modified
  * first. When adding style entries into the manager, they are cloned and a name
@@ -60,8 +60,8 @@ public class StyleManager {
 			lastIndex[i] = 0;
 		}
 
-		styleToName = new HashMap<>();
-		styleList = new ArrayList<>();
+		styleToName = new HashMap<StyleEntry, String>();
+		styleList = new ArrayList<StyleEntry>();
 	}
 
 	public Collection<StyleEntry> getStyles() {
@@ -70,7 +70,7 @@ public class StyleManager {
 
 	/**
 	 * Adds a style.
-	 *
+	 * 
 	 * @param style
 	 * @return
 	 */
@@ -81,7 +81,7 @@ public class StyleManager {
 	/**
 	 * Returns a style object for the given engine style and type. If no such style
 	 * existed before, one is created.
-	 *
+	 * 
 	 * @param style
 	 * @param type
 	 * @return assigned style name

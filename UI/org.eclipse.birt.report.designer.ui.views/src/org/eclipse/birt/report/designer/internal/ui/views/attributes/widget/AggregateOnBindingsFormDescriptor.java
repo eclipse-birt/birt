@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,54 +47,45 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 		super.setButtonWithDialog(false);
 	}
 
-	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		super.setDescriptorProvider(provider);
-		if (provider instanceof AggregateOnBindingsFormHandleProvider) {
+		if (provider instanceof AggregateOnBindingsFormHandleProvider)
 			this.provider = (AggregateOnBindingsFormHandleProvider) provider;
-		}
 	}
 
 	protected Button btnAddAggregateOn;
 	protected Button btnAddMeasureOn;
 
-	@Override
 	public Control createControl(Composite parent) {
 		Control control = super.createControl(parent);
 
-		if (isFormStyle()) {
+		if (isFormStyle())
 			btnAddAggregateOn = FormWidgetFactory.getInstance().createButton((Composite) control, "", SWT.PUSH); //$NON-NLS-1$
-		} else {
+		else
 			btnAddAggregateOn = new Button((Composite) control, SWT.BORDER);
-		}
 
-		if (bAddWithDialog) {
+		if (bAddWithDialog)
 			btnAddAggregateOn.setText(Messages.getString("FormPage.Button.AddWithDialog.AggregateOn")); //$NON-NLS-1$
-		} else {
+		else
 			btnAddAggregateOn.setText(Messages.getString("FormPage.Button.Add.AggregateOn")); //$NON-NLS-1$
-		}
 		btnAddAggregateOn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleAddAggregateOnSelectEvent();
 			}
 		});
 
-		if (isFormStyle()) {
+		if (isFormStyle())
 			btnAddMeasureOn = FormWidgetFactory.getInstance().createButton((Composite) control, "", SWT.PUSH); //$NON-NLS-1$
-		} else {
+		else
 			btnAddMeasureOn = new Button((Composite) control, SWT.BORDER);
-		}
 
-		if (bAddWithDialog) {
+		if (bAddWithDialog)
 			btnAddMeasureOn.setText(Messages.getString("FormPage.Button.AddWithDialog.MeasureOn")); //$NON-NLS-1$
-		} else {
+		else
 			btnAddMeasureOn.setText(Messages.getString("FormPage.Button.Add.MeasureOn")); //$NON-NLS-1$
-		}
 		btnAddMeasureOn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleAddMeasureOnSelectEvent();
 			}
@@ -134,12 +125,11 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#
 	 * fullLayout()
 	 */
-	@Override
 	protected void fullLayout() {
 		super.fullLayout();
 
@@ -155,7 +145,7 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 
 			if (this.provider instanceof AggregateOnBindingsFormHandleProvider) {
 				Object adaptableObject = this.provider.getBindingObject();
-				if (adaptableObject instanceof ReportItemHandle) {
+				if (adaptableObject != null && adaptableObject instanceof ReportItemHandle) {
 					IBindingDialogHelper helper = (IBindingDialogHelper) ElementAdapterManager
 							.getAdapter(adaptableObject, IBindingDialogHelper.class);
 					if (helper != null) {
@@ -192,7 +182,6 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 		btnDel.setLayoutData(data);
 	}
 
-	@Override
 	public void setInput(Object object) {
 		super.setInput(object);
 		if (DEUtil.getInputSize(object) > 0) {
@@ -214,7 +203,6 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 		provider.setBindingObject(bindingObject);
 	}
 
-	@Override
 	protected void handleRefreshSelectEvent() {
 		provider.generateAllBindingColumns();
 	}

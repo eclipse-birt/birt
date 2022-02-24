@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -33,7 +33,7 @@ public final class InteractionEvent extends ChartEvent {
 
 	private PrimitiveRenderEvent _pre = null;
 
-	private final LinkedHashMap<TriggerCondition, Action> _lhmTriggers = new LinkedHashMap<>();
+	private final LinkedHashMap<TriggerCondition, Action> _lhmTriggers = new LinkedHashMap<TriggerCondition, Action>();
 
 	private transient Cursor cursor = null;
 
@@ -61,35 +61,35 @@ public final class InteractionEvent extends ChartEvent {
 	/**
 	 * Sets the hotspot area defined by given rendering event for current event.
 	 */
-	public void setHotSpot(PrimitiveRenderEvent pre) {
+	public final void setHotSpot(PrimitiveRenderEvent pre) {
 		_pre = pre;
 	}
 
 	/**
 	 * @return Returns the rendering event defining current hotspot area.
 	 */
-	public PrimitiveRenderEvent getHotSpot() {
+	public final PrimitiveRenderEvent getHotSpot() {
 		return _pre;
 	}
 
 	/**
 	 * Adds trigger to current event.
 	 */
-	public void addTrigger(Trigger t) {
+	public final void addTrigger(Trigger t) {
 		_lhmTriggers.put(t.getCondition(), t.getAction());
 	}
 
 	/**
 	 * @return Returns the action for specific trigger condition.
 	 */
-	public Action getAction(TriggerCondition tc) {
+	public final Action getAction(TriggerCondition tc) {
 		return _lhmTriggers.get(tc);
 	}
 
 	/**
 	 * @return Returns all triggers asscociated with current event.
 	 */
-	public Trigger[] getTriggers() {
+	public final Trigger[] getTriggers() {
 		if (_lhmTriggers.isEmpty()) {
 			return null;
 		}
@@ -105,7 +105,6 @@ public final class InteractionEvent extends ChartEvent {
 		return tga;
 	}
 
-	@Override
 	public void reset() {
 		_pre = null;
 		_lhmTriggers.clear();
@@ -114,14 +113,14 @@ public final class InteractionEvent extends ChartEvent {
 	/**
 	 * Reuses current event by given new source object.
 	 */
-	public void reuse(StructureSource oNewSource) {
+	public final void reuse(StructureSource oNewSource) {
 		source = oNewSource;
 		_lhmTriggers.clear();
 	}
 
 	/**
 	 * Returns mouse cursor.
-	 *
+	 * 
 	 * @return cursor
 	 */
 	public Cursor getCursor() {
@@ -130,7 +129,7 @@ public final class InteractionEvent extends ChartEvent {
 
 	/**
 	 * Set mouse cursor.
-	 *
+	 * 
 	 * @param cursor
 	 */
 	public void setCursor(Cursor cursor) {
@@ -139,7 +138,7 @@ public final class InteractionEvent extends ChartEvent {
 
 	/**
 	 * Returns z-order
-	 *
+	 * 
 	 * @return zOrder
 	 */
 	public short getZOrder() {
@@ -148,7 +147,7 @@ public final class InteractionEvent extends ChartEvent {
 
 	/**
 	 * Sets z-Order
-	 *
+	 * 
 	 * @param zOrder
 	 */
 	public void setZOrder(short zOrder) {

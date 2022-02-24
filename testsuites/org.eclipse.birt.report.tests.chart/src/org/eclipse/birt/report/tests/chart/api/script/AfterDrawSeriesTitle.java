@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
@@ -35,11 +35,11 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
-import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
+import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.type.PieSeries;
@@ -72,7 +72,7 @@ public class AfterDrawSeriesTitle extends ChartTestCase {
 
 	/**
 	 * execute application
-	 *
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -113,7 +113,7 @@ public class AfterDrawSeriesTitle extends ChartTestCase {
 
 	/**
 	 * Creates a scatter chart model as a reference implementation
-	 *
+	 * 
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,26 +49,22 @@ public class EmptyRowColumnSection extends Section {
 
 	private EmptyRowColumnDescriptor emptyRowColumn;
 
-	@Override
 	public void createSection() {
 		getEmptyRowColumnDescriptor(parent);
 		getGridPlaceholder(parent);
 	}
 
-	@Override
 	public void layout() {
 		GridData gd = (GridData) emptyRowColumn.getControl().getLayoutData();
-		if (getLayoutNum() > 0) {
+		if (getLayoutNum() > 0)
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		} else {
+		else
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
-		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else {
+		} else
 			gd.grabExcessHorizontalSpace = fillLabel;
-		}
 
 		if (height > -1) {
 			gd.heightHint = height;
@@ -106,14 +102,12 @@ public class EmptyRowColumnSection extends Section {
 	protected EmptyRowColumnDescriptor getEmptyRowColumnDescriptor(Composite parent) {
 		if (emptyRowColumn == null) {
 			emptyRowColumn = new EmptyRowColumnDescriptor(true);
-			if (getProvider() != null) {
+			if (getProvider() != null)
 				emptyRowColumn.setDescriptorProvider(getProvider());
-			}
 			emptyRowColumn.createControl(parent);
 			emptyRowColumn.getControl().setLayoutData(new GridData());
 			emptyRowColumn.getControl().addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					emptyRowColumn = null;
 				}
@@ -168,30 +162,22 @@ public class EmptyRowColumnSection extends Section {
 		this.height = height;
 	}
 
-	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		}
-		if (label != null) {
+		if (label != null)
 			WidgetUtil.setExcludeGridData(label, isHidden);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
-		}
 	}
 
-	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			displayLabel.setVisible(isVisible);
-		}
-		if (label != null) {
+		if (label != null)
 			label.setVisible(isVisible);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			placeholderLabel.setVisible(isVisible);
-		}
 	}
 
 	public int getStyle() {
@@ -202,17 +188,14 @@ public class EmptyRowColumnSection extends Section {
 		this.style = style;
 	}
 
-	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		emptyRowColumn.setInput(input);
 	}
 
-	@Override
 	public void load() {
-		if (emptyRowColumn != null && !emptyRowColumn.getControl().isDisposed()) {
+		if (emptyRowColumn != null && !emptyRowColumn.getControl().isDisposed())
 			emptyRowColumn.load();
-		}
 	}
 
 	EmptyRowColumnProvider provider;
@@ -223,8 +206,7 @@ public class EmptyRowColumnSection extends Section {
 
 	public void setProvider(EmptyRowColumnProvider provider) {
 		this.provider = provider;
-		if (emptyRowColumn != null) {
+		if (emptyRowColumn != null)
 			emptyRowColumn.setDescriptorProvider(provider);
-		}
 	}
 }

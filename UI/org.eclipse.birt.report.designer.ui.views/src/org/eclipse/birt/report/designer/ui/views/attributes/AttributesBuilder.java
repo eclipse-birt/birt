@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,19 +75,19 @@ public class AttributesBuilder {
 
 	/**
 	 * Gets attribute pages generator correspond to the current selection.
-	 *
+	 * 
 	 * @param selection The current selection.
 	 */
 	public IPageGenerator getPageGenerator(List selection) {
-		if (pageGenerator instanceof TabPageGenerator) {
+		if (pageGenerator != null && pageGenerator instanceof TabPageGenerator) {
 			selectedTabText = ((TabPageGenerator) pageGenerator).getSelectedTabText();
 		}
 		Class pageGeneratorClass = TabPageGenerator.class;
 		String oldTypeInfo = typeInfo;
-		if (isSameType(selection)) {
+		if (isSameType(selection) == true) {
 			pageGeneratorClass = getGeneratorClass(selection.get(0));
 
-			Object element;
+			Object element = null;
 			element = selection.get(0);
 			Object adapter = ElementAdapterManager.getAdapter(element, IPageGenerator.class);
 			if (adapter instanceof IPageGenerator) {
@@ -170,7 +170,7 @@ public class AttributesBuilder {
 				change = true;
 			}
 		} else if (element.getClass() != input.getClass()) {
-			if (generator instanceof TabPageGenerator) {
+			if (generator != null && generator instanceof TabPageGenerator) {
 				change = ((TabPageGenerator) generator).isChange(element);
 			} else {
 				change = true;
@@ -181,7 +181,7 @@ public class AttributesBuilder {
 
 	/**
 	 * Gets the IPageGenerator class corresponding to the given DE type.
-	 *
+	 * 
 	 * @param type The DE element type
 	 * @return The class of the IPageGenerator
 	 */
@@ -277,7 +277,7 @@ public class AttributesBuilder {
 
 	/**
 	 * Gets the type information of current selection.
-	 *
+	 * 
 	 * @return A String represent the type information.
 	 */
 	public String getTypeInfo() {
@@ -286,14 +286,17 @@ public class AttributesBuilder {
 
 	/**
 	 * Judges if elements in the list are the same type.
-	 *
+	 * 
 	 * @param selection The current selection.
 	 * @return If the elements in the list have the same type, return true else
 	 *         return false. if the list is null or has no element then return
 	 *         false.
 	 */
 	protected boolean isSameType(List selection) {
-		if (selection == null || selection.size() == 0 || (selection.get(0) == null)) {
+		if (selection == null || selection.size() == 0)
+			return false;
+
+		if (selection.get(0) == null) {
 			return false;
 		}
 

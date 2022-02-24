@@ -24,14 +24,14 @@ public interface IChartUIAccessible {
 
 	/**
 	 * add accessibility with the given Label's text.
-	 *
+	 * 
 	 * @param label Label Object.
 	 */
 	void bindAssociatedLabel(Label label);
 
 	/**
 	 * add accessibility with the given name.
-	 *
+	 * 
 	 * @param name String Object.
 	 */
 	void bindAssociatedName(String name);

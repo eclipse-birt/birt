@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -32,7 +32,7 @@ class LogHelper {
 
 	/**
 	 * Returns a log helper for the given logger name.
-	 *
+	 * 
 	 * @param loggerName
 	 * @return
 	 */
@@ -79,9 +79,8 @@ class LogHelper {
 	// Encapsulates handling of parameter object(s).
 
 	void entering(String sourceClass, String sourceMethod, int intParam) {
-		if (!isLoggingEnterExitLevel()) {
+		if (!isLoggingEnterExitLevel())
 			return;
-		}
 
 		Object param1 = Integer.valueOf(intParam);
 		m_logger.entering(sourceClass, sourceMethod, param1);
@@ -92,16 +91,14 @@ class LogHelper {
 	}
 
 	void entering(String sourceClass, String sourceMethod, Object[] params) {
-		if (!isLoggingEnterExitLevel()) {
+		if (!isLoggingEnterExitLevel())
 			return;
-		}
 
 		// Logger does not like a null Object array
-		if (params == null) {
+		if (params == null)
 			m_logger.entering(sourceClass, sourceMethod, "<null>");
-		} else {
+		else
 			m_logger.entering(sourceClass, sourceMethod, params);
-		}
 	}
 
 	void exiting(String sourceClass, String sourceMethod) {
@@ -109,9 +106,8 @@ class LogHelper {
 	}
 
 	void exiting(String sourceClass, String sourceMethod, int intParam) {
-		if (!isLoggingEnterExitLevel()) {
+		if (!isLoggingEnterExitLevel())
 			return;
-		}
 
 		Object param1 = Integer.valueOf(intParam);
 		m_logger.exiting(sourceClass, sourceMethod, param1);
@@ -130,15 +126,13 @@ class LogHelper {
 	}
 
 	void logp(Level level, String sourceClass, String sourceMethod, String msg, Object[] params) {
-		if (!isLoggable(level)) {
+		if (!isLoggable(level))
 			return;
-		}
 
-		if (params == null) {
+		if (params == null)
 			m_logger.logp(level, sourceClass, sourceMethod, msg, "<null>");
-		} else {
+		else
 			m_logger.logp(level, sourceClass, sourceMethod, msg, params);
-		}
 	}
 
 	void logp(Level level, String sourceClass, String sourceMethod, String msg, Throwable ex) {

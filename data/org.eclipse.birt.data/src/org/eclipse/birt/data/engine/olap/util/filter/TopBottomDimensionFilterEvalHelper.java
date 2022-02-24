@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
- *
+ * 
  */
 
 public class TopBottomDimensionFilterEvalHelper extends BaseDimensionFilterEvalHelper
@@ -59,33 +59,33 @@ public class TopBottomDimensionFilterEvalHelper extends BaseDimensionFilterEvalH
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	private void argumentCheck() throws DataException {
 		if (isPercent) {
-			if (this.N < 0 || this.N > 100) {
+			if (this.N < 0 || this.N > 100)
 				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT);
-			}
-		} else if (this.N < 0) {
-			throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT);
+		} else {
+			if (this.N < 0)
+				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT);
 		}
 
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cx
 	 * @throws DataException
 	 */
 	private void populateN(ScriptContext cx) throws DataException {
 		Object o = ScriptEvalUtil.evalExpr(((IConditionalExpression) expr).getOperand1(), cx.newContext(scope),
 				ScriptExpression.defaultID, 0);
-		this.N = Double.parseDouble(o.toString());
+		this.N = Double.valueOf(o.toString()).doubleValue();
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void popualteFilterType() {
 		int type = ((IConditionalExpression) this.expr).getOperator();
@@ -117,11 +117,10 @@ public class TopBottomDimensionFilterEvalHelper extends BaseDimensionFilterEvalH
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
 	 * evaluateFilterExpr(org.eclipse.birt.data.engine.olap.util.filter.IResultRow)
 	 */
-	@Override
 	public Object evaluateFilterExpr(IResultRow resultRow) throws DataException {
 		super.setData(resultRow);
 
@@ -136,7 +135,6 @@ public class TopBottomDimensionFilterEvalHelper extends BaseDimensionFilterEvalH
 		}
 	}
 
-	@Override
 	public DimLevel getTargetLevel() throws DataException {
 		Set set = OlapExpressionCompiler.getReferencedDimLevel(this.expr, queryDefn.getBindings());
 		if (set.size() != 1) {
@@ -148,33 +146,30 @@ public class TopBottomDimensionFilterEvalHelper extends BaseDimensionFilterEvalH
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
 	 * getFilterType()
 	 */
-	@Override
 	public int getFilterType() {
 		return this.filterType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#getN()
 	 */
-	@Override
 	public double getN() {
 		return this.N;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
 	 * isQualifiedRow(org.eclipse.birt.data.engine.olap.util.filter.IResultRow)
 	 */
-	@Override
 	public boolean isQualifiedRow(IResultRow resultRow) throws DataException {
 		if (this.isAxisFilter) {
 			for (int i = 0; i < axisLevels.length; i++) {
@@ -189,22 +184,20 @@ public class TopBottomDimensionFilterEvalHelper extends BaseDimensionFilterEvalH
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
 	 * isPercentFilter()
 	 */
-	@Override
 	public boolean isPercent() {
 		return isPercent;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
 	 * isTopFilter()
 	 */
-	@Override
 	public boolean isTop() {
 		return isTop;
 	}

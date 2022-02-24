@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ public class TableUtil {
 	/**
 	 * Calculate the real selected objects in the selected bounds, complement the
 	 * list if not in it.
-	 *
+	 * 
 	 * @param bounds
 	 * @param selection
 	 * @param children
@@ -52,9 +52,8 @@ public class TableUtil {
 
 		for (int i = 0; i < children.size(); i++) {
 			EditPart child = (EditPart) children.get(i);
-			if (!child.isSelectable() || isInTable(child)) {
+			if (!child.isSelectable() || isInTable(child))
 				continue;
-			}
 			IFigure figure = ((GraphicalEditPart) child).getFigure();
 			Rectangle r = figure.getBounds().getCopy();
 			figure.translateToAbsolute(r);
@@ -73,7 +72,7 @@ public class TableUtil {
 
 	/**
 	 * Returns the union bounds for all the tabelCell in the given List.
-	 *
+	 * 
 	 * @param list
 	 * @return
 	 */
@@ -98,7 +97,7 @@ public class TableUtil {
 
 	/**
 	 * Checks if the given editPart child is in a Table.
-	 *
+	 * 
 	 * @param child
 	 * @return
 	 */
@@ -118,7 +117,7 @@ public class TableUtil {
 
 	/**
 	 * Checks if the given figure is visible.
-	 *
+	 * 
 	 * @param fig
 	 * @return
 	 */
@@ -135,7 +134,7 @@ public class TableUtil {
 
 	/**
 	 * Calculates the X value of row
-	 *
+	 * 
 	 * @param part
 	 * @param i
 	 * @return
@@ -156,7 +155,7 @@ public class TableUtil {
 
 	/**
 	 * Calculates height of row
-	 *
+	 * 
 	 * @param part
 	 * @param row
 	 * @return
@@ -179,7 +178,7 @@ public class TableUtil {
 
 	/**
 	 * Calculates the width of column
-	 *
+	 * 
 	 * @param part
 	 * @param Column
 	 * @return
@@ -207,7 +206,7 @@ public class TableUtil {
 
 	/**
 	 * Calculates the Y value of column
-	 *
+	 * 
 	 * @param part
 	 * @param i
 	 * @return
@@ -228,7 +227,7 @@ public class TableUtil {
 
 	/**
 	 * Get selected cells
-	 *
+	 * 
 	 * @param part
 	 * @return
 	 */
@@ -250,9 +249,8 @@ public class TableUtil {
 	 * @return
 	 */
 	public static ISelection filletCellInSelectionEditorpart(ISelection selection) {
-		if (selection == null || !(selection instanceof IStructuredSelection)) {
+		if (selection == null || !(selection instanceof IStructuredSelection))
 			return new StructuredSelection(Collections.EMPTY_LIST);
-		}
 		List list = ((IStructuredSelection) selection).toList();
 		list = filterRemoveEditpart(list);
 		List retValue = filletCellModel(list);
@@ -296,7 +294,7 @@ public class TableUtil {
 
 	/**
 	 * Get minimum height of row.
-	 *
+	 * 
 	 * @param part
 	 * @param rowNumber
 	 * @return
@@ -316,7 +314,7 @@ public class TableUtil {
 
 	/**
 	 * Get minimum width of column.
-	 *
+	 * 
 	 * @param part
 	 * @param columnNumber
 	 * @return
@@ -336,7 +334,7 @@ public class TableUtil {
 
 	/**
 	 * Gets the table contents height
-	 *
+	 * 
 	 * @param part
 	 * @return
 	 */
@@ -360,7 +358,7 @@ public class TableUtil {
 
 	/**
 	 * Gets the table contents width
-	 *
+	 * 
 	 * @param part
 	 * @return
 	 */

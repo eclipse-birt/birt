@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Included css style sheet structure
- *
+ * 
  */
 
 public class IncludedCssStyleSheet extends Structure {
@@ -69,30 +69,25 @@ public class IncludedCssStyleSheet extends Structure {
 
 	protected boolean useExternalCss;
 
-	@Override
 	public String getStructName() {
 		return INCLUDED_CSS_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.
 	 * String)
 	 */
 
-	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (FILE_NAME_MEMBER.equals(propName)) {
+		if (FILE_NAME_MEMBER.equals(propName))
 			return fileName;
-		}
-		if (EXTERNAL_CSS_URI_MEMBER.equals(propName)) {
+		if (EXTERNAL_CSS_URI_MEMBER.equals(propName))
 			return externalCssURI;
-		}
-		if (USE_EXTERNAL_CSS.equals(propName)) {
+		if (USE_EXTERNAL_CSS.equals(propName))
 			return useExternalCss;
-		}
 
 		assert false;
 		return null;
@@ -100,35 +95,32 @@ public class IncludedCssStyleSheet extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
 
-	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (FILE_NAME_MEMBER.equals(propName)) {
+		if (FILE_NAME_MEMBER.equals(propName))
 			fileName = (String) value;
-		} else if (EXTERNAL_CSS_URI_MEMBER.equals(propName)) {
+		else if (EXTERNAL_CSS_URI_MEMBER.equals(propName))
 			externalCssURI = (String) value;
-		} else if (USE_EXTERNAL_CSS.equals(propName)) {
+		else if (USE_EXTERNAL_CSS.equals(propName))
 			useExternalCss = ((Boolean) value).booleanValue();
-		} else {
+		else
 			assert false;
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report
 	 * .model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	@Override
 	public List validate(Module module, DesignElement element) {
 		ArrayList list = new ArrayList();
 
@@ -147,7 +139,7 @@ public class IncludedCssStyleSheet extends Structure {
 
 	/**
 	 * Gets the file name of the include css.
-	 *
+	 * 
 	 * @return the file name of the include css
 	 */
 
@@ -157,7 +149,7 @@ public class IncludedCssStyleSheet extends Structure {
 
 	/**
 	 * Sets the file name of the include css.
-	 *
+	 * 
 	 * @param theFileName the new file name to set
 	 */
 
@@ -167,7 +159,7 @@ public class IncludedCssStyleSheet extends Structure {
 
 	/**
 	 * Gets the URI of the external CSS.
-	 *
+	 * 
 	 * @return the URI of the external CSS
 	 */
 	public String getExternalCssURI() {
@@ -176,7 +168,7 @@ public class IncludedCssStyleSheet extends Structure {
 
 	/**
 	 * Sets the URI of the external CSS.
-	 *
+	 * 
 	 * @param externalCssURI the URI of the external CSS
 	 */
 	public void setExternalCssURI(String externalCssURI) {
@@ -185,7 +177,7 @@ public class IncludedCssStyleSheet extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
@@ -199,12 +191,11 @@ public class IncludedCssStyleSheet extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
 	 * model.api.SimpleValueHandle, int)
 	 */
-	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new IncludedCssStyleSheetHandle(valueHandle, index);
 	}

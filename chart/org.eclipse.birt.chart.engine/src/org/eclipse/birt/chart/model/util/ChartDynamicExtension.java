@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EPackage;
 /**
  * This class loads and registers extended classes/implementations of chart
  * model element.
- *
+ * 
  * @since 3.7
  */
 
@@ -53,7 +53,7 @@ public class ChartDynamicExtension {
 	}
 
 	private static List<EPackage> findExtendedPackages() {
-		List<EPackage> pkgs = new ArrayList<>();
+		List<EPackage> pkgs = new ArrayList<EPackage>();
 
 		try {
 			for (Map.Entry<String, Object> e : PluginSettings.instance().getExtChartModelPackages().entrySet()) {
@@ -68,7 +68,7 @@ public class ChartDynamicExtension {
 
 	/**
 	 * Checks if specified chart element is an extended classes of chart model.
-	 *
+	 * 
 	 * @param eObj the instance of chart element.
 	 * @return
 	 */
@@ -77,7 +77,7 @@ public class ChartDynamicExtension {
 	}
 
 	private static Set<EClass> getEClasses(List<EPackage> packages) {
-		Set<EClass> set = new HashSet<>();
+		Set<EClass> set = new HashSet<EClass>();
 		for (EPackage pkg : packages) {
 			for (EClassifier eClassifier : pkg.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {

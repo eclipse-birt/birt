@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,13 +47,11 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor {
 		this.itemGeneration = itemGeneration;
 	}
 
-	@Override
 	public void close() throws BirtException {
 		closeQueries();
 		super.close();
 	}
 
-	@Override
 	public IContent execute() {
 		ExtendedItemDesign extDesign = (ExtendedItemDesign) design;
 
@@ -135,7 +133,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor {
 
 	/**
 	 * read the content of input stream.
-	 *
+	 * 
 	 * @param in input content
 	 * @return content in the stream.
 	 */
@@ -144,7 +142,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor {
 				: new BufferedInputStream(in);
 		ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
 		byte[] buffer = new byte[1024];
-		int readSize;
+		int readSize = 0;
 		readSize = bin.read(buffer);
 		while (readSize != -1) {
 			out.write(buffer, 0, readSize);

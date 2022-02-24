@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -71,7 +71,6 @@ public class PDFLineAreaLM extends PDFInlineStackingLM implements ILineStackingL
 		super(context, parent, null, executor);
 	}
 
-	@Override
 	protected boolean submitRoot() {
 		boolean submit = super.submitRoot();
 		if (!submit) {
@@ -87,7 +86,6 @@ public class PDFLineAreaLM extends PDFInlineStackingLM implements ILineStackingL
 
 	}
 
-	@Override
 	protected boolean traverseChildren() throws BirtException {
 		if (last != null) {
 			if (parent.addArea(last, false, false)) {
@@ -164,13 +162,11 @@ public class PDFLineAreaLM extends PDFInlineStackingLM implements ILineStackingL
 		}
 	}
 
-	@Override
 	protected void createRoot() {
 		root = AreaFactory.createLineArea(context.getReport());
 		lineCount++;
 	}
 
-	@Override
 	protected void initialize() {
 		createRoot();
 		maxAvaWidth = parent.getCurrentMaxContentWidth();
@@ -181,7 +177,6 @@ public class PDFLineAreaLM extends PDFInlineStackingLM implements ILineStackingL
 		setupMinHeight();
 	}
 
-	@Override
 	public void setTextIndent(ITextContent content) {
 		if (isEmpty) {
 			if (content != null) {
@@ -194,10 +189,9 @@ public class PDFLineAreaLM extends PDFInlineStackingLM implements ILineStackingL
 
 	/**
 	 * submit current line to parent true if succeed
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public boolean endLine() {
 		updateLine();
 		align(false);
@@ -216,13 +210,11 @@ public class PDFLineAreaLM extends PDFInlineStackingLM implements ILineStackingL
 		}
 	}
 
-	@Override
 	protected void closeLayout() {
 		updateLine();
 		align(true);
 	}
 
-	@Override
 	public boolean addArea(IArea area, boolean keepWithPrevious, boolean keepWithNext) {
 		submit((AbstractArea) area);
 		return true;
@@ -287,7 +279,6 @@ public class PDFLineAreaLM extends PDFInlineStackingLM implements ILineStackingL
 		verticalAlign();
 	}
 
-	@Override
 	public boolean isEmptyLine() {
 		return isRootEmpty();
 	}
@@ -305,7 +296,6 @@ public class PDFLineAreaLM extends PDFInlineStackingLM implements ILineStackingL
 		return specWidth > avaWidth;
 	}
 
-	@Override
 	public void submit(AbstractArea area) {
 		area.setAllocatedPosition(getCurrentIP(), getCurrentBP());
 		setCurrentIP(getCurrentIP() + area.getAllocatedWidth());
@@ -429,7 +419,6 @@ public class PDFLineAreaLM extends PDFInlineStackingLM implements ILineStackingL
 
 	}
 
-	@Override
 	public int getMaxLineWidth() {
 		return this.maxAvaWidth;
 	}

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -79,7 +79,7 @@ final class SwtTextRenderer extends TextRendererAdapter {
 	/**
 	 * This method renders the 'shadow' at an offset from the text 'rotated
 	 * rectangle' subsequently rendered.
-	 *
+	 * 
 	 * @param ipr
 	 * @param iLabelPosition The position of the label w.r.t. the location specified
 	 *                       by 'lo'
@@ -89,8 +89,8 @@ final class SwtTextRenderer extends TextRendererAdapter {
 	 *                       text (and attributes) to be rendered
 	 */
 	@Override
-	public void renderShadowAtLocation(IPrimitiveRenderer ipr, int iLabelPosition, // IConstants. LEFT, RIGHT,
-																					// ABOVE or BELOW
+	public final void renderShadowAtLocation(IPrimitiveRenderer ipr, int iLabelPosition, // IConstants. LEFT, RIGHT,
+																							// ABOVE or BELOW
 			Location lo, // POINT WHERE THE CORNER OF THE ROTATED RECTANGLE
 			// (OR EDGE CENTERED) IS RENDERED
 			Label la) throws ChartException {
@@ -204,7 +204,7 @@ final class SwtTextRenderer extends TextRendererAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param ipr
 	 * @param iLabelPosition
 	 * @param lo
@@ -212,7 +212,7 @@ final class SwtTextRenderer extends TextRendererAdapter {
 	 * @throws ChartException
 	 */
 	@Override
-	public void renderTextAtLocation(IPrimitiveRenderer idr, int iLabelPosition, // IConstants. LEFT, RIGHT, ABOVE
+	public final void renderTextAtLocation(IPrimitiveRenderer idr, int iLabelPosition, // IConstants. LEFT, RIGHT, ABOVE
 			// or BELOW
 			Location lo, // POINT WHERE THE CORNER OF THE ROTATED RECTANGLE
 			// (OR
@@ -280,14 +280,14 @@ final class SwtTextRenderer extends TextRendererAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param idr
 	 * @param boBlock
 	 * @param taBlock
 	 * @param la
 	 */
 	@Override
-	public void renderTextInBlock(IDeviceRenderer idr, Bounds boBlock, TextAlignment taBlock, Label la)
+	public final void renderTextInBlock(IDeviceRenderer idr, Bounds boBlock, TextAlignment taBlock, Label la)
 			throws ChartException {
 		IChartComputation cComp = idr.getChartComputation();
 		Text t = la.getCaption();
@@ -363,7 +363,7 @@ final class SwtTextRenderer extends TextRendererAdapter {
 				goFactory.createLocation(bb.getLeft() + bb.getHotPoint(), bb.getTop() + bb.getHeight()));
 	}
 
-	private void renderBorder(IChartComputation cComp, GC gc, Label la, int iLabelLocation, Location lo)
+	private final void renderBorder(IChartComputation cComp, GC gc, Label la, int iLabelLocation, Location lo)
 			throws ChartException {
 		// RENDER THE OUTLINE/BORDER
 		final LineAttributes lia = la.getOutline();
@@ -403,12 +403,12 @@ final class SwtTextRenderer extends TextRendererAdapter {
 
 	/**
 	 * Use this optimized routine for rendering horizontal ONLY text
-	 *
+	 * 
 	 * @param gc
 	 * @param la
 	 * @param lo
 	 */
-	private void renderHorizontalText(IChartComputation cComp, GC gc, Label la, double dX, double dY) {
+	private final void renderHorizontalText(IChartComputation cComp, GC gc, Label la, double dX, double dY) {
 		final FontDefinition fd = la.getCaption().getFont();
 		final Color clrText = (Color) _sxs.getColor(la.getCaption().getColor());
 
@@ -450,11 +450,10 @@ final class SwtTextRenderer extends TextRendererAdapter {
 				float tTx = (float) (dX - dFW / 2);
 				float tTy = (float) (dY - dFH / 2);
 
-				if (rotate > 0) {
+				if (rotate > 0)
 					tTy += dFW * Math.abs(dSineTheta);
-				} else {
+				else
 					tTx += dFH * Math.abs(dSineTheta);
-				}
 
 				tr.translate((float) (dFW / 2), (float) (dFH / 2));
 				tr.translate(tTx, tTy);
@@ -562,11 +561,11 @@ final class SwtTextRenderer extends TextRendererAdapter {
 
 	/**
 	 * NOTE: Need a better algorithm for rendering smoother rotated text
-	 *
+	 * 
 	 * @param la
 	 * @return
 	 */
-	Image rotatedTextAsImage(IChartComputation cComp, Label la) {
+	final Image rotatedTextAsImage(IChartComputation cComp, Label la) {
 		double dX = 0, dY = 0;
 		final FontDefinition fd = la.getCaption().getFont();
 		final double dAngleInDegrees = fd.getRotation();
@@ -702,7 +701,7 @@ final class SwtTextRenderer extends TextRendererAdapter {
 	/**
 	 * Adjusts the text by one half of width or height. Currently use HotPoint as
 	 * adjustment.
-	 *
+	 * 
 	 * @param iLabelPosition position state
 	 * @param bb
 	 */

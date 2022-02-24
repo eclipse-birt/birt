@@ -4,29 +4,25 @@
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v2.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-2.0.html
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
- *
+ * 
  * *****************************************************************************
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.junit.After;
-import org.junit.Before;
 
 import testutil.JDBCOdaDataSource;
+
+import org.junit.After;
+import org.junit.Before;
+import static org.junit.Assert.*;
 
 public class PreparedStatementTest extends ConnectionTest {
 
@@ -152,9 +148,8 @@ public class PreparedStatementTest extends ConnectionTest {
 		ResultSet result = m_statement.getResultSet(1);
 		assertNotNull(result);
 		int count = 0;
-		while (result.fetch() != null) {
+		while (result.fetch() != null)
 			count++;
-		}
 		assertEquals(rowsExpected, count);
 	}
 
@@ -200,9 +195,8 @@ public class PreparedStatementTest extends ConnectionTest {
 	}
 
 	private void reprepareStatement(String queryText) throws DataException {
-		if (m_statement != null) {
+		if (m_statement != null)
 			m_statement.close();
-		}
 		m_statement = getConnection().prepareStatement(queryText, JDBCOdaDataSource.DATA_SET_TYPE);
 	}
 

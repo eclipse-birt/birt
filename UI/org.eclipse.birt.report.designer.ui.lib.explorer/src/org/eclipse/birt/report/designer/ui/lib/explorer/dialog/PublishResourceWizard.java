@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +65,7 @@ public class PublishResourceWizard extends Wizard {
 	private IRunnableWithProgress copyFileRunnable = null;
 
 	/**
-	 *
+	 * 
 	 */
 	public PublishResourceWizard(LibraryHandle handle, String fileName, String folderName) {
 		setWindowTitle(windowTitle);
@@ -76,7 +76,7 @@ public class PublishResourceWizard extends Wizard {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public PublishResourceWizard(String folderName) {
 		setWindowTitle(addLibraryTitle);
@@ -87,10 +87,9 @@ public class PublishResourceWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
-	@Override
 	public void addPages() {
 		page = new WizardResourceSettingPage(type);
 
@@ -112,10 +111,9 @@ public class PublishResourceWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
-	@Override
 	public boolean performFinish() {
 		fileName = page.getFileName();
 		folderName = page.getFolder();
@@ -125,10 +123,9 @@ public class PublishResourceWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 	 */
-	@Override
 	public boolean canFinish() {
 		return page.canFinish();
 	}
@@ -161,7 +158,7 @@ public class PublishResourceWizard extends Wizard {
 		int overwrite = Window.OK;
 		try {
 			if (targetFile.exists()) {
-				String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
+				String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
 						IDialogConstants.CANCEL_LABEL };
 
 				String question = Messages.getFormattedString("SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
@@ -193,7 +190,7 @@ public class PublishResourceWizard extends Wizard {
 
 	/**
 	 * Copies files in a monitor dialog.
-	 *
+	 * 
 	 * @param filePath   the file path
 	 * @param targetFile the target file
 	 * @throws IOException if an I/O error occurs.
@@ -206,7 +203,9 @@ public class PublishResourceWizard extends Wizard {
 
 		try {
 			new ProgressMonitorDialog(UIUtil.getDefaultShell()).run(false, true, copyFileRunnable);
-		} catch (InvocationTargetException | InterruptedException e) {
+		} catch (InvocationTargetException e) {
+			ExceptionUtil.handle(e);
+		} catch (InterruptedException e) {
 			ExceptionUtil.handle(e);
 		}
 	}
@@ -225,7 +224,7 @@ public class PublishResourceWizard extends Wizard {
 
 	/**
 	 * Returns the source file.
-	 *
+	 * 
 	 * @return the source file.
 	 */
 	public File getSourceFile() {
@@ -237,7 +236,7 @@ public class PublishResourceWizard extends Wizard {
 
 	/**
 	 * Returns the target file.
-	 *
+	 * 
 	 * @return the target file.
 	 */
 	public File getTargetFile() {
@@ -259,7 +258,7 @@ public class PublishResourceWizard extends Wizard {
 	/**
 	 * Set the specified instance of <code>IRunnableWithProgress</code> using the
 	 * progress monitor for this progress dialog, to copy files.
-	 *
+	 * 
 	 * @param runnable the specified instance of <code>IRunnableWithProgress</code>.
 	 */
 	public void setCopyFileRunnable(IRunnableWithProgress runnable) {

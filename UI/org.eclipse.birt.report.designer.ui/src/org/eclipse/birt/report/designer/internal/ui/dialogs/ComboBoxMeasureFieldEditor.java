@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -74,7 +74,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Constructs new instance width value choice and measure choice field editor.
 	 * Put the editor working in Combo Mode.
-	 *
+	 * 
 	 * @param prop_name             preference name of the field editor
 	 * @param labelText             label text of the preference
 	 * @param entryNamesAndValues   names and values list for entry Combo
@@ -97,7 +97,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Creates a editable combo field editor.
-	 *
+	 * 
 	 * @param name                the name of the preference this field editor works
 	 *                            on
 	 * @param labelText           the label text of the field editor
@@ -120,7 +120,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Checks whether given <code>String[][]</code> is of "type"
 	 * <code>String[][2]</code>.
-	 *
+	 * 
 	 * @return <code>true</code> if it is OK, and <code>false</code> otherwise
 	 */
 	private boolean checkArray(String[][] table) {
@@ -138,10 +138,9 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.FieldEditor#getNumberOfControls()
 	 */
-	@Override
 	public int getNumberOfControls() {
 		return 3;
 	}
@@ -149,7 +148,6 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#adjustForNumColumns(int)
 	 */
-	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		Control control = getLabelControl();
 		if (control != null) {
@@ -174,7 +172,6 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#doFillIntoGrid(Composite, int)
 	 */
-	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		Control control = getLabelControl(parent);
 		GridData gd = new GridData();
@@ -194,30 +191,26 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.FieldEditor#doLoadDefault()
 	 */
-	@Override
 	protected void doLoadDefault() {
-		if (fCombo != null) {
+		if (fCombo != null)
 			fCombo.removeModifyListener(comboModifyListener);
-		} else if (fText != null) {
+		else if (fText != null)
 			fText.removeModifyListener(textModifyListener);
-		}
 		String value = getPreferenceStore().getDefaultString(getPreferenceName());
 		measureValueSetting(value);
 		setDefaultValue(getStringValue());
 
 		if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-			if (store.hasLocalValue(getPreferenceName())) {
+			if (store.hasLocalValue(getPreferenceName()))
 				markDirty(true);
-			} else {
+			else
 				markDirty(false);
-			}
-		} else {
+		} else
 			markDirty(true);
-		}
 
 		if (fCombo != null) {
 			handleComboModifyEvent();
@@ -230,10 +223,9 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see FieldEditor#doLoad()
 	 */
-	@Override
 	protected void doLoad() {
 		// oldValue for storing the value got from preference store.
 		String value = getPreferenceStore().getString(getPreferenceName());
@@ -259,11 +251,13 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 				fCombo.setText(resolveNull(sptValue[0]));
 				updateMeasureForValue(sptValue[1]);
 			}
-		} else if (sptValue[0] == null) {
-			fText.setText(resolveNull(sptValue[1]));
-		} else {
-			fText.setText(resolveNull(sptValue[0]));
-			updateMeasureForValue(sptValue[1]);
+		} else {// has text box.
+			if (sptValue[0] == null) {
+				fText.setText(resolveNull(sptValue[1]));
+			} else {
+				fText.setText(resolveNull(sptValue[0]));
+				updateMeasureForValue(sptValue[1]);
+			}
 		}
 	}
 
@@ -311,7 +305,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Resolves null value.
-	 *
+	 * 
 	 * @param src
 	 * @return
 	 */
@@ -321,10 +315,9 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Gets value for the preference property of this field editor.
-	 *
+	 * 
 	 * @return the value
 	 */
-	@Override
 	protected String getStringValue() {
 		if (hasChoice) {
 			if (inComboNamesList(getComboBoxControl(parent).getText())) {
@@ -339,7 +332,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Checks whether it is a item of the Combo box. If in Text mode, always returns
 	 * false;
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -348,16 +341,15 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 			return false;
 		}
 		for (int i = 0; i < fBoxNamesAndValues.length; i++) {
-			if (name.equals(fBoxNamesAndValues[i][0])) {
+			if (name.equals(fBoxNamesAndValues[i][0]))
 				return true;
-			}
 		}
 		return false;
 	}
 
 	/**
 	 * Returns the control which holds the value, this could be a Combo or a Text.
-	 *
+	 * 
 	 * @param parent
 	 * @return
 	 */
@@ -371,7 +363,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Lazing creates and returns the text control for the editor. If in choice
 	 * mode, always returns null.
-	 *
+	 * 
 	 * @param parent
 	 * @return
 	 */
@@ -385,7 +377,6 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 
 			textModifyListener = new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					handleTextModifyEvent();
 					valueChanged(VALUE);
@@ -414,7 +405,6 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 			fCombo.setVisibleItemCount(30);
 			fCombo.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent evt) {
 					if (fmeasure != null) {
 						fmeasure.setEnabled(false);
@@ -425,7 +415,6 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 
 			comboModifyListener = new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					handleComboModifyEvent();
 					valueChanged(VALUE);
@@ -438,7 +427,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Lazily creates and returns the measure Combo control.
-	 *
+	 * 
 	 * @param parent The parent Composite contains the control.
 	 * @return Combo
 	 */
@@ -455,7 +444,6 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor {
 			fmeasure.setVisibleItemCount(30);
 			fmeasure.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					valueChanged(VALUE);
 				}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.expressions.IEvaluationContext;
 
 /**
- *
+ * 
  */
 
 public class InsertGroupHanlder extends SelectionHandler {
@@ -47,12 +47,11 @@ public class InsertGroupHanlder extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
 	 * ExecutionEvent)
 	 */
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		super.execute(event);
 
@@ -62,7 +61,7 @@ public class InsertGroupHanlder extends SelectionHandler {
 
 		int position = 0;
 		Object obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.INSERT_GROUP_POSITION);
-		if (obj instanceof Integer) {
+		if (obj != null && obj instanceof Integer) {
 			position = ((Integer) obj).intValue();
 		}
 
@@ -89,11 +88,9 @@ public class InsertGroupHanlder extends SelectionHandler {
 	}
 
 	// fix bug 217589
-	@Override
 	protected ReportElementEditPart getTableMultipleEditPart() {
-		if (getSelection() == null || getSelection().isEmpty()) {
+		if (getSelection() == null || getSelection().isEmpty())
 			return null;
-		}
 		List list = getSelectedObjects();
 		int size = list.size();
 		ReportElementEditPart part = null;
@@ -120,23 +117,20 @@ public class InsertGroupHanlder extends SelectionHandler {
 			}
 		}
 		// Only table permitted
-		if (part instanceof GridEditPart) {
+		if (part instanceof GridEditPart)
 			return null;
-		}
 		return part;
 	}
 
 	/**
 	 * Gets table edit part.
-	 *
+	 * 
 	 * @return The current selected table edit part, null if no table edit part is
 	 *         selected.
 	 */
-	@Override
 	protected TableEditPart getTableEditPart() {
-		if (getSelection() == null || getSelection().isEmpty()) {
+		if (getSelection() == null || getSelection().isEmpty())
 			return null;
-		}
 		List list = getSelectedObjects();
 		int size = list.size();
 		TableEditPart part = null;
@@ -163,23 +157,20 @@ public class InsertGroupHanlder extends SelectionHandler {
 			}
 		}
 		// Only table permitted
-		if (part instanceof GridEditPart) {
+		if (part instanceof GridEditPart)
 			return null;
-		}
 		return part;
 	}
 
 	/**
 	 * Gets list edit part.
-	 *
+	 * 
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
-	@Override
 	protected ListEditPart getListEditPart() {
-		if (getSelection() == null || getSelection().isEmpty()) {
+		if (getSelection() == null || getSelection().isEmpty())
 			return null;
-		}
 		List list = getSelectedObjects();
 		int size = list.size();
 		ListEditPart part = null;
@@ -208,10 +199,9 @@ public class InsertGroupHanlder extends SelectionHandler {
 
 	/**
 	 * Gets the activity stack of the report
-	 *
+	 * 
 	 * @return returns the stack
 	 */
-	@Override
 	protected CommandStack getActiveCommandStack() {
 		return SessionHandleAdapter.getInstance().getCommandStack();
 	}

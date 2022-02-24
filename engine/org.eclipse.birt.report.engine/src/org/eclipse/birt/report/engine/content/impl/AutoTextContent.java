@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,6 @@ public class AutoTextContent extends TextContent implements IAutoTextContent {
 		this.type = autoText.getType();
 	}
 
-	@Override
 	public int getContentType() {
 		return AUTOTEXT_CONTENT;
 	}
@@ -45,23 +44,20 @@ public class AutoTextContent extends TextContent implements IAutoTextContent {
 		super(content);
 	}
 
-	@Override
 	public void setType(int type) {
 		this.type = type;
 	}
 
-	@Override
 	public int getType() {
 		return this.type;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
 	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitAutoText(this, value);
 	}
@@ -69,7 +65,6 @@ public class AutoTextContent extends TextContent implements IAutoTextContent {
 	static final protected short FIELD_TYPE = 650;
 	static final protected short FIELD_TEXT = 651;
 
-	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (type != -1) {
@@ -82,12 +77,10 @@ public class AutoTextContent extends TextContent implements IAutoTextContent {
 		}
 	}
 
-	@Override
 	public boolean needSave() {
 		return true;
 	}
 
-	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_TYPE:
@@ -101,7 +94,6 @@ public class AutoTextContent extends TextContent implements IAutoTextContent {
 		}
 	}
 
-	@Override
 	protected IContent cloneContent() {
 		return new AutoTextContent(this);
 	}

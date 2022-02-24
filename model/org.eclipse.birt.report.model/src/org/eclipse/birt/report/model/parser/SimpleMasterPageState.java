@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,14 +21,14 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses a simple master page.
- *
+ * 
  */
 
 public class SimpleMasterPageState extends MasterPageState {
 
 	/**
 	 * Constructs the simple master page with the design file parser handler.
-	 *
+	 * 
 	 * @param handler the design file parser handler
 	 */
 
@@ -38,12 +38,11 @@ public class SimpleMasterPageState extends MasterPageState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new SimpleMasterPage();
 		initElement(attrs, true);
@@ -51,20 +50,17 @@ public class SimpleMasterPageState extends MasterPageState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
-	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
-		if (ParserSchemaConstants.PAGE_HEADER_TAG == tagValue) {
+		if (ParserSchemaConstants.PAGE_HEADER_TAG == tagValue)
 			return new PageState(SimpleMasterPage.PAGE_HEADER_SLOT);
-		}
-		if (ParserSchemaConstants.PAGE_FOOTER_TAG == tagValue) {
+		if (ParserSchemaConstants.PAGE_FOOTER_TAG == tagValue)
 			return new PageState(SimpleMasterPage.PAGE_FOOTER_SLOT);
-		}
 		return super.startElement(tagName);
 	}
 
@@ -77,7 +73,7 @@ public class SimpleMasterPageState extends MasterPageState {
 
 		/**
 		 * Constructor
-		 *
+		 * 
 		 * @param slot the slot.
 		 */
 		public PageState(int slot) {
@@ -87,36 +83,34 @@ public class SimpleMasterPageState extends MasterPageState {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
-		@Override
 		public AbstractParseState startElement(String tagName) {
 			// MasterPage slot can contain any report item is not variable size
 			// or is bound to data, such as Data, Label, Text, Grid, Image.
 
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.TEXT_TAG == tagValue) {
+			if (ParserSchemaConstants.TEXT_TAG == tagValue)
 				return new TextItemState(handler, element, slotID);
-			} else if (ParserSchemaConstants.GRID_TAG == tagValue) {
+			else if (ParserSchemaConstants.GRID_TAG == tagValue)
 				return new GridItemState(handler, element, slotID);
-			} else if (ParserSchemaConstants.FREE_FORM_TAG == tagValue) {
+			else if (ParserSchemaConstants.FREE_FORM_TAG == tagValue)
 				return new FreeFormState(handler, element, slotID);
-			} else if (ParserSchemaConstants.LABEL_TAG == tagValue) {
+			else if (ParserSchemaConstants.LABEL_TAG == tagValue)
 				return new LabelState(handler, element, slotID);
-			} else if (ParserSchemaConstants.IMAGE_TAG == tagValue) {
+			else if (ParserSchemaConstants.IMAGE_TAG == tagValue)
 				return new ImageState(handler, element, slotID);
-			} else if (ParserSchemaConstants.DATA_TAG == tagValue) {
+			else if (ParserSchemaConstants.DATA_TAG == tagValue)
 				return new DataItemState(handler, element, slotID);
-			} else if (ParserSchemaConstants.TEXT_DATA_TAG == tagValue) {
+			else if (ParserSchemaConstants.TEXT_DATA_TAG == tagValue)
 				return new TextDataItemState(handler, element, slotID);
-			} else if (ParserSchemaConstants.TEMPLATE_REPORT_ITEM_TAG == tagValue) {
+			else if (ParserSchemaConstants.TEMPLATE_REPORT_ITEM_TAG == tagValue)
 				return new TemplateReportItemState(handler, element, slotID);
-			} else if (ParserSchemaConstants.AUTO_TEXT_TAG == tagValue) {
+			else if (ParserSchemaConstants.AUTO_TEXT_TAG == tagValue)
 				return new AutoTextState(handler, element, slotID);
-			}
 			return super.startElement(tagName);
 		}
 	}

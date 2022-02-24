@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -103,11 +103,11 @@ public class G2dRendererBase extends DeviceAdapter {
 	protected InteractiveRenderer iv;
 	protected ITextRenderer _tr = null;
 
-	private final Map<LineAttributes, Stroke> _htLineStyles = new HashMap<>();
+	private final Map<LineAttributes, Stroke> _htLineStyles = new HashMap<LineAttributes, Stroke>();
 
 	/**
 	 * Make bounds height/width always positive.
-	 *
+	 * 
 	 * @param bo
 	 * @return
 	 */
@@ -129,7 +129,7 @@ public class G2dRendererBase extends DeviceAdapter {
 	 * In SWING, polygons are defined with 'int' co-ordinates. There is no concept
 	 * of a Polygon2D. As a result, we downgrade high-res 'double' co-ordinates to
 	 * 'int' co-ordinates.
-	 *
+	 * 
 	 * @param la
 	 * @return array of coordinates
 	 */
@@ -175,7 +175,7 @@ public class G2dRendererBase extends DeviceAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param iArcStyle
 	 * @return
 	 */
@@ -193,14 +193,13 @@ public class G2dRendererBase extends DeviceAdapter {
 
 	/**
 	 * Reusable 'strokes' for rendering lines may be obtained from here
-	 *
+	 * 
 	 * @param ls
 	 * @return stroke
 	 */
 	public final Stroke getCachedStroke(LineAttributes lia) {
-		if (lia == null) {
+		if (lia == null)
 			return null;
-		}
 
 		Stroke s = _htLineStyles.get(lia);
 		if (s == null) {
@@ -211,13 +210,13 @@ public class G2dRendererBase extends DeviceAdapter {
 				thickness = 1;
 			}
 			if (lia.getStyle().getValue() == LineStyle.DASHED) {
-				float[] faStyle = { 6 * thickness, 4 * thickness };
+				float[] faStyle = new float[] { 6 * thickness, 4 * thickness };
 				bs = new BasicStroke(lia.getThickness(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, faStyle, 0);
 			} else if (lia.getStyle().getValue() == LineStyle.DOTTED) {
-				float[] faStyle = { thickness, 4 * thickness };
+				float[] faStyle = new float[] { thickness, 4 * thickness };
 				bs = new BasicStroke(lia.getThickness(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, faStyle, 0);
 			} else if (lia.getStyle().getValue() == LineStyle.DASH_DOTTED) {
-				float[] faStyle = { 6 * thickness, 4 * thickness, thickness, 4 * thickness };
+				float[] faStyle = new float[] { 6 * thickness, 4 * thickness, thickness, 4 * thickness };
 				bs = new BasicStroke(lia.getThickness(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, faStyle, 0);
 			} else if (lia.getStyle().getValue() == LineStyle.SOLID) {
 				bs = new BasicStroke(lia.getThickness(), BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND);
@@ -230,14 +229,14 @@ public class G2dRendererBase extends DeviceAdapter {
 		return s;
 	}
 
-	private static Set<String> sLocalFontFamilyNamesSet = new HashSet<>();
+	private static Set<String> sLocalFontFamilyNamesSet = new HashSet<String>();
 
 	static {
 		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		sLocalFontFamilyNamesSet = new HashSet<>(Arrays.asList(fonts));
+		sLocalFontFamilyNamesSet = new HashSet<String>(Arrays.asList(fonts));
 	}
 
-	private static Map<String, String> sLogicFontNameMap = new HashMap<>();
+	private static Map<String, String> sLogicFontNameMap = new HashMap<String, String>();
 
 	static {
 		sLogicFontNameMap.put(FontUtil.LOGIC_FONT_FAMILY_SERIF, "Serif"); //$NON-NLS-1$
@@ -378,7 +377,11 @@ public class G2dRendererBase extends DeviceAdapter {
 		}
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
 		final LineAttributes lia = lre.getLineAttributes();
-		if (!validateLineAttributes(lre.getSource(), lia) || lia.getColor() == null || (lia.getColor().isSetTransparency() && lia.getColor().getTransparency() == 0)) {
+		if (!validateLineAttributes(lre.getSource(), lia) || lia.getColor() == null) {
+			return;
+		}
+
+		if (lia.getColor().isSetTransparency() && lia.getColor().getTransparency() == 0) {
 			return;
 		}
 
@@ -986,7 +989,9 @@ public class G2dRendererBase extends DeviceAdapter {
 				try {
 					final String sUrl = ((org.eclipse.birt.chart.model.attribute.Image) imageModel).getURL();
 					img = (java.awt.Image) _ids.loadImage(SecurityUtil.newURL(sUrl));
-				} catch (ChartException | MalformedURLException muex) {
+				} catch (ChartException ilex) {
+					throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.RENDERING, ilex);
+				} catch (MalformedURLException muex) {
 					throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.RENDERING, muex);
 				}
 			}
@@ -998,7 +1003,7 @@ public class G2dRendererBase extends DeviceAdapter {
 
 	/**
 	 * Scales image according to output DPI. If 96, do not need to scale
-	 *
+	 * 
 	 * @param img
 	 * @return
 	 */
@@ -1305,9 +1310,8 @@ public class G2dRendererBase extends DeviceAdapter {
 			iv.modifyEvent(tre);
 		}
 
-		if (!tre.getLabel().isVisible()) {
+		if (!tre.getLabel().isVisible())
 			return;
-		}
 
 		switch (tre.getAction()) {
 		case TextRenderEvent.UNDEFINED:

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,9 +33,9 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.TreeItem;
 
 /**
- *
+ * 
  * Compound task realized for tree navigator.
- *
+ * 
  */
 
 public class TreeCompoundTask extends CompoundTask {
@@ -49,15 +49,15 @@ public class TreeCompoundTask extends CompoundTask {
 	protected static final String INDEX_SEPARATOR = " - "; //$NON-NLS-1$
 
 	// Cache for subtask selection next time
-	private Map<String, String> lastSubtaskRegistry = new HashMap<>();
+	private Map<String, String> lastSubtaskRegistry = new HashMap<String, String>();
 
 	// Cache for popup selection next time. This will override the subtask
 	// selection to the popup.
-	private Map<String, String> lastPopupRegistry = new HashMap<>();
+	private Map<String, String> lastPopupRegistry = new HashMap<String, String>();
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param sLabel      Title of this task
 	 * @param needHistory Indicates whether history and navigation bar are needed
 	 */
@@ -69,7 +69,6 @@ public class TreeCompoundTask extends CompoundTask {
 		}
 	}
 
-	@Override
 	public void createControl(Composite parent) {
 		if (topControl == null || topControl.isDisposed()) {
 			topControl = new Composite(parent, SWT.NONE);
@@ -91,7 +90,6 @@ public class TreeCompoundTask extends CompoundTask {
 				navTree.setLayoutData(gridData);
 				navTree.addListener(SWT.Selection, new Listener() {
 
-					@Override
 					public void handleEvent(Event event) {
 						switchToTreeItem((TreeItem) event.item);
 					}
@@ -127,7 +125,7 @@ public class TreeCompoundTask extends CompoundTask {
 
 	/**
 	 * Creates the UI in the right of tree navigator
-	 *
+	 * 
 	 * @param parent parent composite
 	 * @return top composite of the right part
 	 */
@@ -147,7 +145,7 @@ public class TreeCompoundTask extends CompoundTask {
 
 	/**
 	 * Creates the compound task's title area.
-	 *
+	 * 
 	 * @param parent the SWT parent for the title area composite.
 	 * @return the created title area composite.
 	 */
@@ -197,7 +195,7 @@ public class TreeCompoundTask extends CompoundTask {
 
 	/**
 	 * Updates left tree which contains all page nodes.
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	public void updateTree() {
@@ -212,7 +210,6 @@ public class TreeCompoundTask extends CompoundTask {
 
 	}
 
-	@Override
 	protected ISubtaskSheet getSubtask(String sSubtaskPath) {
 		int separatorIndex = sSubtaskPath.indexOf(INDEX_SEPARATOR);
 		int subtaskIndex = 0;
@@ -228,7 +225,6 @@ public class TreeCompoundTask extends CompoundTask {
 		return itask;
 	}
 
-	@Override
 	protected boolean containSubtask(String sSubtaskPath) {
 		int separatorIndex = sSubtaskPath.indexOf(INDEX_SEPARATOR);
 		// If the subtask is present several times, need the node index to
@@ -269,14 +265,13 @@ public class TreeCompoundTask extends CompoundTask {
 		}
 	}
 
-	@Override
 	public void switchTo(String sSubtaskPath) {
 		switchTo(sSubtaskPath, true);
 	}
 
 	/**
 	 * Switches to the specified subtask and sets the selection
-	 *
+	 * 
 	 * @param treeItem Tree item corresponded to the subtask
 	 */
 	public void switchToTreeItem(TreeItem treeItem) {
@@ -301,7 +296,7 @@ public class TreeCompoundTask extends CompoundTask {
 	/**
 	 * Stores the last popup selection to open in the next time. If this selection
 	 * is not existent in current subtask, to open the popup stored in the subtask.
-	 *
+	 * 
 	 * @param popupName popup key registered in the subtask.
 	 */
 	public void setPopupSelection(String popupName) {
@@ -320,7 +315,6 @@ public class TreeCompoundTask extends CompoundTask {
 		return lastSubtaskRegistry.get(getContext().getWizardID());
 	}
 
-	@Override
 	public void dispose() {
 		super.dispose();
 		if (needHistory) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -96,9 +96,8 @@ class ExprDataReader1 implements IExprDataReader {
 				}
 			}
 			this.metaOffset = INT_LENGTH + IOUtil.readInt(this.rowExprsDis) + INT_LENGTH;
-			if (this.dataSetExprKeys.size() > 0) {
+			if (this.dataSetExprKeys.size() > 0)
 				this.dataSetData = dataSetData;
-			}
 
 		} catch (IOException e) {
 			throw new DataException(ResourceConstants.RD_LOAD_ERROR, e, "Result Data");
@@ -118,7 +117,6 @@ class ExprDataReader1 implements IExprDataReader {
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.IExprResultReader#getRowCount()
 	 */
-	@Override
 	public int getCount() {
 		return this.rowCount;
 	}
@@ -126,15 +124,12 @@ class ExprDataReader1 implements IExprDataReader {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.IExprResultReader#getRowId()
 	 */
-	@Override
 	public int getRowId() {
 		try {
-			if (this.dataSetData != null && this.dataSetData.getResultObject() != null) {
+			if (this.dataSetData != null && this.dataSetData.getResultObject() != null)
 				return (Integer) this.dataSetData.getResultObject().getFieldValue(ExprMetaUtil.POS_NAME);
-			}
-			if (this.bindingNameTypeMap.containsKey(ExprMetaUtil.POS_NAME)) {
+			if (this.bindingNameTypeMap.containsKey(ExprMetaUtil.POS_NAME))
 				return (Integer) this.getRowValue().get(ExprMetaUtil.POS_NAME);
-			}
 			return this.getRowIndex();
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
@@ -147,14 +142,12 @@ class ExprDataReader1 implements IExprDataReader {
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.IExprResultReader#getRowIndex()
 	 */
-	@Override
 	public int getRowIndex() {
 		if (this.rowCount == -1) {
 			return this.currRowIndex;
 		}
-		if (this.currRowIndex >= this.rowCount) {
+		if (this.currRowIndex >= this.rowCount)
 			return this.rowCount;
-		}
 
 		return this.currRowIndex;
 	}
@@ -164,15 +157,13 @@ class ExprDataReader1 implements IExprDataReader {
 	 * org.eclipse.birt.data.engine.impl.document.util.IExprDataReader#setRowIndex(
 	 * int)
 	 */
-	@Override
 	public void moveTo(int index) throws DataException {
-		if (this.rowCount != -1 && (index < 0 || index >= this.rowCount)) {
+		if (this.rowCount != -1 && (index < 0 || index >= this.rowCount))
 			throw new DataException(ResourceConstants.INVALID_ROW_INDEX, Integer.valueOf(index));
-		} else if (index < currRowIndex) {
+		else if (index < currRowIndex)
 			throw new DataException(ResourceConstants.BACKWARD_SEEK_ERROR);
-		} else if (index == currRowIndex) {
+		else if (index == currRowIndex)
 			return;
-		}
 		this.currRowIndex = index;
 		this.getRowValue();
 	}
@@ -180,33 +171,28 @@ class ExprDataReader1 implements IExprDataReader {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.IExprResultReader#next()
 	 */
-	@Override
 	public boolean next() throws DataException {
 		if (this.currRowIndex < this.rowCount - 1 || this.rowCount == -1) {
 			this.currRowIndex++;
 			if (this.dataSetData != null) {
 				IResultObject obj = this.dataSetData.next();
-				if (obj == null) {
+				if (obj == null)
 					return false;
-				}
 			}
 			return true;
-		} else {
+		} else
 			return false;
-		}
 	}
 
 	/*
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.IExprResultReader#getRowValue()
 	 */
-	@Override
 	public Map getRowValue() throws DataException {
 		try {
 			if (this.rowCount == 0) {
-				if (this.exprValueMap == null) {
+				if (this.exprValueMap == null)
 					this.exprValueMap = this.getValueMap();
-				}
 			} else if (currReadIndex < currRowIndex + 1) {
 				this.skipTo(currRowIndex);
 				this.exprValueMap = this.getValueMap();
@@ -229,9 +215,8 @@ class ExprDataReader1 implements IExprDataReader {
 			this.dataSetData.skipTo(absoluteRowIndex);
 		}
 
-		if (currReadIndex == absoluteRowIndex) {
+		if (currReadIndex == absoluteRowIndex)
 			return;
-		}
 
 		if (version == VersionManager.VERSION_2_0) {
 			int exprCount;
@@ -300,7 +285,6 @@ class ExprDataReader1 implements IExprDataReader {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.IExprResultReader#close()
 	 */
-	@Override
 	public void close() {
 		try {
 			if (rowExprsDis != null) {

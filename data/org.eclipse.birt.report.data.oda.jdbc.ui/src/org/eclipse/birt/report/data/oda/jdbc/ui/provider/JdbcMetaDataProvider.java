@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006, 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.report.data.oda.jdbc.ui.provider;
@@ -58,11 +58,10 @@ public class JdbcMetaDataProvider {
 		// needs to use Catalog= null to search. as a result here is the
 		// connection.getCatalog( ) is "", to make user convenient to do it,
 		// just set it as null.
-		if (connection.getCatalog() != null && connection.getCatalog().trim().length() == 0) {
+		if (connection.getCatalog() != null && connection.getCatalog().trim().length() == 0)
 			return null;
-		} else {
+		else
 			return connection.getCatalog();
-		}
 	}
 
 	private JdbcMetaDataProvider(String driverClass, String url, String userName, String password, Properties props) {
@@ -117,13 +116,15 @@ public class JdbcMetaDataProvider {
 	}
 
 	public void reconnect() throws SQLException, OdaException {
-		if (connect_fail) {
+		if (connect_fail)
 			return;
-		}
 		closeConnection();
 		try {
 			connection = DriverLoader.getConnection(driverClass, url, userName, password, props);
-		} catch (SQLException | OdaException odaException) {
+		} catch (SQLException sqlException) {
+			connect_fail = true;
+			throw sqlException;
+		} catch (OdaException odaException) {
 			connect_fail = true;
 			throw odaException;
 		}
@@ -216,11 +217,10 @@ public class JdbcMetaDataProvider {
 			} catch (SQLException e) {
 				try {
 					ResultSet rs = connection.getMetaData().getSchemas();
-					if (rs != null) {
+					if (rs != null)
 						return true;
-					} else {
+					else
 						return false;
-					}
 				} catch (SQLException e1) {
 					logger.log(Level.WARNING, e.getMessage(), e);
 					return false;
@@ -238,11 +238,10 @@ public class JdbcMetaDataProvider {
 			} catch (Exception e1) {
 				try {
 					ResultSet rs = connection.getMetaData().getSchemas();
-					if (rs != null) {
+					if (rs != null)
 						return true;
-					} else {
+					else
 						return false;
-					}
 				} catch (SQLException e2) {
 					logger.log(Level.WARNING, e.getMessage(), e1);
 					return false;
@@ -277,7 +276,10 @@ public class JdbcMetaDataProvider {
 				reconnect();
 				return connection.getMetaData().getColumns(getCatalog(), schemaPattern, tableNamePattern,
 						columnNamePattern);
-			} catch (SQLException | OdaException e1) {
+			} catch (SQLException e1) {
+				logger.log(Level.WARNING, e1.getMessage(), e1);
+				return null;
+			} catch (OdaException e1) {
 				logger.log(Level.WARNING, e1.getMessage(), e1);
 				return null;
 			}
@@ -317,9 +319,8 @@ public class JdbcMetaDataProvider {
 	public String[] getTableTypeNames(long milliSeconds) {
 		class TempThread extends Thread {
 
-			private List<String> names = new ArrayList<>();
+			private List<String> names = new ArrayList<String>();
 
-			@Override
 			public void run() {
 				ResultSet rs = JdbcMetaDataProvider.this.getTableTypes();
 				if (rs != null) {
@@ -369,7 +370,10 @@ public class JdbcMetaDataProvider {
 			try {
 				reconnect();
 				return connection.getMetaData().getTableTypes();
-			} catch (SQLException | OdaException ex) {
+			} catch (SQLException ex) {
+				logger.log(Level.WARNING, ex.getMessage(), ex);
+				return null;
+			} catch (OdaException ex) {
 				logger.log(Level.WARNING, ex.getMessage(), ex);
 				return null;
 			}
@@ -402,7 +406,10 @@ public class JdbcMetaDataProvider {
 				reconnect();
 				return connection.getMetaData().getProcedureColumns(getCatalog(), schemaPattern, procedureNamePattern,
 						columnNamePattern);
-			} catch (SQLException | OdaException e1) {
+			} catch (SQLException e1) {
+				logger.log(Level.WARNING, e1.getMessage(), e1);
+				return null;
+			} catch (OdaException e1) {
 				logger.log(Level.WARNING, e1.getMessage(), e1);
 				return null;
 			}
@@ -432,7 +439,10 @@ public class JdbcMetaDataProvider {
 			try {
 				reconnect();
 				return connection.getMetaData().getTables(getCatalog(), schemaPattern, namePattern, types);
-			} catch (SQLException | OdaException ex) {
+			} catch (SQLException ex) {
+				logger.log(Level.WARNING, ex.getMessage(), ex);
+				return null;
+			} catch (OdaException ex) {
 				logger.log(Level.WARNING, ex.getMessage(), ex);
 				return null;
 			}
@@ -471,7 +481,7 @@ public class JdbcMetaDataProvider {
 
 	public String[] getAllSchemaNames(long milliSeconds) {
 		class TempThread extends Thread {
-			private List<String> names = new ArrayList<>();
+			private List<String> names = new ArrayList<String>();
 
 			@Override
 			public void run() {

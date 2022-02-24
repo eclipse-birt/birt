@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -14,7 +14,6 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.File;
-
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
@@ -29,7 +28,7 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param context
 	 * @param operation
 	 */
@@ -40,7 +39,6 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler {
 	/**
 	 * Returns report document name
 	 */
-	@Override
 	protected String __getReportDocument() {
 		return __bean.getReportDocumentName();
 	}
@@ -48,7 +46,6 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler {
 	/**
 	 * Check whether document existed
 	 */
-	@Override
 	protected void __checkDocumentExists() throws Exception {
 		File file = new File(__docName);
 		if (!file.exists()) {
@@ -74,9 +71,8 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler {
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	@Override
 	public IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}

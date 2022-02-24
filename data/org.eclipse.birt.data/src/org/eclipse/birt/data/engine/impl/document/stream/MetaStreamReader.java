@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,14 +26,14 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
- *
+ * 
  */
 
 public class MetaStreamReader extends StreamReader {
 	private static Logger logger = Logger.getLogger(MetaStreamReader.class.getName());
 
 	/**
-	 *
+	 * 
 	 * @param context
 	 * @param id
 	 * @throws DataException
@@ -63,12 +63,11 @@ public class MetaStreamReader extends StreamReader {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param streamType
 	 * @return
 	 * @throws DataException
 	 */
-	@Override
 	public RAInputStream getRAInputStream(int streamType) throws DataException {
 		Object temp = this.streamMap.get(Integer.valueOf(streamType));
 		if (temp == null) {
@@ -85,13 +84,13 @@ public class MetaStreamReader extends StreamReader {
 						size);
 				return metaStream;
 			} catch (Exception e) {
-				StringBuilder log = new StringBuilder("Meta Info:\n");
+				String log = "Meta Info:\n";
 				for (Object o : this.streamMap.keySet()) {
-					log.append(o).append(":").append(this.streamMap.get(o)).append("\n");
+					log += (o + ":" + this.streamMap.get(o) + "\n");
 				}
 
-				log.append(" Error while load (").append(streamType).append("):").append(temp);
-				logger.warning(log.toString());
+				log += " Error while load (" + streamType + "):" + temp;
+				logger.warning(log);
 
 				throw new DataException(e.getLocalizedMessage(), e);
 			}
@@ -100,7 +99,7 @@ public class MetaStreamReader extends StreamReader {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected int getCollectionStreamType() {
 		return DataEngineContext.META_STREAM;
@@ -115,7 +114,6 @@ public class MetaStreamReader extends StreamReader {
 			this.size = size;
 		}
 
-		@Override
 		public String toString() {
 			return "[" + this.offset + "," + this.size + "]";
 		}

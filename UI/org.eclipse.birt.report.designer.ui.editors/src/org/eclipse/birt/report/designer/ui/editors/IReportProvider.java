@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -27,7 +27,7 @@ public interface IReportProvider {
 	/**
 	 * Convert input element to ModuleHandle. This will trigger the actual loading
 	 * if necessary.
-	 *
+	 * 
 	 * @param element The input element
 	 * @return
 	 */
@@ -36,7 +36,7 @@ public interface IReportProvider {
 	/**
 	 * Convert input element to ModuleHandle. This will trigger the actual loading
 	 * if necessary.
-	 *
+	 * 
 	 * @param element The input element
 	 * @param reset   Indicate if it enforces the loading.
 	 * @return
@@ -46,14 +46,14 @@ public interface IReportProvider {
 	/**
 	 * Retrieves the ModuelHandle associated with current provider if available.
 	 * This will not trigger any actuall loading.
-	 *
+	 * 
 	 * @return
 	 */
 	ModuleHandle queryReportModuleHandle();
 
 	/**
 	 * Save moduleHandle to the orginal input.
-	 *
+	 * 
 	 * @param moduleHandle
 	 * @param element      input element.
 	 * @param monitor
@@ -62,7 +62,7 @@ public interface IReportProvider {
 
 	/**
 	 * Saves moduleHandle to the current input.
-	 *
+	 * 
 	 * @param moduleHandle   The specified module handle which provides the common
 	 *                       functionalities of report design and library.
 	 * @param element        input element.
@@ -74,7 +74,7 @@ public interface IReportProvider {
 
 	/**
 	 * Get document provider for report.
-	 *
+	 * 
 	 * @param element input element.
 	 * @return
 	 */
@@ -82,7 +82,7 @@ public interface IReportProvider {
 
 	/**
 	 * Save as path provider utility methods.
-	 *
+	 * 
 	 * @param element
 	 * @return
 	 */
@@ -90,7 +90,7 @@ public interface IReportProvider {
 
 	/**
 	 * Create a new report editor input.
-	 *
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -98,7 +98,7 @@ public interface IReportProvider {
 
 	/**
 	 * Get editor input path.
-	 *
+	 * 
 	 * @param input
 	 * @return
 	 */

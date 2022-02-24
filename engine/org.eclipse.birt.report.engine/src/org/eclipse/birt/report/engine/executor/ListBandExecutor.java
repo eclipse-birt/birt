@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -35,7 +35,6 @@ public class ListBandExecutor extends StyledItemExecutor {
 		this.listExecutor = listExecutor;
 	}
 
-	@Override
 	public IContent execute() {
 		ListBandDesign bandDesign = (ListBandDesign) getDesign();
 
@@ -78,7 +77,6 @@ public class ListBandExecutor extends StyledItemExecutor {
 		}
 	}
 
-	@Override
 	public void close() throws BirtException {
 		finishTOCEntry();
 		super.close();
@@ -86,13 +84,11 @@ public class ListBandExecutor extends StyledItemExecutor {
 
 	int currentItem;
 
-	@Override
 	public boolean hasNextChild() {
 		ListBandDesign bandDesign = (ListBandDesign) design;
 		return currentItem < bandDesign.getContentCount();
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		ListBandDesign bandDesign = (ListBandDesign) design;
 		if (currentItem < bandDesign.getContentCount()) {

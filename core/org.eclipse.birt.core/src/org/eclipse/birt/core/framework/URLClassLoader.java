@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,21 +45,21 @@ import java.util.zip.ZipEntry;
 
 /**
  * A URL class loader with close API.
- *
+ * 
  * Java's URL class loader locks the JAR file it loaded until the JVM exit. It
  * may cause some problem when we need remove the JARs if the class loader are
  * not used any more.
- *
+ * 
  * BIRT's URL class loader add a new close() method to close the JAR files
  * explicitly. Once the close() is called, the user can't use the class and the
  * loaded classes any more.
- *
+ * 
  */
 public class URLClassLoader extends java.net.URLClassLoader {
 
 	private static Logger logger = Logger.getLogger(URLClassLoader.class.getName());
 
-	private List<URL> urls = new LinkedList<>();
+	private List<URL> urls = new LinkedList<URL>();
 	private ArrayList<Loader> loaders;
 	private AccessControlContext acc;
 
@@ -68,7 +68,7 @@ public class URLClassLoader extends java.net.URLClassLoader {
 
 		initURLs(urls);
 
-		loaders = new ArrayList<>(urls.length);
+		loaders = new ArrayList<Loader>(urls.length);
 		for (int i = 0; i < urls.length; i++) {
 			Loader loader = createLoader(urls[i]);
 			if (loader != null) {
@@ -89,7 +89,7 @@ public class URLClassLoader extends java.net.URLClassLoader {
 
 		initURLs(urls);
 
-		loaders = new ArrayList<>(urls.length);
+		loaders = new ArrayList<Loader>(urls.length);
 		for (int i = 0; i < urls.length; i++) {
 			Loader loader = createLoader(urls[i]);
 			if (loader != null) {
@@ -99,7 +99,6 @@ public class URLClassLoader extends java.net.URLClassLoader {
 		acc = AccessController.getContext();
 	}
 
-	@Override
 	public void close() {
 		if (loaders != null) {
 			for (Loader loader : loaders) {
@@ -112,11 +111,9 @@ public class URLClassLoader extends java.net.URLClassLoader {
 		}
 	}
 
-	@Override
 	public void addURL(URL url) {
-		if (url == null || this.urls.contains(url)) {
+		if (url == null || this.urls.contains(url))
 			return;
-		}
 		this.urls.add(url);
 		Loader loader = createLoader(url);
 		if (loader != null) {
@@ -124,17 +121,14 @@ public class URLClassLoader extends java.net.URLClassLoader {
 		}
 	}
 
-	@Override
 	public URL[] getURLs() {
 		return this.urls.toArray(new URL[0]);
 	}
 
-	@Override
 	protected Class<?> findClass(final String name) throws ClassNotFoundException {
 		try {
 			return (Class<?>) AccessController.doPrivileged(new PrivilegedExceptionAction<Class<?>>() {
 
-				@Override
 				public Class<?> run() throws ClassNotFoundException {
 					return findClass1(name);
 				}
@@ -188,11 +182,9 @@ public class URLClassLoader extends java.net.URLClassLoader {
 		}
 	}
 
-	@Override
 	public URL findResource(final String name) {
 		return AccessController.doPrivileged(new PrivilegedAction<URL>() {
 
-			@Override
 			public URL run() {
 				return findResource1(name);
 			}
@@ -214,11 +206,9 @@ public class URLClassLoader extends java.net.URLClassLoader {
 		return null;
 	}
 
-	@Override
 	public Enumeration<URL> findResources(final String name) {
 		return AccessController.doPrivileged(new PrivilegedAction<Enumeration<URL>>() {
 
-			@Override
 			public Enumeration<URL> run() {
 				return findResources1(name);
 			}
@@ -226,7 +216,7 @@ public class URLClassLoader extends java.net.URLClassLoader {
 	}
 
 	protected Enumeration<URL> findResources1(String name) {
-		Vector<URL> urls = new Vector<>();
+		Vector<URL> urls = new Vector<URL>();
 		if (loaders != null) {
 			for (Loader loader : loaders) {
 				try {
@@ -280,11 +270,9 @@ public class URLClassLoader extends java.net.URLClassLoader {
 			codeSource = new CodeSource(url, (CodeSigner[]) null);
 		}
 
-		@Override
 		void close() throws IOException {
 		}
 
-		@Override
 		URL findResource(String name) throws IOException {
 			URL url = new URL(baseUrl, name);
 			URLConnection conn = url.openConnection();
@@ -302,29 +290,27 @@ public class URLClassLoader extends java.net.URLClassLoader {
 			return url;
 		}
 
-		@Override
 		Resource loadResource(String name) throws IOException {
 			URL url = new URL(baseUrl, name);
 			InputStream in = url.openStream();
-			try (in) {
+			try {
 				final byte[] bytes = loadStream(in);
 				return new Resource() {
 
-					@Override
 					byte[] getBytes() {
 						return bytes;
-					}
+					};
 
-					@Override
 					CodeSource getCodeSource() {
 						return codeSource;
 					}
 
-					@Override
 					Manifest getManifest() {
 						return null;
 					}
 				};
+			} finally {
+				in.close();
 			}
 		}
 	}
@@ -349,7 +335,6 @@ public class URLClassLoader extends java.net.URLClassLoader {
 			jarManifest = jarFile.getManifest();
 		}
 
-		@Override
 		public void close() throws IOException {
 			if (jarFile != null) {
 				jarFile.close();
@@ -357,7 +342,6 @@ public class URLClassLoader extends java.net.URLClassLoader {
 			}
 		}
 
-		@Override
 		URL findResource(String name) throws IOException {
 			if (jarFile != null) {
 				ZipEntry entry = jarFile.getEntry(name);
@@ -368,32 +352,30 @@ public class URLClassLoader extends java.net.URLClassLoader {
 			return null;
 		}
 
-		@Override
 		Resource loadResource(String name) throws IOException {
 			// first test if the jar file exist
 			if (jarFile != null) {
 				final JarEntry entry = jarFile.getJarEntry(name);
 				if (entry != null) {
 					InputStream in = jarFile.getInputStream(entry);
-					try (in) {
+					try {
 						final byte[] bytes = loadStream(in);
 						return new Resource() {
 
-							@Override
 							byte[] getBytes() {
 								return bytes;
-							}
+							};
 
-							@Override
 							CodeSource getCodeSource() {
 								return new CodeSource(baseUrl, entry.getCodeSigners());
 							}
 
-							@Override
 							Manifest getManifest() {
 								return jarManifest;
 							}
 						};
+					} finally {
+						in.close();
 					}
 				}
 			}
@@ -408,20 +390,16 @@ public class URLClassLoader extends java.net.URLClassLoader {
 				this.entry = entry;
 			}
 
-			@Override
 			protected URLConnection openConnection(URL u) throws IOException {
 				return new URLConnection(u) {
 
-					@Override
 					public void connect() throws IOException {
 					}
 
-					@Override
 					public int getContentLength() {
 						return (int) entry.getSize();
 					}
 
-					@Override
 					public InputStream getInputStream() throws IOException {
 						if (jarFile != null) {
 							return jarFile.getInputStream(entry);
@@ -445,12 +423,10 @@ public class URLClassLoader extends java.net.URLClassLoader {
 			codeSource = new CodeSource(baseUrl, (CodeSigner[]) null);
 		}
 
-		@Override
 		void close() throws IOException {
 
 		}
 
-		@Override
 		URL findResource(String name) throws IOException {
 			File file = new File(baseDir, name.replace('/', File.separatorChar));
 			if (file.exists() && file.isFile()) {
@@ -459,30 +435,28 @@ public class URLClassLoader extends java.net.URLClassLoader {
 			return null;
 		}
 
-		@Override
 		Resource loadResource(String name) throws IOException {
 			File file = new File(baseDir, name.replace('/', File.separatorChar));
 			if (file.exists()) {
 				FileInputStream in = new FileInputStream(file);
-				try (in) {
+				try {
 					final byte[] bytes = loadStream(in);
 					return new Resource() {
 
-						@Override
 						public byte[] getBytes() {
 							return bytes;
-						}
+						};
 
-						@Override
 						CodeSource getCodeSource() {
 							return codeSource;
 						}
 
-						@Override
 						Manifest getManifest() {
 							return null;
 						}
 					};
+				} finally {
+					in.close();
 				}
 			}
 			return null;
@@ -526,7 +500,7 @@ public class URLClassLoader extends java.net.URLClassLoader {
 
 		boolean changed = false;
 		int length = s.length();
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 
 		int i = 0;
 		char c;
@@ -536,22 +510,19 @@ public class URLClassLoader extends java.net.URLClassLoader {
 			if (c == '%') {
 				try {
 
-					if (bytes == null) {
+					if (bytes == null)
 						bytes = new byte[(length - i) / 3];
-					}
 					int pos = 0;
 
 					while (((i + 2) < length) && (c == '%')) {
 						bytes[pos++] = (byte) Integer.parseInt(s.substring(i + 1, i + 3), 16);
 						i += 3;
-						if (i < length) {
+						if (i < length)
 							c = s.charAt(i);
-						}
 					}
 
-					if ((i < length) && (c == '%')) {
+					if ((i < length) && (c == '%'))
 						throw new IllegalArgumentException("Incorrect escape pattern.");
-					}
 					buffer.append(new String(bytes, 0, pos, "utf-8"));
 				} catch (NumberFormatException e) {
 					throw new IllegalArgumentException("Illegal hex numbers in escape pattern." + e.getMessage());

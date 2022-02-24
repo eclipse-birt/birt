@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,7 +67,7 @@ public class OdsUtil extends OdfUtil {
 	private static final String currencySymbol = "£¢€￥¥";
 	protected static Logger logger = Logger.getLogger(OdsUtil.class.getName());
 
-	private static final HashSet<Character> splitChar = new HashSet<>();
+	private static final HashSet<Character> splitChar = new HashSet<Character>();
 
 	private static Pattern pattern = Pattern.compile(scienticPattern,
 			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
@@ -120,7 +120,13 @@ public class OdsUtil extends OdfUtil {
 	// This check can not cover all cases, cause we do not know exactly the
 	// range name restraint.
 	public static boolean isValidBookmarkName(String name) {
-		if (name.equalsIgnoreCase("r") || name.equalsIgnoreCase("c") || name.startsWith(OdsLayoutEngine.AUTO_GENERATED_BOOKMARK)) {
+		if (name.equalsIgnoreCase("r")) {
+			return false;
+		}
+		if (name.equalsIgnoreCase("c")) {
+			return false;
+		}
+		if (name.startsWith(OdsLayoutEngine.AUTO_GENERATED_BOOKMARK)) {
 			return false;
 		}
 		for (int i = 0; i < name.length(); i++) {
@@ -242,7 +248,7 @@ public class OdsUtil extends OdfUtil {
 			return rg;
 		}
 
-		StringBuilder toAppendTo = new StringBuilder();
+		StringBuffer toAppendTo = new StringBuffer();
 		boolean inQuote = false;
 		char prevCh = 0;
 		int count = 0;
@@ -285,11 +291,10 @@ public class OdsUtil extends OdfUtil {
 	 * only used in the method replaceDataFormat().
 	 */
 	private static String subReplaceDateFormat(char ch, int count) {
-		StringBuilder current = new StringBuilder();
-		int patternCharIndex;
+		StringBuffer current = new StringBuffer();
+		int patternCharIndex = -1;
 		String datePatternChars = "GyMdkHmsSEDFwWahKz";
-		patternCharIndex = datePatternChars.indexOf(ch);
-		if (patternCharIndex == -1) {
+		if ((patternCharIndex = datePatternChars.indexOf(ch)) == -1) {
 			for (int i = 0; i < count; i++) {
 				current.append(ch);
 			}
@@ -448,7 +453,10 @@ public class OdsUtil extends OdfUtil {
 
 	public static boolean displayedAsScientific(Object number) {
 		BigDecimal num = getBigDecimal(number);
-		if ((num.compareTo(MAX_POSITIVE_DECIMAL_NUMBER) <= 0 && num.compareTo(MIN_POSITIVE_DECIMAL_NUMBER) >= 0) || (num.compareTo(MAX_NEGATIVE_DECIMAL_NUMBER) <= 0 && num.compareTo(MIN_NEGATIVE_DECIMAL_NUMBER) >= 0)) {
+		if (num.compareTo(MAX_POSITIVE_DECIMAL_NUMBER) <= 0 && num.compareTo(MIN_POSITIVE_DECIMAL_NUMBER) >= 0) {
+			return false;
+		}
+		if (num.compareTo(MAX_NEGATIVE_DECIMAL_NUMBER) <= 0 && num.compareTo(MIN_NEGATIVE_DECIMAL_NUMBER) >= 0) {
 			return false;
 		}
 		return true;
@@ -473,7 +481,7 @@ public class OdsUtil extends OdfUtil {
 
 	public static String createFormula(String txt, String exp, List positions) {
 		exp = getFormulaName(exp);
-		StringBuilder sb = new StringBuilder(exp + "(");
+		StringBuffer sb = new StringBuffer(exp + "(");
 		for (int i = 0; i < positions.size(); i++) {
 			Position p = (Position) positions.get(i);
 			sb.append("R" + p.row + "C" + p.column + ",");
@@ -505,7 +513,7 @@ public class OdsUtil extends OdfUtil {
 			reg4 = "\\]";
 
 	public static boolean isValidExp(String exp, String[] columnNames) {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < columnNames.length; i++) {
 			sb.append(columnNames[i] + "|");
 		}
@@ -544,7 +552,7 @@ public class OdsUtil extends OdfUtil {
 			DateFormatter dateFormatter = new DateFormatter(dateTime, locale);
 			dateTime = updateFormat(dateFormatter.getLocalizedFormatCode());
 		}
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		boolean inQuto = false;
 		for (int count = 0; count < dateTime.length(); count++) {
 			char tempChar = dateTime.charAt(count);
@@ -563,26 +571,28 @@ public class OdsUtil extends OdfUtil {
 						}
 					}
 				}
-			} else if (tempChar == '\'') {
-				if (nextIsQuto(dateTime, count)) {
-					buffer.append(tempChar);
-					count++;
-				} else {
-					inQuto = true;
-				}
 			} else {
-				if (tempChar == 'a') {
-					buffer.append("AM/PM");
-					continue;
+				if (tempChar == '\'') {
+					if (nextIsQuto(dateTime, count)) {
+						buffer.append(tempChar);
+						count++;
+					} else {
+						inQuto = true;
+					}
+				} else {
+					if (tempChar == 'a') {
+						buffer.append("AM/PM");
+						continue;
+					}
+					if ("zZFWwGE".indexOf(tempChar) != -1) {
+						continue;
+					}
+					if ("kK".indexOf(tempChar) != -1) {
+						buffer.append("h");
+						continue;
+					}
+					buffer.append(tempChar);
 				}
-				if ("zZFWwGE".indexOf(tempChar) != -1) {
-					continue;
-				}
-				if ("kK".indexOf(tempChar) != -1) {
-					buffer.append("h");
-					continue;
-				}
-				buffer.append(tempChar);
 			}
 		}
 		return buffer.toString();
@@ -607,7 +617,7 @@ public class OdsUtil extends OdfUtil {
 	}
 
 	public static String formatNumberPattern(String givenValue, ULocale locale) {
-		StringBuilder returnStr = new StringBuilder();
+		StringBuffer returnStr = new StringBuffer();
 		if (givenValue == null) {
 			return "";
 		}
@@ -637,21 +647,16 @@ public class OdsUtil extends OdfUtil {
 
 		}
 
-		if (givenValue.equals("Fixed")) {
+		if (givenValue.equals("Fixed"))
 			return "Fixed";
-		}
-		if (givenValue.equals("Percent")) {
+		if (givenValue.equals("Percent"))
 			return "Percent";
-		}
-		if (givenValue.equals("Scientific")) {
+		if (givenValue.equals("Scientific"))
 			return "Scientific";
-		}
-		if (givenValue.equals("Standard")) {
+		if (givenValue.equals("Standard"))
 			return "Standard";
-		}
-		if (givenValue.equals("General Number")) {
+		if (givenValue.equals("General Number"))
 			return "General";
-		}
 
 		if (validType(givenValue)) {
 			return givenValue;
@@ -678,18 +683,20 @@ public class OdsUtil extends OdfUtil {
 						flag = true;
 					}
 				}
-			} else if (flag) {
-				returnStr.append("\\").append(temp);
 			} else {
-				if (specialStr.indexOf(temp) != -1) {
+				if (flag) {
 					returnStr.append("\\").append(temp);
-				} else if (temp == '¤') {
-					String symbol = getCurrencySymbol(locale);
-					returnStr.append("\"").append(symbol).append("\"");
-				} else if (currencySymbol.indexOf(temp) != -1) {
-					returnStr.append("\"").append(temp).append("\"");
 				} else {
-					returnStr.append(temp);
+					if (specialStr.indexOf(temp) != -1) {
+						returnStr.append("\\").append(temp);
+					} else if (temp == '¤') {
+						String symbol = getCurrencySymbol(locale);
+						returnStr.append("\"").append(symbol).append("\"");
+					} else if (currencySymbol.indexOf(temp) != -1) {
+						returnStr.append("\"").append(temp).append("\"");
+					} else {
+						returnStr.append(temp);
+					}
 				}
 			}
 		}
@@ -703,9 +710,8 @@ public class OdsUtil extends OdfUtil {
 		Matcher matcher = pattern.matcher(givenValue);
 		if (matcher.matches()) {
 			return true;
-		} else {
+		} else
 			return false;
-		}
 	}
 
 	private static String getCurrencySymbol(ULocale locale) {
@@ -763,7 +769,7 @@ public class OdsUtil extends OdfUtil {
 	 * times from 0:00:00 (12:00:00 AM) to 23:59:59 (11:59:59 P.M.), respectively.
 	 * Going forward in time, the time component of a serial value increases by
 	 * 1/86,400 each second.
-	 *
+	 * 
 	 * @param d
 	 * @param zone
 	 * @return
@@ -785,11 +791,10 @@ public class OdsUtil extends OdfUtil {
 			logger.log(Level.WARNING, "Invaild day");
 			dayComponent = 0;
 		}
-		if (dayComponent <= 59) {
+		if (dayComponent <= 59)
 			dayComponent = dayComponent + 1;
-		} else {
+		else
 			dayComponent = dayComponent + 2;
-		}
 		double dateTime = dayComponent + timeComponent;
 		return Double.toString(dateTime);
 	}
@@ -797,28 +802,22 @@ public class OdsUtil extends OdfUtil {
 	public static String convertColor(String value) {
 		if (value == null || "transparent".equalsIgnoreCase(value) || "null".equalsIgnoreCase(value)) {
 			return null;
-		} else {
+		} else
 			return value.replace("#", "FF");
-		}
 
 	}
 
 	public static String covertBorderStyle(String style) {
-		if (style == null) {
+		if (style == null)
 			return null;
-		}
-		if (style.equalsIgnoreCase("Dot")) {
+		if (style.equalsIgnoreCase("Dot"))
 			return "dotted";
-		}
-		if (style.equalsIgnoreCase("DashDot")) {
+		if (style.equalsIgnoreCase("DashDot"))
 			return "dashDot";
-		}
-		if (style.equalsIgnoreCase("Double")) {
+		if (style.equalsIgnoreCase("Double"))
 			return "double";
-		}
-		if (style.equalsIgnoreCase("Continuous")) {
+		if (style.equalsIgnoreCase("Continuous"))
 			return "thin";
-		}
 		return null;
 	}
 
@@ -827,9 +826,9 @@ public class OdsUtil extends OdfUtil {
 		char[] array = text.toCharArray();
 		for (int i = 0; i < array.length; i++) {
 			Character c = text.charAt(i);
-			if (splitChar.contains(c)) {
+			if (splitChar.contains(c))
 				capitalizeNextChar = true;
-			} else if (capitalizeNextChar) {
+			else if (capitalizeNextChar) {
 				array[i] = Character.toUpperCase(array[i]);
 				capitalizeNextChar = false;
 			}
@@ -839,7 +838,7 @@ public class OdsUtil extends OdfUtil {
 
 	/**
 	 * Get cell Ref from col no. For example: 1-A 27-AA 676-YZ
-	 *
+	 * 
 	 * @param row    --row no
 	 * @param column -- col no
 	 * @return the cell refrence in excel
@@ -850,14 +849,13 @@ public class OdsUtil extends OdfUtil {
 
 	public static String getCellId(int row, String columnId) {
 		String cellId = columnId;
-		if (row >= 0) {
+		if (row >= 0)
 			cellId = columnId + row;
-		}
 		return cellId;
 	}
 
 	public static String getColumnId(int column) {
-		Stack<Character> digits = new Stack<>();
+		Stack<Character> digits = new Stack<Character>();
 		int dividant = column;
 		while (dividant > 26) {
 			int remain = dividant % 26;
@@ -869,7 +867,7 @@ public class OdsUtil extends OdfUtil {
 			digits.push((char) ('A' + remain - 1));
 		}
 		digits.push((char) ('A' + dividant - 1));
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		while (!digits.empty()) {
 			buffer.append(digits.pop());
 		}
@@ -885,32 +883,27 @@ public class OdsUtil extends OdfUtil {
 	public static String SOCIALNUMBER_CODE = "000\\-00\\-0000";
 
 	public static String convertStringFormat(String property) {
-		if (property == null) {
+		if (property == null)
 			return null;
-		}
-		if (ZIP.equals(property)) {
+		if (ZIP.equals(property))
 			return ZIP_CODE;
-		}
-		if (PHONE.equals(property)) {
+		if (PHONE.equals(property))
 			return PHONE_CODE;
-		}
-		if (SOCIAL.equals(property)) {
+		if (SOCIAL.equals(property))
 			return SOCIALNUMBER_CODE;
-		}
 		return property;
 	}
 
 	/**
 	 * Convert scientific format code such as 00/E00 to 00E+00 so excel 2007 can
 	 * output it correctly.
-	 *
+	 * 
 	 * @param code
 	 * @return
 	 */
 	public static String convertSciFormat(String code) {
-		if (null == code) {
+		if (null == code)
 			return null;
-		}
 		int index = code.indexOf('E');
 		if (index != -1) {
 			return code.substring(0, index - 1) + "E" + "+" + code.substring(index + 1);
@@ -963,6 +956,7 @@ public class OdsUtil extends OdfUtil {
 
 	private static final double POINTS_PER_INCH = OdfUtil.INCH_PT;
 	private static final double CM_PER_INCH = 2.54;
+	private static final double POINTS_PER_CM = POINTS_PER_INCH / CM_PER_INCH;
 
 	public static String truncateCellText(String txt) {
 		if (txt.length() > maxCellTextLength) {
@@ -974,12 +968,12 @@ public class OdsUtil extends OdfUtil {
 
 	/**
 	 * Convert a column number to letters.
-	 *
+	 * 
 	 * @param colNo
 	 * @return
 	 */
 	public static String getColumnName(int colNo) {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		do {
 			int last = colNo % 26;
 			colNo = colNo / 26 - 1;

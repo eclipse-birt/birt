@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -44,17 +44,14 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase {
 		this.content = content;
 	}
 
-	@Override
 	public IContent getContent() {
 		return this.content;
 	}
 
-	@Override
 	public void close() {
 		manager.releaseExecutor(this);
 	}
 
-	@Override
 	public IContent execute() {
 		if (null == content) {
 			return null;
@@ -72,7 +69,6 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase {
 
 	Iterator childIterator;
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		if (null != childIterator && childIterator.hasNext()) {
 			IContent child = (IContent) childIterator.next();
@@ -81,7 +77,6 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase {
 		return null;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		if (null == childIterator) {
 			return false;

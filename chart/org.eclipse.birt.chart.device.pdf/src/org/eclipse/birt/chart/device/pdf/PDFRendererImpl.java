@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005, 2006 IBM Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -52,7 +52,6 @@ public class PDFRendererImpl extends SVGRendererImpl {
 
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.svg/trace"); //$NON-NLS-1$
 
-	@Override
 	protected void init() {
 		// Do not invoke super method.
 		final PluginSettings ps = PluginSettings.instance();
@@ -66,12 +65,10 @@ public class PDFRendererImpl extends SVGRendererImpl {
 		}
 	}
 
-	@Override
 	public void enableInteraction(InteractionEvent ie) throws ChartException {
 		// no interactions since we are rendering a static image
 	}
 
-	@Override
 	public void setProperty(String sProperty, Object oValue) {
 		if (sProperty.equals(IDeviceRenderer.UPDATE_NOTIFIER)) {
 			// ignore property
@@ -82,17 +79,14 @@ public class PDFRendererImpl extends SVGRendererImpl {
 		} else if (sProperty.equals(ISVGConstants.RESIZE_SVG)) {
 			// the output will be static
 			_resizeSVG = false;
-		} else {
+		} else
 			super.setProperty(sProperty, oValue);
-		}
 	}
 
-	@Override
 	protected void addGroupStructure(Object block) {
 		// no structure needed since this is a static image
 	}
 
-	@Override
 	public void after() throws ChartException {
 
 		if (oOutputIdentifier instanceof OutputStream) // OUTPUT STREAM
@@ -137,12 +131,10 @@ public class PDFRendererImpl extends SVGRendererImpl {
 
 		// set the custom error handler
 		t.setErrorHandler(new DefaultErrorHandler() {
-			@Override
 			public void error(TranscoderException te) {
 				te.printStackTrace();
 			}
 
-			@Override
 			public void warning(TranscoderException te) {
 				te.printStackTrace();
 			}
@@ -202,7 +194,7 @@ public class PDFRendererImpl extends SVGRendererImpl {
 	 * Serializes a <code>Document</code> object to a <code>String</code> in XML
 	 * format. This is a convevience method to save the output of the SVG generator
 	 * to a string.
-	 *
+	 * 
 	 * @param generatedDocument the generated graphic
 	 * @return String the XML-serialized form of the <code>Document</code>
 	 * @throws Exception If XML serialization failed
@@ -211,7 +203,7 @@ public class PDFRendererImpl extends SVGRendererImpl {
 		if (generatedDocument == null) {
 			return null;
 		}
-		OutputStreamWriter writer;
+		OutputStreamWriter writer = null;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		writer = SecurityUtil.newOutputStreamWriter(stream, "UTF-8"); //$NON-NLS-1$
 		DOMSource source = new DOMSource(generatedDocument);

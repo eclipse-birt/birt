@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -157,7 +157,7 @@ public class FontInfo {
 
 	/**
 	 * Gets the width of the specified word.
-	 *
+	 * 
 	 * @param word the word
 	 * @return the points of the width
 	 */
@@ -182,7 +182,7 @@ public class FontInfo {
 
 	/**
 	 * Gets the height of the specified word.
-	 *
+	 * 
 	 * @return the height of the font, it equals ascent+|descent|+leading
 	 */
 	public float getWordHeight() {

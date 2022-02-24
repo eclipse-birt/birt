@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,11 +26,10 @@ import com.ibm.icu.util.ULocale;
 /**
  * Test case to test meta-data error logging. Test to check that all the
  * exceptions have been.
- *
+ * 
  */
 public class MetaLoggerTest extends AbstractMetaTest {
 
-	@Override
 	protected void tearDown() throws Exception {
 	}
 
@@ -59,10 +58,9 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		// don not call super.setUp().
 		// We wanna to hold the meta initialization.
@@ -72,20 +70,19 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	/**
 	 * Remove the logger from the manager, the stream locked by the logger will be
 	 * released.
-	 *
+	 * 
 	 */
 
 	protected void clearup() {
-		if (logger != null) {
+		if (logger != null)
 			MetaLogManager.removeLogger(logger);
-		}
 
 		logger = null;
 	}
 
 	/**
 	 * Reset and load the metadata with the specified rom file.
-	 *
+	 * 
 	 * @param fileName rom file name.
 	 */
 
@@ -104,7 +101,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * Input file not exist.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -123,7 +120,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * Parser Error.
 	 * <p>
 	 * In this case, input stream is null when passed to the parser.
-	 *
+	 * 
 	 */
 
 	public void test_PARSER_ERROR() {
@@ -150,7 +147,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <li>StyleProperty</li>
 	 * <li>Style(Predefined)</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file missing the followings names:
 	 * <ul>
@@ -196,7 +193,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <li>Structure</li>
 	 * <li>Style(Predefined)</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file missing the followings displayNameIDs:
 	 * <ul>
@@ -230,7 +227,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <ul>
 	 * <li>Slot</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file missing the follwings multipleCardinality:
 	 * <ul>
@@ -260,7 +257,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <li>Member</li>
 	 * <li>Property</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file missing the followings types:
 	 * <ul>
@@ -293,10 +290,10 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <li>dataSet</li>
 	 * <li>style</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file set the DataSource.namespace = "invalid-namespace"
-	 *
+	 * 
 	 */
 	public void test_INVALID_NAME_SPACE() {
 		// DataSource.namespace caught
@@ -313,7 +310,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <ul>
 	 * <li>Choice</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file missing the xml name for:
 	 * <ul>
@@ -332,12 +329,12 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * Default value for a property is not valid.
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file has the follwing wrong default value:
-	 *
+	 * 
 	 * ReportDesign.units.default="none-exsit-units"
-	 *
+	 * 
 	 */
 	public void test_INVALID_DEFAULT() {
 		// ReportDesign.unis caught
@@ -355,7 +352,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <li>Property</li>
 	 * <li>Member</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file has the following wrong type:
 	 * <ul>
@@ -376,13 +373,13 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	}
 
 	/*
-	 *
-	 *
+	 * 
+	 * 
 	 * public void test_BUILD_FAILED( ) { }
 	 */
 
 	/**
-	 *
+	 * 
 	 * DisplayNameId required for PropertyGroup.
 	 * <p>
 	 * In this case, input file missing the following displayNameId:
@@ -401,10 +398,10 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * For property which type = "choice", ChoiceType indicated by detailType must
 	 * have been defined already and valid.
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file set the following wrong detail type:
 	 * <ul>
@@ -426,9 +423,9 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * For property which type = "choice", detailType must be specified.
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file missing the following detailType:
 	 * <ul>
@@ -456,7 +453,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <li>Property</li>
 	 * <li>Member</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file missing the detailType for a property
 	 * type="StuctList":
@@ -481,12 +478,12 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	/**
 	 * If type="StructList", the Structure specified by detailType must already have
 	 * been defined.
-	 *
+	 * 
 	 * <ul>
 	 * <li>Property</li>
 	 * <li>Member</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file have the following wrong detailTypes for property
 	 * type="StuctList":
@@ -510,12 +507,12 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * If type="element", detailType must be specified.
 	 * <ul>
 	 * <li>Choice</li>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file missing the detailType for a property
 	 * type="Element":
@@ -559,7 +556,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <p>
 	 * In this case, input file have defined two elementDefn with the same name
 	 * "DataSource".
-	 *
+	 * 
 	 */
 	public void test_DUPLICATE_ELEMENT_NAME() {
 		// Duplication of DataSource caught.
@@ -591,7 +588,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * Predefined stye must have a name.
-	 *
+	 * 
 	 */
 
 	public void test_MISSING_STYLE_NAME() {
@@ -617,7 +614,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <p>
 	 * In this case, input file have defined two predefined style with the same name
 	 * "group-header-1".
-	 *
+	 * 
 	 */
 	public void test_DUPLICATE_STYLE_NAME() {
 		// this.logger = createAndRegisterLogger( "metaLog18.log" );
@@ -680,7 +677,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <p>
 	 * In this case, input file has the following violation:
 	 * ScalarParameter.extends="none-exsit-parent" (which should be Parameter)
-	 *
+	 * 
 	 */
 	public void test_ELEMENT_PARENT_NOT_FOUND() {
 		// this.logger = createAndRegisterLogger( "metaLog21.log" );
@@ -728,7 +725,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * JdbcDataSource extends from DataSource.
 	 * <p>
 	 * DataSource.isAbstract = "false", JdbcDataSource.isAbstract = "true".
-	 *
+	 * 
 	 */
 	public void test_ILLEGAL_ABSTRACT_ELEMENT() {
 		// this.logger = createAndRegisterLogger( "metaLog24.log" );
@@ -744,7 +741,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * In this case, input file has the following violations:
 	 * <p>
 	 * Define a <StyleProperty name="none-exsit-styleProperty"/> on Label
-	 *
+	 * 
 	 */
 	public void test_STYLE_PROP_NOT_FOUND() {
 		// this.logger = createAndRegisterLogger( "metaLog25.log" );
@@ -757,7 +754,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	/**
 	 * The PropertyType of the property has not been set. ( propDefn.getType() ==
 	 * null )
-	 *
+	 * 
 	 */
 
 	public void test_PROP_TYPE_ERROR() {
@@ -782,7 +779,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	/**
 	 * The ChoiceSet has not been set on the property definition. ( type==
 	 * PropertyType.CHOICE_TYPE && getChoices() == null )
-	 *
+	 * 
 	 */
 	public void test_MISSING_PROP_CHOICES() {
 		PropertyDefn propDefn = new SystemPropertyDefn();
@@ -805,7 +802,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * In this case, input file has the following violations:
 	 * <p>
 	 * ParameterGroup has slot, but with no content type.
-	 *
+	 * 
 	 */
 
 	public void test_MISSING_SLOT_TYPE() {
@@ -868,7 +865,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * Missing choice set name when adding a Choice Set to the meta dictionary.
-	 *
+	 * 
 	 */
 	public void test_MISSING_CHOICE_SET_NAME() {
 		ChoiceSet choices1 = new ChoiceSet(null);
@@ -885,7 +882,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * Duplicate choice set names when adding the choice set to the meta dictionary.
-	 *
+	 * 
 	 */
 	public void test_DUPLICATE_CHOICE_SET_NAME() {
 		ChoiceSet choices1 = new ChoiceSet("choices1"); //$NON-NLS-1$
@@ -904,7 +901,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * Missing structure name when adding a structure to the meta dictionary.
-	 *
+	 * 
 	 */
 	public void test_MISSING_STRUCT_NAME() {
 		StructureDefn structDefn = new StructureDefn(null);
@@ -921,7 +918,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * Duplicate structure name when adding the structure to the meta dictionary.
-	 *
+	 * 
 	 */
 
 	public void test_DUPLICATE_STRUCT_NAME() {
@@ -943,7 +940,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	/**
 	 * The detail sturcture definition has not been set on the property definition.
 	 * ( type == PropertyType.STRUCT_LIST_TYPE && getStructDefn() == null)
-	 *
+	 * 
 	 */
 
 	public void test_MISSING_STRUCT_DEFN() {
@@ -967,7 +964,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	/**
 	 * The detail referenced element name has not been set on the property
 	 * definition.( type == ELEMENT_REF_TYPE && detail == null )
-	 *
+	 * 
 	 */
 
 	public void test_MISSING_ELEMENT_TYPE() {
@@ -989,7 +986,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	/**
 	 * Element referenced by the property was not defined. (
 	 * dictionary.getElement(name) == null )
-	 *
+	 * 
 	 */
 
 	public void test_UNDEFINED_ELEMENT_TYPE() {
@@ -1050,7 +1047,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <p>
 	 * In this case, input file has the following violations: ReportDesign is
 	 * none-abstract, it missing the javaClass attribute.
-	 *
+	 * 
 	 */
 
 	public void test_MISSING_JAVA_CLASS() {
@@ -1066,7 +1063,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * The specified element java class cannot be instantiated maybe because it is
 	 * an interface or is an abstract class or that the specified java class doesn't
 	 * not provide a default constructor( or a constructor that takes no argument ).
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file has the following violations:
 	 * ReportDesign.javaClass="org.eclipse.birt.report.model.core.RootElement",
@@ -1087,7 +1084,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <p>
 	 * In this case, input file has the following violations:
 	 * ReportDesign.javaClass="none-exsit-class-name".
-	 *
+	 * 
 	 */
 
 	public void test_JAVA_CLASS_JAVA_CLASS_LOAD_ERROR() {
@@ -1104,7 +1101,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * <p>
 	 * In this case, input file has the following violations:
 	 * ReportDesign.javaClass="java.util.HashMap", which is not a DesignElement.
-	 *
+	 * 
 	 */
 	public void test_INVALID_ELEMENT_JAVA_CLASS() {
 		// this.logger = createAndRegisterLogger( "metaLog35.log" );
@@ -1117,7 +1114,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * In one element definition, two methods have the same name.
-	 *
+	 * 
 	 */
 	public void test_DUPLICATE_METHOD_NAME() {
 		// this.logger = createAndRegisterLogger( "metaLog36.log" );
@@ -1130,7 +1127,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * In one element method definition, two arguments have the same name.
-	 *
+	 * 
 	 */
 	public void test_DUPLICATE_ARGUMENT_NAME() {
 		// this.logger = createAndRegisterLogger( "metaLog37.log" );
@@ -1144,7 +1141,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	/**
 	 * <Allowed></Allowed> indicates the restriction information, it can only apply
 	 * to a dimension or a choice property.
-	 *
+	 * 
 	 * <p>
 	 * In this case, input file has the following in valid restriction.
 	 * <ul>
@@ -1173,7 +1170,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 	 * "in,cm,XXXX", "XXXX" is not valid</li>
 	 * <li>Property: Style.font-style is a choice property. allowed = "italic,YYYY",
 	 * "YYYY" is not valid</li> TODO: Restriction on Member.
-	 *
+	 * 
 	 * </ul>
 	 */
 
@@ -1223,7 +1220,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * Assert one error code.
-	 *
+	 * 
 	 * @param expected expected error code string.
 	 * @param index    error index in the error list.
 	 * @param type     0 for MetaReaderException; 1 for MetaDataException.
@@ -1237,7 +1234,7 @@ public class MetaLoggerTest extends AbstractMetaTest {
 
 	/**
 	 * Assert sevaral errors in the error list. Assert there error code.
-	 *
+	 * 
 	 * @param expected expected error code string
 	 * @param from     from index in the error list.
 	 * @param to       to index in the error list.

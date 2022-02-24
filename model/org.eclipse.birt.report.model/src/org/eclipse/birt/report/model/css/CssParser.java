@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ public class CssParser {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 */
 
 	public CssParser() {
@@ -58,7 +58,7 @@ public class CssParser {
 
 	/**
 	 * Parses a CSS resource and get the CSSStyleSheet as the output.
-	 *
+	 * 
 	 * @param source the source of the CSS resource
 	 * @return the CSSStyleSheet if succeed
 	 * @throws IOException if the resource is not well-located
@@ -78,7 +78,7 @@ public class CssParser {
 
 	/**
 	 * Gets the error handler.
-	 *
+	 * 
 	 * @return the error handler
 	 */
 
@@ -103,7 +103,6 @@ public class CssParser {
 			return root;
 		}
 
-		@Override
 		public void startDocument(InputSource source) throws CSSException {
 			if (nodeStack.empty()) {
 				StyleSheet ss = new StyleSheet();
@@ -114,20 +113,18 @@ public class CssParser {
 			}
 		}
 
-		@Override
 		public void endDocument(InputSource source) throws CSSException {
 
 			// Pop style sheet nodes
 			root = nodeStack.pop();
 		}
 
-		@Override
 		public void comment(String text) throws CSSException {
 		}
 
 		/**
 		 * Creates an unsupported rule and adds it to the list.
-		 *
+		 * 
 		 * @param atRule the rule to handle
 		 */
 
@@ -143,51 +140,41 @@ public class CssParser {
 			}
 		}
 
-		@Override
 		public void ignorableAtRule(String atRule) throws CSSException {
 			unsupportedRule(atRule);
 		}
 
-		@Override
 		public void namespaceDeclaration(String prefix, String uri) throws CSSException {
 		}
 
-		@Override
 		public void importStyle(String uri, SACMediaList media, String defaultNamespaceURI) throws CSSException {
 			unsupportedRule(uri);
 		}
 
-		@Override
 		public void startMedia(SACMediaList media) throws CSSException {
 			unsupportedRule(media.toString());
 		}
 
-		@Override
 		public void endMedia(SACMediaList media) throws CSSException {
 
 		}
 
-		@Override
 		public void startPage(String name, String pseudo_page) throws CSSException {
 			unsupportedRule(name + pseudo_page);
 		}
 
-		@Override
 		public void endPage(String name, String pseudo_page) throws CSSException {
 
 		}
 
-		@Override
 		public void startFontFace() throws CSSException {
 			unsupportedRule(null);
 		}
 
-		@Override
 		public void endFontFace() throws CSSException {
 
 		}
 
-		@Override
 		public void startSelector(SelectorList selectors) throws CSSException {
 			// Create the style rule and add it to the rule list
 
@@ -203,7 +190,6 @@ public class CssParser {
 			nodeStack.push(decl);
 		}
 
-		@Override
 		public void endSelector(SelectorList selectors) throws CSSException {
 
 			// Pop both the style declaration and the style rule nodes
@@ -211,7 +197,6 @@ public class CssParser {
 			root = nodeStack.pop();
 		}
 
-		@Override
 		public void property(String name, LexicalUnit value, boolean important) throws CSSException {
 			StyleDeclaration decl = (StyleDeclaration) nodeStack.peek();
 			decl.addProperty(new Property(name, new CSSValue(value)));

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * @author David Michonneau
- *
+ * 
  */
 public class ReportItemConstraint extends Rectangle {
 
@@ -102,13 +102,12 @@ public class ReportItemConstraint extends Rectangle {
 	 * @param isInline The isInline to set.
 	 */
 	public void setDisplay(String display) {
-		if (display.equals(DesignChoiceConstants.DISPLAY_INLINE)) {
+		if (display.equals(DesignChoiceConstants.DISPLAY_INLINE))
 			m_display = INLINE;
 //		else if ( display.equals( DesignChoiceConstants.DISPLAY_BLOCK ) )
 //			m_display = BLOCK;
-		} else {
+		else
 			m_display = BLOCK;
-		}
 	}
 
 	/**
@@ -141,7 +140,7 @@ public class ReportItemConstraint extends Rectangle {
 
 	/**
 	 * Set the margin of this element
-	 *
+	 * 
 	 * @param margin
 	 */
 	public void setMargin(final Insets margin) {

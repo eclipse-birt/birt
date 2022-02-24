@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -19,7 +19,9 @@
 package org.eclipse.birt.report.model.adapter.oda.model;
 
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 /**
@@ -60,7 +62,7 @@ public interface DocumentRoot extends EObject {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Mixed</em>' attribute list.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDocumentRoot_Mixed()
 	 * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry"
@@ -78,7 +80,7 @@ public interface DocumentRoot extends EObject {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>XMLNS Prefix Map</em>' map.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDocumentRoot_XMLNSPrefixMap()
 	 * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString,
@@ -97,7 +99,7 @@ public interface DocumentRoot extends EObject {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>XSI Schema Location</em>' map.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDocumentRoot_XSISchemaLocation()
 	 * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString,
@@ -115,7 +117,7 @@ public interface DocumentRoot extends EObject {
 	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Data Set Parameter</em>' containment reference.
 	 * @see #setDataSetParameter(DataSetParameter)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDocumentRoot_DataSetParameter()
@@ -131,7 +133,7 @@ public interface DocumentRoot extends EObject {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDataSetParameter
 	 * <em>Data Set Parameter</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Data Set Parameter</em>' containment
 	 *              reference.
 	 * @see #getDataSetParameter()
@@ -147,7 +149,7 @@ public interface DocumentRoot extends EObject {
 	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Data Set Parameters</em>' containment
 	 *         reference.
 	 * @see #setDataSetParameters(DataSetParameters)
@@ -164,7 +166,7 @@ public interface DocumentRoot extends EObject {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDataSetParameters
 	 * <em>Data Set Parameters</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Data Set Parameters</em>' containment
 	 *              reference.
 	 * @see #getDataSetParameters()
@@ -177,7 +179,7 @@ public interface DocumentRoot extends EObject {
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * --> A collection of ODA related values. Includes data set parameters and
 	 * result set columns. <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Design Values</em>' containment reference.
 	 * @see #setDesignValues(DesignValues)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDocumentRoot_DesignValues()
@@ -193,7 +195,7 @@ public interface DocumentRoot extends EObject {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDesignValues
 	 * <em>Design Values</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Design Values</em>' containment
 	 *              reference.
 	 * @see #getDesignValues()
@@ -209,7 +211,7 @@ public interface DocumentRoot extends EObject {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Dynamic List</em>' containment reference.
 	 * @see #setDynamicList(DynamicList)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDocumentRoot_DynamicList()
@@ -225,7 +227,7 @@ public interface DocumentRoot extends EObject {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDynamicList
 	 * <em>Dynamic List</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Dynamic List</em>' containment
 	 *              reference.
 	 * @see #getDynamicList()

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -33,11 +33,10 @@ public class ViewerServletContextListener implements ServletContextListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.
 	 * ServletContextEvent)
 	 */
-	@Override
 	public void contextDestroyed(ServletContextEvent event) {
 		// When trying to destroy application, shutdown Platform and
 		// ReportEngineService.
@@ -50,11 +49,10 @@ public class ViewerServletContextListener implements ServletContextListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.
 	 * ServletContextEvent)
 	 */
-	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		ParameterAccessor.initParameters(event.getServletContext());
 		IViewerReportService instance = new BirtViewerReportService(event.getServletContext());

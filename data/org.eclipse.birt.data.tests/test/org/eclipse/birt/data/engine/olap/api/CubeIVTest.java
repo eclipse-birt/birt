@@ -1,21 +1,18 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.api;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,12 +85,14 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinitionIOUtil;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.impl.query.IncrementExecutionHint;
-import org.junit.Test;
 
 import testutil.BaseTestCase;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 /**
- *
+ * 
  */
 
 public class CubeIVTest extends BaseTestCase {
@@ -109,7 +108,7 @@ public class CubeIVTest extends BaseTestCase {
 
 	/**
 	 * Test use all dimension levels.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -196,7 +195,7 @@ public class CubeIVTest extends BaseTestCase {
 	/**
 	 * Test cube query without edges. In this case, only grand total bindings are
 	 * allowed
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -256,7 +255,7 @@ public class CubeIVTest extends BaseTestCase {
 
 	/**
 	 * Test adding nest aggregations cube operation
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -388,7 +387,7 @@ public class CubeIVTest extends BaseTestCase {
 
 	/**
 	 * Test use all dimension levels.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -600,7 +599,7 @@ public class CubeIVTest extends BaseTestCase {
 
 	/**
 	 * Test use part of dimension levels.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -680,7 +679,7 @@ public class CubeIVTest extends BaseTestCase {
 
 	/**
 	 * Filter1, filter out all level11 == CN.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -762,7 +761,7 @@ public class CubeIVTest extends BaseTestCase {
 
 	/**
 	 * Filter2, filter out all level11 = CN and level21 > 2000.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	/*
@@ -773,56 +772,56 @@ public class CubeIVTest extends BaseTestCase {
 	 * IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 	 * IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
 	 * hier1.createLevel( "level11" ); hier1.createLevel( "level12" );
-	 *
+	 * 
 	 * IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 	 * IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 	 * hier2.createLevel( "level21" );
-	 *
+	 * 
 	 * cqd.createMeasure( "measure1" );
-	 *
+	 * 
 	 * IBinding binding1 = new Binding( "edge1level1");
-	 *
+	 * 
 	 * binding1.setExpression( new
 	 * ScriptExpression("dimension[\"dimension1\"][\"level11\"]") ); cqd.addBinding(
 	 * binding1 );
-	 *
+	 * 
 	 * IBinding binding2 = new Binding( "edge1level2");
-	 *
+	 * 
 	 * binding2.setExpression( new
 	 * ScriptExpression("dimension[\"dimension1\"][\"level12\"]") ); cqd.addBinding(
 	 * binding2 );
-	 *
+	 * 
 	 * IBinding binding4 = new Binding( "edge2level1");
-	 *
+	 * 
 	 * binding4.setExpression( new
 	 * ScriptExpression("dimension[\"dimension2\"][\"level21\"]") ); cqd.addBinding(
 	 * binding4 );
-	 *
+	 * 
 	 * IBinding binding5 = new Binding( "measure1" ); binding5.setExpression( new
 	 * ScriptExpression("measure[\"measure1\"]") ); cqd.addBinding( binding5 );
-	 *
+	 * 
 	 * IFilterDefinition filter1 = new FilterDefinition( new ConditionalExpression(
 	 * "dimension[\"dimension1\"][\"level11\"]", IConditionalExpression.OP_EQ,
 	 * "\"CN\"" ) ); IFilterDefinition filter2 = new FilterDefinition( new
 	 * ConditionalExpression( "dimension[\"dimension2\"][\"level21\"]",
 	 * IConditionalExpression.OP_GE, "2000" ) );
-	 *
+	 * 
 	 * cqd.addFilter( filter1 ); cqd.addFilter( filter2 ); DataEngine engine =
 	 * DataEngine.newDataEngine( DataEngineContext.newInstance(
 	 * DataEngineContext.DIRECT_PRESENTATION, null, null, null ) );
-	 *
+	 * 
 	 * IPreparedCubeQuery pcq = engine.prepare( cqd, null ); ICubeQueryResults
 	 * queryResults = pcq.execute( null ); CubeCursor cursor =
 	 * queryResults.getCubeCursor( ); List columnEdgeBindingNames = new ArrayList();
 	 * columnEdgeBindingNames.add( "edge1level1" ); columnEdgeBindingNames.add(
 	 * "edge1level2" );
-	 *
+	 * 
 	 * this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
-	 *
+	 * 
 	 * }
 	 *//**
 		 * Simple sort on 1 level
-		 *
+		 * 
 		 * @throws Exception
 		 */
 	/*
@@ -833,53 +832,53 @@ public class CubeIVTest extends BaseTestCase {
 	 * IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 	 * IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
 	 * hier1.createLevel( "level11" ); hier1.createLevel( "level12" );
-	 *
+	 * 
 	 * IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 	 * IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 	 * hier2.createLevel( "level21" );
-	 *
+	 * 
 	 * cqd.createMeasure( "measure1" );
-	 *
+	 * 
 	 * IBinding binding1 = new Binding( "edge1level1");
-	 *
+	 * 
 	 * binding1.setExpression( new
 	 * ScriptExpression("dimension[\"dimension1\"][\"level11\"]") ); cqd.addBinding(
 	 * binding1 );
-	 *
+	 * 
 	 * IBinding binding2 = new Binding( "edge1level2");
-	 *
+	 * 
 	 * binding2.setExpression( new
 	 * ScriptExpression("dimension[\"dimension1\"][\"level12\"]") ); cqd.addBinding(
 	 * binding2 );
-	 *
+	 * 
 	 * IBinding binding4 = new Binding( "edge2level1");
-	 *
+	 * 
 	 * binding4.setExpression( new
 	 * ScriptExpression("dimension[\"dimension2\"][\"level21\"]") ); cqd.addBinding(
 	 * binding4 );
-	 *
+	 * 
 	 * IBinding binding5 = new Binding( "measure1" ); binding5.setExpression( new
 	 * ScriptExpression("measure[\"measure1\"]") ); cqd.addBinding( binding5 );
-	 *
+	 * 
 	 * SortDefinition sorter = new SortDefinition(); sorter.setExpression(
 	 * "dimension[\"dimension2\"][\"level21\"]" ); sorter.setSortDirection(
 	 * ISortDefinition.SORT_DESC ); cqd.addSort( sorter ); DataEngine engine =
 	 * DataEngine.newDataEngine( DataEngineContext.newInstance(
 	 * DataEngineContext.DIRECT_PRESENTATION, null, null, null ) );
-	 *
+	 * 
 	 * IPreparedCubeQuery pcq = engine.prepare( cqd, null ); ICubeQueryResults
 	 * queryResults = pcq.execute( null ); CubeCursor cursor =
 	 * queryResults.getCubeCursor( ); List columnEdgeBindingNames = new ArrayList();
 	 * columnEdgeBindingNames.add( "edge1level1" ); columnEdgeBindingNames.add(
 	 * "edge1level2" );
-	 *
+	 * 
 	 * this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
-	 *
+	 * 
 	 * }
-	 *
+	 * 
 	 *//**
 		 * Complex sort on multiple levels
-		 *
+		 * 
 		 * @throws Exception
 		 */
 	/*
@@ -890,63 +889,63 @@ public class CubeIVTest extends BaseTestCase {
 	 * IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 	 * IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
 	 * hier1.createLevel( "level11" ); hier1.createLevel( "level12" );
-	 *
+	 * 
 	 * IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 	 * IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 	 * hier2.createLevel( "level21" );
-	 *
+	 * 
 	 * cqd.createMeasure( "measure1" );
-	 *
+	 * 
 	 * IBinding binding1 = new Binding( "edge1level1");
-	 *
+	 * 
 	 * binding1.setExpression( new
 	 * ScriptExpression("dimension[\"dimension1\"][\"level11\"]") ); cqd.addBinding(
 	 * binding1 );
-	 *
+	 * 
 	 * IBinding binding2 = new Binding( "edge1level2");
-	 *
+	 * 
 	 * binding2.setExpression( new
 	 * ScriptExpression("dimension[\"dimension1\"][\"level12\"]") ); cqd.addBinding(
 	 * binding2 );
-	 *
+	 * 
 	 * IBinding binding4 = new Binding( "edge2level1");
-	 *
+	 * 
 	 * binding4.setExpression( new
 	 * ScriptExpression("dimension[\"dimension2\"][\"level21\"]") ); cqd.addBinding(
 	 * binding4 );
-	 *
+	 * 
 	 * IBinding binding5 = new Binding( "measure1" ); binding5.setExpression( new
 	 * ScriptExpression("measure[\"measure1\"]") ); cqd.addBinding( binding5 );
-	 *
+	 * 
 	 * //sort on year SortDefinition sorter1 = new SortDefinition();
 	 * sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 	 * sorter1.setSortDirection( ISortDefinition.SORT_DESC );
-	 *
+	 * 
 	 * //sort on country SortDefinition sorter2 = new SortDefinition();
 	 * sorter2.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 	 * sorter2.setSortDirection( ISortDefinition.SORT_DESC );
-	 *
+	 * 
 	 * //sort on city. SortDefinition sorter3 = new SortDefinition();
 	 * sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 	 * sorter3.setSortDirection( ISortDefinition.SORT_DESC );
-	 *
+	 * 
 	 * cqd.addSort( sorter1 ); cqd.addSort( sorter2 ); cqd.addSort( sorter3);
 	 * DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance(
 	 * DataEngineContext.DIRECT_PRESENTATION, null, null, null ) );
-	 *
+	 * 
 	 * IPreparedCubeQuery pcq = engine.prepare( cqd, null ); ICubeQueryResults
 	 * queryResults = pcq.execute( null ); CubeCursor cursor =
 	 * queryResults.getCubeCursor( ); List columnEdgeBindingNames = new ArrayList();
 	 * columnEdgeBindingNames.add( "edge1level1" ); columnEdgeBindingNames.add(
 	 * "edge1level2" );
-	 *
+	 * 
 	 * this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
-	 *
+	 * 
 	 * }
-	 *
+	 * 
 	 *//**
 		 * Test grand total
-		 *
+		 * 
 		 * @throws Exception
 		 */
 
@@ -958,79 +957,79 @@ public class CubeIVTest extends BaseTestCase {
 	 * IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 	 * IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
 	 * hier1.createLevel( "level11" ); hier1.createLevel( "level12" );
-	 *
+	 * 
 	 * IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 	 * IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 	 * hier2.createLevel( "level21" );
-	 *
+	 * 
 	 * cqd.createMeasure( "measure1" );
-	 *
+	 * 
 	 * IBinding binding1 = new Binding( "edge1level1");
-	 *
+	 * 
 	 * binding1.setExpression( new
 	 * ScriptExpression("dimension[\"dimension1\"][\"level11\"]") ); cqd.addBinding(
 	 * binding1 );
-	 *
+	 * 
 	 * IBinding binding2 = new Binding( "edge1level2");
-	 *
+	 * 
 	 * binding2.setExpression( new
 	 * ScriptExpression("dimension[\"dimension1\"][\"level12\"]") ); cqd.addBinding(
 	 * binding2 );
-	 *
+	 * 
 	 * IBinding binding4 = new Binding( "edge2level1");
-	 *
+	 * 
 	 * binding4.setExpression( new
 	 * ScriptExpression("dimension[\"dimension2\"][\"level21\"]") ); cqd.addBinding(
 	 * binding4 );
-	 *
+	 * 
 	 * IBinding binding5 = new Binding( "measure1" ); binding5.setExpression( new
 	 * ScriptExpression("measure[\"measure1\"]") ); cqd.addBinding( binding5 );
-	 *
+	 * 
 	 * IBinding binding6 = new Binding( "rowGrandTotal"); binding6.setExpression(
 	 * new ScriptExpression("measure[\"measure1\"]") ); binding6.setAggrFunction(
 	 * BuiltInAggregationFactory.TOTAL_SUM_FUNC ); binding6.addAggregateOn(
 	 * "level21" ); cqd.addBinding( binding6 );
-	 *
+	 * 
 	 * IBinding binding7 = new Binding( "columnGrandTotal"); binding7.setExpression(
 	 * new ScriptExpression("measure[\"measure1\"]") ); binding7.setAggrFunction(
 	 * BuiltInAggregationFactory.TOTAL_SUM_FUNC ); binding7.addAggregateOn(
 	 * "level11" ); binding7.addAggregateOn( "level12" ); cqd.addBinding( binding7
 	 * );
-	 *
+	 * 
 	 * IBinding binding8 = new Binding( "grandTotal"); binding8.setExpression( new
 	 * ScriptExpression("measure[\"measure1\"]") ); binding8.setAggrFunction(
 	 * BuiltInAggregationFactory.TOTAL_SUM_FUNC ); cqd.addBinding( binding8 );
-	 *
+	 * 
 	 * //sort on year SortDefinition sorter1 = new SortDefinition();
 	 * sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 	 * sorter1.setSortDirection( ISortDefinition.SORT_DESC );
-	 *
+	 * 
 	 * //sort on country SortDefinition sorter2 = new SortDefinition();
 	 * sorter2.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 	 * sorter2.setSortDirection( ISortDefinition.SORT_DESC );
-	 *
+	 * 
 	 * //sort on city. SortDefinition sorter3 = new SortDefinition();
 	 * sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 	 * sorter3.setSortDirection( ISortDefinition.SORT_DESC );
-	 *
+	 * 
 	 * cqd.addSort( sorter1 ); cqd.addSort( sorter2 ); cqd.addSort( sorter3);
 	 * DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance(
 	 * DataEngineContext.DIRECT_PRESENTATION, null, null, null ) );
-	 *
+	 * 
 	 * IPreparedCubeQuery pcq = engine.prepare( cqd, null ); ICubeQueryResults
 	 * queryResults = pcq.execute( null ); CubeCursor cursor =
 	 * queryResults.getCubeCursor( ); List columnEdgeBindingNames = new ArrayList();
 	 * columnEdgeBindingNames.add( "edge1level1" ); columnEdgeBindingNames.add(
 	 * "edge1level2" );
-	 *
+	 * 
 	 * this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1",
 	 * "columnGrandTotal", "rowGrandTotal", "grandTotal" );
-	 *
+	 * 
 	 * }
-	 *
+	 * 
 	 *//**
 		 * Test grand total
-		 *
+		 * 
 		 * @throws Exception
 		 */
 	@Test
@@ -1137,7 +1136,7 @@ public class CubeIVTest extends BaseTestCase {
 
 	/**
 	 * Test Nested total
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1262,7 +1261,7 @@ public class CubeIVTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param engine
 	 * @throws BirtException
 	 */
@@ -1295,7 +1294,7 @@ public class CubeIVTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	private void createSortTestBindings(ICubeQueryDefinition cqd) throws DataException {
@@ -1406,7 +1405,9 @@ public class CubeIVTest extends BaseTestCase {
 		EdgeCursor edge2 = (EdgeCursor) (cursor.getOrdinateEdge().get(1));
 
 		String[] lines = new String[edge1.getDimensionCursor().size()];
-		Arrays.fill(lines, "		");
+		for (int i = 0; i < lines.length; i++) {
+			lines[i] = "		";
+		}
 
 		while (edge1.next()) {
 			long countryEnd = ((DimensionCursor) edge1.getDimensionCursor().get(0)).getEdgeEnd();
@@ -1429,9 +1430,9 @@ public class CubeIVTest extends BaseTestCase {
 			}
 		}
 		lines[0] += "[Total]";
-		StringBuilder output = new StringBuilder();
+		String output = "";
 		for (int i = 0; i < lines.length; i++) {
-			output.append("\n").append(lines[i]);
+			output += "\n" + lines[i];
 		}
 
 		while (edge2.next()) {
@@ -1443,18 +1444,16 @@ public class CubeIVTest extends BaseTestCase {
 
 				line += cursor.getObject(measure) + "		";
 
-				if (cityEnd == edge1.getPosition()) {
+				if (cityEnd == edge1.getPosition())
 					line += "[" + cursor.getObject(city_year_total) + "]" + "		";
-				}
 
-				if (countryEnd == edge1.getPosition()) {
+				if (countryEnd == edge1.getPosition())
 					line += "[" + cursor.getObject(country_year_total) + "]" + "		";
-				}
 
 			}
 
 			line += "[" + cursor.getObject(year_total) + "]";
-			output.append("\n").append(line);
+			output += "\n" + line;
 		}
 
 		String line = "[Total]" + "		";
@@ -1465,21 +1464,18 @@ public class CubeIVTest extends BaseTestCase {
 
 			line += cursor.getObject(dist_total) + "		";
 
-			if (cityEnd == edge1.getPosition()) {
+			if (cityEnd == edge1.getPosition())
 				line += "[" + cursor.getObject(city_total) + "]" + "		";
-			}
 
-			if (countryEnd == edge1.getPosition()) {
+			if (countryEnd == edge1.getPosition())
 				line += "[" + cursor.getObject(country_total) + "]" + "		";
-			}
 
 		}
 		line += "[" + cursor.getObject(grand_total) + "]" + "		";
-		output.append("\n").append(line);
-		this.testPrint(output.toString());
-		if (checkOutput) {
+		output += "\n" + line;
+		this.testPrint(output);
+		if (checkOutput)
 			this.checkOutputFile();
-		}
 	}
 
 	private void printCube(CubeCursor cursor, List columnEdgeBindingNames, String rowEdgeBindingNames,
@@ -1493,7 +1489,9 @@ public class CubeIVTest extends BaseTestCase {
 		EdgeCursor edge2 = (EdgeCursor) (cursor.getOrdinateEdge().get(1));
 
 		String[] lines = new String[edge1.getDimensionCursor().size()];
-		Arrays.fill(lines, "		");
+		for (int i = 0; i < lines.length; i++) {
+			lines[i] = "		";
+		}
 
 		while (edge1.next()) {
 			for (int i = 0; i < lines.length; i++) {
@@ -1501,13 +1499,12 @@ public class CubeIVTest extends BaseTestCase {
 			}
 		}
 
-		if (rowAggr != null) {
+		if (rowAggr != null)
 			lines[lines.length - 1] += "Total";
-		}
 
-		StringBuilder output = new StringBuilder();
+		String output = "";
 		for (int i = 0; i < lines.length; i++) {
-			output.append("\n").append(lines[i]);
+			output += "\n" + lines[i];
 		}
 
 		while (edge2.next()) {
@@ -1517,10 +1514,9 @@ public class CubeIVTest extends BaseTestCase {
 				line += cursor.getObject(measureBindingNames) + "		";
 			}
 
-			if (rowAggr != null) {
+			if (rowAggr != null)
 				line += cursor.getObject(rowAggr);
-			}
-			output.append("\n").append(line);
+			output += "\n" + line;
 		}
 
 		if (columnAggr != null) {
@@ -1529,13 +1525,12 @@ public class CubeIVTest extends BaseTestCase {
 			while (edge1.next()) {
 				line += cursor.getObject(columnAggr) + "		";
 			}
-			if (overallAggr != null) {
+			if (overallAggr != null)
 				line += cursor.getObject(overallAggr);
-			}
 
-			output.append("\n").append(line);
+			output += "\n" + line;
 		}
-		this.testPrint(output.toString());
+		this.testPrint(output);
 
 		this.checkOutputFile();
 	}
@@ -1635,9 +1630,9 @@ public class CubeIVTest extends BaseTestCase {
 			}
 		}
 
-		StringBuilder output = new StringBuilder();
+		String output = "";
 		for (int i = 0; i < lines.length; i++) {
-			output.append("\n").append(lines[i]);
+			output += "\n" + lines[i];
 		}
 
 		while (edge2.next()) {
@@ -1649,7 +1644,7 @@ public class CubeIVTest extends BaseTestCase {
 			while (edge1.next()) {
 				line += cursor.getObject(measureBindingName) + "		";
 			}
-			output.append("\n").append(line);
+			output += "\n" + line;
 		}
 
 		String line = "total" + "		";
@@ -1658,7 +1653,7 @@ public class CubeIVTest extends BaseTestCase {
 		while (edge1.next()) {
 			line += cursor.getObject("total") + "		";
 		}
-		output.append("\n").append(line);
+		output += "\n" + line;
 
 		line = "maxTotal1" + "	";
 		edge1.beforeFirst();
@@ -1666,7 +1661,7 @@ public class CubeIVTest extends BaseTestCase {
 		while (edge1.next()) {
 			line += cursor.getObject("maxTotal1") + "		";
 		}
-		output.append("\n").append(line);
+		output += "\n" + line;
 
 		line = "maxTotal2" + "	";
 		edge1.beforeFirst();
@@ -1674,7 +1669,7 @@ public class CubeIVTest extends BaseTestCase {
 		while (edge1.next()) {
 			line += cursor.getObject("maxTotal2") + "		";
 		}
-		output.append("\n").append(line);
+		output += "\n" + line;
 
 		line = "sumTotal1" + "	";
 		edge1.beforeFirst();
@@ -1682,7 +1677,7 @@ public class CubeIVTest extends BaseTestCase {
 		while (edge1.next()) {
 			line += cursor.getObject("sumTotal1") + "		";
 		}
-		output.append("\n").append(line);
+		output += "\n" + line;
 
 		line = "sumTotal2" + "	";
 		edge1.beforeFirst();
@@ -1690,7 +1685,7 @@ public class CubeIVTest extends BaseTestCase {
 		while (edge1.next()) {
 			line += cursor.getObject("sumTotal2") + "		";
 		}
-		output.append("\n").append(line);
+		output += "\n" + line;
 
 		line = "sumSumTotal1" + "	";
 		edge1.beforeFirst();
@@ -1698,9 +1693,9 @@ public class CubeIVTest extends BaseTestCase {
 		while (edge1.next()) {
 			line += cursor.getObject("sumSumTotal1") + "		";
 		}
-		output.append("\n").append(line).append("");
+		output += "\n" + line + "";
 
-		return output.toString();
+		return output;
 	}
 
 	@Test
@@ -2025,18 +2020,18 @@ public class CubeIVTest extends BaseTestCase {
 		engine = (DataEngineImpl) DataEngine
 				.newDataEngine(DataEngineContext.newInstance(DataEngineContext.MODE_UPDATE, null, reader, writer));
 		cqd.setQueryResultsID(queryResults.getID());
-		List<IScriptExpression> left = new ArrayList<>();
+		List<IScriptExpression> left = new ArrayList<IScriptExpression>();
 
 		left.add(new ScriptExpression("dimension[\"dimension1\"][\"level11\"]"));
 		left.add(new ScriptExpression("dimension[\"dimension1\"][\"level12\"]"));
 		left.add(new ScriptExpression("dimension[\"dimension1\"][\"level13\"]"));
 
-		List<IScriptExpression> CNBJCP = new ArrayList<>();
+		List<IScriptExpression> CNBJCP = new ArrayList<IScriptExpression>();
 		CNBJCP.add(new ScriptExpression("\"CN\""));
 		CNBJCP.add(new ScriptExpression("\"BJ\""));
 		CNBJCP.add(new ScriptExpression("\"CP\""));
 
-		List<Collection<IScriptExpression>> right = new ArrayList<>();
+		List<Collection<IScriptExpression>> right = new ArrayList<Collection<IScriptExpression>>();
 		right.add(CNBJCP);
 
 		ICollectionConditionalExpression cce = new CollectionConditionalExpression(left, IConditionalExpression.OP_IN,
@@ -2157,28 +2152,28 @@ public class CubeIVTest extends BaseTestCase {
 		engine = (DataEngineImpl) DataEngine
 				.newDataEngine(DataEngineContext.newInstance(DataEngineContext.MODE_UPDATE, null, reader, writer));
 		cqd.setQueryResultsID(queryResults.getID());
-		List<IScriptExpression> left = new ArrayList<>();
+		List<IScriptExpression> left = new ArrayList<IScriptExpression>();
 
 		left.add(new ScriptExpression("dimension[\"dimension1\"][\"level11\"]"));
 		left.add(new ScriptExpression("dimension[\"dimension1\"][\"level12\"]"));
 		left.add(new ScriptExpression("dimension[\"dimension1\"][\"level13\"]"));
 
-		List<IScriptExpression> CNBJCP = new ArrayList<>();
+		List<IScriptExpression> CNBJCP = new ArrayList<IScriptExpression>();
 		CNBJCP.add(new ScriptExpression("\"CN\""));
 		CNBJCP.add(new ScriptExpression("\"BJ\""));
 		CNBJCP.add(new ScriptExpression("\"CP\""));
 
-		List<IScriptExpression> JPILP1 = new ArrayList<>();
+		List<IScriptExpression> JPILP1 = new ArrayList<IScriptExpression>();
 		JPILP1.add(new ScriptExpression("\"JP\""));
 		JPILP1.add(new ScriptExpression("\"IL\""));
 		JPILP1.add(new ScriptExpression("\"P1\""));
 
-		List<IScriptExpression> USCSB1 = new ArrayList<>();
+		List<IScriptExpression> USCSB1 = new ArrayList<IScriptExpression>();
 		USCSB1.add(new ScriptExpression("\"US\""));
 		USCSB1.add(new ScriptExpression("\"CS\""));
 		USCSB1.add(new ScriptExpression("\"B1\""));
 
-		List<Collection<IScriptExpression>> right = new ArrayList<>();
+		List<Collection<IScriptExpression>> right = new ArrayList<Collection<IScriptExpression>>();
 		right.add(CNBJCP);
 		right.add(JPILP1);
 		right.add(USCSB1);

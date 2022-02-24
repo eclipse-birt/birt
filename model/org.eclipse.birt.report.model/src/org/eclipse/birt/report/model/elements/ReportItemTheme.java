@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * This class represents a theme in the library.
- *
+ * 
  */
 
 public class ReportItemTheme extends AbstractTheme implements IReportItemThemeModel {
@@ -43,7 +43,7 @@ public class ReportItemTheme extends AbstractTheme implements IReportItemThemeMo
 
 	/**
 	 * Constructor with the element name.
-	 *
+	 * 
 	 * @param theName the element name
 	 */
 
@@ -53,45 +53,42 @@ public class ReportItemTheme extends AbstractTheme implements IReportItemThemeMo
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitReportItemTheme(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the report design of the row
-	 *
+	 * 
 	 * @return an API handle for this element
 	 */
 
@@ -103,13 +100,11 @@ public class ReportItemTheme extends AbstractTheme implements IReportItemThemeMo
 	}
 
 	public static boolean isValidType(String type) {
-		if (StringUtil.isBlank(type)) {
+		if (StringUtil.isBlank(type))
 			return false;
-		}
 		List<IPredefinedStyle> styles = MetaDataDictionary.getInstance().getPredefinedStyles(type);
-		if (styles == null || styles.isEmpty()) {
+		if (styles == null || styles.isEmpty())
 			return false;
-		}
 		return true;
 	}
 

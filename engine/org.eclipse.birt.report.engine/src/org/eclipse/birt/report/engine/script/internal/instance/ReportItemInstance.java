@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,11 +38,10 @@ public class ReportItemInstance extends ReportElementInstance implements IReport
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
 	 * getHyperlink()
 	 */
-	@Override
 	public String getHyperlink() {
 		IHyperlinkAction hyperlinkAction = content.getHyperlinkAction();
 		return hyperlinkAction == null ? null : hyperlinkAction.getHyperlink();
@@ -50,45 +49,41 @@ public class ReportItemInstance extends ReportElementInstance implements IReport
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.IReportInstance#getName()
 	 */
-	@Override
 	public String getName() {
 		return content.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.IReportInstance#setName(
 	 * java.lang.String)
 	 */
-	@Override
 	public void setName(String name) {
 		content.setName(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
 	 * getHelpText()
 	 */
-	@Override
 	public String getHelpText() {
 		return content.getHelpText();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
 	 * setHelpText(java.lang.String)
 	 */
-	@Override
 	public void setHelpText(String helpText) {
 		content.setHelpText(helpText);
 	}

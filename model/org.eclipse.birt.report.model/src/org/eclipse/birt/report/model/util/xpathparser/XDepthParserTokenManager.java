@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,9 +33,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 			}
 			return -1;
 		case 1:
-			if ((active0 & 0x1000L) != 0L) {
+			if ((active0 & 0x1000L) != 0L)
 				return 2;
-			}
 			if ((active0 & 0x2800L) != 0L) {
 				jjmatchedKind = 15;
 				jjmatchedPos = 1;
@@ -55,9 +54,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 				jjmatchedPos = 3;
 				return 2;
 			}
-			if ((active0 & 0x800L) != 0L) {
+			if ((active0 & 0x800L) != 0L)
 				return 2;
-			}
 			return -1;
 		case 4:
 			if ((active0 & 0x2000L) != 0L) {
@@ -149,9 +147,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 			return jjMoveStringLiteralDfa2_0(active0, 0x800L);
 		case 68:
 		case 100:
-			if ((active0 & 0x1000L) != 0L) {
+			if ((active0 & 0x1000L) != 0L)
 				return jjStartNfaWithStates_0(1, 12, 2);
-			}
 			break;
 		case 76:
 		case 108:
@@ -163,10 +160,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 	}
 
 	private final int jjMoveStringLiteralDfa2_0(long old0, long active0) {
-		active0 &= old0;
-		if (active0 == 0L) {
+		if (((active0 &= old0)) == 0L)
 			return jjStartNfa_0(0, old0);
-		}
 		try {
 			curChar = input_stream.readChar();
 		} catch (java.io.IOException e) {
@@ -187,10 +182,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 	}
 
 	private final int jjMoveStringLiteralDfa3_0(long old0, long active0) {
-		active0 &= old0;
-		if (active0 == 0L) {
+		if (((active0 &= old0)) == 0L)
 			return jjStartNfa_0(1, old0);
-		}
 		try {
 			curChar = input_stream.readChar();
 		} catch (java.io.IOException e) {
@@ -200,9 +193,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 		switch (curChar) {
 		case 69:
 		case 101:
-			if ((active0 & 0x800L) != 0L) {
+			if ((active0 & 0x800L) != 0L)
 				return jjStartNfaWithStates_0(3, 11, 2);
-			}
 			break;
 		case 84:
 		case 116:
@@ -214,10 +206,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 	}
 
 	private final int jjMoveStringLiteralDfa4_0(long old0, long active0) {
-		active0 &= old0;
-		if (active0 == 0L) {
+		if (((active0 &= old0)) == 0L)
 			return jjStartNfa_0(2, old0);
-		}
 		try {
 			curChar = input_stream.readChar();
 		} catch (java.io.IOException e) {
@@ -235,10 +225,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 	}
 
 	private final int jjMoveStringLiteralDfa5_0(long old0, long active0) {
-		active0 &= old0;
-		if (active0 == 0L) {
+		if (((active0 &= old0)) == 0L)
 			return jjStartNfa_0(3, old0);
-		}
 		try {
 			curChar = input_stream.readChar();
 		} catch (java.io.IOException e) {
@@ -256,10 +244,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 	}
 
 	private final int jjMoveStringLiteralDfa6_0(long old0, long active0) {
-		active0 &= old0;
-		if (active0 == 0L) {
+		if (((active0 &= old0)) == 0L)
 			return jjStartNfa_0(4, old0);
-		}
 		try {
 			curChar = input_stream.readChar();
 		} catch (java.io.IOException e) {
@@ -277,10 +263,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 	}
 
 	private final int jjMoveStringLiteralDfa7_0(long old0, long active0) {
-		active0 &= old0;
-		if (active0 == 0L) {
+		if (((active0 &= old0)) == 0L)
 			return jjStartNfa_0(5, old0);
-		}
 		try {
 			curChar = input_stream.readChar();
 		} catch (java.io.IOException e) {
@@ -290,9 +274,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 		switch (curChar) {
 		case 69:
 		case 101:
-			if ((active0 & 0x2000L) != 0L) {
+			if ((active0 & 0x2000L) != 0L)
 				return jjStartNfaWithStates_0(7, 13, 2);
-			}
 			break;
 		default:
 			break;
@@ -307,6 +290,28 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 		}
 	}
 
+	private final void jjAddStates(int start, int end) {
+		do {
+			jjstateSet[jjnewStateCnt++] = jjnextStates[start];
+		} while (start++ != end);
+	}
+
+	private final void jjCheckNAddTwoStates(int state1, int state2) {
+		jjCheckNAdd(state1);
+		jjCheckNAdd(state2);
+	}
+
+	private final void jjCheckNAddStates(int start, int end) {
+		do {
+			jjCheckNAdd(jjnextStates[start]);
+		} while (start++ != end);
+	}
+
+	private final void jjCheckNAddStates(int start) {
+		jjCheckNAdd(jjnextStates[start]);
+		jjCheckNAdd(jjnextStates[start + 1]);
+	}
+
 	static final long[] jjbitVec0 = { 0xfffffffffffffffeL, 0xffffffffffffffffL, 0xffffffffffffffffL,
 			0xffffffffffffffffL };
 	static final long[] jjbitVec2 = { 0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL };
@@ -319,43 +324,36 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 		jjstateSet[0] = startState;
 		int j, kind = 0x7fffffff;
 		for (;;) {
-			if (++jjround == 0x7fffffff) {
+			if (++jjround == 0x7fffffff)
 				ReInitRounds();
-			}
 			if (curChar < 64) {
 				long l = 1L << curChar;
 				MatchLoop: do {
 					switch (jjstateSet[--i]) {
 					case 0:
 						if ((0x3ff200100000000L & l) != 0L) {
-							if (kind > 15) {
+							if (kind > 15)
 								kind = 15;
-							}
 							jjCheckNAdd(2);
 						}
 						if ((0x3ff000000000000L & l) != 0L) {
-							if (kind > 14) {
+							if (kind > 14)
 								kind = 14;
-							}
 							jjCheckNAdd(1);
 						}
 						break;
 					case 1:
-						if ((0x3ff000000000000L & l) == 0L) {
+						if ((0x3ff000000000000L & l) == 0L)
 							break;
-						}
-						if (kind > 14) {
+						if (kind > 14)
 							kind = 14;
-						}
 						jjCheckNAdd(1);
 						break;
 					case 2:
-						if ((0x3ff200100000000L & l) == 0L) {
+						if ((0x3ff200100000000L & l) == 0L)
 							break;
-						}
-						if (kind > 15) {
+						if (kind > 15)
 							kind = 15;
-						}
 						jjCheckNAdd(2);
 						break;
 					default:
@@ -368,24 +366,20 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 					switch (jjstateSet[--i]) {
 					case 0:
 						if ((0x7fffffe87fffffeL & l) != 0L) {
-							if (kind > 15) {
+							if (kind > 15)
 								kind = 15;
-							}
 							jjCheckNAdd(2);
 						}
 						if ((0x20000080200L & l) != 0L) {
-							if (kind > 7) {
+							if (kind > 7)
 								kind = 7;
-							}
 						}
 						break;
 					case 2:
-						if ((0x7fffffe87fffffeL & l) == 0L) {
+						if ((0x7fffffe87fffffeL & l) == 0L)
 							break;
-						}
-						if (kind > 15) {
+						if (kind > 15)
 							kind = 15;
-						}
 						jjCheckNAdd(2);
 						break;
 					default:
@@ -402,24 +396,20 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 					switch (jjstateSet[--i]) {
 					case 0:
 						if (jjCanMove_0(hiByte, i1, i2, l1, l2)) {
-							if (kind > 7) {
+							if (kind > 7)
 								kind = 7;
-							}
 						}
 						if (jjCanMove_0(hiByte, i1, i2, l1, l2)) {
-							if (kind > 15) {
+							if (kind > 15)
 								kind = 15;
-							}
 							jjCheckNAdd(2);
 						}
 						break;
 					case 2:
-						if (!jjCanMove_0(hiByte, i1, i2, l1, l2)) {
+						if (!jjCanMove_0(hiByte, i1, i2, l1, l2))
 							break;
-						}
-						if (kind > 15) {
+						if (kind > 15)
 							kind = 15;
-						}
 						jjCheckNAdd(2);
 						break;
 					default:
@@ -433,10 +423,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 				kind = 0x7fffffff;
 			}
 			++curPos;
-			i = jjnewStateCnt;
-			if (i == (startsAt = 3 - (jjnewStateCnt = startsAt))) {
+			if ((i = jjnewStateCnt) == (startsAt = 3 - (jjnewStateCnt = startsAt)))
 				return curPos;
-			}
 			try {
 				curChar = input_stream.readChar();
 			} catch (java.io.IOException e) {
@@ -452,9 +440,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 		case 0:
 			return ((jjbitVec2[i2] & l2) != 0L);
 		default:
-			if ((jjbitVec0[i1] & l1) != 0L) {
+			if ((jjbitVec0[i1] & l1) != 0L)
 				return true;
-			}
 			return false;
 		}
 	}
@@ -468,9 +455,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 	protected char curChar;
 
 	public XDepthParserTokenManager(SimpleCharStream stream) {
-		if (SimpleCharStream.staticFlag) {
+		if (SimpleCharStream.staticFlag)
 			throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
-		}
 		input_stream = stream;
 	}
 
@@ -489,9 +475,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 	private final void ReInitRounds() {
 		int i;
 		jjround = 0x80000001;
-		for (i = 3; i-- > 0;) {
+		for (i = 3; i-- > 0;)
 			jjrounds[i] = 0x80000000;
-		}
 	}
 
 	public void ReInit(SimpleCharStream stream, int lexState) {
@@ -500,12 +485,11 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 	}
 
 	public void SwitchTo(int lexState) {
-		if (lexState >= 1 || lexState < 0) {
+		if (lexState >= 1 || lexState < 0)
 			throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.",
 					TokenMgrError.INVALID_LEXICAL_STATE);
-		} else {
+		else
 			curLexState = lexState;
-		}
 	}
 
 	protected Token jjFillToken() {
@@ -546,9 +530,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 			jjmatchedPos = 0;
 			curPos = jjMoveStringLiteralDfa0_0();
 			if (jjmatchedKind != 0x7fffffff) {
-				if (jjmatchedPos + 1 < curPos) {
+				if (jjmatchedPos + 1 < curPos)
 					input_stream.backup(curPos - jjmatchedPos - 1);
-				}
 				matchedToken = jjFillToken();
 				return matchedToken;
 			}
@@ -565,9 +548,8 @@ public class XDepthParserTokenManager implements XDepthParserConstants {
 				if (curChar == '\n' || curChar == '\r') {
 					error_line++;
 					error_column = 0;
-				} else {
+				} else
 					error_column++;
-				}
 			}
 			if (!EOFSeen) {
 				input_stream.backup(1);

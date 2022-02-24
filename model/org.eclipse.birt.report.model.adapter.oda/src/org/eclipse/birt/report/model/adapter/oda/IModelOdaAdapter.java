@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,8 +28,8 @@ import org.eclipse.datatools.connectivity.oda.design.DesignerState;
 import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
 
 /**
- *
- *
+ * 
+ * 
  */
 
 public interface IModelOdaAdapter {
@@ -37,7 +37,7 @@ public interface IModelOdaAdapter {
 	/**
 	 * Adapts the specified Model OdaDataSourceHandle to a Data Engine API
 	 * DataSourceDesign object.
-	 *
+	 * 
 	 * @param sourceHandle the Model handle
 	 * @return a new <code>DataSourceDesign</code>
 	 */
@@ -47,7 +47,7 @@ public interface IModelOdaAdapter {
 	/**
 	 * Adapts the specified Model OdaDataSetHandle to a Data Engine API
 	 * DataSetDesign object.
-	 *
+	 * 
 	 * @param setHandle the Model handle
 	 * @return a new <code>DataSetDesign</code>
 	 */
@@ -57,7 +57,7 @@ public interface IModelOdaAdapter {
 	/**
 	 * Adapts the Data Engine API DataSetDesign object to the specified Model
 	 * OdaDataSetHandle.
-	 *
+	 * 
 	 * @param setDesign the ODA dataSet design. <b>User should make sure
 	 *                  <code>setDesign</code> only contains driver-defined
 	 *                  parameter.It's very important! </b>
@@ -73,7 +73,7 @@ public interface IModelOdaAdapter {
 
 	/**
 	 * Copies values of <code>sourceHandle</code> to <code>sourceDesign</code>.
-	 *
+	 * 
 	 * @param setHandle the Model handle
 	 * @param setDesign the ODA data source design
 	 */
@@ -82,7 +82,7 @@ public interface IModelOdaAdapter {
 
 	/**
 	 * Copies values of <code>sourceHandle</code> to <code>sourceDesign</code>.
-	 *
+	 * 
 	 * @param setHandle    the Model handle
 	 * @param setDesign    the ODA data source design
 	 * @param propertyName the property name
@@ -92,7 +92,7 @@ public interface IModelOdaAdapter {
 
 	/**
 	 * Copies values of <code>sourceHandle</code> to <code>sourceDesign</code>.
-	 *
+	 * 
 	 * @param sourceHandle the Model handle
 	 * @param sourceDesign the ODA data source design
 	 */
@@ -102,7 +102,7 @@ public interface IModelOdaAdapter {
 	/**
 	 * Adapts the Data Engine API DataSourceDesign object to the specified Model
 	 * OdaDataSourceHandle.
-	 *
+	 * 
 	 * @param sourceDesign the ODA dataSource design.
 	 * @param module       the module where the Model handle resides.
 	 * @return a new <code>OdaDataSourceHandle</code>
@@ -117,7 +117,7 @@ public interface IModelOdaAdapter {
 	/**
 	 * Updates values of <code>sourceHandle</code> with the given
 	 * <code>sourceDesign</code>.
-	 *
+	 * 
 	 * @param sourceDesign the ODA data source design
 	 * @param sourceHandle the Model handle
 	 * @throws SemanticException if any of <code>sourceDesign</code> property values
@@ -130,7 +130,7 @@ public interface IModelOdaAdapter {
 	/**
 	 * Updates values of <code>DataSetHandle</code> with the given
 	 * <code>sourceDesign</code>.
-	 *
+	 * 
 	 * @param setDesign       the ODA data source design
 	 * @param setHandle       the Model handle
 	 * @param isSourceChanged <code>true</code> if the data set of the given design
@@ -144,7 +144,7 @@ public interface IModelOdaAdapter {
 
 	/**
 	 * Creates a ODA DesignerState object with the given OdaDataSet.
-	 *
+	 * 
 	 * @param setHandle the ODA DataSet.
 	 * @return the oda DesignerState object.
 	 */
@@ -153,7 +153,7 @@ public interface IModelOdaAdapter {
 
 	/**
 	 * Creates a ROM DesignerState object with the given ODA DataSet design.
-	 *
+	 * 
 	 * @param designerState the ODA designer state.
 	 * @param setHandle     the ODA DataSet.
 	 * @throws SemanticException if ROM Designer state value is locked.
@@ -163,7 +163,7 @@ public interface IModelOdaAdapter {
 
 	/**
 	 * Creates a ODA DesignerState object with the given OdaDataSource.
-	 *
+	 * 
 	 * @param sourceHandle the ODA DataSource.
 	 * @return the oda DesignerState object.
 	 */
@@ -172,7 +172,7 @@ public interface IModelOdaAdapter {
 
 	/**
 	 * Creates a ROM DesignerState object with the given ODA DataSet design.
-	 *
+	 * 
 	 * @param designerState the ODA designer state.
 	 * @param sourceHandle  the ODA DataSource.
 	 * @throws SemanticException if ROM Designer state value is locked.
@@ -182,7 +182,7 @@ public interface IModelOdaAdapter {
 
 	/**
 	 * Check whether two data source design is equal.
-	 *
+	 * 
 	 * @param designFromHandle the data source design created from data source
 	 *                         handle
 	 * @param design           the data source design
@@ -196,7 +196,7 @@ public interface IModelOdaAdapter {
 	 * Returns an design session with the specified the data set handle. It creates
 	 * an data set design and sets the data set design as the new quest.
 	 * DesignerState is also updated.
-	 *
+	 * 
 	 * @param dataSetHandle the data set handle
 	 * @return the design session contains the new session request
 	 */
@@ -206,7 +206,7 @@ public interface IModelOdaAdapter {
 	/**
 	 * Updates the data set handle with the response in the completedSession.
 	 * DesignerState is also updated.
-	 *
+	 * 
 	 * @param handle           the data set handle
 	 * @param completedSession the session with the session response
 	 * @throws SemanticException
@@ -217,22 +217,23 @@ public interface IModelOdaAdapter {
 	/**
 	 * Returns the ambiguous option when converts the ODA data set design to ROM
 	 * data set handle.
-	 *
+	 * 
 	 * @param design the ODA data set design
 	 * @param handle the ROM data set handle
-	 *
+	 * 
 	 * @return a option that gives out all ambiguous information
 	 */
 
-	IAmbiguousOption getAmbiguousOption(DataSetDesign design, OdaDataSetHandle handle);
+	public IAmbiguousOption getAmbiguousOption(DataSetDesign design, OdaDataSetHandle handle);
 
 	/**
 	 * Update the specified dataset parameters list f dataSetHandle with the latest
 	 * value of design. The others in dataset handle will be handled as default.
 	 */
 
-	void updateDataSetHandle(DataSetDesign design, OdaDataSetHandle handle, List<OdaDataSetParameter> parameterList,
-			List<OdaResultSetColumn> resultSetList, boolean isSourceChanged) throws SemanticException;
+	public void updateDataSetHandle(DataSetDesign design, OdaDataSetHandle handle,
+			List<OdaDataSetParameter> parameterList, List<OdaResultSetColumn> resultSetList, boolean isSourceChanged)
+			throws SemanticException;
 
 	/**
 	 * Update the specified dataset parameters list and resultset list of
@@ -240,7 +241,7 @@ public interface IModelOdaAdapter {
 	 * will be handled as default.
 	 */
 
-	void updateDataSetHandle(OdaDataSetHandle handle, OdaDesignSession completedSession,
+	public void updateDataSetHandle(OdaDataSetHandle handle, OdaDesignSession completedSession,
 			List<OdaDataSetParameter> parameterList, List<OdaResultSetColumn> resultSetList) throws SemanticException;
 
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,19 +39,17 @@ public class DocumentIndexReaderV0 implements IDocumentIndexReader, ReportDocume
 		this.archive = archive;
 	}
 
-	@Override
 	public int getVersion() {
 		return VERSION_0;
 	}
 
-	@Override
 	public void close() {
 	}
 
 	private HashMap<String, Long> loadIndexStream(IDocArchiveReader archive, String streamName) throws IOException {
-		HashMap<String, Long> map = new HashMap<>();
+		HashMap<String, Long> map = new HashMap<String, Long>();
 		RAInputStream in = archive.getStream(streamName);
-		try (in) {
+		try {
 			DataInputStream di = new DataInputStream(in);
 			long count = IOUtil.readLong(di);
 			for (long i = 0; i < count; i++) {
@@ -59,11 +57,12 @@ public class DocumentIndexReaderV0 implements IDocumentIndexReader, ReportDocume
 				long offset = IOUtil.readLong(di);
 				map.put(key, new Long(offset));
 			}
+		} finally {
+			in.close();
 		}
 		return map;
 	}
 
-	@Override
 	public long getOffsetOfBookmark(String bookmark) throws IOException {
 		if (bookmarks == null) {
 			bookmarks = loadIndexStream(archive, REPORTLET_BOOKMARK_INDEX_STREAM);
@@ -77,7 +76,6 @@ public class DocumentIndexReaderV0 implements IDocumentIndexReader, ReportDocume
 		return -1;
 	}
 
-	@Override
 	public long getOffsetOfInstance(String instanceId) throws IOException {
 		if (reportlets == null) {
 			reportlets = loadIndexStream(archive, REPORTLET_ID_INDEX_STREAM);
@@ -91,7 +89,6 @@ public class DocumentIndexReaderV0 implements IDocumentIndexReader, ReportDocume
 		return -1;
 	}
 
-	@Override
 	public long getPageOfBookmark(String bookmark) throws IOException {
 		if (pageNumbers == null) {
 			pageNumbers = loadIndexStream(archive, BOOKMARK_STREAM);
@@ -105,13 +102,12 @@ public class DocumentIndexReaderV0 implements IDocumentIndexReader, ReportDocume
 		return -1;
 	}
 
-	@Override
 	public List<String> getBookmarks() throws IOException {
 		if (pageNumbers == null) {
 			pageNumbers = loadIndexStream(archive, BOOKMARK_STREAM);
 		}
 		if (pageNumbers != null) {
-			ArrayList<String> list = new ArrayList<>();
+			ArrayList<String> list = new ArrayList<String>();
 			for (String bookmark : pageNumbers.keySet()) {
 				if (bookmark != null && !bookmark.startsWith(TOCBuilder.TOC_PREFIX)) {
 					list.add(bookmark);
@@ -122,12 +118,10 @@ public class DocumentIndexReaderV0 implements IDocumentIndexReader, ReportDocume
 		return null;
 	}
 
-	@Override
 	public BookmarkContent getBookmark(String bookmark) {
 		return null;
 	}
 
-	@Override
 	public List<BookmarkContent> getBookmarkContents() throws IOException {
 		return null;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -116,7 +116,7 @@ public class VersionManager {
 		// Default is 2.2
 		int version = getLatestVersion();
 
-		if (!dataEngineContext.hasInStream(null, null, DataEngineContext.VERSION_INFO_STREAM)) {
+		if (dataEngineContext.hasInStream(null, null, DataEngineContext.VERSION_INFO_STREAM) == false) {
 			version = VERSION_2_0;
 			return version;
 		}
@@ -126,7 +126,9 @@ public class VersionManager {
 					dataEngineContext.getInputStream(null, null, DataEngineContext.VERSION_INFO_STREAM));
 			version = IOUtil.readInt(is);
 			is.close();
-		} catch (DataException | IOException e) {
+		} catch (DataException e) {
+			logger.log(Level.FINE, e.getMessage(), e);
+		} catch (IOException e) {
 			logger.log(Level.FINE, e.getMessage(), e);
 		}
 
@@ -179,18 +181,19 @@ public class VersionManager {
 	}
 
 	private Map<String, Integer> getQueryIdVersionMap() throws DataException {
-		Map<String, Integer> result = new HashMap<>();
+		Map<String, Integer> result = new HashMap<String, Integer>();
 
-		if (!dataEngineContext.hasInStream(null, null, DataEngineContext.QUERY_ID_BASED_VERSIONING_STREAM)) {
+		if (!dataEngineContext.hasInStream(null, null, DataEngineContext.QUERY_ID_BASED_VERSIONING_STREAM))
 			return result;
-		}
 
 		try {
 			DataInputStream is = new DataInputStream(
 					dataEngineContext.getInputStream(null, null, DataEngineContext.QUERY_ID_BASED_VERSIONING_STREAM));
 			result = IOUtil.readMap(is);
 			is.close();
-		} catch (DataException | IOException e) {
+		} catch (DataException e) {
+			logger.log(Level.FINE, e.getMessage(), e);
+		} catch (IOException e) {
 			logger.log(Level.FINE, e.getMessage(), e);
 		}
 		DataEngineSession.getVersionForQuRsMap().putAll(result);
@@ -200,16 +203,15 @@ public class VersionManager {
 	public int getVersion(String queryResultId) throws DataException {
 		if (queryResultId != null && queryResultId.trim().length() > 0) {
 			Integer version = this.getQueryIdVersionMap().get(queryResultId);
-			if (version != null) {
+			if (version != null)
 				return version;
-			}
 		}
 
 		return this.getVersion();
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public static int getLatestVersion() {

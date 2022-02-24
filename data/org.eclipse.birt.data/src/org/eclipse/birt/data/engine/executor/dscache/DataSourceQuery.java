@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private DataEngineSession session;
 
 	/**
-	 *
+	 * 
 	 * @param context
 	 */
 	public DataSourceQuery(DataEngineSession session) {
@@ -55,7 +55,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * org.eclipse.birt.data.engine.odi.IDataSourceQuery#setResultHints(java.util.
 	 * Collection)
 	 */
-	@Override
 	public void setResultHints(Collection columnDefns) {
 		// do nothing
 	}
@@ -65,12 +64,10 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * org.eclipse.birt.data.engine.odi.IDataSourceQuery#setResultProjection(java.
 	 * lang.String[])
 	 */
-	@Override
 	public void setResultProjection(String[] fieldNames) throws DataException {
 		// do nothing
 	}
 
-	@Override
 	public void setParameterHints(Collection parameterDefns) {
 		// do nothing
 	}
@@ -79,7 +76,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#addProperty(java.lang.
 	 * String, java.lang.String)
 	 */
-	@Override
 	public void addProperty(String name, String value) throws DataException {
 		// do nothing
 	}
@@ -89,7 +85,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * org.eclipse.birt.data.engine.odi.IDataSourceQuery#declareCustomField(java.
 	 * lang.String, int)
 	 */
-	@Override
 	public void declareCustomField(String fieldName, int dataType) throws DataException {
 		// do nothing
 	}
@@ -97,7 +92,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#prepare()
 	 */
-	@Override
 	public IPreparedDSQuery prepare() throws DataException {
 		return this;
 	}
@@ -108,7 +102,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getResultClass()
 	 */
-	@Override
 	public IResultClass getResultClass() throws DataException {
 		return getOdaCacheResultSet().getResultClass();
 	}
@@ -116,7 +109,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getParameterMetaData()
 	 */
-	@Override
 	public Collection getParameterMetaData() throws DataException {
 		return null;
 	}
@@ -126,7 +118,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getOutputParameterValue(
 	 * int)
 	 */
-	@Override
 	public Object getOutputParameterValue(int index) throws DataException {
 		return null;
 	}
@@ -136,7 +127,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getOutputParameterValue(
 	 * java.lang.String)
 	 */
-	@Override
 	public Object getOutputParameterValue(String name) throws DataException {
 		return null;
 	}
@@ -144,7 +134,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/**
 	 * Set temporary computed columns to DatasetCache. DatasetCache will use these
 	 * objects to produce ResultClass.
-	 *
+	 * 
 	 * @param addedTempComputedColumn
 	 */
 	public void setTempComputedColumn(List addedTempComputedColumn) {
@@ -154,7 +144,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
 	 */
-	@Override
 	public IResultIterator execute(IEventHandler eventHandler) throws DataException {
 		if (((session.getEngineContext().getMode() == DataEngineContext.DIRECT_PRESENTATION
 				|| session.getEngineContext().getMode() == DataEngineContext.MODE_GENERATION))
@@ -167,7 +156,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			if (strategy != Strategy.Complex) {
 				SimpleResultSet simpleResult = new SimpleResultSet(this, new IDataSetPopulator() {
 
-					@Override
 					public IResultObject next() throws DataException {
 						return getOdaCacheResultSet().fetch();
 					}
@@ -186,7 +174,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#close()
 	 */
-	@Override
 	public void close() {
 		try {
 			if (datasetFromCache != null) {
@@ -202,14 +189,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * @return OdaCacheResultSet
 	 */
 	private DataSetFromCache getOdaCacheResultSet() {
-		if (datasetFromCache == null) {
+		if (datasetFromCache == null)
 			datasetFromCache = new DataSetFromCache(session);
-		}
 
 		return datasetFromCache;
 	}
 
-	@Override
 	public void setQuerySpecification(QuerySpecification spec) {
 		// TODO Auto-generated method stub
 

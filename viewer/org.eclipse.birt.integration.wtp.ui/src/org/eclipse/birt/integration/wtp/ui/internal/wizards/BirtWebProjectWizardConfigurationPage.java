@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -62,7 +62,7 @@ import org.osgi.framework.Bundle;
  * <li>BIRT_VIEWER_LOG_LEVEL</li>
  * <li>BIRT_VIEWER_PRINT_SERVERSIDE</li>
  * </ol>
- *
+ * 
  */
 public class BirtWebProjectWizardConfigurationPage extends AbstractFacetWizardPage implements IBirtWizardConstants {
 
@@ -143,7 +143,7 @@ public class BirtWebProjectWizardConfigurationPage extends AbstractFacetWizardPa
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param props
 	 */
 	public BirtWebProjectWizardConfigurationPage() {
@@ -151,17 +151,15 @@ public class BirtWebProjectWizardConfigurationPage extends AbstractFacetWizardPa
 		setTitle(BirtWTPMessages.BIRTProjectConfigurationPage_title);
 		setDescription(BirtWTPMessages.BIRTProjectConfigurationPage_desc);
 		ImageDescriptor imageDesc = getDefaultPageImageDescriptor();
-		if (imageDesc != null) {
+		if (imageDesc != null)
 			setImageDescriptor(imageDesc);
-		}
 	}
 
 	/**
 	 * Create Configuration Page
-	 *
+	 * 
 	 * @see org.eclipse.ui.dialogs.WizardNewProjectCreationPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setFont(parent.getFont());
@@ -241,7 +239,7 @@ public class BirtWebProjectWizardConfigurationPage extends AbstractFacetWizardPa
 
 	/**
 	 * Returns the default page banner image
-	 *
+	 * 
 	 * @return
 	 */
 	protected ImageDescriptor getDefaultPageImageDescriptor() {
@@ -256,7 +254,7 @@ public class BirtWebProjectWizardConfigurationPage extends AbstractFacetWizardPa
 
 	/**
 	 * Do initialize page properties map
-	 *
+	 * 
 	 */
 	protected void initializeProperties() {
 		WebArtifactUtil.setContextParamValue(properties, BIRT_RESOURCE_FOLDER_SETTING, txtResourceFolder.getText());
@@ -282,11 +280,10 @@ public class BirtWebProjectWizardConfigurationPage extends AbstractFacetWizardPa
 
 	/**
 	 * Sets the birt facet configuration
-	 *
+	 * 
 	 * @param config IDataModel
 	 * @see org.eclipse.wst.common.project.facet.ui.IFacetWizardPage#setConfig(java.lang.Object)
 	 */
-	@Override
 	public void setConfig(Object config) {
 		IDataModel dataModel = (IDataModel) config;
 		Map birtProperties = (Map) dataModel.getProperty(BirtFacetInstallDataModelProperties.BIRT_CONFIG);
@@ -300,7 +297,7 @@ public class BirtWebProjectWizardConfigurationPage extends AbstractFacetWizardPa
 		/**
 		 * Constructs a listener which listens whenever the given page is selected and
 		 * updates its size.
-		 *
+		 * 
 		 * @param wizardPage wizard page
 		 */
 		public WizardPageChangedListener(IWizardPage wizardPage) {
@@ -310,10 +307,9 @@ public class BirtWebProjectWizardConfigurationPage extends AbstractFacetWizardPa
 		/**
 		 * Called whenever the wizard page has changed and forces its container to
 		 * resize its content.
-		 *
+		 * 
 		 * @see org.eclipse.jface.dialogs.IPageChangedListener#pageChanged(org.eclipse.jface.dialogs.PageChangedEvent)
 		 */
-		@Override
 		public void pageChanged(PageChangedEvent event) {
 			if (this.wizardPage == event.getSelectedPage()) {
 				// force size update

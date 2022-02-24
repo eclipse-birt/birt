@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Test case for LabelHandle.
- *
+ * 
  */
 
 public class LabelHandleTest extends BaseTestCase {
@@ -35,11 +35,10 @@ public class LabelHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign(INPUT_FILE);
@@ -73,9 +72,9 @@ public class LabelHandleTest extends BaseTestCase {
 
 	/**
 	 * test getProperties and setProperties
-	 *
+	 * 
 	 * @throws SemanticException
-	 *
+	 * 
 	 */
 
 	public void testSetGetProperties() throws SemanticException {
@@ -113,7 +112,7 @@ public class LabelHandleTest extends BaseTestCase {
 
 	/**
 	 * Test get message of label.
-	 *
+	 * 
 	 */
 
 	public void testGetLocalizationMessage() {
@@ -139,17 +138,15 @@ public class LabelHandleTest extends BaseTestCase {
 
 	/**
 	 * Test get message of label which extends from library.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testBaseIdLocalizationMessage() throws Exception {
-		if (designHandle != null) {
+		if (designHandle != null)
 			designHandle.close();
-		}
 
-		if (libraryHandle != null) {
+		if (libraryHandle != null)
 			libraryHandle.close();
-		}
 
 		openDesign("LabelHandleTest_1.xml");//$NON-NLS-1$
 		LabelHandle handle = (LabelHandle) designHandle.findElement("NewLabel");//$NON-NLS-1$

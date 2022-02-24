@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,6 @@ public class TableGroupExecutor extends GroupExecutor {
 		super(manager, ExecutorManager.TABLEGROUPITEM);
 	}
 
-	@Override
 	protected ReportItemExecutor doCreateExecutor(long offset) throws Exception {
 		ReportItemExecutor executor = super.doCreateExecutor(offset);
 		if (executor instanceof TableBandExecutor) {
@@ -32,7 +31,6 @@ public class TableGroupExecutor extends GroupExecutor {
 		return executor;
 	}
 
-	@Override
 	protected IContent doCreateContent() {
 		return report.createTableGroupContent();
 	}

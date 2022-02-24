@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,13 +25,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- *
+ * 
  */
 
 public class AddResourceFileFolderSelectionDialog extends ResourceFileFolderSelectionDialog {
 
 	ArrayList existFilesList = new ArrayList();
 
+	private final String[] FILENAME_PATTERN;
 	private final String[] FILENAME_SUFFIX;
 
 	private Status ErrorStatusExist = new Status(IStatus.ERROR, ReportPlugin.REPORT_UI, IStatus.ERROR,
@@ -46,10 +47,10 @@ public class AddResourceFileFolderSelectionDialog extends ResourceFileFolderSele
 	public AddResourceFileFolderSelectionDialog(String[] pattern, String[] suffix) {
 		super(true, pattern);
 		this.setEmptyFolderShowStatus(IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER);
+		this.FILENAME_PATTERN = pattern;
 		this.FILENAME_SUFFIX = suffix;
 		setValidator(new ResourceSelectionValidator(true, false, FILENAME_SUFFIX) {
 
-			@Override
 			public IStatus validate(Object[] selection) {
 				int nSelected = selection.length;
 
@@ -69,7 +70,7 @@ public class AddResourceFileFolderSelectionDialog extends ResourceFileFolderSele
 		setAllowMultiple(true);
 
 		// String fileSuf = "";
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < FILENAME_SUFFIX.length; i++) {
 			if (i == FILENAME_SUFFIX.length - 1 && FILENAME_SUFFIX.length >= 2) {
 //				fileSuf = fileSuf
@@ -99,7 +100,6 @@ public class AddResourceFileFolderSelectionDialog extends ResourceFileFolderSele
 	/*
 	 * @see Dialog#createDialogArea(Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Control control = super.createDialogArea(parent);
 		// UIUtil.bindHelp( parent, IHelpContextIds.ADD_JAR_FILES_DIALOG_ID );

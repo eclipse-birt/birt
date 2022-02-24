@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,20 +30,19 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
- *
+ * 
  */
 
 public abstract class ElementNameContext extends AbstractNameContext {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getElements
 	 * (int)
 	 */
-	@Override
 	public List<DesignElement> getElements(int level) {
-		List<DesignElement> elements = new ArrayList<>();
+		List<DesignElement> elements = new ArrayList<DesignElement>();
 
 		if (level == NATIVE_LEVEL) {
 			elements.addAll(namespace.getElements());
@@ -51,9 +50,8 @@ public abstract class ElementNameContext extends AbstractNameContext {
 			elements.addAll(namespace.getElements());
 			int newLevel = level - 1;
 			Dimension parent = (Dimension) getElement().getExtendsElement();
-			if (parent == null) {
+			if (parent == null)
 				parent = (Dimension) getElement().getVirtualParent();
-			}
 
 			while (parent != null && newLevel >= NATIVE_LEVEL) {
 				elements.addAll(((AbstractNameHelper) parent.getNameHelper()).getNameContext(Module.ELEMENT_NAME_SPACE)
@@ -66,9 +64,9 @@ public abstract class ElementNameContext extends AbstractNameContext {
 	/**
 	 * Resolves the given element name to element reference value within the given
 	 * depth.
-	 *
+	 * 
 	 * @param elementName the element name
-	 *
+	 * 
 	 * @return the element reference value.
 	 */
 
@@ -90,16 +88,15 @@ public abstract class ElementNameContext extends AbstractNameContext {
 
 	/**
 	 * Resolves the given element to element reference value within the given depth.
-	 *
+	 * 
 	 * @param element the element
-	 *
+	 * 
 	 * @return the element reference value.
 	 */
 
 	private ElementRefValue resolve(DesignElement element) {
-		if (element == null) {
+		if (element == null)
 			return null;
-		}
 
 		return doResolveElement(getElements(NATIVE_LEVEL), element);
 	}
@@ -110,7 +107,7 @@ public abstract class ElementNameContext extends AbstractNameContext {
 	 * returned.
 	 * <p>
 	 * The namespace information may be lost.
-	 *
+	 * 
 	 * @param elements
 	 * @param element
 	 */
@@ -129,13 +126,11 @@ public abstract class ElementNameContext extends AbstractNameContext {
 		Module root = element.getRoot();
 		String namespace = null;
 
-		if (root instanceof Library) {
+		if (root instanceof Library)
 			namespace = ((Library) root).getNamespace();
-		}
 
-		if (!isFound) {
+		if (!isFound)
 			return new ElementRefValue(namespace, element.getFullName());
-		}
 
 		// TODO: if the root is null, the module of the element should be used
 		// to get the namespace.
@@ -145,48 +140,43 @@ public abstract class ElementNameContext extends AbstractNameContext {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
 	 * .eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
-	@Override
 	public ElementRefValue resolve(DesignElement focus, DesignElement element, PropertyDefn propDefn,
 			ElementDefn elementDefn) {
-		if (propDefn != null && IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase(propDefn.getName())) {
+		if (propDefn != null && IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase(propDefn.getName()))
 			return resolve(element);
-		}
 
 		return resolve(element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
 	 * .eclipse.birt.report.model.core.DesignElement, java.lang.String,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
-	@Override
 	public ElementRefValue resolve(DesignElement focus, String elementName, PropertyDefn propDefn,
 			ElementDefn elementDefn) {
-		if (propDefn != null && IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase(propDefn.getName())) {
+		if (propDefn != null && IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase(propDefn.getName()))
 			return resolve(elementName);
-		}
 		// try to resolve and return
 		return resolve(elementName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#findElement
 	 * (java.lang.String, org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
-	@Override
 	public DesignElement findElement(String elementName, IElementDefn elementDefn) {
 		return resolve(elementName).getElement();
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,10 +28,10 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
  * Validates the report should have at least one master page.
- *
+ * 
  * <h3>Rule</h3> The rule is that the report should have at least one master
  * page.
- *
+ * 
  * <h3>Applicability</h3> This validator is only applied to
  * <code>ReportDesign</code>.
  */
@@ -42,7 +42,7 @@ public class MasterPageRequiredValidator extends AbstractElementValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 *
+	 * 
 	 * @return the validator instance
 	 */
 
@@ -52,20 +52,18 @@ public class MasterPageRequiredValidator extends AbstractElementValidator {
 
 	/**
 	 * Validates whether the given report has one master page.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the report to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
-		if (!(element instanceof ReportDesign)) {
+		if (!(element instanceof ReportDesign))
 			return Collections.emptyList();
-		}
 
-		List<SemanticException> list = new ArrayList<>();
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
 		ReportDesign report = (ReportDesign) element;
 

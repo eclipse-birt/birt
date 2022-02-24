@@ -1,18 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.testutil;
+
+import junit.framework.TestCase;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.tests.ITestConstants;
@@ -21,12 +23,10 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
-import junit.framework.TestCase;
-
 /**
  * Base class of unit tests
- *
- *
+ * 
+ * 
  */
 
 public abstract class BaseTestCase extends TestCase {
@@ -41,20 +41,18 @@ public abstract class BaseTestCase extends TestCase {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param name
 	 */
 	public BaseTestCase(String name) {
 		super(name);
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		loadFile(getLoadFile());
 		report = (ReportDesignHandle) SessionHandleAdapter.getInstance().getReportDesignHandle();
 	}
 
-	@Override
 	protected void tearDown() throws Exception {
 		report.close();
 		report = null;
@@ -73,7 +71,7 @@ public abstract class BaseTestCase extends TestCase {
 
 	/**
 	 * Gets the report design for tests
-	 *
+	 * 
 	 * @return the report design for tests
 	 */
 	protected ReportDesign getReportDesign() {

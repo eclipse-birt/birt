@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -43,7 +43,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Gets the index value for this File.
-	 *
+	 * 
 	 * @return index
 	 */
 	public int getIndex() {
@@ -52,7 +52,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Sets the index value for this File.
-	 *
+	 * 
 	 * @param index
 	 */
 	public void setIndex(int index) {
@@ -61,7 +61,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Gets the isFile value for this File.
-	 *
+	 * 
 	 * @return isFile
 	 */
 	public boolean isIsFile() {
@@ -70,7 +70,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Sets the isFile value for this File.
-	 *
+	 * 
 	 * @param isFile
 	 */
 	public void setIsFile(boolean isFile) {
@@ -79,7 +79,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this File.
-	 *
+	 * 
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -88,7 +88,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this File.
-	 *
+	 * 
 	 * @param name
 	 */
 	public void setName(java.lang.String name) {
@@ -97,7 +97,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Gets the fileType value for this File.
-	 *
+	 * 
 	 * @return fileType
 	 */
 	public java.lang.String getFileType() {
@@ -106,7 +106,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Sets the fileType value for this File.
-	 *
+	 * 
 	 * @param fileType
 	 */
 	public void setFileType(java.lang.String fileType) {
@@ -115,7 +115,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Gets the displayName value for this File.
-	 *
+	 * 
 	 * @return displayName
 	 */
 	public java.lang.String getDisplayName() {
@@ -124,7 +124,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Sets the displayName value for this File.
-	 *
+	 * 
 	 * @param displayName
 	 */
 	public void setDisplayName(java.lang.String displayName) {
@@ -133,7 +133,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Gets the description value for this File.
-	 *
+	 * 
 	 * @return description
 	 */
 	public java.lang.String getDescription() {
@@ -142,7 +142,7 @@ public class File implements java.io.Serializable {
 
 	/**
 	 * Sets the description value for this File.
-	 *
+	 * 
 	 * @param description
 	 */
 	public void setDescription(java.lang.String description) {
@@ -151,18 +151,14 @@ public class File implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof File)) {
+		if (!(obj instanceof File))
 			return false;
-		}
 		File other = (File) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -183,7 +179,6 @@ public class File implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

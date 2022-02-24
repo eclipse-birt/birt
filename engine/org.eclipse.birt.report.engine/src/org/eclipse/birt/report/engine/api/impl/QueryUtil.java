@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -103,9 +103,8 @@ public class QueryUtil {
 				IDataQueryDefinition query = task.getQuery();
 				if (task.getParent() == null) {
 					String rset = getResultSetID(executionContext, null, "-1", query);
-					if (rset == null) {
+					if (rset == null)
 						return null;
-					}
 					sb.append(rset);
 				} else {
 					if (sb.length() == 0) {
@@ -165,7 +164,7 @@ public class QueryUtil {
 			iid = iid.getParentID();
 		}
 		// At this point, query refers to the last query in the query chain.
-		ArrayList<DataSetID> dsIDs = new ArrayList<>();
+		ArrayList<DataSetID> dsIDs = new ArrayList<DataSetID>();
 		ArrayList plan = new ArrayList();
 		while (query != null) {
 			while (iid != null) {
@@ -210,7 +209,7 @@ public class QueryUtil {
 	 * create a plan; this plan gets all data queries.
 	 */
 	static public ArrayList<QueryTask> createPlan(Report report, InstanceID instanceId) {
-		ArrayList<IDataQueryDefinition> queries = new ArrayList<>();
+		ArrayList<IDataQueryDefinition> queries = new ArrayList<IDataQueryDefinition>();
 		InstanceID iid = instanceId;
 		InstanceID dsIID = null;
 		while (iid != null) {
@@ -233,9 +232,8 @@ public class QueryUtil {
 			}
 			iid = iid.getParentID();
 		}
-		if (queries.size() == 0) {
+		if (queries.size() == 0)
 			return null;
-		}
 		ArrayList datasets = new ArrayList();
 		ArrayList plan = new ArrayList();
 		for (IDataQueryDefinition query : queries) {
@@ -268,14 +266,13 @@ public class QueryUtil {
 	}
 
 	/*
-	 *
+	 * 
 	 */
 	static public List executePlan(final ExecutionContext executionContext, ArrayList<QueryTask> plan)
 			throws EngineException {
 		List results = new ArrayList();
 		IBaseResultSet parent = executePlan(plan, 0, executionContext, new IResultSetIDProvider() {
 
-			@Override
 			public String getResultsID(String parent, String rawId, IDataQueryDefinition query) {
 				return getResultSetID(executionContext, parent, rawId, query);
 			}
@@ -300,9 +297,8 @@ public class QueryUtil {
 					// this is a top query
 					String rsID = resultsIDProvider.getResultsID(null, "-1", query);
 					IBaseQueryResults baseResults = QueryUtil.executeQuery(null, query, rsID, executionContext);
-					if (baseResults == null) {
+					if (baseResults == null)
 						return null;
-					}
 					if (baseResults instanceof IQueryResults) {
 						parent = new QueryResultSet(executionContext.getDataEngine(), executionContext,
 								(IQueryDefinition) query, (IQueryResults) baseResults);
@@ -372,7 +368,7 @@ public class QueryUtil {
 		} catch (EngineException e) {
 			context.addException(e);
 		}
-		if (engine instanceof AbstractDataEngine) {
+		if (engine != null && engine instanceof AbstractDataEngine) {
 			AbstractDataEngine dataEngine = (AbstractDataEngine) engine;
 			String queryId = dataEngine.getQueryID(query);
 			String result = dataEngine.getResultID(parent, rowId, queryId);
@@ -406,9 +402,8 @@ public class QueryUtil {
 			ExecutionContext executionContext) throws EngineException {
 		try {
 			DataRequestSession dataSession = executionContext.getDataEngine().getDTESession();
-			if (dataSession == null) {
+			if (dataSession == null)
 				return null;
-			}
 			Map appContext = executionContext.getAppContext();
 			dataSession.getDataSessionContext().setAppContext(appContext);
 			ScriptContext scriptContext = executionContext.getScriptContext();
@@ -417,25 +412,22 @@ public class QueryUtil {
 				tmpQuery.setQueryResultsID(rset);
 				processQueryExtensions(query, executionContext);
 				IPreparedQuery pQuery = dataSession.prepare(tmpQuery);
-				if (pQuery == null) {
+				if (pQuery == null)
 					return null;
-				}
 				return dataSession.execute(pQuery, parent, scriptContext);
 			} else if (query instanceof ICubeQueryDefinition) {
 				ICubeQueryDefinition cubeQuery = (ICubeQueryDefinition) query;
 				cubeQuery.setQueryResultsID(rset);
 				processQueryExtensions(query, executionContext);
 				IPreparedCubeQuery pQuery = dataSession.prepare(cubeQuery);
-				if (pQuery == null) {
+				if (pQuery == null)
 					return null;
-				}
 				return dataSession.execute(pQuery, parent, scriptContext);
 			} else if (query instanceof ISubCubeQueryDefinition) {
 				ISubCubeQueryDefinition cubeQuery = (ISubCubeQueryDefinition) query;
 				IPreparedCubeQuery pQuery = dataSession.prepare(cubeQuery);
-				if (pQuery == null) {
+				if (pQuery == null)
 					return null;
-				}
 				return dataSession.execute(pQuery, parent, scriptContext);
 			}
 		} catch (BirtException ex) {
@@ -484,7 +476,7 @@ public class QueryUtil {
 			if (resultSetColumns == null) {
 				return Collections.EMPTY_LIST;
 			}
-			ArrayList<String> columnNames = new ArrayList<>();
+			ArrayList<String> columnNames = new ArrayList<String>();
 			for (ResultSetColumn column : resultSetColumns) {
 				String columnName = column.getColumnName();
 				columnNames.add(columnName);
@@ -503,7 +495,7 @@ public class QueryUtil {
 			if (resultSetColumns == null) {
 				return Collections.EMPTY_MAP;
 			}
-			Map<String, ResultSetColumn> retVal = new LinkedHashMap<>();
+			Map<String, ResultSetColumn> retVal = new LinkedHashMap<String, ResultSetColumn>();
 			for (ResultSetColumn col : resultSetColumns) {
 				retVal.put(col.getColumnName(), col);
 			}
@@ -525,7 +517,7 @@ public class QueryUtil {
 		query.addBinding(binding);
 	}
 
-	public interface IResultSetIDProvider {
+	public static interface IResultSetIDProvider {
 		String getResultsID(String parent, String rawId, IDataQueryDefinition query);
 	}
 }

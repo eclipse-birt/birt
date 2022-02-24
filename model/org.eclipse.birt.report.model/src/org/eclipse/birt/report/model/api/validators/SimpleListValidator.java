@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,13 +34,13 @@ import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 /**
  * Validates one list property of element. The property type should be simple
  * value list, not structure list.
- *
+ * 
  * <h3>Rule</h3> The rule is that
  * <ul>
  * <li>all items in this list property should be valid.
  * <li>the value in this list should be unique.
  * </ul>
- *
+ * 
  * <h3>Applicability</h3> This validator is only applied to the property whose
  * type is list of one <code>DesignElement</code>.
  */
@@ -57,7 +57,7 @@ public class SimpleListValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 *
+	 * 
 	 * @return the validator instance
 	 */
 
@@ -67,7 +67,7 @@ public class SimpleListValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Validates whether a new item can be added to the simple value list.
-	 *
+	 * 
 	 * @param element  the element holding the value list
 	 * @param propDefn definition of the list property
 	 * @param list     the value list
@@ -84,16 +84,15 @@ public class SimpleListValidator extends AbstractPropertyValidator {
 	/**
 	 * Validates whether the list property specified by <code>propName</code> is
 	 * invalid.
-	 *
+	 * 
 	 * @param module   the module
 	 * @param element  the element to validate
 	 * @param propName the name of the list property to validate
-	 *
+	 * 
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module, DesignElement element, String propName) {
 		ElementPropertyDefn propDefn = element.getPropertyDefn(propName);
 
@@ -107,14 +106,14 @@ public class SimpleListValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Checks all value item in the specific property whose type is list.
-	 *
+	 * 
 	 * @param module   the module
 	 * @param element  the design element to validate
 	 * @param propDefn the property definition of the list property
 	 * @param list     the simple value list to check
 	 * @param toAdd    the value item to add. This parameter maybe is
 	 *                 <code>null</code>.
-	 *
+	 * 
 	 * @return the error list
 	 */
 
@@ -124,17 +123,16 @@ public class SimpleListValidator extends AbstractPropertyValidator {
 		assert propDefn.getTypeCode() == IPropertyType.LIST_TYPE;
 
 		if (list == null || list.size() == 0
-				|| ((PropertyDefn) propDefn).getSubTypeCode() != IPropertyType.ELEMENT_REF_TYPE) {
+				|| ((PropertyDefn) propDefn).getSubTypeCode() != IPropertyType.ELEMENT_REF_TYPE)
 			return Collections.emptyList();
-		}
 
-		List<SemanticException> errorList = new ArrayList<>();
+		List<SemanticException> errorList = new ArrayList<SemanticException>();
 
 		// Get the unique member whose value should be unique in the
 		// structure list. The type of unique member is name property type.
 		// Note: The first unique member is considered.
 
-		HashSet<String> values = new HashSet<>();
+		HashSet<String> values = new HashSet<String>();
 		for (int i = 0; i < list.size(); i++) {
 			ElementRefValue item = (ElementRefValue) list.get(i);
 			String key = item.getQualifiedReference();

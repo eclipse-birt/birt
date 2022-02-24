@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ class ExpandableRowResultSet implements IRowResultSet {
 
 	/**
 	 * Construction
-	 *
+	 * 
 	 * @param query
 	 * @param odaResultSet
 	 * @param resultClass
@@ -46,7 +46,6 @@ class ExpandableRowResultSet implements IRowResultSet {
 	/**
 	 * @return result meta data
 	 */
-	@Override
 	public IResultClass getMetaData() {
 		return resultClass;
 	}
@@ -54,26 +53,23 @@ class ExpandableRowResultSet implements IRowResultSet {
 	/**
 	 * Notice the return value of this function is IResultObject. The null value
 	 * indicates the cursor exceeds the end of result set.
-	 *
+	 * 
 	 * @param stopSign
 	 * @return next result data
 	 * @throws DataException
 	 */
-	@Override
 	public IResultObject next() throws DataException {
 		IResultObject ro = this.rowResultSet.next();
-		if (ro == null) {
+		if (ro == null)
 			return null;
-		}
 		Object[] objs = new Object[this.resultClass.getFieldCount()];
 		if (objs.length > 0) {
 			int roFieldCount = ro.getResultClass().getFieldCount();
 			for (int i = 0; i < objs.length; i++) {
-				if (i + 1 <= roFieldCount) {
+				if (i + 1 <= roFieldCount)
 					objs[i] = ro.getFieldValue(i + 1);
-				} else {
+				else
 					objs[i] = null;
-				}
 			}
 		}
 		return new ResultObject(resultClass, objs);
@@ -81,10 +77,9 @@ class ExpandableRowResultSet implements IRowResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#getIndex()
 	 */
-	@Override
 	public int getIndex() throws DataException {
 		return this.rowResultSet.getIndex();
 	}

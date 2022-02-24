@@ -49,17 +49,16 @@ public class Image {
 		try {
 			int byte1 = read() & 0xff;
 			int byte2 = read() & 0xff;
-			if (byte1 == 0x47 && byte2 == 0x49) {
+			if (byte1 == 0x47 && byte2 == 0x49)
 				return checkGif();
-			} else if (byte1 == 0x89 && byte2 == 0x50) {
+			else if (byte1 == 0x89 && byte2 == 0x50)
 				return checkPng();
-			} else if (byte1 == 0xff && byte2 == 0xd8) {
+			else if (byte1 == 0xff && byte2 == 0xd8)
 				return checkJpeg();
-			} else if (byte1 == 0x42 && byte2 == 0x4d) {
+			else if (byte1 == 0x42 && byte2 == 0x4d)
 				return checkBmp();
-			} else {
+			else
 				return false;
-			}
 		} catch (IOException ioe) {
 			return false;
 		}
@@ -67,31 +66,26 @@ public class Image {
 
 	private boolean checkBmp() throws IOException {
 		byte[] array = new byte[44];
-		if (read(array) != array.length) {
+		if (read(array) != array.length)
 			return false;
-		}
 
 		width = getIntLittleEndian(array, 16);
 		height = getIntLittleEndian(array, 20);
-		if (width < 1 || height < 1) {
+		if (width < 1 || height < 1)
 			return false;
-		}
 
 		int bitsPerPixel = getShortLittleEndian(array, 26);
 		if (bitsPerPixel != 1 && bitsPerPixel != 4 && bitsPerPixel != 8 && bitsPerPixel != 16 && bitsPerPixel != 24
-				&& bitsPerPixel != 32) {
+				&& bitsPerPixel != 32)
 			return false;
-		}
 
 		int physicalWidthDpi = (int) (getIntLittleEndian(array, 36) * 0.0254);
-		if (physicalWidthDpi > 0) {
+		if (physicalWidthDpi > 0)
 			setPhysicalWidthDpi(physicalWidthDpi);
-		}
 
 		int physicalHeightDpi = (int) (getIntLittleEndian(array, 40) * 0.0254);
-		if (physicalHeightDpi > 0) {
+		if (physicalHeightDpi > 0)
 			setPhysicalHeightDpi(physicalHeightDpi);
-		}
 
 		format = FORMAT_BMP;
 		return true;
@@ -102,9 +96,11 @@ public class Image {
 		final byte[] GIF_MAGIC_89A = { 0x46, 0x38, 0x39, 0x61 };
 
 		byte[] array = new byte[11];
-		if ((read(array) != array.length) || ((!equals(array, 0, GIF_MAGIC_89A, 0, 4)) && (!equals(array, 0, GIF_MAGIC_87A, 0, 4)))) {
+		if (read(array) != array.length)
 			return false;
-		}
+
+		if ((!equals(array, 0, GIF_MAGIC_89A, 0, 4)) && (!equals(array, 0, GIF_MAGIC_87A, 0, 4)))
+			return false;
 
 		format = FORMAT_GIF;
 		width = getShortLittleEndian(array, 4);
@@ -197,7 +193,10 @@ public class Image {
 	private boolean checkPng() throws IOException {
 		final byte[] PNG_MAGIC = { 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a };
 		byte[] array = new byte[27];
-		if ((read(array) != array.length) || !equals(array, 0, PNG_MAGIC, 0, 6)) {
+		if (read(array) != array.length) {
+			return false;
+		}
+		if (!equals(array, 0, PNG_MAGIC, 0, 6)) {
 			return false;
 		}
 		format = FORMAT_PNG;

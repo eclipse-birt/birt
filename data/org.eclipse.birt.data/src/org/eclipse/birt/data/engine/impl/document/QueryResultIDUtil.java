@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,11 +50,10 @@ public class QueryResultIDUtil {
 	 */
 	public static String buildID(String _1partQueryResultID, String _2partQueryResultID) {
 		String newID = _1partQueryResultID;
-		if (newID != null) {
+		if (newID != null)
 			newID += _2partQueryResultID == null ? "" : QURE_ID_SEPARATOR + _2partQueryResultID;
-		} else {
+		else
 			newID = _2partQueryResultID;
-		}
 
 		return newID;
 	}
@@ -64,20 +63,18 @@ public class QueryResultIDUtil {
 	 * @return
 	 */
 	public static String get1PartID(String queryResultID) {
-		if (queryResultID == null) {
+		if (queryResultID == null)
 			return null;
-		}
 
 		int slashIndex = queryResultID.indexOf(QURE_ID_SEPARATOR);
-		if (slashIndex < 0) {
+		if (slashIndex < 0)
 			return null;
-		} else {
+		else {
 			String nextStr = queryResultID.substring(slashIndex + 1);
-			if (nextStr.startsWith(QURE_ID_PREFIX)) {
+			if (nextStr.startsWith(QURE_ID_PREFIX))
 				return queryResultID.substring(0, slashIndex);
-			} else {
+			else
 				return null;
-			}
 		}
 	}
 
@@ -86,20 +83,18 @@ public class QueryResultIDUtil {
 	 * @return
 	 */
 	public static String get2PartID(String queryResultID) {
-		if (queryResultID == null) {
+		if (queryResultID == null)
 			return null;
-		}
 
 		int slashIndex = queryResultID.indexOf(QURE_ID_SEPARATOR);
-		if (slashIndex < 0) {
+		if (slashIndex < 0)
 			return null;
-		} else {
+		else {
 			String nextStr = queryResultID.substring(slashIndex + 1);
-			if (nextStr.startsWith(QURE_ID_PREFIX)) {
+			if (nextStr.startsWith(QURE_ID_PREFIX))
 				return queryResultID.substring(slashIndex + 1);
-			} else {
+			else
 				return queryResultID;
-			}
 		}
 	}
 
@@ -109,13 +104,12 @@ public class QueryResultIDUtil {
 	 * @return
 	 */
 	public static String getRealStreamID(String _1partQueryResultID, String _2partQueryResultID) {
-		if (_1partQueryResultID == null) {
+		if (_1partQueryResultID == null)
 			return _2partQueryResultID;
-		} else if (_2partQueryResultID == null) {
+		else if (_2partQueryResultID == null)
 			return _1partQueryResultID;
-		} else {
+		else
 			return _1partQueryResultID + STREAM_ID_SEPARATOR + _2partQueryResultID;
-		}
 	}
 
 	/**

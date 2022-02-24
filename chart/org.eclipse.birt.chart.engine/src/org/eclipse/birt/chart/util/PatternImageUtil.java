@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public class PatternImageUtil {
 		return bitmap;
 	}
 
-	public enum ByteColorModel {
+	public static enum ByteColorModel {
 		BGRA {
 
 			@Override
@@ -83,7 +83,7 @@ public class PatternImageUtil {
 		public abstract byte[] getColorValue(ColorDefinition color);
 	}
 
-	public enum IntColorModel {
+	public static enum IntColorModel {
 		BGRA {
 
 			@Override

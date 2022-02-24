@@ -28,7 +28,7 @@ public class AggregationDefinition {
 	private DrilledInfo drilledAggregation;
 
 	/**
-	 *
+	 * 
 	 * @param levelNames
 	 * @param sortTypes
 	 * @param aggregationFunctions
@@ -46,9 +46,8 @@ public class AggregationDefinition {
 				}
 			}
 			this.aggregationFunctions = new AggregationFunctionDefinition[aggregationFunctions.length];
-			if (timeFunctionCount > 0) {
+			if (timeFunctionCount > 0)
 				this.aggregationTimeFunctions = new AggregationFunctionDefinition[timeFunctionCount];
-			}
 			int ptr = 0;
 			int tPtr = 0;
 			for (int i = 0; i < aggregationFunctions.length; i++) {
@@ -78,7 +77,7 @@ public class AggregationDefinition {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public AggregationFunctionDefinition[] getAggregationFunctions() {
@@ -107,7 +106,7 @@ public class AggregationDefinition {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public DimLevel[] getLevels() {
@@ -115,7 +114,7 @@ public class AggregationDefinition {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public int[] getSortTypes() {
@@ -124,7 +123,7 @@ public class AggregationDefinition {
 
 	/**
 	 * set its related drilled info
-	 *
+	 * 
 	 * @param aggregation
 	 */
 	public void setDrilledInfo(DrilledInfo aggregation) {
@@ -133,7 +132,7 @@ public class AggregationDefinition {
 
 	/**
 	 * get its related drilled info
-	 *
+	 * 
 	 * @return
 	 */
 	public DrilledInfo getDrilledInfo() {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
- *
+ * 
  */
 public class DimensionType {
 
@@ -83,7 +83,6 @@ public class DimensionType {
 		return this.choice;
 	}
 
-	@Override
 	public String toString() {
 		if (type == TYPE_DIMENSION) {
 			// Copy from DimensionValue
@@ -91,9 +90,8 @@ public class DimensionType {
 
 			// Eliminate the ".0" that the default implementation tacks onto
 			// the end of integers.
-			if (value.substring(value.length() - 2).equals(".0")) { //$NON-NLS-1$
+			if (value.substring(value.length() - 2).equals(".0")) //$NON-NLS-1$
 				value = value.substring(0, value.length() - 2);
-			}
 			return value + this.unitType;
 		}
 		return choice;
@@ -110,7 +108,7 @@ public class DimensionType {
 
 	/**
 	 * Implement the subtract operation of type <Code>DimensionType</Code>.
-	 *
+	 * 
 	 * @param subtrahend the subtrahend
 	 * @return the result whose unit is <Code>CM_UNIT</Code>
 	 */
@@ -126,7 +124,7 @@ public class DimensionType {
 
 	/**
 	 * Implement the compare operation of type <Code>DimensionType</Code>.
-	 *
+	 * 
 	 * @param subtrahend the subtrahend operand
 	 * @return a negative double, zero, or a positive double as the first operand is
 	 *         less than, equal to, or greater than the second.
@@ -147,7 +145,7 @@ public class DimensionType {
 	 * <li>null</li>
 	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]</li>
 	 * </ul>
-	 *
+	 * 
 	 * If the error exists, return the result whose measure is 0.
 	 */
 	public static DimensionType parserUnit(String value) {

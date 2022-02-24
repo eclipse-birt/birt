@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ public interface IScriptedDataSetEventHandler extends IDataSetEventHandler {
 	/**
 	 * Handle the fetch event. Implementation should call methods on the row object
 	 * to set data of the current row being fetched.
-	 *
+	 * 
 	 * @return true if current data row has been populated. false if the last call
 	 *         to fetch has returned the last data row, and no more data is
 	 *         available.

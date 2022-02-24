@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -83,10 +83,11 @@ public class DataExtractionTaskTest extends EngineCase {
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestDataExtractionTask.xml";
 
+	private final static String JSON = "json.csv";
+
 	IReportDocument document;
 	IDataExtractionTask dataExTask;
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeFile(REPORT_DOCUMENT);
@@ -97,7 +98,6 @@ public class DataExtractionTaskTest extends EngineCase {
 		dataExTask = engine.createDataExtractionTask(document);
 	}
 
-	@Override
 	public void tearDown() {
 		dataExTask.close();
 		document.close();
@@ -176,7 +176,7 @@ public class DataExtractionTaskTest extends EngineCase {
 		IResultSetItem resultItem = resultItem1;
 
 		// items in resultSetList may not be in the same order each time called.
-		if (!resultItem.getResultSetName().equalsIgnoreCase("ELEMENT_219")) {
+		if (resultItem.getResultSetName().equalsIgnoreCase("ELEMENT_219") == false) {
 			resultItem = resultItem2;
 		}
 		// the first result set name
@@ -194,7 +194,7 @@ public class DataExtractionTaskTest extends EngineCase {
 		assertEquals(7, rowCount);
 
 		resultItem = resultItem1;
-		if (!resultItem.getResultSetName().equalsIgnoreCase("ELEMENT_277")) {
+		if (resultItem.getResultSetName().equalsIgnoreCase("ELEMENT_277") == false) {
 			resultItem = resultItem2;
 		}
 		dispName = resultItem.getResultSetName();
@@ -261,7 +261,7 @@ public class DataExtractionTaskTest extends EngineCase {
 	public void testDataExtractionWithSelectedColumns() throws Exception {
 		dataExTask.selectResultSet("ELEMENT_219");
 
-		String[] columnNames = { "OFFICECODE", "CITY" };
+		String[] columnNames = new String[] { "OFFICECODE", "CITY" };
 		dataExTask.selectColumns(columnNames);
 		IExtractionResults result = dataExTask.extract();
 		IResultMetaData metaData = result.getResultMetaData();
@@ -275,23 +275,23 @@ public class DataExtractionTaskTest extends EngineCase {
 
 	/**
 	 * JSON dataextraction not supported for open source
-	 *
+	 * 
 	 * public void testDataExtractionToJSON( ) throws Exception {
 	 * dataExTask.selectResultSet( "ELEMENT_219" );
-	 *
+	 * 
 	 * String[] columnNames = new String[]{"OFFICECODE", "CITY"};
 	 * dataExTask.selectColumns( columnNames ); DataExtractionOption option = new
 	 * DataExtractionOption( ); option.setOutputFormat( "json" ); FileOutputStream
 	 * fos = null; try { fos = new FileOutputStream( JSON ); option.setOutputStream(
 	 * fos ); dataExTask.extract( option );
-	 *
+	 * 
 	 * } finally { dataExTask.close( ); if ( fos != null ) fos.close( ); }
-	 *
+	 * 
 	 * FileInputStream fis = new FileInputStream( JSON ); StringBuffer fileContent =
 	 * new StringBuffer( "" );
-	 *
+	 * 
 	 * byte[] buffer = new byte[1024];
-	 *
+	 * 
 	 * int n = -1; while ( ( n = fis.read( buffer ) ) != -1 ) { fileContent.append(
 	 * new String( buffer, 0, n ) ); } try { JSONObject jo = new JSONObject(
 	 * fileContent.toString( ) ); JSONArray data = jo.getJSONArray( "rows" );
@@ -360,7 +360,7 @@ public class DataExtractionTaskTest extends EngineCase {
 		IExtractionResults results = dataExTask.extract();
 		IDataIterator iterator = results.nextResultIterator();
 
-		List<String> actualResults = new ArrayList<>();
+		List<String> actualResults = new ArrayList<String>();
 		while (iterator.next()) {
 			actualResults.add(iterator.getValue(expectedColumn).toString());
 		}
@@ -412,7 +412,7 @@ public class DataExtractionTaskTest extends EngineCase {
 
 	/**
 	 * access all the data in the results, no exception should be throw out.
-	 *
+	 * 
 	 * @param results
 	 * @return row count in the result.
 	 * @throws BirtException
@@ -438,7 +438,7 @@ public class DataExtractionTaskTest extends EngineCase {
 
 	private Set<InstanceID> getAllInstanceIds(IReportDocument document)
 			throws EngineException, UnsupportedEncodingException {
-		Set<InstanceID> instanceIds = new HashSet<>();
+		Set<InstanceID> instanceIds = new HashSet<InstanceID>();
 		IRenderTask task = engine.createRenderTask(document);
 
 		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
@@ -463,6 +463,10 @@ public class DataExtractionTaskTest extends EngineCase {
 			instanceIds.add(iid);
 		}
 		return instanceIds;
+	}
+
+	private IFilterDefinition[] createFilter(String columnName, int operator, Object operand) {
+		return createFilter(columnName, operator, operand, null);
 	}
 
 	private IFilterDefinition[] createFilter(String expression, int operator) {

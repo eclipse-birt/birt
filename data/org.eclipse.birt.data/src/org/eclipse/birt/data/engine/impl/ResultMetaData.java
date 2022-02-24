@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -49,19 +49,17 @@ public class ResultMetaData implements IResultMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnCount()
 	 */
-	@Override
 	public int getColumnCount() {
 		logger.logp(Level.FINEST, QueryResults.class.getName(), "getColumnCount", "");
 		return doGetColumnCount();
 	}
 
 	private int doGetColumnCount() {
-		if (columnCount != -1) {
+		if (columnCount != -1)
 			return columnCount;
-		}
 
 		int columnCount = m_odiResultClass.getFieldCount();
 		for (int i = columnCount; i > 0; i--) {
@@ -85,10 +83,9 @@ public class ResultMetaData implements IResultMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnName(int)
 	 */
-	@Override
 	public String getColumnName(int index) throws DataException {
 		checkIndex(index);
 		logger.logp(Level.FINEST, QueryResults.class.getName(), "getColumnName",
@@ -98,10 +95,9 @@ public class ResultMetaData implements IResultMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnAlias(int)
 	 */
-	@Override
 	public String getColumnAlias(int index) throws DataException {
 		checkIndex(index);
 		logger.logp(Level.FINEST, QueryResults.class.getName(), "getColumnAlias",
@@ -111,10 +107,9 @@ public class ResultMetaData implements IResultMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnType(int)
 	 */
-	@Override
 	public int getColumnType(int index) throws DataException {
 		checkIndex(index);
 		logger.logp(Level.FINEST, QueryResults.class.getName(), "getColumnType",
@@ -125,10 +120,9 @@ public class ResultMetaData implements IResultMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnTypeName(int)
 	 */
-	@Override
 	public String getColumnTypeName(int index) throws DataException {
 		checkIndex(index);
 		logger.logp(Level.FINEST, QueryResults.class.getName(), "getColumnTypeName",
@@ -138,11 +132,10 @@ public class ResultMetaData implements IResultMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultMetaData#getColumnNativeTypeName(int)
 	 */
-	@Override
 	public String getColumnNativeTypeName(int index) throws DataException {
 		checkIndex(index);
 		logger.logp(Level.FINEST, QueryResults.class.getName(), "getColumnNativeTypeName",
@@ -152,10 +145,9 @@ public class ResultMetaData implements IResultMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnLabel(int)
 	 */
-	@Override
 	public String getColumnLabel(int index) throws DataException {
 		checkIndex(index);
 		logger.logp(Level.FINEST, QueryResults.class.getName(), "getColumnLabel",
@@ -165,10 +157,9 @@ public class ResultMetaData implements IResultMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#isComputedColumn(int)
 	 */
-	@Override
 	public boolean isComputedColumn(int index) throws DataException {
 		checkIndex(index);
 		logger.logp(Level.FINEST, QueryResults.class.getName(), "isComputedColumn",
@@ -178,14 +169,13 @@ public class ResultMetaData implements IResultMetaData {
 
 	/**
 	 * Indicates whether index is out of bounds
-	 *
+	 * 
 	 * @param index 1-based
 	 * @throws DataException
 	 */
 	private void checkIndex(int index) throws DataException {
-		if (index > doGetColumnCount()) {
+		if (index > doGetColumnCount())
 			throw new DataException(ResourceConstants.INVALID_FIELD_INDEX, Integer.valueOf(index));
-		}
 	}
 
 }

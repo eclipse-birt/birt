@@ -1,10 +1,10 @@
 /*************************************************************************************
 * Copyright (c) 2004 Actuate Corporation and others.
-* All rights reserved. This program and the accompanying materials
+* All rights reserved. This program and the accompanying materials 
 * are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
 * http://www.eclipse.org/legal/epl-2.0.html
-*
+* 
 * Contributors:
 * Actuate Corporation - Initial implementation.
 ************************************************************************************/
@@ -23,33 +23,30 @@ public class TemplateCreateGroupAction extends TemplateBaseDesignerAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.
 	 * TemplateBaseDesignerAction#getEditPartType()
 	 */
-	@Override
 	protected boolean checkType(Class type) {
 		return (type == TableEditPart.class);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.
 	 * TemplateBaseDesignerAction#getActionID()
 	 */
-	@Override
 	protected String getActionID() {
 		return InsertTableGroupAction.ID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.
 	 * TemplateBaseDesignerAction#showErrorWrongElementSelection()
 	 */
-	@Override
 	protected void showErrorWrongElementSelection() {
 		// TODO Auto-generated method stub
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 /**
- *
+ * 
  */
 
 public class ExpressionButtonUtil {
@@ -52,7 +52,6 @@ public class ExpressionButtonUtil {
 		protected ExpressionButton button;
 		private Object contextObject;
 
-		@Override
 		public String getExpression() {
 			if (control.isDisposed()) {
 				return ""; //$NON-NLS-1$
@@ -67,7 +66,6 @@ public class ExpressionButtonUtil {
 			return ""; //$NON-NLS-1$
 		}
 
-		@Override
 		public void notifyExpressionChangeEvent(String oldExpression, String newExpression) {
 			if (listener != null) {
 				Event event = new Event();
@@ -79,7 +77,6 @@ public class ExpressionButtonUtil {
 			control.setFocus();
 		}
 
-		@Override
 		public void setExpression(String expression) {
 			if (control.isDisposed()) {
 				return;
@@ -93,7 +90,6 @@ public class ExpressionButtonUtil {
 			}
 		}
 
-		@Override
 		public String getExpressionType() {
 			if (!control.isDisposed()) {
 				return (String) control.getData(EXPR_TYPE);
@@ -102,7 +98,6 @@ public class ExpressionButtonUtil {
 			}
 		}
 
-		@Override
 		public void setExpressionType(String exprType) {
 			if (!control.isDisposed()) {
 				control.setData(EXPR_TYPE, exprType);
@@ -129,7 +124,6 @@ public class ExpressionButtonUtil {
 			this.button = button;
 		}
 
-		@Override
 		public Object getContextObject() {
 			return contextObject;
 		}
@@ -138,7 +132,6 @@ public class ExpressionButtonUtil {
 			this.contextObject = contextObject;
 		}
 
-		@Override
 		public IExpressionContextFactory getExpressionContextFactory() {
 			return new ExpressionContextFactoryImpl(contextObject, provider);
 		}

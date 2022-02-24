@@ -23,7 +23,7 @@ import java.net.URISyntaxException;
 import junit.framework.TestCase;
 
 /**
- *
+ * 
  */
 
 public class LocalFileTest extends TestCase {
@@ -74,7 +74,9 @@ public class LocalFileTest extends TestCase {
 		assertEquals(false, file.isAbsolute());
 		try {
 			assertEquals(true, new LocalFile(new File(file.toURL().toURI())).isAbsolute());
-		} catch (URISyntaxException | IOException e) {
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -87,7 +89,9 @@ public class LocalFileTest extends TestCase {
 		IFile file = new LocalFile(new File(TEST_FOLDER + "/abc.txt"));
 		try {
 			assertEquals(true, new LocalFile(new File(file.toURL().toURI())).isAbsolute());
-		} catch (URISyntaxException | IOException e) {
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

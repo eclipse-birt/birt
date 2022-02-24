@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,12 +25,11 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 
 /**
- *
+ * 
  */
 
 public class SaveAsWizardDialogAdapterFactory implements IAdapterFactory {
 
-	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adaptableObject instanceof IEditorPart) {
 			IEditorPart part = (IEditorPart) adaptableObject;
@@ -42,7 +41,6 @@ public class SaveAsWizardDialogAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	@Override
 	public Class[] getAdapterList() {
 		return new Class[] { WizardDialog.class };
 	}

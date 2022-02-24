@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,6 @@ public class MethodSource implements IMappingSource {
 		this.parameters = parameters == null ? new IMethodParameter[0] : parameters;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -58,7 +57,6 @@ public class MethodSource implements IMappingSource {
 		return parameters;
 	}
 
-	@Override
 	public void prepareParameterValues(Map<String, Object> paramValues, ClassLoader pojoClassLoader)
 			throws OdaException {
 		parameterValues = new Object[parameters.length];
@@ -69,7 +67,6 @@ public class MethodSource implements IMappingSource {
 		}
 	}
 
-	@Override
 	public Object fetchValue(Object from, ClassLoader pojoClassLoader, ClassMethodFieldBuffer cmfbInstance)
 			throws OdaException {
 		if (from == null || cmfbInstance == null) {
@@ -93,12 +90,11 @@ public class MethodSource implements IMappingSource {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.oda.pojo.querymodel.IMappingSource#createElement(org.
 	 * w3c.dom.Document)
 	 */
-	@Override
 	public Element createElement(Document doc) {
 		Element ele = doc.createElement(Constants.ELEMENT_METHOD);
 		ele.setAttribute(Constants.ATTR_METHOD_NAME, getName());
@@ -118,7 +114,7 @@ public class MethodSource implements IMappingSource {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -132,24 +128,22 @@ public class MethodSource implements IMappingSource {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if ((obj == null) || (getClass() != obj.getClass())) {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		MethodSource other = (MethodSource) obj;
-		if (!name.equals(other.name)) {
+		if (!name.equals(other.name))
 			return false;
-		}
-		if (!Arrays.equals(parameters, other.parameters)) {
+		if (!Arrays.equals(parameters, other.parameters))
 			return false;
-		}
 		return true;
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -87,53 +87,43 @@ public class ReportItemReader implements IReportItemExecutor {
 	long child;
 	IBaseResultSet[] rsets;
 
-	@Override
 	public IContent getContent() {
 		return content;
 	}
 
-	@Override
 	public IExecutorContext getContext() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
 	public Object getModelObject() {
 		return null;
 	}
 
-	@Override
 	public IReportItemExecutor getParent() {
 		return parent;
 	}
 
-	@Override
 	public IBaseResultSet[] getQueryResults() {
 		return rsets;
 	}
 
-	@Override
 	public void setContext(IExecutorContext context) {
 		throw new IllegalStateException("the caller should never call setContext() of system executor");
 	}
 
-	@Override
 	public void setModelObject(Object handle) {
 		throw new IllegalStateException("the caller should never call setContext() of system executor");
 	}
 
-	@Override
 	public void setParent(IReportItemExecutor parent) {
 		throw new IllegalStateException("the caller should never call setParent() of system executor");
 
 	}
 
-	@Override
 	public void close() {
 		unloadContent();
 	}
 
-	@Override
 	public IContent execute() {
 		try {
 			// load it from the content stream
@@ -154,7 +144,6 @@ public class ReportItemReader implements IReportItemExecutor {
 		return reader;
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		if (hasNextChild()) {
 			try {
@@ -180,7 +169,6 @@ public class ReportItemReader implements IReportItemExecutor {
 		return null;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		return child != -1;
 	}
@@ -245,17 +233,17 @@ public class ReportItemReader implements IReportItemExecutor {
 
 	/**
 	 * intialize the content loaded from the report document.
-	 *
+	 * 
 	 * Once the report content is loaded, it is not associated with the report
 	 * design, so it almost contains nothing, most of the data should be retetrived
 	 * from the design element.
-	 *
+	 * 
 	 * In the intialization, it first search the report design to see which design
 	 * element creates the report content, then re-load the data from the report
 	 * document and uses the data to re-fill some fields of the content.
-	 *
+	 * 
 	 * Each content can be intailzied only once.
-	 *
+	 * 
 	 */
 	private void initializeContent() throws BirtException {
 		assert content != null;
@@ -481,7 +469,6 @@ public class ReportItemReader implements IReportItemExecutor {
 
 	protected IContentVisitor initalizeContentVisitor = new ContentVisitorAdapter() {
 
-		@Override
 		public Object visitLabel(ILabelContent label, Object value) {
 			if (label.getGenerateBy() instanceof TemplateDesign) {
 				TemplateDesign design = (TemplateDesign) label.getGenerateBy();
@@ -493,7 +480,6 @@ public class ReportItemReader implements IReportItemExecutor {
 			return value;
 		}
 
-		@Override
 		public Object visitAutoText(IAutoTextContent autoText, Object value) {
 			if (autoText.getType() == IAutoTextContent.TOTAL_PAGE) {
 				autoText.setText(String.valueOf(context.getTotalPage()));
@@ -501,7 +487,6 @@ public class ReportItemReader implements IReportItemExecutor {
 			return value;
 		}
 
-		@Override
 		public Object visitTable(ITableContent table, Object value) {
 			Report report = context.getReport();
 			int colCount = table.getColumnCount();
@@ -519,7 +504,6 @@ public class ReportItemReader implements IReportItemExecutor {
 
 		}
 
-		@Override
 		public Object visitData(IDataContent data, Object value) {
 			if (data.getGenerateBy() instanceof DataItemDesign) {
 				DataItemDesign design = (DataItemDesign) data.getGenerateBy();
@@ -552,7 +536,6 @@ public class ReportItemReader implements IReportItemExecutor {
 			return value;
 		}
 
-		@Override
 		public Object visitTableBand(ITableBandContent tableBand, Object value) {
 			int bandType = tableBand.getBandType();
 			switch (bandType) {
@@ -614,7 +597,6 @@ public class ReportItemReader implements IReportItemExecutor {
 			return null;
 		}
 
-		@Override
 		public Object visitListBand(IListBandContent listBand, Object value) {
 			int bandType = listBand.getBandType();
 			switch (bandType) {

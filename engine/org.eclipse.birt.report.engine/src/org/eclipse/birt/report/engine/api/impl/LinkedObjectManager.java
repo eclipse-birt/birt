@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,13 +23,12 @@ public class LinkedObjectManager<T> implements Iterable<T> {
 	private LinkedEntry<T> last;
 	private int modCount = 0;
 
-	@Override
 	public Iterator<T> iterator() {
 		return new InternalIterator();
 	}
 
 	public LinkedEntry<T> add(T object) {
-		LinkedEntry<T> entry = new LinkedEntry<>(this, object);
+		LinkedEntry<T> entry = new LinkedEntry<T>(this, object);
 		add(entry);
 		return entry;
 	}
@@ -88,34 +87,27 @@ public class LinkedObjectManager<T> implements Iterable<T> {
 			expectedModCount = modCount;
 		}
 
-		@Override
 		public boolean hasNext() {
 			return next != null;
 		}
 
-		@Override
 		public T next() {
-			if (modCount != expectedModCount) {
+			if (modCount != expectedModCount)
 				throw new ConcurrentModificationException();
-			}
 			LinkedEntry<T> entry = next;
-			if (entry == null) {
+			if (entry == null)
 				throw new NoSuchElementException();
-			}
 			T value = entry.getValue();
 			current = entry;
 			next = entry.getNext();
 			return value;
 		}
 
-		@Override
 		public void remove() {
-			if (current == null) {
+			if (current == null)
 				throw new IllegalStateException();
-			}
-			if (modCount != expectedModCount) {
+			if (modCount != expectedModCount)
 				throw new ConcurrentModificationException();
-			}
 			LinkedObjectManager.this.remove(current);
 			current = null;
 			expectedModCount = modCount;

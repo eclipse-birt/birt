@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,18 +33,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- *
+ * 
  */
 
 public class MultiValueCombo extends Combo {
 
-	public interface ISelection {
-		String[] doSelection(String input);
+	public static interface ISelection {
+		public String[] doSelection(String input);
 
-		void doAfterSelection(MultiValueCombo combo);
+		public void doAfterSelection(MultiValueCombo combo);
 	}
 
-	Map<Integer, ISelection> actionMap = new HashMap<>();
+	Map<Integer, ISelection> actionMap = new HashMap<Integer, ISelection>();
 	SelectionListener selListener;
 	ModifyListener modifyListener;
 	VerifyListener verifyListener;
@@ -57,7 +57,7 @@ public class MultiValueCombo extends Combo {
 	String oldValue = null;
 	boolean shouldSaveValue = false;
 	boolean shouldClearValues = false;
-	List<String> oldValueList = new ArrayList<>();
+	List<String> oldValueList = new ArrayList<String>();
 
 	String selStrings[] = null;
 
@@ -69,7 +69,6 @@ public class MultiValueCombo extends Combo {
 		return ret;
 	}
 
-	@Override
 	protected void checkSubclass() {
 
 	}
@@ -90,13 +89,11 @@ public class MultiValueCombo extends Combo {
 
 		keyListener = new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
 				MultiValueCombo combo = (MultiValueCombo) e.widget;
@@ -109,12 +106,10 @@ public class MultiValueCombo extends Combo {
 		// super.addSelectionListener( listener )
 		selListener = new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 
@@ -168,7 +163,6 @@ public class MultiValueCombo extends Combo {
 
 		modifyListener = new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				// TODO Auto-generated method stub
 
@@ -198,7 +192,6 @@ public class MultiValueCombo extends Combo {
 
 		verifyListener = new VerifyListener() {
 
-			@Override
 			public void verifyText(VerifyEvent e) {
 				// TODO Auto-generated method stub
 //				System.out.print( "Verify Listener is involved.\n" );
@@ -237,20 +230,17 @@ public class MultiValueCombo extends Combo {
 
 	// add SelectionListener is forbidden, please use addSelectionListener(index
 	// , selection) instead.
-	@Override
 	public void addSelectionListener(SelectionListener listener) {
 		// do nothing
 	}
 
 	// add KeyListener is forbidden
-	@Override
 	public void addKeyListener(KeyListener listener) {
 		// do nothing
 	}
 
-	@Override
 	public void addListener(int eventType, Listener listener) {
-		if (addListenerLock
+		if (addListenerLock == true
 				&& (eventType == SWT.Selection || eventType == SWT.KeyUp || eventType == SWT.KeyDown)) {
 			return;
 		}

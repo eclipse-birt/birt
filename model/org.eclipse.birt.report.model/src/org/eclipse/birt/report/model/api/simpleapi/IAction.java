@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 
 /**
  * Script wrapper of <code>ActionHandle</code>
- *
+ * 
  */
 
 public interface IAction {
@@ -27,20 +27,20 @@ public interface IAction {
 	/**
 	 * Gets the identifier of the hyperlink if the link type is
 	 * <code>ACTION_LINK_TYPE_HYPERLINK</code>. Otherwise, return null.
-	 *
+	 * 
 	 * @return the URI link expression in a string
 	 */
 
-	String getURI();
+	public String getURI();
 
 	/**
 	 * Gets the name of the target browser window for the link. (Optional.) Used
 	 * only for the Hyperlink and Drill Through options. Otherwise, return null.
-	 *
+	 * 
 	 * @return the window name
 	 */
 
-	String getTargetWindow();
+	public String getTargetWindow();
 
 	/**
 	 * Gets the link type of the action. The link type are defined in
@@ -52,13 +52,13 @@ public interface IAction {
 	 * <li><code>ACTION_LINK_TYPE_DRILLTHROUGH</code>
 	 * <li><code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the string value of the link type
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	String getLinkType();
+	public String getLinkType();
 
 	/**
 	 * Sets the link type of the action. The link type are defined in
@@ -70,12 +70,12 @@ public interface IAction {
 	 * <li><code>ACTION_LINK_TYPE_DRILLTHROUGH</code>
 	 * <li><code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param type type of the action.
 	 * @throws SemanticException if the <code>type</code> is not one of the above.
 	 */
 
-	void setLinkType(String type) throws SemanticException;
+	public void setLinkType(String type) throws SemanticException;
 
 	/**
 	 * Sets the format type of the action. The format type for action are defined in
@@ -85,11 +85,11 @@ public interface IAction {
 	 * <li><code>ACTION_FORMAT_TYPE_HTML</code>
 	 * <li><code>ACTION_FORMAT_TYPE_PDF</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param type the type of the action
 	 * @throws SemanticException
 	 */
-	void setFormatType(String type) throws SemanticException;
+	public void setFormatType(String type) throws SemanticException;
 
 	/**
 	 * Gets the format type of the action. The format type for action are defined in
@@ -99,40 +99,40 @@ public interface IAction {
 	 * <li><code>ACTION_FORMAT_TYPE_HTML</code>
 	 * <li><code>ACTION_FORMAT_TYPE_PDF</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the format type of the action
 	 */
-	String getFormatType();
+	public String getFormatType();
 
 	/**
 	 * Sets the target window of the action.
-	 *
+	 * 
 	 * @param window the target window name
 	 * @throws SemanticException if this property is locked.
 	 */
 
-	void setTargetWindow(String window) throws SemanticException;
+	public void setTargetWindow(String window) throws SemanticException;
 
 	/**
-	 *
+	 * 
 	 * Sets the hyperlink of this action. The link type will be changed to
 	 * <code>ACTION_LINK_TYPE_HYPERLINK</code>.
-	 *
+	 * 
 	 * @param uri the hyperlink to set
 	 * @throws SemanticException if the property is locked.
 	 */
 
-	void setURI(String uri) throws SemanticException;
+	public void setURI(String uri) throws SemanticException;
 
 	/**
 	 * Gets the name of the target report document if the link type is
 	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. Otherwise, return null.
-	 *
+	 * 
 	 * @return the name of the target report document
 	 * @see #setReportName(String)
 	 */
 
-	String getReportName();
+	public String getReportName();
 
 	/**
 	 * Sets target report name for a drill-though link. The link type will be
@@ -140,42 +140,42 @@ public interface IAction {
 	 * include relative or absolute names. If the suffix is omitted, it is computed
 	 * on the server by looking for a matching report. BIRT reports are searched in
 	 * the following order: 1) a BIRT report document or 2) a BIRT report design.
-	 *
+	 * 
 	 * @param reportName the name of the target report
 	 * @throws SemanticException if the property is locked.
 	 * @see #getReportName()
 	 */
 
-	void setReportName(String reportName) throws SemanticException;
+	public void setReportName(String reportName) throws SemanticException;
 
 	/**
 	 * Gets the bookmark link if the link type is
 	 * <code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>. Otherwise, return null.
-	 *
+	 * 
 	 * @return the bookmark link
 	 */
 
-	String getTargetBookmark();
+	public String getTargetBookmark();
 
 	/**
 	 * Sets the target bookmark defined within this same report, or another report
 	 * for a drill-though link. Call {@link #setLinkType(String)}to do the link type
 	 * change, it can either be <code>ACTION_LINK_TYPE_DRILLTHROUGH</code> or
 	 * <code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>.
-	 *
-	 *
+	 * 
+	 * 
 	 * @param bookmark the bookmark value.
 	 * @throws SemanticException if the property is locked.
 	 * @see #getTargetBookmark()
 	 */
 
-	void setTargetBookmark(String bookmark) throws SemanticException;
+	public void setTargetBookmark(String bookmark) throws SemanticException;
 
 	/**
 	 * Gets the internal structure instance of this action.
-	 *
+	 * 
 	 * @return Action structure instance.
 	 */
-	IStructure getStructure();
+	public IStructure getStructure();
 
 }

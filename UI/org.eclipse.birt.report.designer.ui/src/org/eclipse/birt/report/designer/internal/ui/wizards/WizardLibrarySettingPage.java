@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
- *
+ * 
  */
 
 public class WizardLibrarySettingPage extends WizardPage {
@@ -142,12 +142,11 @@ public class WizardLibrarySettingPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	public void createControl(Composite parent) {
 		if (type == PublishLibraryWizard.HAVE_NO_HANDLE) {
 			UIUtil.bindHelp(parent, IHelpContextIds.ADD_LIBRARY_DIALOG_ID);
@@ -170,7 +169,6 @@ public class WizardLibrarySettingPage extends WizardPage {
 			sourceFileText = createText(container, 1, style);
 			sourceFileText.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					checkStatus(type);
 				}
@@ -180,7 +178,6 @@ public class WizardLibrarySettingPage extends WizardPage {
 			chooseBtn.setText(BUTTON_BROWSE2);
 			chooseBtn.addSelectionListener(new SelectionListener() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					String sourceFileName = getFilePath();
 					if (sourceFileName != null) {
@@ -190,7 +187,6 @@ public class WizardLibrarySettingPage extends WizardPage {
 					}
 				}
 
-				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 
 				}
@@ -208,7 +204,6 @@ public class WizardLibrarySettingPage extends WizardPage {
 
 		nameText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				checkStatus(type);
 			}
@@ -222,7 +217,6 @@ public class WizardLibrarySettingPage extends WizardPage {
 		}
 		folderText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				checkStatus(type);
 			}
@@ -232,7 +226,6 @@ public class WizardLibrarySettingPage extends WizardPage {
 		chooseBtn.setText(BUTTON_BROWSE);
 		chooseBtn.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// ResourceFileLabelProvider labelProvider = new
 				// ResourceFileLabelProvider( );
@@ -258,7 +251,6 @@ public class WizardLibrarySettingPage extends WizardPage {
 				}
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -286,8 +278,7 @@ public class WizardLibrarySettingPage extends WizardPage {
 				&& (new File(sourceFileText.getText()).isDirectory() || !new File(sourceFileText.getText()).exists())) {
 			status = new Status(IStatus.ERROR, PLUGIN_ID, 0,
 					Messages.getFormattedString("AddLibraryAction.Error.FileNotFound", //$NON-NLS-1$
-							new String[] { sourceFileText.getText() }),
-					null);
+							new String[] { sourceFileText.getText() }), null);
 		} else if (isTextEmpty(nameText)) {
 			status = new Status(IStatus.ERROR, PLUGIN_ID, 0,
 					Messages.getString("PublishLibraryDialog.Message.FileNameEmpty"), //$NON-NLS-1$
@@ -316,9 +307,8 @@ public class WizardLibrarySettingPage extends WizardPage {
 	 */
 	private void applyToStatusLine(IStatus status) {
 		String message = status.getMessage();
-		if (message.length() == 0) {
+		if (message.length() == 0)
 			message = PAGE_DESC;
-		}
 		switch (status.getSeverity()) {
 		case IStatus.OK:
 			setErrorMessage(null);
@@ -337,9 +327,8 @@ public class WizardLibrarySettingPage extends WizardPage {
 
 	private static boolean isTextEmpty(Text text) {
 		String s = text.getText();
-		if ((s != null) && (s.trim().length() > 0)) {
+		if ((s != null) && (s.trim().length() > 0))
 			return false;
-		}
 		return true;
 	}
 
@@ -362,7 +351,6 @@ public class WizardLibrarySettingPage extends WizardPage {
 
 	private class Validator implements ISelectionStatusValidator {
 
-		@Override
 		public IStatus validate(Object[] selection) {
 			int nSelected = selection.length;
 			if (nSelected == 0 || nSelected > 1) {

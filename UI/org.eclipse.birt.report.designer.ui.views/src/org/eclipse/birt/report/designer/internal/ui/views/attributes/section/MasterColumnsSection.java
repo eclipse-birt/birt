@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -30,7 +30,6 @@ public class MasterColumnsSection extends Section {
 
 	protected MasterColumnsPropertyDescriptor columns;
 
-	@Override
 	public void createSection() {
 		getcolumnsControl(parent);
 		getGridPlaceholder(parent);
@@ -48,7 +47,6 @@ public class MasterColumnsSection extends Section {
 			columns.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			columns.getControl().addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					columns = null;
 				}
@@ -59,21 +57,17 @@ public class MasterColumnsSection extends Section {
 		return columns;
 	}
 
-	@Override
 	public void layout() {
 		GridData gd = (GridData) columns.getControl().getLayoutData();
-		if (getLayoutNum() > 0) {
+		if (getLayoutNum() > 0)
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		} else {
+		else
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
-		}
 	}
 
-	@Override
 	public void load() {
-		if (columns != null && !columns.getControl().isDisposed()) {
+		if (columns != null && !columns.getControl().isDisposed())
 			columns.load();
-		}
 	}
 
 	IDescriptorProvider provider;
@@ -84,30 +78,24 @@ public class MasterColumnsSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (columns != null) {
+		if (columns != null)
 			columns.setDescriptorProvider(provider);
-		}
 	}
 
-	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		columns.setInput(input);
 	}
 
-	@Override
 	public void setHidden(boolean isHidden) {
-		if (columns != null) {
+		if (columns != null)
 			WidgetUtil.setExcludeGridData(columns.getControl(), isHidden);
-		}
 
 	}
 
-	@Override
 	public void setVisible(boolean isVisable) {
-		if (columns != null) {
+		if (columns != null)
 			columns.getControl().setVisible(isVisable);
-		}
 
 	}
 

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -58,7 +58,7 @@ public class ReportParameterConverterTest extends EngineCase {
 	 * Test format(java.lang.Object reportParameterObj) method
 	 */
 	public void testFormat() {
-		Object pStr = "p1Value";
+		Object pStr = new String("p1Value");
 		Object pDate = new Date("2005/05/06");
 		Object pBool = new Boolean("false");
 		Object pInt = new Integer(2);
@@ -66,7 +66,7 @@ public class ReportParameterConverterTest extends EngineCase {
 
 		// string parameter
 		ReportParameterConverter converter = new ReportParameterConverter("(@@)", Locale.US);
-		String pGet;
+		String pGet = "";
 		pGet = converter.format(pStr);
 		assertEquals("format string fail", "p1Val(ue)", pGet);
 		// datetime parameter

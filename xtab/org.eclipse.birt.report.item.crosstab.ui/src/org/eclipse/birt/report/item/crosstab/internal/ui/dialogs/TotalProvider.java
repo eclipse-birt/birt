@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -24,9 +24,8 @@ public class TotalProvider extends LabelProvider {
 
 	public String[] getFunctionDisplayNames() {
 		IChoice[] choices = getFunctions();
-		if (choices == null) {
+		if (choices == null)
 			return new String[0];
-		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -38,9 +37,8 @@ public class TotalProvider extends LabelProvider {
 
 	public String[] getFunctionNames() {
 		IChoice[] choices = getFunctions();
-		if (choices == null) {
+		if (choices == null)
 			return new String[0];
-		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {

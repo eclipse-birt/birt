@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -59,7 +59,6 @@ public abstract class RepeatableArea extends BlockContainerArea {
 		return false;
 	}
 
-	@Override
 	protected void addRepeatedItem() throws BirtException {
 		if (repeatList != null && repeatList.size() > 0) {
 			if (!inHeaderBand && !isFirstChildInHeaderBand()) {
@@ -84,7 +83,6 @@ public abstract class RepeatableArea extends BlockContainerArea {
 		}
 	}
 
-	@Override
 	public int getMaxAvaHeight() {
 		return super.getMaxAvaHeight() - getRepeatedHeight();
 	}
@@ -95,17 +93,18 @@ public abstract class RepeatableArea extends BlockContainerArea {
 		}
 		if (repeatHeight != 0) {
 			return repeatHeight;
-		} else if (repeatList != null) {
-			for (int i = 0; i < repeatList.size(); i++) {
-				AbstractArea area = (AbstractArea) repeatList.get(i);
-				repeatHeight += area.getAllocatedHeight();
+		} else {
+			if (repeatList != null) {
+				for (int i = 0; i < repeatList.size(); i++) {
+					AbstractArea area = (AbstractArea) repeatList.get(i);
+					repeatHeight += area.getAllocatedHeight();
+				}
+				return repeatHeight;
 			}
-			return repeatHeight;
 		}
 		return 0;
 	}
 
-	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
 		// repeat header can not be split.
 		if (!force && repeatList != null && repeatList.size() > 0) {
@@ -127,7 +126,6 @@ public abstract class RepeatableArea extends BlockContainerArea {
 		return super.split(height, force);
 	}
 
-	@Override
 	protected boolean isValidResult(List result) {
 		assert result != null;
 		if (repeatList != null && !repeatList.isEmpty()) {
@@ -150,7 +148,6 @@ public abstract class RepeatableArea extends BlockContainerArea {
 		super(area);
 	}
 
-	@Override
 	public void add(AbstractArea area) {
 		super.add(area);
 		// cache repeat list;
@@ -163,7 +160,7 @@ public abstract class RepeatableArea extends BlockContainerArea {
 		IContent content = ((ContainerArea) area).getContent();
 		if (content != null) {
 			IElement parent = content.getParent();
-			if (parent instanceof IBandContent) {
+			if (parent != null && parent instanceof IBandContent) {
 				int type = ((IBandContent) parent).getBandType();
 				if (type == IBandContent.BAND_HEADER || type == IBandContent.BAND_GROUP_HEADER) {
 					if (content instanceof IRowContent) {

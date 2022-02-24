@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public class DeviceUtil {
 
 	/**
 	 * Open the given url in default browser.
-	 *
+	 * 
 	 * @param url
 	 */
 	public static void openURL(String href) {
@@ -64,7 +64,6 @@ public class DeviceUtil {
 		if (p == null) {
 			Thread launcher = new Thread() {
 
-				@Override
 				public void run() {
 					try {
 						/*
@@ -93,23 +92,22 @@ public class DeviceUtil {
 	 * RIPPED FROM ECLIPSE BROWSER IMPLEMENTATION. <br>
 	 * This method encodes the url, removes the spaces from the url and replaces the
 	 * same with <code>"%20"</code>. This method is required to fix Bug 77840.
-	 *
+	 * 
 	 */
 	private static String urlEncodeForSpaces(char[] input) {
-		StringBuilder retu = new StringBuilder(input.length);
+		StringBuffer retu = new StringBuffer(input.length);
 		for (int i = 0; i < input.length; i++) {
-			if (input[i] == ' ') {
+			if (input[i] == ' ')
 				retu.append("%20"); //$NON-NLS-1$
-			} else {
+			else
 				retu.append(input[i]);
-			}
 		}
 		return retu.toString();
 	}
 
 	/**
 	 * RIPPED FROM ECLIPSE BROWSER IMPLEMENTATION. <br>
-	 *
+	 * 
 	 * @param href
 	 * @return
 	 * @throws IOException

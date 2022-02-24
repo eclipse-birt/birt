@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,7 +68,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
 	 */
-	@Override
 	public Collection getParameterMetaData() throws DataException {
 		DataException e = new DataException(ResourceConstants.PARAMETER_METADATA_NOT_SUPPORTED);
 		logger.logp(Level.FINE, PreparedDataSourceQuery.class.getName(), "getParameterMetaData",
@@ -79,7 +78,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()
 	 */
-	@Override
 	protected QueryExecutor newExecutor() {
 		return new ScriptDSQueryExecutor();
 	}
@@ -96,7 +94,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource(
 		 * )
 		 */
-		@Override
 		protected IDataSource createOdiDataSource() throws DataException {
 			// An empty odi data source is used for script data set
 			PreparedScriptDSQuery self = PreparedScriptDSQuery.this;
@@ -107,7 +104,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
 		 */
-		@Override
 		protected IQuery createOdiQuery() throws DataException {
 			assert odiDataSource != null;
 			ICandidateQuery candidateQuery = odiDataSource.newCandidateQuery(this.fromCache());
@@ -123,7 +119,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#populateOdiQuery()
 		 */
-		@Override
 		protected void populateOdiQuery() throws DataException {
 			super.populateOdiQuery();
 
@@ -178,7 +173,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#prepareOdiQuery()
 		 */
-		@Override
 		protected void prepareOdiQuery() throws DataException {
 			assert odiQuery != null;
 			assert resultClass != null;
@@ -193,7 +187,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		@Override
 		protected IResultIterator executeOdiQuery(IEventHandler eventHandler) throws DataException {
 			// prepareOdiQuery must be called before
 			customDataSet.open();
@@ -203,13 +196,12 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 		}
 
 		/**
-		 *
+		 * 
 		 */
 		private final class CustomDataSet implements ICustomDataSet {
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#getResultClass()
 			 */
-			@Override
 			public IResultClass getResultClass() {
 				return resultClass;
 			}
@@ -217,7 +209,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#open()
 			 */
-			@Override
 			public void open() throws DataException {
 				((ScriptDataSetRuntime) dataSet).open();
 			}
@@ -225,7 +216,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#fetch()
 			 */
-			@Override
 			public IResultObject fetch() throws DataException {
 				Object[] fields = new Object[resultClass.getFieldCount()];
 				ResultObject resultObject = new ResultObject(resultClass, fields);
@@ -233,9 +223,8 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 				dataSet.setRowObject(resultObject, true);
 				boolean evalResult = ((ScriptDataSetRuntime) dataSet).fetch();
 
-				if (!evalResult) {
+				if (!evalResult)
 					resultObject = null;
-				}
 
 				return resultObject;
 			}
@@ -243,7 +232,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPrepared
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#close()
 			 */
-			@Override
 			public void close() throws DataException {
 				((ScriptDataSetRuntime) dataSet).close();
 			}

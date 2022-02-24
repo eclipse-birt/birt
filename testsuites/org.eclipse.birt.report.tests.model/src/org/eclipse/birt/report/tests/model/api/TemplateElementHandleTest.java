@@ -1,16 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
 package org.eclipse.birt.report.tests.model.api;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -24,21 +27,18 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
  * Test Cases for TemplateElementHandle.
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- *
+ * 
  * <tr>
  * <td>{@link #testTemplate()}</td>
  * </tr>
  * </table>
- *
+ * 
  */
 public class TemplateElementHandleTest extends BaseTestCase {
 	private ElementFactory factory = null;
@@ -55,7 +55,6 @@ public class TemplateElementHandleTest extends BaseTestCase {
 		return new TestSuite(TemplateElementHandleTest.class);
 	}
 
-	@Override
 	public void setUp() throws Exception {
 
 		sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
@@ -67,7 +66,7 @@ public class TemplateElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test create template item and revert to template
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testTemplate() throws Exception {

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,12 +37,10 @@ public class DefaultWordRecognizer implements IWordRecognizer {
 		return lastWord == null ? 0 : lastWord.getEnd();
 	}
 
-	@Override
 	public boolean hasWord() {
 		return getLastWordEnd() != text.length();
 	}
 
-	@Override
 	public Word getNextWord() {
 		lastWord = currentWord;
 		if (start > text.length() - 1) {
@@ -57,9 +55,8 @@ public class DefaultWordRecognizer implements IWordRecognizer {
 				return currentWord;
 			} else {
 				int lineBreakLength = getLineBreakLength(text, i);
-				if (lineBreakLength == 0) {
+				if (lineBreakLength == 0)
 					continue;
-				}
 				if (i == start) {
 					currentWord = new Word(text, start, i + lineBreakLength);
 					start = i + lineBreakLength;

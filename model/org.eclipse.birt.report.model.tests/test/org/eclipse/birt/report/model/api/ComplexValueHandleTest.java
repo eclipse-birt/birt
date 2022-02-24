@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,46 +22,46 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
- *
+ * 
  * TestCases for ComplexValueHandle class.
- *
+ * 
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testValueIsSet()}</td>
  * <td>Tests isSet() function for properties on a label.</td>
  * <td>Return <code>true</code> if the value is set ( including the default
  * value). Otherwise, <code>false</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Tests isSet() function for private style properties on a label.</td>
  * <td>Return <code>true</code> if the value is set. Otherwise,
  * <code>false</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Tests isSet() function for properties on a style.</td>
  * <td>Return <code>true</code> if the value is set(( including the default
  * value). Otherwise, <code>false</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Tests isSet() function for members of a highlight rule.</td>
  * <td>Return <code>true</code> if the value is set. Otherwise,
  * <code>false</code>.</td>
  * </tr>
- *
- *
+ * 
+ * 
  * </table>
- *
+ * 
  */
 
 public class ComplexValueHandleTest extends BaseTestCase {
@@ -74,11 +74,10 @@ public class ComplexValueHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("ComplexValueHandleTest.xml"); //$NON-NLS-1$
@@ -87,7 +86,7 @@ public class ComplexValueHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests isSet methods in ComplexValueHandle.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.ComplexValueHandle
 	 * @throws SemanticException if one of values of properties is invalid.
 	 */

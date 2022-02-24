@@ -4,17 +4,13 @@
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v2.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-2.0.html
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
- *
+ * 
  * *****************************************************************************
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
 
 import java.math.BigDecimal;
 import java.sql.Types;
@@ -22,8 +18,10 @@ import java.sql.Types;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+
 import org.junit.After;
 import org.junit.Before;
+import static org.junit.Assert.*;
 
 public class ResultSetTest extends QueryTest {
 
@@ -59,9 +57,8 @@ public class ResultSetTest extends QueryTest {
 	public final void testSetMaxRows() throws DataException {
 		m_resultSet.setMaxRows(3);
 		int count = 0;
-		while (m_resultSet.fetch() != null) {
+		while (m_resultSet.fetch() != null)
 			count++;
-		}
 		assertEquals(3, count);
 	}
 
@@ -126,18 +123,17 @@ public class ResultSetTest extends QueryTest {
 	private void testFields(IResultObject resultObject, IResultClass resultClass, int rowPosition)
 			throws DataException {
 		String[] fieldNames = resultClass.getFieldNames();
-		StringBuilder row = new StringBuilder();
+		String row = "";
 		for (int i = 1; i <= resultClass.getFieldCount(); i++) {
 			assertEquals(resultClass.getFieldName(i), fieldNames[i - 1]);
 
 			Object value = resultObject.getFieldValue(i);
-			if (i > 1) {
-				row.append(", ");
-			}
-			row.append((value == null) ? "null" : value.toString());
+			if (i > 1)
+				row += ", ";
+			row += (value == null) ? "null" : value.toString();
 		}
 
-		assertEquals(RESULTS[rowPosition - 1], row.toString());
+		assertEquals(RESULTS[rowPosition - 1], row);
 	}
 
 	public final void testGetRowPosition() throws DataException {

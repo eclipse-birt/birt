@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ public class OdaFilterExprHelper extends OdaFilterExprHelperImpl {
 	 * extension provider registered filter definitions, and BIRT predefined filter
 	 * definitions. If under OS BIRT, the list will only contain the
 	 * IFilterExprDefinition instance which represent the BIRT predefined ones.
-	 *
+	 * 
 	 * @param odaDatasetExtensionId    oda datasource extension id.
 	 * @param odaDataSourceExtensionId oda dataset extension id.
 	 * @param filterType               the filter type
@@ -48,7 +48,7 @@ public class OdaFilterExprHelper extends OdaFilterExprHelperImpl {
 	 * provide the information that mapped to a corresponding ODA extension Filter
 	 * if there is one. For OS BIRT, the returned IFilterExprDefinition will not
 	 * have any map information to the ODA extension filters.
-	 *
+	 * 
 	 * @param birtFilterExprId the BIRT predefined fitler expression id.
 	 * @param datasetExtId     ODA dataset extension id. Null if is for OS BIRT.
 	 * @param datasourceExtId  ODA datasource extension id. Null if is for OS BIRT.
@@ -58,17 +58,15 @@ public class OdaFilterExprHelper extends OdaFilterExprHelperImpl {
 	public static IFilterExprDefinition getFilterExpressionDefn(String birtFilterExprId, String datasetExtId,
 			String datasourceExtId) {
 
-		if (!birtPredefinedFilterConstants.contains(birtFilterExprId)) {
+		if (!birtPredefinedFilterConstants.contains(birtFilterExprId))
 			throw new IllegalArgumentException("The Birt filter expression Id is not valid.");
-		}
 
 		List feds = birtFilterExprDefList;
 		if (feds.size() > 0) {
 			for (int i = 0; i < feds.size(); i++) {
 				IFilterExprDefinition fed = (IFilterExprDefinition) feds.get(i);
-				if (fed.getBirtFilterExprId().equals(birtFilterExprId)) {
+				if (fed.getBirtFilterExprId().equals(birtFilterExprId))
 					return fed;
-				}
 			}
 		}
 		return ODAProviderFactory.getInstance().createFilterExprDefinition(birtFilterExprId);
@@ -76,7 +74,7 @@ public class OdaFilterExprHelper extends OdaFilterExprHelperImpl {
 
 	/**
 	 * Indicates if support the ODA extension filter expressions.
-	 *
+	 * 
 	 * @return true if support, false if not.
 	 */
 
@@ -87,7 +85,7 @@ public class OdaFilterExprHelper extends OdaFilterExprHelperImpl {
 	/**
 	 * Indicates if the given data source and data set support the ODA extension
 	 * Filters.
-	 *
+	 * 
 	 * @param dataSourceExtId the extension id of the data source
 	 * @param dataSetExtId    the extension id of the data set
 	 * @return true if supported, false, if not supported.

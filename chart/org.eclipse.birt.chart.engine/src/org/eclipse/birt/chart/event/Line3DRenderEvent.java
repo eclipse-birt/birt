@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements I3DRende
 
 	/**
 	 * Returns the 3D start location of this line. Not a live object
-	 *
+	 * 
 	 * @return
 	 */
 	public Location3D getStart3D() {
@@ -77,7 +77,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements I3DRende
 
 	/**
 	 * Returns the 3D end location of this line. Not a live object
-	 *
+	 * 
 	 * @return
 	 */
 	public Location3D getEnd3D() {
@@ -86,10 +86,9 @@ public final class Line3DRenderEvent extends LineRenderEvent implements I3DRende
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	@Override
 	public PrimitiveRenderEvent copy() {
 		Line3DRenderEvent lre = new Line3DRenderEvent(source);
 		lre.setLineAttributes(goFactory.copyOf(lia));
@@ -104,20 +103,18 @@ public final class Line3DRenderEvent extends LineRenderEvent implements I3DRende
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
-	@Override
 	public Object3D getObject3D() {
 		return object3D;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
 	 */
-	@Override
 	public void prepare2D(double xOffset, double yOffset) {
 		Location[] points = object3D.getPoints2D(xOffset, yOffset);
 		setStart(points[0]);
@@ -126,10 +123,9 @@ public final class Line3DRenderEvent extends LineRenderEvent implements I3DRende
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#reset()
 	 */
-	@Override
 	public void reset() {
 		object3D = new Object3D(2);
 		super.reset();

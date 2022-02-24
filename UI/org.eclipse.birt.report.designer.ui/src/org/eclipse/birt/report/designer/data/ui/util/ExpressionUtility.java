@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,6 @@ public class ExpressionUtility {
 
 				private static final long serialVersionUID = 54331232145454L;
 
-				@Override
 				protected boolean removeEldestEntry(Map.Entry eldest) {
 					return size() > EXPR_CACHE_SIZE;
 				}
@@ -56,7 +55,6 @@ public class ExpressionUtility {
 
 				private static final long serialVersionUID = 54331232145454L;
 
-				@Override
 				protected boolean removeEldestEntry(Map.Entry eldest) {
 					return size() > EXPR_CACHE_SIZE;
 				}
@@ -64,15 +62,14 @@ public class ExpressionUtility {
 
 	/**
 	 * whether the expression is column reference
-	 *
+	 * 
 	 * @param expression
 	 * @return
 	 */
 	public static boolean isColumnExpression(String expression, boolean mode) {
 		boolean isColumn = false;
-		if (expression == null || expression.trim().length() == 0) {
+		if (expression == null || expression.trim().length() == 0)
 			return isColumn;
-		}
 		if (getCompiledExpCacheMap(mode).containsKey(expression)) {
 			return ((Boolean) getCompiledExpCacheMap(mode).get(expression)).booleanValue();
 		}
@@ -101,11 +98,10 @@ public class ExpressionUtility {
 			Node exprNode = tree.getFirstChild();
 			Node child = exprNode.getFirstChild();
 			assert (child != null);
-			if (child.getType() == Token.GETELEM || child.getType() == Token.GETPROP) {
+			if (child.getType() == Token.GETELEM || child.getType() == Token.GETPROP)
 				isColumn = getDirectColRefExpr(child, mode);
-			} else {
+			else
 				isColumn = false;
-			}
 		} else {
 			isColumn = false;
 		}
@@ -114,7 +110,7 @@ public class ExpressionUtility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param mode
 	 * @return
 	 */
@@ -124,21 +120,20 @@ public class ExpressionUtility {
 
 	/**
 	 * replace the row[], row.xx with dataSetRow[],dataSetRow.xx
-	 *
+	 * 
 	 * @param refNode
 	 * @return
 	 */
 	public static String getReplacedColRefExpr(String columnStr) {
 		if (isColumnExpression(columnStr, true)) {
 			return columnStr.replaceFirst("\\Qrow\\E", "dataSetRow"); //$NON-NLS-1$ //$NON-NLS-2$
-		} else {
+		} else
 			return columnStr;
-		}
 	}
 
 	/**
 	 * if the Node is row Node, return true
-	 *
+	 * 
 	 * @param refNode
 	 * @return
 	 */
@@ -147,17 +142,15 @@ public class ExpressionUtility {
 
 		Node rowName = refNode.getFirstChild();
 		assert (rowName != null);
-		if (rowName.getType() != Token.NAME) {
+		if (rowName.getType() != Token.NAME)
 			return false;
-		}
 
 		String str = rowName.getString();
 		assert (str != null);
-		if (mode && !str.equals(STRING_ROW)) {
+		if (mode && !str.equals(STRING_ROW))
 			return false;
-		} else if (!mode && !str.equals(STRING_DATASET_ROW)) {
+		else if (!mode && !str.equals(STRING_DATASET_ROW))
 			return false;
-		}
 
 		Node rowColumn = rowName.getNext();
 		assert (rowColumn != null);
@@ -165,9 +158,8 @@ public class ExpressionUtility {
 		if (refNode.getType() == Token.GETPROP && rowColumn.getType() == Token.STRING) {
 			return true;
 		} else if (refNode.getType() == Token.GETELEM) {
-			if (rowColumn.getType() == Token.NUMBER || rowColumn.getType() == Token.STRING) {
+			if (rowColumn.getType() == Token.NUMBER || rowColumn.getType() == Token.STRING)
 				return true;
-			}
 		}
 
 		return false;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.w3c.tidy.Tidy;
  * <code>Element</code> child node whose tag name is body. All other nodes that
  * need to be processed to output are the descendant nodes of "body" node.
  * <p>
- *
+ * 
  */
 public class HTMLTextParser {
 
@@ -112,7 +112,7 @@ public class HTMLTextParser {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 */
 	public HTMLTextParser() {
 		tidy.setConfigurationFromProps(props);
@@ -121,7 +121,7 @@ public class HTMLTextParser {
 
 	/**
 	 * Parse the HTML input stream.
-	 *
+	 * 
 	 * @param in the HTML input stream
 	 * @return created DOM tree, null if any error exists.
 	 */
@@ -165,7 +165,7 @@ public class HTMLTextParser {
 					if (nodeType == Node.ELEMENT_NODE) {
 						if ("script".equalsIgnoreCase(child.getNodeName())) {
 							// copy the element node
-							Element ele;
+							Element ele = null;
 							ele = desBody.getOwnerDocument().createElement(child.getNodeName());
 
 							// copy the attributes
@@ -194,7 +194,7 @@ public class HTMLTextParser {
 
 	/**
 	 * Retrieves the child node by name
-	 *
+	 * 
 	 * @param parent    the parent node
 	 * @param childName the name of the child node to retrieve
 	 * @return null if such node does not exist, otherwise return the specified
@@ -212,7 +212,7 @@ public class HTMLTextParser {
 	/**
 	 * Remove the unsupported tags and convert the JTidy DOM tree to W3C DOM tree
 	 * recursively.
-	 *
+	 * 
 	 * @param srcNode the Node in the JTidy DOM tree
 	 * @param desNode the Node in the W3c DOM tree
 	 * @see org.w3c.dom.Node
@@ -249,7 +249,7 @@ public class HTMLTextParser {
 				}
 				if (bSupported) {
 					// copy the element node
-					Element ele;
+					Element ele = null;
 					ele = desNode.getOwnerDocument().createElement(child.getNodeName());
 
 					// copy the attributes
@@ -270,7 +270,7 @@ public class HTMLTextParser {
 
 	static class DocumentBuilderPool {
 		private static final int MAX_POOL_SIZE = 16;
-		private static BlockingQueue<DocumentBuilder> builders = new LinkedBlockingQueue<>(
+		private static BlockingQueue<DocumentBuilder> builders = new LinkedBlockingQueue<DocumentBuilder>(
 				MAX_POOL_SIZE);
 
 		public static DocumentBuilder getDocumentBuilder() {

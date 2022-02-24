@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
 /**
- *
+ * 
  */
 
 public class ReportDocumentEditor extends EditorPart {
@@ -200,7 +200,6 @@ public class ReportDocumentEditor extends EditorPart {
 		detailsButton = new Button(parent, SWT.PUSH);
 		detailsButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				showDetails(!showingDetails);
 			}
@@ -230,9 +229,8 @@ public class ReportDocumentEditor extends EditorPart {
 
 	private Label createTitleLabel(Composite parent, String text) {
 		Label label = new Label(parent, SWT.NONE);
-		if (text != null) {
+		if (text != null)
 			label.setText(text);
-		}
 		label.setBackground(fBackgroundColor);
 		label.setForeground(fForegroundColor);
 		label.setFont(JFaceResources.getHeaderFont());
@@ -242,9 +240,8 @@ public class ReportDocumentEditor extends EditorPart {
 
 	private Label createLabel(Composite parent, String text) {
 		Label label = new Label(parent, SWT.WRAP);
-		if (text != null) {
+		if (text != null)
 			label.setText(text);
-		}
 		label.setBackground(fBackgroundColor);
 		label.setForeground(fForegroundColor);
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, false);
@@ -261,9 +258,8 @@ public class ReportDocumentEditor extends EditorPart {
 
 	private Label createHeadingLabel(Composite parent, String text) {
 		Label label = new Label(parent, SWT.NONE);
-		if (text != null) {
+		if (text != null)
 			label.setText(text);
-		}
 		label.setBackground(fBackgroundColor);
 		label.setForeground(fForegroundColor);
 		label.setFont(JFaceResources.getBannerFont());
@@ -273,9 +269,8 @@ public class ReportDocumentEditor extends EditorPart {
 
 	private Label createScriptgLabel(Composite parent, String text) {
 		Label label = new Label(parent, SWT.NONE);
-		if (text != null) {
+		if (text != null)
 			label.setText(text);
-		}
 		label.setBackground(fBackgroundColor);
 		label.setForeground(fForegroundColor);
 		// label.setFont(JFaceResources.getBannerFont());
@@ -332,12 +327,10 @@ public class ReportDocumentEditor extends EditorPart {
 
 		emitterConfig.setActionHandler(new HTMLActionHandler() {
 
-			@Override
 			public String getURL(IAction actionDefn, Object context) {
-				if (actionDefn.getType() == IAction.ACTION_DRILLTHROUGH) {
+				if (actionDefn.getType() == IAction.ACTION_DRILLTHROUGH)
 					return "birt://" //$NON-NLS-1$
 							+ URLEncoder.encode(super.getURL(actionDefn, context));
-				}
 				return super.getURL(actionDefn, context);
 			}
 

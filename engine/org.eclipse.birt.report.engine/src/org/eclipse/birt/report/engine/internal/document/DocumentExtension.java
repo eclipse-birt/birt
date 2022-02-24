@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -102,17 +102,19 @@ public class DocumentExtension {
 				head = new ExtensionSegment(firstChildId, firstChild, lastChildId, lastChild);
 				insert(ext);
 			}
-		} else if (latest != null && ext.contentId == latest.endId + 1) {
-			ext.setPrevious(latest.endIndex);
-			if (latest.next != null) {
-				ext.setNext(latest.next.startIndex);
-			} else {
-				ext.setNext(-1);
-			}
-			latest.endId = ext.contentId;
-			latest.endIndex = ext.index;
 		} else {
-			insert(ext);
+			if (latest != null && ext.contentId == latest.endId + 1) {
+				ext.setPrevious(latest.endIndex);
+				if (latest.next != null) {
+					ext.setNext(latest.next.startIndex);
+				} else {
+					ext.setNext(-1);
+				}
+				latest.endId = ext.contentId;
+				latest.endIndex = ext.index;
+			} else {
+				insert(ext);
+			}
 		}
 	}
 
@@ -194,6 +196,7 @@ public class DocumentExtension {
 		newSeg.next = null;
 		newSeg.prev = current;
 		latest = newSeg;
+		return;
 	}
 }
 

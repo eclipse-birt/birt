@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004-2008 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -48,11 +48,10 @@ public class ThemesNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
-	 *
+	 * 
 	 * @param menu   the menu
 	 * @param object the object
 	 */
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		if (object instanceof SlotHandle && ((SlotHandle) object).getElementHandle() instanceof LibraryHandle) {
 			ExtendElementAction newThemeAction = new ExtendElementAction(this, NEW_THEME_ACTION_ID, object,
@@ -67,34 +66,31 @@ public class ThemesNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the node display name of the given object.
-	 *
+	 * 
 	 * @param object the object
 	 * @return the display name
 	 */
-	@Override
 	public String getNodeDisplayName(Object object) {
 		return THEMES;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName
 	 * (java.lang.Object)
 	 */
-	@Override
 	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_THEMES;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
 	 * #createElement(java.lang.String)
 	 */
-	@Override
 	protected DesignElementHandle createElement(String type) throws Exception {
 		// ElementFactory factory = SessionHandleAdapter.getInstance( )
 		// .getReportDesignHandle( )
@@ -123,9 +119,9 @@ public class ThemesNodeProvider extends DefaultNodeProvider {
 		return super.createElement(type);
 	}
 
-	@Override
 	public Object[] getChildren(Object model) {
-		List<Object> list = new ArrayList<>(((SlotHandle) model).getElementHandle().getModuleHandle()
+		List<Object> list = new ArrayList<Object>();
+		list.addAll(((SlotHandle) model).getElementHandle().getModuleHandle()
 				.getVisibleThemes(IAccessControl.NATIVE_LEVEL));
 		return list.toArray();
 	}

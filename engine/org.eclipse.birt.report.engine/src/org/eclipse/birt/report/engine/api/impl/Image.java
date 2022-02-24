@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.engine.api.impl;
@@ -67,7 +67,7 @@ public class Image extends ReportPart implements IImage {
 
 	/**
 	 * Constructor with an image uri
-	 *
+	 * 
 	 * @param uri
 	 */
 	public Image(String uri) {
@@ -85,7 +85,7 @@ public class Image extends ReportPart implements IImage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param data
 	 * @param name
 	 */
@@ -100,7 +100,7 @@ public class Image extends ReportPart implements IImage {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param data
 	 * @param name
 	 * @param postfix
@@ -166,21 +166,19 @@ public class Image extends ReportPart implements IImage {
 
 	} /*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.engine.api2.IImage#getID()
 		 */
 
-	@Override
 	public String getID() {
 		return id;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IImage#getSource()
 	 */
-	@Override
 	public int getSource() {
 		return source;
 	}
@@ -191,26 +189,25 @@ public class Image extends ReportPart implements IImage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IImage#getImageData()
 	 */
-	@Override
 	public byte[] getImageData() throws OutOfMemoryError {
 		return data;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IImage#getImageStream()
 	 */
-	@Override
 	public InputStream getImageStream() {
 		switch (this.source) {
 		case IImage.FILE_IMAGE:
 			try {
 				URL url = new URL(this.id);
 				return new BufferedInputStream(url.openStream());
+			} catch (MalformedURLException e) {
 			} catch (IOException e1) {
 			}
 
@@ -231,6 +228,7 @@ public class Image extends ReportPart implements IImage {
 			try {
 				URL url = new URL(this.id);
 				return new BufferedInputStream(url.openStream());
+			} catch (MalformedURLException e) {
 			} catch (IOException e1) {
 			}
 			return null;
@@ -243,7 +241,6 @@ public class Image extends ReportPart implements IImage {
 		}
 	}
 
-	@Override
 	public String getMimeType() {
 		return mimeType;
 	}
@@ -252,7 +249,6 @@ public class Image extends ReportPart implements IImage {
 		this.mimeType = mimeType;
 	}
 
-	@Override
 	public String getImageMap() {
 		return imageMap;
 	}
@@ -263,10 +259,9 @@ public class Image extends ReportPart implements IImage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IImage#writeImage(java.io.File)
 	 */
-	@Override
 	public void writeImage(File dest) throws IOException {
 		if (source == IImage.INVALID_IMAGE) {
 			logger.log(Level.SEVERE, "image source {0} is not valid!", id); //$NON-NLS-1$
@@ -283,9 +278,8 @@ public class Image extends ReportPart implements IImage {
 
 		String parent = new File(dest.getAbsolutePath()).getParent();
 		File parentDir = new File(parent);
-		if (!parentDir.exists()) {
+		if (!parentDir.exists())
 			parentDir.mkdirs();
-		}
 		OutputStream output = null;
 		try {
 			output = new BufferedOutputStream(new FileOutputStream(dest));
@@ -314,7 +308,7 @@ public class Image extends ReportPart implements IImage {
 
 	/**
 	 * Copies the stream from the source to the target
-	 *
+	 * 
 	 * @param src the source stream
 	 * @param tgt the target stream
 	 * @throws IOException
@@ -333,10 +327,9 @@ public class Image extends ReportPart implements IImage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IImage#getExtension()
 	 */
-	@Override
 	public String getExtension() {
 		return extension;
 	}
@@ -345,7 +338,6 @@ public class Image extends ReportPart implements IImage {
 		imageSize = size;
 	}
 
-	@Override
 	public ImageSize getImageSize() {
 		return imageSize;
 	}

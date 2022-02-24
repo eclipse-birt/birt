@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public class TableBorderLayer extends FreeformLayer {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param source
 	 */
 	public TableBorderLayer(AbstractTableEditPart source) {
@@ -59,10 +59,9 @@ public class TableBorderLayer extends FreeformLayer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
-	@Override
 	protected void paintFigure(Graphics graphics) {
 		IFigure figure = source.getLayer(LayerConstants.PRIMARY_LAYER);
 
@@ -266,7 +265,7 @@ public class TableBorderLayer extends FreeformLayer {
 		}
 
 		int direction = BorderUtil.BOTTOM;
-		int[] widths = { 0, data[1], 0, 0 };
+		int[] widths = new int[] { 0, data[1], 0, 0 };
 
 		if (data[3] == nLeftTopX && data[4] == nLeftTopY && data[3] == nRightTopX && data[4] == nRightTopY) {
 			widths[0] = 0;
@@ -449,7 +448,7 @@ public class TableBorderLayer extends FreeformLayer {
 		}
 
 		int direction = BorderUtil.RIGHT;
-		int[] widths = { 0, 0, 0, data[1] };
+		int[] widths = new int[] { 0, 0, 0, data[1] };
 
 		if (data[3] == nTopLeftX && data[4] == nTopLeftY && data[3] == nBottomLeftX && data[4] == nBottomLeftY) {
 			widths[0] = exTop ? nTopLeftWidth : 0;
@@ -632,7 +631,7 @@ public class TableBorderLayer extends FreeformLayer {
 		}
 
 		int direction = BorderUtil.TOP;
-		int[] widths = { data[1], 0, 0, 0 };
+		int[] widths = new int[] { data[1], 0, 0, 0 };
 
 		if (data[3] == nLeftTopX && data[4] == nLeftTopY && data[3] == nRightTopX && data[4] == nRightTopY) {
 			direction = BorderUtil.BOTTOM;
@@ -815,7 +814,7 @@ public class TableBorderLayer extends FreeformLayer {
 		}
 
 		int direction = BorderUtil.LEFT;
-		int[] widths = { 0, 0, data[1], 0 };
+		int[] widths = new int[] { 0, 0, data[1], 0 };
 
 		if (data[3] == nTopLeftX && data[4] == nTopLeftY && data[3] == nBottomLeftX && data[4] == nBottomLeftY) {
 			direction = BorderUtil.RIGHT;

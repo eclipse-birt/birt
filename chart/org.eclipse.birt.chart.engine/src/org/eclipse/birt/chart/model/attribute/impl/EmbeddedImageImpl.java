@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -45,7 +45,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 	/**
 	 * The default value of the '{@link #getData() <em>Data</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getData()
 	 * @generated
 	 * @ordered
@@ -55,7 +55,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 	/**
 	 * The cached value of the '{@link #getData() <em>Data</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getData()
 	 * @generated
 	 * @ordered
@@ -64,7 +64,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected EmbeddedImageImpl() {
@@ -73,7 +73,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -83,32 +83,29 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getData() {
 		return data;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setData(String newData) {
 		String oldData = data;
 		data = newData;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.EMBEDDED_IMAGE__DATA, oldData,
 					data));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -122,7 +119,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -137,7 +134,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -152,7 +149,7 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -166,16 +163,15 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (data: "); //$NON-NLS-1$
 		result.append(data);
 		result.append(')');
@@ -197,9 +193,9 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 
 	/**
 	 * A convenient method to create and initialize an EmbeddedImage instance.
-	 *
+	 * 
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @param sURL
 	 * @return
 	 */
@@ -214,7 +210,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
-	@Override
 	public EmbeddedImage copyInstance() {
 		EmbeddedImageImpl dest = new EmbeddedImageImpl();
 		dest.uRL = getURL();

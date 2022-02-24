@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -32,14 +32,13 @@ public class TableRowHandle extends TableHFHandle {
 
 	/**
 	 * constructor, owner must be TableEditPart
-	 *
+	 * 
 	 * @param owner
 	 */
 	public TableRowHandle(TableEditPart owner) {
 		super(owner, new TableRowHandleLocator(owner));
 	}
 
-	@Override
 	protected void initChildrenHandle() {
 		// TODO this method don't call if the column is hide
 		TableEditPart part = getTableEditPart();
@@ -94,10 +93,9 @@ public class TableRowHandle extends TableHFHandle {
 
 		/*
 		 * Sets the handle the bounds
-		 *
+		 * 
 		 * @see org.eclipse.draw2d.Locator#relocate(org.eclipse.draw2d.IFigure)
 		 */
-		@Override
 		public void relocate(IFigure target) {
 			Rectangle bounds = getReference().getBounds();
 

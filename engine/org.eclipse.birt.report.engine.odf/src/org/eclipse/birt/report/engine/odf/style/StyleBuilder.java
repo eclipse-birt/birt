@@ -283,7 +283,7 @@ public class StyleBuilder {
 	}
 
 	static {
-		Set<Integer> props = new HashSet<>();
+		Set<Integer> props = new HashSet<Integer>();
 		for (int i = StyleConstant.BORDER_BOTTOM_COLOR_PROP; i <= StyleConstant.BORDER_RIGHT_WIDTH_PROP; i++) {
 			props.add(i);
 		}

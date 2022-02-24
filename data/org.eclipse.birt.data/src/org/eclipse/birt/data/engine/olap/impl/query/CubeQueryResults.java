@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +65,7 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
- *
+ * 
  */
 
 public class CubeQueryResults implements ICubeQueryResults {
@@ -86,7 +86,7 @@ public class CubeQueryResults implements ICubeQueryResults {
 	protected static Logger logger = Logger.getLogger(CubeQueryResults.class.getName());
 
 	/**
-	 *
+	 * 
 	 * @param preparedQuery
 	 * @param scope
 	 */
@@ -105,14 +105,12 @@ public class CubeQueryResults implements ICubeQueryResults {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.ICubeQueryResults#getCubeCursor()
 	 */
-	@Override
 	public ICubeCursor getCubeCursor() throws DataException {
-		if (this.cubeCursor != null) {
+		if (this.cubeCursor != null)
 			return this.cubeCursor;
-		}
 		try {
 			if (this.session.getEngineContext().getMode() == DataEngineContext.MODE_PRESENTATION) {
 				this.cubeCursor = createCursor(null, null);
@@ -120,10 +118,11 @@ public class CubeQueryResults implements ICubeQueryResults {
 			}
 
 			stopSign.start();
-			Set<String> involvedDerivedMeasure = new HashSet<>();
+			Set<String> involvedDerivedMeasure = new HashSet<String>();
 			Set<String> derivedMeasureNames = OlapExpressionUtil
 					.getDerivedMeasureNames(this.cubeQueryDefinition.getBindings());
-			List<IBinding> bindingSet = new ArrayList<IBinding>(this.cubeQueryDefinition.getBindings());
+			List<IBinding> bindingSet = new ArrayList<IBinding>();
+			bindingSet.addAll(this.cubeQueryDefinition.getBindings());
 			CubeQueryExecutorHints hints = new CubeQueryExecutorHints();
 
 			if (this.cubeQueryDefinition instanceof PreparedCubeQueryDefinition) {
@@ -153,15 +152,14 @@ public class CubeQueryResults implements ICubeQueryResults {
 				bindingSet.addAll(binding4NestedAggr);
 
 			}
-			List<IFilterDefinition> derivedMeasureFilters = new ArrayList<>();
+			List<IFilterDefinition> derivedMeasureFilters = new ArrayList<IFilterDefinition>();
 			if (!this.cubeQueryDefinition.getFilters().isEmpty()) {
 				for (IFilterDefinition filter : (List<IFilterDefinition>) this.cubeQueryDefinition.getFilters()) {
 					IBaseExpression expr = filter.getExpression();
 					Set<String> temp = this.getInvolvedDerivedMeasure(expr, derivedMeasureNames,
 							this.cubeQueryDefinition.getBindings());
-					if (temp.size() > 0) {
+					if (temp.size() > 0)
 						derivedMeasureFilters.add(filter);
-					}
 					involvedDerivedMeasure.addAll(temp);
 				}
 			}
@@ -177,22 +175,22 @@ public class CubeQueryResults implements ICubeQueryResults {
 			if (involvedDerivedMeasure.isEmpty()) {
 				this.cubeCursor = createCursor(null, hints);
 			} else {
-				List<String> candidateBindingOfInteresting = new ArrayList<>();
+				List<String> candidateBindingOfInteresting = new ArrayList<String>();
 				candidateBindingOfInteresting.addAll(involvedDerivedMeasure);
-				List<Set<String>> bindingDimLevels = new ArrayList<>();
+				List<Set<String>> bindingDimLevels = new ArrayList<Set<String>>();
 
 				for (String bindingName : candidateBindingOfInteresting) {
 					Set<IDimLevel> dimLevels = OlapExpressionUtil.getAggregateOnLevel(bindingName, bindingSet,
 							getMeasureDimLevel());
-					Set<String> temp = new HashSet<>();
+					Set<String> temp = new HashSet<String>();
 					for (IDimLevel dl : dimLevels) {
 						temp.add(OlapExpressionUtil.getAttrReference(dl.getDimensionName(), dl.getLevelName(),
 								dl.getLevelName()));
 					}
 					bindingDimLevels.add(temp);
 				}
-				List<IFilterDefinition> filterTemp = new ArrayList<>();
-				List<ISortDefinition> sortTemp = new ArrayList<>();
+				List<IFilterDefinition> filterTemp = new ArrayList<IFilterDefinition>();
+				List<ISortDefinition> sortTemp = new ArrayList<ISortDefinition>();
 				filterTemp.addAll(this.cubeQueryDefinition.getFilters());
 				sortTemp.addAll(this.cubeQueryDefinition.getSorts());
 				this.cubeQueryDefinition.getFilters().removeAll(derivedMeasureFilters);
@@ -211,7 +209,9 @@ public class CubeQueryResults implements ICubeQueryResults {
 			}
 			return this.cubeCursor;
 
-		} catch (OLAPException | IOException e) {
+		} catch (OLAPException e) {
+			throw new DataException(e.getLocalizedMessage(), e);
+		} catch (IOException e) {
 			throw new DataException(e.getLocalizedMessage(), e);
 		} catch (DataException e) {
 			// if fail to load cube, return a NULL result cursor.
@@ -230,7 +230,7 @@ public class CubeQueryResults implements ICubeQueryResults {
 	}
 
 	private Set<IDimLevel> getDimLevels(int edge) {
-		Set<IDimLevel> result = new HashSet<>();
+		Set<IDimLevel> result = new HashSet<IDimLevel>();
 		IEdgeDefinition edgeDefn = this.cubeQueryDefinition.getEdge(edge);
 		if (edgeDefn != null) {
 			List<IDimensionDefinition> dimDefns = edgeDefn.getDimensions();
@@ -249,7 +249,7 @@ public class CubeQueryResults implements ICubeQueryResults {
 
 	private Set<String> getInvolvedDerivedMeasure(IBaseExpression expr, Set<String> derivedMeasureNames,
 			List<IBinding> bindings) throws DataException {
-		Set<String> result = new HashSet<>();
+		Set<String> result = new HashSet<String>();
 		if (!OlapExpressionUtil.isDirectRerenrence(expr, bindings)) {
 			List<String> involvedMeasureNames = ExpressionCompilerUtil.extractColumnExpression(expr,
 					ExpressionUtil.DATA_INDICATOR);
@@ -273,9 +273,8 @@ public class CubeQueryResults implements ICubeQueryResults {
 
 		try {
 			// need not load cube in render task.
-			if (!isStandAloneQuery(cubeQueryDefinition, session.getEngineContext())) {
+			if (!isStandAloneQuery(cubeQueryDefinition, session.getEngineContext()))
 				cube = loadCube(documentManager, executor);
-			}
 		} catch (Exception ex) {
 			throw new DataException(ResourceConstants.FAIL_LOAD_CUBE, ex);
 		}
@@ -283,9 +282,8 @@ public class CubeQueryResults implements ICubeQueryResults {
 		BirtCubeView bcv = new BirtCubeView(executor, cube, appContext, fetcher);
 		bcv.setCubeQueryExecutionHints(hints);
 		CubeCursor cubeCursor = bcv.getCubeCursor(stopSign, cube);
-		if (cube != null) {
+		if (cube != null)
 			cube.close();
-		}
 
 		String newResultSetId = executor.getQueryResultsId();
 		if (newResultSetId != null) {
@@ -303,7 +301,7 @@ public class CubeQueryResults implements ICubeQueryResults {
 
 	/**
 	 * Get the document manager.
-	 *
+	 * 
 	 * @param executor
 	 * @return
 	 * @throws DataException
@@ -322,16 +320,15 @@ public class CubeQueryResults implements ICubeQueryResults {
 					executor.getSession().getTempDir() + executor.getSession().getEngine().hashCode());
 		}
 		if (manager != null) {
-			if (manager.exist(NamingUtil.getCubeDocName(executor.getCubeQueryDefinition().getName()))) {
+			if (manager.exist(NamingUtil.getCubeDocName(executor.getCubeQueryDefinition().getName())))
 				return manager;
-			}
 		}
 		return CubeRADocumentManagerFactory.createRADocumentManager(executor.getCubeQueryDefinition().getName(),
 				executor.getContext().getDocReader());
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cubeName
 	 * @return
 	 * @throws IOException
@@ -341,13 +338,12 @@ public class CubeQueryResults implements ICubeQueryResults {
 			throws DataException, IOException {
 		ICube cube = null;
 
-		if (this.preparedQuery.getInaccessibleDimLevels() == null) {
+		if (this.preparedQuery.getInaccessibleDimLevels() == null)
 			cube = CubeQueryExecutorHelper.loadCube(executor.getCubeQueryDefinition().getName(), documentManager,
 					executor.getSession());
-		} else {
+		else
 			cube = CubeQueryExecutorHelper.loadCube(executor.getCubeQueryDefinition().getName(), documentManager,
 					executor.getSession().getStopSign(), this.preparedQuery.getInaccessibleDimLevels());
-		}
 		return cube;
 	}
 
@@ -360,50 +356,45 @@ public class CubeQueryResults implements ICubeQueryResults {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#getID()
 	 */
-	@Override
 	public String getID() {
 		return this.queryResultsId;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#close()
 	 */
-	@Override
 	public void close() throws BirtException {
 		QueryPrepareUtil.clear(session);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.ICubeQueryResults#cancel()
 	 */
-	@Override
 	public void cancel() {
 		stopSign.stop();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.INamedObject#setName(java.lang.String)
 	 */
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}

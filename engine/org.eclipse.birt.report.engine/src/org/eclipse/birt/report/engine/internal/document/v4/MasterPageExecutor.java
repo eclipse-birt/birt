@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 /**
  * execute the master page.
- *
+ * 
  * the master page's children include page header and footer.
  */
 public class MasterPageExecutor extends ContainerExecutor {
@@ -57,7 +57,6 @@ public class MasterPageExecutor extends ContainerExecutor {
 		this.masterPage = (SimpleMasterPageDesign) masterPage;
 	}
 
-	@Override
 	public void close() {
 		context.setExecutingMasterPage(false);
 		context.setResultSets(rs);
@@ -69,7 +68,6 @@ public class MasterPageExecutor extends ContainerExecutor {
 		super.close();
 	}
 
-	@Override
 	public IContent execute() {
 		if (executed) {
 			return content;
@@ -111,7 +109,6 @@ public class MasterPageExecutor extends ContainerExecutor {
 		return null;
 	}
 
-	@Override
 	protected ReportItemExecutor doCreateExecutor(long offset) throws Exception {
 		if (nextBand >= HEADER_BAND && nextBand <= FOOTER_BAND) {
 			ArrayList band = null;
@@ -138,13 +135,12 @@ public class MasterPageExecutor extends ContainerExecutor {
 
 	/**
 	 * adjust the nextItem to the nextContent.
-	 *
+	 * 
 	 * before call this method, both the nextContent and the nextFragment can't be
 	 * NULL.
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	protected void doSkipToExecutor(InstanceID id, long offset) throws Exception {
 		throw new IllegalStateException("master page never comes with page hints");
 	}

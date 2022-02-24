@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -46,7 +46,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 	/**
 	 * The default value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -56,7 +56,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 	/**
 	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -65,7 +65,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected JavaDateFormatSpecifierImpl() {
@@ -74,7 +74,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -84,32 +84,29 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getPattern() {
 		return pattern;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setPattern(String newPattern) {
 		String oldPattern = pattern;
 		pattern = newPattern;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.JAVA_DATE_FORMAT_SPECIFIER__PATTERN,
 					oldPattern, pattern));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -123,7 +120,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -138,7 +135,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -153,7 +150,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -167,16 +164,15 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (pattern: "); //$NON-NLS-1$
 		result.append(pattern);
 		result.append(')');
@@ -186,9 +182,9 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 	/**
 	 * A convenience methods provided to create an initialized
 	 * JavaDateFormatSpecifier instance
-	 *
+	 * 
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @param sJavaPattern
 	 * @return new instance
 	 */
@@ -200,11 +196,10 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#format(
 	 * Calendar, java.util.Locale)
 	 */
-	@Override
 	public String format(Calendar c, ULocale lcl) {
 		// ATTN: LOCALE IS UNUSED WHEN THE FORMAT PATTERN IS SPECIFIED
 		final SimpleDateFormat sdf = new SimpleDateFormat(getPattern(), lcl);
@@ -215,7 +210,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 		return sdf.format(c.getTime());
 	}
 
-	@Override
 	@SuppressWarnings("deprecation")
 	public String format(Calendar c, Locale lcl) {
 		return format(c, ULocale.forLocale(lcl));
@@ -224,7 +218,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 	/**
 	 * @generated
 	 */
-	@Override
 	public JavaDateFormatSpecifier copyInstance() {
 		JavaDateFormatSpecifierImpl dest = new JavaDateFormatSpecifierImpl();
 		dest.set(this);

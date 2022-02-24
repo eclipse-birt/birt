@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -36,13 +36,13 @@ import org.eclipse.birt.report.utility.ParameterUtility;
 /**
  * Fragment help rendering hidden parameter.
  * <p>
- *
+ * 
  * @see org.eclipse.birt.report.presentation.aggregation.BaseFragment
  */
 public class HiddenParameterFragment extends ScalarParameterFragment {
 	/**
 	 * Protected constructor.
-	 *
+	 * 
 	 * @param parameter parameter definition reference.
 	 */
 	public HiddenParameterFragment(ParameterDefinition parameter) {
@@ -51,7 +51,7 @@ public class HiddenParameterFragment extends ScalarParameterFragment {
 
 	/**
 	 * prepareParameterBean method for HiddenParameterFragment
-	 *
+	 * 
 	 * @param request
 	 * @param service
 	 * @param parameterBean
@@ -59,7 +59,6 @@ public class HiddenParameterFragment extends ScalarParameterFragment {
 	 * @param timeZone
 	 * @throws ReportServiceException
 	 */
-	@Override
 	protected void prepareParameterBean(HttpServletRequest request, IViewerReportService service,
 			ScalarParameterBean parameterBean, Locale locale, TimeZone timeZone) throws ReportServiceException {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);

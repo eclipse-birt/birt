@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -32,7 +32,6 @@ import testutil.ConfigText;
 
 public class MultiPass_FilterTest extends APITestCase {
 
-	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
 				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName"));
@@ -75,7 +74,7 @@ public class MultiPass_FilterTest extends APITestCase {
 //		IBaseExpression[] bindingExprFilter1 = new IBaseExpression[1];
 //		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
 
-		FilterDefinition[] filters = { new FilterDefinition(
+		FilterDefinition[] filters = new FilterDefinition[] { new FilterDefinition(
 				new ConditionalExpression("row.FILTER_AMOUNT", IConditionalExpression.OP_TOP_N, "3")) };
 
 		createAndRunQuery(null, null, null, null, null, null, bindingNameFilter, bindingExprFilter, filters,
@@ -120,7 +119,7 @@ public class MultiPass_FilterTest extends APITestCase {
 //		IBaseExpression[] bindingExprFilter1 = new IBaseExpression[1];
 //		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
 
-		FilterDefinition[] filters = { new FilterDefinition(
+		FilterDefinition[] filters = new FilterDefinition[] { new FilterDefinition(
 				new ConditionalExpression("row.FILTER_AMOUNT", IConditionalExpression.OP_BOTTOM_N, "3")) };
 
 		createAndRunQuery(null, null, null, null, null, null, bindingNameFilter, bindingExprFilter, filters,
@@ -137,7 +136,8 @@ public class MultiPass_FilterTest extends APITestCase {
 		bindingNameFilter[0] = "FILTER_AMOUNT";
 		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
 		bindingExprFilter[0] = new ScriptExpression("dataSetRow.AMOUNT");
-		FilterDefinition[] filters = { new FilterDefinition(new ScriptExpression("row.FILTER_AMOUNT > 100")) };
+		FilterDefinition[] filters = new FilterDefinition[] {
+				new FilterDefinition(new ScriptExpression("row.FILTER_AMOUNT > 100")) };
 
 		FilterDefinition filterDefn = new FilterDefinition(
 				new ConditionalExpression("Total.sum(row.ROW_AMOUNT)", IConditionalExpression.OP_TOP_PERCENT, "40"));
@@ -150,7 +150,8 @@ public class MultiPass_FilterTest extends APITestCase {
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.CITY");
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 
 		groupDefn[1].setKeyExpression("row.GROUP_GROUP1");
@@ -175,7 +176,7 @@ public class MultiPass_FilterTest extends APITestCase {
 
 	/**
 	 * filter on group with bottom N
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -184,7 +185,8 @@ public class MultiPass_FilterTest extends APITestCase {
 		bindingNameFilter[0] = "FILTER_AMOUNT";
 		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
 		bindingExprFilter[0] = new ScriptExpression("dataSetRow.AMOUNT");
-		FilterDefinition[] filters = { new FilterDefinition(new ScriptExpression("row.FILTER_AMOUNT > 100")) };
+		FilterDefinition[] filters = new FilterDefinition[] {
+				new FilterDefinition(new ScriptExpression("row.FILTER_AMOUNT > 100")) };
 
 		FilterDefinition filterDefn = new FilterDefinition(
 				new ConditionalExpression("Total.sum(row.ROW_AMOUNT)", IConditionalExpression.OP_TOP_PERCENT, "40"));
@@ -197,7 +199,8 @@ public class MultiPass_FilterTest extends APITestCase {
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.CITY");
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 		groupDefn[1].setKeyExpression("row.GROUP_GROUP1");
 		groupDefn[0].addFilter(filterDefn);
@@ -229,7 +232,7 @@ public class MultiPass_FilterTest extends APITestCase {
 
 	/**
 	 * filter on group with bottom N with negative value
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -237,8 +240,8 @@ public class MultiPass_FilterTest extends APITestCase {
 		String sqlStatement = "select COUNTRY,AMOUNT, SALE_DATE from " + getTestTableName();
 		((OdaDataSetDesign) this.dataSet).setQueryText(sqlStatement);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.COUNTRY"), new ScriptExpression("row.AMOUNT"),
-				new ScriptExpression("row.SALE_DATE") };
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.COUNTRY"),
+				new ScriptExpression("row.AMOUNT"), new ScriptExpression("row.SALE_DATE") };
 		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE" };
 
 		QueryDefinition queryDefn = new QueryDefinition();
@@ -269,7 +272,7 @@ public class MultiPass_FilterTest extends APITestCase {
 
 	/**
 	 * filter on group with bottom N with invalid value
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -277,8 +280,8 @@ public class MultiPass_FilterTest extends APITestCase {
 		String sqlStatement = "select COUNTRY,AMOUNT, SALE_DATE from " + getTestTableName();
 		((OdaDataSetDesign) this.dataSet).setQueryText(sqlStatement);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.COUNTRY"), new ScriptExpression("row.AMOUNT"),
-				new ScriptExpression("row.SALE_DATE") };
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.COUNTRY"),
+				new ScriptExpression("row.AMOUNT"), new ScriptExpression("row.SALE_DATE") };
 
 		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE" };
 

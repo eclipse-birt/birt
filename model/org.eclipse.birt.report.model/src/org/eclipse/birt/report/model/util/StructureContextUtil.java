@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class StructureContextUtil {
 
 	/**
 	 * Sets structure context.
-	 *
+	 * 
 	 * @param propDefn the property define
 	 * @param tmpValue the cloned value
 	 * @param element  the design element.
@@ -46,11 +46,12 @@ public class StructureContextUtil {
 		assert propDefn != null;
 		assert element != null;
 
-		
+		if (tmpValue == null)
+			return;
 
 		// only handle the case that this is a structure or structure list.
 
-		if ((tmpValue == null) || (propDefn.getTypeCode() != IPropertyType.STRUCT_TYPE)) {
+		if (propDefn.getTypeCode() != IPropertyType.STRUCT_TYPE) {
 			return;
 		}
 
@@ -68,26 +69,23 @@ public class StructureContextUtil {
 	/**
 	 * Establishes the structure context for the given structure or any nested
 	 * structure.
-	 *
+	 * 
 	 * @param struct the structure to setup
-	 *
+	 * 
 	 */
 
 	public static void setupStructureContext(Structure struct) {
-		if (struct == null) {
+		if (struct == null)
 			return;
-		}
 		Iterator<IPropertyDefn> members = struct.getDefn().propertiesIterator();
 		while (members.hasNext()) {
 			PropertyDefn member = (PropertyDefn) members.next();
-			if (member.getTypeCode() != IPropertyType.STRUCT_TYPE) {
+			if (member.getTypeCode() != IPropertyType.STRUCT_TYPE)
 				continue;
-			}
 
 			Object tmpValue = struct.getLocalProperty(null, member);
-			if (tmpValue == null) {
+			if (tmpValue == null)
 				continue;
-			}
 			if (tmpValue instanceof List) {
 				List tmpList = (List) tmpValue;
 				for (int i = 0; i < tmpList.size(); i++) {
@@ -108,32 +106,29 @@ public class StructureContextUtil {
 
 	/**
 	 * Creates a structure context for the member of the given structure handle.
-	 *
+	 * 
 	 * @param structHandle
 	 * @param memberName
 	 * @return
 	 */
 	public static StructureContext createStructureContext(StructureHandle structHandle, String memberName) {
-		if (structHandle == null) {
+		if (structHandle == null)
 			return null;
-		}
 
 		Structure struct = (Structure) structHandle.getStructure();
-		if (struct == null) {
+		if (struct == null)
 			return null;
-		}
 		PropertyDefn propDefn = (PropertyDefn) struct.getMemberDefn(memberName);
 
-		if (propDefn == null) {
+		if (propDefn == null)
 			return null;
-		}
 
 		StructureContext context = new StructureContext(struct, propDefn, null);
 		return context;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param target
 	 * @param context
 	 * @return
@@ -141,26 +136,23 @@ public class StructureContextUtil {
 	public static StructureContext getLocalStructureContext(Module targetModule, DesignElement target,
 			StructureContext context) {
 		// return null if either target is null or context is null
-		if (target == null || context == null) {
+		if (target == null || context == null)
 			return null;
-		}
 
 		// if the top element of the context is just the target itself, it means
 		// the context is local and return it directly
-		if (target == context.getElement()) {
+		if (target == context.getElement())
 			return context;
-		}
 
 		ElementPropertyDefn propDefn = context.getElementProp();
 		// for overridden property case, we should get definition locally
 		propDefn = target.getPropertyDefn(propDefn.getName());
 
 		// if target has no local value, return directly
-		if (target.getLocalProperty(targetModule, propDefn) == null) {
+		if (target.getLocalProperty(targetModule, propDefn) == null)
 			return context;
-		}
 
-		List<StructureContext> contextList = new ArrayList<>();
+		List<StructureContext> contextList = new ArrayList<StructureContext>();
 		StructureContext tmpContext = context;
 		while (tmpContext != null) {
 			// every time, add the context to the top
@@ -188,9 +180,8 @@ public class StructureContextUtil {
 			if (targetStruct != null) {
 				targetContext = targetContext.cacheStructure(targetStruct);
 			}
-			if (tmpContext == context) {
+			if (tmpContext == context)
 				return targetContext;
-			}
 
 		}
 
@@ -205,17 +196,15 @@ public class StructureContextUtil {
 		assert sourceContext != null;
 		assert targetContext.getPropDefn() == sourceContext.getPropDefn();
 
-		if (sourceContext.getStructure() == null) {
+		if (sourceContext.getStructure() == null)
 			return null;
-		}
 		int index = sourceContext.getIndex(null);
 		return targetContext.getStructureAt(module, index);
 	}
 
 	public static StructureContext getMemberContext(StructureHandle structHandle, StructPropertyDefn member) {
-		if (structHandle == null || member == null) {
+		if (structHandle == null || member == null)
 			return null;
-		}
 
 		StructureContext context = structHandle.getContext();
 		DesignElement target = structHandle.getElement();
@@ -240,43 +229,37 @@ public class StructureContextUtil {
 	 * Determines whether the cached structure handle is valid or not. If the
 	 * structure is not in the design tree any more, then the handle is invalid;
 	 * otherwise valid.
-	 *
+	 * 
 	 * @param structHandle
 	 * @return
 	 */
 	public static boolean isValidStructureHandle(StructureHandle structHandle) {
-		if (structHandle == null) {
+		if (structHandle == null)
 			return true;
-		}
 		Structure struct = (Structure) structHandle.getStructure();
-		if (struct == null) {
+		if (struct == null)
 			return false;
-		}
 
 		StructureContext context = struct.getContext();
 
 		// the local structure is dropped and therefore the context is null, at
 		// this case the cached structure handle is invalid for the structure is
 		// not in design tree
-		if (context == null) {
+		if (context == null)
 			return false;
-		}
 
 		DesignElement hostElement = context.getElement();
 		DesignElement content = struct.getElement();
-		if (content == hostElement) {
+		if (content == hostElement)
 			return true;
-		}
 
-		if (hostElement == null) {
+		if (hostElement == null)
 			return false;
-		}
 
 		// if the two element are not the same, then justify the inheritance
 		Object localValue = content.getLocalProperty(structHandle.getModule(), context.getElementProp());
-		if (localValue != null) {
+		if (localValue != null)
 			return false;
-		}
 
 		return true;
 	}

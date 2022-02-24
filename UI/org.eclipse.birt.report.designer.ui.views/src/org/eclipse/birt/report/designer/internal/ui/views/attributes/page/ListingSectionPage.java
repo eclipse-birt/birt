@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,6 @@ public class ListingSectionPage extends ResetAttributePage {
 
 	private CheckSection repeatHeaderSection;
 
-	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
 		container.setLayout(WidgetUtil.createGridLayout(6, 15));
@@ -95,11 +94,11 @@ public class ListingSectionPage extends ResetAttributePage {
 		masterPageSection.setWidth(200);
 		addSection(PageSectionId.LISTING_SECTION_MASTER_PAGE, masterPageSection);
 		/*
-		 *
+		 * 
 		 * String[] properties = { StyleHandle.PAGE_BREAK_BEFORE_PROP,
 		 * StyleHandle.PAGE_BREAK_AFTER_PROP, // StyleHandle.PAGE_BREAK_INSIDE_PROP, };
 		 * for ( int i = 0; i < properties.length; i++ ) {
-		 *
+		 * 
 		 * WidgetUtil.buildGridControl( container, propertiesMap,
 		 * ReportDesignConstants.STYLE_ELEMENT, properties[i], 1, 200 );
 		 * if(properties[i].equals( StyleHandle.PAGE_BREAK_BEFORE_PROP )) {
@@ -115,10 +114,10 @@ public class ListingSectionPage extends ResetAttributePage {
 		 * repeatHeaderButton.setText(
 		 * Messages.getString("ListingSectionPage.RepeatHeader") ); //$NON-NLS-1$
 		 * repeatHeaderButton.addSelectionListener( new SelectionListener(){
-		 *
+		 * 
 		 * public void widgetSelected( SelectionEvent e ) {
 		 * setRepeatHeader(repeatHeaderButton.getSelection( )); }
-		 *
+		 * 
 		 * public void widgetDefaultSelected( SelectionEvent e ) { // TODO
 		 * Auto-generated method stub }} );
 		 */
@@ -135,7 +134,6 @@ public class ListingSectionPage extends ResetAttributePage {
 		RepeatHeaderDescriptorProvider repeatHeaderProvider = new RepeatHeaderDescriptorProvider();
 		repeatHeaderSection = new CheckSection(container, true) {
 
-			@Override
 			public void load() {
 				super.load();
 
@@ -163,7 +161,6 @@ public class ListingSectionPage extends ResetAttributePage {
 		}
 	}
 
-	@Override
 	public void postElementEvent() {
 		super.postElementEvent();
 

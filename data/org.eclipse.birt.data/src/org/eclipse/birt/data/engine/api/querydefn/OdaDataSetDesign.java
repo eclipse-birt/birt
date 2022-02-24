@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -55,14 +55,13 @@ public class OdaDataSetDesign extends BaseDataSetDesign implements IOdaDataSetDe
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getQueryText()
 	 */
-	@Override
 	public String getQueryText() {
 		return queryText;
 	}
 
 	/**
 	 * Specifies the static query text.
-	 *
+	 * 
 	 * @param queryText Static query text.
 	 */
 	public void setQueryText(String queryText) {
@@ -72,14 +71,13 @@ public class OdaDataSetDesign extends BaseDataSetDesign implements IOdaDataSetDe
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getExtensionID()
 	 */
-	@Override
 	public String getExtensionID() {
 		return extensionID;
 	}
 
 	/**
 	 * Specifies the extension ID for this type of data set
-	 *
+	 * 
 	 * @param extensionID The extension id for this data set type as assigned by the
 	 *                    ODA driver
 	 */
@@ -90,14 +88,13 @@ public class OdaDataSetDesign extends BaseDataSetDesign implements IOdaDataSetDe
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getPrimaryResultSetName()
 	 */
-	@Override
 	public String getPrimaryResultSetName() {
 		return primaryResultSetName;
 	}
 
 	/**
 	 * Specifies the name of the primary result set.
-	 *
+	 * 
 	 * @param resultSetName
 	 */
 	public void setPrimaryResultSetName(String resultSetName) {
@@ -108,22 +105,18 @@ public class OdaDataSetDesign extends BaseDataSetDesign implements IOdaDataSetDe
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getPublicProperties()
 	 */
-	@Override
 	public Map getPublicProperties() {
-		if (publicProps == null) {
+		if (publicProps == null)
 			publicProps = new HashMap();
-		}
 		return publicProps;
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getPrivateProperties()
 	 */
-	@Override
 	public Map getPrivateProperties() {
-		if (privateProps == null) {
+		if (privateProps == null)
 			privateProps = new HashMap();
-		}
 		return privateProps;
 	}
 
@@ -160,12 +153,11 @@ public class OdaDataSetDesign extends BaseDataSetDesign implements IOdaDataSetDe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getPrimaryResultSetNumber(
 	 * )
 	 */
-	@Override
 	public int getPrimaryResultSetNumber() {
 		return this.resultSetNumber;
 	}

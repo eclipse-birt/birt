@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.wpml;
@@ -65,17 +65,14 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement = new DocEmitterImpl(contentVisitor);
 	}
 
-	@Override
 	public void initialize(IEmitterServices service) throws EngineException {
 		emitterImplement.initialize(service);
 	}
 
-	@Override
 	public String getOutputFormat() {
 		return emitterImplement.getOutputFormat();
 	}
 
-	@Override
 	public void startPage(IPageContent page) throws BirtException {
 		try {
 			emitterImplement.startPage(page);
@@ -84,7 +81,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void end(IReportContent report) throws BirtException {
 		try {
 			emitterImplement.end(report);
@@ -93,7 +89,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void endCell(ICellContent cell) {
 		if (omitCellLayer != 0) {
 			omitCellLayer--;
@@ -105,7 +100,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endCell(cell);
 	}
 
-	@Override
 	public void endContainer(IContainerContent container) {
 		if (isClipped) {
 			return;
@@ -113,7 +107,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endContainer(container);
 	}
 
-	@Override
 	public void startContainer(IContainerContent container) {
 		if (isClipped) {
 			return;
@@ -121,7 +114,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startContainer(container);
 	}
 
-	@Override
 	public void endContent(IContent content) {
 		if (isClipped) {
 			return;
@@ -129,7 +121,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endContent(content);
 	}
 
-	@Override
 	public void endGroup(IGroupContent group) {
 		if (isClipped) {
 			return;
@@ -141,7 +132,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.computePageProperties(page);
 	}
 
-	@Override
 	public void endList(IListContent list) {
 		if (isClipped) {
 			return;
@@ -149,7 +139,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endList(list);
 	}
 
-	@Override
 	public void endListBand(IListBandContent listBand) {
 		if (isClipped) {
 			return;
@@ -157,7 +146,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endListBand(listBand);
 	}
 
-	@Override
 	public void endListGroup(IListGroupContent group) {
 		if (isClipped) {
 			return;
@@ -166,12 +154,10 @@ public class DocEmitter extends ContentEmitterAdapter {
 
 	}
 
-	@Override
 	public void endPage(IPageContent page) {
 		emitterImplement.endPage(page);
 	}
 
-	@Override
 	public void endRow(IRowContent row) {
 		if (isClipped) {
 			return;
@@ -179,7 +165,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endRow(row);
 	}
 
-	@Override
 	public void endTable(ITableContent table) {
 		if (isClipped) {
 			return;
@@ -187,7 +172,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endTable(table);
 	}
 
-	@Override
 	public void endTableBand(ITableBandContent band) {
 		if (isClipped) {
 			return;
@@ -195,7 +179,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endTableBand(band);
 	}
 
-	@Override
 	public void endTableGroup(ITableGroupContent group) {
 		if (isClipped) {
 			return;
@@ -203,12 +186,10 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endTableGroup(group);
 	}
 
-	@Override
 	public void start(IReportContent report) {
 		emitterImplement.start(report);
 	}
 
-	@Override
 	public void startAutoText(IAutoTextContent autoText) {
 		if (isClipped) {
 			return;
@@ -216,7 +197,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startAutoText(autoText);
 	}
 
-	@Override
 	public void startCell(ICellContent cell) {
 		if (isClipped) {
 			omitCellLayer++;
@@ -231,7 +211,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startCell(cell);
 	}
 
-	@Override
 	public void startContent(IContent content) {
 		if (isClipped) {
 			return;
@@ -239,7 +218,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startContent(content);
 	}
 
-	@Override
 	public void startData(IDataContent data) {
 		if (isClipped) {
 			return;
@@ -247,7 +225,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startData(data);
 	}
 
-	@Override
 	public void startForeign(IForeignContent foreign) throws BirtException {
 		if (isClipped) {
 			return;
@@ -255,7 +232,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startForeign(foreign);
 	}
 
-	@Override
 	public void startGroup(IGroupContent group) {
 		if (isClipped) {
 			return;
@@ -263,7 +239,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startGroup(group);
 	}
 
-	@Override
 	public void startImage(IImageContent image) {
 		if (isClipped) {
 			return;
@@ -271,7 +246,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startImage(image);
 	}
 
-	@Override
 	public void startLabel(ILabelContent label) {
 		if (isClipped) {
 			return;
@@ -279,7 +253,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startLabel(label);
 	}
 
-	@Override
 	public void startList(IListContent list) {
 		if (isClipped) {
 			return;
@@ -287,7 +260,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startList(list);
 	}
 
-	@Override
 	public void startListBand(IListBandContent listBand) {
 		if (isClipped) {
 			return;
@@ -295,7 +267,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startListBand(listBand);
 	}
 
-	@Override
 	public void startListGroup(IListGroupContent group) {
 		if (isClipped) {
 			return;
@@ -303,7 +274,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startListGroup(group);
 	}
 
-	@Override
 	public void startRow(IRowContent row) {
 		if (isClipped) {
 			return;
@@ -311,7 +281,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startRow(row);
 	}
 
-	@Override
 	public void startTable(ITableContent table) {
 		if (isClipped) {
 			return;
@@ -332,7 +301,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		return content;
 	}
 
-	@Override
 	public void startTableBand(ITableBandContent band) {
 		if (isClipped) {
 			return;
@@ -340,7 +308,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startTableBand(band);
 	}
 
-	@Override
 	public void startTableGroup(ITableGroupContent group) {
 		if (isClipped) {
 			return;
@@ -348,7 +315,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.startTableGroup(group);
 	}
 
-	@Override
 	public void startText(ITextContent text) {
 		if (isClipped) {
 			return;

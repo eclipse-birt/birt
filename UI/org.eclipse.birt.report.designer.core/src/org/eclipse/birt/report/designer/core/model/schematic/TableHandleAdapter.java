@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement CellHandleAdapter responds to model CellHandle
- *
+ * 
  */
 
 public class TableHandleAdapter extends ReportItemtHandleAdapter {
@@ -96,9 +96,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param table The handle of report item.
-	 *
+	 * 
 	 * @param mark
 	 */
 	public TableHandleAdapter(ReportItemHandle table, IModelAdapterHelper mark) {
@@ -107,10 +107,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the Children list.
-	 *
+	 * 
 	 * @return Children iterator
 	 */
-	@Override
 	public List getChildren() {
 		List children = new ArrayList();
 
@@ -158,10 +157,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 	 * of other cells Example in a three columns table: <row><cell>
 	 * <property name="colSpan">3 </property> <property name="rowSpan">1 </property>
 	 * <cell><cell/><cell/><row>
-	 *
+	 * 
 	 * The last two cells are phantom, the layout cannot handle them so we remove
 	 * them at that stage. Ideally the model should not return those cells.
-	 *
+	 * 
 	 * @param children
 	 */
 	protected void removePhantomCells(List children) {
@@ -182,7 +181,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Inserts a slot into the row info list
-	 *
+	 * 
 	 * @param rowInfoList The list of row info
 	 * @param slotHandle  The slot to insert
 	 * @param displayName The display name of the slot
@@ -203,7 +202,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Get rows
-	 *
+	 * 
 	 * @return The list of rows
 	 */
 	public List getRows() {
@@ -215,7 +214,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Clear the buffer.
-	 *
+	 * 
 	 */
 	protected void clearBuffer() {
 		rowInfo.clear();
@@ -224,7 +223,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets all rows list.
-	 *
+	 * 
 	 * @return The rows list.
 	 */
 	public void initRowsInfo() {
@@ -309,7 +308,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 	/**
 	 * Get GUI information of row. For CSS table support auto layout, the GUI info
 	 * is different with model info.
-	 *
+	 * 
 	 * @param row
 	 * @return
 	 */
@@ -321,10 +320,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @see org.eclipse.birt.designer.core.facade.DesignElementHandleAdapter#reload()
 	 */
-	@Override
 	public void reload() {
 		super.reload();
 		initRowsInfo();
@@ -336,7 +334,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the all columns list.
-	 *
+	 * 
 	 * @return The columns list.
 	 */
 	public List getColumns() {
@@ -345,7 +343,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the special row
-	 *
+	 * 
 	 * @param i The row number.
 	 * @return The special row.
 	 */
@@ -359,7 +357,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the special column
-	 *
+	 * 
 	 * @param i The column number.
 	 * @return The special column.
 	 */
@@ -374,7 +372,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the special cell.
-	 *
+	 * 
 	 * @param rowNumber    The row number.
 	 * @param columnNumber The column number.
 	 * @param bool
@@ -403,7 +401,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the special cell.
-	 *
+	 * 
 	 * @param i The row number.
 	 * @param j The column number.
 	 * @return The special cell.
@@ -415,7 +413,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 	/**
 	 * Calculates table layout size. For table supports auto layout, the layout size
 	 * need to be calculated when drawing.
-	 *
+	 * 
 	 * @return
 	 */
 	public Dimension calculateSize() {
@@ -532,7 +530,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Adjust size of table layout.
-	 *
+	 * 
 	 * @param size is all figure size
 	 * @throws SemanticException
 	 */
@@ -594,7 +592,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Get the minimum height.of a specific row.
-	 *
+	 * 
 	 * @param rowNumber
 	 * @return The minimum height.
 	 */
@@ -605,7 +603,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Get the minimum width a specific row.
-	 *
+	 * 
 	 * @param columnNumber
 	 * @return The minimum width.
 	 */
@@ -632,7 +630,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Returns the defined width in model in Pixel.
-	 *
+	 * 
 	 * @return
 	 */
 	public String getDefinedWidth() {
@@ -659,7 +657,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * If the width is force width
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isForceWidth() {
@@ -669,7 +667,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Get the default width.
-	 *
+	 * 
 	 * @param colNumber The column number.
 	 * @return The default width.
 	 */
@@ -681,7 +679,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 		}
 
 		int allNumbers = getColumnCount();
-		if ((allNumbers <= 0) || (colNumber <= 0)) {
+		if (allNumbers <= 0) {
+			return size.width;
+		}
+		if (colNumber <= 0) {
 			return size.width;
 		}
 		int width = size.width;
@@ -703,7 +704,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the row count
-	 *
+	 * 
 	 * @return The row count.
 	 */
 	public int getRowCount() {
@@ -712,7 +713,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the column count
-	 *
+	 * 
 	 * @return The column count.
 	 */
 	public int getColumnCount() {
@@ -728,7 +729,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Insert a row to a specific position.
-	 *
+	 * 
 	 * @param rowNumber       The row number. 1 insert after position. -1 insert
 	 *                        before position
 	 * @param parentRowNumber The row number in the table.
@@ -795,7 +796,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Insert multiple rows(or a single row) to a specific position.
-	 *
+	 * 
 	 * @param rowCount      The row insert count. Positive number will insert after
 	 *                      position, negative insert before the position
 	 * @param baseRowNumber The row position in the table.
@@ -813,7 +814,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Insert a column to a specific position.
-	 *
+	 * 
 	 * @param columnNumber       The column insert sign. 1 insert after position. -1
 	 *                           insert before position
 	 * @param parentColumnNumber The column number of parent.
@@ -911,7 +912,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Insert multiple columns to a specific position.
-	 *
+	 * 
 	 * @param columnCount      The column insert count. Positive number will insert
 	 *                         after position, negative insert before the position
 	 * @param baseColumnNumber The column position in the table.
@@ -939,7 +940,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Delete specific columns from the current table.
-	 *
+	 * 
 	 * @param columns The columns to be deleted.
 	 * @throws SemanticException
 	 */
@@ -970,7 +971,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Delete a specific column from the current table.
-	 *
+	 * 
 	 * @param columnNumber The column to be deleted.
 	 * @throws SemanticException
 	 */
@@ -1020,7 +1021,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Delete specific rows from the current table.
-	 *
+	 * 
 	 * @param rows The rows to be deleted.
 	 * @throws SemanticException
 	 */
@@ -1052,7 +1053,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Delete a specific row from the current table.
-	 *
+	 * 
 	 * @param rowsNumber The row to be deleted.
 	 * @throws SemanticException
 	 */
@@ -1151,7 +1152,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 		private String type = ""; //$NON-NLS-1$
 		private String rowDisplayName = ""; //$NON-NLS-1$
 		Object[] cells = null;
-		int[] infactAdd = {};
+		int[] infactAdd = new int[0];
 
 		private RowUIInfomation(int columnMunber) {
 			cells = new Object[columnMunber];
@@ -1159,7 +1160,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 		/**
 		 * Get row display name
-		 *
+		 * 
 		 * @return display name
 		 */
 		public String getRowDisplayName() {
@@ -1168,7 +1169,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 		/**
 		 * Set row display name
-		 *
+		 * 
 		 * @param rowDisplayName Display name
 		 */
 		public void setRowDisplayName(String rowDisplayName) {
@@ -1177,7 +1178,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 		/**
 		 * Get type
-		 *
+		 * 
 		 * @return type The type gotten
 		 */
 		public String getType() {
@@ -1186,7 +1187,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 		/**
 		 * Set type
-		 *
+		 * 
 		 * @param type The type to set
 		 */
 		public void setType(String type) {
@@ -1195,7 +1196,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 		/**
 		 * Add children
-		 *
+		 * 
 		 * @param obj
 		 * @param index
 		 */
@@ -1250,7 +1251,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 		/**
 		 * Add children
-		 *
+		 * 
 		 * @param c Children in collection
 		 */
 		public void addChildren(Collection c) {
@@ -1269,7 +1270,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 		/**
 		 * Get all the children in list
-		 *
+		 * 
 		 * @return
 		 */
 		public List getAllChildren() {
@@ -1324,7 +1325,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Split a cell to cells.
-	 *
+	 * 
 	 * @param model
 	 * @throws SemanticException
 	 * @throws NameException
@@ -1382,7 +1383,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the cell handle copy to support row/column insert.
-	 *
+	 * 
 	 * @param cellHandle
 	 * @return
 	 * @throws SemanticException
@@ -1409,7 +1410,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Provides insert group function.
-	 *
+	 * 
 	 * @return
 	 * @throws ContentException
 	 * @throws NameException
@@ -1438,9 +1439,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Provides remove group function
-	 *
+	 * 
 	 * @throws SemanticException
-	 *
+	 * 
 	 */
 	public void removeGroup(Object group) throws SemanticException {
 		transStar(TRANS_LABEL_DELETE_GROUP);
@@ -1462,7 +1463,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Insert row in model
-	 *
+	 * 
 	 * @param id
 	 * @throws ContentException
 	 * @throws NameException
@@ -1477,13 +1478,13 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Delete row in model
-	 *
+	 * 
 	 * @param id
 	 * @throws SemanticException
 	 */
 	public void deleteRowInSlotHandle(int id) throws SemanticException {
 		transStar(TRANS_LABEL_NOT_INCLUDE + getOperationName(id));
-		int[] rows = {};
+		int[] rows = new int[0];
 		Iterator itor = getTableHandle().getSlot(id).iterator();
 		while (itor.hasNext()) {
 			Object obj = itor.next();
@@ -1514,19 +1515,18 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Check if the slot handle contains specified id.
-	 *
+	 * 
 	 * @param id
 	 * @return
 	 */
 	public boolean hasSlotHandleRow(int id) {
 		Iterator itor = getTableHandle().getSlot(id).iterator();
-		if (itor.hasNext()) {
+		while (itor.hasNext()) {
 			return true;
 		}
 		return false;
 	}
 
-	@Override
 	public void setSize(Dimension size) throws SemanticException {
 		if (size.width >= 0) {
 			MetricUtility.updateDimension(getReportItemHandle().getWidth(), size.width);

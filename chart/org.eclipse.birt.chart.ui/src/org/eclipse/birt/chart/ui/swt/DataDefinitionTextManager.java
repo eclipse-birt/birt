@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,13 +52,12 @@ public class DataDefinitionTextManager {
 	private IChartWizardContext context;
 
 	private DataDefinitionTextManager() {
-		textCollection = new HashMap<>(10);
+		textCollection = new HashMap<Control, IQueryExpressionManager>(10);
 	}
 
 	public synchronized static DataDefinitionTextManager getInstance() {
-		if (instance == null) {
+		if (instance == null)
 			instance = new DataDefinitionTextManager();
-		}
 		return instance;
 	}
 
@@ -72,7 +71,6 @@ public class DataDefinitionTextManager {
 		updateControlBackground(text, queryManager.getQuery().getDefinition());
 		text.addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (e.widget instanceof Control) {
 					removeDataDefinitionText((Control) e.widget);
@@ -91,7 +89,7 @@ public class DataDefinitionTextManager {
 	}
 
 	private Collection<String> getAllUsedBindingNames() {
-		Set<String> set = new HashSet<>(5);
+		Set<String> set = new HashSet<String>(5);
 
 		for (IQueryExpressionManager iqem : textCollection.values()) {
 			IExpressionButton eb = iqem.getExpressionButton();
@@ -113,7 +111,7 @@ public class DataDefinitionTextManager {
 		// remove disposed control
 		checkAll();
 
-		Set<String> usedColorKeys = new HashSet<>();
+		Set<String> usedColorKeys = new HashSet<String>();
 		ColorPalette colorPalette = ColorPalette.getInstance();
 
 		// update all text
@@ -139,10 +137,10 @@ public class DataDefinitionTextManager {
 
 	/**
 	 * Checks all texts and removes disposed controls
-	 *
+	 * 
 	 */
 	private void checkAll() {
-		List<Control> listToRemove = new ArrayList<>(textCollection.size());
+		List<Control> listToRemove = new ArrayList<Control>(textCollection.size());
 		for (Iterator<Control> iterator = textCollection.keySet().iterator(); iterator.hasNext();) {
 			Control text = iterator.next();
 			if (text.isDisposed()) {
@@ -181,7 +179,7 @@ public class DataDefinitionTextManager {
 	 * Update query data by specified expression, if current is sharing-binding
 	 * case, the expression will be converted and set to query, else directly set
 	 * query with the expression.
-	 *
+	 * 
 	 * @param query
 	 * @param expression
 	 * @since 2.3
@@ -215,7 +213,7 @@ public class DataDefinitionTextManager {
 
 	/**
 	 * Binding color to specified control.
-	 *
+	 * 
 	 * @param control
 	 * @param expression
 	 * @since 2.5
@@ -229,7 +227,7 @@ public class DataDefinitionTextManager {
 	/**
 	 * Adjust min/max data element of scale when current expression type is
 	 * different with old expression type.
-	 *
+	 * 
 	 * @param query
 	 * @since BIRT 2.3
 	 */
@@ -274,7 +272,7 @@ public class DataDefinitionTextManager {
 
 	/**
 	 * Check if expression is valid.
-	 *
+	 * 
 	 * @param control
 	 * @param expression
 	 * @return valid expression or not
@@ -292,7 +290,7 @@ public class DataDefinitionTextManager {
 	/**
 	 * Check if specified expression is valid to specified query. Now, only for
 	 * share binding case, it should check it, other's case still returns true.
-	 *
+	 * 
 	 * @param query
 	 * @param expr
 	 * @param isShareBinding
@@ -314,7 +312,7 @@ public class DataDefinitionTextManager {
 	/**
 	 * Update the tooltip for value data definition component after grouping
 	 * changed.
-	 *
+	 * 
 	 * @since 2.5
 	 */
 	public void updateTooltip() {
@@ -325,7 +323,7 @@ public class DataDefinitionTextManager {
 
 	/**
 	 * Returns the ExpressionButton connected with the given query.
-	 *
+	 * 
 	 * @param query
 	 * @return The ExpressionButton connected with the given query.
 	 */

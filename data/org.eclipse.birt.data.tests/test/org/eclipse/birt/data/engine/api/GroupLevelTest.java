@@ -1,20 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.api;
-
-import static org.junit.Assert.assertTrue;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
@@ -25,19 +23,21 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.junit.Test;
 
 import testutil.BaseTestCase;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 /**
- *
+ * 
  * Test results of group level are: 1: when there is at least one row, 1: the
  * starting group level is 0 if and only if it is the first row 2: the ending
  * group level is 0 if and only it is the last row 3: before first row has the
  * same result as the first row 4: the retrievation of the after last row is not
  * available 2: when there is no row 1: the retrievation of group level function
  * is not available 2: the retrievation of data is still available
- *
+ * 
  */
 public class GroupLevelTest extends BaseTestCase {
 	private IQueryResults qr;
@@ -55,7 +55,7 @@ public class GroupLevelTest extends BaseTestCase {
 	 */
 	/**
 	 * The row count is 10
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -82,9 +82,8 @@ public class GroupLevelTest extends BaseTestCase {
 			ri.next();
 
 			assertTrue(ri.getStartingGroupLevel() > 0);
-			if (i < rowCount - 2) {
+			if (i < rowCount - 2)
 				assertTrue(ri.getEndingGroupLevel() > 0);
-			}
 		}
 
 		// in the last row
@@ -106,7 +105,7 @@ public class GroupLevelTest extends BaseTestCase {
 
 	/**
 	 * The row count is 1
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -144,7 +143,7 @@ public class GroupLevelTest extends BaseTestCase {
 
 	/**
 	 * The row count is 0
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -169,9 +168,9 @@ public class GroupLevelTest extends BaseTestCase {
 
 	/**
 	 * The row count is 0
-	 *
+	 * 
 	 * @throws BirtException
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -202,8 +201,8 @@ public class GroupLevelTest extends BaseTestCase {
 				+ "row.SQUARE=count*count; " + "row.STR=\"row#\" + count; " + "--count; " + "return true; " + "}");
 
 		// set column defintion for data set
-		String[] scriptColumnNames = { "NUM", "SQUARE", "STR" };
-		int[] scriptColumnTypes = { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE, DataType.STRING_TYPE };
+		String[] scriptColumnNames = new String[] { "NUM", "SQUARE", "STR" };
+		int[] scriptColumnTypes = new int[] { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE, DataType.STRING_TYPE };
 		for (int i = 0; i < scriptColumnNames.length; i++) {
 			ColumnDefinition colInfo = new ColumnDefinition(scriptColumnNames[i]);
 			colInfo.setDataType(scriptColumnTypes[i]);

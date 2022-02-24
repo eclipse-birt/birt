@@ -76,7 +76,7 @@ public class HandlerState {
 	/**
 	 * Collection of CellImage objects for the current sheet.
 	 */
-	public List<CellImage> images = new ArrayList<>();
+	public List<CellImage> images = new ArrayList<CellImage>();
 	/**
 	 * Possible name for the current sheet
 	 */
@@ -107,13 +107,13 @@ public class HandlerState {
 	/**
 	 * Border overrides for the current row/table
 	 */
-	public List<AreaBorders> areaBorders = new ArrayList<>();
+	public List<AreaBorders> areaBorders = new ArrayList<AreaBorders>();
 
 	/**
 	 * List of Current Spans We could probably use CellRangeAdresses inside the
 	 * sheet, but this way we keep the tests to a minimum.
 	 */
-	public List<Area> rowSpans = new ArrayList<>();
+	public List<Area> rowSpans = new ArrayList<Area>();
 
 	/**
 	 * List of sheet names This map contains the names of sheets created by the
@@ -121,7 +121,7 @@ public class HandlerState {
 	 * have the count appended to the name Any other sheets that exist in the
 	 * workbook may be overwritten
 	 */
-	public Map<String, Integer> sheetNames = new HashMap<>();
+	public Map<String, Integer> sheetNames = new HashMap<String, Integer>();
 
 	/**
 	 * Constructor
@@ -181,7 +181,7 @@ public class HandlerState {
 
 	public void insertBorderOverload(AreaBorders defn) {
 		if (areaBorders == null) {
-			areaBorders = new ArrayList<>();
+			areaBorders = new ArrayList<AreaBorders>();
 		}
 		areaBorders.add(defn);
 	}
@@ -300,7 +300,7 @@ public class HandlerState {
 	/**
 	 * Characters that Excel will not accept in a sheet name.
 	 */
-	public static final String[] ILLEGAL_SHEET_NAME_CHARACTERS = { "\\", //$NON-NLS-1$
+	public static final String[] ILLEGAL_SHEET_NAME_CHARACTERS = new String[] { "\\", //$NON-NLS-1$
 			"/", //$NON-NLS-1$
 			"*", //$NON-NLS-1$
 			"[", //$NON-NLS-1$

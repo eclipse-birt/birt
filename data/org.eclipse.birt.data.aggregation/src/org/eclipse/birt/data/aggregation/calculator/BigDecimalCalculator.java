@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,69 +34,57 @@ import org.eclipse.birt.data.engine.core.DataException;
 public class BigDecimalCalculator implements ICalculator {
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#add(java.lang.Object,
 	 * java.lang.Object)
 	 */
-	@Override
 	public Number add(Object a, Object b) throws DataException {
-		if (a == null && b == null) {
+		if (a == null && b == null)
 			return null;
-		}
-		if (a == null) {
+		if (a == null)
 			return (BigDecimal) b;
-		}
-		if (b == null) {
+		if (b == null)
 			return (BigDecimal) a;
-		}
 		return ((BigDecimal) a).add((BigDecimal) b);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#divide(java.lang.Object,
 	 * java.lang.Object)
 	 */
-	@Override
 	public Number divide(Object dividend, Object divisor) throws DataException {
-		if (dividend == null) {
+		if (dividend == null)
 			return null;
-		}
-		if (divisor == null) {
+		if (divisor == null)
 			return (BigDecimal) dividend;
-		}
 		return ((BigDecimal) dividend).divide((BigDecimal) divisor, MathContext.DECIMAL128);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#multiply(java.lang.Object,
 	 * java.lang.Object)
 	 */
-	@Override
 	public Number multiply(Object a, Object b) throws DataException {
-		if (a == null && b == null) {
+		if (a == null && b == null)
 			return null;
-		}
-		if (a == null) {
+		if (a == null)
 			return (BigDecimal) b;
-		}
-		if (b == null) {
+		if (b == null)
 			return (BigDecimal) a;
-		}
 		return ((BigDecimal) a).multiply((BigDecimal) b);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.core.script.math.ICalculator#safeDivide(java.lang.Object,
 	 * java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	public Number safeDivide(Object dividend, Object divisor, Number ifZero) throws DataException {
 		try {
 			return divide(dividend, divisor);
@@ -107,32 +95,27 @@ public class BigDecimalCalculator implements ICalculator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#subtract(java.lang.Object,
 	 * java.lang.Object)
 	 */
-	@Override
 	public Number subtract(Object a, Object b) throws DataException {
-		if (a == null && b == null) {
+		if (a == null && b == null)
 			return null;
-		}
-		if (a == null) {
+		if (a == null)
 			return BigDecimal.ZERO.subtract((BigDecimal) b);
-		}
-		if (b == null) {
+		if (b == null)
 			return (BigDecimal) a;
-		}
 		return ((BigDecimal) a).subtract((BigDecimal) b);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.ICalculator#getTypedObject(java.
 	 * lang.Object)
 	 */
-	@Override
 	public Object getTypedObject(Object obj) throws DataException {
 		try {
 			return DataTypeUtil.toBigDecimal(obj);

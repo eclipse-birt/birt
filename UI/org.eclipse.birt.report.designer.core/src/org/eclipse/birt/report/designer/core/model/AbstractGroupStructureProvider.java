@@ -49,7 +49,7 @@ public abstract class AbstractGroupStructureProvider implements IGroupStructureP
 				List glist = propHandle.getContents();
 
 				if (glist.size() > 0) {
-					List<GroupHandle> clist = new ArrayList<>();
+					List<GroupHandle> clist = new ArrayList<GroupHandle>();
 
 					ElementFactory factory = new ElementFactory(handle.getModule());
 

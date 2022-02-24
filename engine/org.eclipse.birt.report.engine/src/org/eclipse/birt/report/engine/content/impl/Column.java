@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,9 +30,9 @@ import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
- *
+ * 
  * column content object
- *
+ * 
  */
 public class Column implements IColumn {
 	transient protected ReportContent report;
@@ -63,17 +63,16 @@ public class Column implements IColumn {
 	 * constructor use by serialize and deserialize
 	 */
 	public Column(IReportContent report) {
-		assert (report instanceof ReportContent);
+		assert (report != null && report instanceof ReportContent);
 		this.report = (ReportContent) report;
 		this.cssEngine = this.report.getCSSEngine();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.IColumn#getStyle()
 	 */
-	@Override
 	public IStyle getStyle() {
 		if (style == null) {
 			if (inlineStyle == null) {
@@ -89,7 +88,6 @@ public class Column implements IColumn {
 	/*
 	 * Return this column is a column header or not.
 	 */
-	@Override
 	public boolean isColumnHeader() {
 		if (null != isColumnHeader) {
 			return isColumnHeader.booleanValue();
@@ -107,10 +105,9 @@ public class Column implements IColumn {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.IColumn#getWidth()
 	 */
-	@Override
 	public DimensionType getWidth() {
 		if (width != null) {
 			return width;
@@ -121,12 +118,10 @@ public class Column implements IColumn {
 		return null;
 	}
 
-	@Override
 	public void setWidth(DimensionType width) {
 		this.width = width;
 	}
 
-	@Override
 	public String getStyleClass() {
 		if (styleClass != null) {
 			return styleClass;
@@ -137,12 +132,10 @@ public class Column implements IColumn {
 		return null;
 	}
 
-	@Override
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
 
-	@Override
 	public InstanceID getInstanceID() {
 		return instanceId;
 	}
@@ -151,7 +144,6 @@ public class Column implements IColumn {
 		this.instanceId = id;
 	}
 
-	@Override
 	public String getVisibleFormat() {
 		return visibleFormat;
 	}
@@ -163,14 +155,12 @@ public class Column implements IColumn {
 	/**
 	 * @param style The style to set.
 	 */
-	@Override
 	public void setInlineStyle(IStyle style) {
 		this.inlineStyle = style;
 		this.style = null;
 		this.computedStyle = null;
 	}
 
-	@Override
 	public IStyle getInlineStyle() {
 		return inlineStyle;
 	}
@@ -178,12 +168,10 @@ public class Column implements IColumn {
 	/**
 	 * @param generateBy The generateBy to set.
 	 */
-	@Override
 	public void setGenerateBy(Object generateBy) {
 		this.generateBy = generateBy;
 	}
 
-	@Override
 	public Object getGenerateBy() {
 		return generateBy;
 	}
@@ -270,10 +258,10 @@ public class Column implements IColumn {
 			}
 			break;
 		case FIELD_ISCOLUMNHEADER:
-			isColumnHeader = IOUtil.readBool(in);
+			isColumnHeader = Boolean.valueOf(IOUtil.readBool(in));
 			break;
 		case FIELD_ISREPEAT:
-			isRepeated = IOUtil.readBool(in);
+			isRepeated = Boolean.valueOf(IOUtil.readBool(in));
 			break;
 		}
 	}
@@ -300,7 +288,6 @@ public class Column implements IColumn {
 		return cssEngine;
 	}
 
-	@Override
 	public boolean hasDataItemsInDetail() {
 		if (generateBy instanceof ColumnDesign) {
 			return ((ColumnDesign) generateBy).hasDataItemsInDetail();
@@ -308,18 +295,15 @@ public class Column implements IColumn {
 		return false;
 	}
 
-	@Override
 	public boolean isRepeated() {
 		return isRepeated;
 	}
 
-	@Override
 	public void setRepeated(boolean isRepeated) {
 		this.isRepeated = isRepeated;
 
 	}
 
-	@Override
 	public IStyle getComputedStyle() {
 		return getStyle();
 	}

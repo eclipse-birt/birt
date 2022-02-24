@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -30,7 +30,7 @@ public abstract class ContainerLayout extends Layout {
 
 	protected ContainerContext currentContext;
 
-	protected LinkedList<ContainerContext> contextList = new LinkedList<>();
+	protected LinkedList<ContainerContext> contextList = new LinkedList<ContainerContext>();
 
 	protected int offsetX = 0;
 
@@ -47,7 +47,6 @@ public abstract class ContainerLayout extends Layout {
 		}
 	}
 
-	@Override
 	public void layout() throws BirtException {
 
 	}
@@ -55,8 +54,10 @@ public abstract class ContainerLayout extends Layout {
 	public boolean isPageEmpty() {
 		if (!isRootEmpty()) {
 			return false;
-		} else if (parent != null) {
-			return parent.isPageEmpty();
+		} else {
+			if (parent != null) {
+				return parent.isPageEmpty();
+			}
 		}
 		return true;
 	}
@@ -103,20 +104,22 @@ public abstract class ContainerLayout extends Layout {
 			if (!context.autoPageBreak) {
 				addToRoot(area, clipFlag);
 				return true;
-			} else if (area.getAllocatedHeight() + currentContext.currentBP > getMaxAvaHeight()) {
-				if (isPageEmpty()) {
+			} else {
+				if (area.getAllocatedHeight() + currentContext.currentBP > getMaxAvaHeight()) {
+					if (isPageEmpty()) {
+						addToRoot(area, clipFlag);
+						return true;
+					} else {
+						/*
+						 * if ( isInBlockStacking ) { flushPage( contextList.size() ); } autoPageBreak(
+						 * ); addToRoot( area, clipFlag ); return true;
+						 */
+						return false;
+					}
+				} else {
 					addToRoot(area, clipFlag);
 					return true;
-				} else {
-					/*
-					 * if ( isInBlockStacking ) { flushPage( contextList.size() ); } autoPageBreak(
-					 * ); addToRoot( area, clipFlag ); return true;
-					 */
-					return false;
 				}
-			} else {
-				addToRoot(area, clipFlag);
-				return true;
 			}
 		}
 		return true;
@@ -190,6 +193,7 @@ public abstract class ContainerLayout extends Layout {
 	public void gotoLastPage() {
 		int size = contextList.size();
 		if (size == 1) {
+			return;
 		} else {
 			int index = contextList.indexOf(currentContext);
 			if (index != size - 1) {
@@ -202,6 +206,7 @@ public abstract class ContainerLayout extends Layout {
 	public void gotoFirstPage() {
 		int size = contextList.size();
 		if (size == 1) {
+			return;
 		} else {
 			int index = contextList.indexOf(currentContext);
 			if (index > 0) {
@@ -233,7 +238,6 @@ public abstract class ContainerLayout extends Layout {
 		}
 	}
 
-	@Override
 	protected void closeLayout() throws BirtException {
 		int size = contextList.size();
 		if (isInline) {
@@ -248,22 +252,25 @@ public abstract class ContainerLayout extends Layout {
 			if (parent != null) {
 				parent.gotoFirstPage();
 			}
-		} else if (parent != null) {
-			for (int i = 0; i < size; i++) {
-				int parentSize = parent.contextList.size();
-				closeLayout(contextList.removeFirst(), parentSize - size + i, i == size - 1);
-			}
-			if (isInBlockStacking) {
-				if (size > 1) {
-					parent.closeExcludingLast();
+		} else {
+			if (parent != null) {
+				for (int i = 0; i < size; i++) {
+					int parentSize = parent.contextList.size();
+					closeLayout(contextList.removeFirst(), parentSize - size + i, i == size - 1);
+				}
+				if (isInBlockStacking) {
+					if (size > 1) {
+						parent.closeExcludingLast();
+					}
+				}
+				parent.gotoLastPage();
+			} else {
+				// Current layout should be page layout
+				for (int i = 0; i < size; i++) {
+					closeLayout(contextList.removeFirst(), i, i == size - 1);
 				}
 			}
-			parent.gotoLastPage();
-		} else {
-			// Current layout should be page layout
-			for (int i = 0; i < size; i++) {
-				closeLayout(contextList.removeFirst(), i, i == size - 1);
-			}
+
 		}
 	}
 
@@ -271,9 +278,8 @@ public abstract class ContainerLayout extends Layout {
 			throws BirtException;
 
 	protected void align(ContainerArea container) {
-		if (container == null || content == null) {
+		if (container == null || content == null)
 			return;
-		}
 
 		CSSValue align = content.getComputedStyle().getProperty(IStyle.STYLE_TEXT_ALIGN);
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -113,7 +113,6 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 	private SelectionListener mySelectionListener = new SelectionAdapter() {
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			updatePreview();
 			notifyFormatChange();
@@ -122,7 +121,6 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 	private ModifyListener myModifyListener = new ModifyListener() {
 
-		@Override
 		public void modifyText(ModifyEvent e) {
 			if (hasLoaded) {
 				updatePreview();
@@ -131,12 +129,10 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 	};
 	private FocusListener myFocusListener = new FocusListener() {
 
-		@Override
 		public void focusLost(FocusEvent e) {
 			notifyFormatChange();
 		}
 
-		@Override
 		public void focusGained(FocusEvent e) {
 		}
 	};
@@ -154,7 +150,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 	@Override
 	protected void createCategoryPages(Composite parent) {
-		categoryPageMaps = new HashMap<>();
+		categoryPageMaps = new HashMap<String, Control>();
 
 		categoryPageMaps.put(DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED, getGeneralPage(parent));
 
@@ -174,7 +170,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 	@Override
 	protected void createCategoryPatterns() {
-		categoryPatternMaps = new HashMap<>();
+		categoryPatternMaps = new HashMap<String, Object>();
 
 		categoryPatternMaps.put(DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER, new FormatNumberPattern());
 
@@ -447,7 +443,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 		FormWidgetFactory.getInstance().createLabel(setting, isFormStyle).setText(LABEL_DECIMAL_PLACES);
 		cPlacesChoice = new XCombo(setting, false, isFormStyle);
-
+		;
 		cPlacesChoice.setItems(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
 		});
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
@@ -460,7 +456,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 		FormWidgetFactory.getInstance().createLabel(setting, isFormStyle).setText(LABEL_ROUNDING_MODE);
 		cRoundgingChoice = new XCombo(setting, true, isFormStyle);
-
+		;
 		cRoundgingChoice.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		cRoundgingChoice.setItems(FormatNumberPattern.ROUNDING_MODES_NAMES);
 		cRoundgingChoice.addSelectionListener(mySelectionListener);
@@ -483,12 +479,11 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 		FormWidgetFactory.getInstance().createLabel(setting, isFormStyle).setText(LABEL_CURRENCY_SYMBOL);
 		cSymbolChoice = new XCombo(setting, true, isFormStyle);
-
+		;
 		cSymbolChoice.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		cSymbolChoice.setItems(FormatCurrencyNumPattern.BUILT_IN_SYMBOLS);
 		cSymbolChoice.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (cSymbolChoice.getSelectionIndex() == 0) {
 					cSymPosChoice.deselectAll();
@@ -576,7 +571,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 		FormWidgetFactory.getInstance().createLabel(setting, isFormStyle).setText(LABEL_ROUNDING_MODE);
 		fRoundgingChoice = new XCombo(setting, true, isFormStyle);
-
+		;
 		fRoundgingChoice.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		fRoundgingChoice.setItems(FormatNumberPattern.ROUNDING_MODES_NAMES);
 		fRoundgingChoice.addSelectionListener(mySelectionListener);
@@ -639,7 +634,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 		FormWidgetFactory.getInstance().createLabel(setting, isFormStyle).setText(LABEL_ROUNDING_MODE);
 		pRoundgingChoice = new XCombo(setting, true, isFormStyle);
-
+		;
 		pRoundgingChoice.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		pRoundgingChoice.setItems(FormatNumberPattern.ROUNDING_MODES_NAMES);
 		pRoundgingChoice.addSelectionListener(mySelectionListener);
@@ -708,7 +703,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 		FormWidgetFactory.getInstance().createLabel(setting, isFormStyle).setText(LABEL_ROUNDING_MODE);
 		sRoundgingChoice = new XCombo(setting, true, isFormStyle);
-
+		;
 		sRoundgingChoice.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		sRoundgingChoice.setItems(FormatNumberPattern.ROUNDING_MODES_NAMES);
 		sRoundgingChoice.addSelectionListener(mySelectionListener);
@@ -741,7 +736,6 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 		return previewText;
 	}
 
-	@Override
 	protected void createTable(Composite parent) {
 		super.createTable(parent);
 
@@ -783,7 +777,6 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 		customFormatTable.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String displayName = ((TableItem) e.item).getText(FORMAT_TYPE_INDEX);
 
@@ -866,9 +859,8 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 	private void doPreview(String category, String patternStr, String localeName) {
 		ULocale locale = getLocaleByDisplayName(localeName);
-		if (locale == null) {
+		if (locale == null)
 			locale = ULocale.getDefault();
-		}
 
 		String fmtStr;
 
@@ -895,21 +887,27 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 		if (category == null) {
 			fmtStr = new NumberFormatter(patternStr, locale).format(num);
 			gPreviewLabel.setText(validatedFmtStr(fmtStr));
+			return;
 		} else if (category.equals(DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED)) {
 			fmtStr = new NumberFormatter(patternStr, locale).format(num);
 			gPreviewLabel.setText(validatedFmtStr(fmtStr));
+			return;
 		} else if (category.equals(DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER)) {
 			fmtStr = new NumberFormatter(patternStr, locale).format(num);
 			gPreviewLabel.setText(validatedFmtStr(fmtStr));
+			return;
 		} else if (category.equals(DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY)) {
 			fmtStr = new NumberFormatter(patternStr, locale).format(num);
 			cPreviewLabel.setText(validatedFmtStr(fmtStr));
+			return;
 		} else if (category.equals(DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED)) {
 			fmtStr = new NumberFormatter(patternStr, locale).format(num);
 			fPreviewLabel.setText(validatedFmtStr(fmtStr));
+			return;
 		} else if (category.equals(DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT)) {
 			fmtStr = new NumberFormatter(patternStr, locale).format(num);
 			pPreviewLabel.setText(validatedFmtStr(fmtStr));
+			return;
 		} else if (category.equals(DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC)) {
 			fmtStr = new NumberFormatter(patternStr, locale).format(num);
 			if (Double.isInfinite(num)) {
@@ -917,6 +915,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 				fmtStr = new NumberFormatter(patternStr, locale).format(tempDecimal);
 			}
 			sPreviewLabel.setText(validatedFmtStr(fmtStr));
+			return;
 		} else if (category.equals(DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM)) {
 			if (StringUtil.isBlank(customPreviewTextBox.getText()) || isValidNumber(customPreviewTextBox.getText())) {
 				fmtStr = new NumberFormatter(patternStr, locale).format(num);
@@ -924,6 +923,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 				fmtStr = PREVIEW_TEXT_INVALID_NUMBER_TO_PREVIEW;
 			}
 			customPreviewLabel.setText(validatedFmtStr(fmtStr));
+			return;
 		}
 	}
 
@@ -983,11 +983,10 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 			fNegNumChoice.removeAll();
 			fNegNumChoice.add("-" + priviewText + ""); //$NON-NLS-1$ //$NON-NLS-2$
 			fNegNumChoice.add("(" + priviewText + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (index > -1 && index < 2) {
+			if (index > -1 && index < 2)
 				fNegNumChoice.select(index);
-			} else {
+			else
 				fNegNumChoice.select(0);
-			}
 			GridData gd = (GridData) fNegNumChoice.getLayoutData();
 			gd.heightHint = fNegNumChoice.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + 2;
 			fNegNumChoice.setLayoutData(gd);
@@ -998,11 +997,10 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 			cNegNumChoice.removeAll();
 			cNegNumChoice.add("-" + priviewText + ""); //$NON-NLS-1$ //$NON-NLS-2$
 			cNegNumChoice.add("(" + priviewText + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (index > -1 && index < 2) {
+			if (index > -1 && index < 2)
 				cNegNumChoice.select(index);
-			} else {
+			else
 				cNegNumChoice.select(0);
-			}
 			GridData gd = (GridData) fNegNumChoice.getLayoutData();
 			gd.heightHint = fNegNumChoice.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + 2;
 			cNegNumChoice.setLayoutData(gd);
@@ -1013,11 +1011,10 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 			pNegNumChoice.removeAll();
 			pNegNumChoice.add("-" + priviewText + ""); //$NON-NLS-1$ //$NON-NLS-2$
 			pNegNumChoice.add("(" + priviewText + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (index > -1 && index < 2) {
+			if (index > -1 && index < 2)
 				pNegNumChoice.select(index);
-			} else {
+			else
 				pNegNumChoice.select(0);
-			}
 			GridData gd = (GridData) fNegNumChoice.getLayoutData();
 			gd.heightHint = fNegNumChoice.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + 2;
 			pNegNumChoice.setLayoutData(gd);
@@ -1049,7 +1046,6 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 										.format(DEFAULT_PREVIEW_NUMBER) });
 	}
 
-	@Override
 	public String getFormatString() {
 		if (category == null && pattern == null) {
 			return DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED;
@@ -1066,7 +1062,6 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 		return category + ":" + pattern; //$NON-NLS-1$
 	}
 
-	@Override
 	public void setPreviewText(String text) {
 		if (text == null) {
 			customPreviewTextBox.setText(DEFAULT_PREVIEW_TEXT);

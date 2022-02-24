@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,7 +63,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 /**
- *
+ * 
  */
 
 public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder {
@@ -77,12 +77,10 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder {
 		super(parentShell, title, provider);
 	}
 
-	@Override
 	protected void inilializeColumnList(DesignElementHandle handle) {
 		super.inilializeColumnList(handle);
 		expSelListener = new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IExpressionConverter converter = ExpressionButtonUtil
 						.getCurrentExpressionConverter(getExpressionControl());
@@ -96,9 +94,8 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder {
 						if (computedColumn != null) {
 							String value = ExpressionUtility
 									.getDataExpression(((ComputedColumnHandle) computedColumn).getName(), converter);
-							if (value != null) {
+							if (value != null)
 								newValue = value;
-							}
 							setExpression(newValue);
 						}
 					}
@@ -202,13 +199,11 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder {
 		return valueList;
 	}
 
-	@Override
 	protected ExpressionProvider getExpressionProvider() {
 		if (expressionProvider == null) {
 			expressionProvider = new CrosstabBindingExpressionProvider(designHandle, null);
 			expressionProvider.addFilter(new ExpressionFilter() {
 
-				@Override
 				public boolean select(Object parentElement, Object element) {
 					if (ExpressionFilter.CATEGORY.equals(parentElement)
 							&& (ExpressionProvider.CURRENT_CUBE.equals(element)
@@ -223,7 +218,6 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder {
 		return expressionProvider;
 	}
 
-	@Override
 	protected String getSelectionValue(Combo combo) {
 		String retValue = null;
 
@@ -254,7 +248,6 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder {
 		return retValue;
 	}
 
-	@Override
 	protected void selectMultiValues(Combo combo) {
 		String[] retValue = null;
 
@@ -307,7 +300,6 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder {
 		}
 	}
 
-	@Override
 	protected int getHighlightExpCtrType(DesignElementHandle handle) {
 		if (handle instanceof ExtendedItemHandle) {
 			try {
@@ -327,15 +319,15 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder {
 		}
 	}
 
-	@Override
 	protected void initilizeDlgDescription(DesignElementHandle handle) {
 		if (!(handle instanceof ExtendedItemHandle)) {
 			super.initilizeDlgDescription(handle);
 			return;
 		}
 
-		Class classList[] = { CrosstabReportItemHandle.class, CrosstabCellHandle.class, };
-		String desList[] = { Messages.getString("CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab"),
+		Class classList[] = new Class[] { CrosstabReportItemHandle.class, CrosstabCellHandle.class, };
+		String desList[] = new String[] {
+				Messages.getString("CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstab"),
 				Messages.getString("CrosstabHighlightRuleBuilderDialog.text.Description.Element.Crosstabcell"), };
 
 		try {

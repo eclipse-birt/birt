@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,6 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor {
 	private static final String REPAGINATE_FOR_PDF = "repaginateForPDF";
 	private static final String EDIT_MODE = PPTXRender.OPTION_EDIT_MODE;
 
-	@Override
 	protected void initOptions() {
 		loadDefaultValues("org.eclipse.birt.report.engine.emitter.config.pptx");
 		// Initializes the option for BIDIProcessing.
@@ -129,22 +128,20 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDescription()
 	 */
-	@Override
 	public String getDescription() {
 		return getMessage("PPTXEmitter.Description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return getMessage("PPTXEmitter.DisplayName"); //$NON-NLS-1$
 	}
@@ -171,10 +168,9 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#getID()
 	 */
-	@Override
 	public String getID() {
 		return "org.eclipse.birt.report.engine.emitter.pptx"; //$NON-NLS-1$
 	}

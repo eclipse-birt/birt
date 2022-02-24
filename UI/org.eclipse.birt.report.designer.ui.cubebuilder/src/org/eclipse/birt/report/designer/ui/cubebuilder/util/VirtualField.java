@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,26 +40,19 @@ public class VirtualField {
 
 	private Object model;
 
-	@Override
 	public String toString() {
-		if (type.equals(TYPE_MEASURE)) {
+		if (type.equals(TYPE_MEASURE))
 			return Messages.getString("GroupsPage.VirtualField.Measure"); //$NON-NLS-1$
-		}
-		if (type.equals(TYPE_LEVEL)) {
+		if (type.equals(TYPE_LEVEL))
 			return Messages.getString("GroupsPage.VirtualField.Level"); //$NON-NLS-1$
-		}
-		if (type.equals(TYPE_MEASURE_GROUP)) {
+		if (type.equals(TYPE_MEASURE_GROUP))
 			return Messages.getString("GroupsPage.VirtualField.MeasureGroup"); //$NON-NLS-1$
-		}
-		if (type.equals(TYPE_DIMENSION)) {
+		if (type.equals(TYPE_DIMENSION))
 			return Messages.getString("GroupsPage.VirtualField.Dimension"); //$NON-NLS-1$
-		}
-		if (type.equals(TYPE_OTHER_DATASETS)) {
+		if (type.equals(TYPE_OTHER_DATASETS))
 			return Messages.getString("Cube.Other.Datasets"); //$NON-NLS-1$
-		}
-		if (type.equals(TYPE_SHARED_DIMENSIONS)) {
+		if (type.equals(TYPE_SHARED_DIMENSIONS))
 			return Messages.getString("VirtualField.SharedDimensions"); //$NON-NLS-1$
-		}
 		return super.toString();
 	}
 
@@ -71,28 +64,25 @@ public class VirtualField {
 		this.model = model;
 	}
 
-	@Override
 	public int hashCode() {
-		if (getModel() == null) {
+		if (getModel() == null)
 			return getType().hashCode();
-		} else {
+		else
 			return getModel().hashCode() + getType().hashCode();
-		}
 	}
 
-	@Override
 	public boolean equals(Object obj) {
-		if ((obj == null) || !(obj instanceof VirtualField)) {
+		if (obj == null)
 			return false;
-		}
+		if (!(obj instanceof VirtualField))
+			return false;
 		VirtualField temp = (VirtualField) obj;
-		if (temp == this) {
+		if (temp == this)
 			return true;
-		} else if (temp.getModel() == null && this.getModel() != null) {
+		else if (temp.getModel() == null && this.getModel() != null)
 			return false;
-		} else if (temp.getModel().equals(this.getModel()) && temp.getType().equals(this.getType())) {
+		else if (temp.getModel().equals(this.getModel()) && temp.getType().equals(this.getType()))
 			return true;
-		}
 		return false;
 	}
 }

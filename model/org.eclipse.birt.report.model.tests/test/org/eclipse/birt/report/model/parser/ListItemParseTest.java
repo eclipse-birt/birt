@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,56 +38,56 @@ import org.eclipse.birt.report.model.elements.ListItem;
  * The test case of <code>ListItem</code> parser and writer.
  * <p>
  * <code>ListGroup</code> is also tested in this test case.
- *
+ * 
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testParser()}</td>
  * <td>Test all slots of <code>ListItem</code> after parsing design file</td>
  * <td>All slots are right</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Test all properties of Sorting after parsing design file</td>
  * <td>Sorting is not implemented</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Test all slots of <code>ListGroup</code> after parsing design file</td>
  * <td>All properties are right</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Compare the written file with the golden file</td>
  * <td>Two files are same</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testSemanticCheck()}</td>
  * <td>List is placed in header slot of table item</td>
  * <td>Context containment error found</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Filter has no column, operator, and filter expression.</td>
  * <td>Three value required error found</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>List has no data set in the List/Table container of any level.</td>
  * <td>Missing Data set error found</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGroupNameSemanticCheck()}</td>
  * <td>All the groups names must be unique if the groups share a given named
@@ -95,8 +95,8 @@ import org.eclipse.birt.report.model.elements.ListItem;
  * <td>Errors are found.</td>
  * </tr>
  * </table>
- *
- *
+ * 
+ * 
  * @see ListItem
  */
 
@@ -111,7 +111,6 @@ public class ListItemParseTest extends ParserTestCase {
 	 * @see BaseTestCase#setUp()
 	 */
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign(fileName);
@@ -119,7 +118,7 @@ public class ListItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test the slots of List item.
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 	public void testParser() throws Exception {
@@ -259,7 +258,7 @@ public class ListItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test writer.
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 
@@ -295,9 +294,9 @@ public class ListItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test semantic check.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testSemanticCheck() throws Exception {
@@ -328,9 +327,9 @@ public class ListItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test semantic check.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testGroupNameSemanticCheck() throws Exception {
@@ -361,7 +360,7 @@ public class ListItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test the compatible pageBreakInterval property in ListingElement.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testPageBreakInterval() throws Exception {

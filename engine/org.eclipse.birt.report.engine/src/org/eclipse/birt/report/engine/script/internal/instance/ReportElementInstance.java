@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,21 +57,18 @@ public class ReportElementInstance implements IReportElementInstance {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.IReportInstance#getStyle()
 	 */
-	@Override
 	public IScriptStyle getStyle() {
 		return new StyleInstance(content.getStyle(), runningState);
 	}
 
-	@Override
 	public Object getNamedExpressionValue(String name) {
 		return getUserPropertyValue(name);
 	}
 
-	@Override
 	public Object getUserPropertyValue(String name) {
 		Map<String, Object> values = content.getUserProperties();
 		if (values != null && values.containsKey(name)) {
@@ -90,17 +87,15 @@ public class ReportElementInstance implements IReportElementInstance {
 		return null;
 	}
 
-	@Override
 	public void setUserPropertyValue(String name, Object value) throws ScriptException {
 		Map<String, Object> values = content.getUserProperties();
 		if (values == null) {
-			values = new HashMap<>();
+			values = new HashMap<String, Object>();
 			content.setUserProperties(values);
 		}
 		values.put(name, value);
 	}
 
-	@Override
 	public IReportElementInstance getParent() throws ScriptException {
 		try {
 			return ElementUtil.getInstance(content.getParent(), context, runningState);
@@ -113,11 +108,10 @@ public class ReportElementInstance implements IReportElementInstance {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
 	 * getHorizontalPosition()
 	 */
-	@Override
 	public String getHorizontalPosition() {
 		DimensionType x = content.getX();
 		if (x != null) {
@@ -128,22 +122,20 @@ public class ReportElementInstance implements IReportElementInstance {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
 	 * setHorizontalPosition(java.lang.String)
 	 */
-	@Override
 	public void setHorizontalPosition(String position) {
 		content.setX(DimensionType.parserUnit(position));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
 	 * getVerticalPosition()
 	 */
-	@Override
 	public String getVerticalPosition() {
 		DimensionType y = content.getY();
 		if (y != null) {
@@ -154,16 +146,14 @@ public class ReportElementInstance implements IReportElementInstance {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
 	 * setVerticalPosition(java.lang.String)
 	 */
-	@Override
 	public void setVerticalPosition(String position) {
 		content.setY(DimensionType.parserUnit(position));
 	}
 
-	@Override
 	public String getWidth() {
 		DimensionType width = content.getWidth();
 		if (width != null) {
@@ -172,12 +162,10 @@ public class ReportElementInstance implements IReportElementInstance {
 		return null;
 	}
 
-	@Override
 	public void setWidth(String width) {
 		content.setWidth(DimensionType.parserUnit(width));
 	}
 
-	@Override
 	public String getHeight() {
 		DimensionType height = content.getHeight();
 		if (height != null) {
@@ -186,12 +174,10 @@ public class ReportElementInstance implements IReportElementInstance {
 		return null;
 	}
 
-	@Override
 	public void setHeight(String height) {
 		content.setHeight(DimensionType.parserUnit(height));
 	}
 
-	@Override
 	public IRowData getRowData() throws ScriptException {
 		if (rowData != null) {
 			return rowData;

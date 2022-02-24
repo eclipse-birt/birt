@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -90,7 +90,7 @@ public class ParseException extends Exception {
 	 */
 	private static String initialise(Token currentToken, int[][] expectedTokenSequences, String[] tokenImage) {
 		String eol = System.getProperty("line.separator", "\n");
-		StringBuilder expected = new StringBuilder();
+		StringBuffer expected = new StringBuffer();
 		int maxSize = 0;
 		for (int i = 0; i < expectedTokenSequences.length; i++) {
 			if (maxSize < expectedTokenSequences[i].length) {
@@ -104,32 +104,30 @@ public class ParseException extends Exception {
 			}
 			expected.append(eol).append("    ");
 		}
-		StringBuilder retval = new StringBuilder("Encountered \"");
+		String retval = "Encountered \"";
 		Token tok = currentToken.next;
 		for (int i = 0; i < maxSize; i++) {
-			if (i != 0) {
-				retval.append(" ");
-			}
+			if (i != 0)
+				retval += " ";
 			if (tok.kind == 0) {
-				retval.append(tokenImage[0]);
+				retval += tokenImage[0];
 				break;
 			}
-			retval.append(" ").append(tokenImage[tok.kind]);
-			retval.append(" \"");
-			retval.append(add_escapes(tok.image));
-			retval.append(" \"");
+			retval += " " + tokenImage[tok.kind];
+			retval += " \"";
+			retval += add_escapes(tok.image);
+			retval += " \"";
 			tok = tok.next;
 		}
-		retval.append("\" at line ").append(currentToken.next.beginLine).append(", column ")
-				.append(currentToken.next.beginColumn);
-		retval.append(".").append(eol);
+		retval += "\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn;
+		retval += "." + eol;
 		if (expectedTokenSequences.length == 1) {
-			retval.append("Was expecting:").append(eol).append("    ");
+			retval += "Was expecting:" + eol + "    ";
 		} else {
-			retval.append("Was expecting one of:").append(eol).append("    ");
+			retval += "Was expecting one of:" + eol + "    ";
 		}
-		retval.append(expected.toString());
-		return retval.toString();
+		retval += expected.toString();
+		return retval;
 	}
 
 	/**
@@ -142,7 +140,7 @@ public class ParseException extends Exception {
 	 * version cannot be used as part of an ASCII string literal.
 	 */
 	static String add_escapes(String str) {
-		StringBuilder retval = new StringBuilder();
+		StringBuffer retval = new StringBuffer();
 		char ch;
 		for (int i = 0; i < str.length(); i++) {
 			switch (str.charAt(i)) {
@@ -173,10 +171,9 @@ public class ParseException extends Exception {
 				retval.append("\\\\");
 				continue;
 			default:
-				ch = str.charAt(i);
-				if (ch < 0x20 || ch > 0x7e) {
+				if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
 					String s = "0000" + Integer.toString(ch, 16);
-					retval.append("\\u" + s.substring(s.length() - 4));
+					retval.append("\\u" + s.substring(s.length() - 4, s.length()));
 				} else {
 					retval.append(ch);
 				}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,23 +25,20 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
  */
 public class DesignerWorkbenchAdvisor extends WorkbenchAdvisor {
 
-	@Override
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
 		return new DesignerWorkbenchWindowAdvisor(configurer);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.ui.application.WorkbenchAdvisor#getInitialWindowPerspectiveId()
 	 */
-	@Override
 	public String getInitialWindowPerspectiveId() {
 		return ReportRCPPerspective.BIRT_REPORT_RCP_PERSPECTIVE;
 	}
 
-	@Override
 	public void initialize(IWorkbenchConfigurer configurer) {
 		super.initialize(configurer);
 		configurer.setSaveAndRestore(true);
@@ -49,10 +46,9 @@ public class DesignerWorkbenchAdvisor extends WorkbenchAdvisor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.application.WorkbenchAdvisor#preStartup()
 	 */
-	@Override
 	public void preStartup() {
 		super.preStartup();
 //		WorkbenchAdapterBuilder.registerAdapters( );

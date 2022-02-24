@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records a change to the style of an element.
- *
+ * 
  */
 
 public class StyleRecord extends SimpleRecord {
@@ -52,7 +52,7 @@ public class StyleRecord extends SimpleRecord {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param obj      the element to modify.
 	 * @param newStyle the style to set.
 	 */
@@ -63,40 +63,40 @@ public class StyleRecord extends SimpleRecord {
 		element = obj;
 		this.newStyle = newStyle;
 
-		if (element.getStyle() != null) {
+		if (element.getStyle() != null)
 			oldStyle = element.getStyle();
-		} else {
+		else
 			oldStyle = element.getStyleName();
-		}
 
 		label = CommandLabelFactory.getCommandLabel(MessageConstants.SET_STYLE_MESSAGE);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
 	 */
 
-	@Override
 	protected void perform(boolean undo) {
 		if (undo) {
-			if (oldStyle instanceof String) {
+			if (oldStyle instanceof String)
 				element.setStyleName((String) oldStyle);
-			} else {
+			else
 				element.setStyle((StyleElement) oldStyle);
-			}
-		} else if (newStyle == null) {
-			element.setStyle(null);
 		} else {
-			StyleElement tmpStyle = (StyleElement) newStyle.getElement();
-			if (tmpStyle != null) {
-				element.setStyle(tmpStyle);
+
+			if (newStyle == null) {
+				element.setStyle(null);
 			} else {
-				if (newStyle.getName() != null) {
-					element.setStyleName(newStyle.getName());
+				StyleElement tmpStyle = (StyleElement) newStyle.getElement();
+				if (tmpStyle != null) {
+					element.setStyle(tmpStyle);
 				} else {
-					element.setStyle(null);
+					if (newStyle.getName() != null) {
+						element.setStyleName(newStyle.getName());
+					} else {
+						element.setStyle(null);
+					}
 				}
 			}
 		}
@@ -104,24 +104,22 @@ public class StyleRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget ()
 	 */
 
-	@Override
 	public DesignElement getTarget() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
-	@Override
 	public NotificationEvent getEvent() {
 		return new StyleEvent(element);
 	}

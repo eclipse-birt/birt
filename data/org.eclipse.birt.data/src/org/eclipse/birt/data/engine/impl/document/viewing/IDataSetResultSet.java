@@ -20,17 +20,17 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
- *
+ * 
  */
 
 public interface IDataSetResultSet extends IDataSetPopulator {
-	IResultObject getResultObject();
+	public IResultObject getResultObject();
 
-	int getRowCount();
+	public int getRowCount();
 
-	void skipTo(int index) throws DataException;
+	public void skipTo(int index) throws DataException;
 
-	IResultClass getResultClass();
+	public IResultClass getResultClass();
 
-	void close() throws DataException;
+	public void close() throws DataException;
 }

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -54,7 +54,6 @@ public class LineArea extends InlineStackingArea {
 		this.baseLevel = baseLevel;
 	}
 
-	@Override
 	public void addChild(IArea area) {
 		// FIXME ?
 		int childHorizontalSpan = area.getX() + area.getWidth();
@@ -70,7 +69,6 @@ public class LineArea extends InlineStackingArea {
 		children.add(area);
 	}
 
-	@Override
 	public void setTextIndent(ITextContent content) {
 		if (currentIP == 0 && !setIndent && content != null) {
 			IStyle contentStyle = content.getComputedStyle();
@@ -109,9 +107,8 @@ public class LineArea extends InlineStackingArea {
 		} else if (IStyle.JUSTIFY_VALUE.equals(align) && !endParagraph) {
 			justify();
 		}
-		if (context.getBidiProcessing()) {
+		if (context.getBidiProcessing())
 			reorderVisually(this);
-		}
 		verticalAlign();
 	}
 
@@ -142,9 +139,8 @@ public class LineArea extends InlineStackingArea {
 	}
 
 	private int adjustWordSpacing(int wordSpacing, ContainerArea area) {
-		if (wordSpacing == 0) {
+		if (wordSpacing == 0)
 			return 0;
-		}
 		Iterator iter = area.getChildren();
 		int delta = 0;
 		while (iter.hasNext()) {
@@ -212,7 +208,7 @@ public class LineArea extends InlineStackingArea {
 
 	/**
 	 * Gets the white space number, and the right most white spaces are ignored.
-	 *
+	 * 
 	 * @param line
 	 * @return
 	 */
@@ -240,7 +236,7 @@ public class LineArea extends InlineStackingArea {
 
 	/**
 	 * Gets the white space number.
-	 *
+	 * 
 	 * @param area
 	 * @return
 	 */
@@ -305,14 +301,13 @@ public class LineArea extends InlineStackingArea {
 	/**
 	 * Puts container's child areas into the visual (display) order and repositions
 	 * them following that order horizontally.
-	 *
+	 * 
 	 * @author Lina Kemmel
 	 */
 	private void reorderVisually(ContainerArea parent) {
 		int n = parent.getChildrenCount();
-		if (n == 0) {
+		if (n == 0)
 			return;
-		}
 
 		int i = 0;
 		AbstractArea[] areas = new AbstractArea[n];
@@ -323,9 +318,9 @@ public class LineArea extends InlineStackingArea {
 			AbstractArea area = (AbstractArea) iter.next();
 			areas[i] = area;
 
-			if (area instanceof TextArea) {
+			if (area instanceof TextArea)
 				levels[i] = (byte) ((TextArea) area).getRunLevel();
-			} else {
+			else {
 				levels[i] = baseLevel;
 				if (area instanceof InlineStackingArea) {
 					// We assume that each inline container area should be
@@ -349,7 +344,6 @@ public class LineArea extends InlineStackingArea {
 		}
 	}
 
-	@Override
 	public void endLine(boolean endParagraph) throws BirtException {
 		close(false, endParagraph);
 		// initialize( );
@@ -359,17 +353,14 @@ public class LineArea extends InlineStackingArea {
 		}
 	}
 
-	@Override
 	public int getMaxLineWidth() {
 		return maxAvaWidth;
 	}
 
-	@Override
 	public boolean isEmptyLine() {
 		return getChildrenCount() == 0;
 	}
 
-	@Override
 	public void update(AbstractArea area) throws BirtException {
 		int aWidth = area.getAllocatedWidth();
 		if (aWidth + currentIP > maxAvaWidth) {
@@ -421,13 +412,11 @@ public class LineArea extends InlineStackingArea {
 		}
 	}
 
-	@Override
 	public void close() throws BirtException {
 		close(true, true);
 		finished = true;
 	}
 
-	@Override
 	public void initialize() throws BirtException {
 		hasStyle = false;
 		boxStyle = BoxStyle.DEFAULT;
@@ -437,14 +426,12 @@ public class LineArea extends InlineStackingArea {
 		// Derive the baseLevel from the parent content direction.
 		if (parent.content != null) {
 			// IContent#isDirectionRTL already looks at computed style
-			if (parent.content.isDirectionRTL()) {
+			if (parent.content.isDirectionRTL())
 				baseLevel = Bidi.DIRECTION_RIGHT_TO_LEFT;
-			}
 		}
 		// parent.add( this );
 	}
 
-	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
 		assert (height < this.height);
 		LineArea result = null;
@@ -501,27 +488,22 @@ public class LineArea extends InlineStackingArea {
 		}
 	}
 
-	@Override
 	public LineArea cloneArea() {
 		return new LineArea(this);
 	}
 
-	@Override
 	public SplitResult splitLines(int lineCount) throws BirtException {
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
-	@Override
 	public boolean isPageBreakAfterAvoid() {
 		return false;
 	}
 
-	@Override
 	public boolean isPageBreakBeforeAvoid() {
 		return false;
 	}
 
-	@Override
 	public boolean isPageBreakInsideAvoid() {
 		return false;
 	}

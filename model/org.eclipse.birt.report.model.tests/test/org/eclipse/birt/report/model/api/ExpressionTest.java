@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,13 +31,13 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * ExpressionHandle.
  * <p>
  * For exporting cases, please see ElementExporterTest.
- *
+ * 
  */
 
 public class ExpressionTest extends BaseTestCase {
 
 	/**
-	 *
+	 * 
 	 */
 
 	private static final String INPUT_FILE = "ExpressionTest.xml"; //$NON-NLS-1$
@@ -48,7 +48,7 @@ public class ExpressionTest extends BaseTestCase {
 	 * <li>get/set values on expression values for elements.
 	 * <li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -66,7 +66,7 @@ public class ExpressionTest extends BaseTestCase {
 		equals(values.get(2), "value3", //$NON-NLS-1$
 				ExpressionType.JAVASCRIPT);
 
-		values = new ArrayList<>();
+		values = new ArrayList<Expression>();
 		values.add(new Expression("value1", ExpressionType.JAVASCRIPT)); //$NON-NLS-1$
 		values.add(new Expression("123", ExpressionType.CONSTANT)); //$NON-NLS-1$
 
@@ -106,13 +106,11 @@ public class ExpressionTest extends BaseTestCase {
 	private static void equals(Expression expr, Object expr1, String type) {
 		assert expr != null;
 
-		if (!ModelUtil.isEquals(expr.getExpression(), expr1)) {
+		if (!ModelUtil.isEquals(expr.getExpression(), expr1))
 			assertTrue(false);
-		}
 
-		if (!ModelUtil.isEquals(expr.getType(), type)) {
+		if (!ModelUtil.isEquals(expr.getType(), type))
 			assertTrue(false);
-		}
 
 	}
 
@@ -144,7 +142,7 @@ public class ExpressionTest extends BaseTestCase {
 	/**
 	 * Tests all get/set methods for the expression value defined on the structure.
 	 * Uses SortKey as the example.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -175,7 +173,7 @@ public class ExpressionTest extends BaseTestCase {
 
 	/**
 	 * Tests ExpressionListHandle class. getListValue/setListValue().
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -203,7 +201,7 @@ public class ExpressionTest extends BaseTestCase {
 		equals(tmpValues.get(0), "map_value1", ExpressionType.JAVASCRIPT); //$NON-NLS-1$
 		equals(tmpValues.get(1), "map_value2", ExpressionType.CONSTANT); //$NON-NLS-1$
 
-		List<Expression> newValues = new ArrayList<>();
+		List<Expression> newValues = new ArrayList<Expression>();
 
 		newValues.add(new Expression("new a", ExpressionType.CONSTANT)); //$NON-NLS-1$
 		newValues.add(new Expression("new b", ExpressionType.CONSTANT)); //$NON-NLS-1$
@@ -250,7 +248,7 @@ public class ExpressionTest extends BaseTestCase {
 
 	/**
 	 * The expression type on Action won't be missed in the parser.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -266,7 +264,7 @@ public class ExpressionTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

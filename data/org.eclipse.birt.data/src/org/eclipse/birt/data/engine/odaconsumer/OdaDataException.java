@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -56,7 +56,7 @@ public class OdaDataException extends DataException {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.core.DataException#getMessage()
 	 */
 	@Override
@@ -65,13 +65,11 @@ public class OdaDataException extends DataException {
 		if (getCause() instanceof OdaException) {
 			// appends messages of the chained cause(s) to the error code message
 			message = getErrorCodeMessage();
-			if (message.length() > 0) {
+			if (message.length() > 0)
 				message += MSG_INDENT_NEW_LINE;
-			}
 			message += getCause().toString();
-		} else {
+		} else
 			message = super.getMessage();
-		}
 
 		return message;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,11 +37,10 @@ public class BreadcrumbViewTreeProvider implements ITreeContentProvider, IBreadc
 
 	/**
 	 * Returns the child elements of the given parent element.
-	 *
+	 * 
 	 * @param parentElement the parent element
 	 * @return an array of child elements
 	 */
-	@Override
 	public Object[] getChildren(Object parentElement) {
 		Object children[] = ((ReportLayoutEditorBreadcrumb) viewer.getBreadcrumb()).getBreadcrumbNodeProvider(viewer)
 				.getChildren(parentElement);
@@ -52,12 +51,11 @@ public class BreadcrumbViewTreeProvider implements ITreeContentProvider, IBreadc
 	 * Returns the parent for the given element, or <code>null</code> indicating
 	 * that the parent can't be computed. In this case the tree-structured viewer
 	 * can't expand a given node correctly if requested.
-	 *
+	 * 
 	 * @param element the element
 	 * @return the parent element, or <code>null</code> if it has none or if the
 	 *         parent cannot be computed
 	 */
-	@Override
 	public Object getParent(Object element) {
 		return ((ReportLayoutEditorBreadcrumb) viewer.getBreadcrumb()).getBreadcrumbNodeProvider(viewer)
 				.getParent(element);
@@ -70,12 +68,11 @@ public class BreadcrumbViewTreeProvider implements ITreeContentProvider, IBreadc
 	 * children. Clients may be able to implement this more efficiently than
 	 * <code>getChildren</code>.
 	 * </p>
-	 *
+	 * 
 	 * @param element the element
 	 * @return <code>true</code> if the given element has children, and
 	 *         <code>false</code> if it has no children
 	 */
-	@Override
 	public boolean hasChildren(Object element) {
 		return getChildren(element).length > 0;
 	}
@@ -84,11 +81,10 @@ public class BreadcrumbViewTreeProvider implements ITreeContentProvider, IBreadc
 	 * Returns the elements to display in the viewer when its input is set to the
 	 * given element. These elements can be presented as rows in a table, items in a
 	 * list, etc. The result is not modified by the viewer.
-	 *
+	 * 
 	 * @param inputElement the input element
 	 * @return the array of elements to display in the viewer
 	 */
-	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof Object[]) {
 			return (Object[]) inputElement;
@@ -99,21 +95,19 @@ public class BreadcrumbViewTreeProvider implements ITreeContentProvider, IBreadc
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
-	@Override
 	public void dispose() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
 	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// viewer.setInput(newInput);
 	}
@@ -122,16 +116,14 @@ public class BreadcrumbViewTreeProvider implements ITreeContentProvider, IBreadc
 	 * Returns the image for the label of the given element. The image is owned by
 	 * the label provider and must not be disposed directly. Instead, dispose the
 	 * label provider when no longer needed.
-	 *
+	 * 
 	 * @param element the element for which to provide the label image
 	 * @return the image used to label the element, or <code>null</code> if there is
 	 *         no image for the given object
 	 */
-	@Override
 	public Image getImage(Object element) {
-		if (element == null) {
+		if (element == null)
 			return null;
-		}
 
 		return ((ReportLayoutEditorBreadcrumb) viewer.getBreadcrumb()).getBreadcrumbNodeProvider(viewer)
 				.getImage(element);
@@ -139,25 +131,23 @@ public class BreadcrumbViewTreeProvider implements ITreeContentProvider, IBreadc
 
 	/**
 	 * Returns the text for the label of the given element.
-	 *
+	 * 
 	 * @param element the element for which to provide the label text
 	 * @return the text string used to label the element, or <code>null</code> if
 	 *         there is no text label for the given object
 	 */
-	@Override
 	public String getText(Object element) {
-		if (element == null) {
+		if (element == null)
 			return null;
-			// if ( element instanceof RowHandle )
-			// {
-			// return ProviderFactory.createProvider( element )
-			// .getNodeDisplayName( element );
-			// }
-			// if ( getDirectParnt( element ) != element )
-			// return null;
-			// return ProviderFactory.createProvider( getDirectParnt( element ) )
-			// .getNodeDisplayName( getDirectParnt( element ) );
-		}
+		// if ( element instanceof RowHandle )
+		// {
+		// return ProviderFactory.createProvider( element )
+		// .getNodeDisplayName( element );
+		// }
+		// if ( getDirectParnt( element ) != element )
+		// return null;
+		// return ProviderFactory.createProvider( getDirectParnt( element ) )
+		// .getNodeDisplayName( getDirectParnt( element ) );
 
 		return ((ReportLayoutEditorBreadcrumb) viewer.getBreadcrumb()).getBreadcrumbNodeProvider(viewer)
 				.getText(element);
@@ -165,11 +155,10 @@ public class BreadcrumbViewTreeProvider implements ITreeContentProvider, IBreadc
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
 	 * jface.viewers.ILabelProviderListener)
 	 */
-	@Override
 	public void addListener(ILabelProviderListener listener) {// Do nothing
 	}
 
@@ -178,52 +167,46 @@ public class BreadcrumbViewTreeProvider implements ITreeContentProvider, IBreadc
 	 * of the given element. This can be used to optimize a non-structural viewer
 	 * update. If the property mentioned in the update does not affect the label,
 	 * then the viewer need not update the label.
-	 *
+	 * 
 	 * @param element  the element
 	 * @param property the property
 	 * @return <code>true</code> if the label would be affected, and
 	 *         <code>false</code> if it would be unaffected
 	 */
-	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return (element instanceof LabelHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 	 * .jface.viewers.ILabelProviderListener)
 	 */
-	@Override
 	public void removeListener(ILabelProviderListener listener) {// Do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.IColorProvider#getBackground(java.lang.Object)
 	 */
-	@Override
 	public Color getBackground(Object element) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.IColorProvider#getForeground(java.lang.Object)
 	 */
-	@Override
 	public Color getForeground(Object element) {
 		return null;
 	}
 
-	@Override
 	public String getTooltipText(Object element) {
-		if (element == null) {
+		if (element == null)
 			return null;
-		}
 
 		return ((ReportLayoutEditorBreadcrumb) viewer.getBreadcrumb()).getBreadcrumbNodeProvider(viewer)
 				.getTooltipText(element);

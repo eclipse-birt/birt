@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,11 +31,11 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>parse the old design and create bound columns during parsing procedure.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -48,11 +48,11 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>parse the new design file with data item.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -65,12 +65,12 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>parse the obsolete design file with text item. Content of text item is a
 	 * special case.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -83,11 +83,11 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>parse the obsolete design file with nested table.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -100,13 +100,13 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>parse the obsolete design file with multi data items in the group. For
 	 * same result set columns in different group, must create a table-unique bound
 	 * column name with aggregateOn of groupName.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -120,7 +120,7 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 	/**
 	 * 1.parser the design file and can parser old file 2.check if giving a
 	 * groupName to 'group' element 3.change the value of 'aggrerateOn' property
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -158,14 +158,14 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * For the design file with version "3" or early.
 	 * <li>parser the design file without bound columns feature.
 	 * <li>the result is: bound column created automatically. And aggregateOn set
 	 * with group name.
 	 * </ul>
-	 *
+	 * 
 	 * <ul>
 	 * For the design file with version greater than "3" and smaller than "3.2.2".
 	 * That is, has bound column feature. And the group has the bound column
@@ -174,7 +174,7 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 	 * <li>the result is: bound column created automatically. If the bound columns
 	 * already on the table. Do nothing.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -192,19 +192,19 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 
 	/**
 	 * Tests cases:
-	 *
+	 * 
 	 * <ul>
 	 * For the design file with version "3" or early.
 	 * <li>Creates the column bindings for rows[0]. And change rows[0] to row._outer
 	 * <li>the result is expected.
 	 * </ul>
-	 *
+	 * 
 	 * <ul>
 	 * For the design file with version "3.2.1" or early.
 	 * <li>And change rows[0] to row._outer
 	 * <li>the result is expected.
 	 * </ul>
-	 *
+	 * 
 	 * <ul>
 	 * For the design file with version "3.2.1" or early. The nested table has an
 	 * extended item.
@@ -212,21 +212,21 @@ public class CompatibleBoundColumnsTest extends BaseTestCase {
 	 * nested table.
 	 * <li>the result is expected.
 	 * </ul>
-	 *
+	 * 
 	 * <ul>
 	 * If the design file has the column binding and now rows[index].
 	 * <li>The file should not be changed except the version number
 	 * <li>the result is expected.
 	 * </ul>
-	 *
-	 *
+	 * 
+	 * 
 	 * <ul>
 	 * If a table has bound data columns with rows[] defined in it.
 	 * <li>Create bound data columns on outer data container. And convert rows[] to
 	 * row._outer.
 	 * <li>the result is expected.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

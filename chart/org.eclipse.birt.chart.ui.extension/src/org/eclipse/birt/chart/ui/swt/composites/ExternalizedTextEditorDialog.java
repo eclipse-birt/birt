@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Actuate Corporation
- *
+ * 
  */
 public class ExternalizedTextEditorDialog extends TrayDialog implements SelectionListener {
 
@@ -79,19 +79,16 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements Selectio
 		return sResult;
 	}
 
-	@Override
 	protected Control createContents(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.DIALOG_EXTERNALIZE_TEXT);
 		getShell().setText(Messages.getString("ExternalizedTextEditorDialog.Title.ExternalizeText")); //$NON-NLS-1$
 		return super.createContents(parent);
 	}
 
-	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		GridLayout glContent = new GridLayout();
 		glContent.numColumns = 2;
@@ -226,7 +223,7 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements Selectio
 		{
 			if (sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR) != -1) {
 				return sText.substring(sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR)
-						+ ExternalizedTextEditorComposite.SEPARATOR.length());
+						+ ExternalizedTextEditorComposite.SEPARATOR.length(), sText.length());
 			}
 			return sText;
 		}
@@ -261,7 +258,7 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements Selectio
 	 * @return "key=defaultValue"
 	 */
 	private String buildString() {
-		StringBuilder sbText = new StringBuilder(""); //$NON-NLS-1$
+		StringBuffer sbText = new StringBuffer(""); //$NON-NLS-1$
 		String sKey = cmbKeys.getText();
 		if (cbExternalize.getSelection()) {
 			sbText.append(sKey);
@@ -274,7 +271,6 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements Selectio
 		return sbText.toString();
 	}
 
-	@Override
 	protected void okPressed() {
 		sResult = buildString();
 		super.okPressed();
@@ -282,11 +278,10 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements Selectio
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(cbExternalize)) {
 			if (cbExternalize.getSelection()) {
@@ -310,12 +305,11 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements Selectio
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 }

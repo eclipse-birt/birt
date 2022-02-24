@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -25,25 +25,20 @@ public class LibraryDescriptorProvider extends AbstractDescriptorProvider implem
 
 	private Object input;
 
-	@Override
 	public boolean isEditable() {
 		return false;
 	}
 
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("GeneralPage.Library.Included"); //$NON-NLS-1$
 	}
 
-	@Override
 	public Object load() {
-		if (input == null) {
+		if (input == null)
 			return ""; //$NON-NLS-1$
-		}
 		DesignElementHandle handle = (DesignElementHandle) DEUtil.getInputFirstElement(input);
-		if (handle.getExtends() == null) {
+		if (handle.getExtends() == null)
 			return ""; //$NON-NLS-1$
-		}
 		String filePath = null;
 		try {
 			filePath = DEUtil.getFilePathFormURL(new URL(handle.getExtends().getRoot().getFileName()));
@@ -53,18 +48,15 @@ public class LibraryDescriptorProvider extends AbstractDescriptorProvider implem
 		}
 		if (filePath != null) {
 			File libraryFile = new File(filePath);
-			if (libraryFile.exists()) {
+			if (libraryFile.exists())
 				return libraryFile.getAbsolutePath();
-			}
 		}
 		return ""; //$NON-NLS-1$
 	}
 
-	@Override
 	public void save(Object value) throws SemanticException {
 	}
 
-	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}

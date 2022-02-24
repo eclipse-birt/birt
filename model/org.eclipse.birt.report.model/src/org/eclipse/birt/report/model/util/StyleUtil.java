@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,24 +26,23 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
- *
+ * 
  */
 public class StyleUtil {
 
 	/**
-	 *
+	 * 
 	 * @param defn
 	 * @param fontFamily
 	 * @return string value of font family
 	 */
 	public static String handleFontFamily(PropertyDefn defn, String fontFamily) {
 		String value = StringUtil.trimString(fontFamily);
-		if (StringUtil.isBlank(value)) {
+		if (StringUtil.isBlank(value))
 			return value;
-		}
 		String splitter = ","; //$NON-NLS-1$
 		String[] families = value.split(splitter);
-		List<String> values = new ArrayList<>();
+		List<String> values = new ArrayList<String>();
 		for (int i = 0; i < families.length; i++) {
 			String family = families[i];
 			family = StringUtil.trimString(family);
@@ -52,17 +51,16 @@ public class StyleUtil {
 			assert choiceSet != null;
 
 			// general font family need not double quotes
-			if (choiceSet.findChoice(family) != null) {
+			if (choiceSet.findChoice(family) != null)
 				values.add(family);
-			} else { // custom font family need double quotes
+			else { // custom font family need double quotes
 				values.add("\"" + family + "\""); //$NON-NLS-1$//$NON-NLS-2$
 			}
 		}
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < values.size(); i++) {
-			if (i != 0) {
+			if (i != 0)
 				result.append(splitter).append(" ");
-			}
 			result.append(values.get(i));
 		}
 
@@ -71,15 +69,14 @@ public class StyleUtil {
 
 	/**
 	 * Transfer Css Style to Customer Style.
-	 *
+	 * 
 	 * @param module
 	 * @param cssStyleHandle
 	 * @return the shared style handle from the css style handle
 	 */
 	public static SharedStyleHandle transferCssStyleToSharedStyle(Module module, SharedStyleHandle cssStyleHandle) {
-		if (cssStyleHandle == null) {
+		if (cssStyleHandle == null)
 			return null;
-		}
 		Style newStyle = new Style(cssStyleHandle.getName());
 		SharedStyleHandle styleHandle = newStyle.handle(module);
 		ModelUtil.duplicateProperties(cssStyleHandle, styleHandle, false, false);
@@ -88,7 +85,7 @@ public class StyleUtil {
 
 	/**
 	 * Checks all style names in styles list exist in styleList or not
-	 *
+	 * 
 	 * @param styleList style list , each item is <code>StyleElement</code>
 	 * @param name      style name
 	 * @return if exist return true; else return false;

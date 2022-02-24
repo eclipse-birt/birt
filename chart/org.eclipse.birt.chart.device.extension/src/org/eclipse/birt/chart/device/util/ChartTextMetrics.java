@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,7 +67,7 @@ public final class ChartTextMetrics extends TextAdapter {
 	/**
 	 * The constructor initializes a tiny image that provides a graphics context
 	 * capable of performing computations in the absence of a visual component
-	 *
+	 * 
 	 * @param _xs
 	 * @param _la
 	 * @param autoReuse
@@ -106,7 +106,7 @@ public final class ChartTextMetrics extends TextAdapter {
 
 	/**
 	 * Only antialias rotated, bold text, and font size > 13
-	 *
+	 * 
 	 */
 	private void computeTextAntialiasing() {
 		FontDefinition font = la.getCaption().getFont();
@@ -122,11 +122,10 @@ public final class ChartTextMetrics extends TextAdapter {
 	/**
 	 * Allows reuse of the multi-line text element for computing bounds of changed
 	 * font/text content
-	 *
+	 * 
 	 * @param fd
 	 */
-	@Override
-	public void reuse(Label la, double forceWrappingSize) {
+	public final void reuse(Label la, double forceWrappingSize) {
 		final Font f = (Font) xs.createFont(la.getCaption().getFont());
 		fm = g2d.getFontMetrics(f);
 		final FontRenderContext frc = g2d.getFontRenderContext();
@@ -165,7 +164,7 @@ public final class ChartTextMetrics extends TextAdapter {
 
 		if (forceWrappingSize > 0) {
 			// update label with new broken content.
-			StringBuilder sb = new StringBuilder();
+			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < fsa.length; i++) {
 				sb.append(fsa[i]).append("\n"); //$NON-NLS-1$
 			}
@@ -179,32 +178,30 @@ public final class ChartTextMetrics extends TextAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param fm
 	 * @return
 	 */
-	@Override
-	public double getHeight() {
+	public final double getHeight() {
 		return fm.getHeight();
 	}
 
 	/**
-	 *
+	 * 
 	 * @param fm
 	 * @return
 	 */
-	@Override
-	public double getDescent() {
+	public final double getDescent() {
 		return fm.getDescent();
 	}
 
 	/**
-	 *
+	 * 
 	 * @param fm
 	 * @return The width of the line containing the maximum width (if multiline
 	 *         split by hard breaks) or the width of the single line of text
 	 */
-	private double stringWidth() {
+	private final double stringWidth() {
 		faWidth = new double[iLineCount];
 		Rectangle2D r2d;
 
@@ -228,7 +225,7 @@ public final class ChartTextMetrics extends TextAdapter {
 		} else if (iLineCount == 1) {
 			/**
 			 * // double w = tla[0].getBounds( ).getWidth( );
-			 *
+			 * 
 			 * Not use the textLayout.getBounds(), this is not correct when the string
 			 * contains full pitch characters.
 			 */
@@ -246,23 +243,21 @@ public final class ChartTextMetrics extends TextAdapter {
 		return 0;
 	}
 
-	double pointsToPixels() {
+	final double pointsToPixels() {
 		return (xs.getDpiResolution() / 72d);
 	}
 
-	@Override
-	public double getFullHeight() {
+	public final double getFullHeight() {
 		return getHeight() * getLineCount() + (ins.getTop() + ins.getBottom());
 	}
 
 	@Override
-	public double getFullHeight(double fontHeight) {
+	public final double getFullHeight(double fontHeight) {
 
 		return fontHeight * getLineCount() + ins.getTop() + ins.getBottom();
 	}
 
-	@Override
-	public double getFullWidth() {
+	public final double getFullWidth() {
 		return stringWidth() + (ins.getLeft() + ins.getRight());
 	}
 
@@ -275,34 +270,32 @@ public final class ChartTextMetrics extends TextAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return The number of lines created due to the hard breaks inserted
 	 */
-	@Override
-	public int getLineCount() {
+	public final int getLineCount() {
 		return iLineCount;
 	}
 
 	/**
-	 *
+	 * 
 	 * @return The line requested for
 	 */
-	@Override
-	public String getLine(int iIndex) {
+	public final String getLine(int iIndex) {
 		return (iLineCount > 1) ? ((String[]) oText)[iIndex] : (String) oText;
 	}
 
-	public ChartTextLayout getLayout(int iIndex) {
+	public final ChartTextLayout getLayout(int iIndex) {
 		return (iLineCount > 1) ? tla[iIndex] : tla[0];
 	}
 
 	/**
-	 *
+	 * 
 	 * @param s
 	 * @return
 	 */
 	private String[] splitOnBreaks(String s, double maxSize) {
-		List<String> al = new ArrayList<>();
+		List<String> al = new ArrayList<String>();
 
 		// check hard break first
 		int i = 0, j;
@@ -323,7 +316,7 @@ public final class ChartTextMetrics extends TextAdapter {
 
 		// check wrapping
 		if (maxSize > 0) {
-			List<String> nal = new ArrayList<>();
+			List<String> nal = new ArrayList<String>();
 
 			for (Iterator<String> itr = al.iterator(); itr.hasNext();) {
 				String ns = itr.next();
@@ -358,10 +351,9 @@ public final class ChartTextMetrics extends TextAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#dispose()
 	 */
-	@Override
 	public void dispose() {
 		if (bi != null) {
 			((BufferedImage) bi).flush();

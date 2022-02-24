@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
@@ -71,7 +71,7 @@ public class Regression_151575 extends ChartTestCase {
 
 	/**
 	 * execute application
-	 *
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -122,11 +122,12 @@ public class Regression_151575 extends ChartTestCase {
 	{
 		// Data Set
 
-		final Object[][] data = { { "x1", new Integer(1), new Double(10) }, { "x2", new Integer(2), new Double(20) },
-				{ "x3", new Integer(3), new Double(30) }, { "x4", new Integer(4), new Double(10) },
-				{ "x5", new Integer(5), new Double(20) }, { "x6", new Integer(6), new Double(30) },
-				{ "x7", new Integer(7), new Double(40) }, { "x8", new Integer(8), new Double(50) },
-				{ "x9", new Integer(9), new Double(40) }, { "x10", new Integer(10), new Double(60) } };
+		final Object[][] data = new Object[][] { { "x1", new Integer(1), new Double(10) },
+				{ "x2", new Integer(2), new Double(20) }, { "x3", new Integer(3), new Double(30) },
+				{ "x4", new Integer(4), new Double(10) }, { "x5", new Integer(5), new Double(20) },
+				{ "x6", new Integer(6), new Double(30) }, { "x7", new Integer(7), new Double(40) },
+				{ "x8", new Integer(8), new Double(50) }, { "x9", new Integer(9), new Double(40) },
+				{ "x10", new Integer(10), new Double(60) } };
 
 		try {
 			Generator gr = Generator.instance();
@@ -134,11 +135,9 @@ public class Regression_151575 extends ChartTestCase {
 
 				int idx = 0;
 
-				@Override
 				public void close() {
 				}
 
-				@Override
 				public Object evaluate(String expression) {
 					if ("X".equals(expression)) {
 						return data[idx][0];
@@ -150,18 +149,15 @@ public class Regression_151575 extends ChartTestCase {
 					return null;
 				}
 
-				@Override
 				public Object evaluateGlobal(String expression) {
 					return evaluate(expression);
 				}
 
-				@Override
 				public boolean first() {
 					idx = 0;
 					return true;
 				}
 
-				@Override
 				public boolean next() {
 					idx++;
 					return (idx < 10);

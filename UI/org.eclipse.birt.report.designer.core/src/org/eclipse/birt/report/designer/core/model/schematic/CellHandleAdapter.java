@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,14 +32,14 @@ import org.eclipse.draw2d.geometry.Rectangle;
 /**
  * Adapter class to adapt model handle. This adapter provides convenience.
  * methods to GUI requirement CellHandleAdapter responds to model CellHandle
- *
+ * 
  */
 
 public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param cellHandle The cell handle.
 	 * @param mark
 	 */
@@ -50,18 +50,17 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 	/**
 	 * Gets the Children iterator. This children relationship is determined by GUI
 	 * requirement. This is not the model children relationship.
-	 *
+	 * 
 	 * @return Children iterator
 	 */
 
-	@Override
 	public List getChildren() {
 		return getCellHandle().getContent().getContents();
 	}
 
 	/**
 	 * Gets the row number.
-	 *
+	 * 
 	 * @return The row number.
 	 */
 	public int getRowNumber() {
@@ -71,7 +70,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the column number
-	 *
+	 * 
 	 * @return The column number.
 	 */
 	public int getColumnNumber() {
@@ -92,7 +91,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the row span.
-	 *
+	 * 
 	 * @return The row span.
 	 */
 	public int getRowSpan() {
@@ -101,7 +100,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the column span
-	 *
+	 * 
 	 * @return the column span.
 	 */
 	public int getColumnSpan() {
@@ -110,7 +109,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the location.
-	 *
+	 * 
 	 * @return The location.
 	 */
 	public Point getLocation() {
@@ -119,7 +118,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the size.
-	 *
+	 * 
 	 * @return The size
 	 */
 	public Dimension getSize() {
@@ -128,7 +127,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the bounds.
-	 *
+	 * 
 	 * @return The bounds
 	 */
 
@@ -142,7 +141,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Set column span.
-	 *
+	 * 
 	 * @param colSpan The new column span.
 	 * @throws SemanticException
 	 */
@@ -152,7 +151,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Set row span.
-	 *
+	 * 
 	 * @param rowSpan The new row span.
 	 * @throws SemanticException
 	 */
@@ -165,7 +164,10 @@ public class CellHandleAdapter extends DesignElementHandleAdapter {
 		DesignElementHandle handle = getCellHandle();
 
 		while (handle != null) {
-			if ((handle instanceof TableHandle) || (handle instanceof GridHandle)) {
+			if (handle instanceof TableHandle) {
+				return handle;
+			}
+			if (handle instanceof GridHandle) {
 				return handle;
 			}
 			handle = handle.getContainer();

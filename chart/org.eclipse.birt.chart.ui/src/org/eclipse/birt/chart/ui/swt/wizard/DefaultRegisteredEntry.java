@@ -34,7 +34,7 @@ public class DefaultRegisteredEntry<T> {
 		this.name = name;
 		try {
 			if (sPriority != null) {
-				priority = Integer.parseInt(sPriority);
+				priority = Integer.valueOf(sPriority);
 			}
 		} catch (NumberFormatException e) {
 		}
@@ -56,7 +56,7 @@ public class DefaultRegisteredEntry<T> {
 		if (collection == null || collection.isEmpty()) {
 			return Collections.emptyList();
 		}
-		List<T> newCollection = new ArrayList<>();
+		List<T> newCollection = new ArrayList<T>();
 		for (DefaultRegisteredEntry<T> d : collection) {
 			newCollection.add(d.getInstance());
 		}

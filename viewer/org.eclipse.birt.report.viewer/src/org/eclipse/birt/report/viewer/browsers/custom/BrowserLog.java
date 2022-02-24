@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -38,7 +38,7 @@ public class BrowserLog {
 
 	DateFormat formatter = new SimpleDateFormat("MMM dd, yyyy kk:mm:ss.SS"); //$NON-NLS-1$
 
-	String LN = System.lineSeparator();
+	String LN = System.getProperty("line.separator"); //$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -66,7 +66,7 @@ public class BrowserLog {
 
 	/**
 	 * Appends a line to the browser.log
-	 *
+	 * 
 	 * @param message log message
 	 */
 	public static synchronized void log(String message) {

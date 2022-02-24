@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * This class primarily works with messages. It can be extended to work with
  * other resources as the need arises.
- *
+ * 
  * @see ThreadResources
  */
 
@@ -66,7 +66,7 @@ class ResourceHandle {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param locale the user's locale. If null, the default locale for the JVM will
 	 *               be used.
 	 */
@@ -86,25 +86,23 @@ class ResourceHandle {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param locale the user's locale. If null, the default locale for the JVM will
 	 *               be used.
 	 */
 
 	ResourceHandle(ULocale locale) {
 		String bundleName = BUNDLE_NAME;
-		if (locale == null) {
+		if (locale == null)
 			locale = ULocale.getDefault();
-		}
 
 		List<String> resourceFiles = ResourceHelper.getHelper(bundleName).getMessageFilenames(locale, false);
 
 		for (int i = 0; i < resourceFiles.size(); i++) {
 			String tmpFileName = resourceFiles.get(i);
 			URL fileURL = ResourceHandle.class.getResource(tmpFileName);
-			if (fileURL == null) {
+			if (fileURL == null)
 				continue;
-			}
 
 			PropertyResourceBundle tmpBundle = CachedBundles.populateBundle(fileURL);
 			if (tmpBundle != null) {
@@ -113,15 +111,14 @@ class ResourceHandle {
 			}
 		}
 
-		if (resources == null) {
+		if (resources == null)
 			resources = defaultBundle.resources;
-		}
 	}
 
 	/**
 	 * Get a message given the message key. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
-	 *
+	 * 
 	 * @param key the message key
 	 * @return the localized message for that key and the locale set in the
 	 *         constructor. Returns the key itself if the message was not found.
@@ -129,9 +126,8 @@ class ResourceHandle {
 	 */
 
 	public String getMessage(String key) {
-		if (key == null) {
+		if (key == null)
 			return null;
-		}
 
 		String retMsg = null;
 		try {
@@ -140,9 +136,8 @@ class ResourceHandle {
 			retMsg = null;
 		}
 
-		if (retMsg != null) {
+		if (retMsg != null)
 			return retMsg;
-		}
 
 		try {
 			retMsg = defaultBundle.resources.getString(key);
@@ -160,7 +155,7 @@ class ResourceHandle {
 	/**
 	 * Get a message that has placeholders. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
-	 *
+	 * 
 	 * @param key       the message key
 	 * @param arguments the set of arguments to be plugged into the message
 	 * @return the localized message for that key and the locale set in the

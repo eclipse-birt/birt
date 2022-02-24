@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -30,7 +30,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_122600 extends BaseTestCase {
 
 	/**
-	 *
+	 * 
 	 */
 	public void test_regression_122600() {
 		MetaDataDictionary instance = MetaDataDictionary.getInstance();
@@ -47,15 +47,14 @@ public class Regression_122600 extends BaseTestCase {
 		for (int i = 0; i < naturedSortedChoices.length; i++) {
 			IChoice choice = (IChoice) naturedSortedChoices[i];
 
-			if ("top-n".equals(choice.getName())) { //$NON-NLS-1$
+			if ("top-n".equals(choice.getName())) //$NON-NLS-1$
 				topN = true;
-			} else if ("bottom-n".equals(choice.getName())) { //$NON-NLS-1$
+			else if ("bottom-n".equals(choice.getName())) //$NON-NLS-1$
 				bottomN = true;
-			} else if ("like".equals(choice.getName())) { //$NON-NLS-1$
+			else if ("like".equals(choice.getName())) //$NON-NLS-1$
 				like = true;
-			} else if ("match".equals(choice.getName())) { //$NON-NLS-1$
+			else if ("match".equals(choice.getName())) //$NON-NLS-1$
 				match = true;
-			}
 
 		}
 		assertTrue(topN);

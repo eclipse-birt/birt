@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -80,12 +80,11 @@ class DocArchiveLockManager implements IArchiveLockManager {
 	/**
 	 * try to lock the file. If some thread is locking this file, wait until it
 	 * sucess.
-	 *
+	 * 
 	 * @param name file name.
 	 * @return the lock object used to unlock.
 	 * @throws IOException
 	 */
-	@Override
 	public Object lock(String name) throws IOException {
 		FileChannel channel = getChannel(name);
 		try {
@@ -115,10 +114,9 @@ class DocArchiveLockManager implements IArchiveLockManager {
 
 	/**
 	 * unlock the previous locked file.
-	 *
+	 * 
 	 * @param lockObj the object get from the lock.
 	 */
-	@Override
 	public void unlock(Object lockObj) {
 		if (lockObj instanceof Lock) {
 			Lock lock = (Lock) lockObj;

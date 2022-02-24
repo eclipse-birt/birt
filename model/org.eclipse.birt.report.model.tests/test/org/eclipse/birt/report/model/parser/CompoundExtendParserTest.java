@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,6 +15,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.util.List;
+import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -33,8 +34,6 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * Test cases for compound extends.
  */
@@ -51,7 +50,7 @@ public class CompoundExtendParserTest extends BaseTestCase {
 
 	/**
 	 * Tests all properties and slots.
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 
@@ -96,7 +95,7 @@ public class CompoundExtendParserTest extends BaseTestCase {
 	 * 2) Virtual element property search.
 	 * <p>
 	 * 3) Intrinsic property search, name and style property can not extends.
-	 *
+	 * 
 	 * @throws DesignFileException
 	 */
 
@@ -165,7 +164,7 @@ public class CompoundExtendParserTest extends BaseTestCase {
 	 * 2. If baseId doesn't reference a correct virtual parent, the ref-entry is
 	 * ignored. A semantic warning is logged.
 	 * <p>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -216,7 +215,7 @@ public class CompoundExtendParserTest extends BaseTestCase {
 
 	/**
 	 * Tests writing the properties.
-	 *
+	 * 
 	 * @throws Exception if any error found.
 	 */
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ public class TabularDimensionPropSearchStrategy extends PropertySearchStrategy {
 	/**
 	 * Returns the instance of <code>ReportItemPropSearchStrategy</code> which
 	 * provide the specific property searching route for <code>ReportItem</code> .
-	 *
+	 * 
 	 * @return the instance of <code>ReportItemPropSearchStrategy</code>
 	 */
 
@@ -53,7 +53,7 @@ public class TabularDimensionPropSearchStrategy extends PropertySearchStrategy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.PropertySearchStrategy#getPropertyFromSelf
 	 * (org.eclipse.birt.report.model.core.Module,
@@ -61,17 +61,17 @@ public class TabularDimensionPropSearchStrategy extends PropertySearchStrategy {
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	@Override
 	protected Object getPropertyFromSelf(Module module, DesignElement element, ElementPropertyDefn prop) {
-		if ((element.getContainer() instanceof Module) || ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP.equalsIgnoreCase(prop.getName())
-				|| prop.getTypeCode() == IPropertyType.ELEMENT_TYPE) {
+		if (element.getContainer() instanceof Module)
 			return super.getPropertyFromSelf(module, element, prop);
-		}
+
+		if (ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP.equalsIgnoreCase(prop.getName())
+				|| prop.getTypeCode() == IPropertyType.ELEMENT_TYPE)
+			return super.getPropertyFromSelf(module, element, prop);
 
 		Dimension tmpDimension = getSharedDimension(module, element);
-		if (tmpDimension == null || !(tmpDimension.getContainer() instanceof Module)) {
+		if (tmpDimension == null || !(tmpDimension.getContainer() instanceof Module))
 			return super.getPropertyFromSelf(module, element, prop);
-		}
 
 		// if there is the shared dimension. Properties on shared dimension
 		// should be transparent to the given dimension.
@@ -81,25 +81,23 @@ public class TabularDimensionPropSearchStrategy extends PropertySearchStrategy {
 
 	/**
 	 * Checks if the property is data binding property.
-	 *
+	 * 
 	 * @param root
-	 *
+	 * 
 	 * @param element  the design element
 	 * @param propName the property name
 	 * @return true if this property is the data binding property, false otherwise
 	 */
 
 	public static Dimension getSharedDimension(Module root, DesignElement element) {
-		if (!(element instanceof TabularDimension)) {
+		if (!(element instanceof TabularDimension))
 			return null;
-		}
 
 		ElementRefValue tmpRef = (ElementRefValue) element.getLocalProperty(root,
 				ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP);
 
-		if (tmpRef == null) {
+		if (tmpRef == null)
 			return null;
-		}
 
 		return (Dimension) tmpRef.getElement();
 	}

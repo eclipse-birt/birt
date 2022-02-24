@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.core.Module;
  * Type for a property defined by a list of choices. The actual list of choices
  * is defined by the specific choice property. A choice name is stored as
  * <code>java.lang.String</code> internally.
- *
+ * 
  * @see ElementPropertyDefn
  */
 
@@ -59,7 +59,7 @@ public class ChoicePropertyType extends PropertyType {
 	 * Validates a choice property. The choice property can be a string with one of
 	 * the valid choices, or it can be a string that contains one of the localized
 	 * names for the choices.
-	 *
+	 * 
 	 * @return object of type String, Returns <code>null</code> if the
 	 *         <code>value</code> parameter is null.
 	 * @throws PropertyValueException if <code>value</code> is not found in the
@@ -67,7 +67,6 @@ public class ChoicePropertyType extends PropertyType {
 	 *                                localized choice name.
 	 */
 
-	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		if (value == null) {
@@ -87,14 +86,13 @@ public class ChoicePropertyType extends PropertyType {
 	 * Validates an XML value within a choice set. This method throws an exception
 	 * if choice properties cannot be validated in the predefined choice list.
 	 * Otherwise return the validated value.
-	 *
+	 * 
 	 * @return the choice name if it is contained in the predefined choice list;
 	 *         Return <code>null/code> the value is null;
 	 * @throws PropertyValueException if this value is not found in the predefined
 	 *                                choice list.
 	 */
 
-	@Override
 	public Object validateXml(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		assert value == null || value instanceof String;
@@ -127,9 +125,8 @@ public class ChoicePropertyType extends PropertyType {
 			throw new PropertyValueException(tmpValue, PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED,
 					getTypeCode());
 		}
-		if (!isDataTypeAny(propChoices, tmpValue)) {
+		if (!isDataTypeAny(propChoices, tmpValue))
 			logger.log(Level.WARNING, "Not found choice: " + tmpValue); //$NON-NLS-1$
-		}
 
 		throw new PropertyValueException(tmpValue, PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
 				getTypeCode());
@@ -137,22 +134,20 @@ public class ChoicePropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
-	@Override
 	public int getTypeCode() {
 		return CHOICE_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getName()
 	 */
 
-	@Override
 	public String getName() {
 		return CHOICE_TYPE_NAME;
 	}
@@ -163,24 +158,21 @@ public class ChoicePropertyType extends PropertyType {
 	 * <code>value</code> is <code>null</code>, the return will be null, if the
 	 * <code>value</code> is in the predefined choice list, the value will be
 	 * returned as a String.
-	 *
+	 * 
 	 * @return the value as a string if it is in the predefined choice list, return
 	 *         null if the value is null;
 	 */
 
-	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
 		IChoiceSet propChoices = defn.getChoices();
 		assert propChoices != null;
 
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		IChoice choice = propChoices.findChoice((String) value);
-		if (choice != null) {
+		if (choice != null)
 			return choice.getName();
-		}
 
 		// the special case to write out the invalid value.
 
@@ -189,15 +181,13 @@ public class ChoicePropertyType extends PropertyType {
 
 	/**
 	 * Returns a localized choice display name according to its internal name.
-	 *
+	 * 
 	 * @return the display string for its internal value.
 	 */
 
-	@Override
 	public String toDisplayString(Module module, PropertyDefn defn, Object name) {
-		if (name == null) {
+		if (name == null)
 			return null;
-		}
 
 		IChoiceSet propChoices = defn.getChoices();
 		assert propChoices != null;
@@ -219,14 +209,13 @@ public class ChoicePropertyType extends PropertyType {
 	 * Validates a string according to predefined choice properties in
 	 * locale-dependent way, the <code>name</code> can be either an internal choice
 	 * name or it can be a localized choice name.
-	 *
+	 * 
 	 * @return the internal choice name, if the <code>name</code> is an internal
 	 *         choice name or a localized choice name, return <code>null</code> if
 	 *         <code>name</code> is null.
 	 * @throws PropertyValueException if the <code>name</code> is not valid.
 	 */
 
-	@Override
 	public Object validateInputString(Module module, DesignElement element, PropertyDefn defn, String name)
 			throws PropertyValueException {
 		name = StringUtil.trimString(name);
@@ -251,11 +240,10 @@ public class ChoicePropertyType extends PropertyType {
 		// Convert the localized choice name into internal name.
 
 		choice = null;
-		if (!allowedChoices.isUserDefined()) {
+		if (!allowedChoices.isUserDefined())
 			choice = allowedChoices.findChoiceByDisplayName(name);
-		} else {
+		else
 			choice = allowedChoices.findUserChoiceByDisplayName(module, name);
-		}
 
 		if (choice != null) {
 			return choice.getName();
@@ -271,9 +259,8 @@ public class ChoicePropertyType extends PropertyType {
 					getTypeCode());
 		}
 
-		if (!isDataTypeAny(propChoices, name)) {
+		if (!isDataTypeAny(propChoices, name))
 			logger.log(Level.WARNING, "Invalid choice:" + name); //$NON-NLS-1$
-		}
 
 		throw new PropertyValueException(name, PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, getTypeCode());
 
@@ -281,9 +268,8 @@ public class ChoicePropertyType extends PropertyType {
 
 	public static boolean isDataTypeAny(IChoiceSet choiceSet, Object value) {
 		if (choiceSet != null && DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE.equals(choiceSet.getName())
-				&& DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals(value)) {
+				&& DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals(value))
 			return true;
-		}
 		return false;
 	}
 }

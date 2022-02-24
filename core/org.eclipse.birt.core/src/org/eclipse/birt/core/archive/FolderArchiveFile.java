@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -41,15 +41,14 @@ public class FolderArchiveFile implements IArchiveFile {
 	protected String folderName;
 	protected String systemId;
 	protected String dependId;
-	private HashSet<RAFolderInputStream> inputStreams = new HashSet<>();
-	private HashSet<RAFolderOutputStream> outputStreams = new HashSet<>();
+	private HashSet<RAFolderInputStream> inputStreams = new HashSet<RAFolderInputStream>();
+	private HashSet<RAFolderOutputStream> outputStreams = new HashSet<RAFolderOutputStream>();
 
-	protected Map<String, String> properties = new HashMap<>();
+	protected Map<String, String> properties = new HashMap<String, String>();
 
 	public FolderArchiveFile(String name) throws IOException {
-		if (name == null || name.length() == 0) {
+		if (name == null || name.length() == 0)
 			throw new IOException(CoreMessages.getString(ResourceConstants.FOLDER_NAME_IS_NULL));
-		}
 
 		File file = new File(name);
 		file.mkdirs();
@@ -57,7 +56,6 @@ public class FolderArchiveFile implements IArchiveFile {
 		readMetaData();
 	}
 
-	@Override
 	public String getName() {
 		return folderName;
 	}
@@ -68,8 +66,10 @@ public class FolderArchiveFile implements IArchiveFile {
 		File file = new File(meta);
 		if (file.exists() && file.isFile()) {
 			DataInputStream data = new DataInputStream(new FileInputStream(file));
-			try (data) {
+			try {
 				properties = (Map<String, String>) IOUtil.readMap(data);
+			} finally {
+				data.close();
 			}
 		}
 	}
@@ -79,18 +79,19 @@ public class FolderArchiveFile implements IArchiveFile {
 		String meta = ArchiveUtil.getFullPath(folderName, METEDATA);
 		File file = new File(meta);
 		DataOutputStream data = new DataOutputStream(new FileOutputStream(file));
-		try (data) {
+		try {
 			IOUtil.writeMap(data, this.properties);
+		} finally {
+			data.close();
 		}
 	}
 
-	@Override
 	public void close() throws IOException {
 		saveMetaData();
 
 		IOException exception = null;
 		synchronized (outputStreams) {
-			ArrayList<RAFolderOutputStream> outputs = new ArrayList<>(outputStreams);
+			ArrayList<RAFolderOutputStream> outputs = new ArrayList<RAFolderOutputStream>(outputStreams);
 			for (RAFolderOutputStream output : outputs) {
 				try {
 					output.close();
@@ -104,7 +105,7 @@ public class FolderArchiveFile implements IArchiveFile {
 			outputStreams.clear();
 		}
 		synchronized (inputStreams) {
-			ArrayList<RAFolderInputStream> inputs = new ArrayList<>(inputStreams);
+			ArrayList<RAFolderInputStream> inputs = new ArrayList<RAFolderInputStream>(inputStreams);
 			for (RAFolderInputStream input : inputs) {
 				try {
 					input.close();
@@ -124,7 +125,6 @@ public class FolderArchiveFile implements IArchiveFile {
 
 	}
 
-	@Override
 	public void flush() throws IOException {
 		IOException ioex = null;
 		synchronized (outputStreams) {
@@ -146,27 +146,22 @@ public class FolderArchiveFile implements IArchiveFile {
 		}
 	}
 
-	@Override
 	public void refresh() throws IOException {
 	}
 
-	@Override
 	public boolean exists(String name) {
 		String path = getFilePath(name);
 		File fd = new File(path);
 		return fd.exists();
 	}
 
-	@Override
 	public void setCacheSize(long cacheSize) {
 	}
 
-	@Override
 	public long getUsedCache() {
 		return 0;
 	}
 
-	@Override
 	public ArchiveEntry openEntry(String name) throws IOException {
 		String fullPath = getFilePath(name);
 		File fd = new File(fullPath);
@@ -176,12 +171,11 @@ public class FolderArchiveFile implements IArchiveFile {
 		throw new FileNotFoundException(fullPath);
 	}
 
-	@Override
 	public List<String> listEntries(String namePattern) {
-		ArrayList<String> streamList = new ArrayList<>();
+		ArrayList<String> streamList = new ArrayList<String>();
 		String storagePath = getFolderPath(namePattern);
 
-		ArrayList<File> files = new ArrayList<>();
+		ArrayList<File> files = new ArrayList<File>();
 		ArchiveUtil.listAllFiles(new File(storagePath), files);
 		for (File file : files) {
 			String relativePath = ArchiveUtil.getRelativePath(folderName, file.getPath());
@@ -193,7 +187,6 @@ public class FolderArchiveFile implements IArchiveFile {
 		return streamList;
 	}
 
-	@Override
 	public ArchiveEntry createEntry(String name) throws IOException {
 		String path = getFilePath(name);
 		File fd = new File(path);
@@ -204,7 +197,6 @@ public class FolderArchiveFile implements IArchiveFile {
 		return out;
 	}
 
-	@Override
 	public boolean removeEntry(String name) throws IOException {
 		String path = getFilePath(name);
 		try {
@@ -212,7 +204,7 @@ public class FolderArchiveFile implements IArchiveFile {
 			return ArchiveUtil.removeFileAndFolder(fd);
 		} finally {
 			synchronized (outputStreams) {
-				ArrayList<RAFolderOutputStream> outputs = new ArrayList<>(outputStreams);
+				ArrayList<RAFolderOutputStream> outputs = new ArrayList<RAFolderOutputStream>(outputStreams);
 				for (RAFolderOutputStream output : outputs) {
 					try {
 						if (name.equals(output.getName())) {
@@ -228,21 +220,18 @@ public class FolderArchiveFile implements IArchiveFile {
 
 	}
 
-	@Override
 	public Object lockEntry(String entry) throws IOException {
 		String path = getFilePath(entry) + ".lck";
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance();
 		return lockManager.lock(path);
 	}
 
-	@Override
 	public void unlockEntry(Object locker) throws IOException {
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance();
 		lockManager.unlock(locker);
 
 	}
 
-	@Override
 	public String getSystemId() {
 		if (properties.containsKey(ArchiveFileV3.PROPERTY_SYSTEM_ID)) {
 			return properties.get(ArchiveFileV3.PROPERTY_SYSTEM_ID).toString();
@@ -250,7 +239,6 @@ public class FolderArchiveFile implements IArchiveFile {
 		return null;
 	}
 
-	@Override
 	public String getDependId() {
 		if (properties.containsKey(ArchiveFileV3.PROPERTY_DEPEND_ID)) {
 			return properties.get(ArchiveFileV3.PROPERTY_DEPEND_ID).toString();
@@ -270,12 +258,10 @@ public class FolderArchiveFile implements IArchiveFile {
 		}
 	}
 
-	@Override
 	public void save() throws IOException {
 		flush();
 	}
 
-	@Override
 	public long getLength() {
 		long result = 0;
 		List<String> entries = listEntries(null);

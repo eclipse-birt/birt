@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 
 /**
  * Adapter of CssStyleSheet operation.
- *
+ * 
  */
 
 public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
@@ -37,7 +37,7 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 
 	/**
 	 * Gets css style sheet by location. Compare two absolute path of file.
-	 *
+	 * 
 	 * @param module   module
 	 * @param csses    list each item is <code>CssStyleSheet</code>
 	 * @param url
@@ -47,9 +47,8 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 
 	public static CssStyleSheet getCssStyleSheetByProperties(Module module, List<CssStyleSheet> csses, URL url,
 			String externalCssURI, boolean isUseExteralCss) {
-		if (csses == null) {
+		if (csses == null)
 			return null;
-		}
 
 		// do not use Module.findResource to avoid call third-part resource
 		// locater
@@ -63,9 +62,8 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 				ModuleOption options = module.getOptions();
 				URL tmpurl = locator.findResource((ModuleHandle) module.getHandle(module), tmpFileName,
 						IResourceLocator.CASCADING_STYLE_SHEET, options == null ? null : options.getOptions());
-				if (tmpurl == null) {
+				if (tmpurl == null)
 					continue;
-				}
 
 				if (url.equals(tmpurl)) {
 					String tmpUri = css.getExternalCssURI();
@@ -88,11 +86,12 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 				if (tmpFileName == null) {
 					if (isUseExteralCss == css.isUseExternalCss()) {
 						if (externalCssURI != null) {
-							if (externalCssURI.equals(tmpUri)) {
+							if (externalCssURI.equals(tmpUri))
+								return css;
+						} else {
+							if (tmpUri == null) {
 								return css;
 							}
-						} else if (tmpUri == null) {
-							return css;
 						}
 					}
 				}
@@ -103,21 +102,19 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 
 	/**
 	 * Gets css style sheet by location. Compare two absolute path of file.
-	 *
+	 * 
 	 * @deprecated
 	 * @param module module
 	 * @param csses  list each item is <code>CssStyleSheet</code>
 	 * @param url
-	 *
+	 * 
 	 *               absolute location
 	 * @return css style sheet.
 	 */
 
-	@Deprecated
 	public static CssStyleSheet getCssStyleSheetByLocation(Module module, List<CssStyleSheet> csses, URL url) {
-		if (url == null || csses == null) {
+		if (url == null || csses == null)
 			return null;
-		}
 
 		// do not use Module.findResource to avoid call third-part resource
 		// locater
@@ -130,20 +127,18 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 			ModuleOption options = module.getOptions();
 			URL tmpurl = locator.findResource((ModuleHandle) module.getHandle(module), tmpFileName,
 					IResourceLocator.CASCADING_STYLE_SHEET, options == null ? null : options.getOptions());
-			if (tmpurl == null) {
+			if (tmpurl == null)
 				continue;
-			}
 
-			if (url.equals(tmpurl)) {
+			if (url.equals(tmpurl))
 				return css;
-			}
 		}
 		return null;
 	}
 
 	/**
 	 * Gets position of css style sheet in all sheets. Compare two path of file.
-	 *
+	 * 
 	 * @param module           module
 	 * @param csses            list each item is <code>CssStyleSheet</code>
 	 * @param location         absolute location or relative path
@@ -154,18 +149,16 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 
 	public static int getPositionOfCssStyleSheetByProperties(Module module, List<CssStyleSheet> csses, String location,
 			String externalCssURI, boolean isUseExternalCss) {
-		if (csses == null) {
+		if (csses == null)
 			return -1;
-		}
 		if (location != null) {
 			URL targetUrl = module.findResource(location, IResourceLocator.CASCADING_STYLE_SHEET);
 			String fileLocation = location;
 
 			// if css file found, uses the absolute path to compare two pathes.
 
-			if (targetUrl != null) {
+			if (targetUrl != null)
 				fileLocation = targetUrl.getFile();
-			}
 
 			for (int i = 0; i < csses.size(); ++i) {
 				CssStyleSheet css = csses.get(i);
@@ -173,9 +166,8 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 
 				if (targetUrl != null) {
 					URL url = module.findResource(tmpFileName, IResourceLocator.CASCADING_STYLE_SHEET);
-					if (url != null) {
+					if (url != null)
 						tmpFileName = url.getFile();
-					}
 				}
 
 				// if the css file has been deleted, uses the input value as the
@@ -201,11 +193,12 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 				if (tmpFileName == null) {
 					if (isUseExternalCss == css.isUseExternalCss()) {
 						if (externalCssURI != null) {
-							if (externalCssURI.equals(tmpURI)) {
+							if (externalCssURI.equals(tmpURI))
+								return i;
+						} else {
+							if (tmpURI == null) {
 								return i;
 							}
-						} else if (tmpURI == null) {
-							return i;
 						}
 					}
 				}
@@ -216,7 +209,7 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 
 	/**
 	 * Gets position of css style sheet in all sheets. Compare two path of file.
-	 *
+	 * 
 	 * @deprecated
 	 * @param module   module
 	 * @param csses    list each item is <code>CssStyleSheet</code>
@@ -224,19 +217,16 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 	 * @return css style sheet.
 	 */
 
-	@Deprecated
 	public static int getPositionOfCssStyleSheet(Module module, List<CssStyleSheet> csses, String location) {
-		if (location == null || csses == null) {
+		if (location == null || csses == null)
 			return -1;
-		}
 		URL targetUrl = module.findResource(location, IResourceLocator.CASCADING_STYLE_SHEET);
 		String fileLocation = location;
 
 		// if css file found, uses the absolute path to compare two pathes.
 
-		if (targetUrl != null) {
+		if (targetUrl != null)
 			fileLocation = targetUrl.getFile();
-		}
 
 		for (int i = 0; i < csses.size(); ++i) {
 			CssStyleSheet css = csses.get(i);
@@ -244,86 +234,75 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 
 			if (targetUrl != null) {
 				URL url = module.findResource(tmpFileName, IResourceLocator.CASCADING_STYLE_SHEET);
-				if (url != null) {
+				if (url != null)
 					tmpFileName = url.getFile();
-				}
 			}
 
 			// if the css file has been deleted, uses the input value as the
 			// comparison value.
 
-			if (fileLocation.equalsIgnoreCase(tmpFileName)) {
+			if (fileLocation.equalsIgnoreCase(tmpFileName))
 				return i;
-			}
 		}
 		return -1;
 	}
 
 	/**
 	 * Drops the given css from css list.
-	 *
+	 * 
 	 * @param css the css to drop
 	 * @return the position of the css to drop
 	 */
 
-	@Override
 	public int dropCss(CssStyleSheet css) {
 		assert csses != null;
 		assert csses.contains(css);
 
 		int posn = csses.indexOf(css);
-		if (posn != -1) {
+		if (posn != -1)
 			csses.remove(posn);
-		}
 
 		return posn;
 	}
 
 	/**
 	 * Adds the given css to css style sheets list.
-	 *
+	 * 
 	 * @param css the css to insert
 	 */
 
-	@Override
 	public void addCss(CssStyleSheet css) {
-		if (csses == null) {
-			csses = new ArrayList<>();
-		}
+		if (csses == null)
+			csses = new ArrayList<CssStyleSheet>();
 
 		csses.add(css);
 	}
 
 	/**
 	 * Insert the given css to the given position
-	 *
+	 * 
 	 * @param css
 	 * @param index
 	 */
 
-	@Override
 	public void insertCss(CssStyleSheet css, int index) {
-		if (csses == null) {
-			csses = new ArrayList<>();
-		}
-		if (index < 0 || index > csses.size()) {
+		if (csses == null)
+			csses = new ArrayList<CssStyleSheet>();
+		if (index < 0 || index > csses.size())
 			return;
-		}
 		csses.add(index, css);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.elements.ICssStyleSheetOperation#getCsses()
 	 */
 
-	@Override
 	public List<CssStyleSheet> getCsses() {
-		if (csses == null) {
+		if (csses == null)
 			return Collections.emptyList();
-		}
 		return Collections.unmodifiableList(csses);
 	}
 

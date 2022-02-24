@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,13 +47,12 @@ public class ParameterExpressionProvider extends ExpressionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#
 	 * getCategoryList()
 	 */
-	@Override
 	protected List getCategoryList() {
-		ArrayList<Object> categoryList = new ArrayList<>(4);
+		ArrayList<Object> categoryList = new ArrayList<Object>(4);
 		categoryList.add(NATIVE_OBJECTS);
 		categoryList.add(BIRT_OBJECTS);
 		categoryList.add(OPERATORS);
@@ -74,11 +73,10 @@ public class ParameterExpressionProvider extends ExpressionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#
 	 * getChildrenList(java.lang.Object)
 	 */
-	@Override
 	protected List getChildrenList(Object parent) {
 		if (DATASETS.equals(parent)) {
 			List dataSeList = new ArrayList();
@@ -101,7 +99,7 @@ public class ParameterExpressionProvider extends ExpressionProvider {
 
 	/**
 	 * Get output parameters if handle has.
-	 *
+	 * 
 	 * @param handle
 	 * @return
 	 */
@@ -113,7 +111,7 @@ public class ParameterExpressionProvider extends ExpressionProvider {
 		if (iter != null) {
 			while (iter.hasNext()) {
 				Object dataSetParameter = iter.next();
-				if (((DataSetParameterHandle) dataSetParameter).isOutput()) {
+				if (((DataSetParameterHandle) dataSetParameter).isOutput() == true) {
 					outputList.add(dataSetParameter);
 				}
 			}
@@ -123,12 +121,11 @@ public class ParameterExpressionProvider extends ExpressionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getDisplayText
 	 * (java.lang.Object)
 	 */
-	@Override
 	public String getDisplayText(Object element) {
 		if (element instanceof DataSetHandle) {
 			return ((DataSetHandle) element).getName();
@@ -142,12 +139,11 @@ public class ParameterExpressionProvider extends ExpressionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getInsertText(
 	 * java.lang.Object)
 	 */
-	@Override
 	public String getInsertText(Object element) {
 		if (element instanceof ResultSetColumnHandle || element instanceof DataSetParameterHandle) {
 			return DEUtil.getExpression(element);

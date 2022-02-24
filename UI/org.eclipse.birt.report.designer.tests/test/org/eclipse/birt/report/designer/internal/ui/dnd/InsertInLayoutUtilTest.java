@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,7 +14,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
@@ -25,7 +27,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
- *
+ *  
  */
 
 public class InsertInLayoutUtilTest extends BaseTestCase {
@@ -45,10 +47,9 @@ public class InsertInLayoutUtilTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.testutil.BaseTestCase#getLoadFile()
 	 */
-	@Override
 	protected String getLoadFile() {
 		return FILE_NAME;
 	}
@@ -76,6 +77,11 @@ public class InsertInLayoutUtilTest extends BaseTestCase {
 
 	private ListGroupHandle getListGroup() {
 		return (ListGroupHandle) getListHandle().getGroups().get(0);
+	}
+
+	private CellHandle getCell(int row, int column) {
+		return (CellHandle) HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableHandle()).getCell(row,
+				column);
 	}
 
 	public void testOpenFile() {

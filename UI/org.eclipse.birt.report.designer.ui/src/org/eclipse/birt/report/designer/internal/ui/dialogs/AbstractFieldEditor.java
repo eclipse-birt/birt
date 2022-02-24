@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 /**
- *
+ * 
  */
 
 public abstract class AbstractFieldEditor extends FieldEditor {
@@ -57,7 +57,7 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 
 	/**
 	 * Creates a new abstract field editor.
-	 *
+	 * 
 	 * @param name      the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param parent    the parent of the field editor's control
@@ -80,7 +80,6 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 		return defaultUnit;
 	}
 
-	@Override
 	public void load() {
 		if (getPreferenceStore() != null) {
 			setPresentsDefaultValue(false);
@@ -93,7 +92,6 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 		}
 	}
 
-	@Override
 	public void loadDefault() {
 		if (getPreferenceStore() != null) {
 			setPresentsDefaultValue(true);
@@ -106,10 +104,9 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.FieldEditor#doStore()
 	 */
-	@Override
 	protected void doStore() {
 		if (isDirty()) {
 			if (propValue != null) {
@@ -121,7 +118,6 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 		}
 	}
 
-	@Override
 	public void store() {
 		if (getPreferenceStore() == null) {
 			return;
@@ -131,7 +127,7 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 
 	/**
 	 * Gets old value of the field editor.
-	 *
+	 * 
 	 * @return Returns the old value.
 	 */
 	public String getOldValue() {
@@ -140,7 +136,7 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 
 	/**
 	 * Gets property value of the field editor.
-	 *
+	 * 
 	 * @return Returns the property value.
 	 */
 	public String getPropValue() {
@@ -149,7 +145,7 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 
 	/**
 	 * Sets old value of the field editor.
-	 *
+	 * 
 	 * @param oldValue The oldValue to set.
 	 */
 	protected void setOldValue(String oldValue) {
@@ -161,7 +157,7 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 
 	/**
 	 * Sets property value of the field editor.
-	 *
+	 * 
 	 * @param newValue The newValue to set.
 	 */
 	protected void setPropValue(String newValue) {
@@ -178,13 +174,13 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 
 	/**
 	 * Gets string value of the field editor.
-	 *
+	 * 
 	 */
 	protected abstract String getStringValue();
 
 	/**
 	 * Performs value changes.
-	 *
+	 * 
 	 * @param name value name to changed.
 	 */
 	protected void valueChanged(String name) {
@@ -209,20 +205,19 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 	protected void markDirty(boolean value) {
 		isDirty = value;
 		if (this.getPage() instanceof BaseStylePreferencePage) {
-			if (refresh) {
-			} else {
+			if (refresh)
+				return;
+			else {
 				refresh = true;
 				Display.getDefault().asyncExec(new Runnable() {
 
-					@Override
 					public void run() {
-						if ((BaseStylePreferencePage) getPage() == null) {
+						if ((BaseStylePreferencePage) getPage() == null)
 							return;
-						} else if (((BaseStylePreferencePage) getPage()).getBuilder() == null
+						else if (((BaseStylePreferencePage) getPage()).getBuilder() == null
 								|| ((BaseStylePreferencePage) getPage()).getBuilder().getShell() == null
-								|| ((BaseStylePreferencePage) getPage()).getBuilder().getShell().isDisposed()) {
+								|| ((BaseStylePreferencePage) getPage()).getBuilder().getShell().isDisposed())
 							return;
-						}
 						((BaseStylePreferencePage) getPage()).getBuilder().refreshPagesStatus();
 						refresh = false;
 					}
@@ -244,20 +239,20 @@ public abstract class AbstractFieldEditor extends FieldEditor {
 	}
 
 	public boolean hasLocaleValue() {
-		if (propValue == null) {
+		if (propValue == null)
 			return false;
-		} else if (isDirty) {
-			return true;
-		} else {
-			if (this.getPreferenceStore() instanceof StylePreferenceStore) {
-				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-				if (store.hasLocalValue(getPreferenceName())) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
+		else {
+			if (isDirty)
 				return true;
+			else {
+				if (this.getPreferenceStore() instanceof StylePreferenceStore) {
+					StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
+					if (store.hasLocalValue(getPreferenceName()))
+						return true;
+					else
+						return false;
+				} else
+					return true;
 			}
 		}
 	}

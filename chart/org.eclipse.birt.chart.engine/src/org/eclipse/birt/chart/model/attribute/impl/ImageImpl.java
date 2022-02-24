@@ -1,20 +1,18 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
 package org.eclipse.birt.chart.model.attribute.impl;
-
-import java.util.Objects;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
@@ -44,7 +42,7 @@ public class ImageImpl extends FillImpl implements Image {
 	/**
 	 * The default value of the '{@link #getURL() <em>URL</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getURL()
 	 * @generated
 	 * @ordered
@@ -54,7 +52,7 @@ public class ImageImpl extends FillImpl implements Image {
 	/**
 	 * The cached value of the '{@link #getURL() <em>URL</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getURL()
 	 * @generated
 	 * @ordered
@@ -64,7 +62,7 @@ public class ImageImpl extends FillImpl implements Image {
 	/**
 	 * The default value of the '{@link #getSource() <em>Source</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -74,7 +72,7 @@ public class ImageImpl extends FillImpl implements Image {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -84,7 +82,7 @@ public class ImageImpl extends FillImpl implements Image {
 	/**
 	 * This is true if the Source attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -92,7 +90,7 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected ImageImpl() {
@@ -101,7 +99,7 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -111,85 +109,76 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getURL() {
 		return uRL;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setURL(String newURL) {
 		String oldURL = uRL;
 		uRL = newURL;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.IMAGE__URL, oldURL, uRL));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ImageSourceType getSource() {
 		return source;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setSource(ImageSourceType newSource) {
 		ImageSourceType oldSource = source;
 		source = newSource == null ? SOURCE_EDEFAULT : newSource;
 		boolean oldSourceESet = sourceESet;
 		sourceESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.IMAGE__SOURCE, oldSource, source,
 					!oldSourceESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetSource() {
 		ImageSourceType oldSource = source;
 		boolean oldSourceESet = sourceESet;
 		source = SOURCE_EDEFAULT;
 		sourceESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.IMAGE__SOURCE, oldSource,
 					SOURCE_EDEFAULT, oldSourceESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetSource() {
 		return sourceESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -205,7 +194,7 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -223,7 +212,7 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -241,7 +230,7 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -257,33 +246,31 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (uRL: "); //$NON-NLS-1$
 		result.append(uRL);
 		result.append(", source: "); //$NON-NLS-1$
-		if (sourceESet) {
+		if (sourceESet)
 			result.append(source);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * A convenient method to create and initialize an Image instance.
-	 *
+	 * 
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @param sURL
 	 * @return image
 	 */
@@ -295,9 +282,9 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * A convenient method to create and initialize an Image instance.
-	 *
+	 * 
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @param sURL
 	 * @param imageSourceType
 	 * @return image
@@ -311,24 +298,29 @@ public class ImageImpl extends FillImpl implements Image {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(source, uRL);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((source == null) ? 0 : source.hashCode());
+		result = prime * result + ((uRL == null) ? 0 : uRL.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if ((obj == null) || (getClass() != obj.getClass())) {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		ImageImpl other = (ImageImpl) obj;
-		if (source != other.source) {
+		if (source != other.source)
 			return false;
-		}
-		if (!Objects.equals(uRL, other.uRL)) {
+		if (uRL == null) {
+			if (other.uRL != null)
+				return false;
+		} else if (!uRL.equals(other.uRL))
 			return false;
-		}
 		return true;
 	}
 
@@ -336,7 +328,6 @@ public class ImageImpl extends FillImpl implements Image {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
-	@Override
 	public Image copyInstance() {
 		ImageImpl dest = new ImageImpl();
 		dest.uRL = getURL();

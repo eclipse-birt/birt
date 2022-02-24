@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,7 +68,7 @@ public class ClassFinder {
 
 	/**
 	 * Find the class
-	 *
+	 * 
 	 * @param elements
 	 * @param result
 	 * @param pm
@@ -110,23 +110,20 @@ public class ClassFinder {
 		IJavaProject javaProject = element.getJavaProject();
 
 		IType testCaseType = classType(javaProject);
-		if (testCaseType == null) {
+		if (testCaseType == null)
 			return found;
-		}
 
 		IType[] subtypes = javaProject.newTypeHierarchy(testCaseType, getRegion(element), pm)
 				.getAllSubtypes(testCaseType);
 
-		if (subtypes == null) {
+		if (subtypes == null)
 			throw new JavaModelException(new CoreException(new Status(IStatus.ERROR, ID,
 					IJavaLaunchConfigurationConstants.ERR_UNSPECIFIED_MAIN_TYPE, ERROR_MESSAGE, null)));
-		}
 
 		for (int i = 0; i < subtypes.length; i++) {
 			try {
-				if (hasValidModifiers(subtypes[i])) {
+				if (hasValidModifiers(subtypes[i]))
 					found.add(subtypes[i]);
-				}
 			} catch (JavaModelException e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
@@ -163,16 +160,17 @@ public class ClassFinder {
 	}
 
 	private boolean hasValidModifiers(IType type) throws JavaModelException {
-		if (Flags.isAbstract(type.getFlags()) || !Flags.isPublic(type.getFlags())) {
+		if (Flags.isAbstract(type.getFlags()))
 			return false;
-		}
+		if (!Flags.isPublic(type.getFlags()))
+			return false;
 		return true;
 	}
 
 	/**
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
-	 *
+	 * 
 	 * @param project IProject
 	 * @return boolean
 	 */
@@ -204,7 +202,6 @@ public class ClassFinder {
 		if (elements.length > 0) {
 			IRunnableWithProgress runnable = new IRunnableWithProgress() {
 
-				@Override
 				public void run(IProgressMonitor pm) throws InterruptedException {
 					doFindClasses(elements, result, pm);
 				}
@@ -227,7 +224,9 @@ public class ClassFinder {
 			// fix for 66922 Wrong radio behaviour when switching
 			types = findClasses(projects);
 			// types = findTests( new Object[]{projects[0]} );
-		} catch (InterruptedException | InvocationTargetException e) {
+		} catch (InterruptedException e) {
+			return null;
+		} catch (InvocationTargetException e) {
 			return null;
 		} finally {
 		}

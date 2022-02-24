@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -23,16 +23,16 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Provides the paste operation to the column band in the grid/table.
- *
+ * 
  */
 
 class ColumnBandPasteAction extends ColumnBandCopyAction {
 
 	/**
 	 * Constructs a <code>ColumnBandPasteAction</code> for the paste action.
-	 *
+	 * 
 	 * @param adapter the adapter to work on tables and grids.
-	 *
+	 * 
 	 */
 
 	public ColumnBandPasteAction(ColumnBandAdapter adapter) {
@@ -42,7 +42,7 @@ class ColumnBandPasteAction extends ColumnBandCopyAction {
 	/**
 	 * Checks whether the paste operation can be done with the given copied column
 	 * band data, the column index and the operation flag.
-	 *
+	 * 
 	 * @param columnIndex the column index
 	 * @param inForce     <code>true</code> indicates to paste the column regardless
 	 *                    of the different layout of cells. <code>false</code>
@@ -56,17 +56,15 @@ class ColumnBandPasteAction extends ColumnBandCopyAction {
 		// if table has parent, its layout can't be changed. so can't do insert
 		// operation.
 
-		if (adapter.hasParent()) {
+		if (adapter.hasParent())
 			return false;
-		}
 
 		List cells = data.getCells();
 
 		List originalCells = getCellsContextInfo(adapter.getCellsUnderColumn(columnIndex));
 
-		if (!isRectangleArea(originalCells, 1)) {
+		if (!isRectangleArea(originalCells, 1))
 			return false;
-		}
 
 		boolean isSameLayout = false;
 
@@ -76,16 +74,15 @@ class ColumnBandPasteAction extends ColumnBandCopyAction {
 			return false;
 		}
 
-		if (!inForce && !isSameLayout) {
+		if (!inForce && !isSameLayout)
 			return false;
-		}
 
 		return true;
 	}
 
 	/**
 	 * Pastes a column to the given <code>target</code>.
-	 *
+	 * 
 	 * @param columnIndex the column number
 	 * @param inForce     <code>true</code> if paste regardless of the difference of
 	 *                    cell layouts, otherwise <code>false</code>.
@@ -100,16 +97,14 @@ class ColumnBandPasteAction extends ColumnBandCopyAction {
 	protected List pasteColumnBand(int columnIndex, boolean inForce, ColumnBandData data) throws SemanticException {
 		boolean canDone = canPaste(columnIndex, inForce, data);
 
-		if (inForce && !canDone) {
+		if (inForce && !canDone)
 			throw new SemanticError(adapter.getElementHandle().getElement(),
 					new String[] { adapter.getElementHandle().getName() },
 					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN);
-		}
 
-		if (!inForce && !canDone) {
+		if (!inForce && !canDone)
 			throw new SemanticError(adapter.getElementHandle().getElement(),
 					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_DIFFERENT_LAYOUT);
-		}
 
 		TableColumn column = data.getColumn();
 		List cells = data.getCells();
@@ -117,11 +112,10 @@ class ColumnBandPasteAction extends ColumnBandCopyAction {
 
 		ActivityStack as = adapter.getModule().getActivityStack();
 		try {
-			if (adapter instanceof TableColumnBandAdapter) {
+			if (adapter instanceof TableColumnBandAdapter)
 				as.startSilentTrans(CommandLabelFactory.getCommandLabel(MessageConstants.PASTE_COLUMN_BAND_MESSAGE));
-			} else {
+			else
 				as.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.PASTE_COLUMN_BAND_MESSAGE));
-			}
 
 			pasteColumn(column, columnIndex, false);
 			pasteCells(cells, originalCells, columnIndex, false);

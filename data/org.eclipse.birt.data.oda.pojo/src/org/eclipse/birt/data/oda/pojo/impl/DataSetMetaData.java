@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#getConnection()
 	 */
-	@Override
 	public IConnection getConnection() throws OdaException {
 		return m_connection;
 	}
@@ -43,7 +42,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * org.eclipse.datatools.connectivity.oda.IDataSetMetaData#getDataSourceObjects(
 	 * java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	@Override
 	public IResultSet getDataSourceObjects(String catalog, String schema, String object, String version)
 			throws OdaException {
 		throw new UnsupportedOperationException();
@@ -53,7 +51,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#
 	 * getDataSourceMajorVersion()
 	 */
-	@Override
 	public int getDataSourceMajorVersion() throws OdaException {
 		return 1;
 	}
@@ -62,7 +59,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#
 	 * getDataSourceMinorVersion()
 	 */
-	@Override
 	public int getDataSourceMinorVersion() throws OdaException {
 		return 0;
 	}
@@ -71,7 +67,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#
 	 * getDataSourceProductName()
 	 */
-	@Override
 	public String getDataSourceProductName() throws OdaException {
 		return Messages.getString("MetaData.ProductName"); //$NON-NLS-1$
 	}
@@ -80,7 +75,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#
 	 * getDataSourceProductVersion()
 	 */
-	@Override
 	public String getDataSourceProductVersion() throws OdaException {
 		return Integer.toString(getDataSourceMajorVersion()) + "." + //$NON-NLS-1$
 				Integer.toString(getDataSourceMinorVersion());
@@ -90,7 +84,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IDataSetMetaData#getSQLStateType()
 	 */
-	@Override
 	public int getSQLStateType() throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -99,7 +92,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#
 	 * supportsMultipleResultSets()
 	 */
-	@Override
 	public boolean supportsMultipleResultSets() throws OdaException {
 		return false;
 	}
@@ -108,7 +100,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#
 	 * supportsMultipleOpenResults()
 	 */
-	@Override
 	public boolean supportsMultipleOpenResults() throws OdaException {
 		return false;
 	}
@@ -117,7 +108,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#
 	 * supportsNamedResultSets()
 	 */
-	@Override
 	public boolean supportsNamedResultSets() throws OdaException {
 		return false;
 	}
@@ -126,7 +116,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#
 	 * supportsNamedParameters()
 	 */
-	@Override
 	public boolean supportsNamedParameters() throws OdaException {
 		return true;
 	}
@@ -136,7 +125,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsInParameters(
 	 * )
 	 */
-	@Override
 	public boolean supportsInParameters() throws OdaException {
 		return true;
 	}
@@ -146,7 +134,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 * org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsOutParameters
 	 * ()
 	 */
-	@Override
 	public boolean supportsOutParameters() throws OdaException {
 		return false;
 	}
@@ -154,7 +141,6 @@ public class DataSetMetaData implements IDataSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IDataSetMetaData#getSortMode()
 	 */
-	@Override
 	public int getSortMode() {
 		throw new UnsupportedOperationException();
 	}

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -42,11 +42,11 @@ public final class StructureChangeEvent extends ChartEvent {
 
 	/**
 	 * Returns the event name.
-	 *
+	 * 
 	 * @param bStripType Specifies if the name if striped.
 	 * @return
 	 */
-	public String getEventName(boolean bStripType) {
+	public final String getEventName(boolean bStripType) {
 		if (bStripType) // STRIP OUT THE 'before' OR 'after' PREFIX IF
 		// REQUESTED
 		{
@@ -66,21 +66,21 @@ public final class StructureChangeEvent extends ChartEvent {
 
 	/**
 	 * Sets the event name.
-	 *
+	 * 
 	 * @param sEventName This must include the 'before' or 'after' prefix as defined
 	 *                   by each of the constants in IStructureDefinition
 	 */
-	public void setEventName(String sEventName) {
+	public final void setEventName(String sEventName) {
 		this.sEventName = sEventName;
 	}
 
 	/**
 	 * A convenience method provided to indicate if the event occurs before the
 	 * start of a structure definition or after the end of a structure definition.
-	 *
+	 * 
 	 * @return An event type indicating BEFORE or AFTER a structure definition
 	 */
-	public int getEventType() {
+	public final int getEventType() {
 		if (sEventName == null) {
 			return UNDEFINED;
 		} else if (sEventName.startsWith(BEFORE_PREFIX)) {
@@ -93,10 +93,9 @@ public final class StructureChangeEvent extends ChartEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	@Override
 	public void reset() {
 		// NO-OP
 	}

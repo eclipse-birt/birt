@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefin
  * definitio gives a definition of a template element. It can be referred by one
  * template report item or one template data set. The template parameter
  * definition has the following properties:
- *
+ * 
  * <ul>
  * <li>A required and unique name for this template parameter definition.
  * <li>A type for this template parameter definition. It is the the enumeration
@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefin
  * Dataset.
  * <li>A static description message to display.
  * </ul>
- *
+ * 
  */
 
 public class TemplateParameterDefinition extends ReferenceableElement implements ITemplateParameterDefinitionModel {
@@ -58,7 +58,7 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 
 	/**
 	 * Constructs the template parameter definition with a required name.
-	 *
+	 * 
 	 * @param theName the required name
 	 */
 
@@ -69,45 +69,42 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
 	 * report.model.elements.ElementVisitor)
 	 */
 
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitTemplateParameterDefinition(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.TEMPLATE_PARAMETER_DEFINITION;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
 	 * birt.report.model.core.Module)
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the report design of the style
-	 *
+	 * 
 	 * @return an API handle for this element
 	 */
 
@@ -120,15 +117,14 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 
 	/**
 	 * Returns the slot in this cell defined by the slot ID.
-	 *
+	 * 
 	 * @param slot the slot ID
-	 *
+	 * 
 	 * @return the retrieved slot.
-	 *
-	 *
+	 * 
+	 * 
 	 */
 
-	@Override
 	public ContainerSlot getSlot(int slot) {
 		assert (slot == DEFAULT_SLOT);
 		return slots[DEFAULT_SLOT];
@@ -136,7 +132,7 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 
 	/**
 	 * Gets allowed type of the template parameter definition.
-	 *
+	 * 
 	 * @param module the module of this parameter definition
 	 * @return the allowed type of the template parameter definition
 	 */
@@ -147,7 +143,7 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 
 	/**
 	 * Sets the allowed type of the template parameter definition.
-	 *
+	 * 
 	 * @param type the type to set
 	 * @throws SemanticException if the property is locked
 	 */
@@ -158,7 +154,7 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 
 	/**
 	 * Returns the static description for the template parameter definition.
-	 *
+	 * 
 	 * @param module the module of this parameter definition
 	 * @return the static description to display
 	 */
@@ -171,7 +167,7 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 	 * Returns the localized description for the template parameter definition. If
 	 * the localized description for the description resource key is found, it will
 	 * be returned. Otherwise, the static description will be returned.
-	 *
+	 * 
 	 * @param module the module of this parameter definition
 	 * @return the localized description for the template parameter definition
 	 */
@@ -182,9 +178,8 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 			// find in report.
 
 			String localizedText = module.getMessage(textKey);
-			if (!StringUtil.isBlank(localizedText)) {
+			if (!StringUtil.isBlank(localizedText))
 				return localizedText;
-			}
 		}
 
 		// use static text.
@@ -196,7 +191,7 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 	 * Sets the description of the template parameter definition. Sets the static
 	 * description itself. If the template parameter definition is to be
 	 * externalized, then set the description ID separately.
-	 *
+	 * 
 	 * @param description the new description for the template parameter definition
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -208,7 +203,7 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 	/**
 	 * Returns the resource key of the static description of the template parameter
 	 * definition.
-	 *
+	 * 
 	 * @param module the module of this parameter definition
 	 * @return the resource key of the static description
 	 */
@@ -220,9 +215,9 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 	/**
 	 * Sets the resource key of the static description of the template parameter
 	 * definition.
-	 *
+	 * 
 	 * @param resourceKey the resource key of the static description
-	 *
+	 * 
 	 * @throws SemanticException if the property is locked.
 	 */
 
@@ -232,15 +227,14 @@ public class TemplateParameterDefinition extends ReferenceableElement implements
 
 	/**
 	 * Gets the default element of this template parameter definition.
-	 *
+	 * 
 	 * @return the default element of this template parameter definition
 	 */
 
 	public DesignElement getDefaultElement() {
 		ContainerSlot defaultElement = getSlot(ITemplateParameterDefinitionModel.DEFAULT_SLOT);
-		if (defaultElement.getCount() == 0) {
+		if (defaultElement.getCount() == 0)
 			return null;
-		}
 		assert defaultElement.getCount() == 1;
 		return (DesignElement) defaultElement.getContent(0);
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,14 +18,14 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
  * Script wrapper of ReportDesignHandle
- *
+ * 
  */
 
 public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get data set design by name
-	 *
+	 * 
 	 * @param name
 	 * @return data set
 	 */
@@ -33,7 +33,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get data source design by name
-	 *
+	 * 
 	 * @param name
 	 * @return data source
 	 */
@@ -41,7 +41,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * generic method to get report item by name
-	 *
+	 * 
 	 * @param name
 	 * @return report element
 	 */
@@ -49,7 +49,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Generic method to get report item by id.
-	 *
+	 * 
 	 * @param id
 	 * @return report element
 	 */
@@ -57,7 +57,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a label item by name
-	 *
+	 * 
 	 * @param name
 	 * @return label
 	 */
@@ -66,7 +66,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a master page by name
-	 *
+	 * 
 	 * @param name
 	 * @return master page
 	 */
@@ -75,7 +75,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a grid item by name
-	 *
+	 * 
 	 * @param name
 	 * @return grid
 	 */
@@ -83,7 +83,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * mathod to get a Image item by name
-	 *
+	 * 
 	 * @param name
 	 * @return iamge
 	 */
@@ -91,7 +91,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a list item by name
-	 *
+	 * 
 	 * @param name
 	 * @return list
 	 */
@@ -99,7 +99,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a table item by name
-	 *
+	 * 
 	 * @param name
 	 * @return table
 	 */
@@ -107,7 +107,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a dynamic text data item by name.
-	 *
+	 * 
 	 * @param name
 	 * @return text data
 	 */
@@ -116,7 +116,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Sets the resource key of the display name.
-	 *
+	 * 
 	 * @param displayNameKey the resource key of the display name
 	 * @throws ScriptException if the display name resource-key property is locked
 	 *                         or not defined on this element.
@@ -126,7 +126,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Gets the resource key of the display name.
-	 *
+	 * 
 	 * @return the resource key of the display name
 	 */
 
@@ -134,7 +134,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Sets the display name.
-	 *
+	 * 
 	 * @param displayName the display name
 	 * @throws ScriptException if the display name property is locked or not defined
 	 *                         on this element.
@@ -144,7 +144,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Gets the display name.
-	 *
+	 * 
 	 * @return the display name
 	 */
 
@@ -152,14 +152,14 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Gets the theme for this report design.
-	 *
+	 * 
 	 * @return
 	 */
 	String getTheme();
 
 	/**
 	 * Sets the theme for this report design.
-	 *
+	 * 
 	 * @param theme
 	 * @throws ScriptException
 	 */
@@ -167,7 +167,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Create <code>IHideRule</code> instance
-	 *
+	 * 
 	 * @return IHideRule
 	 */
 
@@ -175,7 +175,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Create <code>IFilterCondition</code>
-	 *
+	 * 
 	 * @return instance
 	 */
 
@@ -183,7 +183,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Create <code>IDataBinding</code>
-	 *
+	 * 
 	 * @return instance
 	 */
 
@@ -191,7 +191,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Create <code>IHighLightRule</code>
-	 *
+	 * 
 	 * @return instance
 	 */
 
@@ -199,7 +199,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Create <code>ISortCondition</code>
-	 *
+	 * 
 	 * @return instance
 	 */
 
@@ -207,7 +207,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Creates the action structure.
-	 *
+	 * 
 	 * @param action the structure handle
 	 * @param handle the element handle that holds the action structure
 	 * @return the action

@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -28,14 +28,14 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 /**
- *
+ * 
  * check if the disk space is enough <br>
  * <li><code>path</code> the path will be check
  * <li><code>threshold</code> the threshold of warning, the unit is M byte
  * <li><code>property</code> if available space smaller than threshold, this
  * property will be set.
  * <li><code>value</code> available disk space. <br>
- *
+ * 
  */
 public class CheckDiskSpace extends Task {
 
@@ -63,7 +63,6 @@ public class CheckDiskSpace extends Task {
 		this.value = value;
 	}
 
-	@Override
 	public void execute() {
 		try {
 			long ava = getFreeSpace(path);
@@ -71,7 +70,7 @@ public class CheckDiskSpace extends Task {
 
 			log("Available space in path " + path + " is " + ava / m + "M"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 
-			getProject().setProperty(value, Long.toString(ava / m));
+			getProject().setProperty(value, new Long(ava / m).toString());
 			if (threshold > ava / m) {
 				getProject().setProperty(property, "true"); //$NON-NLS-1$
 			}
@@ -88,12 +87,11 @@ public class CheckDiskSpace extends Task {
 
 		Process p = Runtime.getRuntime().exec("df " + "/" + path); //$NON-NLS-1$ //$NON-NLS-2$
 		InputStream reader = new BufferedInputStream(p.getInputStream());
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		for (;;) {
 			int c = reader.read();
-			if (c == -1) {
+			if (c == -1)
 				break;
-			}
 			buffer.append((char) c);
 		}
 		String outputText = buffer.toString();
@@ -134,7 +132,7 @@ public class CheckDiskSpace extends Task {
 	}
 
 	private long getFreeSpaceOnWindows(String path) throws Exception {
-		long bytesFree;
+		long bytesFree = -1;
 
 		File script = new File(System.getProperty("java.io.tmpdir"), //$NON-NLS-1$
 				"script.bat"); //$NON-NLS-1$
@@ -145,12 +143,11 @@ public class CheckDiskSpace extends Task {
 		// get the output from running the .bat file
 		Process p = Runtime.getRuntime().exec(script.getAbsolutePath());
 		InputStream reader = new BufferedInputStream(p.getInputStream());
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		for (;;) {
 			int c = reader.read();
-			if (c == -1) {
+			if (c == -1)
 				break;
-			}
 			buffer.append((char) c);
 		}
 		String outputText = buffer.toString();
@@ -166,7 +163,7 @@ public class CheckDiskSpace extends Task {
 		tokenizer = new StringTokenizer(line, " "); //$NON-NLS-1$
 		tokenizer.nextToken();
 		tokenizer.nextToken();
-		bytesFree = Long.parseLong(tokenizer.nextToken().replace(",", "")); //$NON-NLS-1$//$NON-NLS-2$
+		bytesFree = Long.parseLong(tokenizer.nextToken().replaceAll(",", "")); //$NON-NLS-1$//$NON-NLS-2$
 		return bytesFree;
 	}
 

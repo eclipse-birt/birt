@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -54,7 +54,7 @@ public final class DriverLoader {
 	static String escapeCharacters(String value) {
 		final StringCharacterIterator iterator = new StringCharacterIterator(value);
 		char character = iterator.current();
-		final StringBuilder result = new StringBuilder();
+		final StringBuffer result = new StringBuffer();
 
 		while (character != StringCharacterIterator.DONE) {
 			if (character == '\\') {
@@ -73,7 +73,7 @@ public final class DriverLoader {
 	/**
 	 * Tests whether the given connection properties can be used to create a
 	 * connection.
-	 *
+	 * 
 	 * @param driverClassName  the name of driver class
 	 * @param connectionString the connection URL
 	 * @param userId           the user id
@@ -94,7 +94,7 @@ public final class DriverLoader {
 	/**
 	 * Tests whether the given connection properties can be used to obtain a
 	 * connection.
-	 *
+	 * 
 	 * @param driverClassName  the name of driver class
 	 * @param connectionString the JDBC driver connection URL
 	 * @param jndiNameUrl      the JNDI name to look up a Data Source name service;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -50,7 +50,7 @@ public interface Interactivity extends IChartObject {
 	 * value is <code>"true"</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc --> Attribute "Enable" specifies whether all interactive
 	 * features are enabled, by default it's true. <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Enable</em>' attribute.
 	 * @see #isSetEnable()
 	 * @see #unsetEnable()
@@ -67,7 +67,7 @@ public interface Interactivity extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Interactivity#isEnable
 	 * <em>Enable</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Enable</em>' attribute.
 	 * @see #isSetEnable()
 	 * @see #unsetEnable()
@@ -80,7 +80,7 @@ public interface Interactivity extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Interactivity#isEnable
 	 * <em>Enable</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetEnable()
 	 * @see #isEnable()
 	 * @see #setEnable(boolean)
@@ -93,7 +93,7 @@ public interface Interactivity extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Interactivity#isEnable
 	 * <em>Enable</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Enable</em>' attribute is set.
 	 * @see #unsetEnable()
 	 * @see #isEnable()
@@ -109,7 +109,7 @@ public interface Interactivity extends IChartObject {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Three
 	 * possible behaviours: None, Toggle the Serie visibility, Highlight the serie.
 	 * <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Legend Behavior</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.LegendBehaviorType
 	 * @see #isSetLegendBehavior()
@@ -127,7 +127,7 @@ public interface Interactivity extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Interactivity#getLegendBehavior
 	 * <em>Legend Behavior</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Legend Behavior</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.LegendBehaviorType
 	 * @see #isSetLegendBehavior()
@@ -142,7 +142,7 @@ public interface Interactivity extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Interactivity#getLegendBehavior
 	 * <em>Legend Behavior</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetLegendBehavior()
 	 * @see #getLegendBehavior()
 	 * @see #setLegendBehavior(LegendBehaviorType)
@@ -155,7 +155,7 @@ public interface Interactivity extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Interactivity#getLegendBehavior
 	 * <em>Legend Behavior</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Legend Behavior</em>' attribute is set.
 	 * @see #unsetLegendBehavior()
 	 * @see #getLegendBehavior()
@@ -167,7 +167,6 @@ public interface Interactivity extends IChartObject {
 	/**
 	 * @generated
 	 */
-	@Override
 	Interactivity copyInstance();
 
 } // Interactivity

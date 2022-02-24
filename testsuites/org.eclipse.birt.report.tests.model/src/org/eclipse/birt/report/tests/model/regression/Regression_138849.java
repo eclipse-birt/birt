@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,6 @@ public class Regression_138849 extends BaseTestCase {
 	private String filename = "Regression_138849.xml"; //$NON-NLS-1$
 	private String propname = "a.properties";
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();

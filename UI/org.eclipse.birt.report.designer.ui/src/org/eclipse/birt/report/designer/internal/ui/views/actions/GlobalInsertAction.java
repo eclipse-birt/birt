@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.jface.viewers.ISelectionProvider;
 
 /**
- *
+ * 
  */
 
 public class GlobalInsertAction extends AbstractGlobalSelectionAction {
@@ -48,10 +48,9 @@ public class GlobalInsertAction extends AbstractGlobalSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	@Override
 	protected boolean calculateEnabled() {
 
 		SlotHandle container = getContainer();
@@ -84,7 +83,6 @@ public class GlobalInsertAction extends AbstractGlobalSelectionAction {
 		return container;
 	}
 
-	@Override
 	public void run() {
 		if (SessionHandleAdapter.getInstance().getReportDesignHandle() == null) {
 			return;

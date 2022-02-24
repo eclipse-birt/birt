@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.core.runtime.IAdaptable;
 
 /**
  * Adapter factory class Populate HandleAdapter
- *
+ * 
  */
 public class HandleAdapterFactory {
 
@@ -59,7 +59,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 */
 	private HandleAdapterFactory() {
 		map = new WeakHashMap();
@@ -67,7 +67,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get the design element handle adapter for specified report element handle
-	 *
+	 * 
 	 * @param obj  Given boject
 	 * @param mark Helper mark
 	 * @return
@@ -136,10 +136,10 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get TextData Item Handle Adapter
-	 *
+	 * 
 	 * @param obj  TextData instance
 	 * @param mark Helper instance
-	 *
+	 * 
 	 * @return TextData Handle Adapter
 	 */
 	private TextDataHandleAdapter getTextDataHandleAdapter(Object obj, IModelAdapterHelper mark) {
@@ -153,7 +153,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get extended item handle adapter
-	 *
+	 * 
 	 * @param obj  TextData instance
 	 * @param mark Helper instance
 	 * @return Extended item adapter
@@ -169,7 +169,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Table Handle Adapter
-	 *
+	 * 
 	 * @param obj TableItem instance
 	 * @return Table Handle Adapter
 	 */
@@ -184,7 +184,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Table Handle Adapter
-	 *
+	 * 
 	 * @param obj TableItem instance
 	 * @return Table Handle Adapter
 	 */
@@ -195,7 +195,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Table Handle Adapter
-	 *
+	 * 
 	 * @param obj TableItem instance
 	 * @return Table Handle Adapter
 	 */
@@ -210,7 +210,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get List Handle Adapter
-	 *
+	 * 
 	 * @param obj Listtem instance
 	 * @return List Handle Adapter
 	 */
@@ -221,7 +221,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get singleton instance of factory
-	 *
+	 * 
 	 * @return factory instance
 	 */
 	public static HandleAdapterFactory getInstance() {
@@ -242,7 +242,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get report design handle adapter
-	 *
+	 * 
 	 * @return Design handle adapter
 	 */
 	public ReportDesignHandleAdapter getReportDesignHandleAdapter(Object obj, IModelAdapterHelper mark) {
@@ -256,7 +256,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get report design handle adapter
-	 *
+	 * 
 	 * @return Design handle adapter
 	 */
 	public ReportDesignHandleAdapter getReportDesignHandleAdapter() {
@@ -265,7 +265,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get report design handle adapter
-	 *
+	 * 
 	 * @return Design handle adapter
 	 */
 	public LibraryHandleAdapter getLibraryHandleAdapter(Object obj) {
@@ -274,7 +274,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get report design handle adapter
-	 *
+	 * 
 	 * @return Design handle adapter
 	 */
 	public LibraryHandleAdapter getLibraryHandleAdapter(Object obj, IModelAdapterHelper mark) {
@@ -288,7 +288,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get library handle adapter
-	 *
+	 * 
 	 * @return LibraryHandleAdapter
 	 */
 	public LibraryHandleAdapter getLibraryHandleAdapter() {
@@ -297,7 +297,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Table Handle Adapter
-	 *
+	 * 
 	 * @param obj  TableItem instance
 	 * @param mark Helper instance
 	 * @return Table Handle Adapter
@@ -317,7 +317,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Table Handle Adapter
-	 *
+	 * 
 	 * @param obj TableItem instance
 	 * @return Table Handle Adapter
 	 */
@@ -327,7 +327,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Table Group Handle Adapter
-	 *
+	 * 
 	 * @param obj  TableGroupItem instance
 	 * @param mark Helper instance
 	 * @return Table Group Handle Adapter
@@ -343,7 +343,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Table Group Handle Adapter
-	 *
+	 * 
 	 * @param obj TableGroupItem instance
 	 * @return Table Group Handle Adapter
 	 */
@@ -353,7 +353,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Cell Handle Adapter
-	 *
+	 * 
 	 * @param obj  Cell instance
 	 * @param mark Helper instance
 	 * @return Cell Handle Adapter
@@ -369,7 +369,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Cess Handle Adapter
-	 *
+	 * 
 	 * @param obj CessItem instance
 	 * @return Cess Handle Adapter
 	 */
@@ -380,7 +380,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Row Handle Adapter
-	 *
+	 * 
 	 * @param obj  Row instance
 	 * @param mark Helper instance
 	 * @return Row Handle Adapter
@@ -396,7 +396,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Row Handle Adapter
-	 *
+	 * 
 	 * @param obj Row Item instance
 	 * @return Row Handle Adapter
 	 */
@@ -406,7 +406,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Column Handle Adapter
-	 *
+	 * 
 	 * @param obj  Column instance
 	 * @param mark Helper instance
 	 * @return Column Handle Adapter
@@ -423,7 +423,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get column Handle Adapter
-	 *
+	 * 
 	 * @param obj Column Item instance
 	 * @return Column Handle Adapter
 	 */
@@ -434,7 +434,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Image Handle Adapter
-	 *
+	 * 
 	 * @param obj  ImageItem instance
 	 * @param mark Helper instance
 	 * @return Image Handle Adapter
@@ -451,7 +451,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Image Handle Adapter
-	 *
+	 * 
 	 * @param obj ImageItem instance
 	 * @return Image Handle Adapter
 	 */
@@ -462,7 +462,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Remove cached adapter
-	 *
+	 * 
 	 * @param obj Key to find the adapter
 	 */
 	public void remove(Object obj, IModelAdapterHelper mark) {
@@ -484,7 +484,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Remove cached adapter
-	 *
+	 * 
 	 * @param obj Key to find the adapter
 	 */
 	public void remove(Object obj) {
@@ -493,7 +493,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Remove cached adapter
-	 *
+	 * 
 	 * @param obj Key to find the adapter
 	 */
 	private void removeRelated(Object obj) {
@@ -513,7 +513,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Label Handle Adapter
-	 *
+	 * 
 	 * @param obj  LabelItem instance
 	 * @param mark Helper instance
 	 * @return Label Handle Adapter
@@ -529,7 +529,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get AutoText Handle Adapter
-	 *
+	 * 
 	 * @param obj  AutoTextHandle instance
 	 * @param mark Helper instance
 	 * @return AutoTextHandle Adapter
@@ -545,7 +545,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Lable Handle Adapter
-	 *
+	 * 
 	 * @param obj LabelItem instance
 	 * @return Label Handle Adapter
 	 */
@@ -556,10 +556,10 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Text Item Handle Adapter
-	 *
+	 * 
 	 * @param obj  TextItem instance
 	 * @param mark Helper instance
-	 *
+	 * 
 	 * @return Table Handle Adapter
 	 */
 	public TextItemHandleAdapter getTextItemHandleAdapter(Object obj, IModelAdapterHelper mark) {
@@ -573,7 +573,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Text Handle Adapter
-	 *
+	 * 
 	 * @param obj TextItem instance
 	 * @return Text Handle Adapter
 	 */
@@ -584,7 +584,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get TextData Handle Adapter
-	 *
+	 * 
 	 * @param obj TextData instance
 	 * @return TextData Handle Adapter
 	 */
@@ -595,7 +595,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Data Item Handle Adapter
-	 *
+	 * 
 	 * @param obj  DataItem instance
 	 * @param mark Helper instance
 	 * @return Table Handle Adapter
@@ -611,7 +611,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Data Handle Adapter
-	 *
+	 * 
 	 * @param obj DataItem instance
 	 * @return Data Handle Adapter
 	 */
@@ -621,7 +621,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Gets the adapter from the obj
-	 *
+	 * 
 	 * @param obj
 	 * @param mark
 	 * @return
@@ -637,7 +637,7 @@ public class HandleAdapterFactory {
 
 	/**
 	 * Get Data Handle Adapter
-	 *
+	 * 
 	 * @param obj DataItem instance
 	 * @return Data Handle Adapter
 	 */

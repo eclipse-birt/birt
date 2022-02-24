@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -54,7 +54,7 @@ public class ParameterHint {
 
 	/**
 	 * Constructs a <code>ParameterHint</code> with the specified name.
-	 *
+	 * 
 	 * @param parameterName the parameter name.
 	 * @param isInputMode   whether this is an input parameter.
 	 * @param isOutputMode  whether this is an output parameter.
@@ -62,10 +62,9 @@ public class ParameterHint {
 	 */
 	public ParameterHint(String parameterName, boolean isInputMode, boolean isOutputMode) {
 		final String methodName = "ParameterHint( String, boolean, boolean )"; //$NON-NLS-1$
-		if (sm_logger.isLoggingEnterExitLevel()) {
+		if (sm_logger.isLoggingEnterExitLevel())
 			sm_logger.entering(sm_className, methodName,
 					new Object[] { parameterName, Boolean.valueOf(isInputMode), Boolean.valueOf(isOutputMode) });
-		}
 
 		if (parameterName == null || parameterName.length() == 0) {
 			String localizedMessage = DataResourceHandle.getInstance()
@@ -87,7 +86,7 @@ public class ParameterHint {
 
 	/**
 	 * Returns the parameter name for this parameter hint.
-	 *
+	 * 
 	 * @return the name of the parameter.
 	 */
 	public String getName() {
@@ -96,7 +95,7 @@ public class ParameterHint {
 
 	/**
 	 * Sets the parameter 1-based position for this parameter hint.
-	 *
+	 * 
 	 * @param position the 1-based position of the parameter.
 	 * @throws IllegalArgumentException if the parameter position is less than 1.
 	 */
@@ -116,7 +115,7 @@ public class ParameterHint {
 
 	/**
 	 * Returns the parameter 1-based position for this parameter hint.
-	 *
+	 * 
 	 * @return the 1-based position of the parameter; 0 if no position was
 	 *         specified.
 	 */
@@ -126,7 +125,7 @@ public class ParameterHint {
 
 	/**
 	 * Sets the data type for this parameter hint.
-	 *
+	 * 
 	 * @param dataType the data type of the parameter.
 	 * @throws IllegalArgumentException if the parameter data type is invalid
 	 */
@@ -150,7 +149,7 @@ public class ParameterHint {
 			}
 		}
 
-		if (!isValid) {
+		if (isValid == false) {
 			String localizedMessage = DataResourceHandle.getInstance()
 					.getMessage(ResourceConstants.UNSUPPORTED_PARAMETER_VALUE_TYPE, new Object[] { dataType });
 			sm_logger.logp(Level.SEVERE, sm_className, methodName, "Invalid parameter data type {0}.", dataType); //$NON-NLS-1$
@@ -163,7 +162,7 @@ public class ParameterHint {
 	/**
 	 * Returns the parameter ODI data type specified in this parameter hint. Note
 	 * that this may not be the most effective data type to use.
-	 *
+	 * 
 	 * @see #getEffectiveDataType(String, String)
 	 * @return the data type of the parameter.
 	 */
@@ -173,7 +172,7 @@ public class ParameterHint {
 
 	/**
 	 * Sets the native data type for this parameter hint.
-	 *
+	 * 
 	 * @param typeCode the native data type of the parameter.
 	 */
 	public void setNativeDataType(int typeCode) {
@@ -184,7 +183,7 @@ public class ParameterHint {
 	 * Returns the native data type in this parameter hint. The native data type
 	 * code value is implementation-specific, and collected at design time. Default
 	 * value is 0 for none or unknown value.
-	 *
+	 * 
 	 * @return the native data type of the parameter.
 	 */
 	public int getNativeDataType() {
@@ -194,19 +193,18 @@ public class ParameterHint {
 	/**
 	 * Sets whether the input parameter is optional. Has no effect on non-input
 	 * parameters.
-	 *
+	 * 
 	 * @param isInputOptional whether this input parameter is optional.
 	 */
 	public void setIsInputOptional(boolean isInputOptional) {
-		if (m_isInputMode) {
+		if (m_isInputMode)
 			m_isInputOptional = isInputOptional;
-		}
 	}
 
 	/**
 	 * Returns whether the input parameter is optional. Returns true for non-input
 	 * parameters.
-	 *
+	 * 
 	 * @return true if the input parameter is optional or if this is a non-input
 	 *         parameter, false otherwise.
 	 */
@@ -216,7 +214,7 @@ public class ParameterHint {
 
 	/**
 	 * Sets whether the parameter can be null.
-	 *
+	 * 
 	 * @param isNullable whether this parameter can be null.
 	 */
 	public void setIsNullable(boolean isNullable) {
@@ -225,7 +223,7 @@ public class ParameterHint {
 
 	/**
 	 * Returns whether the parameter can be null.
-	 *
+	 * 
 	 * @return true if the parameter can be null, false otherwise.
 	 */
 	public boolean isNullable() {
@@ -235,19 +233,18 @@ public class ParameterHint {
 	/**
 	 * Sets the default value of the input parameter. Has no effect on non-input
 	 * parameters.
-	 *
+	 * 
 	 * @param defaultInputValue the default value.
 	 */
 	public void setDefaultInputValue(Object defaultInputValue) {
-		if (m_isInputMode) {
+		if (m_isInputMode)
 			m_defaultInputValue = defaultInputValue;
-		}
 	}
 
 	/**
 	 * Gets the default vlaue of the input parameter. Returns null for non-input
 	 * parameters.
-	 *
+	 * 
 	 * @return the default value of the input parameter, or null for non-input
 	 *         parameters.
 	 */
@@ -257,7 +254,7 @@ public class ParameterHint {
 
 	/**
 	 * Returns whether the parameter is an input parameter.
-	 *
+	 * 
 	 * @return true if the parameter is an input parameter, false otherwise.
 	 */
 	public boolean isInputMode() {
@@ -266,7 +263,7 @@ public class ParameterHint {
 
 	/**
 	 * Returns whether the parameter is an output parameter.
-	 *
+	 * 
 	 * @return true if the parameter is an output parameter, false otherwise.
 	 */
 	public boolean isOutputMode() {
@@ -275,7 +272,7 @@ public class ParameterHint {
 
 	/**
 	 * Sets the native name of the parameter as known to the underlying data source.
-	 *
+	 * 
 	 * @param nativeName The native name to set; may be a null value if the name is
 	 *                   not available or this parameter is not named.
 	 */
@@ -286,7 +283,7 @@ public class ParameterHint {
 	/**
 	 * Returns the native name of the parameter as known to the underlying data
 	 * source.
-	 *
+	 * 
 	 * @return the parameter native name, or null if the name is not available or
 	 *         this parameter is not named.
 	 */
@@ -297,21 +294,20 @@ public class ParameterHint {
 	/**
 	 * Sets hether this parameter allows binding with multiple input values. Has no
 	 * effect on non-input parameters.
-	 *
+	 * 
 	 * @param isMultiInputValuesAllowed true if multiple input values are allowed;
 	 *                                  false if at most a single input value is
 	 *                                  allowed.
 	 */
 	public void setMultiInputValuesAllowed(boolean isMultiInputValuesAllowed) {
-		if (m_isInputMode) {
+		if (m_isInputMode)
 			m_isMultiInputValuesAllowed = isMultiInputValuesAllowed;
-		}
 	}
 
 	/**
 	 * Indicates whether this parameter allows binding with multiple input values.
 	 * Only applies to input parameters.
-	 *
+	 * 
 	 * @return true if multiple input values are allowed; false if at most a single
 	 *         input value is allowed.
 	 */
@@ -322,7 +318,7 @@ public class ParameterHint {
 	/**
 	 * Helper method to update this <code>ParameterHint</code> with information from
 	 * another <code>ParameterHint</code>.
-	 *
+	 * 
 	 * @param hint the <code>ParameterHint</code> instance.
 	 */
 	void updateHint(ParameterHint hint) {
@@ -333,21 +329,17 @@ public class ParameterHint {
 
 		// don't update if the specified hint has default values
 
-		if (hint.m_nativeName != null) {
+		if (hint.m_nativeName != null)
 			m_nativeName = hint.m_nativeName;
-		}
 
-		if (hint.m_position != 0) {
+		if (hint.m_position != 0)
 			m_position = hint.m_position;
-		}
 
-		if (hint.m_dataType != null) {
+		if (hint.m_dataType != null)
 			m_dataType = hint.m_dataType;
-		}
 
-		if (hint.m_nativeDataType != UNKNOWN_NATIVE_TYPE) {
+		if (hint.m_nativeDataType != UNKNOWN_NATIVE_TYPE)
 			m_nativeDataType = hint.m_nativeDataType;
-		}
 
 		m_isInputOptional = hint.m_isInputOptional;
 		m_defaultInputValue = hint.m_defaultInputValue;
@@ -361,7 +353,7 @@ public class ParameterHint {
 	/**
 	 * Returns the most effective ODI data type defined in the hint. It determines
 	 * the best type to use based on the native data type defined.
-	 *
+	 * 
 	 * @param odaDataSourceId underlying ODA driver's data source id that defines
 	 *                        the native data type mappings
 	 * @param dataSetType     type of data set; may be null if the oda data source
@@ -383,9 +375,8 @@ public class ParameterHint {
 		 */
 		if (getNativeDataType() != UNKNOWN_NATIVE_TYPE) {
 			int odaType = DataTypeUtil.toOdaType(getNativeDataType(), odaDataSourceId, dataSetType);
-			if (odaType != Types.NULL) {
+			if (odaType != Types.NULL)
 				return odaType; // found valid native to oda type mapping
-			}
 		}
 
 		// no native data type mapping info, use the BIRT DtE ODI API data type instead

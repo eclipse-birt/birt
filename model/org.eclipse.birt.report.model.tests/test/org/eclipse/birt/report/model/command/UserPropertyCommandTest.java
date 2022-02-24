@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Unit test case for class UserPropertyCommand.
- *
+ * 
  * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
  * collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
  * <tr>
@@ -94,25 +94,24 @@ import com.ibm.icu.util.ULocale;
  * <td width="34%">Operations can be done and check the exception.</td>
  * </tr>
  * </table>
- *
+ * 
  */
 
 public class UserPropertyCommandTest extends BaseTestCase {
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Unit test for method addUserProperty.
-	 *
+	 * 
 	 * Test Case:Normal case
 	 * <ul>
 	 * <li>create a user property.Set name, Type, Default value, choice for it. Add
 	 * it into masterPage. Then set property value for it.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -192,9 +191,9 @@ public class UserPropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for user property from API.
-	 *
+	 * 
 	 * @throws Exception if any exception
-	 *
+	 * 
 	 */
 
 	public void testDropUserProperty() throws Exception {
@@ -250,7 +249,7 @@ public class UserPropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for set the new definition.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -290,7 +289,7 @@ public class UserPropertyCommandTest extends BaseTestCase {
 
 		// The new user-defined property has no name.
 
-		assertEquals(Double.toString(value), Double.toString(dataHandle.getFloatProperty("updNew"))); //$NON-NLS-1$
+		assertEquals(new Double(value).toString(), new Double(dataHandle.getFloatProperty("updNew")).toString()); //$NON-NLS-1$
 		newProp = new UserPropertyDefn();
 		try {
 			updCommand.setPropertyDefn(old, newProp);
@@ -312,7 +311,7 @@ public class UserPropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Test <code>UserPropertyEvent</code> notification.
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -387,20 +386,19 @@ public class UserPropertyCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.
 		 * model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev.getEventType() == NotificationEvent.USER_PROP_EVENT) {
 				event = (UserPropertyEvent) ev;
 
-				if (action == ADDED && event.getAction() == UserPropertyEvent.DROP) {
+				if (action == ADDED && event.getAction() == UserPropertyEvent.DROP)
 					action = CHANGED;
-				} else {
+				else {
 					switch (event.getAction()) {
 					case UserPropertyEvent.ADD:
 						action = ADDED;
@@ -420,13 +418,12 @@ public class UserPropertyCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.
 		 * model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev.getEventType() == NotificationEvent.PROPERTY_EVENT) {
 				propertyChanged = true;

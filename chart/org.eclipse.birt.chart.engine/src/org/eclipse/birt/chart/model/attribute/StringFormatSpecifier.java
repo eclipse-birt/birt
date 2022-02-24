@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -27,7 +27,7 @@ import com.ibm.icu.util.ULocale;
  *
  * <!-- begin-model-doc --> StringFormatSpecifier extends type FormatSpecifier
  * to devote itself to formatting a string value.
- *
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
@@ -48,7 +48,7 @@ public interface StringFormatSpecifier extends FormatSpecifier {
 	 * Returns the value of the '<em><b>Pattern</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Pattern" specifies the format pattern. <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Pattern</em>' attribute.
 	 * @see #setPattern(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStringFormatSpecifier_Pattern()
@@ -62,7 +62,7 @@ public interface StringFormatSpecifier extends FormatSpecifier {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.StringFormatSpecifier#getPattern
 	 * <em>Pattern</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Pattern</em>' attribute.
 	 * @see #getPattern()
 	 * @generated
@@ -72,14 +72,13 @@ public interface StringFormatSpecifier extends FormatSpecifier {
 	/**
 	 * @generated
 	 */
-	@Override
 	StringFormatSpecifier copyInstance();
 
 	/**
 	 * Formats a value using the internally defined format specifier rules
-	 *
+	 * 
 	 * @param dValue
-	 *
+	 * 
 	 * @return A formatted string representation of the string value provided
 	 */
 	String format(String dValue, ULocale lo);

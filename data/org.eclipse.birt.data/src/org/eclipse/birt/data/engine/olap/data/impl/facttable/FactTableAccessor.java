@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
+ * 
  *
- *
- * Contributors:
+ * Contributors: 
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
@@ -73,7 +73,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param factTableName
 	 * @param iterator
 	 * @param dimensions
@@ -193,9 +193,8 @@ public class FactTableAccessor {
 					aggregatedRows.add(lastRow);
 					lastRow = currentRow;
 				}
-				if (currentRow == null) {
+				if (currentRow == null)
 					break;
-				}
 			}
 		}
 
@@ -203,17 +202,14 @@ public class FactTableAccessor {
 
 			private int index = 0;
 
-			@Override
 			public FactTableRow pop() throws IOException {
-				if (index >= aggregatedRows.size()) {
+				if (index >= aggregatedRows.size())
 					return null;
-				}
 				FactTableRow result = (FactTableRow) aggregatedRows.get(index);
 				index++;
 				return result;
 			}
 
-			@Override
 			public int size() {
 				return aggregatedRows.size();
 			}
@@ -230,12 +226,10 @@ public class FactTableAccessor {
 
 		sortedFactTableRows = new FacttableRowContainer() {
 
-			@Override
 			public FactTableRow pop() throws IOException {
 				return (FactTableRow) facttableRows.pop();
 			}
 
-			@Override
 			public int size() {
 				return facttableRows.size();
 			}
@@ -287,7 +281,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param strArray
 	 * @param str
 	 * @return
@@ -305,7 +299,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dimRowArray
 	 * @return
 	 * @throws IOException
@@ -332,7 +326,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param factTableRowCount
 	 * @return
 	 */
@@ -345,7 +339,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dimension
 	 * @return
 	 */
@@ -360,7 +354,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param iterator
 	 * @param measureColumnName
 	 * @return
@@ -376,7 +370,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param iterator
 	 * @param measureColumnName
 	 * @param calculatedMeasure
@@ -401,7 +395,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param factTableName
 	 * @param dimensionInfo
 	 * @param measureInfo
@@ -449,7 +443,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param iterator
 	 * @param keyColumnNames
 	 * @param measureColumnNames
@@ -487,9 +481,8 @@ public class FactTableAccessor {
 			for (int i = 0; i < levelKeyColumnIndex.length; i++) {
 				dimensionKeys[i] = new DimensionKey(levelKeyColumnIndex[i].length);
 				for (int j = 0; j < levelKeyColumnIndex[i].length; j++) {
-					if (levelKeyColumnIndex[i][j] >= 0) {
+					if (levelKeyColumnIndex[i][j] >= 0)
 						dimensionKeys[i].getKeyValues()[j] = iterator.getValue(levelKeyColumnIndex[i][j]);
-					}
 				}
 			}
 			factTableRow.setDimensionKeys(dimensionKeys);
@@ -529,7 +522,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dimensionNumbers
 	 * @param multiple
 	 * @return
@@ -543,7 +536,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dimensionMemberCount
 	 * @param multiple
 	 * @return
@@ -559,7 +552,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dimensionPosition
 	 * @param dimensionDivision
 	 * @return
@@ -574,14 +567,14 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param factTableName
 	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 */
 	public FactTable load(String factTableName, StopSign stopSign) throws IOException {
-		int segmentNumber;
+		int segmentNumber = 0;
 		IDocumentObject documentObject = documentManager.openDocumentObject(NamingUtil.getFactTableName(factTableName));
 		DimensionInfo[] dimensionInfo = new DimensionInfo[documentObject.readInt()];
 		for (int i = 0; i < dimensionInfo.length; i++) {
@@ -590,8 +583,8 @@ public class FactTableAccessor {
 			dimensionInfo[i].dimensionLength = documentObject.readInt();
 		}
 		int measureSize = documentObject.readInt();
-		List<MeasureInfo> measureInfoList = new ArrayList<>();
-		List<MeasureInfo> calMeasureInfoList = new ArrayList<>();
+		List<MeasureInfo> measureInfoList = new ArrayList<MeasureInfo>();
+		List<MeasureInfo> calMeasureInfoList = new ArrayList<MeasureInfo>();
 		for (int i = 0; i < measureSize; i++) {
 			String measureName = documentObject.readString();
 			if (measureName.startsWith(NamingUtil.DERIVED_MEASURE_PREFIX)) {
@@ -618,7 +611,7 @@ public class FactTableAccessor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @author Administrator
 	 *
 	 */
@@ -661,13 +654,13 @@ public class FactTableAccessor {
 }
 
 interface FacttableRowContainer {
-	FactTableRow pop() throws IOException;
+	public FactTableRow pop() throws IOException;
 
-	int size();
+	public int size();
 }
 
 /**
- *
+ * 
  * @author Administrator
  *
  */
@@ -677,7 +670,7 @@ class FTSUNameSaveHelper {
 	private String factTableName;
 
 	/**
-	 *
+	 * 
 	 * @param documentManager
 	 * @param factTableName
 	 */
@@ -688,7 +681,7 @@ class FTSUNameSaveHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 */
 	void add(String name) {
@@ -698,7 +691,7 @@ class FTSUNameSaveHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 */
 	void save() throws IOException {
@@ -718,25 +711,24 @@ class DimensionDivider {
 		Set indexSet = new HashSet();
 
 		int[] subDimensionCount = new int[dimensionLength.length];
-		Arrays.fill(subDimensionCount, 1);
-
-		if (blockNumber > 1) {
-			calculateSubDimensionCount(dimensionLength, blockNumber, subDimensionCount, indexSet);
+		for (int i = 0; i < subDimensionCount.length; i++) {
+			subDimensionCount[i] = 1;
 		}
+
+		if (blockNumber > 1)
+			calculateSubDimensionCount(dimensionLength, blockNumber, subDimensionCount, indexSet);
 
 		return subDimensionCount;
 	}
 
 	private static void calculateSubDimensionCount(int[] dimensionLength, int maxSubDimensionCount,
 			int[] subDimensionCount, Set indexSet) {
-		if (indexSet.size() == subDimensionCount.length) {
+		if (indexSet.size() == subDimensionCount.length)
 			return;
-		}
 
 		for (int i = 0; i < subDimensionCount.length; i++) {
-			if (indexSet.contains(Integer.valueOf(i))) {
+			if (indexSet.contains(Integer.valueOf(i)))
 				continue;
-			}
 
 			if (subDimensionCount[i] + 1 > dimensionLength[i]) {
 				indexSet.add(Integer.valueOf(i));
@@ -757,9 +749,8 @@ class DimensionDivider {
 		int candidate = 1;
 		for (int i = 0; i < candidateArray.length; i++) {
 			candidate *= candidateArray[i];
-			if (candidate > target) {
+			if (candidate > target)
 				return true;
-			}
 		}
 
 		return false;
@@ -767,7 +758,7 @@ class DimensionDivider {
 
 	/**
 	 * This class is used to find dimension position by dimension key quickly.
-	 *
+	 * 
 	 * @author Administrator
 	 *
 	 */
@@ -778,7 +769,7 @@ class DimensionDivider {
 		private int position;
 
 		/**
-		 *
+		 * 
 		 * @param members
 		 * @throws IOException
 		 */
@@ -816,7 +807,7 @@ class DimensionDivider {
 
 		/**
 		 * Find dimension position by dimension key.
-		 *
+		 * 
 		 * @param key
 		 * @return
 		 * @throws IOException
@@ -833,7 +824,7 @@ class DimensionDivider {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param key
 		 * @return
 		 */
@@ -846,7 +837,7 @@ class DimensionDivider {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param key
 		 * @return
 		 * @throws IOException
@@ -908,7 +899,7 @@ class DimensionDivider {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param maxInt
 		 * @return
 		 */
@@ -924,7 +915,7 @@ class DimensionDivider {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param subdimensionIndex
 		 * @param dimensionPosition
 		 * @return
@@ -953,7 +944,7 @@ class DimensionDivider {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param subdimensionIndex
 		 * @param combinedPosition
 		 * @return

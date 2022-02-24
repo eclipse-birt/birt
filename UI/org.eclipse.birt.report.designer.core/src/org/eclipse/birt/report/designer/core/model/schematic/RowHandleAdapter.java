@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param row <code>RowHandle</code>
 	 */
 	public RowHandleAdapter(RowHandle row) {
@@ -61,10 +61,10 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param row  <code>RowHandle</code>
 	 * @param mark Helper mark
-	 *
+	 * 
 	 */
 	public RowHandleAdapter(RowHandle row, IModelAdapterHelper mark) {
 		super(row, mark);
@@ -72,7 +72,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the height
-	 *
+	 * 
 	 * @return
 	 */
 	public int getHeight() {
@@ -87,7 +87,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * If the user define the row height
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isCustomHeight() {
@@ -98,7 +98,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the row number
-	 *
+	 * 
 	 * @return
 	 */
 	public int getRowNumber() {
@@ -108,7 +108,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the minimum height
-	 *
+	 * 
 	 * @return
 	 */
 	public int getMinHeight() {
@@ -117,7 +117,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Get RowHandle
-	 *
+	 * 
 	 * @return <code>RowHanle</code>
 	 */
 	private RowHandle getRowHandle() {
@@ -126,10 +126,9 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the Children list.
-	 *
+	 * 
 	 * @return Children iterator
 	 */
-	@Override
 	public List getChildren() {
 		return getRowHandle().getCells().getContents();
 	}
@@ -137,7 +136,6 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 	/**
 	 * @return display name
 	 */
-	@Override
 	public String getDisplayName() {
 		TableHandleAdapter adapt = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
 		TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo(getHandle());
@@ -193,7 +191,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * copy a row
-	 *
+	 * 
 	 * @returnSemanticException
 	 */
 	public Object copy() throws SemanticException {
@@ -228,7 +226,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Set row height
-	 *
+	 * 
 	 * @param rowHeight
 	 * @throws SemanticException
 	 */

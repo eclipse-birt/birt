@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,18 +41,17 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo {
 
 	/**
 	 * Returns the script data type of this member.
-	 *
+	 * 
 	 * @return the script data type of this member
 	 */
 
-	@Override
 	public String getDataType() {
 		return dataType;
 	}
 
 	/**
 	 * Sets the script data type of this member.
-	 *
+	 * 
 	 * @param type the script data type to set
 	 */
 
@@ -62,7 +61,7 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo {
 
 	/**
 	 * Sets whether this member is static.
-	 *
+	 * 
 	 * @param isStatic the flag set
 	 */
 
@@ -72,21 +71,19 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo {
 
 	/**
 	 * Returns whether this member is static.
-	 *
+	 * 
 	 * @return <code>true</code> if this member is true.
 	 */
 
-	@Override
 	public boolean isStatic() {
 		return isStatic;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IMemberInfo#getClassType()
 	 */
-	@Override
 	public IClassInfo getClassType() {
 		if (classType != null) {
 			return classType;

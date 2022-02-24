@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,20 +54,19 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 	protected static final CompatibilityStatus COMP_OK_STATUS = new CompatibilityStatus();
 
 	/**
-	 *
+	 * 
 	 * @param handle
 	 */
 	protected AbstractCrosstabItemHandle(DesignElementHandle element) {
-		if (!(element instanceof ExtendedItemHandle)) {
+		if (!(element instanceof ExtendedItemHandle))
 			throw new IllegalArgumentException("the element is not valid ExtendedItemHandle!"); //$NON-NLS-1$
-		}
 		this.handle = (ExtendedItemHandle) element;
 		this.moduleHandle = element.getModuleHandle();
 	}
 
 	/**
 	 * Returns the model handle for this report item
-	 *
+	 * 
 	 * @return the design element handle of this view
 	 */
 	public DesignElementHandle getModelHandle() {
@@ -77,22 +76,21 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 	/**
 	 * Finds the extended item handle. The returned item must have the same name as
 	 * the given one and its extension name is the same as the given one too.
-	 *
+	 * 
 	 * @param name          the item name to search
 	 * @param extensionName
 	 * @return the extended item handle if found, otherwise null
 	 */
 	protected IReportItem findExtendedItem(String name, String extensionName) {
-		if (extensionName == null) {
+		if (extensionName == null)
 			throw new IllegalArgumentException("extension name can not be null"); //$NON-NLS-1$
-		}
 		DesignElementHandle element = moduleHandle.findElement(name);
 		return CrosstabUtil.getReportItem(element, extensionName);
 	}
 
 	/**
 	 * Gets the commands stack.
-	 *
+	 * 
 	 * @return command stack
 	 */
 	public CommandStack getCommandStack() {
@@ -101,16 +99,15 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 
 	/**
 	 * Gets the nearest crosstab container handle.
-	 *
+	 * 
 	 * @return the nearest crosstab container if found, otherwise null
 	 */
 	public DesignElementHandle getCrosstabHandle() {
 		DesignElementHandle e = handle;
 		while (e != null) {
 			if (ICrosstabConstants.CROSSTAB_EXTENSION_NAME
-					.equals(e.getStringProperty(ExtendedItemHandle.EXTENSION_NAME_PROP))) {
+					.equals(e.getStringProperty(ExtendedItemHandle.EXTENSION_NAME_PROP)))
 				return e;
-			}
 			e = e.getContainer();
 		}
 		return null;
@@ -118,7 +115,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 
 	/**
 	 * Gets the crosstab report item.
-	 *
+	 * 
 	 * @return
 	 */
 	public CrosstabReportItemHandle getCrosstab() {
@@ -127,7 +124,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 
 	/**
 	 * Find level handle by full name.
-	 *
+	 * 
 	 * @param fullLevelName
 	 * @return
 	 */
@@ -160,7 +157,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 
 	/**
 	 * Returns the container for current handle.
-	 *
+	 * 
 	 * @return the container as AbstractCrosstabItemHandle
 	 */
 	public AbstractCrosstabItemHandle getContainer() {
@@ -190,10 +187,9 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#copy()
 	 */
-	@Override
 	public IReportItem copy() {
 		// TODO return a copy
 		return null;
@@ -201,7 +197,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 
 	/**
 	 * Gets the logger instance for this class.
-	 *
+	 * 
 	 * @return
 	 */
 	public Logger getLogger() {
@@ -210,7 +206,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 
 	/**
 	 * Gets the module handle for this report item.
-	 *
+	 * 
 	 * @return
 	 */
 	public ModuleHandle getModuleHandle() {
@@ -219,7 +215,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 
 	/**
 	 * Checks the given version
-	 *
+	 * 
 	 * @param version the version to be checked
 	 * @return returns negative value (<0) if the given version is older than
 	 *         current version, 0 if equals current version, positive value (>0) if
@@ -238,10 +234,12 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 
 			if (major != CURRENT_CROSSTAB_MAJOR_VERSION) {
 				return major - CURRENT_CROSSTAB_MAJOR_VERSION;
-			} else if (minor != CURRENT_CROSSTAB_MINOR_VERSION) {
-				return minor - CURRENT_CROSSTAB_MINOR_VERSION;
 			} else {
-				return update - CURRENT_CROSSTAB_UPDATE_VERSION;
+				if (minor != CURRENT_CROSSTAB_MINOR_VERSION) {
+					return minor - CURRENT_CROSSTAB_MINOR_VERSION;
+				} else {
+					return update - CURRENT_CROSSTAB_UPDATE_VERSION;
+				}
 			}
 		}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,10 +59,9 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener {
 	 * @param title
 	 * @param context
 	 * @param seriesDefn
-	 *
+	 * 
 	 * @deprecated since 3.7
 	 */
-	@Deprecated
 	public PieTitleSheet(String title, ChartWizardContext context, SeriesDefinition seriesDefn) {
 		super(title, context, false);
 		this.seriesDefn = seriesDefn;
@@ -73,7 +72,6 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener {
 		this.series = series;
 	}
 
-	@Override
 	protected Composite getComponent(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_TEXT_FORMAT);
 
@@ -110,11 +108,10 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
 		if (event.widget.equals(lacTitle)) {

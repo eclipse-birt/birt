@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration
  * '<em><b>Styled Component</b></em>', and utility methods for working with
  * them. <!-- end-user-doc --> <!-- begin-model-doc -->
- *
+ * 
  * This type represents the possible values for the legend item type.
- *
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyledComponent()
  * @model
  * @generated
@@ -37,7 +37,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Chart All</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #CHART_ALL
 	 * @generated
 	 * @ordered
@@ -50,7 +50,7 @@ public enum StyledComponent implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #CHART_TITLE
 	 * @generated
 	 * @ordered
@@ -64,7 +64,7 @@ public enum StyledComponent implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #CHART_BACKGROUND
 	 * @generated
 	 * @ordered
@@ -77,7 +77,7 @@ public enum StyledComponent implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #PLOT_BACKGROUND
 	 * @generated
 	 * @ordered
@@ -91,7 +91,7 @@ public enum StyledComponent implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #LEGEND_BACKGROUND
 	 * @generated
 	 * @ordered
@@ -104,7 +104,7 @@ public enum StyledComponent implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #LEGEND_LABEL
 	 * @generated
 	 * @ordered
@@ -117,7 +117,7 @@ public enum StyledComponent implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #AXIS_TITLE
 	 * @generated
 	 * @ordered
@@ -130,7 +130,7 @@ public enum StyledComponent implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #AXIS_LABEL
 	 * @generated
 	 * @ordered
@@ -143,7 +143,7 @@ public enum StyledComponent implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #AXIS_LINE
 	 * @generated
 	 * @ordered
@@ -156,7 +156,7 @@ public enum StyledComponent implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #SERIES_TITLE
 	 * @generated
 	 * @ordered
@@ -169,7 +169,7 @@ public enum StyledComponent implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #SERIES_LABEL
 	 * @generated
 	 * @ordered
@@ -183,7 +183,7 @@ public enum StyledComponent implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #CHART_ALL_LITERAL
 	 * @model name="ChartAll" literal="Chart_All"
 	 * @generated
@@ -194,7 +194,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Chart Title</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #CHART_TITLE_LITERAL
 	 * @model name="ChartTitle" literal="Chart_Title"
 	 * @generated
@@ -205,7 +205,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Chart Background</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #CHART_BACKGROUND_LITERAL
 	 * @model name="ChartBackground" literal="Chart_Background"
 	 * @generated
@@ -216,7 +216,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Plot Background</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #PLOT_BACKGROUND_LITERAL
 	 * @model name="PlotBackground" literal="Plot_Background"
 	 * @generated
@@ -227,7 +227,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Legend Background</b></em>' literal value. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #LEGEND_BACKGROUND_LITERAL
 	 * @model name="LegendBackground" literal="Legend_Background"
 	 * @generated
@@ -238,7 +238,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Legend Label</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #LEGEND_LABEL_LITERAL
 	 * @model name="LegendLabel" literal="Legend_Label"
 	 * @generated
@@ -249,7 +249,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Axis Title</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #AXIS_TITLE_LITERAL
 	 * @model name="AxisTitle" literal="Axis_Title"
 	 * @generated
@@ -260,7 +260,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Axis Label</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #AXIS_LABEL_LITERAL
 	 * @model name="AxisLabel" literal="Axis_Label"
 	 * @generated
@@ -271,7 +271,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Axis Line</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #AXIS_LINE_LITERAL
 	 * @model name="AxisLine" literal="Axis_Line"
 	 * @generated
@@ -282,7 +282,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Series Title</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #SERIES_TITLE_LITERAL
 	 * @model name="SeriesTitle" literal="Series_Title"
 	 * @generated
@@ -293,7 +293,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * The '<em><b>Series Label</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #SERIES_LABEL_LITERAL
 	 * @model name="SeriesLabel" literal="Series_Label"
 	 * @generated
@@ -304,17 +304,18 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Styled Component</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	private static final StyledComponent[] VALUES_ARRAY = { CHART_ALL_LITERAL, CHART_TITLE_LITERAL,
-			CHART_BACKGROUND_LITERAL, PLOT_BACKGROUND_LITERAL, LEGEND_BACKGROUND_LITERAL, LEGEND_LABEL_LITERAL,
-			AXIS_TITLE_LITERAL, AXIS_LABEL_LITERAL, AXIS_LINE_LITERAL, SERIES_TITLE_LITERAL, SERIES_LABEL_LITERAL, };
+	private static final StyledComponent[] VALUES_ARRAY = new StyledComponent[] { CHART_ALL_LITERAL,
+			CHART_TITLE_LITERAL, CHART_BACKGROUND_LITERAL, PLOT_BACKGROUND_LITERAL, LEGEND_BACKGROUND_LITERAL,
+			LEGEND_LABEL_LITERAL, AXIS_TITLE_LITERAL, AXIS_LABEL_LITERAL, AXIS_LINE_LITERAL, SERIES_TITLE_LITERAL,
+			SERIES_LABEL_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Styled Component</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static final List<StyledComponent> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -322,7 +323,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static StyledComponent get(String literal) {
@@ -338,7 +339,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static StyledComponent getByName(String name) {
@@ -354,7 +355,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static StyledComponent get(int value) {
@@ -387,21 +388,21 @@ public enum StyledComponent implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String literal;
@@ -409,10 +410,10 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	StyledComponent(int value, String name, String literal) {
+	private StyledComponent(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -420,30 +421,27 @@ public enum StyledComponent implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -451,7 +449,7 @@ public enum StyledComponent implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

@@ -19,7 +19,7 @@ package org.eclipse.birt.data.engine.api;
  * Max row numbers and starting row index must be set immediately after new
  * instance or before accessing data. This extends
  * <class>IResultIterator</class> and provides better performance.
- *
+ * 
  * @since 4.8
  */
 
@@ -27,7 +27,7 @@ public interface IPreloadedResultIterator extends IResultIterator {
 
 	/**
 	 * Sets max number of rows.
-	 *
+	 * 
 	 * @param rowNum max number of rows.
 	 * @since 4.8
 	 */
@@ -35,7 +35,7 @@ public interface IPreloadedResultIterator extends IResultIterator {
 
 	/**
 	 * Sets starting row index.
-	 *
+	 * 
 	 * @param startIndex starting row index
 	 * @since 4.8
 	 */

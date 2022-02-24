@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.impl;
@@ -93,7 +93,6 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
 	 */
-	@Override
 	public IQueryDefinition getReportQueryDefn() {
 		return this.queryDefn;
 	}
@@ -102,7 +101,6 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.IPreparedQueryService#getDataSourceQuery()
 	 */
-	@Override
 	public PreparedDataSourceQuery getDataSourceQuery() {
 		return this;
 	}
@@ -114,11 +112,10 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 	 * <p>
 	 * This includes setup runtime state, and evaluation of any beforeOpen and
 	 * afterOpen scripts on a data set.
-	 *
+	 * 
 	 * @return The QueryResults object opened and ready to return the results of a
 	 *         report query.
 	 */
-	@Override
 	public IQueryResults execute(Scriptable scope) throws DataException {
 		return this.execute(null, scope);
 	}
@@ -127,24 +124,22 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 	 * Executes the prepared execution plan as an inner query that appears within
 	 * the scope of another report query. The outer query must have been prepared
 	 * and executed, and its results given as a parameter to this method.
-	 *
+	 * 
 	 * @param outerResults QueryResults for the executed outer query
 	 * @return The QueryResults object opened and ready to return the results of a
 	 *         report query.
 	 */
-	@Override
 	public IQueryResults execute(IQueryResults outerResults, Scriptable scope) throws DataException {
 		return this.execute((IBaseQueryResults) outerResults, scope);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param outerResults
 	 * @param scope
 	 * @return
 	 * @throws DataException
 	 */
-	@Override
 	public IQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		this.configureDataSetCache(
 				outerResults instanceof IQueryService ? ((IQueryService) outerResults).getQueryScope() : null,
@@ -154,7 +149,7 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 	}
 
 	/**
-	 *
+	 * 
 	 * @param outerResults
 	 * @param scope
 	 * @return
@@ -166,7 +161,7 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 
 	/**
 	 * Implements template method pattern.
-	 *
+	 * 
 	 * @param outerResults
 	 * @param scope
 	 * @throws DataException
@@ -181,14 +176,15 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 	 */
 	private void configureDataSetCache(Scriptable outerScope, IQueryDefinition querySpec, Map appContext,
 			Scriptable scope) throws DataException {
-		if (querySpec == null) {
+		if (querySpec == null)
 			return;
-		}
 
 		String queryResultID = querySpec.getQueryResultsID();
-		if ((queryResultID != null) || (dataSetDesign == null)) {
+		if (queryResultID != null)
 			return;
-		}
+
+		if (dataSetDesign == null)
+			return;
 
 		Collection parameterHints = null;
 
@@ -206,7 +202,7 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	protected DataSetCacheManager getDataSetCacheManager() {
@@ -225,14 +221,13 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 	 * eclipse.birt.data.engine.odi.IResultIterator, java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public IQueryResults execSubquery(IResultIterator iterator, IQueryExecutor parentExecutor, String subQueryName,
 			Scriptable subScope) throws DataException {
 		return this.preparedQuery.execSubquery(iterator, parentExecutor, subQueryName, subScope);
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public abstract class DSQueryExecutor extends QueryExecutor {
 
@@ -244,7 +239,6 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#findDataSource()
 		 */
-		@Override
 		protected DataSourceRuntime findDataSource() throws DataException {
 			assert dataSetDesign != null;
 			DataSourceRuntime dsRT = dataEngine.getDataSourceRuntime(dataSetDesign.getDataSourceName());
@@ -254,23 +248,21 @@ public abstract class PreparedDataSourceQuery implements IPreparedQuery, IPrepar
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#newDataSetRuntime()
 		 */
-		@Override
 		protected DataSetRuntime newDataSetRuntime() throws DataException {
 			return DataSetRuntime.newInstance(dataSetDesign, this, this.getSession());
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#getDataSetName()
 		 */
-		@Override
 		protected String getDataSetName() {
 			return queryDefn.getDataSetName();
 		}
 
 		/**
-		 *
+		 * 
 		 * @return
 		 * @throws DataException
 		 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,19 +38,16 @@ public class RowExecutor extends ContainerExecutor {
 		return rowId;
 	}
 
-	@Override
 	protected IContent doCreateContent() {
 		return report.createRowContent();
 	}
 
-	@Override
 	protected void doExecute() throws Exception {
 		IRowContent rowContent = (IRowContent) content;
 		rowContent.setRowID(rowId);
 		executeQuery();
 	}
 
-	@Override
 	public void close() {
 		closeQuery();
 		rowId = 0;
@@ -58,7 +55,6 @@ public class RowExecutor extends ContainerExecutor {
 		super.close();
 	}
 
-	@Override
 	protected ReportItemExecutor doCreateExecutor(long offset) {
 		RowDesign rowDesign = (RowDesign) design;
 		if (nextItem < rowDesign.getCellCount()) {
@@ -69,7 +65,6 @@ public class RowExecutor extends ContainerExecutor {
 		return null;
 	}
 
-	@Override
 	protected void doSkipToExecutor(InstanceID id, long offset) {
 		RowDesign rowDesign = (RowDesign) design;
 		int cellCount = rowDesign.getCellCount();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,13 +65,13 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 	 * Elements on which bound columns have been created.
 	 */
 
-	private Set<DesignElement> processedElement = new HashSet<>();
+	private Set<DesignElement> processedElement = new HashSet<DesignElement>();
 
 	/**
-	 *
+	 * 
 	 */
 
-	private Map<GroupElement, List<Object>> cachedGroup = new HashMap<>();
+	private Map<GroupElement, List<Object>> cachedGroup = new HashMap<GroupElement, List<Object>>();
 
 	/**
 	 * The design file version from parsing.
@@ -81,7 +81,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/**
 	 * Constructs a writer manager with the given design version.
-	 *
+	 * 
 	 * @param version the design version
 	 */
 
@@ -92,17 +92,15 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the given element.
-	 *
+	 * 
 	 * @param element   the element
 	 * @param module    the root of the element
 	 * @param propValue the value from which to create bound columns
 	 */
 
-	@Override
 	protected void handleBoundsForValue(DesignElement element, Module module, String propValue) {
-		if (propValue == null) {
+		if (propValue == null)
 			return;
-		}
 
 		List newExprs = null;
 
@@ -112,9 +110,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 			// do nothing
 		}
 
-		if (newExprs == null || newExprs.isEmpty()) {
+		if (newExprs == null || newExprs.isEmpty())
 			return;
-		}
 
 		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(element, module);
 
@@ -127,9 +124,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 			for (int i = 0; i < newExprs.size(); i++) {
 				IColumnBinding boundColumn = (IColumnBinding) newExprs.get(i);
 				String newExpression = boundColumn.getBoundExpression();
-				if (newExpression == null) {
+				if (newExpression == null)
 					continue;
-				}
 
 				BoundDataColumnUtil.createBoundDataColumn(target, boundColumn.getResultSetColumnName(), newExpression,
 						module);
@@ -141,7 +137,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 	 * Appends to the cached group bound columns. Becuase of "aggregateOn" property
 	 * on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
-	 *
+	 * 
 	 * @param target   the group element
 	 * @param newExprs bound columns returned by ExpressionUtil
 	 */
@@ -152,15 +148,13 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 			ComputedColumn column = StructureFactory.createComputedColumn();
 			IColumnBinding boundColumn = (IColumnBinding) newExprs.get(i);
 			String newExpression = boundColumn.getBoundExpression();
-			if (newExpression == null) {
+			if (newExpression == null)
 				continue;
-			}
 
 			column.setName(boundColumn.getResultSetColumnName());
 			column.setExpression(boundColumn.getBoundExpression());
-			if (!newColumns.contains(column)) {
+			if (!newColumns.contains(column))
 				newColumns.add(column);
-			}
 		}
 
 		appendBoundColumnsToCachedGroup(target, newColumns);
@@ -170,7 +164,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 	 * Appends to the cached group bound columns. Becuase of "aggregateOn" property
 	 * on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
-	 *
+	 * 
 	 * @param target   the group element
 	 * @param newExprs bound columns returned by ExpressionUtil
 	 */
@@ -184,9 +178,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 		for (int i = 0; i < newColumns.size(); i++) {
 			ComputedColumn column = (ComputedColumn) newColumns.get(i);
-			if (!boundColumns.contains(column)) {
+			if (!boundColumns.contains(column))
 				boundColumns.add(column);
-			}
 		}
 	}
 
@@ -194,7 +187,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 	 * Appends to the cached group bound columns. Becuase of "aggregateOn" property
 	 * on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
-	 *
+	 * 
 	 * @param target     the group element
 	 * @param boundName  the bound column name
 	 * @param expression the bound column expression
@@ -222,17 +215,15 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the given value of the given element.
-	 *
+	 * 
 	 * @param element   the element
 	 * @param module    the root of the element
 	 * @param propValue the value from which to create bound columns
 	 */
 
-	@Override
 	protected void handleBoundsForParamBinding(DesignElement element, Module module, String propValue) {
-		if (propValue == null) {
+		if (propValue == null)
 			return;
-		}
 
 		List newExprs = null;
 
@@ -248,9 +239,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 			for (int i = 0; i < newExprs.size(); i++) {
 				IColumnBinding boundColumn = (IColumnBinding) newExprs.get(i);
 				String newExpression = boundColumn.getBoundExpression();
-				if (newExpression == null) {
+				if (newExpression == null)
 					continue;
-				}
 
 				BoundDataColumnUtil.createBoundDataColumn(target, boundColumn.getResultSetColumnName(), newExpression,
 						module);
@@ -260,16 +250,14 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealData(org.eclipse
 	 * .birt.report.model.elements.DataItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealData(DataItem element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -280,16 +268,15 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 	/**
 	 * Converts the old value expression to the new result set column with
 	 * correspoding bound columns.
-	 *
+	 * 
 	 * @param obj the data item
 	 */
 
 	private void dealCompatibleValueExpr(DataItem obj, Module module) {
 
 		String valueExpr = (String) obj.getLocalProperty(module, IDataItemModel.RESULT_SET_COLUMN_PROP);
-		if (valueExpr == null) {
+		if (valueExpr == null)
 			return;
-		}
 
 		List newExprs = null;
 
@@ -299,9 +286,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 			// do nothing
 		}
 
-		if (newExprs == null || newExprs.size() == 0) {
+		if (newExprs == null || newExprs.size() == 0)
 			return;
-		}
 
 		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(obj, module);
 
@@ -333,9 +319,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 				for (int i = 0; i < newExprs.size(); i++) {
 					IColumnBinding boundColumn = (IColumnBinding) newExprs.get(i);
 					String newExpression = boundColumn.getBoundExpression();
-					if (newExpression == null) {
+					if (newExpression == null)
 						continue;
-					}
 
 					BoundDataColumnUtil.createBoundDataColumn(target, boundColumn.getResultSetColumnName(),
 							newExpression, module);
@@ -357,16 +342,14 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealExtendedItem(org
 	 * .eclipse.birt.report.model.elements.ExtendedItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealExtendedItem(ExtendedItem element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -375,16 +358,14 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealGrid(org.eclipse
 	 * .birt.report.model.elements.GridItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealGrid(GridItem element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -393,16 +374,14 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealImage(org.eclipse
 	 * .birt.report.model.elements.ImageItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealImage(ImageItem element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -411,15 +390,13 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealLabel(org.eclipse
 	 * .birt.report.model.elements.Label, org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealLabel(Label element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -428,16 +405,14 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealList(org.eclipse
 	 * .birt.report.model.elements.ListItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealList(ListItem element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -448,16 +423,14 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealScalarParameter
 	 * (org.eclipse.birt.report.model.elements.ScalarParameter,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealScalarParameter(ScalarParameter element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -466,16 +439,14 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealTable(org.eclipse
 	 * .birt.report.model.elements.TableItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealTable(TableItem element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -486,17 +457,15 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealTemplateReportItem
 	 * (org.eclipse.birt.report.model.elements.TemplateReportItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealTemplateReportItem(TemplateReportItem element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -505,16 +474,14 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealText(org.eclipse
 	 * .birt.report.model.elements.TextItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealText(TextItem element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -523,17 +490,15 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealTextData(org.eclipse
 	 * .birt.report.model.elements.TextDataItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected void dealTextData(TextDataItem element, Module module) {
-		if (version != null || processedElement.contains(element)) {
+		if (version != null || processedElement.contains(element))
 			return;
-		}
 
 		processedElement.add(element);
 
@@ -543,23 +508,24 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 	/**
 	 * Returns the bound column of which expression and aggregateOn values are
 	 * equals to the input column.
-	 *
+	 * 
 	 * @param columns the bound column list
 	 * @param column  the input bound column
 	 * @return the matched bound column
 	 */
 
 	private ComputedColumn checkMatchedBoundColumnForGroup(List columns, String expression, String aggregateOn) {
-		if ((columns == null) || (columns.size() == 0) || expression == null) {
+		if ((columns == null) || (columns.size() == 0) || expression == null)
 			return null;
-		}
 
 		for (int i = 0; i < columns.size(); i++) {
 			ComputedColumn column = (ComputedColumn) columns.get(i);
 			if (expression.equals(column.getExpression())) {
-				if ((aggregateOn == null && column.getAggregateOn() == null) || (aggregateOn != null && aggregateOn.equals(column.getAggregateOn()))) {
+				if (aggregateOn == null && column.getAggregateOn() == null)
 					return column;
-				}
+
+				if (aggregateOn != null && aggregateOn.equals(column.getAggregateOn()))
+					return column;
 			}
 		}
 
@@ -568,7 +534,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/**
 	 * Creates a unique bound column name in the column bound list.
-	 *
+	 * 
 	 * @param columns     the bound column list
 	 * @param checkColumn the column of which name to check
 	 * @return the newly created column name
@@ -581,9 +547,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 		while (true) {
 			ComputedColumn column = DataColumnNameValidator.getColumn(columns, tmpName);
-			if (column == null) {
+			if (column == null)
 				break;
-			}
 
 			tmpName = oldName + "_" + ++index; //$NON-NLS-1$
 		}
@@ -595,45 +560,39 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 	 * Reset the result column name for the data item. Since the bound column name
 	 * may recreated in this state, the corresponding result set colum must be
 	 * resetted.
-	 *
+	 * 
 	 * @param group   the group element
 	 * @param columns the bound column list
 	 */
 
 	private void reCheckResultSetColumnName(GroupElement group, List columns, Module module) {
 		int level = -1;
-		if (group instanceof TableGroup) {
+		if (group instanceof TableGroup)
 			level = 3;
-		}
-		if (group instanceof ListGroup) {
+		if (group instanceof ListGroup)
 			level = 1;
-		}
 
 		LevelContentIterator contentIter = new LevelContentIterator(module, group, level);
 		while (contentIter.hasNext()) {
 			DesignElement item = contentIter.next();
-			if (!(item instanceof DataItem)) {
+			if (!(item instanceof DataItem))
 				continue;
-			}
 
 			String resultSetColumn = (String) item.getLocalProperty(module, IDataItemModel.RESULT_SET_COLUMN_PROP);
 
-			if (StringUtil.isBlank(resultSetColumn)) {
+			if (StringUtil.isBlank(resultSetColumn))
 				continue;
-			}
 
 			ComputedColumn foundColumn = DataColumnNameValidator.getColumn(columns, resultSetColumn);
 
-			if (foundColumn == null) {
+			if (foundColumn == null)
 				continue;
-			}
 
 			foundColumn = checkMatchedBoundColumnForGroup(columns, foundColumn.getExpression(),
 					(String) group.getLocalProperty(module, IGroupElementModel.GROUP_NAME_PROP));
 
-			if (foundColumn == null) {
+			if (foundColumn == null)
 				continue;
-			}
 
 			item.setProperty(IDataItemModel.RESULT_SET_COLUMN_PROP, foundColumn.getName());
 		}
@@ -641,7 +600,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
 	 */
 
@@ -656,14 +615,12 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr {
 
 			String groupName = (String) group.getLocalProperty(module, IGroupElementModel.GROUP_NAME_PROP);
 
-			if (!elements.contains(group)) {
+			if (!elements.contains(group))
 				continue;
-			}
 
 			List<Object> columns = cachedGroup.get(group);
-			if (columns == null || columns.isEmpty()) {
+			if (columns == null || columns.isEmpty())
 				continue;
-			}
 
 			List tmpList = (List) element.getLocalProperty(module, IReportItemModel.BOUND_DATA_COLUMNS_PROP);
 

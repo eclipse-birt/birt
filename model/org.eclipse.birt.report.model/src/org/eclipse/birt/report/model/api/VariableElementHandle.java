@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class VariableElementHandle extends ContentElementHandle implements IVari
 	 * Constructs a variable handle with the given design and the element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -44,9 +44,9 @@ public class VariableElementHandle extends ContentElementHandle implements IVari
 
 	/**
 	 * Returns the name of the variable.
-	 *
+	 * 
 	 * @return the variable name
-	 *
+	 * 
 	 */
 
 	public String getVariableName() {
@@ -55,11 +55,11 @@ public class VariableElementHandle extends ContentElementHandle implements IVari
 
 	/**
 	 * Sets the name of the variable.
-	 *
+	 * 
 	 * @param name the name to set
-	 *
+	 * 
 	 * @throws SemanticException
-	 *
+	 * 
 	 * @see #getVariableName()
 	 */
 
@@ -69,8 +69,8 @@ public class VariableElementHandle extends ContentElementHandle implements IVari
 
 	/**
 	 * Returns the value of the variable.
-	 *
-	 *
+	 * 
+	 * 
 	 * @return the variable value
 	 */
 
@@ -80,10 +80,10 @@ public class VariableElementHandle extends ContentElementHandle implements IVari
 
 	/**
 	 * Sets the value of the variable.
-	 *
+	 * 
 	 * @param value the value to set
 	 * @throws SemanticException
-	 *
+	 * 
 	 * @Deprecated by getExpressionProperty(VALUE_PROP)
 	 */
 
@@ -98,8 +98,8 @@ public class VariableElementHandle extends ContentElementHandle implements IVari
 	 * <li><code>VARIABLE_TYPE_REPORT</code>
 	 * <li><code>VARIABLE_TYPE_PAGE</code>
 	 * </ul>
-	 *
-	 *
+	 * 
+	 * 
 	 * @return the work mode property value.
 	 */
 	public String getType() {
@@ -113,7 +113,7 @@ public class VariableElementHandle extends ContentElementHandle implements IVari
 	 * <li><code>VARIABLE_TYPE_REPORT</code>
 	 * <li><code>VARIABLE_TYPE_PAGE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param workMode the work mode property value.
 	 * @throws SemanticException
 	 */
@@ -123,21 +123,19 @@ public class VariableElementHandle extends ContentElementHandle implements IVari
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.ContentElementHandle#getName()
 	 */
-	@Override
 	public String getName() {
 		return element.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.ContentElementHandle#setName(java.lang
 	 * .String)
 	 */
-	@Override
 	public void setName(String name) throws NameException {
 		// use valuecontainer's module so the variable element can make a local copy if
 		// its name is changed

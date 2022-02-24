@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -33,7 +33,6 @@ import com.ibm.icu.util.ULocale;
 
 public class MockReportRunnable implements IReportRunnable {
 
-	@Override
 	public DesignElementHandle getDesignHandle() {
 		String fileName = "input/ParameterFactory.xml"; //$NON-NLS-1$
 		ThreadResources.setLocale(ULocale.ENGLISH);
@@ -51,43 +50,36 @@ public class MockReportRunnable implements IReportRunnable {
 		}
 	}
 
-	@Override
 	public IReportDesign getDesignInstance() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public IImage getImage(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public Object getProperty(String propertyName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public Object getProperty(String path, String propertyName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public IReportEngine getReportEngine() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public String getReportName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public HashMap getTestConfig() {
 		// TODO Auto-generated method stub
 		return null;

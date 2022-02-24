@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,7 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
- *
+ * 
  */
 
 public class JarsSelectionDialog extends ElementTreeSelectionDialog {
@@ -88,7 +88,7 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
@@ -107,7 +107,6 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 		importButton.setText(Messages.getString("JarsSelectionDialog.button.importFile")); //$NON-NLS-1$
 		importButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				FileDialog dialog = new FileDialog(getShell());
 				dialog.setFilterExtensions(new String[] { "*.jar;*.zip" //$NON-NLS-1$
@@ -140,7 +139,7 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 					getTreeViewer().refresh(targetFolder);
 					getTreeViewer().expandToLevel(targetFolder, 1);
 				}
-			}
+			};
 		});
 	}
 
@@ -221,7 +220,6 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 
 	private static class ContentProvider implements ITreeContentProvider {
 
-		@Override
 		public Object[] getChildren(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -230,12 +228,10 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 			return null;
 		}
 
-		@Override
 		public Object getParent(Object arg0) {
 			return null;
 		}
 
-		@Override
 		public boolean hasChildren(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -244,7 +240,6 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 			return false;
 		}
 
-		@Override
 		public Object[] getElements(Object arg0) {
 			if (arg0 instanceof String) {
 				return new Object[] { new File((String) arg0) };
@@ -252,12 +247,10 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 			return null;
 		}
 
-		@Override
 		public void dispose() {
 
 		}
 
-		@Override
 		public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 
 		}
@@ -265,7 +258,6 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 
 	private static class LabelProvider implements ILabelProvider {
 
-		@Override
 		public Image getImage(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -277,7 +269,6 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 			return null;
 		}
 
-		@Override
 		public String getText(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -291,22 +282,18 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 			return ""; //$NON-NLS-1$
 		}
 
-		@Override
 		public void addListener(ILabelProviderListener arg0) {
 
 		}
 
-		@Override
 		public void dispose() {
 
 		}
 
-		@Override
 		public boolean isLabelProperty(Object arg0, String arg1) {
 			return false;
 		}
 
-		@Override
 		public void removeListener(ILabelProviderListener arg0) {
 
 		}
@@ -315,7 +302,6 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 
 	private static class SelectionValidator implements ISelectionStatusValidator {
 
-		@Override
 		public IStatus validate(Object[] selections) {
 			if (selections != null && selections.length > 0) {
 				for (Object o : selections) {
@@ -339,7 +325,6 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 		}
 		File[] result = f.listFiles(new FileFilter() {
 
-			@Override
 			public boolean accept(File child) {
 				if (child.isDirectory()) {
 					return true;
@@ -355,7 +340,7 @@ public class JarsSelectionDialog extends ElementTreeSelectionDialog {
 	}
 
 	public String[] getSelectedItems() {
-		List<String> result = new ArrayList<>();
+		List<String> result = new ArrayList<String>();
 		Object[] selected = this.getResult() == null ? new Object[0] : this.getResult();
 		for (Object o : selected) {
 			File f = (File) o;

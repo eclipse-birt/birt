@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -24,13 +24,13 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * reproduce:
  * <p>
  * 1.The following is part of the design file:
- *
+ * 
  * <pre>
  *     &lt;scalar-parameter name=&quot;Param 2&quot;&gt;
  *        &lt;property name=&quot;valueType&quot;&gt;dynamic&lt;/property&gt;
  *        &lt;property name=&quot;dataType&quot;&gt;float&lt;/property&gt;
  *        &lt;property name=&quot;hidden&quot;&gt;false&lt;/property&gt;
- *        &lt;text-property name=&quot;helpText&quot; key=&quot;help&quot;&gt;scalar para help&lt;/text-
+ *        &lt;text-property name=&quot;helpText&quot; key=&quot;help&quot;&gt;scalar para help&lt;/text-  
  *        		property&gt;
  *        &lt;property name=&quot;controlType&quot;&gt;list-box&lt;/property&gt;
  *        &lt;property name=&quot;concealValue&quot;&gt;false&lt;/property&gt;
@@ -41,7 +41,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  *    	&lt;property name=&quot;listLimit&quot;&gt;5&lt;/property&gt;
  *     &lt;/scalar-parameter&gt;
  * </pre>
- *
+ * 
  * 2. Use ScalarParameterHandle.getFormat()/getPattern(), the return value is
  * null
  * <p>
@@ -59,7 +59,6 @@ public class Regression_134213 extends BaseTestCase {
 
 	private final static String INPUT = "regression_134213.xml"; //$NON-NLS-1$
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();

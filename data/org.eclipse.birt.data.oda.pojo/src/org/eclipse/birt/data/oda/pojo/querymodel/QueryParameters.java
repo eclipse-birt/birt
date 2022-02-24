@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,10 +34,10 @@ public class QueryParameters {
 	private QueryParameter[] qps;
 
 	// used to speed up find index by name. index is 1-based
-	private Map<String, Integer> nameIndexMap = new HashMap<>();
+	private Map<String, Integer> nameIndexMap = new HashMap<String, Integer>();
 
 	/**
-	 *
+	 * 
 	 * @param index: 1-based
 	 * @return
 	 */
@@ -67,42 +67,34 @@ public class QueryParameters {
 
 	public IParameterMetaData getParameterMetaData() {
 		return new IParameterMetaData() {
-			@Override
 			public int getParameterCount() throws OdaException {
 				return qps.length;
 			}
 
-			@Override
 			public int getParameterMode(int param) throws OdaException {
 				return IParameterMetaData.parameterModeIn;
 			}
 
-			@Override
 			public String getParameterName(int param) throws OdaException {
 				return qps[param - 1].name;
 			}
 
-			@Override
 			public int getParameterType(int param) throws OdaException {
 				return Driver.getNativeDataTypeCode(getParameterTypeName(param));
 			}
 
-			@Override
 			public String getParameterTypeName(int param) throws OdaException {
 				return qps[param - 1].nativeTypeName;
 			}
 
-			@Override
 			public int getPrecision(int param) throws OdaException {
 				return -1;
 			}
 
-			@Override
 			public int getScale(int param) throws OdaException {
 				return -1;
 			}
 
-			@Override
 			public int isNullable(int param) throws OdaException {
 				return IParameterMetaData.parameterNullableUnknown;
 			}
@@ -114,9 +106,9 @@ public class QueryParameters {
 		ColumnReferenceNode[] crns = rg.getColumnReferences();
 
 		// save parameters detected during traversing all columns
-		Map<String, String> methodParamNameTypeMap = new HashMap<>();
+		Map<String, String> methodParamNameTypeMap = new HashMap<String, String>();
 
-		List<QueryParameter> paramList = new ArrayList<>();
+		List<QueryParameter> paramList = new ArrayList<QueryParameter>();
 
 		for (ColumnReferenceNode crn : crns) {
 			Stack<List<QueryParameter>> params = getQueryParameters(crn, methodParamNameTypeMap);
@@ -129,7 +121,7 @@ public class QueryParameters {
 
 	/**
 	 * One element in stack means variable parameter sequence of a method
-	 *
+	 * 
 	 * @param crn
 	 * @param methodParamNameTypeMap
 	 * @return
@@ -137,14 +129,14 @@ public class QueryParameters {
 	 */
 	private static Stack<List<QueryParameter>> getQueryParameters(ColumnReferenceNode crn,
 			Map<String, String> methodParamNameTypeMap) throws OdaException {
-		Stack<List<QueryParameter>> params = new Stack<>();
+		Stack<List<QueryParameter>> params = new Stack<List<QueryParameter>>();
 		ReferenceNode rn = crn;
 		while (rn != null) {
 			if (rn.getReference() instanceof MethodSource) {
 				MethodSource ms = (MethodSource) rn.getReference();
 
 				// new parameters in this method
-				List<QueryParameter> ps = new ArrayList<>();
+				List<QueryParameter> ps = new ArrayList<QueryParameter>();
 				for (IMethodParameter mp : ms.getParameters()) {
 					if (mp instanceof VariableParameter) {
 						VariableParameter vp = (VariableParameter) mp;

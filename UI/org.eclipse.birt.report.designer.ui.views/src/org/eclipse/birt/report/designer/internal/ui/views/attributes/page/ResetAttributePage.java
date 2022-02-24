@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,9 +41,8 @@ import org.eclipse.swt.widgets.MenuItem;
 public abstract class ResetAttributePage extends AttributePage {
 
 	public void reset() {
-		if (!canReset()) {
+		if (!canReset())
 			return;
-		}
 
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 		stack.startTrans(Messages.getString("ResetAttributePage.Style.Restore.Transaction.Name")); //$NON-NLS-1$
@@ -57,9 +56,8 @@ public abstract class ResetAttributePage extends AttributePage {
 	}
 
 	protected void resetAll() {
-		if (!canResetAll()) {
+		if (!canResetAll())
 			return;
-		}
 
 		List handles = DEUtil.getInputElements(input);
 		if (handles != null) {
@@ -128,20 +126,18 @@ public abstract class ResetAttributePage extends AttributePage {
 						mi.setText(Messages.getString("ResetAttributePage.Style.Restore.Menu.Name")); //$NON-NLS-1$
 						mi.addSelectionListener(new SelectionAdapter() {
 
-							@Override
 							public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 								reset();
-							}
+							};
 						});
 
 						mi = new MenuItem(parent, SWT.PUSH);
 						mi.setText(Messages.getString("ResetAttributePage.Style.Restore.All.Menu.Name")); //$NON-NLS-1$
 						mi.addSelectionListener(new SelectionAdapter() {
 
-							@Override
 							public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 								resetAll();
-							}
+							};
 						});
 					}
 
@@ -161,14 +157,12 @@ public abstract class ResetAttributePage extends AttributePage {
 			}
 		}
 
-		@Override
 		public void run() {
 			reset();
 		}
 
 	}
 
-	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == IAction.class && canReset()) {
 			return new Action[] { new ResetAction() };

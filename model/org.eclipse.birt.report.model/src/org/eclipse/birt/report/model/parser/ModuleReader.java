@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ import org.xml.sax.SAXException;
 public abstract class ModuleReader {
 
 	/**
-	 *
+	 * 
 	 */
 
 	private static Logger logger = Logger.getLogger(ModuleReader.class.getName());
@@ -58,11 +58,11 @@ public abstract class ModuleReader {
 	/**
 	 * Parses an XML design file given an input stream. Creates and returns the
 	 * internal representation of the report design
-	 *
+	 * 
 	 * @param handler     the parser handler
 	 * @param inputStream the input stream that reads the design file
 	 * @return the internal representation of the design
-	 *
+	 * 
 	 * @throws DesignFileException if the input stream is not well-formed xml, there
 	 *                             is unsupported tags and there is run-time
 	 *                             exception.
@@ -72,9 +72,8 @@ public abstract class ModuleReader {
 		assert handler != null;
 
 		InputStream internalStream = inputStream;
-		if (!inputStream.markSupported()) {
+		if (!inputStream.markSupported())
 			internalStream = new BufferedInputStream(inputStream);
-		}
 
 		assert internalStream.markSupported();
 
@@ -84,7 +83,7 @@ public abstract class ModuleReader {
 
 		try {
 			signature = checkUTFSignature(internalStream, handler.getFileName());
-			properties = new HashMap<>(2);
+			properties = new HashMap<String, Object>(2);
 			properties.put("http://xml.org/sax/properties/lexical-handler", //$NON-NLS-1$
 					new ModuleParserHandler.ModuleLexicalHandler(handler));
 
@@ -132,19 +131,17 @@ public abstract class ModuleReader {
 			throw new DesignFileException(handler.getFileName(), handler.getErrorHandler().getErrors(), e);
 		} finally {
 			// the parser may be null in checkUTFSignature call.
-			if (parser != null) {
+			if (parser != null)
 				// even there is XML exception, need to release the resource.
 				try {
 					ParserFactory.getInstance().releaseParser(parser, properties);
 				} catch (Exception e1) {
 
 				}
-			}
 
 			// clear lexical handler
-			if (properties != null) {
+			if (properties != null)
 				properties.clear();
-			}
 		}
 
 		Module module = handler.getModule();
@@ -157,9 +154,9 @@ public abstract class ModuleReader {
 	/**
 	 * Parses an XML design file given a file name. Creates and returns the internal
 	 * representation of the report design
-	 *
+	 * 
 	 * @param handler the parser handler
-	 *
+	 * 
 	 * @return the internal representation of the design
 	 * @throws DesignFileException if file is not found
 	 */
@@ -186,9 +183,8 @@ public abstract class ModuleReader {
 			} else {
 				String location = handler.getModule().getLocation();
 
-				if (location == null) {
+				if (location == null)
 					throw new IOException();
-				}
 
 				URL url = new URL(location);
 				in = url.openStream();
@@ -222,7 +218,7 @@ public abstract class ModuleReader {
 	/**
 	 * Checks whether the input stream has a compatible encoding signature with
 	 * BIRT. Currently, BIRT only supports UTF-8 encoding.
-	 *
+	 * 
 	 * @param inputStream the input stream to check
 	 * @param fileName    the design file name
 	 * @return the signature from the UTF files.

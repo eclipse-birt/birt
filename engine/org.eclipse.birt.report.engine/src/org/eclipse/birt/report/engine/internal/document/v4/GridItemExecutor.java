@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 
 /**
  * the gridItem excutor
- *
+ * 
  */
 public class GridItemExecutor extends ContainerExecutor {
 
@@ -37,12 +37,10 @@ public class GridItemExecutor extends ContainerExecutor {
 		nextItem = 0;
 	}
 
-	@Override
 	protected IContent doCreateContent() {
 		return report.createTableContent();
 	}
 
-	@Override
 	protected void doExecute() throws Exception {
 		GridItemDesign gridDesign = (GridItemDesign) getDesign();
 		ITableContent tableContent = (ITableContent) content;
@@ -74,14 +72,12 @@ public class GridItemExecutor extends ContainerExecutor {
 		}
 	}
 
-	@Override
 	public void close() {
 		nextItem = 0;
 		closeQuery();
 		super.close();
 	}
 
-	@Override
 	protected ReportItemExecutor doCreateExecutor(long offset) throws Exception {
 		GridItemDesign gridDesign = (GridItemDesign) getDesign();
 		if (nextItem < gridDesign.getRowCount()) {
@@ -94,7 +90,6 @@ public class GridItemExecutor extends ContainerExecutor {
 		return null;
 	}
 
-	@Override
 	protected void doSkipToExecutor(InstanceID id, long offset) throws Exception {
 		GridItemDesign gridDesign = (GridItemDesign) getDesign();
 		int rowCount = gridDesign.getRowCount();

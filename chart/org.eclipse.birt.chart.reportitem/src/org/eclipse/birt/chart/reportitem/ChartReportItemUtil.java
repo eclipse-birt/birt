@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -110,7 +110,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * Revise chart model.
-	 *
+	 * 
 	 * @param reviseType
 	 * @param cm
 	 * @param itemHandle
@@ -143,7 +143,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * Checks if chart should use internal grouping or DTE grouping.
-	 *
+	 * 
 	 * @param chartHandle handle with version
 	 * @return true means old report using internal grouping
 	 * @since 2.3.1
@@ -173,7 +173,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * Check whether the reportitem is sharing data with a table or list.
-	 *
+	 * 
 	 * @param handle
 	 * @return
 	 */
@@ -183,7 +183,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * Check if specified expression is a grouping expression of shared report item.
-	 *
+	 * 
 	 * @param expression
 	 * @param handle
 	 * @return group expression or not
@@ -192,7 +192,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 	private static boolean isSharedGroupExpression(String expression, ReportItemHandle handle) {
 		ReportItemHandle itemHandle = getReportItemReference(handle);
 		if (itemHandle instanceof ListingHandle) {
-			List<GroupHandle> groupList = new ArrayList<>();
+			List<GroupHandle> groupList = new ArrayList<GroupHandle>();
 			SlotHandle groups = ((ListingHandle) itemHandle).getGroups();
 			for (Iterator<DesignElementHandle> iter = groups.iterator(); iter.hasNext();) {
 				groupList.add((GroupHandle) iter.next());
@@ -216,7 +216,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * Checks if result set is empty
-	 *
+	 * 
 	 * @param set result set
 	 * @throws BirtException
 	 * @since 2.3
@@ -303,7 +303,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * Checks if shared scale is needed when computation
-	 *
+	 * 
 	 * @param eih handle
 	 * @param cm  chart model
 	 * @return shared binding needed or not
@@ -318,7 +318,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 	 * In some cases, if the expression in subquery is a simple binding, and this
 	 * binding is from parent query, should copy the binding from parent and insert
 	 * into subquery.
-	 *
+	 * 
 	 * @param query subquery
 	 * @param expr  expression
 	 * @throws DataException
@@ -379,7 +379,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * Copy chart's sample data.
-	 *
+	 * 
 	 * @param srcCM
 	 * @param targetCM
 	 * @since 2.6.2
@@ -394,7 +394,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * Copy series definition from one chart model to another.
-	 *
+	 * 
 	 * @param srcCM
 	 * @param targetCM
 	 * @since 2.5
@@ -564,9 +564,8 @@ public class ChartReportItemUtil extends ChartItemUtil {
 		int tagSize = tagSD.getSeries().size();
 		int srcSize = sd.getSeries().size();
 		if (tagSize > srcSize) {
-			for (int i = (tagSize - 1); i >= srcSize; i--) {
+			for (int i = (tagSize - 1); i >= srcSize; i--)
 				tagSD.getSeries().remove(i);
-			}
 		}
 
 		// Copy data definitions.
@@ -579,17 +578,15 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 				Series srcSeries = sd.getSeries().get(i);
 				tagSeries.getDataDefinition().clear();
-				for (Query q : srcSeries.getDataDefinition()) {
+				for (Query q : srcSeries.getDataDefinition())
 					tagSeries.getDataDefinition().add(q.copyInstance());
-				}
 			} else {
 				// Copy data definitions.
 				Series tagSeries = tagSD.getSeries().get(i);
 				Series srcSeries = sd.getSeries().get(i);
 				tagSeries.getDataDefinition().clear();
-				for (Query q : srcSeries.getDataDefinition()) {
+				for (Query q : srcSeries.getDataDefinition())
 					tagSeries.getDataDefinition().add(q.copyInstance());
-				}
 			}
 		}
 	}
@@ -616,7 +613,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 		if (exprs == null) {
 			return Collections.emptyList();
 		}
-		List<ScriptExpression> ses = new ArrayList<>(exprs.size());
+		List<ScriptExpression> ses = new ArrayList<ScriptExpression>(exprs.size());
 		for (Expression expr : exprs) {
 			ses.add(adapter.adaptExpression(expr));
 		}
@@ -649,7 +646,11 @@ public class ChartReportItemUtil extends ChartItemUtil {
 		}
 		boolean isKeepCubeHierarchy = isKeepCubeHierarchyOnCategory(model);
 
-		if (!isKeepCubeHierarchy || (cubeHandle == null)) {
+		if (!isKeepCubeHierarchy) {
+			return false;
+		}
+
+		if (cubeHandle == null) {
 			return false;
 		}
 
@@ -668,7 +669,11 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 		boolean isKeepCubeHierarchy = isKeepCubeHierarchyOnSeries(model);
 
-		if (!isKeepCubeHierarchy || (cubeHandle == null)) {
+		if (!isKeepCubeHierarchy) {
+			return false;
+		}
+
+		if (cubeHandle == null) {
 			return false;
 		}
 
@@ -769,8 +774,8 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 		CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) ((ExtendedItemHandle) handle).getReportItem();
 		ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
-		List<String> rowAxisDimensions = new ArrayList<>();
-		List<String> colAxisDimensions = new ArrayList<>();
+		List<String> rowAxisDimensions = new ArrayList<String>();
+		List<String> colAxisDimensions = new ArrayList<String>();
 		/* get cross tab row and column dimensions */
 		if (crossTab.getCrosstabView(ICrosstabConstants.ROW_AXIS_TYPE) != null) {
 			rowAxisDimensions = ChartReportItemHelper.instance().getLevelBindingNamesOfCrosstab(
@@ -782,7 +787,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 		}
 
 		// get all bindings
-		Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<>();
+		Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<String, ComputedColumnHandle>();
 		for (Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil
 				.getAllColumnBindingsIterator(itemHandle); bindings.hasNext();) {
 			ComputedColumnHandle column = bindings.next();
@@ -868,7 +873,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * get absolute url
-	 *
+	 * 
 	 * @param image
 	 * @param handle
 	 * @param reportContext
@@ -884,7 +889,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * get absolute local url
-	 *
+	 * 
 	 * @param image
 	 * @param handle
 	 * @return local url
@@ -920,7 +925,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * get absolute server url
-	 *
+	 * 
 	 * @param image
 	 * @param reportContext
 	 * @return web url
@@ -984,7 +989,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 
 	/**
 	 * Returns if reference binding can accept this type of extended item
-	 *
+	 * 
 	 * @param extensionName extension name of item
 	 * @return true means reference binding can accept this type of extended item
 	 * @since 3.7

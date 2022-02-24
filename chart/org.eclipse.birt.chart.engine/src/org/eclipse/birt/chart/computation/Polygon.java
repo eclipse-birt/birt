@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ public class Polygon {
 	private List<Point> points;
 
 	public Polygon() {
-		points = new ArrayList<>();
+		points = new ArrayList<Point>();
 	}
 
 	public void add(double x, double y) {
@@ -76,7 +76,7 @@ public class Polygon {
 	/**
 	 * Tests the point is inside or outside of the polygon. This method doesn't
 	 * contain the case if the point being queries lies exactly on a vertex.
-	 *
+	 * 
 	 * @param count the length of the polygon vertex
 	 * @param xa    X coordinates of the polygon
 	 * @param ya    Y coordinates of the polygon
@@ -97,7 +97,7 @@ public class Polygon {
 
 	/**
 	 * Tests if the point is in the lines of the polygon
-	 *
+	 * 
 	 * @param p the point
 	 */
 	private boolean testWithinLine(Point p) {
@@ -235,8 +235,10 @@ public class Polygon {
 					if (testLineIntersect(lp1, lp2, pg.get(i), pg.get(0))) {
 						return true;
 					}
-				} else if (testLineIntersect(lp1, lp2, pg.get(i), pg.get(i + 1))) {
-					return true;
+				} else {
+					if (testLineIntersect(lp1, lp2, pg.get(i), pg.get(i + 1))) {
+						return true;
+					}
 				}
 			}
 		}

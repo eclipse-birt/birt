@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -115,17 +115,17 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 	private Button btnAdd, btnRemove, btnUp, btnDown;
 
 	/**
-	 *
+	 * 
 	 */
 	private FillChooserComposite fccNewEntry = null;
 
 	/**
-	 *
+	 * 
 	 */
 	private Composite coPaletteEntries = null;
 
 	/**
-	 *
+	 * 
 	 */
 	private IDeviceRenderer idrSWT = null;
 
@@ -139,7 +139,7 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/**
 	 * Composites for series palette
-	 *
+	 * 
 	 * @param coParent
 	 * @param wizardContext
 	 * @param pa1
@@ -154,7 +154,7 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/**
 	 * Composites for series palette
-	 *
+	 * 
 	 * @param coParent
 	 * @param wizardContext
 	 * @param pa1
@@ -234,7 +234,6 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 		addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (idrSWT != null) {
 					idrSWT.dispose();
@@ -247,8 +246,7 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 	/**
 	 * Repaints the palette content
 	 */
-	@Override
-	public void paintControl(PaintEvent pev) {
+	public final void paintControl(PaintEvent pev) {
 		Composite co = (Composite) pev.getSource();
 		GC gcComposite = pev.gc;
 		Display d = pev.display;
@@ -359,17 +357,17 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 	 * The scrollbar's thumb is updated based on the palette entry count and the
 	 * current selection
 	 */
-	private void updateScrollBar() {
+	private final void updateScrollBar() {
 		sb.setPageIncrement(iViewHeight);
 		sb.setMaximum(ITEM_HEIGHT * elPaletteEntries1.size() - iViewHeight);
 		sb.setSelection(iViewY);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param iIndex
 	 */
-	private void scrollToView(int iIndex) {
+	private final void scrollToView(int iIndex) {
 		if (iIndex == -1) {
 			return;
 		}
@@ -381,9 +379,8 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 		if (iIndex > iStartIndex && iIndex < iStartIndex + iVisibleCount - 1) {
 			iViewY = (iIndex * ITEM_HEIGHT) - iViewHeight + ITEM_HEIGHT;
-			if (iViewY < 0) {
+			if (iViewY < 0)
 				iViewY = 0;
-			}
 		} else if (iIndex <= iStartIndex) {
 			int iMoveUpTo = iIndex - iVisibleCount;
 			if (iMoveUpTo < 0) {
@@ -403,12 +400,11 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
-	@Override
 	public void controlResized(ControlEvent arg0) {
 		updateScrollBar();
 		if (imgBuffer != null) {
@@ -426,12 +422,11 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.
 	 * DisposeEvent)
 	 */
-	@Override
 	public void widgetDisposed(DisposeEvent arg0) {
 		if (imgBuffer != null) {
 			gc.dispose();
@@ -443,11 +438,10 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent sev) {
 		if (sev.getSource() == sb) {
 			int iSelection = sb.getSelection();
@@ -477,11 +471,10 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
-	@Override
 	public void mouseDown(MouseEvent mev) {
 		int iClickedY = mev.y;
 		int iStartIndex = iViewY / ITEM_HEIGHT;
@@ -500,26 +493,26 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/**
 	 * Returns the index of the currently selected fill in the palette list
-	 *
+	 * 
 	 */
-	public int getSelectedIndex() {
+	public final int getSelectedIndex() {
 		return iSelectedIndex;
 	}
 
 	/**
 	 * Returns the currently selected fill
-	 *
+	 * 
 	 */
-	public ColorDefinitionImpl getSelectedFill() {
+	public final ColorDefinitionImpl getSelectedFill() {
 		return (ColorDefinitionImpl) elPaletteEntries1.get(iSelectedIndex);
 	}
 
 	/**
 	 * Removes an entry from the list at the specified index
-	 *
+	 * 
 	 * @param iIndex
 	 */
-	public void remove(int iIndex) {
+	public final void remove(int iIndex) {
 		if (iIndex < 0 || iIndex >= elPaletteEntries1.size()) {
 			return;
 		}
@@ -571,10 +564,10 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/**
 	 * Updates the current selected entry with the specified fill
-	 *
+	 * 
 	 * @param cdi
 	 */
-	public void updateSelectionFill(Fill f) {
+	public final void updateSelectionFill(Fill f) {
 		if (iSelectedIndex == -1) {
 			return;
 		}
@@ -603,10 +596,10 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/**
 	 * Appends a new fill to the end of the palette list and selects it
-	 *
+	 * 
 	 * @param cdi
 	 */
-	public void append(Fill fi) {
+	public final void append(Fill fi) {
 		elPaletteEntries1.add(fi);
 		iSelectedIndex = elPaletteEntries1.size() - 1;
 
@@ -642,11 +635,11 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/**
 	 * Swap two consecutive entries
-	 *
+	 * 
 	 * @param iIndex1
 	 * @param iIndex2
 	 */
-	private void swap(int iIndex1, int iIndex2) {
+	private final void swap(int iIndex1, int iIndex2) {
 		final Fill o1 = elPaletteEntries1.get(iIndex1);
 		final Fill o2 = elPaletteEntries1.get(iIndex2);
 
@@ -726,11 +719,10 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	@Override
 	public void handleEvent(Event ev) {
 		updateSelectionFill((Fill) ev.data);
 	}
@@ -739,58 +731,53 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
-	@Override
 	public void controlMoved(ControlEvent arg0) {
 		// NO ACTION HERE
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent sev) {
 		// NO ACTION HERE
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
-	@Override
 	public void mouseDoubleClick(MouseEvent arg0) {
 		// NO ACTION HERE
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
-	@Override
 	public void mouseUp(MouseEvent arg0) {
 		// NO ACTION HERE
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.
 	 * KeyEvent)
 	 */
-	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.keyCode) {
 		case SWT.ARROW_DOWN:
@@ -841,11 +828,10 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.
 	 * KeyEvent)
 	 */
-	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 	}
@@ -856,7 +842,7 @@ public final class PaletteEditorComposite extends Composite implements PaintList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
 	@Override

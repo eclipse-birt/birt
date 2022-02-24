@@ -29,14 +29,15 @@ public class CubeACLExpressionProvider extends CubeExpressionProvider {
 		super(handle);
 	}
 
-	@Override
 	protected void addFilterToProvider() {
 		this.addFilter(new ExpressionFilter() {
 
-			@Override
 			public boolean select(Object parentElement, Object element) {
-				if ((ExpressionFilter.CATEGORY.equals(parentElement)
-						&& ExpressionProvider.CURRENT_CUBE.equals(element)) || (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element))) {
+				if (ExpressionFilter.CATEGORY.equals(parentElement)
+						&& ExpressionProvider.CURRENT_CUBE.equals(element)) {
+					return false;
+				}
+				if (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element)) {
 					return false;
 				}
 				if (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.DATASETS.equals(element)) {

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -29,8 +29,8 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.AbstractChartInsets;
 import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.AbstractChartInsets;
 import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -53,7 +53,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- *
+ * 
  */
 public class LabelAttributesComposite extends Composite implements SelectionListener, Listener {
 
@@ -156,10 +156,10 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 	private String sPositionProperty;
 
 	/**
-	 *
+	 * 
 	 * UI context for LabelAttributesComposite. Note that {@link #isLabelEnabled}
 	 * default value is false, others are all true.
-	 *
+	 * 
 	 */
 	public static class LabelAttributesContext {
 
@@ -175,7 +175,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 	}
 
 	/**
-	 *
+	 * 
 	 * @param parent
 	 * @param style
 	 * @param wizardContext
@@ -195,7 +195,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 	}
 
 	/**
-	 *
+	 * 
 	 * @param parent
 	 * @param style
 	 * @param wizardContext
@@ -283,7 +283,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 	}
 
 	/**
-	 *
+	 * 
 	 * @param parent
 	 * @param style
 	 * @param sGroupName
@@ -298,7 +298,6 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 	 * @deprecated To use
 	 *             {@link #LabelAttributesComposite(Composite, int, ChartWizardContext, org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext, String, Position, org.eclipse.birt.chart.model.component.Label, String)}
 	 */
-	@Deprecated
 	public LabelAttributesComposite(Composite parent, int style, String sGroupName, Position lpCurrent,
 			org.eclipse.birt.chart.model.component.Label lblCurrent, String sUnits, boolean bPositionEnabled,
 			boolean bVisibilityEnabled, ChartWizardContext wizardContext, boolean isAlignmentEnabled) {
@@ -307,7 +306,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 	}
 
 	/**
-	 *
+	 * 
 	 * @param parent
 	 * @param style
 	 * @param sGroupName
@@ -322,7 +321,6 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 	 * @deprecated To use
 	 *             {@link #LabelAttributesComposite(Composite, int, ChartWizardContext, org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext, String, Position, org.eclipse.birt.chart.model.component.Label, String, int)}
 	 */
-	@Deprecated
 	public LabelAttributesComposite(Composite parent, int style, String sGroupName, Position lpCurrent,
 			org.eclipse.birt.chart.model.component.Label lblCurrent, String sUnits, boolean bPositionEnabled,
 			boolean bVisibilityEnabled, ChartWizardContext wizardContext, int positionScope,
@@ -351,15 +349,15 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void init() {
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-		vListeners = new Vector<>();
+		vListeners = new Vector<Listener>();
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected void placeComponents() {
 		FillLayout flMain = new FillLayout();
@@ -517,7 +515,6 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 			liacOutline = new LineAttributesComposite(grpOutline, SWT.NONE, optionalStyles, wizardContext, laCurrent,
 					defLabel.getOutline()) {
 
-				@Override
 				protected void placeComponents() {
 					super.placeComponents();
 					btnVisible.setText(Messages.getString("LabelAttributesComposite.Lbl.IsVisible2")); //$NON-NLS-1$
@@ -549,7 +546,6 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 		populateLists();
 	}
 
-	@Override
 	public void setEnabled(boolean bState) {
 		boolean bEnableUI = true;
 		if (attributesContext.isVisibilityEnabled) {
@@ -557,13 +553,12 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 			btnVisible.setEnabled(bState);
 		}
 
-		setVisibleState(bState && bEnableUI);
+		setVisibleState(bState & bEnableUI);
 		grpAttributes.setEnabled(bState);
 
 		this.bEnabled = bState;
 	}
 
-	@Override
 	public boolean isEnabled() {
 		return this.bEnabled;
 	}
@@ -642,11 +637,13 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 		if (attributesContext.isPositionEnabled) {
 			if (lpCurrent == null) {
 				cmbPosition.select(0);
-			} else if (isAxisAttribute() || isSeriesAttribute()) {
-				this.cmbPosition.setText(LiteralHelper.fullPositionSet
-						.getDisplayNameByName(ChartUIUtil.getFlippedPosition(lpCurrent, isFlippedAxes()).getName()));
 			} else {
-				this.cmbPosition.setText(LiteralHelper.fullPositionSet.getDisplayNameByName(lpCurrent.getName()));
+				if (isAxisAttribute() || isSeriesAttribute()) {
+					this.cmbPosition.setText(LiteralHelper.fullPositionSet.getDisplayNameByName(
+							ChartUIUtil.getFlippedPosition(lpCurrent, isFlippedAxes()).getName()));
+				} else {
+					this.cmbPosition.setText(LiteralHelper.fullPositionSet.getDisplayNameByName(lpCurrent.getName()));
+				}
 			}
 		}
 	}
@@ -663,11 +660,10 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Event eLabel = new Event();
 		eLabel.widget = this;
@@ -730,12 +726,11 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -752,11 +747,10 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		Event eLabel = new Event();
 		eLabel.widget = this;

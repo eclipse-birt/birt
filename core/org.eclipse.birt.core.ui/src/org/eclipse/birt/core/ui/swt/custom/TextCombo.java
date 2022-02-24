@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -32,7 +32,7 @@ public class TextCombo extends CustomChooserComposite {
 
 	private Font fontBold;
 
-	private HashMap<String, Boolean> choiceMarkerMap = new HashMap<>(10);
+	private HashMap<String, Boolean> choiceMarkerMap = new HashMap<String, Boolean>(10);
 
 	private class TextComboChoice extends TextCanvas implements ICustomChoice {
 
@@ -40,12 +40,10 @@ public class TextCombo extends CustomChooserComposite {
 			super(parent, iStyle, comboText);
 		}
 
-		@Override
 		public Object getValue() {
 			return super.getText();
 		}
 
-		@Override
 		public void setValue(Object value) {
 			super.setText((String) value);
 
@@ -73,7 +71,6 @@ public class TextCombo extends CustomChooserComposite {
 		}
 		addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				fontBold.dispose();
 				choiceMarkerMap.clear();
@@ -81,7 +78,6 @@ public class TextCombo extends CustomChooserComposite {
 		});
 	}
 
-	@Override
 	protected ICustomChoice createChoice(Composite parent, Object choiceValue) {
 		if (choiceValue == null) {
 			choiceValue = ""; //$NON-NLS-1$

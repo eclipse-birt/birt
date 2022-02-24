@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -29,7 +29,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration
  * '<em><b>Menu Styles Key Type</b></em>', and utility methods for working with
  * them. <!-- end-user-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMenuStylesKeyType()
  * @model extendedMetaData="name='MenuStylesKeyType'"
  * @generated
@@ -38,7 +38,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * The '<em><b>Menu</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #MENU_VALUE
 	 * @generated
 	 * @ordered
@@ -48,7 +48,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * The '<em><b>Menu Item</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #MENU_ITEM_VALUE
 	 * @generated
 	 * @ordered
@@ -58,7 +58,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * The '<em><b>On Mouse Over</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #ON_MOUSE_OVER_VALUE
 	 * @generated
 	 * @ordered
@@ -68,7 +68,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * The '<em><b>On Mouse Out</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #ON_MOUSE_OUT_VALUE
 	 * @generated
 	 * @ordered
@@ -82,7 +82,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #MENU
 	 * @model name="Menu"
 	 * @generated
@@ -97,7 +97,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #MENU_ITEM
 	 * @model name="MenuItem"
 	 * @generated
@@ -112,7 +112,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #ON_MOUSE_OVER
 	 * @model name="OnMouseOver"
 	 * @generated
@@ -127,7 +127,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #ON_MOUSE_OUT
 	 * @model name="OnMouseOut"
 	 * @generated
@@ -138,15 +138,16 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Menu Styles Key Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	private static final MenuStylesKeyType[] VALUES_ARRAY = { MENU, MENU_ITEM, ON_MOUSE_OVER, ON_MOUSE_OUT, };
+	private static final MenuStylesKeyType[] VALUES_ARRAY = new MenuStylesKeyType[] { MENU, MENU_ITEM, ON_MOUSE_OVER,
+			ON_MOUSE_OUT, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Menu Styles Key Type</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static final List<MenuStylesKeyType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -154,7 +155,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Menu Styles Key Type</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static MenuStylesKeyType get(String literal) {
@@ -170,7 +171,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Menu Styles Key Type</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static MenuStylesKeyType getByName(String name) {
@@ -186,7 +187,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Menu Styles Key Type</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static MenuStylesKeyType get(int value) {
@@ -205,21 +206,21 @@ public enum MenuStylesKeyType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String literal;
@@ -227,10 +228,10 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	MenuStylesKeyType(int value, String name, String literal) {
+	private MenuStylesKeyType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -238,30 +239,27 @@ public enum MenuStylesKeyType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -269,7 +267,7 @@ public enum MenuStylesKeyType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,12 +62,10 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements IPrefere
 		this.input = input;
 	}
 
-	@Override
 	protected boolean needRememberLastSize() {
 		return true;
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		// UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_ID );
 		return super.createDialogArea(parent);
@@ -100,25 +98,22 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements IPrefere
 		this.showNodeId = nodeId;
 	}
 
-	@Override
 	public boolean performCancel() {
 		return true;
 	}
 
-	@Override
 	public boolean performOk() {
 		if (checkCubeLink()) {
 			clearInvalidGroup();
 			clearInvalidJoin();
 			return true;
-		} else {
+		} else
 			return false;
-		}
 	}
 
 	private void clearInvalidJoin() {
 		Iterator iter = input.joinConditionsIterator();
-		List<DimensionConditionHandle> invaildConditionList = new ArrayList<>();
+		List<DimensionConditionHandle> invaildConditionList = new ArrayList<DimensionConditionHandle>();
 		while (iter.hasNext()) {
 			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next();
 			TabularHierarchyHandle conditionHierarchy = (TabularHierarchyHandle) condition.getHierarchy();
@@ -127,7 +122,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements IPrefere
 			} else {
 				if (condition.getJoinConditions() != null) {
 					Iterator iter1 = condition.getJoinConditions().iterator();
-					List<DimensionJoinConditionHandle> invaildJoinList = new ArrayList<>();
+					List<DimensionJoinConditionHandle> invaildJoinList = new ArrayList<DimensionJoinConditionHandle>();
 					while (iter1.hasNext()) {
 						DimensionJoinConditionHandle join = (DimensionJoinConditionHandle) iter1.next();
 						String primaryKey = join.getCubeKey();
@@ -190,15 +185,13 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements IPrefere
 					.toArray(new DimensionHandle[0]);
 			for (int i = 0; i < dimensions.length; i++) {
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy();
-				if (hierarchy != null && hierarchy.getDataSet() != null
-						&& hierarchy.getDataSet() != input.getDataSet()) {
+				if (hierarchy != null && hierarchy.getDataSet() != null && hierarchy.getDataSet() != input.getDataSet())
 					childList.add(hierarchy);
-				}
 			}
 		}
-		if (childList.size() == 0) {
+		if (childList.size() == 0)
 			return true;
-		} else {
+		else {
 			boolean flag = true;
 
 			HashMap conditionMap = new HashMap();
@@ -223,22 +216,21 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements IPrefere
 						}
 					}
 				}
-				if (flag) {
+				if (flag)
 					break;
-				}
 			}
 			if (flag) {
 				conditionMap.clear();
 
-				String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL };
+				String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL };
 
 				MessageDialog d = new MessageDialog(getShell(), Messages.getString("MissLinkDialog.Title"), //$NON-NLS-1$
 						null, Messages.getString("MissLinkDialog.Question"), //$NON-NLS-1$
 						MessageDialog.WARNING, buttons, 0);
 				int result = d.open();
-				if (result == 1) {
+				if (result == 1)
 					return true;
-				} else {
+				else {
 					this.showSelectionPage(getLinkGroupNode());
 					return false;
 				}
@@ -249,7 +241,6 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements IPrefere
 		}
 	}
 
-	@Override
 	protected Control createContents(Composite parent) {
 		String title = Messages.getString("CubeBuilder.Title"); //$NON-NLS-1$
 		getShell().setText(title);
@@ -269,12 +260,10 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements IPrefere
 
 	public void setOKEnable(boolean okEnable) {
 		this.okEnable = okEnable;
-		if (getOkButton() != null) {
+		if (getOkButton() != null)
 			getOkButton().setEnabled(this.okEnable);
-		}
 	}
 
-	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		getOkButton().setEnabled(this.okEnable);
@@ -285,37 +274,31 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements IPrefere
 			if (((CubeHandle) getModel()).getName() != null && !((CubeHandle) getModel()).getName().trim().equals("")) //$NON-NLS-1$
 			{
 				getOkButton().setEnabled(true);
-			} else { // $NON-NLS-1$
+			} else
 				getOkButton().setEnabled(false);
-			}
 		}
 	}
 
-	@Override
 	public IPreferenceStore getPreferenceStore() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void updateButtons() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void updateMessage() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void updateTitle() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	protected Point getDefaultSize() {
 		return new Point(820, 600);
 	}

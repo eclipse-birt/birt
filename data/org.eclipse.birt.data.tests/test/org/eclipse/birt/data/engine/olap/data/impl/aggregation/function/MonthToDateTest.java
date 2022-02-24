@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -19,22 +19,23 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
-import org.junit.Test;
 
 import testutil.BaseTestCase;
+
+import org.junit.Test;
 
 /**
  * this class test month to date funciton, you can refer to MonthToDateFunction
  * for details
- *
+ * 
  * @author peng.shi
- *
+ * 
  */
 public class MonthToDateTest extends BaseTestCase {
 	@Test
 	public void testMTD1() throws IOException {
-		int[] values = { 2002, 3, 21 };
-		String[] types = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_MONTH,
+		int[] values = new int[] { 2002, 3, 21 };
+		String[] types = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_MONTH,
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH };
 		TimeMember timeMember = new TimeMember(values, types);
 		List<TimeMember> timeMembers = new MonthToDateFunction().getResult(timeMember);
@@ -44,8 +45,8 @@ public class MonthToDateTest extends BaseTestCase {
 
 	@Test
 	public void testMTD2() throws IOException {
-		int[] values = { 2002, 1, 3, 21 };
-		String[] types = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2002, 1, 3, 21 };
+		String[] types = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH };
 		TimeMember timeMember = new TimeMember(values, types);
 		List<TimeMember> timeMembers = new MonthToDateFunction().getResult(timeMember);
@@ -55,8 +56,8 @@ public class MonthToDateTest extends BaseTestCase {
 
 	@Test
 	public void testMTD3() throws IOException {
-		int[] values = { 2011, 3, 9, 4 };
-		String[] types = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2011, 3, 9, 4 };
+		String[] types = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH };
 		TimeMember timeMember = new TimeMember(values, types);
 
@@ -72,8 +73,8 @@ public class MonthToDateTest extends BaseTestCase {
 
 	@Test
 	public void testMTD4() throws IOException {
-		int[] values = { 2002, 1, 2, 4 };
-		String[] types = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2002, 1, 2, 4 };
+		String[] types = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH };
 		TimeMember timeMember = new TimeMember(values, types);
 
@@ -89,8 +90,8 @@ public class MonthToDateTest extends BaseTestCase {
 
 	@Test
 	public void testMTD5() throws IOException {
-		int[] values = { 2002, 100 };
-		String[] types = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR };
+		int[] values = new int[] { 2002, 100 };
+		String[] types = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR };
 		TimeMember timeMember = new TimeMember(values, types);
 		List<TimeMember> timeMembers = new MonthToDateFunction().getResult(timeMember);
 		printMembers(timeMembers);
@@ -99,8 +100,8 @@ public class MonthToDateTest extends BaseTestCase {
 
 	@Test
 	public void testMTD6() throws IOException {
-		int[] values = { 2011, 3, 9, 4, 39, 5, 22, 265 };
-		String[] types = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2011, 3, 9, 4, 39, 5, 22, 265 };
+		String[] types = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR, TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK,
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH, TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR };
@@ -117,8 +118,8 @@ public class MonthToDateTest extends BaseTestCase {
 
 	@Test
 	public void testMTD7() throws IOException {
-		int[] values = { 2011, 3, 8 };
-		String[] types = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2011, 3, 8 };
+		String[] types = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH };
 		TimeMember timeMember = new TimeMember(values, types);
 		List<TimeMember> timeMembers = new MonthToDateFunction().getResult(timeMember);
@@ -128,8 +129,8 @@ public class MonthToDateTest extends BaseTestCase {
 
 	@Test
 	public void testMTD8() throws IOException {
-		int[] values = { 2011, 3, 9, 6 };
-		String[] types = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2011, 3, 9, 6 };
+		String[] types = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH };
 		TimeMember timeMember = new TimeMember(values, types);
 		MonthToDateFunction func = new MonthToDateFunction();
@@ -141,8 +142,8 @@ public class MonthToDateTest extends BaseTestCase {
 
 	@Test
 	public void testMTD9() throws IOException {
-		int[] values = { 2011, 4, 10, 2 };
-		String[] types = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2011, 4, 10, 2 };
+		String[] types = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH };
 		TimeMember timeMember = new TimeMember(values, types);
 		MonthToDateFunction func = new MonthToDateFunction();

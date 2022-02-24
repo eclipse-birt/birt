@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,6 @@ public class PageHintWriterV3 implements IPageHintWriter {
 		}
 	}
 
-	@Override
 	public void close() {
 		try {
 			if (hintsStream != null) {
@@ -70,7 +69,6 @@ public class PageHintWriterV3 implements IPageHintWriter {
 	private ByteArrayOutputStream writeBuffer = new ByteArrayOutputStream();
 	private DataOutputStream hintBuffer = new DataOutputStream(writeBuffer);
 
-	@Override
 	public void writePageHint(IPageHint pageHint) throws IOException {
 		long offset = hintsStream.getOffset();
 		indexStream.seek(pageHint.getPageNumber() * 8);
@@ -80,7 +78,6 @@ public class PageHintWriterV3 implements IPageHintWriter {
 		hintsStream.write(writeBuffer.toByteArray());
 	}
 
-	@Override
 	public void writeTotalPage(long totalPage) throws IOException {
 		indexStream.seek(0);
 		indexStream.writeLong(totalPage);
@@ -99,7 +96,7 @@ public class PageHintWriterV3 implements IPageHintWriter {
 
 		int hintSize = hint.getUnresolvedRowCount();
 		IOUtil.writeInt(out, hintSize);
-
+		;
 		for (int i = 0; i < hintSize; i++) {
 			UnresolvedRowHint rowHint = hint.getUnresolvedRowHint(i);
 			rowHint.writeObject(out);
@@ -118,7 +115,6 @@ public class PageHintWriterV3 implements IPageHintWriter {
 		}
 	}
 
-	@Override
 	public void writePageVariables(Collection<PageVariable> variables) throws IOException {
 		throw new IOException("unsupported operation: writePageVariables");
 	}

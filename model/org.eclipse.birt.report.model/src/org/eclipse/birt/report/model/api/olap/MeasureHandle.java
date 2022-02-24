@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 	 * Constructs a handle for the given design and design element. The application
 	 * generally does not create handles directly. Instead, it uses one of the
 	 * navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -50,7 +50,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Gets the function defined in this measure.
-	 *
+	 * 
 	 * @return function for this measure
 	 */
 
@@ -60,7 +60,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Sets the function for this measure.
-	 *
+	 * 
 	 * @param function the function to set
 	 * @throws SemanticException property is locked or value is invalid
 	 */
@@ -70,7 +70,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Gets the measure expression of this measure element.
-	 *
+	 * 
 	 * @return measure expression of this measure element
 	 */
 
@@ -80,7 +80,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Sets the measure expression for this measure.
-	 *
+	 * 
 	 * @param expression the measure expression to set
 	 * @throws SemanticException property is locked
 	 */
@@ -90,7 +90,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Indicates whether this measure is computed by other measures or not.
-	 *
+	 * 
 	 * @return true if this measure is computed by other measures, otherwise false
 	 */
 
@@ -100,7 +100,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Sets whether this measure is computed by other measures or not.
-	 *
+	 * 
 	 * @param isCalculated true if this measure is computed by other measures,
 	 *                     otherwise false
 	 * @throws SemanticException property is locked
@@ -124,7 +124,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 *
+	 * 
 	 * @return the data type of this measure.
 	 */
 
@@ -145,7 +145,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 *
+	 * 
 	 * @param dataType the data type to set
 	 * @throws SemanticException if the dataType is not in the choice list.
 	 */
@@ -156,7 +156,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Gets the expression handle for the <code>ACLExpression</code> property.
-	 *
+	 * 
 	 * @return
 	 */
 	public ExpressionHandle getACLExpression() {
@@ -166,7 +166,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 	/**
 	 * Returns a handle to work with the action property, action is a structure that
 	 * defines a hyperlink.
-	 *
+	 * 
 	 * @return a handle to the action property, return <code>null</code> if the
 	 *         action has not been set on the measure.
 	 * @see ActionHandle
@@ -178,12 +178,12 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Set an action on the measure.
-	 *
+	 * 
 	 * @param action new action to be set on the measure, it represents a bookmark
 	 *               link, hyper-link, and drill through etc.
 	 * @return a handle to the action property, return <code>null</code> if the
 	 *         action has not been set on the measure.
-	 *
+	 * 
 	 * @throws SemanticException if member of the action is not valid.
 	 */
 
@@ -193,7 +193,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Returns the iterator for action defined on this measure.
-	 *
+	 * 
 	 * @return the iterator for <code>Action</code> structure list defined on this
 	 *         measure
 	 */
@@ -204,22 +204,21 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Gets the format of the measure.
-	 *
+	 * 
 	 * @return the format, or null if not set.
 	 */
 	public FormatValueHandle getFormat() {
 		PropertyHandle propHandle = getPropertyHandle(FORMAT_PROP);
 		FormatValue format = (FormatValue) propHandle.getValue();
 
-		if (format == null) {
+		if (format == null)
 			return null;
-		}
 		return (FormatValueHandle) format.getHandle(propHandle);
 	}
 
 	/**
 	 * Sets the format of the measure.
-	 *
+	 * 
 	 * @param format the format to set.
 	 * @throws SemanticException
 	 */
@@ -230,14 +229,14 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 	/**
 	 * Gets the alignment of the measure. The returned value may be one of the
 	 * following constants defined in <code>DesignChoiceConstants<code>:
-	 *
+	 * 
 	 * <ul>
 	 * <li>TEXT_ALIGN_LEFT
 	 * <li>TEXT_ALIGN_CENTER
 	 * <li>TEXT_ALIGN_RIGHT
 	 * <li>TEXT_ALIGN_JUSTIFY
 	 * </ul>
-	 *
+	 * 
 	 * @return the alignment of the measure.
 	 */
 	public String getAlignment() {
@@ -247,14 +246,14 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 	/**
 	 * Sets the alignment of the measure. The value to set should be one of the
 	 * following constants defined in <code>DesignChoiceConstants<code>:
-	 *
+	 * 
 	 * <ul>
 	 * <li>TEXT_ALIGN_LEFT
 	 * <li>TEXT_ALIGN_CENTER
 	 * <li>TEXT_ALIGN_RIGHT
 	 * <li>TEXT_ALIGN_JUSTIFY
 	 * </ul>
-	 *
+	 * 
 	 * @param alignment the new alignment to set.
 	 * @throws SemanticException
 	 */
@@ -265,7 +264,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 	/**
 	 * Gets the status whether the measure element is visible or not. By default, it
 	 * is true.
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isVisible() {
@@ -274,7 +273,7 @@ public abstract class MeasureHandle extends ReportElementHandle implements IMeas
 
 	/**
 	 * Sets the status whether the measure element is visible or not.
-	 *
+	 * 
 	 * @param isVisible
 	 * @throws SemanticException
 	 */

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -42,14 +42,12 @@ public class Regression_145724 extends BaseTestCase {
 	 * @throws IOException
 	 */
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT(REPORT, REPORT);
 	}
 
-	@Override
 	public void tearDown() {
 		removeResource();
 	}
@@ -62,9 +60,8 @@ public class Regression_145724 extends BaseTestCase {
 		BufferedReader br = new BufferedReader(new FileReader(this.genOutputFile("test_version.out"))); //$NON-NLS-1$
 		String line = null;
 		while ((line = br.readLine()) != null) {
-			if (line.startsWith("<report")) { //$NON-NLS-1$
+			if (line.startsWith("<report")) //$NON-NLS-1$
 				break;
-			}
 		}
 
 		int i = line.indexOf("version=\""); //$NON-NLS-1$

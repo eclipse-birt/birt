@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,12 +34,11 @@ class MonthGroupCalculator extends DateGroupCalculator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.
 	 * lang.Object)
 	 */
-	@Override
 	public Object calculate(Object value) {
 		if (value == null) {
 			return new Double(-1);
@@ -48,11 +47,13 @@ class MonthGroupCalculator extends DateGroupCalculator {
 		if (intervalStart == null) {
 			return new Double(
 					Math.floor(this.dateTimeUtil.diffMonth(defaultStart, (Date) value) / getDateIntervalRange()));
-		} else if (this.dateTimeUtil.diffMonth((Date) intervalStart, (Date) value) < 0) {
-			return new Double(-1);
 		} else {
-			return new Double(Math
-					.floor(this.dateTimeUtil.diffMonth((Date) intervalStart, (Date) value) / getDateIntervalRange()));
+			if (this.dateTimeUtil.diffMonth((Date) intervalStart, (Date) value) < 0) {
+				return new Double(-1);
+			} else {
+				return new Double(Math.floor(
+						this.dateTimeUtil.diffMonth((Date) intervalStart, (Date) value) / getDateIntervalRange()));
+			}
 		}
 	}
 }

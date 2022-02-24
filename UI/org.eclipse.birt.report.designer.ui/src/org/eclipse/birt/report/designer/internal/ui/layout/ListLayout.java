@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * Provide layout management for List element
- *
+ * 
  */
 public class ListLayout extends AbstractHintLayout {
 
@@ -43,7 +43,7 @@ public class ListLayout extends AbstractHintLayout {
 
 	/**
 	 * Gets the layout preference
-	 *
+	 * 
 	 * @return
 	 */
 	public String getLayoutPreference() {
@@ -56,12 +56,11 @@ public class ListLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(org.eclipse.draw2d.
 	 * IFigure, int, int)
 	 */
-	@Override
 	protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
 		// Dimension dim = container.getSize().getCopy();
 		Dimension dim = container.getClientArea().getCopy().getSize();
@@ -101,10 +100,9 @@ public class ListLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 	 */
-	@Override
 	public void layout(IFigure parent) {
 		Rectangle bounds = parent.getClientArea().getCopy();
 		List list = parent.getChildren();
@@ -168,7 +166,6 @@ public class ListLayout extends AbstractHintLayout {
 	/**
 	 * @see LayoutManager#getConstraint(IFigure)
 	 */
-	@Override
 	public Object getConstraint(IFigure figure) {
 		return constraints.get(figure);
 	}
@@ -176,7 +173,6 @@ public class ListLayout extends AbstractHintLayout {
 	/**
 	 * @see LayoutManager#remove(IFigure)
 	 */
-	@Override
 	public void remove(IFigure figure) {
 		super.remove(figure);
 		constraints.remove(figure);
@@ -185,25 +181,22 @@ public class ListLayout extends AbstractHintLayout {
 	/**
 	 * Sets the layout constraint of the given figure. The constraints can only be
 	 * of type {@link Rectangle}.
-	 *
+	 * 
 	 * @see LayoutManager#setConstraint(IFigure, Object)
 	 */
-	@Override
 	public void setConstraint(IFigure figure, Object newConstraint) {
 		super.setConstraint(figure, newConstraint);
-		if (newConstraint != null) {
+		if (newConstraint != null)
 			constraints.put(figure, newConstraint);
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.draw2d.AbstractHintLayout#calculateMinimumSize(org.eclipse.draw2d
 	 * .IFigure, int, int)
 	 */
-	@Override
 	protected Dimension calculateMinimumSize(IFigure container, int wHint, int hHint) {
 		Dimension dim = new Dimension();
 
@@ -233,10 +226,9 @@ public class ListLayout extends AbstractHintLayout {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
-		@Override
 		public int compare(Object o1, Object o2) {
 			if (o1 instanceof ListLayoutWorkingData && o2 instanceof ListLayoutWorkingData) {
 				return ((ListLayoutWorkingData) o1).order - ((ListLayoutWorkingData) o2).order;

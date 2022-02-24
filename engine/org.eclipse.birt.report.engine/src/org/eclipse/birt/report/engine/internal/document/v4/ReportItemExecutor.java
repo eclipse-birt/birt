@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
  * report item instance.
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
- *
+ * 
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor {
 	/**
@@ -136,7 +136,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	/**
 	 * construct a report item executor by giving execution context and report
 	 * executor visitor
-	 *
+	 * 
 	 * @param loader  the executor context
 	 * @param visitor the report executor visitor
 	 */
@@ -164,7 +164,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		return this.executorType;
 	}
 
-	@Override
 	public void setParent(IReportItemExecutor parent) {
 		this.parent = (ReportItemExecutor) parent;
 		if (parent != null) {
@@ -172,27 +171,22 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		}
 	}
 
-	@Override
 	public IReportItemExecutor getParent() {
 		return parent;
 	}
 
-	@Override
 	public IExecutorContext getContext() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
 	public Object getModelObject() {
 		return design;
 	}
 
-	@Override
 	public void setContext(IExecutorContext context) {
 		throw new IllegalStateException("should never call setContext for system executor");
 	}
 
-	@Override
 	public void setModelObject(Object handle) {
 		this.designHandle = handle;
 		if (handle instanceof ReportElementHandle) {
@@ -209,7 +203,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		return design;
 	}
 
-	@Override
 	public IContent getContent() {
 		return content;
 	}
@@ -245,7 +238,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		return null;
 	}
 
-	@Override
 	public IContent execute() {
 
 		if (!executed) {
@@ -278,25 +270,21 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 
 	/**
 	 * does the executor has child executor
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public boolean hasNextChild() {
 		return false;
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		return null;
 	}
 
-	@Override
 	public IBaseResultSet[] getQueryResults() {
 		return rsets;
 	}
 
-	@Override
 	public void close() {
 		if (offset != -1) {
 			reader.unloadContent(offset);
@@ -325,7 +313,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	 * <li>close the dataset.
 	 * <li>exit current script scope.
 	 * </ul>
-	 *
+	 * 
 	 * @param ds the dataset object, null is valid
 	 */
 	protected void closeQuery() {
@@ -348,7 +336,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	 * record , register the first row to script context, and return this
 	 * <code>DataSet</code> object if dataset design is null, or open error, or
 	 * empty resultset, return null.
-	 *
+	 * 
 	 * @param item the report item design
 	 * @return the DataSet object if not null, else return null
 	 */
@@ -373,7 +361,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 					context.getProgressMonitor().onProgress(IProgressMonitor.END_QUERY, (int) design.getID());
 
 					rsetEmpty = true;
-					if (rsets[0] instanceof IQueryResultSet) {
+					if (rsets[0] != null && rsets[0] instanceof IQueryResultSet) {
 						rsetEmpty = !((IQueryResultSet) rsets[0]).next();
 					}
 				} catch (BirtException ex) {

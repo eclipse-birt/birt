@@ -24,7 +24,7 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 /**
  * add comment here
- *
+ * 
  */
 public class EditorGuide {
 
@@ -50,7 +50,7 @@ public class EditorGuide {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param isHorizontal <code>true</code> if the guide is horizontal (i.e.,
 	 *                     placed on a vertical ruler)
 	 */
@@ -72,7 +72,7 @@ public class EditorGuide {
 	 * {@link org.eclipse.gef.examples.logicdesigner.edit.LogicXYLayoutEditPolicy
 	 * LogicXYLayoutEditPolicy} to determine whether to attach or detach a part from
 	 * a guide during resize operations.
-	 *
+	 * 
 	 * @param part The part whose alignment has to be found
 	 * @return an int representing the edge along which the given part is attached
 	 *         to this guide; 1 is bottom or right; 0, center; -1, top or left; -2
@@ -81,9 +81,8 @@ public class EditorGuide {
 	 *      EditPart, Object)
 	 */
 	public int getAlignment(EditorRuler part) {
-		if (getMap().get(part) != null) {
+		if (getMap().get(part) != null)
 			return ((Integer) getMap().get(part)).intValue();
-		}
 		return -2;
 	}
 
@@ -130,7 +129,7 @@ public class EditorGuide {
 
 	/**
 	 * Sets the orientation of the guide
-	 *
+	 * 
 	 * @param isHorizontal <code>true</code> if this guide is to be placed on a
 	 *                     vertical ruler
 	 */
@@ -140,7 +139,7 @@ public class EditorGuide {
 
 	/**
 	 * Sets the location of the guide
-	 *
+	 * 
 	 * @param offset The location of the guide (in pixels)
 	 */
 	public void setPosition(int offset) {

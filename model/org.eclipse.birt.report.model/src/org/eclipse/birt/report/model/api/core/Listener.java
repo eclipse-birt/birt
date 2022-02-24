@@ -41,13 +41,13 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
  * about a specific subset of events. Then, look at the sender, target or other
  * members to decide what to do with the particular event. Finally, perform the
  * client-specific action.
- *
+ * 
  */
 
 public interface Listener {
 	/**
 	 * Notifies the listener about a Design Engine event.
-	 *
+	 * 
 	 * @param focus The design element that has changed.
 	 * @param ev    The notification event that describes the change.
 	 */

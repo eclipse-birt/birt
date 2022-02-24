@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -81,7 +81,7 @@ public class BoundDataColumnUtil {
 
 		/**
 		 * Default constructor.
-		 *
+		 * 
 		 * @param template
 		 * @param updatedValues
 		 */
@@ -94,27 +94,24 @@ public class BoundDataColumnUtil {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.core.template.TextTemplate.Visitor#visitText(org
 		 * .eclipse.birt.core.template.TextTemplate.TextNode, java.lang.Object)
 		 */
 
-		@Override
 		public Object visitText(TextTemplate.TextNode node, Object value) {
-			if (value != null) {
+			if (value != null)
 				buffer.append(value);
-			}
 			return value;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.core.template.TextTemplate.Visitor#visitValue(org
 		 * .eclipse.birt.core.template.TextTemplate.ValueNode, java.lang.Object)
 		 */
 
-		@Override
 		public Object visitValue(TextTemplate.ValueNode node, Object value) {
 
 			String updatedValue = updatedValues.get(value);
@@ -126,7 +123,6 @@ public class BoundDataColumnUtil {
 			return value;
 		}
 
-		@Override
 		public Object visitExpressionValue(ExpressionValueNode node, Object value) {
 			// TODO Auto-generated method stub
 			return null;
@@ -134,12 +130,11 @@ public class BoundDataColumnUtil {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.core.template.TextTemplate.Visitor#visitImage(org
 		 * .eclipse.birt.core.template.TextTemplate.ImageNode, java.lang.Object)
 		 */
 
-		@Override
 		public Object visitImage(TextTemplate.ImageNode node, Object value) {
 			String updatedValue = updatedValues.get(value);
 			if (updatedValue != null) {
@@ -152,7 +147,7 @@ public class BoundDataColumnUtil {
 
 		/**
 		 * Runs the visitor.
-		 *
+		 * 
 		 * @return the updated content. Expressions in <value-of> and <image> nodes are
 		 *         updated.
 		 */
@@ -187,22 +182,20 @@ public class BoundDataColumnUtil {
 
 	/**
 	 * Gets the column name with the given expression bound the given list.
-	 *
+	 * 
 	 * @param columns    the binding columns
 	 * @param expression the old value expression in BIRT 2.1M5
 	 * @return the bound column name
 	 */
 
 	public static String getColumnName(List<ComputedColumn> columns, String expression) {
-		if ((columns == null) || (columns.size() == 0) || expression == null) {
+		if ((columns == null) || (columns.size() == 0) || expression == null)
 			return null;
-		}
 
 		for (int i = 0; i < columns.size(); i++) {
 			ComputedColumn column = columns.get(i);
-			if (expression.equals(column.getExpression())) {
+			if (expression.equals(column.getExpression()))
 				return column.getName();
-			}
 		}
 		return null;
 	}
@@ -224,15 +217,14 @@ public class BoundDataColumnUtil {
 	/**
 	 * Gets the column with the given expression and aggregateOn value bound the
 	 * given list.
-	 *
+	 * 
 	 * @param columns   the binding columns.
 	 * @param addColumn the added column.
 	 * @return the bound column.
 	 */
 	public static ComputedColumn getColumn(List<ComputedColumn> columns, ComputedColumn addColumn) {
-		if ((columns == null) || (columns.size() == 0)) {
+		if ((columns == null) || (columns.size() == 0))
 			return null;
-		}
 
 		assert addColumn != null;
 
@@ -265,19 +257,16 @@ public class BoundDataColumnUtil {
 				boolean isEmptyB = tempAggregateOnList == null || tempAggregateOnList.isEmpty();
 
 				// if two is empty list, return this
-				if (isEmptyA && isEmptyB) {
+				if (isEmptyA && isEmptyB)
 					return column;
-				}
 				// if one is empty and other is not, then continue and do the
 				// next search
-				if ((!isEmptyA && isEmptyB) || (isEmptyA && !isEmptyB)) {
+				if ((!isEmptyA && isEmptyB) || (isEmptyA && !isEmptyB))
 					continue;
-				}
 
 				assert tempAggregateOnList != null && aggregateOnList != null;
-				if (tempAggregateOnList.size() != aggregateOnList.size()) {
+				if (tempAggregateOnList.size() != aggregateOnList.size())
 					continue;
-				}
 
 				// search all the aggregation on is matched.
 				boolean isMatch = true;
@@ -289,9 +278,8 @@ public class BoundDataColumnUtil {
 						break;
 					}
 				}
-				if (isMatch) {
+				if (isMatch)
 					return column;
-				}
 			}
 		}
 		return null;
@@ -299,20 +287,19 @@ public class BoundDataColumnUtil {
 
 	/**
 	 * Creates a data binding on the target element.
-	 *
+	 * 
 	 * @param target     the element
 	 * @param columnName the column binding name
 	 * @param expression the column binding expression
 	 * @param module     the root of the target
-	 *
+	 * 
 	 * @return the column binding name
 	 */
 
 	public static String createBoundDataColumn(DesignElement target, String columnName, String expression,
 			Module module) {
-		if (target == null) {
+		if (target == null)
 			return null;
-		}
 
 		String propName = null;
 		if (target instanceof ReportItem) {
@@ -320,14 +307,12 @@ public class BoundDataColumnUtil {
 
 		}
 
-		if (target instanceof ScalarParameter) {
+		if (target instanceof ScalarParameter)
 			propName = IScalarParameterModel.BOUND_DATA_COLUMNS_PROP;
-		}
 
 		ElementPropertyDefn prop = (ElementPropertyDefn) target.getDefn().getProperty(propName);
-		if (prop == null) {
+		if (prop == null)
 			return null;
-		}
 		List columns = (List) target.getLocalProperty(module, prop);
 
 		if (columns == null) {
@@ -347,9 +332,8 @@ public class BoundDataColumnUtil {
 
 			column.setName(newName);
 			column.setExpression(expression);
-		} else if (foundName != null) {
+		} else if (foundName != null)
 			newName = foundName;
-		}
 
 		return newName;
 	}
@@ -357,7 +341,7 @@ public class BoundDataColumnUtil {
 	/**
 	 * Returns the nearest container or the element self if there is a not
 	 * <code>null</code> dataSet property value.
-	 *
+	 * 
 	 * @param element the element
 	 * @param module  the root of the element
 	 * @return the element has the dataSet value or <code>null</code> when not
@@ -372,12 +356,12 @@ public class BoundDataColumnUtil {
 	 * Returns the outer listing/extended container or the element self if there is
 	 * a not <code>null</code> dataSet property value. This is not a strict match.
 	 * If the outer level is not found, the outer matchest element is returned.
-	 *
+	 * 
 	 * @param element    the element
 	 * @param module     the root of the element
 	 * @param outerLevel the 0-based outer level. If it is 0, means find the nearest
 	 *                   listing/extended item container.
-	 *
+	 * 
 	 * @return the element has the dataSet value or <code>null</code> when not
 	 *         found.
 	 */
@@ -406,9 +390,8 @@ public class BoundDataColumnUtil {
 				}
 			}
 
-			if (retElement == null) {
+			if (retElement == null)
 				retElement = tmpElement;
-			}
 
 			if (tmpElement instanceof ListingElement || tmpElement instanceof GroupElement
 					|| tmpElement instanceof ExtendedItem) {
@@ -440,10 +423,10 @@ public class BoundDataColumnUtil {
 	/**
 	 * Returns the nearest outer data container. This is a strict match. If the
 	 * outer level is not found, return <code>null</code>.
-	 *
+	 * 
 	 * @param element the element
 	 * @param module  the root of the element
-	 *
+	 * 
 	 * @return the element has the dataSet value or <code>null</code> when not
 	 *         found.
 	 */
@@ -451,9 +434,8 @@ public class BoundDataColumnUtil {
 	public static DesignElement findTargetElementOfParamBinding(DesignElement element, Module module) {
 		DesignElement outer1 = findTargetOfBoundColumns(element, module, 0);
 		DesignElement outer2 = findTargetOfBoundColumns(outer1, module, 1);
-		if (outer1 == outer2) {
+		if (outer1 == outer2)
 			return null;
-		}
 
 		return outer2;
 	}
@@ -463,7 +445,7 @@ public class BoundDataColumnUtil {
 	 * The column name is unique in the scope of report item. If report item hasn't
 	 * column binding or data set, The column name is unique in the scope of it's
 	 * listing container.
-	 *
+	 * 
 	 * @param element the element
 	 * @param name    the default column binding name
 	 * @param struct  the struct to get the unique name
@@ -474,7 +456,7 @@ public class BoundDataColumnUtil {
 	public static String makeUniqueName(DesignElementHandle element, String name, ComputedColumn struct) {
 		// Check value of itself.
 
-		Set<ComputedColumn> columnNames = new HashSet<>();
+		Set<ComputedColumn> columnNames = new HashSet<ComputedColumn>();
 
 		if (element instanceof ListingHandle) {
 			addColumnNamesToSet(element, columnNames);
@@ -491,9 +473,8 @@ public class BoundDataColumnUtil {
 				DesignElementHandle tmpHandle = element;
 				while (true) {
 					tmpHandle = tmpHandle.getContainer();
-					if (tmpHandle == null) {
+					if (tmpHandle == null)
 						break;
-					}
 					if (tmpHandle instanceof ListingHandle) {
 						addColumnNamesToSet(tmpHandle, columnNames);
 						break;
@@ -507,12 +488,13 @@ public class BoundDataColumnUtil {
 		String trimmedName = name.trim();
 		String retName = trimmedName;
 
-		List<ComputedColumn> columns = new ArrayList<>(columnNames);
+		List<ComputedColumn> columns = new ArrayList<ComputedColumn>();
+		columns.addAll(columnNames);
+
 		while (true) {
 			ComputedColumn column = DataColumnNameValidator.getColumn(columns, retName);
-			if (column == null || column == struct) {
+			if (column == null || column == struct)
 				break;
-			}
 
 			retName = trimmedName + '_' + index;
 			index++;
@@ -523,31 +505,28 @@ public class BoundDataColumnUtil {
 
 	/**
 	 * Adds bound column names of the given element to the given set.
-	 *
+	 * 
 	 * @param element     the element
 	 * @param module      the module
 	 * @param columnNames the set holding column names
 	 */
 
 	private static void addColumnNamesToSet(DesignElementHandle element, Set<ComputedColumn> columnNames) {
-		if (element == null) {
+		if (element == null)
 			return;
-		}
 
 		String propName = null;
 
-		if (element instanceof ReportItemHandle) {
+		if (element instanceof ReportItemHandle)
 			propName = IReportItemModel.BOUND_DATA_COLUMNS_PROP;
-		} else if (element instanceof ScalarParameterHandle) {
+		else if (element instanceof ScalarParameterHandle)
 			propName = IScalarParameterModel.BOUND_DATA_COLUMNS_PROP;
-		} else {
+		else
 			return;
-		}
 		List boundColumns = element.getListProperty(propName);
 
-		if (boundColumns == null || boundColumns.isEmpty()) {
+		if (boundColumns == null || boundColumns.isEmpty())
 			return;
-		}
 
 		columnNames.addAll(boundColumns);
 	}
@@ -555,22 +534,21 @@ public class BoundDataColumnUtil {
 	/**
 	 * Does backward compatiblility work for the extended item from BIRT 2.1M5 to
 	 * BIRT 2.1.0.
-	 *
+	 * 
 	 * @param jsExprs      the expression from the extended item.
 	 * @param element      the extended item
 	 * @param module       the root of the extended item
 	 * @param cachedGroups the map to cache group and its bound columns
-	 *
+	 * 
 	 * @return a map containing updated expressions.
 	 */
 
 	public static Map<String, String> handleJavaExpression(List<String> jsExprs, ExtendedItem element, Module module,
 			Map<Object, Object> cachedGroups) {
-		Map<String, String> retMap = new HashMap<>();
+		Map<String, String> retMap = new HashMap<String, String>();
 
-		if (jsExprs == null || jsExprs.isEmpty()) {
+		if (jsExprs == null || jsExprs.isEmpty())
 			return retMap;
-		}
 
 		for (int i = 0; i < jsExprs.size(); i++) {
 			String jsExpr = jsExprs.get(i);
@@ -583,9 +561,8 @@ public class BoundDataColumnUtil {
 
 			}
 
-			if (newExprs == null || newExprs.isEmpty()) {
+			if (newExprs == null || newExprs.isEmpty())
 				continue;
-			}
 
 			DesignElement tmpElement = BoundDataColumnUtil.findTargetOfBoundColumns(element, module);
 
@@ -597,9 +574,8 @@ public class BoundDataColumnUtil {
 				if (tmpElement != null) {
 					String tmpName = BoundDataColumnUtil.createBoundDataColumn(tmpElement, columnName,
 							boundColumn.getBoundExpression(), module);
-					if (tmpName != null) {
+					if (tmpName != null)
 						columnName = tmpName;
-					}
 				}
 
 				retMap.put(jsExpr, ExpressionUtil.createRowExpression(columnName));
@@ -615,7 +591,7 @@ public class BoundDataColumnUtil {
 	 * <p>
 	 * Parts of backward compatibility work for the Text Item from BIRT 2.1M5 to
 	 * BIRT 2.1.0.
-	 *
+	 * 
 	 * @param jsExprs      the expression from the extended item.
 	 * @param element      the text item
 	 * @param module       the root of the text item
@@ -638,9 +614,8 @@ public class BoundDataColumnUtil {
 
 			}
 
-			if (newExprs == null || newExprs.isEmpty()) {
+			if (newExprs == null || newExprs.isEmpty())
 				continue;
-			}
 
 			DesignElement tmpElement = BoundDataColumnUtil.findTargetOfBoundColumns(element, module);
 			if (tmpElement instanceof GroupElement && cachedGroups == null) {
@@ -666,9 +641,8 @@ public class BoundDataColumnUtil {
 
 				String tmpName = BoundDataColumnUtil.createBoundDataColumn(tmpElement, columnName,
 						boundColumn.getBoundExpression(), module);
-				if (tmpName != null) {
+				if (tmpName != null)
 					columnName = tmpName;
-				}
 
 				retMap.put(jsExpr, ExpressionUtil.createRowExpression(columnName));
 			}
@@ -683,7 +657,7 @@ public class BoundDataColumnUtil {
 	 * <p>
 	 * Parts of backward compatiblility work for the Text Item from BIRT 2.1M5 to
 	 * BIRT 2.1.0.
-	 *
+	 * 
 	 * @param contentText the text to check
 	 * @param element     the text item
 	 * @param module      the root of the text item
@@ -691,9 +665,8 @@ public class BoundDataColumnUtil {
 	 */
 
 	public static List getExpressions(String contentText, TextItem element, Module module) {
-		if (contentText == null) {
+		if (contentText == null)
 			return null;
-		}
 
 		List exprs = new ArrayList();
 		String contentType = (String) element.getProperty(module, ITextItemModel.CONTENT_TYPE_PROP);
@@ -729,7 +702,7 @@ public class BoundDataColumnUtil {
 	 * Appends to the cached group bound columns. Becuase of "aggregateOn" property
 	 * on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
-	 *
+	 * 
 	 * @param target     the group element
 	 * @param newExprs   bound columns returned by ExpressionUtil
 	 * @param tempValues the map to cache group and its bound columns
@@ -741,15 +714,13 @@ public class BoundDataColumnUtil {
 			ComputedColumn column = StructureFactory.createComputedColumn();
 			IColumnBinding boundColumn = (IColumnBinding) newExprs.get(i);
 			String newExpression = boundColumn.getBoundExpression();
-			if (newExpression == null) {
+			if (newExpression == null)
 				continue;
-			}
 
 			column.setName(boundColumn.getResultSetColumnName());
 			column.setExpression(boundColumn.getBoundExpression());
-			if (!newColumns.contains(column)) {
+			if (!newColumns.contains(column))
 				newColumns.add(column);
-			}
 		}
 
 		appendBoundColumnsToCachedGroup(target, newColumns, tempValues);
@@ -759,7 +730,7 @@ public class BoundDataColumnUtil {
 	 * Appends to the cached group bound columns. because of "aggregateOn" property
 	 * on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
-	 *
+	 * 
 	 * @param target   the group element
 	 * @param newExprs bound columns returned by ExpressionUtil
 	 */
@@ -782,7 +753,7 @@ public class BoundDataColumnUtil {
 	 * Appends to the cached group bound columns. because of "aggregateOn" property
 	 * on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
-	 *
+	 * 
 	 * @param target     the group element
 	 * @param boundName  the bound column name
 	 * @param expression the bound column expression

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.QueryCompUtil;
 
 /**
- *
+ * 
  */
 public class GroupDefnUtil {
 	/**
@@ -79,11 +79,10 @@ public class GroupDefnUtil {
 				GroupDefinition groupDefn = new GroupDefinition(IOUtil.readString(dis));
 				String keyColumn = IOUtil.readString(dis);
 				String keyExpr = IOUtil.readString(dis);
-				if (keyColumn != null) {
+				if (keyColumn != null)
 					groupDefn.setKeyColumn(keyColumn);
-				} else {
+				else
 					groupDefn.setKeyExpression(keyExpr);
-				}
 				groupDefn.setInterval(IOUtil.readInt(dis));
 				groupDefn.setIntervalRange(IOUtil.readDouble(dis));
 				groupDefn.setSortDirection(IOUtil.readInt(dis));
@@ -105,19 +104,18 @@ public class GroupDefnUtil {
 	 * @return
 	 */
 	public static boolean isEqualGroups(List list1, List list2) {
-		if (list1 == list2) {
+		if (list1 == list2)
 			return true;
-		}
 
-		if (list1 == null || list2 == null || (list1.size() != list2.size())) {
+		if (list1 == null || list2 == null)
 			return false;
-		}
 
-		for (int i = 0; i < list1.size(); i++) {
-			if (!isEqualGroup((IGroupDefinition) list1.get(i), (IGroupDefinition) list2.get(i))) {
+		if (list1.size() != list2.size())
+			return false;
+
+		for (int i = 0; i < list1.size(); i++)
+			if (isEqualGroup((IGroupDefinition) list1.get(i), (IGroupDefinition) list2.get(i)) == false)
 				return false;
-			}
-		}
 
 		return true;
 	}
@@ -128,13 +126,11 @@ public class GroupDefnUtil {
 	 * @return
 	 */
 	private static boolean isEqualGroup(IGroupDefinition groupDefn1, IGroupDefinition groupDefn2) {
-		if (groupDefn1 == groupDefn2) {
+		if (groupDefn1 == groupDefn2)
 			return true;
-		}
 
-		if (groupDefn1 == null || groupDefn2 == null) {
+		if (groupDefn1 == null || groupDefn2 == null)
 			return false;
-		}
 
 		return isEqualStr(groupDefn1.getName(), groupDefn2.getName())
 				&& isEqualStr(groupDefn1.getKeyColumn(), groupDefn2.getKeyColumn())
@@ -151,13 +147,11 @@ public class GroupDefnUtil {
 	 * @return
 	 */
 	private static boolean isEqualStr(String str1, String str2) {
-		if (str1 == str2) {
+		if (str1 == str2)
 			return true;
-		}
 
-		if (str1 == null || str2 == null) {
+		if (str1 == null || str2 == null)
 			return false;
-		}
 
 		return str1.equals(str2);
 	}

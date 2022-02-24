@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,13 +62,12 @@ public class CrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEditPolicy
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies
 	 * .ReportFlowLayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.
 	 * CreateRequest)
 	 */
-	@Override
 	protected Command getCreateCommand(CreateRequest request) {
 		EditPart after;
 		if (getLocationFromRequest(request) == null) {
@@ -191,14 +190,12 @@ public class CrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEditPolicy
 			DesignElementHandle container = null;
 			Object[] items = (Object[]) newObject;
 			for (int i = 0; i < items.length; i++) {
-				if (!(items[i] instanceof LevelHandle)) {
+				if (!(items[i] instanceof LevelHandle))
 					return false;
-				}
-				if (container == null) {
+				if (container == null)
 					container = ((LevelHandle) items[i]).getContainer();
-				} else if (container != ((LevelHandle) items[i]).getContainer()) {
+				else if (container != ((LevelHandle) items[i]).getContainer())
 					return false;
-				}
 			}
 			return items.length > 0;
 		}
@@ -208,11 +205,10 @@ public class CrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEditPolicy
 	private Class getArrayType(Object[] array) {
 		Class type = null;
 		for (int i = 0; i < array.length; i++) {
-			if (type == null) {
+			if (type == null)
 				type = array[i].getClass();
-			} else if (type != array[i].getClass()) {
+			else if (type != array[i].getClass())
 				return null;
-			}
 		}
 		return type;
 	}
@@ -231,13 +227,12 @@ public class CrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEditPolicy
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies
 	 * .ReportFlowLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
 	 * org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
 	 */
-	@Override
 	protected Command createAddCommand(EditPart parent, EditPart child, EditPart after) {
 		// Object parentObj = parent.getModel( );
 		// Object source = child.getModel( );
@@ -353,14 +348,20 @@ public class CrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEditPolicy
 				(DesignElementHandle) DNDUtil.unwrapToModel(afterObj));
 	}
 
+	private boolean isFirstDataItem(CrosstabCellAdapter adapter, Object model, String type) {
+		if (adapter.getPositionType().equals(type)) {
+			return adapter.getFirstDataItem() == model;
+		}
+		return false;
+	}
+
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createMoveChildCommand
 	 * (org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
 	 */
-	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
 		Object afterModel = null;
 		if (after != null) {
@@ -371,7 +372,13 @@ public class CrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEditPolicy
 		return command;
 	}
 
-	@Override
+	private EditPart getOperator(EditPart child) {
+		if (child instanceof CrosstabCellEditPart) {
+			return child;
+		}
+		return child.getParent();
+	}
+
 	protected void showLayoutTargetFeedback(Request request) {
 
 		boolean isCrossTabElement = false;

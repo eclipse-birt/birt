@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -47,23 +47,22 @@ abstract public class DataEngine {
 	 * Indicates whether data set cache function needs to be used. If yes, put a
 	 * true value of this property to appContext and set it by the method of
 	 * prepare.
-	 *
+	 * 
 	 * @deprecated
 	 * @see org.eclipse.birt.data.engine.api.DataEngine.prepare( IQueryDefinition
 	 *      querySpec, Map appContext)
 	 */
-	@Deprecated
 	public static String DATASET_CACHE_OPTION = "org.eclipse.birt.data.engine.dataset.cache.option";
 
 	/**
 	 * Indicates whether data set cache function need to be used:
-	 *
+	 * 
 	 * Negative integer: Enable data set cache. The row limit will not be set and
 	 * all data set rows are fetched.
-	 *
+	 * 
 	 * Positive integer: Enable data set cache. This row limit will be used for ALL
 	 * data sets, regardless of settings on individual data set designs.
-	 *
+	 * 
 	 * Zero:Disable data set cache regardless of report design settings and
 	 * DataEngineContext settings.
 	 */
@@ -87,10 +86,10 @@ abstract public class DataEngine {
 
 	/**
 	 * Indicates whether memory data set cache function need to be used:
-	 *
+	 * 
 	 * Positive integer: Enable memory data set cache. This row limit will be used
 	 * for ALL data sets, regardless of settings on individual data set designs.
-	 *
+	 * 
 	 * Zero:Disable memory data set cache regardless of report design settings and
 	 * DataEngineContext settings.
 	 */
@@ -135,7 +134,7 @@ abstract public class DataEngine {
 
 	/**
 	 * The fetch size on column and row edge in cube cursor.
-	 *
+	 * 
 	 * Positive integer: the number setting on edge. Zero or Negative number:Disable
 	 * the number setting on edge.
 	 */
@@ -144,14 +143,13 @@ abstract public class DataEngine {
 
 	/**
 	 * The fetch size of the member numbers for all levels.
-	 *
+	 * 
 	 * Positive integer: the member numbers will be fetched from levels. Zero or
 	 * Negative integer:Disable this number setting on levels.
-	 *
+	 * 
 	 * @deprecated use DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE and
 	 *             DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE instead
 	 */
-	@Deprecated
 	public static String CUBECURSOR_FETCH_LIMIT_ON_LEVEL = "org.eclipse.birt.data.engine.olap.cursor.onLevel";
 
 	/**
@@ -164,7 +162,7 @@ abstract public class DataEngine {
 	/**
 	 * Creates a new instance of DataEngine, using the specified DataEngineContext
 	 * as its running environment
-	 *
+	 * 
 	 * @param context, When this value is null, a default context will be used. The
 	 *                 default context is DataEngineContext.MODE_DIRECTPRESENT.
 	 * @return an instance of DataEngine under specified context
@@ -198,12 +196,11 @@ abstract public class DataEngine {
 	/**
 	 * Creates a new instance of DataEngine, using the specified Javascript scope
 	 * and home directory setting.
-	 *
+	 * 
 	 * @param sharedScope a Javascript scope to be used as the "shared" scope to
 	 *                    evaluate Javascript expressions by the data engine.
 	 * @deprecated use newDataEngine( DataEngineContext context ) instead
 	 */
-	@Deprecated
 	public static DataEngine newDataEngine(Scriptable sharedScope) {
 		try {
 			return newDataEngine(
@@ -218,7 +215,6 @@ abstract public class DataEngine {
 	 * @deprecated Use newDataEngine(Scriptable) instead. Home Dir is no longer
 	 *             used.
 	 */
-	@Deprecated
 	public static DataEngine newDataEngine(Scriptable sharedScope, File homeDir) {
 		return newDataEngine(sharedScope);
 	}
@@ -227,7 +223,7 @@ abstract public class DataEngine {
 	 * If and only if current mode is DataEngineContext.MODE_PRESENTATION, query
 	 * result can be retrieved from report document. Otherwise a BirtException will
 	 * be thrown immediatelly.
-	 *
+	 * 
 	 * @param queryResultID
 	 * @return an instanceof IQueryResults
 	 * @throws BirtException
@@ -258,11 +254,11 @@ abstract public class DataEngine {
 	 * This method will return NULL if the named data set is not cached. Otherwise,
 	 * it will return an IResultMetaData instance which provides at least the
 	 * ColumnName and ColumnType information for all cached columns.
-	 *
+	 * 
 	 * Please note that the ParameterHint information will usually essential to the
 	 * result of data set design is omitted for it has nothing to do with the
 	 * metadata.
-	 *
+	 * 
 	 * @param dataSource
 	 * @param dataSet
 	 * @param parameterHints
@@ -277,7 +273,7 @@ abstract public class DataEngine {
 	 * user needs to call this clearCache method to delete the cache content from
 	 * update local environment. After it is called, in the next time the data will
 	 * be retrieved again from data source to update cache.
-	 *
+	 * 
 	 * @param dataSource, which is associated with the data set
 	 * @param dataSet,    which cache needs to be cleared
 	 * @throws BirtException
@@ -286,7 +282,7 @@ abstract public class DataEngine {
 
 	/**
 	 * Clear the cache base on cacheID
-	 *
+	 * 
 	 * @param cacheID
 	 * @throws BirtException
 	 */
@@ -307,7 +303,7 @@ abstract public class DataEngine {
 	 * During prepare, the DTE does not open a data set. In other words, any
 	 * <code>beforeOpen</code> script on a data set will not be evaluated at this
 	 * stage.
-	 *
+	 * 
 	 * @param querySpec Specifies the data access and data transforms services
 	 *                  needed from DtE to produce a set of query results.
 	 * @return The <code>IPreparedQuery</code> object that contains a prepared query
@@ -323,7 +319,7 @@ abstract public class DataEngine {
 	 * This has the same behavior as the prepare( IQueryDefinition querySpec )
 	 * method, with an additional argument for an application to pass in a context
 	 * map to the underlying data provider, e.g. an ODA run-time driver.
-	 *
+	 * 
 	 * @param querySpec  Specifies the data access and data transforms services
 	 *                   needed from DtE to produce a set of query results.
 	 * @param appContext The application context map for preparation and execution
@@ -337,7 +333,7 @@ abstract public class DataEngine {
 
 	/**
 	 * Optimize query execution by analyze a list of query definitions.
-	 *
+	 * 
 	 * @param queryDefns
 	 * @throws DataException
 	 */
@@ -347,7 +343,7 @@ abstract public class DataEngine {
 	 * Provides a hint to DtE that the consumer is done with the given data source,
 	 * and that its resources can be safely released as appropriate. This tells DtE
 	 * that there is to be no more query that uses such data source.
-	 *
+	 * 
 	 * @param dataSourceName The name of a data source. The named data source must
 	 *                       have been previously defined.
 	 */
@@ -355,7 +351,7 @@ abstract public class DataEngine {
 
 	/**
 	 * Prepare the cube query definition, return an IPreparedCubeQuery instance
-	 *
+	 * 
 	 * @param query
 	 * @param appContext
 	 * @return
@@ -365,7 +361,7 @@ abstract public class DataEngine {
 
 	/**
 	 * Prepare the sub cube query definition, return an IPreparedCubeQuery instance
-	 *
+	 * 
 	 * @param query
 	 * @param appContext
 	 * @return
@@ -381,7 +377,7 @@ abstract public class DataEngine {
 
 	/**
 	 * Remove a shut down listener.
-	 *
+	 * 
 	 * @param listener
 	 */
 	abstract public void removeListener(IShutdownListener listener);

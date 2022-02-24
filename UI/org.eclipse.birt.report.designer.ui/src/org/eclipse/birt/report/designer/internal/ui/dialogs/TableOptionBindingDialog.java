@@ -44,7 +44,6 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 		super(parentShell, true);
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		loadPreference();
 
@@ -79,7 +78,6 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 		autoChk.setLayoutData(gdata);
 		autoChk.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (dataSetCombo.getSelectionIndex() == 0) {
 					rowEditor.setEnabled(!autoChk.getSelection());
@@ -99,7 +97,6 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 
 		dataSetCombo.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (dataSetCombo.getSelectionIndex() > 0) {
 					createBindingUI(contentPane);
@@ -108,7 +105,7 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 				}
 
 				contentPane.layout();
-			}
+			};
 		});
 
 		UIUtil.bindHelp(parent, IHelpContextIds.TABLE_OPTION_DIALOG_ID);
@@ -181,10 +178,9 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		if (dataSetCombo.getSelectionIndex() == 0) {
 			rowCount = rowEditor.getSelection();

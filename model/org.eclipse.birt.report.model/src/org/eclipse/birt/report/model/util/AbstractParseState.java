@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 /**
  * Abstract parse state for the <code>XMLParserHandler</code> class. Derived
  * classes create parse states based on this class.
- *
+ * 
  * @see ParseState
  * @see AnyElementState
  */
@@ -51,7 +51,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Sets the element name.
-	 *
+	 * 
 	 * @param name the name of the element.
 	 */
 
@@ -63,7 +63,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Jumps to the specified state that the current state needs to go.
-	 *
+	 * 
 	 * @return the other state.
 	 */
 
@@ -75,7 +75,7 @@ public abstract class AbstractParseState {
 	/**
 	 * Called to parse attributes. This is the first method called after the state
 	 * is created.Returns the value of attribute name.
-	 *
+	 * 
 	 * @param attrs the SAX attributes object
 	 * @throws XMLParserException if any parse exception
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement
@@ -88,7 +88,7 @@ public abstract class AbstractParseState {
 	 * Start a new tag. Derived classes override this to create a state to handle
 	 * the element. Call this method to issue an error for, and ignore, any
 	 * unrecognized tags.
-	 *
+	 * 
 	 * @param tagName the name of the starting element
 	 * @return the state to parse the given tag
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement
@@ -121,7 +121,7 @@ public abstract class AbstractParseState {
 	 * Returns the parser handler. Required to be implemented by derived states.
 	 * States will implement this differently depending on whether the state is a
 	 * normal or inner class.
-	 *
+	 * 
 	 * @return the XML parser handler
 	 */
 
@@ -129,7 +129,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Called when a child element is ending.
-	 *
+	 * 
 	 * @param state the child state that is ending
 	 */
 
@@ -138,7 +138,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Called when the element for this state is ending.
-	 *
+	 * 
 	 * @throws SAXException if the SAX exception is encountered.
 	 * @throws
 	 * @see org.xml.sax.helpers.DefaultHandler#endElement
@@ -149,7 +149,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Utility method to parse a Boolean attribute.
-	 *
+	 * 
 	 * @param attrs        the SAX attributes object
 	 * @param attrName     the name of the attribute to parse
 	 * @param defaultValue the default value if the attribute is not provided
@@ -162,7 +162,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Parse a boolean string.
-	 *
+	 * 
 	 * @param value        the XML string to parse
 	 * @param defaultValue the default value if the string is null or blank
 	 * @return the parsed Boolean value
@@ -170,13 +170,12 @@ public abstract class AbstractParseState {
 
 	public boolean parseBoolean(String value, boolean defaultValue) {
 		value = StringUtil.trimString(value);
-		if (value == null) {
+		if (value == null)
 			return defaultValue;
-		} else if (value.equalsIgnoreCase("true")) { //$NON-NLS-1$
+		else if (value.equalsIgnoreCase("true")) //$NON-NLS-1$
 			return true;
-		} else if (value.equalsIgnoreCase("false")) { //$NON-NLS-1$
+		else if (value.equalsIgnoreCase("false")) //$NON-NLS-1$
 			return false;
-		}
 		getHandler().getErrorHandler()
 				.semanticError(new XMLParserException(XMLParserException.DESIGN_EXCEPTION_INVALID_BOOLEAN));
 		return defaultValue;
@@ -184,7 +183,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Parses an integer attribute.
-	 *
+	 * 
 	 * @param attrs    the SAX attributes object
 	 * @param attrName the name of the attribute to parse
 	 * @return the parsed attribute, or 0 if the attribute is not present
@@ -196,7 +195,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Parses an integer attribute.
-	 *
+	 * 
 	 * @param attrs        the SAX attributes object
 	 * @param attrName     the name of the attribute to parse
 	 * @param defaultValue default value to return if the attribute is not present
@@ -205,9 +204,8 @@ public abstract class AbstractParseState {
 
 	public int getIntAttrib(Attributes attrs, String attrName, int defaultValue) {
 		String value = attrs.getValue(attrName);
-		if (value == null) {
+		if (value == null)
 			return defaultValue;
-		}
 		try {
 			Integer result = Integer.decode(value);
 			return result.intValue();
@@ -221,7 +219,7 @@ public abstract class AbstractParseState {
 	/**
 	 * Parse a string value. Normalizes the string: blank strings are converted to a
 	 * null string.
-	 *
+	 * 
 	 * @param attrs    the SAX attributes object
 	 * @param attrName the name of the attribute to parse
 	 * @return the parsed string
@@ -233,7 +231,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Parse a date value. The date is assumed to be in the XML date format.
-	 *
+	 * 
 	 * @param attrs    the SAX attributes object
 	 * @param attrName the name of the attribute to parse
 	 * @return the parsed date
@@ -247,7 +245,7 @@ public abstract class AbstractParseState {
 	/**
 	 * Sets the flag to indicate whether the value is a XML CDATA. In default, this
 	 * method do nothing.
-	 *
+	 * 
 	 * @param isCDataSection <code>true</code> if it is a XML CDATA. Otherwise
 	 *                       <code>false</code>.
 	 */

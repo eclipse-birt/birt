@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * 
  */
 public class DrillThroughActionDesign {
 
@@ -110,7 +110,7 @@ public class DrillThroughActionDesign {
 	/**
 	 * Sets target report file type for a drill-through action. The format type for
 	 * action are defined in DesignChoiceConstants.
-	 *
+	 * 
 	 * @param targetFileType the type of the target report file.
 	 */
 	public void setTargetFileType(String targetFileType) {

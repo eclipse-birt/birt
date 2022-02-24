@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public class SelectColumnAction extends ContextSelectionAction {
 
 	/**
 	 * Constructs new instance
-	 *
+	 * 
 	 * @param part current work bench part
 	 */
 	public SelectColumnAction(IWorkbenchPart part) {
@@ -45,10 +45,9 @@ public class SelectColumnAction extends ContextSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	@Override
 	protected boolean calculateEnabled() {
 		int[] intValue = getSelectionColumnNumbers();
 		if (intValue == null || intValue.length == 0) {
@@ -59,9 +58,8 @@ public class SelectColumnAction extends ContextSelectionAction {
 
 	/**
 	 * Runs action.
-	 *
+	 * 
 	 */
-	@Override
 	public void run() {
 		int[] intValue = getSelectionColumnNumbers();
 		Arrays.sort(intValue);
@@ -84,7 +82,7 @@ public class SelectColumnAction extends ContextSelectionAction {
 			int colNumber = adapt.getColumnNumber();
 			int colSpan = adapt.getColumnSpan();
 			for (int j = colNumber; j < colNumber + colSpan; j++) {
-				Integer value = j;
+				Integer value = Integer.valueOf(j);
 				if (!temp.contains(value)) {
 					temp.add(value);
 				}

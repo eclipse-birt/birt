@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
- *
+ * 
  */
 
 public class GlobalInsertRowAction extends AbstractGlobalSelectionAction {
@@ -38,10 +38,9 @@ public class GlobalInsertRowAction extends AbstractGlobalSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.actions.AbstractGlobalSelectionAction#run()
 	 */
-	@Override
 	public void run() {
 		new InsertAction(((StructuredSelection) getSelection()).toArray()[0],
 				Messages.getString("RowProvider.action.text.above"), //$NON-NLS-1$
@@ -50,14 +49,13 @@ public class GlobalInsertRowAction extends AbstractGlobalSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	@Override
 	protected boolean calculateEnabled() {
 		if (((StructuredSelection) getSelection()).toArray().length != 1
 				|| ((StructuredSelection) getSelection()).toArray()[0] == null
-				|| !(((StructuredSelection) getSelection()).toArray()[0] instanceof RowHandle)) {
+				|| ((StructuredSelection) getSelection()).toArray()[0] instanceof RowHandle == false) {
 			return false;
 		}
 

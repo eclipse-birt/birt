@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Actuate Corporation - support figure resize independence on image
@@ -50,7 +50,7 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	/**
 	 * Constructor <br>
 	 * The default alignment is <code>PositionConstants.CENTER</code>.
-	 *
+	 * 
 	 * @param image The Image to be displayed
 	 */
 	public ImageFigure(Image image) {
@@ -59,10 +59,10 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param image     The Image to be displayed
 	 * @param alignment A PositionConstant indicating the alignment
-	 *
+	 * 
 	 * @see ImageFigure#setImage(Image)
 	 * @see ImageFigure#setAlignment(int)
 	 */
@@ -74,7 +74,6 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	/**
 	 * @return The Image that this Figure displays
 	 */
-	@Override
 	public Image getImage() {
 		return img;
 	}
@@ -82,7 +81,7 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	/**
 	 * Sets the flag if the image content is auto-stretched according to the
 	 * container size. Returns this figure for convenience.
-	 *
+	 * 
 	 * @param isStretched If the image is to be stretched.
 	 */
 	public void setStretched(boolean isStretched) {
@@ -92,10 +91,9 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	/**
 	 * Returns the size of the Image that this Figure displays; or (0,0) if no Image
 	 * has been set.
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
 	 */
-	@Override
 	public Dimension getPreferredSize(int wHint, int hHint) {
 		if (getBorder() != null) {
 			Insets bdInsets = getBorder().getInsets(this);
@@ -118,7 +116,6 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	/**
 	 * @see org.eclipse.draw2d.Figure#paintFigure(Graphics)
 	 */
-	@Override
 	protected void paintFigure(Graphics graphics) {
 		if (isOpaque()) {
 			if (getBorder() instanceof BaseBorder) {
@@ -169,7 +166,7 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	 * Sets the alignment of the Image within this Figure. The alignment comes into
 	 * play when the ImageFigure is larger than the Image. The alignment could be
 	 * any valid combination of the following:
-	 *
+	 * 
 	 * <UL>
 	 * <LI>PositionConstants.NORTH</LI>
 	 * <LI>PositionConstants.SOUTH</LI>
@@ -177,10 +174,9 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	 * <LI>PositionConstants.WEST</LI>
 	 * <LI>PositionConstants.CENTER or PositionConstants.NONE</LI>
 	 * </UL>
-	 *
+	 * 
 	 * @param flag A constant indicating the alignment
 	 */
-	@Override
 	public void setAlignment(int flag) {
 		alignment = flag;
 	}
@@ -190,20 +186,17 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	 * <p>
 	 * IMPORTANT: Note that it is the client's responsibility to dispose the given
 	 * image.
-	 *
+	 * 
 	 * @param image The Image to be displayed. It can be <code>null</code>.
 	 */
-	@Override
 	public void setImage(Image image) {
-		if (img == image) {
+		if (img == image)
 			return;
-		}
 		img = image;
-		if (img != null) {
+		if (img != null)
 			size = new Rectangle(image.getBounds()).getSize();
-		} else {
+		else
 			size = new Dimension();
-		}
 		revalidate();
 		repaint();
 	}
@@ -211,7 +204,6 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	/**
 	 * @see org.eclipse.draw2d.IFigure#setSize(int, int)
 	 */
-	@Override
 	public void setSize(int w, int h) {
 		super.setSize(w, h);
 		size.width = w;
@@ -220,11 +212,10 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.
 	 * IOutsideBorder#getOutsideBorder()
 	 */
-	@Override
 	public Border getOutsideBorder() {
 		return getBorder();
 	}

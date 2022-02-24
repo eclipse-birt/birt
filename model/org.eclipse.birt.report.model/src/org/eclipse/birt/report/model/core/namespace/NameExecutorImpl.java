@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
- *
+ * 
  */
 class NameExecutorImpl {
 
@@ -63,14 +63,13 @@ class NameExecutorImpl {
 	protected String namespaceId;
 
 	/**
-	 *
+	 * 
 	 */
 	public static final String NAME_SEPARATOR = "/"; //$NON-NLS-1$
 
 	public NameExecutorImpl(Module module, DesignElement container, DesignElement element) {
-		if (element == null) {
+		if (element == null)
 			throw new IllegalArgumentException("The element can not be null"); //$NON-NLS-1$
-		}
 		this.module = module;
 		this.container = null;
 		this.nsContainer = container;
@@ -79,9 +78,8 @@ class NameExecutorImpl {
 	}
 
 	public NameExecutorImpl(Module module, ContainerContext container, DesignElement element) {
-		if (element == null) {
+		if (element == null)
 			throw new IllegalArgumentException("The element can not be null"); //$NON-NLS-1$
-		}
 		this.module = module;
 		this.container = container;
 		this.nsContainer = null;
@@ -127,8 +125,10 @@ class NameExecutorImpl {
 			if (nsParent == null) {
 				if (container != null) {
 					nsParent = container.getElement();
-				} else if (module == focus.getRoot() || focus.getRoot() == null) {
-					nsParent = focus.getContainer();
+				} else {
+					if (module == focus.getRoot() || focus.getRoot() == null) {
+						nsParent = focus.getContainer();
+					}
 				}
 
 			}
@@ -181,6 +181,8 @@ class NameExecutorImpl {
 			}
 			context = parent.getContainerInfo();
 		}
+
+		return;
 	}
 
 	public boolean hasNamespace() {
@@ -193,7 +195,7 @@ class NameExecutorImpl {
 
 	/**
 	 * Gets the name space where the name of this element resides.
-	 *
+	 * 
 	 * @param module
 	 * @return the namespace instance for this executor
 	 */
@@ -242,13 +244,13 @@ class NameExecutorImpl {
 
 	/**
 	 * Checks the element name in this name container.
-	 *
+	 * 
 	 * <ul>
 	 * <li>If the element name is required and duplicate name is found in name
 	 * space, rename the element with a new unique name.
 	 * <li>If the element name is not required, clear the name.
 	 * </ul>
-	 *
+	 * 
 	 * @param element the element handle whose name is need to check.
 	 */
 	public void rename() {
@@ -291,15 +293,14 @@ class NameExecutorImpl {
 	/**
 	 * Returns a unique name for the group element. The name is unique in the scope
 	 * of the table.
-	 *
+	 * 
 	 * @param element the group element.
 	 * @return unique name of group element.
-	 *
+	 * 
 	 */
 	private String getUniqueGroupName(GroupElement group, String prefix) {
-		if (group == null || group.getContainer() == null) {
+		if (group == null || group.getContainer() == null)
 			return null;
-		}
 
 		ListingHandle listing = (ListingHandle) group.getContainer().getHandle(module);
 
@@ -347,17 +348,16 @@ class NameExecutorImpl {
 	/**
 	 * Creates a unique name for the group element. The name is unique in the scope
 	 * of the table.
-	 *
+	 * 
 	 * @param element   the group element.
 	 * @param groupName name of group element.
-	 *
+	 * 
 	 */
 	private void setUniqueGroupName(GroupElement group, String groupName) {
 		assert groupName != null;
 		String localGroupName = (String) group.getLocalProperty(module, IGroupElementModel.GROUP_NAME_PROP);
-		if (groupName.equals(localGroupName)) {
+		if (groupName.equals(localGroupName))
 			return;
-		}
 
 		group.setProperty(IGroupElementModel.GROUP_NAME_PROP, groupName);
 	}

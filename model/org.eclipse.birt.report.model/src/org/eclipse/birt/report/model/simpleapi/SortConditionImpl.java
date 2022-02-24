@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 
 /**
  * Implements of Sort Condition
- *
+ * 
  */
 
 public class SortConditionImpl extends Structure implements ISortCondition {
@@ -31,7 +31,7 @@ public class SortConditionImpl extends Structure implements ISortCondition {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param sortHandle
 	 */
 
@@ -42,7 +42,7 @@ public class SortConditionImpl extends Structure implements ISortCondition {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param sortHandle
 	 */
 
@@ -58,7 +58,7 @@ public class SortConditionImpl extends Structure implements ISortCondition {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param sort
 	 */
 	public SortConditionImpl(SortKey sort) {
@@ -72,7 +72,7 @@ public class SortConditionImpl extends Structure implements ISortCondition {
 
 	/**
 	 * Create instance of <code>SorterKey</code>
-	 *
+	 * 
 	 * @return instance
 	 */
 	private SortKey createSortCondition() {
@@ -80,17 +80,14 @@ public class SortConditionImpl extends Structure implements ISortCondition {
 		return s;
 	}
 
-	@Override
 	public String getDirection() {
 		return sort.getDirection();
 	}
 
-	@Override
 	public String getKey() {
 		return sort.getKey();
 	}
 
-	@Override
 	public void setDirection(String direction) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(SortKey.DIRECTION_MEMBER, direction);
@@ -100,7 +97,6 @@ public class SortConditionImpl extends Structure implements ISortCondition {
 		sort.setDirection(direction);
 	}
 
-	@Override
 	public void setKey(String key) throws SemanticException {
 		// key is required
 		if (structureHandle != null) {
@@ -111,7 +107,6 @@ public class SortConditionImpl extends Structure implements ISortCondition {
 		sort.setKey(key);
 	}
 
-	@Override
 	public IStructure getStructure() {
 		return sort;
 	}

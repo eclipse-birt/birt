@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,8 +44,8 @@ public final class MetaDataReader {
 	 * structures. <code>MetaLogManager</code> will be loaded to do the meta data
 	 * error logging, don't forget to call {@link MetaLogManager#shutDown()}after
 	 * reading of the metadata.
-	 *
-	 *
+	 * 
+	 * 
 	 * @param fileName meta source file name.
 	 * @throws MetaDataParserException
 	 */
@@ -79,7 +79,7 @@ public final class MetaDataReader {
 	 * structures. <code>MetaLogManager</code> will be loaded to do the meta data
 	 * error logging, don't forget to call {@link MetaLogManager#shutDown()}after
 	 * reading of the metadata.
-	 *
+	 * 
 	 * @param inputStream meta source file stream.
 	 * @throws MetaDataParserException
 	 */

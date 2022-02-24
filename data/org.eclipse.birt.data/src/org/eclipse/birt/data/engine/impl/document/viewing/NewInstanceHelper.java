@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.mozilla.javascript.Scriptable;
 import com.ibm.icu.util.ULocale;
 
 /**
- *
+ * 
  */
 public class NewInstanceHelper {
 
@@ -62,7 +62,6 @@ public class NewInstanceHelper {
 			 * org.eclipse.birt.data.engine.odi.IDataSource#addProperty(java.lang.String,
 			 * java.lang.String)
 			 */
-			@Override
 			public void addProperty(String name, String value) throws DataException {
 			}
 
@@ -70,7 +69,6 @@ public class NewInstanceHelper {
 			 * @see
 			 * org.eclipse.birt.data.engine.odi.IDataSource#setAppContext(java.util.Map)
 			 */
-			@Override
 			public void setAppContext(Map context) throws DataException {
 			}
 
@@ -78,7 +76,6 @@ public class NewInstanceHelper {
 			 * @see org.eclipse.birt.data.engine.odi.IDataSource#newQuery(java.lang.String,
 			 * java.lang.String)
 			 */
-			@Override
 			public IDataSourceQuery newQuery(String queryType, String queryText, boolean fromCache,
 					IQueryContextVisitor qcv) throws DataException {
 				return null;
@@ -87,7 +84,6 @@ public class NewInstanceHelper {
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IDataSource#newCandidateQuery()
 			 */
-			@Override
 			public ICandidateQuery newCandidateQuery(boolean fromCache) {
 				return null;
 			}
@@ -95,14 +91,12 @@ public class NewInstanceHelper {
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IDataSource#open()
 			 */
-			@Override
 			public void open() throws DataException {
 			}
 
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IDataSource#canClose()
 			 */
-			@Override
 			public boolean canClose() {
 				return true;
 			}
@@ -110,7 +104,6 @@ public class NewInstanceHelper {
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IDataSource#close()
 			 */
-			@Override
 			public void close() {
 			}
 		};
@@ -127,7 +120,6 @@ public class NewInstanceHelper {
 			 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 			 * getExtensionID()
 			 */
-			@Override
 			public String getExtensionID() {
 				return null;
 			}
@@ -136,7 +128,6 @@ public class NewInstanceHelper {
 			 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 			 * getExtensionProperty(java.lang.String)
 			 */
-			@Override
 			public String getExtensionProperty(String name) {
 				return null;
 			}
@@ -145,7 +136,6 @@ public class NewInstanceHelper {
 			 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 			 * setExtensionProperty(java.lang.String, java.lang.String)
 			 */
-			@Override
 			public void setExtensionProperty(String name, String value) {
 
 			}
@@ -154,7 +144,6 @@ public class NewInstanceHelper {
 			 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 			 * getAllExtensionProperties()
 			 */
-			@Override
 			public Map getAllExtensionProperties() {
 				return null;
 			}
@@ -167,32 +156,26 @@ public class NewInstanceHelper {
 	private static IBaseDataSourceDesign newBaseDataSourceDesign() {
 		return new IBaseDataSourceDesign() {
 
-			@Override
 			public String getName() {
 				return null;
 			}
 
-			@Override
 			public String getBeforeOpenScript() {
 				return null;
 			}
 
-			@Override
 			public String getAfterOpenScript() {
 				return null;
 			}
 
-			@Override
 			public String getBeforeCloseScript() {
 				return null;
 			}
 
-			@Override
 			public String getAfterCloseScript() {
 				return null;
 			}
 
-			@Override
 			public IBaseDataSourceEventHandler getEventHandler() {
 				return null;
 			}
@@ -218,7 +201,6 @@ public class NewInstanceHelper {
 			 * @see org.eclipse.birt.data.engine.impl.document.viewing.NewInstanceHelper.
 			 * BaseDataSetDesign#getComputedColumns()
 			 */
-			@Override
 			public List getComputedColumns() {
 				return this.computedColumns;
 			}
@@ -234,21 +216,18 @@ public class NewInstanceHelper {
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IQuery#setOrdering(java.util.List)
 			 */
-			@Override
 			public void setOrdering(List sortSpecs) throws DataException {
 			}
 
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IQuery#setGrouping(java.util.List)
 			 */
-			@Override
 			public void setGrouping(List groupSpecs) throws DataException {
 			}
 
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IQuery#setMaxRows(int)
 			 */
-			@Override
 			public void setMaxRows(int maxRows) {
 			}
 
@@ -257,14 +236,12 @@ public class NewInstanceHelper {
 			 * org.eclipse.birt.data.engine.odi.IQuery#addOnFetchEvent(org.eclipse.birt.data
 			 * .engine.odi.IResultObjectEvent)
 			 */
-			@Override
 			public void addOnFetchEvent(IResultObjectEvent event) {
 			}
 
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
 			 */
-			@Override
 			public void close() {
 			}
 
@@ -273,28 +250,23 @@ public class NewInstanceHelper {
 			 * org.eclipse.birt.data.engine.odi.IQuery#setExprProcessor(org.eclipse.birt.
 			 * data.engine.executor.transformation.IExpressionProcessor)
 			 */
-			@Override
 			public void setExprProcessor(IExpressionProcessor exprProcessor) {
 			}
 
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IQuery#setDistinctValueFlag(boolean)
 			 */
-			@Override
 			public void setDistinctValueFlag(boolean distinctValueFlag) {
 			}
 
-			@Override
 			public void setRowFetchLimit(int limit) {
 			}
 
-			@Override
 			public IBaseQueryDefinition getQueryDefinition() {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
-			@Override
 			public void setQueryDefinition(IBaseQueryDefinition query) {
 				// TODO Auto-generated method stub
 
@@ -315,7 +287,6 @@ public class NewInstanceHelper {
 	 *
 	 */
 	private static class BaseDataSetDesign implements IBaseDataSetDesign {
-		@Override
 		public String getName() {
 			return null;
 		}
@@ -323,104 +294,84 @@ public class NewInstanceHelper {
 		/**
 		 * @deprecated
 		 */
-		@Deprecated
-		@Override
 		public int getCacheRowCount() {
 			return 0;
 		}
 
-		@Override
 		public String getDataSourceName() {
 			return null;
 		}
 
-		@Override
 		public List getComputedColumns() {
 			return null;
 		}
 
-		@Override
 		public List getFilters() {
 			return null;
 		}
 
-		@Override
 		public List getParameters() {
 			return null;
 		}
 
-		@Override
 		public List getResultSetHints() {
 			return null;
 		}
 
-		@Override
 		public Collection getInputParamBindings() {
 			return null;
 		}
 
-		@Override
 		public String getBeforeOpenScript() {
 			return null;
 		}
 
-		@Override
 		public String getAfterOpenScript() {
 			return null;
 		}
 
-		@Override
 		public String getOnFetchScript() {
 			return null;
 		}
 
-		@Override
 		public String getBeforeCloseScript() {
 			return null;
 		}
 
-		@Override
 		public String getAfterCloseScript() {
 			return null;
 		}
 
-		@Override
 		public IBaseDataSetEventHandler getEventHandler() {
 			return null;
 		}
 
-		@Override
 		public boolean needDistinctValue() {
 			return false;
 		}
 
-		@Override
 		public int getRowFetchLimit() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
-		@Override
 		public void setRowFetchLimit(int max) {
 			// TODO Auto-generated method stub
 
 		}
 
-		@Override
 		public ULocale getCompareLocale() {
 			return null;
 		}
 
-		@Override
 		public String getNullsOrdering() {
 			return null;
 		}
 
-		@Override
 		public List getSortHints() {
 			return null;
 		}
-	}
+	};
 
 	/**
 	 * @return
@@ -431,7 +382,6 @@ public class NewInstanceHelper {
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
 			 */
-			@Override
 			public void close() {
 			}
 		};

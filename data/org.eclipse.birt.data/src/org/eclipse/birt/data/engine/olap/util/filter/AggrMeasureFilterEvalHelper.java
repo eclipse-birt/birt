@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
- *
+ * 
  */
 
 public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implements IAggrMeasureFilterEvalHelper {
@@ -43,7 +43,7 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implement
 	private DummyDimensionObject dimObj;
 
 	/**
-	 *
+	 * 
 	 * @param scope
 	 * @param queryDefn
 	 * @param cubeFilter
@@ -57,12 +57,11 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implement
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper#
 	 * evaluateFilter(org.eclipse.birt.data.engine.olap.util.filter.IResultRow)
 	 */
-	@Override
 	public boolean evaluateFilter(IResultRow resultRow) throws DataException {
 		super.setData(resultRow);
 		dimObj.setCurrentRow(resultRow);
@@ -78,11 +77,10 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implement
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper#
 	 * registerJSObjectPopulators()
 	 */
-	@Override
 	protected void registerJSObjectPopulators() throws DataException {
 		super.registerJSObjectPopulators();
 		register(new DataJSObjectPopulator(this.outResults, scope, queryDefn.getBindings(), true, cx));
@@ -93,12 +91,11 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implement
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper#
 	 * getExpression()
 	 */
-	@Override
 	public IBaseExpression getExpression() {
 		return this.expr;
 	}
@@ -112,15 +109,14 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implement
 		public DummyLevelObject(DummyDimensionObject host, String dimName) {
 			this.host = host;
 			this.dimName = dimName;
-			this.levelAttrMap = new HashMap<>();
+			this.levelAttrMap = new HashMap<String, DummyLevelAttrObject>();
 		}
 
-		@Override
 		public Object get(String levelName, Scriptable scope) {
 			try {
-				if (this.levelAttrMap.containsKey(levelName)) {
+				if (this.levelAttrMap.containsKey(levelName))
 					return this.levelAttrMap.get(levelName);
-				} else {
+				else {
 					this.levelAttrMap.put(levelName, new DummyLevelAttrObject(host, dimName, levelName));
 					return this.levelAttrMap.get(levelName);
 				}
@@ -129,7 +125,6 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implement
 			}
 		}
 
-		@Override
 		public String getClassName() {
 			return "DummyLevelObject";
 		}
@@ -138,33 +133,31 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implement
 	private static class DummyDimensionObject extends ScriptableObject {
 		private static final long serialVersionUID = 1L;
 		private IResultRow row;
-		private Map<String, DummyLevelObject> dimLevMap = new HashMap<>();
+		private Map<String, DummyLevelObject> dimLevMap = new HashMap<String, DummyLevelObject>();
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 		 */
-		@Override
 		public String getClassName() {
 			return "DummyDimensionObject";
 		}
 
 		/**
 		 * Set the current row for the evaluation.
-		 *
+		 * 
 		 * @param row
 		 */
 		public void setCurrentRow(IResultRow row) {
 			this.row = row;
 		}
 
-		@Override
 		public Object get(String dimName, Scriptable scope) {
 			try {
-				if (this.dimLevMap.containsKey(dimName)) {
+				if (this.dimLevMap.containsKey(dimName))
 					return this.dimLevMap.get(dimName);
-				} else {
+				else {
 					this.dimLevMap.put(dimName, new DummyLevelObject(this, dimName));
 					return this.dimLevMap.get(dimName);
 				}
@@ -187,18 +180,15 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implement
 			this.levelName = levelName;
 		}
 
-		@Override
 		public String getClassName() {
 			return "DummyLevelAttrObject";
 		}
 
-		@Override
 		public Object get(String attrName, Scriptable scope) {
 
 			try {
-				if (this.levelName.equals(attrName)) {
+				if (this.levelName.equals(attrName))
 					return this.getDefaultValue(null);
-				}
 				return this.host.row
 						.getFieldValue(OlapExpressionUtil.getAttrReference(this.dimName, this.levelName, attrName));
 			} catch (Exception e) {
@@ -206,12 +196,13 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper implement
 			}
 		}
 
-		@Override
 		public Object getDefaultValue(Class hint) {
 			try {
 				Object value = this.host.row.getFieldValue(
 						OlapExpressionUtil.getAttrReference(this.dimName, this.levelName, this.levelName));
-				return value;
+				if (value != null)
+					return value;
+				return null;
 			} catch (Exception e) {
 				return null;
 			}

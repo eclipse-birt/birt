@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,6 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory {
 
 	public static final String CATEGORY_KEY_EVENTHANDLER = AttributesUtil.EVENTHANDLER;
 
-	@Override
 	protected CategoryHolder getCategories(String elementName) {
 		CategoryHolder holder = super.getCategories(elementName);
 
@@ -80,7 +79,6 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory {
 		return holder;
 	}
 
-	@Override
 	protected CategoryHolder getCategories(DesignElementHandle handle) {
 		CategoryHolder holder = super.getCategories(handle);
 

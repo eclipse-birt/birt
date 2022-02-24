@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,18 +50,17 @@ class RDSaveUtil {
 	/**
 	 * Save below information into report document: result class group information
 	 * subquery information
-	 *
+	 * 
 	 * @param odiResult
 	 * @param groupLevel
 	 * @param subQueryInfo
 	 * @throws DataException
 	 */
 	void saveResultIterator(IResultIterator odiResult, int groupLevel, int[] subQueryInfo) throws DataException {
-		if (mode == DataEngineContext.MODE_GENERATION) {
+		if (mode == DataEngineContext.MODE_GENERATION)
 			saveForGeneration(odiResult, groupLevel, subQueryInfo);
-		} else {
+		else
 			saveForUpdate(odiResult, groupLevel, subQueryInfo);
-		}
 	}
 
 	/**
@@ -77,28 +76,26 @@ class RDSaveUtil {
 			OutputStream streamForGroupInfo = null;
 
 			boolean isSubQuery = streamManager.isSubquery();
-			if (!isSubQuery) {
+			if (isSubQuery == false) {
 				streamForResultClass = streamManager.getOutStream(DataEngineContext.DATASET_META_STREAM,
 						StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE);
 			}
 
-			if (!(odiResult instanceof SimpleResultSet || odiResult instanceof ResultSetWrapper)) {
+			if (!(odiResult instanceof SimpleResultSet || odiResult instanceof ResultSetWrapper))
 				streamForGroupInfo = streamManager.getOutStream(DataEngineContext.GROUP_INFO_STREAM,
 						StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE);
-			}
 
 			odiResult.doSave(new StreamWrapper(streamManager, streamForResultClass, streamForGroupInfo, null, null),
 					isSubQuery);
 
-			if (!(odiResult instanceof SimpleResultSet || odiResult instanceof ResultSetWrapper)) {
+			if (!(odiResult instanceof SimpleResultSet || odiResult instanceof ResultSetWrapper))
 				streamForGroupInfo.close();
-			}
 
 			// save the information of sub query information
 			// notice, sub query name is used instead of sub query id
-			if (isSubQuery) {
-				if (!streamManager.hasOutStream(DataEngineContext.SUBQUERY_INFO_STREAM,
-						StreamManager.SUB_QUERY_ROOT_STREAM, StreamManager.SELF_SCOPE)) {
+			if (isSubQuery == true) {
+				if (streamManager.hasOutStream(DataEngineContext.SUBQUERY_INFO_STREAM,
+						StreamManager.SUB_QUERY_ROOT_STREAM, StreamManager.SELF_SCOPE) == false) {
 					// save info related with sub query info
 					saveSubQueryInfo(groupLevel, subQueryInfo);
 				}
@@ -121,37 +118,32 @@ class RDSaveUtil {
 			OutputStream streamForParentIndexInfo = null;
 
 			boolean isSubQuery = streamManager.isSubquery();
-			if (streamManager.isSecondRD()) {
+			if (streamManager.isSecondRD() == true) {
 				streamForRowIndexInfo = streamManager.getOutStream(DataEngineContext.ROW_INDEX_STREAM,
 						StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE);
-				if (isSubQuery) {
+				if (isSubQuery == true)
 					streamForParentIndexInfo = streamManager.getOutStream(DataEngineContext.SUBQUERY_PARENTINDEX_STREAM,
 							StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE);
-				}
 			}
 
-			if (!(odiResult instanceof SimpleResultSet)) {
+			if (!(odiResult instanceof SimpleResultSet))
 				streamForGroupInfo = streamManager.getOutStream(DataEngineContext.GROUP_INFO_STREAM,
 						StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE);
-			}
 
 			odiResult.doSave(new StreamWrapper(streamManager, null, streamForGroupInfo, streamForRowIndexInfo,
 					streamForParentIndexInfo), isSubQuery);
-			if (!(odiResult instanceof SimpleResultSet)) {
+			if (!(odiResult instanceof SimpleResultSet))
 				streamForGroupInfo.close();
-			}
 
-			if (streamForRowIndexInfo != null) {
+			if (streamForRowIndexInfo != null)
 				streamForRowIndexInfo.close();
-			}
 
-			if (streamForParentIndexInfo != null) {
+			if (streamForParentIndexInfo != null)
 				streamForParentIndexInfo.close();
-			}
 
 			// save the information of sub query information
 			// notice, sub query name is used instead of sub query id
-			if (isSubQuery) {
+			if (isSubQuery == true) {
 				// TODO: enhance me
 				if (mode == DataEngineContext.MODE_UPDATE) {
 					saveSubQueryInfo(groupLevel, subQueryInfo);

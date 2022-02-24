@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,12 +53,11 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
- *
+ * 
  */
 
 public class DimensionHandleDropAdapter implements IDropAdapter {
 
-	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (!isDimensionHandle(transfer)) {
 			return DNDService.LOGIC_UNKNOW;
@@ -67,11 +66,10 @@ public class DimensionHandleDropAdapter implements IDropAdapter {
 		if (target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
 			if (editPart.getModel() instanceof IVirtualValidator) {
-				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer)) {
+				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer))
 					return DNDService.LOGIC_TRUE;
-				} else {
+				else
 					return DNDService.LOGIC_FALSE;
-				}
 			}
 		}
 		// else if ( target instanceof PropertyHandle )
@@ -98,21 +96,18 @@ public class DimensionHandleDropAdapter implements IDropAdapter {
 			Object[] items = (Object[]) transfer;
 			DesignElementHandle container = null;
 			for (int i = 0; i < items.length; i++) {
-				if (!(items[i] instanceof DimensionHandle)) {
+				if (!(items[i] instanceof DimensionHandle))
 					return false;
-				}
-				if (container == null) {
+				if (container == null)
 					container = ((DimensionHandle) items[i]).getContainer();
-				} else if (container != ((DimensionHandle) items[i]).getContainer()) {
+				else if (container != ((DimensionHandle) items[i]).getContainer())
 					return false;
-				}
 			}
 			return true;
 		}
 		return transfer instanceof DimensionHandle;
 	}
 
-	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		// if ( transfer instanceof Object[] )
 		// {
@@ -189,9 +184,8 @@ public class DimensionHandleDropAdapter implements IDropAdapter {
 					providerWrapper.updateAllAggregationCells(AggregationCellViewAdapter.SWITCH_VIEW_TYPE);
 				}
 				return true;
-			} else {
+			} else
 				return false;
-			}
 
 			// CrosstabTableEditPart parent = (CrosstabTableEditPart)
 			// editPart.getParent( );
@@ -203,7 +197,7 @@ public class DimensionHandleDropAdapter implements IDropAdapter {
 		} else if (target instanceof PropertyHandle)// drop on outline
 		{
 			DimensionHandle dimensionHandle = (DimensionHandle) transfer;
-			CrosstabReportItemHandle xtabHandle;
+			CrosstabReportItemHandle xtabHandle = null;
 			int axisType = 0;
 
 			PropertyHandle property = (PropertyHandle) target;

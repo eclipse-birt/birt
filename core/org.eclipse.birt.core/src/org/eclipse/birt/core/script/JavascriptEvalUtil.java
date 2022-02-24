@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.core.script;
@@ -53,7 +53,7 @@ public class JavascriptEvalUtil {
 	 * LRU cache for compiled scripts. For performance reasons, scripts are compiled
 	 * and put in a cache. Repeated evaluation of the same script will then used the
 	 * compiled binary.
-	 *
+	 * 
 	 */
 	static protected final int SCRIPT_CACHE_SIZE = 200;
 	// access-ordered LRU cache
@@ -65,7 +65,6 @@ public class JavascriptEvalUtil {
 				/*
 				 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
 				 */
-				@Override
 				protected boolean removeEldestEntry(Map.Entry eldest) {
 					return size() > SCRIPT_CACHE_SIZE;
 				}
@@ -74,7 +73,7 @@ public class JavascriptEvalUtil {
 	/**
 	 * This method will not convert the data of return value, so it might the Java
 	 * data type or that of Java Script.
-	 *
+	 * 
 	 * @param cx
 	 * @param scope
 	 * @param scriptText
@@ -89,9 +88,8 @@ public class JavascriptEvalUtil {
 
 		// Use provided context, or get the thread context if none provided
 		boolean enterContext = cx == null;
-		if (enterContext) {
+		if (enterContext)
 			cx = Context.enter();
-		}
 
 		try {
 			Script compiledScript = getCompiledScript(cx, scope, scriptText, source, lineNo);
@@ -102,9 +100,8 @@ public class JavascriptEvalUtil {
 			// from a different source/line
 			throw wrapRhinoException(e, scriptText, source, lineNo);
 		} finally {
-			if (enterContext) {
+			if (enterContext)
 				Context.exit();
-			}
 		}
 
 		return result;
@@ -113,7 +110,7 @@ public class JavascriptEvalUtil {
 	/**
 	 * Evaluates Javascript expression and return its result, doing the necessary
 	 * Javascript -> Java data type conversion if necessary
-	 *
+	 * 
 	 * @param cx         Javascript context. If null, current thread's context is
 	 *                   used
 	 * @param scope      Javascript scope to evaluate script in
@@ -148,7 +145,7 @@ public class JavascriptEvalUtil {
 	 * Creates Javascript native wrapper for Java objects, if necessary. This method
 	 * currently only wraps Date/time objects. Rhino engine natively handles
 	 * wrapping String, Number and Boolean objects.
-	 *
+	 * 
 	 * @param value Java object to convert from
 	 * @scope A javascript scope with the proper native JS constructors defined
 	 */
@@ -157,9 +154,8 @@ public class JavascriptEvalUtil {
 			// Wrap in Javascript native Date class
 			Context cx = Context.enter();
 			try {
-				if (scope == null) {
+				if (scope == null)
 					scope = new ImporterTopLevel(cx);
-				}
 				// never convert java.sql.Time and java.sql.Date to java
 				// script's
 				// NativeDate
@@ -187,7 +183,7 @@ public class JavascriptEvalUtil {
 	 * method to evaluate expression. But if caller has its own scope which can be
 	 * used, the better way is call the method of convertToJavascriptValue( Object
 	 * value, Scriptable scope ).
-	 *
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -198,7 +194,7 @@ public class JavascriptEvalUtil {
 	/**
 	 * Handles a Rhino script evaluation result, converting Javascript object into
 	 * equivalent Java objects if necessary.
-	 *
+	 * 
 	 * @param inputObj Object returned by rhino engine.
 	 * @return If inputObj is a native Javascript object, its equivalent Java object
 	 *         is returned; otherwise inputObj is returned
@@ -237,7 +233,7 @@ public class JavascriptEvalUtil {
 
 	/**
 	 * Converts Rhino exception (a runtime exception) to BirtException
-	 *
+	 * 
 	 * @param e          Rhino exception
 	 * @param scriptText Javascript code which resulted in the exception (for error
 	 *                   reporting purpose)
@@ -255,16 +251,15 @@ public class JavascriptEvalUtil {
 			lineNo = e.lineNumber();
 		}
 
-		if (logger.isLoggable(Level.FINE)) {
+		if (logger.isLoggable(Level.FINE))
 			logger.log(Level.FINE, "Unexpected RhinoException. Source=" + source + ", line=" + lineNo + ", Script=\n"
 					+ scriptText + "\n", e);
-		}
 
 		return new CoreException(ResourceConstants.JAVASCRIPT_ERROR, new Object[] { e.getLocalizedMessage() }, e);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param args
 	 * @return
 	 */
@@ -277,16 +272,15 @@ public class JavascriptEvalUtil {
 
 	/**
 	 * This method transforms a string to JS string constants.
-	 *
+	 * 
 	 * @param s
 	 * @return
 	 */
 	public static String transformToJsConstants(String s) {
-		if (s == null) {
+		if (s == null)
 			return null;
-		}
 
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		int length = s.length();
 		for (int i = 0; i < length; i++) {
 			char c = s.charAt(i);
@@ -324,11 +318,10 @@ public class JavascriptEvalUtil {
 	}
 
 	public static String evaluateJsConstants(String js) {
-		if (js == null) {
+		if (js == null)
 			return null;
-		}
 		String result = js.substring(1, js.length() - 1);
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		int length = result.length();
 		int index = 0;
 		while (index < length) {
@@ -372,7 +365,10 @@ public class JavascriptEvalUtil {
 	}
 
 	private static Object getSecurityDomain(final String file) {
-		if ((file == null) || (System.getSecurityManager() == null)) {
+		if (file == null) {
+			return null;
+		}
+		if (System.getSecurityManager() == null) {
 			return null;
 		}
 		try {

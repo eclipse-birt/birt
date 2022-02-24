@@ -19,11 +19,11 @@ import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 import org.eclipse.birt.data.engine.impl.index.IOrderedIntSet;
 
 /**
- *
+ * 
  */
 
 public interface IDataSetReader {
-	IDataSetResultSet load(IOrderedIntSet targetRows) throws DataException;
+	public IDataSetResultSet load(IOrderedIntSet targetRows) throws DataException;
 
-	void close() throws DataException;
+	public void close() throws DataException;
 }

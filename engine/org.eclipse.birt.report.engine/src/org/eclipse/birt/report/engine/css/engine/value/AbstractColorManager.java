@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
-import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.ValueManager;
@@ -29,7 +28,7 @@ import org.w3c.dom.css.RGBColor;
 /**
  * This class provides a manager for the property with support for CSS color
  * values.
- *
+ * 
  */
 public abstract class AbstractColorManager extends IdentifierManager {
 
@@ -121,7 +120,6 @@ public abstract class AbstractColorManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	@Override
 	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		if (lu.getLexicalUnitType() == LexicalUnit.SAC_RGBCOLOR) {
 			lu = lu.getParameters();
@@ -139,7 +137,6 @@ public abstract class AbstractColorManager extends IdentifierManager {
 	 * Implements
 	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	@Override
 	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
 			CSSPrimitiveValue pvalue = (CSSPrimitiveValue) value;
@@ -221,13 +218,12 @@ public abstract class AbstractColorManager extends IdentifierManager {
 	/**
 	 * Implements {@link IdentifierManager#getIdentifiers()}.
 	 */
-	@Override
 	public StringMap getIdentifiers() {
 		return values;
 	}
 
 	private DOMException createInvalidRGBComponentUnitDOMException(short type) {
-		Object[] p = { getPropertyName(), Integer.valueOf(type) };
+		Object[] p = new Object[] { getPropertyName(), Integer.valueOf(type) };
 		String s = Messages.formatMessage("invalid.rgb.component.unit", p); //$NON-NLS-1$
 		return new DOMException(DOMException.NOT_SUPPORTED_ERR, s);
 	}

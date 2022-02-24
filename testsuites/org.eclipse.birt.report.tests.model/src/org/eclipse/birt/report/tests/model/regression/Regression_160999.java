@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -56,7 +56,7 @@ public class Regression_160999 extends BaseTestCase {
 		assertNotNull(label);
 
 		// create a template element
-		TemplateElementHandle templateElement;
+		TemplateElementHandle templateElement = null;
 		templateElement = label.createTemplateElement("template"); //$NON-NLS-1$
 		assertNotNull(templateElement);
 

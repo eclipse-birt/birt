@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -54,9 +54,9 @@ public class BulletFrame {
 	public static final int LIST_STYLE_INHERIT = 14;
 	public static final int LIST_STYLE_DECIMAL = 15;
 
-	public static final Map<String, Integer> TYPES = new HashMap<>();// mapping
-																		// the
-																		// types
+	public static final Map<String, Integer> TYPES = new HashMap<String, Integer>();// mapping
+																					// the
+																					// types
 	public static final String EMPTYSTRING = "";
 	public static final char DISC_CHAR = 0x2022;
 	public static final char CIRCLE_CHAR = 0x25E6;
@@ -148,11 +148,10 @@ public class BulletFrame {
 	}
 
 	private void initial(String styleType) {
-		if (TYPES.get(styleType) != null) {
+		if (TYPES.get(styleType) != null)
 			type = TYPES.get(styleType);
-		} else {
+		else
 			type = LIST_STYLE_NONE;
-		}
 
 	}
 

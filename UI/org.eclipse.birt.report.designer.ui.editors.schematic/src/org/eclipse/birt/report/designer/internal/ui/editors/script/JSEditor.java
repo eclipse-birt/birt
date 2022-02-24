@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004-2009 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
@@ -188,7 +188,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	private Label ano;
 
-	private final HashMap<Object, Object> selectionMap = new HashMap<>();
+	private final HashMap<Object, Object> selectionMap = new HashMap<Object, Object>();
 
 	private boolean isModified;
 
@@ -218,11 +218,11 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	/** The listener for document changed. */
 	private final IDocumentListener documentListener = new IDocumentListener() {
 
-		@Override
 		public void documentAboutToBeChanged(DocumentEvent event) {
+			// Does nothing.
+			return;
 		}
 
-		@Override
 		public void documentChanged(DocumentEvent event) {
 			if (isTextListenerEnable) {
 				markDirty();
@@ -243,7 +243,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 		/** The latest clear point for redoing. */
 		private int lastClearPoint = -1;
 
-		@Override
 		public void documentUndoNotification(DocumentUndoEvent event) {
 			if (event == null) {
 				return;
@@ -285,7 +284,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	private ISelectionChangedListener propertyDefnChangeListener = new ISelectionChangedListener() {
 
-		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			ISelection selection = event.getSelection();
 			if (selection != null) {
@@ -309,7 +307,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 							selectionMap.put(getModel(), selection);
 						} else if (event.getSource() == cmbSubFunctionsViewer) {
 							// Store both the main and sub selection state here.
-							List<Object> selectionList = new ArrayList<>();
+							List<Object> selectionList = new ArrayList<Object>();
 							selectionList
 									.add(((StructuredSelection) cmbExprListViewer.getSelection()).getFirstElement());
 							selectionList.add(((StructuredSelection) selection).getFirstElement());
@@ -350,7 +348,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	/**
 	 * @see AbstractTextEditor#doSave(IProgressMonitor )
 	 */
-	@Override
 	public void doSave(IProgressMonitor monitor) {
 		saveModel();
 	}
@@ -361,7 +358,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 		isSaveScript = false;
 	}
 
-	@Override
 	public boolean isDirty() {
 		return isCodeModified();
 	}
@@ -371,7 +367,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	 *
 	 * @see org.eclipse.ui.editors.text.TextEditor#isSaveAsAllowed()
 	 */
-	@Override
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
@@ -379,7 +374,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	/**
 	 * disposes all color objects
 	 */
-	@Override
 	public void dispose() {
 		// colorManager.dispose( );
 
@@ -409,7 +403,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 		// strip the full qualified name
 		fullName = fullName.substring(fullName.lastIndexOf('.') + 1);
 		int upCase = 0;
-		SortedMap<Object, Object> caps = new TreeMap<>();
+		SortedMap<Object, Object> caps = new TreeMap<Object, Object>();
 		for (int i = 0; i < fullName.length(); i++) {
 			char character = fullName.charAt(i);
 			if (Character.isUpperCase(character)) {
@@ -419,14 +413,13 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 			}
 		}
 		if (upCase > 2) {
-			StringBuilder result = new StringBuilder();
+			StringBuffer result = new StringBuffer();
 			for (Iterator<Object> iter = caps.values().iterator(); iter.hasNext();) {
 				result.append((char) ((Integer) iter.next()).intValue());
 			}
 			return result.toString().toLowerCase();
-		} else {
+		} else
 			return fullName.substring(0, 1).toLowerCase() + fullName.substring(1);
-		}
 	}
 
 	private void updateExtensionScriptContext(Object[] adapters, JSSyntaxContext context, String contextName,
@@ -530,7 +523,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	public void createPartControl(Composite parent) {
 		Composite child = this.initEditorLayout(parent);
 
@@ -549,7 +541,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 		cmbSubFunctions.addListener(CustomChooserComposite.DROPDOWN_EVENT, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				cmbSubFunctions.deselectAll();
 
@@ -671,7 +662,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	 *
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(ITextEditor.class)) {
 			if (scriptEditor instanceof ITextEditor) {
@@ -760,7 +750,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 			 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse
 			 * .swt.events.PaintEvent)
 			 */
-			@Override
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
 				Rectangle rect = sep.getBounds();
@@ -822,7 +811,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				SourceViewer viewer = getViewer();
 
@@ -846,7 +834,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refreshAll();
 			}
@@ -870,7 +857,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doValidate();
 				refreshAll();
@@ -919,7 +905,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 			 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse
 			 * .swt.events.PaintEvent)
 			 */
-			@Override
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
 				Rectangle rect = headerLine.getBounds();
@@ -1055,7 +1040,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	public void handleSelectionChanged(ISelection selection) {
 
-		if (editorUIEnabled) {
+		if (editorUIEnabled == true) {
 			saveModel();
 		}
 
@@ -1155,15 +1140,20 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 		}
 
 		cmbExprListViewer.setSelection(getNewSelection(sel));
+		return;
 	}
 
 	private ISelection getNewSelection(ISelection selection) {
 
-		// DesignElementHandle model = (DesignElementHandle) getModel( );
-		if (!(getModel() instanceof DesignElementHandle) || !(selection instanceof IStructuredSelection)) {
+		if (!(getModel() instanceof DesignElementHandle)) {
 			return selection;
 		}
-		List<Object> temp = new ArrayList<>();
+
+		// DesignElementHandle model = (DesignElementHandle) getModel( );
+		if (!(selection instanceof IStructuredSelection)) {
+			return selection;
+		}
+		List<Object> temp = new ArrayList<Object>();
 		List list = ((IStructuredSelection) selection).toList();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i) instanceof IElementPropertyDefn) {
@@ -1320,7 +1310,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	 * Enables the editor UI components
 	 */
 	private void enableEditor() {
-		if (!editorUIEnabled) {
+		if (editorUIEnabled == false) {
 			getViewer().getTextWidget().setEnabled(true);
 			cmbExpList.setEnabled(true);
 			butReset.setEnabled(true);
@@ -1334,7 +1324,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	 * Disables the editor UI components
 	 */
 	private void disableEditor() {
-		if (editorUIEnabled) {
+		if (editorUIEnabled == true) {
 			getViewer().getTextWidget().setEnabled(false);
 			cmbExpList.setEnabled(false);
 			cmbSubFunctions.setEnabled(false);
@@ -1354,7 +1344,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 		return (SourceViewer) scriptEditor.getViewer();
 	}
 
-	@Override
 	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
@@ -1366,7 +1355,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
 	 * ( org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest )
 	 */
-	@Override
 	public void performRequest(IMediatorRequest request) {
 		ReportRequest rqt = (ReportRequest) request;
 
@@ -1397,15 +1385,16 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 			if (oldSelection instanceof StructuredSelection && ((StructuredSelection) oldSelection).size() > 1) {
 				StructuredSelection selection = (StructuredSelection) oldSelection;
 				cmbSubFunctionsViewer.setSelection(new StructuredSelection(selection.toArray()[1]));
-			} else {
+			} else
 				cmbSubFunctionsViewer.setSelection(new StructuredSelection(cmbSubFunctionsViewer.getElementAt(0)));
-			}
 		}
 		cmbSubFunctions.setEnabled(itemCount > 0);
+		return;
 	}
 
 	private void setComboViewerInput(String message) {
 		cmbExprListViewer.setInput(message);
+		return;
 	}
 
 	/**
@@ -1474,7 +1463,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
-	@Override
 	public void doSaveAs() {
 		scriptEditor.doSaveAs();
 	}
@@ -1485,7 +1473,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
-	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		setSite(site);
 		setInput(input);
@@ -1497,7 +1484,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
-	@Override
 	public void setFocus() {
 		scriptEditor.setFocus();
 	}
@@ -1564,13 +1550,12 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 
 	private static final String NO_TEXT = Messages.getString("JSEditor.Text.NoText"); //$NON-NLS-1$ ;
 
-	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof DesignElementHandle) {
 			DesignElementHandle eleHandle = (DesignElementHandle) inputElement;
 			List methods = eleHandle.getMethods();
-			List<Object> clientScripts = new ArrayList<>();
-			List<Object> elements = new ArrayList<>();
+			List<Object> clientScripts = new ArrayList<Object>();
+			List<Object> elements = new ArrayList<Object>();
 			for (int i = 0; i < methods.size(); i++) {
 				IPropertyDefn mtdDef = (IPropertyDefn) methods.get(i);
 
@@ -1593,18 +1578,15 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 		return new Object[] {};
 	}
 
-	@Override
 	public void dispose() {
 
 	}
 
-	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		viewer.refresh();
 
 	}
 
-	@Override
 	public String getText(Object element) {
 		if (element instanceof IPropertyDefn) {
 			IPropertyDefn eleDef = (IPropertyDefn) element;
@@ -1623,7 +1605,6 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 	 *
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
-	@Override
 	public Image getImage(Object element) {
 		return null;
 	}
@@ -1634,7 +1615,6 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
 	 * jface.viewers.ILabelProviderListener)
 	 */
-	@Override
 	public void addListener(ILabelProviderListener listener) {
 
 	}
@@ -1645,7 +1625,6 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
 	 * .Object, java.lang.String)
 	 */
-	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
@@ -1656,7 +1635,6 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 	 * .jface.viewers.ILabelProviderListener)
 	 */
-	@Override
 	public void removeListener(ILabelProviderListener listener) {
 
 	}
@@ -1674,9 +1652,8 @@ class JSSubFunctionListProvider implements IStructuredContentProvider, ILabelPro
 		this.editor = editor;
 	}
 
-	@Override
 	public Object[] getElements(Object inputElement) {
-		List<Object> elements = new ArrayList<>();
+		List<Object> elements = new ArrayList<Object>();
 
 		if (inputElement instanceof ExtendedItemHandle) {
 			int selectedIndex = editor.cmbExpList.getSelectionIndex();
@@ -1710,24 +1687,19 @@ class JSSubFunctionListProvider implements IStructuredContentProvider, ILabelPro
 		return elements.toArray();
 	}
 
-	@Override
 	public void dispose() {
 	}
 
-	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		if (newInput != null) {
+		if (newInput != null)
 			viewer.refresh();
-		}
 
 	}
 
-	@Override
 	public Image getImage(Object element) {
 		return null;
 	}
 
-	@Override
 	public String getText(Object element) {
 		if (element instanceof IMethodInfo) {
 			IMethodInfo eleDef = (IMethodInfo) element;
@@ -1740,21 +1712,17 @@ class JSSubFunctionListProvider implements IStructuredContentProvider, ILabelPro
 		return ""; //$NON-NLS-1$
 	}
 
-	@Override
 	public void addListener(ILabelProviderListener listener) {
 	}
 
-	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
 
-	@Override
 	public void removeListener(ILabelProviderListener listener) {
 
 	}
 
-	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		boolean isContextChange = false;
 
@@ -1776,42 +1744,44 @@ class JSSubFunctionListProvider implements IStructuredContentProvider, ILabelPro
 								.setSelection(new StructuredSelection(editor.cmbSubFunctionsViewer.getElementAt(0)));
 					}
 					editor.cmbSubFunctions.setEnabled(itemCount > 0);
-				} else if (sel[0] instanceof IMethodInfo) {
-					IMethodInfo methodInfo = (IMethodInfo) sel[0];
+				} else {
+					if (sel[0] instanceof IMethodInfo) {
+						IMethodInfo methodInfo = (IMethodInfo) sel[0];
 
-					Position pos = findMethod(methodInfo);
+						Position pos = findMethod(methodInfo);
 
-					if (pos != null) {
-						// locate to existing method
-						IScriptEditor viewer = editor.getScriptEditor();
-
-						if (viewer instanceof AbstractTextEditor) {
-							AbstractTextEditor editor = (AbstractTextEditor) viewer;
-							editor.selectAndReveal(pos.getOffset(), pos.length);
-						}
-					} else {
-						// create new method
-						String signature = createSignature(methodInfo);
-
-						try {
+						if (pos != null) {
+							// locate to existing method
 							IScriptEditor viewer = editor.getScriptEditor();
 
 							if (viewer instanceof AbstractTextEditor) {
 								AbstractTextEditor editor = (AbstractTextEditor) viewer;
-
-								IDocument doc = (editor.getDocumentProvider()).getDocument(viewer.getEditorInput());
-								int length = doc.getLength();
-
-								doc.replace(length, 0, signature);
-								editor.selectAndReveal(length + 1, signature.length());
+								editor.selectAndReveal(pos.getOffset(), pos.length);
 							}
-						} catch (BadLocationException e) {
-							logger.log(Level.SEVERE, e.getMessage(), e);
-						}
-					}
+						} else {
+							// create new method
+							String signature = createSignature(methodInfo);
 
-					editor.cmbSubFunctionsViewer
-							.setSelection(new StructuredSelection(editor.cmbSubFunctionsViewer.getElementAt(0)));
+							try {
+								IScriptEditor viewer = editor.getScriptEditor();
+
+								if (viewer instanceof AbstractTextEditor) {
+									AbstractTextEditor editor = (AbstractTextEditor) viewer;
+
+									IDocument doc = (editor.getDocumentProvider()).getDocument(viewer.getEditorInput());
+									int length = doc.getLength();
+
+									doc.replace(length, 0, signature);
+									editor.selectAndReveal(length + 1, signature.length());
+								}
+							} catch (BadLocationException e) {
+								logger.log(Level.SEVERE, e.getMessage(), e);
+							}
+						}
+
+						editor.cmbSubFunctionsViewer
+								.setSelection(new StructuredSelection(editor.cmbSubFunctionsViewer.getElementAt(0)));
+					}
 				}
 			}
 		}
@@ -1836,7 +1806,7 @@ class JSSubFunctionListProvider implements IStructuredContentProvider, ILabelPro
 	// create the signature to insert in the document:
 	// function functionName(param1, param2){}
 	private String createSignature(IMethodInfo info) {
-		StringBuilder signature = new StringBuilder();
+		StringBuffer signature = new StringBuffer();
 		String javaDoc = info.getJavaDoc();
 		if (javaDoc != null && javaDoc.length() > 0) {
 			signature.append("\n"); //$NON-NLS-1$

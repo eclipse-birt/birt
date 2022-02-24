@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -112,12 +112,12 @@ public class ArchiveUtilTest extends TestCase {
 
 	@Test
 	public void testRelativePath() {
-		String[][] tests = { new String[] { "/test", "/", "/test" }, new String[] { "/test/", "/root/", "/root/test/" },
-				new String[] { "/test/", "/root", "/root/test/" }, new String[] { "/test", "/root/", "/root/test" },
-				new String[] { "/test", "/root", "/root/test" }, new String[] { "/test", "\\root/", "/root\\test" },
-				new String[] { "/test", "\\root", "/root\\test" }, new String[] { "/", "/root", "/root/" },
-				new String[] { "/", "/root/", "/root/" }, new String[] { "/", "/root/", "/root" },
-				new String[] { "/", "/root", "/root" }, };
+		String[][] tests = new String[][] { new String[] { "/test", "/", "/test" },
+				new String[] { "/test/", "/root/", "/root/test/" }, new String[] { "/test/", "/root", "/root/test/" },
+				new String[] { "/test", "/root/", "/root/test" }, new String[] { "/test", "/root", "/root/test" },
+				new String[] { "/test", "\\root/", "/root\\test" }, new String[] { "/test", "\\root", "/root\\test" },
+				new String[] { "/", "/root", "/root/" }, new String[] { "/", "/root/", "/root/" },
+				new String[] { "/", "/root/", "/root" }, new String[] { "/", "/root", "/root" }, };
 		for (String[] test : tests) {
 			String relative = test[0];
 			String root = test[1];
@@ -128,12 +128,12 @@ public class ArchiveUtilTest extends TestCase {
 
 	@Test
 	public void testFullPath() {
-		String[][] tests = { new String[] { "/root/", "/root", "/" }, new String[] { "/root/", "/root/", "/" },
-				new String[] { "/root/", "/root", "/" }, new String[] { "/root/abc", "/root", "/abc" },
-				new String[] { "/root/abc", "/root", "abc" }, new String[] { "/root/abc", "/root/", "abc" },
-				new String[] { "/root/abc", "/root/", "abc" }, new String[] { "/root/abc/", "/root", "/abc/" },
-				new String[] { "/root/abc/", "/root", "abc/" }, new String[] { "/root/abc/", "/root/", "abc/" },
-				new String[] { "/root/abc/", "/root/", "abc/" }, };
+		String[][] tests = new String[][] { new String[] { "/root/", "/root", "/" },
+				new String[] { "/root/", "/root/", "/" }, new String[] { "/root/", "/root", "/" },
+				new String[] { "/root/abc", "/root", "/abc" }, new String[] { "/root/abc", "/root", "abc" },
+				new String[] { "/root/abc", "/root/", "abc" }, new String[] { "/root/abc", "/root/", "abc" },
+				new String[] { "/root/abc/", "/root", "/abc/" }, new String[] { "/root/abc/", "/root", "abc/" },
+				new String[] { "/root/abc/", "/root/", "abc/" }, new String[] { "/root/abc/", "/root/", "abc/" }, };
 		for (String[] test : tests) {
 			String path = test[0];
 			String root = test[1];

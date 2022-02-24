@@ -23,7 +23,7 @@ import org.eclipse.jface.action.IMenuManager;
 
 /**
  * Context menu provider for the library editor.
- *
+ * 
  */
 public class LibraryContextMenuProvider extends SchematicContextMenuProvider {
 
@@ -37,13 +37,12 @@ public class LibraryContextMenuProvider extends SchematicContextMenuProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.
 	 * SchematicContextMenuProvider#buildContextMenu(org.eclipse.jface.action.
 	 * IMenuManager)
 	 */
-	@Override
 	public void buildContextMenu(IMenuManager menuManager) {
 		super.buildContextMenu(menuManager);
 		List list = getElements();

@@ -12,15 +12,14 @@ package org.eclipse.birt.report.model.metadata;
 
 /**
  * Test for abstract TextualPropertyType.
- *
+ * 
  */
 public abstract class TextualPropertyTypeTestCase extends PropertyTypeTestCase {
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}

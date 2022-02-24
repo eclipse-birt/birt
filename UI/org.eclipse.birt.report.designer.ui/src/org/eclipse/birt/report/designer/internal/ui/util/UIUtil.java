@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,10 +22,15 @@ import java.net.URL;
 import java.text.Bidi;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -72,6 +77,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Editp
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -197,6 +203,8 @@ import org.osgi.framework.Bundle;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * Utility class for UI related routines.
  */
@@ -225,11 +233,11 @@ public class UIUtil {
 
 	/**
 	 * Returns the length in pixels of given string in a control.
-	 *
+	 * 
 	 * @return the length in pixels
 	 */
 	public static int getStringWidth(String string, Control control) {
-		int width;
+		int width = 0;
 		GC gc = new GC(control);
 		width = gc.textExtent(string).x;
 		gc.dispose();
@@ -239,7 +247,7 @@ public class UIUtil {
 	/**
 	 * Returns the maximum length in pixels of given strings in a control. The
 	 * string value in the array should not be null.
-	 *
+	 * 
 	 * @return the length in pixels
 	 */
 	public static int getMaxStringWidth(String[] strArray, Control control) {
@@ -257,7 +265,7 @@ public class UIUtil {
 
 	/**
 	 * Returns if current active editor is reportEditor.
-	 *
+	 * 
 	 * @return true if current active editor is reportEditor, or false else.
 	 */
 	public static boolean isReportEditorActivated() {
@@ -267,7 +275,7 @@ public class UIUtil {
 	/**
 	 * Returns the current active report editor. The same as getActiveEditor( true
 	 * ).
-	 *
+	 * 
 	 * @return the current active report editor, or null if no report editor is
 	 *         active.
 	 */
@@ -278,7 +286,7 @@ public class UIUtil {
 	/**
 	 * Returns the current active report editor in current active page or current
 	 * active workbench.
-	 *
+	 * 
 	 * @param activePageOnly If this is true, only search the current active page,
 	 *                       or will search all pages in current workbench, returns
 	 *                       the first active report or null if not found.
@@ -335,7 +343,7 @@ public class UIUtil {
 	/**
 	 * Returns the current active editor part in current active page or current
 	 * active workbench.
-	 *
+	 * 
 	 * @param activePageOnly If this is true, only search the current active page,
 	 *                       or will search all pages in current workbench, returns
 	 *                       the first active editor part or null if not found.
@@ -378,7 +386,7 @@ public class UIUtil {
 	 * IAdaptable interface to get associated project. 3. If the above is not
 	 * working, get the first accessible project in the current workspace and return
 	 * it. 4. If none is accessible, returns null.
-	 *
+	 * 
 	 * @return the default project according to current selection.
 	 */
 	public static IProject getDefaultProject() {
@@ -451,7 +459,7 @@ public class UIUtil {
 
 	/**
 	 * Returns the default shell used by dialogs
-	 *
+	 * 
 	 * @return the active shell of the current display
 	 */
 	public static Shell getDefaultShell() {
@@ -475,7 +483,7 @@ public class UIUtil {
 
 	/**
 	 * Creates a new group under the given parent
-	 *
+	 * 
 	 * @param parent The parent of the new group, it should be a table or a list and
 	 *               should not be null.
 	 * @return true if the group created successfully, false if the creation is
@@ -494,7 +502,7 @@ public class UIUtil {
 
 	/**
 	 * Creates a new group in the position under the given parent
-	 *
+	 * 
 	 * @param parent   The parent of the new group, it should be a table or a list
 	 *                 and should not be null.
 	 * @param position insert position
@@ -532,7 +540,7 @@ public class UIUtil {
 			String collapseLevel = parent.getStringProperty(AC_GROUP_COLLAPSE_LEVEL_PROPERTY);
 			if (collapseLevel != null && collapseLevel.trim().length() > 0 && position >= 0) {
 				String[] levels = collapseLevel.split(","); //$NON-NLS-1$
-				List<Integer> levelList = new ArrayList<>();
+				List<Integer> levelList = new ArrayList<Integer>();
 				for (int i = 0; i < levels.length; i++) {
 					try {
 						int level = Integer.parseInt(levels[i]);
@@ -544,12 +552,11 @@ public class UIUtil {
 					}
 				}
 
-				StringBuilder buffer = new StringBuilder();
+				StringBuffer buffer = new StringBuffer();
 				for (int i = 0; i < levelList.size(); i++) {
 					buffer.append(levelList.get(i));
-					if (i < levelList.size() - 1) {
+					if (i < levelList.size() - 1)
 						buffer.append(","); //$NON-NLS-1$
-					}
 				}
 
 				String value = buffer.toString().trim().length() > 0 ? buffer.toString().trim() : null;
@@ -574,24 +581,22 @@ public class UIUtil {
 	/**
 	 * Gets the first selected edit part in layout editor. Whenever the user has
 	 * deselected all edit parts, the contents edit part should be returned.
-	 *
+	 * 
 	 * @return the first selected EditPart or root edit part
 	 */
 	public static EditPart getCurrentEditPart() {
 		EditPartViewer viewer = getLayoutEditPartViewer();
-		if (viewer == null) {
+		if (viewer == null)
 			return null;
-		}
 		IStructuredSelection targets = (IStructuredSelection) viewer.getSelection();
-		if (targets.isEmpty()) {
+		if (targets.isEmpty())
 			return null;
-		}
 		return (EditPart) targets.getFirstElement();
 	}
 
 	/**
 	 * Gets EditPartViewer in layout editor.
-	 *
+	 * 
 	 * @return the EditPartViewer in layout editor, or null if not found.
 	 */
 	public static EditPartViewer getLayoutEditPartViewer() {
@@ -616,7 +621,7 @@ public class UIUtil {
 
 	/**
 	 * Creates a new grid layout without margins by default
-	 *
+	 * 
 	 * @return the layout created
 	 */
 	public static GridLayout createGridLayoutWithoutMargin() {
@@ -634,10 +639,10 @@ public class UIUtil {
 	/**
 	 * Creates a new grid layout without margins with given the number of columns,
 	 * and whether or not the columns should be forced to have the same width
-	 *
+	 * 
 	 * @param numsColumn            the number of columns in the grid
 	 * @param makeColumnsEqualWidth whether or not the columns will have equal width
-	 *
+	 * 
 	 * @return the layout created
 	 */
 	public static GridLayout createGridLayoutWithoutMargin(int numsColumn, boolean makeColumnsEqualWidth) {
@@ -648,7 +653,7 @@ public class UIUtil {
 
 	/**
 	 * Convert the give string to GUI style, which cannot be null
-	 *
+	 * 
 	 * @param string the string to convert
 	 * @return the string, or an empty string for null
 	 */
@@ -661,7 +666,7 @@ public class UIUtil {
 
 	/**
 	 * Convert the give string to Model style
-	 *
+	 * 
 	 * @param string the string to convert
 	 * @param trim   specify if the string needs to be trimmed
 	 * @return the string, or null for an empty string
@@ -681,10 +686,10 @@ public class UIUtil {
 
 	/**
 	 * Returns the width hint for the given control.
-	 *
+	 * 
 	 * @param wHint the width hint
 	 * @param c     the control
-	 *
+	 * 
 	 * @return the width hint
 	 */
 	public static int getWidthHint(int wHint, Control c) {
@@ -694,25 +699,24 @@ public class UIUtil {
 
 	/**
 	 * Returns the height hint for the given control.
-	 *
+	 * 
 	 * @param hHint the width hint
 	 * @param c     the control
-	 *
+	 * 
 	 * @return the height hint
 	 */
 	public static int getHeightHint(int hHint, Control c) {
 		if (c instanceof Composite) {
 			Layout layout = ((Composite) c).getLayout();
-			if (layout instanceof ColumnLayout) {
+			if (layout instanceof ColumnLayout)
 				return hHint;
-			}
 		}
 		return SWT.DEFAULT;
 	}
 
 	/**
 	 * Updates the page scroll increment for given composite.
-	 *
+	 * 
 	 * @param scomp
 	 */
 	public static void updatePageIncrement(ScrolledComposite scomp) {
@@ -733,16 +737,15 @@ public class UIUtil {
 
 	/**
 	 * Returns table editpart.
-	 *
+	 * 
 	 * @param editParts a list of editpart
 	 * @return the current selected table editpart, null if no table editpart, more
 	 *         than one table, or other non-table editpart. Cell editpart is also a
 	 *         type of table editpart.
 	 */
 	public static TableEditPart getTableEditPart(List<Object> editParts) {
-		if (editParts == null || editParts.isEmpty()) {
+		if (editParts == null || editParts.isEmpty())
 			return null;
-		}
 		int size = editParts.size();
 		TableEditPart part = null;
 		for (int i = 0; i < size; i++) {
@@ -765,9 +768,8 @@ public class UIUtil {
 			}
 		}
 		// Only table permitted
-		if (part instanceof GridEditPart) {
+		if (part instanceof GridEditPart)
 			return null;
-		}
 		return part;
 	}
 
@@ -776,9 +778,8 @@ public class UIUtil {
 	 * @return
 	 */
 	public static ReportElementEditPart getTableMultipleEditPart(List<Object> editParts) {
-		if (editParts == null || editParts.isEmpty()) {
+		if (editParts == null || editParts.isEmpty())
 			return null;
-		}
 		int size = editParts.size();
 		ReportElementEditPart part = null;
 		for (int i = 0; i < size; i++) {
@@ -799,24 +800,22 @@ public class UIUtil {
 			}
 		}
 		// Only table permitted
-		if (part instanceof GridEditPart) {
+		if (part instanceof GridEditPart)
 			return null;
-		}
 		return part;
 	}
 
 	/**
 	 * Returns list editpart.
-	 *
+	 * 
 	 * @param editParts a list of editpart
 	 * @return the current selected list editpart, null if no list editpart, more
 	 *         than one list, or other list editpart. List band editpart is also a
 	 *         type of list editpart.
 	 */
 	public static ListEditPart getListEditPart(List<Object> editParts) {
-		if (editParts == null || editParts.isEmpty()) {
+		if (editParts == null || editParts.isEmpty())
 			return null;
-		}
 		int size = editParts.size();
 		ListEditPart part = null;
 		for (int i = 0; i < size; i++) {
@@ -841,10 +840,10 @@ public class UIUtil {
 
 	/**
 	 * Tests if the specified element is on the given tree viewer
-	 *
+	 * 
 	 * @param treeViewer the tree viewer
 	 * @param element    the element
-	 *
+	 * 
 	 * @return true if the element is on the tree, or false else.
 	 */
 	public static boolean containElement(AbstractTreeViewer treeViewer, Object element) {
@@ -884,9 +883,9 @@ public class UIUtil {
 
 	/**
 	 * Returns the plug-in provider
-	 *
+	 * 
 	 * @param pluginId the identify of the plugin
-	 *
+	 * 
 	 * @return the plug-in provider, or null if the plug-in is not found
 	 */
 	public static String getPluginProvider(String pluginId) {
@@ -895,9 +894,9 @@ public class UIUtil {
 
 	/**
 	 * Returns the plug-in name
-	 *
+	 * 
 	 * @param pluginId the identify of the plugin
-	 *
+	 * 
 	 * @return the plug-in name, or null if the plug-in is not found
 	 */
 	public static String getPluginName(String pluginId) {
@@ -906,9 +905,9 @@ public class UIUtil {
 
 	/**
 	 * Returns the plug-in version
-	 *
+	 * 
 	 * @param pluginId the identify of the plugin
-	 *
+	 * 
 	 * @return the plug-in version, or null if the plug-in is not found
 	 */
 	public static String getPluginVersion(String pluginId) {
@@ -926,7 +925,7 @@ public class UIUtil {
 	}
 
 	public static void resetViewSelection(final EditPartViewer viewer, final boolean notifyToMedia) {
-		final List<Object> list = new ArrayList<>(((StructuredSelection) viewer.getSelection()).toList());
+		final List<Object> list = new ArrayList<Object>(((StructuredSelection) viewer.getSelection()).toList());
 
 		boolean hasColumnOrRow = false;
 		for (int i = 0; i < list.size(); i++) {
@@ -940,7 +939,7 @@ public class UIUtil {
 		if (hasColumnOrRow) {
 			int selectionType = 0;// 0 select row 1select colum
 			TableEditPart part = null;
-			int[] selectContents = {};
+			int[] selectContents = new int[0];
 			for (int i = 0; i < list.size(); i++) {
 				Object obj = list.get(i);
 				int number = -1;
@@ -972,16 +971,18 @@ public class UIUtil {
 				part.selectColumn(selectContents, notifyToMedia);
 			}
 
-		} else if (!viewer.getControl().isDisposed()) {
-			if (viewer instanceof DeferredGraphicalViewer) {
-				((DeferredGraphicalViewer) viewer).setSelection(new StructuredSelection(list), notifyToMedia);
+		} else {
+			if (!viewer.getControl().isDisposed()) {
+				if (viewer instanceof DeferredGraphicalViewer)
+					((DeferredGraphicalViewer) viewer).setSelection(new StructuredSelection(list), notifyToMedia);
 			}
+
 		}
 	}
 
 	/**
 	 * Creates a folder resource given the folder handle.
-	 *
+	 * 
 	 * @param folderHandle the folder handle to create a folder resource for
 	 * @param monitor      the progress monitor to show visual progress with
 	 * @exception CoreException              if the operation fails
@@ -1012,16 +1013,14 @@ public class UIUtil {
 		} catch (CoreException e) {
 			// If the folder already existed locally, just refresh to get
 			// contents
-			if (e.getStatus().getCode() == IResourceStatus.PATH_OCCUPIED) {
+			if (e.getStatus().getCode() == IResourceStatus.PATH_OCCUPIED)
 				folderHandle.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 500));
-			} else {
+			else
 				throw e;
-			}
 		}
 
-		if (monitor.isCanceled()) {
+		if (monitor.isCanceled())
 			throw new OperationCanceledException();
-		}
 	}
 
 	/**
@@ -1063,7 +1062,7 @@ public class UIUtil {
 
 	/**
 	 * Creates a blank label under the given parent.
-	 *
+	 * 
 	 * @return the label created
 	 */
 	public static Label createBlankLabel(Composite parent) {
@@ -1079,7 +1078,7 @@ public class UIUtil {
 
 	/**
 	 * Includes the library into within the given module.
-	 *
+	 * 
 	 * @param moduleHandle the handle module
 	 * @param libraryPath  the full path of the library
 	 * @return true if it included successfully, or false if the operation failed.
@@ -1123,7 +1122,7 @@ public class UIUtil {
 
 	/**
 	 * Includes the library into within the given module.
-	 *
+	 * 
 	 * @param moduleHandle  the handle module
 	 * @param libraryHandle the library to include.
 	 * @return true if it included successfully, or false if the operation failed.
@@ -1138,7 +1137,7 @@ public class UIUtil {
 
 	/**
 	 * Includes the library into within the current module.
-	 *
+	 * 
 	 * @param libraryHandle the library to include.
 	 * @return true if it included successfully, or false if the operation failed.
 	 */
@@ -1148,7 +1147,7 @@ public class UIUtil {
 
 	/**
 	 * Returns the name for the file
-	 *
+	 * 
 	 * @param filePath the full path of the file
 	 * @return Returns the name of the file
 	 */
@@ -1158,7 +1157,7 @@ public class UIUtil {
 
 	/**
 	 * Returns the namespace of the library for inculde
-	 *
+	 * 
 	 * @param handle      the module handle to include the library
 	 * @param libraryPath the full path of the library file to include
 	 * @return the namespace used to include, or null if the user cancels this
@@ -1235,7 +1234,7 @@ public class UIUtil {
 
 	/**
 	 * Get
-	 *
+	 * 
 	 * @param lineText
 	 * @return
 	 */
@@ -1248,9 +1247,8 @@ public class UIUtil {
 		int j = 0;
 		segments[j++] = 0;
 		for (int i = 1; i < level.length; i++) {
-			if (level[i] != level[i - 1]) {
+			if (level[i] != level[i - 1])
 				segments[j++] = i;
-			}
 		}
 		if (j < segments.length) {
 			int[] result = new int[j];
@@ -1262,7 +1260,7 @@ public class UIUtil {
 
 	/**
 	 * Get Bidi level of Expression String.
-	 *
+	 * 
 	 * @param message
 	 * @return
 	 */
@@ -1272,7 +1270,7 @@ public class UIUtil {
 				Bidi.DIRECTION_LEFT_TO_RIGHT); // bidi_hcg
 		int[] level = new int[message.length()];
 		boolean bidiStart = false;
-		Stack<Character> bracket = new Stack<>();
+		Stack<Character> bracket = new Stack<Character>();
 		for (int i = 0; i < message.length(); i++) {
 			char c = message.charAt(i);
 			if (isNeutral(c)) {
@@ -1282,11 +1280,13 @@ public class UIUtil {
 				if (c == '\'' || c == '\"') {
 					if (bracket.empty()) {
 						bracket.add(Character.valueOf(c));
-					} else if (bracket.peek().charValue() == c) {
-						bracket.pop();
-						bidiStart = false;
 					} else {
-						bracket.add(Character.valueOf(c));
+						if (bracket.peek().charValue() == c) {
+							bracket.pop();
+							bidiStart = false;
+						} else {
+							bracket.add(Character.valueOf(c));
+						}
 					}
 				}
 				level[i] = bidiStart && !bracket.empty() ? 1 : 0;
@@ -1307,7 +1307,7 @@ public class UIUtil {
 
 	/**
 	 * Sets the given help context id on the given control's shell.
-	 *
+	 * 
 	 * @param control   the control on which to register the context id
 	 * @param contextId the context id to use when F1 help is invoked
 	 */
@@ -1326,9 +1326,9 @@ public class UIUtil {
 
 	/**
 	 * Gets the ViewPart with the specified id
-	 *
+	 * 
 	 * @param id the id of view part
-	 *
+	 * 
 	 * @return Returns the view part, or null if not found
 	 */
 
@@ -1337,24 +1337,21 @@ public class UIUtil {
 		IViewReference[] v = tPage.getViewReferences();
 		int i;
 		for (i = 0; i < v.length; i++) {
-			if (v[i].getId().equals(id)) {
+			if (v[i].getId().equals(id))
 				return (IViewPart) v[i].getPart(true);
-			}
 		}
 		return null;
 	}
 
 	public static IEditorPart getEditor(String id) {
 		IWorkbenchPage tPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		if (tPage == null) {
+		if (tPage == null)
 			return null;
-		}
 		IEditorReference[] v = tPage.getEditorReferences();
 		int i;
 		for (i = 0; i < v.length; i++) {
-			if (v[i].getId().equals(id)) {
+			if (v[i].getId().equals(id))
 				return (IEditorPart) v[i].getPart(true);
-			}
 		}
 		return null;
 	}
@@ -1377,9 +1374,8 @@ public class UIUtil {
 		for (i = 0; i < v.length; i++) {
 			if (v[i].getId().equals(id)) {
 				IEditorPart temp = (IEditorPart) v[i].getPart(false);
-				if (temp == activeEditPart) {
+				if (temp == activeEditPart)
 					return activeEditPart;
-				}
 			}
 		}
 		return null;
@@ -1388,7 +1384,7 @@ public class UIUtil {
 	/**
 	 * Check if the property should add quote. Currently use in set fontfamily
 	 * property.
-	 *
+	 * 
 	 * @param elementName
 	 * @param property
 	 * @param value
@@ -1406,7 +1402,7 @@ public class UIUtil {
 
 	/**
 	 * Notice: Please dispose the image after done.
-	 *
+	 * 
 	 * @param composite
 	 * @return
 	 */
@@ -1450,10 +1446,10 @@ public class UIUtil {
 	/**
 	 * Return the project folder if current edited report file is in eclipse
 	 * project, else return the report file's folder.
-	 *
+	 * 
 	 * This method is used for set IModuleOption.RESOURCE_FOLDER_KEY property when
 	 * open report.
-	 *
+	 * 
 	 * @return
 	 */
 	public static String getProjectFolder() {
@@ -1477,9 +1473,8 @@ public class UIUtil {
 				if (element.getDisplayNameKey() != null) {
 					String displayName = element.getExternalizedValue(ColumnHint.DISPLAY_NAME_ID_MEMBER,
 							ColumnHint.DISPLAY_NAME_MEMBER);
-					if (displayName != null) {
+					if (displayName != null)
 						return displayName;
-					}
 				}
 				return element.getDisplayName() == null ? column.getColumnName() : element.getDisplayName();
 			}
@@ -1500,9 +1495,8 @@ public class UIUtil {
 				if (element.getDisplayNameKey() != null) {
 					String displayName = element.getExternalizedValue(ColumnHint.DISPLAY_NAME_ID_MEMBER,
 							ColumnHint.DISPLAY_NAME_MEMBER);
-					if (displayName != null) {
+					if (displayName != null)
 						return displayName;
-					}
 				}
 				return element.getDisplayName() == null ? column.getColumnName() : element.getDisplayName();
 			}
@@ -1517,9 +1511,8 @@ public class UIUtil {
 				if (element.getDisplayNameKey() != null) {
 					String displayName = element.getExternalizedValue(ColumnHint.DISPLAY_NAME_ID_MEMBER,
 							ColumnHint.DISPLAY_NAME_MEMBER);
-					if (displayName != null) {
+					if (displayName != null)
 						return displayName;
-					}
 				}
 				return element.getDisplayName() == null ? column.getColumnName() : element.getDisplayName();
 			}
@@ -1529,7 +1522,7 @@ public class UIUtil {
 
 	/**
 	 * Return the display name of dataset column
-	 *
+	 * 
 	 * @param column
 	 * @return
 	 */
@@ -1543,9 +1536,8 @@ public class UIUtil {
 				if (element.getDisplayNameKey() != null) {
 					String displayName = element.getExternalizedValue(ColumnHint.DISPLAY_NAME_ID_MEMBER,
 							ColumnHint.DISPLAY_NAME_MEMBER);
-					if (displayName != null) {
+					if (displayName != null)
 						return displayName;
-					}
 				}
 				return element.getDisplayName() == null ? column.getColumnName() : element.getDisplayName();
 			}
@@ -1565,7 +1557,7 @@ public class UIUtil {
 
 	/**
 	 * Return the display name of dataset column
-	 *
+	 * 
 	 * @param column
 	 * @return
 	 */
@@ -1646,7 +1638,7 @@ public class UIUtil {
 
 	/**
 	 * Return the analysis of dataset column
-	 *
+	 * 
 	 * @param column
 	 * @return
 	 */
@@ -1666,7 +1658,7 @@ public class UIUtil {
 
 	/**
 	 * Return the AnalysisColumn
-	 *
+	 * 
 	 * @param column
 	 * @return
 	 */
@@ -1696,7 +1688,7 @@ public class UIUtil {
 
 	/**
 	 * Return the action property of dataset column from column hint
-	 *
+	 * 
 	 * @param column
 	 * @return
 	 */
@@ -1752,9 +1744,8 @@ public class UIUtil {
 		ExpressionButton button = new ExpressionButton(parent, style, allowConstant);
 		IExpressionButtonProvider provider = (IExpressionButtonProvider) ElementAdapterManager.getAdapter(button,
 				IExpressionButtonProvider.class);
-		if (provider != null) {
+		if (provider != null)
 			button.setExpressionButtonProvider(provider);
-		}
 
 		GridData gd = new GridData();
 		if (Platform.getOS().equals(Platform.OS_WIN32)) {
@@ -1789,7 +1780,7 @@ public class UIUtil {
 
 	/**
 	 * Get the default script type set in preference.
-	 *
+	 * 
 	 * @return
 	 */
 	public static String getDefaultScriptType() {
@@ -1799,7 +1790,7 @@ public class UIUtil {
 
 	/**
 	 * Get the default fiscal year start date set in preference.
-	 *
+	 * 
 	 * @return
 	 */
 	public static String getFiscalYearStart() {
@@ -1812,13 +1803,14 @@ public class UIUtil {
 	 *         which implies they are invisible to UI.
 	 */
 	public static List<IElementDefn> getInvisibleExtensionElements() {
-		List<IElementDefn> list = new ArrayList<>(DEUtil.getMetaDataDictionary().getExtensions());
+		List<IElementDefn> list = new ArrayList<IElementDefn>();
+
+		list.addAll(DEUtil.getMetaDataDictionary().getExtensions());
 
 		List<ExtendedElementUIPoint> points = ExtensionPointManager.getInstance().getExtendedElementPoints();
 		for (ExtendedElementUIPoint point : points) {
-			if (isVisibleExtensionElement(point)) {
+			if (isVisibleExtensionElement(point))
 				list.remove(DEUtil.getElementDefn(point.getExtensionName()));
-			}
 		}
 
 		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries();
@@ -1848,8 +1840,60 @@ public class UIUtil {
 	}
 
 	/**
+	 * @deprecated DEUtil.getElementSupportList will sort elements
+	 * @param elements
+	 * @return
+	 */
+	private static List<IElementDefn> sortElements(List<IElementDefn> elements) {
+		CategorizedElementSorter<IElementDefn> elementSorter = new CategorizedElementSorter<IElementDefn>();
+
+		Map<String, SortedSet<IElementDefn>> extendedEntriesMap = new HashMap<String, SortedSet<IElementDefn>>();
+
+		Comparator<IElementDefn> entryComparator = new Comparator<IElementDefn>() {
+
+			public int compare(IElementDefn o1, IElementDefn o2) {
+				return Collator.getInstance().compare(o1.getDisplayName(), o2.getDisplayName());
+			}
+		};
+
+		for (Iterator<IElementDefn> itr = elements.iterator(); itr.hasNext();) {
+			IElementDefn def = itr.next();
+			String eleName = def.getName();
+
+			ExtendedElementUIPoint point = ExtensionPointManager.getInstance().getExtendedElementPoint(eleName);
+
+			if (point != null) {
+				String category = (String) point.getAttribute(IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY);
+				if (!extendedEntriesMap.containsKey(category)) {
+					extendedEntriesMap.put(category, new TreeSet<IElementDefn>(entryComparator));
+				}
+				extendedEntriesMap.get(category).add(def);
+				continue;
+			}
+
+			PaletteEntryExtension palette = EditpartExtensionManager.getPaletteEntry(eleName);
+
+			if (palette != null) {
+				elementSorter.addElement(palette.getCategory(), def);
+				continue;
+			}
+
+			elementSorter.addElement(IPreferenceConstants.PALETTE_CONTENT, def);
+		}
+
+		for (Map.Entry<String, SortedSet<IElementDefn>> entry : extendedEntriesMap.entrySet()) {
+			for (IElementDefn def : entry.getValue())
+				elementSorter.addElement(entry.getKey(), def);
+		}
+
+		List<IElementDefn> sortedElements = elementSorter.getSortedElements();
+
+		return sortedElements;
+	}
+
+	/**
 	 * Returns all supported elements from UI for given SlotHandle
-	 *
+	 * 
 	 * @param slotHandle
 	 * @return
 	 */
@@ -1868,7 +1912,7 @@ public class UIUtil {
 
 	/**
 	 * Returns all supported elements from UI for given PropertyHandle
-	 *
+	 * 
 	 * @param propertyHandle
 	 * @return
 	 */
@@ -1896,7 +1940,10 @@ public class UIUtil {
 		boolean retBoolean = true;
 		try {
 			moduleHandle.reloadLibraries();
-		} catch (SemanticException | DesignFileException e) {
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
+			retBoolean = false;
+		} catch (DesignFileException e) {
 			ExceptionHandler.handle(e);
 			retBoolean = false;
 		}
@@ -1905,7 +1952,7 @@ public class UIUtil {
 
 	/**
 	 * If there are not the default library template return null
-	 *
+	 * 
 	 * @return
 	 */
 	public static String getDefaultLibraryTemplate() {
@@ -1930,7 +1977,7 @@ public class UIUtil {
 
 	/**
 	 * Get the current font family.
-	 *
+	 * 
 	 * @return The current font family
 	 */
 	public static Font getFont(ReportItemHandle handle) {
@@ -1996,12 +2043,11 @@ public class UIUtil {
 					Messages.getString("UIUtil.previewconfirm.message"), //$NON-NLS-1$
 					status, IStatus.OK | IStatus.INFO | IStatus.WARNING | IStatus.ERROR) {
 
-				@Override
 				protected void createButtonsForButtonBar(Composite parent) {
 					createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 					createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 					createDetailsButton(parent);
-				}
+				};
 			}.open() == Window.OK;
 		}
 		return true;
@@ -2040,9 +2086,9 @@ public class UIUtil {
 	 * Test if the passed object can be delete. This method will check whether the
 	 * deleted elements are referenced by others, if is, a confirm dialog will
 	 * popup.
-	 *
+	 * 
 	 * From DeleteHandler.
-	 *
+	 * 
 	 * @param object
 	 * @return
 	 */
@@ -2091,7 +2137,7 @@ public class UIUtil {
 					}
 				}
 			}
-			ArrayList<Object> referenceList = new ArrayList<>();
+			ArrayList<Object> referenceList = new ArrayList<Object>();
 			for (Iterator<?> itor = handle.clientsIterator(); itor.hasNext();) {
 				referenceList.add(itor.next());
 			}
@@ -2113,7 +2159,7 @@ public class UIUtil {
 
 	/**
 	 * Check if the name of a group/dimension level is allowed.
-	 *
+	 * 
 	 * @return allowed
 	 */
 	public static boolean validateDimensionName(String name) {
@@ -2128,9 +2174,8 @@ public class UIUtil {
 			return false;
 		}
 		boolean bool = false;
-		if (cubeQueryUtil != null) {
+		if (cubeQueryUtil != null)
 			bool = cubeQueryUtil.isValidDimensionName(name);
-		}
 
 		if (session != null) {
 			session.shutdown();
@@ -2140,16 +2185,15 @@ public class UIUtil {
 
 	/**
 	 * Gets the project folder from the input
-	 *
+	 * 
 	 * @param input
 	 * @return
 	 */
 	public static String getProjectFolder(IEditorInput input) {
 		Object fileAdapter = input.getAdapter(IFile.class);
 		IFile file = null;
-		if (fileAdapter != null) {
+		if (fileAdapter != null)
 			file = (IFile) fileAdapter;
-		}
 		if (file != null && file.getProject() != null) {
 			return file.getProject().getLocation().toOSString();
 		}
@@ -2162,7 +2206,7 @@ public class UIUtil {
 
 	/**
 	 * Sets the session the resource folder.
-	 *
+	 * 
 	 * @param input
 	 * @param project
 	 * @param handle
@@ -2202,7 +2246,7 @@ public class UIUtil {
 
 	/**
 	 * Gets the project from the input
-	 *
+	 * 
 	 * @param input
 	 * @return
 	 */
@@ -2213,9 +2257,8 @@ public class UIUtil {
 		} else {
 			Object fileAdapter = input.getAdapter(IFile.class);
 			IFile file = null;
-			if (fileAdapter != null) {
+			if (fileAdapter != null)
 				file = (IFile) fileAdapter;
-			}
 			if (file != null) {
 				retValue = file.getProject();
 			}
@@ -2230,7 +2273,7 @@ public class UIUtil {
 
 	/**
 	 * Process the report design orientation change.
-	 *
+	 * 
 	 * @param newOrientation
 	 * @param viewer
 	 */
@@ -2288,7 +2331,7 @@ public class UIUtil {
 
 	/**
 	 * Blends c1 and c2 based in the provided ratio.
-	 *
+	 * 
 	 * @param c1    first color
 	 * @param c2    second color
 	 * @param ratio percentage of the first color in the blend (0-100)
@@ -2304,7 +2347,7 @@ public class UIUtil {
 
 	/**
 	 * Blends two primary color components based on the provided ratio.
-	 *
+	 * 
 	 * @param v1    first component
 	 * @param v2    second component
 	 * @param ratio percentage of the first component in the blend
@@ -2346,7 +2389,7 @@ public class UIUtil {
 	public static String encode(String string) {
 		int n = string.length();
 		char character;
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		// loop over all the characters of the String.
 		for (int i = 0; i < n; i++) {
 			character = string.charAt(i);
@@ -2391,7 +2434,6 @@ public class UIUtil {
 	public synchronized static boolean isEmbeddedBrowserAvailable() {
 		Display.getDefault().syncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				test();
 			}
@@ -2402,7 +2444,7 @@ public class UIUtil {
 
 	/**
 	 * Must run on UI thread
-	 *
+	 * 
 	 * @return
 	 */
 	private static boolean test() {
@@ -2433,7 +2475,7 @@ public class UIUtil {
 
 	/**
 	 * Add the createby property to the mudule handle
-	 *
+	 * 
 	 * @param handles
 	 */
 	public static void addCreateBy(ModuleHandle handle) {
@@ -2453,7 +2495,7 @@ public class UIUtil {
 
 	/**
 	 * Returns the DPI info of current display environment.
-	 *
+	 * 
 	 * @return the DPI values in format of {hdpi, vdpi}.
 	 */
 	public static int[] getScreenResolution() {
@@ -2470,11 +2512,10 @@ public class UIUtil {
 
 			return dpi;
 		}
-		final Point[] points = { new Point(0, 0) };
+		final Point[] points = new Point[] { new Point(0, 0) };
 		final Display tempDisplay = display;
 		display.syncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				points[0] = tempDisplay.getDPI();
 			}
@@ -2486,7 +2527,7 @@ public class UIUtil {
 
 	/**
 	 * Returns the DPI info of given image if applicable.
-	 *
+	 * 
 	 * @param imageStream
 	 * @return the DPI values in format of {hdpi, vdpi}.
 	 */
@@ -2528,7 +2569,7 @@ public class UIUtil {
 
 	/**
 	 * Format the data type parameter display name
-	 *
+	 * 
 	 * @param str
 	 * @param param
 	 * @return
@@ -2555,7 +2596,7 @@ public class UIUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param fileName the fileName
 	 * @return the editor with the given fileName, or null if not found.
 	 */
@@ -2579,7 +2620,7 @@ public class UIUtil {
 	/**
 	 * Gets the object from the context through the key.If the value is a Object
 	 * return null.
-	 *
+	 * 
 	 * @param context
 	 * @param key
 	 * @return
@@ -2612,28 +2653,24 @@ public class UIUtil {
 			int fontModifier = SWT.NORMAL;
 
 			if (stylePrefs.length > 2) {
-				boolean on = Boolean.parseBoolean(stylePrefs[2]);
-				if (on) {
+				boolean on = Boolean.valueOf(stylePrefs[2]).booleanValue();
+				if (on)
 					fontModifier = fontModifier | SWT.BOLD;
-				}
 			}
 			if (stylePrefs.length > 3) {
-				boolean on = Boolean.parseBoolean(stylePrefs[3]);
-				if (on) {
+				boolean on = Boolean.valueOf(stylePrefs[3]).booleanValue();
+				if (on)
 					fontModifier = fontModifier | SWT.ITALIC;
-				}
 			}
 			if (stylePrefs.length > 4) {
-				boolean on = Boolean.parseBoolean(stylePrefs[4]);
-				if (on) {
+				boolean on = Boolean.valueOf(stylePrefs[4]).booleanValue();
+				if (on)
 					fontModifier = fontModifier | TextAttribute.STRIKETHROUGH;
-				}
 			}
 			if (stylePrefs.length > 5) {
-				boolean on = Boolean.parseBoolean(stylePrefs[5]);
-				if (on) {
+				boolean on = Boolean.valueOf(stylePrefs[5]).booleanValue();
+				if (on)
 					fontModifier = fontModifier | TextAttribute.UNDERLINE;
-				}
 			}
 
 			ta = new TextAttribute((foreground != null) ? ColorManager.getColor(foreground) : null,
@@ -2692,12 +2729,10 @@ public class UIUtil {
 		int index = 0;
 		int length = string.length();
 		do {
-			while ((index < length) && (string.charAt(index) != '&')) {
+			while ((index < length) && (string.charAt(index) != '&'))
 				index++;
-			}
-			if (++index >= length) {
+			if (++index >= length)
 				return string;
-			}
 			if (string.charAt(index) != '&') {
 				return string.substring(0, index - 1) + string.substring(index, length);
 			}
@@ -2723,22 +2758,20 @@ public class UIUtil {
 	public static boolean containsFocusControl(Control container) {
 		Control control = container.getDisplay().getFocusControl();
 
-		if (control == container) {
+		if (control == container)
 			return true;
-		}
 
 		while (control != null) {
 			control = control.getParent();
-			if (control == container) {
+			if (control == container)
 				return true;
-			}
 		}
 
 		return false;
 	}
 
 	public static List<DataSetHandle> getVisibleDataSetHandles(ModuleHandle handle) {
-		ArrayList<DataSetHandle> list = new ArrayList<>();
+		ArrayList<DataSetHandle> list = new ArrayList<DataSetHandle>();
 		for (Iterator<?> iterator = handle.getVisibleDataSets().iterator(); iterator.hasNext();) {
 			DataSetHandle dataSetHandle = (DataSetHandle) iterator.next();
 			list.add(dataSetHandle);
@@ -2749,7 +2782,7 @@ public class UIUtil {
 	}
 
 	public static List<CubeHandle> getVisibleCubeHandles(ModuleHandle handle) {
-		ArrayList<CubeHandle> list = new ArrayList<>();
+		ArrayList<CubeHandle> list = new ArrayList<CubeHandle>();
 		for (Iterator<?> iterator = handle.getVisibleCubes().iterator(); iterator.hasNext();) {
 			CubeHandle cubeHandle = (CubeHandle) iterator.next();
 			list.add(cubeHandle);
@@ -2804,7 +2837,7 @@ public class UIUtil {
 	 * @return Returns the groups for given element
 	 */
 	public static List<GroupHandle> getGroups(DesignElementHandle handle) {
-		List<GroupHandle> groupList = new ArrayList<>();
+		List<GroupHandle> groupList = new ArrayList<GroupHandle>();
 		if (handle instanceof ListingHandle) {
 			SlotHandle groupSlotHandle = ((ListingHandle) handle).getGroups();
 			for (Iterator iter = groupSlotHandle.iterator(); iter.hasNext();) {

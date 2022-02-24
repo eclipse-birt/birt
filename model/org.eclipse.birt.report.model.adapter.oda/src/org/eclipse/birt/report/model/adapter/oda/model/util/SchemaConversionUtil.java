@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,9 +33,8 @@ public class SchemaConversionUtil {
 
 	public static DataSetParameters convertToAdapterParameters(
 			org.eclipse.datatools.connectivity.oda.design.DataSetParameters designParams) {
-		if (designParams == null) {
+		if (designParams == null)
 			return null;
-		}
 
 		DataSetParameters adapterParams = ModelFactory.eINSTANCE.createDataSetParameters();
 
@@ -56,9 +55,8 @@ public class SchemaConversionUtil {
 
 	public static org.eclipse.datatools.connectivity.oda.design.DataSetParameters convertToDesignParameters(
 			DataSetParameters adapterParams) {
-		if (adapterParams == null) {
+		if (adapterParams == null)
 			return null;
-		}
 
 		IODADesignFactory designFactory = ODADesignFactory.getFactory();
 
@@ -80,12 +78,11 @@ public class SchemaConversionUtil {
 	 */
 
 	public static List<DynamicList> getCachedDynamicList(DataSetParameters adapterParams) {
-		if (adapterParams == null) {
+		if (adapterParams == null)
 			return null;
-		}
 
 		int itemNum = adapterParams.getParameters().size();
-		List<DynamicList> retList = new ArrayList<>(itemNum);
+		List<DynamicList> retList = new ArrayList<DynamicList>(itemNum);
 
 		for (int i = 0; i < itemNum; i++) {
 			DataSetParameter adapterParam = adapterParams.getParameters().get(i);

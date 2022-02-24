@@ -1,17 +1,17 @@
 /**
  *************************************************************************
  * Copyright (c) 2004, 2016 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -27,34 +27,29 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- *
+ * 
  * Implements the built-in Total.Range aggregation
  */
 public class TotalRange extends AggrFunction {
 
-	@Override
 	public String getName() {
 		return IBuildInAggregation.TOTAL_RANGE_FUNC;
 	}
 
-	@Override
 	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
-	@Override
 	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
-	@Override
 	public IParameterDefn[] getParameterDefn() {
 		return new IParameterDefn[] { new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME,
 				false, true, SupportedDataTypes.CALCULATABLE, "")//$NON-NLS-1$
 		};
 	}
 
-	@Override
 	public Accumulator newAccumulator() {
 		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
@@ -70,7 +65,6 @@ public class TotalRange extends AggrFunction {
 			super(calc);
 		}
 
-		@Override
 		public void start() {
 			super.start();
 			max = null;
@@ -78,7 +72,6 @@ public class TotalRange extends AggrFunction {
 			isRowAvailable = false;
 		}
 
-		@Override
 		public void onRow(Object[] args) {
 			assert (args.length > 0);
 			if (args[0] != null) {
@@ -96,7 +89,6 @@ public class TotalRange extends AggrFunction {
 			}
 		}
 
-		@Override
 		public Object getSummaryValue() throws DataException {
 			// Null data returns null
 			if (max == null || min == null) {
@@ -128,12 +120,10 @@ public class TotalRange extends AggrFunction {
 		}
 	}
 
-	@Override
 	public String getDescription() {
 		return Messages.getString("TotalRange.description"); //$NON-NLS-1$
 	}
 
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("TotalRange.displayName"); //$NON-NLS-1$
 	}

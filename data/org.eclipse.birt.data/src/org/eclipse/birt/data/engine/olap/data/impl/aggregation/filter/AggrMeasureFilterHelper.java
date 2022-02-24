@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +57,7 @@ import org.eclipse.birt.data.engine.script.NEvaluator;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
- *
+ * 
  */
 
 public class AggrMeasureFilterHelper {
@@ -68,7 +68,7 @@ public class AggrMeasureFilterHelper {
 	protected IBindingValueFetcher fetcher;
 
 	/**
-	 *
+	 * 
 	 * @param cube
 	 * @param resultSet
 	 */
@@ -82,13 +82,12 @@ public class AggrMeasureFilterHelper {
 	}
 
 	protected List<String> getAggregationName() {
-		List<String> aggregationName = new ArrayList<>();
+		List<String> aggregationName = new ArrayList<String>();
 		for (int i = 0; i < resultSet.length; i++) {
 			AggregationFunctionDefinition[] functions = resultSet[i].getAggregationDefinition()
 					.getAggregationFunctions();
-			if (functions == null) {
+			if (functions == null)
 				continue;
-			}
 			for (int j = 0; j < functions.length; j++) {
 				aggregationName.add(functions[j].getName());
 			}
@@ -105,7 +104,7 @@ public class AggrMeasureFilterHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultSet
 	 * @throws DataException
 	 * @throws IOException
@@ -118,9 +117,8 @@ public class AggrMeasureFilterHelper {
 			if (hasDefinition(resultSet[i], aggregationNames)) {
 				//
 				if (resultSet[i].getAllLevels() == null || resultSet[i].getAllLevels().length == 0) {
-					if (resultSet[i].length() == 0) {
+					if (resultSet[i].length() == 0)
 						return null;
-					}
 					AggregationRowAccessor rowAccessor = new AggregationRowAccessor(resultSet[i], fetcher);
 					for (int j = 0; j < jsMeasureEvalFilterHelper.size(); j++) {
 						if (resultSet[i].getAggregationIndex(aggregationNames[j]) >= 0) {
@@ -146,7 +144,7 @@ public class AggrMeasureFilterHelper {
 				IDiskArray rowIndexArray = collectValidRowIndexArray(resultSet[i], jsMeasureEvalFilterHelper,
 						aggregationNames);
 				ICubePosFilter cubePosFilter = null;
-
+				;
 				if (rowIndexArray.size() <= resultSet[i].length() / 2) {// use valid position filter
 					cubePosFilter = getValidPosFilter(resultSet[i], rowIndexArray, dimensionNames, levelListArray);
 				} else {// use invalid position filter
@@ -162,7 +160,7 @@ public class AggrMeasureFilterHelper {
 	 * to indicate whether the specified <code>resultSet</code> has aggregation
 	 * definition for any one of the <code>aggregationNames</code>. //TODO Currently
 	 * we do not support the filter on drilled aggregate result.
-	 *
+	 * 
 	 * @param resultSet
 	 * @param aggregationNames
 	 * @return
@@ -189,7 +187,7 @@ public class AggrMeasureFilterHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param jsMeasureEvalFilterHelper
 	 * @return
 	 * @throws DataException
@@ -209,9 +207,8 @@ public class AggrMeasureFilterHelper {
 					List bindingList = new ArrayList();
 					ICubeQueryDefinition query = this.executor.getCubeQueryDefinition();
 					bindingList.addAll(query.getBindings());
-					if (query instanceof PreparedCubeQueryDefinition) {
+					if (query instanceof PreparedCubeQueryDefinition)
 						bindingList.addAll(((PreparedCubeQueryDefinition) query).getBindingsForNestAggregation());
-					}
 					List referencedNames = new ArrayList();
 					for (int j = 0; j < bindingName.size(); j++) {
 						IBinding b = getBinding(bindingName.get(j).toString(), bindingList);
@@ -230,16 +227,15 @@ public class AggrMeasureFilterHelper {
 	private Object getIntersection(List list1, List list2) {
 		for (int i = 0; i < list1.size(); i++) {
 			for (int j = 0; j < list2.size(); j++) {
-				if (list1.get(i).equals(list2.get(j))) {
+				if (list1.get(i).equals(list2.get(j)))
 					return list1.get(i);
-				}
 			}
 		}
 		return null;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultSet
 	 * @param rowIndexArray
 	 * @param dimensionNames
@@ -285,7 +281,7 @@ public class AggrMeasureFilterHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultSet
 	 * @param rowIndexArray
 	 * @param dimensionNames
@@ -324,7 +320,7 @@ public class AggrMeasureFilterHelper {
 
 	/**
 	 * collect the filtered result
-	 *
+	 * 
 	 * @param resultSet
 	 * @param filterHelpers
 	 * @param aggregationNames
@@ -336,7 +332,7 @@ public class AggrMeasureFilterHelper {
 			String[] aggregationNames) throws DataException, IOException {
 		IDiskArray result = new BufferedPrimitiveDiskArray();
 		AggregationRowAccessor rowAccessor = new AggregationRowAccessor(resultSet, fetcher);
-		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<>();
+		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<IAggrMeasureFilterEvalHelper>();
 
 		FilterPassController filterPassController = new FilterPassController();
 		for (int j = 0; j < filterHelpers.size(); j++) {
@@ -398,7 +394,7 @@ public class AggrMeasureFilterHelper {
 						resultSet[i].getAggregationDefinition(), resultSet[i].getAllLevels(), validRows,
 						resultSet[i].getKeyNames(), resultSet[i].getAttributeNames());
 				result[i] = newAggrResultSet;
-				affectedAggrResultSetIndex.add(i);
+				affectedAggrResultSetIndex.add(Integer.valueOf(i));
 			} else {
 				result[i] = resultSet[i];
 			}
@@ -411,7 +407,7 @@ public class AggrMeasureFilterHelper {
 			String[] aggregationNames) throws DataException, IOException {
 		IDiskArray result = new BufferedStructureArray(AggregationResultRow.getCreator(), resultSet.length());
 		AggregationRowAccessor rowAccessor = new AggregationRowAccessor(resultSet, fetcher);
-		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<>();
+		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<IAggrMeasureFilterEvalHelper>();
 
 		FilterPassController filterPassController = new FilterPassController();
 		for (int j = 0; j < filterHelpers.size(); j++) {
@@ -479,7 +475,7 @@ public class AggrMeasureFilterHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultSet
 	 * @return
 	 */
@@ -499,7 +495,7 @@ public class AggrMeasureFilterHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dimensionName
 	 * @param level
 	 * @param keyValue

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,9 +57,8 @@ public class PageScriptExecutor extends ScriptExecutor {
 					return;
 				}
 				IPageInstance pageInstance = new PageInstance(context, pageContent, contents);
-				if (handleScript(pageInstance, masterPage.getOnPageEnd(), context).didRun()) {
+				if (handleScript(pageInstance, masterPage.getOnPageEnd(), context).didRun())
 					return;
-				}
 				IMasterPageEventHandler eh = getEventHandler(masterPage, context);
 				if (eh != null) {
 					eh.onPageEnd(pageInstance, context.getReportContext());
@@ -81,9 +80,8 @@ public class PageScriptExecutor extends ScriptExecutor {
 					return;
 				}
 				IPageInstance pageInstance = new PageInstance(context, pageContent, contents);
-				if (handleScript(pageInstance, masterPage.getOnPageStart(), context).didRun()) {
+				if (handleScript(pageInstance, masterPage.getOnPageStart(), context).didRun())
 					return;
-				}
 				IMasterPageEventHandler eh = getEventHandler(masterPage, context);
 				if (eh != null) {
 					eh.onPageStart(pageInstance, context.getReportContext());

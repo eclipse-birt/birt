@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,9 +24,8 @@ import org.w3c.dom.css.CSSValue;
 public class ContentUtil {
 
 	public static long getDesignID(IContent content) {
-		if (content == null) {
+		if (content == null)
 			return -1L;
-		}
 
 		Object design = content.getGenerateBy();
 		if (design instanceof ReportElementDesign) {
@@ -37,7 +36,7 @@ public class ContentUtil {
 
 	/**
 	 * to check whether there are horizontal page breaks in the table.
-	 *
+	 * 
 	 * @param table
 	 * @return
 	 */

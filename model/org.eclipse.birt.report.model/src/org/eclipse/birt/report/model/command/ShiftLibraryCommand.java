@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public class ShiftLibraryCommand extends AbstractElementCommand {
 
 	/**
 	 * Constructs the command with the module containing the changing library.
-	 *
+	 * 
 	 * @param module the module containing the changing library
 	 */
 
@@ -46,7 +46,7 @@ public class ShiftLibraryCommand extends AbstractElementCommand {
 
 	/**
 	 * Shifts the given library forwards or backwards.
-	 *
+	 * 
 	 * @param library the library to shift
 	 * @param newPosn the new position to shift
 	 * @throws SemanticException if failed to shift <code>IncludeLibrary</code>
@@ -57,10 +57,9 @@ public class ShiftLibraryCommand extends AbstractElementCommand {
 		List<Library> libraries = module.getLibraries();
 		assert !libraries.isEmpty();
 
-		if (!libraries.contains(library)) {
+		if (!libraries.contains(library))
 			throw new LibraryException(library, new String[] { library.getNamespace() },
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND);
-		}
 
 		// Move the new position so that it is in range.
 
@@ -68,9 +67,8 @@ public class ShiftLibraryCommand extends AbstractElementCommand {
 
 		int adjustedNewPosn = checkAndAdjustPosition(oldPosn, newPosn, libraries.size());
 
-		if (oldPosn == adjustedNewPosn) {
+		if (oldPosn == adjustedNewPosn)
 			return;
-		}
 
 		ActivityStack stack = getActivityStack();
 

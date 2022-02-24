@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class JSExpressionSupport extends AbstractExpressionSupport {
 
-	@Override
 	public IExpressionBuilder createBuilder(Shell shl, Object expression) {
 		String expr = expression == null ? null : expression.toString();
 
@@ -43,17 +42,14 @@ public class JSExpressionSupport extends AbstractExpressionSupport {
 		return builder;
 	}
 
-	@Override
 	public Image getImage() {
 		return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ENABLE_EXPRESSION_JAVASCRIPT);
 	}
 
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("ExpressionButtonProvider.Javascript"); //$NON-NLS-1$
 	}
 
-	@Override
 	public String getName() {
 		return ExpressionType.JAVASCRIPT;
 	}
@@ -63,7 +59,6 @@ public class JSExpressionSupport extends AbstractExpressionSupport {
 	 */
 	private static final JSExpressionConverter JS_EXPR_RENDERER = new JSExpressionConverter();
 
-	@Override
 	public IExpressionConverter getConverter() {
 		return JS_EXPR_RENDERER;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ public class FontCacheUtils {
 		OutputStream out = new FileOutputStream(fileName);
 		Writer writer = new OutputStreamWriter(out, "utf-8");
 		for (int seg = 0; seg < 0xFF; seg++) {
-			StringBuilder sb = new StringBuilder();
+			StringBuffer sb = new StringBuffer();
 			sb.append(Integer.toHexString(seg * 0xFF)).append('\n');
 			writer.write(sb.toString());
 			for (int hi = 0; hi < 16; hi++) {
@@ -100,16 +100,18 @@ public class FontCacheUtils {
 					start = ch;
 				}
 				end = ch;
-			} else if (start != -1) {
-				charSegs.add(new CharSegment(start, end, fontName));
-				start = -1;
+			} else {
+				if (start != -1) {
+					charSegs.add(new CharSegment(start, end, fontName));
+					start = -1;
+				}
 			}
 		}
 		if (start != -1) {
 			charSegs.add(new CharSegment(start, end, fontName));
 		}
 		for (int i = 0; i < charSegs.size(); i++) {
-			StringBuilder sb = new StringBuilder();
+			StringBuffer sb = new StringBuffer();
 			sb.append("<block region-start=\"").append(start).append("\" region-end=\"").append(end).append("\"/>")
 					.append('\n');
 			writer.write(sb.toString());

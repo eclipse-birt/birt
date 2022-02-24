@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 
 /**
- *
+ * 
  */
 
 public class DummyCubeResultSet implements ICubeResultSet {
@@ -65,24 +65,20 @@ public class DummyCubeResultSet implements ICubeResultSet {
 		cursor = dcc;
 	}
 
-	@Override
 	public CubeCursor getCubeCursor() {
 		return cursor;
 	}
 
-	@Override
 	public void close() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public Object evaluate(String expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public Object evaluate(IBaseExpression expr) {
 		// TODO Auto-generated method stub
 		return null;
@@ -133,7 +129,6 @@ public class DummyCubeResultSet implements ICubeResultSet {
 		return null;
 	}
 
-	@Override
 	public DataSetID getID() {
 		// TODO Auto-generated method stub
 		return null;
@@ -179,49 +174,41 @@ public class DummyCubeResultSet implements ICubeResultSet {
 		return false;
 	}
 
-	@Override
 	public String getCellIndex() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void skipTo(String cellIndex) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public IBaseResultSet getParent() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public IBaseQueryResults getQueryResults() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public String getRawID() throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public int getType() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public IBaseCubeQueryDefinition getCubeQuery() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public Object evaluate(String language, String expr) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;

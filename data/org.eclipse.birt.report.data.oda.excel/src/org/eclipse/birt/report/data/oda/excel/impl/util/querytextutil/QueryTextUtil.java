@@ -68,34 +68,31 @@ public class QueryTextUtil {
 
 		for (int i = 0; i < chars.length; i++) {
 			if (chars[i] == '"') {
-				if (!isEscaped) {
+				if (!isEscaped)
 					inQuote = !inQuote;
-				} else {
+				else
 					isEscaped = !isEscaped;
-				}
 			} else if (chars[i] == '\\') {
 				isEscaped = !isEscaped;
-			} else if ((!inQuote) && chars[i] == QUERY_TEXT_DELIMITER) {
+			} else if ((!inQuote) && chars[i] == QUERY_TEXT_DELIMITER)
 				delimiterIndex = i;
-			} else if ((!inQuote) && chars[i] == COLUMNSINFO_BEGIN_DELIMITER) {
+			else if ((!inQuote) && chars[i] == COLUMNSINFO_BEGIN_DELIMITER) {
 				columnsInfoBeginIndex = i;
 				break;
 			}
 		}
 
-		if (inQuote) {
+		if (inQuote)
 			throw new OdaException(Messages.getString("query_text_error")); //$NON-NLS-1$
-		}
 
 		if (delimiterIndex != -1 && columnsInfoBeginIndex != -1) {
 			splittedQueryText[0] = trimmedQueryText.substring(0, delimiterIndex).trim();
 			splittedQueryText[1] = trimmedQueryText.substring(columnsInfoBeginIndex + 1, trimmedQueryText.length() - 1)
 					.trim();
-		} else if (delimiterIndex == -1 && columnsInfoBeginIndex == -1) {
+		} else if (delimiterIndex == -1 && columnsInfoBeginIndex == -1)
 			splittedQueryText[0] = trimmedQueryText;
-		} else {
+		else
 			throw new OdaException(Messages.getString("query_text_error")); //$NON-NLS-1$
-		}
 
 		return splittedQueryText;
 	}
@@ -111,9 +108,8 @@ public class QueryTextUtil {
 		// This array stores two values: "SELECT" keyword and other part of a
 		// command
 		String[] array = formattedQuery.split(ExcelODAConstants.DELIMITER_SPACE, 2);
-		if (array == null || array.length != 2 || !array[0].trim().equalsIgnoreCase(ExcelODAConstants.KEYWORD_SELECT)) {
+		if (array == null || array.length != 2 || !array[0].trim().equalsIgnoreCase(ExcelODAConstants.KEYWORD_SELECT))
 			throw new OdaException(Messages.getString("query_COMMAND_NOT_VALID")); //$NON-NLS-1$
-		}
 
 		return array[1];
 	}
@@ -128,23 +124,24 @@ public class QueryTextUtil {
 	 */
 	protected static String[] stripFROMKeyword(String query) throws OdaException {
 		char[] chars = query.toCharArray();
-		List<Integer> indiceList = new ArrayList<>();
+		List<Integer> indiceList = new ArrayList<Integer>();
 		boolean inQuote = false;
 		boolean isEscaped = false;
 		LookAheadMacher matcher = new LookAheadMacher("FROM ", " ", true);
 		for (int i = 0; i < chars.length; i++) {
 			if (chars[i] == '"') {
-				if (!isEscaped) {
+				if (!isEscaped)
 					inQuote = !inQuote;
-				} else {
+				else
 					isEscaped = !isEscaped;
-				}
 			} else if (chars[i] == '\\') {
 				isEscaped = !isEscaped;
 			} else if (inQuote) {
 				continue;
-			} else if (matcher.match(chars, i)) {
-				indiceList.add(i - 1);
+			} else {
+				if (matcher.match(chars, i)) {
+					indiceList.add(i - 1);
+				}
 			}
 		}
 
@@ -153,35 +150,30 @@ public class QueryTextUtil {
 			int splitInd = indiceList.get(indiceList.size() - 1);
 			result[0] = query.substring(0, splitInd);
 			result[1] = getUnQuotedName(query.substring(splitInd + matcher.getPatternLength()));
-		} else {
+		} else
 			throw new OdaException(Messages.getString("query_COMMAND_NOT_VALID")); //$NON-NLS-1$
-		}
 
 		return result;
 	}
 
 	public static String getQuotedName(String name) {
-		if (name == null || (name.charAt(0) == '\"' && name.charAt(name.length() - 1) == '\"')) {
+		if (name == null || (name.charAt(0) == '\"' && name.charAt(name.length() - 1) == '\"'))
 			return name;
-		}
 
 		StringBuffer sb = new StringBuffer("\"").append(name).append("\"");
 		return sb.toString();
 	}
 
 	public static String getUnQuotedName(String name) {
-		if (name == null || name.length() == 0) {
+		if (name == null || name.length() == 0)
 			return name;
-		}
 
 		int head = 0;
 		int end = name.length();
-		if (name.charAt(head) == '\"') {
+		if (name.charAt(head) == '\"')
 			head++;
-		}
-		if (name.charAt(name.length() - 1) == '\"') {
+		if (name.charAt(name.length() - 1) == '\"')
 			end--;
-		}
 
 		return name.substring(head, end);
 	}
@@ -210,36 +202,34 @@ public class QueryTextUtil {
 				first = pattern.charAt(0) == ch[ind];
 			}
 
-			if (!first) {
+			if (!first)
 				return false;
-			}
 
 			return match(String.valueOf(ch), ind);
 		}
 
 		boolean match(String toMatch, int start) {
-			if (toMatch == null || (toMatch.length() - start) < pattern.length() || (start < heading.length() - 1)) {
+			if (toMatch == null || (toMatch.length() - start) < pattern.length())
 				return false;
-			}
+
+			if (start < heading.length() - 1)
+				return false;
 
 			String to = toMatch.substring(start - heading.length(), start);
 			if (caseInsensitive) {
-				if (!heading.equalsIgnoreCase(to)) {
+				if (!heading.equalsIgnoreCase(to))
 					return false;
-				}
 			} else if (!heading.equals(to)) {
 				return false;
 			}
 
 			to = toMatch.substring(start, start + pattern.length());
-			if (to.length() != pattern.length()) {
+			if (to.length() != pattern.length())
 				return false;
-			}
 
 			if (caseInsensitive) {
-				if (!pattern.equalsIgnoreCase(to)) {
+				if (!pattern.equalsIgnoreCase(to))
 					return false;
-				}
 			} else if (!pattern.equals(to)) {
 				return false;
 			}
@@ -279,12 +269,11 @@ public class QueryTextUtil {
 
 					// append column alias, if exists, or null to
 					// comma-separated column aliases in result[1]
-					if (columnNameAlias.length == 2) {
+					if (columnNameAlias.length == 2)
 						result[1] = (i == 0 ? columnNameAlias[1]
 								: result[1] + ExcelODAConstants.DELIMITER_COMMA_VALUE + columnNameAlias[1].trim());
-					} else {
+					else
 						result[1] = (i == 0 ? null : result[1] + ExcelODAConstants.DELIMITER_COMMA_VALUE + null);
-					}
 				}
 			}
 		} else {
@@ -304,9 +293,8 @@ public class QueryTextUtil {
 	 * @return
 	 */
 	static boolean isWildCard(String cCN) {
-		if (cCN.equalsIgnoreCase(ExcelODAConstants.KEYWORD_ASTERISK)) {
+		if (cCN.equalsIgnoreCase(ExcelODAConstants.KEYWORD_ASTERISK))
 			return true;
-		}
 		return false;
 	}
 
@@ -316,9 +304,9 @@ public class QueryTextUtil {
 	 * @return
 	 */
 	static Vector<String> getQueryColumnNamesVector(String queryColumnNames) {
-		Vector<String> result = new Vector<>();
+		Vector<String> result = new Vector<String>();
 		char[] chars = queryColumnNames.toCharArray();
-		List<Integer> indiceList = new ArrayList<>();
+		List<Integer> indiceList = new ArrayList<Integer>();
 		boolean inQuote = false;
 		boolean isEscaped = false;
 		int beginIndex = 0;
@@ -326,19 +314,17 @@ public class QueryTextUtil {
 
 		for (int i = 0; i < chars.length; i++) {
 			if (chars[i] == '"') {
-				if (!isEscaped) {
+				if (!isEscaped)
 					inQuote = !inQuote;
-				} else {
+				else
 					isEscaped = !isEscaped;
-				}
 			} else if (chars[i] == '\\') {
 				isEscaped = !isEscaped;
 			} else if (chars[i] == ',') {
-				if (inQuote) {
+				if (inQuote)
 					continue;
-				} else {
+				else
 					indiceList.add(new Integer(i));
-				}
 			}
 		}
 
@@ -351,12 +337,11 @@ public class QueryTextUtil {
 				beginIndex = endIndex + 1;
 
 				if (j == indiceList.size() - 1) {
-					result.add(queryColumnNames.substring(beginIndex).trim());
+					result.add(queryColumnNames.substring(beginIndex, queryColumnNames.length()).trim());
 				}
 			}
-		} else {
+		} else
 			result.add(queryColumnNames);
-		}
 
 		return result;
 	}

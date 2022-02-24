@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -32,47 +32,43 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- *
+ * 
  * Implements the built-in Total.mirr aggregation
  */
 public class TotalMirr extends AggrFunction {
 //	private static Logger logger = Logger.getLogger( TotalMirr.class.getName( ) );
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	@Override
 	public String getName() {
 		return IBuildInAggregation.TOTAL_MIRR_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	@Override
 	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	@Override
 	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
-	@Override
 	public IParameterDefn[] getParameterDefn() {
 		return new IParameterDefn[] {
 				new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME, false, true,
@@ -86,10 +82,9 @@ public class TotalMirr extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	@Override
 	public Accumulator newAccumulator() {
 		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
@@ -108,23 +103,21 @@ public class TotalMirr extends AggrFunction {
 			super(calc);
 		}
 
-		@Override
 		public void start() {
 			super.start();
 			frate = 0D;
 			rrate = 0D;
-			list = new ArrayList<>();
+			list = new ArrayList<Number>();
 			ret = null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[]
 		 * )
 		 */
-		@Override
 		public void onRow(Object[] args) throws DataException {
 			assert (args.length > 2);
 			if (args[0] != null) {
@@ -146,7 +139,6 @@ public class TotalMirr extends AggrFunction {
 			}
 		}
 
-		@Override
 		public void finish() throws DataException {
 			// user input parameters are invalid, throw exception to warn user
 			if (frate < 0 || rrate < 0) {
@@ -171,11 +163,10 @@ public class TotalMirr extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
 		 */
-		@Override
 		public Object getSummaryValue() {
 			return ret;
 		}
@@ -184,22 +175,20 @@ public class TotalMirr extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	@Override
 	public String getDescription() {
 		return Messages.getString("TotalMirr.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("TotalMirr.displayName"); //$NON-NLS-1$
 	}

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -14,6 +14,7 @@
 package org.eclipse.birt.report.engine.layout.pdf.cache;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -72,9 +73,8 @@ public class TableAreaLayout {
 		this.layoutInfo = layoutInfo;
 		this.startCol = startCol;
 		this.endCol = endCol;
-		if (tableContent != null) {
+		if (tableContent != null)
 			bcr.setRTL(tableContent.isRTL());
-		}
 	}
 
 	public void initTableLayout(UnresolvedRowHint hint) {
@@ -169,7 +169,7 @@ public class TableAreaLayout {
 
 	/**
 	 * resolve cell border conflict
-	 *
+	 * 
 	 * @param cellArea
 	 */
 	public void resolveBorderConflict(CellArea cellArea, boolean isFirst) {
@@ -184,7 +184,7 @@ public class TableAreaLayout {
 		IStyle columnStyle = getColumnStyle(columnID);
 		IStyle preRowStyle = null;
 		IStyle preColumnStyle = getColumnStyle(columnID - 1);
-		IStyle leftCellContentStyle;
+		IStyle leftCellContentStyle = null;
 		IStyle topCellStyle = null;
 
 		Row lastRow = null;
@@ -252,7 +252,7 @@ public class TableAreaLayout {
 
 	/**
 	 * get column style
-	 *
+	 * 
 	 * @param columnID
 	 * @return
 	 */
@@ -353,9 +353,8 @@ public class TableAreaLayout {
 		// scan for Max height for drop cells
 		for (int i = startCol; i <= endCol; i++) {
 			CellArea cell = row.getCell(i);
-			if (cell == null) {
+			if (cell == null)
 				continue;
-			}
 
 			if (cell.getRowSpan() == dropValue) {
 				if (cell instanceof DummyCell) {
@@ -371,9 +370,8 @@ public class TableAreaLayout {
 		HashSet dropCells = new HashSet();
 		for (int i = startCol; i <= endCol; i++) {
 			CellArea cell = row.getCell(i);
-			if (cell == null) {
+			if (cell == null)
 				continue;
-			}
 			if (cell instanceof DummyCell) {
 				int remainCellHeight = cell.getHeight() - delta;
 				cell.setHeight(remainCellHeight);
@@ -412,9 +410,9 @@ public class TableAreaLayout {
 	 * getLeftRowSpan( lastRow.finished, rowSpan ) ); } else if(rowSpan==1) {
 	 * if(!lastRow.finished) { unfinishedRow.addUnresolvedCell( (ICellContent) cell
 	 * .getContent( ), 1 ); } } }
-	 *
+	 * 
 	 * }
-	 *
+	 * 
 	 * }
 	 */
 
@@ -532,18 +530,18 @@ public class TableAreaLayout {
 					CellArea ref = ((DummyCell) cell).getCell();
 					if (!cells.contains(ref)) {
 						int width = resolveBottomBorder(ref, row.finished);
-						if (width > result) {
+						if (width > result)
 							result = width;
-						}
 						cells.add(ref);
 					}
-				} else if (!cells.contains(cell)) {
-					int width = resolveBottomBorder(cell, row.finished);
-					if (width > result) {
-						result = width;
-					}
+				} else {
+					if (!cells.contains(cell)) {
+						int width = resolveBottomBorder(cell, row.finished);
+						if (width > result)
+							result = width;
 
-					cells.add(cell);
+						cells.add(cell);
+					}
 				}
 			}
 		}
@@ -646,7 +644,7 @@ public class TableAreaLayout {
 	public void updateRow(RowArea rowArea, int specifiedHeight, boolean finished) {
 		/*
 		 * 1. resolve drop conflict, formailize current row. 2. resolve row height
-		 *
+		 * 
 		 */
 		hasDropCell = !finished;
 		Row lastRow = getPreviousRow();
@@ -686,7 +684,7 @@ public class TableAreaLayout {
 //					{
 //						height = Math.max( height, 0 );
 //					}
-//					else
+//					else 
 					if (cell.getRowSpan() == 1) {
 						height = Math.max(height, cell.getHeight());
 					}
@@ -757,9 +755,8 @@ public class TableAreaLayout {
 		int heightOfEmptyRow = 0;
 		for (int i = startCol; i <= endCol; i++) {
 			CellArea cell = row.getCell(i);
-			if (cell == null) {
+			if (cell == null)
 				continue;
-			}
 			IStyle style = cell.getStyle();
 			int bottomBorderWidth = PropertyUtil
 					.getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH));
@@ -840,10 +837,13 @@ public class TableAreaLayout {
 				return rowSpan - 1;
 			}
 			return rowSpan;
-		} else if (row != rowContent && rowSpan > 1) {
-			return rowSpan - 1;
-		} else {
-			return rowSpan;
+		} else // FIX 203576
+		{
+			if (row != rowContent && rowSpan > 1) {
+				return rowSpan - 1;
+			} else {
+				return rowSpan;
+			}
 		}
 
 	}
@@ -857,6 +857,41 @@ public class TableAreaLayout {
 			return layoutInfo.getCellWidth(startColumn, endColumn);
 		}
 		return 0;
+	}
+
+	private static class UnresolvedRow {
+		IContent rowContent;
+
+		public UnresolvedRow(IContent row) {
+			rowContent = row;
+		}
+
+		protected HashMap map = new HashMap();
+
+		public void addUnresolvedCell(ICellContent cell, int rowSpan) {
+			int start = cell.getColumn();
+			int end = start + cell.getColSpan();
+			for (int i = start; i < end; i++) {
+				map.put(Integer.valueOf(start), new ClonedCellContent(cell, rowSpan));
+			}
+		}
+
+		public boolean isEmpty() {
+			return map.isEmpty();
+		}
+
+		public ICellContent getDropCellContent(int colId, IContent row) {
+			ClonedCellContent dropCellContent = (ClonedCellContent) map.get(Integer.valueOf(colId));
+			if (dropCellContent != null) {
+				if (row != rowContent && dropCellContent.getRowSpan() > 0) {
+					return new ClonedCellContent(dropCellContent.getCellContent(), dropCellContent.rowSpan - 1);
+				}
+				return new ClonedCellContent(dropCellContent.getCellContent(), dropCellContent.rowSpan);
+			}
+			return null;
+
+		}
+
 	}
 
 	public Row getLastRow() {

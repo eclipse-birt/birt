@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -27,22 +27,18 @@ public class ListBandExecutor extends ContainerExecutor {
 		nextItem = 0;
 	}
 
-	@Override
 	protected IContent doCreateContent() {
 		return report.createListBandContent();
 	}
 
-	@Override
 	protected void doExecute() throws Exception {
 	}
 
-	@Override
 	public void close() {
 		nextItem = 0;
 		super.close();
 	}
 
-	@Override
 	protected ReportItemExecutor doCreateExecutor(long offset) throws Exception {
 		ListBandDesign bandDesign = (ListBandDesign) design;
 		int contentCount = bandDesign.getContentCount();
@@ -54,7 +50,6 @@ public class ListBandExecutor extends ContainerExecutor {
 		return null;
 	}
 
-	@Override
 	protected void doSkipToExecutor(InstanceID id, long offset) throws Exception {
 		ListBandDesign bandDesign = (ListBandDesign) design;
 		int contentCount = bandDesign.getContentCount();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,13 +14,13 @@
 
 package org.eclipse.birt.report.designer.core.runtime;
 
+import junit.framework.TestCase;
+
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.runtime.IStatus;
 
-import junit.framework.TestCase;
-
 /**
- *
+ * 
  */
 
 public class ErrorStatusTest extends TestCase {
@@ -30,7 +30,6 @@ public class ErrorStatusTest extends TestCase {
 	private final static String REASON = "TestReason"; //$NON-NLS-1$
 	private final static Exception EXCEPTION = new Exception(REASON);
 
-	@Override
 	public void setUp() {
 		status = new ErrorStatus(ReportPlugin.REPORT_UI, 1001, REASON, EXCEPTION);
 	}

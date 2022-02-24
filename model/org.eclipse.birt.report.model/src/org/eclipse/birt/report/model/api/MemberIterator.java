@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ public class MemberIterator implements Iterator {
 
 	/**
 	 * Constructs a member iterator with the given structure handle.
-	 *
+	 * 
 	 * @param struct handle to the structure over which to iterate
 	 */
 
@@ -67,33 +67,28 @@ public class MemberIterator implements Iterator {
 	 */
 
 	// Implementation of iterator.remove( )
-	@Override
 	public void remove() {
 		// Not supported here. Cannot remove structure members.
 	}
 
 	// Implementation of iterator.hasNext( )
 
-	@Override
 	public boolean hasNext() {
-		if (!isValid) {
+		if (!isValid)
 			return false;
-		}
 		return iter.hasNext();
 	}
 
 	/**
 	 * Returns a handle to the next member. Implementation of iterator.next( )
-	 *
+	 * 
 	 * @return a handle to the next member.
 	 * @see MemberHandle
 	 */
 
-	@Override
 	public Object next() {
-		if (!hasNext()) {
+		if (!hasNext())
 			return null;
-		}
 		return new MemberHandle(structHandle, (StructPropertyDefn) iter.next());
 	}
 

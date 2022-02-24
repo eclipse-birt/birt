@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -57,11 +57,9 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 
 	}
 
-	@Override
 	public MetaInfo getMetaInfo() {
 		return new IDataSet4Aggregation.MetaInfo() {
 
-			@Override
 			public String[] getAttributeNames(int dimIndex, int levelIndex) {
 				IDimensionResultIterator itr = dimensionResultIterators[dimIndex];
 				if (!itr.getDimesion().isTime()) {
@@ -71,7 +69,6 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 				}
 			}
 
-			@Override
 			public ColumnInfo getColumnInfo(DimColumn dimColumn) throws DataException {
 				String dimensionName = dimColumn.getDimensionName();
 				String levelName = dimColumn.getLevelName();
@@ -124,7 +121,6 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 				return new ColumnInfo(dimIndex, levelIndex, columnIndex, dataType, isKey);
 			}
 
-			@Override
 			public int getDimensionIndex(String dimensionName) {
 				for (int i = 0; i < dimensionResultIterators.length; i++) {
 					if (dimensionResultIterators[i].getDimesion().getName().equals(dimensionName)) {
@@ -134,7 +130,6 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 				return -1;
 			}
 
-			@Override
 			public String[] getKeyNames(int dimIndex, int levelIndex) {
 				IDimensionResultIterator itr = dimensionResultIterators[dimIndex];
 				if (itr.getDimesion().isTime()) {
@@ -144,7 +139,6 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 				}
 			}
 
-			@Override
 			public int getLevelIndex(String dimensionName, String levelName) {
 				int dimIndex = getDimensionIndex(dimensionName);
 				if (dimIndex >= 0) {
@@ -154,7 +148,6 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 				return -1;
 			}
 
-			@Override
 			public int getMeasureIndex(String measureName) {
 				if (measureName == null) {
 					return -1;
@@ -168,7 +161,6 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 				return -1;
 			}
 
-			@Override
 			public MeasureInfo[] getMeasureInfos() {
 				if (computedMeasureHelper != null && computedMeasureHelper.getAllComputedMeasureInfos() != null) {
 					MeasureInfo[] cubeMeasureInfo = factTableRowIterator.getMeasureInfos();
@@ -187,29 +179,25 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 		};
 	}
 
-	@Override
 	public boolean next() throws DataException, IOException {
 		return factTableRowIterator.next();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation#
 	 * isDuplicatedRow()
 	 */
-	@Override
 	public boolean isDuplicatedRow() {
 		return factTableRowIterator.isDuplicatedRow();
 	}
 
-	@Override
 	public int[] getDimensionPosition() {
 		return factTableRowIterator.getDimensionPosition();
 	}
 
-	@Override
 	public Object getMeasureValue(int measureIndex) throws DataException {
 		if (measureIndex < factTableRowIterator.getMeasureCount()) {
 			return factTableRowIterator.getMeasure(measureIndex);
@@ -224,7 +212,6 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 		return null;
 	}
 
-	@Override
 	public Member getMember(int dimIndex, int levelIndex) throws DataException, IOException {
 		String dimensionName = dimensionResultIterators[dimIndex].getDimesion().getName();
 		int indexInFact = factTableRowIterator.getDimensionIndex(dimensionName);
@@ -236,7 +223,7 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param iteratorIndex
 	 * @param levelIndex
 	 * @param dimensionPosition
@@ -246,17 +233,15 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 	 */
 	private Member getLevelObject(int dimIndex, int levelIndex, int dimensionPosition)
 			throws BirtException, IOException {
-		if (dimensionResultIterators[dimIndex].locate(dimensionPosition)) {
+		if (dimensionResultIterators[dimIndex].locate(dimensionPosition))
 			return dimensionResultIterators[dimIndex].getLevelMember(levelIndex);
-		} else {
+		else
 			return null;
-		}
 
 	}
 
 	public class FacttableRowForComputedMeasure implements IFacttableRow {
 
-		@Override
 		public Object getLevelAttributeValue(String dimensionName, String levelName, String attributeName)
 				throws DataException, IOException {
 			int dimensionIndex = getDimensionIndex(dimensionName);
@@ -272,13 +257,11 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 
 			int attributeIndex = dimensionResultIterators[dimensionIndex].getLevelAttributeIndex(levelName,
 					attributeName);
-			if (member != null && attributeIndex >= 0) {
+			if (member != null && attributeIndex >= 0)
 				return member.getAttributes()[attributeIndex];
-			}
 			return null;
 		}
 
-		@Override
 		public Object[] getLevelKeyValue(String dimensionName, String levelName) throws DataException, IOException {
 			Member member;
 			try {
@@ -286,9 +269,8 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 			} catch (BirtException e) {
 				throw DataException.wrap(e);
 			}
-			if (member != null) {
+			if (member != null)
 				return member.getKeyValues();
-			}
 			return null;
 		}
 
@@ -302,9 +284,8 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 			if (dimIndex >= 0) {
 				IDimensionResultIterator itr = dimensionResultIterators[dimIndex];
 				levelIndex = itr.getLevelIndex(levelName);
-				if (levelIndex >= 0) {
+				if (levelIndex >= 0)
 					return getMember(dimIndex, levelIndex);
-				}
 			}
 
 			return null;
@@ -320,13 +301,11 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation {
 			return dimIndex;
 		}
 
-		@Override
 		public Object getMeasureValue(String measureName) throws DataException {
 			return factTableRowIterator.getMeasure(factTableRowIterator.getMeasureIndex(measureName));
 		}
 	}
 
-	@Override
 	public void close() throws DataException, IOException {
 		factTableRowIterator.close();
 		factTableRowIterator = null;

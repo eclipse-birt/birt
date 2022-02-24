@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDataGroupModel;
 
 /**
- *
+ * 
  */
 public class DataGroupHandle extends ContentElementHandle implements IDataGroupModel {
 
@@ -32,7 +32,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	 * Constructs a data group handle with the given design and the element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -43,7 +43,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 
 	/**
 	 * Gets the name of the group.
-	 *
+	 * 
 	 * @return the name of the group
 	 */
 
@@ -53,7 +53,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 
 	/**
 	 * Sets the group name.
-	 *
+	 * 
 	 * @param theName the group name to set
 	 * @throws SemanticException
 	 */
@@ -75,9 +75,9 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	/**
 	 * Gets the expression that defines the group. This is normally simply a
 	 * reference to a data set column.
-	 *
+	 * 
 	 * @return the expression as a string
-	 *
+	 * 
 	 * @see #setKeyExpr(String)
 	 */
 
@@ -87,10 +87,10 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 
 	/**
 	 * Sets the data group expression.
-	 *
+	 * 
 	 * @param expr the expression to set
 	 * @throws SemanticException If the expression is invalid.
-	 *
+	 * 
 	 * @see #getKeyExpr()
 	 */
 
@@ -101,7 +101,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	/**
 	 * Returns the iterator for Sort list defined on the data group. The element in
 	 * the iterator is the corresponding <code>StructureHandle</code>.
-	 *
+	 * 
 	 * @return the iterator for <code>SortKey</code> structure list defined on the
 	 *         data group.
 	 */
@@ -115,7 +115,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	/**
 	 * Returns an iterator for the filter list defined on the data group. Each
 	 * object returned is of type <code>StructureHandle</code>.
-	 *
+	 * 
 	 * @return the iterator for <code>FilterCond</code> structure list defined on
 	 *         the data group.
 	 */
@@ -130,7 +130,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	 * Sets the base of the interval property of this data group.IntervalBase, in
 	 * conjunction with Interval and IntervalRange, determines how data is divided
 	 * into data groups.
-	 *
+	 * 
 	 * @param intervalBase interval base property value.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -141,7 +141,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 
 	/**
 	 * Return the interval base property value of this data group.
-	 *
+	 * 
 	 * @return interval baseF property value of this data group.
 	 */
 
@@ -152,7 +152,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	/**
 	 * Returns the interval of this data group. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>INTERVAL_NONE</code>
 	 * <li><code>INTERVAL_PREFIX</code>
@@ -165,9 +165,9 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	 * <li><code>INTERVAL_MINUTE</code>
 	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_INTERVAL</code>
-	 *
+	 * 
 	 * </ul>
-	 *
+	 * 
 	 * @return the interval value as a string
 	 */
 
@@ -178,7 +178,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	/**
 	 * Returns the interval of this data group. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>INTERVAL_NONE</code>
 	 * <li><code>INTERVAL_PREFIX</code>
@@ -191,9 +191,9 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	 * <li><code>INTERVAL_MINUTE</code>
 	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_INTERVAL</code>
-	 *
+	 * 
 	 * </ul>
-	 *
+	 * 
 	 * @param interval the interval value as a string
 	 * @throws SemanticException if the property is locked or the input value is not
 	 *                           one of the above.
@@ -205,7 +205,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 
 	/**
 	 * Returns the interval range of this data group.
-	 *
+	 * 
 	 * @return the interval range value as a double
 	 */
 
@@ -215,7 +215,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 
 	/**
 	 * Returns the interval range of this data group.
-	 *
+	 * 
 	 * @param intervalRange the interval range value as a double
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -226,7 +226,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 
 	/**
 	 * Sets the interval range of data group.
-	 *
+	 * 
 	 * @param intervalRange the interval range value as a string.value is locale
 	 *                      dependent.
 	 * @throws SemanticException if the property is locked.
@@ -239,13 +239,13 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	/**
 	 * Returns the sort direction of this data group. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>SORT_DIRECTION_ASC</code>
 	 * <li><code>SORT_DIRECTION_DESC</code>
-	 *
+	 * 
 	 * </ul>
-	 *
+	 * 
 	 * @return the sort direction of this data group
 	 */
 
@@ -256,17 +256,17 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 	/**
 	 * Sets the sort direction of this data group. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>SORT_DIRECTION_ASC</code>
 	 * <li><code>SORT_DIRECTION_DESC</code>
-	 *
+	 * 
 	 * </ul>
-	 *
+	 * 
 	 * @param direction the sort direction of this data group
 	 * @throws SemanticException if the property is locked or the input value is not
 	 *                           one of the above.
-	 *
+	 * 
 	 */
 
 	public void setSortDirection(String direction) throws SemanticException {
@@ -275,7 +275,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 
 	/**
 	 * Sets the sort type, which indicates the way of sorting.
-	 *
+	 * 
 	 * @param sortType sort type.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -286,7 +286,7 @@ public class DataGroupHandle extends ContentElementHandle implements IDataGroupM
 
 	/**
 	 * Return the sort type.
-	 *
+	 * 
 	 * @return the sort type.
 	 */
 

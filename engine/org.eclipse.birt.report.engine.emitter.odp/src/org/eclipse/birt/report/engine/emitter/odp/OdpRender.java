@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,6 @@ public class OdpRender extends PageDeviceRender {
 		this.mpOut = mpOut;
 	}
 
-	@Override
 	public IPageDevice createPageDevice(String title, String author, String subject, String description,
 			IReportContext context, IReportContent report) throws Exception {
 		try {
@@ -68,17 +67,16 @@ public class OdpRender extends PageDeviceRender {
 
 	/**
 	 * Returns the output format, always is "odp".
-	 *
+	 * 
 	 * @return the output format
 	 */
-	@Override
 	public String getOutputFormat() {
 		return "odp";
 	}
 
 	/**
 	 * Initializes the ODPEmitter.
-	 *
+	 * 
 	 * @param services the emitter services object.
 	 * @throws EngineException
 	 */
@@ -93,7 +91,6 @@ public class OdpRender extends PageDeviceRender {
 		this.bodyOut = EmitterUtil.getOuputStream(services, REPORT_FILE);
 	}
 
-	@Override
 	public void visitImage(IImageArea imageArea) {
 		OdpPage odpPage = (OdpPage) pageGraphic;
 		odpPage.setLink(OdpUtil.getHyperlink(imageArea, services, reportRunnable, context));
@@ -109,7 +106,6 @@ public class OdpRender extends PageDeviceRender {
 		odpPage.setLink(null);
 	}
 
-	@Override
 	protected void drawTextAt(ITextArea text, int x, int y, int width, int height, TextStyle textStyle) {
 		pageGraphic.drawText(text.getLogicalOrderText(), x, y, width, height, textStyle);
 	}

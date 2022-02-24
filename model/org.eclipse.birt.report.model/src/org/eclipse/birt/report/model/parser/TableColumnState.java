@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses a column within a table or grid item.
- *
+ * 
  */
 
 class TableColumnState extends ReportElementState {
@@ -30,7 +30,7 @@ class TableColumnState extends ReportElementState {
 
 	/**
 	 * Constructs the state to parse table column.
-	 *
+	 * 
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -42,24 +42,22 @@ class TableColumnState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
 	 * Attributes)
 	 */
 
-	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new TableColumn();
 
@@ -68,7 +66,6 @@ class TableColumnState extends ReportElementState {
 		initSimpleElement(attrs);
 	}
 
-	@Override
 	public void end() {
 		makeTestExpressionCompatible();
 	}

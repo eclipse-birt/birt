@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 /**
  * Abstract parse state for the <code>XMLParserHandler</code> class. Derived
  * classes create parse states based on this class.
- *
+ * 
  * @see ParseState
  * @see AnyElementState
  */
@@ -47,7 +47,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Sets the element name.
-	 *
+	 * 
 	 * @param name the name of the element.
 	 */
 
@@ -59,7 +59,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Jumps to the specified state that the current state needs to go.
-	 *
+	 * 
 	 * @return the other state.
 	 */
 
@@ -71,7 +71,7 @@ public abstract class AbstractParseState {
 	/**
 	 * Called to parse attributes. This is the first method called after the state
 	 * is created.Returns the value of attribute name.
-	 *
+	 * 
 	 * @param attrs the SAX attributes object
 	 * @throws XMLParserException if any parse exception
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement
@@ -84,7 +84,7 @@ public abstract class AbstractParseState {
 	 * Start a new tag. Derived classes override this to create a state to handle
 	 * the element. Call this method to issue an error for, and ignore, any
 	 * unrecognized tags.
-	 *
+	 * 
 	 * @param tagName the name of the starting element
 	 * @return the state to parse the given tag
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement
@@ -99,7 +99,7 @@ public abstract class AbstractParseState {
 	 * Returns the parser handler. Required to be implemented by derived states.
 	 * States will implement this differently depending on whether the state is a
 	 * normal or inner class.
-	 *
+	 * 
 	 * @return the XML parser handler
 	 */
 
@@ -107,7 +107,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Called when a child element is ending.
-	 *
+	 * 
 	 * @param state the child state that is ending
 	 */
 
@@ -116,7 +116,7 @@ public abstract class AbstractParseState {
 
 	/**
 	 * Called when the element for this state is ending.
-	 *
+	 * 
 	 * @throws SAXException if the SAX exception is encountered.
 	 * @see org.xml.sax.helpers.DefaultHandler#endElement
 	 */
@@ -127,7 +127,7 @@ public abstract class AbstractParseState {
 	/**
 	 * Parse a string value. Normalizes the string: blank strings are converted to a
 	 * null string.
-	 *
+	 * 
 	 * @param attrs    the SAX attributes object
 	 * @param attrName the name of the attribute to parse
 	 * @return the parsed string

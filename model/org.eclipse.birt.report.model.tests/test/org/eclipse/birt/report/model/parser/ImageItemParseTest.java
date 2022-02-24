@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,55 +41,55 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected Result</th>
- *
+ * 
  * <tr>
  * <td>testImageContainer</td>
  * <td>In the XML file, MasterPage contains an ImageItem, the name is
  * "ImageItem"</td>
  * <td>Get the image instance to see if its container is a MasterPage</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Get the master page first, then get image item from the slot of the page
  * </td>
  * <td>Image exists in the slot of master page</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>testImageProperties</td>
  * <td>Check all the properties of the image item defined in the XML file.</td>
  * <td>The property values should be the same as which are defined in the XML
  * file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>testDefaultProperties</td>
  * <td>Image Size is not correctly set in the design file</td>
  * <td>The error is recorded in the error list, and when get this properties,
  * the default value, 0, is returned</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Get the help text of the image item, which is not set in the design file
  * </td>
  * <td>The help text is null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Get the default scale property.</td>
  * <td>The default scale is 0.0</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>testErrors</td>
  * <td>Errors are collected in the error list of the design</td>
  * <td>The errors is the same as the golden file.</td>
  * </tr>
- *
- *
+ * 
+ * 
  * <tr>
  * <td>testSetImageProperties</td>
  * <td>Get a image instance from the design file, then modify the properties and
@@ -97,13 +97,13 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>Properties are correctly set on the image item, and the final output file
  * is identical to the golden file</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testErrors()}</td>
  * <td>Test semantic errors with the design file input.</td>
  * <td>The errors are collected, such as the scale is negative.</td>
  * </tr>
- *
+ * 
  * </table>
  * <p>
  * Other test cases:
@@ -111,8 +111,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <li>Style test is done in ReportItemTest</li>
  * <li>ActionType is done in ActionParserTest</li>
  * </ul>
- *
- *
+ * 
+ * 
  * @see org.eclipse.birt.report.model.parser.ActionParseTest
  */
 
@@ -124,7 +124,6 @@ public class ImageItemParseTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -132,7 +131,7 @@ public class ImageItemParseTest extends BaseTestCase {
 	/**
 	 * Return the image item defined in the design file by its name. The test cases
 	 * can use this method to get different image instances for test.
-	 *
+	 * 
 	 * @param name The name of image item.
 	 * @return the image item instance according to the name.
 	 */
@@ -149,9 +148,9 @@ public class ImageItemParseTest extends BaseTestCase {
 
 	/**
 	 * Find image item by name, then test its container.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 	public void testImageContainer() throws Exception {
 		openDesign("ImageItemParseTest.xml"); //$NON-NLS-1$
@@ -176,7 +175,7 @@ public class ImageItemParseTest extends BaseTestCase {
 	/**
 	 * Test the properties of the image. These properties are well defined in the
 	 * design file.
-	 *
+	 * 
 	 * @throws Exception if errors occur when reads the design file
 	 */
 
@@ -283,7 +282,7 @@ public class ImageItemParseTest extends BaseTestCase {
 	/**
 	 * Test the properties, which is not correctly set in the design file, of the
 	 * image item, to see how the framework handle this situation.
-	 *
+	 * 
 	 * @throws Exception if errors occur when reads the design file
 	 */
 
@@ -309,7 +308,7 @@ public class ImageItemParseTest extends BaseTestCase {
 	 * After getting the image item instance from the design file, set properties on
 	 * this image to see the property can be correctly set on the image and also can
 	 * be written into the design file.
-	 *
+	 * 
 	 * @throws Exception if errors occur when reads or writes the design file
 	 */
 
@@ -363,7 +362,7 @@ public class ImageItemParseTest extends BaseTestCase {
 	/**
 	 * Test the semantic error in the design file if the image file just specify the
 	 * URL value.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testImageFileExist() throws Exception {

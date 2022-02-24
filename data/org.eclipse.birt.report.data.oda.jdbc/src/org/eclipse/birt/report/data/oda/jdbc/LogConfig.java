@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.datatools.connectivity.oda.util.logging.Level;
 import com.ibm.icu.text.SimpleDateFormat;
 
 /**
- *
+ * 
  */
 public class LogConfig {
 	private static String className = OdaJdbcDriver.class.getName();
@@ -77,21 +77,19 @@ public class LogConfig {
 			pkgLogger.setLevel(java.util.logging.Level.OFF);
 			break;
 		default: {
-			if (logConfig.getLogLevel() > Level.SEVERE) {
+			if (logConfig.getLogLevel() > Level.SEVERE)
 				pkgLogger.setLevel(java.util.logging.Level.OFF);
-			} else {
+			else
 				// preserve the existing log level
 				logger.logp(java.util.logging.Level.WARNING, className, methodName,
 						logConfig.getLogLevel() + " is not a valid log level.");
-			}
 			break;
 		}
 		}
 
 		// if logging is OFF, no need to setup package handler or formatter
-		if (pkgLogger.getLevel() == java.util.logging.Level.OFF) {
+		if (pkgLogger.getLevel() == java.util.logging.Level.OFF)
 			return; // done
-		}
 
 		// Create handler, if one doesn't already exist
 		Handler handler = setLogHandler(pkgLogger, logConfig);
@@ -102,16 +100,19 @@ public class LogConfig {
 		}
 
 		// set handler log level to that of package logger
-		if (pkgLogger.getLevel() != null) {
+		if (pkgLogger.getLevel() != null)
 			handler.setLevel(pkgLogger.getLevel());
-		}
 
 		// setup log formatter, if configured
 
 		String formatterClassName = logConfig.getFormatterClassName();
+		if (formatterClassName == null || formatterClassName.length() == 0) {
+			return; // done, no need to set log formatter
+		}
+
 		// if existing formatter is of the same type as
 		// configured formatter class, we are done
-		if (formatterClassName == null || formatterClassName.length() == 0 || (handler.getFormatter() != null && formatterClassName.equals(handler.getFormatter().getClass().getName()))) {
+		if (handler.getFormatter() != null && formatterClassName.equals(handler.getFormatter().getClass().getName())) {
 			return;
 		}
 
@@ -143,9 +144,8 @@ public class LogConfig {
 			// look for an existing console handler
 			for (int i = 0; i < numHandlers; i++) {
 				handler = handlers[i];
-				if (handler instanceof ConsoleHandler) {
+				if (handler instanceof ConsoleHandler)
 					return handler;
-				}
 			}
 
 			handler = new ConsoleHandler();
@@ -157,9 +157,8 @@ public class LogConfig {
 		// first look for an existing file handler
 		for (int i = 0; i < numHandlers; i++) {
 			handler = handlers[i];
-			if (handler instanceof FileHandler) {
+			if (handler instanceof FileHandler)
 				return handler;
-			}
 		}
 
 		// create a new file handler
@@ -192,28 +191,28 @@ public class LogConfig {
 					}
 					logDirectory = logDir.getPath();
 				}
-			} catch (OdaException | IOException e) {
+			} catch (OdaException e) {
+				// ignore and use original logDirectory
+			} catch (IOException e) {
 				// ignore and use original logDirectory
 			}
 		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
-		StringBuilder logfileName = new StringBuilder()
-				.append((logDirectory.endsWith("/") || logDirectory.endsWith("\\")) ? logDirectory
-						: logDirectory + File.separator);
+		String logfileName = (logDirectory.endsWith("/") || logDirectory.endsWith("\\")) ? logDirectory
+				: logDirectory + File.separator;
 
-		logfileName.append(logPrefix).append("-");
+		logfileName += logPrefix + "-";
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		logfileName.append(dateFormat.format(timestamp)).append(".log");
+		logfileName += dateFormat.format(timestamp) + ".log";
 
-		return logfileName.toString();
+		return logfileName;
 	}
 
 	private static String getQualifiedLogDir(String logDir) {
-		if (logDir.startsWith(".")) {
+		if (logDir.startsWith("."))
 			logDir = logDir.substring(1);
-		}
 
 		return logDir;
 	}

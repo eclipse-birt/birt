@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,13 +18,13 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
  * Represents the design of an Listing in the scripting environment
- *
+ * 
  */
 public interface IListing extends IReportItem {
 
 	/**
 	 * Returns all filter conditions
-	 *
+	 * 
 	 * @return all filter conditions
 	 */
 
@@ -32,7 +32,7 @@ public interface IListing extends IReportItem {
 
 	/**
 	 * Adds filter condition.expr of IFilterCondition is required.
-	 *
+	 * 
 	 * @param condition
 	 * @throws ScriptException
 	 */
@@ -41,7 +41,7 @@ public interface IListing extends IReportItem {
 
 	/**
 	 * Removes filter condition.
-	 *
+	 * 
 	 * @throws ScriptException
 	 */
 
@@ -49,7 +49,7 @@ public interface IListing extends IReportItem {
 
 	/**
 	 * Removes filter condition.
-	 *
+	 * 
 	 * @param condition
 	 * @throws ScriptException
 	 */
@@ -58,7 +58,7 @@ public interface IListing extends IReportItem {
 
 	/**
 	 * Returns all sort conditions.
-	 *
+	 * 
 	 * @return all sort conditions.
 	 */
 
@@ -66,9 +66,9 @@ public interface IListing extends IReportItem {
 
 	/**
 	 * Adds sort condition.key of ISortCondition is required.
-	 *
+	 * 
 	 * @param condition
-	 *
+	 * 
 	 * @throws ScriptException
 	 */
 
@@ -76,7 +76,7 @@ public interface IListing extends IReportItem {
 
 	/**
 	 * Removes all sort conditions
-	 *
+	 * 
 	 * @throws ScriptException
 	 */
 
@@ -84,7 +84,7 @@ public interface IListing extends IReportItem {
 
 	/**
 	 * Removes sort condition.
-	 *
+	 * 
 	 * @param condition
 	 * @throws ScriptException
 	 */

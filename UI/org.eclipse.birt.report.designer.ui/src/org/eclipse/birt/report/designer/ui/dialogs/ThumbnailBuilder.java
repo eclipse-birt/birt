@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -84,15 +84,15 @@ public class ThumbnailBuilder extends BaseDialog {
 
 	private boolean hasThumbnail;
 
-	private static final String IMAGE_FILTER[] = { "*.gif;*.jpg;*.jpeg;*.png;*.ico;*.bmp" //$NON-NLS-1$
+	private static final String IMAGE_FILTER[] = new String[] { "*.gif;*.jpg;*.jpeg;*.png;*.ico;*.bmp" //$NON-NLS-1$
 	};
 
-	private static final String[] IMAGE_TYPES = { ".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+	private static final String[] IMAGE_TYPES = new String[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 	};
 
 	// this sequence is the same as IMAGE_TYPES
-	private static final int[] IMAGE_SWT_TYPES = { SWT.IMAGE_BMP, SWT.IMAGE_JPEG, SWT.IMAGE_JPEG, SWT.IMAGE_GIF,
-			SWT.IMAGE_PNG, SWT.IMAGE_ICO };
+	private static final int[] IMAGE_SWT_TYPES = new int[] { SWT.IMAGE_BMP, SWT.IMAGE_JPEG, SWT.IMAGE_JPEG,
+			SWT.IMAGE_GIF, SWT.IMAGE_PNG, SWT.IMAGE_ICO };
 
 	private ReportDesignHandle handle;
 
@@ -138,12 +138,11 @@ public class ThumbnailBuilder extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite topComposite = (Composite) super.createDialogArea(parent);
 		Composite composite = new Composite(topComposite, SWT.NONE);
@@ -161,11 +160,10 @@ public class ThumbnailBuilder extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 
-	@Override
 	protected void okPressed() {
 		if (currentListener != null) {
 			btnImport.removeListener(SWT.Selection, currentListener);
@@ -188,7 +186,6 @@ public class ThumbnailBuilder extends BaseDialog {
 		radioBtnGenerate.setText(Messages.getString("ThumbnailBuilder.Button.GenerateFromReport")); //$NON-NLS-1$
 		radioBtnGenerate.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				switchTo(GENERATE_TYPE);
 			}
@@ -198,7 +195,6 @@ public class ThumbnailBuilder extends BaseDialog {
 		radioBtnBrowse.setText(Messages.getString("ThumbnailBuilder.Button.BrowseFromFileSystem")); //$NON-NLS-1$
 		radioBtnBrowse.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				switchTo(BROWSER_TYPE);
 			}
@@ -208,7 +204,6 @@ public class ThumbnailBuilder extends BaseDialog {
 		radioBtnImport.setText(Messages.getString("ThumbnailBuilder.Button.ImportFromResource")); //$NON-NLS-1$
 		radioBtnImport.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				switchTo(IMPORT_TYPE);
 			}
@@ -275,7 +270,6 @@ public class ThumbnailBuilder extends BaseDialog {
 		previewCanvas.setLayoutData(formData);
 	}
 
-	@Override
 	protected boolean initDialog() {
 		hasThumbnail = false;
 		ReportDesignHandle moduleHandle = getModuleHandle();
@@ -356,7 +350,6 @@ public class ThumbnailBuilder extends BaseDialog {
 
 	private Listener btnGenerateListener = new Listener() {
 
-		@Override
 		public void handleEvent(Event event) {
 			removeImage();
 
@@ -381,7 +374,6 @@ public class ThumbnailBuilder extends BaseDialog {
 
 	private Listener btnRemoveListener = new Listener() {
 
-		@Override
 		public void handleEvent(Event event) {
 			removeImage();
 			hasThumbnail = false;
@@ -391,9 +383,8 @@ public class ThumbnailBuilder extends BaseDialog {
 
 	private Listener btnBrowseListener = new Listener() {
 
-		@Override
 		public void handleEvent(Event event) {
-			String fileName;
+			String fileName = null;
 			FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
 			dialog.setText(Messages.getString("ThumbnailBuilder.FileDialog.Title")); //$NON-NLS-1$
 			dialog.setFilterExtensions(IMAGE_FILTER);
@@ -402,7 +393,7 @@ public class ThumbnailBuilder extends BaseDialog {
 				return;
 			}
 
-			if (!checkExtensions(fileName)) {
+			if (checkExtensions(fileName) == false) {
 				ExceptionHandler.openErrorMessageBox(
 						Messages.getString("ThumbnailBuilder.FileDialog.FileNameError.Title"), //$NON-NLS-1$
 						Messages.getString("ThumbnailBuilder.FileDialog.FileNameError.Message")); //$NON-NLS-1$
@@ -432,9 +423,8 @@ public class ThumbnailBuilder extends BaseDialog {
 
 	private Listener btnImportListener = new Listener() {
 
-		@Override
 		public void handleEvent(Event event) {
-			String fileName;
+			String fileName = null;
 			String absoluteFileName = null;
 			AddImageResourceFileFolderSelectionDialog dlg = new AddImageResourceFileFolderSelectionDialog();
 			if (dlg.open() != Window.OK) {
@@ -451,7 +441,7 @@ public class ThumbnailBuilder extends BaseDialog {
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
-			if (!checkExtensions(absoluteFileName)) {
+			if (checkExtensions(absoluteFileName) == false) {
 				ExceptionHandler.openErrorMessageBox(
 						Messages.getString("ThumbnailBuilder.FileDialog.FileNameError.Title"), //$NON-NLS-1$
 						Messages.getString("ThumbnailBuilder.FileDialog.FileNameError.Message")); //$NON-NLS-1$
@@ -494,9 +484,8 @@ public class ThumbnailBuilder extends BaseDialog {
 	}
 
 	private boolean checkExtensions(String fileName) {
-		if (fileName == null) {
+		if (fileName == null)
 			return false;
-		}
 		for (int i = 0; i < IMAGE_TYPES.length; i++) {
 			if (fileName.toLowerCase().endsWith(IMAGE_TYPES[i])) {
 				return true;

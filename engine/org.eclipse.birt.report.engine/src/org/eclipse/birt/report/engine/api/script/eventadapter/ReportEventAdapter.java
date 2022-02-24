@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,42 +24,34 @@ import org.eclipse.birt.report.engine.api.script.instance.IPageInstance;
  */
 public class ReportEventAdapter implements IReportEventHandler {
 
-	@Override
 	public void initialize(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void beforeFactory(IReportDesign report, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void afterFactory(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void beforeRender(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void afterRender(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void onPrepare(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void onPageStart(IPageInstance page, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void onPageEnd(IPageInstance page, IReportContext reportContext) throws ScriptException {
 
 	}

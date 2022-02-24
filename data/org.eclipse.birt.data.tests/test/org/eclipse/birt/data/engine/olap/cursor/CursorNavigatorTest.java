@@ -1,20 +1,17 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.cursor;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,13 +36,15 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class CursorNavigatorTest extends BaseTestCase {
 	private Scriptable scope;
@@ -78,7 +77,7 @@ public class CursorNavigatorTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
@@ -473,55 +472,55 @@ public class CursorNavigatorTest extends BaseTestCase {
 
 		pageCursor.setPosition(0);
 		dataCursor.synchronizePages();
-		StringBuilder output = new StringBuilder("The NO.").append(pageCursor.getPosition()).append(" is:");
+		String output = "The NO." + pageCursor.getPosition() + " is:";
 		for (int i = 0; i < pageCursor.getDimensionCursor().size(); i++) {
-			output.append(((DimensionCursor) pageCursor.getDimensionCursor().get(i)).getObject(0));
+			output += ((DimensionCursor) pageCursor.getDimensionCursor().get(i)).getObject(0);
 		}
-		output.append("\n");
-		output.append(this.creator.printCubeAlongEdge(dataCursor, columnEdgeBindingNames, rowEdgeBindingNames,
-				measureBindingNames, rowGrandTotalNames, "columnGrandTotal", "totalGrandTotal", null));
-		output.append("\n");
+		output += "\n";
+		output += this.creator.printCubeAlongEdge(dataCursor, columnEdgeBindingNames, rowEdgeBindingNames,
+				measureBindingNames, rowGrandTotalNames, "columnGrandTotal", "totalGrandTotal", null);
+		output += "\n";
 
 		pageCursor.setPosition(3);
 		dataCursor.synchronizePages();
-		output.append("The NO.").append(pageCursor.getPosition()).append(" is:");
+		output += "The NO." + pageCursor.getPosition() + " is:";
 		for (int i = 0; i < pageCursor.getDimensionCursor().size(); i++) {
-			output.append(((DimensionCursor) pageCursor.getDimensionCursor().get(i)).getObject(0));
+			output += ((DimensionCursor) pageCursor.getDimensionCursor().get(i)).getObject(0);
 		}
-		output.append("\n");
-		output.append(this.creator.printCubeAlongEdge(dataCursor, columnEdgeBindingNames, rowEdgeBindingNames,
-				measureBindingNames, rowGrandTotalNames, "columnGrandTotal", "totalGrandTotal", null));
-		output.append("\n");
+		output += "\n";
+		output += this.creator.printCubeAlongEdge(dataCursor, columnEdgeBindingNames, rowEdgeBindingNames,
+				measureBindingNames, rowGrandTotalNames, "columnGrandTotal", "totalGrandTotal", null);
+		output += "\n";
 
 		pageCursor.setPosition(1);
 		dataCursor.synchronizePages();
-		output.append("The NO.").append(pageCursor.getPosition()).append(" is:");
+		output += "The NO." + pageCursor.getPosition() + " is:";
 		for (int i = 0; i < pageCursor.getDimensionCursor().size(); i++) {
-			output.append(((DimensionCursor) pageCursor.getDimensionCursor().get(i)).getObject(0));
+			output += ((DimensionCursor) pageCursor.getDimensionCursor().get(i)).getObject(0);
 		}
-		output.append("\n");
-		output.append(this.creator.printCubeAlongEdge(dataCursor, columnEdgeBindingNames, rowEdgeBindingNames,
-				measureBindingNames, rowGrandTotalNames, "columnGrandTotal", "totalGrandTotal", null));
-		output.append("\n");
+		output += "\n";
+		output += this.creator.printCubeAlongEdge(dataCursor, columnEdgeBindingNames, rowEdgeBindingNames,
+				measureBindingNames, rowGrandTotalNames, "columnGrandTotal", "totalGrandTotal", null);
+		output += "\n";
 
 		pageCursor.last();
 		dataCursor.synchronizePages();
-		output.append("The NO.").append(pageCursor.getPosition()).append(" is:");
+		output += "The NO." + pageCursor.getPosition() + " is:";
 		for (int i = 0; i < pageCursor.getDimensionCursor().size(); i++) {
-			output.append(((DimensionCursor) pageCursor.getDimensionCursor().get(i)).getObject(0));
+			output += ((DimensionCursor) pageCursor.getDimensionCursor().get(i)).getObject(0);
 		}
-		output.append("\n");
-		output.append(this.creator.printCubeAlongEdge(dataCursor, columnEdgeBindingNames, rowEdgeBindingNames,
-				measureBindingNames, rowGrandTotalNames, "columnGrandTotal", "totalGrandTotal", null));
-		output.append("\n");
+		output += "\n";
+		output += this.creator.printCubeAlongEdge(dataCursor, columnEdgeBindingNames, rowEdgeBindingNames,
+				measureBindingNames, rowGrandTotalNames, "columnGrandTotal", "totalGrandTotal", null);
+		output += "\n";
 
-		testOut.print(output.toString());
+		testOut.print(output);
 		checkOutputFile();
 		close(dataCursor);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataCursor
 	 * @throws OLAPException
 	 */

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
@@ -76,7 +76,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getAttribute(java.lang.String)
 	 */
-	@Override
 	public Object getAttribute(String name) {
 		return this.attributes.get(name);
 	}
@@ -86,12 +85,10 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getAttributeNames()
 	 */
-	@Override
 	public Enumeration getAttributeNames() {
 		return this.attributes.keys();
 	}
 
-	@Override
 	public void setAttribute(String name, Object value) {
 		this.attributes.put(name, value);
 	}
@@ -101,7 +98,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#removeAttribute(java.lang.String)
 	 */
-	@Override
 	public void removeAttribute(String name) {
 		this.attributes.remove(name);
 	}
@@ -111,7 +107,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getContext(java.lang.String)
 	 */
-	@Override
 	public ServletContext getContext(String uri) {
 		throw new UnsupportedOperationException("Do not support getContext operation!"); //$NON-NLS-1$
 	}
@@ -121,16 +116,13 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getInitParameter(java.lang.String)
 	 */
-	@Override
 	public String getInitParameter(String name) {
-		if (name == null) {
+		if (name == null)
 			return null;
-		}
 
 		Object param = this.initParameters.get(name);
-		if (param != null) {
+		if (param != null)
 			return (String) param;
-		}
 
 		return null;
 	}
@@ -140,7 +132,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getInitParameterNames()
 	 */
-	@Override
 	public Enumeration getInitParameterNames() {
 		return this.initParameters.keys();
 	}
@@ -151,7 +142,6 @@ public class ServletContextSimulator implements ServletContext {
 	 * @param name
 	 * @param value
 	 */
-	@Override
 	public boolean setInitParameter(String name, String value) {
 		this.initParameters.put(name, value);
 		return true;
@@ -162,7 +152,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getMajorVersion()
 	 */
-	@Override
 	public int getMajorVersion() {
 		return 0;
 	}
@@ -172,7 +161,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getMimeType(java.lang.String)
 	 */
-	@Override
 	public String getMimeType(String arg0) {
 		throw new UnsupportedOperationException("Do not support getMimeType operation!"); //$NON-NLS-1$
 	}
@@ -182,7 +170,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getMinorVersion()
 	 */
-	@Override
 	public int getMinorVersion() {
 		return 0;
 	}
@@ -192,7 +179,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getNamedDispatcher(java.lang.String)
 	 */
-	@Override
 	public RequestDispatcher getNamedDispatcher(String uri) {
 		throw new UnsupportedOperationException("Do not support getNamedDispatcher operation!"); //$NON-NLS-1$
 	}
@@ -202,11 +188,9 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getRealPath(java.lang.String)
 	 */
-	@Override
 	public String getRealPath(String path) {
-		if (contextDir == null || path == null) {
+		if (contextDir == null || path == null)
 			return null;
-		}
 
 		return new File(contextDir, path).getAbsolutePath();
 	}
@@ -216,7 +200,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getRequestDispatcher(java.lang.String)
 	 */
-	@Override
 	public RequestDispatcher getRequestDispatcher(String uri) {
 		return this.dispatcher;
 	}
@@ -226,7 +209,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getResource(java.lang.String)
 	 */
-	@Override
 	public URL getResource(String path) throws MalformedURLException {
 		throw new UnsupportedOperationException("Do not support getResource operation!"); //$NON-NLS-1$
 	}
@@ -236,7 +218,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getResourceAsStream(java.lang.String)
 	 */
-	@Override
 	public InputStream getResourceAsStream(String arg0) {
 		throw new UnsupportedOperationException("Do not support getResourceAsStream operation!"); //$NON-NLS-1$
 	}
@@ -246,7 +227,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getResourcePaths(java.lang.String)
 	 */
-	@Override
 	public Set getResourcePaths(String arg0) {
 		throw new UnsupportedOperationException("Do not support getResourcePaths operation!"); //$NON-NLS-1$
 	}
@@ -256,7 +236,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getServerInfo()
 	 */
-	@Override
 	public String getServerInfo() {
 		return "BirtMockServletEngine"; //$NON-NLS-1$
 	}
@@ -266,7 +245,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getServlet(java.lang.String)
 	 */
-	@Override
 	public Servlet getServlet(String name) throws ServletException {
 		throw new UnsupportedOperationException("Do not support getServlet operation!"); //$NON-NLS-1$
 	}
@@ -276,7 +254,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getServletContextName()
 	 */
-	@Override
 	public String getServletContextName() {
 		throw new UnsupportedOperationException("Do not support getServletContextName operation!"); //$NON-NLS-1$
 	}
@@ -286,7 +263,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getServletNames()
 	 */
-	@Override
 	public Enumeration getServletNames() {
 		throw new UnsupportedOperationException("Do not support getServletNames operation!"); //$NON-NLS-1$
 	}
@@ -296,7 +272,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#getServlets()
 	 */
-	@Override
 	public Enumeration getServlets() {
 		throw new UnsupportedOperationException("Do not support getServlets operation!"); //$NON-NLS-1$
 	}
@@ -306,7 +281,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#log(java.lang.String)
 	 */
-	@Override
 	public void log(String content) {
 		System.out.println(content);
 	}
@@ -316,7 +290,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#log(java.lang.Exception, java.lang.String)
 	 */
-	@Override
 	public void log(Exception exception, String content) {
 		System.out.println(content + "--" + exception.getMessage()); //$NON-NLS-1$
 	}
@@ -326,7 +299,6 @@ public class ServletContextSimulator implements ServletContext {
 	 *
 	 * @see javax.servlet.ServletContext#log(java.lang.String, java.lang.Throwable)
 	 */
-	@Override
 	public void log(String content, Throwable throwable) {
 		System.out.println(content + "--" + throwable.getMessage()); //$NON-NLS-1$
 	}

@@ -10,14 +10,14 @@
 *******************************************************************************/
 package org.eclipse.birt.report.model.metadata;
 
+import com.ibm.icu.util.ULocale;
+
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * Test case for ChoiceType.
- *
+ * 
  */
 public class ChoiceTest extends BaseTestCase {
 	private Choice choice = null;
@@ -25,7 +25,6 @@ public class ChoiceTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		ThreadResources.setLocale(ULocale.ENGLISH);

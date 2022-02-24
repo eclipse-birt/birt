@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Reports an error during a template related operation.
- *
+ * 
  */
 
 public class TemplateException extends SemanticException {
@@ -75,7 +75,7 @@ public class TemplateException extends SemanticException {
 
 	/**
 	 * Constructs the exception with focus elementand error code.
-	 *
+	 * 
 	 * @param element The design element of this exception focuses.
 	 * @param errCode What went wrong.
 	 */
@@ -86,7 +86,7 @@ public class TemplateException extends SemanticException {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param element the element which has errors
 	 * @param values  value array used for error message
 	 * @param errCode the error code
@@ -98,11 +98,10 @@ public class TemplateException extends SemanticException {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.exception.BirtException#getLocalizedMessage()
 	 */
 
-	@Override
 	public String getLocalizedMessage() {
 		if (sResourceKey == DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT_TYPE
 				|| sResourceKey == DESIGN_EXCEPTION_TRANSFORM_TO_DATA_SET_FORBIDDEN

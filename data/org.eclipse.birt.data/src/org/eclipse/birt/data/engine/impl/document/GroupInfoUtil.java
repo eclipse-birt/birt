@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * Utility class to manipulate group information.
- *
+ * 
  * @author lzhu
  *
  */
@@ -38,14 +38,14 @@ public class GroupInfoUtil {
 	 * $402 3: CHINA SHANGHAI 2003 Cola $553 4: CHINA SHANGHAI 2003 Pizza $223 5:
 	 * CHINA SHANGHAI 2004 Cola $226 6: USA CHICAGO 2004 Pizza $133 7: USA NEW YORK
 	 * 2004 Cola $339 8: USA NEW YORK 2004 Cola $297
-	 *
+	 * 
 	 * groups: (parent, child) LEVEL 0 LEVEL 1 LEVEL 2
 	 * ============================================ 0: -,0 0,0 0,0 1: -,2 0,2 0,2 2:
 	 * 1,4 1,3 3: 1,5 1,5 4: 2,6 5: 3,7
 	 */
 
 	/**
-	 *
+	 * 
 	 * @param groups
 	 * @param indexArray
 	 * @return
@@ -53,13 +53,11 @@ public class GroupInfoUtil {
 	 */
 	public static List[] getGroupInfo(List[] groups, int[] indexArray) throws DataException {
 		Map deleteNumMap = new HashMap();
-		if (groups == null || groups.length == 0 || indexArray == null) {
+		if (groups == null || groups.length == 0 || indexArray == null)
 			return groups;
-		}
 		List endLevelList = groups[groups.length - 1];
-		if (endLevelList.size() == 0) {
+		if (endLevelList.size() == 0)
 			return groups;
-		}
 		if (validateGroupLevel(endLevelList, indexArray)) {
 			int firstChild = -1, count = 0, startCount = 0;
 			GroupInfo baseInfo = (GroupInfo) endLevelList.get(0);
@@ -73,9 +71,8 @@ public class GroupInfoUtil {
 						startCount++;
 						count++;
 						continue;
-					} else {
+					} else
 						break;
-					}
 				}
 				if (count < firstChild - baseInfo.firstChild) {
 					deleteNumMap.put(info, Integer.valueOf(firstChild - baseInfo.firstChild - count));
@@ -89,7 +86,7 @@ public class GroupInfoUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param groups
 	 * @param deletedNumMap
 	 * @return
@@ -102,21 +99,18 @@ public class GroupInfoUtil {
 
 		for (int i = 1; i < endLevelList.size(); i++) {
 			GroupInfo info = (GroupInfo) endLevelList.get(i);
-			if (deletedNumMap.get(info) == null) {
+			if (deletedNumMap.get(info) == null)
 				continue;
-			}
 			deleteNum = ((Integer) deletedNumMap.get(info)).intValue();
 			if (deleteNum > 0) {
-				if (refactorOnGroup(groups, i, deleteNum, groups.length - 1)) {
+				if (refactorOnGroup(groups, i, deleteNum, groups.length - 1))
 					deletedNumMap.remove(info);
-				}
 			}
 		}
 		for (int i = 1; i < endLevelList.size(); i++) {
 			GroupInfo info = (GroupInfo) endLevelList.get(i);
-			if (deletedNumMap.get(info) == null) {
+			if (deletedNumMap.get(info) == null)
 				continue;
-			}
 			deleteNum = ((Integer) deletedNumMap.get(info)).intValue();
 
 			if (deleteNum > 0) {
@@ -127,7 +121,7 @@ public class GroupInfoUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param groups
 	 * @param groupIndex
 	 * @param deletedNum
@@ -152,15 +146,14 @@ public class GroupInfoUtil {
 			}
 			return true;
 		} else if (groupInfo.firstChild > 0 && baseInfo.firstChild >= 0
-				&& groupInfo.firstChild - baseInfo.firstChild == deletedNum) {
+				&& groupInfo.firstChild - baseInfo.firstChild == deletedNum)
 			return false;
-		} else {
+		else
 			throw new DataException(ResourceConstants.GROUP_ITEM_INCORRECT);
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param groups
 	 * @param groupIndex
 	 * @param deletedNum
@@ -173,16 +166,15 @@ public class GroupInfoUtil {
 		GroupInfo groupInfo;
 		while (index < levelList.size()) {
 			groupInfo = (GroupInfo) levelList.get(index);
-			if (groupInfo.firstChild > 0 && groupInfo.firstChild > deletedGroup.firstChild) {
+			if (groupInfo.firstChild > 0 && groupInfo.firstChild > deletedGroup.firstChild)
 				groupInfo.firstChild = groupInfo.firstChild - deletedNum;
-			}
 			index++;
 		}
 		deletedGroup.firstChild = -2;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param endLevelList
 	 * @param indexArray
 	 * @return
@@ -192,9 +184,8 @@ public class GroupInfoUtil {
 		int index = 0;
 		for (int i = 0; i < indexArray.length; i++) {
 			index = findGroup(i, index, indexArray, endLevelList);
-			if (index == -1) {
+			if (index == -1)
 				return false;
-			}
 		}
 		return true;
 	}
@@ -216,7 +207,7 @@ public class GroupInfoUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public static List[] cleanUnUsedGroupInstance(List[] groups) {
 		List[] savedList = groups;
@@ -238,7 +229,7 @@ public class GroupInfoUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param sourceLists
 	 * @param destLists
 	 */
@@ -252,7 +243,7 @@ public class GroupInfoUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param groups
 	 * @param groupLevelIndex
 	 * @param groupInstanceIndex
@@ -306,7 +297,7 @@ public class GroupInfoUtil {
 	/**
 	 * Detemine whether the whole parent group instance is empty after remove
 	 * current group instance.
-	 *
+	 * 
 	 * @param currentIndex
 	 * @param parent
 	 * @param groups
@@ -314,14 +305,12 @@ public class GroupInfoUtil {
 	 */
 	private static boolean isWholeGroupEliminate(int currentIndex, int parent, List groups) {
 		if (currentIndex - 1 >= 0) {
-			if (((GroupInfo) groups.get(currentIndex - 1)).parent == parent) {
+			if (((GroupInfo) groups.get(currentIndex - 1)).parent == parent)
 				return false;
-			}
 		}
 		if (currentIndex + 1 < groups.size()) {
-			if (((GroupInfo) groups.get(currentIndex + 1)).parent == parent) {
+			if (((GroupInfo) groups.get(currentIndex + 1)).parent == parent)
 				return false;
-			}
 		}
 		return true;
 	}

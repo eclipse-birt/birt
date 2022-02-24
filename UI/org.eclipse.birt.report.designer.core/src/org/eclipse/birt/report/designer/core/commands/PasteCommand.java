@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Paste Command
- *
+ * 
  */
 
 public class PasteCommand extends Command {
@@ -64,7 +64,7 @@ public class PasteCommand extends Command {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param sourceHandle the source
 	 * @param newContainer the new container, class type could be
 	 *                     <code>DesignElementHandle</code>,<code>SlotHandle</code>
@@ -84,7 +84,7 @@ public class PasteCommand extends Command {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param sourceHandle the source
 	 * @param newContainer the new container, class type could be
 	 *                     <code>DesignElementHandle</code>,<code>SlotHandle</code>
@@ -103,7 +103,7 @@ public class PasteCommand extends Command {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param cloneElement the copy of the source
 	 * @param newContainer the new container, class type could be
 	 *                     <code>DesignElementHandle</code>,<code>SlotHandle</code>
@@ -119,7 +119,7 @@ public class PasteCommand extends Command {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param cloneElement the copy of the source
 	 * @param newContainer the new container, class type could be
 	 *                     <code>DesignElementHandle</code>,<code>SlotHandle</code>
@@ -135,7 +135,7 @@ public class PasteCommand extends Command {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param cloneElement the copy of the source
 	 * @param newContainer the new container, class type could be
 	 *                     <code>DesignElementHandle</code>,<code>SlotHandle</code>
@@ -152,7 +152,6 @@ public class PasteCommand extends Command {
 	/**
 	 * Executes the Command.
 	 */
-	@Override
 	public void execute() {
 		if (DesignerConstants.TRACING_COMMANDS) {
 			System.out.println("PasteCommand >> Starts ..."); //$NON-NLS-1$
@@ -186,7 +185,7 @@ public class PasteCommand extends Command {
 
 	/**
 	 * Add this design element to report.
-	 *
+	 * 
 	 * @param newHandle The design element to add
 	 */
 	private void addHandleToReport(DesignElementHandle newHandle)
@@ -288,9 +287,9 @@ public class PasteCommand extends Command {
 	}
 
 	/**
-	 *
+	 * 
 	 * Drop source handle
-	 *
+	 * 
 	 * @param oldHandle The source handle
 	 */
 	private void dropSourceHandle(DesignElementHandle oldHandle) throws SemanticException {
@@ -301,7 +300,7 @@ public class PasteCommand extends Command {
 
 	/**
 	 * Copy new handle
-	 *
+	 * 
 	 * @param element             The elemnent to copy
 	 * @param currentDesignHandle Current design handle
 	 * @return The copied handle
@@ -326,7 +325,6 @@ public class PasteCommand extends Command {
 	/**
 	 * @return <code>true</code> if the command can be executed
 	 */
-	@Override
 	public boolean canExecute() {
 		if (cloneElement == null) {
 			return false;

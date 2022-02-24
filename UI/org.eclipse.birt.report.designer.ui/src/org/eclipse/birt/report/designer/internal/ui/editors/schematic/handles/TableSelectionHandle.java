@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -30,17 +30,16 @@ public class TableSelectionHandle extends SquareHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
-	@Override
 	protected DragTracker createDragTracker() {
 		return null;
 	}
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param owner
 	 * @param rect
 	 */
@@ -60,7 +59,6 @@ public class TableSelectionHandle extends SquareHandle {
 		setOpaque(false);
 	}
 
-	@Override
 	public void paintFigure(Graphics g) {
 
 //		Rectangle r = getBounds( );
@@ -82,11 +80,9 @@ public class TableSelectionHandle extends SquareHandle {
 //		}
 	}
 
-	@Override
 	public boolean containsPoint(int x, int y) {
-		if (!super.containsPoint(x, y)) {
+		if (!super.containsPoint(x, y))
 			return false;
-		}
 		return !Rectangle.SINGLETON.setBounds(getBounds()).shrink(-2, -2).contains(x, y);
 	}
 
@@ -101,7 +97,6 @@ public class TableSelectionHandle extends SquareHandle {
 			super(reference, location);
 		}
 
-		@Override
 		public void relocate(IFigure target) {
 
 		}

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -29,21 +29,20 @@ import org.eclipse.jst.j2ee.webapplication.WebApp;
 
 /**
  * Birt WebArtifact Utility
- *
+ * 
  */
 public class WebArtifactUtil {
 
 	/**
 	 * get filter-mapping from list by key String
-	 *
+	 * 
 	 * @param list
 	 * @param name
 	 * @return
 	 */
 	public static Object getFilterMappingByKey(List list, String key) {
-		if (list == null || key == null) {
+		if (list == null || key == null)
 			return null;
-		}
 
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
@@ -54,9 +53,8 @@ public class WebArtifactUtil {
 				String servletName = filterMapping.getServletName();
 				String uri = filterMapping.getUrlPattern();
 				String curKey = getFilterMappingString(name, servletName, uri);
-				if (key.equals(curKey)) {
+				if (key.equals(curKey))
 					return filterMapping;
-				}
 			}
 		}
 
@@ -65,15 +63,14 @@ public class WebArtifactUtil {
 
 	/**
 	 * get listener from list by class name
-	 *
+	 * 
 	 * @param list
 	 * @param name
 	 * @return
 	 */
 	public static Object getListenerByClassName(List list, String className) {
-		if (list == null || className == null) {
+		if (list == null || className == null)
 			return null;
-		}
 
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
@@ -89,15 +86,14 @@ public class WebArtifactUtil {
 
 	/**
 	 * get servlet mapping from list by uri
-	 *
+	 * 
 	 * @param list
 	 * @param name
 	 * @return
 	 */
 	public static Object getServletMappingByUri(List list, String uri) {
-		if (list == null || uri == null) {
+		if (list == null || uri == null)
 			return null;
-		}
 
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
@@ -113,15 +109,14 @@ public class WebArtifactUtil {
 
 	/**
 	 * get servlet mapping from webapp by uri
-	 *
+	 * 
 	 * @param webapp
 	 * @param name
 	 * @return
 	 */
 	public static Object getTagLibByUri(WebApp webapp, String uri) {
-		if (webapp == null || uri == null) {
+		if (webapp == null || uri == null)
 			return null;
-		}
 
 		List list = null;
 
@@ -140,17 +135,15 @@ public class WebArtifactUtil {
 			// for servlet 2.3
 			if (obj instanceof TagLibRef) {
 				TagLibRef ref = (TagLibRef) obj;
-				if (uri.equals(ref.getTaglibURI())) {
+				if (uri.equals(ref.getTaglibURI()))
 					return ref;
-				}
 			}
 
 			// for servlet 2.4
 			if (obj instanceof TagLibRefType) {
 				TagLibRefType ref = (TagLibRefType) obj;
-				if (uri.equals(ref.getTaglibURI())) {
+				if (uri.equals(ref.getTaglibURI()))
 					return ref;
-				}
 			}
 		}
 
@@ -159,39 +152,35 @@ public class WebArtifactUtil {
 
 	/**
 	 * returns context-param value
-	 *
+	 * 
 	 * @param map
 	 * @param name
 	 * @return
 	 */
 	public static String getContextParamValue(Map map, String name) {
-		if (map == null || name == null) {
+		if (map == null || name == null)
 			return null;
-		}
 
 		ContextParamBean bean = (ContextParamBean) map.get(name);
-		if (bean == null) {
+		if (bean == null)
 			return null;
-		}
 
 		return bean.getValue();
 	}
 
 	/**
 	 * set param value
-	 *
+	 * 
 	 * @param map
 	 * @param name
 	 * @param value
 	 */
 	public static void setContextParamValue(Map map, String name, String value) {
-		if (name == null) {
+		if (name == null)
 			return;
-		}
 
-		if (map == null) {
+		if (map == null)
 			map = new HashMap();
-		}
 
 		// get context-param bean
 		ContextParamBean bean = (ContextParamBean) map.get(name);
@@ -206,7 +195,7 @@ public class WebArtifactUtil {
 
 	/**
 	 * Returns the filter-mapping string
-	 *
+	 * 
 	 * @param name
 	 * @param servletName
 	 * @param uri

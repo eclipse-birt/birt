@@ -38,7 +38,6 @@ public class ClassSelectionButton {
 
 	private SelectionAdapter listener = new SelectionAdapter() {
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			Widget widget = e.widget;
 			if (widget instanceof MenuItem) {
@@ -58,7 +57,6 @@ public class ClassSelectionButton {
 		button.addSelectionListener(listener);
 		button.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refreshMenuItems();
 			}
@@ -98,9 +96,8 @@ public class ClassSelectionButton {
 	}
 
 	public void notifyExpressionChangeEvent(String oldExpression, String newExpression) {
-		if (helper != null) {
+		if (helper != null)
 			helper.notifyExpressionChangeEvent(oldExpression, newExpression);
-		}
 	}
 
 	public void setMenuButtonHelper(IMenuButtonHelper helper) {

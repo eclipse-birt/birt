@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,9 +44,11 @@ public abstract class AbstractElementAction extends AbstractViewAction {
 	 * Runs this action. The detail implementation must define in the method
 	 * <code>doAction</code>
 	 */
-	@Override
 	public void run() {
-		if (!isEnabled() || (SessionHandleAdapter.getInstance().getReportDesignHandle() == null)) {
+		if (!isEnabled()) {
+			return;
+		}
+		if (SessionHandleAdapter.getInstance().getReportDesignHandle() == null) {
 			return;
 		}
 		CommandStack stack = getCommandStack();
@@ -90,7 +92,7 @@ public abstract class AbstractElementAction extends AbstractViewAction {
 
 	/**
 	 * Gets the activity stack of the report
-	 *
+	 * 
 	 * @return returns the stack
 	 */
 	protected CommandStack getCommandStack() {
@@ -100,17 +102,17 @@ public abstract class AbstractElementAction extends AbstractViewAction {
 	/**
 	 * Gets the label for the transaction.The default implement is to return the
 	 * text of the action.Subclasses may override this method
-	 *
+	 * 
 	 * @return Returns the label for the transaction
 	 */
 	protected String getTransactionLabel() {
-		return getText().replace("&", "");
+		return getText().replaceAll("&", "");
 	}
 
 	/**
 	 * Defines the detail implementation of the action.Subclasses must implement
 	 * this method
-	 *
+	 * 
 	 * @param Returns if the
 	 */
 	abstract protected boolean doAction() throws Exception;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.core.Module;
  * references another specified element. For example, if element B extends
  * element A, then element B is a client of element A. Each call to
  * <code>getNext( )</code> returns a handle of type {@link DesignElementHandle}.
- *
+ * 
  * @see org.eclipse.birt.report.model.core.ReferenceableElement
  */
 
@@ -45,7 +45,7 @@ class ClientIterator implements Iterator {
 
 	/**
 	 * Constructs a iterator to return the clients of the given element.
-	 *
+	 * 
 	 * @param elementHandle handle to the element for which clients are wanted. Must
 	 *                      not be <code>null</code>.
 	 */
@@ -67,11 +67,10 @@ class ClientIterator implements Iterator {
 	/**
 	 * Inherited method that is disabled in this iterator; the caller cannot remove
 	 * clients using this class.
-	 *
+	 * 
 	 * @see java.util.Iterator#remove()
 	 */
 
-	@Override
 	public void remove() {
 		// This iterator can not be used to remove anything.
 
@@ -80,12 +79,11 @@ class ClientIterator implements Iterator {
 
 	/**
 	 * Returns true if there is another client to retrieve.
-	 *
+	 * 
 	 * @return true if there is another client to retrieve, false otherwise
 	 * @see java.util.Iterator#hasNext()
 	 */
 
-	@Override
 	public boolean hasNext() {
 		if (iter != null) {
 			return iter.hasNext();
@@ -95,14 +93,13 @@ class ClientIterator implements Iterator {
 
 	/**
 	 * Returns a handle of the client element.
-	 *
+	 * 
 	 * @return the handle of the client element
-	 *
+	 * 
 	 * @see java.util.Iterator#next()
 	 * @see DesignElementHandle
 	 */
 
-	@Override
 	public Object next() {
 		if (iter != null) {
 			BackRef client = (BackRef) iter.next();

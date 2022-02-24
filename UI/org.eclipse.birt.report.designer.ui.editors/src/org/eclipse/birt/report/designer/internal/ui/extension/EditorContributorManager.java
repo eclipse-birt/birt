@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -104,7 +104,7 @@ public class EditorContributorManager implements IExtensionConstants {
 
 	/**
 	 * Gets the list of all the extended element points.
-	 *
+	 * 
 	 * @return Returns the list of all the extended element point
 	 *         (ExtendedElementUIPoint).
 	 */
@@ -138,9 +138,9 @@ public class EditorContributorManager implements IExtensionConstants {
 
 	/**
 	 * Gets the extended element point with the specified extension name.
-	 *
+	 * 
 	 * @param extensionName the extension name of the extended element
-	 *
+	 * 
 	 * @return Returns the extended element point, or null if any problem exists
 	 */
 	public FormPageDef getFormPageDef(String targetEditorId, String pageId) {
@@ -175,9 +175,9 @@ public class EditorContributorManager implements IExtensionConstants {
 
 	/**
 	 * Gets the extended element point with the specified extension name.
-	 *
+	 * 
 	 * @param extensionName the extension name of the extended element
-	 *
+	 * 
 	 * @return Returns the extended element point, or null if any problem exists
 	 */
 	public FormPageDef getFormPageDef(String targetEditorId, int index) {
@@ -221,13 +221,15 @@ public class EditorContributorManager implements IExtensionConstants {
 
 	/**
 	 * Sort all form pages in the relative order.
-	 *
+	 * 
 	 * @param formPageList
 	 * @return
 	 */
 	private static List sortFormPageList(List formPageList) {
 		// get a copy of original list
-		List olist = new ArrayList(formPageList);
+		List olist = new ArrayList(formPageList.size());
+		olist.addAll(formPageList);
+
 		// create the result list
 		List rlist = new ArrayList(olist.size());
 

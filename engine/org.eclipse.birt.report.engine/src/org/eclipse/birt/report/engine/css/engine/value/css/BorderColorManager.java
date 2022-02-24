@@ -1,19 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
-import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
@@ -34,7 +33,6 @@ public class BorderColorManager extends ColorManager {
 		values.put(CSSConstants.CSS_TRANSPARENT_VALUE, CSSValueConstants.TRANSPARENT_VALUE);
 	}
 
-	@Override
 	public StringMap getIdentifiers() {
 		return values;
 	}
@@ -46,7 +44,6 @@ public class BorderColorManager extends ColorManager {
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	@Override
 	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		if (lu.getLexicalUnitType() == LexicalUnit.SAC_IDENT) {
 			if (CSSConstants.CSS_TRANSPARENT_VALUE.equals(lu.getStringValue())) {
@@ -60,7 +57,6 @@ public class BorderColorManager extends ColorManager {
 	 * Implements
 	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	@Override
 	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value == null) {
 			return (Value) elt.getComputedStyle().getProperty(IStyle.STYLE_COLOR);

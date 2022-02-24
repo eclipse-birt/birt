@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -84,7 +84,7 @@ public class Png24PrimitiveGen {
 	/**
 	 * reads a line from the primitive drawing file. Syntax: <primitive element>
 	 * <primitive parameters>...
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	protected void readFile() throws Exception {
@@ -156,11 +156,10 @@ public class Png24PrimitiveGen {
 				are.setWidth(Double.parseDouble(st.nextToken()));
 				are.setOutline(lineAttr);
 				are.setDepth(Double.parseDouble(st.nextToken()));
-				if (type.endsWith("fill")) { //$NON-NLS-1$
+				if (type.endsWith("fill"))//$NON-NLS-1$
 					renderer.fillArc(are);
-				} else { // $NON-NLS-1$
+				else
 					renderer.drawArc(are);
-				}
 			} else if (type.startsWith("line"))//$NON-NLS-1$
 			{
 				LineRenderEvent line = new LineRenderEvent(this);
@@ -180,11 +179,10 @@ public class Png24PrimitiveGen {
 						Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
 				oval.setOutline(lineAttr);
 				oval.setDepth(Double.parseDouble(st.nextToken()));
-				if (type.endsWith("fill")) { //$NON-NLS-1$
+				if (type.endsWith("fill"))//$NON-NLS-1$
 					renderer.fillOval(oval);
-				} else { // $NON-NLS-1$
+				else
 					renderer.drawOval(oval);
-				}
 			} else if (type.startsWith("rect"))//$NON-NLS-1$
 			{
 				RectangleRenderEvent rect = new RectangleRenderEvent(this);
@@ -193,11 +191,10 @@ public class Png24PrimitiveGen {
 						Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
 				rect.setOutline(lineAttr);
 				rect.setDepth(Double.parseDouble(st.nextToken()));
-				if (type.endsWith("fill")) { //$NON-NLS-1$
+				if (type.endsWith("fill"))//$NON-NLS-1$
 					renderer.fillRectangle(rect);
-				} else { // $NON-NLS-1$
+				else
 					renderer.drawRectangle(rect);
-				}
 			} else if (type.startsWith("polygon"))//$NON-NLS-1$
 			{
 				PolygonRenderEvent shape = new PolygonRenderEvent(this);
@@ -211,11 +208,10 @@ public class Png24PrimitiveGen {
 							Double.parseDouble(st.nextToken()));
 				}
 				shape.setPoints(locations);
-				if (type.endsWith("fill")) { //$NON-NLS-1$
+				if (type.endsWith("fill"))//$NON-NLS-1$
 					renderer.fillPolygon(shape);
-				} else { // $NON-NLS-1$
+				else
 					renderer.drawPolygon(shape);
-				}
 			} else if (type.startsWith("text"))//$NON-NLS-1$
 			{
 				TextRenderEvent shape = new TextRenderEvent(this);
@@ -258,20 +254,18 @@ public class Png24PrimitiveGen {
 				while (st.hasMoreTokens()) {
 					strDepth = st.nextToken();
 					if (st.hasMoreTokens()) {
-						if (strLabel.equals("")) { //$NON-NLS-1$
+						if (strLabel.equals(""))//$NON-NLS-1$
 							strLabel = strDepth;
-						} else { // $NON-NLS-1$
+						else
 							strLabel += " " + strDepth;//$NON-NLS-1$
-						}
 					}
 				}
 				Text text = TextImpl.create(strLabel);
 				text.setFont(font);
 				text.setColor(ColorDefinitionImpl.BLACK());
 				label.setCaption(text);
-				if (shadowColor != null) {
+				if (shadowColor != null)
 					label.setShadowColor(shadowColor);
-				}
 				shape.setLabel(label);
 				shape.setDepth(Double.parseDouble(strDepth));
 				renderer.drawText(shape);

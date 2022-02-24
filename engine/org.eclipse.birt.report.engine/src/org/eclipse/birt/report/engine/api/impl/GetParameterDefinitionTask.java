@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.engine.api.impl;
@@ -87,11 +87,10 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#
 	 * getParameterDefns(boolean)
 	 */
-	@Override
 	public Collection getParameterDefns(boolean includeParameterGroups) {
 		ModuleHandle designHandle = executionContext.getDesign();
 		Collection original = getParameters(designHandle, includeParameterGroups);
@@ -146,21 +145,19 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#
 	 * evaluateDefaults()
 	 */
-	@Override
 	public void evaluateDefaults() throws EngineException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#
 	 * getParameterDefn(java.lang.String)
 	 */
-	@Override
 	public IParameterDefnBase getParameterDefn(String name) {
 		IParameterDefnBase ret = null;
 		if (name == null) {
@@ -173,9 +170,8 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		Iterator iter = original.iterator();
 		while (iter.hasNext()) {
 			ret = getParamDefnBaseByName((ParameterDefnBase) iter.next(), name);
-			if (ret != null) {
+			if (ret != null)
 				break;
-			}
 		}
 
 		if (ret != null) {
@@ -207,20 +203,17 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		return ret;
 	}
 
-	@Override
 	public SlotHandle getParameters() {
 		ModuleHandle design = executionContext.getDesign();
 		return design.getParameters();
 	}
 
-	@Override
 	public ParameterHandle getParameter(String name) {
 		ModuleHandle design = executionContext.getDesign();
 		return design.findParameter(name);
 
 	}
 
-	@Override
 	public HashMap getDefaultValues() {
 		loadDesign();
 		// using current parameter settings to evaluate the default parameters
@@ -230,7 +223,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		// reset the context parameters
 		new ParameterVisitor() {
 
-			@Override
 			boolean visitScalarParameter(ScalarParameterHandle param, Object userData) {
 				String name = param.getName();
 				Object value = getDefaultValue(name);
@@ -238,13 +230,11 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 				return true;
 			}
 
-			@Override
 			boolean visitDynamicFilterParameter(DynamicFilterParameterHandle param, Object userData) {
 				// no default value for DynamicFilterParameter?
 				return true;
 			}
 
-			@Override
 			boolean visitParameterGroup(ParameterGroupHandle group, Object userData) {
 				return visitParametersInGroup(group, userData);
 			}
@@ -254,18 +244,16 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#
 	 * getDefaultParameter(java.lang.String)
 	 */
-	@Override
 	public Object getDefaultValue(IParameterDefnBase param) {
 		return (param == null) ? null : getDefaultValue(param.getName());
 	}
 
 	protected boolean jsLoaded = false;
 
-	@Override
 	protected void loadDesign() {
 		if (!jsLoaded) {
 			jsLoaded = true;
@@ -286,7 +274,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		}
 	}
 
-	@Override
 	public Object getDefaultValue(String name) {
 		ModuleHandle report = executionContext.getDesign();
 		AbstractScalarParameterHandle parameter = (AbstractScalarParameterHandle) report.findParameter(name);
@@ -300,7 +287,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		return evaluateDefaultValue(parameter);
 	}
 
-	@Override
 	protected Object refineParameterValue(String name, Object value) {
 		ModuleHandle report = executionContext.getDesign();
 		AbstractScalarParameterHandle param = (AbstractScalarParameterHandle) report.findParameter(name);
@@ -320,9 +306,8 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		if (selectionMethod != null) {
 			try {
 				Object result = executionContext.evaluate(selectionMethod);
-				if (result == null) {
+				if (result == null)
 					return null;
-				}
 
 				ArrayList choices = new ArrayList();
 				String pattern = parameter.getPattern();
@@ -369,11 +354,10 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#
 	 * getSelectionChoice(java.lang.String)
 	 */
-	@Override
 	public Collection getSelectionList(String name) {
 		try {
 			switchToOsgiClassLoader();
@@ -406,15 +390,17 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 				if (DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals(group.getDataSetMode())) {
 					// single dataSet
 					return getCascadingParameterList(parameter);
-				} else // multiple dataSet
-				if (parameter.getDataSetName() != null) {
-					// parameter has dataSet
-					return getChoicesFromParameterQuery(parameter);
+				} else {
+					// multiple dataSet
+					if (parameter.getDataSetName() != null) {
+						// parameter has dataSet
+						return getChoicesFromParameterQuery(parameter);
+					}
+					// parameter do not has dataSet, so use the group's
+					// dataSet
+					// we do not support such mix parameters.
+					// return empty list
 				}
-				// parameter do not has dataSet, so use the group's
-				// dataSet
-				// we do not support such mix parameters.
-				// return empty list
 			} else {
 				// parameter not in group
 				if (parameter instanceof ScalarParameterHandle) {
@@ -534,10 +520,9 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 	 * The first step to work with the cascading parameters. Create the query
 	 * definition, prepare and execute the query. Cache the iterator of the result
 	 * set and also cache the IBaseExpression used in the prepare.
-	 *
+	 * 
 	 * @param parameterGroupName - the cascading parameter group name
 	 */
-	@Override
 	public void evaluateQuery(String parameterGroupName) {
 	}
 
@@ -555,13 +540,12 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 	 * groupKeyValues as Object[]{"USA", "CA"} (meaning user has set the values of
 	 * the top and the second level), the parameter to work on will be the third
 	 * level which is City in "USA, CA" in this case.
-	 *
+	 * 
 	 * @param parameterGroupName - the cascading parameter group name
 	 * @param groupKeyValues     - the array of known parameter values (see the
 	 *                           example above)
 	 * @return the selection list of the parameter to work on
 	 */
-	@Override
 	public Collection getSelectionListForCascadingGroup(String parameterGroupName, Object[] groupKeyValues) {
 		loadDesign();
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup(parameterGroupName);
@@ -651,9 +635,8 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			if (cur > 0 && has) {
 				int last = indexes.length - 1;
 				for (; last >= 0; last--) {
-					if (!types[last] || lengths[last] == 1) {
+					if (!types[last] || lengths[last] == 1)
 						continue;
-					}
 					if (indexes[last] + 1 < lengths[last]) {
 						indexes[last]++;
 						break;
@@ -667,7 +650,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		}
 	}
 
-	@Override
 	public Collection getSelectionTreeForCascadingGroup(String parameterGroupName) {
 		try {
 			switchToOsgiClassLoader();
@@ -814,7 +796,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 
 		}
 
-		@Override
 		public boolean accept(IResultIterator iterator) throws BirtException {
 			for (int i = 0; i < valueColumnNames.length; i++) {
 				Object value = iterator.getValue(valueColumnNames[i]);
@@ -828,9 +809,8 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 	}
 
 	private IResultIterator getResultSetOfCascadingGroup(CascadingParameterGroupHandle parameterGroup) {
-		if (parameterGroup == null) {
+		if (parameterGroup == null)
 			return null;
-		}
 
 		// If a IResultIterator with the same name has already existed in the dataCache,
 		// this IResultIterator and its IQueryResults should be closed.
@@ -879,17 +859,14 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			this.value = value;
 		}
 
-		@Override
 		public String getLabel() {
 			return this.label;
 		}
 
-		@Override
 		public Object getValue() {
 			return this.value;
 		}
 
-		@Override
 		public boolean equals(Object obj) {
 			if (obj == this) {
 				return true;
@@ -904,7 +881,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			return value.equals(choice.value);
 		}
 
-		@Override
 		public int hashCode() {
 			return value == null ? 0 : value.hashCode();
 		}
@@ -922,12 +898,10 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			this.children = children;
 		}
 
-		@Override
 		public Collection getChildSelectionList() {
 			return children;
 		}
 
-		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
@@ -935,7 +909,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			return result;
 		}
 
-		@Override
 		public boolean equals(Object obj) {
 			if (obj == this) {
 				return true;
@@ -1021,7 +994,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			this.parameterIndex = parameterIndex;
 		}
 
-		@Override
 		public int hashCode() {
 			int hashCode = 0;
 			for (int i = 0; i <= parameterIndex; i++) {
@@ -1030,7 +1002,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			return hashCode;
 		}
 
-		@Override
 		public boolean equals(Object obj) {
 			if (obj == this) {
 				return true;
@@ -1118,7 +1089,7 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			ret = param;
 		}
 
-		if (param instanceof ParameterGroupDefn) {
+		if (param != null && param instanceof ParameterGroupDefn) {
 			Iterator iter = ((ParameterGroupDefn) param).getContents().iterator();
 			while (iter.hasNext()) {
 				ParameterDefnBase pBase = (ParameterDefnBase) iter.next();
@@ -1140,7 +1111,7 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 
 	/**
 	 * Gets the parameter list of the report.
-	 *
+	 * 
 	 * @param design                 - the handle of the report design
 	 * @param includeParameterGroups A <code>boolean</code> value specifies whether
 	 *                               to include parameter groups or not.
@@ -1163,17 +1134,16 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			parameters.add(param);
 		}
 
-		if (includeParameterGroups) {
+		if (includeParameterGroups)
 			return parameters;
-		} else {
+		else
 			return flattenParameter(parameters);
-		}
 	}
 
 	/**
 	 * Puts all the report parameters including those appear inside parameter groups
 	 * to the <code>allParameters</code> object.
-	 *
+	 * 
 	 * @param params A collection of parameters and parameter groups.
 	 */
 	protected ArrayList flattenParameter(ArrayList params) {
@@ -1222,7 +1192,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			this.handle = handle;
 		}
 
-		@Override
 		public void visitParameterGroup(ParameterGroupHandle handle) {
 			ParameterGroupDefn paramGroup = new ParameterGroupDefn();
 			paramGroup.setLocale(ulocale.toLocale());
@@ -1255,7 +1224,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			currentElement = paramGroup;
 		}
 
-		@Override
 		public void visitCascadingParameterGroup(CascadingParameterGroupHandle handle) {
 			CascadingParameterGroupDefn paramGroup = new CascadingParameterGroupDefn();
 			paramGroup.setLocale(ulocale.toLocale());
@@ -1293,7 +1261,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 
 		}
 
-		@Override
 		public void visitScalarParameter(ScalarParameterHandle handle) {
 			assert (handle.getName() != null);
 			// Create Parameter
@@ -1312,15 +1279,14 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 				scalarParameter.addUserProperty(p.getName(), value);
 			}
 			String align = handle.getAlignment();
-			if (DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals(align)) {
+			if (DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals(align))
 				scalarParameter.setAlignment(IScalarParameterDefn.CENTER);
-			} else if (DesignChoiceConstants.SCALAR_PARAM_ALIGN_LEFT.equals(align)) {
+			else if (DesignChoiceConstants.SCALAR_PARAM_ALIGN_LEFT.equals(align))
 				scalarParameter.setAlignment(IScalarParameterDefn.LEFT);
-			} else if (DesignChoiceConstants.SCALAR_PARAM_ALIGN_RIGHT.equals(align)) {
+			else if (DesignChoiceConstants.SCALAR_PARAM_ALIGN_RIGHT.equals(align))
 				scalarParameter.setAlignment(IScalarParameterDefn.RIGHT);
-			} else {
+			else
 				scalarParameter.setAlignment(IScalarParameterDefn.AUTO);
-			}
 
 			scalarParameter.setAllowBlank(handle.allowBlank());
 			scalarParameter.setAllowNull(handle.allowNull());
@@ -1328,17 +1294,16 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			scalarParameter.setScalarParameterType(handle.getParamType());
 
 			String controlType = handle.getControlType();
-			if (DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals(controlType)) {
+			if (DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals(controlType))
 				scalarParameter.setControlType(IScalarParameterDefn.CHECK_BOX);
-			} else if (DesignChoiceConstants.PARAM_CONTROL_LIST_BOX.equals(controlType)) {
+			else if (DesignChoiceConstants.PARAM_CONTROL_LIST_BOX.equals(controlType))
 				scalarParameter.setControlType(IScalarParameterDefn.LIST_BOX);
-			} else if (DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals(controlType)) {
+			else if (DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals(controlType))
 				scalarParameter.setControlType(IScalarParameterDefn.RADIO_BUTTON);
-			} else if (DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals(controlType)) {
+			else if (DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals(controlType))
 				scalarParameter.setControlType(IScalarParameterDefn.AUTO_SUGGEST);
-			} else {
+			else
 				scalarParameter.setControlType(IScalarParameterDefn.TEXT_BOX);
-			}
 
 			scalarParameter.setDefaultValue(handle.getDefaultValue());
 			scalarParameter.setDisplayName(handle.getDisplayName());
@@ -1353,25 +1318,24 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			scalarParameter.setName(handle.getName());
 
 			String valueType = handle.getDataType();
-			if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(valueType)) {
+			if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(valueType))
 				scalarParameter.setDataType(IScalarParameterDefn.TYPE_BOOLEAN);
-			} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(valueType))
 				scalarParameter.setDataType(IScalarParameterDefn.TYPE_DATE_TIME);
-			} else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(valueType))
 				scalarParameter.setDataType(IScalarParameterDefn.TYPE_DATE);
-			} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(valueType))
 				scalarParameter.setDataType(IScalarParameterDefn.TYPE_TIME);
-			} else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(valueType))
 				scalarParameter.setDataType(IScalarParameterDefn.TYPE_DECIMAL);
-			} else if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(valueType))
 				scalarParameter.setDataType(IScalarParameterDefn.TYPE_FLOAT);
-			} else if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(valueType))
 				scalarParameter.setDataType(IScalarParameterDefn.TYPE_STRING);
-			} else if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(valueType))
 				scalarParameter.setDataType(IScalarParameterDefn.TYPE_INTEGER);
-			} else {
+			else
 				scalarParameter.setDataType(IScalarParameterDefn.TYPE_ANY);
-			}
 
 			ArrayList values = new ArrayList();
 			Iterator selectionIter = handle.choiceIterator();
@@ -1400,7 +1364,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			scalarParameter.setAutoSuggestThreshold(handle.getAutoSuggestThreshold());
 		}
 
-		@Override
 		public void visitDynamicFilterParameter(DynamicFilterParameterHandle handle) {
 			assert (handle.getName() != null);
 
@@ -1426,25 +1389,24 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			}
 
 			String valueType = handle.getDataType();
-			if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(valueType)) {
+			if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(valueType))
 				parameter.setDataType(IParameterDefn.TYPE_BOOLEAN);
-			} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(valueType))
 				parameter.setDataType(IParameterDefn.TYPE_DATE_TIME);
-			} else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(valueType))
 				parameter.setDataType(IParameterDefn.TYPE_DATE);
-			} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(valueType))
 				parameter.setDataType(IParameterDefn.TYPE_TIME);
-			} else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(valueType))
 				parameter.setDataType(IParameterDefn.TYPE_DECIMAL);
-			} else if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(valueType))
 				parameter.setDataType(IParameterDefn.TYPE_FLOAT);
-			} else if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(valueType))
 				parameter.setDataType(IParameterDefn.TYPE_STRING);
-			} else if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(valueType)) {
+			else if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(valueType))
 				parameter.setDataType(IParameterDefn.TYPE_INTEGER);
-			} else {
+			else
 				parameter.setDataType(IParameterDefn.TYPE_ANY);
-			}
 
 			String paramType = handle.getValueType();
 			if (DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals(paramType)) {
@@ -1475,8 +1437,8 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 
 			List<String> operators = handle.getFilterOperatorList();
 			if (operators != null) {
-				List<String> filters = new ArrayList<>();
-				List<String> locFilters = new ArrayList<>();
+				List<String> filters = new ArrayList<String>();
+				List<String> locFilters = new ArrayList<String>();
 				for (String operator : operators) {
 					filters.add(operator);
 					IFilterExprDefinition expr = OdaFilterExprHelper.getFilterExpressionDefn(operator, null, null);

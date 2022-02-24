@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,14 +62,12 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor {
 		this.levelView = levelView;
 	}
 
-	@Override
 	public void close() {
 		super.close();
 
 		nextExecutor = null;
 	}
 
-	@Override
 	public IContent execute() {
 		IRowContent content = context.getReportContent().createRowContent();
 
@@ -436,7 +434,6 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor {
 
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		IReportItemExecutor childExecutor = nextExecutor;
 
@@ -447,7 +444,6 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor {
 		return childExecutor;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		if (isFirst) {
 			isFirst = false;

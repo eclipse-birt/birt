@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2007 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -28,7 +28,7 @@ public class ScriptSourceViewerConfiguration extends JSSourceViewerConfiguration
 
 	/**
 	 * Constracts a configuration for source viewer.
-	 *
+	 * 
 	 * @param context the context for javascript syntax.
 	 */
 	public ScriptSourceViewerConfiguration(JSSyntaxContext context) {
@@ -37,11 +37,10 @@ public class ScriptSourceViewerConfiguration extends JSSourceViewerConfiguration
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#
 	 * getOverviewRulerAnnotationHover(org.eclipse.jface.text.source.ISourceViewer)
 	 */
-	@Override
 	public IAnnotationHover getOverviewRulerAnnotationHover(ISourceViewer sourceViewer) {
 		IAnnotationHover hover = super.getOverviewRulerAnnotationHover(sourceViewer);
 
@@ -53,12 +52,11 @@ public class ScriptSourceViewerConfiguration extends JSSourceViewerConfiguration
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.text.source.SourceViewerConfiguration#getAnnotationHover(
 	 * org.eclipse.jface.text.source.ISourceViewer)
 	 */
-	@Override
 	public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
 		IAnnotationHover hover = super.getAnnotationHover(sourceViewer);
 
@@ -70,12 +68,11 @@ public class ScriptSourceViewerConfiguration extends JSSourceViewerConfiguration
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.text.source.SourceViewerConfiguration#getReconciler(org.
 	 * eclipse.jface.text.source.ISourceViewer)
 	 */
-	@Override
 	public IReconciler getReconciler(ISourceViewer sourceViewer) {
 		// Creates an instance of MonoReconciler with the specified strategy,
 		// and is not incremental.

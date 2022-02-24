@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,6 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor {
 	private static final String DISABLE_FLASH_ANIMATION = "DisableFlashAnimation";
 	private static final String DISABLE_PRINT = "DisablePrint";
 
-	@Override
 	protected void initOptions() {
 		loadDefaultValues("org.eclipse.birt.report.engine.emitter.config.pdf");
 
@@ -171,32 +170,29 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDescription()
 	 */
-	@Override
 	public String getDescription() {
 		return getMessage("PDFEmitter.Description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return getMessage("PDFEmitter.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#getID()
 	 */
-	@Override
 	public String getID() {
 		return "org.eclipse.birt.report.engine.emitter.pdf"; //$NON-NLS-1$
 	}
@@ -238,12 +234,10 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor {
 	 */
 	class PDFOptionObserver extends AbstractConfigurableOptionObserver {
 
-		@Override
 		public IConfigurableOption[] getOptions() {
 			return options;
 		}
 
-		@Override
 		public IRenderOption getPreferredRenderOption() {
 			PDFRenderOption renderOption = new PDFRenderOption();
 
@@ -256,7 +250,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor {
 						if (optionValue.getName().equals(RENDER_CHART_IN_SVG)) {
 							boolean renderChartInSVG = true;
 							Object value = optionValue.getValue();
-							if (value instanceof Boolean) {
+							if (value != null && value instanceof Boolean) {
 								renderChartInSVG = (Boolean) value;
 							}
 							if (renderChartInSVG) {

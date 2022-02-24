@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,13 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+
 import java.text.ParseException;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -38,11 +44,7 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
-import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.NumberFormat;
-import com.ibm.icu.text.SimpleDateFormat;
-import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -78,7 +80,7 @@ public final class DataTypeUtil {
 	 * DataType.DECIMAL_TYPE DataType.BOOLEAN_TYPE DataType.DATE_TYPE
 	 * DataType.DOUBLE_TYPE DataType.STRING_TYPE DataType.BLOB_TYPE
 	 * DataType.SQL_DATE_TYPE DataType.SQL_TIME_TYPE
-	 *
+	 * 
 	 * @param source
 	 * @param toType
 	 * @return
@@ -88,9 +90,8 @@ public final class DataTypeUtil {
 		source = JavascriptEvalUtil.convertJavascriptValue(source);
 
 		// here we assume the efficiency of if else is higher than switch case
-		if (toType == DataType.UNKNOWN_TYPE || toType == DataType.ANY_TYPE) {
+		if (toType == DataType.UNKNOWN_TYPE || toType == DataType.ANY_TYPE)
 			return source;
-		}
 
 		switch (toType) {
 		case DataType.INTEGER_TYPE:
@@ -124,53 +125,45 @@ public final class DataTypeUtil {
 	 * convert a object to given class Classes supported: Integer.class
 	 * BigDecimal.class Boolean.class Time.class Date.class Double.class
 	 * String.class Blob.class
-	 *
+	 * 
 	 * @param source
 	 * @param toTypeClass
 	 * @return
 	 * @throws BirtException
 	 */
 	public static Object convert(Object source, Class toTypeClass) throws BirtException {
-		if ((source != null && source.getClass() == toTypeClass) || (toTypeClass == DataType.getClass(DataType.ANY_TYPE))) {
+		if (source != null && source.getClass() == toTypeClass) {
 			return source;
 		}
-		if (toTypeClass == Integer.class) {
+
+		if (toTypeClass == DataType.getClass(DataType.ANY_TYPE))
+			return source;
+		if (toTypeClass == Integer.class)
 			return toInteger(source);
-		}
-		if (toTypeClass == BigDecimal.class) {
+		if (toTypeClass == BigDecimal.class)
 			return toBigDecimal(source);
-		}
-		if (toTypeClass == Boolean.class) {
+		if (toTypeClass == Boolean.class)
 			return toBoolean(source);
-		}
-		if (toTypeClass == Time.class) {
+		if (toTypeClass == Time.class)
 			return toSqlTime(source);
-		}
-		if (toTypeClass == java.sql.Date.class) {
+		if (toTypeClass == java.sql.Date.class)
 			return toSqlDate(source);
-		}
-		if (toTypeClass == java.sql.Timestamp.class) {
+		if (toTypeClass == java.sql.Timestamp.class)
 			return toTimestamp(source);
-		}
-		if (toTypeClass == Date.class) {
+		if (toTypeClass == Date.class)
 			return toDate(source);
-		}
-		if (toTypeClass == Double.class) {
+		if (toTypeClass == Double.class)
 			return toDouble(source);
-		}
-		if (toTypeClass == String.class) {
+		if (toTypeClass == String.class)
 			return toString(source);
-		}
 		if (toTypeClass == Blob.class) {
-			if (source instanceof byte[]) {
+			if (source instanceof byte[])
 				return source;
-			} else {
+			else
 				return toBlob(source);
-			}
 		}
-		if (toTypeClass == byte[].class) {
+		if (toTypeClass == byte[].class)
 			return source;
-		}
 		if (toTypeClass == Object.class) {
 			return source;
 		}
@@ -181,7 +174,7 @@ public final class DataTypeUtil {
 	/**
 	 * Boolean -> Integer true -> 1 others -> 0 Date -> Integer Date.getTime();
 	 * String -> Integer Integer.valueOf();
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
@@ -193,16 +186,15 @@ public final class DataTypeUtil {
 	/**
 	 * Boolean -> Integer true -> 1 others -> 0 Date -> Integer Date.getTime();
 	 * String -> Integer Integer.valueOf();
-	 *
+	 * 
 	 * @param source
 	 * @param locale Locale
 	 * @return
 	 * @throws BirtException
 	 */
 	public static Integer toInteger(Object source, ULocale locale) throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
 		if (source instanceof Integer) {
 			return (Integer) source;
@@ -213,18 +205,17 @@ public final class DataTypeUtil {
 				throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { source.toString(), "Integer" });
 			}
 			int intValue = ((Number) source).intValue();
-			return intValue;
+			return Integer.valueOf(intValue);
 		} else if (source instanceof Boolean) {
-			if (((Boolean) source).booleanValue()) {
-				return 1;
-			}
-			return 0;
+			if (true == ((Boolean) source).booleanValue())
+				return Integer.valueOf(1);
+			return Integer.valueOf(0);
 		} else if (source instanceof Date) {
 			long longValue = ((Date) source).getTime();
 			if (!isConvertableToInteger(Long.valueOf(longValue))) {
 				throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { source.toString(), "Integer" });
 			}
-			return (int) longValue;
+			return Integer.valueOf((int) longValue);
 		} else if (source instanceof CharSequence) {
 			source = source.toString();
 			try {
@@ -237,7 +228,7 @@ public final class DataTypeUtil {
 							throw new CoreException(ResourceConstants.CONVERT_FAILS,
 									new Object[] { source.toString(), "Integer" });
 						}
-						return number.intValue();
+						return Integer.valueOf(number.intValue());
 					}
 
 					throw new CoreException(ResourceConstants.CONVERT_FAILS,
@@ -255,15 +246,14 @@ public final class DataTypeUtil {
 	/**
 	 * Boolean -> BigDecimal true -> 1 others -> 0 Date -> BigDecimal
 	 * Date.getTime(); String -> BigDecimal new BigDecimal(String);
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
 	 */
 	public static BigDecimal toBigDecimal(Object source) throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
 		if (source instanceof BigDecimal) {
 			return (BigDecimal) source;
@@ -272,11 +262,10 @@ public final class DataTypeUtil {
 			// Float, Long, Short, Integer
 			// An intermediate conversion using String is preferrable per JavaDoc
 			// comment in BigDecimal(String) constructor
-			if (source instanceof Double && (((Double) source).isInfinite() || ((Double) source).isNaN())) {
+			if (source instanceof Double && (((Double) source).isInfinite() || ((Double) source).isNaN()))
 				return null;
-			} else if (source instanceof Float && (((Float) source).isInfinite() || ((Float) source).isNaN())) {
+			else if (source instanceof Float && (((Float) source).isInfinite() || ((Float) source).isNaN()))
 				return null;
-			}
 
 			String str = ((Number) source).toString();
 			try {
@@ -285,9 +274,8 @@ public final class DataTypeUtil {
 				throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { str, "BigDecimal" });
 			}
 		} else if (source instanceof Boolean) {
-			if (((Boolean) source).booleanValue()) {
+			if (true == ((Boolean) source).booleanValue())
 				return BigDecimal.ONE;
-			}
 			return BigDecimal.ZERO;
 		} else if (source instanceof Date) {
 			long longValue = ((Date) source).getTime();
@@ -303,9 +291,8 @@ public final class DataTypeUtil {
 			} catch (NumberFormatException e) {
 				try {
 					Number number = NumberFormat.getInstance(JRE_DEFAULT_LOCALE).parse((String) source);
-					if (number != null) {
+					if (number != null)
 						return new BigDecimal(number.toString());
-					}
 
 					throw new CoreException(ResourceConstants.CONVERT_FAILS,
 							new Object[] { source.toString(), "BigDecimal" });
@@ -323,37 +310,34 @@ public final class DataTypeUtil {
 	 * Number -> Boolean 0 -> false others -> true String -> Boolean "true" -> true
 	 * (ignore case) "false" -> false (ignore case) other string will throw an
 	 * exception Date -> Boolean throw exception
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
 	 */
 	public static Boolean toBoolean(Object source) throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
 		if (source instanceof Boolean) {
 			return (Boolean) source;
 		} else if (source instanceof Number) {
 			// Takes care of all numeric types
-			if (((Number) source).doubleValue() == 0) {
+			if (((Number) source).doubleValue() == 0)
 				return Boolean.FALSE;
-			}
 			return Boolean.TRUE;
 		} else if (source instanceof CharSequence) {
 			source = source.toString();
-			if (((String) source).equalsIgnoreCase("true")) {
+			if (((String) source).equalsIgnoreCase("true"))
 				return Boolean.TRUE;
-			} else if (((String) source).equalsIgnoreCase("false")) {
+			else if (((String) source).equalsIgnoreCase("false"))
 				return Boolean.FALSE;
-			} else {
+			else {
 				try {
-					if (Double.parseDouble((String) source) == 0) {
+					if (Double.parseDouble((String) source) == 0)
 						return Boolean.FALSE;
-					} else {
+					else
 						return Boolean.TRUE;
-					}
 				} catch (NumberFormatException e) {
 					throw new CoreException(ResourceConstants.CONVERT_FAILS,
 							new Object[] { source.toString(), "Boolean" });
@@ -366,15 +350,14 @@ public final class DataTypeUtil {
 
 	/**
 	 * Number -> Date new Date((long)Number) String -> Date toDate(String)
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
 	 */
 	public static Date toDate(Object source) throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
 		if (source instanceof Date) {
 			return new Date(((Date) source).getTime());
@@ -392,30 +375,28 @@ public final class DataTypeUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
 	 */
 	public static Timestamp toTimestamp(Object source) throws BirtException {
 		Date date = toDate(source);
-		if (date == null) {
+		if (date == null)
 			return null;
-		}
 		return new Timestamp(date.getTime());
 	}
 
 	/**
 	 * Date -> Time String -> Time
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
 	 */
 	public static Time toSqlTime(Object source) throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
 		if (source instanceof Date) {
 			return toSqlTime((Date) source);
@@ -440,7 +421,7 @@ public final class DataTypeUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -453,16 +434,14 @@ public final class DataTypeUtil {
 		int secondColon;
 		int marker;
 
-		if (s == null) {
+		if (s == null)
 			throw new java.lang.IllegalArgumentException();
-		}
 
 		firstColon = s.indexOf(':');
 		secondColon = s.indexOf(':', firstColon + 1);
 		for (marker = secondColon + 1; marker < s.length(); marker++) {
-			if (!isDigitTen(s.charAt(marker))) {
+			if (!isDigitTen(s.charAt(marker)))
 				break;
-			}
 		}
 		addHour = 0;
 		String markerValue = null;
@@ -484,17 +463,14 @@ public final class DataTypeUtil {
 		}
 		hour = Integer.parseInt(s.substring(0, firstColon));
 		minute = Integer.parseInt(s.substring(firstColon + 1, secondColon));
-		if (minute < 0 || minute > 60) {
+		if (minute < 0 || minute > 60)
 			throw new java.lang.IllegalArgumentException();
-		}
-		if (marker < s.length()) {
+		if (marker < s.length())
 			second = Integer.parseInt(s.substring(secondColon + 1, marker));
-		} else {
+		else
 			second = Integer.parseInt(s.substring(secondColon + 1));
-		}
-		if (second < 0 || second > 60) {
+		if (second < 0 || second > 60)
 			throw new java.lang.IllegalArgumentException();
-		}
 		if (hour == 12 && minute == 0 && second == 0 && aMarker != null) {
 			if ("am".equals(aMarker)) {
 				hour = 24;
@@ -502,20 +478,18 @@ public final class DataTypeUtil {
 				hour = 12;
 			}
 		} else {
-			if (hour < 0 || (hour > 12 && markerValue != null && markerValue.length() > 0)) {
+			if (hour < 0 || (hour > 12 && markerValue != null && markerValue.length() > 0))
 				throw new java.lang.IllegalArgumentException();
-			}
 			hour += addHour;
-			if (hour > 24) {
+			if (hour > 24)
 				throw new java.lang.IllegalArgumentException();
-			}
 		}
 
 		return toSqlTime(hour, minute, second);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param hour
 	 * @param minute
 	 * @param second
@@ -531,19 +505,18 @@ public final class DataTypeUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param c
 	 * @return
 	 */
 	private static boolean isDigitTen(char c) {
-		if (c <= '9' && c >= '0') {
+		if (c <= '9' && c >= '0')
 			return true;
-		}
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -559,15 +532,14 @@ public final class DataTypeUtil {
 
 	/**
 	 * Date -> Time String -> Time
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
 	 */
 	public static java.sql.Date toSqlDate(Object source) throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
 		if (source instanceof java.sql.Date) {
 			return maskSQLDate((java.sql.Date) source);
@@ -594,7 +566,7 @@ public final class DataTypeUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -611,7 +583,7 @@ public final class DataTypeUtil {
 
 	/**
 	 * mask out time info for sql Date
-	 *
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -629,7 +601,7 @@ public final class DataTypeUtil {
 	/**
 	 * A temp solution to the adoption of ICU4J to BIRT. Simply delegate toDate(
 	 * String, Locale) method.
-	 *
+	 * 
 	 * @param source the String to be convert
 	 * @param locate the locate of the string
 	 * @return result Date
@@ -640,7 +612,7 @@ public final class DataTypeUtil {
 
 	/**
 	 * convert String with the specified locale to java.util.Date
-	 *
+	 * 
 	 * @param source the String to be convert
 	 * @param locate the locate of the string
 	 * @return result Date
@@ -675,14 +647,13 @@ public final class DataTypeUtil {
 	/**
 	 * @deprecated use getDateFormatObject instead
 	 */
-	@Deprecated
 	public static DateFormat getDateFormat(String source, ULocale locale, TimeZone timeZone) throws BirtException {
 		return getDateFormatObject(source, locale, timeZone);
 	}
 
 	/**
 	 * Retrieve date format object that matches the given date/time string
-	 *
+	 * 
 	 * @since 4.8
 	 *
 	 * @param source
@@ -693,9 +664,8 @@ public final class DataTypeUtil {
 	 */
 	public static DateFormat getDateFormatObject(String source, ULocale locale, TimeZone timeZone)
 			throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
 		DateFormat dateFormat = null;
 		Date resultDate = null;
@@ -715,9 +685,8 @@ public final class DataTypeUtil {
 					return dateFormat;
 				} catch (ParseException e1) {
 				} finally {
-					if (savedTimeZone != null) {
+					if (savedTimeZone != null)
 						dateFormat.setTimeZone(savedTimeZone);
-					}
 				}
 			}
 
@@ -734,9 +703,8 @@ public final class DataTypeUtil {
 					return dateFormat;
 				} catch (ParseException e1) {
 				} finally {
-					if (savedTimeZone != null) {
+					if (savedTimeZone != null)
 						dateFormat.setTimeZone(savedTimeZone);
-					}
 				}
 			}
 		}
@@ -752,7 +720,7 @@ public final class DataTypeUtil {
 
 	/**
 	 * Convert a string to a Date instance according to the TimeZone value
-	 *
+	 * 
 	 * @param source
 	 * @param timeZone
 	 * @return
@@ -776,7 +744,7 @@ public final class DataTypeUtil {
 	/**
 	 * A temp solution to the adoption of ICU4J in BIRT. It is a simple delegation
 	 * to toDateWithCheck( String, Locale ).
-	 *
+	 * 
 	 * @param source
 	 * @param locale
 	 * @return Date
@@ -792,7 +760,7 @@ public final class DataTypeUtil {
 	 * be done without error, but obviously the result is not right. This method
 	 * will do such a simple check, in DateFormat.SHORT case instead of all cases.
 	 * Year is not lower than 0. Month is from 1 to 12. Day is from 1 to 31.
-	 *
+	 * 
 	 * @param source
 	 * @param locale
 	 * @return Date
@@ -808,7 +776,7 @@ public final class DataTypeUtil {
 		}
 
 		// check whether conversion is correct
-		if (!DateUtil.checkValid(dateFormat, source)) {
+		if (DateUtil.checkValid(dateFormat, source) == false) {
 			throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { source.toString(), "Date" });
 		}
 
@@ -820,9 +788,8 @@ public final class DataTypeUtil {
 	}
 
 	public static Double toDouble(Object source, ULocale locale) throws CoreException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
 		if (source instanceof Double) {
 			return (Double) source;
@@ -833,9 +800,8 @@ public final class DataTypeUtil {
 			double doubleValue = ((Number) source).doubleValue();
 			return new Double(doubleValue);
 		} else if (source instanceof Boolean) {
-			if (((Boolean) source).booleanValue()) {
+			if (true == ((Boolean) source).booleanValue())
 				return new Double(1d);
-			}
 			return new Double(0d);
 		} else if (source instanceof Date) {
 			double doubleValue = ((Date) source).getTime();
@@ -871,7 +837,7 @@ public final class DataTypeUtil {
 	/**
 	 * Boolean -> Double true -> 1 others -> 0 Date -> Double Date.getTime(); String
 	 * -> Double Double.valueOf(String);
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
@@ -883,7 +849,7 @@ public final class DataTypeUtil {
 	/**
 	 * Number -> String Number.toString() Boolean -> String Boolean.toString() Date
 	 * -> String toString(Date)
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
@@ -895,7 +861,7 @@ public final class DataTypeUtil {
 	/**
 	 * A temp solution to the adoption of ICU4J. It is a simple delegation to
 	 * toString( Object, Locale ).
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
@@ -907,16 +873,15 @@ public final class DataTypeUtil {
 	/**
 	 * Convert an object to an locale neutral String value. For Date values we will
 	 * convert to ISO8601 format. User can specify the time zone to output.
-	 *
+	 * 
 	 * @param source
 	 * @param zone
 	 * @return
 	 * @throws BirtException
 	 */
 	public static String toLocaleNeutralString(Object source, TimeZone zone) throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 		if (source instanceof Time) {
 			return toLocaleNeutralString(source);
 		} else if (source instanceof java.sql.Date) {
@@ -934,15 +899,14 @@ public final class DataTypeUtil {
 	 * Convert an object to an locale neutral String value. For Date values we will
 	 * convert to ISO8601 format. This will always output default(current) time
 	 * zone.
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
 	 */
 	public static String toLocaleNeutralString(Object source) throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 		if (source instanceof Time) {
 			return ((Time) source).toString();
 		} else if (source instanceof java.sql.Date) {
@@ -961,15 +925,14 @@ public final class DataTypeUtil {
 	/**
 	 * Number -> String Number.toString() Boolean -> String Boolean.toString() Date
 	 * -> String toString(Date,locale)
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
 	 */
 	public static String toString(Object source, ULocale locale) throws BirtException {
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 		if (source instanceof Time) {
 			return toString((Date) source, locale);
 		} else if (source instanceof java.sql.Date) {
@@ -986,13 +949,13 @@ public final class DataTypeUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 */
 	private static String toLimitedSizeString(Object source) {
 		if (source instanceof byte[]) {
-			StringBuilder buf = new StringBuilder();
+			StringBuffer buf = new StringBuffer();
 			final int strLength = 8;
 
 			byte[] sourceValue = (byte[]) source;
@@ -1011,7 +974,7 @@ public final class DataTypeUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @param locale
 	 * @return
@@ -1032,28 +995,26 @@ public final class DataTypeUtil {
 
 	/**
 	 * Converting Blob to/from other types is not currently supported
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
 	 */
 	public static Blob toBlob(Object source) throws BirtException {
 		// Converting Blob to/from other types is not currently supported
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
-		if (source instanceof Blob) {
+		if (source instanceof Blob)
 			return (Blob) source;
-		} else if (source instanceof byte[]) {
+		else if (source instanceof byte[]) {
 			try {
 				return new SerialBlob((byte[]) source);
 			} catch (Exception e) {
 				throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { source.toString(), "Blob" });
 			}
-		} else {
+		} else
 			throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { source.toString(), "Blob" });
-		}
 	}
 
 	/**
@@ -1063,22 +1024,20 @@ public final class DataTypeUtil {
 	 */
 	public static byte[] toBytes(Object source) throws BirtException {
 		// Converting Blob to/from other types is not currently supported
-		if (source == null) {
+		if (source == null)
 			return null;
-		}
 
-		if (source instanceof byte[]) {
+		if (source instanceof byte[])
 			return (byte[]) source;
-		} else if (source instanceof Blob) {
+		else if (source instanceof Blob) {
 			try {
 				return ((Blob) source).getBytes((long) 1, (int) ((Blob) source).length());
 			} catch (SQLException e) {
 				throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { source.toString(), "Binary" });
 
 			}
-		} else {
+		} else
 			throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { source.toString(), "Binary" });
-		}
 	}
 
 	/**
@@ -1086,39 +1045,37 @@ public final class DataTypeUtil {
 	 * DataType
 	 */
 	public static int toApiDataType(Class clazz) {
-		if (clazz == null) {
+		if (clazz == null)
 			return DataType.UNKNOWN_TYPE;
-		}
 
-		if (clazz == DataType.AnyType.class) {
+		if (clazz == DataType.AnyType.class)
 			return DataType.ANY_TYPE;
-		} else if (Integer.class.isAssignableFrom(clazz)) {
+		else if (Integer.class.isAssignableFrom(clazz))
 			return DataType.INTEGER_TYPE;
-		} else if (Double.class.isAssignableFrom(clazz)) {
+		else if (Double.class.isAssignableFrom(clazz))
 			return DataType.DOUBLE_TYPE;
-		} else if (String.class.isAssignableFrom(clazz)) {
+		else if (String.class.isAssignableFrom(clazz))
 			return DataType.STRING_TYPE;
-		} else if (BigDecimal.class.isAssignableFrom(clazz)) {
+		else if (BigDecimal.class.isAssignableFrom(clazz))
 			return DataType.DECIMAL_TYPE;
-		} else if (clazz == java.sql.Date.class) {
+		else if (clazz == java.sql.Date.class)
 			return DataType.SQL_DATE_TYPE;
-		} else if (clazz == java.sql.Time.class) {
+		else if (clazz == java.sql.Time.class)
 			return DataType.SQL_TIME_TYPE;
-		} else if (Date.class.isAssignableFrom(clazz)) {
+		else if (Date.class.isAssignableFrom(clazz))
 			return DataType.DATE_TYPE;
-		} else if (byte[].class.isAssignableFrom(clazz)) {
+		else if (byte[].class.isAssignableFrom(clazz))
 			return DataType.BINARY_TYPE;
-		} else if (Clob.class.isAssignableFrom(clazz)
-				|| clazz.getName().equals("org.eclipse.datatools.connectivity.oda.IClob")) {
+		else if (Clob.class.isAssignableFrom(clazz)
+				|| clazz.getName().equals("org.eclipse.datatools.connectivity.oda.IClob"))
 			return DataType.STRING_TYPE;
-		} else if (Blob.class.isAssignableFrom(clazz)
-				|| clazz.getName().equals("org.eclipse.datatools.connectivity.oda.IBlob")) {
+		else if (Blob.class.isAssignableFrom(clazz)
+				|| clazz.getName().equals("org.eclipse.datatools.connectivity.oda.IBlob"))
 			return DataType.BLOB_TYPE;
-		} else if (clazz == Boolean.class) {
+		else if (clazz == Boolean.class)
 			return DataType.BOOLEAN_TYPE;
-		} else if (clazz == Object.class) {
+		else if (clazz == Object.class)
 			return DataType.JAVA_OBJECT_TYPE;
-		}
 
 		// any other types are not recognized nor supported;
 		return DataType.UNKNOWN_TYPE;
@@ -1164,7 +1121,7 @@ public final class DataTypeUtil {
 	/**
 	 * Converts an ODA data type code to its corresponding Data Engine API data type
 	 * constant defined in DataType.
-	 *
+	 * 
 	 * @param odaDataTypeCode an ODA data type code
 	 * @throws BirtException if the specified ODA data type code is not a supported
 	 *                       type
@@ -1179,9 +1136,8 @@ public final class DataTypeUtil {
 	 * -> BigDecimal -> Date -> String
 	 */
 	public static Object toAutoValue(Object evaValue) {
-		if (evaValue == null) {
+		if (evaValue == null)
 			return null;
-		}
 
 		Object value = null;
 		if (evaValue instanceof CharSequence) {
@@ -1245,7 +1201,7 @@ public final class DataTypeUtil {
 	 * Convert String without specified locale to java.util.Date Try to format the
 	 * given String for JRE default Locale, if it fails, try to format the String
 	 * for Locale.US
-	 *
+	 * 
 	 * @param source the String to be convert
 	 * @param locate the locate of the string
 	 * @return result Date
@@ -1271,7 +1227,7 @@ public final class DataTypeUtil {
 
 	/**
 	 * convert String with ISO8601 date format to java.util.Date
-	 *
+	 * 
 	 * @param source the String to be convert
 	 * @param locate the locate of the string
 	 * @return result Date
@@ -1299,7 +1255,7 @@ public final class DataTypeUtil {
 	 * Find the date format pattern string for a given datetime string without
 	 * specified locale. If a suitable date format cannot be found or the pattern
 	 * string cannot be retrieved, returns null
-	 *
+	 * 
 	 * @since 4.8
 	 *
 	 * @param source
@@ -1332,20 +1288,19 @@ public final class DataTypeUtil {
 			}
 		}
 
-		if (sdf != null) {
+		if (sdf != null)
 			return sdf.toPattern();
-		}
 		return null;
 	}
 
 	/**
 	 * Call org.eclipse.birt.core.format.DateFormatter
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 */
 	private static String toString(Date source, ULocale locale) {
-		DateFormatter df;
+		DateFormatter df = null;
 
 		// avoid any multi-thread issue
 		df = (DateFormatter) (dfMap.get(locale));
@@ -1379,7 +1334,7 @@ public final class DataTypeUtil {
 	 * Boolean -> java.lang.Boolean<br>
 	 * JavaObject -> java.lang.Object<br>
 	 * </i>
-	 *
+	 * 
 	 * @param odaDataTypeCode an ODA data type code
 	 * @return the ODI type class that corresponds with the specified ODA data type
 	 * @throws BirtException if the specified ODA data type is not a supported type
@@ -1464,40 +1419,39 @@ public final class DataTypeUtil {
 	 * java.lang.Object -> JavaObject<br>
 	 * </i><br>
 	 * All other type classes are mapped to the ODA String data type.
-	 *
+	 * 
 	 * @param odiTypeClass a type class used by the Data Engine ODI component
 	 * @return the ODA data type that maps to the ODI type class.
 	 */
 	public static int toOdaDataType(Class odiTypeClass) {
 		int odaType = Types.CHAR; // default
 
-		if (odiTypeClass == null) {
+		if (odiTypeClass == null)
 			odaType = Types.CHAR;
-		} else if (odiTypeClass == String.class) {
+		else if (odiTypeClass == String.class)
 			odaType = Types.CHAR;
-		} else if (odiTypeClass == Integer.class) {
+		else if (odiTypeClass == Integer.class)
 			odaType = Types.INTEGER;
-		} else if (odiTypeClass == Double.class) {
+		else if (odiTypeClass == Double.class)
 			odaType = Types.DOUBLE;
-		} else if (odiTypeClass == BigDecimal.class) {
+		else if (odiTypeClass == BigDecimal.class)
 			odaType = Types.DECIMAL;
-		} else if (odiTypeClass == Time.class) {
+		else if (odiTypeClass == Time.class)
 			odaType = Types.TIME;
-		} else if (odiTypeClass == Timestamp.class) {
+		else if (odiTypeClass == Timestamp.class)
 			odaType = Types.TIMESTAMP;
-		} else if (odiTypeClass == java.sql.Date.class) {
+		else if (odiTypeClass == java.sql.Date.class)
 			odaType = Types.DATE;
-		} else if (odiTypeClass == java.util.Date.class) {
+		else if (odiTypeClass == java.util.Date.class)
 			odaType = Types.TIMESTAMP;
-		} else if (odiTypeClass == Blob.class) {
+		else if (odiTypeClass == Blob.class)
 			odaType = Types.BLOB;
-		} else if (odiTypeClass == Clob.class) {
+		else if (odiTypeClass == Clob.class)
 			odaType = Types.CLOB;
-		} else if (odiTypeClass == Boolean.class) {
+		else if (odiTypeClass == Boolean.class)
 			odaType = Types.BOOLEAN;
-		} else if (odiTypeClass == Object.class) {
+		else if (odiTypeClass == Object.class)
 			odaType = Types.JAVA_OBJECT;
-		}
 
 		return odaType;
 	}

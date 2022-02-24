@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 		implements ICrosstabCellConstants, ICrosstabConstants {
 
 	/**
-	 *
+	 * 
 	 * @param handle
 	 */
 	protected CrosstabCellHandle(DesignElementHandle handle) {
@@ -47,7 +47,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the content slot handle of crosstab cell.
-	 *
+	 * 
 	 * @return the content slot handle
 	 */
 	PropertyHandle getContentProperty() {
@@ -56,7 +56,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Returns an unmodifiable list of model handles for contents in this cell.
-	 *
+	 * 
 	 * @return
 	 */
 	public List getContents() {
@@ -65,7 +65,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Adds content to the last position for cell contents.
-	 *
+	 * 
 	 * @param content
 	 * @throws SemanticException
 	 */
@@ -79,7 +79,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Adds content to given position for cell contents.
-	 *
+	 * 
 	 * @param content
 	 * @param newPos
 	 * @throws SemanticException
@@ -94,7 +94,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the dimension value handle for the cell width.
-	 *
+	 * 
 	 * @return cell width dimension value handle
 	 */
 	public DimensionHandle getWidth() {
@@ -103,7 +103,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the dimension value handle for the cell height.
-	 *
+	 * 
 	 * @return cell height dimension value handle
 	 */
 	public DimensionHandle getHeight() {
@@ -112,27 +112,25 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#getPredefinedStyles ()
 	 */
-	@Override
 	public List getPredefinedStyles() {
 		AbstractCrosstabItemHandle container = getContainer();
-		if (container == null) {
+		if (container == null)
 			return Collections.EMPTY_LIST;
-		}
 
-		List<String> styles = new ArrayList<>();
+		List<String> styles = new ArrayList<String>();
 
 		if (container instanceof MeasureViewHandle) {
 			// only cells in measure detail and aggregations are looked as
 			// "x-tab-detail-cell"
 			String propName = handle.getContainerPropertyHandle().getDefn().getName();
 			if (IMeasureViewConstants.DETAIL_PROP.equals(propName)
-					|| IMeasureViewConstants.AGGREGATIONS_PROP.equals(propName)) {
+					|| IMeasureViewConstants.AGGREGATIONS_PROP.equals(propName))
 				styles.add(CROSSTAB_DETAIL_SELECTOR);
-			} else {
+			else {
 				// measure header cell is looked as x-tab-header-cell
 				styles.add(CROSSTAB_HEADER_SELECTOR);
 			}
@@ -167,23 +165,20 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getProperty(java
 	 * .lang.String)
 	 */
-	@Override
 	public Object getProperty(String propName) {
 		IPropertyDefn defn = handle.getPropertyDefn(propName);
-		if (defn == null) {
+		if (defn == null)
 			return null;
-		}
 		assert ((ElementPropertyDefn) defn).isStyleProperty();
 
 		FactoryPropertyHandle factoryHandle = handle.getFactoryPropertyHandle(propName);
 		Object value = factoryHandle == null ? null : factoryHandle.getValue();
-		if (value != null) {
+		if (value != null)
 			return value;
-		}
 
 		DesignElementHandle crosstab = getCrosstabHandle();
 		return crosstab == null ? null : crosstab.getProperty(propName);
@@ -191,11 +186,10 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#setProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
-	@Override
 	public void setProperty(String propName, Object value) {
 		ElementPropertyDefn defn = (ElementPropertyDefn) handle.getPropertyDefn(propName);
 		if (defn != null && defn.isStyleProperty() && defn.canInherit()) {

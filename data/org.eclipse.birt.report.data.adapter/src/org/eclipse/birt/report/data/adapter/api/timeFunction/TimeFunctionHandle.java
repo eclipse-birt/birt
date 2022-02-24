@@ -30,7 +30,7 @@ public class TimeFunctionHandle {
 	public static TimeFunctionHandle getInstance(ULocale locale) {
 		synchronized (TimeFunctionHandle.class) {
 			if (handleCache == null) {
-				handleCache = new HashMap<>();
+				handleCache = new HashMap<ULocale, TimeFunctionHandle>();
 				instance = new TimeFunctionHandle(locale);
 				handleCache.put(locale, instance);
 			} else if (handleCache.containsKey(locale)) {
@@ -45,7 +45,7 @@ public class TimeFunctionHandle {
 	}
 
 	private TimeFunctionHandle(ULocale local) {
-		baseTimeFunctionMap = new HashMap<>();
+		baseTimeFunctionMap = new HashMap<String, BaseTimeFunction>();
 		buildTimeFunctionMap(local);
 	}
 

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -20,9 +20,9 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.AbstractLineStyleChooserComposite;
 import org.eclipse.birt.chart.ui.swt.AbstractLineWidthChooserComposite;
-import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- *
+ * 
  */
 public class LineAttributesComposite extends Composite implements SelectionListener, Listener {
 
@@ -178,15 +178,15 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void init() {
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-		vListeners = new Vector<>();
+		vListeners = new Vector<Listener>();
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected void placeComponents() {
 		FillLayout flMain = new FillLayout();
@@ -251,7 +251,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 
 			cmbWidth = wizardContext.getUIFactory().createLineWidthChooserComposite(cmpContent,
 					SWT.DROP_DOWN | SWT.READ_ONLY, laCurrent.getThickness(),
-					new Integer[] { 1, 2, 3, 4 },
+					new Integer[] { Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4) },
 					laCurrent, "thickness");//$NON-NLS-1$
 			GridData gdCBWidth = new GridData(GridData.FILL_HORIZONTAL);
 			gdCBWidth.horizontalSpan = 5;
@@ -302,8 +302,6 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 	/**
 	 * @deprecated To use {@link #setAttributesEnabled(boolean)}
 	 */
-	@Deprecated
-	@Override
 	public void setEnabled(boolean bState) {
 		setAttributesEnabled(bState);
 	}
@@ -315,16 +313,16 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 		boolean bEnableUI = btnVisible != null ? wizardContext.getUIFactory().canEnableUI(btnVisible)
 				: !wizardContext.getUIFactory().isSetInvisible(laCurrent);
 		if (this.bEnableStyles) {
-			lblStyle.setEnabled(bState && bEnableUI);
-			cmbStyle.setEnabled(bState && bEnableUI);
+			lblStyle.setEnabled(bState & bEnableUI);
+			cmbStyle.setEnabled(bState & bEnableUI);
 		}
 		if (this.bEnableWidths) {
-			lblWidth.setEnabled(bState && bEnableUI);
-			cmbWidth.setEnabled(bState && bEnableUI);
+			lblWidth.setEnabled(bState & bEnableUI);
+			cmbWidth.setEnabled(bState & bEnableUI);
 		}
 		if (this.bEnableColor) {
-			lblColor.setEnabled(bState && bEnableUI);
-			cmbColor.setEnabled(bState && bEnableUI);
+			lblColor.setEnabled(bState & bEnableUI);
+			cmbColor.setEnabled(bState & bEnableUI);
 		}
 		this.bEnabled = bState;
 	}
@@ -378,11 +376,10 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Object oSource = e.getSource();
 		if (oSource.equals(btnVisible)) {
@@ -415,11 +412,10 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -471,11 +467,10 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		if (cmbColor != null && cmbColor.equals(event.widget)) {
 			fireValueChangedEvent(LineAttributesComposite.COLOR_CHANGED_EVENT, cmbColor.getFill(),
@@ -494,7 +489,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 
 	/**
 	 * Provides a method to override line styles list
-	 *
+	 * 
 	 * @return style identifier array
 	 */
 	protected Integer[] getLineStyleItems() {

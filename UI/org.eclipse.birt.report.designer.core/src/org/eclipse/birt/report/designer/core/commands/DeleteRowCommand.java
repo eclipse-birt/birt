@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * This command deletes an object from the RowHandle.
- *
+ * 
  */
 public class DeleteRowCommand extends Command {
 
@@ -35,7 +35,7 @@ public class DeleteRowCommand extends Command {
 
 	/**
 	 * Deletes the command
-	 *
+	 * 
 	 * @param model the model
 	 */
 
@@ -49,7 +49,6 @@ public class DeleteRowCommand extends Command {
 	 * executable.
 	 */
 
-	@Override
 	public void execute() {
 		if (getTableParent() != null) {
 			if (DesignerConstants.TRACING_COMMANDS) {
@@ -75,7 +74,7 @@ public class DeleteRowCommand extends Command {
 
 	/**
 	 * Get the parent table
-	 *
+	 * 
 	 * @return Return the parent table
 	 */
 	private Object getTableParent() {
@@ -91,10 +90,9 @@ public class DeleteRowCommand extends Command {
 
 	/**
 	 * Check whether the command can be executed or not
-	 *
+	 * 
 	 * @return true or false
 	 */
-	@Override
 	public boolean canExecute() {
 		return super.canExecute() && handle.canDrop();
 	}

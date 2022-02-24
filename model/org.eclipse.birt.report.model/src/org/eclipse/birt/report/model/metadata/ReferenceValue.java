@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public abstract class ReferenceValue {
 
 	/**
 	 * Constructor of an unresolved reference.
-	 *
+	 * 
 	 * @param namespace the namespace to indicate which included library this value
 	 *                  refers to
 	 * @param theName   the unresolved name
@@ -62,7 +62,7 @@ public abstract class ReferenceValue {
 
 	/**
 	 * Constructor of a resolved reference.
-	 *
+	 * 
 	 * @param namespace the namespace to indicate which included library this value
 	 *                  refers to
 	 * @param value     the resolved element or structure
@@ -76,20 +76,20 @@ public abstract class ReferenceValue {
 
 	/**
 	 * Gets the name of the reference value.
-	 *
+	 * 
 	 * @return the name of the reference value
 	 */
 	abstract public String getName();
 
 	/**
-	 *
+	 * 
 	 * @param value
 	 */
 	abstract public void resolve(Object value);
 
 	/**
 	 * Sets the unresolved element or structure name.
-	 *
+	 * 
 	 * @param theName the unresolved element name
 	 */
 	public void unresolved(String theName) {
@@ -99,7 +99,7 @@ public abstract class ReferenceValue {
 
 	/**
 	 * Determines if this reference is resolved.
-	 *
+	 * 
 	 * @return true if this element is resolved, false if it is unset, or set to an
 	 *         unresolved name
 	 */
@@ -111,7 +111,7 @@ public abstract class ReferenceValue {
 
 	/**
 	 * Determines if this reference is set.
-	 *
+	 * 
 	 * @return true if the reference is set, false if not
 	 */
 
@@ -121,7 +121,7 @@ public abstract class ReferenceValue {
 
 	/**
 	 * Returns the library namespace.
-	 *
+	 * 
 	 * @return the library namespace
 	 */
 
@@ -140,7 +140,7 @@ public abstract class ReferenceValue {
 	 * "LibA.style1" is retured.
 	 * <li>If it has no library namespace,
 	 * </ul>
-	 *
+	 * 
 	 * @return the qualified reference
 	 */
 
@@ -150,22 +150,20 @@ public abstract class ReferenceValue {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 
-	@Override
 	public String toString() {
-		if (!StringUtil.isBlank(getName())) {
+		if (!StringUtil.isBlank(getName()))
 			return getQualifiedReference();
-		}
 
 		return super.toString();
 	}
 
 	/**
 	 * Sets the library name space for the reference.
-	 *
+	 * 
 	 * @param libraryNamespace The libraryNamespace to set.
 	 */
 
@@ -174,7 +172,7 @@ public abstract class ReferenceValue {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return the deep cloned reference value
 	 */
 	abstract public Object copy();

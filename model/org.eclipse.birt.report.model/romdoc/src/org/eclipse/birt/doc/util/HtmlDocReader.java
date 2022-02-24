@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,9 +19,8 @@ public abstract class HtmlDocReader {
 	int pushToken = -2;
 
 	protected int getToken() {
-		if (pushToken == -2) {
+		if (pushToken == -2)
 			return parser.getToken();
-		}
 		int token = pushToken;
 		pushToken = -2;
 		return token;
@@ -34,9 +33,10 @@ public abstract class HtmlDocReader {
 	protected void skipTo(String tag) {
 		for (;;) {
 			int token = getToken();
-			if ((token == HTMLParser.EOF) || isElement(token, tag)) {
+			if (token == HTMLParser.EOF)
 				return;
-			}
+			if (isElement(token, tag))
+				return;
 		}
 	}
 
@@ -45,9 +45,8 @@ public abstract class HtmlDocReader {
 	}
 
 	protected boolean isBlockEnd(int token) {
-		if (token != HTMLParser.ELEMENT) {
+		if (token != HTMLParser.ELEMENT)
 			return false;
-		}
 		String tag = parser.getTokenText().toLowerCase();
 		return (tag.equals("h1") || tag.equals("h2") || tag.equals("h3") || tag.equals("/body") || tag.equals("/html"));
 
@@ -55,24 +54,26 @@ public abstract class HtmlDocReader {
 
 	protected String getTextTo(String endTag, boolean textOnly) {
 		String startTag = null;
-		if (endTag.startsWith("/")) {
+		if (endTag.startsWith("/"))
 			startTag = endTag.substring(1);
-		}
-		StringBuilder text = new StringBuilder();
+		StringBuffer text = new StringBuffer();
 		boolean inCode = false;
 		for (;;) {
 			int token = getToken();
 			if (token == HTMLParser.TEXT) {
 				text.append(parser.getTokenText());
 				continue;
-			} else if (token != HTMLParser.ELEMENT) {
+			} else if (token != HTMLParser.ELEMENT)
 				continue;
-			}
 			String tag = parser.getTokenText().toLowerCase();
 			if (tag.equals(endTag)) {
 				break;
 			}
-			if (isBlockEnd(token) || (startTag != null && tag.equalsIgnoreCase(startTag))) {
+			if (isBlockEnd(token)) {
+				pushToken(token);
+				break;
+			}
+			if (startTag != null && tag.equalsIgnoreCase(startTag)) {
 				pushToken(token);
 				break;
 			}
@@ -81,7 +82,7 @@ public abstract class HtmlDocReader {
 			}
 			if (tag.equals("span")) {
 				String classValue = parser.getAttrib("class");
-				if (classValue != null && classValue.equals("CodeText")) //$NON-NLS-1$
+				if (classValue != null && classValue.equals("CodeText")) //$NON-NLS-1$ //$NON-NLS-2$
 				{
 					inCode = true;
 					text.append("<code>"); //$NON-NLS-1$
@@ -110,30 +111,27 @@ public abstract class HtmlDocReader {
 	}
 
 	protected boolean isPara(int token, String className) {
-		if ((token != HTMLParser.ELEMENT) || !parser.getTokenText().equalsIgnoreCase("p")) { //$NON-NLS-1$
+		if (token != HTMLParser.ELEMENT)
 			return false;
-		}
-		if (className == null) {
+		if (!parser.getTokenText().equalsIgnoreCase("p")) //$NON-NLS-1$
+			return false;
+		if (className == null)
 			return true;
-		}
 		String pClass = parser.getAttrib("class");
-		if (pClass == null) {
+		if (pClass == null)
 			return false;
-		}
 		return (pClass.equalsIgnoreCase(className)); // $NON-NLS-1$
 	}
 
 	protected boolean isElement(int token, String tag) {
-		if (token != HTMLParser.ELEMENT) {
+		if (token != HTMLParser.ELEMENT)
 			return false;
-		}
 		return parser.getTokenText().equals(tag);
 	}
 
 	protected boolean startsWith(String line, String prefix) {
-		if (line.length() < prefix.length()) {
+		if (line.length() < prefix.length())
 			return false;
-		}
 		String test = line.substring(0, prefix.length());
 		return test.equalsIgnoreCase(prefix);
 	}
@@ -144,19 +142,16 @@ public abstract class HtmlDocReader {
 	}
 
 	protected String strip(String text, String tag) {
-		if (text.startsWith("<" + tag + ">")) {
+		if (text.startsWith("<" + tag + ">"))
 			text = text.substring(tag.length() + 2);
-		}
-		if (text.endsWith("</" + tag + ">")) {
+		if (text.endsWith("</" + tag + ">"))
 			text = text.substring(0, text.length() - tag.length() - 3);
-		}
 		return text;
 	}
 
 	protected String append(String value, String toAdd) {
-		if (value == null) {
+		if (value == null)
 			return toAdd;
-		}
 		return value + toAdd;
 	}
 
@@ -175,15 +170,13 @@ public abstract class HtmlDocReader {
 	}
 
 	protected String stripPara(String orig) {
-		if (orig == null) {
+		if (orig == null)
 			return null;
-		}
-		StringBuilder text = new StringBuilder(orig);
+		StringBuffer text = new StringBuffer(orig);
 		for (;;) {
 			int len = text.length();
-			if (len == 0) {
+			if (len == 0)
 				break;
-			}
 			if (Character.isWhitespace(text.charAt(0))) {
 				text.deleteCharAt(0);
 				continue;
@@ -220,20 +213,18 @@ public abstract class HtmlDocReader {
 
 	protected String copySection() {
 		parser.ignoreWhitespace(false);
-		StringBuilder text = new StringBuilder();
+		StringBuffer text = new StringBuffer();
 		int token;
 		for (;;) {
 			token = getToken();
-			if (token == HTMLParser.EOF) {
+			if (token == HTMLParser.EOF)
 				break;
-			}
 			if (token == HTMLParser.TEXT) {
 				text.append(parser.getTokenText());
 				continue;
 			}
-			if (token != HTMLParser.ELEMENT) {
+			if (token != HTMLParser.ELEMENT)
 				continue;
-			}
 			if (isBlockEnd(token)) {
 				pushToken(token);
 				break;

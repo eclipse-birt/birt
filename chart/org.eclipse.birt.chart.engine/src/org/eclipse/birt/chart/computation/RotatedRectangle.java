@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -42,10 +42,10 @@ public final class RotatedRectangle extends Polygon {
 
 	/**
 	 * Returns points as a single array, [x1,y1,x2,y2,...]
-	 *
+	 * 
 	 * @return
 	 */
-	public int[] getSwtPoints() {
+	public final int[] getSwtPoints() {
 		int[] iaXY = new int[8];
 		for (int i = 0; i < 4; i++) {
 			Point lo = this.getPoint(i);
@@ -57,10 +57,10 @@ public final class RotatedRectangle extends Polygon {
 
 	/**
 	 * Shifts all X-value by given offset.
-	 *
+	 * 
 	 * @param dOffset
 	 */
-	public void shiftXVertices(double dOffset) {
+	public final void shiftXVertices(double dOffset) {
 		for (int i = 0; i < 4; i++) {
 			Point lo = getPoint(i);
 			lo.setX(lo.getX() + dOffset);
@@ -69,10 +69,10 @@ public final class RotatedRectangle extends Polygon {
 
 	/**
 	 * Shifts all Y-value by given offset.
-	 *
+	 * 
 	 * @param dOffset
 	 */
-	public void shiftYVertices(double dOffset) {
+	public final void shiftYVertices(double dOffset) {
 		for (int i = 0; i < 4; i++) {
 			Point lo = getPoint(i);
 			lo.setY(lo.getY() + dOffset);
@@ -81,10 +81,10 @@ public final class RotatedRectangle extends Polygon {
 
 	/**
 	 * Shifts both X,Y values by given offset.
-	 *
+	 * 
 	 * @param dOffset
 	 */
-	public void shiftVertices(double dOffset) {
+	public final void shiftVertices(double dOffset) {
 		for (int i = 0; i < 4; i++) {
 			Point lo = getPoint(i);
 			lo.translate(dOffset, dOffset);
@@ -93,10 +93,10 @@ public final class RotatedRectangle extends Polygon {
 
 	/**
 	 * Returns points as Point objects.
-	 *
+	 * 
 	 * @return
 	 */
-	public Point[] asPoints() {
+	public final Point[] asPoints() {
 		List<Point> pts = getPoints();
 		return pts.toArray(new Point[pts.size()]);
 	}
@@ -109,10 +109,10 @@ public final class RotatedRectangle extends Polygon {
 
 	/**
 	 * returns the size of the rectangle.
-	 *
+	 * 
 	 * @return
 	 */
-	public Point getRectSize() {
+	public final Point getRectSize() {
 		Point[] pts = asPoints();
 		double width = getDistance(pts[0], pts[1]);
 		double height = getDistance(pts[1], pts[2]);

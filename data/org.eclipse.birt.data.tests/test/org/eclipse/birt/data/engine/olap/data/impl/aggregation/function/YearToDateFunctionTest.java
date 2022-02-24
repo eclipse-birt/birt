@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -20,9 +20,10 @@ import java.util.List;
 import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
 import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
-import org.junit.Test;
 
 import testutil.BaseTestCase;
+
+import org.junit.Test;
 
 public class YearToDateFunctionTest extends BaseTestCase {
 	/*
@@ -41,8 +42,8 @@ public class YearToDateFunctionTest extends BaseTestCase {
 
 	@Test
 	public void testFunctions() throws IOException {
-		int[] values = { 2002 };
-		String[] levels = { TimeMember.TIME_LEVEL_TYPE_YEAR, };
+		int[] values = new int[] { 2002 };
+		String[] levels = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, };
 		TimeMember member = new TimeMember(values, levels);
 
 		List<TimeMember> resultMember = TimeFunctionFactory
@@ -54,8 +55,8 @@ public class YearToDateFunctionTest extends BaseTestCase {
 
 	@Test
 	public void testFunctions1() throws IOException {
-		int[] values = { 2002, 8 };
-		String[] levels = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_MONTH };
+		int[] values = new int[] { 2002, 8 };
+		String[] levels = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_MONTH };
 		TimeMember member = new TimeMember(values, levels);
 
 		List<TimeMember> resultMember = TimeFunctionFactory
@@ -66,8 +67,8 @@ public class YearToDateFunctionTest extends BaseTestCase {
 
 	@Test
 	public void testFunctions2() throws IOException {
-		int[] values = { 2002, 3, 9 };
-		String[] levels = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2002, 3, 9 };
+		String[] levels = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH };
 		TimeMember member = new TimeMember(values, levels);
 
@@ -79,8 +80,8 @@ public class YearToDateFunctionTest extends BaseTestCase {
 
 	@Test
 	public void testFunctions3() throws IOException {
-		int[] values = { 2004, 3, 8, 18 };
-		String[] levels = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2004, 3, 8, 18 };
+		String[] levels = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH };
 		TimeMember member = new TimeMember(values, levels);
 
@@ -93,8 +94,8 @@ public class YearToDateFunctionTest extends BaseTestCase {
 
 	@Test
 	public void testFunctions4() throws IOException {
-		int[] values = { 2004, 3, 8, 4 };
-		String[] levels = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2004, 3, 8, 4 };
+		String[] levels = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH };
 
 		ReferenceDate referenceDate = new ReferenceDate(new Date(2004, 7, 26));
@@ -111,8 +112,8 @@ public class YearToDateFunctionTest extends BaseTestCase {
 
 	@Test
 	public void testFunctions5() throws IOException {
-		int[] values = { 2004, 3, 8, 4 };
-		String[] levels = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2004, 3, 8, 4 };
+		String[] levels = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH };
 
 		ReferenceDate referenceDate = new ReferenceDate(new Date(2004, 7, 26));
@@ -129,8 +130,8 @@ public class YearToDateFunctionTest extends BaseTestCase {
 
 	@Test
 	public void testFunctions6() throws IOException {
-		int[] values = { 2004, 3, 8, 18 };
-		String[] levels = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		int[] values = new int[] { 2004, 3, 8, 18 };
+		String[] levels = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER,
 				TimeMember.TIME_LEVEL_TYPE_MONTH, TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH };
 		TimeMember member = new TimeMember(values, levels);
 
@@ -143,8 +144,8 @@ public class YearToDateFunctionTest extends BaseTestCase {
 
 	@Test
 	public void testFunctions7() throws IOException {
-		int[] values = { 2002, 8 };
-		String[] levels = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_MONTH };
+		int[] values = new int[] { 2002, 8 };
+		String[] levels = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_MONTH };
 		TimeMember member = new TimeMember(values, levels);
 
 		List<TimeMember> resultMember = TimeFunctionFactory
@@ -155,8 +156,8 @@ public class YearToDateFunctionTest extends BaseTestCase {
 
 	@Test
 	public void testFunctions8() throws IOException {
-		int[] values = { 2002, 2 };
-		String[] levels = { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER };
+		int[] values = new int[] { 2002, 2 };
+		String[] levels = new String[] { TimeMember.TIME_LEVEL_TYPE_YEAR, TimeMember.TIME_LEVEL_TYPE_QUARTER };
 		TimeMember member = new TimeMember(values, levels);
 
 		List<TimeMember> resultMember = TimeFunctionFactory

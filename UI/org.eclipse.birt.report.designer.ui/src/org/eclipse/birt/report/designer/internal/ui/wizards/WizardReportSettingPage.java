@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- *
+ * 
  */
 
 public class WizardReportSettingPage extends WizardPage {
@@ -74,7 +74,7 @@ public class WizardReportSettingPage extends WizardPage {
 
 	private Status previewImageStatus;
 
-	private static final String[] IMAGE_TYPES = { ".bmp", //$NON-NLS-1$
+	private static final String[] IMAGE_TYPES = new String[] { ".bmp", //$NON-NLS-1$
 			".jpg", //$NON-NLS-1$
 			".jpeg", //$NON-NLS-1$
 			".jpe", //$NON-NLS-1$
@@ -85,6 +85,10 @@ public class WizardReportSettingPage extends WizardPage {
 			".tiff", //$NON-NLS-1$
 			".ico", //$NON-NLS-1$
 			".svg" //$NON-NLS-1$
+	};
+
+	private static final String[] IMAGE_FILEFILTERS = new String[] {
+			"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
 	};
 
 	private String orientation = null; // bidi_hcg
@@ -109,12 +113,11 @@ public class WizardReportSettingPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	public void createControl(Composite parent) {
 
 		Composite container = new Composite(parent, SWT.NONE);
@@ -124,12 +127,10 @@ public class WizardReportSettingPage extends WizardPage {
 
 		new Label(container, SWT.NONE).setText(LABEL_DISPLAY_NAME);
 		nameText = createText(container, 2, 1);
-		if (module != null && module.getProperty(ModuleHandle.DISPLAY_NAME_PROP) != null) {
+		if (module != null && module.getProperty(ModuleHandle.DISPLAY_NAME_PROP) != null)
 			nameText.setText(module.getDisplayName());
-		}
 		nameText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				checkStatus();
 				// Show the most serious error
@@ -148,7 +149,6 @@ public class WizardReportSettingPage extends WizardPage {
 		}
 		descText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				checkStatus();
 				// Show the most serious error
@@ -160,12 +160,10 @@ public class WizardReportSettingPage extends WizardPage {
 
 		new Label(container, SWT.NONE).setText(LABEL_IMAGE);
 		previewImageText = createText(container, 1, 1, SWT.BORDER | SWT.READ_ONLY);
-		if (module != null && module.getIconFile() != null) {
+		if (module != null && module.getIconFile() != null)
 			previewImageText.setText(module.getIconFile());
-		}
 		previewImageText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				checkStatus();
 				// Show the most serious error
@@ -179,7 +177,6 @@ public class WizardReportSettingPage extends WizardPage {
 		chooseBtn.setText(BTN_CHOOSE);
 		chooseBtn.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 
 				String fileName = null;
@@ -193,7 +190,6 @@ public class WizardReportSettingPage extends WizardPage {
 
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -209,7 +205,6 @@ public class WizardReportSettingPage extends WizardPage {
 		return displayName == null ? STR_EMPTY : displayName.trim();
 	}
 
-	@Override
 	public String getDescription() {
 		return description == null ? STR_EMPTY : description.trim();
 	}
@@ -230,9 +225,8 @@ public class WizardReportSettingPage extends WizardPage {
 		if (row > 1) {
 			text = new Text(container, style | SWT.MULTI | SWT.WRAP);
 			gridData.heightHint = row * 20;
-		} else {
+		} else
 			text = new Text(container, style | SWT.SINGLE);
-		}
 		text.setLayoutData(gridData);
 		return text;
 	}
@@ -286,9 +280,8 @@ public class WizardReportSettingPage extends WizardPage {
 
 	private static boolean isTextEmpty(Text text) {
 		String s = text.getText();
-		if ((s != null) && (s.trim().length() > 0)) {
+		if ((s != null) && (s.trim().length() > 0))
 			return false;
-		}
 		return true;
 	}
 
@@ -310,9 +303,8 @@ public class WizardReportSettingPage extends WizardPage {
 	 */
 	private void applyToStatusLine(IStatus status) {
 		String message = status.getMessage();
-		if (message.length() == 0) {
+		if (message.length() == 0)
 			message = pageDesc;
-		}
 		switch (status.getSeverity()) {
 		case IStatus.OK:
 			setErrorMessage(null);
@@ -361,7 +353,6 @@ public class WizardReportSettingPage extends WizardPage {
 	/*
 	 * @see DialogPage.setVisible(boolean)
 	 */
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (visible) {

@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ import org.eclipse.birt.report.engine.extension.engine.IDataExtension;
 import org.eclipse.birt.report.engine.ir.Report;
 
 /**
- *
+ * 
  */
 
 public class DataInteractiveEngine extends AbstractDataEngine {
@@ -55,9 +55,9 @@ public class DataInteractiveEngine extends AbstractDataEngine {
 	 */
 	protected DataOutputStream dos;
 
-	protected List<String[]> newMetaInfo = new ArrayList<>();
+	protected List<String[]> newMetaInfo = new ArrayList<String[]>();
 
-	protected List<String[]> metaInfo = new ArrayList<>();
+	protected List<String[]> metaInfo = new ArrayList<String[]>();
 
 	protected IBaseResultSet[] reportletResults;
 
@@ -142,7 +142,7 @@ public class DataInteractiveEngine extends AbstractDataEngine {
 	}
 
 	protected void removeMetaInfo(String parentId, String queryId) {
-		ArrayList<String> rsets = new ArrayList<>();
+		ArrayList<String> rsets = new ArrayList<String>();
 		Iterator<String[]> iter = metaInfo.iterator();
 		while (iter.hasNext()) {
 			String[] info = iter.next();
@@ -157,7 +157,7 @@ public class DataInteractiveEngine extends AbstractDataEngine {
 		}
 
 		while (rsets.size() > 0) {
-			ArrayList<String> temp = new ArrayList<>();
+			ArrayList<String> temp = new ArrayList<String>();
 			for (int i = 0; i < rsets.size(); i++) {
 				temp.addAll(removeMetaInfo(rsets.get(i)));
 			}
@@ -166,7 +166,7 @@ public class DataInteractiveEngine extends AbstractDataEngine {
 	}
 
 	protected List<String> removeMetaInfo(String queryId) {
-		ArrayList<String> rsets = new ArrayList<>();
+		ArrayList<String> rsets = new ArrayList<String>();
 		Iterator<String[]> iter = metaInfo.iterator();
 		while (iter.hasNext()) {
 			String[] info = iter.next();
@@ -181,7 +181,7 @@ public class DataInteractiveEngine extends AbstractDataEngine {
 
 	/**
 	 * save the metadata into the streams.
-	 *
+	 * 
 	 * @param key
 	 */
 	private void storeDteMetaInfo(String pRsetId, String rawId, String queryId, String rsetId, String rowId) {
@@ -216,13 +216,11 @@ public class DataInteractiveEngine extends AbstractDataEngine {
 		}
 	}
 
-	@Override
 	public String getResultIDByRowID(String pRsetId, String rawId, String queryId) {
 		// TODO: not support
 		return null;
 	}
 
-	@Override
 	protected void doPrepareQuery(Report report, Map appContext) {
 		this.appContext = appContext;
 		// prepare report queries
@@ -341,7 +339,6 @@ public class DataInteractiveEngine extends AbstractDataEngine {
 	 * </tr>
 	 * </table>
 	 */
-	@Override
 	protected IBaseResultSet doExecuteQuery(IBaseResultSet parentResult, IQueryDefinition query, Object queryOwner,
 			boolean useCache) throws BirtException {
 		String queryID = (String) queryIDMap.get(query);
@@ -436,7 +433,6 @@ public class DataInteractiveEngine extends AbstractDataEngine {
 		}
 	}
 
-	@Override
 	protected IBaseResultSet doExecuteCube(IBaseResultSet parentResult, ICubeQueryDefinition query, Object queryOwner,
 			boolean useCache) throws BirtException {
 		String queryID = (String) queryIDMap.get(query);
@@ -550,7 +546,6 @@ public class DataInteractiveEngine extends AbstractDataEngine {
 		return result;
 	}
 
-	@Override
 	public void shutdown() {
 		updateMetaInfo();
 		if (null != dos) {

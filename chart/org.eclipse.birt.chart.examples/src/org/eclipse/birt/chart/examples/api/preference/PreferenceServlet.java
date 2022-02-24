@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,7 +66,6 @@ public class PreferenceServlet extends HttpServlet {
 		}
 	}
 
-	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
@@ -121,14 +120,13 @@ public class PreferenceServlet extends HttpServlet {
 		createImage((OutputStream) response.getOutputStream());
 	}
 
-	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
 	/**
 	 * Create the chart image
-	 *
+	 * 
 	 * @param out OutputStream
 	 */
 	private void createImage(OutputStream out) {

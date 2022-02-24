@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import com.ibm.icu.util.ULocale;
 class HourGroupCalculator extends DateGroupCalculator {
 
 	/**
-	 *
+	 * 
 	 * @param intervalStart
 	 * @param intervalRange
 	 * @throws BirtException
@@ -39,12 +39,11 @@ class HourGroupCalculator extends DateGroupCalculator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.
 	 * lang.Object)
 	 */
-	@Override
 	public Object calculate(Object value) throws BirtException {
 		if (value == null) {
 			return new Double(-1);
@@ -55,11 +54,13 @@ class HourGroupCalculator extends DateGroupCalculator {
 		if (intervalStart == null) {
 			return new Double(Math.floor(
 					(double) this.dateTimeUtil.diffHour(defaultStart, target) / (double) getDateIntervalRange()));
-		} else if (this.dateTimeUtil.diffHour((Date) intervalStart, target) < 0) {
-			return new Double(-1);
 		} else {
-			return new Double(Math.floor((double) this.dateTimeUtil.diffHour((Date) intervalStart, target)
-					/ (double) getDateIntervalRange()));
+			if (this.dateTimeUtil.diffHour((Date) intervalStart, target) < 0) {
+				return new Double(-1);
+			} else {
+				return new Double(Math.floor((double) this.dateTimeUtil.diffHour((Date) intervalStart, target)
+						/ (double) getDateIntervalRange()));
+			}
 		}
 	}
 }

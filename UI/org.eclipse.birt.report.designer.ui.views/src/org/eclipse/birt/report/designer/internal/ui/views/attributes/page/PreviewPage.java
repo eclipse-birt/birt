@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -34,7 +34,6 @@ public class PreviewPage extends AttributePage {
 		this.isTabbed = isTabbed;
 	}
 
-	@Override
 	public void buildUI(Composite parent) {
 		container = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -42,7 +41,6 @@ public class PreviewPage extends AttributePage {
 		((ScrolledComposite) container).setExpandVertical(true);
 		container.addControlListener(new ControlAdapter() {
 
-			@Override
 			public void controlResized(ControlEvent e) {
 				computeSize();
 			}
@@ -51,9 +49,8 @@ public class PreviewPage extends AttributePage {
 		composite = new Composite(container, SWT.NONE);
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		if (sections == null) {
+		if (sections == null)
 			sections = new SortMap();
-		}
 		composite.setLayout(WidgetUtil.createGridLayout(1));
 
 		previewSection = new PreviewSection(provider.getDisplayName(), composite, true, isTabbed);
@@ -93,10 +90,8 @@ public class PreviewPage extends AttributePage {
 				&& !preview.getPreviewControl().getControl().isDisposed();
 	}
 
-	@Override
 	public void postElementEvent() {
-		if (checkControl(previewSection)) {
+		if (checkControl(previewSection))
 			previewSection.getPreviewControl().postElementEvent();
-		}
 	}
 }

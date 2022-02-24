@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Slider;
 public class ChartSlider extends Composite implements SelectionListener {
 	protected Slider slider;
 
-	protected Vector<SelectionListener> vListeners = new Vector<>();
+	protected Vector<SelectionListener> vListeners = new Vector<SelectionListener>();
 
 	public ChartSlider(Composite parent, int style) {
 		super(parent, SWT.NONE);
@@ -72,7 +72,6 @@ public class ChartSlider extends Composite implements SelectionListener {
 		slider.addSelectionListener(this);
 	}
 
-	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		slider.setEnabled(enabled);
@@ -83,13 +82,11 @@ public class ChartSlider extends Composite implements SelectionListener {
 		slider.setToolTipText(tooltip);
 	}
 
-	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void widgetSelected(SelectionEvent event) {
 		if (event.widget == slider) {
 			Event e = new Event();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 /**
- *
+ * 
  */
 
 public class DatasetClassPathHelper {
@@ -56,9 +56,8 @@ public class DatasetClassPathHelper {
 				inDevelopmentMode = true;
 				URL location = new URL(osgiDev);
 				devProperties = load(location);
-				if (devProperties != null) {
+				if (devProperties != null)
 					devDefaultClasspath = getArrayFromList(devProperties.getProperty("*")); //$NON-NLS-1$
-				}
 			} catch (MalformedURLException e) {
 				devDefaultClasspath = getArrayFromList(osgiDev);
 			}
@@ -68,21 +67,19 @@ public class DatasetClassPathHelper {
 	/**
 	 * Returns the result of converting a list of comma-separated tokens into an
 	 * array
-	 *
+	 * 
 	 * @return the array of string tokens
 	 * @param prop the initial comma-separated string
 	 */
 	private static String[] getArrayFromList(String prop) {
-		if (prop == null || prop.trim().equals("")) { //$NON-NLS-1$
+		if (prop == null || prop.trim().equals("")) //$NON-NLS-1$
 			return new String[0];
-		}
 		Vector list = new Vector();
 		StringTokenizer tokens = new StringTokenizer(prop, ","); //$NON-NLS-1$
 		while (tokens.hasMoreTokens()) {
 			String token = tokens.nextToken().trim();
-			if (!token.equals("")) { //$NON-NLS-1$
+			if (!token.equals("")) //$NON-NLS-1$
 				list.addElement(token);
-			}
 		}
 		return list.isEmpty() ? new String[0] : (String[]) list.toArray(new String[list.size()]);
 	}
@@ -97,8 +94,13 @@ public class DatasetClassPathHelper {
 	private static Properties load(URL url) {
 		Properties props = new Properties();
 		try {
-			try (InputStream is = url.openStream()) {
+			InputStream is = null;
+			try {
+				is = url.openStream();
 				props.load(is);
+			} finally {
+				if (is != null)
+					is.close();
 			}
 		} catch (IOException e) {
 			// TODO consider logging here
@@ -108,12 +110,11 @@ public class DatasetClassPathHelper {
 
 	/**
 	 * Gets the workspace classpath
-	 *
+	 * 
 	 * @return
-	 *
+	 * 
 	 * @deprecated use {@link #getWorkspaceClassPath(String)}
 	 */
-	@Deprecated
 	public static String getWorkspaceClassPath() {
 		try {
 			Bundle bundle = Platform.getBundle(FINDER_BUNDLE_NAME);
@@ -123,17 +124,15 @@ public class DatasetClassPathHelper {
 				}
 			}
 
-			if (bundle == null) {
+			if (bundle == null)
 				return null;
-			}
 
 			Class clz = bundle.loadClass(FINDER_CLASSNAME);
 
 			// register workspace classpath finder
 			IDatasetWorkspaceClasspathFinder finder = (IDatasetWorkspaceClasspathFinder) clz.newInstance();
-			if (finder == null) {
+			if (finder == null)
 				return null;
-			}
 
 			return finder.getClassPath();
 		} catch (Exception e) {
@@ -145,12 +144,12 @@ public class DatasetClassPathHelper {
 
 	/**
 	 * Returns the classpath associated with given report file.
-	 *
+	 * 
 	 * @param reportFilePath The full path of the report file.
 	 * @return
 	 */
 	public static List<URL> getWorkspaceClassPath(String reportFilePath) {
-		ArrayList<URL> urls = new ArrayList<>();
+		ArrayList<URL> urls = new ArrayList<URL>();
 
 		IReportClasspathResolver provider = ReportPlugin.getDefault().getReportClasspathResolverService();
 

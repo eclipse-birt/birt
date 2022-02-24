@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ public class LayoutUtil {
 
 	public static ColumnsInfo createTable(IListContent list, int width, int dpi) {
 		width = getElementWidth(list, width, dpi);
-		int[] column = { width };
+		int[] column = new int[] { width };
 		return new ColumnsInfo(column);
 	}
 
@@ -44,12 +44,12 @@ public class LayoutUtil {
 		if (value != null) {
 			width = getElementWidth(value, width, dpi);
 		}
-		int[] column = { width };
+		int[] column = new int[] { width };
 		return new ColumnsInfo(column);
 	}
 
 	public static ColumnsInfo createImage(int width) {
-		int[] column = { width };
+		int[] column = new int[] { width };
 		return new ColumnsInfo(column);
 	}
 

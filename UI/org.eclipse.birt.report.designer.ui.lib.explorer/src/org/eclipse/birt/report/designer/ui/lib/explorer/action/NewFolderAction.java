@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class NewFolderAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for creating folder.
-	 *
+	 * 
 	 * @param page the resource explorer page
 	 */
 	public NewFolderAction(LibraryExplorerTreeViewPage page) {
@@ -84,7 +84,7 @@ public class NewFolderAction extends ResourceAction {
 
 	/**
 	 * Returns the new name to be given to the target resource.
-	 *
+	 * 
 	 * @param container the container to query status on
 	 * @return the new name to be given to the target resource.
 	 */
@@ -95,10 +95,9 @@ public class NewFolderAction extends ResourceAction {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.jface.dialogs.IInputValidator#isValid(java.lang.String)
 			 */
-			@Override
 			public String isValid(String string) {
 				if (string == null || string.length() <= 0) {
 					return Messages.getString("NewFolderAction.emptyName"); //$NON-NLS-1$

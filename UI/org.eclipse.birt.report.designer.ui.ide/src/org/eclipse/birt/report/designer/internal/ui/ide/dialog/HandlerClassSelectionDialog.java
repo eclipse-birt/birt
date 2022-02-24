@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.TwoPaneElementSelector;
 
 /**
- *
+ * 
  */
 
 public class HandlerClassSelectionDialog extends TwoPaneElementSelector {
@@ -35,12 +35,10 @@ public class HandlerClassSelectionDialog extends TwoPaneElementSelector {
 					| JavaElementLabelProvider.SHOW_ROOT);
 		}
 
-		@Override
 		public Image getImage(Object element) {
 			return super.getImage(((IType) element).getPackageFragment());
 		}
 
-		@Override
 		public String getText(Object element) {
 			return super.getText(((IType) element).getPackageFragment());
 		}
@@ -58,7 +56,6 @@ public class HandlerClassSelectionDialog extends TwoPaneElementSelector {
 	/**
 	 * @see org.eclipse.jface.window.Window#configureShell(Shell)
 	 */
-	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 //		PlatformUI.getWorkbench().getHelpSystem().setHelp(newShell, IJavaHelpContextIds.MAINTYPE_SELECTION_DIALOG);
@@ -68,7 +65,6 @@ public class HandlerClassSelectionDialog extends TwoPaneElementSelector {
 	/*
 	 * @see Window#open()
 	 */
-	@Override
 	public int open() {
 		if (fTypes == null) {
 			return CANCEL;

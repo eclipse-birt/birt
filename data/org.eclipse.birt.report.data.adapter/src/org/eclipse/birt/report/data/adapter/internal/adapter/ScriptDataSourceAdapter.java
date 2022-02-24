@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
@@ -33,7 +33,7 @@ public class ScriptDataSourceAdapter extends ScriptDataSourceDesign {
 
 	/**
 	 * Creates adaptor based on Model DataSourceHandle.
-	 *
+	 * 
 	 * @param source model handle
 	 */
 	public ScriptDataSourceAdapter(ScriptDataSourceHandle source, DataSessionContext context) throws BirtException {
@@ -64,13 +64,17 @@ public class ScriptDataSourceAdapter extends ScriptDataSourceDesign {
 		} catch (BirtException e1) {
 			try {
 				retryCustomClassLoader(context);
-			} catch (ClassNotFoundException | BirtException e) {
+			} catch (ClassNotFoundException e) {
+				throw new AdapterException(ResourceConstants.DATASOURCE_CASSANDRA_ERROR, e);
+			} catch (BirtException e) {
 				throw new AdapterException(ResourceConstants.DATASOURCE_CASSANDRA_ERROR, e);
 			}
 		} catch (ClassNotFoundException e) {
 			try {
 				retryCustomClassLoader(context);
-			} catch (ClassNotFoundException | BirtException ex) {
+			} catch (ClassNotFoundException ex) {
+				throw new AdapterException(ResourceConstants.DATASOURCE_CASSANDRA_ERROR, e);
+			} catch (BirtException ex) {
 				throw new AdapterException(ResourceConstants.DATASOURCE_CASSANDRA_ERROR, e);
 			}
 		}

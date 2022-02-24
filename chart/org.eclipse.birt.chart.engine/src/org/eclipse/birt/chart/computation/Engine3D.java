@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -294,7 +294,7 @@ public final class Engine3D implements IConstants {
 
 	/**
 	 * Translates the view frame.
-	 *
+	 * 
 	 * @param v
 	 */
 	public void translate(Vector v) {
@@ -305,58 +305,58 @@ public final class Engine3D implements IConstants {
 
 	/**
 	 * Rotates the view frame along X axis
-	 *
+	 * 
 	 * @param degree
 	 */
 	/*
 	 * public void rotateViewX( double degree ) { Matrix m = Matrix.identity( 4, 4
 	 * );
-	 *
+	 * 
 	 * double radians = Math.toRadians( degree ); double cos = Math.cos( radians );
 	 * double sin = Math.sin( radians );
-	 *
+	 * 
 	 * m.set( 1, 1, cos ); m.set( 2, 2, cos ); m.set( 1, 2, -sin ); m.set( 2, 1, sin
 	 * );
-	 *
+	 * 
 	 * VDX.multiply( m ); VDY.multiply( m ); VDZ.multiply( m );
-	 *
+	 * 
 	 * initViewModelMatrix( ); }
-	 *
+	 * 
 	 * /** Rotates the view frame along Y axis
-	 *
+	 * 
 	 * @param degree
 	 */
 	/*
 	 * public void rotateViewY( double degree ) { Matrix m = Matrix.identity( 4, 4
 	 * );
-	 *
+	 * 
 	 * double radians = Math.toRadians( degree ); double cos = Math.cos( radians );
 	 * double sin = Math.sin( radians );
-	 *
+	 * 
 	 * m.set( 0, 0, cos ); m.set( 2, 2, cos ); m.set( 0, 2, sin ); m.set( 2, 0, -sin
 	 * );
-	 *
+	 * 
 	 * VDX.multiply( m ); VDY.multiply( m ); VDZ.multiply( m );
-	 *
+	 * 
 	 * initViewModelMatrix( ); }
-	 *
+	 * 
 	 * /** Rotates the view frame along Z axis
-	 *
+	 * 
 	 * @param degree
 	 */
 	/*
 	 * public void rotateViewZ( double degree ) { Matrix m = Matrix.identity( 4, 4
 	 * );
-	 *
+	 * 
 	 * double radians = Math.toRadians( degree ); double cos = Math.cos( radians );
 	 * double sin = Math.sin( radians );
-	 *
+	 * 
 	 * m.set( 0, 0, cos ); m.set( 1, 1, cos ); m.set( 0, 1, -sin ); m.set( 1, 0, sin
 	 * ); // m.set( 1, 1, cos ); // m.set( 2, 2, cos ); // m.set( 1, 2, sin ); //
 	 * m.set( 2, 1, -sin );
-	 *
+	 * 
 	 * VDX.multiply( m ); VDY.multiply( m ); VDZ.multiply( m );
-	 *
+	 * 
 	 * initViewModelMatrix( ); }
 	 */
 	Matrix rotateMatrixX(Matrix t, double degree) {
@@ -415,7 +415,7 @@ public final class Engine3D implements IConstants {
 
 	/**
 	 * Clipping the lines according to viewing volumn.
-	 *
+	 * 
 	 * @param start
 	 * @param end
 	 * @return
@@ -482,9 +482,8 @@ public final class Engine3D implements IConstants {
 	 * @return true if polygon is behind
 	 */
 	boolean checkBehindFace(Polygon3DRenderEvent p3dre) {
-		if (p3dre.isDoubleSided()) {
+		if (p3dre.isDoubleSided())
 			return false;
-		}
 
 		Vector viewDirection = p3dre.getObject3D().getCenter();
 		Vector normal = p3dre.getObject3D().getNormal();
@@ -755,7 +754,7 @@ public final class Engine3D implements IConstants {
 
 	/**
 	 * Transforms 3D polygons and sort their rendering order, and antialias.
-	 *
+	 * 
 	 * @param renderingEvents
 	 * @param xOffset
 	 * @param yOffset
@@ -767,7 +766,7 @@ public final class Engine3D implements IConstants {
 
 	/**
 	 * Transforms 3D polygons and sort their rendering order, and antialias.
-	 *
+	 * 
 	 * @param renderingEvents
 	 * @param xOffset
 	 * @param yOffset
@@ -803,15 +802,15 @@ public final class Engine3D implements IConstants {
 
 			if (translate3DEvent(obj, transMatrix, xOffset, yOffset)) {
 				if (wi != null) {
-					if (obj instanceof Text3DRenderEvent) {
+					if (obj instanceof Text3DRenderEvent)
 						labels.add(wi);
-					} else {
+					else
 						rtList.add(wi);
-					}
-				} else if (obj instanceof Text3DRenderEvent) {
-					labels.add(obj);
 				} else {
-					rtList.add(obj);
+					if (obj instanceof Text3DRenderEvent)
+						labels.add(obj);
+					else
+						rtList.add(obj);
 				}
 			}
 		}
@@ -847,7 +846,7 @@ public final class Engine3D implements IConstants {
 
 						WrappedInstruction edge = getSharedEdge(event, (I3DRenderEvent) obj, xOffset, yOffset);
 						if (edge != null) {
-							Integer index = j;
+							Integer index = Integer.valueOf(j);
 							if (sharedEdges.containsKey(index)) {
 								((List) sharedEdges.get(index)).add(edge);
 							} else {
@@ -877,9 +876,8 @@ public final class Engine3D implements IConstants {
 			double yOffset) {
 		PrimitiveRenderEvent primEvent = (PrimitiveRenderEvent) event2;
 		Fill background = primEvent.getBackground();
-		if (!(background instanceof ColorDefinition)) {
+		if (!(background instanceof ColorDefinition))
 			return null;
-		}
 
 		ColorDefinition backgroundColor = (ColorDefinition) background;
 		Polygon3DRenderEvent sharedPolygonEdge = null;
@@ -935,7 +933,7 @@ public final class Engine3D implements IConstants {
 	 * the polygons from intersection and then compute crosspoints.<br>
 	 * Note: Painter's algorithm can just be applied to convex polygon, and polygons
 	 * in 3D space can't be intersection.
-	 *
+	 * 
 	 * @param rtList
 	 */
 	protected void overlapSwap(List<Object> rtList) {
@@ -959,7 +957,7 @@ public final class Engine3D implements IConstants {
 		// case. If two polygons are overlay then adjust the correct rendering
 		// order for these two polygons, else it should still keep the Z-depth
 		// order of these two polygons and their contiguous polygons.
-		HashSet<Object> hs = new HashSet<>();
+		HashSet<Object> hs = new HashSet<Object>();
 
 		for (int i = 0; i < rtList.size(); i++) {
 			long max_loop = rtList.size() - i;
@@ -971,6 +969,7 @@ public final class Engine3D implements IConstants {
 
 				Object event = rtList.get(i);
 				Object3D far = eventObjs[i];
+				;
 
 				for (int j = i + 1; j < rtList.size(); j++) {
 					Object event2 = rtList.get(j);
@@ -1041,7 +1040,7 @@ public final class Engine3D implements IConstants {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param event
 	 * @return
 	 */
@@ -1091,7 +1090,6 @@ public final class Engine3D implements IConstants {
 	protected void zsort(List<Object> rtList) {
 		Collections.sort(rtList, new Comparator<Object>() {
 
-			@Override
 			public int compare(Object o1, Object o2) {
 				return zSortComparator(o1, o2);
 			}

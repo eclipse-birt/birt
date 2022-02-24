@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,6 @@ class FragmentComparator implements Comparator {
 		this.comparator = comparator;
 	}
 
-	@Override
 	public int compare(Object arg0, Object arg1) {
 		if (arg0 == arg1) {
 			return 0;
@@ -32,7 +31,10 @@ class FragmentComparator implements Comparator {
 		if (arg0 == Segment.LEFT_MOST_EDGE) {
 			return -1;
 		}
-		if ((arg0 == Segment.RIGHT_MOST_EDGE) || (arg1 == Segment.LEFT_MOST_EDGE)) {
+		if (arg0 == Segment.RIGHT_MOST_EDGE) {
+			return 1;
+		}
+		if (arg1 == Segment.LEFT_MOST_EDGE) {
 			return 1;
 		}
 		if (arg1 == Segment.RIGHT_MOST_EDGE) {

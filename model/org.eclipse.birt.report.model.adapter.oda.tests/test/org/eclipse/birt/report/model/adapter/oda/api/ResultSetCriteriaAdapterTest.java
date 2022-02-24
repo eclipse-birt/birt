@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase {
 
 	/**
 	 * Tests convert sort hint from report to oda.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testSortHintFromReportToOda() throws Exception {
@@ -106,7 +106,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase {
 
 	/**
 	 * Tests convert sort hint from report to oda.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testEmptySortHintFromReportToOda() throws Exception {
@@ -130,7 +130,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase {
 
 	/**
 	 * Tests convert sort hint from oda to report.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testSortHintFromOdaToReport() throws Exception {
@@ -173,16 +173,15 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates data set design with sort hint.
-	 *
+	 * 
 	 * @param sortSpecIsNull Indicates if the sort specification is null
 	 * @return data set design.
 	 */
 	private DataSetDesign createTestSortHintDataSetDesign(boolean sortSpecIsNull) {
 		DataSetDesign setDesign = createDataSetDesign();
 
-		if (sortSpecIsNull) {
+		if (sortSpecIsNull)
 			return setDesign;
-		}
 
 		ResultSetDefinition resultSetDefn = setDesign.getPrimaryResultSet();
 

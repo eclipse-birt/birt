@@ -58,15 +58,14 @@ public class OOXmlUtil {
 				}
 			}
 			int upLevel = parentPaths.length - sameCount;
-			StringBuilder buffer = new StringBuilder();
+			StringBuffer buffer = new StringBuffer();
 			for (int i = 0; i < upLevel - 1; i++) {
 				buffer.append("../");
 			}
 			for (int i = sameCount; i < currentPaths.length; i++) {
 				buffer.append(currentPaths[i]);
-				if (i != currentPaths.length - 1) {
+				if (i != currentPaths.length - 1)
 					buffer.append('/');
-				}
 			}
 			return buffer.toString();
 		}
@@ -91,7 +90,7 @@ public class OOXmlUtil {
 				break;
 			}
 		}
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		buffer.append('/');
 		for (int i = 0; i < parentPaths.length - upLevel; i++) {
 			String path = parentPaths[i];

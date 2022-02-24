@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +53,6 @@ class RDSave2 implements IRDSave {
 	 * @see org.eclipse.birt.data.engine.impl.document.RDSave#saveExprValue(int,
 	 * java.util.Map)
 	 */
-	@Override
 	public void saveExprValue(int currIndex, Map valueMap) throws DataException {
 		// do nothing
 	}
@@ -61,7 +60,6 @@ class RDSave2 implements IRDSave {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.RDSave#saveFinish(int)
 	 */
-	@Override
 	public void saveFinish(int currIndex) throws DataException {
 		this.saveUtilHelper.saveChildQueryID();
 	}
@@ -71,17 +69,15 @@ class RDSave2 implements IRDSave {
 	 * org.eclipse.birt.data.engine.impl.document.IRDSave#saveResultIterator(org.
 	 * eclipse.birt.data.engine.odi.IResultIterator, int, int[])
 	 */
-	@Override
 	public void saveResultIterator(IResultIterator odiResult, int groupLevel, int[] subQueryInfo) throws DataException {
 		saveUtilHelper.saveResultIterator(odiResult, groupLevel, subQueryInfo);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.document.IRDSave#saveStart()
 	 */
-	@Override
 	public void saveStart() throws DataException {
 		this.saveUtilHelper.saveQueryDefn();
 	}

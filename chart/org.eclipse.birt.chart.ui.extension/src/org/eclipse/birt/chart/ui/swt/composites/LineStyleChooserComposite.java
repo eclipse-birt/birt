@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -33,12 +33,10 @@ public class LineStyleChooserComposite extends AbstractLineStyleChooserComposite
 			super(parent, iStyle, iLineStyle, 1);
 		}
 
-		@Override
 		public Object getValue() {
 			return Integer.valueOf(getLineStyle());
 		}
 
-		@Override
 		public void setValue(Object value) {
 			if (value != null) {
 				setLineStyle(((Integer) value).intValue());
@@ -57,7 +55,6 @@ public class LineStyleChooserComposite extends AbstractLineStyleChooserComposite
 		setItems(lineStyleItems);
 	}
 
-	@Override
 	protected ICustomChoice createChoice(Composite parent, Object choiceValue) {
 		if (choiceValue == null) {
 			choiceValue = Integer.valueOf(0);
@@ -68,14 +65,12 @@ public class LineStyleChooserComposite extends AbstractLineStyleChooserComposite
 	/**
 	 * Returns the current selected line style as an integer corresponding to the
 	 * appropriate SWT constants.
-	 *
+	 * 
 	 */
-	@Override
 	public int getLineStyle() {
 		return ((Integer) getChoiceValue()).intValue();
 	}
 
-	@Override
 	public void setLineStyle(int iStyle) {
 		setChoiceValue(Integer.valueOf(iStyle));
 	}

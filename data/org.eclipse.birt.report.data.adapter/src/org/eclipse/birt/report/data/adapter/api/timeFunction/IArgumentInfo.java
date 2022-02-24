@@ -24,50 +24,50 @@ public interface IArgumentInfo {
 	/**
 	 * Arguments for time function
 	 */
-	String PERIOD_1 = "Period1";
-	String PERIOD_2 = "Period2";
-	String N_PERIOD1 = "N for Period1";
-	String N_PERIOD2 = "N for Period2";
+	public static final String PERIOD_1 = "Period1";
+	public static final String PERIOD_2 = "Period2";
+	public static final String N_PERIOD1 = "N for Period1";
+	public static final String N_PERIOD2 = "N for Period2";
 
 	/**
 	 * Get argument name for time function
-	 *
+	 * 
 	 * @return
 	 */
-	String getName();
+	public String getName();
 
 	/**
 	 * Get argument display name for time function
-	 *
+	 * 
 	 * @return
 	 */
-	String getDisplayName();
+	public String getDisplayName();
 
 	/**
 	 * Is this argument required for this time function
-	 *
+	 * 
 	 * @return
 	 */
-	boolean isOptional();
+	public boolean isOptional();
 
 	/**
 	 * Available value choices for this time function
-	 *
+	 * 
 	 * @return
 	 */
-	List<Period_Type> getPeriodChoices();
+	public List<Period_Type> getPeriodChoices();
 
 	/**
 	 * Get description for this argument
-	 *
+	 * 
 	 * @return
 	 */
-	String getDescription();
+	public String getDescription();
 
 	public class Period_Type {
 		public enum Period_Type_ENUM {
 			YEAR, QUARTER, MONTH, WEEK, DAY
-		}
+		};
 
 		private Period_Type_ENUM type;
 		private ULocale locale;
@@ -86,7 +86,7 @@ public interface IArgumentInfo {
 		}
 
 		/**
-		 *
+		 * 
 		 * @return
 		 */
 		public String name() {
@@ -94,7 +94,7 @@ public interface IArgumentInfo {
 		}
 
 		/**
-		 *
+		 * 
 		 * @return
 		 */
 		public String displayName() {

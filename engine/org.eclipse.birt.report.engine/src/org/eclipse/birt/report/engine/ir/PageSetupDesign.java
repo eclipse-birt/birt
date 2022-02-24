@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,14 +20,14 @@ import java.util.HashMap;
 
 /**
  * Page Setup
- *
+ * 
  */
 public class PageSetupDesign {
 
 	/**
 	 * sequence of master pages
 	 */
-	protected ArrayList<MasterPageDesign> masterPages = new ArrayList<>();
+	protected ArrayList<MasterPageDesign> masterPages = new ArrayList<MasterPageDesign>();
 	/**
 	 * maps used to map the page with the name.
 	 */
@@ -36,7 +36,7 @@ public class PageSetupDesign {
 	/**
 	 * collection used to store the page sequence.
 	 */
-	protected ArrayList<PageSequenceDesign> pageSequences = new ArrayList<>();
+	protected ArrayList<PageSequenceDesign> pageSequences = new ArrayList<PageSequenceDesign>();
 	/**
 	 * maps used to map the page sequence with the name
 	 */
@@ -48,7 +48,7 @@ public class PageSetupDesign {
 
 	/**
 	 * get total master pages count.
-	 *
+	 * 
 	 * @return total master pages.
 	 */
 	public int getMasterPageCount() {
@@ -57,7 +57,7 @@ public class PageSetupDesign {
 
 	/**
 	 * get master page at index
-	 *
+	 * 
 	 * @param index page index
 	 * @return master page
 	 */
@@ -68,7 +68,7 @@ public class PageSetupDesign {
 
 	/**
 	 * add master page into page setup.
-	 *
+	 * 
 	 * @param page page to be added
 	 */
 	public void addMasterPage(MasterPageDesign page) {
@@ -80,7 +80,7 @@ public class PageSetupDesign {
 
 	/**
 	 * get the page named by pageName.
-	 *
+	 * 
 	 * @param pageName page name.
 	 * @return master page associated with the name.
 	 */
@@ -95,7 +95,7 @@ public class PageSetupDesign {
 
 	/**
 	 * get total pages sequence count.
-	 *
+	 * 
 	 * @return total page sequences.
 	 */
 	public int getPageSequenceCount() {
@@ -104,7 +104,7 @@ public class PageSetupDesign {
 
 	/**
 	 * get page sequence at index
-	 *
+	 * 
 	 * @param index sequence index
 	 * @return page sequence
 	 */
@@ -115,7 +115,7 @@ public class PageSetupDesign {
 
 	/**
 	 * add page sequence into page setup.
-	 *
+	 * 
 	 * @param sequence page sequence to be added
 	 */
 	public void addPageSequence(PageSequenceDesign sequence) {
@@ -127,7 +127,7 @@ public class PageSetupDesign {
 
 	/**
 	 * get the page sequence named by name.
-	 *
+	 * 
 	 * @param name page sequence name.
 	 * @return page sequence associated with the name.
 	 */

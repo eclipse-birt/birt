@@ -17,13 +17,13 @@ import org.eclipse.birt.report.model.metadata.MetaLogManager;
  * Interface to handle meta-data errors during initialization. Logs errors due
  * to missing a rom.def file, rom.def parser errors, meta-data build errors,
  * etc.
- *
+ * 
  * The class that is interested in the errors may implement this interface.
  * Then, create an instance of that class and register it with
  * {@link MetaLogManager }, using the static <code>registerLogger</code> method.
  * When an error occurs during parsing of the meta-data file, the parser calls
  * the <code>log</code> method of the custom logger.
- *
+ * 
  * @see MetaLogManager
  */
 
@@ -31,21 +31,21 @@ public interface IMetaLogger {
 
 	/**
 	 * Log an error message.
-	 *
+	 * 
 	 * @param message the message object to be logged.
 	 */
 
-	void log(String message);
+	public void log(String message);
 
 	/**
 	 * Log a message object including the stack trace of the Throwable t passed as
 	 * parameter.
-	 *
+	 * 
 	 * @param message the message object to be logged.
 	 * @param t       the exception to log, including its stack trace.
 	 */
 
-	void log(String message, Throwable t);
+	public void log(String message, Throwable t);
 
 	/**
 	 * Release the logger, implement this method to do clean up of the logger, close
@@ -53,6 +53,6 @@ public interface IMetaLogger {
 	 * {@link MetaLogManager#shutDown()}.
 	 */
 
-	void close();
+	public void close();
 
 }

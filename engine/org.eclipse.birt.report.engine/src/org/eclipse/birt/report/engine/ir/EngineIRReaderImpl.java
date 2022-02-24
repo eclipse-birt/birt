@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * unit 4. Report readDesign: 1. Read design type 2. Read report item design
  * according design type. 3. Read the current design's fields. 4. Read the
  * current design's children.
- *
+ * 
  * Version 1: remove read isBookmark of ActionDesign. Version 2: remove read
  * base path and unit of report. Version 3: add extended item's children.
  * Version 4: change the way of writing and reading the style.
@@ -1040,7 +1040,7 @@ public class EngineIRReaderImpl implements IOConstants {
 	 * binding column. FIELD_BOUNDING_COLUMN: This is new format IR, the field saves
 	 * the field name. We needn't set the value field here, as the setBindingColumn
 	 * will do it automatically.
-	 *
+	 * 
 	 * @param in
 	 * @param data
 	 * @param fieldType
@@ -1282,7 +1282,7 @@ public class EngineIRReaderImpl implements IOConstants {
 		int ruleCount = IOUtil.readInt(in);
 		for (int i = 0; i < ruleCount; i++) {
 			MapRuleDesign rule = new MapRuleDesign();
-
+			;
 			readRuleDesign(in, rule);
 			String displayText = IOUtil.readString(in);
 			String displayKey = IOUtil.readString(in);
@@ -1321,7 +1321,7 @@ public class EngineIRReaderImpl implements IOConstants {
 		rule.setTestExpression(Expression.newScript(testExpr));
 		if (object1 instanceof List<?>) {
 			List<?> list = (List<?>) object1;
-			List<Expression> exprs = new ArrayList<>(list.size());
+			List<Expression> exprs = new ArrayList<Expression>(list.size());
 			for (Object expr : list) {
 				if (expr instanceof String) {
 					exprs.add(Expression.newScript((String) expr));
@@ -1345,7 +1345,7 @@ public class EngineIRReaderImpl implements IOConstants {
 		boolean isList = IOUtil.readBool(in);
 		if (isList) {
 			int size = IOUtil.readInt(in);
-			ArrayList<Expression> exprs = new ArrayList<>(size);
+			ArrayList<Expression> exprs = new ArrayList<Expression>(size);
 			for (int i = 0; i < size; i++) {
 				Expression expr = readExpression(in);
 				exprs.add(expr);
@@ -1435,7 +1435,7 @@ public class EngineIRReaderImpl implements IOConstants {
 
 	@SuppressWarnings("unchecked")
 	private Map<String, Expression> readExprMap(DataInputStream dis) throws IOException {
-		HashMap<String, Expression> exprs = new HashMap<>();
+		HashMap<String, Expression> exprs = new HashMap<String, Expression>();
 		if (version < ENGINE_IR_VERSION_7) {
 			Map<String, String> map = IOUtil.readMap(dis);
 			for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -1455,13 +1455,13 @@ public class EngineIRReaderImpl implements IOConstants {
 	}
 
 	private Map<String, List<Expression>> readDrillThroughExprMap(DataInputStream dis) throws IOException {
-		HashMap<String, List<Expression>> exprs = new HashMap<>();
+		HashMap<String, List<Expression>> exprs = new HashMap<String, List<Expression>>();
 		if (version < ENGINE_IR_VERSION_7) {
 			Map<String, String> map = IOUtil.readMap(dis);
 			for (Map.Entry<String, String> entry : map.entrySet()) {
 				String name = entry.getKey();
 				Expression expr = Expression.newScript(entry.getValue());
-				ArrayList<Expression> exprList = new ArrayList<>(1);
+				ArrayList<Expression> exprList = new ArrayList<Expression>(1);
 				exprList.add(expr);
 				exprs.put(name, exprList);
 			}
@@ -1470,7 +1470,7 @@ public class EngineIRReaderImpl implements IOConstants {
 			for (int i = 0; i < size; i++) {
 				String name = IOUtil.readString(dis);
 				Expression expr = readExpression(dis);
-				ArrayList<Expression> exprList = new ArrayList<>(1);
+				ArrayList<Expression> exprList = new ArrayList<Expression>(1);
 				exprList.add(expr);
 				exprs.put(name, exprList);
 			}
@@ -1479,7 +1479,7 @@ public class EngineIRReaderImpl implements IOConstants {
 			for (int i = 0; i < size; i++) {
 				String name = IOUtil.readString(dis);
 				int exprSize = IOUtil.readInt(dis);
-				ArrayList<Expression> exprList = new ArrayList<>(exprSize);
+				ArrayList<Expression> exprList = new ArrayList<Expression>(exprSize);
 				for (int j = 0; j < exprSize; j++) {
 					Expression expr = readExpression(dis);
 					exprList.add(expr);

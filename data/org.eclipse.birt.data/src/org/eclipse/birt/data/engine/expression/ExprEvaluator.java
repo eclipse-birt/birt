@@ -35,7 +35,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * None-static version of <code> ExprEvaluateUtil </code>. The expression
  * evaluator optimizes the expression evaluation by reusing parsed expression.
- *
+ * 
  */
 public class ExprEvaluator {
 
@@ -81,7 +81,7 @@ public class ExprEvaluator {
 
 	/**
 	 * Evaluate non-compiled expression
-	 *
+	 * 
 	 * @param dataExpr
 	 * @param scope
 	 * @return the value of raw data type, Java or Java Script
@@ -115,7 +115,7 @@ public class ExprEvaluator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataExpr
 	 * @param cx
 	 * @param isRow    true:row["xxx"]; false:dataSetRow["xxx"]
@@ -173,11 +173,13 @@ public class ExprEvaluator {
 						}
 					}
 				}
-			} else // row["xxx"] is added on data set level
-			if (dataSet.getCurrentRow() != null
-					&& dataSet.getCurrentRow().getResultClass().getFieldIndex(rowName) >= 0) {
-				Object value = dataSet.getCurrentRow().getFieldValue(rowName);
-				return DataTypeUtil.convert(value, dataExpr.getDataType());
+			} else {
+				// row["xxx"] is added on data set level
+				if (dataSet.getCurrentRow() != null
+						&& dataSet.getCurrentRow().getResultClass().getFieldIndex(rowName) >= 0) {
+					Object value = dataSet.getCurrentRow().getFieldValue(rowName);
+					return DataTypeUtil.convert(value, dataExpr.getDataType());
+				}
 			}
 		}
 
@@ -185,7 +187,7 @@ public class ExprEvaluator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataExpr
 	 * @param scope
 	 * @param javaType
@@ -201,9 +203,8 @@ public class ExprEvaluator {
 
 	public Object evaluateConditionExpression(IConditionalExpression dataExpr, Scriptable scope, boolean javaType,
 			ScriptContext cx, CompareHints filterHints, DataSetRuntime dataSet) throws DataException, BirtException {
-		if (dataExpr.getHandle() != null) {
+		if (dataExpr.getHandle() != null)
 			return Boolean.valueOf(((NEvaluator) dataExpr.getHandle()).evaluate(cx, scope, dataSet));
-		}
 
 		IScriptExpression opr = ((IConditionalExpression) dataExpr).getExpression();
 		int oper = ((IConditionalExpression) dataExpr).getOperator();
@@ -226,7 +227,7 @@ public class ExprEvaluator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataExpr
 	 * @return
 	 * @throws BirtException

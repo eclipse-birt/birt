@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -41,7 +41,7 @@ public class BorderSection extends Section {
 		this.isTabbed = isTabbed;
 	}
 
-	private boolean showLabel = false;
+	private boolean showLabel = false;;
 
 	public void showDisplayLabel(boolean show) {
 		this.showLabel = show;
@@ -49,13 +49,11 @@ public class BorderSection extends Section {
 
 	protected BorderPropertyDescriptor border;
 
-	@Override
 	public void createSection() {
-		if (isTabbed) {
+		if (isTabbed)
 			getTitleControl(parent);
-		} else if (showLabel) {
+		else if (showLabel)
 			getLabelControl(parent);
-		}
 		getBorderControl(parent);
 		getGridPlaceholder(parent);
 
@@ -79,7 +77,6 @@ public class BorderSection extends Section {
 			}
 			title.addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					title = null;
 				}
@@ -97,26 +94,20 @@ public class BorderSection extends Section {
 	protected BorderPropertyDescriptor getBorderControl(Composite parent) {
 		if (border == null) {
 			border = DescriptorToolkit.createBorderPropertyDescriptor(true);
-			if (style != -1) {
+			if (style != -1)
 				border.setStyle(style);
-			}
-			if (getStyleProvider() != null) {
+			if (getStyleProvider() != null)
 				border.setStyleProvider(getStyleProvider());
-			}
-			if (getColorProvider() != null) {
+			if (getColorProvider() != null)
 				border.setColorProvider(getColorProvider());
-			}
-			if (getWidthProvider() != null) {
+			if (getWidthProvider() != null)
 				border.setWidthProvider(getWidthProvider());
-			}
-			if (getToggleProviders() != null) {
+			if (getToggleProviders() != null)
 				border.setToggleProviders(getToggleProviders());
-			}
 			border.createControl(parent);
 			border.getControl().setLayoutData(new GridData());
 			border.getControl().addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					border = null;
 				}
@@ -133,14 +124,12 @@ public class BorderSection extends Section {
 		displayLabelStyle = style;
 	}
 
-	@Override
 	public void layout() {
 		GridData gd = (GridData) border.getControl().getLayoutData();
-		if (getLayoutNum() > 0) {
+		if (getLayoutNum() > 0)
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		} else {
+		else
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
-		}
 		if (displayLabel != null && (displayLabelStyle & SWT.HORIZONTAL) != 0) {
 			gd.horizontalSpan = gd.horizontalSpan - 1;
 		}
@@ -149,16 +138,14 @@ public class BorderSection extends Section {
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else {
+		} else
 			gd.grabExcessHorizontalSpace = fillBorder;
-		}
 
 		if (height > -1) {
 			gd.heightHint = height;
 			gd.grabExcessVerticalSpace = false;
-		} else {
+		} else
 			gd.grabExcessVerticalSpace = fillBorder;
-		}
 
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = GridData.FILL;
@@ -184,18 +171,14 @@ public class BorderSection extends Section {
 
 	}
 
-	@Override
 	public void load() {
-		if (border != null && !border.getControl().isDisposed()) {
+		if (border != null && !border.getControl().isDisposed())
 			border.load();
-		}
 	}
 
-	@Override
 	public void reset() {
-		if (border != null && !border.getControl().isDisposed()) {
+		if (border != null && !border.getControl().isDisposed())
 			border.reset();
-		}
 	}
 
 	IDescriptorProvider styleProvider;
@@ -206,9 +189,8 @@ public class BorderSection extends Section {
 
 	public void setStyleProvider(IDescriptorProvider provider) {
 		this.styleProvider = provider;
-		if (border != null) {
+		if (border != null)
 			border.setStyleProvider(provider);
-		}
 	}
 
 	IDescriptorProvider colorProvider;
@@ -219,9 +201,8 @@ public class BorderSection extends Section {
 
 	public void setColorProvider(IDescriptorProvider provider) {
 		this.colorProvider = provider;
-		if (border != null) {
+		if (border != null)
 			border.setColorProvider(provider);
-		}
 	}
 
 	IDescriptorProvider widthProvider;
@@ -232,9 +213,8 @@ public class BorderSection extends Section {
 
 	public void setWidthProvider(IDescriptorProvider provider) {
 		this.widthProvider = provider;
-		if (border != null) {
+		if (border != null)
 			border.setWidthProvider(provider);
-		}
 	}
 
 	BorderToggleDescriptorProvider[] toggleProviders;
@@ -245,9 +225,8 @@ public class BorderSection extends Section {
 
 	public void setToggleProviders(BorderToggleDescriptorProvider[] toggleProviders) {
 		this.toggleProviders = toggleProviders;
-		if (border != null) {
+		if (border != null)
 			border.setToggleProviders(toggleProviders);
-		}
 	}
 
 	private int height = -1;
@@ -261,7 +240,6 @@ public class BorderSection extends Section {
 		this.width = width;
 	}
 
-	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		border.setInput(input);
@@ -277,36 +255,26 @@ public class BorderSection extends Section {
 		this.fillBorder = fillBorder;
 	}
 
-	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		}
-		if (title != null) {
+		if (title != null)
 			WidgetUtil.setExcludeGridData(title, isHidden);
-		}
-		if (border != null) {
+		if (border != null)
 			border.setHidden(isHidden);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
-		}
 	}
 
-	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			displayLabel.setVisible(isVisible);
-		}
-		if (title != null) {
+		if (title != null)
 			title.setVisible(isVisible);
-		}
-		if (border != null) {
+		if (border != null)
 			border.setVisible(isVisible);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			placeholderLabel.setVisible(isVisible);
-		}
 	}
 
 	private int style = -1;
@@ -317,9 +285,8 @@ public class BorderSection extends Section {
 
 	public void setStyle(int style) {
 		this.style = style;
-		if (border != null) {
+		if (border != null)
 			border.setStyle(style);
-		}
 	}
 
 	boolean withDialog = false;

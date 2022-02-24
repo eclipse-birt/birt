@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -24,7 +24,7 @@ package org.eclipse.birt.report.engine.executor.css;
 public class ParseException extends Exception {
 
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = 5052148729792493800L;
 
@@ -101,31 +101,29 @@ public class ParseException extends Exception {
 	 * printing of the final stack trace, and hence the correct error message gets
 	 * displayed.
 	 */
-	@Override
 	public String getMessage() {
 		if (!specialConstructor) {
 			return super.getMessage();
 		}
-		StringBuilder expected = new StringBuilder(); // $NON-NLS-1$
+		String expected = ""; //$NON-NLS-1$
 		int maxSize = 0;
 		for (int i = 0; i < expectedTokenSequences.length; i++) {
 			if (maxSize < expectedTokenSequences[i].length) {
 				maxSize = expectedTokenSequences[i].length;
 			}
 			for (int j = 0; j < expectedTokenSequences[i].length; j++) {
-				expected.append(tokenImage[expectedTokenSequences[i][j]]).append(" "); //$NON-NLS-1$
+				expected += tokenImage[expectedTokenSequences[i][j]] + " "; //$NON-NLS-1$
 			}
 			if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {
-				expected.append("..."); //$NON-NLS-1$
+				expected += "..."; //$NON-NLS-1$
 			}
-			expected.append(eol).append("    "); //$NON-NLS-1$
+			expected += eol + "    "; //$NON-NLS-1$
 		}
 		String retval = "Encountered \""; //$NON-NLS-1$
 		Token tok = currentToken.next;
 		for (int i = 0; i < maxSize; i++) {
-			if (i != 0) {
+			if (i != 0)
 				retval += " "; //$NON-NLS-1$
-			}
 			if (tok.kind == 0) {
 				retval += tokenImage[0];
 				break;
@@ -140,7 +138,7 @@ public class ParseException extends Exception {
 		} else {
 			retval += "Was expecting one of:" + eol + "    "; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		retval += expected.toString();
+		retval += expected;
 		return retval;
 	}
 
@@ -154,7 +152,7 @@ public class ParseException extends Exception {
 	 * version cannot be used as part of an ASCII string literal.
 	 */
 	protected String add_escapes(String str) {
-		StringBuilder retval = new StringBuilder();
+		StringBuffer retval = new StringBuffer();
 		char ch;
 		for (int i = 0; i < str.length(); i++) {
 			switch (str.charAt(i)) {
@@ -185,10 +183,9 @@ public class ParseException extends Exception {
 				retval.append("\\\\"); //$NON-NLS-1$
 				continue;
 			default:
-				ch = str.charAt(i);
-				if (ch < 0x20 || ch > 0x7e) {
+				if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
 					String s = "0000" + Integer.toString(ch, 16); //$NON-NLS-1$
-					retval.append("\\u" + s.substring(s.length() - 4)); //$NON-NLS-1$
+					retval.append("\\u" + s.substring(s.length() - 4, s.length())); //$NON-NLS-1$
 				} else {
 					retval.append(ch);
 				}

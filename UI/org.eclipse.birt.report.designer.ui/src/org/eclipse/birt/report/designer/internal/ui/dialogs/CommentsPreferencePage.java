@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class CommentsPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param model the model of preference page.
 	 */
 	public CommentsPreferencePage(Object model) {
@@ -43,11 +43,10 @@ public class CommentsPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createContents
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	protected void createFieldEditors() {
 		// super.createFieldEditors( );
 
@@ -60,7 +59,6 @@ public class CommentsPreferencePage extends BaseStylePreferencePage {
 
 	}
 
-	@Override
 	protected void adjustGridLayout() {
 		super.adjustGridLayout();
 		GridData gd = new GridData(GridData.FILL_BOTH);
@@ -69,7 +67,6 @@ public class CommentsPreferencePage extends BaseStylePreferencePage {
 		comments.getTextControl(getFieldEditorParent()).setLayoutData(gd);
 	}
 
-	@Override
 	protected String[] getPreferenceNames() {
 		return new String[] { StyleHandle.COMMENTS_PROP };
 	}

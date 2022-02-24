@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Element name property type. Represents the key member of a structure.
- *
+ * 
  */
 
 public class MemberKeyPropertyType extends TextualPropertyType {
@@ -41,53 +41,48 @@ public class MemberKeyPropertyType extends TextualPropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
-	@Override
 	public int getTypeCode() {
 		return MEMBER_KEY_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
-	@Override
 	public String getName() {
 		return MEMBER_KEY_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
-	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		assert defn != null;
 		if (value == null) {
-			if (defn.isStructureMember()) {
+			if (defn.isStructureMember())
 				throw new PropertyValueException(null, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
 						MEMBER_KEY_TYPE);
-			}
 			return null;
 		}
 		if (value instanceof String) {
 			String stringValue = trimString((String) value, defn.getTrimOption());
 			if (stringValue == null) {
-				if (defn.isStructureMember()) {
+				if (defn.isStructureMember())
 					throw new PropertyValueException(value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 							MEMBER_KEY_TYPE);
-				}
 				return null;
 			}
 
@@ -98,7 +93,7 @@ public class MemberKeyPropertyType extends TextualPropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse
 	 * .birt.report.model.core.Module,
@@ -106,15 +101,13 @@ public class MemberKeyPropertyType extends TextualPropertyType {
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
-	@Override
 	public Object validateXml(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
 
-		if (tmpValue == null) {
+		if (tmpValue == null)
 			return null;
-		}
 		return trimString(tmpValue, defn.getTrimOption());
 	}
 }

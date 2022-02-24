@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
@@ -87,7 +86,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * TODO: Please document
- *
+ * 
  * @version $Revision$ $Date$
  */
 public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage {
@@ -102,7 +101,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 //	private static final int ARGUMENT_INDEX = 4;
 	private static final int FILTER_INDEX = 5;
 
-	protected static String[] cellLabels = { Messages.getString("dataset.editor.title.columnName"), //$NON-NLS-1$
+	protected static String[] cellLabels = new String[] { Messages.getString("dataset.editor.title.columnName"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.dataType"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.expression"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.aggrFunc"), //$NON-NLS-1$
@@ -110,15 +109,15 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 			Messages.getString("dataset.editor.title.filter") //$NON-NLS-1$
 	};
 
-	protected static String[] cellProperties = { ComputedColumn.NAME_MEMBER, ComputedColumn.DATA_TYPE_MEMBER,
-			ComputedColumn.EXPRESSION_MEMBER, ComputedColumn.AGGREGATEON_FUNCTION_MEMBER,
-			ComputedColumn.ARGUMENTS_MEMBER, ComputedColumn.FILTER_MEMBER };
+	protected static String[] cellProperties = new String[] { ComputedColumn.NAME_MEMBER,
+			ComputedColumn.DATA_TYPE_MEMBER, ComputedColumn.EXPRESSION_MEMBER,
+			ComputedColumn.AGGREGATEON_FUNCTION_MEMBER, ComputedColumn.ARGUMENTS_MEMBER, ComputedColumn.FILTER_MEMBER };
 
 	protected static IChoice[] dataTypes = DEUtil.getMetaDataDictionary()
 			.getStructure(ComputedColumn.COMPUTED_COLUMN_STRUCT).getMember(ComputedColumn.DATA_TYPE_MEMBER)
 			.getAllowedChoices().getChoices();
 
-	protected static String[] dialogLabels = { Messages.getString("dataset.editor.inputDialog.columnName"), //$NON-NLS-1$
+	protected static String[] dialogLabels = new String[] { Messages.getString("dataset.editor.inputDialog.columnName"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.dataType"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.expression"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.aggrFunc"), //$NON-NLS-1$
@@ -129,7 +128,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 	protected AggregationManager aggregationManager;
 
 	/**
-	 *
+	 * 
 	 */
 	public DataSetComputedColumnsPage() {
 		super();
@@ -142,15 +141,14 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * createPageControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Control createContents(Composite parent) {
 		computedColumns = ((DataSetHandle) getContainer().getModel())
 				.getPropertyHandle(DataSetHandle.COMPUTED_COLUMNS_PROP);
-
+		;
 		createTableViewer(parent);
 		addListeners();
 		setToolTips();
@@ -160,7 +158,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 	protected void createTableViewer(Composite parent) {
 		viewer = new PropertyHandleTableViewer(parent, true, true, true) {
 
-			@Override
 			protected void doRemove() {
 				int index = viewer.getTable().getSelectionIndex();
 				PropertyHandle handle = (PropertyHandle) viewer.getInput();
@@ -184,9 +181,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 			}
 
 			private void removeColumnHint(String columnName) {
-				if (columnName == null) {
+				if (columnName == null)
 					return;
-				}
 
 				PropertyHandle propertyHandle = ((DataSetHandle) getContainer().getModel())
 						.getPropertyHandle(DataSetHandle.COLUMN_HINTS_PROP);
@@ -223,7 +219,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		column.setWidth(200);
 		viewer.getViewer().setContentProvider(new IStructuredContentProvider() {
 
-			@Override
 			public Object[] getElements(Object inputElement) {
 				ArrayList computedColumnsList = new ArrayList(10);
 				Iterator iter = computedColumns.iterator();
@@ -235,12 +230,10 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 				return computedColumnsList.toArray();
 			}
 
-			@Override
 			public void dispose() {
 
 			}
 
-			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 			}
@@ -251,11 +244,10 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * pageActivated()
 	 */
-	@Override
 	public void pageActivated() {
 		try {
 			refreshColumnNames();
@@ -266,7 +258,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 			computedColumns = ((DataSetHandle) getContainer().getModel())
 					.getPropertyHandle(DataSetHandle.COMPUTED_COLUMNS_PROP);
-
+			;
 			viewer.getViewer().setInput(computedColumns);
 			viewer.getViewer().getTable().select(0);
 		} catch (BirtException e) {
@@ -277,7 +269,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 	/**
 	 * Refresh columns meta data
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	private void refreshColumnNames() throws BirtException {
@@ -287,7 +279,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 	private void addListeners() {
 		viewer.getNewButton().addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doNew();
 			}
@@ -295,7 +286,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		viewer.getEditButton().addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doEdit();
 			}
@@ -303,7 +293,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		viewer.getViewer().getTable().addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				doEdit();
 			}
@@ -311,11 +300,9 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		viewer.getViewer().getTable().addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 			}
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					setPageProperties();
@@ -332,13 +319,11 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 	private void addRemoveListeners() {
 		viewer.getRemoveButton().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setPageProperties();
 				updateColumnsOfDataSetHandle();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
@@ -346,13 +331,11 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		viewer.getRemoveMenuItem().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setPageProperties();
 				updateColumnsOfDataSetHandle();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
@@ -360,13 +343,11 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		viewer.getRemoveAllMenuItem().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setPageProperties();
 				updateColumnsOfDataSetHandle();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -379,9 +360,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 	private void doEdit() {
 		int index = viewer.getViewer().getTable().getSelectionIndex();
-		if (index == -1) {
+		if (index == -1)
 			return;
-		}
 
 		ComputedColumnHandle handle = (ComputedColumnHandle) viewer.getViewer().getTable().getItem(index).getData();
 
@@ -408,10 +388,9 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 			viewer.getViewer().update(structureOrHandle, null);
 		}
 
-		if (validateAllComputedColumns()) {
+		if (validateAllComputedColumns())
 			getContainer().setMessage(Messages.getString("dataset.editor.computedColumns"), //$NON-NLS-1$
 					IMessageProvider.NONE);
-		}
 
 	}
 
@@ -436,9 +415,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 	protected final String getTypeName(String typeDisplayName) {
 		for (int i = 0; i < dataTypes.length; i++) {
-			if (dataTypes[i].getDisplayName().equals(typeDisplayName)) {
+			if (dataTypes[i].getDisplayName().equals(typeDisplayName))
 				return dataTypes[i].getName();
-			}
 		}
 
 		return dataTypes[0].getName();
@@ -464,23 +442,21 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.
 	 * AbstractDescriptionPropertyPage#getPageDescription()
 	 */
-	@Override
 	public String getPageDescription() {
 		return Messages.getString("DataSetComputedColumnsPage.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#
 	 * performOk()
 	 */
-	@Override
 	public boolean performOk() {
 		if (validateAllComputedColumns()) {
 			return super.performOk();
@@ -492,22 +468,20 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
 		 * .lang.Object, int)
 		 */
-		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
 		 * lang.Object, int)
 		 */
-		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			String value = null;
 			ComputedColumn computedColumn = getStructure(element);
@@ -557,41 +531,37 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
-		@Override
 		public void dispose() {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
 		 * .lang.Object, java.lang.String)
 		 */
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
@@ -601,12 +571,11 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.
 		 * eclipse.jface.viewers.SelectionChangedEvent)
 		 */
-		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			setPageProperties();
 		}
@@ -625,7 +594,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 	/**
 	 * Update the computed columns after removing an established one and cache the
 	 * updated DataSetViewData[]
-	 *
+	 * 
 	 */
 	private void updateColumnsOfDataSetHandle() {
 		DataSetHandle dataSet = ((DataSetEditor) getContainer()).getHandle();
@@ -653,9 +622,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 					}
 				}
 			}
-			if (inexistence == 0) {
+			if (inexistence == 0)
 				return;
-			}
 
 			DataSetViewData[] existItems = new DataSetViewData[items.length - inexistence];
 			int index = 0;
@@ -673,16 +641,14 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
-	@Override
 	public String getToolTip() {
 		return Messages.getString("DataSetComputedColumnsPage.ComputedColumns.Tooltip"); //$NON-NLS-1$
 	}
 
-	@Override
 	public boolean canLeave() {
 		if (validateAllComputedColumns()) {
 			updateColumnCache();
@@ -707,9 +673,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 					} else {
 						computedColumn = (ComputedColumn) o;
 					}
-					if (!validateSingleColumn(computedColumn)) {
+					if (!validateSingleColumn(computedColumn))
 						return false;
-					}
 				}
 			}
 		}
@@ -742,7 +707,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected static class DummyParamDefn implements IParameterDefn {
 		String name;
@@ -752,7 +717,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		boolean isOptional;
 
 		/**
-		 *
+		 * 
 		 * @param name
 		 * @param displayName
 		 * @param isOptional
@@ -767,65 +732,59 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDescription()
 		 */
-		@Override
 		public String getDescription() {
 			return description;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDisplayName()
 		 */
-		@Override
 		public String getDisplayName() {
 			return displayName;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isDataField()
 		 */
-		@Override
 		public boolean isDataField() {
 			return isDataField;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isOptional()
 		 */
-		@Override
 		public boolean isOptional() {
 			return isOptional;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#supportDataType(
 		 * int)
 		 */
-		@Override
 		public boolean supportDataType(int dataType) {
 			return true;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getName()
 		 */
-		@Override
 		public String getName() {
 			return name;
 		}
@@ -853,7 +812,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		private int maxWidth;
 
 		/**
-		 *
+		 * 
 		 * @param structureOrHandle
 		 */
 		private ComputedColumnInputDialog(Object structureOrHandle, boolean applyAnalysis) {
@@ -861,19 +820,17 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 			populateFunctions();
 		}
 
-		@Override
 		public void create() {
 			super.create();
 			validateSyntax();
 		}
 
-		@Override
 		protected void setSystemHelp(Composite composite) {
 			Utility.setSystemHelp(composite, IHelpConstants.CONEXT_ID_DATASET_COMPUTEDCOLUMNS_DIALOG);
 		}
 
 		/**
-		 *
+		 * 
 		 */
 		private void populateFunctions() {
 			List aggrList = aggregationManager.getAggregations(AggregationManager.AGGR_TABULAR);
@@ -883,12 +840,11 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * createCustomControls(org.eclipse.swt.widgets.Composite)
 		 */
-		@Override
 		protected void createCustomControls(Composite parent) {
 			this.composite = parent;
 
@@ -916,7 +872,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 * @param parent
 		 */
 		private void createParameterContainer(Composite parent) {
@@ -934,7 +890,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 * @param parent
 		 * @param index
 		 */
@@ -948,7 +904,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 			columnName = txtColumnName.getText();
 			txtColumnName.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					validateSyntax();
 				}
@@ -956,7 +911,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 * @param parent
 		 * @param index
 		 */
@@ -972,7 +927,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 					getTypeDisplayName((String) getProperty(getStructureOrHandle(), cellProperties[index]))));
 			cmbDataType.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					validateSyntax();
 				}
@@ -981,10 +935,10 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 */
 		private void populateDataTypeComboItems() {
-			Map<String, String> indexMap = new HashMap<>();
+			Map<String, String> indexMap = new HashMap<String, String>();
 			String[] dataTypeDisplayNames = new String[dataTypes.length];
 			for (int i = 0; i < dataTypes.length; i++) {
 				dataTypeDisplayNames[i] = dataTypes[i].getDisplayName();
@@ -999,7 +953,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 * @param parent
 		 * @param index
 		 */
@@ -1025,7 +979,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 			cmbAggregation.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleAggrSelectEvent(true);
 					validateSyntax();
@@ -1041,7 +994,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 */
 		private void handleAggrSelectEvent(boolean resetDataType) {
 			disposeOldParameterUI();
@@ -1060,9 +1013,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 				hideParameterUISection();
 			}
 
-			if (resetDataType) {
+			if (resetDataType)
 				updateDataTypeCombo();
-			}
 			parameterContainer.layout();
 			composite.layout();
 		}
@@ -1097,7 +1049,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 					txtDataField.addModifyListener(new ModifyListener() {
 
-						@Override
 						public void modifyText(ModifyEvent e) {
 							lastExpression = txtDataField.getText();
 							validateSyntax();
@@ -1109,7 +1060,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 					txtArgument.setLayoutData(ControlProvider.getGridDataWithHSpan(1));
 					txtArgument.addModifyListener(new ModifyListener() {
 
-						@Override
 						public void modifyText(ModifyEvent e) {
 							validateSyntax();
 						}
@@ -1133,7 +1083,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 */
 		private void updateDataTypeCombo() {
 			final IAggrFunction aggrFunc = getSelectedFunction();
@@ -1144,7 +1094,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 */
 		private void disposeOldParameterUI() {
 			Control[] children = parameterContainer.getChildren();
@@ -1154,14 +1104,14 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 */
 		private void hideParameterUISection() {
 			((GridData) parameterContainer.getLayoutData()).heightHint = 0;
 		}
 
 		/**
-		 *
+		 * 
 		 */
 		private void showParameterUISection() {
 			((GridData) parameterContainer.getLayoutData()).exclude = false;
@@ -1172,9 +1122,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		 * update the arguments' UI elements from the compute column handle.
 		 */
 		private void updateParametersText(IParameterDefn[] params) {
-			if (params.length == 0) {
+			if (params.length == 0)
 				return;
-			}
 			Object handle = getStructureOrHandle();
 			if (handle instanceof ComputedColumnHandle) {
 				ComputedColumnHandle cHandle = (ComputedColumnHandle) handle;
@@ -1205,7 +1154,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 * @param aggrFuncName
 		 * @return
 		 */
@@ -1242,7 +1191,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 * @param parent
 		 * @param index
 		 */
@@ -1255,15 +1204,13 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 				ComputedColumnHandle cHandle = (ComputedColumnHandle) handle;
 				txtFilter = ControlProvider.createText(composite, cHandle.getFilterExpression());
 
-			} else {
+			} else
 				txtFilter = ControlProvider.createText(composite,
 						(String) getProperty(getStructureOrHandle(), cellProperties[index]));
-			}
 			txtFilter.setLayoutData(ControlProvider.getGridDataWithHSpan(1));
 			txtFilter.setEnabled(false);
 			txtFilter.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					validateSyntax();
 				}
@@ -1272,7 +1219,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 			SelectionAdapter listener = new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent event) {
 					ExpressionBuilder expressionBuilder = new ExpressionBuilder(txtFilter.getText());
 					expressionBuilder.setExpressionProvier(
@@ -1291,7 +1237,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 * @param composite
 		 * @param text
 		 * @return
@@ -1299,7 +1245,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		private Button createExpressionButton(Composite composite, final Text text) {
 			SelectionAdapter listener = new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent event) {
 					ExpressionBuilder expressionBuilder = new ExpressionBuilder(text.getText());
 					expressionBuilder.setExpressionProvier(
@@ -1318,7 +1263,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/**
 		 * Set the default selection in the expression builder
-		 *
+		 * 
 		 * @param expressionBuilder
 		 */
 		private void setExprBuilderDefaultSelection(ExpressionBuilder expressionBuilder, String expression) {
@@ -1342,7 +1287,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/**
 		 * Finds the DataSetViewData instance according to the given column name
-		 *
+		 * 
 		 * @param columnName
 		 * @param handle
 		 * @return
@@ -1366,12 +1311,11 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * validateSemantics(java.lang.Object)
 		 */
-		@Override
 		protected IStatus validateSemantics(Object structureOrHandle) {
 			AggregationArgument aggrArgument = null;
 			String columnName = txtColumnName.getText();
@@ -1394,9 +1338,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 						handle.clearArgumentList();
 						IParameterDefn[] params = aggrFunc.getParameterDefn();
 						for (int i = 0; i < params.length; i++) {
-							if (txtParams[i].getText().trim().length() == 0) {
+							if (txtParams[i].getText().trim().length() == 0)
 								continue;
-							}
 							aggrArgument = StructureFactory.createAggregationArgument();
 							aggrArgument.setName(params[i].getName());
 							aggrArgument.setValue(txtParams[i].getText().trim());
@@ -1415,9 +1358,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 						handle.setFilterExpression(filter);
 						IParameterDefn[] params = aggrFunc.getParameterDefn();
 						for (int i = 0; i < params.length; i++) {
-							if (txtParams[i].getText().trim().length() == 0) {
+							if (txtParams[i].getText().trim().length() == 0)
 								continue;
-							}
 							aggrArgument = StructureFactory.createAggregationArgument();
 							aggrArgument.setName(params[i].getName());
 							aggrArgument.setValue(txtParams[i].getText().trim());
@@ -1434,7 +1376,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 * @return
 		 */
 		private IAggrFunction getSelectedFunction() {
@@ -1445,7 +1387,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		/**
 		 * Update the computed columns after adding a new column and cache the updated
 		 * DataSetViewData[]
-		 *
+		 * 
 		 */
 		private void updateComputedColumns(ComputedColumn handle) {
 			try {
@@ -1470,27 +1412,23 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * validateSyntax(java.lang.Object)
 		 */
-		@Override
 		protected IStatus validateSyntax(Object structureOrHandle) {
 			try {
 				// duplicated columnName check
-				if (!isUniqueColumnName()) {
+				if (!isUniqueColumnName())
 					return getMiscStatus(IStatus.ERROR,
 							Messages.getString("DataSetComputedColumnsPage.duplicatedName")); //$NON-NLS-1$
-				}
 
 				// blankProperty check
-				if (isBlankProperty(txtColumnName.getText())) {
+				if (isBlankProperty(txtColumnName.getText()))
 					return getBlankPropertyStatus(dialogLabels[COLUMN_NAME_INDEX]);
-				}
-				if (isBlankProperty(cmbDataType.getText())) {
+				if (isBlankProperty(cmbDataType.getText()))
 					return getBlankPropertyStatus(dialogLabels[DATA_TYPE_INDEX]);
-				}
 				// ColumnName is number
 				if (isNumeric(txtColumnName.getText())) {
 					return getMiscStatus(IStatus.ERROR, Messages.getString("DataSetComputedColumnsPage.numberName"));
@@ -1606,9 +1544,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		private ComputedColumnHandle findComputedColumn(String name) {
-			if (name == null || name.trim().length() == 0) {
+			if (name == null || name.trim().length() == 0)
 				return null;
-			}
 
 			PropertyHandle properyHandle = ((DataSetEditor) getContainer()).getHandle()
 					.getPropertyHandle(DataSetHandle.COMPUTED_COLUMNS_PROP);
@@ -1625,7 +1562,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 		}
 
 		/**
-		 *
+		 * 
 		 * @return
 		 * @throws BirtException
 		 */
@@ -1672,23 +1609,21 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage 
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * rollback()
 		 */
-		@Override
 		protected void rollback() {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * getTitle()
 		 */
-		@Override
 		protected String getTitle() {
 			if (this.getStructureOrHandle() instanceof Structure) {
 				return Messages.getString("DataSetComputedColumnsPage.InputDialog.title.New"); //$NON-NLS-1$

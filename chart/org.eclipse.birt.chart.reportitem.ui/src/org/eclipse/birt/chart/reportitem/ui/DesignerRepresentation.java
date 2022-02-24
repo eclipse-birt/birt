@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -76,7 +76,7 @@ import org.eclipse.swt.graphics.TextLayout;
 import org.eclipse.swt.widgets.Display;
 
 /**
- *
+ * 
  */
 public class DesignerRepresentation extends ReportElementFigure {
 
@@ -85,34 +85,34 @@ public class DesignerRepresentation extends ReportElementFigure {
 	private final static String ERROR_MSG = Messages.getString("DesignerRepresentation.error.Error"); //$NON-NLS-1$
 
 	/**
-	 *
+	 * 
 	 */
 	private IDeviceRenderer idr = null;
 
 	/**
-	 *
+	 * 
 	 */
 	protected final ChartReportItemImpl crii;
 
 	protected transient Chart cm;
 
 	/**
-	 *
+	 * 
 	 */
 	protected Image imgChart = null;
 
 	/**
-	 *
+	 * 
 	 */
 	private GC gc = null;
 
 	/**
-	 *
+	 * 
 	 */
 	private transient boolean bDirty = true;
 
 	/**
-	 *
+	 * 
 	 */
 	private static final PaletteData PALETTE_DATA = new PaletteData(0xFF0000, 0xFF00, 0xFF);
 
@@ -125,7 +125,7 @@ public class DesignerRepresentation extends ReportElementFigure {
 	boolean needFitContainer = false;
 
 	/**
-	 *
+	 * 
 	 * @param crii
 	 */
 	protected DesignerRepresentation(ChartReportItemImpl crii) {
@@ -157,7 +157,7 @@ public class DesignerRepresentation extends ReportElementFigure {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param bDirty
 	 */
 	final void setDirty(boolean bDirty) {
@@ -167,10 +167,9 @@ public class DesignerRepresentation extends ReportElementFigure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.IFigure#getMinimumSize(int, int)
 	 */
-	@Override
 	public Dimension getMinimumSize(int wHint, int hHint) {
 		if (minSize != null) {
 			return minSize;
@@ -198,10 +197,9 @@ public class DesignerRepresentation extends ReportElementFigure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
 	 */
-	@Override
 	public Dimension getPreferredSize(int wHint, int hHint) {
 		if (prefSize != null) {
 			return prefSize;
@@ -259,7 +257,7 @@ public class DesignerRepresentation extends ReportElementFigure {
 	}
 
 	private List<Double> parseSampleData(String s) {
-		List<Double> list = new ArrayList<>();
+		List<Double> list = new ArrayList<Double>();
 		String[] sa = s.split(",", 100); //$NON-NLS-1$
 
 		for (int i = 0; i < sa.length; i++) {
@@ -304,10 +302,9 @@ public class DesignerRepresentation extends ReportElementFigure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#paintClientArea(org.eclipse.draw2d.Graphics)
 	 */
-	@Override
 	public final void paintClientArea(Graphics g) {
 		if (bPainting) // PREVENT RE-ENTRANCY
 		{
@@ -402,7 +399,7 @@ public class DesignerRepresentation extends ReportElementFigure {
 	}
 
 	private List<Axis> findAllAxes(ChartWithAxes cwa) {
-		List<Axis> al = new ArrayList<>();
+		List<Axis> al = new ArrayList<Axis>();
 		final Axis axBase = cwa.getPrimaryBaseAxes()[0];
 		al.add(axBase);
 		al.addAll(Arrays.asList(cwa.getOrthogonalAxes(axBase, true)));
@@ -517,7 +514,7 @@ public class DesignerRepresentation extends ReportElementFigure {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor
 			 * #updateChart(org.eclipse.birt.chart.model.Chart, java.lang.Object)
 			 */
@@ -536,7 +533,7 @@ public class DesignerRepresentation extends ReportElementFigure {
 
 	/**
 	 * Show the exception message that prevented to draw the chart
-	 *
+	 * 
 	 * @param g2d
 	 * @param ex  The exception that occured
 	 */
@@ -583,7 +580,7 @@ public class DesignerRepresentation extends ReportElementFigure {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public final void dispose() {
 		if (gc != null) {
@@ -602,7 +599,7 @@ public class DesignerRepresentation extends ReportElementFigure {
 	}
 
 	private static String[] splitOnBreaks(String s, Font font, double maxSize) {
-		List<String> al = new ArrayList<>();
+		List<String> al = new ArrayList<String>();
 
 		// check hard break first
 		int i = 0, j;
@@ -627,7 +624,7 @@ public class DesignerRepresentation extends ReportElementFigure {
 			tl.setFont(font);
 			tl.setWidth((int) maxSize);
 
-			List<String> nal = new ArrayList<>();
+			List<String> nal = new ArrayList<String>();
 
 			for (Iterator<String> itr = al.iterator(); itr.hasNext();) {
 				String ns = itr.next();

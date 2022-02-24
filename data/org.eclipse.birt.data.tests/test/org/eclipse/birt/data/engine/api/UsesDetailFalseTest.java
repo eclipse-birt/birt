@@ -1,20 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.api;
-
-import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +22,13 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.junit.Test;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 
 import testutil.ConfigText;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Test case for DistinctValue feature
@@ -52,7 +52,6 @@ public class UsesDetailFalseTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
-	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData1.TableName"),
 				ConfigText.getString("Api.TestData1.TableSQL"), ConfigText.getString("Api.TestData1.TestDataFileName"));
@@ -62,7 +61,7 @@ public class UsesDetailFalseTest extends APITestCase {
 	 * Test whether result list value can be correctly gotten Result list includes:
 	 * row data list aggregation value list starting group level list ending group
 	 * level list
-	 *
+	 * 
 	 * @throws Exception
 	 * @throws Exception
 	 */
@@ -83,7 +82,7 @@ public class UsesDetailFalseTest extends APITestCase {
 	 * Test whether result list value can be correctly gotten Result list includes:
 	 * row data list aggregation value list starting group level list ending group
 	 * level list
-	 *
+	 * 
 	 * @throws Exception
 	 * @throws Exception
 	 */
@@ -152,7 +151,7 @@ public class UsesDetailFalseTest extends APITestCase {
 	/**
 	 * Prepare ReportQueryDefn 1: > only has one groupdefn 2: > set usesDetails flag
 	 * as false
-	 *
+	 * 
 	 * @param dataSetName
 	 * @return queryDefn
 	 */
@@ -163,7 +162,7 @@ public class UsesDetailFalseTest extends APITestCase {
 		queryDefn.setUsesDetails(false);
 
 		// GroupDefn
-		GroupDefinition[] groupDefn = { new GroupDefinition("group1"), };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group1"), };
 		keyExpr1.setGroupName("group1");
 		groupDefn[0].setKeyColumn(keyName1);
 		queryDefn.addResultSetExpression(keyName1, keyExpr1);
@@ -174,7 +173,8 @@ public class UsesDetailFalseTest extends APITestCase {
 		SubqueryDefinition subqueryDefn = new SubqueryDefinition("IAMTEST", queryDefn);
 		subqueryDefn.setUsesDetails(false);
 
-		GroupDefinition[] subGroupDefn = { new GroupDefinition("group2"), new GroupDefinition("group3") };
+		GroupDefinition[] subGroupDefn = new GroupDefinition[] { new GroupDefinition("group2"),
+				new GroupDefinition("group3") };
 		keyExpr2.setGroupName("group2");
 		keyExpr3.setGroupName("group3");
 		subGroupDefn[0].setKeyColumn(keyName2);
@@ -184,23 +184,21 @@ public class UsesDetailFalseTest extends APITestCase {
 		subGroupDefn[1].setKeyColumn(keyName3);
 		subqueryDefn.addResultSetExpression(keyName3, keyExpr3);
 
-		for (int i = 0; i < subGroupDefn.length; i++) {
+		for (int i = 0; i < subGroupDefn.length; i++)
 			subqueryDefn.addGroup(subGroupDefn[i]);
-		}
 
 		// add subquery
 		groupDefn[0].addSubquery(subqueryDefn);
 
-		for (int i = 0; i < groupDefn.length; i++) {
+		for (int i = 0; i < groupDefn.length; i++)
 			queryDefn.addGroup(groupDefn[i]);
-		}
 
 		return queryDefn;
 	}
 
 	/**
 	 * Get result list
-	 *
+	 * 
 	 * @param resultIt
 	 * @return List[] rowList, sumList, sglList, eglList
 	 * @throws DataException

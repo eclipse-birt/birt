@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
@@ -25,8 +25,6 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.DataType;
-import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
@@ -40,6 +38,8 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
@@ -74,7 +74,7 @@ public class Regression_120919 extends ChartTestCase {
 
 	/**
 	 * execute application
-	 *
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -125,7 +125,7 @@ public class Regression_120919 extends ChartTestCase {
 
 		// Data Set
 
-		final Object[][] data = { { new CDateTime(2005, 4, 1, 10, 12), new Double(143.26) },
+		final Object[][] data = new Object[][] { { new CDateTime(2005, 4, 1, 10, 12), new Double(143.26) },
 				{ new CDateTime(2005, 4, 1, 11, 15), new Double(156.55) },
 				{ new CDateTime(2005, 4, 1, 7, 15), new Double(95.25) }, };
 		try {
@@ -134,11 +134,9 @@ public class Regression_120919 extends ChartTestCase {
 
 				int idx = 0;
 
-				@Override
 				public void close() {
 				}
 
-				@Override
 				public Object evaluate(String expression) {
 					if ("X".equals(expression)) {
 						return data[idx][0];
@@ -150,18 +148,15 @@ public class Regression_120919 extends ChartTestCase {
 					return null;
 				}
 
-				@Override
 				public Object evaluateGlobal(String expression) {
 					return evaluate(expression);
 				}
 
-				@Override
 				public boolean first() {
 					idx = 0;
 					return true;
 				}
 
-				@Override
 				public boolean next() {
 					idx++;
 					return (idx < 2);

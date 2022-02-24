@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Replaces one structure in the structure list property.
- *
+ * 
  */
 
 public class PropertyReplaceRecord extends SimpleRecord {
@@ -69,7 +69,7 @@ public class PropertyReplaceRecord extends SimpleRecord {
 
 	/**
 	 * Constructor for replacing an item within a list with a new structure.
-	 *
+	 * 
 	 * @param obj     the design element which contains the structure list.
 	 * @param ref     reference to the structure list
 	 * @param theList the structure list.
@@ -100,11 +100,10 @@ public class PropertyReplaceRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean )
 	 */
-	@Override
 	protected void perform(boolean undo) {
 		if (undo) {
 			StructureContext context = ((Structure) newItem).getContext();
@@ -121,47 +120,44 @@ public class PropertyReplaceRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getTarget
 	 * ()
 	 */
-	@Override
 	public DesignElement getTarget() {
-		if (eventTarget != null) {
+		if (eventTarget != null)
 			return eventTarget.getElement();
-		}
 
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
-	@Override
 	public NotificationEvent getEvent() {
-		if (eventTarget != null) {
+		if (eventTarget != null)
 			return new PropertyEvent(eventTarget.getElement(), eventTarget.getPropName());
-		}
 
 		return new PropertyEvent(element, listRef.getPropDefn().getName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.activity.ActivityRecord#getNotificationChain ()
 	 */
 
-	@Override
 	protected List<RecordTask> getPostTasks() {
-		List<RecordTask> retList = new ArrayList<>(super.getPostTasks());
+		List<RecordTask> retList = new ArrayList<RecordTask>();
+		retList.addAll(super.getPostTasks());
+
 		retList.add(new NotificationRecordTask(element, getEvent()));
 
 		// if the structure is referencable, then send notification to the

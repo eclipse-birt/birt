@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.swt.widgets.Listener;
 
 public class ChartExpressionButtonUtil {
 
-	public interface IExpressionDescriptor {
+	public static interface IExpressionDescriptor {
 		void setExpressionType(String type);
 
 		String getExpressionType();
@@ -102,37 +102,30 @@ public class ChartExpressionButtonUtil {
 			return new ExpressionDescriptor(exprText, exprType);
 		}
 
-		@Override
 		public String getExpression() {
 			return exprCodec.encode();
 		}
 
-		@Override
 		public void setExpressionType(String type) {
 			// not implemented
 		}
 
-		@Override
 		public String getDisplayText() {
 			return exprCodec.getExpression();
 		}
 
-		@Override
 		public String getExpressionType() {
 			return exprCodec.getType();
 		}
 
-		@Override
 		public String getTooltip() {
 			return exprCodec.getExpression();
 		}
 
-		@Override
 		public boolean isColumnBinding() {
 			return false;
 		}
 
-		@Override
 		public String getBindingName() {
 			return exprCodec.getBindingName();
 		}
@@ -151,7 +144,6 @@ public class ChartExpressionButtonUtil {
 			exprCodec.setBindingName(bindingName, isCube, UIUtil.getDefaultScriptType());
 		}
 
-		@Override
 		public void setExpressionType(String type) {
 			if (!exprCodec.getType().equals(type)) {
 				exprCodec.setBindingName(bindingName, isCube, type);
@@ -194,7 +186,7 @@ public class ChartExpressionButtonUtil {
 
 		protected final boolean isCube;
 		protected IAssistField assistField;
-		protected Set<IExpressionDescriptor> predefinedQuerys = new LinkedHashSet<>();
+		protected Set<IExpressionDescriptor> predefinedQuerys = new LinkedHashSet<IExpressionDescriptor>();
 
 		private IExpressionValidator exprValidator = new DefaultExpressionValidator();
 
@@ -220,7 +212,7 @@ public class ChartExpressionButtonUtil {
 
 		private void updateAssistFieldContents() {
 			if (assistField != null) {
-				List<String> list = new ArrayList<>();
+				List<String> list = new ArrayList<String>();
 				for (IExpressionDescriptor desc : predefinedQuerys) {
 					list.add(desc.getDisplayText());
 				}
@@ -284,7 +276,7 @@ public class ChartExpressionButtonUtil {
 
 		/**
 		 * Sets expression validator.
-		 *
+		 * 
 		 * @param exprValidator
 		 */
 		public void setExpressionValidator(IExpressionValidator exprValidator) {
@@ -359,7 +351,6 @@ public class ChartExpressionButtonUtil {
 		public void initialize() {
 			control.addListener(SWT.Selection, new Listener() {
 
-				@Override
 				public void handleEvent(Event event) {
 					ComboProxy cp = ComboProxy.getInstance(control);
 					if (cp != null) {

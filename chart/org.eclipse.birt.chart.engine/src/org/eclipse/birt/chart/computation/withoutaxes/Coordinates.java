@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -25,7 +25,7 @@ public final class Coordinates {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param iColumn
 	 * @param iRow
 	 */
@@ -37,14 +37,14 @@ public final class Coordinates {
 	/**
 	 * @return Returns the column.
 	 */
-	public int getColumn() {
+	public final int getColumn() {
 		return iColumn;
 	}
 
 	/**
 	 * @return Returns the row.
 	 */
-	public int getRow() {
+	public final int getRow() {
 		return iRow;
 	}
 }

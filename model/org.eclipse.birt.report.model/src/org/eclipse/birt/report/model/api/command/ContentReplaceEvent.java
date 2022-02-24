@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,10 +45,10 @@ public class ContentReplaceEvent extends NotificationEvent {
 	private final DesignElement newElement;
 
 	/**
-	 *
+	 * 
 	 * /** Constructs the content replace event with the container element, old
 	 * element, new element and the slot within this container.
-	 *
+	 * 
 	 * @param theContainer the container element
 	 * @param theOld       the old element replaced
 	 * @param theNew       the new element
@@ -57,7 +57,6 @@ public class ContentReplaceEvent extends NotificationEvent {
 	 *             {@link #ContentReplaceEvent(ContainerContext, DesignElement, DesignElement)}
 	 */
 
-	@Deprecated
 	public ContentReplaceEvent(DesignElement theContainer, DesignElement theOld, DesignElement theNew, int theSlot) {
 		super(theContainer);
 		this.oldElement = theOld;
@@ -66,10 +65,10 @@ public class ContentReplaceEvent extends NotificationEvent {
 	}
 
 	/**
-	 *
+	 * 
 	 * /** Constructs the content replace event with the container element, old
 	 * element, new element and the slot within this container.
-	 *
+	 * 
 	 * @param containerInfo the container information
 	 * @param theOld        the old element replaced
 	 * @param theNew        the new element
@@ -84,19 +83,18 @@ public class ContentReplaceEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	@Override
 	public int getEventType() {
 		return CONTENT_REPLACE_EVENT;
 	}
 
 	/**
 	 * Returns the slot id within the container.
-	 *
+	 * 
 	 * @return the slot id within the container
 	 */
 
@@ -106,7 +104,7 @@ public class ContentReplaceEvent extends NotificationEvent {
 
 	/**
 	 * Returns the old element causing this event.
-	 *
+	 * 
 	 * @return the old element causing this event.
 	 */
 
@@ -116,7 +114,7 @@ public class ContentReplaceEvent extends NotificationEvent {
 
 	/**
 	 * Returns the new element causing this event.
-	 *
+	 * 
 	 * @return the new element causing this event.
 	 */
 

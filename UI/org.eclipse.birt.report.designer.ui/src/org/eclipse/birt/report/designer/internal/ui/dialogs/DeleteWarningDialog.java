@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,8 +22,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -38,8 +38,8 @@ import org.eclipse.swt.widgets.TreeItem;
  * When tries to delete the data source and data set, if other element
  * references them, this dialog will show up. Click the node and position the
  * node in editor to choose the node to be deleted.
- *
- *
+ * 
+ * 
  */
 public class DeleteWarningDialog extends BaseDialog {
 
@@ -51,7 +51,7 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param parent       the parent shell
 	 * @param title        the title of the dialog
 	 * @param refrenceList the list of references
@@ -63,7 +63,7 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param parent the parent shell
 	 * @param title  the title of the dialog
 	 */
@@ -73,10 +73,9 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/**
 	 * Creates the dialog area.
-	 *
+	 * 
 	 * @param parent the parent
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -98,11 +97,10 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
 	 */
-	@Override
 	protected boolean initDialog() {
 		getButton(IDialogConstants.OK_ID).setText(IDialogConstants.YES_LABEL);
 		Button no = getButton(IDialogConstants.CANCEL_ID);
@@ -117,7 +115,7 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/**
 	 * Gets the prefix String
-	 *
+	 * 
 	 * @return the prefix string
 	 */
 	public String getPreString() {
@@ -126,7 +124,7 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/**
 	 * gets the suffix string
-	 *
+	 * 
 	 * @return the suffix string
 	 */
 	public String getSufString() {
@@ -135,7 +133,7 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/**
 	 * Sets the prefix string
-	 *
+	 * 
 	 * @param str the string
 	 */
 	public void setPreString(String str) {
@@ -144,7 +142,7 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/**
 	 * Sets suffix string
-	 *
+	 * 
 	 * @param str the string
 	 */
 	public void setSufString(String str) {
@@ -153,7 +151,7 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/**
 	 * Gets the reference list.
-	 *
+	 * 
 	 * @return Returns the the reference list
 	 */
 	public List getRefereceList() {
@@ -162,7 +160,7 @@ public class DeleteWarningDialog extends BaseDialog {
 
 	/**
 	 * Sets the reference list.
-	 *
+	 * 
 	 * @param showMap the reference list.The list shouldn't be not null.
 	 */
 	public void setRefereceList(List newList) {

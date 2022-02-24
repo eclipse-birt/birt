@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -41,6 +41,9 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 	protected int startDetailsRow = -1;
 	protected int endDetailsRow;
 
+	private ITableGroupContent currentGroup;
+	private ITableBandContent currentBand;
+
 	private BirtStyle tableStyle;
 	private AreaBorders borderDefn;
 
@@ -50,21 +53,18 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		super(log, parent, table);
 	}
 
-	@Override
 	public int getColumnCount() {
 		return ((ITableContent) this.element).getColumnCount();
 	}
 
-	@Override
 	public void addNestedTable(NestedTableHandler nestedTableHandler) {
 		if (nestedTables == null) {
-			nestedTables = new ArrayList<>();
+			nestedTables = new ArrayList<NestedTableHandler>();
 		}
 		log.debug("Adding nested table: ", nestedTableHandler);
 		nestedTables.add(nestedTableHandler);
 	}
 
-	@Override
 	public boolean rowHasNestedTable(int rowNum) {
 		if (nestedTables != null) {
 			for (NestedTableHandler nestedTableHandler : nestedTables) {
@@ -78,7 +78,6 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		return false;
 	}
 
-	@Override
 	public int extendRowBy(int rowNum) {
 		int offset = 1;
 		if (nestedTables != null) {
@@ -191,6 +190,7 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		if ((band.getBandType() == ITableBandContent.BAND_DETAIL) && (startDetailsRow < 0)) {
 			startDetailsRow = state.rowNum;
 		}
+		currentBand = band;
 	}
 
 	@Override
@@ -198,14 +198,17 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		if (band.getBandType() == ITableBandContent.BAND_DETAIL) {
 			endDetailsRow = state.rowNum - 1;
 		}
+		currentBand = null;
 	}
 
 	@Override
 	public void startTableGroup(HandlerState state, ITableGroupContent group) throws BirtException {
+		currentGroup = group;
 	}
 
 	@Override
 	public void endTableGroup(HandlerState state, ITableGroupContent group) throws BirtException {
+		currentGroup = null;
 	}
 
 }

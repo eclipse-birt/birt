@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,7 @@ public class ReferenceGraph {
 
 	private Map<String, Integer> getColumnNameIndexMap() throws OdaException {
 		if (columnNameIndexMap == null) {
-			columnNameIndexMap = new HashMap<>();
+			columnNameIndexMap = new HashMap<String, Integer>();
 			int i = 1; // index is 1-based
 			for (ColumnReferenceNode crn : getColumnReferences()) {
 				String name = crn.getColumn().getName();
@@ -74,7 +74,7 @@ public class ReferenceGraph {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param columnName
 	 * @return the index of this column: 1-based
 	 * @throws OdaException
@@ -89,7 +89,7 @@ public class ReferenceGraph {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param index: column index; 1-based
 	 * @return
 	 */
@@ -102,13 +102,13 @@ public class ReferenceGraph {
 	 */
 	public ColumnReferenceNode[] getColumnReferences() throws OdaException {
 		if (columnReferences == null) {
-			List<ColumnReferenceNode> result = new ArrayList<>();
+			List<ColumnReferenceNode> result = new ArrayList<ColumnReferenceNode>();
 			for (ReferenceNode rn : roots) {
 				result.addAll(Arrays.asList(rn.getColumnReferenceNodes()));
 			}
 
 			// check duplicate index
-			Set<Integer> indexes = new HashSet<>();
+			Set<Integer> indexes = new HashSet<Integer>();
 			for (ColumnReferenceNode crn : result) {
 				if (indexes.contains(crn.getColumn().getIndex())) {
 					throw new OdaException(
@@ -124,7 +124,7 @@ public class ReferenceGraph {
 	}
 
 	public static ReferenceGraph create(PojoQuery query) {
-		List<ReferenceNode> roots = new ArrayList<>();
+		List<ReferenceNode> roots = new ArrayList<ReferenceNode>();
 		for (IColumnsMapping mapping : query.getColumnsMappings()) {
 			roots.add(mapping.createReferenceNode(null));
 		}

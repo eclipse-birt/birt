@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 public class StyleEvent extends NotificationEvent {
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param obj the element that changed.
 	 */
 
@@ -32,12 +32,11 @@ public class StyleEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
 	 * )
 	 */
-	@Override
 	public int getEventType() {
 		return STYLE_EVENT;
 	}

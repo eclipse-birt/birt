@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -83,7 +83,7 @@ public class CellContentHandler extends AbstractHandler {
 	/**
 	 * List of font changes for a single cell.
 	 */
-	protected List<RichTextRun> richTextRuns = new ArrayList<>();
+	protected List<RichTextRun> richTextRuns = new ArrayList<RichTextRun>();
 	/**
 	 * When having to join multiple text blocks together, track whether they are
 	 * block or inline display
@@ -131,7 +131,7 @@ public class CellContentHandler extends AbstractHandler {
 
 	/**
 	 * Finish processing for the current (real) cell.
-	 *
+	 * 
 	 * @param element The element that signifies the end of the cell (this may not
 	 *                be an ICellContent object if the cell is created for a label
 	 *                or text outside of a table).
@@ -295,7 +295,7 @@ public class CellContentHandler extends AbstractHandler {
 
 	/**
 	 * Calculate the width of a set of columns, in millimetres.
-	 *
+	 * 
 	 * @param startCol The first column to consider (inclusive).
 	 * @param endCol   The last column to consider (inclusive).
 	 * @return The sum of the widths of all columns between startCol and endCol
@@ -312,7 +312,7 @@ public class CellContentHandler extends AbstractHandler {
 	/**
 	 * Set the contents of an empty cell. This should now be the only way in which a
 	 * cell value is set (cells should not be modified).
-	 *
+	 * 
 	 * @param value   The value to set.
 	 * @param element The BIRT element supplying the value, used to set the style of
 	 *                the cell.
@@ -361,7 +361,7 @@ public class CellContentHandler extends AbstractHandler {
 
 	/**
 	 * Set the style of the current cell based on the style of a BIRT element.
-	 *
+	 * 
 	 * @param element The BIRT element to take the style from.
 	 */
 	@SuppressWarnings("deprecation")
@@ -414,7 +414,7 @@ public class CellContentHandler extends AbstractHandler {
 	 * Set the contents of the current cell. If the current cell is empty this will
 	 * format the cell optimally for the new value, if the current cell already has
 	 * some contents this will simply append the text value to the current contents.
-	 *
+	 * 
 	 * @param value The value to put into the current cell.
 	 */
 	protected void emitContent(HandlerState state, IContent element, Object value, boolean asBlock) {
@@ -506,6 +506,9 @@ public class CellContentHandler extends AbstractHandler {
 				} else {
 					data = smu.downloadImage(conn);
 				}
+			} catch (MalformedURLException ex) {
+				log.debug(ex.getClass(), ": ", ex.getMessage());
+				ex.printStackTrace();
 			} catch (IOException ex) {
 				log.debug(ex.getClass(), ": ", ex.getMessage());
 				ex.printStackTrace();

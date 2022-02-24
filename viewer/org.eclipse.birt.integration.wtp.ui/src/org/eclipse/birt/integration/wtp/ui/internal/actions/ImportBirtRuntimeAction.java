@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -57,7 +57,7 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
 
 /**
  * Import BIRT runtime component into a J2EE Dynamic Web Project
- *
+ * 
  */
 public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowActionDelegate, IBirtWizardConstants {
 
@@ -79,20 +79,18 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 	/**
 	 * Initialize
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
 	 */
-	@Override
 	public void init(IWorkbenchWindow window) {
 	}
 
 	/**
 	 * Invoke selectionChanged event
-	 *
+	 * 
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
 	 *      org.eclipse.jface.viewers.ISelection)
 	 */
-	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		boolean bEnable = false;
 		if (selection instanceof IStructuredSelection) {
@@ -113,22 +111,19 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 	 * Invoke selectionChanged method to check selected project.
 	 */
 	protected boolean validateSelected(ISelection selection) {
-		if (!(selection instanceof IStructuredSelection)) {
+		if (!(selection instanceof IStructuredSelection))
 			return false;
-		}
 
 		fSelection = (IStructuredSelection) selection;
 
 		// if IJavaProject
 		Object selectedProject = fSelection.getFirstElement();
-		if (selectedProject instanceof IJavaProject) {
+		if (selectedProject instanceof IJavaProject)
 			selectedProject = ((IJavaProject) selectedProject).getProject();
-		}
 
 		// Not a project, return false
-		if (!(selectedProject instanceof IProject)) {
+		if (!(selectedProject instanceof IProject))
 			return false;
-		}
 
 		project = (IProject) selectedProject;
 		return isValidProject(project);
@@ -136,20 +131,18 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 	/**
 	 * Action dispose implemention
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
 	 */
-	@Override
 	public void dispose() {
 		// Default
 	}
 
 	/**
 	 * Execute Action
-	 *
+	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	@Override
 	public void run(IAction action) {
 		try {
 			// initialize webapp settings from Extension
@@ -165,9 +158,8 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 			BirtConfigurationDialog dialog = new BirtConfigurationDialog(window.getShell(),
 					(Map) properties.get(EXT_CONTEXT_PARAM));
 			dialog.open();
-			if (dialog.getReturnCode() == Window.CANCEL) {
+			if (dialog.getReturnCode() == Window.CANCEL)
 				return;
-			}
 
 			// import birt runtime component
 			doImport(window, dialog.isClear());
@@ -178,7 +170,7 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 	/**
 	 * handle action to clear some old birt runtime files
-	 *
+	 * 
 	 * @param webContentPath
 	 * @param monitor
 	 * @throws Exception
@@ -186,9 +178,8 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 	protected void doClearAction(IPath webContentPath, IProgressMonitor monitor) throws Exception {
 		// remove the root folder
 		IPath webPath = webContentPath;
-		if (webPath.segmentCount() > 0) {
+		if (webPath.segmentCount() > 0)
 			webPath = webPath.removeFirstSegments(1);
-		}
 
 		// get conflict resources
 		Map map = BirtWizardUtil.initConflictResources(null);
@@ -198,16 +189,14 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 		while (it.hasNext()) {
 			Map.Entry entry = (Map.Entry) it.next();
 			String folder = (String) entry.getKey();
-			if (folder == null) {
+			if (folder == null)
 				continue;
-			}
 
 			// get the target folder
 			IPath path = webPath.append(folder);
 			IFolder tempFolder = project.getFolder(path);
-			if (tempFolder == null || !tempFolder.exists()) {
+			if (tempFolder == null || !tempFolder.exists())
 				continue;
-			}
 
 			List files = (List) entry.getValue();
 			if (files == null || files.size() <= 0) {
@@ -222,7 +211,7 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 	/**
 	 * action to import birt runtime component
-	 *
+	 * 
 	 * @param window
 	 * @param isClear
 	 * @throws Exception
@@ -238,9 +227,8 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 			monitor.open();
 
 			// check whether clears the old birt runtime files
-			if (isClear) {
+			if (isClear)
 				doClearAction(webContentPath, monitor.getProgressMonitor());
-			}
 
 			// import birt runtime component
 			BirtWizardUtil.doImports(project, null, webContentPath, monitor.getProgressMonitor(),
@@ -264,7 +252,7 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 	 * Process BIRT deployment configuration.
 	 * <p>
 	 * Save user-defined settings into web.xml file.
-	 *
+	 * 
 	 * @param monitor
 	 * @throws CoreException
 	 */
@@ -279,7 +267,6 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 		final IBirtFacetUtil util = BirtFacetUtilFactory.getInstance(modelProvider.getModelObject());
 		modelProvider.modify(new Runnable() {
-			@Override
 			public void run() {
 				util.configureWebApp((WebAppBean) properties.get(EXT_WEBAPP), project, query, monitor);
 				util.configureContextParam((Map) properties.get(EXT_CONTEXT_PARAM), project, query, monitor);
@@ -301,7 +288,7 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 	/**
 	 * Implement IResourceVisitor to clear the old birt runtime jar files under lib
 	 * folder.
-	 *
+	 * 
 	 */
 	private static class LibResourceVisitor implements IResourceVisitor {
 
@@ -313,7 +300,7 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 		/**
 		 * default constructor
-		 *
+		 * 
 		 * @param monitor
 		 */
 		public LibResourceVisitor(IProgressMonitor monitor, List files) {
@@ -323,17 +310,15 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 		/**
 		 * handle the resources.
-		 *
+		 * 
 		 * @param resource
 		 * @exception CoreException
 		 */
-		@Override
 		public boolean visit(IResource resource) throws CoreException {
 			if (resource instanceof IFile) {
 				IFile file = (IFile) resource;
-				if (file == null || files == null) {
+				if (file == null || files == null)
 					return true;
-				}
 
 				Iterator it = files.iterator();
 				while (it.hasNext()) {
@@ -350,7 +335,7 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 	/**
 	 * Implement IOverwriteQuery for importing process
-	 *
+	 * 
 	 */
 	private static class ImportOverwriteQuery implements IOverwriteQuery {
 
@@ -361,7 +346,7 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 		/**
 		 * default constructor
-		 *
+		 * 
 		 * @param shell
 		 */
 		public ImportOverwriteQuery(Shell shell) {
@@ -370,7 +355,7 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 
 		/**
 		 * Open confirm dialog
-		 *
+		 * 
 		 * @param file
 		 * @return
 		 */
@@ -378,7 +363,6 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 			final int[] result = { IDialogConstants.CANCEL_ID };
 			shell.getDisplay().syncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					String title = BirtWTPMessages.BIRTOverwriteQuery_title;
 					String msg = NLS.bind(BirtWTPMessages.BIRTOverwriteQuery_message, file);
@@ -395,11 +379,9 @@ public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowA
 		/**
 		 * wait to query overwrite result. If has selected ALL, always return ALL.
 		 */
-		@Override
 		public String queryOverwrite(String file) {
-			if (isALL) {
+			if (isALL)
 				return ALL;
-			}
 
 			String[] returnCodes = { YES, NO, ALL, CANCEL };
 			int returnVal = openDialog(file);

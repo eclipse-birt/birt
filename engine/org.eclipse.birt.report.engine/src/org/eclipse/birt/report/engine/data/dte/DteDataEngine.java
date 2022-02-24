@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
- *
+ * 
  */
 public class DteDataEngine extends AbstractDataEngine {
 
@@ -55,7 +55,7 @@ public class DteDataEngine extends AbstractDataEngine {
 	 *
 	 * It is only valid if the needCache set to true
 	 */
-	protected HashMap<String, String> rsetRelations = new HashMap<>();
+	protected HashMap<String, String> rsetRelations = new HashMap<String, String>();
 
 	/**
 	 * similar to rsetRelations. Difference is that rsetRelations2 is using row id
@@ -63,7 +63,7 @@ public class DteDataEngine extends AbstractDataEngine {
 	 * <li>the key is: [parent rset]"."[row id]"."[query id]</li>
 	 * <li>the value is: result set name</li>
 	 */
-	protected HashMap<String, String> rsetRelations2 = new HashMap<>();
+	protected HashMap<String, String> rsetRelations2 = new HashMap<String, String>();
 
 	// FIXME: code review. throw out all exceptions in data engines. And throw
 	// exception not return null.
@@ -73,10 +73,10 @@ public class DteDataEngine extends AbstractDataEngine {
 	 * configuration variable odadriver, for oda configuration file. The oda
 	 * configuration file is at $odadriver/drivers/driverType/odaconfig.xml.
 	 * <p>
-	 *
+	 * 
 	 * If the config variable is not set, search configuration file at
 	 * ./drivers/driverType/odaconfig.xml.
-	 *
+	 * 
 	 * @param context
 	 * @throws BirtException
 	 */
@@ -105,7 +105,7 @@ public class DteDataEngine extends AbstractDataEngine {
 
 	/**
 	 * this constructor is used
-	 *
+	 * 
 	 * @param context
 	 * @param obj
 	 * @throws BirtException
@@ -114,7 +114,6 @@ public class DteDataEngine extends AbstractDataEngine {
 		super(factory, context);
 	}
 
-	@Override
 	protected IBaseResultSet doExecuteQuery(IBaseResultSet parentResultSet, IQueryDefinition query, Object queryOwner,
 			boolean useCache) throws BirtException {
 		IPreparedQuery pQuery = (IPreparedQuery) queryMap.get(query);
@@ -158,7 +157,6 @@ public class DteDataEngine extends AbstractDataEngine {
 		return resultSet;
 	}
 
-	@Override
 	protected IBaseResultSet doExecuteCube(IBaseResultSet parentResultSet, ICubeQueryDefinition query,
 			Object queryOwner, boolean useCache) throws BirtException {
 		if (useCache) {
@@ -218,7 +216,6 @@ public class DteDataEngine extends AbstractDataEngine {
 		return resultSet;
 	}
 
-	@Override
 	protected void doPrepareQuery(Report report, Map appContext) {
 		// prepare report queries
 		queryIDMap.putAll(report.getQueryIDs());
@@ -266,7 +263,6 @@ public class DteDataEngine extends AbstractDataEngine {
 
 	private StringBuffer keyBuffer = new StringBuffer();
 
-	@Override
 	public String getResultID(String parent, String rawId, String queryId) {
 		keyBuffer.setLength(0);
 		keyBuffer.append(parent);
@@ -279,7 +275,6 @@ public class DteDataEngine extends AbstractDataEngine {
 		return rsetId;
 	}
 
-	@Override
 	public String getResultIDByRowID(String parent, String rowId, String queryId) {
 		keyBuffer.setLength(0);
 		keyBuffer.append(parent);

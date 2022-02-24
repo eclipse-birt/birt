@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -21,15 +21,13 @@ public class DataEngineThreadLocal {
 		return local;
 	}
 
-	private ThreadLocal<CloseListenerManager> closeHolder = new ThreadLocal<>() {
-		@Override
+	private ThreadLocal<CloseListenerManager> closeHolder = new ThreadLocal<CloseListenerManager>() {
 		protected CloseListenerManager initialValue() {
 			return new CloseListenerManager();
 		}
 	};
 
-	private ThreadLocal<TempPathManager> pathManager = new ThreadLocal<>() {
-		@Override
+	private ThreadLocal<TempPathManager> pathManager = new ThreadLocal<TempPathManager>() {
 		protected TempPathManager initialValue() {
 			return new TempPathManager();
 		}

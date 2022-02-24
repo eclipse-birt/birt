@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -32,49 +32,49 @@ public interface IResultMetaData extends IBaseResultMetaData {
 	 * Returns the column alias at the specified index. An alias is given to a
 	 * column as a programmatic convenience. A column can be referred using a name
 	 * or an alias interchangeably.
-	 *
+	 * 
 	 * @param index The projected column index.
 	 * @return The alias of the specified column. Null if none is defined.
 	 * @throws BirtException if given index is invalid.
 	 */
-	String getColumnAlias(int index) throws BirtException;
+	public String getColumnAlias(int index) throws BirtException;
 
 	/**
 	 * Returns the Data Engine data type name of the column at the specified index.
-	 *
+	 * 
 	 * @param index The projected column index.
 	 * @return The Data Engine data type name of the specified column.
 	 * @throws BirtException if given index is invalid.
 	 */
-	String getColumnTypeName(int index) throws BirtException;
+	public String getColumnTypeName(int index) throws BirtException;
 
 	/**
 	 * Returns the data provider specific data type name of the specified column.
-	 *
+	 * 
 	 * @return the data type name as defined by the data provider.
 	 * @throws BirtException if given index is invalid.
 	 */
-	String getColumnNativeTypeName(int index) throws BirtException;
+	public String getColumnNativeTypeName(int index) throws BirtException;
 
 	/**
 	 * Gets the label or display name of the column at the specified index.
-	 *
+	 * 
 	 * @param index The projected column index.
 	 * @return The label of the specified column.
 	 * @throws BirtException if given index is invalid.
 	 */
-	String getColumnLabel(int index) throws BirtException;
+	public String getColumnLabel(int index) throws BirtException;
 
 	/**
 	 * Indicates whether the specified projected column is defined as a computed
 	 * column. A computed column is one that is not retrieved from the underlying
 	 * data provider. Only those computed columns declared explicitly in a data set
 	 * design are considered as "computed" columns.
-	 *
+	 * 
 	 * @param index The projected column index.
 	 * @return true if the given column is a computed column; false otherwise.
 	 * @throws BirtException if given index is invalid.
 	 */
-	boolean isComputedColumn(int index) throws BirtException;
+	public boolean isComputedColumn(int index) throws BirtException;
 
 }

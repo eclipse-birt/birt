@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,20 +33,18 @@ public class MarginsPropertyDescriptorProvider extends PropertyDescriptorProvide
 
 	public String getUnit(String unit) {
 		IChoice choice = choiceSet.findChoiceByDisplayName(unit);
-		if (choice != null) {
+		if (choice != null)
 			return choice.getName();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	public String getUnitDisplayName(String unit) {
 		IChoice choice = choiceSet.findChoice(unit);
-		if (choice != null) {
+		if (choice != null)
 			return choice.getDisplayName();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	public String[] getUnits() {
@@ -56,9 +54,8 @@ public class MarginsPropertyDescriptorProvider extends PropertyDescriptorProvide
 	public String getDefaultUnit() {
 		String value = load().toString();
 
-		if (value == null || value.equals("")) { //$NON-NLS-1$
+		if (value == null || value.equals("")) //$NON-NLS-1$
 			return value;
-		}
 		try {
 			DimensionValue dimensionValue = DimensionValue.parse(value);
 			return dimensionValue.getUnits();
@@ -70,9 +67,8 @@ public class MarginsPropertyDescriptorProvider extends PropertyDescriptorProvide
 
 	public String getMeasureValue() {
 		String value = load().toString();
-		if (value == null || value.equals("")) { //$NON-NLS-1$
+		if (value == null || value.equals("")) //$NON-NLS-1$
 			return value;
-		}
 		try {
 			DimensionValue dimensionValue = DimensionValue.parse(value);
 			return StringUtil.doubleToString(dimensionValue.getMeasure(), 3);

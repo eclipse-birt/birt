@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.MessageBox;
 
 /**
- *
+ * 
  */
 
 public class ExportElementToLibraryAction extends AbstractViewAction {
@@ -53,10 +53,9 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
 		// will implement it later.
 		Object selection = getSelection();
@@ -80,10 +79,9 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	@Override
 	public void run() {
 
 		// ExportReportWizard exportReportWizard = new ExportReportWizard( );
@@ -117,8 +115,8 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 		if (selection instanceof DesignElementHandle) {
 			isNameNull = StringUtil.isBlank(((DesignElementHandle) selection).getName());
 		} else if (selection instanceof StructureHandle) {
-			isNameNull = !ElementExportUtil.canExport((StructureHandle) selection, false)
-					&& ElementExportUtil.canExport((StructureHandle) selection, true);
+			isNameNull = (ElementExportUtil.canExport((StructureHandle) selection, false) == false)
+					&& (ElementExportUtil.canExport((StructureHandle) selection, true) == true);
 		}
 
 		if (!isNameNull) {
@@ -126,7 +124,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 		}
 
 		SetNameAction renameAction = new SetNameAction(selection);
-		if (!renameAction.isEnabled()) {
+		if (renameAction.isEnabled() == false) {
 			MessageBox box = new MessageBox(UIUtil.getDefaultShell());
 			box.setText(Messages.getString("ExportElementToLibraryAction.waring"));
 			box.setMessage(Messages.getString("ExportElementToLibraryAction.waringMsg"));
@@ -168,9 +166,9 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 
 		/**
 		 * Create a new rename action under the specific viewer
-		 *
+		 * 
 		 * @param sourceViewer the source viewer
-		 *
+		 * 
 		 */
 		public SetNameAction(Object obj) {
 			this(obj, TEXT);
@@ -179,7 +177,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 
 		/**
 		 * Create a new rename action under the specific viewer with the given text
-		 *
+		 * 
 		 * @param sourceViewer the source viewer
 		 * @param text         the text of the action
 		 */
@@ -190,10 +188,9 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.action.IAction#isEnabled()
 		 */
-		@Override
 		public boolean isEnabled() {
 
 			if (selectedObj instanceof EmbeddedImageHandle) {
@@ -213,10 +210,9 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.action.IAction#run()
 		 */
-		@Override
 		public void run() {
 			doRename();
 		}
@@ -258,6 +254,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 				if (!reNameSucceed) {
 					// failed to rename, do again
 					doRename();
+					return;
 				}
 			}
 		}
@@ -272,7 +269,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction {
 
 		/**
 		 * Perform renaming
-		 *
+		 * 
 		 * @param handle  the handle of the element to rename
 		 * @param newName the newName to set
 		 * @return Returns true if perform successfully,or false if failed

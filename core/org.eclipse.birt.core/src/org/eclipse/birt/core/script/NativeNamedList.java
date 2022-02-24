@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -28,7 +28,6 @@ public class NativeNamedList implements Scriptable {
 
 	static final String JS_CLASS_NAME = "NamedList";
 
-	@Override
 	public String getClassName() {
 		return JS_CLASS_NAME;
 	}
@@ -47,7 +46,6 @@ public class NativeNamedList implements Scriptable {
 		}
 	}
 
-	@Override
 	public Object get(String name, Scriptable start) {
 		if ("length".equals(name)) {
 			return Integer.valueOf(names.size());
@@ -59,7 +57,6 @@ public class NativeNamedList implements Scriptable {
 		return NOT_FOUND;
 	}
 
-	@Override
 	public Object get(int index, Scriptable start) {
 		String name = (String) names.get(index);
 		Object value = values.get(name);
@@ -69,15 +66,16 @@ public class NativeNamedList implements Scriptable {
 		return NOT_FOUND;
 	}
 
-	@Override
 	public boolean has(String name, Scriptable start) {
-		if ("length".equals(name) || values.containsKey(name)) {
+		if ("length".equals(name)) {
+			return true;
+		}
+		if (values.containsKey(name)) {
 			return true;
 		}
 		return false;
 	}
 
-	@Override
 	public boolean has(int index, Scriptable start) {
 		if (index >= 0 && index <= names.size()) {
 			return true;
@@ -85,7 +83,6 @@ public class NativeNamedList implements Scriptable {
 		return false;
 	}
 
-	@Override
 	public void put(String name, Scriptable start, Object value) {
 		NativeEntry entry = (NativeEntry) values.get(name);
 		if (entry != null) {
@@ -93,51 +90,41 @@ public class NativeNamedList implements Scriptable {
 		}
 	}
 
-	@Override
 	public void put(int index, Scriptable start, Object value) {
 		String name = (String) names.get(index);
 		put(name, start, value);
 	}
 
-	@Override
 	public void delete(String name) {
 	}
 
-	@Override
 	public void delete(int index) {
 	}
 
-	@Override
 	public Scriptable getPrototype() {
 		return prototype;
 	}
 
-	@Override
 	public void setPrototype(Scriptable prototype) {
 		this.prototype = prototype;
 	}
 
-	@Override
 	public Scriptable getParentScope() {
 		return parent;
 	}
 
-	@Override
 	public void setParentScope(Scriptable parent) {
 		this.parent = parent;
 	}
 
-	@Override
 	public Object[] getIds() {
 		return names.toArray();
 	}
 
-	@Override
 	public Object getDefaultValue(Class hint) {
 		return null;
 	}
 
-	@Override
 	public boolean hasInstance(Scriptable instance) {
 		return false;
 	}
@@ -150,7 +137,6 @@ public class NativeNamedList implements Scriptable {
 		Object value;
 		static final String JS_CLASS_NAME = "Entry";
 
-		@Override
 		public String getClassName() {
 			return JS_CLASS_NAME;
 		}
@@ -160,7 +146,6 @@ public class NativeNamedList implements Scriptable {
 			this.value = value;
 		}
 
-		@Override
 		public Object get(String name, Scriptable start) {
 			if ("name".equals(name)) {
 				return this.name;
@@ -171,12 +156,10 @@ public class NativeNamedList implements Scriptable {
 			return NOT_FOUND;
 		}
 
-		@Override
 		public Object get(int index, Scriptable start) {
 			return NOT_FOUND;
 		}
 
-		@Override
 		public boolean has(String name, Scriptable start) {
 			if ("name".equals(name) || "value".equals(name)) {
 				return true;
@@ -184,61 +167,49 @@ public class NativeNamedList implements Scriptable {
 			return false;
 		}
 
-		@Override
 		public boolean has(int index, Scriptable start) {
 			return false;
 		}
 
-		@Override
 		public void put(String name, Scriptable start, Object value) {
 			if ("value".equals(name)) {
 				this.value = value;
 			}
 		}
 
-		@Override
 		public void put(int index, Scriptable start, Object value) {
 		}
 
-		@Override
 		public void delete(String name) {
 		}
 
-		@Override
 		public void delete(int index) {
 		}
 
-		@Override
 		public Scriptable getPrototype() {
 			return prototype;
 		}
 
-		@Override
 		public void setPrototype(Scriptable prototype) {
 			this.prototype = prototype;
 		}
 
-		@Override
 		public Scriptable getParentScope() {
 			return parent;
 		}
 
-		@Override
 		public void setParentScope(Scriptable parent) {
 			this.parent = parent;
 		}
 
-		@Override
 		public Object[] getIds() {
 			return null;
 		}
 
-		@Override
 		public Object getDefaultValue(Class hint) {
 			return value;
 		}
 
-		@Override
 		public boolean hasInstance(Scriptable instance) {
 			return false;
 		}

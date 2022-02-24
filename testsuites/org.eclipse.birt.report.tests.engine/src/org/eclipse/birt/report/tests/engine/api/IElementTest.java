@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,14 +33,12 @@ public class IElementTest extends BaseEmitter {
 	/**
 	 * Test set/getParent() methods.
 	 */
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT(report, report);
 	}
 
-	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
@@ -60,22 +58,18 @@ public class IElementTest extends BaseEmitter {
 		runandrender_emitter(EMITTER_HTML, false);
 	}
 
-	@Override
 	public void endContainer(IContainerContent container) {
 		System.out.println(container);
 	}
 
-	@Override
 	public void endCell(ICellContent cell) {
 		assertTrue(cell.getParent() instanceof IRowContent);
 	}
 
-	@Override
 	public void endRow(IRowContent row) {
 		assertTrue(row.getParent() instanceof ITableContent);
 	}
 
-	@Override
 	protected String getReportName() {
 		return report;
 	}

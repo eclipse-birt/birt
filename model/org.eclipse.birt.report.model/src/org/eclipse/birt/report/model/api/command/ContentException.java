@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Reports an error during a container operation.
- *
+ * 
  */
 
 public class ContentException extends SemanticException {
@@ -70,11 +70,10 @@ public class ContentException extends SemanticException {
 
 	/**
 	 * The content element cannot be deleted.
-	 *
+	 * 
 	 * @deprecated since birt 2.2
 	 */
 
-	@Deprecated
 	public static final String DESIGN_EXCEPTION_DROP_FORBIDDEN = "DESIGN_EXCEPTION_DROP_FORBIDDEN"; //$NON-NLS-1$
 
 	/**
@@ -180,7 +179,7 @@ public class ContentException extends SemanticException {
 
 	/**
 	 * Constructs the exception with container element, slot id, and error code.
-	 *
+	 * 
 	 * @param element The container element.
 	 * @param slotID  The slot within the container.
 	 * @param errCode What went wrong.
@@ -194,7 +193,7 @@ public class ContentException extends SemanticException {
 	/**
 	 * Constructs the exception with container element slot id, content element and
 	 * error code.
-	 *
+	 * 
 	 * @param element The container element.
 	 * @param slotID  The slot within the container.
 	 * @param content The content in the container element.
@@ -210,7 +209,7 @@ public class ContentException extends SemanticException {
 	/**
 	 * Constructs the exception with container element slot id, content element and
 	 * error code.
-	 *
+	 * 
 	 * @param element The container element.
 	 * @param slotID  The slot within the container.
 	 * @param content The content in the container element.
@@ -225,7 +224,7 @@ public class ContentException extends SemanticException {
 
 	/**
 	 * Constructs the exception with container element, slot id, and error code.
-	 *
+	 * 
 	 * @param element  The container element.
 	 * @param propName The property name within the container.
 	 * @param errCode  What went wrong.
@@ -239,7 +238,7 @@ public class ContentException extends SemanticException {
 	/**
 	 * Constructs the exception with container element slot id, content element and
 	 * error code.
-	 *
+	 * 
 	 * @param element  The container element.
 	 * @param propName The property name within the container.
 	 * @param content  The content in the container element.
@@ -254,7 +253,7 @@ public class ContentException extends SemanticException {
 
 	/**
 	 * Returns the slot ID.
-	 *
+	 * 
 	 * @return the slot ID
 	 */
 
@@ -265,7 +264,7 @@ public class ContentException extends SemanticException {
 	/**
 	 * Gets the name of the container. It is either the slot name or the property
 	 * name.
-	 *
+	 * 
 	 * @return name of the container
 	 */
 	private String getContainerName() {
@@ -279,11 +278,10 @@ public class ContentException extends SemanticException {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	@Override
 	public String getLocalizedMessage() {
 		if (sResourceKey == DESIGN_EXCEPTION_SLOT_NOT_FOUND
 				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED) {

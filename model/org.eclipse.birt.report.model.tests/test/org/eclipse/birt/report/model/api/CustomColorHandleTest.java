@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,6 @@ public class CustomColorHandleTest extends BaseTestCase {
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign(INPUT_FILE_NAME, ULocale.ENGLISH);
@@ -43,7 +42,7 @@ public class CustomColorHandleTest extends BaseTestCase {
 
 	/**
 	 * Test internal logic of getRGB(). The result of it based on color value.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -159,7 +158,7 @@ public class CustomColorHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests get/set Color method.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testGetSet() throws Exception {
@@ -188,7 +187,7 @@ public class CustomColorHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests save color handle method
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testWriter() throws Exception {

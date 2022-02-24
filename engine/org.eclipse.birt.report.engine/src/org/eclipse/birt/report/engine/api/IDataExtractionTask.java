@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * an engine task that extracts data from a report. The task allows the return
  * of metadata and data from engine
- *
+ * 
  * User first creates the task from engine, then sets a report component ID, or
  * report component instance ID. If none is set, data extraction is assumed to
  * be based on all the data stored in the report. The user can call the
@@ -31,7 +31,7 @@ public interface IDataExtractionTask extends IExtractionTask {
 
 	/**
 	 * sets the report item identifier that data extraction will happen on
-	 *
+	 * 
 	 * @param cid report item identifier
 	 */
 	// public void setItemID( ComponentID cid );
@@ -39,74 +39,72 @@ public interface IDataExtractionTask extends IExtractionTask {
 	/**
 	 * to set the indicator whether to enable the cube export functionality.
 	 */
-	void setCubeExportEnabled(boolean isCubeExportEnabled);
+	public void setCubeExportEnabled(boolean isCubeExportEnabled);
 
 	/**
 	 * to indicate whether the cube export functionality should be enabled or not.
 	 */
-	boolean isCubeExportEnabled();
+	public boolean isCubeExportEnabled();
 
 	/**
 	 * * @param iid
-	 *
+	 * 
 	 * identifies a report item instance that data extraction will happen on
 	 */
-	void setInstanceID(InstanceID iid);
+	public void setInstanceID(InstanceID iid);
 
 	/**
 	 * returns the metadata corresponding to the data stored in the report document,
 	 * for the specific extraction level, i.e., report, daat set, report item, or
 	 * report item instance levels. To get the metadata for the extracted data, use
 	 * the getResultMetaData method from the IDataIterator interface.
-	 *
+	 * 
 	 * @return a List of IResultMetaData. The list usually has one result set meta
 	 *         data, but could have more if data extraction is based on the whole
 	 *         report
 	 * @deprecated
 	 */
-	@Deprecated
-	List getMetaData() throws EngineException;
+	public List getMetaData() throws EngineException;
 
 	/**
 	 * returns the metadata corresponding to the data stored in the report document,
 	 * for the specific extraction level, i.e., report, daat set, report item, or
 	 * report item instance levels. To get the metadata for the extracted data, use
 	 * the getResultMetaData method from the IDataIterator interface.
-	 *
+	 * 
 	 * @return a List of IResultSetItem.
 	 */
-	List getResultSetList() throws EngineException;
+	public List getResultSetList() throws EngineException;
 
 	/**
 	 * select the result set from which to export data.
-	 *
+	 * 
 	 * @param resultSetName the result set name
 	 */
-	void selectResultSet(String resultSetName);
+	public void selectResultSet(String resultSetName);
 
 	/**
 	 * @param columnName name of the column to be included in the data set
 	 */
-	void selectColumns(String[] columnNames);
+	public void selectColumns(String[] columnNames);
 
 	/**
 	 * @param maxRows set the maximum rows that are returned from ResultSet
 	 */
-	void setMaxRows(int maxRows);
+	public void setMaxRows(int maxRows);
 
 	/**
 	 * Sets start row of the result.
 	 */
-	void setStartRow(int startRow);
+	public void setStartRow(int startRow);
 
 	/**
 	 * whether gets distinct values
 	 */
-	void setDistinctValuesOnly(boolean distinct);
+	public void setDistinctValuesOnly(boolean distinct);
 
 	/**
 	 * Redeclare this method in order to return IExtractionResults.
 	 */
-	@Override
-	IExtractionResults extract() throws EngineException;
+	public IExtractionResults extract() throws EngineException;
 }

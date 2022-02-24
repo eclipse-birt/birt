@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -52,7 +52,7 @@ public final class DefaultsManager {
 
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine/model.prefs"); //$NON-NLS-1$
 
-	public static void main(String[] sa) throws Exception {
+	public static final void main(String[] sa) throws Exception {
 		/*
 		 * DefaultsManager dm = DefaultsManager.instance(); String s =
 		 * dm.pr.get("/label/datapoint/font", null);
@@ -60,7 +60,7 @@ public final class DefaultsManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public synchronized static DefaultsManager instance() {
@@ -84,26 +84,26 @@ public final class DefaultsManager {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private DefaultsManager() {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws BackingStoreException
 	 */
-	private void createSample() throws IOException, BackingStoreException {
+	private final void createSample() throws IOException, BackingStoreException {
 		DefaultsManager dm = DefaultsManager.instance();
 		dm.samplePreferences();
 		dm.write();
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	private void samplePreferences() {
+	private final void samplePreferences() {
 		pr = DefaultsManager.create(null, null);
 		Preferences prLabel = DefaultsManager.create(pr, PreferenceKey.N_LABEL);
 		Preferences prLabelDatapoint = DefaultsManager.create(prLabel, PreferenceKey.N_DATAPOINT);
@@ -174,40 +174,51 @@ public final class DefaultsManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param pParent
 	 * @param pk
 	 * @return
 	 */
-	private static Preferences create(Preferences pParent, PreferenceKey pk) {
+	private static final Preferences create(Preferences pParent, PreferenceKey pk) {
 		return (pParent == null) ? (Preferences.userRoot()) : pParent.node(pk.getKey());
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws BackingStoreException
 	 */
-	public void write() throws IOException, BackingStoreException {
-		try (FileOutputStream fos = SecurityUtil.newFileOutputStream(sLocation)) {
+	public final void write() throws IOException, BackingStoreException {
+		FileOutputStream fos = null;
+		try {
+			fos = SecurityUtil.newFileOutputStream(sLocation);
 			pr.exportSubtree(fos);
+		} finally {
+			if (fos != null) {
+				fos.close();
+			}
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws InvalidPreferencesFormatException
 	 */
-	public void read() throws IOException, InvalidPreferencesFormatException {
+	public final void read() throws IOException, InvalidPreferencesFormatException {
 		try {
 			pr = AccessController.doPrivileged(new PrivilegedExceptionAction<Preferences>() {
 
-				@Override
 				public Preferences run() throws Exception {
-					try (FileInputStream fis = new FileInputStream(sLocation)) {
+					FileInputStream fis = null;
+					try {
+						fis = new FileInputStream(sLocation);
 						Preferences.importPreferences(fis);
 						return Preferences.userRoot();
+					} finally {
+						if (fis != null) {
+							fis.close();
+						}
 					}
 				}
 
@@ -223,15 +234,14 @@ public final class DefaultsManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
-	private boolean exists() {
+	private final boolean exists() {
 		final File f = new File(sLocation);
 
 		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
-			@Override
 			public Boolean run() {
 				return (f.exists() && f.isFile());
 			}

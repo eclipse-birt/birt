@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.core.Module;
  * the unresolved name of the parent element, or a cached pointer to the parent
  * element. The parent element must always be of the same element type as the
  * derived element.
- *
+ * 
  */
 
 public class ExtendsPropertyType extends PropertyType {
@@ -54,22 +54,20 @@ public class ExtendsPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
-	@Override
 	public int getTypeCode() {
 		return EXTENDS_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
-	@Override
 	public String getName() {
 		return EXTENDS_TYPE_NAME;
 	}
@@ -78,18 +76,16 @@ public class ExtendsPropertyType extends PropertyType {
 	 * Validates an extends property value of an element. The value can be a string
 	 * value that takes the name of the target element, or it can be the instance of
 	 * the target element.
-	 *
+	 * 
 	 * @return An <code>ElementRefValue</code> that holds the target element, the
 	 *         reference is resolved if the input value is the instance of the
 	 *         target element.
 	 */
 
-	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		// This implementation assumes that the class-specific validation
 		// was already done.
@@ -123,11 +119,9 @@ public class ExtendsPropertyType extends PropertyType {
 	 * <code>ElementRefValue</code>, return <code>null</code> if the value is null.
 	 */
 
-	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		ElementRefValue refValue = (ElementRefValue) value;
 		return refValue.getQualifiedReference();
@@ -135,7 +129,7 @@ public class ExtendsPropertyType extends PropertyType {
 
 	/**
 	 * Validates the element value.
-	 *
+	 * 
 	 * @param module     report design
 	 * @param targetDefn definition of target element
 	 * @param target     target element
@@ -154,7 +148,7 @@ public class ExtendsPropertyType extends PropertyType {
 
 	/**
 	 * Validates the element name.
-	 *
+	 * 
 	 * @param module     report design
 	 * @param targetDefn definition of target element
 	 * @param name       element name

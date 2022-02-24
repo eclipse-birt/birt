@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -384,7 +384,6 @@ public abstract class BaseCrosstabExecutor implements ICrosstabConstants, IRepor
 		return null;
 	}
 
-	@Override
 	public IContent getContent() {
 		return content;
 	}
@@ -450,32 +449,26 @@ public abstract class BaseCrosstabExecutor implements ICrosstabConstants, IRepor
 		return false;
 	}
 
-	@Override
 	public void close() {
 		// TODO clean up
 	}
 
-	@Override
 	public Object getModelObject() {
 		return modelHandle;
 	}
 
-	@Override
 	public void setModelObject(Object handle) {
 		modelHandle = handle;
 	}
 
-	@Override
 	public IReportItemExecutor getParent() {
 		return parentExecutor;
 	}
 
-	@Override
 	public void setParent(IReportItemExecutor parent) {
 		parentExecutor = parent;
 	}
 
-	@Override
 	public IBaseResultSet[] getQueryResults() {
 		if (cubeRset == null) {
 			return null;
@@ -484,12 +477,10 @@ public abstract class BaseCrosstabExecutor implements ICrosstabConstants, IRepor
 		return new IBaseResultSet[] { cubeRset };
 	}
 
-	@Override
 	public IExecutorContext getContext() {
 		return context;
 	}
 
-	@Override
 	public void setContext(IExecutorContext context) {
 		this.context = context;
 	}

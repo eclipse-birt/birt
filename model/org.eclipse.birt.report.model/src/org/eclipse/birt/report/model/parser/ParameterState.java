@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
  * Base class for parsing all kinds of parameter.
- *
+ * 
  */
 
 public abstract class ParameterState extends ReportElementState {
@@ -24,7 +24,7 @@ public abstract class ParameterState extends ReportElementState {
 	/**
 	 * Constructs the parameter state with the design parser handler, the container
 	 * element and the container slot of the parameter.
-	 *
+	 * 
 	 * @param handler      the design file parser handler
 	 * @param theContainer the container of this parameter
 	 * @param slot         the slot ID of the slot where the parameter is stored.
@@ -36,7 +36,7 @@ public abstract class ParameterState extends ReportElementState {
 
 	/**
 	 * Constructs the parameter state with design file parser handler.
-	 *
+	 * 
 	 * @param handler the design file parser handler
 	 */
 

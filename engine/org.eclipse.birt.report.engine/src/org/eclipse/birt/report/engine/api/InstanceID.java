@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ public class InstanceID {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param parent   instance id of parent
 	 * @param designId design id
 	 * @param dataId   data id
@@ -47,7 +47,7 @@ public class InstanceID {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param parent   instance id of parent
 	 * @param uid
 	 * @param designId
@@ -62,7 +62,7 @@ public class InstanceID {
 
 	/**
 	 * Get parent id of this report element instance.
-	 *
+	 * 
 	 * @return parentId
 	 */
 	public InstanceID getParentID() {
@@ -71,7 +71,7 @@ public class InstanceID {
 
 	/**
 	 * Get unique id of this report element instance.
-	 *
+	 * 
 	 * @return unique id
 	 */
 	public long getUniqueID() {
@@ -87,7 +87,7 @@ public class InstanceID {
 
 	/**
 	 * Get data id of the element.
-	 *
+	 * 
 	 * @return dataId
 	 */
 	public DataID getDataID() {
@@ -96,7 +96,7 @@ public class InstanceID {
 
 	/**
 	 * Append unique id, designId, dataId to buffer.
-	 *
+	 * 
 	 * @param buffer
 	 */
 	protected void append(StringBuffer buffer) {
@@ -113,7 +113,6 @@ public class InstanceID {
 		}
 	}
 
-	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		append(buffer);
@@ -122,7 +121,7 @@ public class InstanceID {
 
 	/**
 	 * Append uniqueID to buffer.
-	 *
+	 * 
 	 * @param buffer
 	 */
 	protected void appendUniqueID(StringBuffer buffer) {
@@ -135,7 +134,7 @@ public class InstanceID {
 
 	/**
 	 * Returns a string representation of the uniqueID.
-	 *
+	 * 
 	 * @return
 	 */
 	public String toUniqueString() {
@@ -146,7 +145,7 @@ public class InstanceID {
 
 	/**
 	 * Parse the input string into an InstanceId object.
-	 *
+	 * 
 	 * @param instanceId the input string to parse
 	 * @return InstantceID object
 	 */
@@ -159,7 +158,7 @@ public class InstanceID {
 
 	/**
 	 * Parse the input char buffer into an InstanceId object.
-	 *
+	 * 
 	 * @param buffer the input char buffer to parse
 	 * @param offset offset of the buffer
 	 * @param length length of the buffer

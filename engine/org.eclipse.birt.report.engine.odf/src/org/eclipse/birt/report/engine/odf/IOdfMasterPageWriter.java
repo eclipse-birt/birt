@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -17,23 +17,22 @@ import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 
 public interface IOdfMasterPageWriter extends IOdfWriter {
 
-	void start();
+	public abstract void start();
 
-	void end();
+	public abstract void end();
 
-	void startMasterPage(StyleEntry pageLayout, String masterPageName, String displayName);
+	public abstract void startMasterPage(StyleEntry pageLayout, String masterPageName, String displayName);
 
-	void endMasterPage();
+	public abstract void endMasterPage();
 
-	void startHeader();
+	public abstract void startHeader();
 
-	void endHeader();
+	public abstract void endHeader();
 
-	void startFooter();
+	public abstract void startFooter();
 
-	void endFooter();
+	public abstract void endFooter();
 
-	@Override
-	void writeString(String s);
+	public abstract void writeString(String s);
 
 }

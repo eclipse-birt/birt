@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * Supports dropping elements to outline view.
- *
+ * 
  */
 public class LibraryDropListener extends DesignerDropListener {
 
@@ -87,12 +87,11 @@ public class LibraryDropListener extends DesignerDropListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#
 	 * validateTarget(java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	protected boolean validateTarget(Object target, Object transfer) {
 		// if (!validateSameParent(target, transfer))
 		// {
@@ -164,12 +163,11 @@ public class LibraryDropListener extends DesignerDropListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#
 	 * moveData(java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	protected boolean moveData(Object transfer, Object target) {
 		// execute creation in new extension
 		//

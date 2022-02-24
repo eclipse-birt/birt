@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -104,7 +104,6 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 		}
 	}
 
-	@Override
 	protected boolean checkPageBreak() throws BirtException {
 		boolean ret = false;
 		if (!isInInlineStacking && context.isAutoPageBreak()) {
@@ -164,13 +163,11 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 
 	}
 
-	@Override
 	public void close() throws BirtException {
 		close(true);
 		finished = true;
 	}
 
-	@Override
 	public void initialize() throws BirtException {
 		IStyle style = content.getStyle();
 		calculateSpecifiedWidth(content);
@@ -190,12 +187,10 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 		// parent.add( this );
 	}
 
-	@Override
 	public InlineContainerArea cloneArea() {
 		return new InlineContainerArea(this);
 	}
 
-	@Override
 	public void endLine(boolean endParagraph) throws BirtException {
 		lineCount++;
 		if (getChildrenCount() > 0) {
@@ -207,12 +202,10 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 		}
 	}
 
-	@Override
 	public int getMaxLineWidth() {
 		return lineParent.getMaxLineWidth();
 	}
 
-	@Override
 	public boolean isEmptyLine() {
 		if (getChildrenCount() > 0) {
 			return false;
@@ -220,7 +213,6 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 		return lineParent.isEmptyLine();
 	}
 
-	@Override
 	public void setTextIndent(ITextContent content) {
 		int ip = lineParent.getCurrentIP();
 		lineParent.setTextIndent(content);
@@ -229,12 +221,10 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 		}
 	}
 
-	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
-	@Override
 	public SplitResult splitLines(int lineCount) throws BirtException {
 		return SplitResult.SUCCEED_WITH_NULL;
 	}

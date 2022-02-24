@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -39,22 +39,18 @@ public class ExceptionHandler {
 	}
 
 	static OdaDataException newException(String errorCode, Object errMsgArgv) {
-		if (errMsgArgv == null) {
+		if (errMsgArgv == null)
 			return new OdaDataException(errorCode);
-		}
-		if (errMsgArgv.getClass().isArray()) {
+		if (errMsgArgv.getClass().isArray())
 			return new OdaDataException(errorCode, (Object[]) errMsgArgv);
-		}
 		return new OdaDataException(errorCode, errMsgArgv);
 	}
 
 	static OdaDataException newException(String errorCode, Object errMsgArgv, Throwable cause) {
-		if (errMsgArgv == null) {
+		if (errMsgArgv == null)
 			return new OdaDataException(errorCode, cause);
-		}
-		if (errMsgArgv.getClass().isArray()) {
+		if (errMsgArgv.getClass().isArray())
 			return new OdaDataException(errorCode, cause, (Object[]) errMsgArgv);
-		}
 		return new OdaDataException(errorCode, cause, errMsgArgv);
 	}
 
@@ -65,9 +61,8 @@ public class ExceptionHandler {
 	protected static LogHelper getLogger() {
 		if (sm_logger == null) {
 			synchronized (ExceptionHandler.class) {
-				if (sm_logger == null) {
+				if (sm_logger == null)
 					sm_logger = LogHelper.getInstance(sm_loggerName);
-				}
 			}
 		}
 

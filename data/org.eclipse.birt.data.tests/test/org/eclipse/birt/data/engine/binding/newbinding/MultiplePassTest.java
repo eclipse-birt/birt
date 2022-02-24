@@ -1,20 +1,17 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.binding.newbinding;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,12 +31,14 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.binding.APITestCase;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.junit.Test;
 
 import testutil.ConfigText;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 /**
- *
+ * 
  */
 
 public class MultiplePassTest extends APITestCase {
@@ -47,7 +46,6 @@ public class MultiplePassTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
-	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
 				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName"));
@@ -92,11 +90,11 @@ public class MultiplePassTest extends APITestCase {
 		// --- end binding
 		GroupDefinition[] groupDefn = null;
 		SortDefinition[] sortDefn = null;
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_0", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_0", 0),
 				new ScriptExpression("row.ROW_rowPosition ", 0), new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
-		FilterDefinition[] filters = {
+		FilterDefinition[] filters = new FilterDefinition[] {
 
 				new FilterDefinition(
 						new ConditionalExpression("row.FILTER_AMOUNT", IConditionalExpression.OP_BOTTOM_N, "6")),
@@ -132,9 +130,8 @@ public class MultiplePassTest extends APITestCase {
 
 	private void populateBindings(QueryDefinition queryDefn, String[] name, IBaseExpression[] expr) {
 		if (name != null && expr != null) {
-			for (int i = 0; i < name.length; i++) {
+			for (int i = 0; i < name.length; i++)
 				queryDefn.addResultSetExpression(name[i], expr[i]);
-			}
 		}
 	}
 
@@ -179,12 +176,12 @@ public class MultiplePassTest extends APITestCase {
 		GroupDefinition[] groupDefn = null;
 		SortDefinition[] sortDefn = null;
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_0", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_0", 0),
 				new ScriptExpression("row.ROW_rowPosition ", 0), new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
-		FilterDefinition[] filters = {
+		FilterDefinition[] filters = new FilterDefinition[] {
 				new FilterDefinition(
 						new ConditionalExpression("row.FILTER_AMOUNT", IConditionalExpression.OP_BOTTOM_PERCENT, "75")),
 				new FilterDefinition(
@@ -235,12 +232,12 @@ public class MultiplePassTest extends APITestCase {
 		GroupDefinition[] groupDefn = null;
 		SortDefinition[] sortDefn = null;
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_0", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_0", 0),
 				new ScriptExpression("row.ROW_rowPosition ", 0), new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
-		FilterDefinition[] filters = {
+		FilterDefinition[] filters = new FilterDefinition[] {
 				new FilterDefinition(
 						new ConditionalExpression("row.FILTER_AMOUNT", IConditionalExpression.OP_GT, "100")),
 				new FilterDefinition(
@@ -308,12 +305,12 @@ public class MultiplePassTest extends APITestCase {
 		GroupDefinition[] groupDefn = null;
 		SortDefinition[] sortDefn = null;
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_0", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_0", 0),
 				new ScriptExpression("row.ROW_rowPosition ", 0), new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
-		FilterDefinition[] filters = {
+		FilterDefinition[] filters = new FilterDefinition[] {
 				new FilterDefinition(new ConditionalExpression("row.FILTER_AMOUNT",
 						IConditionalExpression.OP_BOTTOM_PERCENT, "100")),
 				new FilterDefinition(
@@ -364,12 +361,12 @@ public class MultiplePassTest extends APITestCase {
 		GroupDefinition[] groupDefn = null;
 		SortDefinition[] sortDefn = null;
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_0", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_0", 0),
 				new ScriptExpression("row.ROW_rowPosition ", 0), new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
-		FilterDefinition[] filters = { new FilterDefinition(
+		FilterDefinition[] filters = new FilterDefinition[] { new FilterDefinition(
 				new ConditionalExpression("row.FILTER_AMOUNT", IConditionalExpression.OP_TOP_N, "-1")) };
 
 		try {
@@ -393,7 +390,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test feature of aggr filtering.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -422,7 +419,8 @@ public class MultiplePassTest extends APITestCase {
 
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.ROW_COUNTRY");
 		groupDefn[1].setKeyExpression("row.ROW_CITY");
 
@@ -440,7 +438,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test feature of aggr filtering.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -477,7 +475,8 @@ public class MultiplePassTest extends APITestCase {
 
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.ROW_COUNTRY");
 		groupDefn[1].setKeyExpression("row.ROW_CITY");
 
@@ -530,7 +529,8 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 
 		FilterDefinition filterDefn = new FilterDefinition(
@@ -546,7 +546,7 @@ public class MultiplePassTest extends APITestCase {
 		filterDefn = new FilterDefinition(ce);
 		groupDefn[1].addFilter(filterDefn);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
@@ -568,9 +568,9 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 		String[] bindingNameFilter = null;
 
 		IBaseExpression[] bindingExprFilter = null;
@@ -587,7 +587,8 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 		SortDefinition sortDefn = new SortDefinition();
 		sortDefn.setExpression("Total.sum(dataSetRow.AMOUNT,Total.NO_FILTER,1)");
@@ -606,7 +607,7 @@ public class MultiplePassTest extends APITestCase {
 		sortDefn.setSortDirection(0);
 		groupDefn[1].addSort(sortDefn);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
@@ -629,9 +630,9 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 		String[] bindingNameFilter = null;
 
 		IBaseExpression[] bindingExprFilter = null;
@@ -648,14 +649,15 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 		groupDefn[0].setSortDirection(ISortDefinition.SORT_DESC);
 
 		groupDefn[1].setKeyExpression("row.GROUP_GROUP1");
 		groupDefn[1].setSortDirection(ISortDefinition.SORT_DESC);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
@@ -678,9 +680,9 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 		String[] bindingNameFilter = null;
 
 		IBaseExpression[] bindingExprFilter = null;
@@ -697,7 +699,8 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 		SortDefinition sortDefn = new SortDefinition();
 		sortDefn.setExpression("Total.sum(dataSetRow.AMOUNT,null,Total.CURRENT_GROUP)");
@@ -710,7 +713,7 @@ public class MultiplePassTest extends APITestCase {
 		groupDefn[1].setKeyExpression("row.GROUP_GROUP1");
 		groupDefn[1].addFilter(filterDefn);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
@@ -733,9 +736,9 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 
 		String[] bindingNameFilter = new String[3];
 		bindingNameFilter[0] = "FILTER_1";
@@ -759,7 +762,8 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 
 		FilterDefinition filterDefn = new FilterDefinition(
@@ -779,7 +783,7 @@ public class MultiplePassTest extends APITestCase {
 		filterDefn = new FilterDefinition(new ScriptExpression("row.FILTER_3"));
 		groupDefn[1].addFilter(filterDefn);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
@@ -799,9 +803,9 @@ public class MultiplePassTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 		String[] bindingNameFilter = null;
 
 		IBaseExpression[] bindingExprFilter = null;
@@ -818,7 +822,7 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 
 		groupDefn[0].addFilter(new FilterDefinition(new ConditionalExpression("Total.sum(dataSetRow.AMOUNT,null,1)",
@@ -831,7 +835,7 @@ public class MultiplePassTest extends APITestCase {
 		sortDefn.setSortDirection(0);
 		groupDefn[0].addSort(sortDefn);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 		createAndRunQuery(bindingNameGroup, bindingExprGroup, bindingNameSort, bindingExprSort, bindingNameFilter,
@@ -850,9 +854,9 @@ public class MultiplePassTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 		String[] bindingNameFilter = null;
 
 		IBaseExpression[] bindingExprFilter = null;
@@ -869,7 +873,7 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 
 		groupDefn[0].addFilter(new FilterDefinition(new ConditionalExpression("Total.sum(dataSetRow.AMOUNT,null,1)",
@@ -910,9 +914,9 @@ public class MultiplePassTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 		String[] bindingNameFilter = null;
 
 		IBaseExpression[] bindingExprFilter = null;
@@ -929,7 +933,7 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 
 		groupDefn[0].addFilter(new FilterDefinition(new ConditionalExpression("Total.sum(dataSetRow.AMOUNT,null,1)",
@@ -956,7 +960,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test filterings including group filters and multi-pass row filters
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -968,9 +972,9 @@ public class MultiplePassTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 
 		String[] bindingNameFilter = new String[2];
 		bindingNameFilter[0] = "FILTER_1";
@@ -992,7 +996,7 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 
 		groupDefn[0].addFilter(new FilterDefinition(new ConditionalExpression("Total.sum(dataSetRow.AMOUNT,null,1)",
@@ -1003,11 +1007,11 @@ public class MultiplePassTest extends APITestCase {
 		sortDefn.setSortDirection(0);
 		groupDefn[0].addSort(sortDefn);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
-		FilterDefinition[] filters = {
+		FilterDefinition[] filters = new FilterDefinition[] {
 				new FilterDefinition(
 						new ConditionalExpression("row.FILTER_1", IConditionalExpression.OP_BOTTOM_N, "7")),
 				new FilterDefinition(new ConditionalExpression("row.FILTER_2", IConditionalExpression.OP_LT, "700")) };
@@ -1056,7 +1060,7 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[4] = new ScriptExpression("Total.isTopN(row.ROW_AMOUNT,3)");
 		// --- end binding
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0), new ScriptExpression("row.ROW_TOPN", 0) };
 
@@ -1091,7 +1095,8 @@ public class MultiplePassTest extends APITestCase {
 		b41.addAggregateOn("group0");
 		qd.addBinding(b41);
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.ROW_COUNTRY");
 		groupDefn[1].setKeyExpression("row.ROW_CITY");
 
@@ -1105,7 +1110,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test the nested totals.
-	 *
+	 * 
 	 * @throws Exception
 	 * @throws IOException
 	 *
@@ -1325,7 +1330,8 @@ public class MultiplePassTest extends APITestCase {
 
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.ROW_COUNTRY");
 		groupDefn[1].setKeyExpression("row.ROW_CITY");
 
@@ -1338,7 +1344,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test the nested totals.Company with aggregateOn values.
-	 *
+	 * 
 	 * @throws Exception
 	 * @throws IOException
 	 *
@@ -1511,7 +1517,8 @@ public class MultiplePassTest extends APITestCase {
 
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.ROW_COUNTRY");
 		groupDefn[1].setKeyExpression("row.ROW_CITY");
 
@@ -1524,7 +1531,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test the nested totals.Company with aggregateOn values.
-	 *
+	 * 
 	 * @throws Exception
 	 * @throws IOException
 	 *
@@ -1702,7 +1709,8 @@ public class MultiplePassTest extends APITestCase {
 		qd.addBinding(b151);
 
 		// --- end binding
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.ROW_COUNTRY");
 		groupDefn[1].setKeyExpression("row.ROW_CITY");
 
@@ -1715,7 +1723,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test the nested totals.Company with aggregateOn values.
-	 *
+	 * 
 	 * @throws Exception
 	 * @throws IOException
 	 *
@@ -1755,7 +1763,8 @@ public class MultiplePassTest extends APITestCase {
 		///////////////////////////////////////////
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.ROW_COUNTRY");
 		groupDefn[1].setKeyExpression("row.ROW_CITY");
 
@@ -1768,7 +1777,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test the nested totals.Company with aggregateOn values.
-	 *
+	 * 
 	 * @throws Exception
 	 * @throws IOException
 	 *
@@ -1812,14 +1821,15 @@ public class MultiplePassTest extends APITestCase {
 		 * ScriptExpression("row.b51")); b5.setAggrFunction( "SUM" ); b5.addAggregateOn(
 		 * "group0" ); Binding b51 = new Binding( "b51", new
 		 * ScriptExpression("dataSetRow.AMOUNT")); b51.setAggrFunction( "SUM" );
-		 *
+		 * 
 		 * qd.addBinding( b5 ); qd.addBinding( b51 );
 		 */
 
 		///////////////////////////////////////////
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.ROW_COUNTRY");
 		groupDefn[1].setKeyExpression("row.ROW_CITY");
 
@@ -1838,7 +1848,7 @@ public class MultiplePassTest extends APITestCase {
 	/**
 	 * Test filterings including group row filters, group instance filters and
 	 * multi-pass row filters
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1850,9 +1860,9 @@ public class MultiplePassTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 
 		String[] bindingNameFilter = new String[3];
 		bindingNameFilter[0] = "FILTER_1";
@@ -1875,7 +1885,7 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[2] = new ScriptExpression("dataSetRow.SALE_DATE");
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 
 		groupDefn[0].addFilter(new FilterDefinition(new ConditionalExpression("Total.sum(dataSetRow.AMOUNT,null,1)",
@@ -1886,11 +1896,11 @@ public class MultiplePassTest extends APITestCase {
 		sortDefn.setSortDirection(0);
 		groupDefn[0].addSort(sortDefn);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
-		FilterDefinition[] filters = {
+		FilterDefinition[] filters = new FilterDefinition[] {
 				new FilterDefinition(
 						new ConditionalExpression("row.FILTER_1", IConditionalExpression.OP_BOTTOM_N, "7")),
 				new FilterDefinition(new ConditionalExpression("row.FILTER_2", IConditionalExpression.OP_LT, "700")),
@@ -1904,7 +1914,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test filterings including group instance filters
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1918,9 +1928,9 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 		String[] bindingNameFilter = null;
 
 		IBaseExpression[] bindingExprFilter = null;
@@ -1937,16 +1947,17 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1")
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1")
 
 		};
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 		groupDefn[1].setKeyExpression("row.GROUP_GROUP1");
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
-		FilterDefinition[] filters = { new FilterDefinition(
+		FilterDefinition[] filters = new FilterDefinition[] { new FilterDefinition(
 				new ConditionalExpression("Total.isTopN(row.ROW_AMOUNT,3,null,1)", IConditionalExpression.OP_TRUE)) };
 
 		createAndRunQuery(bindingNameGroup, bindingExprGroup, bindingNameSort, bindingExprSort, bindingNameFilter,
@@ -1956,7 +1967,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test filterings including multi group filters
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1970,9 +1981,9 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 		String[] bindingNameFilter = null;
 
 		IBaseExpression[] bindingExprFilter = null;
@@ -1989,15 +2000,17 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1")
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1")
 
 		};
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 		groupDefn[1].setKeyExpression("row.GROUP_GROUP1");
-		IBaseExpression[] expressions = { new ScriptExpression("row.COUNTRY", 0), new ScriptExpression("row.CITY", 0),
-				new ScriptExpression("row.SALE_DATE", 0), new ScriptExpression("row.AMOUNT", 0) };
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.COUNTRY", 0),
+				new ScriptExpression("row.CITY", 0), new ScriptExpression("row.SALE_DATE", 0),
+				new ScriptExpression("row.AMOUNT", 0) };
 
-		FilterDefinition[] filters = {
+		FilterDefinition[] filters = new FilterDefinition[] {
 				new FilterDefinition(new ConditionalExpression("Total.isTopN(dataSetRow.AMOUNT,3,null,1)",
 						IConditionalExpression.OP_TRUE)),
 				new FilterDefinition(new ConditionalExpression("Total.isBottomN(dataSetRow.AMOUNT,2,null,2)",
@@ -2024,9 +2037,9 @@ public class MultiplePassTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 
 		String[] bindingNameFilter = new String[3];
 		bindingNameFilter[0] = "FILTER_1";
@@ -2049,7 +2062,7 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[2] = new ScriptExpression("dataSetRow.SALE_DATE");
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.A");
 		// --- end binding
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0") };
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 
 		groupDefn[0].addFilter(new FilterDefinition(new ConditionalExpression("Total.sum(dataSetRow.A,null,1)",
@@ -2060,11 +2073,11 @@ public class MultiplePassTest extends APITestCase {
 		sortDefn.setSortDirection(0);
 		groupDefn[0].addSort(sortDefn);
 
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
-		FilterDefinition[] filters = {
+		FilterDefinition[] filters = new FilterDefinition[] {
 				new FilterDefinition(
 						new ConditionalExpression("row.FILTER_1", IConditionalExpression.OP_BOTTOM_N, "7")),
 				new FilterDefinition(new ConditionalExpression("row.FILTER_2", IConditionalExpression.OP_LT, "700")),
@@ -2077,7 +2090,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Test filterings including group instance filters
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -2091,9 +2104,9 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.CITY");
 
-		String[] bindingNameSort = {};
+		String[] bindingNameSort = new String[0];
 
-		IBaseExpression[] bindingExprSort = {};
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
 		String[] bindingNameFilter = null;
 
 		IBaseExpression[] bindingExprFilter = null;
@@ -2110,12 +2123,13 @@ public class MultiplePassTest extends APITestCase {
 		bindingExprRow[3] = new ScriptExpression("dataSetRow.AMOUNT");
 		// --- end binding
 
-		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1")
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
+				new GroupDefinition("group1")
 
 		};
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP0");
 		groupDefn[1].setKeyExpression("row.GROUP_GROUP1");
-		IBaseExpression[] expressions = { new ScriptExpression("row.ROW_COUNTRY", 0),
+		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("row.ROW_COUNTRY", 0),
 				new ScriptExpression("row.ROW_CITY", 0), new ScriptExpression("row.ROW_SALE_DATE", 0),
 				new ScriptExpression("row.ROW_AMOUNT", 0) };
 
@@ -2134,7 +2148,7 @@ public class MultiplePassTest extends APITestCase {
 
 	/**
 	 * Create query definition from passed parameters
-	 *
+	 * 
 	 * @param expressions row expression
 	 * @param groupDefn
 	 * @param sortDefn
@@ -2146,26 +2160,18 @@ public class MultiplePassTest extends APITestCase {
 		// define a query design
 		QueryDefinition queryDefn = newReportQuery();
 
-		if (groupDefn != null) {
-			for (int i = 0; i < groupDefn.length; i++) {
+		if (groupDefn != null)
+			for (int i = 0; i < groupDefn.length; i++)
 				queryDefn.addGroup(groupDefn[i]);
-			}
-		}
-		if (sortDefn != null) {
-			for (int i = 0; i < sortDefn.length; i++) {
+		if (sortDefn != null)
+			for (int i = 0; i < sortDefn.length; i++)
 				queryDefn.addSort(sortDefn[i]);
-			}
-		}
-		if (expressions != null) {
-			for (int i = 0; i < expressions.length; i++) {
+		if (expressions != null)
+			for (int i = 0; i < expressions.length; i++)
 				queryDefn.addResultSetExpression(exprNames[i], expressions[i]);
-			}
-		}
-		if (filters != null) {
-			for (int i = 0; i < filters.length; i++) {
+		if (filters != null)
+			for (int i = 0; i < filters.length; i++)
 				queryDefn.addFilter(filters[i]);
-			}
-		}
 
 		return queryDefn;
 	}

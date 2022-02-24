@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +21,8 @@ import org.eclipse.birt.report.engine.api.DataSetID;
 
 public interface IBaseResultSet {
 
-	int QUERY_RESULTSET = 0;
-	int CUBE_RESULTSET = 1;
+	static int QUERY_RESULTSET = 0;
+	static int CUBE_RESULTSET = 1;
 
 	int getType();
 
@@ -30,7 +30,7 @@ public interface IBaseResultSet {
 
 	/**
 	 * return the Raw ID
-	 *
+	 * 
 	 * @return
 	 */
 	String getRawID() throws BirtException;
@@ -39,19 +39,19 @@ public interface IBaseResultSet {
 
 	IBaseResultSet getParent();
 
-	Object evaluate(String expr) throws BirtException;
+	public Object evaluate(String expr) throws BirtException;
 
 	/**
 	 * evaluate the expression with specified script language.
-	 *
+	 * 
 	 * @param language
 	 * @param expr
 	 * @return
 	 * @throws BirtException
 	 */
-	Object evaluate(String language, String expr) throws BirtException;
+	public Object evaluate(String language, String expr) throws BirtException;
 
-	Object evaluate(IBaseExpression expr) throws BirtException;
+	public Object evaluate(IBaseExpression expr) throws BirtException;
 
 	void close();
 }

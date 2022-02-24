@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2005,2006,2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,7 +64,6 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements Modi
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	@Override
 	protected Control createContents(Composite cell) {
 		Color bg = cell.getBackground();
 		Composite composite = new Composite(cell, getStyle());
@@ -79,7 +78,6 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements Modi
 			text.addModifyListener(this);
 			text.addKeyListener(new KeyAdapter() {
 
-				@Override
 				public void keyPressed(KeyEvent e) {
 					if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
 						applyEditorValueAndDeactivate();
@@ -90,11 +88,10 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements Modi
 
 				/*
 				 * (non-Javadoc)
-				 *
+				 * 
 				 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.
 				 * FocusEvent)
 				 */
-				@Override
 				public void focusLost(FocusEvent e) {
 					if (btnPopup != null && !btnPopup.isFocusControl()
 							&& Display.getCurrent().getCursorControl() != btnPopup) {
@@ -109,7 +106,6 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements Modi
 		return composite;
 	}
 
-	@Override
 	protected Button createButton(Composite parent) {
 		btnPopup = super.createButton(parent);
 		return btnPopup;
@@ -131,32 +127,29 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements Modi
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doGetValue()
 	 */
-	@Override
 	protected Object doGetValue() {
 		return text.getText();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	@Override
 	protected void doSetFocus() {
 		text.setFocus();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.
 	 * widgets.Control)
 	 */
-	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
 		return openDialogBox(cellEditorWindow, (String) getValue());
 	}
@@ -181,11 +174,10 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements Modi
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.
 	 * ModifyEvent)
 	 */
-	@Override
 	public void modifyText(ModifyEvent e) {
 
 	}
@@ -193,11 +185,9 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements Modi
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	@Override
 	protected void updateContents(Object value) {
-		if (text == null) {
+		if (text == null)
 			return;
-		}
 
 		String displayText = "";//$NON-NLS-1$
 		if (value != null) {

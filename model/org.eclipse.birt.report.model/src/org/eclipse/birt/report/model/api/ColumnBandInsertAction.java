@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Provides the insert and paste operation to the column band in the grid/table.
- *
+ * 
  */
 
 class ColumnBandInsertAction extends ColumnBandCopyAction {
@@ -59,7 +59,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 
 	/**
 	 * Constructs the insert action.
-	 *
+	 * 
 	 * @param adapter the column adapter. Either table or grid.
 	 */
 
@@ -70,7 +70,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 	/**
 	 * Checks whether the paste operation can be done with the given copied column
 	 * band data, the column index and the operation flag.
-	 *
+	 * 
 	 * @param columnIndex the column index
 	 * @param insertFlag  The column insert sign. 1 insert after position. -1 insert
 	 *                    before position
@@ -82,20 +82,17 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 		// if table has parent, its layout can't be changed. so can't do insert
 		// operation.
 
-		if (adapter.hasParent()) {
+		if (adapter.hasParent())
 			return false;
-		}
 
 		int columnCount = adapter.getColumnCount();
 
 		targetColumnIndex = columnIndex;
-		if (insertFlag == INSERT_BEFORE) {
+		if (insertFlag == INSERT_BEFORE)
 			targetColumnIndex = targetColumnIndex - 1;
-		}
 
-		if (targetColumnIndex > columnCount) {
+		if (targetColumnIndex > columnCount)
 			targetColumnIndex = columnCount;
-		}
 
 		// must be >=, since if the columnIndex == columnCount. It means that
 		// the column band is supposed to be appended at the far right-end of
@@ -109,9 +106,8 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 		} else {
 			originalCells = getCellsContextInfo(adapter.getCellsUnderColumn(targetColumnIndex, false));
 
-			if (!isValidInsertAndPasteArea(originalCells)) {
+			if (!isValidInsertAndPasteArea(originalCells))
 				return false;
-			}
 		}
 
 		return true;
@@ -119,7 +115,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 
 	/**
 	 * Inserts a copied column to the given column index.
-	 *
+	 * 
 	 * @param columnIndex the column index
 	 * @param insertFlag  The column insert sign. 1 insert after position. -1 insert
 	 *                    before position
@@ -131,11 +127,10 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 	protected List insertColumnBand(int columnIndex, int insertFlag) throws SemanticException {
 		boolean canDone = canInsert(columnIndex, insertFlag);
 
-		if (!canDone) {
+		if (!canDone)
 			throw new SemanticError(adapter.getElementHandle().getElement(),
 					new String[] { adapter.getElementHandle().getName() },
 					SemanticError.DESIGN_EXCEPTION_COLUMN_INSERT_FORBIDDEN);
-		}
 
 		TableColumn column = new TableColumn();
 
@@ -156,11 +151,11 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 
 	/**
 	 * Checks whether copied cells can be inserted and pasted.
-	 *
+	 * 
 	 * @param cells cloned cells
 	 * @return <code>true</code> if the row count matches the count of "rowSpans" in
 	 *         <code>cells</code>, otherwise <code>false</code>.
-	 *
+	 * 
 	 */
 
 	private boolean isValidInsertAndPasteArea(List cells) {
@@ -172,9 +167,8 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 			rowCount += contextInfo.getRowSpan();
 		}
 
-		if (rowCount < numOfRows) {
+		if (rowCount < numOfRows)
 			return false;
-		}
 
 		return true;
 	}
@@ -182,7 +176,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 	/**
 	 * Inserts a new column band to the table/grid. If has a cell with colSpan > 1
 	 * at the insert position, increases the colSpan.
-	 *
+	 * 
 	 * @param originalCells a list containing cells that is to be deleted.
 	 * @param columnIndex   the column index where copied cells are pasted
 	 * @param isInsert      <code>true</code> if this is an insert and paste action.
@@ -216,7 +210,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 
 	/**
 	 * Inserts a new cell to the given column position of the given row.
-	 *
+	 * 
 	 * @param row         the table row
 	 * @param columnIndex the 0-based column number
 	 * @throws SemanticException
@@ -228,20 +222,19 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 		// get correct insertion position information
 
 		int pos;
-		if (columnIndex == 0) {
+		if (columnIndex == 0)
 			pos = 0;
-		} else if (columnIndex == adapter.getColumnCount() - 1) {
+		else if (columnIndex == adapter.getColumnCount() - 1)
 			pos = -1;
-		} else {
+		else {
 			if (rowSpanForModifiedCell > MIN_ROW_SPAN) {
 				rowSpanForModifiedCell--;
 				return;
 			}
 
 			CellHandle cell = findCell(row, columnIndex);
-			if (cell == null) {
+			if (cell == null)
 				return;
-			}
 
 			CellHandle nextCell = findCell(row, columnIndex + 1);
 
@@ -255,17 +248,16 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 			pos = cell.getContainerSlotHandle().findPosn(cell) + 1;
 		}
 
-		if (pos != -1) {
+		if (pos != -1)
 			row.addElement(new Cell().getHandle(adapter.getModule()), ITableRowModel.CONTENT_SLOT, pos);
-		} else {
+		else
 			row.addElement(new Cell().getHandle(adapter.getModule()), ITableRowModel.CONTENT_SLOT);
-		}
 
 	}
 
 	/**
 	 * Inserts a new cell to the given column position of rows in the given gruop.
-	 *
+	 * 
 	 * @param group       the table group
 	 * @param columnIndex the 0-based column number
 	 * @throws SemanticException
@@ -281,15 +273,14 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 
 			for (int j = 0; j < slot.getCount(); j++) {
 				DesignElementHandle content = slot.get(j);
-				if (content instanceof RowHandle) {
+				if (content instanceof RowHandle)
 					insertCell((RowHandle) content, columnIndex);
-				}
 			}
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 */
 
 	private void resetRowSpanForModifiedCell() {
@@ -298,7 +289,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 
 	/**
 	 * Returns the cell resides in the row.
-	 *
+	 * 
 	 * @param row            the row handle
 	 * @param columnToInsert the column number to insert, count from 1
 	 * @param insert         whether insert mode
@@ -314,13 +305,17 @@ class ColumnBandInsertAction extends ColumnBandCopyAction {
 
 			// found the cell
 
-			if (columnToInsert == cellPos) {
+			if (columnToInsert == cellPos)
 				return cell;
-			} else if (rowSpanForModifiedCell <= MIN_ROW_SPAN && columnToInsert < cellPos + cell.getColumnSpan()) {
+
+			else if (rowSpanForModifiedCell <= MIN_ROW_SPAN && columnToInsert < cellPos + cell.getColumnSpan())
 				return cell;
-			} else if (columnToInsert > cellPos && columnToInsert < cellPos + cell.getColumnSpan()) {
+
+			// there was no corresponding cell on this row, should paste/insert
+			// on this position.
+
+			else if (columnToInsert > cellPos && columnToInsert < cellPos + cell.getColumnSpan())
 				return cell;
-			}
 		}
 
 		// not return yet, paste/insert to the end of this row.

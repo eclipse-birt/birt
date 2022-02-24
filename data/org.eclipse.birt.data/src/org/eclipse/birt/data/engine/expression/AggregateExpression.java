@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.expression;
@@ -49,21 +49,23 @@ public final class AggregateExpression extends BytecodeExpression {
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
 	public boolean equals(Object other) {
-		if (other == null || !(other instanceof AggregateExpression)) {
+		if (other == null || !(other instanceof AggregateExpression))
 			return false;
-		}
 
 		AggregateExpression expr2 = (AggregateExpression) other;
 
-		if (!aggregation.getName().equals(expr2.getAggregation().getName()) || (groupLevel != expr2.getGroupLevel()) || (this.getCalculationLevel() != expr2.getCalculationLevel()) || (arguments.size() != expr2.getArguments().size())) {
+		if (!aggregation.getName().equals(expr2.getAggregation().getName()))
 			return false;
-		}
+		if (groupLevel != expr2.getGroupLevel())
+			return false;
+		if (this.getCalculationLevel() != expr2.getCalculationLevel())
+			return false;
+		if (arguments.size() != expr2.getArguments().size())
+			return false;
 		for (int i = 0; i < arguments.size(); i++) {
-			if (!arguments.get(i).equals(expr2.getArguments().get(i))) {
+			if (!arguments.get(i).equals(expr2.getArguments().get(i)))
 				return false;
-			}
 		}
 		return true;
 	}
@@ -71,7 +73,7 @@ public final class AggregateExpression extends BytecodeExpression {
 	/**
 	 * Returns a list of arguments for this aggregation expression. Each element is
 	 * an instance of <code>CompiledExpression</code>.
-	 *
+	 * 
 	 * @return a list of arguments for this aggregation expression.
 	 */
 	public List getArguments() {
@@ -81,7 +83,7 @@ public final class AggregateExpression extends BytecodeExpression {
 	/**
 	 * Adds the specific <code>CompiledExpression</code> as an argument to this
 	 * <code>AggregateExpression</code>.
-	 *
+	 * 
 	 * @param expr the <code>CompiledExpression</code> argument for this
 	 *             <code>AggregateExpression</code>.
 	 */
@@ -90,7 +92,6 @@ public final class AggregateExpression extends BytecodeExpression {
 		arguments.add(expr);
 	}
 
-	@Override
 	public int getType() {
 		return TYPE_SINGLE_AGGREGATE;
 	}
@@ -107,33 +108,30 @@ public final class AggregateExpression extends BytecodeExpression {
 
 	/**
 	 * Return the calculation level of this aggregation expression.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getCalculationLevel() {
-		if (!this.isNestedAggregation()) {
+		if (!this.isNestedAggregation())
 			return 0;
-		}
 
 		int result = this.groupLevel;
 
 		for (int i = 0; i < this.arguments.size(); i++) {
 			if (this.arguments.get(i) instanceof BytecodeExpression) {
 				int level = ((BytecodeExpression) this.arguments.get(i)).getGroupLevel();
-				if (level > result) {
+				if (level > result)
 					result = level;
-				}
 
-				if (level == 0) {
+				if (level == 0)
 					return 0;
-				}
 			}
 		}
 		return result;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param groupLevel
 	 */
 	public void setGroupLevel(int groupLevel) {
@@ -142,17 +140,16 @@ public final class AggregateExpression extends BytecodeExpression {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.expression.BytecodeExpression#getGroupLevel()
 	 */
-	@Override
 	public int getGroupLevel() {
 		return this.groupLevel;
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isNestedAggregation() {
@@ -162,9 +159,8 @@ public final class AggregateExpression extends BytecodeExpression {
 					return true;
 				}
 				if (this.arguments.get(i) instanceof ComplexExpression) {
-					if (hasAggregationInComplexExpression((ComplexExpression) this.arguments.get(i))) {
+					if (hasAggregationInComplexExpression((ComplexExpression) this.arguments.get(i)))
 						return true;
-					}
 				}
 			}
 		}
@@ -172,7 +168,7 @@ public final class AggregateExpression extends BytecodeExpression {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 */
@@ -199,7 +195,6 @@ public final class AggregateExpression extends BytecodeExpression {
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
-	@Override
 	public int hashCode() {
 		int result = 17;
 

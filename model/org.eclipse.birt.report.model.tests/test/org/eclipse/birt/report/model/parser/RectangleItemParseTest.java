@@ -17,27 +17,27 @@ import org.eclipse.birt.report.model.elements.Style;
 
 /**
  * The test case of rectangle parser and writer.
- *
+ * 
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testParser()}</td>
  * <td>Test all properties after parsing design file</td>
  * <td>All properties are right</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Compare the written file with the golden file</td>
  * <td>Two files are same</td>
  * </tr>
  * </table>
- *
+ * 
  */
 
 public class RectangleItemParseTest extends ParserTestCase {
@@ -48,7 +48,6 @@ public class RectangleItemParseTest extends ParserTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -57,7 +56,7 @@ public class RectangleItemParseTest extends ParserTestCase {
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of rectangle.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -86,7 +85,7 @@ public class RectangleItemParseTest extends ParserTestCase {
 
 	/**
 	 * This test writes the design file and compare it with golden file.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

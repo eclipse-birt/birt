@@ -90,7 +90,7 @@ import org.eclipse.emf.ecore.EObject;
  * or default chart values, if current chart element isn't set or is null, then
  * use reference chart object to replace if the reference chart object is set or
  * not null, otherwise use default chart value to replace if it is set.
- *
+ * 
  * @generated
  */
 
@@ -3596,8 +3596,8 @@ public class BaseChartValueUpdater {
 		updateFormatSpecifier("formatSpecifier", eObj, eObj.getFormatSpecifier(),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier(),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier(), eDefOverride, checkVisible);
-		Map<String, Series> seriesRefMap = new HashMap<>();
-
+		Map<String, Series> seriesRefMap = new HashMap<String, Series>();
+		;
 		if (eRefObj != null) {
 			for (Series series : eRefObj.getSeries()) {
 				seriesRefMap.put(getSeriesID(series), series);
@@ -5331,6 +5331,7 @@ public class BaseChartValueUpdater {
 	public void updateFill(String name, EObject eParentObj, Fill eObj, Fill eRefObj, Fill eDefObj, boolean eDefOverride,
 			boolean checkVisible) {
 		if (eObj != null || (eRefObj == null && eDefObj == null)) {
+			return;
 		} else {
 			updateFillImpl(name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible);
 		}
@@ -5489,6 +5490,7 @@ public class BaseChartValueUpdater {
 	public void updateFormatSpecifier(String name, EObject eParentObj, FormatSpecifier eObj, FormatSpecifier eRefObj,
 			FormatSpecifier eDefObj, boolean eDefOverride, boolean checkVisible) {
 		if (eObj != null || (eRefObj == null && eDefObj == null)) {
+			return;
 		} else {
 			updateFormatSpecifierImpl(name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible);
 		}

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -63,7 +63,6 @@ public class Regression_161383 extends BaseTestCase {
 	private final static String REPORT1 = "regression_161383_1.xml"; //$NON-NLS-1$
 	private final static String REPORT2 = "regression_161383_2.xml"; //$NON-NLS-1$
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -76,7 +75,6 @@ public class Regression_161383 extends BaseTestCase {
 
 	}
 
-	@Override
 	public void tearDown() {
 		removeResource();
 	}
@@ -84,7 +82,7 @@ public class Regression_161383 extends BaseTestCase {
 	/**
 	 * Set/Get page-break-inside on report item, listing group, table row, table
 	 * column
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void test_regression_161383() throws SemanticException {
@@ -224,7 +222,7 @@ public class Regression_161383 extends BaseTestCase {
 
 	/**
 	 * Set page-break-inside to style and selector
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -252,7 +250,7 @@ public class Regression_161383 extends BaseTestCase {
 
 	/**
 	 * Set/Get page-break-inside on table row in library and to style in library
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -275,7 +273,7 @@ public class Regression_161383 extends BaseTestCase {
 
 	/**
 	 * Set/Get page-break-inside to style in library
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */

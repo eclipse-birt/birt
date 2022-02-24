@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -30,7 +30,7 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * represents block stacking layout manager
- *
+ * 
  */
 public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlockStackingLayoutManager {
 
@@ -40,7 +40,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 
 	protected boolean keepWith = false;
 
-	@Override
 	public int getCurrentMaxContentHeight() {
 		return maxAvaHeight - currentBP - keepWithCache.getHeight();
 	}
@@ -54,7 +53,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 		super(context, parent, content, executor);
 	}
 
-	@Override
 	protected boolean traverseChildren() throws BirtException {
 		boolean hasNextPage = false;
 		if (child != null) {
@@ -87,7 +85,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 	}
 
 	private boolean layoutChildNode(IReportItemExecutor childExecutor) throws BirtException {
-		boolean hasNextPage;
+		boolean hasNextPage = false;
 		IContent childContent = childExecutor.execute();
 		PDFAbstractLM childLM = getFactory().createLayoutManager(this, childContent, childExecutor);
 		hasNextPage = childLM.layout();
@@ -99,7 +97,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 		return hasNextPage;
 	}
 
-	@Override
 	protected void initialize() throws BirtException {
 		if (root == null) {
 			createRoot();
@@ -125,7 +122,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 
 	}
 
-	@Override
 	protected void closeLayout() {
 		if (root == null) {
 			return;
@@ -169,7 +165,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 		root.setHeight(height);
 	}
 
-	@Override
 	public boolean addArea(IArea area, boolean keepWithPrevious, boolean keepWithNext) {
 		// ignore empty area
 		if (area == null) {
@@ -190,10 +185,12 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 				context.setAutoPageBreak(true);
 				return false;
 			}
-		} else if (keepWithPrevious || keepWith) {
-			keepWithCache.add(area);
 		} else {
-			addToRoot(aArea);
+			if (keepWithPrevious || keepWith) {
+				keepWithCache.add(area);
+			} else {
+				addToRoot(aArea);
+			}
 		}
 		keepWith = keepWithNext;
 		if (!keepWith) {
@@ -210,14 +207,12 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 		return null;
 	}
 
-	@Override
 	protected void cancelChildren() throws BirtException {
 		if (child != null) {
 			child.cancel();
 		}
 	}
 
-	@Override
 	protected boolean hasNextChild() throws BirtException {
 		if (child == null && (blockExecutor != null && !blockExecutor.hasNextChild())) {
 			return false;
@@ -236,7 +231,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 		}
 	}
 
-	@Override
 	protected boolean clearCache() {
 		while (!keepWithCache.isEmpty()) {
 			AbstractArea area = (AbstractArea) keepWithCache.getFirst();
@@ -422,7 +416,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 
 	}
 
-	@Override
 	public void autoPageBreak() {
 		if (!isRootEmpty()) {
 			closeLayout();
@@ -444,14 +437,12 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 
 	}
 
-	@Override
 	public void submit(AbstractArea area) {
 		root.addChild(area);
 		area.setAllocatedPosition(currentIP + offsetX, currentBP + offsetY);
 		currentBP += area.getAllocatedHeight();
 	}
 
-	@Override
 	protected boolean submitRoot() {
 		if (root == null) {
 			return true;
@@ -470,9 +461,11 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM implements IBlock
 				isFirst = false;
 				root = null;
 			}
-		} else if (content != null) {
-			content.setExtension(IContent.LAYOUT_EXTENSION, root);
-			// root = null;
+		} else {
+			if (content != null) {
+				content.setExtension(IContent.LAYOUT_EXTENSION, root);
+				// root = null;
+			}
 		}
 		return success;
 	}

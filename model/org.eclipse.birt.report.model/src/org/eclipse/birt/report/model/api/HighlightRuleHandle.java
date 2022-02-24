@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
  * rule gives a set of conditional style properties along with a condition for
  * when to apply the properties. A highlight can be defined in either a shared
  * style or a private style.
- *
+ * 
  * @see ColorHandle
  * @see DimensionHandle
  * @see FontHandle
@@ -44,7 +44,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * Constructs a highlight rule handle with the given
 	 * <code>SimpleValueHandle</code> and the index of the highlight rule in the
 	 * highlight.
-	 *
+	 * 
 	 * @param valueHandle handle to a list property or member
 	 * @param index       index of the structure within the list
 	 */
@@ -55,7 +55,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the color property.
-	 *
+	 * 
 	 * @return a ColorHandle to deal with the color.
 	 */
 
@@ -65,7 +65,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the background color.
-	 *
+	 * 
 	 * @return a ColorHandle to deal with the background color.
 	 */
 
@@ -75,7 +75,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the border top color.
-	 *
+	 * 
 	 * @return a ColorHandle to deal with the border top color.
 	 */
 
@@ -85,7 +85,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the border left color.
-	 *
+	 * 
 	 * @return a ColorHandle to deal with the border left color.
 	 */
 
@@ -95,7 +95,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the border right color.
-	 *
+	 * 
 	 * @return a ColorHandle to deal with the border right color.
 	 */
 
@@ -105,7 +105,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the border bottom color.
-	 *
+	 * 
 	 * @return a ColorHandle to deal with the border bottom color.
 	 */
 
@@ -115,7 +115,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a color handle for a given member.
-	 *
+	 * 
 	 * @param memberName the member name
 	 * @return a ColorHandle for the given member
 	 */
@@ -138,7 +138,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the border bottom style
 	 */
 
@@ -149,7 +149,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	/**
 	 * Sets the style of the border bottom line. The input value is one of the CSS
 	 * (pre-defined) values see <code>DesignChoiceConstants</code>.
-	 *
+	 * 
 	 * @param value the new border bottom line style
 	 * @throws SemanticException if the value is not one of above.
 	 * @see #getBorderBottomStyle()
@@ -161,7 +161,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the style of the border left line.
-	 *
+	 * 
 	 * @return the border left line style
 	 * @see #getBorderBottomStyle()
 	 */
@@ -173,7 +173,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the style of the border left line.
-	 *
+	 * 
 	 * @param value the new border left line style
 	 * @throws SemanticException if the value is not one of above.
 	 * @see #setBorderBottomStyle(String )
@@ -185,7 +185,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the style of the border right line.
-	 *
+	 * 
 	 * @return the border right line style
 	 * @see #getBorderBottomStyle()
 	 */
@@ -196,7 +196,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the style of the border right line.
-	 *
+	 * 
 	 * @param value the new border right line style
 	 * @throws SemanticException if the value is not one of above.
 	 * @see #setBorderBottomStyle(String )
@@ -208,7 +208,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the style of the top line of the border.
-	 *
+	 * 
 	 * @return the border top line style
 	 * @see #getBorderBottomStyle()
 	 */
@@ -220,7 +220,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the style of the top line of the border.
-	 *
+	 * 
 	 * @param value the new border top line style
 	 * @throws SemanticException if the value is not one of above.
 	 * @see #setBorderBottomStyle(String )
@@ -232,7 +232,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * gets the expression for this highlight rule.
-	 *
+	 * 
 	 * @return the expression value
 	 */
 	public String getTestExpression() {
@@ -241,7 +241,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * sets the test expression for this hilghtlight rule.
-	 *
+	 * 
 	 * @param expression the expression
 	 */
 
@@ -256,7 +256,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TEXT_UNDERLINE_NONE</code>
 	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the value of the underline property
 	 */
 
@@ -271,7 +271,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TEXT_UNDERLINE_NONE</code>
 	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param value the new text underline
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -287,7 +287,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TEXT_OVERLINE_NONE</code>
 	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the value of the overline property
 	 */
 
@@ -302,7 +302,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TEXT_OVERLINE_NONE</code>
 	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param value the new text overline
 	 * @throws SemanticException if the value is not one of the above
 	 */
@@ -318,7 +318,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
 	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the text line through
 	 */
 
@@ -333,7 +333,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
 	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param value the new text line through
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -351,7 +351,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TEXT_ALIGN_RIGHT</code>
 	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the value of text align property
 	 */
 
@@ -368,7 +368,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TEXT_ALIGN_RIGHT</code>
 	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param value the new text align value
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -384,9 +384,9 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>BIDI_ORIENTATION_LTR</code>
 	 * <li><code>BIDI_ORIENTATION_RTL</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the value of Bidi direction property
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 
@@ -401,10 +401,10 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>BIDI_ORIENTATION_LTR</code>
 	 * <li><code>BIDI_ORIENTATION_RTL</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param value the new direction value
 	 * @throws SemanticException if the value is not one of the above.
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 
@@ -421,7 +421,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TRANSFORM_LOWERCASE</code>
 	 * <li><code>TRANSFORM_NONE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the value of the transform property
 	 */
 
@@ -438,7 +438,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>TRANSFORM_LOWERCASE</code>
 	 * <li><code>TRANSFORM_NONE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param value the new text transform
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -449,7 +449,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Gets a handle to deal with the value of the text-indent property.
-	 *
+	 * 
 	 * @return a DimensionHandle to deal with the text-indent.
 	 */
 
@@ -459,7 +459,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the value of the number-align member.
-	 *
+	 * 
 	 * @return the number-align value
 	 */
 
@@ -469,7 +469,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the value of the number-align member
-	 *
+	 * 
 	 * @param value the new number-align value.
 	 */
 
@@ -479,7 +479,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the width of the top side of the border.
-	 *
+	 * 
 	 * @return a DimensionHandle to deal with the width of the top side of the
 	 *         border.
 	 */
@@ -490,7 +490,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the width of the left side of the border.
-	 *
+	 * 
 	 * @return a DimensionHandle to deal with the width of the left side of the
 	 *         border.
 	 */
@@ -501,7 +501,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the width of the right side of the border.
-	 *
+	 * 
 	 * @return DimensionHandle to deal with the width of the right side of the
 	 *         border.
 	 */
@@ -512,7 +512,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the width of the bottom side of the border.
-	 *
+	 * 
 	 * @return a DimensionHandle to deal with the width of the bottom side of the
 	 *         border.
 	 */
@@ -523,7 +523,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the font size.
-	 *
+	 * 
 	 * @return a aDimensionHandle to deal with the font size.
 	 */
 
@@ -533,7 +533,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a dimension handle for a member.
-	 *
+	 * 
 	 * @param memberName the member name.
 	 * @return A DimensionHandle for the given member.
 	 */
@@ -544,7 +544,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the font family handle of the highlight rule.
-	 *
+	 * 
 	 * @return the font family handle of the highlight rule.
 	 */
 
@@ -572,7 +572,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>FONT_WEIGHT_800</code>
 	 * <li><code>FONT_WEIGHT_900</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the font weight in string.
 	 */
 
@@ -583,7 +583,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	/**
 	 * Sets the font weight in a string for the style. The input value is defined in
 	 * <code>DesignChoiceConstants</code>.
-	 *
+	 * 
 	 * @param value the new font weight
 	 * @throws SemanticException if the input value is not one of the above
 	 * @see #getFontWeight()
@@ -600,7 +600,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>FONT_VARIANT_NORMAL</code>
 	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the font variant in a string.
 	 */
 
@@ -615,7 +615,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>FONT_VARIANT_NORMAL</code>
 	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param value the new font variant.
 	 * @throws SemanticException if the input value is not one of the above
 	 */
@@ -632,7 +632,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>FONT_STYLE_ITALIC</code>
 	 * <li><code>FONT_STYLE_OBLIQUE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the font style in string.
 	 */
 
@@ -648,7 +648,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>FONT_STYLE_ITALIC</code>
 	 * <li><code>FONT_STYLE_OBLIQUE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param value the new font style.
 	 * @throws SemanticException if the input value is not one of the above
 	 */
@@ -659,15 +659,14 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the pattern of a string format for a highlight rule.
-	 *
+	 * 
 	 * @return the pattern of a string format
 	 */
 
 	public String getStringFormat() {
 		Object value = getProperty(HighlightRule.STRING_FORMAT_MEMBER);
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		assert value instanceof StringFormatValue;
 
@@ -676,15 +675,14 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the category of a string format for a highlight rule.
-	 *
+	 * 
 	 * @return the category of a string forma
 	 */
 
 	public String getStringFormatCategory() {
 		Object value = getProperty(HighlightRule.STRING_FORMAT_MEMBER);
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		assert value instanceof StringFormatValue;
 
@@ -693,7 +691,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the pattern of a string format for a highlight rule.
-	 *
+	 * 
 	 * @param pattern the pattern of a string forma
 	 */
 
@@ -708,7 +706,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	/**
 	 * Sets the category of a string format for a highlight rule. The
 	 * <code>pattern</code> can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE</code>
@@ -720,7 +718,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li>
 	 * <code>DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param category the category of a string format
 	 * @throws SemanticException if <code>category</code> is not one of the above
 	 *                           values.
@@ -732,15 +730,14 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the pattern of a number format for a highlight rule.
-	 *
+	 * 
 	 * @return the pattern of a number format
 	 */
 
 	public String getNumberFormat() {
 		Object value = getProperty(HighlightRule.NUMBER_FORMAT_MEMBER);
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		assert value instanceof NumberFormatValue;
 
@@ -749,15 +746,14 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the category of a number format for a highlight rule.
-	 *
+	 * 
 	 * @return the category of a number format
 	 */
 
 	public String getNumberFormatCategory() {
 		Object value = getProperty(HighlightRule.NUMBER_FORMAT_MEMBER);
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		assert value instanceof NumberFormatValue;
 
@@ -766,7 +762,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the pattern of a number format for a highlight rule.
-	 *
+	 * 
 	 * @param pattern the pattern of a number format
 	 */
 
@@ -782,7 +778,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	/**
 	 * Sets the category of a number format for a highlight rule. The
 	 * <code>pattern</code> can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER</code>
@@ -793,7 +789,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD</code>
 	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param category the category of a number format
 	 * @throws SemanticException if <code>category</code> is not one of the above
 	 *                           values.
@@ -805,15 +801,14 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the pattern of the date-time-format for a highlight rule.
-	 *
+	 * 
 	 * @return the pattern of the date-time-format
 	 */
 
 	public String getDateTimeFormat() {
 		Object value = getProperty(HighlightRule.DATE_TIME_FORMAT_MEMBER);
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		assert value instanceof DateTimeFormatValue;
 
@@ -822,15 +817,14 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the category of the date-time-format for a highlight rule.
-	 *
+	 * 
 	 * @return the category of the date-time-format
 	 */
 
 	public String getDateTimeFormatCategory() {
 		Object value = getProperty(HighlightRule.DATE_TIME_FORMAT_MEMBER);
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		assert value instanceof DateTimeFormatValue;
 
@@ -839,7 +833,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the pattern of a date time format for a highlight rule.
-	 *
+	 * 
 	 * @param pattern the pattern of a date time format
 	 */
 
@@ -855,7 +849,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	/**
 	 * Sets the category of a number format for a highlight rule. The
 	 * <code>pattern</code> can be one of:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE</code>
@@ -867,7 +861,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME</code>
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param pattern the category of a date-time format
 	 * @throws SemanticException if <code>pattern</code> is not one of the above
 	 *                           values.
@@ -879,7 +873,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the category/pattern value for a string/number/date-time format.
-	 *
+	 * 
 	 * @param propName   the property name
 	 * @param memberName the category or pattern member name
 	 * @param valueToSet the value to set
@@ -891,23 +885,21 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 		FormatValue formatValueToSet = null;
 
 		if (value == null) {
-			if (HighlightRule.DATE_TIME_FORMAT_MEMBER.equalsIgnoreCase(propName)) {
+			if (HighlightRule.DATE_TIME_FORMAT_MEMBER.equalsIgnoreCase(propName))
 				formatValueToSet = new DateTimeFormatValue();
-			} else if (HighlightRule.NUMBER_FORMAT_MEMBER.equalsIgnoreCase(propName)) {
+			else if (HighlightRule.NUMBER_FORMAT_MEMBER.equalsIgnoreCase(propName))
 				formatValueToSet = new NumberFormatValue();
-			} else if (HighlightRule.STRING_FORMAT_MEMBER.equalsIgnoreCase(propName)) {
+			else if (HighlightRule.STRING_FORMAT_MEMBER.equalsIgnoreCase(propName))
 				formatValueToSet = new StringFormatValue();
-			} else {
+			else
 				assert false;
-			}
 
-			if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(memberName)) {
+			if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(memberName))
 				formatValueToSet.setCategory(valueToSet);
-			} else if (FormatValue.PATTERN_MEMBER.equalsIgnoreCase(memberName)) {
+			else if (FormatValue.PATTERN_MEMBER.equalsIgnoreCase(memberName))
 				formatValueToSet.setPattern(valueToSet);
-			} else {
+			else
 				assert false;
-			}
 
 			setProperty(propName, formatValueToSet);
 		} else {
@@ -916,20 +908,19 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle(propHandle);
 
-			if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(memberName)) {
+			if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(memberName))
 				formatHandle.setCategory(valueToSet);
-			} else if (FormatValue.PATTERN_MEMBER.equalsIgnoreCase(memberName)) {
+			else if (FormatValue.PATTERN_MEMBER.equalsIgnoreCase(memberName))
 				formatHandle.setPattern(valueToSet);
-			} else {
+			else
 				assert false;
-			}
 		}
 	}
 
 	/**
 	 * Sets the style property. If it is a valid style and highlight rule has no
 	 * local values, values on the style are returned.
-	 *
+	 * 
 	 * @param style the style
 	 * @throws SemanticException
 	 */
@@ -946,7 +937,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 	/**
 	 * Sets the style property. If it is a valid style and highlight rule has no
 	 * local values, values on the style are returned.
-	 *
+	 * 
 	 * @param styleName the style name
 	 * @throws SemanticException
 	 */
@@ -957,7 +948,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the style that the highlight rule links with.
-	 *
+	 * 
 	 * @return the style
 	 */
 
@@ -977,7 +968,7 @@ public class HighlightRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns a handle to work with the height of the line.
-	 *
+	 * 
 	 * @return a DimensionHandle to deal with the height o f the line.
 	 */
 

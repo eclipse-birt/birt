@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,10 +26,10 @@ public class FontMappingConfig {
 	protected Set fontPaths = new HashSet();
 
 	/** The font-family replacement */
-	protected HashMap fontAliases = new HashMap();
+	protected HashMap fontAliases = new HashMap();;
 
 	/** The encoding for the fonts */
-	protected HashMap fontEncodings = new HashMap();
+	protected HashMap fontEncodings = new HashMap();;
 
 	/** the global sequences defined for composite fonts */
 	protected HashMap searchSequences = new HashMap();

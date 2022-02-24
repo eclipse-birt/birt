@@ -15,7 +15,7 @@
 package org.eclipse.birt.report.designer.core.mediator;
 
 /**
- *
+ * 
  */
 
 public interface IMediator {

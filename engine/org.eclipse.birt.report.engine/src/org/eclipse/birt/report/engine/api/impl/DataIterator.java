@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,17 +63,14 @@ public class DataIterator implements IDataIterator {
 		}
 	}
 
-	@Override
 	public IExtractionResults getQueryResults() {
 		return results;
 	}
 
-	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		return results.getResultMetaData();
 	}
 
-	@Override
 	public boolean next() throws BirtException {
 		if (beforeFirstRow) {
 			beforeFirstRow = false;
@@ -85,7 +82,6 @@ public class DataIterator implements IDataIterator {
 		return iterator.next();
 	}
 
-	@Override
 	public Object getValue(String columnName) throws BirtException {
 		if (beforeFirstRow) {
 			throw new EngineException(MessageConstants.RESULTSET_ITERATOR_ERROR);
@@ -93,7 +89,6 @@ public class DataIterator implements IDataIterator {
 		return iterator.getValue(columnName);
 	}
 
-	@Override
 	public Object getValue(int index) throws BirtException {
 		if (beforeFirstRow) {
 			throw new EngineException(MessageConstants.RESULTSET_ITERATOR_ERROR);
@@ -103,7 +98,6 @@ public class DataIterator implements IDataIterator {
 		return iterator.getValue(columnName);
 	}
 
-	@Override
 	public void close() {
 		try {
 			iterator.close();
@@ -111,12 +105,10 @@ public class DataIterator implements IDataIterator {
 		}
 	}
 
-	@Override
 	public boolean isEmpty() throws BirtException {
 		return iterator.isEmpty();
 	}
 
-	@Override
 	public IResultIterator getResultIterator() {
 		return this.iterator;
 	}

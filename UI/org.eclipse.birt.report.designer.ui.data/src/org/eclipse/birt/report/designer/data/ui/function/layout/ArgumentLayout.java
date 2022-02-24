@@ -30,17 +30,14 @@ public class ArgumentLayout implements IArgumentLayout {
 		this.layoutHint = ALIGN_BLOCK;
 	}
 
-	@Override
 	public int getLayoutHint() {
 		return this.layoutHint;
 	}
 
-	@Override
 	public void setLayoutHint(int layoutHint) {
 		this.layoutHint = layoutHint;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}

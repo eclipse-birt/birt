@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -20,12 +20,8 @@ package org.eclipse.birt.report.model.adapter.oda.model.util;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter;
-import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters;
-import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
-import org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot;
-import org.eclipse.birt.report.model.adapter.oda.model.DynamicList;
-import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
+import org.eclipse.birt.report.model.adapter.oda.model.*;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -36,14 +32,14 @@ import org.eclipse.emf.ecore.EObject;
  * starting with the actual class of the object and proceeding up the
  * inheritance hierarchy until a non-null result is returned, which is the
  * result of the switch. <!-- end-user-doc -->
- *
+ * 
  * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage
  * @generated
  */
 public class ModelSwitch<T> {
 	/**
 	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected static ModelPackage modelPackage;
@@ -51,7 +47,7 @@ public class ModelSwitch<T> {
 	/**
 	 * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ModelSwitch() {
@@ -64,7 +60,7 @@ public class ModelSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -76,7 +72,7 @@ public class ModelSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -93,7 +89,7 @@ public class ModelSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -102,41 +98,36 @@ public class ModelSwitch<T> {
 		case ModelPackage.DATA_SET_PARAMETER: {
 			DataSetParameter dataSetParameter = (DataSetParameter) theEObject;
 			T result = caseDataSetParameter(dataSetParameter);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ModelPackage.DATA_SET_PARAMETERS: {
 			DataSetParameters dataSetParameters = (DataSetParameters) theEObject;
 			T result = caseDataSetParameters(dataSetParameters);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ModelPackage.DESIGN_VALUES: {
 			DesignValues designValues = (DesignValues) theEObject;
 			T result = caseDesignValues(designValues);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ModelPackage.DOCUMENT_ROOT: {
 			DocumentRoot documentRoot = (DocumentRoot) theEObject;
 			T result = caseDocumentRoot(documentRoot);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case ModelPackage.DYNAMIC_LIST: {
 			DynamicList dynamicList = (DynamicList) theEObject;
 			T result = caseDynamicList(dynamicList);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		default:
@@ -148,7 +139,7 @@ public class ModelSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Data Set
 	 * Parameter</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Data Set
 	 *         Parameter</em>'.
@@ -163,7 +154,7 @@ public class ModelSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Data Set
 	 * Parameters</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Data Set
 	 *         Parameters</em>'.
@@ -178,7 +169,7 @@ public class ModelSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Design
 	 * Values</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Design
 	 *         Values</em>'.
@@ -193,7 +184,7 @@ public class ModelSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Document
 	 * Root</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Document
 	 *         Root</em>'.
@@ -208,7 +199,7 @@ public class ModelSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Dynamic
 	 * List</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Dynamic
 	 *         List</em>'.
@@ -224,7 +215,7 @@ public class ModelSwitch<T> {
 	 * '<em>EObject</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>EObject</em>'.

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,7 +39,6 @@ public class AttributeView extends PageBookView {
 		super();
 	}
 
-	@Override
 	protected IPage createDefaultPage(PageBook book) {
 		MessagePage page = new MessagePage();
 		initPage(page);
@@ -51,7 +50,6 @@ public class AttributeView extends PageBookView {
 		return page;
 	}
 
-	@Override
 	public void setPartName(String name) {
 		super.setPartName(name);
 	}
@@ -60,12 +58,11 @@ public class AttributeView extends PageBookView {
 	 * Creates a new page in the pagebook for a particular part. This page will be
 	 * made visible whenever the part is active, and will be destroyed with a call
 	 * to <code>doDestroyPage</code>.
-	 *
+	 * 
 	 * @param part the input part
 	 * @return the record describing a new page for this view
 	 * @see #doDestroyPage
 	 */
-	@Override
 	protected PageRec doCreatePage(IWorkbenchPart part) {
 		Object page = part.getAdapter(IAttributeViewPage.class);
 		if (page instanceof IPageBookViewPage) {
@@ -81,12 +78,11 @@ public class AttributeView extends PageBookView {
 	/**
 	 * Destroys a page in the pagebook for a particular part. This page was returned
 	 * as a result from <code>doCreatePage</code>.
-	 *
+	 * 
 	 * @param part       the input part
 	 * @param pageRecord a page record for the part
 	 * @see #doCreatePage
 	 */
-	@Override
 	protected void doDestroyPage(IWorkbenchPart part, PageRec pageRecord) {
 		IPage page = pageRecord.page;
 		page.dispose();
@@ -104,10 +100,9 @@ public class AttributeView extends PageBookView {
 	 * Implementors of this method should return an active, important part in the
 	 * workbench or <code>null</code> if none found.
 	 * </p>
-	 *
+	 * 
 	 * @return the active important part, or <code>null</code> if none
 	 */
-	@Override
 	protected IWorkbenchPart getBootstrapPart() {
 		IWorkbenchPage page = getSite().getPage();
 		if (page != null) {
@@ -118,27 +113,24 @@ public class AttributeView extends PageBookView {
 
 	/**
 	 * Returns whether the given part should be added to this view.
-	 *
+	 * 
 	 * @param part the input part
 	 * @return <code>true</code> if the part is relevant, and <code>false</code>
 	 *         otherwise
 	 */
-	@Override
 	protected boolean isImportant(IWorkbenchPart part) {
 		return (part instanceof IEditorPart);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.PageBookView#getAdapter(java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class key) {
 		if (key == IContributedContentsView.class) {
 			return new IContributedContentsView() {
 
-				@Override
 				public IWorkbenchPart getContributingPart() {
 					return getCurrentContributingPart();
 				}
@@ -147,7 +139,6 @@ public class AttributeView extends PageBookView {
 		return super.getAdapter(key);
 	}
 
-	@Override
 	public void partClosed(IWorkbenchPart part) {
 		super.partClosed(part);
 		if (defaultPartName != null) {
@@ -157,11 +148,10 @@ public class AttributeView extends PageBookView {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.ui.part.PageBookView#partBroughtToTop(org.eclipse.ui.
 	 * IWorkbenchPart)
 	 */
-	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
 		super.partBroughtToTop(part);
 		partActivated(part);

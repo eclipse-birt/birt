@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,8 +55,8 @@ import com.ibm.icu.util.ULocale;
  */
 
 public class DataAdapterUtil {
-	private static Map<String, String> aggrAdapterMap = new HashMap<>();
-	private static Map<String, Integer> filterOptMap = new HashMap<>();
+	private static Map<String, String> aggrAdapterMap = new HashMap<String, String>();
+	private static Map<String, Integer> filterOptMap = new HashMap<String, Integer>();
 
 	static {
 		registerAggregationFunction();
@@ -145,7 +145,7 @@ public class DataAdapterUtil {
 				new Integer(IConditionalExpression.OP_NOT_MATCH));
 		filterOptMap.put(DesignChoiceConstants.FILTER_OPERATOR_IN, new Integer(IConditionalExpression.OP_IN));
 		filterOptMap.put(DesignChoiceConstants.FILTER_OPERATOR_NOT_IN,
-				IConditionalExpression.OP_NOT_IN);
+				Integer.valueOf(IConditionalExpression.OP_NOT_IN));
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class DataAdapterUtil {
 	 * simply call this method with proper argument so that the "row" object
 	 * registered in IResultIterator's scope, that is, JSResultSetRow, can be
 	 * accessed by engine using engine scope.
-	 *
+	 * 
 	 * @param targetScope
 	 * @param source
 	 * @throws AdapterException
@@ -172,9 +172,8 @@ public class DataAdapterUtil {
 			} else if (type == ILinkedResult.TYPE_CUBE && source.getCurrentResult() != null) {
 				Scriptable scope = ((ICubeCursor) source.getCurrentResult()).getScope();
 				targetScope.put("data", targetScope, scope.get("data", scope));
-				if (scope.get("data", scope) != null && scope.get("data", scope) instanceof Scriptable) {
+				if (scope.get("data", scope) != null && scope.get("data", scope) instanceof Scriptable)
 					targetScope.put("row", targetScope, scope.get("row", scope));
-				}
 				targetScope.put("dimension", targetScope, scope.get("dimension", scope));
 				targetScope.put("measure", targetScope, scope.get("measure", scope));
 			}
@@ -184,7 +183,7 @@ public class DataAdapterUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param context
 	 * @throws AdapterException
 	 */
@@ -209,42 +208,30 @@ public class DataAdapterUtil {
 	 * on column
 	 */
 	public static int adaptModelDataType(String modelDataType) {
-		if (modelDataType == null) {
+		if (modelDataType == null)
 			return DataType.UNKNOWN_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_ANY)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))
 			return DataType.ANY_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER))
 			return DataType.INTEGER_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_STRING)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_STRING))
 			return DataType.STRING_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME))
 			return DataType.DATE_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL))
 			return DataType.DECIMAL_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT))
 			return DataType.DOUBLE_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_TIME)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_TIME))
 			return DataType.SQL_TIME_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATE)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATE))
 			return DataType.SQL_DATE_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN))
 			return DataType.BOOLEAN_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB))
 			return DataType.BLOB_TYPE;
-		}
-		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT)) {
+		if (modelDataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT))
 			return DataType.JAVA_OBJECT_TYPE;
-		}
 		return DataType.UNKNOWN_TYPE;
 	}
 
@@ -291,39 +278,38 @@ public class DataAdapterUtil {
 
 	/**
 	 * Adapter dte's function name to model function name
-	 *
+	 * 
 	 * @param apiDataType
 	 * @return
 	 */
 	public static String adapterToModelDataType(int apiDataType) {
-		if (apiDataType == DataType.INTEGER_TYPE) {
+		if (apiDataType == DataType.INTEGER_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
-		} else if (apiDataType == DataType.STRING_TYPE) {
+		else if (apiDataType == DataType.STRING_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
-		} else if (apiDataType == DataType.DATE_TYPE) {
+		else if (apiDataType == DataType.DATE_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
-		} else if (apiDataType == DataType.DECIMAL_TYPE) {
+		else if (apiDataType == DataType.DECIMAL_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
-		} else if (apiDataType == DataType.DOUBLE_TYPE) {
+		else if (apiDataType == DataType.DOUBLE_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT;
-		} else if (apiDataType == DataType.SQL_DATE_TYPE) {
+		else if (apiDataType == DataType.SQL_DATE_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE;
-		} else if (apiDataType == DataType.SQL_TIME_TYPE) {
+		else if (apiDataType == DataType.SQL_TIME_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
-		} else if (apiDataType == DataType.BOOLEAN_TYPE) {
+		else if (apiDataType == DataType.BOOLEAN_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
-		} else if (apiDataType == DataType.BLOB_TYPE) {
+		else if (apiDataType == DataType.BLOB_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB;
-		} else if (apiDataType == DataType.JAVA_OBJECT_TYPE) {
+		else if (apiDataType == DataType.JAVA_OBJECT_TYPE)
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT;
-		}
 
 		return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
 	}
 
 	/**
 	 * Adapter dte's data type to model data type
-	 *
+	 * 
 	 * @param funcName DTE function name
 	 * @return model function name
 	 */
@@ -337,7 +323,7 @@ public class DataAdapterUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param modelAggrType
 	 * @return
 	 * @throws AdapterException
@@ -349,31 +335,29 @@ public class DataAdapterUtil {
 
 	/**
 	 * This method is used to adapter model filter's operator into dte's operator
-	 *
+	 * 
 	 * @param modelOpr
 	 * @return
 	 */
 	public static int adaptModelFilterOperator(String modelOpr) {
 		Integer operator = (Integer) filterOptMap.get(modelOpr);
-		if (operator != null) {
+		if (operator != null)
 			return ((Integer) operator).intValue();
-		} else {
+		else
 			return IConditionalExpression.OP_NONE;
-		}
 	}
 
 	/**
 	 * Get the rollup aggregation name. If the function is TOTAL_AVE_FUNC,
 	 * TOTAL_COUNT_FUNC, or TOTAL_COUNT_DISTINCT_FUNC, return TOTAL_SUM_FUNC as
 	 * measure function name
-	 *
+	 * 
 	 * @param functionName
 	 * @return
 	 */
 	public static String getRollUpAggregationName(String functionName) {
-		if (functionName == null || functionName.trim().length() == 0) {
+		if (functionName == null || functionName.trim().length() == 0)
 			return functionName;
-		}
 		String func = functionName;
 		try {
 			func = adaptModelAggregationType(functionName);
@@ -381,16 +365,15 @@ public class DataAdapterUtil {
 			// do nothing
 		}
 		if (func.equals(IBuildInAggregation.TOTAL_AVE_FUNC) || func.equals(IBuildInAggregation.TOTAL_COUNT_FUNC)
-				|| func.equals(IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC)) {
+				|| func.equals(IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC))
 			return IBuildInAggregation.TOTAL_SUM_FUNC;
-		} else {
+		else
 			return func;
-		}
 	}
 
 	/**
 	 * This method is used to adapter model sort direction into dte's direction.
-	 *
+	 * 
 	 * @param dir
 	 * @return
 	 */
@@ -400,71 +383,68 @@ public class DataAdapterUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param type
 	 * @return
 	 */
 	public static int modelDataTypeToCoreDataType(String type) {
 		int typeNum = DataType.ANY_TYPE;
-		if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type)) {
+		if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type))
 			typeNum = DataType.STRING_TYPE;
-		} else if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type))
 			typeNum = DataType.DOUBLE_TYPE;
-		} else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type))
 			typeNum = DataType.DECIMAL_TYPE;
-		} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type))
 			typeNum = DataType.DATE_TYPE;
-		} else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(type)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(type))
 			typeNum = DataType.SQL_DATE_TYPE;
-		} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(type)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(type))
 			typeNum = DataType.SQL_TIME_TYPE;
-		} else if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type))
 			typeNum = DataType.BOOLEAN_TYPE;
-		} else if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(type)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(type))
 			typeNum = DataType.INTEGER_TYPE;
-		} else if (DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT.equals(type)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT.equals(type))
 			typeNum = DataType.JAVA_OBJECT_TYPE;
-		}
 		return typeNum;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dteDTName
 	 * @return
 	 */
 	public static String coreDataTypeToModelDataType(String dteDTName) {
-		if (dteDTName == null) {
+		if (dteDTName == null)
 			return null;
-		}
 
 		String modelDataType = DesignChoiceConstants.PARAM_TYPE_ANY;
 
-		if (dteDTName.equals(DataType.INTEGER_TYPE_NAME)) {
+		if (dteDTName.equals(DataType.INTEGER_TYPE_NAME))
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_INTEGER;
-		} else if (dteDTName.equals(DataType.DOUBLE_TYPE_NAME)) {
+		else if (dteDTName.equals(DataType.DOUBLE_TYPE_NAME))
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_FLOAT;
-		} else if (dteDTName.equals(DataType.DECIMAL_TYPE_NAME)) {
+		else if (dteDTName.equals(DataType.DECIMAL_TYPE_NAME))
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_DECIMAL;
-		} else if (dteDTName.equals(DataType.STRING_TYPE_NAME)) {
+		else if (dteDTName.equals(DataType.STRING_TYPE_NAME))
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_STRING;
-		} else if (dteDTName.equals(DataType.DATE_TYPE_NAME)) {
+		else if (dteDTName.equals(DataType.DATE_TYPE_NAME))
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_DATETIME;
-		} else if (dteDTName.equals(DataType.BOOLEAN_TYPE_NAME)) {
+		else if (dteDTName.equals(DataType.BOOLEAN_TYPE_NAME))
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_BOOLEAN;
-		} else if (dteDTName.equals(DataType.SQL_DATE_TYPE_NAME)) {
+		else if (dteDTName.equals(DataType.SQL_DATE_TYPE_NAME))
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_DATE;
-		} else if (dteDTName.equals(DataType.SQL_TIME_TYPE_NAME)) {
+		else if (dteDTName.equals(DataType.SQL_TIME_TYPE_NAME))
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_TIME;
-		} else if (dteDTName.equals(DataType.OBJECT_TYPE_NAME)) {
+		else if (dteDTName.equals(DataType.OBJECT_TYPE_NAME))
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT;
-		}
 		return modelDataType;
 	}
 
 	/**
 	 * get dte's TimePeriodType enum.
-	 *
+	 * 
 	 * @param type
 	 * @return
 	 */
@@ -493,7 +473,7 @@ public class DataAdapterUtil {
 
 	/**
 	 * to model's time type
-	 *
+	 * 
 	 * @param type
 	 * @return
 	 */
@@ -513,7 +493,7 @@ public class DataAdapterUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -523,7 +503,7 @@ public class DataAdapterUtil {
 
 	/**
 	 * Get the parameter value from .rptconfig file if it does exist
-	 *
+	 * 
 	 * @return Object[] the parameter value
 	 */
 	public static Object getParamValueFromConfigFile(ScalarParameterHandle paramHandle) {
@@ -540,7 +520,6 @@ public class DataAdapterUtil {
 		final File file = new File(reportConfigName);
 
 		if (AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-			@Override
 			public Boolean run() {
 				return file.exists();
 			}
@@ -612,7 +591,7 @@ public class DataAdapterUtil {
 
 	/**
 	 * Delete the last "_" part
-	 *
+	 * 
 	 * @param name
 	 * @return String
 	 */
@@ -623,7 +602,7 @@ public class DataAdapterUtil {
 
 	/**
 	 * Checks whether the parameter value is null in the rptconfig file
-	 *
+	 * 
 	 * @param varName
 	 * @param varValue
 	 * @param newParaName
@@ -635,7 +614,7 @@ public class DataAdapterUtil {
 
 	private static class JSResultIteratorObject extends ScriptableObject {
 		/**
-		 *
+		 * 
 		 */
 		private static final long serialVersionUID = 684728008759347940L;
 		private ILinkedResult it;
@@ -645,12 +624,10 @@ public class DataAdapterUtil {
 		JSResultIteratorObject(ILinkedResult it, Scriptable scope) {
 			this.it = it;
 			this.scope = scope;
-			if (it.getCurrentResultType() == ILinkedResult.TYPE_TABLE) {
+			if (it.getCurrentResultType() == ILinkedResult.TYPE_TABLE)
 				this.currentIterator = (IResultIterator) it.getCurrentResult();
-			}
 		}
 
-		@Override
 		public String getClassName() {
 			return "JSResultIteratorObject";
 		}
@@ -659,12 +636,10 @@ public class DataAdapterUtil {
 		 * @see org.mozilla.javascript.Scriptable#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public Object get(String arg0, Scriptable scope) {
 			try {
-				if (this.currentIterator == null) {
+				if (this.currentIterator == null)
 					return null;
-				}
 
 				if ("__rownum".equalsIgnoreCase(arg0) || "0".equalsIgnoreCase(arg0)) {
 					return Integer.valueOf(this.currentIterator.getRowIndex());
@@ -682,7 +657,6 @@ public class DataAdapterUtil {
 		 * @see org.mozilla.javascript.Scriptable#get(int,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public Object get(int index, Scriptable start) {
 			return this.get(String.valueOf(index), start);
 		}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,6 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 		this.altTextKey = foreign.getAltTextKey();
 	}
 
-	@Override
 	public int getContentType() {
 		return FOREIGN_CONTENT;
 	}
@@ -64,26 +63,22 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
 	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitForeign(this, value);
 	}
 
-	@Override
 	public String getRawType() {
 		return rawType;
 	}
 
-	@Override
 	public void setRawKey(String rawKey) {
 		this.rawKey = rawKey;
 	}
 
-	@Override
 	public String getRawKey() {
 		return this.rawKey;
 	}
@@ -91,7 +86,6 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 	/**
 	 * @return Returns the content. Caller knows how to cast this object
 	 */
-	@Override
 	public Object getRawValue() {
 		return rawValue;
 	}
@@ -99,7 +93,6 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 	/**
 	 * @param rawType The rawType to set.
 	 */
-	@Override
 	public void setRawType(String rawType) {
 		this.rawType = rawType;
 	}
@@ -107,7 +100,6 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 	/**
 	 * @param rawValue The rawValue to set.
 	 */
-	@Override
 	public void setRawValue(Object rawValue) {
 		this.rawValue = rawValue;
 	}
@@ -133,7 +125,6 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 		return IForeignContent.TEXT_TYPE;
 	}
 
-	@Override
 	public String getAltText() {
 		if (altText == null) {
 			if (generateBy instanceof ExtendedItemDesign) {
@@ -149,7 +140,6 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 		return altText;
 	}
 
-	@Override
 	public String getAltTextKey() {
 		if (altTextKey == null) {
 			if (generateBy instanceof ExtendedItemDesign) {
@@ -159,7 +149,6 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 		return altTextKey;
 	}
 
-	@Override
 	public void setAltTextKey(String key) {
 		altTextKey = key;
 	}
@@ -167,17 +156,14 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 	/**
 	 * @param altText The altText to set.
 	 */
-	@Override
 	public void setAltText(String altText) {
 		this.altText = altText;
 	}
 
-	@Override
 	public void setJTidy(boolean jTidy) {
 		this.jTidy = jTidy;
 	}
 
-	@Override
 	public boolean isJTidy() {
 		return jTidy;
 	}
@@ -189,7 +175,6 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 	static final protected short FIELD_RAWKEY = 404;
 	static final protected short FIELD_JTIDY = 405;
 
-	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (rawType != null) {
@@ -212,13 +197,12 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 			IOUtil.writeShort(out, FIELD_RAWKEY);
 			IOUtil.writeString(out, rawKey);
 		}
-		if (!jTidy) {
+		if (jTidy != true) {
 			IOUtil.writeShort(out, FIELD_JTIDY);
 			IOUtil.writeBool(out, jTidy);
 		}
 	}
 
-	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_RAW_TYPE:
@@ -247,21 +231,22 @@ public class ForeignContent extends AbstractContent implements IForeignContent {
 		}
 	}
 
-	@Override
 	public boolean needSave() {
-		if ((rawType != null) || rawValue != null || rawKey != null) {
+		if (rawType != null) {
+			return true;
+		}
+		if (rawValue != null || rawKey != null) {
 			return true;
 		}
 		if (altText != null || altTextKey != null) {
 			return true;
 		}
-		if (!jTidy) {
+		if (jTidy == false) {
 			return true;
 		}
 		return super.needSave();
 	}
 
-	@Override
 	protected IContent cloneContent() {
 		return new ForeignContent(this);
 	}

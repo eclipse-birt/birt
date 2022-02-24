@@ -22,14 +22,14 @@ public interface IMediatorTarget {
 	/**
 	 * Adds the dispose listener. The target should notify the listener once it's
 	 * disposed. The target should ensure adding a duplicate listener has no effect.
-	 *
+	 * 
 	 * @param listener
 	 */
 	void addDisposeListener(ITargetDisposeListener listener);
 
 	/**
 	 * Removes the dispose listener.
-	 *
+	 * 
 	 * @param listener
 	 */
 	void removeDisposeListener(ITargetDisposeListener listener);

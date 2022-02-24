@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,6 @@ public class BlockPropertiesSheet extends AbstractPopupSheet implements Listener
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_CHART_OUTLINE);
 	}
 
-	@Override
 	protected Composite getComponent(Composite parent) {
 		// Sheet content composite
 		cmpContent = new Composite(parent, SWT.NONE);
@@ -97,11 +96,10 @@ public class BlockPropertiesSheet extends AbstractPopupSheet implements Listener
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(this.liacOutline)) {
 			boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);

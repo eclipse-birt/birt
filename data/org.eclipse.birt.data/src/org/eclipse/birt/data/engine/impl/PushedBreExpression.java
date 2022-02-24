@@ -25,7 +25,6 @@ public class PushedBreExpression extends ScriptExpression implements IPushedDown
 		this.originalBreScript = originalScript;
 	}
 
-	@Override
 	public IBaseExpression getOriginalExpression() {
 		return this.originalBreScript;
 	}

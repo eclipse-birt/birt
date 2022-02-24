@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,26 +17,26 @@ package org.eclipse.birt.chart.tests.engine.util;
 import java.io.IOException;
 import java.io.InputStream;
 
+import junit.framework.TestCase;
+
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 
-import junit.framework.TestCase;
-
 public class TriggerSupportMatrixTest extends TestCase {
 
 	private static final String HTML_PATH = "org/eclipse/birt/chart/tests/engine/util/TriggerSupportMatrix_golden.htm"; //$NON-NLS-1$
 
-	private static final ActionType[] ACTION_TYPES = { ActionType.URL_REDIRECT_LITERAL, ActionType.SHOW_TOOLTIP_LITERAL,
-			ActionType.INVOKE_SCRIPT_LITERAL, ActionType.TOGGLE_VISIBILITY_LITERAL,
+	private static final ActionType[] ACTION_TYPES = new ActionType[] { ActionType.URL_REDIRECT_LITERAL,
+			ActionType.SHOW_TOOLTIP_LITERAL, ActionType.INVOKE_SCRIPT_LITERAL, ActionType.TOGGLE_VISIBILITY_LITERAL,
 			ActionType.TOGGLE_DATA_POINT_VISIBILITY_LITERAL, ActionType.HIGHLIGHT_LITERAL,
 			ActionType.CALL_BACK_LITERAL };
 
 	private static final String SPLITOR = "\n"; //$NON-NLS-1$
 
 	public void testMatrixAll() {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		sb.append(new InteractivityTypeInnerTest(TriggerSupportMatrix.TYPE_DATAPOINT).getMatrixGeneratedString());
 		sb.append(new InteractivityTypeInnerTest(TriggerSupportMatrix.TYPE_AXIS).getMatrixGeneratedString());
 		sb.append(new InteractivityTypeInnerTest(TriggerSupportMatrix.TYPE_LEGEND).getMatrixGeneratedString());
@@ -54,7 +54,7 @@ public class TriggerSupportMatrixTest extends TestCase {
 		if (goldenArray.length == populatedArray.length) {
 			for (int i = 0; i < populatedArray.length; i++) {
 				// Need to remove additional splitor in windows
-				String golden = goldenArray[i].replace("\r", ""); //$NON-NLS-1$ //$NON-NLS-2$
+				String golden = goldenArray[i].replaceAll("\r", ""); //$NON-NLS-1$ //$NON-NLS-2$
 				assertEquals("check line " + (i + 1) + ":", //$NON-NLS-1$ //$NON-NLS-2$
 						golden, populatedArray[i]);
 			}
@@ -155,7 +155,7 @@ public class TriggerSupportMatrixTest extends TestCase {
 	}
 
 	private String getMatrixGoldenString() {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		try {
 			InputStream is = TriggerSupportMatrixTest.class.getClassLoader().getResourceAsStream(HTML_PATH);
 			int c = 0;

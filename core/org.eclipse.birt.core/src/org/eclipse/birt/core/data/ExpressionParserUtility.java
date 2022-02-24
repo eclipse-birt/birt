@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public class ExpressionParserUtility {
 
 	/**
 	 * compile the expression
-	 *
+	 * 
 	 * @param expression
 	 * @return List contains all column reference
 	 * @throws BirtException
@@ -58,16 +58,15 @@ public class ExpressionParserUtility {
 
 	/**
 	 * compile the expression
-	 *
+	 * 
 	 * @param expression
 	 * @return List contains all column reference
 	 * @throws BirtException
 	 */
 	public static List compileColumnExpression(ExpressionParserUtility util, String expression, String indicator)
 			throws BirtException {
-		if (expression == null || expression.trim().length() == 0) {
+		if (expression == null || expression.trim().length() == 0)
 			return new ArrayList();
-		}
 		util.ROW_INDICATOR = indicator;
 		List columnExprList = new ArrayList();
 		columnExprList.clear();
@@ -84,7 +83,7 @@ public class ExpressionParserUtility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws BirtException
 	 */
@@ -93,7 +92,7 @@ public class ExpressionParserUtility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws BirtException
 	 */
@@ -113,7 +112,7 @@ public class ExpressionParserUtility {
 
 	/**
 	 * compile the expression from a script tree
-	 *
+	 * 
 	 * @param expression
 	 * @param context
 	 * @param tree
@@ -145,7 +144,7 @@ public class ExpressionParserUtility {
 
 	/**
 	 * parse the expression into a script tree
-	 *
+	 * 
 	 * @param expression
 	 * @param cx
 	 * @return
@@ -160,7 +159,7 @@ public class ExpressionParserUtility {
 
 	/**
 	 * process child node
-	 *
+	 * 
 	 * @param parent
 	 * @param child
 	 * @param tree
@@ -194,7 +193,7 @@ public class ExpressionParserUtility {
 
 	/**
 	 * compile column reference expression
-	 *
+	 * 
 	 * @param refNode
 	 * @throws BirtException
 	 */
@@ -212,14 +211,14 @@ public class ExpressionParserUtility {
 				return;
 			}
 			compileComplexExpr(refNode, tree, columnExprList);
-		} else {
+			return;
+		} else
 			compileSimpleColumnRefExpr(refNode, tree, columnExprList);
-		}
 	}
 
 	/**
 	 * compile outer column expression
-	 *
+	 * 
 	 * @param refNode
 	 * @param tree
 	 * @param columnExprList
@@ -236,11 +235,12 @@ public class ExpressionParserUtility {
 				columnExprList.add(info);
 			}
 		}
+		return;
 	}
 
 	/**
 	 * compile row position expression
-	 *
+	 * 
 	 * @param refNode
 	 * @param tree
 	 * @param columnExprList
@@ -260,7 +260,7 @@ public class ExpressionParserUtility {
 						ColumnBinding binding = new ColumnBinding(rowColumn.getString(),
 								ExpressionUtil.createJSDataSetRowExpression(rowColumn.getString()), 1);
 						columnExprList.add(binding);
-
+						;
 					}
 				}
 			}
@@ -269,7 +269,7 @@ public class ExpressionParserUtility {
 
 	/**
 	 * compile simple column ref expression
-	 *
+	 * 
 	 * @param refNode
 	 * @param rowName
 	 * @param columnExprList
@@ -284,17 +284,15 @@ public class ExpressionParserUtility {
 		assert (rowColumn != null);
 
 		if (!str.equals(ROW_INDICATOR)) {
-			if (rowColumn != null && rowColumn.getNext() != null) {
+			if (rowColumn != null && rowColumn.getNext() != null)
 				processChild(rowColumn.getNext(), tree, columnExprList);
-			}
 			return;
 		}
 		if ((refNode.getType() == Token.GETPROP || refNode.getType() == Token.SETPROP)
 				&& rowColumn.getType() == Token.STRING) {
 			int outer_count = 0;
-			if ("__rownum".equals(rowColumn.getString()) || "0".equals(rowColumn.getString())) {
+			if ("__rownum".equals(rowColumn.getString()) || "0".equals(rowColumn.getString()))
 				return;
-			}
 			if ("_outer".equals(rowColumn.getString())) {
 				outer_count++;
 
@@ -320,15 +318,13 @@ public class ExpressionParserUtility {
 
 		if (refNode.getType() == Token.GETELEM || refNode.getType() == Token.SETELEM) {
 			if (rowColumn.getType() == Token.NUMBER) {
-				if (0 == rowColumn.getDouble()) {
+				if (0 == rowColumn.getDouble())
 					return;
-					// columnExprList.add( DATASETROW_INDICATOR
-					// + "[" + (int) rowColumn.getDouble( ) + "]" );
-				}
+				// columnExprList.add( DATASETROW_INDICATOR
+				// + "[" + (int) rowColumn.getDouble( ) + "]" );
 			} else if (rowColumn.getType() == Token.STRING) {
-				if ("_rownum".equals(rowColumn.getString())) {
+				if ("_rownum".equals(rowColumn.getString()))
 					return;
-				}
 				if (tree.getFirstChild().getFirstChild() == refNode && refNode.getNext() == null) {
 					isDirectColumnRef = true;
 				}
@@ -337,13 +333,12 @@ public class ExpressionParserUtility {
 				columnExprList.add(binding);
 			}
 		}
-		if (rowColumn != null && rowColumn.getNext() != null) {
+		if (rowColumn != null && rowColumn.getNext() != null)
 			processChild(rowColumn.getNext(), tree, columnExprList);
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param refNode
 	 * @return
 	 */
@@ -355,35 +350,30 @@ public class ExpressionParserUtility {
 			if (rowFirstNode.getType() == Token.NAME && rowFirstNode.getString().equals(ROW_INDICATOR)) {
 				Node rowColumn = rowFirstNode.getNext();
 				if (rowColumn.getType() == Token.STRING) {
-					if ("_outer".equals(rowColumn.getString())) {
+					if ("_outer".equals(rowColumn.getString()))
 						count++;
-					}
 				}
 				return count;
 			} else if (rowFirstNode.getType() == Token.GETPROP || rowFirstNode.getType() == Token.SETPROP) {
-				if (compileOuterColRefExpr(rowFirstNode) == -1) {
+				if (compileOuterColRefExpr(rowFirstNode) == -1)
 					return -1;
-				} else {
+				else
 					count = count + compileOuterColRefExpr(rowFirstNode);
-				}
 				Node nextChild = rowFirstNode.getNext();
 				if (nextChild.getType() == Token.STRING) {
-					if ("_outer".equals(nextChild.getString())) {
+					if ("_outer".equals(nextChild.getString()))
 						count++;
-					}
 				}
-			} else {
+			} else
 				return -1;
-			}
 			return count;
-		} else {
+		} else
 			return -1;
-		}
 	}
 
 	/**
 	 * compile aggregate expression
-	 *
+	 * 
 	 * @param context
 	 * @param parent
 	 * @param callNode
@@ -396,7 +386,7 @@ public class ExpressionParserUtility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param callNode
 	 * @param tree
 	 * @param columnExprList
@@ -404,21 +394,19 @@ public class ExpressionParserUtility {
 	 */
 	private void compileAggregationFunction(Node callNode, ScriptNode tree, List columnExprList) throws BirtException {
 		Node firstChild = callNode.getFirstChild();
-		if (firstChild.getType() != Token.GETPROP) {
+		if (firstChild.getType() != Token.GETPROP)
 			return;
-		}
 
 		Node getPropLeftChild = firstChild.getFirstChild();
-		if (getPropLeftChild.getType() == Token.NAME && getPropLeftChild.getString().equals(TOTAL)) {
+		if (getPropLeftChild.getType() == Token.NAME && getPropLeftChild.getString().equals(TOTAL))
 			hasAggregation = true;
-		}
 
 		compileComplexExpr(firstChild, tree, columnExprList);
 	}
 
 	/**
 	 * extract arguments from aggregation expression
-	 *
+	 * 
 	 * @param context
 	 * @param callNode
 	 * @throws BirtException
@@ -438,7 +426,7 @@ public class ExpressionParserUtility {
 
 	/**
 	 * compile the complex expression
-	 *
+	 * 
 	 * @param complexNode
 	 * @throws BirtException
 	 */
@@ -469,7 +457,7 @@ public class ExpressionParserUtility {
 
 	/**
 	 * compile the function expression
-	 *
+	 * 
 	 * @param node
 	 * @param tree
 	 * @param columnExprList
@@ -481,7 +469,7 @@ public class ExpressionParserUtility {
 
 	/**
 	 * get the function node index
-	 *
+	 * 
 	 * @param functionName
 	 * @param tree
 	 * @return

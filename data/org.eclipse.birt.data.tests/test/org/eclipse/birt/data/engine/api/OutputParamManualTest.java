@@ -1,20 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.api;
-
-import static org.junit.Assert.assertTrue;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
@@ -26,11 +24,14 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import testutil.BaseTestCase;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
 
 /**
  * Derby does not support DatabaseMetaData in Connection, and then
@@ -60,9 +61,8 @@ public class OutputParamManualTest extends BaseTestCase {
 	 * @throws Exception
 	 */
 	private IBaseDataSourceDesign getDataSource() throws Exception {
-		if (odaDataSource != null) {
+		if (odaDataSource != null)
 			return odaDataSource;
-		}
 
 		odaDataSource = new OdaDataSourceDesign("Test Data Source");
 		odaDataSource.setExtensionID(JDBC_DATA_SOURCE_TYPE);
@@ -76,14 +76,13 @@ public class OutputParamManualTest extends BaseTestCase {
 
 	/**
 	 * Add info of input and output parameter.
-	 *
+	 * 
 	 * @return IBaseDataSetDesign
 	 * @throws Exception
 	 */
 	private IBaseDataSetDesign getDataSet() throws Exception {
-		if (odaDataSet != null) {
+		if (odaDataSet != null)
 			return odaDataSet;
-		}
 
 		odaDataSet = new OdaDataSetDesign("Test Data Set");
 		odaDataSet.setDataSource(getDataSource().getName());
@@ -113,9 +112,8 @@ public class OutputParamManualTest extends BaseTestCase {
 	 * @throws Exception
 	 */
 	private QueryDefinition getQueryDefn() throws Exception {
-		if (queryDefinition != null) {
+		if (queryDefinition != null)
 			return queryDefinition;
-		}
 
 		queryDefinition = new QueryDefinition();
 		queryDefinition.setDataSetName(getDataSet().getName());
@@ -132,9 +130,8 @@ public class OutputParamManualTest extends BaseTestCase {
 		expr = new ScriptExpression("outputParams[\"@@param2\"]");
 		expressionArray[1] = expr;
 
-		for (int i = 0; i < expressionArray.length; i++) {
+		for (int i = 0; i < expressionArray.length; i++)
 			queryDefinition.addResultSetExpression(expressionName[i], expressionArray[i]);
-		}
 
 		return queryDefinition;
 	}

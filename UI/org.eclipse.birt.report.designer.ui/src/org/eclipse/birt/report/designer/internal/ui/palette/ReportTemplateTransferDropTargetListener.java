@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -63,7 +63,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
@@ -71,6 +70,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 
@@ -85,7 +85,7 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param viewer
 	 */
 	public ReportTemplateTransferDropTargetListener(EditPartViewer viewer) {
@@ -94,11 +94,10 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.dnd.TemplateTransferDropTargetListener#getFactory(java
 	 * .lang.Object)
 	 */
-	@Override
 	protected CreationFactory getFactory(Object template) {
 		if (handleValidateDrag(template)) {
 			if (template instanceof String) {
@@ -111,10 +110,9 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#handleDrop()
 	 */
-	@Override
 	protected void handleDrop() {
 		updateTargetRequest();
 		updateTargetEditPart();
@@ -183,9 +181,8 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 			if (dragObj instanceof EmbeddedImageHandle) {
 				isEmbeddImage = true;
 				preHandle = new ImageToolExtends();
-			} else {
+			} else
 				preHandle = new LibraryElementsToolHandleExtends((DesignElementHandle) dragObj);
-			}
 		} else if (handleValidateOutline(template)) {
 			Object dragObj = getSingleTransferData(template);
 			if (dragObj instanceof EmbeddedImageHandle) {
@@ -301,7 +298,7 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 
 	/**
 	 * Validates drag source from palette, layout, or data view
-	 *
+	 * 
 	 * @param dragObj
 	 * @return validate result
 	 */
@@ -321,7 +318,7 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 
 	/**
 	 * Validates drag from data view to layout
-	 *
+	 * 
 	 * @param template
 	 * @return validate result
 	 */
@@ -330,9 +327,14 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 				|| InsertInLayoutUtil.handleValidateInsertToLayout(template, getTargetEditPart()));
 	}
 
+	// test for the crosstab
+	private boolean isCrossType(Object obj) {
+		return obj instanceof DimensionHandle || obj instanceof MeasureHandle;
+	}
+
 	/**
 	 * Validates drag source of outline view and drop target of layout
-	 *
+	 * 
 	 * @return validate result
 	 */
 	private boolean handleValidateOutline(Object dragSource) {
@@ -388,9 +390,8 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 						// explorer view.
 						// 180426 disabled drop to library editor
 						if ((dragObj instanceof DataSetHandle || dragObj instanceof ParameterHandle)
-								&& getTargetEditPart() == null) {
+								&& getTargetEditPart() == null)
 							return true;
-						}
 						if (dragObj instanceof DataSourceHandle || dragObj instanceof MasterPageHandle) {
 							return targetEditPart instanceof ReportDesignEditPart
 									&& ((ReportElementHandle) dragObj).getRoot() != targetEditPart.getModel();
@@ -419,13 +420,12 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 		return false;
 	} /*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse
 		 * .swt.dnd.DropTargetEvent)
 		 */
 
-	@Override
 	public void dragOver(DropTargetEvent event) {
 		super.dragOver(event);
 		if (!handleValidateDrag(TemplateTransfer.getInstance().getTemplate())) {
@@ -456,7 +456,7 @@ public class ReportTemplateTransferDropTargetListener extends TemplateTransferDr
 
 	/**
 	 * Gets single transfer data from TemplateTransfer
-	 *
+	 * 
 	 * @param template object transfered by TemplateTransfer
 	 * @return single transfer data in array or itself
 	 */

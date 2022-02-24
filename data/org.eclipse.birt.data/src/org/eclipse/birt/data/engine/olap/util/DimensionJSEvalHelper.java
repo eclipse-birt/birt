@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,14 +25,13 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 
 /**
- *
+ * 
  */
 
 public class DimensionJSEvalHelper extends BaseJSEvalHelper {
 
 	protected String dimName;
 
-	@Override
 	protected void registerJSObjectPopulators() throws DataException {
 		this.dimName = OlapExpressionUtil.getReferencedDimensionName(this.expr, queryDefn.getBindings());
 		if (dimName != null) {
@@ -41,7 +40,7 @@ public class DimensionJSEvalHelper extends BaseJSEvalHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
@@ -60,7 +59,7 @@ public class DimensionJSEvalHelper extends BaseJSEvalHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
@@ -68,12 +67,10 @@ public class DimensionJSEvalHelper extends BaseJSEvalHelper {
 		IEdgeDefinition columnEdge = this.queryDefn.getEdge(ICubeQueryDefinition.COLUMN_EDGE);
 		IEdgeDefinition rowEdge = this.queryDefn.getEdge(ICubeQueryDefinition.ROW_EDGE);
 		List dims = new ArrayList();
-		if (columnEdge != null) {
+		if (columnEdge != null)
 			dims.addAll(columnEdge.getDimensions());
-		}
-		if (rowEdge != null) {
+		if (rowEdge != null)
 			dims.addAll(rowEdge.getDimensions());
-		}
 
 		for (int i = 0; i < dims.size(); i++) {
 			IDimensionDefinition dimDefn = (IDimensionDefinition) dims.get(i);

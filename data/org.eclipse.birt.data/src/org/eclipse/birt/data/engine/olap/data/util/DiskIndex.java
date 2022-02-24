@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ public class DiskIndex {
 	private int currentVersion = 1;
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param sortedStack
 	 * @return
@@ -62,7 +62,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param sortedStack
 	 * @return
@@ -75,7 +75,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param sortedStack
 	 * @return
@@ -87,7 +87,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param documentManager
 	 * @param name
 	 * @param granularity
@@ -104,7 +104,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param documentManager
 	 * @param name
 	 * @throws IOException
@@ -117,7 +117,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public String getName() {
@@ -125,7 +125,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -155,16 +155,15 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param keyList
 	 * @throws IOException
 	 * @throws DataException
 	 */
 	private void produce(IDiskArray keyList, boolean isSorted) throws IOException, DataException {
 		createDocumentObject();
-		if (keyList.size() == 0) {
+		if (keyList.size() == 0)
 			return;
-		}
 		IndexKey indexKey = (IndexKey) keyList.get(0);
 		keyDataType = new int[indexKey.getKey().length];
 		for (int i = 0; i < indexKey.getKey().length; i++) {
@@ -172,11 +171,10 @@ public class DiskIndex {
 		}
 
 		IDiskArray sortedKeyArray = null;
-		if (!isSorted) {
+		if (!isSorted)
 			sortedKeyArray = sortKeys(keyList);
-		} else {
+		else
 			sortedKeyArray = keyList;
-		}
 		keyCount = sortedKeyArray.size();
 
 		int rootOffsetPos = saveIndexHeader() - 6;
@@ -206,7 +204,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 */
 	private void closeWriteDocumentObject() throws IOException {
@@ -221,7 +219,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 */
 	private void openReadDocumentObject() throws IOException {
@@ -237,7 +235,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
@@ -255,7 +253,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param sortedKeyArray
 	 * @param interval
 	 * @return
@@ -277,7 +275,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param sortedKeyArray
 	 * @param startOffset
 	 * @param level
@@ -320,7 +318,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param a
 	 * @param b
 	 * @return
@@ -334,7 +332,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param keyObject
 	 * @throws IOException
 	 * @throws DataException
@@ -354,7 +352,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
@@ -370,7 +368,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
@@ -408,7 +406,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -429,7 +427,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param keyList
 	 * @return
 	 * @throws IOException
@@ -443,8 +441,8 @@ public class DiskIndex {
 		BufferedStructureArray reList = new BufferedStructureArray(IndexKey.getCreator(),
 				Math.min(keyList.size(), Constants.MAX_LIST_BUFFER_SIZE));
 		IndexKey curIndexKey = null;
-		List<Integer> dimPos = new ArrayList<>();
-		List<Integer> dimOffset = new ArrayList<>();
+		List<Integer> dimPos = new ArrayList<Integer>();
+		List<Integer> dimOffset = new ArrayList<Integer>();
 		for (int i = 0; i < keyList.size(); i++) {
 			IndexKey indexKey = (IndexKey) sortStack.pop();
 			if (curIndexKey == null) {
@@ -453,14 +451,14 @@ public class DiskIndex {
 				dimOffset.add(new Integer(curIndexKey.getOffset()[0]));
 			} else if (indexKey.compareTo(curIndexKey) == 0) {
 				dimPos.add(new Integer(indexKey.getDimensionPos()[0]));
-				dimOffset.add(indexKey.getOffset()[0]);
+				dimOffset.add(Integer.valueOf(indexKey.getOffset()[0]));
 			} else {
 				addIndex(reList, curIndexKey, dimPos, dimOffset);
 				curIndexKey = indexKey;
 				dimPos.clear();
-				dimPos.add(curIndexKey.getDimensionPos()[0]);
+				dimPos.add(Integer.valueOf(curIndexKey.getDimensionPos()[0]));
 				dimOffset.clear();
-				dimOffset.add(curIndexKey.getOffset()[0]);
+				dimOffset.add(Integer.valueOf(curIndexKey.getOffset()[0]));
 			}
 		}
 		addIndex(reList, curIndexKey, dimPos, dimOffset);
@@ -483,7 +481,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param value
 	 * @return
 	 * @throws IOException
@@ -496,7 +494,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param selectionMark
 	 * @return
 	 * @throws IOException
@@ -545,7 +543,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param node
 	 * @param key
 	 * @return
@@ -563,7 +561,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param selections
 	 * @return
 	 * @throws IOException
@@ -629,7 +627,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param n
 	 * @return
 	 * @throws IOException
@@ -646,7 +644,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param percent
 	 * @return
 	 * @throws IOException
@@ -656,7 +654,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param n
 	 * @return
 	 * @throws IOException
@@ -673,7 +671,7 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param percent
 	 * @return
 	 * @throws IOException
@@ -684,7 +682,7 @@ public class DiskIndex {
 
 	/**
 	 * Check
-	 *
+	 * 
 	 * @param node
 	 * @return
 	 */
@@ -693,14 +691,17 @@ public class DiskIndex {
 				|| CompareUtil.compare(node.maxKeyValue, node.minKeyValue) < 0) {
 			return false;
 		}
-		if (node.numberOfSon > degree || node.numberOfSon <= 0 || (node.offset < 0)) {
+		if (node.numberOfSon > degree || node.numberOfSon <= 0) {
+			return false;
+		}
+		if (node.offset < 0) {
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param nodeSelection
 	 * @param selections
 	 * @param resultList
@@ -717,12 +718,11 @@ public class DiskIndex {
 			tempNodeSelection = new NodeSelection(tempNode, selections.length);
 			find = false;
 			for (int j = 0; j < nodeSelection.selectionMark.length; j++) {
-				if (nodeSelection.selectionMark[j]) {
+				if (nodeSelection.selectionMark[j])
 					if (match(tempNode, selections[j])) {
 						tempNodeSelection.addSelection(j);
 						find = true;
 					}
-				}
 			}
 			if (find) {
 				resultList.add(tempNodeSelection);
@@ -731,13 +731,16 @@ public class DiskIndex {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param node
 	 * @param selection
 	 * @return
 	 */
 	private boolean match(NonLeafNode node, ISelection selection) {
-		if ((selection.getMin() != null && CompareUtil.compare(node.maxKeyValue, selection.getMin()) < 0) || (selection.getMax() != null && CompareUtil.compare(node.minKeyValue, selection.getMax()) > 0)) {
+		if (selection.getMin() != null && CompareUtil.compare(node.maxKeyValue, selection.getMin()) < 0) {
+			return false;
+		}
+		if (selection.getMax() != null && CompareUtil.compare(node.minKeyValue, selection.getMax()) > 0) {
 			return false;
 		}
 		return true;
@@ -768,7 +771,7 @@ class NodeSelection implements IStructure {
 	boolean[] selectionMark;
 
 	/**
-	 *
+	 * 
 	 * @param node
 	 * @param selectionNumber
 	 */
@@ -778,37 +781,36 @@ class NodeSelection implements IStructure {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param selectionIndex
 	 */
 	void addSelection(int selectionIndex) {
 		selectionMark[selectionIndex] = true;
-
+		;
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	@Override
 	public Object[] getFieldValues() {
 		Object[][] objects = new Object[3][];
 		objects[0] = new Object[3];
 		objects[0][0] = Integer.valueOf(node.numberOfSon);
 		objects[0][1] = Integer.valueOf(node.offset);
 		objects[0][2] = toString(selectionMark);
-
+		;
 		objects[1] = node.maxKeyValue;
 		objects[2] = node.minKeyValue;
 		return ObjectArrayUtil.convert(objects);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param b
 	 * @return
 	 */
 	private static String toString(boolean[] b) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < b.length; i++) {
 			if (b[i]) {
 				buffer.append('1');
@@ -820,7 +822,7 @@ class NodeSelection implements IStructure {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public static IStructureCreator getCreator() {
@@ -830,7 +832,6 @@ class NodeSelection implements IStructure {
 
 class NodeSelectionCreator implements IStructureCreator {
 
-	@Override
 	public IStructure createInstance(Object[] fields) {
 		NonLeafNode node = new NonLeafNode();
 		Object[][] objects = ObjectArrayUtil.convert(fields);

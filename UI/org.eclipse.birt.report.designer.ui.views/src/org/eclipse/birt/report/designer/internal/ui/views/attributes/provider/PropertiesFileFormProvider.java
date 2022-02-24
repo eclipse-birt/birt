@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,46 +28,41 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
- *
+ * 
  */
 public class PropertiesFileFormProvider extends AbstractFormHandleProvider {
 
 	/**
-	 *
+	 * 
 	 */
 	public PropertiesFileFormProvider() {
 		// TODO Auto-generated constructor stub
 	}
 
-	private static final int[] COLUMN_WIDTHS = { 300 };
-	private static final String[] COLUMNS = { Messages.getString("PropertiesFileFormProvider.Column.Name"), //$NON-NLS-1$
+	private static final int[] COLUMN_WIDTHS = new int[] { 300 };
+	private static final String[] COLUMNS = new String[] { Messages.getString("PropertiesFileFormProvider.Column.Name"), //$NON-NLS-1$
 	};
 	private static final String TITLE = Messages.getString("ReportPageGenerator.List.Resources.PropertiesFile"); //$NON-NLS-1$
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	private ModuleHandle inputElement;
 
-	@Override
 	public String[] getColumnNames() {
 		return COLUMNS;
 	}
 
-	@Override
 	public int[] getColumnWidths() {
 		return COLUMN_WIDTHS;
 	}
 
-	@Override
 	public String getDisplayName() {
 		return TITLE;
 	}
 
-	@Override
 	public CellEditor[] getEditors(Table table) {
 		return null;
 	}
 
-	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		List<String> resources = inputElement.getIncludeResources();
 		String resource = resources.get(oldPos);
@@ -77,7 +72,6 @@ public class PropertiesFileFormProvider extends AbstractFormHandleProvider {
 		return true;
 	}
 
-	@Override
 	public boolean doDeleteItem(int pos) throws Exception {
 		if (getElements(inputElement).length <= 0) {
 			return false;
@@ -91,7 +85,6 @@ public class PropertiesFileFormProvider extends AbstractFormHandleProvider {
 		return false;
 	}
 
-	@Override
 	public boolean doAddItem(int pos) throws Exception {
 
 		NewResourceFileDialog dialog = new NewResourceFileDialog();
@@ -117,7 +110,7 @@ public class PropertiesFileFormProvider extends AbstractFormHandleProvider {
 					return false;
 				}
 			} else {
-				List<String> resources = new ArrayList<>();
+				List<String> resources = new ArrayList<String>();
 				resources.add(path);
 				inputElement.setIncludeResources(resources);
 			}
@@ -125,12 +118,10 @@ public class PropertiesFileFormProvider extends AbstractFormHandleProvider {
 		return true;
 	}
 
-	@Override
 	public boolean doEditItem(int pos) {
 		return false;
 	}
 
-	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof String) {
 			if (columnIndex == 0) {
@@ -140,12 +131,10 @@ public class PropertiesFileFormProvider extends AbstractFormHandleProvider {
 		return EMPTY_STRING;
 	}
 
-	@Override
 	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
-	@Override
 	public Object[] getElements(Object inputElement) {
 		ArrayList list = new ArrayList();
 		if (inputElement instanceof List) {
@@ -162,22 +151,18 @@ public class PropertiesFileFormProvider extends AbstractFormHandleProvider {
 		return list.toArray();
 	}
 
-	@Override
 	public boolean canModify(Object element, String property) {
 		return false;
 	}
 
-	@Override
 	public Object getValue(Object element, String property) {
 		return null;
 	}
 
-	@Override
 	public boolean modify(Object data, String property, Object value) throws Exception {
 		return false;
 	}
 
-	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		if (!(event instanceof PropertyEvent)) {
 			return false;

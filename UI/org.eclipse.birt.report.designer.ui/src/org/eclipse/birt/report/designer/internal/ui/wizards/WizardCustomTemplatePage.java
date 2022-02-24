@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -71,7 +71,7 @@ public class WizardCustomTemplatePage extends WizardPage {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param pageName
 	 */
 	public WizardCustomTemplatePage(String pageName) {
@@ -80,12 +80,11 @@ public class WizardCustomTemplatePage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
@@ -115,7 +114,6 @@ public class WizardCustomTemplatePage extends WizardPage {
 
 		inputText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				setPageComplete(validatePage());
 				updateChkBox();
@@ -129,7 +127,6 @@ public class WizardCustomTemplatePage extends WizardPage {
 
 		browse.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (chkBoxBrowseFrom.getSelection()) {
 					FileDialog dialog = new FileDialog(getShell());
@@ -151,7 +148,6 @@ public class WizardCustomTemplatePage extends WizardPage {
 					dialog.setMessage(MESSAGE_FROM_PROJECT_DESCRIPTION);
 					dialog.setValidator(new ISelectionStatusValidator() {
 
-						@Override
 						public IStatus validate(Object[] selection) {
 							if (selection == null || selection.length < 1 || selection[0] instanceof IProject
 									|| selection[0] instanceof IFolder) {
@@ -163,7 +159,6 @@ public class WizardCustomTemplatePage extends WizardPage {
 					});
 					dialog.addFilter(new ViewerFilter() {
 
-						@Override
 						public boolean select(Viewer viewer, Object parentElement, Object element) {
 							if (element instanceof IProject || element instanceof IFolder) {
 								return ((IResource) element).isAccessible();
@@ -199,7 +194,6 @@ public class WizardCustomTemplatePage extends WizardPage {
 		chkBoxCheetSheet.setSelection(ReportPlugin.readCheatSheetPreference());
 		chkBoxCheetSheet.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ReportPlugin.writeCheatSheetPreference(chkBoxCheetSheet.getSelection());
 			}

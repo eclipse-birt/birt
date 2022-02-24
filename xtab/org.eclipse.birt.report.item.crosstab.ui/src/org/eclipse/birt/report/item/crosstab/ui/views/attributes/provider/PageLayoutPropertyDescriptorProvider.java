@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,20 +37,18 @@ public class PageLayoutPropertyDescriptorProvider extends SimpleComboPropertyDes
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IDescriptorProvider#getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("PageLayoutPropertyDescriptorProvider.PageLayout"); //$NON-NLS-1$
 	}
 
-	@Override
 	public Object load() {
 		String value = (String) super.load();
 		if (value != null) {
-			int index;
+			int index = -1;
 			index = Arrays.asList(getValues()).indexOf(value);
 			if (index < 0) {
 				return value;
@@ -61,10 +59,9 @@ public class PageLayoutPropertyDescriptorProvider extends SimpleComboPropertyDes
 		return value;
 	}
 
-	@Override
 	public void save(Object value) throws SemanticException {
 		if (value != null) {
-			int index;
+			int index = -1;
 			index = Arrays.asList(getItems()).indexOf(value);
 			if (index >= 0) {
 				value = getValues()[index];
@@ -78,18 +75,16 @@ public class PageLayoutPropertyDescriptorProvider extends SimpleComboPropertyDes
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IDescriptorProvider#setInput(java.lang.Object)
 	 */
-	@Override
 	public void setInput(Object input) {
 		this.input = input;
 		GroupElementHandle multiSelectionHandle = DEUtil.getMultiSelectionHandle(DEUtil.getInputElements(input));
 		choiceSet = multiSelectionHandle.getPropertyHandle(getProperty()).getPropertyDefn().getAllowedChoices();
 	}
 
-	@Override
 	public String[] getItems() {
 		IChoice choice[] = choiceSet.getChoices();
 		String[] items = new String[choice.length];

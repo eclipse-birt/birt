@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,9 +32,8 @@ public class CellScriptExecutor extends ScriptExecutor {
 		try {
 			ICell cell = new Cell(cellHandle);
 			ICellEventHandler eh = getEventHandler(cellHandle, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPrepare(cell, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -51,13 +50,11 @@ public class CellScriptExecutor extends ScriptExecutor {
 				return;
 			}
 			ICellInstance cell = new CellInstance(content, context, RunningState.CREATE, fromGrid);
-			if (handleScript(cell, cellDesign.getOnCreate(), context).didRun()) {
+			if (handleScript(cell, cellDesign.getOnCreate(), context).didRun())
 				return;
-			}
 			ICellEventHandler eh = getEventHandler(cellDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onCreate(cell, context.getReportContext());
-			}
 
 		} catch (Exception e) {
 			addException(context, e, cellDesign.getHandle());
@@ -77,13 +74,11 @@ public class CellScriptExecutor extends ScriptExecutor {
 		try {
 			// fromGrid doesn't matter here since row data is null
 			ICellInstance cell = new CellInstance(content, context, RunningState.RENDER, false);
-			if (handleScript(cell, cellDesign.getOnRender(), context).didRun()) {
+			if (handleScript(cell, cellDesign.getOnRender(), context).didRun())
 				return;
-			}
 			ICellEventHandler eh = getEventHandler(cellDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onRender(cell, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, cellDesign.getHandle());
 		}
@@ -102,13 +97,11 @@ public class CellScriptExecutor extends ScriptExecutor {
 		try {
 			// fromGrid doesn't matter here since row data is null
 			ICellInstance cell = new CellInstance(content, context, RunningState.RENDER, false);
-			if (handleScript(cell, cellDesign.getOnPageBreak(), context).didRun()) {
+			if (handleScript(cell, cellDesign.getOnPageBreak(), context).didRun())
 				return;
-			}
 			ICellEventHandler eh = getEventHandler(cellDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPageBreak(cell, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, cellDesign.getHandle());
 		}

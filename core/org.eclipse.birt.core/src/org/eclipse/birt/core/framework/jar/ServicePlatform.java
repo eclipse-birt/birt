@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ public class ServicePlatform implements IPlatform {
 	protected static Logger logger = Logger.getLogger(IPlatform.class.getName());
 
 	protected PlatformConfig config;
-	protected HashMap<String, Bundle> bundles = new HashMap<>();
+	protected HashMap<String, Bundle> bundles = new HashMap<String, Bundle>();
 	protected ExtensionRegistry extensionRegistry = new ExtensionRegistry();
 	protected File workspace;
 
@@ -59,36 +59,29 @@ public class ServicePlatform implements IPlatform {
 		}
 	}
 
-	@Override
 	public IBundle getBundle(String symbolicName) {
 		return bundles.get(symbolicName);
 	}
 
-	@Override
 	public IExtensionRegistry getExtensionRegistry() {
 		return new EclipseExtensionRegistry(Platform.getExtensionRegistry());
 	}
 
-	@Override
 	public IAdapterManager getAdapterManager() {
 		return AdapterManager.getDefault();
 	}
 
-	@Override
 	public URL asLocalURL(URL url) throws IOException {
 		return url;
 	}
 
-	@Override
 	public String getDebugOption(String name) {
 		return null;
 	}
 
-	@Override
 	public void initializeTracing(String pluginName) {
 	}
 
-	@Override
 	public Object createFactoryObject(String extensionId) {
 		try {
 			IExtensionRegistry registry = getExtensionRegistry();
@@ -104,18 +97,15 @@ public class ServicePlatform implements IPlatform {
 		return null;
 	}
 
-	@Override
 	public Object enterPlatformContext() {
 		return null;
 	}
 
-	@Override
 	public void exitPlatformContext(Object context) {
 	}
 
 	// the os.name value list: http://lopica.sourceforge.net/os.html
 
-	@Override
 	public String getOS() {
 		String os = System.getProperty("os.name");
 		if (os == null) {
@@ -156,7 +146,6 @@ public class ServicePlatform implements IPlatform {
 		return null;
 	}
 
-	@Override
 	public URL find(IBundle bundle, IPlatformPath path) {
 		return null;
 	}

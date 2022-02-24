@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.core.Structure;
 
 /**
  * This class represents one Extended property.
- *
+ * 
  */
 
 public class ExtendedProperty extends Structure {
@@ -76,7 +76,7 @@ public class ExtendedProperty extends Structure {
 
 	/**
 	 * Constructs the extended property with the given name and value.
-	 *
+	 * 
 	 * @param name  the name of a extended property
 	 * @param value the value of a extended property
 	 */
@@ -94,32 +94,29 @@ public class ExtendedProperty extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	@Override
 	public String getStructName() {
 		return Extended_PROPERTY_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.
 	 * String)
 	 */
 
-	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (propName.equals(NAME_MEMBER)) {
+		if (propName.equals(NAME_MEMBER))
 			return name;
-		} else if (propName.equals(VALUE_MEMBER)) {
+		else if (propName.equals(VALUE_MEMBER))
 			return value;
-		} else if (propName.equals(encryptionID)) {
+		else if (propName.equals(encryptionID))
 			this.encryptionID = (String) value;
-		}
 
 		assert false;
 		return null;
@@ -127,28 +124,26 @@ public class ExtendedProperty extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
 
-	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (propName.equals(NAME_MEMBER)) {
+		if (propName.equals(NAME_MEMBER))
 			name = (String) value;
-		} else if (propName.equals(VALUE_MEMBER)) {
+		else if (propName.equals(VALUE_MEMBER))
 			this.value = (String) value;
-		} else if (propName.equals(encryptionID)) {
+		else if (propName.equals(encryptionID))
 			this.encryptionID = (String) value;
-		} else {
+		else
 			assert false;
-		}
 	}
 
 	/**
 	 * Returns the Extended property name.
-	 *
+	 * 
 	 * @return the Extended property name
 	 */
 
@@ -158,7 +153,7 @@ public class ExtendedProperty extends Structure {
 
 	/**
 	 * Sets the Extended property name.
-	 *
+	 * 
 	 * @param name the Extended property name to set
 	 */
 
@@ -168,7 +163,7 @@ public class ExtendedProperty extends Structure {
 
 	/**
 	 * Returns the Extended property value.
-	 *
+	 * 
 	 * @return the Extended property value
 	 */
 
@@ -178,7 +173,7 @@ public class ExtendedProperty extends Structure {
 
 	/**
 	 * Sets the Extended property value.
-	 *
+	 * 
 	 * @param value the Extended property value to set
 	 */
 
@@ -196,14 +191,13 @@ public class ExtendedProperty extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report
 	 * .model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	@Override
 	public List validate(Module module, DesignElement element) {
 		ArrayList list = new ArrayList();
 
@@ -217,12 +211,11 @@ public class ExtendedProperty extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
 	 * model.api.SimpleValueHandle, int)
 	 */
-	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new ExtendedPropertyHandle(valueHandle, index);
 	}

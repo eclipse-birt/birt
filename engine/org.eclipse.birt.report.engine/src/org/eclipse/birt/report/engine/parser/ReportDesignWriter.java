@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,7 +70,7 @@ import org.w3c.dom.Element;
 
 /**
  * visitor used to write the IR.
- *
+ * 
  */
 public class ReportDesignWriter {
 
@@ -95,7 +95,7 @@ public class ReportDesignWriter {
 
 		/**
 		 * constructor.
-		 *
+		 * 
 		 * @param writer
 		 */
 		ReportDumpVisitor(Document document) {
@@ -104,7 +104,7 @@ public class ReportDesignWriter {
 
 		/**
 		 * report contains
-		 *
+		 * 
 		 * @param report
 		 */
 		public void createDocument(Report report) {
@@ -125,7 +125,7 @@ public class ReportDesignWriter {
 			}
 		}
 
-		protected Stack<Element> elements = new Stack<>();
+		protected Stack<Element> elements = new Stack<Element>();
 
 		protected void pushTag(String tag) {
 			elements.push(element);
@@ -147,7 +147,7 @@ public class ReportDesignWriter {
 				return;
 			}
 			pushTag(name);
-			ArrayList<String> keys = new ArrayList<>(map.size());
+			ArrayList<String> keys = new ArrayList<String>(map.size());
 			keys.addAll((Collection<String>) map.keySet());
 			Collections.sort(keys);
 			for (String key : keys) {
@@ -274,7 +274,15 @@ public class ReportDesignWriter {
 	}
 
 	private boolean isGetMethod(String name) {
-		if (name.startsWith("get") || name.startsWith("is") || name.startsWith("need")) {
+		if (name.startsWith("get")) {
+			return true;
+		}
+
+		if (name.startsWith("is")) {
+			return true;
+		}
+
+		if (name.startsWith("need")) {
 			return true;
 		}
 
@@ -306,7 +314,7 @@ public class ReportDesignWriter {
 		return sb.toString();
 	}
 
-	static HashMap<Class<?>, String> ELEMENT_NAMES = new HashMap<>();
+	static HashMap<Class<?>, String> ELEMENT_NAMES = new HashMap<Class<?>, String>();
 	static {
 		ELEMENT_NAMES.put(PageSequenceDesign.class, "page-sequence");
 		ELEMENT_NAMES.put(ColumnDesign.class, "column");
@@ -364,7 +372,7 @@ public class ReportDesignWriter {
 		return ELEMENT_NAMES.get(t);
 	}
 
-	static HashMap<Class<?>, String[]> IGNORE_METHODS = new HashMap<>();
+	static HashMap<Class<?>, String[]> IGNORE_METHODS = new HashMap<Class<?>, String[]>();
 	static {
 		IGNORE_METHODS.put(Report.class, new String[] { "getContentCount" });
 		IGNORE_METHODS.put(PageSetupDesign.class, new String[] { "getMasterPageCount", "getPageSequenceCount" });
@@ -419,7 +427,7 @@ public class ReportDesignWriter {
 		return false;
 	}
 
-	static HashMap<String, String> DEFAULT_VALUES = new HashMap<>();
+	static HashMap<String, String> DEFAULT_VALUES = new HashMap<String, String>();
 	{
 		DEFAULT_VALUES.put("simple-master-page.is-floating-footer", "false");
 		DEFAULT_VALUES.put("simple-master-page.is-show-footer-on-last", "true");
@@ -462,9 +470,8 @@ public class ReportDesignWriter {
 				|| returnType == Double.TYPE || returnType == String.class || returnType == Boolean.TYPE
 				|| returnType == Short.class || returnType == Character.class || returnType == Byte.class
 				|| returnType == Integer.class || returnType == Long.class || returnType == Float.class
-				|| returnType == Double.class || returnType == Boolean.class) {
+				|| returnType == Double.class || returnType == Boolean.class)
 			return true;
-		}
 
 		return false;
 	}
@@ -477,7 +484,13 @@ public class ReportDesignWriter {
 	}
 
 	private boolean canOutput(Object value) {
-		if ((value == null) || isJavaPrimitiveType(value) || isBirtPrimitiveType(value)) {
+		if (value == null) {
+			return true;
+		}
+		if (isJavaPrimitiveType(value)) {
+			return true;
+		}
+		if (isBirtPrimitiveType(value)) {
 			return true;
 		}
 		Class<?> returnType = value.getClass();
@@ -518,9 +531,14 @@ public class ReportDesignWriter {
 	}
 
 	private Method[] sortMethods(Method[] methods) {
-		ArrayList<Method> list = new ArrayList<>(methods.length);
+		ArrayList<Method> list = new ArrayList<Method>(methods.length);
 		Collections.addAll(list, methods);
-		Collections.sort(list, Comparator.comparing(Method::getName));
+		Collections.sort(list, new Comparator<Method>() {
+
+			public int compare(Method o1, Method o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
 		return list.toArray(new Method[methods.length]);
 	}
 }

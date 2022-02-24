@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -98,7 +98,7 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 
 	protected TableAreaLayout layout;
 
-	protected TableAreaLayout regionLayout = null;
+	protected TableAreaLayout regionLayout = null;;
 
 	public PDFTableLM(PDFLayoutEngineContext context, PDFStackingLM parent, IContent content,
 			IReportItemExecutor executor) {
@@ -109,7 +109,6 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 		columnNumber = tableContent.getColumnCount();
 	}
 
-	@Override
 	protected boolean traverseChildren() throws BirtException {
 		if (isNewArea) {
 			repeat();
@@ -136,7 +135,7 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 	public int endGroup(IGroupContent groupContent) {
 		// if there is no group footer, we still need to do with the drop.
 		int groupLevel = groupContent.getGroupLevel();
-		int height;
+		int height = 0;
 		height = updateUnresolvedCell(groupLevel, false);
 		height += updateUnresolvedCell(groupLevel, true);
 
@@ -163,7 +162,7 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 
 	/**
 	 * start cell update content cache
-	 *
+	 * 
 	 * @param cell
 	 */
 	public int getRowSpan(ICellContent cell) {
@@ -185,7 +184,6 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 		return rowSpan;
 	}
 
-	@Override
 	protected void createRoot() {
 		root = AreaFactory.createTableArea((ITableContent) content);
 		root.setWidth(tableWidth);
@@ -205,7 +203,6 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 
 	}
 
-	@Override
 	protected void initialize() {
 		if (root == null) {
 			isNewArea = true;
@@ -234,7 +231,6 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 
 	}
 
-	@Override
 	protected void closeLayout() {
 		regionLayout = null;
 		// FIXME
@@ -275,7 +271,7 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 
 	/**
 	 * resolve cell border conflict
-	 *
+	 * 
 	 * @param cellArea
 	 */
 	public void resolveBorderConflict(CellArea cellArea, boolean isFirst) {
@@ -348,23 +344,27 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 						columns[index.intValue()] = new DimensionType(columns[index.intValue()].getMeasure() * ratio,
 								columns[index.intValue()].getUnits());
 					}
-				} else if (total < leftPercentage) {
-					double delta = leftPercentage - total;
-					for (int i = 0; i < unsetList.size(); i++) {
-						Integer index = (Integer) unsetList.get(i);
-						columns[index.intValue()] = new DimensionType(delta / (double) unsetList.size(),
-								EngineIRConstants.UNITS_PERCENTAGE);
-					}
 				} else {
-					double ratio = leftPercentage / total;
-					for (int i = 0; i < unsetList.size(); i++) {
-						Integer index = (Integer) unsetList.get(i);
-						columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
-					}
-					for (int i = 0; i < percentageList.size(); i++) {
-						Integer index = (Integer) percentageList.get(i);
-						columns[index.intValue()] = new DimensionType(columns[index.intValue()].getMeasure() * ratio,
-								columns[index.intValue()].getUnits());
+
+					if (total < leftPercentage) {
+						double delta = leftPercentage - total;
+						for (int i = 0; i < unsetList.size(); i++) {
+							Integer index = (Integer) unsetList.get(i);
+							columns[index.intValue()] = new DimensionType(delta / (double) unsetList.size(),
+									EngineIRConstants.UNITS_PERCENTAGE);
+						}
+					} else {
+						double ratio = leftPercentage / total;
+						for (int i = 0; i < unsetList.size(); i++) {
+							Integer index = (Integer) unsetList.get(i);
+							columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
+						}
+						for (int i = 0; i < percentageList.size(); i++) {
+							Integer index = (Integer) percentageList.get(i);
+							columns[index.intValue()] = new DimensionType(
+									columns[index.intValue()].getMeasure() * ratio,
+									columns[index.intValue()].getUnits());
+						}
 					}
 				}
 			}
@@ -442,12 +442,10 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 					}
 				}
 			}
-			if (startCol < 0) {
+			if (startCol < 0)
 				startCol = 0;
-			}
-			if (endCol < 0) {
+			if (endCol < 0)
 				endCol = 0;
-			}
 
 			int specifiedWidth = getDimensionValue(tableContent.getWidth(), maxWidth);
 			int tableWidth;
@@ -489,26 +487,29 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 					}
 					return columns;
 				}
-			} else if (specifiedWidth == 0) {
-				if (colSum < maxWidth) {
-					distributeLeftWidth(columns, (maxWidth - colSum) / (columnNumber - columnWithWidth));
-				} else {
-					redistributeWidth(columns,
-							colSum - maxWidth + (columnNumber - columnWithWidth) * maxWidth / columnNumber, maxWidth,
-							colSum);
-				}
 			} else {
-				if (colSum < specifiedWidth) {
-					distributeLeftWidth(columns, (specifiedWidth - colSum) / (columnNumber - columnWithWidth));
-				} else {
+				if (specifiedWidth == 0) {
 					if (colSum < maxWidth) {
 						distributeLeftWidth(columns, (maxWidth - colSum) / (columnNumber - columnWithWidth));
 					} else {
 						redistributeWidth(columns,
-								colSum - specifiedWidth
-										+ (columnNumber - columnWithWidth) * specifiedWidth / columnNumber,
-								specifiedWidth, colSum);
+								colSum - maxWidth + (columnNumber - columnWithWidth) * maxWidth / columnNumber,
+								maxWidth, colSum);
 					}
+				} else {
+					if (colSum < specifiedWidth) {
+						distributeLeftWidth(columns, (specifiedWidth - colSum) / (columnNumber - columnWithWidth));
+					} else {
+						if (colSum < maxWidth) {
+							distributeLeftWidth(columns, (maxWidth - colSum) / (columnNumber - columnWithWidth));
+						} else {
+							redistributeWidth(columns,
+									colSum - specifiedWidth
+											+ (columnNumber - columnWithWidth) * specifiedWidth / columnNumber,
+									specifiedWidth, colSum);
+						}
+					}
+
 				}
 
 			}
@@ -567,10 +568,10 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 		int topMargin = getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_TOP), maxWidth);
 		int bottomMargin = getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_BOTTOM), maxWidth);
 
-		int[] vs = { rightMargin, leftMargin };
+		int[] vs = new int[] { rightMargin, leftMargin };
 		resolveBoxConflict(vs, maxWidth);
 
-		int[] hs = { bottomMargin, topMargin };
+		int[] hs = new int[] { bottomMargin, topMargin };
 		resolveBoxConflict(hs, context.getMaxHeight());
 
 		style.setProperty(IStyle.STYLE_MARGIN_LEFT, new FloatValue(CSSPrimitiveValue.CSS_NUMBER, vs[1]));
@@ -590,6 +591,44 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 		return new TableLayoutInfo(columnWidthResolver.resolveFixedLayout(parentMaxWidth - marginWidth));
 	}
 
+	private TableLayoutInfo resolveTableLayoutInfo(TableArea area) {
+		assert (parent != null);
+		int avaWidth = parent.getCurrentMaxContentWidth() - parent.getCurrentIP();
+		int parentMaxWidth = parent.getCurrentMaxContentWidth();
+		IStyle style = area.getStyle();
+		validateBoxProperty(style);
+		int marginWidth = getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT))
+				+ getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT));
+		int specifiedWidth = getDimensionValue(tableContent.getWidth(), parentMaxWidth);
+		if (specifiedWidth + marginWidth > parentMaxWidth) {
+			specifiedWidth = 0;
+		}
+
+		boolean isInline = PropertyUtil.isInlineElement(content);
+		if (specifiedWidth == 0) {
+			if (isInline) {
+				if (avaWidth - marginWidth > parentMaxWidth / 4) {
+					tableWidth = avaWidth - marginWidth;
+				} else {
+					tableWidth = parentMaxWidth - marginWidth;
+				}
+			} else {
+				tableWidth = avaWidth - marginWidth;
+			}
+			return new TableLayoutInfo(handleColumnVisibility(columnWidthResolver.resolve(tableWidth, tableWidth)));
+		} else {
+			if (!isInline) {
+				tableWidth = Math.min(specifiedWidth, avaWidth - marginWidth);
+				return new TableLayoutInfo(
+						handleColumnVisibility(columnWidthResolver.resolve(tableWidth, avaWidth - marginWidth)));
+			} else {
+				tableWidth = Math.min(specifiedWidth, parentMaxWidth - marginWidth);
+				return new TableLayoutInfo(
+						handleColumnVisibility(columnWidthResolver.resolve(tableWidth, parentMaxWidth - marginWidth)));
+			}
+		}
+	}
+
 	private int[] handleColumnVisibility(int[] columns) {
 		// enable visibility
 		int colWidth[] = new int[columnNumber];
@@ -606,7 +645,7 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 
 	/**
 	 * update row height
-	 *
+	 * 
 	 * @param row
 	 */
 	public void updateRow(RowArea row, int specifiedHeight, boolean finished) {
@@ -658,7 +697,10 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 			return;
 		}
 		ITableBandContent header = (ITableBandContent) tableContent.getHeader();
-		if (!repeatHeader || header == null || header.getChildren().isEmpty()) {
+		if (!repeatHeader || header == null) {
+			return;
+		}
+		if (header.getChildren().isEmpty()) {
 			return;
 		}
 		if (child != null) {
@@ -735,12 +777,10 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 		content.setExtension(IContent.LAYOUT_EXTENSION, null);
 	}
 
-	@Override
 	protected IReportItemExecutor createExecutor() {
 		return executor;
 	}
 
-	@Override
 	protected boolean isRootEmpty() {
 		return !((root != null && root.getChildrenCount() > repeatRowCount) || isLast);
 	}
@@ -801,7 +841,7 @@ public class PDFTableLM extends PDFBlockStackingLM implements IBlockStackingLayo
 
 		/**
 		 * get cell width
-		 *
+		 * 
 		 * @param startColumn
 		 * @param endColumn
 		 * @return

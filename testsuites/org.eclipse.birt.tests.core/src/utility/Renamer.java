@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package utility;
@@ -35,11 +35,9 @@ public class Renamer {
 		File packDir = new File(path);
 		File[] regressionClasses = packDir.listFiles(new FileFilter() {
 
-			@Override
 			public boolean accept(File pathname) {
-				if (pathname.isFile() && pathname.getName().startsWith("Regression_")) {
+				if (pathname.isFile() && pathname.getName().startsWith("Regression_"))
 					return true;
-				}
 				return false;
 			}
 		});
@@ -63,12 +61,10 @@ public class Renamer {
 				URL url = source.getLocation();
 				pathBase = url.getPath();
 
-				if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
+				if (pathBase.endsWith("bin/")) //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 4);
-				}
-				if (pathBase.endsWith("bin")) { //$NON-NLS-1$
+				if (pathBase.endsWith("bin")) //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 3);
-				}
 			}
 		}
 
@@ -84,7 +80,7 @@ public class Renamer {
 	boolean rename(File javaFile) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(javaFile));
 
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		Pattern pattern = Pattern.compile(".*test_Regression_[\\d]+.*"); //$NON-NLS-1$
 
 		String line = null;

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -87,7 +87,7 @@ import org.eclipse.ui.progress.UIJob;
 
 /**
  * Property page to preview the resultset.
- *
+ * 
  */
 
 public class ResultSetPreviewPage extends AbstractPropertyPage implements Listener {
@@ -100,6 +100,8 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 	private IResultMetaData metaData;
 
 	private List errorList = new ArrayList();
+	private String[] columnBindingNames;
+	private int previousMaxRow = -1;
 	private CLabel promptLabel;
 	private DataSetHandle dataSetHandle;
 
@@ -112,11 +114,10 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#createPageControl(org.
 	 * eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Control createPageControl(Composite parent) {
 		Composite resultSetComposite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -131,7 +132,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 		resultSetTable.addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseUp(MouseEvent e) {
 				// if not mouse left button
 				if (e.button != 1) {
@@ -170,7 +170,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 		resultSetTableViewer.setSorter(null);
 		resultSetTableViewer.setContentProvider(new IStructuredContentProvider() {
 
-			@Override
 			public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof List) {
 					return ((List) inputElement).toArray();
@@ -179,22 +178,18 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 				return new Object[0];
 			}
 
-			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 
-			@Override
 			public void dispose() {
 			}
 		});
 		resultSetTableViewer.setLabelProvider(new ITableLabelProvider() {
 
-			@Override
 			public Image getColumnImage(Object element, int columnIndex) {
 				return null;
 			}
 
-			@Override
 			public String getColumnText(Object element, int columnIndex) {
 				if ((element instanceof CellValue[]) && (((CellValue[]) element).length > 0)) {
 					return ((CellValue[]) element)[columnIndex].getDisplayValue();
@@ -203,20 +198,16 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 				}
 			}
 
-			@Override
 			public void addListener(ILabelProviderListener listener) {
 			}
 
-			@Override
 			public void dispose() {
 			}
 
-			@Override
 			public boolean isLabelProperty(Object element, String property) {
 				return false;
 			}
 
-			@Override
 			public void removeListener(ILabelProviderListener listener) {
 			}
 		});
@@ -224,10 +215,9 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#pageActivated()
 	 */
-	@Override
 	public void pageActivated() {
 		getContainer().setMessage(Messages.getString("dataset.editor.preview"), //$NON-NLS-1$
 				IMessageProvider.NONE);
@@ -255,7 +245,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 			new UIJob("") { //$NON-NLS-1$
 
-				@Override
 				public IStatus runInUIThread(IProgressMonitor monitor) {
 					updateResultsProcess();
 					return Status.OK_STATUS;
@@ -265,11 +254,10 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 	}
 
 	protected final void clearResultSetTable() {
-		if (recordList == null) {
+		if (recordList == null)
 			recordList = new ArrayList();
-		} else {
+		else
 			recordList.clear();
-		}
 
 		// clear everything else
 		resultSetTable.removeAll();
@@ -299,7 +287,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 	/**
 	 * Show ProgressMonitorDialog
-	 *
+	 * 
 	 */
 	private void updateResultsProcess() {
 		needsUpdateUI = true;
@@ -307,12 +295,11 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
 
-			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				monitor.beginTask("", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
 
 				if (resultSetTable != null && !resultSetTable.isDisposed()) {
-					ModuleHandle handle;
+					ModuleHandle handle = null;
 					DataSetHandle dsHandle = dataSetHandle;
 					handle = dsHandle.getModuleHandle();
 					DataSetPreviewer previewer = new DataSetPreviewer(dsHandle, getMaxRowPreference(),
@@ -357,7 +344,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 		try {
 			new ProgressMonitorDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell()) {
 
-				@Override
 				protected void cancelPressed() {
 					super.cancelPressed();
 					needsUpdateUI = false;
@@ -396,7 +382,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 	/**
 	 * Populate records to be retrieved when re-render resultSetTable
-	 *
+	 * 
 	 * @param metaData
 	 * @param query
 	 * @throws BirtException
@@ -412,11 +398,10 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 							CellValue cv = new CellValue();
 							Object value = iter.getValue(meta.getColumnName(n + 1));
 							String disp = null;
-							if (value instanceof Number) {
+							if (value instanceof Number)
 								disp = value.toString();
-							} else {
+							else
 								disp = iter.getString(meta.getColumnName(n + 1));
-							}
 							cv.setDisplayValue(disp);
 							cv.setRealValue(value);
 							record[n] = cv;
@@ -427,21 +412,22 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 				setPromptLabelText();
 				iter.close();
 			}
-		} catch (RuntimeException | BirtException e) {
+		} catch (RuntimeException e) {
+			errorList.add(e);
+		} catch (BirtException e) {
 			errorList.add(e);
 		}
 	}
 
 	/**
 	 * Set the prompt label text
-	 *
+	 * 
 	 */
 	private void setPromptLabelText() {
 		Display.getDefault().syncExec(new Runnable() {
 
-			@Override
 			public void run() {
-				String prompt;
+				String prompt = "";
 				prompt = Messages.getFormattedString("dataset.resultset.preview.promptMessage.recordsNum",
 						new Object[] { recordList.size() });
 				if (recordList != null) {
@@ -457,17 +443,15 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 	}
 
 	private void updateResultSetTableUI() {
-		if (!needsUpdateUI) {
+		if (!needsUpdateUI)
 			return;
-		}
 
 		if (!errorList.isEmpty()) {
 			setPromptLabelText();
 			ExceptionHandler.handle((Exception) errorList.get(0));
 		} else {
-			if (metaData != null) {
+			if (metaData != null)
 				createColumns(metaData);
-			}
 			insertRecords();
 		}
 	}
@@ -500,9 +484,21 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 		resultSetTableViewer.setInput(recordList);
 	}
 
+	private String getColumnDisplayName(DataSetViewData[] columnsModel, int index) {
+		if (columnsModel == null || columnsModel.length == 0 || index < 0 || index > columnsModel.length) {
+			return "";//$NON-NLS-1$
+		}
+
+		String externalizedName = columnsModel[index].getExternalizedName();
+		if (externalizedName != null && (!externalizedName.equals("")))
+			return externalizedName;
+
+		return columnsModel[index].getDisplayName();
+	}
+
 	/**
 	 * Add listener to a column
-	 *
+	 * 
 	 * @param column
 	 * @param n
 	 */
@@ -512,13 +508,11 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 			private boolean asc = false;
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sort(index - 1, asc);
 				asc = !asc;
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -527,34 +521,31 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 	/**
 	 * Carry out sort operation against certain column
-	 *
+	 * 
 	 * @param columnIndex the column based on which the sort operation would be
 	 *                    carried out
 	 * @param asc         the sort direction
 	 */
 	private void sort(final int columnIndex, final boolean asc) {
 		resultSetTable.setSortColumn(resultSetTable.getColumn(columnIndex));
-		resultSetTable.setSortDirection(asc ? SWT.DOWN : SWT.UP);
+		resultSetTable.setSortDirection(asc == true ? SWT.DOWN : SWT.UP);
 		this.resultSetTableViewer.setSorter(new ViewerSorter() {
 
 			// @Override
-			@Override
 			public int compare(Viewer viewer, Object e1, Object e2) {
 				CellValue cv1 = ((CellValue[]) e1)[columnIndex];
 				CellValue cv2 = ((CellValue[]) e2)[columnIndex];
 				int result = 0;
-				if (cv1 == null && cv2 != null) {
+				if (cv1 == null && cv2 != null)
 					result = -1;
-				} else if (cv2 == null && cv1 != null) {
+				else if (cv2 == null && cv1 != null)
 					result = 1;
-				} else if (cv1 != null) {
+				else if (cv1 != null)
 					result = cv1.compareTo(cv2);
-				}
-				if (!asc) {
+				if (!asc)
 					return result;
-				} else {
+				else
 					return result * -1;
-				}
 			}
 
 		});
@@ -562,12 +553,11 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.
 	 * api.DesignElementHandle, org.eclipse.birt.model.activity.NotificationEvent)
 	 */
-	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (focus.equals(getContainer().getModel()) || ((DataSetEditor) this.getContainer()).modelChanged()) {
 			modelChanged = true;
@@ -576,11 +566,10 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * performCancel()
 	 */
-	@Override
 	public boolean performCancel() {
 		((DataSetHandle) getContainer().getModel()).removeListener(this);
 		return super.performCancel();
@@ -588,11 +577,10 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * performOk()
 	 */
-	@Override
 	public boolean performOk() {
 		((DataSetHandle) getContainer().getModel()).removeListener(this);
 		return super.performOk();
@@ -600,19 +588,31 @@ public class ResultSetPreviewPage extends AbstractPropertyPage implements Listen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
-	@Override
 	public String getToolTip() {
 		return Messages.getString("dataset.resultset.preview.tooltip"); //$NON-NLS-1$
+	}
+
+	private void resetPropertyBinding(final Map dataSetBindingMap, final Map dataSourceBindingMap) {
+		Display.getDefault().syncExec(new Runnable() {
+
+			public void run() {
+				try {
+					DataSetHandle dsHandle = ((DataSetEditor) getContainer()).getHandle();
+					DataSetMetaDataHelper.resetPropertyBinding(dsHandle, dataSetBindingMap, dataSourceBindingMap);
+				} catch (SemanticException e) {
+					ExceptionHandler.handle(e);
+				}
+			}
+		});
 	}
 
 	private void clearProperyBindingMap(final Map dataSetBindingMap, final Map dataSourceBindingMap) {
 		Display.getDefault().syncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				try {
 					DataSetMetaDataHelper.clearPropertyBindingMap(dataSetHandle, dataSetBindingMap,
@@ -684,9 +684,8 @@ final class CopyAction extends ResultSetTableAction {
 	/*
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	@Override
 	public void run() {
-		StringBuilder textData = new StringBuilder();
+		StringBuffer textData = new StringBuffer();
 
 		for (int i = 0; i < resultSetTable.getColumnCount(); i++) {
 			textData.append(resultSetTable.getColumn(i).getText() + "\t"); //$NON-NLS-1$
@@ -711,7 +710,6 @@ final class CopyAction extends ResultSetTableAction {
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.ResultSetTableAction#
 	 * update()
 	 */
-	@Override
 	public void update() {
 		if (resultSetTable.getItems().length < 1 || resultSetTable.getSelectionCount() < 1) {
 			this.setEnabled(false);
@@ -735,7 +733,6 @@ final class SelectAllAction extends ResultSetTableAction {
 	/*
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	@Override
 	public void run() {
 		resultSetTable.selectAll();
 	}
@@ -745,7 +742,6 @@ final class SelectAllAction extends ResultSetTableAction {
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.ResultSetTableAction#
 	 * update()
 	 */
-	@Override
 	public void update() {
 		if (resultSetTable.getItems().length < 1) {
 			this.setEnabled(false);
@@ -757,7 +753,6 @@ final class CellValue implements Comparable {
 	private Object realValue;
 	private String displayValue;
 
-	@Override
 	public int compareTo(Object o) {
 		if (o == null) {
 			return 1;
@@ -772,7 +767,6 @@ final class CellValue implements Comparable {
 		}
 	}
 
-	@Override
 	public String toString() {
 		return displayValue == null ? "" : displayValue; //$NON-NLS-1$
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -67,12 +67,10 @@ public class ExcelEmitter extends ContentEmitterAdapter {
 
 	protected ExcelContext context;
 
-	@Override
 	public String getOutputFormat() {
 		return "xls";
 	}
 
-	@Override
 	public void initialize(IEmitterServices service) throws EngineException {
 		this.context = createContext();
 		this.service = service;
@@ -83,7 +81,6 @@ public class ExcelEmitter extends ContentEmitterAdapter {
 		return new ExcelContext();
 	}
 
-	@Override
 	public void start(IReportContent report) {
 		context.setReport(report);
 		IStyle style = report.getRoot().getComputedStyle();
@@ -95,50 +92,41 @@ public class ExcelEmitter extends ContentEmitterAdapter {
 		return new ExcelLayoutEngine(context, contentVisitor);
 	}
 
-	@Override
 	public void startPage(IPageContent page) throws BirtException {
 		engine.startPage(page);
 	}
 
-	@Override
 	public void endPage(IPageContent page) throws BirtException {
 		engine.endPage(page);
 	}
 
-	@Override
 	public void startTable(ITableContent table) {
 		engine.startTable(table);
 	}
 
-	@Override
 	public void startRow(IRowContent row) {
 		engine.addRow(row.getComputedStyle(), row.getBookmark());
 	}
 
-	@Override
 	public void endRow(IRowContent row) {
 		DimensionType height = row.getHeight();
 		float rowHeight = ExcelUtil.convertDimensionType(height, 0, context.getDpi()) / 1000f;
 		engine.endRow(rowHeight);
 	}
 
-	@Override
 	public void startCell(ICellContent cell) {
 		IStyle style = cell.getComputedStyle();
 		engine.addCell(cell, cell.getColumn(), cell.getColSpan(), cell.getRowSpan(), style);
 	}
 
-	@Override
 	public void endCell(ICellContent cell) {
 		engine.endCell(cell);
 	}
 
-	@Override
 	public void endTable(ITableContent table) {
 		engine.endTable(table);
 	}
 
-	@Override
 	public void startList(IListContent list) {
 		ContainerSizeInfo size = engine.getCurrentContainer().getSizeInfo();
 		ColumnsInfo table = LayoutUtil.createTable(list, size.getWidth(), context.getDpi());
@@ -151,22 +139,18 @@ public class ExcelEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void startListBand(IListBandContent listBand) {
 		engine.addCell(0, 1, 1, listBand.getComputedStyle());
 	}
 
-	@Override
 	public void endListBand(IListBandContent listBand) {
 		engine.endListBandContainer();
 	}
 
-	@Override
 	public void endList(IListContent list) {
 		engine.endTable(list);
 	}
 
-	@Override
 	public void startForeign(IForeignContent foreign) throws BirtException {
 		if (IForeignContent.HTML_TYPE.equalsIgnoreCase(foreign.getRawType())) {
 			HTML2Content.html2Content(foreign);
@@ -175,14 +159,12 @@ public class ExcelEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void startText(ITextContent text) {
 		HyperlinkDef url = parseHyperLink(text);
 		float height = getContentHeight(text);
 		engine.addData(text.getText(), text.getComputedStyle(), url, text.getBookmark(), height);
 	}
 
-	@Override
 	public void startData(IDataContent data) {
 		addDataContent(data);
 	}
@@ -230,7 +212,6 @@ public class ExcelEmitter extends ContentEmitterAdapter {
 		return ExcelUtil.convertDimensionType(content.getHeight(), 0, context.getDpi()) / 1000f;
 	}
 
-	@Override
 	public void startImage(IImageContent image) {
 		if (context.isIgnoreImage()) {
 			return;
@@ -240,7 +221,6 @@ public class ExcelEmitter extends ContentEmitterAdapter {
 		engine.addImageData(image, style, url, image.getBookmark());
 	}
 
-	@Override
 	public void startLabel(ILabelContent label) {
 		Object design = label.getGenerateBy();
 		IContent container = label;
@@ -260,14 +240,12 @@ public class ExcelEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void startAutoText(IAutoTextContent autoText) {
 		HyperlinkDef link = parseHyperLink(autoText);
 		float height = getContentHeight(autoText);
 		engine.addData(autoText.getText(), autoText.getComputedStyle(), link, autoText.getBookmark(), height);
 	}
 
-	@Override
 	public void end(IReportContent report) {
 		engine.end(report);
 		engine.endWriter();
@@ -315,12 +293,10 @@ public class ExcelEmitter extends ContentEmitterAdapter {
 		return TimeZone.getDefault();
 	}
 
-	@Override
 	public void endContainer(IContainerContent container) {
 		engine.removeContainerStyle();
 	}
 
-	@Override
 	public void startContainer(IContainerContent container) {
 		engine.addContainerStyle(container.getComputedStyle());
 	}

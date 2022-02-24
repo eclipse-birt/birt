@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class CSSDocParser extends HtmlDocReader {
 
 	/**
 	 * Parser css property html.
-	 *
+	 * 
 	 * @throws ParseException
 	 */
 
@@ -56,18 +56,20 @@ public class CSSDocParser extends HtmlDocReader {
 	 * <tr>
 	 * <td>name
 	 * <td>values
-	 *
+	 * 
 	 * @throws ParseException
-	 *
+	 * 
 	 */
 	private void parseElement() throws ParseException {
 		skipTo("table");//$NON-NLS-1$
 
 		for (;;) {
 			int token = getToken();
-			if ((token == HTMLParser.EOF) || isElement(token, "/table")) { //$NON-NLS-1$
+			if (token == HTMLParser.EOF)
 				return;
-			}
+
+			if (isElement(token, "/table"))//$NON-NLS-1$
+				return;
 			assert (isElement(token, "tr"));//$NON-NLS-1$
 
 			token = getToken();
@@ -108,7 +110,7 @@ public class CSSDocParser extends HtmlDocReader {
 
 		/**
 		 * Constructor
-		 *
+		 * 
 		 * @param msg exception message
 		 */
 		public ParseException(String msg) {

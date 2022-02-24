@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,12 +50,11 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.
 	 * String)
 	 */
-	@Override
 	public String invoke(String sExpression, Object oContext, String sTitle) {
 		logger.log(ILogger.WARNING, Messages.getString("SimpleUIServiceProviderImpl.Warn.Placeholder")); //$NON-NLS-1$
 		return sExpression;
@@ -63,12 +62,11 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.
 	 * String)
 	 */
-	@Override
 	public String invoke(String sExpression, Object oContext, String sTitle, boolean isChartProvider) {
 		logger.log(ILogger.WARNING, Messages.getString("SimpleUIServiceProviderImpl.Warn.Placeholder")); //$NON-NLS-1$
 		return sExpression;
@@ -76,22 +74,20 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#validate(org.
 	 * eclipse.birt.chart.model.Chart, java.lang.Object)
 	 */
-	@Override
 	public String[] validate(Chart chartModel, Object oContext) {
 		return null;
 	}
 
 	/**
 	 * Fetches the list of registered keys for externalizing chart content
-	 *
+	 * 
 	 * @return List containing available keys for externalized content
 	 */
-	@Override
 	public List getRegisteredKeys() {
 		List list = new Vector();
 		list.add("SampleKey"); //$NON-NLS-1$
@@ -101,11 +97,10 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider {
 	/**
 	 * Fetches the value for the externalized resource identified by the specified
 	 * key
-	 *
+	 * 
 	 * @return String that represents the value for the specified resource in the
 	 *         current locale
 	 */
-	@Override
 	public String getValue(String sKey) {
 		if (sKey.equals("SampleKey")) //$NON-NLS-1$
 		{
@@ -116,23 +111,21 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getConvertedValue
 	 * (double, java.lang.String, java.lang.String)
 	 */
-	@Override
 	public double getConvertedValue(double dOriginalValue, String sFromUnits, String sToUnits) {
 		return dOriginalValue;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(int,
 	 * java.lang.String, java.lang.Object, java.lang.String)
 	 */
-	@Override
 	public String invoke(int command, String value, Object context, String sTitle) throws ChartException {
 		switch (command) {
 		case COMMAND_HYPERLINK:
@@ -156,17 +149,14 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider {
 		return value;
 	}
 
-	@Override
 	public boolean isInvokingSupported() {
 		return true;
 	}
 
-	@Override
 	public boolean isEclipseModeSupported() {
 		return false;
 	}
 
-	@Override
 	public Object invoke(Command command, Object... inData) throws ChartException {
 
 		Object outData = null;
@@ -176,69 +166,56 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider {
 			new Label((Composite) inData[0], SWT.NONE);
 			IExpressionButton ceb = new IExpressionButton() {
 
-				@Override
 				public void setExpression(String expr) {
 					if (expr != null) {
 						ChartUIUtil.setText(control, expr);
 					}
 				}
 
-				@Override
 				public void setEnabled(boolean bEnabled) {
 					control.setEnabled(bEnabled);
 				}
 
-				@Override
 				public boolean isEnabled() {
 					return control.isEnabled();
 				}
 
-				@Override
 				public String getExpression() {
 					return ChartUIUtil.getText(control);
 				}
 
-				@Override
 				public String getDisplayExpression() {
 					return getExpression();
 				}
 
-				@Override
 				public void addListener(Listener listener) {
 					// not implemented
 				}
 
-				@Override
 				public void setAccessor(EAttributeAccessor<String> accessor) {
 					// not implemented
 				}
 
-				@Override
 				public String getExpressionType() {
 					return null;
 				}
 
-				@Override
 				public boolean isCube() {
 					return false;
 				}
 
-				@Override
 				public void setBindingName(String bindingName, boolean bNotifyEvents) {
 					// not implemented
 				}
 
-				@Override
 				public void setExpression(String expr, boolean bNotifyEvents) {
 					// not implemented
 				}
 
-				@Override
 				public void setAssitField(IAssistField assistField) {
 					// not implemented
 				}
 
-				@Override
 				public void setPredefinedQuery(Object[] predefinedQuery) {
 					// not implemented
 				}
@@ -251,18 +228,17 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#
 	 * getFormatSpecifierHandler()
 	 */
-	@Override
 	public IFormatSpecifierHandler getFormatSpecifierHandler() {
 		return this.formatSpecifierHandler;
 	}
 
 	/**
 	 * Sets format specifier handler object.
-	 *
+	 * 
 	 * @param handler
 	 */
 	public void setFormatSpecifierHandler(IFormatSpecifierHandler handler) {

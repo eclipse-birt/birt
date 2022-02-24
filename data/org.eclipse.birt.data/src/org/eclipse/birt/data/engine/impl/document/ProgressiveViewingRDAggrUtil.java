@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- *
+ * 
  */
 
 public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
@@ -35,7 +35,7 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 			List<RAInputStream> aggrIndexStreams, List<RAInputStream> aggrStreams) throws DataException {
 		try {
 			assert aggrIndexStreams.size() == aggrStreams.size();
-			this.aggrInfo = new HashMap<>();
+			this.aggrInfo = new HashMap<String, IAggrStorageInfo>();
 			for (int i = 0; i < aggrIndexStreams.size(); i++) {
 				AggrStorageInfo asi = new AggrStorageInfo(aggrIndexStreams.get(i), aggrStreams.get(i));
 				for (int j = 0; j < asi.aggrNames.length; j++) {
@@ -59,13 +59,13 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 	}
 
 	interface IAggrStorageInfo {
-		Object getAggrValue(String aggrName, int groupInstanceIndex) throws DataException;
+		public Object getAggrValue(String aggrName, int groupInstanceIndex) throws DataException;
 
-		String[] getAggrNames();
+		public String[] getAggrNames();
 
-		int getGroupLevel();
+		public int getGroupLevel();
 
-		void close();
+		public void close();
 	}
 
 	private class OverallAggrStorageInfo implements IAggrStorageInfo {
@@ -104,20 +104,18 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 			}
 		}
 
-		@Override
 		public Object getAggrValue(String aggrName, int groupInstanceIndex) throws DataException {
 			try {
-				if (this.overallAggregationValues != null) {
+				if (this.overallAggregationValues != null)
 					return this.overallAggregationValues.get(aggrName);
-				}
 
-				long overallOffset = this.getOverallAggrOffset();
+				long overallOffset = 0;
 
-				if (overallOffset == -1) {
+				if ((overallOffset = this.getOverallAggrOffset()) == -1) {
 					// assume the progressive viewing is not finish yet. Return null;
 					return null;
 				}
-				this.overallAggregationValues = new HashMap<>();
+				this.overallAggregationValues = new HashMap<String, Object>();
 				this.aggrStream.seek(overallOffset);
 				for (int i = 0; i < this.overallAggregations.length; i++) {
 					this.overallAggregationValues.put(this.overallAggregations[i],
@@ -129,17 +127,14 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 			}
 		}
 
-		@Override
 		public String[] getAggrNames() {
 			return this.overallAggregations;
 		}
 
-		@Override
 		public int getGroupLevel() {
 			return 0;
 		}
 
-		@Override
 		public void close() {
 			try {
 				this.aggrDIStream.close();
@@ -185,18 +180,16 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 				for (int i = 0; i < this.runningAggregations.length; i++) {
 					this.runningAggregations[i] = IOUtil.readString(this.aggrDIStream);
 				}
-				this.runningAggregationValues = new HashMap<>();
+				this.runningAggregationValues = new HashMap<String, Object>();
 			} catch (IOException e) {
 				throw new DataException(e.getLocalizedMessage(), e);
 			}
 		}
 
-		@Override
 		public Object getAggrValue(String aggrName, int groupInstanceIndex) throws DataException {
 			try {
-				if (this.currentIndex == groupInstanceIndex && this.runningAggregationValues.containsKey(aggrName)) {
+				if (this.currentIndex == groupInstanceIndex && this.runningAggregationValues.containsKey(aggrName))
 					return this.runningAggregationValues.get(aggrName);
-				}
 
 				this.currentIndex = groupInstanceIndex;
 				this.aggrIndexStream.seek(IOUtil.LONG_LENGTH * (this.currentIndex + 1));
@@ -212,17 +205,14 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 			}
 		}
 
-		@Override
 		public String[] getAggrNames() {
 			return this.runningAggregations;
 		}
 
-		@Override
 		public int getGroupLevel() {
 			return -1;
 		}
 
-		@Override
 		public void close() {
 			try {
 				this.aggrDIStream.close();
@@ -255,7 +245,7 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 				this.aggrIndexDIStream = new DataInputStream(aggrIndexStream);
 				this.groupLevel = IOUtil.readInt(this.aggrDIStream);
 				this.aggrNames = new String[IOUtil.readInt(this.aggrDIStream)];
-				this.aggrNameValueMap = new HashMap<>();
+				this.aggrNameValueMap = new HashMap<String, Object>();
 				for (int i = 0; i < this.aggrNames.length; i++) {
 					this.aggrNames[i] = IOUtil.readString(this.aggrDIStream);
 				}
@@ -264,7 +254,6 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 			}
 		}
 
-		@Override
 		public Object getAggrValue(String aggrName, int groupInstanceIndex) throws DataException {
 			try {
 				if (groupInstanceIndex != this.currentGroupLevel) {
@@ -287,17 +276,14 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 			return this.aggrNameValueMap.get(aggrName);
 		}
 
-		@Override
 		public String[] getAggrNames() {
 			return this.aggrNames;
 		}
 
-		@Override
 		public int getGroupLevel() {
 			return this.groupLevel;
 		}
 
-		@Override
 		public void close() {
 			try {
 				this.aggrDIStream.close();
@@ -310,27 +296,22 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil {
 		}
 	}
 
-	@Override
 	public boolean contains(String aggrName) {
 		return this.aggrInfo.containsKey(aggrName);
 	}
 
-	@Override
 	public int getGroupLevel(String aggrName) {
 		return this.aggrInfo.get(aggrName).getGroupLevel();
 	}
 
-	@Override
 	public boolean isRunningAggr(String aggrName) {
 		return this.aggrInfo.get(aggrName) instanceof RunningAggrStorageInfo;
 	}
 
-	@Override
 	public Object getValue(String aggrName, int groupInstanceIndex) throws DataException {
 		return this.aggrInfo.get(aggrName).getAggrValue(aggrName, groupInstanceIndex);
 	}
 
-	@Override
 	public void close() throws DataException {
 		for (IAggrStorageInfo info : this.aggrInfo.values()) {
 			info.close();

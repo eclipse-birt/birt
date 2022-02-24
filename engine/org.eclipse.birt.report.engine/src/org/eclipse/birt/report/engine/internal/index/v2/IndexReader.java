@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,7 @@ public class IndexReader implements IndexConstants {
 	public IndexReader(IDocArchiveReader archive, String name) throws IOException {
 		if (archive.exists(name)) {
 			RAInputStream input = archive.getInputStream(name);
-			try (input) {
+			try {
 				int version = readVersion(input.readInt(), name);
 
 				switch (version) {
@@ -55,7 +55,7 @@ public class IndexReader implements IndexConstants {
 						DataInputStream di = new DataInputStream(input);
 						// load it into the memory
 						int entries = IOUtil.readInt(di);
-						map = new HashMap<>(entries);
+						map = new HashMap<String, Object>(entries);
 						for (int i = 0; i < entries; i++) {
 							String key = IOUtil.readString(di);
 							long offset = IOUtil.readLong(di);
@@ -72,7 +72,7 @@ public class IndexReader implements IndexConstants {
 					if (type == INLINE_MAP) {
 						DataInputStream di = new DataInputStream(input);
 						int entries = IOUtil.readInt(di);
-						map = new HashMap<>(entries);
+						map = new HashMap<String, Object>(entries);
 						for (int index = 0; index < entries; index++) {
 							String key = IOUtil.readString(di);
 							BookmarkContent bookmark = new BookmarkContent();
@@ -88,6 +88,8 @@ public class IndexReader implements IndexConstants {
 					throw new IOException("unsupported index version " + version);
 				}
 				}
+			} finally {
+				input.close();
 			}
 		}
 	}
@@ -121,17 +123,15 @@ public class IndexReader implements IndexConstants {
 	}
 
 	Long getLong(String key) throws IOException {
-		if (valueType != BTreeMap.LONG_VALUE) {
+		if (valueType != BTreeMap.LONG_VALUE)
 			return null;
-		}
 
 		return (Long) get(key);
 	}
 
 	BookmarkContent getBookmarkContent(String key) throws IOException {
-		if (valueType != BTreeMap.BOOKMARK_VALUE) {
+		if (valueType != BTreeMap.BOOKMARK_VALUE)
 			return null;
-		}
 
 		return (BookmarkContent) get(key);
 	}
@@ -168,9 +168,8 @@ public class IndexReader implements IndexConstants {
 	}
 
 	void forAllValues(ValueListener listener) throws IOException {
-		if (valueType != BTreeMap.BOOKMARK_VALUE) {
+		if (valueType != BTreeMap.BOOKMARK_VALUE)
 			return;
-		}
 
 		if (map != null) {
 			for (Object v : map.values()) {

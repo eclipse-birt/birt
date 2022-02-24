@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ public class InsertGroupActionFactory {
 
 	protected Logger logger = Logger.getLogger(InsertGroupActionFactory.class.getName());
 
-	private static InsertPositionGroupAction[] instances = {
+	private static InsertPositionGroupAction[] instances = new InsertPositionGroupAction[] {
 			new InsertAboveGroupAction(null, Messages.getString("InsertPositionGroupAction.Label.Above")), //$NON-NLS-1$
 			new InsertBelowGroupAction(null, Messages.getString("InsertPositionGroupAction.Label.Below")), //$NON-NLS-1$
 			// new InsertIntoGroupAction( null,
@@ -60,7 +60,7 @@ public class InsertGroupActionFactory {
 
 	/**
 	 * Creates a insert group action, given slotid and selection list.
-	 *
+	 * 
 	 * @param slotID    slotid
 	 * @param selection selected editparts
 	 * @return action
@@ -80,7 +80,7 @@ public class InsertGroupActionFactory {
 
 	/**
 	 * Gets actions array
-	 *
+	 * 
 	 * @param selection selected editparts
 	 * @return actions array
 	 */
@@ -120,36 +120,32 @@ abstract class InsertPositionGroupAction extends Action {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
 		boolean canContain = false;
 
 		if (getTableEditPart() != null) {
 			TableHandle table = (TableHandle) getTableEditPart().getModel();
-			if (table.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF) {
+			if (table.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
 				canContain = false;
-			} else {
+			else
 				canContain = table.canContain(TableHandle.GROUP_SLOT, ReportDesignConstants.TABLE_GROUP_ELEMENT);
-			}
 		}
 
 		if (getTableMultipleEditPart() != null) {
 			TableHandle table = (TableHandle) getTableMultipleEditPart().getModel();
-			if (table.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF) {
+			if (table.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
 				canContain = false;
-			} else {
+			else
 				canContain = table.canContain(TableHandle.GROUP_SLOT, ReportDesignConstants.TABLE_GROUP_ELEMENT);
-			}
 		}
 
 		if (getListEditPart() != null) {
 			ListHandle list = (ListHandle) getListEditPart().getModel();
-			if (list.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF) {
+			if (list.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
 				canContain = false;
-			}
 			canContain = ((ListHandle) getListEditPart().getModel()).canContain(ListHandle.GROUP_SLOT,
 					ReportDesignConstants.LIST_GROUP_ELEMENT);
 
@@ -159,9 +155,8 @@ abstract class InsertPositionGroupAction extends Action {
 
 	/**
 	 * Runs action.
-	 *
+	 * 
 	 */
-	@Override
 	public void run() {
 
 		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME, currentModel);
@@ -188,7 +183,7 @@ abstract class InsertPositionGroupAction extends Action {
 
 	/**
 	 * Returns if the order is reverse
-	 *
+	 * 
 	 * @return true when slot is not footer
 	 */
 	protected boolean isNotReverse() {
@@ -225,14 +220,13 @@ abstract class InsertPositionGroupAction extends Action {
 
 	/**
 	 * Gets table edit part.
-	 *
+	 * 
 	 * @return The current selected table edit part, null if no table edit part is
 	 *         selected.
 	 */
 	protected TableEditPart getTableEditPart() {
-		if (getSelection() == null || getSelection().isEmpty()) {
+		if (getSelection() == null || getSelection().isEmpty())
 			return null;
-		}
 		List list = getSelection();
 		int size = list.size();
 		TableEditPart part = null;
@@ -259,17 +253,15 @@ abstract class InsertPositionGroupAction extends Action {
 			}
 		}
 		// Only table permitted
-		if (part instanceof GridEditPart) {
+		if (part instanceof GridEditPart)
 			return null;
-		}
 		return part;
 	}
 
 	// fix bug 217589
 	private ReportElementEditPart getTableMultipleEditPart() {
-		if (getSelection() == null || getSelection().isEmpty()) {
+		if (getSelection() == null || getSelection().isEmpty())
 			return null;
-		}
 		List list = getSelection();
 		int size = list.size();
 		ReportElementEditPart part = null;
@@ -296,22 +288,20 @@ abstract class InsertPositionGroupAction extends Action {
 			}
 		}
 		// Only table permitted
-		if (part instanceof GridEditPart) {
+		if (part instanceof GridEditPart)
 			return null;
-		}
 		return part;
 	}
 
 	/**
 	 * Gets list edit part.
-	 *
+	 * 
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
 	protected ListEditPart getListEditPart() {
-		if (getSelection() == null || getSelection().isEmpty()) {
+		if (getSelection() == null || getSelection().isEmpty())
 			return null;
-		}
 		List list = getSelection();
 		int size = list.size();
 		ListEditPart part = null;
@@ -360,7 +350,7 @@ abstract class InsertPositionGroupAction extends Action {
 
 	/**
 	 * Returns the current position of the selected part
-	 *
+	 * 
 	 * @return the current position of the selected part
 	 */
 	protected int getCurrentPosition() {
@@ -382,7 +372,7 @@ abstract class InsertPositionGroupAction extends Action {
 
 	/**
 	 * Returns the insert position
-	 *
+	 * 
 	 * @return the insert position
 	 */
 	abstract protected int getPosition();
@@ -399,11 +389,10 @@ class InsertAboveGroupAction extends InsertPositionGroupAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
 	 * .InsertPositionGroupAction#getPosition()
 	 */
-	@Override
 	protected int getPosition() {
 		if (isGroup()) {
 			if (isNotReverse()) {
@@ -430,11 +419,10 @@ class InsertBelowGroupAction extends InsertPositionGroupAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
 	 * .InsertPositionGroupAction#getPosition()
 	 */
-	@Override
 	protected int getPosition() {
 		if (isGroup()) {
 			if (isNotReverse()) {
@@ -464,22 +452,20 @@ class InsertIntoGroupAction extends InsertPositionGroupAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
 	 * .InsertPositionGroupAction#isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
 		return super.isEnabled() && isGroup();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
 	 * .InsertPositionGroupAction#getPosition()
 	 */
-	@Override
 	protected int getPosition() {
 		return POSITION_INNERMOST;
 	}

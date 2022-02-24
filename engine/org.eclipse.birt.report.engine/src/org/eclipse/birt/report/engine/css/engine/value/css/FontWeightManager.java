@@ -1,19 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's FontWeightManager.java to support BIRT's CSS rules
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
-import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.css.engine.CSSContext;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
@@ -28,7 +27,7 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * This class provides a manager for the 'font-weight' property values.
- *
+ * 
  */
 public class FontWeightManager extends IdentifierManager {
 
@@ -46,7 +45,6 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#isInheritedProperty()}.
 	 */
-	@Override
 	public boolean isInheritedProperty() {
 		return true;
 	}
@@ -54,7 +52,6 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#getPropertyName()}.
 	 */
-	@Override
 	public String getPropertyName() {
 		return CSSConstants.CSS_FONT_WEIGHT_PROPERTY;
 	}
@@ -62,7 +59,6 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#getDefaultValue()}.
 	 */
-	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.NORMAL_VALUE;
 	}
@@ -70,7 +66,6 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	@Override
 	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		if (lu.getLexicalUnitType() == LexicalUnit.SAC_INTEGER) {
 			int i = lu.getIntegerValue();
@@ -197,7 +192,6 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link IdentifierManager#getIdentifiers()}.
 	 */
-	@Override
 	public StringMap getIdentifiers() {
 		return values;
 	}

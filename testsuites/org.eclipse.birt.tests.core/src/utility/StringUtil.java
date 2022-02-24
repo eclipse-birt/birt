@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +16,7 @@ package utility;
 
 /**
  * Collection of string utilities.
- *
+ * 
  */
 
 public class StringUtil {
@@ -24,26 +24,24 @@ public class StringUtil {
 	/**
 	 * Trim a string. Removes leading and trailing blanks. If the resulting string
 	 * is empty, normalizes the string to an null string.
-	 *
+	 * 
 	 * @param value the string to trim
 	 * @return the trimmed string, or null if the string is empty
 	 */
 
 	public static String trimString(String value) {
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 		value = value.trim();
-		if (value.length() == 0) {
+		if (value.length() == 0)
 			return null;
-		}
 		return value;
 	}
 
 	/**
 	 * Convert an integer to an HTML RGB value. The result is of the form #hhhhhh.
 	 * The input rgb integer value will be clipped into the range 0 ~ 0xFFFFFF
-	 *
+	 * 
 	 * @param rgb the integer RGB value
 	 * @return the value as an HTML RGB string
 	 */
@@ -51,12 +49,10 @@ public class StringUtil {
 	public static String toRgbText(int rgb) {
 		// clip input value.
 
-		if (rgb > 0xFFFFFF) {
+		if (rgb > 0xFFFFFF)
 			rgb = 0xFFFFFF;
-		}
-		if (rgb < 0) {
+		if (rgb < 0)
 			rgb = 0;
-		}
 
 		String str = "000000" + Integer.toHexString(rgb); //$NON-NLS-1$
 		return "#" + str.substring(str.length() - 6); //$NON-NLS-1$
@@ -76,7 +72,7 @@ public class StringUtil {
 	 * have a locale with just a variant -- the variant must accompany a valid
 	 * language or country code). Examples: "en", "de_DE", "_GB", "en_US_WIN",
 	 * "de__POSIX", "fr__MAC"
-	 *
+	 * 
 	 * @param locale string representing a locale
 	 * @return true if the locale is a valid locale, false if the locale is not
 	 *         valid.
@@ -96,7 +92,7 @@ public class StringUtil {
 	 * <ul>
 	 * <li>null, "" and " " are blank strings
 	 * </ul>
-	 *
+	 * 
 	 * @param str the string to check
 	 * @return true if the string is blank, false otherwise.
 	 */
@@ -114,15 +110,14 @@ public class StringUtil {
 	 * <li>Both null and "" are empty strings
 	 * <li>" " is not empty string.
 	 * </ul>
-	 *
+	 * 
 	 * @param value the string to check
 	 * @return true if the string is empty, false otherwise.
 	 */
 
 	public static boolean isEmpty(String value) {
-		if (value == null || value.length() == 0) {
+		if (value == null || value.length() == 0)
 			return true;
-		}
 
 		return false;
 	}
@@ -130,7 +125,7 @@ public class StringUtil {
 	/**
 	 * Returns if the two string are null or equal. The
 	 * {@link java.lang.String#equals(String)}is used to compare two strings.
-	 *
+	 * 
 	 * @param str1 the string to compare
 	 * @param str2 the string to compare
 	 * @return true, if the two string are null, or the two string are equal with
@@ -145,7 +140,7 @@ public class StringUtil {
 	 * Returns if the two string are null or equal. The
 	 * {@link java.lang.String#equalsIgnoreCase(String)}is used to compare two
 	 * strings.
-	 *
+	 * 
 	 * @param str1 the string to compare
 	 * @param str2 the string to compare
 	 * @return true, if the two string are null, or the two string are equal with
@@ -160,7 +155,7 @@ public class StringUtil {
 	 * Converts the double value to locale-independent string representation. This
 	 * method works like <code>Double.toString( double )</code>, and can also handle
 	 * very large number like 1.234567890E16 to "12345678900000000".
-	 *
+	 * 
 	 * @param d       the double value to convert
 	 * @param fNumber the positive maximum fractional number
 	 * @return the locale-independent string representation.
@@ -168,9 +163,8 @@ public class StringUtil {
 
 	public static String doubleToString(double d, int fNumber) {
 
-		if (fNumber < 0) {
+		if (fNumber < 0)
 			fNumber = 0;
-		}
 
 		String value = Double.toString(d);
 		int ePos = value.indexOf('E');
@@ -188,7 +182,7 @@ public class StringUtil {
 
 			// Move the dot position according to the exponent
 
-			StringBuilder sb = new StringBuilder(value.substring(0, dotPos));
+			StringBuffer sb = new StringBuffer(value.substring(0, dotPos));
 			if (ePos - dotPos - 1 > exp) {
 				// "1.23456789000E4"
 
@@ -201,9 +195,8 @@ public class StringUtil {
 				// "1.23400E8"
 
 				sb.append(value.substring(dotPos + 1, ePos));
-				for (int i = 0; i < exp - (ePos - dotPos - 1); i++) {
+				for (int i = 0; i < exp - (ePos - dotPos - 1); i++)
 					sb.append('0');
-				}
 
 				// "123400000"
 			}
@@ -217,25 +210,22 @@ public class StringUtil {
 
 		int pos = value.indexOf('.');
 		if (pos != -1) {
-			if (value.length() - pos - 1 > fNumber) {
+			if (value.length() - pos - 1 > fNumber)
 				value = value.substring(0, pos + fNumber + 1);
-			}
 
 			// Remove the ending '0'.
 
 			int i = 0;
 			for (; i < fNumber; i++) {
-				if (value.charAt(value.length() - i - 1) != '0') {
+				if (value.charAt(value.length() - i - 1) != '0')
 					break;
-				}
 			}
 			value = value.substring(0, value.length() - i);
 
 			// Remove the last dot
 
-			if (value.charAt(value.length() - 1) == '.') {
+			if (value.charAt(value.length() - 1) == '.')
 				value = value.substring(0, value.length() - 1);
-			}
 		}
 
 		return value;
@@ -253,7 +243,7 @@ public class StringUtil {
 	 * <p>
 	 * Note:This implementation treats "1.0.0" and "1" are same version.The result
 	 * is unexpectable if the version string contains alphabetic character.
-	 *
+	 * 
 	 * @param versionA the given version string
 	 * @param versionB the given version string
 	 * @return <code>-1</code> if <code>versionA</code> is lower than
@@ -262,17 +252,14 @@ public class StringUtil {
 	 */
 
 	public static int compareVersion(String versionA, String versionB) {
-		if (versionA == null && versionB == null) {
+		if (versionA == null && versionB == null)
 			return 0;
-		}
 
-		if (versionA == null && versionB != null) {
+		if (versionA == null && versionB != null)
 			return -1;
-		}
 
-		if (versionA != null && versionB == null) {
+		if (versionA != null && versionB == null)
 			return 1;
-		}
 
 		String[] stringsA = versionA.split("\\."); //$NON-NLS-1$
 		String[] stringsB = versionB.split("\\."); //$NON-NLS-1$
@@ -284,22 +271,19 @@ public class StringUtil {
 			if (i < stringsB.length) {
 				int numberB = Integer.parseInt(stringsB[i]);
 				int result = numberA - numberB;
-				if (result > 0) {
+				if (result > 0)
 					return 1;
-				} else if (result < 0) {
+				else if (result < 0)
 					return -1;
-				}
-			} else if (numberA > 0) {
+			} else if (numberA > 0)
 				return 1;
-			}
 		}
 
 		if (i < stringsB.length) {
 			for (; i < stringsB.length; i++) {
 				int numberB = Integer.parseInt(stringsB[i]);
-				if (numberB > 0) {
+				if (numberB > 0)
 					return -1;
-				}
 			}
 		}
 
@@ -318,21 +302,19 @@ public class StringUtil {
 	 * <li>"/home/user/abc.xml" => "abc"
 	 * <li>"/home/user/abc" => "abc"
 	 * </ul>
-	 *
+	 * 
 	 * @param filePathName the file name with path and suffix
 	 * @return the file name without path and suffix
 	 */
 
 	public static String extractFileName(String filePathName) {
-		if (filePathName == null) {
+		if (filePathName == null)
 			return null;
-		}
 
 		int dotPos = filePathName.lastIndexOf('.');
 		int slashPos = filePathName.lastIndexOf('\\');
-		if (slashPos == -1) {
+		if (slashPos == -1)
 			slashPos = filePathName.lastIndexOf('/');
-		}
 
 		if (dotPos > slashPos) {
 			return filePathName.substring(slashPos > 0 ? slashPos + 1 : 0, dotPos);
@@ -353,20 +335,18 @@ public class StringUtil {
 	 * <li>"/home/user/abc.xml" => "abc.xml"
 	 * <li>"/home/user/abc" => "abc"
 	 * </ul>
-	 *
+	 * 
 	 * @param filePathName the file name with path and suffix
 	 * @return the file name without path but with suffix
 	 */
 
 	public static String extractFileNameWithSuffix(String filePathName) {
-		if (filePathName == null) {
+		if (filePathName == null)
 			return null;
-		}
 
 		int slashPos = filePathName.lastIndexOf('\\');
-		if (slashPos == -1) {
+		if (slashPos == -1)
 			slashPos = filePathName.lastIndexOf('/');
-		}
 		return filePathName.substring(slashPos > 0 ? slashPos + 1 : 0);
 	}
 
@@ -378,46 +358,42 @@ public class StringUtil {
 	 * <li>"LibA" is extracted from "LibA.style1"
 	 * <li>null is returned from "style1"
 	 * </ul>
-	 *
+	 * 
 	 * @param qualifiedName the qualified reference value
 	 * @return the library namespace
 	 */
 
 	public static String extractNamespace(String qualifiedName) {
-		if (qualifiedName == null) {
+		if (qualifiedName == null)
 			return null;
-		}
 
 		int pos = qualifiedName.indexOf('.');
-		if (pos == -1) {
+		if (pos == -1)
 			return null;
-		}
 
 		return StringUtil.trimString(qualifiedName.substring(0, pos));
 	}
 
 	/**
 	 * Extracts the name from the given qualified reference value.
-	 *
+	 * 
 	 * <p>
 	 * For example,
 	 * <ul>
 	 * <li>"style1" is extracted from "LibA.style1"
 	 * <li>"style1" is returned from "style1"
 	 * </ul>
-	 *
+	 * 
 	 * @param qualifiedName the qualified reference value
 	 * @return the name
 	 */
 	public static String extractName(String qualifiedName) {
-		if (qualifiedName == null) {
+		if (qualifiedName == null)
 			return null;
-		}
 
 		int pos = qualifiedName.indexOf('.');
-		if (pos == -1) {
+		if (pos == -1)
 			return qualifiedName;
-		}
 
 		return StringUtil.trimString(qualifiedName.substring(pos + 1));
 	}
@@ -430,7 +406,7 @@ public class StringUtil {
 	 * <li>("LibA", "style1") => "LibA.style1"
 	 * <li>(" ", "style1) => "style1"
 	 * </ul>
-	 *
+	 * 
 	 * @param namespace the library namespace to indicate which library the
 	 *                  reference is using.
 	 * @param value     the actual reference value
@@ -438,9 +414,8 @@ public class StringUtil {
 	 */
 
 	public static String buildQualifiedReference(String namespace, String value) {
-		if (StringUtil.isBlank(namespace)) {
+		if (StringUtil.isBlank(namespace))
 			return value;
-		}
 
 		return namespace + "." + value; //$NON-NLS-1$
 	}
@@ -454,20 +429,18 @@ public class StringUtil {
 	 * <li>("a.b) => "a.b
 	 * <li>(a.b") => a.b"
 	 * </ul>
-	 *
+	 * 
 	 * @param value the string may have quotes
 	 * @return the string without quotes
 	 */
 
 	public static String trimQuotes(String value) {
-		if (value == null) {
+		if (value == null)
 			return value;
-		}
 
 		value = value.trim();
-		if (value.startsWith("\"") && value.endsWith("\"")) {
+		if (value.startsWith("\"") && value.endsWith("\""))
 			return value.substring(1, value.length() - 1);
-		}
 
 		return value;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,22 +30,21 @@ import org.mozilla.javascript.ast.AstRoot;
 import org.mozilla.javascript.ast.ScriptNode;
 
 /**
- *
+ * 
  */
 
 public class OlapExpressionCompiler {
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @param objectName
 	 * @return
 	 */
 	public static Set<String> getReferencedMeasure(String expr) {
-		if (expr == null) {
+		if (expr == null)
 			return Collections.emptySet();
-		}
 		try {
-			Set<String> result = new LinkedHashSet<>();
+			Set<String> result = new LinkedHashSet<String>();
 			Context cx = Context.enter();
 			CompilerEnvirons ce = new CompilerEnvirons();
 			Parser p = new Parser(ce, cx.getErrorReporter());
@@ -63,7 +62,7 @@ public class OlapExpressionCompiler {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @param bindings
 	 * @param onlyFromDirectReferenceExpr
@@ -71,11 +70,10 @@ public class OlapExpressionCompiler {
 	 * @throws DataException
 	 */
 	public static Set<IDimLevel> getReferencedDimLevel(String expr) throws CoreException {
-		if (expr == null) {
-			return new HashSet<>();
-		}
+		if (expr == null)
+			return new HashSet<IDimLevel>();
 		try {
-			Set<IDimLevel> result = new HashSet<>();
+			Set<IDimLevel> result = new HashSet<IDimLevel>();
 			Context cx = Context.enter();
 			CompilerEnvirons ce = new CompilerEnvirons();
 			Parser p = new Parser(ce, cx.getErrorReporter());
@@ -92,7 +90,7 @@ public class OlapExpressionCompiler {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param n
 	 * @param result
 	 * @param bindings
@@ -100,9 +98,8 @@ public class OlapExpressionCompiler {
 	 * @throws DataException
 	 */
 	private static void populateDimLevels(Node grandpa, Node n, Set<IDimLevel> result) throws CoreException {
-		if (n == null) {
+		if (n == null)
 			return;
-		}
 
 		if (n.getFirstChild() != null && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) {
 			if (n.getFirstChild().getFirstChild() != null
@@ -115,9 +112,8 @@ public class OlapExpressionCompiler {
 					String attr = n.getLastChild().getString();
 
 					DimLevel dimLevel = new DimLevel(dimName, levelName, attr);
-					if (!result.contains(dimLevel)) {
+					if (!result.contains(dimLevel))
 						result.add(dimLevel);
-					}
 				}
 			} else if (n.getFirstChild() != null && n.getFirstChild().getType() == Token.NAME) {
 				if ("dimension".equals(n.getFirstChild().getString())) {
@@ -130,9 +126,8 @@ public class OlapExpressionCompiler {
 							attr = grandpa.getNext().getString();
 						}
 						DimLevel dimLevel = new DimLevel(dimName, levelName, attr);
-						if (!result.contains(dimLevel)) {
+						if (!result.contains(dimLevel))
 							result.add(dimLevel);
-						}
 					}
 				}
 			}
@@ -143,22 +138,20 @@ public class OlapExpressionCompiler {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param n
 	 * @param objectName
 	 * @return
 	 */
 	private static void getScriptObjectName(Node n, String objectName, Set nameSet) {
-		if (n == null) {
+		if (n == null)
 			return;
-		}
 		String result = null;
 		if (n.getType() == Token.NAME) {
 			if (objectName.equals(n.getString())) {
 				Node dimNameNode = n.getNext();
-				if (dimNameNode == null || dimNameNode.getType() != Token.STRING) {
+				if (dimNameNode == null || dimNameNode.getType() != Token.STRING)
 					return;
-				}
 
 				nameSet.add(dimNameNode.getString());
 			}

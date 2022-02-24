@@ -43,12 +43,12 @@ public class AggrValuesUpdator implements IAggrValueHolder {
 	@SuppressWarnings("unchecked")
 	public AggrValuesUpdator(IAggrValueHolder aggrValuesHolder, ResultSetPopulator populator) throws DataException {
 		Set<String> aggrNames = aggrValuesHolder.getAggrNames();
-		this.aggrIndexMap = new HashMap<>();
+		this.aggrIndexMap = new HashMap<String, Integer>();
 		this.aggrInfos = new IAggrInfo[aggrNames.size()];
 		this.aggrValues = new List[aggrNames.size()];
 		this.oldAggrValues = new List[aggrNames.size()];
-		this.summaryAggrsMap = new HashMap<>();
-		this.runningAggrsMap = new HashMap<>();
+		this.summaryAggrsMap = new HashMap<Integer, List<Integer>>();
+		this.runningAggrsMap = new HashMap<String, Integer>();
 		this.populator = populator;
 		this.tempDir = populator.getSession().getTempDir();
 
@@ -63,7 +63,7 @@ public class AggrValuesUpdator implements IAggrValueHolder {
 				int level = this.aggrInfos[i].getGroupLevel();
 				List<Integer> aggrs = summaryAggrsMap.get(level);
 				if (aggrs == null) {
-					aggrs = new ArrayList<>();
+					aggrs = new ArrayList<Integer>();
 					summaryAggrsMap.put(level, aggrs);
 				}
 				aggrs.add(i);
@@ -73,7 +73,6 @@ public class AggrValuesUpdator implements IAggrValueHolder {
 		}
 	}
 
-	@Override
 	public IAggrInfo getAggrInfo(String aggrName) throws DataException {
 		Integer i = aggrIndexMap.get(aggrName);
 		return i == null ? null : aggrInfos[i];
@@ -83,7 +82,6 @@ public class AggrValuesUpdator implements IAggrValueHolder {
 		return aggrIndexMap.get(aggrName) != null;
 	}
 
-	@Override
 	public Object getAggrValue(String name) throws DataException {
 		assert this.populator != null;
 
@@ -98,11 +96,10 @@ public class AggrValuesUpdator implements IAggrValueHolder {
 
 			if (aggrInfo.getAggregation().getType() == IAggrFunction.SUMMARY_AGGR) {
 				// Aggregate on the whole list: there is only one group
-				if (aggrInfo.getGroupLevel() == 0) {
+				if (aggrInfo.getGroupLevel() == 0)
 					groupIndex = 0;
-				} else {
+				else
 					groupIndex = this.getCurrentGroupIndex(aggrInfo.getGroupLevel());
-				}
 			} else {
 				groupIndex = this.getCurrentResultIndex();
 			}
@@ -124,12 +121,10 @@ public class AggrValuesUpdator implements IAggrValueHolder {
 		return this.populator.getResultIterator().getCurrentResultIndex();
 	}
 
-	@Override
 	public List getAggrValues(String name) throws DataException {
 		return this.aggrValues[aggrIndexMap.get(name)];
 	}
 
-	@Override
 	public Set<String> getAggrNames() throws DataException {
 		return this.aggrIndexMap.keySet();
 	}
@@ -145,9 +140,8 @@ public class AggrValuesUpdator implements IAggrValueHolder {
 		List<Integer> lv0Idxs = summaryAggrsMap.get(0);
 		for (int i = 0; lv0Idxs != null && i < lv0Idxs.size(); i++) {
 			int id = lv0Idxs.get(i);
-			if (this.aggrValues[id].size() <= 0) {
+			if (this.aggrValues[id].size() <= 0)
 				this.aggrValues[id].add(this.oldAggrValues[id].get(0));
-			}
 		}
 	}
 

@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -48,9 +48,9 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void productCatalogTest() throws BirtException, IOException {
 
-		InputStream inputStream = runAndRenderSampleReport(
-				"samplereports/Solution Reports/Listing/ProductCatalog.rptdesign", "xlsx");
-		if (inputStream != null) {
+		InputStream inputStream = null;
+		if ((inputStream = runAndRenderSampleReport("samplereports/Solution Reports/Listing/ProductCatalog.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -62,12 +62,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void cascadeTest() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Cascaded Parameter Report/cascade.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Cascaded Parameter Report/cascade.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -79,12 +79,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void customerOrdersFinal() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Combination Chart/CustomerOrdersFinal.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Combination Chart/CustomerOrdersFinal.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -96,12 +96,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void crosstabSampleRevenue() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Cross tab/CrosstabSampleRevenue.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Cross tab/CrosstabSampleRevenue.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -113,12 +113,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void orderDetailAfter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Drill to Details/OrderDetailAfter.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Drill to Details/OrderDetailAfter.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -130,12 +130,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void orderMasterAfter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Drill to Details/OrderMasterAfter.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Drill to Details/OrderMasterAfter.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -147,13 +147,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void parameterToDataSetParameter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
+		if ((inputStream = runAndRenderSampleReport(
 				"samplereports/Reporting Feature Examples/Dynamic Report Parameter/ParameterToDataSetParameter.rptdesign",
-				"xlsx");
-		if (inputStream != null) {
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -169,12 +168,12 @@ public class SampleReportsTest extends ReportRunner {
 		 * The nested table has a bunch of leading empty cells.
 		 */
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Drill to Details/MasterDetailOneReport.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Drill to Details/MasterDetailOneReport.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -186,12 +185,11 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void expressions() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Expressions/Expressions.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Expressions/Expressions.rptdesign", "xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -203,12 +201,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void customerListAfterGrouping() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Grouping/CustomerListAfter_Grouping.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Grouping/CustomerListAfter_Grouping.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -220,13 +218,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void productListAfter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
+		if ((inputStream = runAndRenderSampleReport(
 				"samplereports/Reporting Feature Examples/Highlighting and Conditional Formatting/ProductListAfter.rptdesign",
-				"xlsx");
-		if (inputStream != null) {
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -251,13 +248,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void customerListAfterMapping() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
+		if ((inputStream = runAndRenderSampleReport(
 				"samplereports/Reporting Feature Examples/Mapping and Sorting/CustomerListAfter_Mapping.rptdesign",
-				"xlsx");
-		if (inputStream != null) {
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -269,12 +265,11 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void employeeAfter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Parallel Report/EmployeeAfter.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Parallel Report/EmployeeAfter.rptdesign", "xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -286,12 +281,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void queryModificationNullParameter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Query Modification/NullParameter.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Query Modification/NullParameter.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -303,12 +298,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void queryModificationOrderDetailsAfter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Query Modification/OrderDetailsAfter.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Query Modification/OrderDetailsAfter.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -320,12 +315,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void productLinesAfter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Report Elements/ProductLinesAfter.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Report Elements/ProductLinesAfter.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -337,12 +332,12 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void sortTableByReportParameter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Sorting/SortTableByReportParameter.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Sorting/SortTableByReportParameter.rptdesign",
+				"xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -354,12 +349,11 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void subReportOrdersAfter() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/Sub Report/OrdersAfter.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/Sub Report/OrdersAfter.rptdesign", "xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -371,12 +365,11 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void xmlDataSource() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport(
-				"samplereports/Reporting Feature Examples/XML Data Source/XMLDS_After.rptdesign", "xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Reporting Feature Examples/XML Data Source/XMLDS_After.rptdesign", "xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {
@@ -388,12 +381,11 @@ public class SampleReportsTest extends ReportRunner {
 	@Test
 	public void salesInvoice() throws BirtException, IOException {
 
-		InputStream inputStream;
+		InputStream inputStream = null;
 		parameters.put("customer", 103);
 		parameters.put("order", 10123);
-		inputStream = runAndRenderSampleReport("samplereports/Solution Reports/Business Forms/SalesInvoice.rptdesign",
-				"xlsx");
-		if (inputStream != null) {
+		if ((inputStream = runAndRenderSampleReport(
+				"samplereports/Solution Reports/Business Forms/SalesInvoice.rptdesign", "xlsx")) != null) {
 			try {
 				assertNotNull(inputStream);
 			} finally {

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -51,7 +51,7 @@ import org.eclipse.swt.widgets.Display;
 import com.ibm.icu.text.NumberFormat;
 
 /**
- *
+ * 
  */
 public class ChartReportItemUIImpl extends ReportItemFigureProvider {
 
@@ -61,16 +61,15 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider {
 	 * This map is used to keep one listener instance for each handle. So the
 	 * listener will be added only once in handle
 	 */
-	private static Map<DesignElementHandle, Listener> listenerMap = new HashMap<>();
+	private static Map<DesignElementHandle, Listener> listenerMap = new HashMap<DesignElementHandle, Listener>();
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.extensions.IReportItemUI#getFigure(org.
 	 * eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	@Override
 	public final IFigure createFigure(final ExtendedItemHandle eih) {
 		try {
 			eih.loadExtendedElement();
@@ -99,11 +98,10 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider {
 								.getElementProperty(ChartReportItemConstants.PROPERTY_HOST_CHART);
 						// If old plot chart is deleted or not same with
 						// hostChart instance, try to update it here.
-						if (oldPlotChart == null || !oldPlotChart.equals(eih)) {
+						if (oldPlotChart == null || !oldPlotChart.equals(eih))
 							// Update the handle property in async process
 							Display.getCurrent().asyncExec(new Runnable() {
 
-								@Override
 								public void run() {
 									try {
 										axisChart.setProperty(ChartReportItemConstants.PROPERTY_HOST_CHART, eih);
@@ -114,7 +112,6 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider {
 									}
 								}
 							});
-						}
 					}
 				}
 			} else if (ChartCubeUtil.isAxisChart(eih)) {
@@ -160,13 +157,12 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.extensions.IReportItemUI#updateFigure(org
 	 * .eclipse.birt.report.model.api.ExtendedItemHandle,
 	 * org.eclipse.draw2d.IFigure)
 	 */
-	@Override
 	public final void updateFigure(final ExtendedItemHandle eih, final IFigure ifg) {
 		try {
 			eih.loadExtendedElement();
@@ -259,13 +255,12 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.extensions.IReportItemUI#disposeFigure(
 	 * org.eclipse.birt.report.model.api.ExtendedItemHandle,
 	 * org.eclipse.draw2d.IFigure)
 	 */
-	@Override
 	public final void disposeFigure(ExtendedItemHandle eih, IFigure ifg) {
 		logger.log(ILogger.INFORMATION, Messages.getString("ChartReportItemUIImpl.log.ReceivedNotification")); //$NON-NLS-1$
 		((DesignerRepresentation) ifg).dispose();
@@ -280,7 +275,6 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider {
 
 		Listener listener = new Listener() {
 
-			@Override
 			public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 				if (ev instanceof ContentEvent) {
 					ContentEvent cv = (ContentEvent) ev;

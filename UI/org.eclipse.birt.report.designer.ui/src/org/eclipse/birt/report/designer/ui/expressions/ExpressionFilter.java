@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * A filter that used by expression provider to extract a subset of elements
- *
+ * 
  * @since 2.5
  */
 public abstract class ExpressionFilter {
@@ -45,7 +45,7 @@ public abstract class ExpressionFilter {
 	 * element in the array, and returns only those elements for which
 	 * <code>select</code> returns <code>true</code>.
 	 * </p>
-	 *
+	 * 
 	 * @param parent   the parent element
 	 * @param elements the elements to filter
 	 * @return the filtered elements
@@ -56,7 +56,7 @@ public abstract class ExpressionFilter {
 		}
 
 		int size = elements.length;
-		List<Object> out = new ArrayList<>(size);
+		List<Object> out = new ArrayList<Object>(size);
 		for (int i = 0; i < size; ++i) {
 			Object element = elements[i];
 			if (select(parent, element)) {
@@ -68,7 +68,7 @@ public abstract class ExpressionFilter {
 
 	/**
 	 * Returns whether the given element makes it through this filter.
-	 *
+	 * 
 	 * @param parentElement the parent element,or CATEGORY if want to filter the
 	 *                      categroy list
 	 * @param element       the element

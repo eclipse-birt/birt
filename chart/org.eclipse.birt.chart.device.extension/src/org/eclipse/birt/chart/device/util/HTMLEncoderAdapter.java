@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +16,7 @@ package org.eclipse.birt.chart.device.util;
 
 /**
  * This class is responsible to encode/decode special characters for HTML.
- *
+ * 
  * @since 2.6
  */
 
@@ -26,7 +26,7 @@ public class HTMLEncoderAdapter implements ICharacterEncoderAdapter {
 
 	/**
 	 * Returns instance of this class.
-	 *
+	 * 
 	 * @return
 	 */
 	public static HTMLEncoderAdapter getInstance() {
@@ -39,17 +39,16 @@ public class HTMLEncoderAdapter implements ICharacterEncoderAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.device.util.ICharacterEncoderAdapter#escape(java.lang.
 	 * String)
 	 */
-	@Override
 	public String escape(String s) {
 		if (s == null) {
 			return ""; //$NON-NLS-1$
 		}
-		StringBuilder result = null;
+		StringBuffer result = null;
 		char[] s2char = s.toCharArray();
 
 		for (int i = 0, max = s2char.length, delta = 0; i < max; i++) {
@@ -77,7 +76,7 @@ public class HTMLEncoderAdapter implements ICharacterEncoderAdapter {
 			}
 			if (replacement != null) {
 				if (result == null) {
-					result = new StringBuilder(s);
+					result = new StringBuffer(s);
 				}
 				result.replace(i + delta, i + delta + 1, replacement);
 				delta += (replacement.length() - 1);
@@ -91,17 +90,15 @@ public class HTMLEncoderAdapter implements ICharacterEncoderAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.util.ICharacterEncoderAdapter#
 	 * transformToJsConstants(java.lang.String)
 	 */
-	@Override
 	public String transformToJsConstants(String s) {
-		if (s == null) {
+		if (s == null)
 			return null;
-		}
 
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		int length = s.length();
 		for (int i = 0; i < length; i++) {
 			char c = s.charAt(i);

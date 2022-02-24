@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -55,7 +55,7 @@ public final class BubbleEntry extends NumberDataPointEntry {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param value value could be any type or null. Value will represent a category
 	 *              entry with the specified index.
 	 * @param size  size could be Number or null. Null means this entry will be
@@ -69,7 +69,7 @@ public final class BubbleEntry extends NumberDataPointEntry {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param value value could be Number, String, CDateTime or null. Null means
 	 *              this entry will be omitted.
 	 * @param size  size could be Number or null. Null means this entry will be
@@ -105,10 +105,9 @@ public final class BubbleEntry extends NumberDataPointEntry {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
 	public String toString() {
 		return getFormattedString(null, ULocale.getDefault());
 	}
@@ -116,7 +115,7 @@ public final class BubbleEntry extends NumberDataPointEntry {
 	/**
 	 * @return Returns the Object value.
 	 */
-	public Object getValue() {
+	public final Object getValue() {
 		if (index > 0) {
 			return Integer.valueOf(index);
 		}
@@ -126,7 +125,7 @@ public final class BubbleEntry extends NumberDataPointEntry {
 	/**
 	 * @param value The value to set.
 	 */
-	public void setValue(Object value) {
+	public final void setValue(Object value) {
 		this.oValue = value;
 		if (NumberUtil.isBigNumber(value)) {
 			bIsBigNumber = true;
@@ -139,11 +138,11 @@ public final class BubbleEntry extends NumberDataPointEntry {
 	/**
 	 * @return Returns the size.
 	 */
-	public double getSize() {
+	public final double getSize() {
 		return bIsBigNumber ? bnSize.doubleValue() : dSize;
 	}
 
-	public Number getSizeNumber() {
+	public final Number getSizeNumber() {
 		if (bIsBigNumber) {
 			return bnSize;
 		} else if (bIsBigDecimal) {
@@ -155,11 +154,11 @@ public final class BubbleEntry extends NumberDataPointEntry {
 	/**
 	 * @param end The size to set.
 	 */
-	public void setSize(double dSize) {
+	public final void setSize(double dSize) {
 		this.dSize = dSize;
 	}
 
-	public void setSize(Number size) {
+	public final void setSize(Number size) {
 		if (NumberUtil.isBigNumber(size)) {
 			this.dSize = ((BigNumber) size).doubleValue();
 			this.bnSize = (BigNumber) size;
@@ -169,7 +168,6 @@ public final class BubbleEntry extends NumberDataPointEntry {
 		this.setSize(size.doubleValue());
 	}
 
-	@Override
 	public String getFormattedString(String type, FormatSpecifier formatter, ULocale locale) {
 		String str = null;
 		try {
@@ -190,7 +188,6 @@ public final class BubbleEntry extends NumberDataPointEntry {
 		return str;
 	}
 
-	@Override
 	public String getFormattedString(FormatSpecifier formatter, ULocale locale) {
 		String strSize = bIsBigNumber ? String.valueOf(bnSize) : String.valueOf(dSize);
 		if (formatter instanceof NumberFormatSpecifier || formatter instanceof JavaNumberFormatSpecifier
@@ -215,7 +212,6 @@ public final class BubbleEntry extends NumberDataPointEntry {
 		return "Y" + strValue + " S" + strSize; //$NON-NLS-1$//$NON-NLS-2$
 	}
 
-	@Override
 	public boolean isValid() {
 		if (!bIsBigNumber) {
 			return getValue() != null && !Double.isNaN(dSize) && dSize != 0;
@@ -225,7 +221,7 @@ public final class BubbleEntry extends NumberDataPointEntry {
 
 	/**
 	 * Checks if the value is big number.
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isBigNumber() {
@@ -234,7 +230,7 @@ public final class BubbleEntry extends NumberDataPointEntry {
 
 	/**
 	 * Returns divisor of big number.
-	 *
+	 * 
 	 * @return
 	 */
 	public BigDecimal getDivisor() {
@@ -243,7 +239,7 @@ public final class BubbleEntry extends NumberDataPointEntry {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.NumberDataPointEntry#setNumberData(java.lang.
 	 * Number[])
@@ -259,7 +255,7 @@ public final class BubbleEntry extends NumberDataPointEntry {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.datafeed.NumberDataPointEntry#getNumberData()
 	 */
 	@Override
@@ -274,7 +270,7 @@ public final class BubbleEntry extends NumberDataPointEntry {
 		}
 
 		if (oValue instanceof Number) {
-			return new Double[] { ((Number) oValue).doubleValue(), dSize };
+			return new Double[] { Double.valueOf(((Number) oValue).doubleValue()), Double.valueOf(dSize) };
 		}
 		return null;
 	}

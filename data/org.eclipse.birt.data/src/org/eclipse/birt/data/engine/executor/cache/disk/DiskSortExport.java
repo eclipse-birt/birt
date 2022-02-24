@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,6 @@ class DiskSortExport extends DiskDataExport {
 	 * @see org.eclipse.birt.data.engine.executor.resultset.DataBaseExport#
 	 * exportStartDataToDisk(org.eclipse.birt.data.engine.executor.ResultObject[])
 	 */
-	@Override
 	public void exportStartDataToDisk(IResultObject[] resultObjects) throws IOException, DataException {
 		dataCountOfTotal = innerExportStartData(resultObjects);
 	}
@@ -60,7 +59,6 @@ class DiskSortExport extends DiskDataExport {
 	 * exportRestDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject,
 	 * org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
-	@Override
 	public int exportRestDataToDisk(IResultObject resultObject, IRowResultSet rs, int maxRos)
 			throws DataException, IOException {
 		// sort the raw data to unit
@@ -83,7 +81,6 @@ class DiskSortExport extends DiskDataExport {
 	 * @see
 	 * org.eclipse.birt.data.engine.executor.cache.DataBaseExport#getRowIterator()
 	 */
-	@Override
 	public IRowIterator getRowIterator() {
 		return null;
 	}
@@ -91,7 +88,6 @@ class DiskSortExport extends DiskDataExport {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#close()
 	 */
-	@Override
 	public void close() {
 		// do nothing
 	}
@@ -101,7 +97,6 @@ class DiskSortExport extends DiskDataExport {
 	 * org.eclipse.birt.sort4.DataBaseExport#outputRowsUnit(org.eclipse.birt.sort4.
 	 * RowData[], int)
 	 */
-	@Override
 	protected void outputResultObjects(IResultObject[] resultObjects, int indexOfUnit)
 			throws IOException, DataException {
 		mergeSortUti.sortSelf(resultObjects);
@@ -114,9 +109,8 @@ class DiskSortExport extends DiskDataExport {
 	 */
 	private int getMergeCount() {
 		int mergeCount = dataCountOfTotal / dataCountOfUnit;
-		if (dataCountOfTotal % dataCountOfUnit != 0) {
+		if (dataCountOfTotal % dataCountOfUnit != 0)
 			mergeCount++;
-		}
 
 		if (dataCountOfUnit < mergeCount) {
 			// normally this case will never happen
@@ -133,7 +127,7 @@ class DiskSortExport extends DiskDataExport {
 
 	/**
 	 * Merge sort on units
-	 *
+	 * 
 	 * @param dataProvider
 	 * @param startIndex
 	 * @param stopSign
@@ -145,22 +139,19 @@ class DiskSortExport extends DiskDataExport {
 		int[] endIndexArray = new int[mergeCount];
 
 		for (int i = 0; i < mergeCount; i++) {
-			if (i == 0) {
+			if (i == 0)
 				startIndexArray[i] = 0;
-			} else {
+			else
 				startIndexArray[i] = endIndexArray[i - 1];
-			}
 
 			endIndexArray[i] = startIndexArray[i] + dataCountOfUnit;
-			if (endIndexArray[i] > dataCountOfTotal) {
+			if (endIndexArray[i] > dataCountOfTotal)
 				endIndexArray[i] = dataCountOfTotal;
-			}
 		}
 
 		int[] tempBeginIndex = new int[mergeCount];
-		for (int i = 0; i < mergeCount; i++) {
+		for (int i = 0; i < mergeCount; i++)
 			tempBeginIndex[i] = startIndexArray[i];
-		}
 
 		int currData = 0;
 		int totalData = endIndexArray[mergeCount - 1] - startIndexArray[0];
@@ -171,30 +162,26 @@ class DiskSortExport extends DiskDataExport {
 		while (currData < totalData) {
 			for (int i = 0; i < mergeCount; i++) {
 				int tempEndIndex = tempBeginIndex[i] + dataCountOfMergeUnit;
-				if (tempEndIndex > endIndexArray[i]) {
+				if (tempEndIndex > endIndexArray[i])
 					tempEndIndex = endIndexArray[i];
-				}
 
 				resultObjects[i] = dataProvider.readData(tempBeginIndex[i], tempEndIndex);
-				if (this.session.getStopSign().isStopped()) {
+				if (this.session.getStopSign().isStopped())
 					return;
-				}
 			}
 
 			// merge
 			int length = 0;
-			for (int i = 0; i < mergeCount; i++) {
+			for (int i = 0; i < mergeCount; i++)
 				length += resultObjects[i].length;
-			}
 			IResultObject[] mergedRowDatas = new IResultObject[length];
 
 			MergeSortInfo mergeInfo = mergeSortUti.mergeSort(resultObjects, mergedRowDatas, session);
 			dataProvider.writeData(SortDataProvider.SORT_MERGE, currData, mergedRowDatas,
 					mergeInfo.getDataCountOfTotal());
 
-			for (int i = 0; i < mergeCount; i++) {
+			for (int i = 0; i < mergeCount; i++)
 				tempBeginIndex[i] += mergeInfo.getDataCountOfUnit(i);
-			}
 
 			currData += mergeInfo.getDataCountOfTotal();
 		}

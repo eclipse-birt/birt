@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -64,7 +64,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 	 * The cached value of the '{@link #getNegativeMarkers() <em>Negative
 	 * Markers</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getNegativeMarkers()
 	 * @generated
 	 * @ordered
@@ -75,7 +75,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 	 * The cached value of the '{@link #getNegativeLineAttributes() <em>Negative
 	 * Line Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getNegativeLineAttributes()
 	 * @generated
 	 * @ordered
@@ -84,7 +84,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected DifferenceSeriesImpl() {
@@ -93,7 +93,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -103,13 +103,12 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<Marker> getNegativeMarkers() {
 		if (negativeMarkers == null) {
-			negativeMarkers = new EObjectContainmentEList<>(Marker.class, this,
+			negativeMarkers = new EObjectContainmentEList<Marker>(Marker.class, this,
 					TypePackage.DIFFERENCE_SERIES__NEGATIVE_MARKERS);
 		}
 		return negativeMarkers;
@@ -117,17 +116,16 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LineAttributes getNegativeLineAttributes() {
 		return negativeLineAttributes;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetNegativeLineAttributes(LineAttributes newNegativeLineAttributes,
@@ -138,46 +136,40 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES, oldNegativeLineAttributes,
 					newNegativeLineAttributes);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setNegativeLineAttributes(LineAttributes newNegativeLineAttributes) {
 		if (newNegativeLineAttributes != negativeLineAttributes) {
 			NotificationChain msgs = null;
-			if (negativeLineAttributes != null) {
+			if (negativeLineAttributes != null)
 				msgs = ((InternalEObject) negativeLineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES, null, msgs);
-			}
-			if (newNegativeLineAttributes != null) {
+			if (newNegativeLineAttributes != null)
 				msgs = ((InternalEObject) newNegativeLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES, null, msgs);
-			}
 			msgs = basicSetNegativeLineAttributes(newNegativeLineAttributes, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES, newNegativeLineAttributes,
 					newNegativeLineAttributes));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -193,7 +185,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -209,7 +201,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -229,7 +221,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -247,7 +239,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -263,28 +255,26 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#canBeStacked()
 	 */
-	@Override
 	public boolean canBeStacked() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#
 	 * canParticipateInCombination()
 	 */
-	@Override
 	public boolean canParticipateInCombination() {
 		return false;
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 *
+	 * 
 	 * @return series instance
 	 */
 	public static final Series create() {
@@ -295,10 +285,9 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
 	 */
-	@Override
 	protected void initialize() {
 		super.initialize();
 
@@ -323,7 +312,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 *
+	 * 
 	 * @return series instance
 	 */
 	public static final Series createDefault() {
@@ -334,10 +323,9 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
 	 */
-	@Override
 	protected void initDefault() {
 		super.initDefault();
 
@@ -356,10 +344,9 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("DifferenceSeriesImpl.displayName"); //$NON-NLS-1$
 	}
@@ -367,7 +354,6 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 	/**
 	 * @generated
 	 */
-	@Override
 	public DifferenceSeries copyInstance() {
 		DifferenceSeriesImpl dest = new DifferenceSeriesImpl();
 		dest.set(this);

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2008 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -36,7 +36,7 @@ import org.eclipse.birt.report.resource.ResourceConstants;
  * call to createSession().</li>
  * <li>After a given BIRT viewing session count threshold has been reached.
  * After each cleanup, the session count threshold will be increased using the
- * following formula: <code>sessionCountThreshold = remainingSessionsCount +
+ * following formula: <code>sessionCountThreshold = remainingSessionsCount + 
  * remainingSessionsCount * sessionCountThreshold</code>. The
  * remainingSessionsCount is the number of sessions that remain after cleanup.
  * If the result of this calculation is smaller than
@@ -92,27 +92,22 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 			return session;
 		}
 
-		@Override
 		public String getCachedReportDocument(String reportFile, String viewerId) {
 			return session.getCachedReportDocument(reportFile, viewerId);
 		}
 
-		@Override
 		public String getId() {
 			return session.getId();
 		}
 
-		@Override
 		public String getImageTempFolder() {
 			return session.getImageTempFolder();
 		}
 
-		@Override
 		public Date getLastAccess() {
 			return session.getLastAccess();
 		}
 
-		@Override
 		public void invalidate() {
 			synchronized (manager) {
 				session.invalidate();
@@ -121,29 +116,24 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 			}
 		}
 
-		@Override
 		public boolean isExpired() {
 			return session.isExpired();
 		}
 
-		@Override
 		public boolean isLocked() {
 			return session.isLocked();
 		}
 
-		@Override
 		public void lock() {
 			session.lock();
 		}
 
-		@Override
 		public void unlock() {
 			session.unlock();
 			manager.refreshSession(session);
 			manager.cleanUp();
 		}
 
-		@Override
 		public void refresh() {
 			manager.refreshSession(session);
 		}
@@ -151,7 +141,7 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 
 	/**
 	 * Instantiates a new viewing session manager.
-	 *
+	 * 
 	 * @param viewingCache  viewing cache instance
 	 * @param httpSessionId HTTP session ID
 	 * @param config        viewing session configuration
@@ -163,7 +153,7 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 		this.sessionCountThreshold = config.getMinimumSessionCountThreshold();
 
 		// using LinkedHashMap to keep the insertion order and access time (LRU)
-		this.sessions = new LinkedHashMap<>(config.getMinimumSessionCountThreshold(),
+		this.sessions = new LinkedHashMap<String, IViewingSession>(config.getMinimumSessionCountThreshold(),
 				config.getSessionCountThresholdFactor(), true);
 		this.expired = false;
 		this.nextCleanupTime = new Date().getTime() + config.getSessionTimeout() * 1000l;
@@ -171,7 +161,7 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 
 	/**
 	 * Returns the cache manager used by this manager.
-	 *
+	 * 
 	 * @return the cacheManager
 	 */
 	public ViewingCache getCacheManager() {
@@ -181,7 +171,6 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSessionManager#getHttpSessionId()
 	 */
-	@Override
 	public String getHttpSessionId() {
 		return httpSessionId;
 	}
@@ -189,7 +178,6 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSessionManager#createSession()
 	 */
-	@Override
 	public synchronized IViewingSession createSession() throws ViewerException {
 		checkExpired();
 		cleanUp();
@@ -217,7 +205,6 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 	 * @see org.eclipse.birt.report.session.IViewingSessionManager#getSession(java
 	 *      .lang.String)
 	 */
-	@Override
 	public synchronized IViewingSession getSession(String id) {
 		checkExpired();
 
@@ -231,7 +218,6 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSessionManager#invalidate()
 	 */
-	@Override
 	public synchronized void invalidate() {
 		if (expired) {
 			return;
@@ -258,7 +244,7 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 	/**
 	 * Refreshes the given session by calling its refresh() method and by updating
 	 * the internal map order.
-	 *
+	 * 
 	 * @param session viewing session
 	 */
 	private synchronized void refreshSession(IViewingSession session) {
@@ -270,7 +256,7 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 
 	/**
 	 * Removes a session id from the map.
-	 *
+	 * 
 	 * @param id session id
 	 */
 	public synchronized void removeSession(String id) {
@@ -280,7 +266,7 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 	/**
 	 * Requests a cleanup operation. The operation is only performed if the session
 	 * count threshold or the timeout value has been reached.
-	 *
+	 * 
 	 * @param sessions sessions
 	 */
 	private synchronized void cleanUp() {
@@ -307,7 +293,7 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 	/**
 	 * Checks whether there are existing sessions that have expired and clean them
 	 * up accordingly.
-	 *
+	 * 
 	 * @param sessions sessions
 	 */
 	private synchronized void doCleanup() {
@@ -353,7 +339,7 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 
 	/**
 	 * Asserts that the session has not expired.
-	 *
+	 * 
 	 * @throws ViewingSessionExpiredException
 	 */
 	private void checkExpired() {
@@ -366,14 +352,12 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 	/**
 	 * @see javax.servlet.http.HttpSessionBindingListener#valueBound(javax.servlet.http.HttpSessionBindingEvent)
 	 */
-	@Override
 	public void valueBound(HttpSessionBindingEvent event) {
 	}
 
 	/**
 	 * @see javax.servlet.http.HttpSessionBindingListener#valueUnbound(javax.servlet.http.HttpSessionBindingEvent)
 	 */
-	@Override
 	public void valueUnbound(HttpSessionBindingEvent event) {
 		synchronized (this) {
 			if (!expired) {

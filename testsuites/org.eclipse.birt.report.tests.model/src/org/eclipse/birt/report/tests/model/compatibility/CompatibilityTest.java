@@ -1,27 +1,27 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
 package org.eclipse.birt.report.tests.model.compatibility;
 
-import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.tests.model.BaseTestCase;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.tests.model.BaseTestCase;
+
 /**
  * Test Case for Report Compatibility.
- *
- *
+ * 
+ * 
  */
 public class CompatibilityTest extends BaseTestCase {
 
@@ -58,7 +58,6 @@ public class CompatibilityTest extends BaseTestCase {
 		return new TestSuite(CompatibilityTest.class);
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -67,7 +66,7 @@ public class CompatibilityTest extends BaseTestCase {
 	/**
 	 * Test compatibility by openning reports that contain variant features and
 	 * designed in variant release versions
-	 *
+	 * 
 	 * @throws DesignFileException
 	 */
 	public void testOpenFile() throws DesignFileException {

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -77,7 +77,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Axis subtask
- *
+ * 
  */
 public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		implements Listener, SelectionListener, ModifyListener {
@@ -120,7 +120,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	/**
 	 * Returns the axis angle type
-	 *
+	 * 
 	 * @return <code>AngleType.X</code>, <code>AngleType.Y</code> or
 	 *         <code>AngleType.Z</code>
 	 */
@@ -534,11 +534,10 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(txtTitle)) {
 			getAxisForProcessing().getTitle().getCaption().setValue((String) event.data);
@@ -567,7 +566,6 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		return 16;
 	}
 
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		// Detach popup dialog if there's selected button.
 		if (detachPopup(e.widget)) {
@@ -733,8 +731,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	}
 
 	protected void handleFormatBtnSelected() {
-		StringBuilder sAxisTitle = new StringBuilder()
-				.append(Messages.getString("OrthogonalAxisDataSheetImpl.Lbl.OrthogonalAxis")); //$NON-NLS-1$
+		String sAxisTitle = Messages.getString("OrthogonalAxisDataSheetImpl.Lbl.OrthogonalAxis"); //$NON-NLS-1$
 		try {
 			String sTitleString = getTitleValue();
 			int iSeparatorIndex = sTitleString.indexOf(ExternalizedTextEditorComposite.SEPARATOR);
@@ -743,7 +740,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			} else if (iSeparatorIndex == 0) {
 				sTitleString = sTitleString.substring(ExternalizedTextEditorComposite.SEPARATOR.length());
 			}
-			sAxisTitle.append(" (").append(sTitleString).append(")"); //$NON-NLS-1$ //$NON-NLS-2$
+			sAxisTitle += " (" + sTitleString + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (NullPointerException e1) {
 		}
 
@@ -752,12 +749,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			formatspecifier = getAxisForProcessing().getFormatSpecifier();
 		}
 		getContext().getUIServiceProvider().getFormatSpecifierHandler().handleFormatSpecifier(cmpContent.getShell(),
-				sAxisTitle.toString(), new AxisType[] { getAxisForProcessing().getType() }, formatspecifier,
+				sAxisTitle, new AxisType[] { getAxisForProcessing().getType() }, formatspecifier,
 				getAxisForProcessing(), "formatSpecifier", //$NON-NLS-1$
 				getContext());
 	}
 
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}
@@ -803,7 +799,6 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		return iTmp;
 	}
 
-	@Override
 	public void modifyText(ModifyEvent e) {
 		if (e.widget == lneLabelSpan) {
 			getAxisForProcessing().setLabelSpan(lneLabelSpan.getValue());

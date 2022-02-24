@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,18 +18,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- *
+ * 
  */
 public class HighlightDesign {
 
 	/**
 	 * rules in this highlight
 	 */
-	protected ArrayList<HighlightRuleDesign> rules = new ArrayList<>();
+	protected ArrayList<HighlightRuleDesign> rules = new ArrayList<HighlightRuleDesign>();
 
 	/**
 	 * get rule count.
-	 *
+	 * 
 	 * @return rule count
 	 */
 	public int getRuleCount() {
@@ -38,7 +38,7 @@ public class HighlightDesign {
 
 	/**
 	 * add rule into this hightlight.
-	 *
+	 * 
 	 * @param rule rule to be added
 	 */
 	public void addRule(HighlightRuleDesign rule) {
@@ -51,7 +51,7 @@ public class HighlightDesign {
 
 	/**
 	 * get rule at index.
-	 *
+	 * 
 	 * @param index index of the rule
 	 * @return rule defined in this hightlight
 	 */

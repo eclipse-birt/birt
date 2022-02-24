@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,14 +27,13 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * TOC expresion page.
- *
+ * 
  */
 public class TOCExpressionPage extends AttributePage {
 
 	TocSimpleComboSection styleSection;
 	ExpressionSection tocSection;
 
-	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
 		container.setLayout(WidgetUtil.createGridLayout(2, 15));
@@ -59,7 +58,6 @@ public class TOCExpressionPage extends AttributePage {
 		final Text text = tocSection.getExpressionControl().getTextControl();
 		text.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				if (text.getText().length() == 0) {
 					styleSection.getSimpleComboControl().getControl().setEnabled(false);
@@ -81,7 +79,6 @@ public class TOCExpressionPage extends AttributePage {
 	 * !propertyHandle.isReadOnly( ) ); } } super.refresh( ); }
 	 */
 
-	@Override
 	public void refresh() {
 		super.refresh();
 		checkTocStyleEnable();

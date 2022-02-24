@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
- *
+ * 
  */
 public class BinaryTreeResultObjectSeeker implements IMatchResultObjectSeeker {
 	private int joinType;
@@ -56,9 +56,9 @@ public class BinaryTreeResultObjectSeeker implements IMatchResultObjectSeeker {
 		}
 		int startingIndex = 0;
 		for (int i = 0; i < size; i++) {
-			if (startingIndex >= count) {
+			if (startingIndex >= count)
 				break;
-			} else {
+			else {
 				Object[] min = matcher.getCompareValue(this.joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN);
 				Object[] max = null;
 				int start = startingIndex;
@@ -71,15 +71,13 @@ public class BinaryTreeResultObjectSeeker implements IMatchResultObjectSeeker {
 					while (JointDataSetUtil.compare(
 							matcher.getCompareValue(this.joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN), max) == 0) {
 						startingIndex++;
-						if (cache.fetch() == null) {
+						if (cache.fetch() == null)
 							break;
-						}
 					}
-					if (startingIndex < count) {
+					if (startingIndex < count)
 						cache.moveTo(startingIndex);
-					} else {
+					else
 						cache.moveTo(count - 1);
-					}
 				} else {
 					cache.moveTo(count - 1);
 					max = matcher.getCompareValue(this.joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN);
@@ -93,32 +91,27 @@ public class BinaryTreeResultObjectSeeker implements IMatchResultObjectSeeker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.jointdataset.IMatchResultObjectSeeker#
 	 * getNextMatchedResultObject(int)
 	 */
-	@Override
 	public IResultObject getNextMatchedResultObject(int primaryIndex) throws DataException {
 		Object[] o = matcher.getCompareValue(!(this.joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN));
 		SegmentInfo n = helper.search(o);
-		if (n == null) {
+		if (n == null)
 			return null;
-		}
 		if (this.currentPrimaryIndex != primaryIndex) {
 			this.secondaryIterator.getResultSetCache().moveTo(n.getStartingIndex());
 			this.currentPrimaryIndex = primaryIndex;
-		} else {
+		} else
 			this.secondaryIterator.next();
-		}
 		do {
-			if (this.secondaryIterator.getCurrentResult() != null && matcher.match()) {
+			if (this.secondaryIterator.getCurrentResult() != null && matcher.match())
 				return this.secondaryIterator.getCurrentResult();
-			}
 		} while (this.secondaryIterator.getCurrentResultIndex() <= n.getEndingIndex() && this.secondaryIterator.next());
 		return null;
 	}
 
-	@Override
 	public void setResultIterator(IResultIterator ri) throws DataException {
 		this.secondaryIterator = ri;
 		helper = new BinaryTreeROSeekerHelper(getNodeArray());
@@ -140,7 +133,7 @@ class SegmentInfo {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param minValue
 	 * @param maxValue
 	 * @param startingIndex
@@ -155,7 +148,7 @@ class SegmentInfo {
 
 	/**
 	 * The starting index.
-	 *
+	 * 
 	 * @return
 	 */
 	int getStartingIndex() {
@@ -164,7 +157,7 @@ class SegmentInfo {
 
 	/**
 	 * The ending Index(inclusive).
-	 *
+	 * 
 	 * @return
 	 */
 	int getEndingIndex() {
@@ -173,7 +166,7 @@ class SegmentInfo {
 
 	/**
 	 * The maxium value.
-	 *
+	 * 
 	 * @return
 	 */
 	Object[] getMaxValue() {
@@ -182,7 +175,7 @@ class SegmentInfo {
 
 	/**
 	 * The minimum value.
-	 *
+	 * 
 	 * @return
 	 */
 	Object[] getMinValue() {

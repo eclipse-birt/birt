@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +53,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
  * List element edit part.
- *
+ * 
  */
 public class ListEditPart extends ReportElementEditPart {
 
@@ -61,7 +61,7 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param obj
 	 */
 	public ListEditPart(Object obj) {
@@ -70,11 +70,10 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createGuideHandle()
 	 */
-	@Override
 	protected AbstractGuideHandle createGuideHandle() {
 		TableGuideHandle handle = new TableGuideHandle(this);
 		handle.setIndicatorLabel(getGuideLabel());
@@ -90,22 +89,20 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#getGuideLabel()
 	 */
-	@Override
 	public String getGuideLabel() {
 		return GUIDEHANDLE_TEXT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createEditPolicies()
 	 */
-	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ReportContainerEditPolicy());
@@ -114,11 +111,10 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
-	@Override
 	public void refreshFigure() {
 		refreshBorder(getListHandleAdapt().getHandle(), (BaseBorder) getFigure().getBorder());
 		((ListFigure) getFigure()).setRecommendSize(getListHandleAdapt().getSize());
@@ -136,11 +132,10 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#notifyModelChange()
 	 */
-	@Override
 	public void notifyModelChange() {
 		super.notifyModelChange();
 		markDirty();
@@ -159,10 +154,9 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
-	@Override
 	public void refreshChildren() {
 		super.refreshChildren();
 		List list = getChildren();
@@ -174,10 +168,9 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	@Override
 	protected IFigure createFigure() {
 		ListFigure figure = new ListFigure();
 		figure.setOpaque(false);
@@ -187,11 +180,10 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#getModelChildren()
 	 */
-	@Override
 	protected List getModelChildren() {
 		return getListHandleAdapt().getChildren();
 	}
@@ -209,7 +201,7 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/**
 	 * Insert group in list element
-	 *
+	 * 
 	 * @param position insert position
 	 */
 	public boolean insertGroup(int position) {
@@ -218,7 +210,7 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/**
 	 * Remove group
-	 *
+	 * 
 	 * @param group
 	 */
 	public void removeGroup(Object group) {
@@ -231,7 +223,7 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/**
 	 * Check if inlucde header/footer
-	 *
+	 * 
 	 * @param bool
 	 * @param id
 	 */
@@ -246,7 +238,7 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/**
 	 * Check if inlucde header/footer
-	 *
+	 * 
 	 * @param id
 	 */
 	public boolean isIncludeSlotHandle(int id) {
@@ -258,7 +250,6 @@ public class ListEditPart extends ReportElementEditPart {
 		return part.isRenderVisile();
 	}
 
-	@Override
 	public void showTargetFeedback(Request request) {
 		if (this.getSelected() == 0 && isActive() && request.getType() == RequestConstants.REQ_SELECTION) {
 			if (isFigureLeft(request)) {
@@ -270,7 +261,6 @@ public class ListEditPart extends ReportElementEditPart {
 		super.showTargetFeedback(request);
 	}
 
-	@Override
 	public void eraseTargetFeedback(Request request) {
 		if (isActive()) {
 			this.getViewer().setCursor(null);
@@ -278,7 +268,6 @@ public class ListEditPart extends ReportElementEditPart {
 		super.eraseTargetFeedback(request);
 	}
 
-	@Override
 	protected void addChildVisual(EditPart part, int index) {
 		// make sure we don't keep a select cell cursor after new contents
 		// are added
@@ -288,11 +277,10 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
-	@Override
 	public boolean isinterest(Object model) {
 		if (model instanceof ListGroupHandle) {
 			if (getModelAdapter().isChildren((DesignElementHandle) model)) {
@@ -304,11 +292,10 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#contentChange(java.util.Map)
 	 */
-	@Override
 	protected void contentChange(Map info) {
 		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE);
 		if (action instanceof Integer) {
@@ -330,11 +317,10 @@ public class ListEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
-	@Override
 	public EditPolicy getResizePolice(EditPolicy parentPolice) {
 		return new ReportElementNonResizablePolicy();
 	}

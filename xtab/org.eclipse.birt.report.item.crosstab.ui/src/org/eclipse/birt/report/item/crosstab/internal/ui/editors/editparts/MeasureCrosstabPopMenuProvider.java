@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,14 +38,14 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 
 /**
- *
+ * 
  */
 
 public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param viewer
 	 */
 	public MeasureCrosstabPopMenuProvider(EditPartViewer viewer) {
@@ -54,12 +54,11 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action
 	 * .IMenuManager)
 	 */
-	@Override
 	public void buildContextMenu(IMenuManager menu) {
 		if (getElements().size() != 1) {
 			return;
@@ -117,7 +116,7 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the current selection.
-	 *
+	 * 
 	 * @return The current selection
 	 */
 	protected ISelection getSelection() {
@@ -126,7 +125,7 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets element handles.
-	 *
+	 * 
 	 * @return element handles
 	 */
 	protected List getElements() {
@@ -135,7 +134,7 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the current selected object.
-	 *
+	 * 
 	 * @return The current selected object array. If length is one, return the first
 	 */
 	protected Object getSelectedElement() {
@@ -148,7 +147,7 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the first selected object.
-	 *
+	 * 
 	 * @return The first selected object
 	 */
 	protected Object getFirstElement() {

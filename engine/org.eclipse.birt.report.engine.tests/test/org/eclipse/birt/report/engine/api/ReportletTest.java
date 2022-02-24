@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,6 @@ public class ReportletTest extends EngineCase {
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/reportlet.rptdesign";
 	static final String REPORT_DESIGN_RESOURCE2 = "org/eclipse/birt/report/engine/api/reportlet1.rptdesign";
 
-	@Override
 	public void setUp() {
 		removeFile(REPORT_DOCUMENT);
 		removeFile(REPORT_DESIGN);
@@ -40,7 +39,6 @@ public class ReportletTest extends EngineCase {
 		engine = createReportEngine();
 	}
 
-	@Override
 	public void tearDown() {
 		// shut down the engine.
 		engine.shutdown();
@@ -104,7 +102,7 @@ public class ReportletTest extends EngineCase {
 		 * API test on IReportDocument.getPageNumber( InstanceID ) And here only test on
 		 * the first *offset*
 		 */
-		int[] goldenPageNumbers = { 1 };/* is the first page */
+		int[] goldenPageNumbers = new int[] { 1 };/* is the first page */
 		InstanceID iidTemp = (InstanceID) iidList.get(0);
 		assertTrue(goldenPageNumbers[0] == document.getPageNumber(iidTemp));
 		assertTrue(document.getInstanceOffset(iidTemp) != -1);
@@ -219,7 +217,7 @@ public class ReportletTest extends EngineCase {
 
 			IReportRunnable runnable = document.getReportRunnable();
 			ReportDesignHandle report = (ReportDesignHandle) runnable.getDesignHandle();
-			List<InstanceID> result = new ArrayList<>();
+			List<InstanceID> result = new ArrayList<InstanceID>();
 
 			// for all the reportlets
 			String content = ostream.toString("utf-8");

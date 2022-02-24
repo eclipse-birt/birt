@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -87,13 +87,13 @@ import org.xml.sax.SAXException;
 /**
  * Parses one structure. The structure can be either a top level structure on an
  * element or a structure in a list.
- *
+ * 
  */
 
 public class StructureState extends AbstractPropertyState {
 
 	/**
-	 *
+	 * 
 	 */
 
 	protected int lineNumber = 1;
@@ -124,7 +124,7 @@ public class StructureState extends AbstractPropertyState {
 
 	/**
 	 * Constructs the state of the structure which is one property.
-	 *
+	 * 
 	 * @param theHandler the design parser handler
 	 * @param element    the element holding this structure to parse
 	 */
@@ -135,7 +135,7 @@ public class StructureState extends AbstractPropertyState {
 
 	/**
 	 * Constructs the state of the structure which is in one structure list.
-	 *
+	 * 
 	 * @param theHandler   the design parser handler
 	 * @param element      the element holding this structure
 	 * @param propDefn     the definition of the property which holds this structure
@@ -155,7 +155,7 @@ public class StructureState extends AbstractPropertyState {
 
 	/**
 	 * Constructs the state of the structure which is in another structure.
-	 *
+	 * 
 	 * @param theHandler   the design parser handler
 	 * @param element      the element holding this structure
 	 * @param parentStruct the structure that contains the current structure
@@ -169,7 +169,7 @@ public class StructureState extends AbstractPropertyState {
 
 	/**
 	 * Constructs the state of the structure which is in one structure list.
-	 *
+	 * 
 	 * @param theHandler the design parser handler
 	 * @param element    the element holding this structure
 	 * @param propDefn   the definition of the property which holds this structure
@@ -185,7 +185,6 @@ public class StructureState extends AbstractPropertyState {
 		this.name = propDefn.getName();
 	}
 
-	@Override
 	public void setName(String name) {
 		super.setName(name);
 
@@ -195,7 +194,7 @@ public class StructureState extends AbstractPropertyState {
 
 	/**
 	 * Create structure according to struct defn.
-	 *
+	 * 
 	 */
 
 	private void createStructure() {
@@ -211,12 +210,11 @@ public class StructureState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		lineNumber = handler.getCurrentLineNo();
 
@@ -229,9 +227,8 @@ public class StructureState extends AbstractPropertyState {
 
 			if (parentStruct == null) {
 				propDefn = element.getPropertyDefn(name);
-			} else {
+			} else
 				propDefn = (PropertyDefn) parentStruct.getMemberDefn(name);
-			}
 
 		}
 
@@ -246,9 +243,8 @@ public class StructureState extends AbstractPropertyState {
 			} else if (propDefn == null) {
 				if (parentStruct == null) {
 					propDefn = element.getPropertyDefn(name);
-				} else {
+				} else
 					propDefn = (PropertyDefn) parentStruct.getMemberDefn(name);
-				}
 			}
 
 		}
@@ -265,60 +261,52 @@ public class StructureState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
-	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
-		if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
+		if (ParserSchemaConstants.PROPERTY_TAG == tagValue)
 			return new PropertyState(handler, element, propDefn, struct);
-		}
 
-		if (ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue) {
+		if (ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue)
 			return new EncryptedPropertyState(handler, element, propDefn, struct);
-		}
 
-		if (ParserSchemaConstants.EXPRESSION_TAG == tagValue) {
+		if (ParserSchemaConstants.EXPRESSION_TAG == tagValue)
 			return new ExpressionState(handler, element, propDefn, struct);
-		}
 
-		if (ParserSchemaConstants.XML_PROPERTY_TAG == tagValue) {
+		if (ParserSchemaConstants.XML_PROPERTY_TAG == tagValue)
 			return new XmlPropertyState(handler, element, propDefn, struct);
-		}
 
-		if (ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue) {
+		if (ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue)
 			return new ListPropertyState(handler, element, propDefn, struct);
-		}
 
-		if ((ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue) || (ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue)) {
+		if (ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue)
 			return new TextPropertyState(handler, element, struct);
-		}
 
-		if (ParserSchemaConstants.STRUCTURE_TAG == tagValue) {
+		if (ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue)
+			return new TextPropertyState(handler, element, struct);
+
+		if (ParserSchemaConstants.STRUCTURE_TAG == tagValue)
 			return new StructureState(handler, element, (Structure) struct);
-		}
 
-		if (ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue) {
+		if (ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue)
 			return new SimplePropertyListState(handler, element, propDefn, struct);
-		}
 
 		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
-		if (handler.markLineNumber && (LineNumberInfo.isLineNumberSuppoerted(struct))) {
+		if (handler.markLineNumber && (LineNumberInfo.isLineNumberSuppoerted(struct)))
 			handler.tempLineNumbers.put(struct, Integer.valueOf(lineNumber));
-		}
 
 		if (struct != null) {
 			if (parentStruct != null) {
@@ -354,12 +342,11 @@ public class StructureState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
 	 * ()
 	 */
 
-	@Override
 	protected AbstractParseState generalJumpTo() {
 		if (element instanceof Label && ILabelModel.ACTION_PROP.equalsIgnoreCase(name)
 				|| element instanceof ImageItem && IImageItemModel.ACTION_PROP.equalsIgnoreCase(name)
@@ -385,7 +372,7 @@ public class StructureState extends AbstractPropertyState {
 
 	/**
 	 * Creates structure instance given the structure name.
-	 *
+	 * 
 	 * @param structDefn the definition of the structure to create
 	 * @return the structure instance created.
 	 */
@@ -411,7 +398,11 @@ public class StructureState extends AbstractPropertyState {
 				return null;
 			}
 			struct = (IStructure) c.newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+		} catch (InstantiationException e) {
+			assert false;
+		} catch (IllegalAccessException e) {
+			assert false;
+		} catch (ClassNotFoundException e) {
 			assert false;
 		}
 
@@ -420,13 +411,12 @@ public class StructureState extends AbstractPropertyState {
 
 	/**
 	 * Populates the dictionary for the structure class and name mapping.
-	 *
+	 * 
 	 */
 
 	private synchronized static void populateStructDict() {
-		if (structDict != null) {
+		if (structDict != null)
 			return;
-		}
 
 		structDict = new HashMap();
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +16,6 @@ package org.eclipse.birt.data.oda.mongodb.ui.impl;
 
 import java.io.IOException;
 
-import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryModel;
 import org.eclipse.birt.data.oda.mongodb.ui.i18n.Messages;
 import org.eclipse.birt.data.oda.mongodb.ui.util.CommandExpressionUtil;
 import org.eclipse.birt.data.oda.mongodb.ui.util.UIHelper;
@@ -44,6 +43,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryModel;
+
 public class MongoDBExpressionBuilder extends StatusDialog {
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
@@ -62,13 +63,12 @@ public class MongoDBExpressionBuilder extends StatusDialog {
 
 	/**
 	 * Initialize the dialog title which needs to override
-	 *
+	 * 
 	 */
 	protected void initDialogTitle() {
 		setTitle(dialogTitle);
 	}
 
-	@Override
 	public void create() {
 		super.create();
 
@@ -80,12 +80,10 @@ public class MongoDBExpressionBuilder extends StatusDialog {
 		validateStatus();
 	}
 
-	@Override
 	protected boolean isResizable() {
 		return true;
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		GridLayout layout = new GridLayout(2, false);
@@ -127,7 +125,6 @@ public class MongoDBExpressionBuilder extends StatusDialog {
 		exprText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		exprText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				expression = exprText.getText().trim();
 				validateSyntaxBtn.setEnabled(expression.length() > 0);
@@ -151,13 +148,11 @@ public class MongoDBExpressionBuilder extends StatusDialog {
 
 		importBtn.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doImportCommandExpression();
 
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -170,7 +165,6 @@ public class MongoDBExpressionBuilder extends StatusDialog {
 
 		exportBtn.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(getShell(), SWT.SINGLE | SWT.SAVE);
 				dialog.setFilterExtensions(new String[] { "*.*" //$NON-NLS-1$ , $NON-NLS-2$
@@ -183,7 +177,6 @@ public class MongoDBExpressionBuilder extends StatusDialog {
 				}
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -211,13 +204,11 @@ public class MongoDBExpressionBuilder extends StatusDialog {
 
 		validateSyntaxBtn.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validateExpressionSyntax();
 
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -284,7 +275,7 @@ public class MongoDBExpressionBuilder extends StatusDialog {
 
 	/**
 	 * Method to validate the dialog status and need to be overwritten
-	 *
+	 * 
 	 */
 	protected void validateStatus() {
 
@@ -315,7 +306,7 @@ public class MongoDBExpressionBuilder extends StatusDialog {
 
 	/**
 	 * Validate the syntax of the expression, which needs to override
-	 *
+	 * 
 	 * @throws OdaException
 	 */
 	protected void doValidateExpressionSyntax() throws OdaException {

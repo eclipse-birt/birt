@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,7 +63,6 @@ public class TOCHandler {
 	 * @deprecated get the root of the TOC tree.
 	 * @return The TOC root node
 	 */
-	@Deprecated
 	public TOCNode getTOCRoot() {
 		return this.root;
 	}
@@ -80,9 +79,10 @@ public class TOCHandler {
 	 * @param bookmarks All bookMarks created during rendering
 	 */
 	protected void createTOC(TOCNode tocNode, PdfOutline pol, Set<String> bookmarks) {
-		if (isOutlineSizeOverflow() || null == tocNode || null == tocNode.getChildren()) {
+		if (isOutlineSizeOverflow())
 			return;
-		}
+		if (null == tocNode || null == tocNode.getChildren())
+			return;
 		for (Iterator i = tocNode.getChildren().iterator(); i.hasNext();) {
 			TOCNode node = (TOCNode) i.next();
 			if (!bookmarks.contains(node.getBookmark())) {

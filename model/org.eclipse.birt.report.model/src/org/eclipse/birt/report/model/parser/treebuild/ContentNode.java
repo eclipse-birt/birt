@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,33 +40,32 @@ public class ContentNode implements Cloneable {
 
 	/**
 	 * Constructs the content node with the name.
-	 *
+	 * 
 	 * @param name name of the content node
 	 */
 
 	public ContentNode(String name) {
 		this.name = name;
-		children = new ArrayList<>();
-		attributes = new LinkedHashMap<>(ModelUtil.MAP_CAPACITY_LOW);
+		children = new ArrayList<ContentNode>();
+		attributes = new LinkedHashMap<String, Object>(ModelUtil.MAP_CAPACITY_LOW);
 	}
 
 	/**
 	 * Adds one child to this node.
-	 *
+	 * 
 	 * @param child the child to add
 	 */
 
 	public void addChild(ContentNode child) {
-		if (child == null) {
+		if (child == null)
 			return;
-		}
 		children.add(child);
 		child.parent = this;
 	}
 
 	/**
 	 * Sets one attribute to this node.
-	 *
+	 * 
 	 * @param name
 	 * @param value
 	 */
@@ -76,7 +75,7 @@ public class ContentNode implements Cloneable {
 
 	/**
 	 * Sets all the attributes to the node.
-	 *
+	 * 
 	 * @param attributes
 	 */
 	public void setAttributes(Map<String, Object> attributes) {
@@ -85,7 +84,7 @@ public class ContentNode implements Cloneable {
 
 	/**
 	 * Gets the attribute value with the given name.
-	 *
+	 * 
 	 * @param name the attribute name to get
 	 * @return value with the give name if set, otherwise <code>null</code>
 	 */
@@ -97,19 +96,18 @@ public class ContentNode implements Cloneable {
 	/**
 	 * Gets the children of this node. Each item in the list is instance of
 	 * <code>ContentNode</code>.
-	 *
+	 * 
 	 * @return the children
 	 */
 	public List<ContentNode> getChildren() {
-		if (children == null || children.isEmpty()) {
+		if (children == null || children.isEmpty())
 			return Collections.emptyList();
-		}
 		return children;
 	}
 
 	/**
 	 * Gets name of this node.
-	 *
+	 * 
 	 * @return name of this node
 	 */
 
@@ -119,14 +117,13 @@ public class ContentNode implements Cloneable {
 
 	/**
 	 * Gets the attribute map defined in this node.
-	 *
+	 * 
 	 * @return the attribute map
 	 */
 
 	public Map<String, Object> getAttributes() {
-		if (attributes == null || attributes.isEmpty()) {
+		if (attributes == null || attributes.isEmpty())
 			return Collections.emptyMap();
-		}
 		return attributes;
 	}
 
@@ -151,9 +148,8 @@ public class ContentNode implements Cloneable {
 	 */
 	public boolean isCDATASection() {
 		if (DesignSchemaConstants.XML_PROPERTY_TAG.equalsIgnoreCase(name)
-				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase(name)) {
+				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase(name))
 			return true;
-		}
 		return isCDATASection;
 	}
 
@@ -166,20 +162,19 @@ public class ContentNode implements Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	@Override
 	public Object clone() throws CloneNotSupportedException {
 		ContentNode clonedNode = (ContentNode) super.clone();
 
 		// clone attribute map
-		clonedNode.attributes = new LinkedHashMap<>(ModelUtil.MAP_CAPACITY_LOW);
+		clonedNode.attributes = new LinkedHashMap<String, Object>(ModelUtil.MAP_CAPACITY_LOW);
 		clonedNode.attributes.putAll(attributes);
 
 		// clone children
 		if (children != null) {
-			clonedNode.children = new ArrayList<>();
+			clonedNode.children = new ArrayList<ContentNode>();
 			for (int i = 0; i < children.size(); i++) {
 				ContentNode child = children.get(i);
 				ContentNode clonedChild = (ContentNode) child.clone();

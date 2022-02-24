@@ -15,11 +15,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 /**
- *
+ * 
  */
 
 public class RuntimeOSGiTest extends BaseTestTemplate {
-	@Override
 	public int run(String[] args) throws Exception {
 		if (mainClass == null) {
 			System.setProperty("BIRT_HOME", new File("./target/birt-runtime-osgi/ReportEngine").getAbsolutePath());

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.chart.script.api.attribute.IText;
 import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
 
 /**
- *
+ * 
  */
 
 public class LabelImpl implements ILabel {
@@ -32,7 +32,6 @@ public class LabelImpl implements ILabel {
 		this.label = label;
 	}
 
-	@Override
 	public IText getCaption() {
 		Text caption = label.getCaption();
 		if (caption == null) {
@@ -42,7 +41,6 @@ public class LabelImpl implements ILabel {
 		return ChartComponentUtil.convertText(caption);
 	}
 
-	@Override
 	public boolean isVisible() {
 		return label.isVisible();
 	}
@@ -52,7 +50,6 @@ public class LabelImpl implements ILabel {
 
 	}
 
-	@Override
 	public void setVisible(boolean visible) {
 		label.setVisible(visible);
 

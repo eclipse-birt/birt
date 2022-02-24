@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -68,7 +68,7 @@ import com.ibm.icu.text.Collator;
  */
 
 public class DataSetRuntime implements IDataSetInstanceHandle {
-	public enum Mode {
+	public static enum Mode {
 		DataSet, Query
 	}
 
@@ -155,9 +155,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 		this.session = session;
 		isOpen = true;
 
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			eventHandler = dataSetDesign.getEventHandler();
-		}
 
 		// Initialze parameter value map; initially assign UNSET_VALUE to all named
 		// parameters
@@ -172,12 +171,10 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 					if (name != null) {
 						// Note that a param can be both input and output
 						// In/out parameters are available in both lists
-						if (param.isInputMode()) {
+						if (param.isInputMode())
 							inParamValues.put(name, UNSET_VALUE);
-						}
-						if (param.isOutputMode()) {
+						if (param.isOutputMode())
 							outParamValues.put(name, UNSET_VALUE);
-						}
 					}
 				}
 			}
@@ -188,13 +185,12 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 		 * takes over script execution from DtE
 		 */
 		if (eventHandler == null) {
-			if (dataSetDesign instanceof IScriptDataSetDesign) {
+			if (dataSetDesign instanceof IScriptDataSetDesign)
 				eventHandler = new ScriptDataSetJSEventHandler(this.getSession().getEngineContext().getScriptContext(),
 						(IScriptDataSetDesign) dataSetDesign);
-			} else if (dataSetDesign instanceof IOdaDataSetDesign) {
+			else if (dataSetDesign instanceof IOdaDataSetDesign)
 				eventHandler = new DataSetJSEventHandler(this.getSession().getEngineContext().getScriptContext(),
 						dataSetDesign);
-			}
 		}
 		logger.exiting(DataSetRuntime.class.getName(), "DataSetRuntime");
 		/*
@@ -213,9 +209,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 * Gets the instance of the Javascript 'row' object for this data set
 	 */
 	public Scriptable getJSRowObject() {
-		if (!isOpen) {
+		if (!isOpen)
 			return null;
-		}
 		if (this.jsRowObject == null) {
 			jsRowObject = new JSRowObject(this);
 		}
@@ -246,9 +241,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 * Gets the instance of the Javascript 'rows' object for this data set
 	 */
 	public Scriptable getJSRowsObject() throws DataException {
-		if (!isOpen) {
+		if (!isOpen)
 			return null;
-		}
 		if (this.jsRowsObject == null) {
 			// Construct an array of nested data sets
 			int size = queryExecutor.getNestedLevel();
@@ -257,9 +251,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 			dataSets[size - 1] = executor.getDataSet();
 			if (size - 1 > 0) {
 				DataSetRuntime[] innerDSs = executor.getNestedDataSets(size - 1);
-				for (int i = 0; i < size - 1; i++) {
+				for (int i = 0; i < size - 1; i++)
 					dataSets[i] = innerDSs[i];
-				}
 			}
 			jsRowsObject = new JSRows(dataSets);
 		}
@@ -267,9 +260,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	}
 
 	public IDataRow getDataRow() {
-		if (!isOpen) {
+		if (!isOpen)
 			return null;
-		}
 		if (this.dataRow == null) {
 			this.dataRow = new DataRow(this);
 		}
@@ -294,22 +286,19 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	/**
 	 * Gets the name of the design time properties associated with this data set
 	 */
-	@Override
 	public String getName() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.getName();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	/**
 	 * @return cache row count
 	 */
 	public int getCacheRowCount() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.getCacheRowCount();
-		}
 		return 0;
 	}
 
@@ -317,24 +306,21 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 * @return
 	 */
 	public boolean needDistinctValue() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.needDistinctValue();
-		}
 		return false;
 	}
 
 	public String getDataSourceName() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.getDataSourceName();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	/**
 	 * Gets the runtime Data Source definition for this data set
 	 */
-	@Override
 	public IDataSourceInstanceHandle getDataSource() {
 		return this.queryExecutor.getDataSourceInstanceHandle();
 	}
@@ -342,7 +328,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	/**
 	 * Creates an instance of the appropriate subclass based on a specified
 	 * design-time data set definition
-	 *
+	 * 
 	 * @param dataSetDefn Design-time data set definition.
 	 */
 	public static DataSetRuntime newInstance(IBaseDataSetDesign dataSetDefn, IQueryExecutor queryExecutor,
@@ -361,9 +347,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 			dataSet = new DataSetRuntime(dataSetDefn, queryExecutor, session);
 		} else {
 			dataSet = DataSetDesignHelper.createExtenalInstance(dataSetDefn, queryExecutor, session);
-			if (dataSet == null) {
+			if (dataSet == null)
 				throw new DataException(ResourceConstants.UNSUPPORTED_DATASET_TYPE);
-			}
 		}
 
 		return dataSet;
@@ -371,7 +356,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/**
 	 * Gets the Data Engine
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	public Scriptable getSharedScope() throws DataException {
@@ -380,7 +365,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/**
 	 * Gets the Javascript object that wraps this data set runtime
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	public Scriptable getJSDataSetObject() throws DataException {
@@ -412,13 +397,11 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	}
 
 	public Scriptable getJSResultRowObject() {
-		if (!isOpen) {
+		if (!isOpen)
 			return null;
-		}
 
-		if (resultSetRow == null || this.mode == Mode.DataSet) {
+		if (resultSetRow == null || this.mode == Mode.DataSet)
 			return this.getJSRowObject();
-		}
 
 		return this.resultSetRow;
 	}
@@ -427,9 +410,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 * Gets the internal Javascript aggregate value object
 	 */
 	public Scriptable getJSAggrValueObject() {
-		if (!isOpen) {
+		if (!isOpen)
 			return null;
-		}
 		if (jsAggrValueObject == null) {
 			jsAggrValueObject = queryExecutor.getJSAggrValueObject();
 		}
@@ -454,11 +436,10 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/**
 	 * Returns a Javascript scope suitable for running JS event handler code.
-	 *
+	 * 
 	 * @throws DataException
 	 * @see org.eclipse.birt.data.engine.api.script.IJavascriptContext#getScriptScope()
 	 */
-	@Override
 	public Scriptable getScriptScope() throws DataException {
 		// Data set event handlers are executed as methods on the DataSet object
 		return getJSDataSetObject();
@@ -467,67 +448,58 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getResultMetaData()
 	 */
-	@Override
 	public IResultMetaData getResultMetaData() throws DataException {
-		if (!isOpen) {
+		if (!isOpen)
 			return null;
-		}
 		return new ResultMetaData(queryExecutor.getOdiResultClass());
 	}
 
 	public Collection getInputParamBindings() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.getInputParamBindings();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	public List getComputedColumns() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.getComputedColumns();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	public List getFilters() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.getFilters();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	public List<ISortDefinition> getSortHints() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.getSortHints();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	public List getParameters() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.getParameters();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	public List getResultSetHints() {
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			return dataSetDesign.getResultSetHints();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	/** Executes the beforeOpen script associated with the data source */
 	public void beforeOpen() throws DataException {
-		if (fromCache) {
+		if (fromCache)
 			return;
-		}
 		if (getEventHandler() != null) {
 			try {
 				getEventHandler().handleBeforeOpen(this);
@@ -539,9 +511,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/** Executes the beforeClose script associated with the data source */
 	public void beforeClose() throws DataException {
-		if (fromCache) {
+		if (fromCache)
 			return;
-		}
 		if (getEventHandler() != null) {
 			try {
 				getEventHandler().handleBeforeClose(this);
@@ -553,9 +524,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/** Executes the afterOpen script associated with the data source */
 	public void afterOpen() throws DataException {
-		if (fromCache) {
+		if (fromCache)
 			return;
-		}
 		if (getEventHandler() != null) {
 			try {
 				getEventHandler().handleAfterOpen(this);
@@ -567,9 +537,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/** Executes the afterClose script associated with the data source */
 	public void afterClose() throws DataException {
-		if (fromCache) {
+		if (fromCache)
 			return;
-		}
 		if (getEventHandler() != null) {
 			try {
 				getEventHandler().handleAfterClose(this);
@@ -581,9 +550,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/** Executes the onFetch script associated with the data source */
 	public void onFetch() throws DataException {
-		if (fromCache) {
+		if (fromCache)
 			return;
-		}
 		if (getEventHandler() != null) {
 			Mode temp = this.getMode();
 			this.setMode(Mode.DataSet);
@@ -608,7 +576,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/**
 	 * Binds the row object to an odi result set. Exising binding is replaced.
-	 *
+	 * 
 	 * @param resultSet   Odi result iterator to bind to
 	 * @param allowUpdate If true, update to current row's column values are allowed
 	 */
@@ -622,7 +590,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/**
 	 * Binds the row object to a IResultObject. Existing bindings is replaced
-	 *
+	 * 
 	 * @param resultObj   Result object to bind to.
 	 * @param allowUpdate If true, update to current row's column values are allowed
 	 */
@@ -651,13 +619,12 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 
 	/**
 	 * Get result object from IResultObject or IResultSetIterator
-	 *
+	 * 
 	 * @return current result object; can be null
 	 */
 	public IResultObject getCurrentRow() {
-		if (!isOpen) {
+		if (!isOpen)
 			return null;
-		}
 
 		IResultObject resultObject;
 		if (resultSet != null) {
@@ -677,11 +644,10 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 */
 	public int getCurrentRowIndex() throws DataException {
 		int rowID;
-		if (resultSet != null) {
+		if (resultSet != null)
 			rowID = resultSet.getCurrentResultIndex();
-		} else {
+		else
 			rowID = this.currentRowIndex;
-		}
 
 		return rowID;
 	}
@@ -693,7 +659,6 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionID()
 	 */
-	@Override
 	public String getExtensionID() {
 		// Default implementation: no extension ID
 		return "";
@@ -702,7 +667,6 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getAllExtensionProperties()
 	 */
-	@Override
 	public Map getAllExtensionProperties() {
 		// Default implementation: no extension properties
 		return null;
@@ -711,7 +675,6 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionProperty(java.lang.String)
 	 */
-	@Override
 	public String getExtensionProperty(String name) {
 		// Default implementation: no extension properties
 		return null;
@@ -720,7 +683,6 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getQueryText()
 	 */
-	@Override
 	public String getQueryText() {
 		// Default implementation: no queryText support
 		return null;
@@ -730,7 +692,6 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setExtensionProperty(java.lang.String,
 	 *      java.lang.String)
 	 */
-	@Override
 	public void setExtensionProperty(String name, String value) {
 		// Default implementation: no extension properties
 	}
@@ -738,7 +699,6 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setQueryText(java.lang.String)
 	 */
-	@Override
 	public void setQueryText(String queryText) throws BirtException {
 		// Default implementation: no queryText support
 	}
@@ -755,26 +715,22 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 * UNSET_VALUE is returned. If named parameter does not exist, exception is
 	 * thrown
 	 */
-	@Override
 	public Object getInputParameterValue(String name) throws BirtException {
-		if (inParamValues.containsKey(name)) {
+		if (inParamValues.containsKey(name))
 			return inParamValues.get(name);
-		} else {
+		else
 			throw new DataException(ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name);
-		}
 	}
 
 	/**
 	 * Sets the value of an input parameter. If named parameter does not exist,
 	 * exception is thrown
 	 */
-	@Override
 	public void setInputParameterValue(String name, Object value) throws BirtException {
-		if (inParamValues.containsKey(name)) {
+		if (inParamValues.containsKey(name))
 			inParamValues.put(name, value);
-		} else {
+		else
 			throw new DataException(ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name);
-		}
 	}
 
 	/**
@@ -789,11 +745,9 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 * UNSET_VALUE is returned. If named parameter does not exist, exception is
 	 * thrown
 	 */
-	@Override
 	public Object getOutputParameterValue(String name) throws BirtException {
-		if (!outParamValues.containsKey(name)) {
+		if (!outParamValues.containsKey(name))
 			throw new DataException(ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name);
-		}
 		Object value = outParamValues.get(name);
 		if (value == UNSET_VALUE) {
 			// Value is not cached or set; see if we have an executed ODA query which
@@ -817,19 +771,16 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 * Sets the value of an input parameter. If named parameter does not exist,
 	 * exception is thrown
 	 */
-	@Override
 	public void setOutputParameterValue(String name, Object value) throws BirtException {
-		if (outParamValues.containsKey(name)) {
+		if (outParamValues.containsKey(name))
 			outParamValues.put(name, value);
-		} else {
+		else
 			throw new DataException(ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name);
-		}
 	}
 
 	/**
 	 * Get a read-only wrapper of data set input parameter value map
 	 */
-	@Override
 	public Map getInputParameters() {
 		return Collections.unmodifiableMap(this.inParamValues);
 	}
@@ -837,7 +788,6 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	/**
 	 * Gets a read-only wrapper of data set output parameter value map
 	 */
-	@Override
 	public Map getOutputParameters() {
 		return Collections.unmodifiableMap(this.outParamValues);
 	}

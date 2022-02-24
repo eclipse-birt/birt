@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,19 +20,15 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 
 public class ContentProcessorAdapter implements IContentProcessor {
 
-	@Override
 	public void end(IReportContent report) throws EngineException {
 	}
 
-	@Override
 	public void endContent(IContent content) throws EngineException {
 	}
 
-	@Override
 	public void start(IReportContent report) throws EngineException {
 	}
 
-	@Override
 	public void startContent(IContent content) throws EngineException {
 	}
 }

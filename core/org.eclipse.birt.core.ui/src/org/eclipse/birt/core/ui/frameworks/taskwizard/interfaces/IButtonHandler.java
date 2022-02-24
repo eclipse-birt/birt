@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ public interface IButtonHandler {
 	/**
 	 * Returns ID for the custom button. ID must be unique in
 	 * <code>WizardBase</code>.
-	 *
+	 * 
 	 * @see IDialogConstants
 	 * @return ID for the button
 	 */
@@ -37,21 +37,21 @@ public interface IButtonHandler {
 
 	/**
 	 * Returns Label for the custom button.
-	 *
+	 * 
 	 * @return Label for the custom button.
 	 */
 	String getLabel();
 
 	/**
 	 * Returns tool-tip text of this button.
-	 *
+	 * 
 	 * @return tool-tip text of this button.
 	 */
 	String getTooltip();
 
 	/**
 	 * Returns button icon.
-	 *
+	 * 
 	 * @return button icon.
 	 */
 	Image getIcon();
@@ -59,21 +59,21 @@ public interface IButtonHandler {
 	/**
 	 * Restores the button control for later use. This method will be invoked by
 	 * <code>WizardBase</code>
-	 *
+	 * 
 	 * @param button button control
 	 */
 	void setButton(Button button);
 
 	/**
 	 * Returns the button control.
-	 *
+	 * 
 	 * @return button control
 	 */
 	Button getButton();
 
 	/**
 	 * Runs the operation user defined when pressing the button.
-	 *
+	 * 
 	 */
 	void run();
 }

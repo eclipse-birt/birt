@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 /**
- *
+ * 
  */
 
 public class LevelDynamicAttributeDialog extends BaseDialog {
@@ -52,7 +52,6 @@ public class LevelDynamicAttributeDialog extends BaseDialog {
 		this.item = item;
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -76,7 +75,6 @@ public class LevelDynamicAttributeDialog extends BaseDialog {
 		memberCombo.setLayoutData(gd);
 		memberCombo.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkButtonStatus();
 			}
@@ -91,7 +89,6 @@ public class LevelDynamicAttributeDialog extends BaseDialog {
 		return composite;
 	}
 
-	@Override
 	protected boolean initDialog() {
 		if (items != null) {
 			memberCombo.setItems(items);
@@ -102,7 +99,6 @@ public class LevelDynamicAttributeDialog extends BaseDialog {
 		return super.initDialog();
 	}
 
-	@Override
 	protected Control createButtonBar(Composite parent) {
 		Control bar = super.createButtonBar(parent);
 		checkButtonStatus();
@@ -114,12 +110,13 @@ public class LevelDynamicAttributeDialog extends BaseDialog {
 			if (getButton(IDialogConstants.OK_ID) != null) {
 				getButton(IDialogConstants.OK_ID).setEnabled(false);
 			}
-		} else if (getButton(IDialogConstants.OK_ID) != null) {
-			getButton(IDialogConstants.OK_ID).setEnabled(true);
+		} else {
+			if (getButton(IDialogConstants.OK_ID) != null) {
+				getButton(IDialogConstants.OK_ID).setEnabled(true);
+			}
 		}
 	}
 
-	@Override
 	protected void okPressed() {
 		setResult(memberCombo.getText());
 		super.okPressed();

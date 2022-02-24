@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ public class PropertyMaskHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of property mask.
-	 *
+	 * 
 	 * @param valueHandle the value handle for property mask list of one property
 	 * @param index       the position of this property mask in the list
 	 */
@@ -44,7 +44,7 @@ public class PropertyMaskHandle extends StructureHandle {
 	 * <li>PROPERTY_MASK_TYPE_LOCK
 	 * <li>PROPERTY_MASK_TYPE_HIDE
 	 * </ul>
-	 *
+	 * 
 	 * @return the property mask
 	 */
 
@@ -60,7 +60,7 @@ public class PropertyMaskHandle extends StructureHandle {
 	 * <li>PROPERTY_MASK_TYPE_LOCK
 	 * <li>PROPERTY_MASK_TYPE_HIDE
 	 * </ul>
-	 *
+	 * 
 	 * @param mask the mask to set
 	 * @throws SemanticException if the mask is not in the choice list.
 	 */
@@ -71,7 +71,7 @@ public class PropertyMaskHandle extends StructureHandle {
 
 	/**
 	 * Returns the property name.
-	 *
+	 * 
 	 * @return the property name
 	 */
 
@@ -81,7 +81,7 @@ public class PropertyMaskHandle extends StructureHandle {
 
 	/**
 	 * Sets the property name.
-	 *
+	 * 
 	 * @param name the property name to set
 	 * @throws SemanticException value required exception
 	 */

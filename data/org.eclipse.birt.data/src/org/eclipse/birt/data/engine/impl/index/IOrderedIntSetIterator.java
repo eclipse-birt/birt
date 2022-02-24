@@ -15,11 +15,11 @@
 package org.eclipse.birt.data.engine.impl.index;
 
 /**
- *
+ * 
  */
 
 public interface IOrderedIntSetIterator {
-	boolean hasNext();
+	public boolean hasNext();
 
-	int next();
+	public int next();
 }

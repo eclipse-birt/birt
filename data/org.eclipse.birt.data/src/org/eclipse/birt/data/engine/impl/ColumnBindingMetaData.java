@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,7 @@ public class ColumnBindingMetaData implements IResultMetaData {
 	Map aliasMap;
 
 	public ColumnBindingMetaData(IBaseQueryDefinition queryDefn, IResultClass rsClass) throws DataException {
-		bindingList = new ArrayList<>();
+		bindingList = new ArrayList<Binding>();
 		ArrayList<Binding> presentBindings = new ArrayList<Binding>(queryDefn.getBindings().values());
 		if (((QueryDefinition) queryDefn).needAutoBinding() && rsClass != null) {
 			IResultMetaData metaData = new ResultMetaData(rsClass);
@@ -84,31 +84,32 @@ public class ColumnBindingMetaData implements IResultMetaData {
 
 	private IBinding findBinding(IBinding binding, List<Binding> presentBindings) throws DataException {
 		for (IBinding b : presentBindings) {
-			if (isSameBinding(b, binding)) {
+			if (isSameBinding(b, binding))
 				return b;
-			}
 		}
 		return null;
 	}
 
 	private boolean isSameBinding(IBinding b1, IBinding b2) throws DataException {
-		if (!QueryCompUtil.isTwoExpressionEqual(b1.getExpression(), b2.getExpression(), true) || !QueryCompUtil.isEqualString(b1.getAggrFunction(), b2.getAggrFunction()) || !QueryCompUtil.isTwoExpressionEqual(b1.getFilter(), b2.getFilter(), true) || (b1.getAggregatOns().size() != b2.getAggregatOns().size())) {
+		if (!QueryCompUtil.isTwoExpressionEqual(b1.getExpression(), b2.getExpression(), true))
 			return false;
-		}
+		if (!QueryCompUtil.isEqualString(b1.getAggrFunction(), b2.getAggrFunction()))
+			return false;
+		if (!QueryCompUtil.isTwoExpressionEqual(b1.getFilter(), b2.getFilter(), true))
+			return false;
+		if (b1.getAggregatOns().size() != b2.getAggregatOns().size())
+			return false;
 		for (int i = 0; i < b1.getAggregatOns().size(); i++) {
 			if (!QueryCompUtil.isEqualString(b1.getAggregatOns().get(i).toString(),
-					b2.getAggregatOns().get(i).toString())) {
+					b2.getAggregatOns().get(i).toString()))
 				return false;
-			}
 		}
-		if (b1.getArguments().size() != b2.getArguments().size()) {
+		if (b1.getArguments().size() != b2.getArguments().size())
 			return false;
-		}
 		for (int i = 0; i < b1.getArguments().size(); i++) {
 			if (!QueryCompUtil.isTwoExpressionEqual((IBaseExpression) b1.getArguments().get(i),
-					(IBaseExpression) b2.getArguments().get(i), true)) {
+					(IBaseExpression) b2.getArguments().get(i), true))
 				return false;
-			}
 		}
 		return true;
 	}
@@ -121,23 +122,20 @@ public class ColumnBindingMetaData implements IResultMetaData {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnAlias(int)
 	 */
-	@Override
 	public String getColumnAlias(int index) throws BirtException {
 		if (index <= 0 | index > bindingList.size()) {
 			throw new DataException(ResourceConstants.INVALID_FIELD_INDEX);
 		}
-		if (aliasMap == null) {
+		if (aliasMap == null)
 			return null;
-		} else {
+		else
 			return aliasMap.get(Integer.valueOf(index)) == null ? null
 					: aliasMap.get(Integer.valueOf(index)).toString();
-		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnCount()
 	 */
-	@Override
 	public int getColumnCount() {
 		return bindingList.size();
 	}
@@ -145,7 +143,6 @@ public class ColumnBindingMetaData implements IResultMetaData {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnLabel(int)
 	 */
-	@Override
 	public String getColumnLabel(int index) throws BirtException {
 		if (index <= 0 | index > bindingList.size()) {
 			throw new DataException(ResourceConstants.INVALID_FIELD_INDEX);
@@ -157,7 +154,6 @@ public class ColumnBindingMetaData implements IResultMetaData {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnName(int)
 	 */
-	@Override
 	public String getColumnName(int index) throws BirtException {
 		if (index <= 0 | index > bindingList.size()) {
 			throw new DataException(ResourceConstants.INVALID_FIELD_INDEX);
@@ -171,7 +167,6 @@ public class ColumnBindingMetaData implements IResultMetaData {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultMetaData#getColumnNativeTypeName(int)
 	 */
-	@Override
 	public String getColumnNativeTypeName(int index) throws BirtException {
 		if (index <= 0 | index > bindingList.size()) {
 			throw new DataException(ResourceConstants.INVALID_FIELD_INDEX);
@@ -182,7 +177,6 @@ public class ColumnBindingMetaData implements IResultMetaData {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnType(int)
 	 */
-	@Override
 	public int getColumnType(int index) throws BirtException {
 		if (index <= 0 | index > bindingList.size()) {
 			throw new DataException(ResourceConstants.INVALID_FIELD_INDEX);
@@ -195,7 +189,6 @@ public class ColumnBindingMetaData implements IResultMetaData {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnTypeName(int)
 	 */
-	@Override
 	public String getColumnTypeName(int index) throws BirtException {
 		if (index <= 0 | index > bindingList.size()) {
 			throw new DataException(ResourceConstants.INVALID_FIELD_INDEX);
@@ -207,7 +200,6 @@ public class ColumnBindingMetaData implements IResultMetaData {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#isComputedColumn(int)
 	 */
-	@Override
 	public boolean isComputedColumn(int index) throws BirtException {
 		if (index <= 0 | index > bindingList.size()) {
 			throw new DataException(ResourceConstants.INVALID_FIELD_INDEX);

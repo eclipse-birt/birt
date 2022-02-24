@@ -1,35 +1,34 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.ConfigFileParser;
 import org.eclipse.birt.data.engine.impl.ConfigFileParser.Node;
-import org.junit.Test;
 
 import testutil.BaseTestCase;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 /**
  * the test class that test whether class Node can work properly
- *
+ * 
  */
 public class ConfigFileParserTest extends BaseTestCase {
 
@@ -39,7 +38,7 @@ public class ConfigFileParserTest extends BaseTestCase {
 
 	/**
 	 * a test case that check whether method parseXML2DOM() works properly
-	 *
+	 * 
 	 * @throws IOException
 	 */
 	@Test
@@ -79,7 +78,7 @@ public class ConfigFileParserTest extends BaseTestCase {
 
 	/**
 	 * Test method getQueryTextByID()
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -93,7 +92,7 @@ public class ConfigFileParserTest extends BaseTestCase {
 
 	/**
 	 * Test method getModeByID()
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -107,7 +106,7 @@ public class ConfigFileParserTest extends BaseTestCase {
 
 	/**
 	 * Test method getModeByID()
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -121,7 +120,7 @@ public class ConfigFileParserTest extends BaseTestCase {
 
 	/**
 	 * Test method getParametersByID()
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -137,7 +136,7 @@ public class ConfigFileParserTest extends BaseTestCase {
 
 	/**
 	 * Test method getTSFormatByID()
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -152,7 +151,7 @@ public class ConfigFileParserTest extends BaseTestCase {
 	/**
 	 * a private utility method that help to check whether method parseXML2DOM()
 	 * works properly
-	 *
+	 * 
 	 * @param Node   n
 	 * @param String padding
 	 */

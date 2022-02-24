@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.birt.report.model.util.xpathparser.XPathParser;
  * definition and the 1-based element position in the slot. The position
  * information is only available when the element is in the multicardinality
  * slot.
- *
+ * 
  * <p>
  * For example,
  * <table border="1" width="80%">
@@ -71,7 +71,7 @@ import org.eclipse.birt.report.model.util.xpathparser.XPathParser;
  * /report/list-property[@name="images"]/structure</td>
  * <tr>
  * </table>
- *
+ * 
  * <p>
  * It is strongly recommended not to call
  * {@link #getInstance(ModuleHandle, String)} with manually created XPath
@@ -99,7 +99,7 @@ public class XPathUtil {
 	/**
 	 * Returns the XPath of the given instance. For the structure, only
 	 * EmbeddedImageHandle is supported.
-	 *
+	 * 
 	 * @param instance can be <code>DesignElementHandle</code>,
 	 *                 <code>SlotHandle</code>, <code>StructureHandle</code> ,
 	 *                 <code>PropertyHandle</code>.
@@ -107,13 +107,11 @@ public class XPathUtil {
 	 */
 
 	public static String getXPath(Object instance) {
-		if (instance == null) {
+		if (instance == null)
 			return null;
-		}
 
-		if (instance instanceof DesignElementHandle) {
+		if (instance instanceof DesignElementHandle)
 			return serializeToXPath((DesignElementHandle) instance);
-		}
 
 		if (instance instanceof SlotHandle) {
 			SlotHandle slot = (SlotHandle) instance;
@@ -132,7 +130,7 @@ public class XPathUtil {
 
 	/**
 	 * Returns the script path of the given instance.
-	 *
+	 * 
 	 * @param instance <code>PropertyHandle</code> which type or sub type must be
 	 *                 expression or script.
 	 * @param index    of property should be in valid range. 0 based
@@ -140,15 +138,13 @@ public class XPathUtil {
 	 */
 
 	public static String getXPath(Object instance, int index) {
-		if (instance == null) {
+		if (instance == null)
 			return null;
-		}
 
 		if (instance instanceof PropertyHandle) {
 			PropertyHandle temp = (PropertyHandle) instance;
-			if (isValidIndex(temp, index)) {
+			if (isValidIndex(temp, index))
 				return serializeToXPath(temp, index);
-			}
 		}
 
 		return null;
@@ -157,7 +153,7 @@ public class XPathUtil {
 	/**
 	 * Checks index is valid. If it is not list type or index less than zero or
 	 * index larger than property list value size, it is invalid index.
-	 *
+	 * 
 	 * @param propHandle property handle.
 	 * @param index      index of property
 	 * @return If it is not list type or index less than zero or index larger than
@@ -165,25 +161,28 @@ public class XPathUtil {
 	 */
 	private static boolean isValidIndex(PropertyHandle propHandle, int index) {
 		PropertyDefn defn = (PropertyDefn) propHandle.getDefn();
-		// don't support structure list.
-		if (!defn.isListType() || (index < 0 && index >= propHandle.getListValue().size()) || (defn.getTypeCode() == IPropertyType.STRUCT_TYPE)) {
+		if (!defn.isListType())
 			return false;
-		}
+		if (index < 0 && index >= propHandle.getListValue().size())
+			return false;
+		// don't support structure list.
+		if (defn.getTypeCode() == IPropertyType.STRUCT_TYPE)
+			return false;
 
 		return true;
 	}
 
 	/**
 	 * Returns the path of the given property with index.
-	 *
+	 * 
 	 * @param prop  property handle
 	 * @param index index of property handle
-	 *
+	 * 
 	 * @return the path in string
 	 */
 
 	private static String serializeToXPath(PropertyHandle prop, int index) {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		sb.append(serializeToXPath(prop));
 		sb.append(SEPARATOR);
 		sb.append(DesignSchemaConstants.VALUE_TAG);
@@ -197,7 +196,7 @@ public class XPathUtil {
 	/**
 	 * Returns the instance by the given XPath of <code>DesignElementHandle</code>,
 	 * <code>SlotHandle</code>, <code>StructureHandle</code>.
-	 *
+	 * 
 	 * @param module the report/library
 	 * @param xpath  the XPath in string
 	 * @return <code>DesignElementHandle</code>/<code>SlotHandle</code>/
@@ -210,24 +209,23 @@ public class XPathUtil {
 
 	/**
 	 * Returns the XPath of the given slot.
-	 *
+	 * 
 	 * @param slot the slot instance
 	 * @return the XPath in string
 	 */
 
 	private static String serializeToXPath(SlotHandle slot) {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 
 		DesignElementHandle tmpElement = slot.getElementHandle();
 		sb.append(serializeToXPath(tmpElement));
 
 		String slotInfo = slot.getDefn().getXmlName();
 
-		if (StringUtil.isBlank(slotInfo)) {
+		if (StringUtil.isBlank(slotInfo))
 			slotInfo = formatXPathProperty(SLOT_NAME_PROPERTY, slot.getDefn().getName());
-		} else {
+		else
 			slotInfo = SEPARATOR + slotInfo;
-		}
 
 		sb.append(slotInfo);
 
@@ -236,13 +234,13 @@ public class XPathUtil {
 
 	/**
 	 * Returns the XPath of the given property.
-	 *
+	 * 
 	 * @param slot the property instance
 	 * @return the XPath in string
 	 */
 
 	private static String serializeToXPath(PropertyHandle prop) {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 
 		DesignElementHandle tmpElement = prop.getElementHandle();
 		sb.append(serializeToXPath(tmpElement));
@@ -251,11 +249,10 @@ public class XPathUtil {
 		PropertyDefn tmpPropDefn = (PropertyDefn) prop.getDefn();
 
 		if (tmpPropDefn.isListType()) {
-			if (tmpPropDefn.getTypeCode() == IPropertyType.STRUCT_TYPE) {
+			if (tmpPropDefn.getTypeCode() == IPropertyType.STRUCT_TYPE)
 				sb.append(DesignSchemaConstants.LIST_PROPERTY_TAG);
-			} else {
+			else
 				sb.append(DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG);
-			}
 			sb.append(formatXPathProperty(DesignSchemaConstants.NAME_ATTRIB, tmpPropDefn.getName()));
 
 			return sb.toString();
@@ -263,9 +260,8 @@ public class XPathUtil {
 
 		boolean isResourceKeyDefn = false;
 		IPropertyDefn resourcePropDefn = getResourceKeyDefn((ElementPropertyDefn) tmpPropDefn);
-		if (resourcePropDefn != null) {
+		if (resourcePropDefn != null)
 			isResourceKeyDefn = true;
-		}
 
 		if (!isResourceKeyDefn && !isEnclosedAttr(tmpPropDefn.getName())) {
 			sb.append(getTagByPropertyType((ElementPropertyDefn) tmpPropDefn));
@@ -284,9 +280,8 @@ public class XPathUtil {
 		sb.append(getTagByPropertyType((ElementPropertyDefn) resourcePropDefn));
 		sb.append(formatXPathProperty(DesignSchemaConstants.NAME_ATTRIB, resourcePropDefn.getName()));
 
-		if (resourcePropDefn != tmpPropDefn) {
+		if (resourcePropDefn != tmpPropDefn)
 			sb.append(SEPARATOR + "@key"); //$NON-NLS-1$
-		}
 
 		return sb.toString();
 	}
@@ -294,13 +289,13 @@ public class XPathUtil {
 	/**
 	 * Returns the XPath of the given structure. Currently, only
 	 * <code>EmbeddedImageHandle</code> is supported.
-	 *
+	 * 
 	 * @param structHandle the structure instance
 	 * @return the XPath in string
 	 */
 
 	private static String serializeToXPath(StructureHandle structHandle) {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 
 		DesignElementHandle tmpElement = structHandle.getElementHandle();
 		// sb.append( serializeToXPath( tmpElement ) );
@@ -343,12 +338,12 @@ public class XPathUtil {
 	/**
 	 * Returns return the path corresponding to the current position of the element
 	 * in the tree.
-	 *
+	 * 
 	 * This path string helps user locate this element in user interface. It follows
 	 * XPath syntax. Each node name indicates the name of the element definition and
 	 * the 1-based element position in the slot. The position information is only
 	 * available when the element is in the multicardinality slot.
-	 *
+	 * 
 	 * <p>
 	 * For example,
 	 * <ul>
@@ -359,14 +354,14 @@ public class XPathUtil {
 	 * </ul>
 	 * <p>
 	 * Note: the localized name is used for element type and slot name.
-	 *
+	 * 
 	 * @return the path of this element
 	 */
 
 	private static String serializeToXPath(DesignElementHandle element) {
 
 		DesignElementHandle tmpElement = element;
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 
 		do {
 			ElementDefn elementDefn = (ElementDefn) tmpElement.getDefn();
@@ -380,9 +375,8 @@ public class XPathUtil {
 				if (slot != null) {
 					String slotTagName = slot.getDefn().getXmlName();
 
-					if (!StringUtil.isBlank(slotTagName)) {
+					if (!StringUtil.isBlank(slotTagName))
 						slotInfo = SEPARATOR + slotTagName;
-					}
 
 					idInfo = formatXPathProperty("id", Long //$NON-NLS-1$
 							.toString(tmpElement.getID()));
@@ -397,19 +391,17 @@ public class XPathUtil {
 
 					if (tmpPropDefn.isList()) {
 						int size = tmpProp.getContentCount();
-						if (size > 1) {
+						if (size > 1)
 							idInfo = formatXPathProperty("id", Long //$NON-NLS-1$
 									.toString(tmpElement.getID()));
-						}
 					}
 				}
 			}
 
 			String elementPath = EMPTY_STRING;
 
-			if (!StringUtil.isBlank(slotInfo)) {
+			if (!StringUtil.isBlank(slotInfo))
 				elementPath = slotInfo;
-			}
 
 			elementPath = elementPath + SEPARATOR + elementDefn.getXmlName();
 			elementPath = elementPath + idInfo;
@@ -424,7 +416,7 @@ public class XPathUtil {
 
 	/**
 	 * Returns the formatted property that is applicable in XPath node.
-	 *
+	 * 
 	 * @param propName  the property name
 	 * @param propValue the value
 	 * @return the formatted property
@@ -437,7 +429,7 @@ public class XPathUtil {
 	/**
 	 * Checks whether the property is an enclosed XML element attribute in the
 	 * design file.
-	 *
+	 * 
 	 * @param propName the property name
 	 * @return <code>true</code> if it is. Otherwise <code>false</code>.
 	 */
@@ -446,27 +438,23 @@ public class XPathUtil {
 		if (DesignElement.NAME_PROP.equalsIgnoreCase(propName)
 				|| DesignSchemaConstants.EXTENDS_ATTRIB.equalsIgnoreCase(propName)
 				|| IExtendedItemModel.EXTENSION_NAME_PROP.equalsIgnoreCase(propName)
-				|| IOdaExtendableElementModel.EXTENSION_ID_PROP.equalsIgnoreCase(propName)) {
+				|| IOdaExtendableElementModel.EXTENSION_ID_PROP.equalsIgnoreCase(propName))
 			return true;
-		}
 
 		return false;
 	}
 
 	private static String getTagByPropertyType(ElementPropertyDefn propDefn) {
 		String tagName = ModelUtil.getTagByPropertyType(propDefn);
-		if (!DesignSchemaConstants.PROPERTY_TAG.equalsIgnoreCase(tagName)) {
+		if (!DesignSchemaConstants.PROPERTY_TAG.equalsIgnoreCase(tagName))
 			return tagName;
-		}
 
 		IPropertyDefn tmpPropDefn = getResourceKeyDefn(propDefn);
-		if (tmpPropDefn == null) {
+		if (tmpPropDefn == null)
 			return tagName;
-		}
 
-		if (tmpPropDefn.getTypeCode() == IPropertyType.HTML_TYPE) {
+		if (tmpPropDefn.getTypeCode() == IPropertyType.HTML_TYPE)
 			return DesignSchemaConstants.HTML_PROPERTY_TAG;
-		}
 
 		return DesignSchemaConstants.TEXT_PROPERTY_TAG;
 	}
@@ -477,7 +465,7 @@ public class XPathUtil {
 	 * property definition to the <code>TextItem.content</code>. If
 	 * <code>propDefn=TextItem.contentID</code>, the return value is also the
 	 * property definition to the <code>TextItem.content</code>.
-	 *
+	 * 
 	 * @param propDefn the input property definition
 	 * @return the property definition that has a resource key bound with
 	 */
@@ -486,16 +474,15 @@ public class XPathUtil {
 		String propName = propDefn.getName();
 		String otherPropName = EMPTY_STRING;
 
-		ElementPropertyDefn tmpPropDefn;
+		ElementPropertyDefn tmpPropDefn = propDefn;
 		boolean isKeyDefn = false;
 
 		if (propName.endsWith(RESOURCE_KEY_SUFFIX)) {
 			int index = propName.lastIndexOf(RESOURCE_KEY_SUFFIX);
 			otherPropName = propName.substring(0, index);
 
-			if (propDefn.getTypeCode() != IPropertyType.RESOURCE_KEY_TYPE) {
+			if (propDefn.getTypeCode() != IPropertyType.RESOURCE_KEY_TYPE)
 				return null;
-			}
 
 			isKeyDefn = true;
 		} else {
@@ -507,14 +494,15 @@ public class XPathUtil {
 		isKeyDefn = !isKeyDefn;
 
 		ElementDefn defn = (ElementDefn) propDefn.definedBy();
-		if (defn == null) {
+		if (defn == null)
 			return null;
-		}
 
 		tmpPropDefn = (ElementPropertyDefn) defn.getProperty(otherPropName);
-		if ((tmpPropDefn == null) || (isKeyDefn && tmpPropDefn.getTypeCode() != IPropertyType.RESOURCE_KEY_TYPE)) {
+		if (tmpPropDefn == null)
 			return null;
-		}
+
+		if (isKeyDefn && tmpPropDefn.getTypeCode() != IPropertyType.RESOURCE_KEY_TYPE)
+			return null;
 
 		return (isKeyDefn ? propDefn : tmpPropDefn);
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,6 @@ public class ExpressionButton {
 
 	private SelectionAdapter listener = new SelectionAdapter() {
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			Widget widget = e.widget;
 			if (widget instanceof MenuItem) {
@@ -83,9 +82,8 @@ public class ExpressionButton {
 	}
 
 	protected void setExpressionType(String exprType) {
-		if (helper != null && !exprType.equals(helper.getExpressionType())) {
+		if (helper != null && !exprType.equals(helper.getExpressionType()))
 			helper.setExpressionType(exprType);
-		}
 	}
 
 	protected String getExpressionType() {
@@ -115,9 +113,8 @@ public class ExpressionButton {
 	}
 
 	protected void setExpression(String expression) {
-		if (expression != null && helper != null) {
+		if (expression != null && helper != null)
 			helper.setExpression(expression);
-		}
 	}
 
 	protected int openExpressionBuilder(IExpressionBuilder builder, String expressionType) {
@@ -143,9 +140,8 @@ public class ExpressionButton {
 	}
 
 	public void notifyExpressionChangeEvent(String oldExpression, String newExpression) {
-		if (helper != null) {
+		if (helper != null)
 			helper.notifyExpressionChangeEvent(oldExpression, newExpression);
-		}
 	}
 
 	public void setExpressionHelper(IExpressionHelper helper) {

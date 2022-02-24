@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -53,37 +53,37 @@ public interface IQuery {
 	/**
 	 * Bind the ordering/sorting specification to the query instance. Specify the
 	 * ordering of one or more fields in the query result objects.
-	 *
+	 * 
 	 * @param sortSpecs An ordered list of IQuery.SortSpec objects.
 	 * @throws DataException if given sortSpecs is invalid.
 	 */
-	void setOrdering(List sortSpecs) throws DataException;
+	public void setOrdering(List sortSpecs) throws DataException;
 
 	/**
 	 * Specify the grouping of query results for aggregates.
-	 *
+	 * 
 	 * @param groupSpecs An ordered list of IQuery.GroupSpec objects.
 	 * @throws DataException if given groupSpecs is invalid.
 	 */
-	void setGrouping(List groupSpecs) throws DataException;
+	public void setGrouping(List groupSpecs) throws DataException;
 
 	/**
 	 * Specifies the maximum number of detail rows that can be retrieved by this
 	 * query.
-	 *
+	 * 
 	 * @param maxRows Maximum number of rows. A value of 0 means no limit on how
 	 *                many rows this query can retrieve.
 	 */
-	void setMaxRows(int maxRows);
+	public void setMaxRows(int maxRows);
 
 	/**
 	 * Set up the max number of rows that the data set represent by this
 	 * IBaseDataSetDesign instance can fetch from data source. If the input number
 	 * is non-positive then unlimited number of rows will be fetched.
-	 *
+	 * 
 	 * @param limit
 	 */
-	void setRowFetchLimit(int limit);
+	public void setRowFetchLimit(int limit);
 
 	/**
 	 * Define a custom event object, which is called after the query retrieves a
@@ -91,17 +91,17 @@ public interface IQuery {
 	 * using this method. These event objects are called in the order that they are
 	 * added.
 	 */
-	void addOnFetchEvent(IResultObjectEvent event);
+	public void addOnFetchEvent(IResultObjectEvent event);
 
 	/**
 	 * @param exprProcessor
 	 */
-	void setExprProcessor(IExpressionProcessor exprProcessor);
+	public void setExprProcessor(IExpressionProcessor exprProcessor);
 
 	/**
 	 * @param distinctValueFlag
 	 */
-	void setDistinctValueFlag(boolean distinctValueFlag);
+	public void setDistinctValueFlag(boolean distinctValueFlag);
 
 	/**
 	 * Close all result iterators of execute(...) methods on this Query instance,
@@ -109,20 +109,20 @@ public interface IQuery {
 	 * and their iterators can no longer be used. The Query instance itself is still
 	 * valid and can still be used for further execution.
 	 */
-	void close();
+	public void close();
 
 	/**
 	 * Return the query definition.
-	 *
+	 * 
 	 * @return
 	 */
-	IBaseQueryDefinition getQueryDefinition();
+	public IBaseQueryDefinition getQueryDefinition();
 
 	/**
-	 *
+	 * 
 	 * @param query
 	 */
-	void setQueryDefinition(IBaseQueryDefinition query);
+	public void setQueryDefinition(IBaseQueryDefinition query);
 
 	/* Nested data transform spec class definitions */
 
@@ -178,7 +178,7 @@ public interface IQuery {
 
 		/**
 		 * Instantiates a groupSpec defining a column name as its required group key.
-		 *
+		 * 
 		 * @param groupKeyColumn The column name as the group key.
 		 */
 		public GroupSpec(String groupKeyColumn) {
@@ -188,7 +188,7 @@ public interface IQuery {
 
 		/**
 		 * Instantiates a groupSpec defining a column name as its required group key.
-		 *
+		 * 
 		 * @param groupKeyColumn The column name as the group key.
 		 */
 		public GroupSpec(int groupKeyIndex, String groupKeyColumn) {
@@ -198,7 +198,7 @@ public interface IQuery {
 
 		/**
 		 * Gets the index of the column that defines the group key.
-		 *
+		 * 
 		 * @return The column name of the group key.
 		 */
 		public int getKeyIndex() {
@@ -207,7 +207,7 @@ public interface IQuery {
 
 		/**
 		 * Gets the name of the column that defines the group key.
-		 *
+		 * 
 		 * @return The column name of the group key.
 		 */
 		public String getKeyColumn() {
@@ -216,7 +216,7 @@ public interface IQuery {
 
 		/**
 		 * Specifies the group name. A name is optional, i.e. a group could be unnamed.
-		 *
+		 * 
 		 * @param groupName The name of the group.
 		 */
 		public void setName(String groupName) {
@@ -225,7 +225,7 @@ public interface IQuery {
 
 		/**
 		 * Returns the name of the group.
-		 *
+		 * 
 		 * @return Name of group. Can be null if group is unnamed.
 		 */
 		public String getName() {
@@ -245,7 +245,7 @@ public interface IQuery {
 		 * sort in the common case where the groups are ordered by the group key only.
 		 * To specify other types of sort criteria, use the query's setOrdering method
 		 * to apply directly on the query.
-		 *
+		 * 
 		 * @param groupSortDirection The group key sortDirection to set. Valid values
 		 *                           are those defined as the SortDirection enumeration
 		 *                           constants in birt.data.engine.api.IGroupDefn.
@@ -256,7 +256,7 @@ public interface IQuery {
 
 		/**
 		 * Gets the sort direction on the group key.
-		 *
+		 * 
 		 * @return The group key sort direction. If no direction is specified,
 		 *         IGroupDefn.NO_SORT is returned. This means the data engine can choose
 		 *         any sort order, or no sort order at all, for this group level.
@@ -268,7 +268,7 @@ public interface IQuery {
 		/**
 		 * Specifies the interval for grouping on a range of contiguous group key
 		 * values. Interval can be year, months, day, etc.
-		 *
+		 * 
 		 * @param interval The interval to set, as an integer value defined in
 		 *                 birt.data.engine.api.IGroupDefn.
 		 */
@@ -278,7 +278,7 @@ public interface IQuery {
 
 		/**
 		 * Returns the interval for grouping on a range of contiguous group key values.
-		 *
+		 * 
 		 * @return The grouping interval
 		 */
 		public int getInterval() {
@@ -290,7 +290,7 @@ public interface IQuery {
 		 * group, when Interval is used to define group break level. <br>
 		 * For example, if Interval is MONTH_INTERVAL, and IntervalRange is 6, each
 		 * group is defined to contain a span of 6 months.
-		 *
+		 * 
 		 * @param intervalRange The intervalRange to set.
 		 */
 		public void setIntervalRange(double groupIntervalRange) {
@@ -300,7 +300,7 @@ public interface IQuery {
 		/**
 		 * Returns the number of contiguous group intervals that form one single group,
 		 * when Interval is used to define group break level.
-		 *
+		 * 
 		 * @return The grouping intervalRange.
 		 */
 		public double getIntervalRange() {
@@ -330,9 +330,8 @@ public interface IQuery {
 		}
 
 		public void setSorts(List sorts) {
-			if (sorts != null) {
+			if (sorts != null)
 				this.sorts = sorts;
-			}
 		}
 
 		public List getSorts() {
@@ -340,9 +339,8 @@ public interface IQuery {
 		}
 
 		public void setFilters(List filters) {
-			if (filters != null) {
+			if (filters != null)
 				this.filters = FilterUtil.sortFilters(filters);
-			}
 		}
 
 		public List getFilters() {

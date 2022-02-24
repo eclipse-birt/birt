@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -75,7 +75,7 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	protected boolean needClip;
 
-	protected ArrayList<IArea> children = new ArrayList<>();
+	protected ArrayList<IArea> children = new ArrayList<IArea>();
 
 	protected transient boolean isInlineStacking = false;
 
@@ -205,12 +205,10 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return isInlineStacking;
 	}
 
-	@Override
 	public Iterator<IArea> getChildren() {
 		return children.iterator();
 	}
 
-	@Override
 	public void addChild(IArea area) {
 		children.add(area);
 
@@ -239,27 +237,22 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		children.remove(area);
 	}
 
-	@Override
 	public void accept(IAreaVisitor visitor) {
 		visitor.visitContainer(this);
 	}
 
-	@Override
 	public int getChildrenCount() {
 		return children.size();
 	}
 
-	@Override
 	public boolean needClip() {
 		return needClip;
 	}
 
-	@Override
 	public void setNeedClip(boolean needClip) {
 		this.needClip = needClip;
 	}
 
-	@Override
 	public BoxStyle getBoxStyle() {
 		return boxStyle;
 	}
@@ -349,9 +342,8 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	}
 
 	protected void calculateSpecifiedWidth(IContent content) {
-		if (content == null) {
+		if (content == null)
 			return;
-		}
 		DimensionType width = content.getWidth();
 		if (width != null) {
 			if (parent != null) {
@@ -363,16 +355,14 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	}
 
 	protected void calculateSpecifiedHeight(IContent content) {
-		if (content == null) {
+		if (content == null)
 			return;
-		}
 		DimensionType height = content.getHeight();
 		if (height != null) {
 			specifiedHeight = getDimensionValue(content, height);
 		}
 	}
 
-	@Override
 	public void setAllocatedY(int ay) {
 		if (hasStyle) {
 			y = ay + localProperties.getMarginTop();
@@ -381,7 +371,6 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		}
 	}
 
-	@Override
 	public void setAllocatedX(int ax) {
 		if (hasStyle) {
 			x = ax + localProperties.getMarginLeft();
@@ -392,11 +381,10 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * set allocated position
-	 *
+	 * 
 	 * @param ax
 	 * @param ay
 	 */
-	@Override
 	public void setAllocatedPosition(int ax, int ay) {
 		if (hasStyle) {
 			x = ax + localProperties.getMarginLeft();
@@ -409,7 +397,7 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * set allocated height
-	 *
+	 * 
 	 * @param aHeight
 	 */
 	public void setAllocatedHeight(int aHeight) {
@@ -457,7 +445,7 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * set allocated width
-	 *
+	 * 
 	 * @param aWidth
 	 */
 	public void setAllocatedWidth(int aWidth) {
@@ -495,10 +483,9 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * set allocated X position
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public int getAllocatedX() {
 		if (hasStyle) {
 			return x - localProperties.getMarginLeft();
@@ -509,10 +496,9 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * set allocated Y position
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public int getAllocatedY() {
 		if (hasStyle) {
 			return y - localProperties.getMarginTop();
@@ -523,7 +509,7 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * get content width
-	 *
+	 * 
 	 * @return
 	 */
 	public int getContentWidth() {
@@ -544,7 +530,7 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * get content height
-	 *
+	 * 
 	 * @return
 	 */
 	public int getContentHeight() {
@@ -558,10 +544,9 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * get allocated width
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public int getAllocatedWidth() {
 		if (hasStyle) {
 			return width + localProperties.getMarginLeft() + localProperties.getMarginRight();
@@ -572,10 +557,9 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * get allocated height
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public int getAllocatedHeight() {
 		if (hasStyle) {
 			return height + localProperties.getMarginBottom() + localProperties.getMarginTop();
@@ -734,14 +718,14 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		int topBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_TOP_WIDTH), 0));
 		int bottomBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_BOTTOM_WIDTH), 0));
 
-		int[] vsStyle = { IStyle.STYLE_MARGIN_RIGHT, IStyle.STYLE_MARGIN_LEFT, IStyle.STYLE_PADDING_RIGHT,
+		int[] vsStyle = new int[] { IStyle.STYLE_MARGIN_RIGHT, IStyle.STYLE_MARGIN_LEFT, IStyle.STYLE_PADDING_RIGHT,
 				IStyle.STYLE_PADDING_LEFT, IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.STYLE_BORDER_LEFT_WIDTH };
-		int[] vs = { rightMargin, leftMargin, rightPadding, leftPadding, rightBorder, leftBorder };
+		int[] vs = new int[] { rightMargin, leftMargin, rightPadding, leftPadding, rightBorder, leftBorder };
 		boolean[] vsConflicted = resolveBoxConflict(vs, maxWidth);
 
-		int[] hsStyle = { IStyle.STYLE_MARGIN_BOTTOM, IStyle.STYLE_MARGIN_TOP, IStyle.STYLE_PADDING_BOTTOM,
+		int[] hsStyle = new int[] { IStyle.STYLE_MARGIN_BOTTOM, IStyle.STYLE_MARGIN_TOP, IStyle.STYLE_PADDING_BOTTOM,
 				IStyle.STYLE_PADDING_TOP, IStyle.STYLE_BORDER_BOTTOM_WIDTH, IStyle.STYLE_BORDER_TOP_WIDTH };
-		int[] hs = { bottomMargin, topMargin, bottomPadding, topPadding, bottomBorder, topBorder };
+		int[] hs = new int[] { bottomMargin, topMargin, bottomPadding, topPadding, bottomBorder, topBorder };
 		boolean[] hsConflicted = resolveBoxConflict(hs, maxHeight);
 
 		for (int i = 0; i < vsStyle.length; i++) {
@@ -922,7 +906,6 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return (TableArea) p;
 	}
 
-	@Override
 	public ContainerArea deepClone() {
 		ContainerArea result = (ContainerArea) cloneArea();
 		Iterator iter = children.iterator();
@@ -963,7 +946,7 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 			}
 		}
 		IArea lastChild = getLastChild();
-		if (lastChild instanceof ContainerArea) {
+		if (lastChild != null && lastChild instanceof ContainerArea) {
 			ContainerArea lastContainer = (ContainerArea) lastChild;
 			if (!lastContainer.isInInlineStacking) {
 				return lastContainer.isPageBreakAfterAvoid();
@@ -979,7 +962,7 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 			}
 		}
 		IArea firstChild = getFirstChild();
-		if (firstChild instanceof ContainerArea) {
+		if (firstChild != null && firstChild instanceof ContainerArea) {
 			ContainerArea firstContainer = (ContainerArea) firstChild;
 			if (!firstContainer.isInInlineStacking) {
 				return firstContainer.isPageBreakBeforeAvoid();
@@ -1006,7 +989,7 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	/**
 	 * Reposition the table for RTL preserving margins.
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 	protected void flipPositionForRtl() {
@@ -1046,7 +1029,6 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		setContentHeight(height);
 	}
 
-	@Override
 	public String getHelpText() {
 		return null;
 	}

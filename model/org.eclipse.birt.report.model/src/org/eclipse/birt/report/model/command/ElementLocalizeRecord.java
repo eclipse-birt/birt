@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Record used to localize a virtual element inside a child element.
- *
+ * 
  */
 
 public class ElementLocalizeRecord extends SimpleRecord {
@@ -69,11 +69,11 @@ public class ElementLocalizeRecord extends SimpleRecord {
 	 * Map used to catch all the overridden properties of the child element.
 	 */
 
-	private Map<String, Object> propValues = new HashMap<>();
+	private Map<String, Object> propValues = new HashMap<String, Object>();
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param module        the module
 	 * @param virtualChild  the element to localize.
 	 * @param virtualParent the corresponding parent element.
@@ -94,7 +94,7 @@ public class ElementLocalizeRecord extends SimpleRecord {
 	/**
 	 * Collect all the overridden properties of the child element, catch the values
 	 * in a hash map.
-	 *
+	 * 
 	 */
 
 	private void collectOverriddenProperties() {
@@ -106,14 +106,12 @@ public class ElementLocalizeRecord extends SimpleRecord {
 
 			// virtual child can not define "extends" property.
 
-			if (IDesignElementModel.EXTENDS_PROP.equals(propDefn.getName())) {
+			if (IDesignElementModel.EXTENDS_PROP.equals(propDefn.getName()))
 				continue;
-			}
 
 			Object value = element.getLocalProperty(module, propDefn.getName());
-			if (value == null) {
+			if (value == null)
 				continue;
-			}
 
 			propValues.put(propDefn.getName(), value);
 		}
@@ -123,7 +121,7 @@ public class ElementLocalizeRecord extends SimpleRecord {
 	 * Localize the <code>from</code> element using the parent element. All
 	 * properties that can extends from the parent are set locally on the child
 	 * element itself
-	 *
+	 * 
 	 * @param from the child element
 	 * @param to   the parent element
 	 */
@@ -134,16 +132,16 @@ public class ElementLocalizeRecord extends SimpleRecord {
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next();
 			String propName = propDefn.getName();
 
-			
+			if (!propDefn.canInherit())
+				continue;
 
 			// Style property and extends property will be removed.
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if (!propDefn.canInherit() || IStyledElementModel.STYLE_PROP.equals(propName) || IDesignElementModel.EXTENDS_PROP.equals(propName)
-					|| IDesignElementModel.USER_PROPERTIES_PROP.equals(propName)) {
+			if (IStyledElementModel.STYLE_PROP.equals(propName) || IDesignElementModel.EXTENDS_PROP.equals(propName)
+					|| IDesignElementModel.USER_PROPERTIES_PROP.equals(propName))
 				continue;
-			}
 
 			Object localValue = to.getLocalProperty(module, propDefn);
 			Object parentValue = from.getStrategy().getPropertyFromElement(module, from, propDefn);
@@ -158,7 +156,7 @@ public class ElementLocalizeRecord extends SimpleRecord {
 	/**
 	 * Recover the element to the original virtual element state. The original
 	 * cached properties will be recovered.
-	 *
+	 * 
 	 * @param obj the element to recover.
 	 */
 
@@ -176,15 +174,13 @@ public class ElementLocalizeRecord extends SimpleRecord {
 
 			if (IStyledElementModel.STYLE_PROP.equals(propName)) {
 				ElementRefValue refValue = (ElementRefValue) propValues.get(propName);
-				if (refValue == null) {
+				if (refValue == null)
 					continue;
-				}
 
-				if (refValue.isResolved()) {
+				if (refValue.isResolved())
 					((StyledElement) obj).setStyle((Style) refValue.getElement());
-				} else {
+				else
 					((StyledElement) obj).setStyleName(refValue.getName());
-				}
 
 				continue;
 			}
@@ -195,11 +191,10 @@ public class ElementLocalizeRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	@Override
 	protected void perform(boolean undo) {
 		if (undo) {
 			recoverProperties(element);
@@ -212,22 +207,20 @@ public class ElementLocalizeRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	@Override
 	public DesignElement getTarget() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	@Override
 	public NotificationEvent getEvent() {
 		return new ElementLocalizeEvent(element);
 	}

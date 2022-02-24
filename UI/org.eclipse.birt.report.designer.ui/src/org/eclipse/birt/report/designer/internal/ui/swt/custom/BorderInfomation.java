@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -62,23 +62,21 @@ public class BorderInfomation {
 	private RGB inheritedColor;
 
 	public RGB getColor() {
-		if (color != null) {
+		if (color != null)
 			return color;
-		} else if (inheritedColor != null) {
+		else if (inheritedColor != null)
 			return inheritedColor;
-		} else {
+		else
 			return defaultColor;
-		}
 	}
 
 	public boolean isInheritedColor() {
-		if (color != null) {
+		if (color != null)
 			return false;
-		} else if (inheritedColor != null) {
+		else if (inheritedColor != null)
 			return true;
-		} else {
+		else
 			return false;
-		}
 	}
 
 	public String getPosition() {
@@ -86,13 +84,12 @@ public class BorderInfomation {
 	}
 
 	public String getStyle() {
-		if (style != null && !style.equals("")) {
+		if (style != null && !style.equals(""))
 			return style;
-		} else if (inheritedStyle != null && !inheritedStyle.equals("")) {
+		else if (inheritedStyle != null && !inheritedStyle.equals(""))
 			return inheritedStyle;
-		} else {
+		else
 			return defaultStyle;
-		}
 	}
 
 	public String getOriginStyle() {
@@ -108,33 +105,30 @@ public class BorderInfomation {
 	}
 
 	public boolean isInheritedStyle() {
-		if (style != null && !style.equals("")) {
+		if (style != null && !style.equals(""))
 			return false;
-		} else if (inheritedStyle != null && !inheritedStyle.equals("")) {
+		else if (inheritedStyle != null && !inheritedStyle.equals(""))
 			return true;
-		} else {
+		else
 			return false;
-		}
 	}
 
 	public String getWidth() {
-		if (width != null && !width.equals("")) {
+		if (width != null && !width.equals(""))
 			return width;
-		} else if (inheritedWidth != null && !inheritedWidth.equals("")) {
+		else if (inheritedWidth != null && !inheritedWidth.equals(""))
 			return inheritedWidth;
-		} else {
+		else
 			return defaultWidth;
-		}
 	}
 
 	public boolean isInheritedWidth() {
-		if (width != null && !width.equals("")) {
+		if (width != null && !width.equals(""))
 			return false;
-		} else if (inheritedWidth != null && !inheritedWidth.equals("")) {
+		else if (inheritedWidth != null && !inheritedWidth.equals(""))
 			return true;
-		} else {
+		else
 			return false;
-		}
 	}
 
 	public void setColor(RGB color) {

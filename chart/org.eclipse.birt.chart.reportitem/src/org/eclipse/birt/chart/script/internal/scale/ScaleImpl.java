@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.script.api.scale.IScale;
 
 /**
- *
+ * 
  */
 
 public abstract class ScaleImpl implements IScale {
@@ -33,23 +33,19 @@ public abstract class ScaleImpl implements IScale {
 		this.scale = axis.getScale();
 	}
 
-	@Override
 	public boolean isAuto() {
 		return !scale.isSetStep() && !scale.isSetStepNumber();
 	}
 
-	@Override
 	public boolean isCategory() {
 		return axis.isCategoryAxis();
 	}
 
-	@Override
 	public void setAuto() {
 		scale.unsetStep();
 		scale.unsetStepNumber();
 	}
 
-	@Override
 	public void setCategory(boolean category) {
 		axis.setCategoryAxis(category);
 	}

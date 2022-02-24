@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -174,17 +174,16 @@ public class ExprUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param be
 	 * @param be2
 	 * @return
 	 */
 	public static boolean isEqualExpression(IBaseExpression be, IBaseExpression be2) {
-		if (be == be2) {
+		if (be == be2)
 			return true;
-		} else if (be == null || be2 == null) {
+		else if (be == null || be2 == null)
 			return false;
-		}
 
 		if (be instanceof IScriptExpression && be2 instanceof IScriptExpression) {
 			IScriptExpression se = (IScriptExpression) be;
@@ -206,15 +205,16 @@ public class ExprUtil {
 			ICollectionConditionalExpression f2 = (ICollectionConditionalExpression) be2;
 
 			if (be.getDataType() != be2.getDataType() || f1.getExpr().size() != f2.getExpr().size()
-					|| f1.getOperand().size() != f2.getOperand().size() || !isEqualExpressionArray(f1.getExpr(), f2.getExpr())) {
+					|| f1.getOperand().size() != f2.getOperand().size())
 				return false;
-			}
+
+			if (!isEqualExpressionArray(f1.getExpr(), f2.getExpr()))
+				return false;
 			Iterator iter1 = f1.getOperand().iterator();
 			Iterator iter2 = f2.getOperand().iterator();
 			while (iter1.hasNext()) {
-				if (!isEqualExpressionArray((Collection) iter1.next(), (Collection) iter2.next())) {
+				if (!isEqualExpressionArray((Collection) iter1.next(), (Collection) iter2.next()))
 					return false;
-				}
 			}
 			return true;
 		}
@@ -227,11 +227,10 @@ public class ExprUtil {
 	 * @return
 	 */
 	private static boolean isEqualExpression2(IScriptExpression se, IScriptExpression se2) {
-		if (se == se2) {
+		if (se == se2)
 			return true;
-		} else if (se == null || se2 == null) {
+		else if (se == null || se2 == null)
 			return false;
-		}
 
 		return (se.getDataType() == se2.getDataType()
 				|| (se.getDataType() == DataType.ANY_TYPE && se2.getDataType() == DataType.UNKNOWN_TYPE)
@@ -240,41 +239,37 @@ public class ExprUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param operands
 	 * @param operands2
 	 * @return
 	 */
 	private static boolean isEqualExpressionArray(Collection op1, Collection op2) {
-		if (op1 == op2) {
+		if (op1 == op2)
 			return true;
-		}
 		Object[] operands1 = op1.toArray();
 		Object[] operands2 = op2.toArray();
-		if (operands1.length != operands2.length) {
+		if (operands1.length != operands2.length)
 			return false;
-		}
 		for (int i = 0; i < operands1.length; i++) {
-			if (!isEqualExpression((IBaseExpression) operands1[i], (IBaseExpression) operands2[i])) {
+			if (!isEqualExpression((IBaseExpression) operands1[i], (IBaseExpression) operands2[i]))
 				return false;
-			}
 		}
 		return true;
 	}
 
 	/**
 	 * Only for non-collection object
-	 *
+	 * 
 	 * @param ob1
 	 * @param ob2
 	 * @return
 	 */
 	private static boolean isEqualObject(Object ob1, Object ob2) {
-		if (ob1 == ob2) {
+		if (ob1 == ob2)
 			return true;
-		} else if (ob1 == null || ob2 == null) {
+		else if (ob1 == null || ob2 == null)
 			return false;
-		}
 
 		return ob1.equals(ob2);
 	}
@@ -284,9 +279,8 @@ public class ExprUtil {
 	 * @return
 	 */
 	public static int hashCode(IBaseExpression be) {
-		if (be == null) {
+		if (be == null)
 			return 0;
-		}
 
 		if (be instanceof IScriptExpression) {
 			return hashCode2((IScriptExpression) be);
@@ -304,13 +298,12 @@ public class ExprUtil {
 	 * @return
 	 */
 	private static int hashCode2(IBaseExpression se) {
-		if (se == null) {
+		if (se == null)
 			return 0;
-		}
 
-		if (se instanceof IScriptExpression) {
+		if (se instanceof IScriptExpression)
 			return se.getDataType() + ((IScriptExpression) se).getText().trim().hashCode();
-		} else if (se instanceof IExpressionCollection) {
+		else if (se instanceof IExpressionCollection) {
 			int hashCode = 0;
 			Object[] exprs = ((IExpressionCollection) se).getExpressions().toArray();
 			for (int i = 0; i < exprs.length; i++) {

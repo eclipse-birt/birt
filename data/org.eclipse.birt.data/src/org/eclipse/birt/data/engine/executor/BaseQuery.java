@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.executor;
@@ -30,8 +30,8 @@ import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
  * DataSourceQuery and CandidateQuery
  */
 public abstract class BaseQuery implements IQuery {
-	private SortSpec[] sorts = {};
-	private GroupSpec[] groups = {};
+	private SortSpec[] sorts = new SortSpec[0];
+	private GroupSpec[] groups = new GroupSpec[0];
 	private int maxRows = 0;
 	private int rowFetchLimit = 0;
 	private List fetchEventList = null;
@@ -44,41 +44,35 @@ public abstract class BaseQuery implements IQuery {
 	/**
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#setOrdering(java.util.List)
 	 */
-	@Override
 	public void setOrdering(List sortSpecs) throws DataException {
-		if (sortSpecs == null) {
+		if (sortSpecs == null)
 			sorts = new SortSpec[0];
-		} else {
+		else
 			sorts = (SortSpec[]) sortSpecs.toArray(new SortSpec[0]);
-		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#setGrouping(java.util.List)
 	 */
-	@Override
 	public void setGrouping(List groupSpecs) throws DataException {
-		if (groupSpecs == null) {
+		if (groupSpecs == null)
 			groups = new GroupSpec[0];
-		} else {
+		else
 			groups = (GroupSpec[]) groupSpecs.toArray(new GroupSpec[0]);
-		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#setMaxRows(int)
 	 */
-	@Override
 	public void setMaxRows(int maxRows) {
 		this.maxRows = maxRows;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#setRowFetchLimit(int)
 	 */
-	@Override
 	public void setRowFetchLimit(int limit) {
 		this.rowFetchLimit = limit > 0 ? limit : 0;
 	}
@@ -113,13 +107,11 @@ public abstract class BaseQuery implements IQuery {
 	/**
 	 * Add event to fetch event list
 	 */
-	@Override
 	public void addOnFetchEvent(IResultObjectEvent event) {
 		assert event != null;
 
-		if (fetchEventList == null) {
+		if (fetchEventList == null)
 			fetchEventList = new ArrayList();
-		}
 
 		fetchEventList.add(event);
 	}
@@ -133,7 +125,6 @@ public abstract class BaseQuery implements IQuery {
 	 * org.eclipse.birt.data.engine.odi.IQuery#setExprProcessor(org.eclipse.birt.
 	 * data.engine.executor.transformation.IExpressionProcessor)
 	 */
-	@Override
 	public void setExprProcessor(IExpressionProcessor exprProcessor) {
 		this.exprProcessor = exprProcessor;
 	}
@@ -155,29 +146,26 @@ public abstract class BaseQuery implements IQuery {
 	/**
 	 * @param distinctValueFlag
 	 */
-	@Override
 	public void setDistinctValueFlag(boolean distinctValueFlag) {
 		this.distinctValueFlag = distinctValueFlag;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.odi.IQuery#setQueryDefinition(org.eclipse.birt.
 	 * data.engine.api.IBaseQueryDefinition)
 	 */
-	@Override
 	public void setQueryDefinition(IBaseQueryDefinition queryDefn) {
 		this.queryDefinition = queryDefn;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#getQueryDefinition()
 	 */
-	@Override
 	public IBaseQueryDefinition getQueryDefinition() {
 		return this.queryDefinition;
 	}

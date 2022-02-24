@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -17,12 +17,10 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
-
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
 
 public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction {
-	@Override
 	public List<TimeMember> getResult(TimeMember member) {
 		String[] levels = member.getLevelType();
 		int[] values = member.getMemberValue();
@@ -35,7 +33,7 @@ public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction 
 			cal.set(Calendar.DAY_OF_MONTH, 31);
 		}
 
-		List<TimeMember> list = new ArrayList<>();
+		List<TimeMember> list = new ArrayList<TimeMember>();
 		if (calculateUnit.equals(YEAR)) {
 			TimeMember newMember = new TimeMember(values, levels);
 			list.add(newMember);

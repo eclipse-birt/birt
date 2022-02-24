@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.eclipse.jface.window.Window;
 
 /**
  * The component is used to set value series grouping.
- *
+ * 
  * @since 2.3
  */
 public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponent {
@@ -66,16 +66,14 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 
 	/**
 	 * Create instance of <code>GroupSortingDialog</code> for Y series.
-	 *
+	 * 
 	 * @param sdBackup
 	 * @return
 	 */
-	@Override
 	protected GroupSortingDialog createGroupSortingDialog(SeriesDefinition sdBackup) {
 		return new YOptionalGroupSortingDialog(cmpTop.getShell(), context, sdBackup, false);
 	}
 
-	@Override
 	protected void handleGroupAction() {
 		SeriesDefinition sdBackup = seriesdefinition.copyInstance();
 		GroupSortingDialog groupDialog = createGroupSortingDialog(sdBackup);
@@ -192,7 +190,6 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 		ChartUIUtil.setAllGroupingQueryExceptFirst(context.getModel(), expression);
 	}
 
-	@Override
 	protected void disableBtnGroup() {
 		if (query.getDefinition() != null && !"".endsWith(query.getDefinition())) { //$NON-NLS-1$
 			IDataServiceProvider dataServiceProvider = context.getDataServiceProvider();

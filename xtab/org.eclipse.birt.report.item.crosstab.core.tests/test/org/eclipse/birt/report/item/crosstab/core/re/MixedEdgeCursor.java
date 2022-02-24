@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +18,7 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.DimensionCursor;
 
 /**
- *
+ * 
  */
 
 public class MixedEdgeCursor extends DummyEdgeCursor {
@@ -27,7 +27,6 @@ public class MixedEdgeCursor extends DummyEdgeCursor {
 		super(count);
 	}
 
-	@Override
 	public boolean next() throws OLAPException {
 		pos++;
 
@@ -50,7 +49,6 @@ public class MixedEdgeCursor extends DummyEdgeCursor {
 		return hasNext;
 	}
 
-	@Override
 	void setEdgeEnd(DummyDimensionCursor dim, int idx) throws OLAPException {
 		long c = 1;
 		long plus = 0;
@@ -73,7 +71,6 @@ public class MixedEdgeCursor extends DummyEdgeCursor {
 		}
 	}
 
-	@Override
 	void stepCursor(int idx) throws OLAPException {
 		DummyDimensionCursor dc = (DummyDimensionCursor) dimentions.get(idx);
 

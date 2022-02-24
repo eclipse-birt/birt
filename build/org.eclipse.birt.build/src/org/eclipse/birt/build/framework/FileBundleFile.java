@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -23,7 +23,6 @@ public class FileBundleFile extends BundleFile {
 		super(bundle, basefile);
 	}
 
-	@Override
 	public BundleEntry getEntry(String path) {
 		path = normalizeFile(path);
 		File file = new File(this.basefile, path);
@@ -33,7 +32,6 @@ public class FileBundleFile extends BundleFile {
 		return new FileBundleEntry(this, file, path);
 	}
 
-	@Override
 	public boolean isDirectory(String path) {
 		path = normalizeFolder(path);
 		File dirPath = new File(this.basefile, path);
@@ -43,17 +41,15 @@ public class FileBundleFile extends BundleFile {
 		return false;
 	}
 
-	@Override
 	public List<String> getEntryPaths(String path) {
 		path = normalizeFolder(path);
 		File pathFile = new File(basefile, path);
 		if (pathFile.exists() && pathFile.isDirectory()) {
 			String[] fileList = pathFile.list();
-			if (fileList == null || fileList.length == 0) {
+			if (fileList == null || fileList.length == 0)
 				return null;
-			}
 
-			ArrayList<String> entries = new ArrayList<>();
+			ArrayList<String> entries = new ArrayList<String>();
 			for (String file : fileList) {
 				File childFile = new File(pathFile, file);
 				StringBuffer sb = new StringBuffer(path).append(file);
@@ -67,7 +63,6 @@ public class FileBundleFile extends BundleFile {
 		return null;
 	}
 
-	@Override
 	public void close() {
 	}
 }

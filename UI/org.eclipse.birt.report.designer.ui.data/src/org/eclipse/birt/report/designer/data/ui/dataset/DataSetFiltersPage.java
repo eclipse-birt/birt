@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,8 +59,8 @@ import org.eclipse.swt.widgets.TableColumn;
 
 /**
  * Presents dataset filters page of data set creation wizard
- *
- *
+ * 
+ * 
  */
 
 public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage implements Listener {
@@ -71,7 +71,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 	private transient PropertyHandle filters = null;
 	private boolean modelChanged = true;
 
-	private static String[] cellLabels = { Messages.getString("dataset.editor.title.expression"), //$NON-NLS-1$
+	private static String[] cellLabels = new String[] { Messages.getString("dataset.editor.title.expression"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.operator"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.value1"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.value2")//$NON-NLS-1$
@@ -100,11 +100,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 	}
 
 	/*
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * createPageControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Control createContents(Composite parent) {
 		initColumnNames();
 		viewer = new PropertyHandleTableViewer(parent, true, true, true);
@@ -125,7 +124,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		viewer.getViewer().setContentProvider(new IStructuredContentProvider() {
 
-			@Override
 			public Object[] getElements(Object inputElement) {
 				ArrayList filterList = new ArrayList(10);
 				Iterator iter = filters.iterator();
@@ -138,12 +136,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 				return filterList.toArray();
 			}
 
-			@Override
 			public void dispose() {
 
 			}
 
-			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 			}
@@ -160,7 +156,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 	private void addListeners() {
 		viewer.getNewButton().addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doNew();
 			}
@@ -168,7 +163,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		viewer.getEditButton().addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doEdit();
 			}
@@ -176,7 +170,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		viewer.getViewer().getTable().addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				doEdit();
 			}
@@ -184,11 +177,9 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		viewer.getViewer().getTable().addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 			}
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					setPageProperties();
@@ -199,12 +190,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		viewer.getRemoveButton().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setPageProperties();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
@@ -212,12 +201,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		viewer.getRemoveMenuItem().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setPageProperties();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
@@ -225,12 +212,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		viewer.getRemoveAllMenuItem().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setPageProperties();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -245,9 +230,8 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 	private void doEdit() {
 		int index = viewer.getViewer().getTable().getSelectionIndex();
-		if (index == -1) {
+		if (index == -1)
 			return;
-		}
 
 		FilterConditionHandle handle = (FilterConditionHandle) viewer.getViewer().getTable().getItem(index).getData();
 
@@ -283,11 +267,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 	}
 
 	private String getTitle(Object structureOrHandle) {
-		if (structureOrHandle instanceof FilterCondition) {
+		if (structureOrHandle instanceof FilterCondition)
 			return Messages.getString("FilterConditionBuilder.DialogTitle.New"); //$NON-NLS-1$
-		} else {
+		else
 			return Messages.getString("FilterConditionBuilder.DialogTitle.Edit"); //$NON-NLS-1$
-		}
 	}
 
 	private void update(Object structureOrHandle) {
@@ -322,12 +305,11 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#
 	 * canLeave()
 	 */
-	@Override
 	public boolean canLeave() {
 		if (modelChanged && this.getContainer() != null && this.getContainer() instanceof DataSetEditor) {
 			modelChanged = false;
@@ -336,7 +318,6 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 		return true;
 	}
 
-	@Override
 	public boolean performCancel() {
 		((DataSetHandle) getContainer().getModel()).removeListener(this);
 		return super.performCancel();
@@ -344,10 +325,9 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performOk()
 	 */
-	@Override
 	public boolean performOk() {
 		((DataSetHandle) getContainer().getModel()).removeListener(this);
 		return canLeave();
@@ -381,11 +361,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * pageActivated()
 	 */
-	@Override
 	public void pageActivated() {
 		getContainer().setMessage(Messages.getString("dataset.editor.filters"), IMessageProvider.NONE); //$NON-NLS-1$
 		initializeFilters();
@@ -403,7 +382,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 	 * this page are set
 	 */
 	private void setPageProperties() {
-		boolean filterConditionExists;
+		boolean filterConditionExists = false;
 
 		filterConditionExists = (filters != null && filters.getListValue() != null
 				&& filters.getListValue().size() > 0);
@@ -417,11 +396,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.
 	 * AbstractDescriptionPropertyPage#getPageDescription()
 	 */
-	@Override
 	public String getPageDescription() {
 		return Messages.getString("DataSetFiltersPage.description"); //$NON-NLS-1$
 	}
@@ -430,22 +408,20 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
 		 * .lang.Object, int)
 		 */
-		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
 		 * lang.Object, int)
 		 */
-		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			String value = null;
 			FilterCondition filterCondition = getStructure(element);
@@ -481,7 +457,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		/**
 		 * get the the filter
-		 *
+		 * 
 		 * @param filterCondition
 		 * @return
 		 */
@@ -489,7 +465,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 			if (DesignChoiceConstants.FILTER_OPERATOR_IN.equals(filterCondition.getOperator())
 					|| DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals(filterCondition.getOperator())) {
 				List value1List = filterCondition.getValue1List();
-				StringBuilder buf = new StringBuilder();
+				StringBuffer buf = new StringBuffer();
 				for (Iterator i = value1List.iterator(); i.hasNext();) {
 					String value = (String) i.next();
 					buf.append(value + "; "); //$NON-NLS-1$
@@ -505,41 +481,37 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
-		@Override
 		public void dispose() {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
 		 * .lang.Object, java.lang.String)
 		 */
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
@@ -549,12 +521,11 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.
 		 * eclipse.jface.viewers.SelectionChangedEvent)
 		 */
-		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			// TODO Auto-generated method stub
 			setPageProperties();
@@ -564,16 +535,14 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
-	@Override
 	public String getToolTip() {
 		return Messages.getString("DataSetFiltersPage.Filter.Tooltip"); //$NON-NLS-1$
 	}
 
-	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		modelChanged = true;
 	}

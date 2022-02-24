@@ -80,7 +80,7 @@ public class ColumnsInfoUtil {
 	 * @return
 	 */
 	private static List<String[]> getColumnsInfoList(String columnsInfo) {
-		List<String[]> columnsInfoList = new ArrayList<>();
+		List<String[]> columnsInfoList = new ArrayList<String[]>();
 		char[] columnsInfoChars = columnsInfo.toCharArray();
 		boolean isEscaped = false;
 		String[] columnInfo = { EMPTY_STRING, EMPTY_STRING, EMPTY_STRING };
@@ -98,9 +98,8 @@ public class ColumnsInfoUtil {
 				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 					isEscaped = !isEscaped;
-				} else {
+				} else
 					isEscaped = !isEscaped;
-				}
 			} else if (columnsInfoChars[i] == ',') {
 				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
@@ -112,15 +111,18 @@ public class ColumnsInfoUtil {
 				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 					isEscaped = !isEscaped;
-				} else if (i == (columnsInfoChars.length - 1)) {
-					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
-
-					columnsInfoList.add(columnInfo);
 				} else {
-					columnsInfoList.add(columnInfo);
-					index = 0;
-					columnInfo = new String[3];
-					columnInfo[0] = columnInfo[1] = columnInfo[2] = EMPTY_STRING;
+
+					if (i == (columnsInfoChars.length - 1)) {
+						columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
+
+						columnsInfoList.add(columnInfo);
+					} else {
+						columnsInfoList.add(columnInfo);
+						index = 0;
+						columnInfo = new String[3];
+						columnInfo[0] = columnInfo[1] = columnInfo[2] = EMPTY_STRING;
+					}
 				}
 			} else {
 				columnInfo[index] = columnInfo[index] + columnsInfoChars[i];

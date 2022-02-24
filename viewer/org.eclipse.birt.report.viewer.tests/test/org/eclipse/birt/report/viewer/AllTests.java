@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -18,14 +18,14 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.viewer.util.BaseTestCase;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.report.viewer.util.BaseTestCase;
+
 /**
  * Tests cases run in the build script.
- *
+ * 
  */
 public class AllTests extends BaseTestCase {
 
@@ -40,17 +40,15 @@ public class AllTests extends BaseTestCase {
 		for (int i = 0; i < tmpClasses.size(); i++) {
 			try {
 				String className = (String) tmpClasses.get(i);
-				if (className.endsWith("AllTests")) { //$NON-NLS-1$
+				if (className.endsWith("AllTests")) //$NON-NLS-1$
 					continue;
-				}
 
 				Class clazz = Class.forName(className);
 
 				int modifier = clazz.getModifiers();
 
-				if (Modifier.isAbstract(modifier) || !Modifier.isPublic(modifier)) {
+				if (Modifier.isAbstract(modifier) || !Modifier.isPublic(modifier))
 					continue;
-				}
 
 				test.addTestSuite(clazz);
 			} catch (ClassNotFoundException e) {
@@ -63,14 +61,15 @@ public class AllTests extends BaseTestCase {
 
 	/**
 	 * Returns all class names in the test directories.
-	 *
+	 * 
 	 * @return a list containing all cases.
 	 */
 
 	private List createCases() {
 		String pkgPrefix = "org.eclipse.birt.report.viewer"; //$NON-NLS-1$
 
-		List tmpClasses = new ArrayList(getClasses("context", pkgPrefix));
+		List tmpClasses = new ArrayList();
+		tmpClasses.addAll(getClasses("context", pkgPrefix)); //$NON-NLS-1$
 		tmpClasses.addAll(getClasses("service", pkgPrefix)); //$NON-NLS-1$
 		tmpClasses.addAll(getClasses("utility", pkgPrefix)); //$NON-NLS-1$
 
@@ -80,7 +79,7 @@ public class AllTests extends BaseTestCase {
 
 	/**
 	 * Returns all class names in the certain directory
-	 *
+	 * 
 	 * @param pckgname
 	 * @param pkgPrefix
 	 * @return
@@ -89,7 +88,7 @@ public class AllTests extends BaseTestCase {
 		List classes = new ArrayList();
 
 		// Get a File object for the package
-		File directory;
+		File directory = null;
 
 		String path = pckgname.replace('.', '/');
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,11 +34,11 @@ import org.eclipse.birt.report.model.api.TableHandle;
  * <li>Merging properties: DE stores custom and default properties separately.
  * In FPE, they are merged.</li>
  * <p>
- *
+ * 
  * This class visits the Design Engine's IR to create a new IR for FPE. It is
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
- *
+ * 
  * <p>
  * special consideration in styles
  * <p>
@@ -50,7 +50,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
  * remove the text-decoration from the container's styles.
  * <li>BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
- *
+ * 
  */
 public class MultiViewEngineIRVisitor extends EngineIRVisitor {
 
@@ -58,7 +58,6 @@ public class MultiViewEngineIRVisitor extends EngineIRVisitor {
 		super(handle);
 	}
 
-	@Override
 	public void visitTable(TableHandle handle) {
 		DesignElementHandle currentView = handle.getCurrentView();
 		if (currentView != null && currentView != handle) {
@@ -69,7 +68,6 @@ public class MultiViewEngineIRVisitor extends EngineIRVisitor {
 		}
 	}
 
-	@Override
 	protected void visitExtendedItem(ExtendedItemHandle handle) {
 		DesignElementHandle currentView = handle.getCurrentView();
 		if (currentView != null && currentView != handle) {

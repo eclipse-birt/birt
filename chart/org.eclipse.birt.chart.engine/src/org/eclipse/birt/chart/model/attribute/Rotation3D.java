@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -57,7 +57,7 @@ public interface Rotation3D extends IChartObject {
 	 * provides a series of Angle3D, each of which represents a rotation action,
 	 * with the angle values indicate how many degrees the object will be rotated
 	 * around the corresponding axis. <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Angles</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRotation3D_Angles()
 	 * @model containment="true" extendedMetaData="kind='element' name='Angles'"
@@ -68,7 +68,6 @@ public interface Rotation3D extends IChartObject {
 	/**
 	 * @generated
 	 */
-	@Override
 	Rotation3D copyInstance();
 
 } // Rotation3D

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.interactivity;
@@ -14,8 +14,8 @@ package org.eclipse.birt.report.tests.chart.interactivity;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
@@ -40,8 +40,8 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.MessageBox;
 
 /**
  * The selector of charts in SWT.
@@ -64,7 +64,7 @@ public final class SWTHighlightViewer extends Composite implements PaintListener
 
 	/**
 	 * main() method for constructing the layout.
-	 *
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -100,9 +100,8 @@ public final class SWTHighlightViewer extends Composite implements PaintListener
 
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
+			if (!display.readAndDispatch())
 				display.sleep();
-			}
 		}
 		display.dispose();
 	}
@@ -127,12 +126,11 @@ public final class SWTHighlightViewer extends Composite implements PaintListener
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
-	@Override
 	public void paintControl(PaintEvent e) {
 		Rectangle d = this.getClientArea();
 		Image imgChart = new Image(this.getDisplay(), d);
@@ -163,11 +161,10 @@ public final class SWTHighlightViewer extends Composite implements PaintListener
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(btn)) {
 			int iSelection = cbType.getSelectionIndex();
@@ -201,55 +198,49 @@ public final class SWTHighlightViewer extends Composite implements PaintListener
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getDesignTimeModel()
 	 */
-	@Override
 	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
 	 */
-	@Override
 	public Chart getRunTimeModel() {
 		return gcs.getChartModel();
 	}
 
-	@Override
 	public Object peerInstance() {
 		return this;
 	}
 
-	@Override
 	public void regenerateChart() {
 		bNeedsGeneration = true;
 		redraw();
 	}
 
-	@Override
 	public void repaintChart() {
 		redraw();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
 	 */
@@ -259,7 +250,7 @@ public final class SWTHighlightViewer extends Composite implements PaintListener
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
 	 * java.lang.Object)
@@ -270,7 +261,7 @@ public final class SWTHighlightViewer extends Composite implements PaintListener
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
 	 */
@@ -278,7 +269,6 @@ public final class SWTHighlightViewer extends Composite implements PaintListener
 		return contextMap.remove(key);
 	}
 
-	@Override
 	public void callback(Object event, Object source, CallBackValue value) {
 		MessageBox mb = new MessageBox(this.getShell());
 		mb.setText(value.getIdentifier());

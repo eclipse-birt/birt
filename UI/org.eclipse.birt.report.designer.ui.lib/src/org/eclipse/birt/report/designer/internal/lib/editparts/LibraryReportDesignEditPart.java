@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,10 +63,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	@Override
 	protected IFigure createFigure() {
 		ReportRootFigure figure = new ReportRootFigure();
 
@@ -94,11 +93,10 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.designer.ui.editor.edit.ReportElementEditPart#
 	 * getModelChildren()
 	 */
-	@Override
 	protected List getModelChildren() {
 
 		return HandleAdapterFactory.getInstance().getLibraryHandleAdapter(getModel()).getChildren();
@@ -106,11 +104,10 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
 	 * AbstractReportEditPart#refreshFigure()
 	 */
-	@Override
 	public void refreshFigure() {
 
 		ReportRootFigure figure = (ReportRootFigure) getFigure();
@@ -127,12 +124,11 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportDesignEditPart#activate()
 	 */
-	@Override
 	public void activate() {
 		HandleAdapterFactory.getInstance().getLibraryHandleAdapter(getModel()).addPropertyChangeListener(this);
 		super.activate();
@@ -140,12 +136,11 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportDesignEditPart#deactivate()
 	 */
-	@Override
 	public void deactivate() {
 		HandleAdapterFactory.getInstance().getLibraryHandleAdapter(getModel()).removePropertyChangeListener(this);
 		super.deactivate();
@@ -153,11 +148,10 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
 	 * PropertyChangeEvent)
 	 */
-	@Override
 	public void propertyChange(final PropertyChangeEvent evt) {
 		if (LibraryHandleAdapter.CURRENTMODEL.equals(evt.getPropertyName())
 				|| LibraryHandleAdapter.CREATE_ELEMENT.equals(evt.getPropertyName())) {
@@ -165,7 +159,6 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 			refresh();
 			Display.getCurrent().asyncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					Object model = evt.getNewValue();
 					Object editpart = getViewer().getEditPartRegistry().get(model);
@@ -208,11 +201,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 		return true;
 	}
 
-	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReportFlowLayoutEditPolicy() {
 
-			@Override
 			protected org.eclipse.gef.commands.Command getCreateCommand(CreateRequest request) {
 //						List list = getHost().getChildren();
 //						Boolean direct = (Boolean) request.getExtendedData()
@@ -250,7 +241,6 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ReportContainerEditPolicy());
 	}
 
-	@Override
 	protected void notifyModelChange(Object focus) {
 		super.notifyModelChange(focus);
 		if (!isModelInModuleHandle()) {
@@ -261,16 +251,14 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.
 	 * Class)
 	 */
-	@Override
 	public Object getAdapter(Class key) {
 		if (key == IModelEventProcessor.class) {
 			return new GraphicsViewModelEventProcessor(this) {
-				@Override
 				public void clear() {
 					super.clear();
 					Object oldObj = HandleAdapterFactory.getInstance().getLibraryHandleAdapter().getOldEditorModel();

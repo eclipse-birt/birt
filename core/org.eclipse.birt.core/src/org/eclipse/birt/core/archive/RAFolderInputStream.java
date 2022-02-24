@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +61,6 @@ public class RAFolderInputStream extends RAInputStream {
 		return this.name;
 	}
 
-	@Override
 	public void refresh() throws IOException {
 		bufLen = 0;
 		bufCur = 0;
@@ -71,11 +70,11 @@ public class RAFolderInputStream extends RAInputStream {
 		bufLen = 0;
 		bufCur = 0;
 		long availableSize = randomFile.length() - randomFile.getFilePointer();
-		if (availableSize <= 0) {
+		if (availableSize <= 0)
 			return;
-		}
 		int len = (int) Math.min(buf.length, availableSize);
 		bufLen = randomFile.read(buf, 0, len);
+		return;
 	}
 
 	/**
@@ -93,14 +92,11 @@ public class RAFolderInputStream extends RAInputStream {
 	 *         reached.
 	 * @exception IOException if an I/O error occurs.
 	 */
-	@Override
 	public int read() throws IOException {
-		if (bufLen <= 0 || bufLen == bufCur) {
+		if (bufLen <= 0 || bufLen == bufCur)
 			readToBuffer();
-		}
-		if (bufLen <= 0) {
+		if (bufLen <= 0)
 			return -1;
-		}
 		return buf[bufCur++] & 0xff;
 	}
 
@@ -118,14 +114,12 @@ public class RAFolderInputStream extends RAInputStream {
 	 *         there is no more data because the end of the stream has been reached
 	 * @exception IOException if an I/O error occurs.
 	 */
-	@Override
 	public int read(byte b[], int off, int len) throws IOException {
 		int n = 0;
 		do {
 			int count = this.read1(b, off + n, len - n);
-			if (count < 0) {
+			if (count < 0)
 				break;
-			}
 			n += count;
 		} while (n < len);
 		return (n > 0) ? n : -1;
@@ -133,7 +127,7 @@ public class RAFolderInputStream extends RAInputStream {
 
 	/**
 	 * Read the data in the buffer up to len to an array of bytes.
-	 *
+	 * 
 	 * @param b
 	 * @param off
 	 * @param len
@@ -141,16 +135,13 @@ public class RAFolderInputStream extends RAInputStream {
 	 * @throws IOException
 	 */
 	private int read1(byte b[], int off, int len) throws IOException {
-		if (bufLen <= 0 || bufLen == bufCur) {
+		if (bufLen <= 0 || bufLen == bufCur)
 			readToBuffer();
-		}
-		if (bufLen <= 0) {
+		if (bufLen <= 0)
 			return -1;
-		}
 		int availableSize = bufLen - bufCur;
-		if (len > availableSize) {
+		if (len > availableSize)
 			len = availableSize;
-		}
 		System.arraycopy(buf, bufCur, b, off, len);
 		bufCur += len;
 		return len;
@@ -165,11 +156,11 @@ public class RAFolderInputStream extends RAInputStream {
 	 * are <code>b1</code>, <code>b2</code>, <code>b3</code>, and <code>b4</code>,
 	 * where <code>0&nbsp;&lt;=&nbsp;b1, b2, b3, b4&nbsp;&lt;=&nbsp;255</code>, then
 	 * the result is equal to: <blockquote>
-	 *
+	 * 
 	 * <pre>
 	 * (b1 &lt;&lt; 24) | (b2 &lt;&lt; 16) + (b3 &lt;&lt; 8) + b4
 	 * </pre>
-	 *
+	 * 
 	 * </blockquote>
 	 * <p>
 	 * This method blocks until the four bytes are read, the end of the stream is
@@ -181,15 +172,13 @@ public class RAFolderInputStream extends RAInputStream {
 	 *                         bytes.
 	 * @exception IOException  if an I/O error occurs.
 	 */
-	@Override
 	public int readInt() throws IOException {
 		byte ch[] = new byte[4];
 		this.readFully(ch, 0, 4);
 
 		int ret = 0;
-		for (int i = 0; i < ch.length; i++) {
+		for (int i = 0; i < ch.length; i++)
 			ret = ((ret << 8) & 0xFFFFFF00) | (ch[i] & 0x000000FF);
-		}
 		return ret;
 	}
 
@@ -199,22 +188,22 @@ public class RAFolderInputStream extends RAInputStream {
 	 * order, are <code>b1</code>, <code>b2</code>, <code>b3</code>,
 	 * <code>b4</code>, <code>b5</code>, <code>b6</code>, <code>b7</code>, and
 	 * <code>b8,</code> where: <blockquote>
-	 *
+	 * 
 	 * <pre>
 	 *     0 &lt;= b1, b2, b3, b4, b5, b6, b7, b8 &lt;=255,
 	 * </pre>
-	 *
+	 * 
 	 * </blockquote>
 	 * <p>
 	 * then the result is equal to:
 	 * <p>
 	 * <blockquote>
-	 *
+	 * 
 	 * <pre>
 	 * ((long) b1 &lt;&lt; 56) + ((long) b2 &lt;&lt; 48) + ((long) b3 &lt;&lt; 40) + ((long) b4 &lt;&lt; 32) + ((long) b5 &lt;&lt; 24)
 	 * 		+ ((long) b6 &lt;&lt; 16) + ((long) b7 &lt;&lt; 8) + b8
 	 * </pre>
-	 *
+	 * 
 	 * </blockquote>
 	 * <p>
 	 * This method blocks until the eight bytes are read, the end of the stream is
@@ -226,7 +215,6 @@ public class RAFolderInputStream extends RAInputStream {
 	 *                         bytes.
 	 * @exception IOException  if an I/O error occurs.
 	 */
-	@Override
 	public long readLong() throws IOException {
 		return ((long) (readInt()) << 32) + (readInt() & 0xFFFFFFFFL);
 	}
@@ -246,14 +234,12 @@ public class RAFolderInputStream extends RAInputStream {
 	 *                         bytes.
 	 * @exception IOException  if an I/O error occurs.
 	 */
-	@Override
 	public final void readFully(byte b[], int off, int len) throws IOException {
 		int n = 0;
 		do {
 			int count = this.read(b, off + n, len - n);
-			if (count < 0) {
+			if (count < 0)
 				throw new EOFException();
-			}
 			n += count;
 		} while (n < len);
 	}
@@ -268,11 +254,10 @@ public class RAFolderInputStream extends RAInputStream {
 
 	/**
 	 * Move the file pointer to the new location in the stream
-	 *
+	 * 
 	 * @param localPos - the new local postion in the stream. The localPos starts
 	 *                 from 0.
 	 */
-	@Override
 	public void seek(long localPos) throws IOException {
 		if (localPos > randomFile.getFilePointer() || localPos < randomFile.getFilePointer() - bufLen) {
 			randomFile.seek(localPos);
@@ -283,12 +268,10 @@ public class RAFolderInputStream extends RAInputStream {
 		}
 	}
 
-	@Override
 	public long getOffset() throws IOException {
 		return randomFile.getFilePointer() - bufLen + bufCur;
 	}
 
-	@Override
 	public long length() throws IOException {
 		return getStreamLength();
 	}
@@ -296,7 +279,6 @@ public class RAFolderInputStream extends RAInputStream {
 	/**
 	 * Close the stream
 	 */
-	@Override
 	public void close() throws IOException {
 		if (manager != null) {
 			synchronized (manager) {
@@ -310,7 +292,6 @@ public class RAFolderInputStream extends RAInputStream {
 		super.close();
 	}
 
-	@Override
 	public int available() throws IOException {
 		long availableSize = randomFile.length() - randomFile.getFilePointer();
 		if (availableSize > Integer.MAX_VALUE) {

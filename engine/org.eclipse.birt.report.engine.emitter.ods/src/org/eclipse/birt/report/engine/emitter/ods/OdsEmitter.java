@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -106,12 +106,10 @@ public class OdsEmitter extends AbstractOdfEmitter {
 
 	protected IReportContext reportContext;
 
-	@Override
 	public String getOutputFormat() {
 		return "ods";
 	}
 
-	@Override
 	public void initialize(IEmitterServices service) throws EngineException {
 		super.initialize(service);
 		IReportContext reportContext = service.getReportContext();
@@ -119,21 +117,18 @@ public class OdsEmitter extends AbstractOdfEmitter {
 			Locale locale = reportContext.getLocale();
 			if (locale != null) {
 				context.setLocale(ULocale.forLocale(locale));
-			} else {
+			} else
 				context.setLocale(ULocale.getDefault());
-			}
 		}
 		this.reportContext = reportContext;
 		tableCount = 0;
 	}
 
-	@Override
 	protected AbstractOdfEmitterContext createContext() {
 		this.context = new OdsContext();
 		return context;
 	}
 
-	@Override
 	public void start(IReportContent report) throws BirtException {
 		super.start(report);
 		setupRenderOptions();
@@ -151,7 +146,9 @@ public class OdsEmitter extends AbstractOdfEmitter {
 
 		try {
 			writeMetaProperties(reportContent);
-		} catch (IOException | BirtException e) {
+		} catch (IOException e) {
+			logger.log(Level.WARNING, e.getLocalizedMessage());
+		} catch (BirtException e) {
 			logger.log(Level.WARNING, e.getLocalizedMessage());
 		}
 
@@ -184,7 +181,7 @@ public class OdsEmitter extends AbstractOdfEmitter {
 	private void parsePageSize(IReportContent report) {
 		Object dpi = report.getReportContext().getRenderOption().getOption(IRenderOption.RENDER_DPI);
 		int renderDpi = 0;
-		if (dpi instanceof Integer) {
+		if (dpi != null && dpi instanceof Integer) {
 			renderDpi = ((Integer) dpi).intValue();
 		}
 		reportDpi = PropertyUtil.getRenderDpi(report, renderDpi);
@@ -203,21 +200,20 @@ public class OdsEmitter extends AbstractOdfEmitter {
 	private void setupRenderOptions() {
 		IRenderOption renderOptions = service.getRenderOption();
 		Object textWrapping = renderOptions.getOption(IExcelRenderOption.WRAPPING_TEXT);
-		if (textWrapping instanceof Boolean) {
+		if (textWrapping != null && textWrapping instanceof Boolean) {
 			context.setWrappingText((Boolean) textWrapping);
 		} else {
 			context.setWrappingText((Boolean) true);
 		}
 
 		Object hideGridlines = renderOptions.getOption(IExcelRenderOption.HIDE_GRIDLINES);
-		if (hideGridlines instanceof Boolean) {
+		if (hideGridlines != null && hideGridlines instanceof Boolean) {
 			context.setHideGridlines((Boolean) hideGridlines);
 		} else {
 			context.setHideGridlines((Boolean) false);
 		}
 	}
 
-	@Override
 	public void startPage(IPageContent page) throws BirtException {
 		if (pageLayout == null) {
 			pageLayout = makePageLayoutStyle(page);
@@ -251,14 +247,12 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		}
 	}
 
-	@Override
 	public void endPage(IPageContent page) throws BirtException {
 		if (!outputInMasterPage && page.getPageFooter() != null) {
 			contentVisitor.visitChildren(page.getPageFooter(), null);
 		}
 	}
 
-	@Override
 	public void startTable(ITableContent table) {
 		ContainerSizeInfo sizeInfo = engine.getCurrentContainer().getSizeInfo();
 		int width = sizeInfo.getWidth();
@@ -279,35 +273,29 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		engine.addTable(table, info, sizeInfo);
 	}
 
-	@Override
 	public void startRow(IRowContent row) {
 		engine.addRow(row.getComputedStyle());
 	}
 
-	@Override
 	public void endRow(IRowContent row) {
 		DimensionType height = row.getHeight();
 		float rowHeight = (float) OdfUtil.convertDimensionType(height, 0, reportDpi) / 1000f;
 		engine.endRow(rowHeight);
 	}
 
-	@Override
 	public void startCell(ICellContent cell) {
 		IStyle style = cell.getComputedStyle();
 		engine.addCell(cell, cell.getColumn(), cell.getColSpan(), cell.getRowSpan(), style);
 	}
 
-	@Override
 	public void endCell(ICellContent cell) {
 		engine.endCell(cell);
 	}
 
-	@Override
 	public void endTable(ITableContent table) {
 		engine.endTable(table);
 	}
 
-	@Override
 	public void startList(IListContent list) {
 		ContainerSizeInfo size = engine.getCurrentContainer().getSizeInfo();
 		ColumnsInfo table = LayoutUtil.createTable(list, size.getWidth(), reportDpi);
@@ -321,22 +309,18 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		}
 	}
 
-	@Override
 	public void startListBand(IListBandContent listBand) {
 		engine.addCell(0, 1, 1, listBand.getComputedStyle());
 	}
 
-	@Override
 	public void endListBand(IListBandContent listBand) {
 		engine.endContainer();
 	}
 
-	@Override
 	public void endList(IListContent list) {
 		engine.endTable(list);
 	}
 
-	@Override
 	public void startForeign(IForeignContent foreign) throws BirtException {
 		if (IForeignContent.HTML_TYPE.equalsIgnoreCase(foreign.getRawType())) {
 			HTML2Content.html2Content(foreign);
@@ -347,7 +331,6 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		}
 	}
 
-	@Override
 	public void startText(ITextContent text) {
 		HyperlinkInfo url = parseHyperLink(text);
 		BookmarkDef bookmark = getBookmark(text);
@@ -355,7 +338,6 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		engine.addData(text.getText(), text.getComputedStyle(), url, bookmark, height);
 	}
 
-	@Override
 	public void startData(IDataContent data) {
 		addDataContent(data);
 	}
@@ -402,7 +384,6 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		return OdfUtil.convertDimensionType(content.getHeight(), 0, reportDpi) / 1000f;
 	}
 
-	@Override
 	public void startImage(IImageContent image) {
 		IStyle style = image.getComputedStyle();
 		HyperlinkInfo url = parseHyperLink(image);
@@ -411,7 +392,6 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		engine.addImageData(image, style, url, bookmark);
 	}
 
-	@Override
 	public void startLabel(ILabelContent label) {
 		Object design = label.getGenerateBy();
 		IContent container = label;
@@ -432,7 +412,6 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		}
 	}
 
-	@Override
 	public void startAutoText(IAutoTextContent autoText) {
 		HyperlinkInfo link = parseHyperLink(autoText);
 		BookmarkDef bookmark = getBookmark(autoText);
@@ -451,7 +430,6 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		sheetIndex++;
 	}
 
-	@Override
 	public void end(IReportContent report) throws BirtException {
 		// Make sure the engine already calculates all data in cache.
 		engine.cacheBookmarks(sheetName);
@@ -475,7 +453,7 @@ public class OdsEmitter extends AbstractOdfEmitter {
 
 	/**
 	 * @throws IOException
-	 *
+	 * 
 	 */
 	public void outputCacheData() throws IOException {
 		// update sheet name to page label, if necessary
@@ -563,9 +541,8 @@ public class OdsEmitter extends AbstractOdfEmitter {
 
 	protected BookmarkDef getBookmark(IContent content) {
 		String bookmarkName = content.getBookmark();
-		if (bookmarkName == null) {
+		if (bookmarkName == null)
 			return null;
-		}
 
 		BookmarkDef bookmark = new BookmarkDef(content.getBookmark());
 		if (!OdsUtil.isValidBookmarkName(bookmarkName)) {
@@ -655,17 +632,14 @@ public class OdsEmitter extends AbstractOdfEmitter {
 		return TimeZone.getDefault();
 	}
 
-	@Override
 	public void endContainer(IContainerContent container) {
 		engine.removeContainerStyle();
 	}
 
-	@Override
 	public void startContainer(IContainerContent container) {
 		engine.addContainerStyle(container.getComputedStyle());
 	}
 
-	@Override
 	protected String getRootMime() {
 		return MIME_TYPE;
 	}

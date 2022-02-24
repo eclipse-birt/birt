@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -86,7 +86,6 @@ public class SelectionButtonDialogField extends DialogField {
 	/*
 	 * @see DialogField#doFillIntoGrid
 	 */
-	@Override
 	public Control[] doFillIntoGrid(Composite parent, int nColumns) {
 		assertEnoughColumns(nColumns);
 
@@ -111,7 +110,6 @@ public class SelectionButtonDialogField extends DialogField {
 	/*
 	 * @see DialogField#getNumberOfControls
 	 */
-	@Override
 	public int getNumberOfControls() {
 		return 1;
 	}
@@ -121,7 +119,7 @@ public class SelectionButtonDialogField extends DialogField {
 	/**
 	 * Returns the selection button widget. When called the first time, the widget
 	 * will be created.
-	 *
+	 * 
 	 * @param group The parent composite when called the first time, or
 	 *              <code>null</code> after.
 	 */
@@ -136,12 +134,10 @@ public class SelectionButtonDialogField extends DialogField {
 			fButton.setSelection(fIsSelected);
 			fButton.addSelectionListener(new SelectionListener() {
 
-				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					doWidgetSelected(e);
 				}
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					doWidgetSelected(e);
 				}
@@ -176,12 +172,11 @@ public class SelectionButtonDialogField extends DialogField {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField#setLabelText(
 	 * java.lang.String)
 	 */
-	@Override
 	public void setLabelText(String labeltext) {
 		fLabelText = labeltext;
 		if (isOkToUse(fButton)) {
@@ -213,7 +208,6 @@ public class SelectionButtonDialogField extends DialogField {
 	/*
 	 * @see DialogField#updateEnableState
 	 */
-	@Override
 	protected void updateEnableState() {
 		super.updateEnableState();
 		if (isOkToUse(fButton)) {
@@ -223,10 +217,9 @@ public class SelectionButtonDialogField extends DialogField {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField#refresh()
 	 */
-	@Override
 	public void refresh() {
 		super.refresh();
 		if (isOkToUse(fButton)) {

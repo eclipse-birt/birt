@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -37,7 +37,7 @@ public class ReportId implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this ReportId.
-	 *
+	 * 
 	 * @return id
 	 */
 	public java.lang.String getId() {
@@ -46,7 +46,7 @@ public class ReportId implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this ReportId.
-	 *
+	 * 
 	 * @param id
 	 */
 	public void setId(java.lang.String id) {
@@ -55,7 +55,7 @@ public class ReportId implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this ReportId.
-	 *
+	 * 
 	 * @return type
 	 */
 	public org.eclipse.birt.report.soapengine.api.ReportIdType getType() {
@@ -64,7 +64,7 @@ public class ReportId implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this ReportId.
-	 *
+	 * 
 	 * @param type
 	 */
 	public void setType(org.eclipse.birt.report.soapengine.api.ReportIdType type) {
@@ -73,7 +73,7 @@ public class ReportId implements java.io.Serializable {
 
 	/**
 	 * Gets the rptElementId value for this ReportId.
-	 *
+	 * 
 	 * @return rptElementId
 	 */
 	public java.lang.Long getRptElementId() {
@@ -82,7 +82,7 @@ public class ReportId implements java.io.Serializable {
 
 	/**
 	 * Sets the rptElementId value for this ReportId.
-	 *
+	 * 
 	 * @param rptElementId
 	 */
 	public void setRptElementId(java.lang.Long rptElementId) {
@@ -91,18 +91,14 @@ public class ReportId implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ReportId)) {
+		if (!(obj instanceof ReportId))
 			return false;
-		}
 		ReportId other = (ReportId) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -120,7 +116,6 @@ public class ReportId implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

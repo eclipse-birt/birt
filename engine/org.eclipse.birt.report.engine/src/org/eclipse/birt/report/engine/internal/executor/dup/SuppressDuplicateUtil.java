@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
 public class SuppressDuplicateUtil {
 
-	private HashMap<DataItemDesign, DataItemExecutionState> states = new HashMap<>();
+	private HashMap<DataItemDesign, DataItemExecutionState> states = new HashMap<DataItemDesign, DataItemExecutionState>();
 
 	private Report report;
 	private ClearDuplicateFlagVisitor resetVisitor;
@@ -48,7 +48,7 @@ public class SuppressDuplicateUtil {
 
 	/**
 	 * clear the execution state of the elements
-	 *
+	 * 
 	 * @param list
 	 */
 	public void clearDuplicateFlags(IContent content) {
@@ -120,7 +120,7 @@ public class SuppressDuplicateUtil {
 
 	private class ClearDuplicateFlagVisitor extends DefaultReportItemVisitorImpl {
 
-		private Stack<Boolean> isInDetailBand = new Stack<>();
+		private Stack<Boolean> isInDetailBand = new Stack<Boolean>();
 
 		private boolean isBandEmpty(TableBandDesign band) {
 			if (band != null) {
@@ -194,7 +194,7 @@ public class SuppressDuplicateUtil {
 
 		/**
 		 * test if the band is in last group of summary table
-		 *
+		 * 
 		 * @param band
 		 * @return
 		 */
@@ -230,8 +230,12 @@ public class SuppressDuplicateUtil {
 			}
 
 			int bandType = band.getBandType();
+			if (bandType == BandDesign.BAND_DETAIL) {
+				return true;
+			}
+
 			// else it is a group band
-			if ((bandType == BandDesign.BAND_DETAIL) || isDetailGroupOfSummaryTable(band)) {
+			if (isDetailGroupOfSummaryTable(band)) {
 				return true;
 			}
 			return false;

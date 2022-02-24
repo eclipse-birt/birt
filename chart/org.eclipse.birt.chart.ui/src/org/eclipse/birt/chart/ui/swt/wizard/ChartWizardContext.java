@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -89,7 +89,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/**
 	 * Sets live preview thread reference.
-	 *
+	 * 
 	 * @param thread
 	 * @since 2.5.2
 	 */
@@ -99,7 +99,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/**
 	 * Returns reference of live preview thread.
-	 *
+	 * 
 	 * @return thread
 	 * @since 2.5.2
 	 */
@@ -109,17 +109,15 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.frameworks.taskwizard.interfaces.IWizardContext#getWizardID
 	 * ()
 	 */
-	@Override
 	public String getWizardID() {
 		return getExtendedItem() == null ? ChartWizard.class.getName() : getExtendedItem().toString();
 	}
 
-	@Override
 	public Chart getModel() {
 		return chartModel;
 	}
@@ -128,12 +126,10 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 		this.chartModel = model;
 	}
 
-	@Override
 	public Object getExtendedItem() {
 		return extendedItem;
 	}
 
-	@Override
 	public void setExtendedItem(Object extendedItem) {
 		this.extendedItem = extendedItem;
 	}
@@ -155,12 +151,10 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 		setOutputFormat(sOutputFormat);
 	}
 
-	@Override
 	public IUIServiceProvider getUIServiceProvider() {
 		return uiProvider;
 	}
 
-	@Override
 	public IDataServiceProvider getDataServiceProvider() {
 		return dataProvider;
 	}
@@ -172,7 +166,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 	public IChartType getChartType() {
 		if (chartType == null) {
 			// If chart type is not set, fetch the value from the model
-			LinkedHashMap<String, IChartType> htTypes = new LinkedHashMap<>();
+			LinkedHashMap<String, IChartType> htTypes = new LinkedHashMap<String, IChartType>();
 			Collection<IChartType> cTypes = ChartUIExtensionsImpl.instance().getUIChartTypeExtensions(getIdentifier());
 			Iterator<IChartType> iterTypes = cTypes.iterator();
 			while (iterTypes.hasNext()) {
@@ -187,7 +181,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 	/**
 	 * Returns identifier for current context implementation. This is usually used
 	 * to register extensions for chart types, series UI provider, and etc.
-	 *
+	 * 
 	 * @return identifier
 	 * @since 3.7
 	 */
@@ -198,7 +192,6 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 	/**
 	 * @param processor The processor to set.
 	 */
-	@Override
 	public void setProcessor(IStyleProcessor processor) {
 		this.processor = processor;
 	}
@@ -206,7 +199,6 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 	/**
 	 * @return Returns the processor.
 	 */
-	@Override
 	public IStyleProcessor getProcessor() {
 		return processor;
 	}
@@ -227,7 +219,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/**
 	 * Returns if chart direction is right to left.
-	 *
+	 * 
 	 * @return True: right to left. False: left to right
 	 */
 	public boolean isRtL() {
@@ -236,7 +228,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/**
 	 * Sets the chart direction.
-	 *
+	 * 
 	 * @param isRtL True: right to left. False: left to right
 	 */
 	public void setRtL(boolean isRtL) {
@@ -245,7 +237,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/**
 	 * Returns if text direction is right to left.
-	 *
+	 * 
 	 * @return True: right to left. False: left to right
 	 */
 	public boolean isTextRtL() {
@@ -254,7 +246,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/**
 	 * Sets the text direction.
-	 *
+	 * 
 	 * @param isRtL True: right to left. False: left to right
 	 */
 	public void setTextRtL(boolean isRtL) {
@@ -264,27 +256,26 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 	/**
 	 * Sets the UI enabled or not. The UI, including task, subtask or toggle button,
 	 * is identified by the exclusive id.
-	 *
+	 * 
 	 * @param id       the exclusive id to identify the UI
 	 * @param bEnabled the state to enable the UI
 	 * @since 2.3
 	 */
 	public void setEnabled(String id, boolean bEnabled) {
 		if (mSheetEnabled == null) {
-			mSheetEnabled = new HashMap<>();
+			mSheetEnabled = new HashMap<String, Boolean>();
 		}
-		mSheetEnabled.put(id, bEnabled);
+		mSheetEnabled.put(id, Boolean.valueOf(bEnabled));
 	}
 
 	/**
 	 * Returns if the UI is enabled or not.The UI, including task, subtask or toggle
 	 * button, is identified by the exclusive id.
-	 *
+	 * 
 	 * @param id the exclusive id to identify the UI
 	 * @return the UI enabled state
 	 * @since 2.3
 	 */
-	@Override
 	public boolean isEnabled(String id) {
 		if (mSheetEnabled != null && mSheetEnabled.containsKey(id)) {
 			return mSheetEnabled.get(id);
@@ -294,7 +285,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/**
 	 * Adds predefined queries for later selection.
-	 *
+	 * 
 	 * @param queryType   query type. See {@link ChartUIConstants#QUERY_CATEGORY},
 	 *                    {@link ChartUIConstants#QUERY_VALUE},
 	 *                    {@link ChartUIConstants#QUERY_OPTIONAL}
@@ -303,14 +294,14 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 	 */
 	public void addPredefinedQuery(String queryType, Object[] expressions) {
 		if (mQueries == null) {
-			mQueries = new HashMap<>();
+			mQueries = new HashMap<String, Object[]>();
 		}
 		mQueries.put(queryType, expressions);
 	}
 
 	/**
 	 * Returns the predefined queries
-	 *
+	 * 
 	 * @param queryType query type. See {@link ChartUIConstants#QUERY_CATEGORY},
 	 *                  {@link ChartUIConstants#QUERY_VALUE},
 	 *                  {@link ChartUIConstants#QUERY_OPTIONAL}
@@ -324,7 +315,6 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 		return null;
 	}
 
-	@Override
 	public IChartDataSheet getDataSheet() {
 		return dataSheet;
 	}
@@ -397,7 +387,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 	/**
 	 * Returns current UI factory class. The default UI factory is
 	 * <code>ChartUIFactoryBase</code>.
-	 *
+	 * 
 	 * @return UI factory
 	 */
 	public IChartUIFactory getUIFactory() {
@@ -406,7 +396,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/**
 	 * Sets the new UI factory.
-	 *
+	 * 
 	 * @param factory UI factory
 	 */
 	public void setUIFactory(IChartUIFactory factory) {
@@ -415,7 +405,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart> {
 
 	/**
 	 * Checks if interactivity is supported.
-	 *
+	 * 
 	 * @return true means interactivity is supported
 	 */
 	public boolean isInteractivityEnabled() {

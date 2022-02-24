@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -39,15 +39,12 @@ public class PPTPage extends AbstractPage {
 		this.isDisposed = false;
 	}
 
-	@Override
 	public void restoreState() {
 	}
 
-	@Override
 	public void saveState() {
 	}
 
-	@Override
 	public void dispose() {
 		if (!isDisposed) {
 			writer.endPage();
@@ -55,35 +52,29 @@ public class PPTPage extends AbstractPage {
 		}
 	}
 
-	@Override
 	protected void clip(float startX, float startY, float width, float height) {
 		writer.clip(startX, startY, width, height);
 	}
 
-	@Override
 	protected void clipEnd() {
 		writer.clipEnd();
 	}
 
-	@Override
 	protected void drawBackgroundColor(Color color, float x, float y, float width, float height) {
 		writer.drawBackgroundColor(color, x, y, width, height);
 	}
 
-	@Override
 	protected void drawBackgroundImage(float x, float y, float width, float height, float imageWidth, float imageHeight,
 			int repeat, String imageUrl, byte[] imageData, float absPosX, float absPosY) throws IOException {
 		writer.drawBackgroundImage(imageUrl, imageData, x, y, width, height, imageWidth, imageHeight, absPosX, absPosY,
 				repeat);
 	}
 
-	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
 			float height, float width, String helpText, Map params) throws Exception {
 		writer.drawImage(imageId, imageData, extension, imageX, imageY, height, width, helpText, link);
 	}
 
-	@Override
 	protected void drawImage(String uri, String extension, float imageX, float imageY, float height, float width,
 			String helpText, Map params) throws Exception {
 		if (uri == null) {
@@ -98,13 +89,11 @@ public class PPTPage extends AbstractPage {
 		drawImage(uri, byteArrayOut.toByteArray(), extension, imageX, imageY, height, width, helpText, params);
 	}
 
-	@Override
 	protected void drawLine(float startX, float startY, float endX, float endY, float width, Color color,
 			int lineStyle) {
 		writer.drawLine(startX, startY, endX, endY, width, color, lineStyle);
 	}
 
-	@Override
 	protected void drawText(String text, float textX, float textY, float baseline, float width, float height,
 			TextStyle textStyle) {
 		// width of text is enlarged by 1 point because in ppt the text will be
@@ -113,7 +102,6 @@ public class PPTPage extends AbstractPage {
 		writer.drawText(text, textX, textY, width, height, textStyle, link);
 	}
 
-	@Override
 	public void drawText(String text, int textX, int textY, int textWidth, int textHeight, TextStyle textStyle) {
 		float x = convertToPoint(textX);
 		float y = convertToPoint(textY);

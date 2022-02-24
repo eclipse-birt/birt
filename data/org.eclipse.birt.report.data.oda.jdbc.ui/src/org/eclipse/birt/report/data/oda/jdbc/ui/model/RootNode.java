@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008, 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -67,20 +67,22 @@ public class RootNode extends ChildrenAllowedNode {
 				if (fc.getSchemaName() != null) {
 					IDBNode node = fetchSpecifiedSchema(fc.getSchemaName());
 					return node == null ? new IDBNode[0] : new IDBNode[] { node };
-				} else if (prefetechedSchemas == null) {
-					return fetchChildrenFromSchema(fc.getMaxSchemaCount());
 				} else {
-					// already know all schema names
-					List<SchemaNode> schemas = new ArrayList<>();
-					int count = 0;
-					for (String name : prefetechedSchemas) {
-						if (count >= fc.getMaxSchemaCount()) {
-							break;
+					if (prefetechedSchemas == null) {
+						return fetchChildrenFromSchema(fc.getMaxSchemaCount());
+					} else {
+						// already know all schema names
+						List<SchemaNode> schemas = new ArrayList<SchemaNode>();
+						int count = 0;
+						for (String name : prefetechedSchemas) {
+							if (count >= fc.getMaxSchemaCount()) {
+								break;
+							}
+							schemas.add(new SchemaNode(name));
+							count++;
 						}
-						schemas.add(new SchemaNode(name));
-						count++;
+						return schemas.toArray(new IDBNode[0]);
 					}
-					return schemas.toArray(new IDBNode[0]);
 				}
 			} else // not support schema
 			{
@@ -96,12 +98,11 @@ public class RootNode extends ChildrenAllowedNode {
 
 	private Map<String, TablesAndProcedures> generateSchemaToTablesAndProceduresMap(FilterConfig fc,
 			boolean supportsProcedure) {
-		Map<String, TablesAndProcedures> schemas = new HashMap<>();
+		Map<String, TablesAndProcedures> schemas = new HashMap<String, TablesAndProcedures>();
 		String[] tableTypes = fc.getTableTypesForJDBC();
 		if (tableTypes != null) {
-			if (tableTypes.length == 1 && TableType.NO_LIMIT.getTypeName().equals(tableTypes[0])) {
+			if (tableTypes.length == 1 && TableType.NO_LIMIT.getTypeName().equals(tableTypes[0]))
 				tableTypes = null;
-			}
 
 			ResultSet rs = JdbcMetaDataProvider.getInstance().getAlltables(fc.getSchemaName(), fc.getNamePattern(),
 					tableTypes);
@@ -152,7 +153,7 @@ public class RootNode extends ChildrenAllowedNode {
 	}
 
 	private IDBNode[] fetchChildrenFromMap(Map<String, TablesAndProcedures> schemas, int maxSchemaCount) {
-		List<SchemaNode> result = new ArrayList<>();
+		List<SchemaNode> result = new ArrayList<SchemaNode>();
 		int count = 0;
 		for (Entry<String, TablesAndProcedures> entry : schemas.entrySet()) {
 			if (count >= maxSchemaCount) {
@@ -160,7 +161,7 @@ public class RootNode extends ChildrenAllowedNode {
 			}
 			SchemaNode schema = new SchemaNode(entry.getKey());
 			TablesAndProcedures tap = entry.getValue();
-			List<IDBNode> children = new ArrayList<>();
+			List<IDBNode> children = new ArrayList<IDBNode>();
 			children.addAll(Arrays.asList(tap.getTables()));
 			if (tap.getProcedureCount() > 0) {
 				ProcedureFlagNode procedureFlagNode = new ProcedureFlagNode(entry.getKey());
@@ -182,7 +183,7 @@ public class RootNode extends ChildrenAllowedNode {
 	}
 
 	private IDBNode[] fetchChildrenFromSchema(int maxSchemaCount) {
-		List<SchemaNode> schemas = new ArrayList<>();
+		List<SchemaNode> schemas = new ArrayList<SchemaNode>();
 		ResultSet rs = JdbcMetaDataProvider.getInstance().getAllSchemas();
 		if (rs != null) {
 			int count = 0;
@@ -222,12 +223,10 @@ public class RootNode extends ChildrenAllowedNode {
 
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
 	// (if required)
-	@Override
 	public String getDisplayName(String metadataBidiFormatStr) {
 		return BidiTransform.transform(dataSourceName, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
 	}
 
-	@Override
 	public Image getImage() {
 		return JFaceResources.getImageRegistry().get(ROOT_ICON);
 	}
@@ -235,15 +234,14 @@ public class RootNode extends ChildrenAllowedNode {
 	/**
 	 * Can't be a part of SQL text
 	 */
-	@Override
 	public String getQualifiedNameInSQL(boolean useIdentifierQuoteString, boolean includeSchema,
 			String metadataBidiFormatStr) {
 		return null;
 	}
 
 	private static class TablesAndProcedures {
-		private List<TableNode> tables = new ArrayList<>();
-		private List<ProcedureNode> procedures = new ArrayList<>();
+		private List<TableNode> tables = new ArrayList<TableNode>();
+		private List<ProcedureNode> procedures = new ArrayList<ProcedureNode>();
 
 		public void addTable(TableNode table) {
 			assert table != null;

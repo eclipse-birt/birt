@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,6 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 		}
 	}
 
-	@Override
 	public IOrderedIntSet getKeyIndex(Object key, int searchType) throws DataException {
 		ArrayList fastSet = new ArrayList();
 		for (int i : this.getKeyIndex1(key, searchType)) {
@@ -64,14 +63,13 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 	}
 
 	public Set<Integer> getKeyIndex1(Object key, int searchType) throws DataException {
-		if (searchType != IConditionalExpression.OP_EQ && searchType != IConditionalExpression.OP_IN) {
+		if (searchType != IConditionalExpression.OP_EQ && searchType != IConditionalExpression.OP_IN)
 			throw new UnsupportedOperationException();
-		}
-		if (searchType == IConditionalExpression.OP_EQ) {
+		if (searchType == IConditionalExpression.OP_EQ)
 			return getKeyIndex(key);
-		} else {
+		else {
 			List candidate = (List) key;
-			Set<Integer> result = new HashSet<>();
+			Set<Integer> result = new HashSet<Integer>();
 			for (Object eachKey : candidate) {
 				result.addAll(getKeyIndex(eachKey));
 			}
@@ -81,21 +79,20 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 
 	private Set<Integer> getKeyIndex(Object key) throws DataException {
 		Object result = getWrappedKey(key);
-		if (result == null) {
+		if (result == null)
 			return new HashSet();
-		} else {
+		else
 			return ((WrapperedValue) result).getIndex();
-		}
 	}
 
 	public String getKeyValue(Object key) {
 		try {
 			Object result = getWrappedKey(key);
-			if (result == null) {
+			if (result == null)
 				return null;
-			} else {
+			else
+
 				return ((WrapperedValue) result).getKeyValue();
-			}
 		} catch (DataException e) {
 			return null;
 		}
@@ -103,9 +100,9 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 
 	private Object getWrappedKey(Object key) throws DataException {
 		Object result = null;
-		if (key == null) {
+		if (key == null)
 			result = this.get(null);
-		} else if (key instanceof String) {
+		else if (key instanceof String) {
 			result = this.get(key);
 			if (result == null) {
 				result = this.get(key.hashCode());
@@ -119,9 +116,8 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 				}
 			}
 		}
-		if (result == null) {
+		if (result == null)
 			result = this.get(key);
-		}
 		return result;
 	}
 
@@ -150,33 +146,28 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 		public String getKeyValue() throws DataException {
 			try {
 				if (keyValue != null) {
-					if (keyValue instanceof String) {
+					if (keyValue instanceof String)
 						return (String) this.keyValue;
-					}
 					if (keyValue instanceof SoftReference) {
 						String result = ((SoftReference<String>) keyValue).get();
-						if (result != null) {
+						if (result != null)
 							return result;
-						}
 					}
 				}
-				if (keyStream == null) {
+				if (keyStream == null)
 					return null;
-				}
 				synchronized (this.keyStream) {
 					if (keyValue != null) {
-						if (keyValue instanceof String) {
+						if (keyValue instanceof String)
 							return (String) this.keyValue;
-						}
 						if (keyValue instanceof SoftReference) {
 							String result = ((SoftReference<String>) keyValue).get();
-							if (result != null) {
+							if (result != null)
 								return result;
-							}
 						}
 					}
 					this.keyStream.seek(this.keyOffset);
-					this.keyValue = new SoftReference<>(IOUtil.readString(new DataInputStream(this.keyStream)));
+					this.keyValue = new SoftReference<String>(IOUtil.readString(new DataInputStream(this.keyStream)));
 				}
 
 				return ((SoftReference<String>) this.keyValue).get();
@@ -188,10 +179,9 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.index.IDataSetIndex#supportFilter(int)
 	 */
-	@Override
 	public boolean supportFilter(int filterType) throws DataException {
 		if (filterType != IConditionalExpression.OP_EQ && filterType != IConditionalExpression.OP_IN) {
 			return false;
@@ -199,7 +189,6 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 		return true;
 	}
 
-	@Override
 	public Object[] getAllKeyValues() throws DataException {
 		Object[] values = this.values().toArray();
 		Object[] keys = new Object[values.length];
@@ -209,7 +198,6 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 		return keys;
 	}
 
-	@Override
 	public IOrderedIntSet getAllKeyRows() throws DataException {
 		List arrayList = new ArrayList();
 		Object[] values = this.values().toArray();
@@ -230,21 +218,18 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.impl.index.IOrderedIntSet#iterator()
 		 */
-		@Override
 		public IOrderedIntSetIterator iterator() {
 			return new IOrderedIntSetIterator() {
 
 				int i = 0;
 
-				@Override
 				public boolean hasNext() {
 					return values.size() <= i;
 				}
 
-				@Override
 				public int next() {
 					int result = (Integer) values.get(i);
 					i++;
@@ -256,20 +241,18 @@ public class DataSetInMemoryStringIndex extends HashMap implements IDataSetIndex
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.impl.index.IOrderedIntSet#isEmpty()
 		 */
-		@Override
 		public boolean isEmpty() {
 			return this.values.isEmpty();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.impl.index.IOrderedIntSet#size()
 		 */
-		@Override
 		public int size() {
 			return this.values.size();
 		}

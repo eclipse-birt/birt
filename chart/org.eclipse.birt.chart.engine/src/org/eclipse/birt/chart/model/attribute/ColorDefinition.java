@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -45,11 +45,11 @@ public interface ColorDefinition extends Fill {
 	 * Returns the value of the '<em><b>Transparency</b></em>' attribute. <!--
 	 * begin-user-doc --> Gets the transparency for the color <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 *
+	 * 
 	 * Specifies the transparency for the color.
-	 *
+	 * 
 	 * <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Transparency</em>' attribute.
 	 * @see #isSetTransparency()
 	 * @see #unsetTransparency()
@@ -66,7 +66,7 @@ public interface ColorDefinition extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency
 	 * <em>Transparency</em>}' attribute. <!-- begin-user-doc --> Sets the
 	 * transparency for the color. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Transparency</em>' attribute.
 	 * @see #isSetTransparency()
 	 * @see #unsetTransparency()
@@ -80,7 +80,7 @@ public interface ColorDefinition extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency
 	 * <em>Transparency</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @see #isSetTransparency()
 	 * @see #getTransparency()
 	 * @see #setTransparency(int)
@@ -93,7 +93,7 @@ public interface ColorDefinition extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency
 	 * <em>Transparency</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Transparency</em>' attribute is set.
 	 * @see #unsetTransparency()
 	 * @see #getTransparency()
@@ -105,11 +105,11 @@ public interface ColorDefinition extends Fill {
 	/**
 	 * Returns the value of the '<em><b>Red</b></em>' attribute. <!-- begin-user-doc
 	 * --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 *
+	 * 
 	 * Specifies the 'Red' component for the color.
-	 *
+	 * 
 	 * <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Red</em>' attribute.
 	 * @see #isSetRed()
 	 * @see #unsetRed()
@@ -127,7 +127,7 @@ public interface ColorDefinition extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed
 	 * <em>Red</em>}' attribute. <!-- begin-user-doc --> Sets the 'Red' component
 	 * for the color. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Red</em>' attribute.
 	 * @see #isSetRed()
 	 * @see #unsetRed()
@@ -140,7 +140,7 @@ public interface ColorDefinition extends Fill {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed
 	 * <em>Red</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetRed()
 	 * @see #getRed()
 	 * @see #setRed(int)
@@ -153,7 +153,7 @@ public interface ColorDefinition extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed
 	 * <em>Red</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Red</em>' attribute is set.
 	 * @see #unsetRed()
 	 * @see #getRed()
@@ -165,11 +165,11 @@ public interface ColorDefinition extends Fill {
 	/**
 	 * Returns the value of the '<em><b>Blue</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 *
+	 * 
 	 * Specifies the 'Blue' component for the color.
-	 *
+	 * 
 	 * <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Blue</em>' attribute.
 	 * @see #isSetBlue()
 	 * @see #unsetBlue()
@@ -187,7 +187,7 @@ public interface ColorDefinition extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue
 	 * <em>Blue</em>}' attribute. <!-- begin-user-doc --> Sets the 'Blue' component
 	 * for the color. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Blue</em>' attribute.
 	 * @see #isSetBlue()
 	 * @see #unsetBlue()
@@ -200,7 +200,7 @@ public interface ColorDefinition extends Fill {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue
 	 * <em>Blue</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetBlue()
 	 * @see #getBlue()
 	 * @see #setBlue(int)
@@ -213,7 +213,7 @@ public interface ColorDefinition extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue
 	 * <em>Blue</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Blue</em>' attribute is set.
 	 * @see #unsetBlue()
 	 * @see #getBlue()
@@ -225,11 +225,11 @@ public interface ColorDefinition extends Fill {
 	/**
 	 * Returns the value of the '<em><b>Green</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 *
+	 * 
 	 * Specifies the 'Green' component for the color.
-	 *
+	 * 
 	 * <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Green</em>' attribute.
 	 * @see #isSetGreen()
 	 * @see #unsetGreen()
@@ -247,7 +247,7 @@ public interface ColorDefinition extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen
 	 * <em>Green</em>}' attribute. <!-- begin-user-doc --> Sets the 'Green'
 	 * component for the color. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Green</em>' attribute.
 	 * @see #isSetGreen()
 	 * @see #unsetGreen()
@@ -260,7 +260,7 @@ public interface ColorDefinition extends Fill {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen
 	 * <em>Green</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetGreen()
 	 * @see #getGreen()
 	 * @see #setGreen(int)
@@ -273,7 +273,7 @@ public interface ColorDefinition extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen
 	 * <em>Green</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Green</em>' attribute is set.
 	 * @see #unsetGreen()
 	 * @see #getGreen()
@@ -284,72 +284,71 @@ public interface ColorDefinition extends Fill {
 
 	/**
 	 * Convenience method to set all three components for the color.
-	 *
+	 * 
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @param iRed
 	 * @param iGreen
 	 * @param iBlue
 	 */
-	void set(int iRed, int iGreen, int iBlue);
+	public void set(int iRed, int iGreen, int iBlue);
 
 	/**
 	 * Convenience method to set the three components as well as transparency for
 	 * the color. NOTE: Manually written
-	 *
+	 * 
 	 * @param iRed
 	 * @param iGreen
 	 * @param iBlue
 	 * @param iAlpha
 	 */
-	void set(int iRed, int iGreen, int iBlue, int iAlpha);
+	public void set(int iRed, int iGreen, int iBlue, int iAlpha);
 
 	/**
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @return An instance of a brighter color relative to this color
 	 */
-	ColorDefinition brighter();
+	public ColorDefinition brighter();
 
 	/**
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @return An instance of a darker color relative to this color
 	 */
-	ColorDefinition darker();
+	public ColorDefinition darker();
 
 	/**
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @return A copy of the existing color but with alpha=127
 	 */
-	ColorDefinition translucent();
+	public ColorDefinition translucent();
 
 	/**
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @return A copy of the existing color but with alpha=255
 	 */
-	ColorDefinition opaque();
+	public ColorDefinition opaque();
 
 	/**
 	 * Inverts the existing color (XORed with 0xFF).
-	 *
+	 * 
 	 * @return
 	 */
-	void invert();
+	public void invert();
 
 	/**
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @return A copy of the existing color but with alpha=0
 	 */
-	ColorDefinition transparent();
+	public ColorDefinition transparent();
 
 	/**
 	 * @generated
 	 */
-	@Override
 	ColorDefinition copyInstance();
 
 } // ColorDefinition

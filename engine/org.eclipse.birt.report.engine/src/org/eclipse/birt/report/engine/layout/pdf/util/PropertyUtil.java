@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -48,7 +48,7 @@ public class PropertyUtil {
 
 	private static Pattern colorPattern = Pattern.compile("rgb\\(.+,.+,.+\\)");
 
-	private static HashMap<Value, Integer> fontWeightMap = new HashMap<>();
+	private static HashMap<Value, Integer> fontWeightMap = new HashMap<Value, Integer>();
 	static {
 		fontWeightMap.put(IStyle.LIGHTER_VALUE, 200);
 		fontWeightMap.put(IStyle.NORMAL_VALUE, 400);
@@ -64,11 +64,11 @@ public class PropertyUtil {
 		fontWeightMap.put(IStyle.NUMBER_700, 700);
 		fontWeightMap.put(IStyle.NUMBER_800, 800);
 		fontWeightMap.put(IStyle.NUMBER_900, 900);
-	}
+	};
 
 	/**
 	 * Checks if the font is bold
-	 *
+	 * 
 	 * @param value the CSSValue
 	 * @return true if the font is bold false if not
 	 */
@@ -123,7 +123,7 @@ public class PropertyUtil {
 	}
 
 	public static Color getColor(CSSValue value) {
-		if (value instanceof RGBColorValue) {
+		if (value != null && value instanceof RGBColorValue) {
 			RGBColorValue color = (RGBColorValue) value;
 			try {
 				return new Color(color.getRed().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) / 255.0f,
@@ -132,15 +132,14 @@ public class PropertyUtil {
 			} catch (RuntimeException ex) {
 				logger.log(Level.WARNING, "invalid color: {0}", value); //$NON-NLS-1$
 			}
-		} else if (value instanceof StringValue) {
+		} else if (value instanceof StringValue)
 			return getColor(value.toString());
-		}
 		return null;
 	}
 
 	/**
 	 * Gets the color from a CSSValue converted string.
-	 *
+	 * 
 	 * @param color CSSValue converted string.
 	 * @return java.awt.Color
 	 */
@@ -148,41 +147,41 @@ public class PropertyUtil {
 		if (color == null || color.length() == 0) {
 			return null;
 		}
-		if (color.charAt(0) == '#') {
+		if (color.charAt(0) == '#')
 			return hexToColor(color);
-		} else if (color.equalsIgnoreCase("Black")) {
+		else if (color.equalsIgnoreCase("Black"))
 			return Color.black;
-		} else if (color.equalsIgnoreCase("Gray")) {
+		else if (color.equalsIgnoreCase("Gray"))
 			return Color.gray;
-		} else if (color.equalsIgnoreCase("White")) {
+		else if (color.equalsIgnoreCase("White"))
 			return Color.white;
-		} else if (color.equalsIgnoreCase("Red")) {
+		else if (color.equalsIgnoreCase("Red"))
 			return Color.red;
-		} else if (color.equalsIgnoreCase("Green")) {
+		else if (color.equalsIgnoreCase("Green"))
 			return Color.green;
-		} else if (color.equalsIgnoreCase("Yellow")) {
+		else if (color.equalsIgnoreCase("Yellow"))
 			return Color.yellow;
-		} else if (color.equalsIgnoreCase("Blue")) {
+		else if (color.equalsIgnoreCase("Blue"))
 			return Color.blue;
-		} else if (color.equalsIgnoreCase("Teal")) {
+		else if (color.equalsIgnoreCase("Teal"))
 			return hexToColor("#008080");
-		} else if (color.equalsIgnoreCase("Aqua")) {
+		else if (color.equalsIgnoreCase("Aqua"))
 			return hexToColor("#00FFFF");
-		} else if (color.equalsIgnoreCase("Silver")) {
+		else if (color.equalsIgnoreCase("Silver"))
 			return hexToColor("#C0C0C0");
-		} else if (color.equalsIgnoreCase("Navy")) {
+		else if (color.equalsIgnoreCase("Navy"))
 			return hexToColor("#000080");
-		} else if (color.equalsIgnoreCase("Lime")) {
+		else if (color.equalsIgnoreCase("Lime"))
 			return hexToColor("#00FF00");
-		} else if (color.equalsIgnoreCase("Olive")) {
+		else if (color.equalsIgnoreCase("Olive"))
 			return hexToColor("#808000");
-		} else if (color.equalsIgnoreCase("Purple")) {
+		else if (color.equalsIgnoreCase("Purple"))
 			return hexToColor("#800080");
-		} else if (color.equalsIgnoreCase("Fuchsia")) {
+		else if (color.equalsIgnoreCase("Fuchsia"))
 			return hexToColor("#FF00FF");
-		} else if (color.equalsIgnoreCase("Maroon")) {
+		else if (color.equalsIgnoreCase("Maroon"))
 			return hexToColor("#800000");
-		} else {
+		else {
 			Matcher m = colorPattern.matcher(color);
 			if (m.find()) {
 				String[] rgb = color.substring(m.start() + 4, m.end() - 1).split(",");
@@ -234,7 +233,7 @@ public class PropertyUtil {
 	}
 
 	public static String getBackgroundImage(CSSValue value) {
-		if (value instanceof StringValue) {
+		if (value != null && value instanceof StringValue) {
 			String strValue = ((StringValue) value).getStringValue();
 			if (strValue != null && (!CSSConstants.CSS_NONE_VALUE.equals(strValue))) {
 				return strValue;
@@ -259,7 +258,7 @@ public class PropertyUtil {
 	 * The DPI resolution used in render. the preference of the DPI setting is: 1.
 	 * use the DPI in render options. 2. the DPI in report designHandle. 3. the JRE
 	 * screen resolution. 4. the default DPI (96).
-	 *
+	 * 
 	 * @param content
 	 * @param renderOptionDpi
 	 * @return
@@ -288,7 +287,7 @@ public class PropertyUtil {
 	/**
 	 * Get the screen DPI. If the return value is 0, it means the screen dpi is
 	 * invalid, otherwise it should be between 96 and 120.
-	 *
+	 * 
 	 * @return the screen DPI.
 	 */
 	private static int getScreenDpi() {
@@ -312,7 +311,6 @@ public class PropertyUtil {
 	/**
 	 * @deprecated keep for backward compatibility.
 	 */
-	@Deprecated
 	public static int getDimensionValue(CSSValue value, int referenceLength) {
 		return getDimensionValue(value, 96, referenceLength);
 	}

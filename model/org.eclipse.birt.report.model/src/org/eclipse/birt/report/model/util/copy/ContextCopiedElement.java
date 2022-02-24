@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
 
 /**
- *
+ * 
  */
 
 class ContextCopiedElement implements IElementCopy, Cloneable {
@@ -42,7 +42,7 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 * @param element          the element.
 	 * @param localizedElement the localized element
 	 * @param xpath            the xpath of the element
@@ -60,10 +60,10 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 		this.xpath = xpath;
 		this.libLocation = libLocation;
 		this.extendsElementID = extendsElementID;
-		if (bindings == null || bindings.isEmpty()) {
+		if (bindings == null || bindings.isEmpty())
 			this.bindings = Collections.emptyList();
-		} else {
-			this.bindings = new ArrayList<>(bindings.size());
+		else {
+			this.bindings = new ArrayList<PropertyBinding>(bindings.size());
 			for (PropertyBinding propBinding : bindings) {
 				this.bindings.add((PropertyBinding) propBinding.copy());
 			}
@@ -72,17 +72,15 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 
-	@Override
 	public Object clone() throws CloneNotSupportedException {
 		DesignElement newCopy = null;
 
-		if (copy != null) {
+		if (copy != null)
 			newCopy = (DesignElement) copy.doClone(DummyCopyPolicy.getInstance());
-		}
 
 		DesignElement newLocalized = (DesignElement) localizedCopy.doClone(DummyCopyPolicy.getInstance());
 
@@ -94,21 +92,20 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 
 	/**
 	 * Returns the copied element.
-	 *
+	 * 
 	 * @return the copied
 	 */
 
 	DesignElement getCopy() {
-		if (extendsElementID != DesignElement.NO_ID) {
+		if (extendsElementID != DesignElement.NO_ID)
 			return copy;
-		}
 
 		return localizedCopy;
 	}
 
 	/**
 	 * Returns the location of the corresponding module.
-	 *
+	 * 
 	 * @return the rootLocation
 	 */
 
@@ -118,7 +115,7 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 
 	/**
 	 * Returns the localized element of which the extends value is null.
-	 *
+	 * 
 	 * @return the localized element
 	 */
 
@@ -128,7 +125,7 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 
 	/**
 	 * Returns the unlocalized copy.
-	 *
+	 * 
 	 * @return the element which is not localized
 	 */
 
@@ -138,7 +135,7 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 
 	/**
 	 * Returns the location of library.
-	 *
+	 * 
 	 * @return the location of library
 	 */
 	String getLibLocation() {
@@ -147,7 +144,7 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 
 	/**
 	 * Gets the element id in the library.
-	 *
+	 * 
 	 * @return the element id in the library.
 	 */
 	long getExtendsElementID() {
@@ -156,20 +153,19 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.util.IElementCopy#getHandle(org.eclipse
 	 * .birt.report.model.api.ModuleHandle)
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(ModuleHandle handle) {
 		return getCopy().getHandle(handle.getModule());
 	}
 
 	/**
 	 * Gets the list of property bindings of the element
-	 *
+	 * 
 	 * @return the list of property bindings.
 	 */
 	List<PropertyBinding> getPropertyBindings() {
@@ -178,7 +174,7 @@ class ContextCopiedElement implements IElementCopy, Cloneable {
 
 	/**
 	 * Gets the xpath of the copied element.
-	 *
+	 * 
 	 * @return the xpath
 	 */
 	String getXPath() {

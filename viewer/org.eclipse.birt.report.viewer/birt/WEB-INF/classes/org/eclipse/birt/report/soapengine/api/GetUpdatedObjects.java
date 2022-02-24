@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -32,7 +32,7 @@ public class GetUpdatedObjects implements java.io.Serializable {
 
 	/**
 	 * Gets the operation value for this GetUpdatedObjects.
-	 *
+	 * 
 	 * @return operation
 	 */
 	public org.eclipse.birt.report.soapengine.api.Operation[] getOperation() {
@@ -41,7 +41,7 @@ public class GetUpdatedObjects implements java.io.Serializable {
 
 	/**
 	 * Sets the operation value for this GetUpdatedObjects.
-	 *
+	 * 
 	 * @param operation
 	 */
 	public void setOperation(org.eclipse.birt.report.soapengine.api.Operation[] operation) {
@@ -58,18 +58,14 @@ public class GetUpdatedObjects implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof GetUpdatedObjects)) {
+		if (!(obj instanceof GetUpdatedObjects))
 			return false;
-		}
 		GetUpdatedObjects other = (GetUpdatedObjects) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -83,7 +79,6 @@ public class GetUpdatedObjects implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

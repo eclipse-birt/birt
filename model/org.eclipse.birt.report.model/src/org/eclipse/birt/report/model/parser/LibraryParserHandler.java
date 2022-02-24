@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ public class LibraryParserHandler extends ModuleParserHandler {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param theSession the design session
 	 * @param host       the host module
 	 * @param fileName   the file name in URL format
@@ -63,7 +63,7 @@ public class LibraryParserHandler extends ModuleParserHandler {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param theSession the design session
 	 * @param host       the host module
 	 * @param systemId   the library system id
@@ -92,7 +92,7 @@ public class LibraryParserHandler extends ModuleParserHandler {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param theSession the design session
 	 * @param host       the host module
 	 * @param systemId   the library system id
@@ -119,7 +119,7 @@ public class LibraryParserHandler extends ModuleParserHandler {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param theSession the design session
 	 * @param host       the host module
 	 * @param systemId   the library system id
@@ -138,10 +138,9 @@ public class LibraryParserHandler extends ModuleParserHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.XMLParserHandler#createStartState()
 	 */
-	@Override
 	public AbstractParseState createStartState() {
 		return new StartState();
 	}
@@ -154,17 +153,15 @@ public class LibraryParserHandler extends ModuleParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
-		@Override
 		public AbstractParseState startElement(String tagName) {
 			if (tagName.equalsIgnoreCase(DesignSchemaConstants.LIBRARY_TAG)) {
-				if (markLineNumber) {
+				if (markLineNumber)
 					tempLineNumbers.put(module, Integer.valueOf(locator.getLineNumber()));
-				}
 				return new LibraryState(LibraryParserHandler.this);
 			}
 			return super.startElement(tagName);

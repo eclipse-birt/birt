@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -62,7 +62,6 @@ public class Regression_148747 extends BaseTestCase {
 	 * @throws ContentException
 	 */
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -72,7 +71,6 @@ public class Regression_148747 extends BaseTestCase {
 		copyInputToFile(INPUT_FOLDER + "/" + LIB);
 	}
 
-	@Override
 	public void tearDown() {
 		removeResource();
 	}
@@ -82,9 +80,8 @@ public class Regression_148747 extends BaseTestCase {
 		// we do the operation in the output folder.
 
 		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
-		if (!tempDir.endsWith(File.separator)) {
+		if (!tempDir.endsWith(File.separator))
 			tempDir += File.separator;
-		}
 		String outputFolder = tempDir + getFullQualifiedClassName() // $NON-NLS-1$
 				+ File.separator + OUTPUT_FOLDER + File.separator;
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,13 +14,6 @@
 
 package org.eclipse.birt.data.oda.pojo.ui.impl.dialogs;
 
-import org.eclipse.birt.data.oda.pojo.querymodel.ConstantParameter;
-import org.eclipse.birt.data.oda.pojo.querymodel.IMethodParameter;
-import org.eclipse.birt.data.oda.pojo.querymodel.VariableParameter;
-import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
-import org.eclipse.birt.data.oda.pojo.ui.util.Constants;
-import org.eclipse.birt.data.oda.pojo.ui.util.HelpUtil;
-import org.eclipse.birt.data.oda.pojo.util.MethodParameterType;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.StatusDialog;
@@ -42,9 +35,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import org.eclipse.birt.data.oda.pojo.querymodel.ConstantParameter;
+import org.eclipse.birt.data.oda.pojo.querymodel.IMethodParameter;
+import org.eclipse.birt.data.oda.pojo.querymodel.VariableParameter;
+import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
+import org.eclipse.birt.data.oda.pojo.ui.util.Constants;
+import org.eclipse.birt.data.oda.pojo.ui.util.HelpUtil;
+import org.eclipse.birt.data.oda.pojo.util.MethodParameterType;
+
 public class MethodParameterDialog extends StatusDialog {
 
-	public interface IModifyValidator {
+	public static interface IModifyValidator {
 		boolean validateInputValue(Object value, Object[] args);
 	}
 
@@ -61,18 +62,16 @@ public class MethodParameterDialog extends StatusDialog {
 		super(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 
 		this.param = param;
-		if (param instanceof VariableParameter) {
+		if (param instanceof VariableParameter)
 			name = ((VariableParameter) param).getName();
-		} else {
+		else
 			name = ""; //$NON-NLS-1$
-		}
 
 		this.type = param.getDataType();
 		this.value = param.getStringValue() == null ? "" //$NON-NLS-1$
 				: param.getStringValue().toString();
 	}
 
-	@Override
 	public void create() {
 		super.create();
 
@@ -83,12 +82,10 @@ public class MethodParameterDialog extends StatusDialog {
 		getShell().setText(TITLE);
 	}
 
-	@Override
 	protected boolean isResizable() {
 		return true;
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(2, false);
@@ -116,7 +113,6 @@ public class MethodParameterDialog extends StatusDialog {
 		checkBtn.setLayoutData(data);
 		checkBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				toBeMapped = checkBtn.getSelection();
 
@@ -138,7 +134,6 @@ public class MethodParameterDialog extends StatusDialog {
 
 		nameText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				if (nameText.isEnabled()) {
 					name = nameText.getText();
@@ -154,7 +149,6 @@ public class MethodParameterDialog extends StatusDialog {
 		valueText.setLayoutData(gd);
 		valueText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				value = valueText.getText();
 				validateSyntax();
@@ -169,7 +163,6 @@ public class MethodParameterDialog extends StatusDialog {
 		comboTypes.getCombo().setLayoutData(comboData);
 		comboTypes.setContentProvider(new IStructuredContentProvider() {
 
-			@Override
 			public Object[] getElements(Object arg0) {
 				MethodParameterType[] types = MethodParameterType.getBuiltins();
 				String names[] = new String[types.length];
@@ -179,11 +172,9 @@ public class MethodParameterDialog extends StatusDialog {
 				return names;
 			}
 
-			@Override
 			public void dispose() {
 			}
 
-			@Override
 			public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 			}
 		});
@@ -192,7 +183,6 @@ public class MethodParameterDialog extends StatusDialog {
 
 		comboTypes.getCombo().addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				type = comboTypes.getCombo().getText();
 				validateSyntax();
@@ -201,7 +191,6 @@ public class MethodParameterDialog extends StatusDialog {
 
 		comboTypes.getCombo().addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				type = comboTypes.getCombo().getText();
 				validateSyntax();
@@ -231,7 +220,7 @@ public class MethodParameterDialog extends StatusDialog {
 		} else if (!this.toBeMapped && (this.value == null || this.value.trim().length() == 0)) {
 			status = getMiscStatus(IStatus.ERROR, Messages.getString("MethodParameterDialog.error.missingValue")); //$NON-NLS-1$
 		} else if (validator != null) {
-			String[] args = { name, type };
+			String[] args = new String[] { name, type };
 			if ((this.param instanceof VariableParameter)
 					&& !validator.validateInputValue((VariableParameter) this.param, args)) {
 				status = getMiscStatus(IStatus.ERROR, Messages.getFormattedString(
@@ -246,9 +235,8 @@ public class MethodParameterDialog extends StatusDialog {
 			status = getOKStatus();
 		}
 
-		if (status != null) {
+		if (status != null)
 			updateStatus(status);
-		}
 	}
 
 	private Status getMiscStatus(int severity, String message) {

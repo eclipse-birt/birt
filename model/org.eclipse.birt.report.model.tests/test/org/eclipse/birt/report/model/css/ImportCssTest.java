@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,11 +41,10 @@ public class ImportCssTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		sessionHandle = DesignEngine.newSession((ULocale) null);
@@ -53,7 +52,7 @@ public class ImportCssTest extends BaseTestCase {
 
 	/**
 	 * Loads the style sheet with the given file path and the module.
-	 *
+	 * 
 	 * @param fileName the file name
 	 * @param module   the module
 	 * @return a <code>CssStyleSheetHandle</code>
@@ -68,27 +67,26 @@ public class ImportCssTest extends BaseTestCase {
 
 	/**
 	 * Gets all styles in the stylesheet.
-	 *
+	 * 
 	 * @param styleSheet the style sheet
 	 * @return a list containing styles. Each item is <code>StyleHandle</code>.
 	 */
 
 	private List<StyleHandle> getAllStyles(CssStyleSheetHandle styleSheet) {
-		List<StyleHandle> selectedStyles = new ArrayList<>();
-		for (Iterator<StyleHandle> iter1 = styleSheet.getStyleIterator(); iter1.hasNext();) {
+		List<StyleHandle> selectedStyles = new ArrayList<StyleHandle>();
+		for (Iterator<StyleHandle> iter1 = styleSheet.getStyleIterator(); iter1.hasNext();)
 			selectedStyles.add(iter1.next());
-		}
 
 		return selectedStyles;
 	}
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>import css styles to the styles slot
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -112,14 +110,14 @@ public class ImportCssTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * Style names are not duplicate.
-	 *
+	 * 
 	 * <ul>
 	 * <li>import css styles to the default theme.
 	 * <li>import css styles to the specified theme.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -148,13 +146,13 @@ public class ImportCssTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * Style names are duplicate.
-	 *
+	 * 
 	 * <ul>
 	 * <li>import css styles to the specified theme.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -177,7 +175,7 @@ public class ImportCssTest extends BaseTestCase {
 
 	/**
 	 * Test container of css style sheet handle when import to report design.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -194,14 +192,14 @@ public class ImportCssTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * Style names are not duplicate.
-	 *
+	 * 
 	 * <ul>
 	 * 1. imports css styles to the unexisted specified theme 1. imports css styles
 	 * to the unexisted default theme
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

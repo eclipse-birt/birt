@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Records an insertion into, or deletion from a name space.
- *
+ * 
  */
 
 public class NameSpaceRecord extends SimpleRecord {
@@ -70,7 +70,7 @@ public class NameSpaceRecord extends SimpleRecord {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param nameHelper the name container
 	 * @param ns
 	 * @param symbol     the element to insert or remove.
@@ -90,21 +90,19 @@ public class NameSpaceRecord extends SimpleRecord {
 		// Instead, this record should appear as part of a larger task,
 		// and the label for that task should appear in the UI.
 
-		if (add) {
+		if (add)
 			label = CommandLabelFactory.getCommandLabel(MessageConstants.INSERT_ELEMENT_MESSAGE);
-		} else {
+		else
 			label = CommandLabelFactory.getCommandLabel(MessageConstants.DELETE_ELEMENT_MESSAGE);
-		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
 	 */
 
-	@Override
 	protected void perform(boolean undo) {
 		Module root = nameHelper.getElement().getRoot();
 		NameSpace ns = nameHelper.getNameSpace(nameSpaceID);
@@ -118,9 +116,8 @@ public class NameSpaceRecord extends SimpleRecord {
 				// drop the element from the cached name manager
 
 				nameHelper.dropElement(nameSpaceID, element);
-				if (originalElement != null) {
+				if (originalElement != null)
 					updateAllElementReferences(root, originalElement);
-				}
 			} else {
 				ns.insert(element);
 
@@ -131,14 +128,13 @@ public class NameSpaceRecord extends SimpleRecord {
 		} else {
 			ns.remove(element);
 
-			if (element instanceof ReferenceableElement) {
+			if (element instanceof ReferenceableElement)
 				updateAllElementReferences(root, (ReferenceableElement) element);
-			}
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param root
 	 * @param referred
 	 */
@@ -192,7 +188,7 @@ public class NameSpaceRecord extends SimpleRecord {
 	/**
 	 * Now special deal with case: element -> list-property -> structure-> member is
 	 * elementRefValue
-	 *
+	 * 
 	 * @param referred  reference element
 	 * @param memberRef member ref
 	 * @param valueList structure list
@@ -223,31 +219,28 @@ public class NameSpaceRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget ()
 	 */
 
-	@Override
 	public DesignElement getTarget() {
 		return nameHelper.getElement();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
-	@Override
 	public NotificationEvent getEvent() {
 		NotificationEvent event = null;
-		if (this.add) {
+		if (this.add)
 			event = new NameEvent(element, null, element.getName());
-		} else {
+		else
 			event = new NameEvent(element, element.getName(), null);
-		}
 		return event;
 	}
 

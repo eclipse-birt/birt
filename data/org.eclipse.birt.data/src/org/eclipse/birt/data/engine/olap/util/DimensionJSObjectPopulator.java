@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
- *
+ * 
  */
 
 public class DimensionJSObjectPopulator implements IJSObjectPopulator {
@@ -33,7 +33,7 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator {
 	private List levelNames;
 
 	/**
-	 *
+	 * 
 	 * @param scope
 	 * @param dimensionName
 	 * @param levelNames
@@ -46,10 +46,9 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#doInit()
 	 */
-	@Override
 	public void doInit() throws DataException {
 		this.dimObj = new DummyJSLevels(dimensionName);
 		DummyJSDimensionObject dimObj = new DummyJSDimensionObject(this.dimObj, levelNames);
@@ -60,12 +59,11 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#setData(java.lang.
 	 * Object)
 	 */
-	@Override
 	public void setData(Object resultRow) {
 		assert resultRow instanceof IResultRow;
 		dimObj.setResultRow((IResultRow) resultRow);
@@ -73,10 +71,9 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#cleanUp()
 	 */
-	@Override
 	public void cleanUp() {
 		this.scope.delete(ScriptConstants.DIMENSION_SCRIPTABLE);
 		this.scope.setParentScope(null);

@@ -20,9 +20,9 @@ import javax.servlet.ServletContext;
 public interface IFilenameGeneratorFactory {
 	/**
 	 * Returns an instance of IFilenameGenerator.
-	 *
+	 * 
 	 * @param servletContext servlet context
 	 * @return instance of IFilenameGenerator
 	 */
-	IFilenameGenerator createFilenameGenerator(ServletContext servletContext);
+	public IFilenameGenerator createFilenameGenerator(ServletContext servletContext);
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.gef.rulers.RulerProvider;
 
 /**
  * Editor ruler editPart.
- *
+ * 
  */
 public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
@@ -42,12 +42,10 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 	private boolean horizontal;
 	private RulerChangeListener listener = new RulerChangeListener.Stub() {
 
-		@Override
 		public void notifyGuideReparented(Object guide) {
 			handleGuideReparented(guide);
 		}
 
-		@Override
 		public void notifyUnitsChanged(int newUnit) {
 			handleUnitsChanged(newUnit);
 		}
@@ -55,7 +53,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param model
 	 */
 	public EditorRulerEditPart(Object model) {
@@ -64,10 +62,9 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
 	 */
-	@Override
 	public void activate() {
 		getRulerProvider().addRulerChangeListener(listener);
 		getRulerFigure().setZoomManager(getZoomManager());
@@ -79,43 +76,39 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.internal.ui.rulers.RulerEditPart#getDragTracker(org.eclipse.
 	 * gef.Request)
 	 */
-	@Override
 	public DragTracker getDragTracker(Request request) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new EditRulerSelectionPolicy());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.internal.ui.rulers.RulerEditPart#createFigure()
 	 */
-	@Override
 	protected IFigure createFigure() {
 		EditorRulerFigure ruler = new EditorRulerFigure(isHorizontal(), getRulerProvider().getUnit());
-		if (ruler.getUnit() == RulerProvider.UNIT_PIXELS) {
+		if (ruler.getUnit() == RulerProvider.UNIT_PIXELS)
 			ruler.setInterval(100, 2);
-		}
 		return ruler;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.internal.ui.rulers.RulerEditPart#handleUnitsChanged(int)
 	 */
 	public void handleUnitsChanged(int newUnit) {
@@ -125,10 +118,9 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
 	 */
-	@Override
 	public void deactivate() {
 		super.deactivate();
 		getRulerProvider().removeRulerChangeListener(listener);
@@ -141,7 +133,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * Returns the GraphicalViewer associated with the diagram.
-	 *
+	 * 
 	 * @return graphical viewer associated with the diagram.
 	 */
 	public GraphicalViewer getDiagramViewer() {
@@ -150,25 +142,23 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	public IFigure getGuideLayer() {
 		LayerManager lm = (LayerManager) diagramViewer.getEditPartRegistry().get(LayerManager.ID);
-		if (lm != null) {
+		if (lm != null)
 			return lm.getLayer(LayerConstants.GUIDE_LAYER);
-		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
-	@Override
 	protected List getModelChildren() {
 		return getRulerProvider().getGuides();
 	}
 
 	/**
 	 * Gets the ruler figure.
-	 *
+	 * 
 	 * @return
 	 */
 	protected EditorRulerFigure getRulerFigure() {
@@ -177,7 +167,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * Gets the provider.
-	 *
+	 * 
 	 * @return
 	 */
 	public RulerProvider getRulerProvider() {
@@ -186,10 +176,9 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.EditPart#getTargetEditPart(org.eclipse.gef.Request)
 	 */
-	@Override
 	public EditPart getTargetEditPart(Request request) {
 		if (request.getType().equals(REQ_MOVE)) {
 			return this;
@@ -200,7 +189,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * Gets the zoom manager.
-	 *
+	 * 
 	 * @return
 	 */
 	public ZoomManager getZoomManager() {
@@ -227,10 +216,9 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.EditPart#setParent(org.eclipse.gef.EditPart)
 	 */
-	@Override
 	public void setParent(EditPart parent) {
 		super.setParent(parent);
 		if (getParent() != null && diagramViewer == null) {
@@ -253,30 +241,27 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideFocus()
 		 */
-		@Override
 		protected void hideFocus() {
 			((EditorRulerFigure) getHostFigure()).setDrawFocus(false);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
 		 */
-		@Override
 		protected void hideSelection() {
 			((EditorRulerFigure) getHostFigure()).setDrawFocus(false);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
 		 */
-		@Override
 		protected void showSelection() {
 		}
 	}

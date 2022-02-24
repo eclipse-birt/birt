@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -31,7 +31,7 @@ public class RowTracker extends TableSelectionGuideTracker {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param sourceEditPart
 	 */
 	public RowTracker(TableEditPart sourceEditPart, int row, IContainer container) {
@@ -42,11 +42,10 @@ public class RowTracker extends TableSelectionGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableSelectionGuideTracker#select()
 	 */
-	@Override
 	public void select() {
 		if (container.isSelect() && getCurrentInput().isMouseButtonDown(3)) {
 			return;
@@ -79,10 +78,9 @@ public class RowTracker extends TableSelectionGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.tools.AbstractTool#handleMove()
 	 */
-	@Override
 	protected boolean handleMove() {
 		// TODO Auto-generated method stub
 		return super.handleMove();
@@ -90,11 +88,10 @@ public class RowTracker extends TableSelectionGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableSelectionGuideTracker#handleButtonUp(int)
 	 */
-	@Override
 	protected boolean handleButtonUp(int button) {
 		boolean rlt = super.handleButtonUp(button);
 
@@ -105,7 +102,6 @@ public class RowTracker extends TableSelectionGuideTracker {
 		return rlt;
 	}
 
-	@Override
 	public boolean isDealwithDrag() {
 		Handle handle = getHandleUnderMouse();
 		if (handle instanceof RowHandle) {
@@ -117,7 +113,6 @@ public class RowTracker extends TableSelectionGuideTracker {
 		// isSameTable();
 	}
 
-	@Override
 	public void selectDrag() {
 		RowHandle handle = (RowHandle) getHandleUnderMouse();
 
@@ -127,7 +122,7 @@ public class RowTracker extends TableSelectionGuideTracker {
 	}
 
 	private void selectRows(int number, int rowNumber) {
-		int[] rows = {};
+		int[] rows = new int[] {};
 		for (int i = number; i <= number + Math.abs(number - rowNumber); i++) {
 			int lenegth = rows.length;
 			int[] temp = new int[lenegth + 1];
@@ -144,10 +139,9 @@ public class RowTracker extends TableSelectionGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.tools.SelectEditPartTracker#performOpen()
 	 */
-	@Override
 	protected void performOpen() {
 		SelectionRequest request = new SelectionRequest();
 		request.setLocation(getLocation());

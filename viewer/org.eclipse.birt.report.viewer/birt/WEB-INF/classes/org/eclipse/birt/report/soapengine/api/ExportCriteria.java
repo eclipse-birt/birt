@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,7 +36,7 @@ public class ExportCriteria implements java.io.Serializable {
 
 	/**
 	 * Gets the columnName value for this ExportCriteria.
-	 *
+	 * 
 	 * @return columnName
 	 */
 	public java.lang.String getColumnName() {
@@ -45,7 +45,7 @@ public class ExportCriteria implements java.io.Serializable {
 
 	/**
 	 * Sets the columnName value for this ExportCriteria.
-	 *
+	 * 
 	 * @param columnName
 	 */
 	public void setColumnName(java.lang.String columnName) {
@@ -54,7 +54,7 @@ public class ExportCriteria implements java.io.Serializable {
 
 	/**
 	 * Gets the operator value for this ExportCriteria.
-	 *
+	 * 
 	 * @return operator
 	 */
 	public java.lang.String getOperator() {
@@ -63,7 +63,7 @@ public class ExportCriteria implements java.io.Serializable {
 
 	/**
 	 * Sets the operator value for this ExportCriteria.
-	 *
+	 * 
 	 * @param operator
 	 */
 	public void setOperator(java.lang.String operator) {
@@ -72,7 +72,7 @@ public class ExportCriteria implements java.io.Serializable {
 
 	/**
 	 * Gets the value value for this ExportCriteria.
-	 *
+	 * 
 	 * @return value
 	 */
 	public java.lang.String getValue() {
@@ -81,7 +81,7 @@ public class ExportCriteria implements java.io.Serializable {
 
 	/**
 	 * Sets the value value for this ExportCriteria.
-	 *
+	 * 
 	 * @param value
 	 */
 	public void setValue(java.lang.String value) {
@@ -90,18 +90,14 @@ public class ExportCriteria implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ExportCriteria)) {
+		if (!(obj instanceof ExportCriteria))
 			return false;
-		}
 		ExportCriteria other = (ExportCriteria) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -120,7 +116,6 @@ public class ExportCriteria implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

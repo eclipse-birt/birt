@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 
 public class XMLParserException extends SAXException {
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = -4843979661543157480L;
 
@@ -96,7 +96,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param errCode the error code
 	 */
 
@@ -107,7 +107,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param e a SAX exception
 	 */
 
@@ -119,7 +119,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param e a generic exception
 	 */
 
@@ -130,7 +130,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param e       generic exception
 	 * @param errCode error code that explains the exception
 	 */
@@ -142,7 +142,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param errors list of errors
 	 */
 
@@ -154,7 +154,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Sets the line number associated with the exception.
-	 *
+	 * 
 	 * @param n The line number to set.
 	 */
 
@@ -164,7 +164,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Sets the element associated with the exception.
-	 *
+	 * 
 	 * @param theTag the element name to set.
 	 */
 
@@ -174,7 +174,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Gets the error code associated with the exception.
-	 *
+	 * 
 	 * @return the error code
 	 */
 	public String getErrorCode() {
@@ -183,7 +183,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Gets the element associated with the exception.
-	 *
+	 * 
 	 * @return the element name
 	 */
 	public String getTag() {
@@ -192,7 +192,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Gets the line number associated with the exception.
-	 *
+	 * 
 	 * @return the line number
 	 */
 	public int getLineNumber() {
@@ -201,22 +201,20 @@ public class XMLParserException extends SAXException {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Throwable#getMessage()
 	 */
 
-	@Override
 	public String getMessage() {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 
 		String SEPARATOR = " "; //$NON-NLS-1$
 
-		sb.append("Line Number:").append(getLineNumber()).append(SEPARATOR); //$NON-NLS-1$
-		sb.append("Error Code:").append(errorCode).append(SEPARATOR); //$NON-NLS-1$
+		sb.append("Line Number:").append(getLineNumber()).append(SEPARATOR); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("Error Code:").append(errorCode).append(SEPARATOR); //$NON-NLS-1$ //$NON-NLS-2$
 
-		if (getException() != null) {
-			sb.append("Exception:").append(getException()).append(SEPARATOR); //$NON-NLS-1$
-		}
+		if (getException() != null)
+			sb.append("Exception:").append(getException()).append(SEPARATOR); //$NON-NLS-1$ //$NON-NLS-2$
 
 		sb.append("Message:").append(errorCode).append(SEPARATOR); //$NON-NLS-1$
 
@@ -225,7 +223,7 @@ public class XMLParserException extends SAXException {
 
 	/**
 	 * Returns the error list.
-	 *
+	 * 
 	 * @return the error list
 	 */
 

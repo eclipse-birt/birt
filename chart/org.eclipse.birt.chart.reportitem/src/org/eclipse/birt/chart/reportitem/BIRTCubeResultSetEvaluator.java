@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 
 /**
  * Data expression evaluator for cube query.
- *
+ * 
  */
 
 public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapter
@@ -64,7 +64,7 @@ public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapte
 	 */
 	protected EdgeCursor subEdgeCursor;
 
-	protected List<Integer> lstBreaks = new ArrayList<>();
+	protected List<Integer> lstBreaks = new ArrayList<Integer>();
 
 	protected int iIndex = 0;
 
@@ -85,7 +85,6 @@ public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapte
 		}
 	}
 
-	@Override
 	public int[] getGroupBreaks(int groupLevel) {
 		if (lstBreaks.size() <= 1) {
 			if (bWithoutSub && iIndex > 0) {
@@ -138,6 +137,8 @@ public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapte
 					}
 				}
 			}
+		} catch (OLAPException e) {
+			result = e;
 		} catch (BirtException e) {
 			result = e;
 		} catch (RuntimeException e) {
@@ -167,7 +168,7 @@ public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapte
 				}
 
 				// Add break index for each start point
-				lstBreaks.add(iIndex);
+				lstBreaks.add(Integer.valueOf(iIndex));
 
 				subEdgeCursor.first();
 				return hasNext(mainEdgeCursor);
@@ -181,7 +182,7 @@ public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapte
 
 	/**
 	 * Checks if current cursor can move to next.
-	 *
+	 * 
 	 * @param cursor
 	 * @return
 	 * @throws OLAPException
@@ -222,6 +223,8 @@ public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapte
 				}
 				return true;
 			}
+		} catch (OLAPException e) {
+			logger.log(e);
 		} catch (BirtException e) {
 			logger.log(e);
 		}
@@ -256,7 +259,7 @@ public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapte
 
 	/**
 	 * Returns cube cursor.
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	protected ICubeCursor getCubeCursor() throws BirtException {
@@ -268,29 +271,27 @@ public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator#
 	 * needCategoryGrouping()
 	 */
-	@Override
 	public boolean needCategoryGrouping() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator#
 	 * needOptionalGrouping()
 	 */
-	@Override
 	public boolean needOptionalGrouping() {
 		return false;
 	}
 
 	/**
 	 * Sets size limit of row and column.
-	 *
+	 * 
 	 * @param dataSize
 	 */
 	public void setSizeLimit(long dataSize) {
@@ -300,7 +301,6 @@ public class BIRTCubeResultSetEvaluator extends DataRowExpressionEvaluatorAdapte
 	/*
 	 * Returns if group is enabled in each group-level.
 	 */
-	@Override
 	public boolean[] getGroupStatus() {
 		return new boolean[] { true };
 	}

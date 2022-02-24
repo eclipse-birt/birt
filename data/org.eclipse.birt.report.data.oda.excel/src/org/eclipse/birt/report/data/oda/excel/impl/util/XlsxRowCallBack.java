@@ -14,15 +14,13 @@
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.report.data.oda.excel.ExcelODAConstants;
 
 public class XlsxRowCallBack implements RowCallBack {
-	private ArrayList<String[]> xlsxRowData = new ArrayList<>();
+	private ArrayList<String[]> xlsxRowData = new ArrayList<String[]>();
 
-	@Override
 	public void handleRow(List<Object> values) {
 
 		if (values == null || values.size() == 0) {
@@ -37,7 +35,7 @@ public class XlsxRowCallBack implements RowCallBack {
 	}
 
 	public ArrayList<String> initArrayList(String[] strings) {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<String>();
 		for (String i : strings) {
 			list.add(i);
 		}
@@ -66,11 +64,11 @@ public class XlsxRowCallBack implements RowCallBack {
 						newRow[j] = "column_" + j;
 					}
 				} else {
-					Arrays.fill(newRow, ExcelODAConstants.EMPTY_STRING);
+					for (int j = 0; j < newRow.length; j++)
+						newRow[j] = ExcelODAConstants.EMPTY_STRING;
 				}
-				for (int g = 0; g < currentRow.length; g++) {
+				for (int g = 0; g < currentRow.length; g++)
 					newRow[g] = currentRow[g];
-				}
 				xlsxRowData.remove(i);
 				xlsxRowData.add(i, newRow);
 			}

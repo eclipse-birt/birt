@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,6 @@ public class LibraryThemeTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -73,7 +72,7 @@ public class LibraryThemeTest extends BaseTestCase {
 	 * <td>drop css file
 	 * <td>check reference is unreslove or not
 	 * </tr>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -150,7 +149,7 @@ public class LibraryThemeTest extends BaseTestCase {
 
 	/**
 	 * Test change theme with css style
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testChangeTheme() throws Exception {
@@ -160,9 +159,10 @@ public class LibraryThemeTest extends BaseTestCase {
 		assertEquals("left", labelHandle.getStyle().getTextAlign());//$NON-NLS-1$
 
 		LibraryHandle libHandle = designHandle.getLibrary("LibraryThemeTest_TwoTheme"); //$NON-NLS-1$
-
+		;
 		ThemeHandle themeHandle = (ThemeHandle) libHandle.getThemes().get(1);
 		assertEquals("theme2", themeHandle.getName()); //$NON-NLS-1$
+		;
 
 		// change theme
 		designHandle.setTheme(themeHandle);
@@ -191,7 +191,7 @@ public class LibraryThemeTest extends BaseTestCase {
 	/**
 	 * Tests how to resolve a style element. The path is: local custom style ->
 	 * library custom style -> library selector -> selector in the module.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -215,10 +215,10 @@ public class LibraryThemeTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * 1. when the theme is set, the property value of style should be changed. 2.
 	 * when the theme is set, the notification is sent to the module.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -303,7 +303,7 @@ public class LibraryThemeTest extends BaseTestCase {
 	/**
 	 * Test cases: 1. remove/add styles in the library and see effects to the
 	 * library.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -350,7 +350,7 @@ public class LibraryThemeTest extends BaseTestCase {
 	 * Test cases:
 	 * <p>
 	 * 1. remove/add themes in the library and see effects to the library.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -498,7 +498,7 @@ public class LibraryThemeTest extends BaseTestCase {
 
 	/**
 	 * Test the meachanism to check the duplidate style name in one theme.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -526,9 +526,9 @@ public class LibraryThemeTest extends BaseTestCase {
 	 * Tests the compatibility work when create the library. A default theme is
 	 * created and the theme property of the library is set to be this default
 	 * theme.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testCreateLibrary() throws Exception {
@@ -545,9 +545,9 @@ public class LibraryThemeTest extends BaseTestCase {
 	 * Tests the compatibility work to open a library without styles slot. A default
 	 * theme is created and the theme property of the library is set to be this
 	 * default theme.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testCompatibleLibraryWithoutStyles() throws Exception {
@@ -560,9 +560,9 @@ public class LibraryThemeTest extends BaseTestCase {
 
 	/**
 	 * Tests the clone method of theme element.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testClone() throws Exception {
@@ -605,13 +605,13 @@ public class LibraryThemeTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>1. includes two libraries with themes, set the design theme property with
 	 * one of themes. No exception expected.
-	 *
+	 * 
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -634,13 +634,13 @@ public class LibraryThemeTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>1. includes one librarie with theme, assert getDisplayLabel() returns
 	 * qualified name of the item. No exception expected.
-	 *
+	 * 
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -664,14 +664,14 @@ public class LibraryThemeTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>For the design, directly included libraries have no themes. <code>
 	 * getAllThemes()</code> return 0.
 	 * <li>For the library, directly included libraries have 2 themes.
 	 * <code>getAllThemes()</code> return 2.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -690,12 +690,12 @@ public class LibraryThemeTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>Rename a style with duplicate name. The result is that NameException is
 	 * thrown.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -726,7 +726,7 @@ public class LibraryThemeTest extends BaseTestCase {
 	/**
 	 * When remove library with css style which is used in report design, report
 	 * design should receive event message. for bugzilla 192171.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testRemoveStyleInTheme() throws Exception {
@@ -751,22 +751,20 @@ public class LibraryThemeTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev.getEventType() == NotificationEvent.STYLE_EVENT
-					|| ev.getEventType() == NotificationEvent.THEME_EVENT) {
+					|| ev.getEventType() == NotificationEvent.THEME_EVENT)
 				counter++;
-			}
 		}
 
 		/**
 		 * Returns counter.
-		 *
+		 * 
 		 * @return
 		 */
 		public int getCounter() {
@@ -776,10 +774,10 @@ public class LibraryThemeTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 *
+	 * 
 	 * Open an design file containing an invalid theme. A content exception is
 	 * expected. Added for bugzilla 276218.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testAddNonExistingTheme() throws Exception {

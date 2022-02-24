@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ public class LibraryStructureTest extends BaseTestCase {
 
 	/**
 	 * Tests the usage of "libReference" in design file.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -94,7 +94,7 @@ public class LibraryStructureTest extends BaseTestCase {
 
 	/**
 	 * Tests the resolve and unresolve of the structures.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -176,7 +176,7 @@ public class LibraryStructureTest extends BaseTestCase {
 
 	/**
 	 * Tests the visibility of the library structures.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -204,7 +204,7 @@ public class LibraryStructureTest extends BaseTestCase {
 	/**
 	 * Tests the getEmbeddedImage() in ImageHandle when extending or virtual
 	 * extending.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -236,7 +236,7 @@ public class LibraryStructureTest extends BaseTestCase {
 
 	/**
 	 * Test cases for Embedded images.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -278,7 +278,7 @@ public class LibraryStructureTest extends BaseTestCase {
 
 	/**
 	 * To create an embedded image from an existed embeded image.
-	 *
+	 * 
 	 * <ul>
 	 * <li>1. create an embedded image. but the target module does not include the
 	 * library.
@@ -286,7 +286,7 @@ public class LibraryStructureTest extends BaseTestCase {
 	 * <li>3. if the base embedded image is on the design tree, the create image is
 	 * null.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

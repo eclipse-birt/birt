@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -50,7 +50,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Gets the reportParameterList value for this ConditionLine.
-	 *
+	 * 
 	 * @return reportParameterList
 	 */
 	public org.eclipse.birt.report.soapengine.api.ReportParameterList getReportParameterList() {
@@ -59,7 +59,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Sets the reportParameterList value for this ConditionLine.
-	 *
+	 * 
 	 * @param reportParameterList
 	 */
 	public void setReportParameterList(org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList) {
@@ -68,7 +68,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Gets the logicOp value for this ConditionLine.
-	 *
+	 * 
 	 * @return logicOp
 	 */
 	public java.lang.String getLogicOp() {
@@ -77,7 +77,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Sets the logicOp value for this ConditionLine.
-	 *
+	 * 
 	 * @param logicOp
 	 */
 	public void setLogicOp(java.lang.String logicOp) {
@@ -86,7 +86,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Gets the hasLeftBracket value for this ConditionLine.
-	 *
+	 * 
 	 * @return hasLeftBracket
 	 */
 	public boolean isHasLeftBracket() {
@@ -95,7 +95,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Sets the hasLeftBracket value for this ConditionLine.
-	 *
+	 * 
 	 * @param hasLeftBracket
 	 */
 	public void setHasLeftBracket(boolean hasLeftBracket) {
@@ -104,7 +104,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Gets the hasNot value for this ConditionLine.
-	 *
+	 * 
 	 * @return hasNot
 	 */
 	public boolean isHasNot() {
@@ -113,7 +113,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Sets the hasNot value for this ConditionLine.
-	 *
+	 * 
 	 * @param hasNot
 	 */
 	public void setHasNot(boolean hasNot) {
@@ -122,7 +122,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Gets the row value for this ConditionLine.
-	 *
+	 * 
 	 * @return row
 	 */
 	public java.lang.String getRow() {
@@ -131,7 +131,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Sets the row value for this ConditionLine.
-	 *
+	 * 
 	 * @param row
 	 */
 	public void setRow(java.lang.String row) {
@@ -140,7 +140,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Gets the operator value for this ConditionLine.
-	 *
+	 * 
 	 * @return operator
 	 */
 	public java.lang.String getOperator() {
@@ -149,7 +149,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Sets the operator value for this ConditionLine.
-	 *
+	 * 
 	 * @param operator
 	 */
 	public void setOperator(java.lang.String operator) {
@@ -158,7 +158,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Gets the value1 value for this ConditionLine.
-	 *
+	 * 
 	 * @return value1
 	 */
 	public java.lang.String getValue1() {
@@ -167,7 +167,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Sets the value1 value for this ConditionLine.
-	 *
+	 * 
 	 * @param value1
 	 */
 	public void setValue1(java.lang.String value1) {
@@ -176,7 +176,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Gets the value2 value for this ConditionLine.
-	 *
+	 * 
 	 * @return value2
 	 */
 	public java.lang.String getValue2() {
@@ -185,7 +185,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Sets the value2 value for this ConditionLine.
-	 *
+	 * 
 	 * @param value2
 	 */
 	public void setValue2(java.lang.String value2) {
@@ -194,7 +194,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Gets the hasRightBracket value for this ConditionLine.
-	 *
+	 * 
 	 * @return hasRightBracket
 	 */
 	public boolean isHasRightBracket() {
@@ -203,7 +203,7 @@ public class ConditionLine implements java.io.Serializable {
 
 	/**
 	 * Sets the hasRightBracket value for this ConditionLine.
-	 *
+	 * 
 	 * @param hasRightBracket
 	 */
 	public void setHasRightBracket(boolean hasRightBracket) {
@@ -212,18 +212,14 @@ public class ConditionLine implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ConditionLine)) {
+		if (!(obj instanceof ConditionLine))
 			return false;
-		}
 		ConditionLine other = (ConditionLine) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -251,7 +247,6 @@ public class ConditionLine implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * hierarchy elements and a foreign key. Use the
  * {@link org.eclipse.birt.report.model.api.olap.DimensionHandle}class to change
  * the properties.
- *
+ * 
  */
 
 public class TabularDimension extends Dimension implements ITabularDimensionModel {
@@ -41,7 +41,7 @@ public class TabularDimension extends Dimension implements ITabularDimensionMode
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 */
 
 	public TabularDimension() {
@@ -50,7 +50,7 @@ public class TabularDimension extends Dimension implements ITabularDimensionMode
 
 	/**
 	 * Constructs the dimension with the given name.
-	 *
+	 * 
 	 * @param name name given for this dimension
 	 */
 
@@ -62,42 +62,39 @@ public class TabularDimension extends Dimension implements ITabularDimensionMode
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitTabularDimension(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.TABULAR_DIMENSION_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the module of the dimension
-	 *
+	 * 
 	 * @return an API handle for this element.
 	 */
 
@@ -110,54 +107,49 @@ public class TabularDimension extends Dimension implements ITabularDimensionMode
 
 	/**
 	 * Returns the data set element, if any, for this element.
-	 *
+	 * 
 	 * @param module the report design of the report item
-	 *
+	 * 
 	 * @return the data set element defined on this specific element
 	 */
 
 	public DesignElement getSharedDimension(Module module) {
 		ElementRefValue dataSetRef = (ElementRefValue) getProperty(module, INTERNAL_DIMENSION_RFF_TYPE_PROP);
-		if (dataSetRef == null) {
+		if (dataSetRef == null)
 			return null;
-		}
 		return dataSetRef.getElement();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.elements.olap.Dimension#isValidHierarchy
 	 * (org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	protected boolean isValidHierarchy(DesignElement hierarchy, Module module) {
 		return hierarchy.getContainer() == this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#isManagedByNameSpace()
 	 */
-	@Override
 	public boolean isManagedByNameSpace() {
 		// if dimension refers a shared dimension whether it is resolved or not,
 		// not managed by name space
-		if (hasSharedDimension(getRoot())) {
+		if (hasSharedDimension(getRoot()))
 			return false;
-		}
 		return super.isManagedByNameSpace();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#baseClone()
 	 */
 
-	@Override
 	protected Object baseClone() throws CloneNotSupportedException {
 		TabularDimension clonedElement = (TabularDimension) super.baseClone();
 		clonedElement.provider = new TabularDimensionProvider(clonedElement);
@@ -168,34 +160,30 @@ public class TabularDimension extends Dimension implements ITabularDimensionMode
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getLocalProperty(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	@Override
 	public Object getLocalProperty(Module module, ElementPropertyDefn prop) {
 		assert prop != null;
 
-		if (prop.getTypeCode() != IPropertyType.ELEMENT_TYPE) {
+		if (prop.getTypeCode() != IPropertyType.ELEMENT_TYPE)
 			return super.getLocalProperty(module, prop);
-		}
 
-		if (hasSharedDimension(module)) {
+		if (hasSharedDimension(module))
 			return provider.getLayoutProperty(module, prop);
-		}
 
 		return super.getLocalProperty(module, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#setProperty(org.eclipse
 	 * .birt.report.model.metadata.ElementPropertyDefn, java.lang.Object)
 	 */
-	@Override
 	public void setProperty(ElementPropertyDefn prop, Object value) {
 		assert prop != null;
 		if (prop.getTypeCode() == IPropertyType.ELEMENT_TYPE && hasSharedDimension(getRoot())) {
@@ -210,7 +198,7 @@ public class TabularDimension extends Dimension implements ITabularDimensionMode
 	}
 
 	/**
-	 *
+	 * 
 	 * @param module
 	 */
 	public void updateLayout(Module module) {
@@ -223,32 +211,29 @@ public class TabularDimension extends Dimension implements ITabularDimensionMode
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getDynamicExtends(org
 	 * .eclipse.birt.report.model.core.Module)
 	 */
-	@Override
 	public DesignElement getDynamicExtendsElement(Module module) {
 		return getSharedDimension(module);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#canDynamicExtends()
 	 */
-	@Override
 	public boolean canDynamicExtends() {
 		return hasSharedDimension(getRoot());
 	}
 
 	/**
 	 * Gets the default hierarchy in this dimension.
-	 *
+	 * 
 	 * @param module
 	 * @return
 	 */
-	@Override
 	public DesignElement getDefaultHierarchy(Module module) {
 		if (hasSharedDimension(module)) {
 			String name = getStringProperty(module, DEFAULT_HIERARCHY_PROP);
@@ -261,12 +246,11 @@ public class TabularDimension extends Dimension implements ITabularDimensionMode
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.elements.olap.Dimension#getLocalHierarchy
 	 * (org.eclipse.birt.report.model.core.Module, java.lang.String)
 	 */
 
-	@Override
 	public DesignElement getLocalHierarchy(Module module, String hierarchyName) {
 		if (hasSharedDimension(module)) {
 			return provider.findLocalElement(hierarchyName,

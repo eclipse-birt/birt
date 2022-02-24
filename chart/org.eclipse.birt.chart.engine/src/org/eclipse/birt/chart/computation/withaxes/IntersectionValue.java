@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,21 +50,21 @@ public final class IntersectionValue extends Methods implements IConstants {
 	/**
 	 * @return
 	 */
-	public int getType() {
+	public final int getType() {
 		return iType;
 	}
 
 	/**
 	 * @return
 	 */
-	public Object getValue() {
+	public final Object getValue() {
 		return oValue;
 	}
 
 	/**
 	 * @return
 	 */
-	public double getValueAsDouble() {
+	public final double getValueAsDouble() {
 		return asDouble(oValue).doubleValue();
 	}
 
@@ -72,7 +72,7 @@ public final class IntersectionValue extends Methods implements IConstants {
 	 * @param sc
 	 * @return
 	 */
-	public double getValueAsDouble(AutoScale sc) {
+	public final double getValueAsDouble(AutoScale sc) {
 		if (iType == MAX) {
 			return asDouble(sc.getMaximum()).doubleValue();
 		} else if (iType == MIN) {

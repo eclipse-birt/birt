@@ -50,12 +50,14 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 /**
- *
+ * 
  */
 
 public class AddRelativeTimePeriodAction extends AbstractViewAction {
 
 	public static final String ID = "com.actuate.birt.report.designer.internal.ui.croostab.AddRelativeTimePeriodAction"; //$NON-NLS-1$
+	private static final double DEFAULT_COLUMN_WIDTH = 1.0;
+	private static final String ICON = "/icons/obj16/relativetime.gif"; //$NON-NLS-1$
 	private MeasureViewHandle measureViewHandle;
 	private CrosstabReportItemHandle reportHandle;
 
@@ -67,7 +69,6 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction {
 		setImageDescriptor(ImageDescriptor.createFromImage(image));
 	}
 
-	@Override
 	public void run() {
 		if (measureViewHandle != null) {
 			reportHandle = measureViewHandle.getCrosstab();
@@ -159,7 +160,10 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction {
 		}
 
 		CubeHandle cube = reportHandle.getCube();
-		if ((cube == null) || (cube.getPropertyHandle(ICubeModel.DIMENSIONS_PROP) == null)) {
+		if (cube == null) {
+			return false;
+		}
+		if (cube.getPropertyHandle(ICubeModel.DIMENSIONS_PROP) == null) {
 			return false;
 		}
 		List list = cube.getContents(ICubeModel.DIMENSIONS_PROP);

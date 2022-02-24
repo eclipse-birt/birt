@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -86,7 +86,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * Property page to edit script dataset column definition.
- *
+ * 
  */
 public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implements Listener {
 
@@ -120,7 +120,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 	protected String[] displayDataTypes;
 
 	/**
-	 *
+	 *  
 	 */
 	public OutputColumnDefnPage() {
 		super();
@@ -131,12 +131,11 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.
 	 * AbstractDescriptionPropertyPage#createContents(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	public Control createContents(Composite parent) {
 		rsColumns = ((DataSetHandle) getContainer().getModel()).getPropertyHandle(DataSetHandle.RESULT_SET_HINTS_PROP);
 		columnHints = ((DataSetHandle) getContainer().getModel()).getPropertyHandle(DataSetHandle.COLUMN_HINTS_PROP);
@@ -162,12 +161,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 	protected void addListeners() {
 		viewer.getAddButton().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doNew();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 
@@ -175,12 +172,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 		viewer.getEditButton().addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doEdit();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 
@@ -251,20 +246,16 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 	protected void setTableContentProvider() {
 		viewer.getViewer().setContentProvider(new IStructuredContentProvider() {
 
-			@Override
 			public Object[] getElements(Object inputElement) {
-				if (inputElement == null || !(inputElement instanceof ColumnHandles)) {
+				if (inputElement == null || !(inputElement instanceof ColumnHandles))
 					return new Object[0];
-				}
 
 				return ((ColumnHandles) inputElement).getColumnDefn().toArray();
 			}
 
-			@Override
 			public void dispose() {
 			}
 
-			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 
@@ -274,12 +265,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 	protected void setTableLabelProvider() {
 		viewer.getViewer().setLabelProvider(new ITableLabelProvider() {
 
-			@Override
 			public Image getColumnImage(Object element, int columnIndex) {
 				return null;
 			}
 
-			@Override
 			public String getColumnText(Object element, int columnIndex) {
 				String value = null;
 				ColumnDefn defn = null;
@@ -295,9 +284,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 					break;
 				}
 				case 2: {
-					if (defn != newDefn) {
+					if (defn != newDefn)
 						value = getTypeDisplayName(defn.getDataType());
-					}
 					break;
 				}
 				case 3: {
@@ -320,20 +308,16 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 				return value;
 			}
 
-			@Override
 			public void addListener(ILabelProviderListener listener) {
 			}
 
-			@Override
 			public void dispose() {
 			}
 
-			@Override
 			public boolean isLabelProperty(Object element, String property) {
 				return false;
 			}
 
-			@Override
 			public void removeListener(ILabelProviderListener listener) {
 			}
 		});
@@ -437,11 +421,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * pageActivated()
 	 */
-	@Override
 	public void pageActivated() {
 		getContainer().setMessage(DEFAULT_MESSAGE, IMessageProvider.NONE);
 		if (modelChanged) {
@@ -506,13 +489,12 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Listener#elementChanged(org.eclipse.birt.
 	 * report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.activity.NotificationEvent)
 	 */
-	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		modelChanged = true;
 	}
@@ -521,16 +503,15 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 	 * Re-indexes the parameters starting at 1 from the 1st in the list.
 	 */
 	protected final void refreshPositions() {
-		if (rsColumns == null) {
+		if (rsColumns == null)
 			return;
-		}
 
 		int position = 1;
 		Iterator iter = rsColumns.iterator();
 		if (iter != null && rsColumns.isLocal()) {
 			while (iter.hasNext()) {
 				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next();
-				column.setPosition(position++);
+				column.setPosition(Integer.valueOf(position++));
 			}
 		}
 	}
@@ -549,9 +530,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		Iterator iter = columnHints.iterator();
 		while (iter.hasNext()) {
 			ColumnHintHandle hint = (ColumnHintHandle) iter.next();
-			if (hint.getColumnName() != null && hint.getColumnName().equals(name)) {
+			if (hint.getColumnName() != null && hint.getColumnName().equals(name))
 				return false;
-			}
 		}
 
 		return true;
@@ -559,12 +539,11 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#
 	 * performCancel()
 	 */
-	@Override
 	public boolean performCancel() {
 		disposeAll();
 		return super.performCancel();
@@ -572,12 +551,11 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#
 	 * performOk()
 	 */
-	@Override
 	public boolean performOk() {
 		if (!modelChanged) {
 			disposeAll();
@@ -596,7 +574,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 	/**
 	 * Check the alias names whether is valid. The invalid situation may be the same
 	 * name of alias or the same name between column name and alias name.
-	 *
+	 * 
 	 */
 	private boolean isValid() {
 		boolean validate = true;
@@ -616,9 +594,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			if (newColumnNameOrAlias != null && newColumnNameOrAlias.length() > 0) {
 				for (int n = 0; iterator2.hasNext(); n++) {
 					ColumnHintHandle columnHint2 = (ColumnHintHandle) iterator2.next();
-					if (i == n) {
+					if (i == n)
 						continue;
-					}
 
 					if ((columnHint2.getColumnName() != null
 							&& columnHint2.getColumnName().equals(newColumnNameOrAlias))
@@ -640,10 +617,9 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 	}
 
 	protected void updateMessage() {
-		if (isValid()) {
+		if (isValid())
 			getContainer().setMessage(Messages.getString("dataset.editor.outputColumns"), //$NON-NLS-1$
 					IMessageProvider.NONE);
-		}
 	}
 
 	private void disposeAll() {
@@ -654,33 +630,29 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.
 	 * AbstractDescriptionPropertyPage#getPageDescription()
 	 */
-	@Override
 	public String getPageDescription() {
 		return Messages.getString("OutputColumnDefnPage.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#
 	 * canLeave()
 	 */
-	@Override
 	public boolean canLeave() {
-		if (!this.modelChanged) {
+		if (!this.modelChanged)
 			return true;
-		}
 		if (isValid()) {
 			refreshPositions();
 			return super.canLeave();
-		} else {
+		} else
 			return false;
-		}
 	}
 
 	private void refreshCachedMap() {
@@ -693,9 +665,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		}
 
 		IStructure toDelete = null;
-		if (rsColumns == null) {
+		if (rsColumns == null)
 			return;
-		}
 
 		for (Iterator iterator = rsColumns.iterator(); iterator.hasNext();) {
 			ResultSetColumnHandle handle = (ResultSetColumnHandle) iterator.next();
@@ -717,13 +688,12 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 	}
 
 	/**
-	 *
-	 *
+	 * 
+	 * 
 	 */
 	private void createCachedMap() {
-		if (rsColumns == null) {
+		if (rsColumns == null)
 			return;
-		}
 
 		for (Iterator iterator = rsColumns.iterator(); iterator.hasNext();) {
 			ResultSetColumnHandle handle = (ResultSetColumnHandle) iterator.next();
@@ -737,7 +707,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 	/**
 	 * A class that contain one ResultSetColumnHandle and one ColumnHintHandle.
-	 *
+	 * 
 	 * @author lzhu
 	 *
 	 */
@@ -749,6 +719,14 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		ColumnHandles(PropertyHandle rsch, PropertyHandle chh) {
 			this.rsColumnHandle = rsch;
 			this.chHandle = chh;
+		}
+
+		public PropertyHandle getResultSetColumnHandle() {
+			return this.rsColumnHandle;
+		}
+
+		public PropertyHandle getColumnHintHandle() {
+			return this.chHandle;
 		}
 
 		public List getColumnDefn() {
@@ -772,7 +750,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 	/**
 	 * The class which serves as input data of one single table item in column
 	 * definition table.
-	 *
+	 * 
 	 * @author lzhu
 	 *
 	 */
@@ -797,43 +775,38 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		}
 
 		public ResultSetColumn getResultSetColumn() {
-			if (this.rsColumnHandle != null) {
+			if (this.rsColumnHandle != null)
 				return (ResultSetColumn) this.rsColumnHandle.getStructure();
-			} else {
+			else
 				return this.rsColumn;
-			}
 		}
 
 		public ColumnHint getColumnHint() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return (ColumnHint) this.columnHintHandle.getStructure();
-			} else {
+			else
 				return this.columnHint;
-			}
 		}
 
 		public ActionHandle setAction(Action action) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return this.columnHintHandle.setAction(action);
-			}
 
 			return null;
 		}
 
 		public ActionHandle getActionHandle() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return this.columnHintHandle.getActionHandle();
-			}
 
 			return null;
 		}
 
 		public String getColumnName() {
-			if (this.rsColumnHandle != null) {
+			if (this.rsColumnHandle != null)
 				return this.rsColumnHandle.getColumnName();
-			} else if (this.rsColumn != null) {
+			else if (this.rsColumn != null)
 				return this.rsColumn.getColumnName();
-			}
 			return null;
 		}
 
@@ -855,89 +828,82 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 		/**
 		 * Gets the analysis type
-		 *
+		 * 
 		 * @return
 		 */
 		public String getAnalysisType() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getAnalysis();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.ANALYSIS_MEMBER);
-			}
 		}
 
 		/**
 		 * Sets the analysis type
-		 *
+		 * 
 		 * @param analysis
 		 * @throws SemanticException
 		 */
 		public void setAnalysis(String analysis) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setAnalysis(analysis);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.ANALYSIS_MEMBER, analysis);
-			}
 		}
 
 		/**
 		 * Gets the analysis column
-		 *
+		 * 
 		 * @return
 		 */
 		public String getAnalysisColumn() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getAnalysisColumn();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.ANALYSIS_COLUMN_MEMBER);
-			}
 		}
 
 		/**
 		 * Sets the analysis column
-		 *
+		 * 
 		 * @param analysisColumn
 		 * @throws SemanticException
 		 */
 		public void setAnalysisColumn(String analysisColumn) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setAnalysisColumn(analysisColumn);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.ANALYSIS_COLUMN_MEMBER, analysisColumn);
-			}
 		}
 
 		/**
 		 * @return Returns the alias.
 		 */
 		public String getAlias() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getAlias();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.ALIAS_MEMBER);
-			}
 		}
 
 		/**
 		 * @param alias The alias to set.
 		 */
 		public void setAlias(String alias) {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setAlias(alias);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.ALIAS_MEMBER, alias);
-			}
 		}
 
 		/**
 		 * @return Returns the dataType.
 		 */
 		public String getDataType() {
-			if (this.rsColumnHandle != null) {
+			if (this.rsColumnHandle != null)
 				return this.rsColumnHandle.getDataType();
-			} else {
+			else
 				return this.rsColumn.getDataType();
-			}
 		}
 
 		/**
@@ -945,11 +911,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		 */
 		public void setDataType(String dataType) {
 			try {
-				if (rsColumnHandle != null) {
+				if (rsColumnHandle != null)
 					rsColumnHandle.setDataType(dataType);
-				} else {
+				else
 					rsColumn.setDataType(dataType);
-				}
 			} catch (SemanticException e) {
 				logger.log(Level.FINE, e.getMessage(), e);
 			}
@@ -959,86 +924,78 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		 * @return Returns the displayName.
 		 */
 		public String getDisplayName() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return this.columnHintHandle.getDisplayName();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.DISPLAY_NAME_MEMBER);
-			}
 		}
 
 		/**
 		 * @param displayName The displayName to set.
 		 */
 		public void setDisplayName(String displayName) {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setDisplayName(displayName);
-			} else if (displayName != null && displayName.trim().length() > 0) {
+			else if (displayName != null && displayName.trim().length() > 0)
 				columnHint.setProperty(ColumnHint.DISPLAY_NAME_MEMBER, displayName);
-			}
 		}
 
 		public String getDisplayNameKey() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return this.columnHintHandle.getDisplayNameKey();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.DISPLAY_NAME_ID_MEMBER);
-			}
 		}
 
 		/**
-		 *
+		 * 
 		 * @param displayName
 		 */
 		public void setDisplayNameKey(String displayNameKey) {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setDisplayNameKey(displayNameKey);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.DISPLAY_NAME_ID_MEMBER, displayNameKey);
-			}
 		}
 
 		/**
 		 * @return Returns the helpText.
 		 */
 		public String getHelpText() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getHelpText();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.HELP_TEXT_MEMBER);
-			}
 		}
 
 		/**
 		 * @param format The format to set.
 		 */
 		public void setFormat(String format) {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setFormat(format);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.FORMAT_MEMBER, format);
-			}
 		}
 
 		/**
 		 * @return Returns the format.
 		 */
 		public String getFormat() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getFormat();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.FORMAT_MEMBER);
-			}
 		}
 
 		/**
 		 * @param display length The display length to set.
 		 */
 		public void setDisplayLength(int length) {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setDisplayLength(length);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.DISPLAY_LENGTH_MEMBER, length);
-			}
 		}
 
 		/**
@@ -1049,9 +1006,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 				return columnHintHandle.getDisplayLength();
 			} else {
 				Object value = columnHint.getProperty(null, ColumnHint.DISPLAY_LENGTH_MEMBER);
-				if (value instanceof Integer) {
+				if (value instanceof Integer)
 					return (Integer) value;
-				}
 				return 0;
 			}
 		}
@@ -1060,22 +1016,20 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		 * @param heading The heading to set.
 		 */
 		public void setHeading(String heading) {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setHeading(heading);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.HEADING_MEMBER, heading);
-			}
 		}
 
 		/**
 		 * @return Returns the heading.
 		 */
 		public String getHeading() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getHeading();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.HEADING_MEMBER);
-			}
 		}
 
 		/**
@@ -1083,22 +1037,20 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		 * @throws SemanticException
 		 */
 		public void setHorizontalAlign(String horizontalAlign) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setHorizontalAlign(horizontalAlign);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.HORIZONTAL_ALIGN_MEMBER, horizontalAlign);
-			}
 		}
 
 		/**
 		 * @return Returns the horizontal alignment.
 		 */
 		public String getHorizontalAlign() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getHorizontalAlign();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.HORIZONTAL_ALIGN_MEMBER);
-			}
 		}
 
 		/**
@@ -1106,49 +1058,45 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		 * @throws SemanticException
 		 */
 		public void setTextFormat(String textFormat) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setTextFormat(textFormat);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.TEXT_FORMAT_MEMBER, textFormat);
-			}
 		}
 
 		/**
 		 * @return Returns the text format.
 		 */
 		public String getTextFormat() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getTextFormat();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.TEXT_FORMAT_MEMBER);
-			}
 		}
 
 		/**
-		 *
-		 *
+		 * 
+		 * 
 		 * @return
 		 */
 		public FormatValue getFormatValue() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getValueFormat();
-			} else {
+			else
 				return (FormatValue) columnHint.getProperty(null, ColumnHint.VALUE_FORMAT_MEMBER);
-			}
 		}
 
 		/**
-		 *
-		 *
+		 * 
+		 * 
 		 * @param format
 		 * @throws SemanticException
 		 */
 		public void setFormatValue(FormatValue format) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setValueFormat(format);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.VALUE_FORMAT_MEMBER, format);
-			}
 		}
 
 		/**
@@ -1156,22 +1104,20 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		 * @throws SemanticException
 		 */
 		public void setDescription(String description) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setDescription(description);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.DESCRIPTION_MEMBER, description);
-			}
 		}
 
 		/**
 		 * @return Returns the description.
 		 */
 		public String getDescription() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getDescription();
-			} else {
+			else
 				return (String) columnHint.getProperty(null, ColumnHint.DESCRIPTION_MEMBER);
-			}
 		}
 
 		/**
@@ -1179,11 +1125,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		 * @throws SemanticException
 		 */
 		public void setWordWrap(boolean wordWrap) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setWordWrap(wordWrap);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.WORD_WRAP_MEMBER, wordWrap);
-			}
 		}
 
 		/**
@@ -1195,9 +1140,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			} else {
 				Object value = columnHint.getProperty(null, ColumnHint.WORD_WRAP_MEMBER);
 
-				if (value instanceof Boolean) {
+				if (value instanceof Boolean)
 					return (Boolean) value;
-				}
 
 				return false;
 			}
@@ -1207,28 +1151,25 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		 * @param helpText The helpText to set.
 		 */
 		public void setHelpText(String helpText) {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setHelpText(helpText);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.HELP_TEXT_MEMBER, helpText);
-			}
 		}
 
 		public Object getACLExpression() {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				return columnHintHandle.getACLExpression();
-			} else {
+			else
 				return columnHint.getExpressionProperty(ColumnHint.ACL_EXPRESSION_MEMBER);
-			}
 
 		}
 
 		public void setACLExpression(Expression expr) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setExpressionProperty(ColumnHint.ACL_EXPRESSION_MEMBER, expr);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.ACL_EXPRESSION_MEMBER, expr);
-			}
 		}
 
 		public boolean isIndexColumn() {
@@ -1243,11 +1184,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		}
 
 		public void setIndexColumn(boolean indexColumn) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setIndexColumn(indexColumn);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.INDEX_COLUMN_MEMBER, indexColumn);
-			}
 		}
 
 		public boolean removeDuplicatedValues() {
@@ -1262,11 +1202,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 		}
 
 		public void setRemoveDuplicatedValues(boolean shouldRemoveDuplicatedColumn) throws SemanticException {
-			if (this.columnHintHandle != null) {
+			if (this.columnHintHandle != null)
 				columnHintHandle.setCompresssed(shouldRemoveDuplicatedColumn);
-			} else {
+			else
 				columnHint.setProperty(ColumnHint.COMPRESSED_MEMBER, shouldRemoveDuplicatedColumn);
-			}
 		}
 
 		public void setProperty(Object property, Object value) {
@@ -1318,7 +1257,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			layout.numColumns = 2;
 			mainControl.setLayout(layout);
 
-			GridData data;
+			GridData data = null;
 			viewer = new TableViewer(mainControl, SWT.FULL_SELECTION | SWT.BORDER);
 			data = new GridData(GridData.FILL_BOTH);
 			viewer.getControl().setLayoutData(data);
@@ -1327,14 +1266,12 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			viewer.getTable().setLinesVisible(true);
 			viewer.getTable().addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					updateButtons();
 				}
 			});
 			viewer.getTable().addMouseListener(new MouseAdapter() {
 
-				@Override
 				public void mouseDoubleClick(MouseEvent e) {
 					if (viewer.getTable().getSelectionCount() == 1) {
 						doEdit();
@@ -1361,12 +1298,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			btnRemove.setText(Messages.getString("ResultSetColumnPage.button.delete")); //$NON-NLS-1$
 			btnRemove.addSelectionListener(new SelectionListener() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					removeSelectedItem();
 				}
 
-				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 
@@ -1376,12 +1311,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			btnUp.setText(Messages.getString("ResultSetColumnPage.button.up")); //$NON-NLS-1$
 			btnUp.addSelectionListener(new SelectionListener() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					doMoveUp();
 				}
 
-				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 
@@ -1391,12 +1324,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			btnDown.setText(Messages.getString("ResultSetColumnPage.button.down")); //$NON-NLS-1$
 			btnDown.addSelectionListener(new SelectionListener() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					doMoveDown();
 				}
 
-				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 
@@ -1420,7 +1351,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			menu = new Menu(viewer.getTable());
 			menu.addMenuListener(new MenuAdapter() {
 
-				@Override
 				public void menuShown(MenuEvent e) {
 					viewer.cancelEditing();
 				}
@@ -1429,7 +1359,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			itmRemove.setText(Messages.getString("PropertyHandleTableViewer.Menu.Remove")); //$NON-NLS-1$
 			itmRemove.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					removeSelectedItem();
 				}
@@ -1439,7 +1368,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			itmRemoveAll.setText(Messages.getString("PropertyHandleTableViewer.Menu.RemoveAll")); //$NON-NLS-1$
 			itmRemoveAll.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					doRemoveAll();
 				}
@@ -1449,12 +1377,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 			viewer.getTable().addKeyListener(new KeyListener() {
 
-				@Override
 				public void keyPressed(KeyEvent e) {
 					viewer.getTable();
 				}
 
-				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.keyCode == SWT.DEL) {
 						removeSelectedItem();
@@ -1532,9 +1458,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			// Do not allow deletion of the last item.
 			if (index > -1 && index < columnHandles.size()) {
 				try {
-					if (rsColumns != null) {
+					if (rsColumns != null)
 						rsColumns.removeItem(index);
-					}
 					columnHints.removeItem(index);
 				} catch (Exception e1) {
 					ExceptionHandler.handle(e1);
@@ -1552,12 +1477,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			if (index - 1 >= 0 && index < columnHandles.size()) {
 				viewer.cancelEditing();
 				try {
-					if (rsColumns != null) {
+					if (rsColumns != null)
 						rsColumns.moveItem(index, index - 1);
-					}
-					if (columnHints != null) {
+					if (columnHints != null)
 						columnHints.moveItem(index, index - 1);
-					}
 				} catch (Exception e1) {
 					ExceptionHandler.handle(e1);
 				}
@@ -1574,12 +1497,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			if (index > -1 && index < columnHandles.size() - 1) {
 				viewer.cancelEditing();
 				try {
-					if (rsColumns != null) {
+					if (rsColumns != null)
 						rsColumns.moveItem(index, index + 1);
-					}
-					if (columnHints != null) {
+					if (columnHints != null)
 						columnHints.moveItem(index, index + 1);
-					}
 
 				} catch (Exception e1) {
 					ExceptionHandler.handle(e1);
@@ -1592,9 +1513,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 		private void doRemoveAll() {
 			try {
-				if (rsColumns != null) {
+				if (rsColumns != null)
 					rsColumns.clearValue();
-				}
 				columnHints.clearValue();
 				viewer.refresh();
 			} catch (Exception e1) {
@@ -1608,11 +1528,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
-	@Override
 	public String getToolTip() {
 		return Messages.getString("OutputColumnDefnPage.OutputColumns.Tooltip"); //$NON-NLS-1$
 	}
@@ -1633,7 +1552,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			initColumnInfos();
 		}
 
-		@Override
 		protected void createCustomControls(Composite parent) {
 			Composite composite = new Composite(parent, SWT.NONE);
 			GridLayout layout = new GridLayout();
@@ -1664,7 +1582,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			columnNameText.setText(columnName);
 			columnNameText.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					columnName = columnNameText.getText().trim();
 					validateSyntax();
@@ -1683,12 +1600,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 			typeCombo.addSelectionListener(new SelectionListener() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					dataType = typeCombo.getSelectionIndex();
 				}
 
-				@Override
 				public void widgetDefaultSelected(SelectionEvent arg0) {
 
 				}
@@ -1704,7 +1619,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			aliasText.setText(alias);
 			aliasText.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					alias = aliasText.getText().trim();
 					validateSyntax();
@@ -1721,7 +1635,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			displayNameText.setText(displayName);
 			displayNameText.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					displayName = displayNameText.getText().trim();
 					validateSyntax();
@@ -1741,7 +1654,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			tx.setLayoutData(ControlProvider.getGridDataWithHSpan(1));
 			tx.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					displayNameKey = tx.getText().trim();
 					validateSyntax();
@@ -1751,7 +1663,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 
 			SelectionAdapter listener = new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent event) {
 					ResourceEditDialog dlg = new ResourceEditDialog(getShell(),
 							Messages.getString("ResourceKeyDescriptor.title.SelectKey")); //$NON-NLS-1$
@@ -1766,25 +1677,23 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			Button bt = new Button(parent, SWT.PUSH);
 			bt.setText("..."); //$NON-NLS-1$
 			bt.addSelectionListener(listener);
-			if (getBaseName() == null) {
+			if (getBaseName() == null)
 				bt.setEnabled(false);
-			}
 		}
 
 		private String[] getBaseNames() {
 			List<String> resources = SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResources();
-			if (resources == null) {
+			if (resources == null)
 				return null;
-			} else {
+			else
 				return resources.toArray(new String[0]);
-			}
 		}
 
 		private URL[] getResourceURLs() {
 			String[] baseNames = getBaseNames();
-			if (baseNames == null) {
+			if (baseNames == null)
 				return null;
-			} else {
+			else {
 				URL[] urls = new URL[baseNames.length];
 				for (int i = 0; i < baseNames.length; i++) {
 					urls[i] = SessionHandleAdapter.getInstance().getReportDesignHandle().findResource(baseNames[i],
@@ -1798,7 +1707,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			return SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResource();
 		}
 
-		@Override
 		protected boolean isResizable() {
 			return true;
 		}
@@ -1832,12 +1740,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			}
 		}
 
-		@Override
 		protected void rollback() {
 
 		}
 
-		@Override
 		protected IStatus validateSyntax(Object structureOrHandle) {
 			if (columnName == null || columnName.trim().length() == 0) {
 				return getMiscStatus(IStatus.ERROR,
@@ -1857,12 +1763,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 			return getOKStatus();
 		}
 
-		@Override
 		protected IStatus validateSemantics(Object structureOrHandle) {
 			return validateSyntax(structureOrHandle);
 		}
 
-		@Override
 		protected String getTitle() {
 			return title;
 		}
@@ -1882,9 +1786,8 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage implem
 					ColumnHint column = (ColumnHint) value;
 					if (!column.equals(this.columnDefn.getColumnHint())) {
 						if (newName.equals(column.getProperty(null, ColumnHint.ALIAS_MEMBER))
-								|| newName.equals(column.getProperty(null, ColumnHint.COLUMN_NAME_MEMBER))) {
+								|| newName.equals(column.getProperty(null, ColumnHint.COLUMN_NAME_MEMBER)))
 							return true;
-						}
 					}
 				}
 			}

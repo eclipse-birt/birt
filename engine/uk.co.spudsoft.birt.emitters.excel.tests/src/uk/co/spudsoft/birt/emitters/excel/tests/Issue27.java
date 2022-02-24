@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -15,7 +15,6 @@
 
 package uk.co.spudsoft.birt.emitters.excel.tests;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.FileOutputStream;
@@ -32,6 +31,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class Issue27 extends CellRangeTester {
 
@@ -100,7 +100,6 @@ public class Issue27 extends CellRangeTester {
 		}
 	}
 
-	@Override
 	protected RenderOption prepareRenderOptions(String outputFormat, FileOutputStream outputStream) {
 		RenderOption option = super.prepareRenderOptions(outputFormat, outputStream);
 		option.setOption("ExcelEmitter.RemoveBlankRows", Boolean.FALSE);

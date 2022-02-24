@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -36,7 +36,6 @@ public class SampleReportCanvas extends Canvas {
 
 		addPaintListener(new PaintListener() {
 
-			@Override
 			public void paintControl(PaintEvent pe) {
 				SampleReportCanvas.this.paintControl(pe);
 			}
@@ -44,12 +43,10 @@ public class SampleReportCanvas extends Canvas {
 
 		addControlListener(new ControlListener() {
 
-			@Override
 			public void controlMoved(ControlEvent e) {
 				// TODO Auto-generated method stub
 			}
 
-			@Override
 			public void controlResized(ControlEvent e) {
 				SampleReportCanvas.this.controlResized(e);
 			}
@@ -57,7 +54,6 @@ public class SampleReportCanvas extends Canvas {
 
 		addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (sampleImage != null && !sampleImage.isDisposed()) {
 					sampleImage.dispose();
@@ -84,7 +80,9 @@ public class SampleReportCanvas extends Canvas {
 			if (srcRatio >= clntRatio) {
 				gc.drawImage(sampleImage, 0, 0, sampleImage.getBounds().width, sampleImage.getBounds().height, 0, 0,
 						getClientArea().width, (int) (getClientArea().width / srcRatio));
-			} else {
+			}
+
+			else if (srcRatio < clntRatio) {
 				gc.drawImage(sampleImage, 0, 0, sampleImage.getBounds().width, sampleImage.getBounds().height, 0, 0,
 						(int) (getClientArea().height * srcRatio), getClientArea().height);
 			}

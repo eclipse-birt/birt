@@ -1,19 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's FontFamilyManager.java to support BIRT's CSS rules
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
-import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.css.engine.CSSContext;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
@@ -30,7 +29,7 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * This class provides a factory for the 'font-family' property values.
- *
+ * 
  */
 public class FontFamilyManager extends AbstractValueManager {
 
@@ -59,7 +58,6 @@ public class FontFamilyManager extends AbstractValueManager {
 	/**
 	 * Implements {@link ValueManager#isInheritedProperty()}.
 	 */
-	@Override
 	public boolean isInheritedProperty() {
 		return true;
 	}
@@ -67,7 +65,6 @@ public class FontFamilyManager extends AbstractValueManager {
 	/**
 	 * Implements {@link ValueManager#getPropertyName()}.
 	 */
-	@Override
 	public String getPropertyName() {
 		return CSSConstants.CSS_FONT_FAMILY_PROPERTY;
 	}
@@ -75,7 +72,6 @@ public class FontFamilyManager extends AbstractValueManager {
 	/**
 	 * Implements {@link ValueManager#getDefaultValue()}.
 	 */
-	@Override
 	public org.eclipse.birt.report.engine.css.engine.value.Value getDefaultValue() {
 		return DEFAULT_VALUE;
 	}
@@ -83,7 +79,6 @@ public class FontFamilyManager extends AbstractValueManager {
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	@Override
 	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_INHERIT:
@@ -104,7 +99,7 @@ public class FontFamilyManager extends AbstractValueManager {
 				break;
 
 			case LexicalUnit.SAC_IDENT:
-				StringBuilder sb = new StringBuilder(lu.getStringValue());
+				StringBuffer sb = new StringBuffer(lu.getStringValue());
 				lu = lu.getNextLexicalUnit();
 				if (lu != null && lu.getLexicalUnitType() == LexicalUnit.SAC_IDENT) {
 					do {

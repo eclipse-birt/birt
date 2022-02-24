@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The Test Case of StyleElement.
- *
+ * 
  * The operation in StyleElement is all about the container-client relationship.
  * And we test the add-remove client functions and the broadcast function to
  * handle notification events.
@@ -51,40 +51,40 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testAddAndDropClient}</td>
  * <td>add two clients</td>
  * <td>contain clients</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>drop one client</td>
  * <td>can't find dropped client</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>add one client</td>
  * <td>find added client</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testBroadcast}</td>
  * <td>register listener to style element and its clients</td>
  * <td>they contain the listener</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>broadcast the event</td>
  * <td>the listener registered to style is notified, and those registered to its
  * clients are also notified.</td>
  * </tr>
- *
+ * 
  * </table>
- *
+ * 
  */
 
 public class StyleElementTest extends BaseTestCase {
@@ -108,7 +108,6 @@ public class StyleElementTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -211,7 +210,7 @@ public class StyleElementTest extends BaseTestCase {
 	/**
 	 * Use the style on a table. Drop the styel then the table will recieve the
 	 * style dropped event.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -234,7 +233,7 @@ public class StyleElementTest extends BaseTestCase {
 
 	/**
 	 * Tests the broadcast when a selector style changes.
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 
@@ -253,7 +252,7 @@ public class StyleElementTest extends BaseTestCase {
 	/**
 	 * Tests the broadcast when a selector style representing container/slot
 	 * selector changes.
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 
@@ -364,7 +363,7 @@ public class StyleElementTest extends BaseTestCase {
 	 * test after add a selector style into design, the top level elements which use
 	 * the style will receive a notifications. But those elements under the top one
 	 * will not.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -406,7 +405,7 @@ public class StyleElementTest extends BaseTestCase {
 	/**
 	 * test after dropping a selector style, the top level element will receive the
 	 * notification.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void testBroadcastAfterDropSelector() throws SemanticException {
@@ -433,7 +432,7 @@ public class StyleElementTest extends BaseTestCase {
 	/**
 	 * test after renaming a selector style, the top level element which uses the
 	 * style will receive notification.
-	 *
+	 * 
 	 * @throws ContentException
 	 * @throws NameException
 	 */
@@ -463,7 +462,7 @@ public class StyleElementTest extends BaseTestCase {
 	/**
 	 * test after modifing the property of a selector style, the top level element
 	 * which uses this style will receive a notification.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -490,7 +489,7 @@ public class StyleElementTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void testBroadcastForReportSelector() throws SemanticException {
@@ -509,10 +508,10 @@ public class StyleElementTest extends BaseTestCase {
 	 * When a selector is renamed to another selector, both of the elements which
 	 * apply the old selector and the elements which apply the new selector should
 	 * be notified.
-	 *
+	 * 
 	 * @throws NameException
 	 * @throws ContentException
-	 *
+	 * 
 	 */
 
 	public void testBroadcastWhenRenameSelector() throws ContentException, NameException {
@@ -543,7 +542,7 @@ public class StyleElementTest extends BaseTestCase {
 
 	/**
 	 * Tests broadcast when predefined style of the table header cell is modified.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testBroadcastPredefinedStyle() throws Exception {
@@ -600,12 +599,11 @@ public class StyleElementTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			done = true;
 			path = ev.getDeliveryPath();

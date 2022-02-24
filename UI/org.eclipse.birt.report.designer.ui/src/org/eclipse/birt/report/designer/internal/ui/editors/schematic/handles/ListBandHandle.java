@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,25 +40,22 @@ public class ListBandHandle extends MoveHandle {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
-	@Override
 	protected DragTracker createDragTracker() {
 		return null;
 	}
 
-	@Override
 	public boolean containsPoint(int x, int y) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
-	@Override
 	protected void paintFigure(Graphics graphics) {
 		super.paintFigure(graphics);
 	}
@@ -74,10 +71,9 @@ public class ListBandHandle extends MoveHandle {
 
 		/*
 		 * Sets the handle the bounds
-		 *
+		 * 
 		 * @see org.eclipse.draw2d.Locator#relocate(org.eclipse.draw2d.IFigure)
 		 */
-		@Override
 		public void relocate(IFigure target) {
 			Rectangle bounds;
 			if (getReference() instanceof ListBandFigure) {

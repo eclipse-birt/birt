@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -122,7 +122,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	private final SharedBindingHelper sbHelper = new SharedBindingHelper();
 
 	/**
-	 *
+	 * 
 	 * @param queryType
 	 * @param seriesdefinition
 	 * @param query
@@ -135,8 +135,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	}
 
 	/**
-	 *
-	 *
+	 * 
+	 * 
 	 * @param style            Specify buttons by using '|'. See
 	 *                         {@link #BUTTON_GROUP}, {@link #BUTTON_NONE},
 	 *                         {@link #BUTTON_AGGREGATION}
@@ -159,7 +159,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		this.style = style;
 	}
 
-	@Override
 	public Composite createArea(Composite parent) {
 		int numColumns = 2;
 		if (description != null && description.length() > 0) {
@@ -238,7 +237,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 			cmbDefinition.addListener(SWT.Selection, new Listener() {
 
-				@Override
 				public void handleEvent(Event event) {
 					String oldQuery = query.getDefinition() == null ? "" : query.getDefinition(); //$NON-NLS-1$
 					// Combo may be disposed, so cache the text first
@@ -302,7 +300,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 					IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE, cmpTop, getInputControl(),
 					context.getExtendedItem(), IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS, new Listener() {
 
-						@Override
 						public void handleEvent(Event event) {
 							onModifyExpression();
 						}
@@ -330,7 +327,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		// Listener for handling dropping of custom table header
 		Control dropControl = getInputControl();
 		DropTarget target = new DropTarget(dropControl, DND.DROP_COPY);
-		Transfer[] types = { SimpleTextTransfer.getInstance() };
+		Transfer[] types = new Transfer[] { SimpleTextTransfer.getInstance() };
 		target.setTransfer(types);
 		// Add drop support
 		target.addDropListener(new DataTextDropListener(dropControl, btnBuilder));
@@ -418,7 +415,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	/**
 	 * Check if current is using table shared binding.
-	 *
+	 * 
 	 * @return
 	 * @since 2.3
 	 */
@@ -436,7 +433,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				&& (state & IDataServiceProvider.PART_CHART) == 0;
 	}
 
-	@Override
 	public void selectArea(boolean selected, Object data) {
 		if (data instanceof Object[]) {
 			Object[] array = (Object[]) data;
@@ -451,7 +447,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 	}
 
-	@Override
 	public void dispose() {
 		if (getInputControl() != null) {
 			DataDefinitionTextManager.getInstance().removeDataDefinitionText(getInputControl());
@@ -461,11 +456,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(btnGroup)) {
 			handleGroupAction();
@@ -521,7 +515,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	/**
 	 * Create instance of <code>GroupSortingDialog</code> for base series or Y
 	 * series.
-	 *
+	 * 
 	 * @param sdBackup
 	 * @return
 	 */
@@ -531,19 +525,17 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
 	/**
 	 * Set tooltip for input control.
 	 */
-	@Override
 	public void setTooltipForInputControl() {
 		Control control = getInputControl();
 		if (control != null && !control.isDisposed()) {
@@ -553,7 +545,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	/**
 	 * Sets the description in the left of data text box.
-	 *
+	 * 
 	 * @param description
 	 */
 	public void setDescription(String description) {
@@ -584,7 +576,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			}
 
 			if (sg != null) {
-				StringBuilder sbuf = new StringBuilder();
+				StringBuffer sbuf = new StringBuffer();
 				sbuf.append(sg.getAggregateExpression());
 				sbuf.append("( "); //$NON-NLS-1$
 				sbuf.append(queryText);
@@ -641,7 +633,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		if (txtDefinition != null) {
 			return txtDefinition;
 		}
-		return cmbDefinition;
+		if (cmbDefinition != null) {
+			return cmbDefinition;
+		}
+		return null;
 	}
 
 	/**
@@ -650,11 +645,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	 * Under shared binding case, update grouping/aggregate attributes of chart
 	 * model if the selected item is group/aggregate expression.
 	 */
-	@Override
 	public void updateQuery(String expression) {
 		if (getInputControl() instanceof CCombo) {
 			Object checkResult = context.getDataServiceProvider().checkData(queryType, expression);
-			if (checkResult instanceof Boolean) {
+			if (checkResult != null && checkResult instanceof Boolean) {
 				if (!((Boolean) checkResult).booleanValue()) {
 					// Can't select expressions of one dimension to set
 					// on category series and Y optional at one time.
@@ -682,7 +676,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	/**
 	 * Update query expression for sharing query with table.
-	 *
+	 * 
 	 * @param expression
 	 */
 	private void updateQueryForSharedBinding(String expression) {
@@ -807,7 +801,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	}
 
-	@Override
 	public Query getQuery() {
 		if (query == null) {
 			query = DataFactory.eINSTANCE.createQuery();
@@ -820,13 +813,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		return query;
 	}
 
-	@Override
 	public String getDisplayExpression() {
 		String expr = btnBuilder.getExpression();
 		return (expr == null) ? "" : expr; //$NON-NLS-1$
 	}
 
-	@Override
 	public boolean isValidExpression(String expression) {
 		if (cmbDefinition != null && cmbDefinition.getItems().length > 0) {
 			return cmbDefinition.indexOf(expression) >= 0;
@@ -852,7 +843,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				&& query.getGrouping().getAggregateExpression() != null;
 	}
 
-	@Override
 	public void updateText(String expression) {
 		if (isTableSharedBinding()) {
 			if (ChartUIConstants.QUERY_CATEGORY.equals(queryType) && isGroupEnabled()
@@ -902,7 +892,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		return null;
 	}
 
-	@Override
 	public IExpressionButton getExpressionButton() {
 		return btnBuilder;
 	}
@@ -914,16 +903,16 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		/*
 		 * map from group/aggr name to binding name
 		 */
-		private final Map<String, String> mapBindingName = new HashMap<>();
+		private final Map<String, String> mapBindingName = new HashMap<String, String>();
 
 		/*
 		 * map from group/aggr name to column binding info
 		 */
-		private final Map<String, ColumnBindingInfo> mapBinding = new HashMap<>();
+		private final Map<String, ColumnBindingInfo> mapBinding = new HashMap<String, ColumnBindingInfo>();
 
 		/**
 		 * To reset the instance with predefinedQuery.
-		 *
+		 * 
 		 * @param predefinedQuery
 		 */
 		public void reset(Object[] predefinedQuery) {
@@ -953,7 +942,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 		/**
 		 * Finds the group name contained by the given expression
-		 *
+		 * 
 		 * @param expr the given expression
 		 * @return the group name if found,null otherwise.
 		 */
@@ -963,7 +952,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 		/**
 		 * Finds the aggregation name contained by the given expression
-		 *
+		 * 
 		 * @param expr the given expression
 		 * @return the aggregation name if found,null otherwise.
 		 */

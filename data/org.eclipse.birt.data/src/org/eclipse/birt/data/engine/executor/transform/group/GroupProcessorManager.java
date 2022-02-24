@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
 /**
- *
+ * 
  */
 
 public class GroupProcessorManager {
@@ -41,7 +41,7 @@ public class GroupProcessorManager {
 	private IExpressionProcessor exprProcessor;
 
 	/**
-	 *
+	 * 
 	 * @param query
 	 * @param ri
 	 * @param rsMeta
@@ -56,7 +56,7 @@ public class GroupProcessorManager {
 
 	/**
 	 * Do group filtering and Sorting job.
-	 *
+	 * 
 	 * @param rsCache
 	 * @param exprProc
 	 * @param stopSign
@@ -74,7 +74,7 @@ public class GroupProcessorManager {
 
 	/**
 	 * Do group filtering and Sorting job.
-	 *
+	 * 
 	 * @param rsCache
 	 * @param exprProc
 	 * @param stopSign
@@ -91,7 +91,7 @@ public class GroupProcessorManager {
 
 	/**
 	 * Calculate the expression list.
-	 *
+	 * 
 	 * @param expressionList
 	 * @throws DataException
 	 */
@@ -104,7 +104,7 @@ public class GroupProcessorManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public IExpressionProcessor getExpressionProcessor() {
@@ -112,7 +112,7 @@ public class GroupProcessorManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public ResultSetPopulator getResultSetPopulator() {
@@ -120,7 +120,7 @@ public class GroupProcessorManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public GroupCalculationUtil getGroupCalculationUtil() {

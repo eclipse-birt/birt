@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,6 @@ public class ChartBindingPage extends BindingPage {
 		return new ChartBindingGroupDescriptorProvider();
 	}
 
-	@Override
 	protected void applyCustomSections() {
 		BindingGroupDescriptorProvider bindingProvider = createBindingGroupDescriptorProvider();
 		bindingProvider.setRefrenceSection(((BindingGroupSection) getSection(PageSectionId.BINDING_GROUP)));
@@ -64,15 +63,14 @@ public class ChartBindingPage extends BindingPage {
 		if (((BindingGroupSection) getSection(PageSectionId.BINDING_GROUP)).getProvider() != null) {
 			IDescriptorProvider dataSetProvider = ((BindingGroupSection) getSection(PageSectionId.BINDING_GROUP))
 					.getProvider();
-			if (dataSetProvider instanceof BindingGroupDescriptorProvider) {
+			if (dataSetProvider instanceof BindingGroupDescriptorProvider)
 				((BindingGroupDescriptorProvider) dataSetProvider).setDependedProvider(dataSetFormProvider);
-			}
 		}
 	}
 
 	/**
 	 * Create different dataset provider for common and sharing case.
-	 *
+	 * 
 	 * @return
 	 * @since 2.3
 	 */

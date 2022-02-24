@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,10 +42,9 @@ public class EditBindingAction extends InsertRowAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	@Override
 	protected boolean calculateEnabled() {
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 		return moduleHandle != null && (!moduleHandle.getVisibleDataSets().isEmpty()
@@ -73,10 +72,9 @@ public class EditBindingAction extends InsertRowAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Edit binding action >> Run ..."); //$NON-NLS-1$

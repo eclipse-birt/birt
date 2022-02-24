@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004-2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.script;
@@ -56,8 +56,8 @@ public class JSColumnDefn extends ScriptableObject {
 	private static String STRING_VAL = "string";
 	private static String DATETIME_VAL = "dateTime";
 
-	private static String[] propNames = { INDEX, NAME, TYPE, NATIVE_TYPE, LABEL, ALIAS, INTEGER, FLOAT, DECIMAL,
-			BOOLEAN, STRING, DATETIME };
+	private static String[] propNames = new String[] { INDEX, NAME, TYPE, NATIVE_TYPE, LABEL, ALIAS, INTEGER, FLOAT,
+			DECIMAL, BOOLEAN, STRING, DATETIME };
 
 	private static HashSet propNameSet = new HashSet(Arrays.asList(propNames));
 
@@ -69,7 +69,7 @@ public class JSColumnDefn extends ScriptableObject {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param index 1-based index of column in resultClass
 	 */
 	JSColumnDefn(IResultClass resultClass, int index) {
@@ -87,7 +87,6 @@ public class JSColumnDefn extends ScriptableObject {
 	 * @see org.mozilla.javascript.Scriptable#get(java.lang.String,
 	 *      org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public Object get(String name, Scriptable start) {
 		logger.entering(JSColumnDefn.class.getName(), "get", name);
 		if (!propNameSet.contains(name)) {
@@ -191,7 +190,6 @@ public class JSColumnDefn extends ScriptableObject {
 	/**
 	 * @see org.mozilla.javascript.Scriptable#getClassName()
 	 */
-	@Override
 	public String getClassName() {
 		return "ColumnDefn";
 	}
@@ -199,7 +197,6 @@ public class JSColumnDefn extends ScriptableObject {
 	/**
 	 * @see org.mozilla.javascript.Scriptable#getIds()
 	 */
-	@Override
 	public Object[] getIds() {
 		return propNames;
 	}
@@ -208,7 +205,6 @@ public class JSColumnDefn extends ScriptableObject {
 	 * @see org.mozilla.javascript.Scriptable#has(java.lang.String,
 	 *      org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public boolean has(String name, Scriptable start) {
 		logger.entering(JSColumnDefn.class.getName(), "has", name);
 		if (propNameSet.contains(name)) {

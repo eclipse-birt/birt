@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004-2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.script;
@@ -37,7 +37,7 @@ public class JSDataSources extends ScriptableObject {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param dataSourceMap A map of data source name (String) to DataSourceRuntime
 	 *                      objects
 	 */
@@ -53,7 +53,6 @@ public class JSDataSources extends ScriptableObject {
 	/**
 	 * @see org.mozilla.javascript.Scriptable#getClassName()
 	 */
-	@Override
 	public String getClassName() {
 		return "DataSources";
 	}
@@ -62,20 +61,17 @@ public class JSDataSources extends ScriptableObject {
 	 * @see org.mozilla.javascript.Scriptable#get(java.lang.String,
 	 *      org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public Object get(String name, Scriptable start) {
 		try {
 			logger.entering(JSDataSources.class.getName(), "get", name);
 			IJavascriptContext ds = (IJavascriptContext) dataSources.get(name);
 			if (ds != null) {
-				if (logger.isLoggable(Level.FINER)) {
+				if (logger.isLoggable(Level.FINER))
 					logger.exiting(JSDataSources.class.getName(), "get", ds.getScriptScope());
-				}
 				return ds.getScriptScope();
 			} else {
-				if (logger.isLoggable(Level.FINER)) {
+				if (logger.isLoggable(Level.FINER))
 					logger.exiting(JSDataSources.class.getName(), "get", super.get(name, start));
-				}
 				return super.get(name, start);
 			}
 		} catch (DataException e) {
@@ -86,7 +82,6 @@ public class JSDataSources extends ScriptableObject {
 	/**
 	 * @see org.mozilla.javascript.Scriptable#getIds()
 	 */
-	@Override
 	public Object[] getIds() {
 		// Returns all data source names
 		return dataSources.keySet().toArray(new String[0]);
@@ -96,16 +91,14 @@ public class JSDataSources extends ScriptableObject {
 	 * @see org.mozilla.javascript.Scriptable#has(java.lang.String,
 	 *      org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	public boolean has(String name, Scriptable start) {
 		logger.entering(JSDataSources.class.getName(), "has", name);
 		if (dataSources.containsKey(name)) {
 			logger.exiting(JSDataSources.class.getName(), "has", Boolean.valueOf(true));
 			return true;
 		} else {
-			if (logger.isLoggable(Level.FINER)) {
+			if (logger.isLoggable(Level.FINER))
 				logger.exiting(JSDataSources.class.getName(), "has", Boolean.valueOf(super.has(name, start)));
-			}
 			return super.has(name, start);
 		}
 	}

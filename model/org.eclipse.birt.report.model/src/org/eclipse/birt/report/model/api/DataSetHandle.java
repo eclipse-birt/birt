@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,15 +68,15 @@ import com.ibm.icu.util.ULocale;
  * The application can use scripts to execute code on certain data set events.
  * <p>
  * To get a handle for the data source, uses the following example:
- *
+ * 
  * <pre>
- *
- *
+ * 
+ * 
  *              		DataSetHandle dataHandle = designHandle
  *                      findDataSet( &quot;My First Data Set &quot; );
- *
+ * 
  * </pre>
- *
+ * 
  * <p>
  * This class works with the static design definition of the data set. Many
  * clients will prefer to work with the TBD class that provides both the static
@@ -86,7 +86,7 @@ import com.ibm.icu.util.ULocale;
  * itself. This handle will return null for the result set handle. However, the
  * TBD class will provide the full result set: either by returning the one in
  * the design file, or by obtaining it from the data provider.
- *
+ * 
  * @see org.eclipse.birt.report.model.elements.SimpleDataSet
  */
 
@@ -96,7 +96,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	 * Constructs a data set handle with the given design and element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -107,7 +107,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Returns a handle to the data source for this data set.
-	 *
+	 * 
 	 * @return handle to the data source, or <code>null</code> if the data source is
 	 *         not set or is undefined.
 	 */
@@ -118,9 +118,9 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Returns the name of the data source for this data set.
-	 *
+	 * 
 	 * @return the data source name as a string
-	 *
+	 * 
 	 * @see #setDataSource(String)
 	 */
 
@@ -131,7 +131,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Sets the name of the data source for this data set. This method checks
 	 * whether the data source name exists in the report design.
-	 *
+	 * 
 	 * @param name the data source name
 	 * @throws SemanticException if the data source does not exist in the report
 	 *                           design, or the property if locked.
@@ -146,7 +146,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	 * Returns an iterator over the list of output parameter definitions. The
 	 * iterator returns instances of <code>DataSetParameterHandle</code> that
 	 * represents parameter objects.
-	 *
+	 * 
 	 * @return iterator over output parameter definitions.
 	 * @see org.eclipse.birt.report.model.api.elements.structures.DataSetParameter
 	 */
@@ -161,9 +161,9 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	 * Returns an iterator over the list of parameter bindings. The iterator returns
 	 * instances of <code>ParamBindingHandle</code> that represents parameter
 	 * binding object.
-	 *
+	 * 
 	 * @return iterator over parameter binding.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.ParamBinding
 	 */
 
@@ -177,17 +177,16 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	 * Returns an iterator over the result set columns. The iterator returns
 	 * instances of <code>ResultSetColumnHandle</code> that represents result set
 	 * column object.
-	 *
+	 * 
 	 * @return iterator over result set columns.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn
 	 */
 
 	public Iterator resultSetIterator() {
 		PropertyHandle propHandle = getPropertyHandle(RESULT_SET_PROP);
-		if (propHandle == null) {
+		if (propHandle == null)
 			return Collections.emptyList().iterator();
-		}
 
 		return propHandle.iterator();
 	}
@@ -196,9 +195,9 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	 * Returns an iterator over hints of the result set columns. The iterator
 	 * returns instances of <code>ResultSetColumnHandle</code> that represents hints
 	 * of result set column object.
-	 *
+	 * 
 	 * @return iterator over hints of result set columns.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn
 	 */
 
@@ -207,9 +206,8 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 		// assert propHandle != null;
 		// assertion is not satisfied except ODA data set and joint data set,
 		// remove it
-		if (propHandle != null) {
+		if (propHandle != null)
 			return propHandle.iterator();
-		}
 
 		return Collections.emptyList().iterator();
 	}
@@ -218,7 +216,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	 * Returns an iterator for the list of computed columns. The iterator returns
 	 * instances of <code>ComputedColumnHandle</code> that represents computed
 	 * column object.
-	 *
+	 * 
 	 * @return iterator over computed columns.
 	 * @see org.eclipse.birt.report.model.api.elements.structures.ComputedColumn
 	 */
@@ -232,9 +230,9 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Returns an iterator over column hints. The iterator returns instances of
 	 * <code>ColumnHintHandle</code> that represents column hint object.
-	 *
+	 * 
 	 * @return iterator over column hints.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.ColumnHint
 	 */
 
@@ -248,11 +246,11 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Returns an iterator over sort hints. The iterator returns instances of
 	 * <code>SortHintHandle</code> that represents sort hint object.
-	 *
+	 * 
 	 * @return iterator over sort hints.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.SortHint
-	 *
+	 * 
 	 */
 	public Iterator<SortHintHandle> sortHintsIterator() {
 		PropertyHandle propHandle = getPropertyHandle(IDataSetModel.SORT_HINTS_PROP);
@@ -264,9 +262,9 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Returns an iterator over filter. The iterator returns instances of
 	 * <code>FilterConditionHandle</code> that represents filter condition object.
-	 *
+	 * 
 	 * @return iterator over filters.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.FilterCondition
 	 */
 
@@ -279,7 +277,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Returns the code of the beforeOpen method. This is the script called just
 	 * before opening this data set.
-	 *
+	 * 
 	 * @return the code of the method
 	 */
 
@@ -290,7 +288,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Sets the code for the beforeOpen method. This is the script called just
 	 * before opening this data set.
-	 *
+	 * 
 	 * @param code the code for the method
 	 * @throws SemanticException If the method is locked.
 	 */
@@ -302,7 +300,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Returns the code of the beforeClose method. This is the script called just
 	 * before closing this data set.
-	 *
+	 * 
 	 * @return the code of the method
 	 */
 
@@ -313,7 +311,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Sets the code for the beforeClose method. This is the script called just
 	 * before closing this data set.
-	 *
+	 * 
 	 * @param code the code for the method
 	 * @throws SemanticException If the method is locked.
 	 */
@@ -325,7 +323,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Returns the code of the afterOpen method. This is the script called just
 	 * after opening this data set.
-	 *
+	 * 
 	 * @return the code of the method
 	 */
 
@@ -336,7 +334,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Sets the code for the afterOpen method. This is the script called just after
 	 * opening this data set.
-	 *
+	 * 
 	 * @param code the code for the method
 	 * @throws SemanticException If the method is locked.
 	 */
@@ -348,7 +346,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Returns the code of the afterClose method. This is the script called just
 	 * after closing this data set.
-	 *
+	 * 
 	 * @return the code of the method
 	 */
 
@@ -359,7 +357,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Sets the code for the afterClose method. This is the script called just after
 	 * closing this data set.
-	 *
+	 * 
 	 * @param code the code for the method
 	 * @throws SemanticException If the method is locked.
 	 */
@@ -371,7 +369,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Returns the code of the onFetch method. This is the script called just after
 	 * fetching each row.
-	 *
+	 * 
 	 * @return the code of the method
 	 */
 
@@ -382,7 +380,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	/**
 	 * Sets the code for the onFetch method. This is the script called just after
 	 * fetching each row.
-	 *
+	 * 
 	 * @param code the code for the method
 	 * @throws SemanticException If the method is locked.
 	 */
@@ -395,7 +393,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	 * Return a handle to deal with the cached data set information that include
 	 * output column information when it gets from databases, input/output parameter
 	 * definitions.
-	 *
+	 * 
 	 * @return a <code>CachedMetaDataHandle</code> to deal with the cached data set
 	 *         information, return <code>null</code> if the property has not been
 	 *         set.
@@ -406,16 +404,15 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 		assert propHandle != null;
 
 		CachedMetaData value = (CachedMetaData) propHandle.getValue();
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		return (CachedMetaDataHandle) value.getHandle(propHandle);
 	}
 
 	/**
 	 * Set the value for the cached data set information.
-	 *
+	 * 
 	 * @param metadata a structure value include output column information ,
 	 *                 input/output parameter definitions.
 	 * @return <code>CachedMetaDataHandle</code> to the input <code>metadata</code>,
@@ -426,75 +423,68 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	public CachedMetaDataHandle setCachedMetaData(CachedMetaData metadata) throws SemanticException {
 		setProperty(CACHED_METADATA_PROP, metadata);
-		if (metadata == null) {
+		if (metadata == null)
 			return null;
-		}
 
 		return (CachedMetaDataHandle) metadata.getHandle(getPropertyHandle(CACHED_METADATA_PROP));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getPropertyHandle
 	 * (java.lang.String)
 	 */
-	@Override
 	public PropertyHandle getPropertyHandle(String propName) {
-		if (PARAMETERS_PROP.equals(propName)) {
+		if (PARAMETERS_PROP.equals(propName))
 			return new DataSetParametersPropertyHandle(this, propName);
-		}
 
 		return super.getPropertyHandle(propName);
 	}
 
 	/**
 	 * Sets data set row limit property value.
-	 *
+	 * 
 	 * @param count
 	 * @throws SemanticException
 	 * @deprecated duplicate with method setRowFetchLimit()
 	 */
 
-	@Deprecated
 	public void setDataSetRowLimit(int count) throws SemanticException {
 		setIntProperty(DATA_SET_ROW_LIMIT, count);
 	}
 
 	/**
 	 * Returns value of data set row limit property.
-	 *
+	 * 
 	 * @return the value of data set row limit property.
 	 * @deprecated duplicate with method getRowFetchLimit()
 	 */
 
-	@Deprecated
 	public int getDataSetRowLimit() {
 		return getIntProperty(DATA_SET_ROW_LIMIT);
 	}
 
 	/**
 	 * sets the cached row count property value.
-	 *
+	 * 
 	 * @param count the cached row count
-	 *
+	 * 
 	 * @throws SemanticException
 	 * @deprecated by setDataSetRowLimit method
 	 */
 
-	@Deprecated
 	public void setCachedRowCount(int count) throws SemanticException {
 		setDataSetRowLimit(count);
 	}
 
 	/**
 	 * Returns the value of cached row count property.
-	 *
+	 * 
 	 * @return the row count.
 	 * @deprecated by getDataSetRowLimit method
 	 */
 
-	@Deprecated
 	public int getCachedRowCount() {
 		return getDataSetRowLimit();
 	}
@@ -509,7 +499,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 		/**
 		 * Constructs the handle for a top-level property with the given element handle
 		 * and the definition of the property.
-		 *
+		 * 
 		 * @param element a handle to a report element
 		 * @param prop    the definition of the property.
 		 */
@@ -521,7 +511,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 		/**
 		 * Constructs the handle for a top-level property with the given element handle
 		 * and property name.
-		 *
+		 * 
 		 * @param element  a handle to a report element
 		 * @param propName the name of the property
 		 */
@@ -532,11 +522,10 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
 		 */
 
-		@Override
 		public void removeItem(int posn) throws PropertyValueException {
 			DataSetParameterHandle paramHandle = (DataSetParameterHandle) getAt(posn);
 			DataSetParameter param = (DataSetParameter) paramHandle.getStructure();
@@ -564,7 +553,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(org
 		 * .eclipse.birt.report.model.api.core.IStructure)
 		 */
@@ -595,12 +584,11 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItems(java
 		 * .util.List)
 		 */
 
-		@Override
 		public void removeItems(List items) throws PropertyValueException {
 			ActivityStack as = getModule().getActivityStack();
 
@@ -625,13 +613,12 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#replaceItem(org
 		 * .eclipse.birt.report.model.api.core.IStructure,
 		 * org.eclipse.birt.report.model.api.core.IStructure)
 		 */
 
-		@Override
 		public void replaceItem(IStructure oldItem, IStructure newItem) throws SemanticException {
 			ActivityStack as = getModule().getActivityStack();
 
@@ -653,12 +640,11 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java
 		 * .lang.Object)
 		 */
 
-		@Override
 		public void setValue(Object value) throws SemanticException {
 			List paramList = getListValue();
 
@@ -685,11 +671,10 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#clearValue()
 		 */
 
-		@Override
 		public void clearValue() throws SemanticException {
 			List paramList = getListValue();
 
@@ -715,7 +700,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		/**
 		 * Gets the property message.
-		 *
+		 * 
 		 * @return the property message.
 		 */
 		private String changePropertyMessage() {
@@ -728,16 +713,15 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 		 * The parameter binding is defined in clients of the data set in which this
 		 * handle exists. The instance in the list can be both
 		 * <code>DataSetParameterHandle</code> and <code>DataSetParameter</code>.
-		 *
+		 * 
 		 * @param params list of the data set parameters
 		 * @throws PropertyValueException if error occurs when removing parameter
 		 *                                binding.
 		 */
 
 		private void removeParamBindingsFor(List params) throws PropertyValueException {
-			if (params == null) {
+			if (params == null)
 				return;
-			}
 
 			Iterator iter = params.iterator();
 			while (iter.hasNext()) {
@@ -761,16 +745,15 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 		 * Removes the parameter binding for the parameter with the given parameter
 		 * name. The parameter binding is defined in clients of the data set in which
 		 * this handle exists.
-		 *
+		 * 
 		 * @param paramName name of the parameter
 		 * @throws PropertyValueException if error occurs when removing parameter
 		 *                                binding.
 		 */
 
 		private void removeParamBindingsFor(String paramName) throws PropertyValueException {
-			if (paramName == null) {
+			if (paramName == null)
 				return;
-			}
 
 			Iterator iter = getElementHandle().clientsIterator();
 			while (iter.hasNext()) {
@@ -804,7 +787,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 		/**
 		 * Removes the parameter binding with the given name from the given parameter
 		 * binding property handle.
-		 *
+		 * 
 		 * @param paramBindingsPropHandle the parameter binding property handle from
 		 *                                which parameter binding will be removed.
 		 * @param paramName               the name of the parameter with which parameter
@@ -815,9 +798,8 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		private static void removeParamBindingFor(SimpleValueHandle paramBindingsPropHandle, String paramName)
 				throws PropertyValueException {
-			if (paramBindingsPropHandle == null) {
+			if (paramBindingsPropHandle == null)
 				return;
-			}
 
 			List bindings = new ArrayList();
 
@@ -835,7 +817,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		/**
 		 * Updates the parameter binding from old parameter name to new one.
-		 *
+		 * 
 		 * @param oldParamName old parameter name
 		 * @param newParamName new parameter name
 		 */
@@ -872,7 +854,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		/**
 		 * Updates the parameter name in parameter binding.
-		 *
+		 * 
 		 * @param paramBindingsPropHandle the parameter binding to update
 		 * @param oldParamName            old parameter name
 		 * @param newParamName            new parameter name
@@ -880,9 +862,8 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 		private static void updateParamBindings(SimpleValueHandle paramBindingsPropHandle, String oldParamName,
 				String newParamName) {
-			if (paramBindingsPropHandle == null) {
+			if (paramBindingsPropHandle == null)
 				return;
-			}
 
 			Iterator bindingIter = paramBindingsPropHandle.iterator();
 			while (bindingIter.hasNext()) {
@@ -899,9 +880,9 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Sets the max number of rows from data set property value.
-	 *
+	 * 
 	 * @param count the row number to fetch from result set
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -911,7 +892,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Returns the max number of rows from data set property value.
-	 *
+	 * 
 	 * @return the max number of rows that can be fetched from data set.
 	 */
 
@@ -921,7 +902,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Adds the filter condition.
-	 *
+	 * 
 	 * @param fc the filter condition structure
 	 * @throws SemanticException if the expression of filter condition is empty or
 	 *                           null
@@ -934,7 +915,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Removes the filter condition.
-	 *
+	 * 
 	 * @param fc the filter condition structure
 	 * @throws SemanticException if the given condition doesn't exist in the filters
 	 */
@@ -946,10 +927,10 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Sets whether to do some cache when rendering the report.
-	 *
+	 * 
 	 * @param needsCache true if needs do caching when rendering the report,
 	 *                   otherwise false
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -959,7 +940,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Determines whether to do some cache when rendering the report.
-	 *
+	 * 
 	 * @return true if needs do caching when rendering the report, otherwise false
 	 */
 
@@ -969,7 +950,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Gets the expression handle for the <code>ACLExpression</code> property.
-	 *
+	 * 
 	 * @return
 	 */
 	public ExpressionHandle getACLExpression() {
@@ -978,7 +959,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Gets the expression handle for the ACL expression for one row.
-	 *
+	 * 
 	 * @return
 	 */
 	public ExpressionHandle getRowACLExpression() {
@@ -987,7 +968,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Gets the isVisible property value.
-	 *
+	 * 
 	 * @return <true> if that data set is visible outside of the datamart, otherwise
 	 *         return <false>.
 	 */
@@ -997,7 +978,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Sets the isVisible property value.
-	 *
+	 * 
 	 * @param isVisible <true> if that data set is visible outside of the datamart,
 	 *                  otherwise return <false>.
 	 * @throws SemanticException
@@ -1008,9 +989,9 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Gets the locale of this data set element.
-	 *
+	 * 
 	 * @return the locale of this data set
-	 *
+	 * 
 	 * @see #setLocale(ULocale)
 	 */
 
@@ -1020,10 +1001,10 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 
 	/**
 	 * Sets the locale for this data set element.
-	 *
+	 * 
 	 * @param locale the locale to data set
 	 * @throws SemanticException
-	 *
+	 * 
 	 * @see #getLocale()
 	 */
 
@@ -1038,7 +1019,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	 * <li><code>NULLS_ORDERING_NULLS_HIGHEST</code>
 	 * <li><code>NULLS_ORDERING_EXCLUDE_NULLS</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return ordering of null values.
 	 */
 	public String getNullsOrdering() {
@@ -1052,7 +1033,7 @@ public abstract class DataSetHandle extends ReportElementHandle implements IData
 	 * <li><code>NULLS_ORDERING_NULLS_HIGHEST</code>
 	 * <li><code>NULLS_ORDERING_EXCLUDE_NULLS</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param nullsOrdering
 	 * @throws SemanticException
 	 */

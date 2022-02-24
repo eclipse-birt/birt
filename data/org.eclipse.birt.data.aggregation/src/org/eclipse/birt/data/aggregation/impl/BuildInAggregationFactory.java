@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,16 +33,16 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
 
 /**
- *
+ * 
  */
 
 public class BuildInAggregationFactory implements IAggregationFactory {
 
-	private Map<String, IAggrFunction> aggrMap = new HashMap<>();
-	private List<IAggrFunction> aggregations = new ArrayList<>();
+	private Map<String, IAggrFunction> aggrMap = new HashMap<String, IAggrFunction>();
+	private List<IAggrFunction> aggregations = new ArrayList<IAggrFunction>();
 
 	/**
-	 *
+	 * 
 	 */
 	private void populateAggregations() {
 		final TotalCount totalCount = new TotalCount();
@@ -142,7 +142,7 @@ public class BuildInAggregationFactory implements IAggregationFactory {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public BuildInAggregationFactory() {
 		populateAggregations();
@@ -150,22 +150,20 @@ public class BuildInAggregationFactory implements IAggregationFactory {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory#
 	 * getAggregations()
 	 */
-	@Override
 	public List<IAggrFunction> getAggregations() {
 		return aggregations;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory#
 	 * getAggregation(java.lang.String)
 	 */
-	@Override
 	public IAggrFunction getAggregation(String name) {
 		return aggrMap.get(name.toUpperCase());
 	}

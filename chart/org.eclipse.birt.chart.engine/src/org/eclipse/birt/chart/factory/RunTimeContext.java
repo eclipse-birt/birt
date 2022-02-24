@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -69,6 +69,11 @@ public final class RunTimeContext implements Serializable {
 	private transient ResourceHandle rh = null;
 
 	/**
+	 * An interface reference used to lookup externalized messages.
+	 */
+	private transient IMessageLookup iml = null;
+
+	/**
 	 * A structure definition listener associated with this runtime context.
 	 */
 	private transient IStructureDefinitionListener isdl = null;
@@ -121,7 +126,7 @@ public final class RunTimeContext implements Serializable {
 	/**
 	 * The field indicates if current chart is sharing query with other
 	 * module(table/crosstab...).
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	private boolean isSharingQuery = false;
@@ -140,12 +145,12 @@ public final class RunTimeContext implements Serializable {
 	 * A default zero-arg public constructor used for object creation.
 	 */
 	public RunTimeContext() {
-		stateStore = new HashMap<>(2);
+		stateStore = new HashMap<Object, Object>(2);
 	}
 
 	/**
 	 * Puts a state object to the store.
-	 *
+	 * 
 	 * @param key
 	 * @param state
 	 */
@@ -155,7 +160,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns the state object from store by the key.
-	 *
+	 * 
 	 * @param key
 	 * @return
 	 */
@@ -165,7 +170,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Removes the state object by the key.
-	 *
+	 * 
 	 * @param key
 	 * @return
 	 */
@@ -198,7 +203,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns if scriting is enabled in current context.
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isScriptingEnabled() {
@@ -207,7 +212,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Sepcifies if to enable scripting in current context.
-	 *
+	 * 
 	 * @param value
 	 */
 	public void setScriptingEnabled(boolean value) {
@@ -216,7 +221,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns the script classLoader if available.
-	 *
+	 * 
 	 * @return
 	 */
 	public IScriptClassLoader getScriptClassLoader() {
@@ -225,7 +230,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Sets the script classLoader.
-	 *
+	 * 
 	 * @param value
 	 */
 	public void setScriptClassLoader(IScriptClassLoader value) {
@@ -236,7 +241,7 @@ public final class RunTimeContext implements Serializable {
 	 * Internally sets an instance of the structure definition listener for device
 	 * renderers that need a structure definition notification when rendering
 	 * primitives.
-	 *
+	 * 
 	 * @param isdl The structure definition listener associated with the runtime
 	 *             context.
 	 */
@@ -247,7 +252,7 @@ public final class RunTimeContext implements Serializable {
 	/**
 	 * Returns an instance of the structure definition listner for device renderers
 	 * that need a structure definition notification when rendering primitives.
-	 *
+	 * 
 	 * @return The structure definition listener associated with the runtime
 	 *         context.
 	 */
@@ -257,7 +262,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Sets an IActionRenderer instance to current runtime context.
-	 *
+	 * 
 	 * @param iar
 	 */
 	public void setActionRenderer(IActionRenderer iar) {
@@ -266,7 +271,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns the IActionRenderer of current runtime context.
-	 *
+	 * 
 	 * @return
 	 */
 	public IActionRenderer getActionRenderer() {
@@ -275,7 +280,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Sets the LegendItemLayoutHints for current context.
-	 *
+	 * 
 	 * @param lilh
 	 */
 	public void setLegendLayoutHints(LegendLayoutHints lilh) {
@@ -284,7 +289,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns the LegendItemLayoutHints for current context.
-	 *
+	 * 
 	 * @return
 	 */
 	public LegendLayoutHints getLegendLayoutHints() {
@@ -293,7 +298,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Sets the series renderers for current context.
-	 *
+	 * 
 	 * @param msr
 	 */
 	public void setSeriesRenderers(Map<Series, LegendItemRenderingHints> msr) {
@@ -302,7 +307,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns the series renderers for current context.
-	 *
+	 * 
 	 * @return
 	 */
 	public Map<Series, LegendItemRenderingHints> getSeriesRenderers() {
@@ -313,11 +318,11 @@ public final class RunTimeContext implements Serializable {
 	 * Notifies the structure definition listener of a change in the current running
 	 * structure that defines a group of primitives being rendered and puts them
 	 * into context with reference to the source object.
-	 *
+	 * 
 	 * @param sEventName Defines the structure being defined along with the event
 	 *                   type
 	 * @param oSource    The source object on which the structure is being defined
-	 *
+	 * 
 	 * @return 'true' if the structure definition listener exists and was notified
 	 *         of the change or 'false' otherwise.
 	 */
@@ -333,11 +338,10 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns the locale associated with this runtime context.
-	 *
+	 * 
 	 * @return The locale associated with this runtime context.
 	 * @deprecated use {@link #getULocale()} instead.
 	 */
-	@Deprecated
 	public Locale getLocale() {
 		return lcl == null ? null : lcl.toLocale();
 	}
@@ -345,18 +349,17 @@ public final class RunTimeContext implements Serializable {
 	/**
 	 * Sets the locale associated with this runtime context. This is usually done
 	 * when chart generation begins.
-	 *
+	 * 
 	 * @param lcl The locale associated with the runtime context.
 	 * @deprecated use {@link #setULocale(ULocale)} instead.
 	 */
-	@Deprecated
 	public void setLocale(Locale lcl) {
 		this.lcl = ULocale.forLocale(lcl);
 	}
 
 	/**
 	 * Returns the locale associated with this runtime context.
-	 *
+	 * 
 	 * @return The locale associated with this runtime context.
 	 * @since 2.1
 	 */
@@ -367,7 +370,7 @@ public final class RunTimeContext implements Serializable {
 	/**
 	 * Sets the locale associated with this runtime context. This is usually done
 	 * when chart generation begins.
-	 *
+	 * 
 	 * @param lcl The locale associated with the runtime context.
 	 * @since 2.1
 	 */
@@ -377,7 +380,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns if current context is in a right-left platform. e.g. Arabic, Hebrew.
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isRightToLeft() {
@@ -394,7 +397,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Sets the right-left mode for current context mandatorily.
-	 *
+	 * 
 	 * @param value
 	 */
 	public void setRightToLeft(boolean value) {
@@ -404,7 +407,7 @@ public final class RunTimeContext implements Serializable {
 	/**
 	 * Returns an instance of the resource handle for which chart specific messages
 	 * are externalized.
-	 *
+	 * 
 	 * @return An instance of the resource handle for which chart specific messages
 	 *         are externalized.
 	 */
@@ -415,7 +418,7 @@ public final class RunTimeContext implements Serializable {
 	/**
 	 * Specifies a resource handle that facilitates retrieval of chart specific
 	 * externalized messages.
-	 *
+	 * 
 	 * @param rh The resource handle.
 	 */
 	public void setResourceHandle(ResourceHandle rh) {
@@ -426,7 +429,7 @@ public final class RunTimeContext implements Serializable {
 	 * Returns an instance of a transient script handler associated with the chart
 	 * being generated. The script handler is capable of executing callback scripts
 	 * defined in the chart model.
-	 *
+	 * 
 	 * @return An instance of the script handler.
 	 */
 	@SuppressWarnings("unchecked")
@@ -438,7 +441,7 @@ public final class RunTimeContext implements Serializable {
 	 * Sets an instance of a transient script handler associated with the chart
 	 * being generated. The script handler is capable of executing callback scripts
 	 * defined in the chart model.
-	 *
+	 * 
 	 * @param sh An instance of the script handler.
 	 */
 	@SuppressWarnings("unchecked")
@@ -449,7 +452,7 @@ public final class RunTimeContext implements Serializable {
 	/**
 	 * Returns an instance of a script context associated with the chart being
 	 * generated.
-	 *
+	 * 
 	 * @return An instance of the script context.
 	 */
 	public IScriptContext getScriptContext() {
@@ -459,7 +462,7 @@ public final class RunTimeContext implements Serializable {
 	/**
 	 * Sets an instance of a chart script context associated with the chart being
 	 * generated.
-	 *
+	 * 
 	 * @param csc An instance of the chart script context.
 	 */
 	public void setScriptContext(IScriptContext csc) {
@@ -469,19 +472,20 @@ public final class RunTimeContext implements Serializable {
 	/**
 	 * Defines an externalized message lookup implementation per chart model being
 	 * executed.
-	 *
+	 * 
 	 * @param iml The externalized message lookup implementation.
 	 */
 	public void setMessageLookup(IMessageLookup iml) {
+		this.iml = iml;
 	}
 
 	/**
 	 * A convenience method provided to lookup externalized messages associated with
 	 * a given message key.
-	 *
+	 * 
 	 * @param sChartKey The key using which an externalized message is being looked
 	 *                  up.
-	 *
+	 * 
 	 * @return The externalized message associated with the specified key.
 	 */
 	public String externalizedMessage(String sChartKey) {
@@ -528,7 +532,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Sets the shared scale
-	 *
+	 * 
 	 * @param scale shared scale context
 	 * @since 2.5
 	 */
@@ -538,7 +542,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns the shared scale
-	 *
+	 * 
 	 * @return the shared scale context
 	 * @since 2.5
 	 */
@@ -557,7 +561,7 @@ public final class RunTimeContext implements Serializable {
 	// bidi_acgc added begin
 	/**
 	 * Returns true if current text reading order is Right To Left
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isRightToLeftText() {
@@ -566,7 +570,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Sets the bidi text mode of the current chart object .
-	 *
+	 * 
 	 * @param value
 	 */
 	public void setRightToLeftText(boolean value) {
@@ -623,7 +627,7 @@ public final class RunTimeContext implements Serializable {
 
 		/**
 		 * Check if the state should be clear itself after chart rendering.
-		 *
+		 * 
 		 * @return
 		 */
 		public boolean needClear() {
@@ -631,7 +635,7 @@ public final class RunTimeContext implements Serializable {
 		}
 
 		public static <T> StateKey<T> create(boolean needClear) {
-			return new StateKey<>(needClear);
+			return new StateKey<T>(needClear);
 		}
 
 		/**
@@ -652,7 +656,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Sets instance of default value chart.
-	 *
+	 * 
 	 * @param cm
 	 */
 	public void setDefaultValueChart(Chart cm) {
@@ -661,7 +665,7 @@ public final class RunTimeContext implements Serializable {
 
 	/**
 	 * Returns instance of default value chart.
-	 *
+	 * 
 	 * @return instance of default value chart.
 	 */
 	public Chart getDefaultValueChart() {

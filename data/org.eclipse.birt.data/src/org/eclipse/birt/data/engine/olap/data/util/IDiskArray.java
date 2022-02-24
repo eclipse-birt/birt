@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,41 +25,40 @@ import org.eclipse.birt.data.engine.api.ICloseListener;
 public interface IDiskArray extends ICloseListener {
 	/**
 	 * Add one element to this array.
-	 *
+	 * 
 	 * @param o
 	 * @return
 	 * @throws IOException
 	 */
-	boolean add(Object o) throws IOException;
+	public boolean add(Object o) throws IOException;
 
 	/**
 	 * Get the element by index.
-	 *
+	 * 
 	 * @param index
 	 * @return
 	 * @throws IOException
 	 */
-	Object get(int index) throws IOException;
+	public Object get(int index) throws IOException;
 
 	/**
 	 * Return array size.
-	 *
+	 * 
 	 * @return
 	 */
-	int size();
+	public int size();
 
 	/**
 	 * Close this disk array and release the used resource.
-	 *
+	 * 
 	 * @throws IOException
 	 */
-	@Override
-	void close() throws IOException;
+	public void close() throws IOException;
 
 	/**
 	 * Clear the elements in this disk array.
-	 *
+	 * 
 	 * @throws IOException
 	 */
-	void clear() throws IOException;
+	public void clear() throws IOException;
 }

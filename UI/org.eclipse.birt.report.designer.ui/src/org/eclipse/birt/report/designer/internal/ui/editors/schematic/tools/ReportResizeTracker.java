@@ -30,7 +30,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.ResizeTracker;
 
 /**
- *
+ * 
  */
 
 public class ReportResizeTracker extends ResizeTracker {
@@ -43,7 +43,6 @@ public class ReportResizeTracker extends ResizeTracker {
 		}
 	}
 
-	@Override
 	protected void showSourceFeedback() {
 		super.showSourceFeedback();
 		if (processor != null) {
@@ -72,7 +71,6 @@ public class ReportResizeTracker extends ResizeTracker {
 		return dim;
 	}
 
-	@Override
 	protected boolean handleButtonDown(int button) {
 		boolean bool = super.handleButtonDown(button);
 		if (button == 1) {
@@ -148,7 +146,7 @@ public class ReportResizeTracker extends ResizeTracker {
 		String prefix = "";
 		if (PositionConstants.EAST == getResizeDirection()) {
 			prefix = Messages.getString("ColumnDragTracker.Show.Label");
-
+			;
 		} else if (PositionConstants.SOUTH == getResizeDirection()) {
 			prefix = Messages.getString("RowDragTracker.Show.Label");
 		}

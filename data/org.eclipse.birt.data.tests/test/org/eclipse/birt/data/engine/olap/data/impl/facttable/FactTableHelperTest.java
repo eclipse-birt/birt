@@ -1,22 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
+ * 
  *
- *
- * Contributors:
+ * Contributors: 
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -44,24 +40,26 @@ import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor.F
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- *
+ * 
  */
 
 public class FactTableHelperTest {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	/*
 	 * @see TestCase#tearDown()
 	 */
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -78,7 +76,7 @@ public class FactTableHelperTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -108,7 +106,7 @@ public class FactTableHelperTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -137,7 +135,7 @@ public class FactTableHelperTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -193,7 +191,7 @@ public class FactTableHelperTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -301,7 +299,7 @@ public class FactTableHelperTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -407,7 +405,7 @@ public class FactTableHelperTest {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -440,7 +438,7 @@ public class FactTableHelperTest {
 
 		levelNames = new String[1];
 		levelNames[0] = "dimension2";
-
+		;
 		iterator = new DimensionForTest(levelNames);
 		data = new int[BigLevelsAndFactTableDataset.dimensionPositionLength[1]];
 		for (int i = 0; i < data.length; i++) {
@@ -456,7 +454,7 @@ public class FactTableHelperTest {
 
 		levelNames = new String[1];
 		levelNames[0] = "dimension3";
-
+		;
 		iterator = new DimensionForTest(levelNames);
 		data = new int[BigLevelsAndFactTableDataset.dimensionPositionLength[2]];
 		for (int i = 0; i < data.length; i++) {
@@ -559,7 +557,6 @@ class LevelsAndFactTableDataset implements IDatasetIterator {
 
 	static double[] Measure2 = { 111, 112, 113, 121, 122, 211, 212, 221, 222, 223, 231, 232, 311, 321 };
 
-	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -580,7 +577,6 @@ class LevelsAndFactTableDataset implements IDatasetIterator {
 		return null;
 	}
 
-	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("dimension1")) {
 			return 0;
@@ -596,7 +592,6 @@ class LevelsAndFactTableDataset implements IDatasetIterator {
 		return -1;
 	}
 
-	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("dimension1")) {
 			return DataType.STRING_TYPE;
@@ -622,7 +617,6 @@ class LevelsAndFactTableDataset implements IDatasetIterator {
 		return null;
 	}
 
-	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return dimension1Col[ptr];
@@ -642,7 +636,6 @@ class LevelsAndFactTableDataset implements IDatasetIterator {
 		ptr = -1;
 	}
 
-	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= dimension1Col.length) {
@@ -657,7 +650,6 @@ class BigLevelsAndFactTableDataset implements IDatasetIterator {
 	Traversalor dimTraversalor = new Traversalor(dimensionPositionLength);
 	int[] dimensionPosition = null;
 
-	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -678,7 +670,6 @@ class BigLevelsAndFactTableDataset implements IDatasetIterator {
 		return null;
 	}
 
-	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("dimension1")) {
 			return 0;
@@ -694,7 +685,6 @@ class BigLevelsAndFactTableDataset implements IDatasetIterator {
 		return -1;
 	}
 
-	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("dimension1")) {
 			return DataType.INTEGER_TYPE;
@@ -720,7 +710,6 @@ class BigLevelsAndFactTableDataset implements IDatasetIterator {
 		return null;
 	}
 
-	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return new Integer(dimensionPosition[0]);
@@ -740,7 +729,6 @@ class BigLevelsAndFactTableDataset implements IDatasetIterator {
 		dimTraversalor = new Traversalor(dimensionPositionLength);
 	}
 
-	@Override
 	public boolean next() throws BirtException {
 		if (!dimTraversalor.next()) {
 			return false;

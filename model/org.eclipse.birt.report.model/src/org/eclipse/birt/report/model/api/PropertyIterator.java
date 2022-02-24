@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * name.
  * <p>
  * Items returned by this iterator are of type PropertyHandle.
- *
+ * 
  * @see PropertyHandle
  */
 
@@ -52,7 +52,7 @@ class PropertyIterator implements Iterator {
 	 * The application does not normally create objects of this class directly.
 	 * Instead, it uses the <code>iterator</code> method of an element handle to
 	 * create the iterator.
-	 *
+	 * 
 	 * @param handle a handle to an element
 	 */
 
@@ -65,7 +65,6 @@ class PropertyIterator implements Iterator {
 
 	// Implementation of an interface method.
 
-	@Override
 	public boolean hasNext() {
 		return iter.hasNext();
 	}
@@ -73,17 +72,15 @@ class PropertyIterator implements Iterator {
 	/**
 	 * Gets the next property as a property handle. Implementation of iterator.next(
 	 * )
-	 *
+	 * 
 	 * @return the next property as a property handle.
 	 * @see PropertyHandle
 	 * @see UserPropertyDefnHandle
 	 */
 
-	@Override
 	public Object next() {
-		if (!iter.hasNext()) {
+		if (!iter.hasNext())
 			return null;
-		}
 		ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next();
 		return new PropertyHandle(elementHandle, propDefn);
 	}
@@ -92,7 +89,6 @@ class PropertyIterator implements Iterator {
 	 * Not supported. The application cannot remove properties.
 	 */
 
-	@Override
 	public void remove() {
 		// Not supported.
 	}

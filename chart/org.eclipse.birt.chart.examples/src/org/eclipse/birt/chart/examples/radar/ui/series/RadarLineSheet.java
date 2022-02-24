@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;
 
 /**
- *
+ * 
  */
 
 public class RadarLineSheet extends AbstractPopupSheet implements Listener {
@@ -67,7 +67,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener {
 		super(title, context, needRefresh);
 		this.series = series;
 		this.defSeries = (RadarSeries) ChartDefaultValueUtil.getDefaultSeries(series);
-
+		;
 	}
 
 	@Override
@@ -203,7 +203,6 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener {
 		return true;
 	}
 
-	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(wliacLine)) {
 			boolean isUnset = (event.detail == ChartElementUtil.PROPERTY_UNSET);
@@ -224,9 +223,8 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener {
 		} else if (event.widget.equals(webMin)) {
 			double tmin = this.getTypedDataElement(webMin.getText());
 			double tmax = this.getTypedDataElement(webMax.getText());
-			if (tmin > tmax) {
+			if (tmin > tmax)
 				tmin = tmax;
-			}
 			if (!TextEditorComposite.TEXT_RESET_MODEL.equals(event.data)) {
 				series.setWebLabelMin(tmin);
 			}
@@ -235,9 +233,8 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener {
 
 			double tmin = this.getTypedDataElement(webMin.getText());
 			double tmax = this.getTypedDataElement(webMax.getText());
-			if (tmax < tmin) {
+			if (tmax < tmin)
 				tmax = tmin;
-			}
 			if (!TextEditorComposite.TEXT_RESET_MODEL.equals(event.data)) {
 				series.setWebLabelMax(tmax);
 			}

@@ -41,7 +41,8 @@ public class DataProtocolUtil {
 	 *
 	 * @return Parsed data
 	 */
-	public static DataUrlInfo parseDataUrl(String url) {
+	public static DataUrlInfo parseDataUrl(String url)
+	{
 		Assert.isNotNull(url);
 
 		if (url != null && url.startsWith(DATA_PROTOCOL)) {
@@ -55,6 +56,7 @@ public class DataProtocolUtil {
 			if (posOfDataMarker > -1) {
 				nonDataPart = url.substring(DATA_PROTOCOL.length(), posOfDataMarker);
 				dataPart = url.substring(posOfDataMarker + 1);
+
 
 				int startSearchPos = nonDataPart.length() - 1;
 				int mimeTypeEndPos = nonDataPart.lastIndexOf(ENCODING_AND_PARAMETER_START_CHAR, startSearchPos);

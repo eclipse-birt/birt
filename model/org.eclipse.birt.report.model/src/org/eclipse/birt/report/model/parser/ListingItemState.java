@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This class parses common properties for both list and table report items.
- *
+ * 
  * @see org.eclipse.birt.report.model.elements.ListingElement
  */
 
@@ -50,7 +50,7 @@ public abstract class ListingItemState extends ReportItemState {
 	/**
 	 * Default value of page break interval.
 	 */
-	private static final Integer PAGE_BREAK_INTERVAL_DEFAULT_VALUE = 50;
+	private static final Integer PAGE_BREAK_INTERVAL_DEFAULT_VALUE = Integer.valueOf(50);
 
 	/**
 	 * The listing element (table or list) being built.
@@ -61,7 +61,7 @@ public abstract class ListingItemState extends ReportItemState {
 	/**
 	 * Constructs a state to parse the common properties of the list and table
 	 * report items.
-	 *
+	 * 
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -74,7 +74,7 @@ public abstract class ListingItemState extends ReportItemState {
 	/**
 	 * Constructs listing item(table/list) state with the design parser handler, the
 	 * container element and the container property name of the report element.
-	 *
+	 * 
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param prop         the slot in which this element appears
@@ -86,22 +86,20 @@ public abstract class ListingItemState extends ReportItemState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		makeTestExpressionCompatible();
 
@@ -115,20 +113,21 @@ public abstract class ListingItemState extends ReportItemState {
 			GroupElement group = (GroupElement) groups.getContent(i);
 
 			String groupName = (String) group.getLocalProperty(handler.module, IGroupElementModel.GROUP_NAME_PROP);
-			if (StringUtil.isBlank(groupName)) {
+			if (StringUtil.isBlank(groupName))
 				handler.getModule().makeUniqueName(group);
-			}
 
 			groupName = (String) group.getLocalProperty(handler.getModule(), IGroupElementModel.GROUP_NAME_PROP);
 
-			if (!elements.contains(group) || (handler.versionNumber >= VersionUtil.VERSION_3_2_2)) {
+			if (!elements.contains(group))
+				continue;
+
+			if (handler.versionNumber >= VersionUtil.VERSION_3_2_2) {
 				continue;
 			}
 
 			List columns = (List) handler.tempValue.get(group);
-			if (columns == null || columns.isEmpty()) {
+			if (columns == null || columns.isEmpty())
 				continue;
-			}
 
 			List tmpList = (List) element.getLocalProperty(handler.module, ListingElement.BOUND_DATA_COLUMNS_PROP);
 
@@ -162,7 +161,7 @@ public abstract class ListingItemState extends ReportItemState {
 	/**
 	 * Returns the bound column of which expression and aggregateOn values are
 	 * equals to the input column.
-	 *
+	 * 
 	 * @param columns the bound column list
 	 * @param column  the input bound column
 	 * @return the matched bound column
@@ -170,20 +169,22 @@ public abstract class ListingItemState extends ReportItemState {
 
 	private ComputedColumn checkMatchedBoundColumnForGroup(List columns, String expression, String aggregateOn,
 			boolean mustMatchAggregateOn) {
-		if ((columns == null) || (columns.size() == 0) || expression == null) {
+		if ((columns == null) || (columns.size() == 0) || expression == null)
 			return null;
-		}
 
 		for (int i = 0; i < columns.size(); i++) {
 			ComputedColumn column = (ComputedColumn) columns.get(i);
 			if (expression.equals(column.getExpression())) {
 				String tmpAggregateOn = column.getAggregateOn();
 				if (mustMatchAggregateOn) {
-					if ((aggregateOn == null && tmpAggregateOn == null) || (aggregateOn != null && aggregateOn.equals(tmpAggregateOn))) {
+					if (aggregateOn == null && tmpAggregateOn == null)
 						return column;
-					}
-				} else if (tmpAggregateOn == null || tmpAggregateOn.equals(aggregateOn)) {
-					return column;
+
+					if (aggregateOn != null && aggregateOn.equals(tmpAggregateOn))
+						return column;
+				} else {
+					if (tmpAggregateOn == null || tmpAggregateOn.equals(aggregateOn))
+						return column;
 				}
 
 			}
@@ -194,7 +195,7 @@ public abstract class ListingItemState extends ReportItemState {
 
 	/**
 	 * Creates a unique bound column name in the column bound list.
-	 *
+	 * 
 	 * @param columns     the bound column list
 	 * @param checkColumn the column of which name to check
 	 * @return the newly created column name
@@ -207,9 +208,8 @@ public abstract class ListingItemState extends ReportItemState {
 
 		while (true) {
 			ComputedColumn column = DataColumnNameValidator.getColumn(columns, tmpName);
-			if (column == null) {
+			if (column == null)
 				break;
-			}
 
 			tmpName = oldName + "_" + ++index; //$NON-NLS-1$
 		}
@@ -221,45 +221,39 @@ public abstract class ListingItemState extends ReportItemState {
 	 * Reset the result column name for the data item. Since the bound column name
 	 * may recreated in this state, the corresponding result set column must be
 	 * reseted.
-	 *
+	 * 
 	 * @param group   the group element
 	 * @param columns the bound column list
 	 */
 
 	private void reCheckResultSetColumnName(GroupElement group, List columns) {
 		int level = -1;
-		if (group instanceof TableGroup) {
+		if (group instanceof TableGroup)
 			level = 3;
-		}
-		if (group instanceof ListGroup) {
+		if (group instanceof ListGroup)
 			level = 1;
-		}
 
 		LevelContentIterator contentIter = new LevelContentIterator(handler.module, group, level);
 		while (contentIter.hasNext()) {
 			DesignElement item = contentIter.next();
-			if (!(item instanceof DataItem)) {
+			if (!(item instanceof DataItem))
 				continue;
-			}
 
 			String resultSetColumn = (String) item.getLocalProperty(handler.module, DataItem.RESULT_SET_COLUMN_PROP);
 
-			if (StringUtil.isBlank(resultSetColumn)) {
+			if (StringUtil.isBlank(resultSetColumn))
 				continue;
-			}
 
 			ComputedColumn foundColumn = DataColumnNameValidator.getColumn(columns, resultSetColumn);
-			if (foundColumn == null) {
+			if (foundColumn == null)
 				continue;
-			}
 
 			foundColumn = checkMatchedBoundColumnForGroup(columns, foundColumn.getExpression(),
 					(String) group.getLocalProperty(handler.module, GroupElement.GROUP_NAME_PROP),
 					ExpressionUtil.hasAggregation(foundColumn.getExpression()));
 
-			if (foundColumn == null) {
+			if (foundColumn == null)
 				continue;
-			}
 			item.setProperty(DataItem.RESULT_SET_COLUMN_PROP, foundColumn.getName());
 		}
 	}
@@ -268,7 +262,7 @@ public abstract class ListingItemState extends ReportItemState {
 	 * Add cached bound columns for the given group to the group's listing
 	 * container. This is for old design file that do not have bound column
 	 * features.
-	 *
+	 * 
 	 * @param columns   bound columns to add
 	 * @param tmpList   bound column values of the listing container
 	 * @param group     the list/table group
@@ -280,9 +274,8 @@ public abstract class ListingItemState extends ReportItemState {
 		for (int j = 0; j < columns.size(); j++) {
 			ComputedColumn column = (ComputedColumn) columns.get(j);
 
-			if (ExpressionUtil.hasAggregation(column.getExpression())) {
+			if (ExpressionUtil.hasAggregation(column.getExpression()))
 				column.setAggregateOn(groupName);
-			}
 
 			ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(tmpList, column.getExpression(),
 					column.getAggregateOn(), true);
@@ -304,7 +297,7 @@ public abstract class ListingItemState extends ReportItemState {
 	 * Add cached bound columns for the given group to the group's listing
 	 * container. This method is for the design file with the bound column feature
 	 * and the group defined the bound column properties.
-	 *
+	 * 
 	 * @param columns   bound columns to add
 	 * @param tmpList   bound column values of the listing container
 	 * @param group     the list/table group
@@ -317,9 +310,8 @@ public abstract class ListingItemState extends ReportItemState {
 			ComputedColumn column = (ComputedColumn) columns.get(j);
 
 			if (!tmpList.contains(column)) {
-				if (ExpressionUtil.hasAggregation(column.getExpression())) {
+				if (ExpressionUtil.hasAggregation(column.getExpression()))
 					column.setAggregateOn(groupName);
-				}
 
 				// can not call tmpList.add(column) to insert this column to
 				// list, must call structureContext to add it; otherwise the
@@ -332,7 +324,7 @@ public abstract class ListingItemState extends ReportItemState {
 	/**
 	 * @param listing
 	 * @param tmpHandler
-	 *
+	 * 
 	 */
 
 	private void checkListingGroup() {
@@ -342,15 +334,13 @@ public abstract class ListingItemState extends ReportItemState {
 
 		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(handler.module,
 				IReportItemModel.DATA_BINDING_REF_PROP);
-		if (refValue == null) {
+		if (refValue == null)
 			return;
-		}
 
 		// for template table/list, there is no need to do data group recovery.
 
-		if (element.getContainerInfo().isManagedByNameSpace()) {
+		if (element.getContainerInfo().isManagedByNameSpace())
 			handler.addUnresolveListingElement(element);
-		}
 
 	}
 }

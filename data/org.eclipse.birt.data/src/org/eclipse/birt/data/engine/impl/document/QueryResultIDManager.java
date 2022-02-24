@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,8 +23,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -52,9 +52,8 @@ public class QueryResultIDManager {
 		String queryID = null;
 		while (true) {
 			queryID = session.getQueryResultIDUtil().nextID();
-			if (!idSet.contains(queryID)) {
+			if (idSet.contains(queryID) == false)
 				break;
-			}
 		}
 
 		return queryID;
@@ -103,10 +102,9 @@ public class QueryResultIDManager {
 	 * @throws DataException
 	 */
 	public static void cleanChildOfRoot(StreamManager streamManager) throws DataException {
-		if (!streamManager.hasInStream(DataEngineContext.QUERYID_INFO_STREAM, StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE)) {
+		if (streamManager.hasInStream(DataEngineContext.QUERYID_INFO_STREAM, StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE) == false)
 			return;
-		}
 
 		Map map = getIDMap(streamManager);
 

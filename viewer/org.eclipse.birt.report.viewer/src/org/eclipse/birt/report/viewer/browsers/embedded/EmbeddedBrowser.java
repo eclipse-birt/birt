@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -87,14 +87,12 @@ public class EmbeddedBrowser {
 
 		initializeShell(shell);
 		shell.addDisposeListener(new DisposeListener() {
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				browser.close();
 			}
 		});
 		shell.addControlListener(new ControlListener() {
 
-			@Override
 			public void controlMoved(ControlEvent e) {
 				if (!shell.getMaximized()) {
 					Point location = shell.getLocation();
@@ -105,7 +103,6 @@ public class EmbeddedBrowser {
 				}
 			}
 
-			@Override
 			public void controlResized(ControlEvent e) {
 				if (!shell.getMaximized()) {
 					Point size = shell.getSize();
@@ -119,7 +116,6 @@ public class EmbeddedBrowser {
 
 		shell.addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				// save position
 				store.setValue(BROWSER_X, Integer.toString(x));
@@ -130,7 +126,7 @@ public class EmbeddedBrowser {
 
 				store.setValue(BROWSER_HEIGTH, Integer.toString(h));
 
-				store.setValue(BROWSER_MAXIMIZED, (Boolean.toString(shell.getMaximized())));
+				store.setValue(BROWSER_MAXIMIZED, (Boolean.valueOf(shell.getMaximized()).toString()));
 			}
 		});
 		if (Constants.OS_LINUX.equalsIgnoreCase(Platform.getOS())) {
@@ -169,7 +165,6 @@ public class EmbeddedBrowser {
 
 		shell.addControlListener(new ControlListener() {
 
-			@Override
 			public void controlMoved(ControlEvent e) {
 				if (!shell.getMaximized()) {
 					Point location = shell.getLocation();
@@ -180,7 +175,6 @@ public class EmbeddedBrowser {
 				}
 			}
 
-			@Override
 			public void controlResized(ControlEvent e) {
 				if (!shell.getMaximized()) {
 					Point size = shell.getSize();
@@ -197,7 +191,6 @@ public class EmbeddedBrowser {
 
 		browser.addLocationListener(new LocationListener() {
 
-			@Override
 			public void changing(LocationEvent e) {
 				// hack to know when help webapp needs modal window
 				modalRequestTime = 0;
@@ -207,7 +200,6 @@ public class EmbeddedBrowser {
 				}
 			}
 
-			@Override
 			public void changed(LocationEvent e) {
 				// Do nothing
 			}
@@ -216,7 +208,7 @@ public class EmbeddedBrowser {
 
 	/**
 	 * Constructor embedded browser.
-	 *
+	 * 
 	 * @param event
 	 * @param parent Shell or null
 	 */
@@ -242,7 +234,6 @@ public class EmbeddedBrowser {
 
 		browser.addLocationListener(new LocationListener() {
 
-			@Override
 			public void changing(LocationEvent e) {
 				// hack to know when help webapp needs modal window
 				modalRequestTime = 0;
@@ -252,7 +243,6 @@ public class EmbeddedBrowser {
 				}
 			}
 
-			@Override
 			public void changed(LocationEvent e) {
 				// Do nothing
 			}
@@ -275,7 +265,6 @@ public class EmbeddedBrowser {
 	private void initialize(final Display display, Browser browser) {
 		browser.addOpenWindowListener(new OpenWindowListener() {
 
-			@Override
 			public void open(WindowEvent event) {
 				if (System.currentTimeMillis() - modalRequestTime <= 1000) {
 					new EmbeddedBrowser(event, shell);
@@ -287,7 +276,6 @@ public class EmbeddedBrowser {
 
 		browser.addVisibilityWindowListener(new VisibilityWindowListener() {
 
-			@Override
 			public void hide(WindowEvent event) {
 				Browser browser = (Browser) event.widget;
 
@@ -296,7 +284,6 @@ public class EmbeddedBrowser {
 				shell.setVisible(false);
 			}
 
-			@Override
 			public void show(WindowEvent event) {
 				Browser browser = (Browser) event.widget;
 
@@ -318,7 +305,6 @@ public class EmbeddedBrowser {
 
 		browser.addCloseWindowListener(new CloseWindowListener() {
 
-			@Override
 			public void close(WindowEvent event) {
 				Browser browser = (Browser) event.widget;
 
@@ -332,11 +318,10 @@ public class EmbeddedBrowser {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.swt.browser.TitleListener#changed(org.eclipse.swt
 			 * .browser.TitleEvent)
 			 */
-			@Override
 			public void changed(TitleEvent event) {
 				if (event.title != null && event.title.length() > 0) {
 					Browser browser = (Browser) event.widget;
@@ -351,7 +336,7 @@ public class EmbeddedBrowser {
 
 	/**
 	 * Display arbitary url.
-	 *
+	 * 
 	 * @param url
 	 */
 	public void displayUrl(String url) {
@@ -364,7 +349,7 @@ public class EmbeddedBrowser {
 
 	/**
 	 * Check whether the browser is disposed or not.
-	 *
+	 * 
 	 * @return browser is disposed or not
 	 */
 	public boolean isDisposed() {
@@ -432,7 +417,7 @@ public class EmbeddedBrowser {
 
 	/**
 	 * Obtains URLs to product image
-	 *
+	 * 
 	 * @return String[] with URLs as Strings or null
 	 */
 	private static String[] getProductImageURLs() {
@@ -484,7 +469,7 @@ public class EmbeddedBrowser {
 
 	/**
 	 * Set browser window location.
-	 *
+	 * 
 	 * @param x X coordinate of browser window's top-left corner
 	 * @param y Y coordinate of browser window's top-left corner
 	 */
@@ -494,7 +479,7 @@ public class EmbeddedBrowser {
 
 	/**
 	 * Set browser window size.
-	 *
+	 * 
 	 * @param width  browser window width
 	 * @param height browser window height
 	 */

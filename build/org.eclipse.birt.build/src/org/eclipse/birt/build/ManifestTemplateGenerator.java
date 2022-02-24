@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2001, 2004 IBM Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
@@ -24,9 +24,9 @@ import java.io.IOException;
 import org.apache.tools.ant.BuildException;
 
 /**
- *
+ * 
  * @author Farrah
- *
+ * 
  *         Generate error/failure summary according into
  *         unitTestReport.properties Properties format
  *         pluginId.failure/error=<count> eg:
@@ -67,7 +67,7 @@ public class ManifestTemplateGenerator {
 
 			String ff = new String(b, 0, len);
 
-			StringBuilder strb = new StringBuilder(ff);
+			StringBuffer strb = new StringBuffer(ff);
 			// strb.append(" ");
 			/* Read MANIFEST body and create new manifest.mf */
 			ProcFile(manifestBody, fBody_proc);
@@ -113,23 +113,24 @@ public class ManifestTemplateGenerator {
 			FileReader freader = new FileReader(source);
 			BufferedReader breader = new BufferedReader(freader);
 			String sLine;
-			StringBuilder sTmp = new StringBuilder("");
+			StringBuffer sTmp = new StringBuffer("");
 			while ((sLine = breader.readLine()) != null) {
-				if (sLine.startsWith("#") || sLine.startsWith(" .")) {
+				if (sLine.startsWith("#") || sLine.startsWith(" ."))
 					continue;
-				}
 				sTmp.append(sLine + " ");
 				sTmp.append("\n");
 			}
 			int lastDelimer = sTmp.lastIndexOf(",");
 
 			String tmp = sTmp.substring(0, lastDelimer);
-			StringBuilder result = new StringBuilder().append(tmp.getBytes("UTF-8"));
-			result.append(" ").append("\n");
+			String result = new String(tmp.getBytes("UTF-8"));
+			result = result + " " + "\n";
 
 			FileOutputStream Result = new FileOutputStream(dest);
-			Result.write(result.toString().getBytes("UTF-8"));
+			Result.write(result.getBytes("UTF-8"));
 
+		} catch (FileNotFoundException fex) {
+			fex.printStackTrace();
 		} catch (IOException ioex) {
 			ioex.printStackTrace();
 		}

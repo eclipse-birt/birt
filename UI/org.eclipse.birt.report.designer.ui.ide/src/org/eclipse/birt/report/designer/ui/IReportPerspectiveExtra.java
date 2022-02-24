@@ -33,21 +33,21 @@ public interface IReportPerspectiveExtra {
 
 	/**
 	 * Defines the extra new wizard shortcuts needed be added into the perspective
-	 *
+	 * 
 	 * @return the wizard ids
 	 */
 	String[] getExtraNewWizardShortcut();
 
 	/**
 	 * Defines the extra show view shortcuts needed be added into the perspective
-	 *
+	 * 
 	 * @return the view ids
 	 */
 	String[] getExtraShowViewShortcut();
 
 	/**
 	 * Defines the extra views needed be added into the perspective
-	 *
+	 * 
 	 * @param layoutPos one of
 	 *                  LAYOUT_TOP_LEFT,LAYOUT_BOTTOM_LEFT,LAYOUT_BOTTOM_RIGHT
 	 * @return the view ids
@@ -56,7 +56,7 @@ public interface IReportPerspectiveExtra {
 
 	/**
 	 * Defines the extra view placeholders needed be added into the perspective
-	 *
+	 * 
 	 * @param layoutPos one of
 	 *                  LAYOUT_TOP_LEFT,LAYOUT_BOTTOM_LEFT,LAYOUT_BOTTOM_RIGHT
 	 * @return the view ids

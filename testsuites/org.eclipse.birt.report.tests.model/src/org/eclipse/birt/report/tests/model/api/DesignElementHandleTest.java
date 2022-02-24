@@ -1,16 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
 package org.eclipse.birt.report.tests.model.api;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -33,9 +36,6 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 public class DesignElementHandleTest extends BaseTestCase {
 	final static String INPUT3 = "Improved_test3.xml";
 
@@ -48,7 +48,6 @@ public class DesignElementHandleTest extends BaseTestCase {
 		return new TestSuite(DesignElementHandleTest.class);
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -60,7 +59,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests canContain() method for duplicate group names in the listing element.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,7 +36,6 @@ public class RegionLayout extends BlockStackingLayout {
 		currentContext.maxAvaHeight = Integer.MAX_VALUE;
 	}
 
-	@Override
 	protected void initialize() {
 		createRoot();
 		currentContext.maxAvaWidth = currentContext.root.getContentWidth();
@@ -44,7 +43,6 @@ public class RegionLayout extends BlockStackingLayout {
 		currentContext.maxAvaHeight = Integer.MAX_VALUE;
 	}
 
-	@Override
 	public void layout() throws BirtException {
 		initialize();
 		PDFLayoutEmitter emitter = new PDFLayoutEmitter(context);
@@ -53,14 +51,12 @@ public class RegionLayout extends BlockStackingLayout {
 		closeLayout();
 	}
 
-	@Override
 	protected void createRoot() {
 		if (currentContext.root == null) {
 			currentContext.root = (ContainerArea) AreaFactory.createLogicContainer(content.getReportContent());
 		}
 	}
 
-	@Override
 	protected void closeLayout() {
 		// set dimension property for root TODO support user defined height
 		currentContext.root.setHeight(Math.max(currentContext.currentBP, currentContext.root.getHeight()));

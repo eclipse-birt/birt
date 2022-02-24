@@ -42,7 +42,7 @@ import org.eclipse.emf.ecore.EReference;
 /**
  * This class is responsible for updating chart value of extension chart
  * elements.
- *
+ * 
  * @since 3.7
  */
 
@@ -53,7 +53,7 @@ public class ChartExtensionValueUpdater {
 	/**
 	 * This set identifies which elements has visible attribute.
 	 */
-	private static Set<String> hasVisibleElementSet = new HashSet<>();
+	private static Set<String> hasVisibleElementSet = new HashSet<String>();
 	static {
 		hasVisibleElementSet.add(LineAttributes.class.getSimpleName());
 		hasVisibleElementSet.add(Marker.class.getSimpleName());
@@ -65,7 +65,7 @@ public class ChartExtensionValueUpdater {
 
 	/**
 	 * Returns <code>true</code> if specified class contains 'visible' attribute.
-	 *
+	 * 
 	 * @param clazz
 	 * @return
 	 */
@@ -94,8 +94,8 @@ public class ChartExtensionValueUpdater {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void updateAttrs(EClass eClass, EObject eParentObj, EObject eObj, EObject eRef, EObject eDef) {
 
-		List<EAttribute> listMany = new LinkedList<>();
-		List<EAttribute> list = new LinkedList<>();
+		List<EAttribute> listMany = new LinkedList<EAttribute>();
+		List<EAttribute> list = new LinkedList<EAttribute>();
 
 		for (EAttribute eAttr : eClass.getEAllAttributes()) {
 			if (eAttr.isMany()) {
@@ -138,7 +138,7 @@ public class ChartExtensionValueUpdater {
 
 	/**
 	 * Updates chart element object.
-	 *
+	 * 
 	 * @param expected   class of expected chart element.
 	 * @param name       chart element name
 	 * @param eParentObj container of chart element object.
@@ -177,22 +177,24 @@ public class ChartExtensionValueUpdater {
 					// to update other attributes.
 					return;
 				}
-			} else // If eObj isn't set visible and the visible attribute of
-			// reference object is set to false, directly return, no need to
-			// update other attributes.
-			if (eRef != null && eRef.eIsSet(eRef.eClass().getEStructuralFeature("visible"))) //$NON-NLS-1$
-			{
-				if (eRef.eGet(eRef.eClass().getEStructuralFeature("visible")) != Boolean.TRUE) //$NON-NLS-1$
+			} else {
+				// If eObj isn't set visible and the visible attribute of
+				// reference object is set to false, directly return, no need to
+				// update other attributes.
+				if (eRef != null && eRef.eIsSet(eRef.eClass().getEStructuralFeature("visible"))) //$NON-NLS-1$
 				{
-					eObj.eSet(eRef.eClass().getEStructuralFeature("visible"), Boolean.FALSE); //$NON-NLS-1$
-					return;
-				}
-			} else if (eDef != null && eDef.eIsSet(eDef.eClass().getEStructuralFeature("visible"))) //$NON-NLS-1$
-			{
-				if (eDef.eGet(eDef.eClass().getEStructuralFeature("visible")) != Boolean.TRUE) //$NON-NLS-1$
+					if (eRef.eGet(eRef.eClass().getEStructuralFeature("visible")) != Boolean.TRUE) //$NON-NLS-1$
+					{
+						eObj.eSet(eRef.eClass().getEStructuralFeature("visible"), Boolean.FALSE); //$NON-NLS-1$
+						return;
+					}
+				} else if (eDef != null && eDef.eIsSet(eDef.eClass().getEStructuralFeature("visible"))) //$NON-NLS-1$
 				{
-					eObj.eSet(eDef.eClass().getEStructuralFeature("visible"), Boolean.FALSE); //$NON-NLS-1$
-					return;
+					if (eDef.eGet(eDef.eClass().getEStructuralFeature("visible")) != Boolean.TRUE) //$NON-NLS-1$
+					{
+						eObj.eSet(eDef.eClass().getEStructuralFeature("visible"), Boolean.FALSE); //$NON-NLS-1$
+						return;
+					}
 				}
 			}
 		}
@@ -249,11 +251,11 @@ public class ChartExtensionValueUpdater {
 		return child;
 	}
 
-	private Map<String, EObject> defaultObjCache = new HashMap<>();
+	private Map<String, EObject> defaultObjCache = new HashMap<String, EObject>();
 
 	/**
 	 * Returns a chart element instance with default value.
-	 *
+	 * 
 	 * @param expected
 	 * @param name
 	 * @param eObj
@@ -271,14 +273,22 @@ public class ChartExtensionValueUpdater {
 			EObject object = (EObject) m.invoke(eObj);
 			defaultObjCache.put(eObj.getClass().getSimpleName(), object);
 			return object;
-		} catch (SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+		} catch (SecurityException e) {
+			logger.log(e);
+		} catch (NoSuchMethodException e) {
+			logger.log(e);
+		} catch (IllegalArgumentException e) {
+			logger.log(e);
+		} catch (IllegalAccessException e) {
+			logger.log(e);
+		} catch (InvocationTargetException e) {
 			logger.log(e);
 		}
 		return null;
 	}
 
 	private void update(EReference ref, EObject eParentObj, EObject eObj, EObject eRef, EObject eDef) {
-		if (eObj instanceof DataPointComponent) {
+		if (eObj != null && eObj instanceof DataPointComponent) {
 			eDef = ChartDefaultValueUtil.getPercentileDataPointDefObj((DataPointComponent) eObj,
 					(DataPointComponent) eDef);
 		}

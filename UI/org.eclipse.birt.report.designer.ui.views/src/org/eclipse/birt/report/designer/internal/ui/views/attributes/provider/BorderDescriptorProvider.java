@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,19 +39,16 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 		styleMap.put(style, value);
 	}
 
-	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
 
 	protected String getLocalStringValue(String property) {
 		GroupElementHandle handle = null;
-		if (input instanceof List) {
+		if (input instanceof List)
 			handle = DEUtil.getGroupElementHandle((List) input);
-		}
-		if (handle == null) {
+		if (handle == null)
 			return ""; //$NON-NLS-1$
-		}
 		String value = handle.getLocalStringProperty(property);
 		if (value == null)
 		// && multiSelectionHandle.shareSameValue( property ) )
@@ -63,12 +60,10 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 
 	protected String getStringValue(String property) {
 		GroupElementHandle handle = null;
-		if (input instanceof List) {
+		if (input instanceof List)
 			handle = DEUtil.getGroupElementHandle((List) input);
-		}
-		if (handle == null) {
+		if (handle == null)
 			return ""; //$NON-NLS-1$
-		}
 		String value = handle.getStringProperty(property);
 		if (value == null)
 		// && multiSelectionHandle.shareSameValue( property ) )
@@ -80,31 +75,26 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 
 	protected String getDisplayValue(String property) {
 		GroupElementHandle handle = null;
-		if (input instanceof List) {
+		if (input instanceof List)
 			handle = DEUtil.getGroupElementHandle((List) input);
-		}
-		if (handle == null) {
+		if (handle == null)
 			return ""; //$NON-NLS-1$
-		}
 		if (getLocalStringValue(property).equals("")) {
 			String value = handle.getPropertyHandle(property).getStringValue();
 			if (value == null) {
 				value = ""; //$NON-NLS-1$
 			}
 			return value;
-		} else {
+		} else
 			return ""; //$NON-NLS-1$
-		}
 	}
 
 	protected String getDefaultStringValue(String property) {
 		GroupElementHandle handle = null;
-		if (input instanceof List) {
+		if (input instanceof List)
 			handle = DEUtil.getGroupElementHandle((List) input);
-		}
-		if (handle == null) {
+		if (handle == null)
 			return ""; //$NON-NLS-1$
-		}
 		if (getLocalStringValue(property).equals("")) {
 			String value = handle.getStringProperty(property);
 			if (value == null)
@@ -113,9 +103,8 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 				value = ""; //$NON-NLS-1$
 			}
 			return value;
-		} else {
+		} else
 			return ""; //$NON-NLS-1$
-		}
 	}
 
 	protected void save(String property, Object value) throws SemanticException {

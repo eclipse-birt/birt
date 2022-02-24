@@ -26,7 +26,6 @@ public class ContentIteratorTest extends BaseTestCase {
 
 	DesignElement grid = null;
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign(INPUT);
@@ -34,7 +33,7 @@ public class ContentIteratorTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws IOException
 	 */
@@ -42,7 +41,7 @@ public class ContentIteratorTest extends BaseTestCase {
 	public void testIterator() throws DesignFileException, IOException {
 		Iterator contentIter = new ContentIterator(design, grid);
 
-		DesignElement next;
+		DesignElement next = null;
 
 		next = (DesignElement) contentIter.next();
 		assertEquals("Column", next.getDefn().getName()); //$NON-NLS-1$
@@ -112,7 +111,7 @@ public class ContentIteratorTest extends BaseTestCase {
 	/**
 	 * Ensure that the elements are returned with the same sequences in two rounds
 	 * of iteration.
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws IOException
 	 */

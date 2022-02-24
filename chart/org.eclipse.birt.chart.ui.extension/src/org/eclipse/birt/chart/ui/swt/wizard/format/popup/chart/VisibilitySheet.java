@@ -137,7 +137,6 @@ public class VisibilitySheet extends AbstractPopupSheet implements Listener {
 		lbFdcEmptyMsg.setEnabled(bEnabled);
 	}
 
-	@Override
 	public void handleEvent(Event event) {
 		if (event.widget == txtEmptyMsg) {
 			getChart().getEmptyMessage().getCaption().setValue(txtEmptyMsg.getText());

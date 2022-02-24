@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.timefunction;
@@ -19,22 +19,22 @@ package org.eclipse.birt.data.engine.api.timefunction;
 public interface ITimePeriod {
 	/**
 	 * Represent the number of time period, say, the "N" in "last N Year".
-	 *
+	 * 
 	 * @return
 	 */
-	int countOfUnit();
+	public int countOfUnit();
 
 	/**
 	 * Represent the basic unit of a time period.
-	 *
+	 * 
 	 * @return
 	 */
-	TimePeriodType getType();
+	public TimePeriodType getType();
 
 	/**
 	 * Represent whether it should be calculated in the scope of a current period
-	 *
+	 * 
 	 * @return
 	 */
-	boolean isCurrent();
+	public boolean isCurrent();
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ public interface IRow extends IDesignElement {
 
 	/**
 	 * Gets a handle to deal with the row's height.
-	 *
+	 * 
 	 * @return the row's height.
 	 */
 
@@ -33,7 +33,7 @@ public interface IRow extends IDesignElement {
 	/**
 	 * Returns the bookmark of the row. The bookmark value is evaluated as an
 	 * expression.
-	 *
+	 * 
 	 * @return the book mark as a string
 	 */
 
@@ -43,9 +43,9 @@ public interface IRow extends IDesignElement {
 	 * Sets the bookmark of the row. The bookmark value is evaluated as an
 	 * expression. If you want the bookmark to be the string "bookmark", you need to
 	 * use setBookmark("\"bookmark\"");
-	 *
+	 * 
 	 * If bookmark is a JavaScript variable, use setBookmark("bookmark");
-	 *
+	 * 
 	 * @param value the bookmark expression
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -54,7 +54,7 @@ public interface IRow extends IDesignElement {
 
 	/**
 	 * Removes all hide rules that matches formatType.
-	 *
+	 * 
 	 * @param rule
 	 * @exception SemanticException
 	 */
@@ -63,7 +63,7 @@ public interface IRow extends IDesignElement {
 
 	/**
 	 * Removes all hide rules
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -71,7 +71,7 @@ public interface IRow extends IDesignElement {
 
 	/**
 	 * Returns array of hide rule expression
-	 *
+	 * 
 	 * @return array of hide rule expression
 	 */
 
@@ -79,7 +79,7 @@ public interface IRow extends IDesignElement {
 
 	/**
 	 * Add HideRule
-	 *
+	 * 
 	 * @param rule
 	 * @throws SemanticException
 	 */
@@ -88,7 +88,7 @@ public interface IRow extends IDesignElement {
 
 	/**
 	 * Gets all high light rules.
-	 *
+	 * 
 	 * @return all high light rules
 	 */
 
@@ -96,7 +96,7 @@ public interface IRow extends IDesignElement {
 
 	/**
 	 * Adds high light rule.
-	 *
+	 * 
 	 * @param rule
 	 * @throws SemanticException
 	 */
@@ -105,7 +105,7 @@ public interface IRow extends IDesignElement {
 
 	/**
 	 * Removes all high light rules.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -113,7 +113,7 @@ public interface IRow extends IDesignElement {
 
 	/**
 	 * Removes high light rule.
-	 *
+	 * 
 	 * @param rule
 	 * @throws SemanticException
 	 */

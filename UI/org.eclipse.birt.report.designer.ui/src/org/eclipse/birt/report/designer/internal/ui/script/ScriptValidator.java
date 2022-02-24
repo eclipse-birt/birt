@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2007 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -39,7 +39,7 @@ public class ScriptValidator {
 
 	/**
 	 * Constructs an validator with the specified script viewer.
-	 *
+	 * 
 	 * @param viewer the script viewer to validate
 	 */
 	public ScriptValidator(ISourceViewer viewer) {
@@ -57,7 +57,7 @@ public class ScriptValidator {
 	/**
 	 * Validates the current script, and selects the error if the specified falg is
 	 * <code>true</code>.
-	 *
+	 * 
 	 * @param isFunctionBody  <code>true</code> if a function body is validated,
 	 *                        <code>false</code> otherwise.
 	 * @param isErrorSelected <code>true</code> if error will be selected after
@@ -140,7 +140,7 @@ public class ScriptValidator {
 
 	/**
 	 * Validates the specified script.
-	 *
+	 * 
 	 * @param script the script to validate.
 	 * @throws ParseException if an syntax error is found.
 	 */
@@ -171,7 +171,7 @@ public class ScriptValidator {
 
 	/**
 	 * Returns the error's position with the specified script and offset.
-	 *
+	 * 
 	 * @param script the script to check
 	 * @param offset the end point
 	 * @return the error's position.
@@ -197,7 +197,7 @@ public class ScriptValidator {
 	/**
 	 * Returns <code>true</code> if current index is in a comment line,
 	 * <code>false</code> otherwise.
-	 *
+	 * 
 	 * @param script the script text.
 	 * @param index  the current index.
 	 * @return <code>true</code> if current index is in a comment line,

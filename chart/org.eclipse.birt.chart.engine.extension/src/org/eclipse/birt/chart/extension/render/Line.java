@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -101,12 +101,11 @@ public class Line extends AxesRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.AxesRenderer#renderSeries(org.eclipse.birt.
 	 * chart.output.IRenderer, Chart.Plot)
 	 */
-	@Override
 	@SuppressWarnings("deprecation")
 	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 
@@ -346,10 +345,13 @@ public class Line extends AxesRenderer {
 					} catch (Exception ex) {
 						throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING, ex);
 					}
-				} else if (bRendering3D) {
-					faY[i] = lo3d.getY();
 				} else {
-					faY[i] = lo.getY();
+					if (bRendering3D) {
+						faY[i] = lo3d.getY();
+					} else {
+						faY[i] = lo.getY();
+					}
+
 				}
 
 				// Range check.
@@ -597,7 +599,7 @@ public class Line extends AxesRenderer {
 
 	/**
 	 * Check if to show as tape.
-	 *
+	 * 
 	 * @return
 	 */
 	protected boolean validateShowAsTape() {
@@ -620,14 +622,16 @@ public class Line extends AxesRenderer {
 			// INTERSECTIONS
 			{
 				return false;
-			} else if (getSeriesCount() > 2 && !isDimension3D()) // (2 = BASE
-			// + 1 LINE
-			// SERIES);
-			// OVERLAY OF MULTIPLE
-			// 'STACKED' SERIES COULD ALSO
-			// CAUSE TAPE INTERSECTIONS
-			{
-				return false;
+			} else {
+				if (getSeriesCount() > 2 && !isDimension3D()) // (2 = BASE
+				// + 1 LINE
+				// SERIES);
+				// OVERLAY OF MULTIPLE
+				// 'STACKED' SERIES COULD ALSO
+				// CAUSE TAPE INTERSECTIONS
+				{
+					return false;
+				}
 			}
 		}
 
@@ -636,7 +640,7 @@ public class Line extends AxesRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.
 	 * birt.chart.device.IPrimitiveRenderer,
@@ -644,7 +648,6 @@ public class Line extends AxesRenderer {
 	 * org.eclipse.birt.chart.model.attribute.Fill,
 	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
-	@Override
 	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
 			throws ChartException {
 		if ((bo.getWidth() == 0) && (bo.getHeight() == 0)) {
@@ -712,7 +715,7 @@ public class Line extends AxesRenderer {
 			DataPointHints dph = createDummyDataPointHintsForLegendItem();
 			renderMarker(lg, ipr, m,
 					goFactory.createLocation(bo.getLeft() + bo.getWidth() / 2, bo.getTop() + bo.getHeight() / 2),
-					ls.getLineAttributes(), fPaletteEntry, dph, markerSize, false, false);
+					ls.getLineAttributes(), fPaletteEntry, dph, Integer.valueOf(markerSize), false, false);
 		}
 	}
 
@@ -726,7 +729,7 @@ public class Line extends AxesRenderer {
 		boolean bStacked = getSeries().isStacked() || getAxis().isPercent();
 		LineSeries ls = (LineSeries) getSeries();
 		DataPointsSeeker dpSeeker = DataPointsSeeker.create(dpha, ls, bStacked);
-		List<Location> list = new LinkedList<>();
+		List<Location> list = new LinkedList<Location>();
 
 		while (dpSeeker.next()) {
 			list.add(loa[dpSeeker.getIndex()]);
@@ -797,7 +800,7 @@ public class Line extends AxesRenderer {
 
 	/**
 	 * Render series shadow if applicable.
-	 *
+	 * 
 	 * @param ipr
 	 * @param p
 	 * @param lia
@@ -829,7 +832,6 @@ public class Line extends AxesRenderer {
 		return -1;
 	}
 
-	@Override
 	public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		// NOTE: This method is not used by the Line Renderer
 	}
@@ -877,7 +879,7 @@ public class Line extends AxesRenderer {
 
 		/**
 		 * Seeks to the next datapoint.
-		 *
+		 * 
 		 * @return True if the seeking succeeds.
 		 */
 		public boolean next() {
@@ -910,7 +912,7 @@ public class Line extends AxesRenderer {
 
 		/**
 		 * Returns the count of all datapoints.
-		 *
+		 * 
 		 * @return The count of all datapoints.
 		 */
 		public int size() {
@@ -1017,7 +1019,7 @@ public class Line extends AxesRenderer {
 
 		/**
 		 * Seeks to the next non-null datapoint.
-		 *
+		 * 
 		 * @return true if success.
 		 */
 		@Override
@@ -1068,10 +1070,9 @@ public class Line extends AxesRenderer {
 
 		/**
 		 * Seeks to the next non-null datapoint.
-		 *
+		 * 
 		 * @return true if success.
 		 */
-		@Override
 		public boolean next() {
 			boolean bPrevIsNull;
 			boolean bIsNull = this.bIsNull;
@@ -1110,7 +1111,7 @@ public class Line extends AxesRenderer {
 
 	}
 
-	protected enum Transposition {
+	protected static enum Transposition {
 		TRANSPOSED {
 
 			@Override
@@ -1475,7 +1476,7 @@ public class Line extends AxesRenderer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param ipr
 	 * @param loa3d
 	 * @param dpha
@@ -1491,15 +1492,12 @@ public class Line extends AxesRenderer {
 		double maxY = loa3d[0].getY();
 		double maxZ = loa3d[0].getZ();
 		for (int i = 0; i < loa3d.length; i++) {
-			if (minY > loa3d[i].getY()) {
+			if (minY > loa3d[i].getY())
 				minY = loa3d[i].getY();
-			}
-			if (maxY < loa3d[i].getY()) {
+			if (maxY < loa3d[i].getY())
 				maxY = loa3d[i].getY();
-			}
-			if (maxZ < loa3d[i].getZ()) {
+			if (maxZ < loa3d[i].getZ())
 				maxZ = loa3d[i].getZ();
-			}
 		}
 		l3d[0].set(x0, maxY, maxZ);
 		l3d[1].set(x1, maxY, maxZ);

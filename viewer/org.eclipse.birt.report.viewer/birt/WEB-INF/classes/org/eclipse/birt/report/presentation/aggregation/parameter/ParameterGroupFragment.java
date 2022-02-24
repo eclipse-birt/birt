@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -34,7 +34,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 /**
  * Fragment help rendering parameter group.
  * <p>
- *
+ * 
  * @see BaseFragment
  */
 public class ParameterGroupFragment extends BirtBaseFragment {
@@ -46,7 +46,7 @@ public class ParameterGroupFragment extends BirtBaseFragment {
 
 	/**
 	 * Protected constructor.
-	 *
+	 * 
 	 * @param parameterGroup parameter group definition reference.
 	 */
 	public ParameterGroupFragment(ParameterGroupDefinition parameterGroup) {
@@ -55,14 +55,13 @@ public class ParameterGroupFragment extends BirtBaseFragment {
 
 	/**
 	 * Get report parameters from engine.
-	 *
+	 * 
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @return target jsp pages
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
@@ -126,7 +125,6 @@ public class ParameterGroupFragment extends BirtBaseFragment {
 	/**
 	 * Override implementation of doPostService.
 	 */
-	@Override
 	protected String doPostService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String className = getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1);

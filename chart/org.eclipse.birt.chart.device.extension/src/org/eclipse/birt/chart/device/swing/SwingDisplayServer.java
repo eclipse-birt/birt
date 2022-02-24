@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
- *
+ * 
  */
 public class SwingDisplayServer extends G2dDisplayServerBase {
 
@@ -52,7 +52,7 @@ public class SwingDisplayServer extends G2dDisplayServerBase {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 */
 	public SwingDisplayServer() {
 
@@ -75,7 +75,7 @@ public class SwingDisplayServer extends G2dDisplayServerBase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.devices.IDisplayServer#getMetrics(org.eclipse.birt.chart.
 	 * attribute.FontDefinition, java.lang.Object)
@@ -171,7 +171,7 @@ public class SwingDisplayServer extends G2dDisplayServerBase {
 
 	/**
 	 * Returns the image cache
-	 *
+	 * 
 	 * @return
 	 */
 	final SwingImageCache getImageCache() {

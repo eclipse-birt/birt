@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.taglib.util.BirtTagUtil;
  * The viewer tag is to specify how to import and control BIRT Report Viewer
  * into JSP page. Use Ajax to preview report content. This tag needs browser
  * iframe support.
- *
+ * 
  */
 public class ViewerTag extends AbstractViewerTag {
 
@@ -31,10 +31,9 @@ public class ViewerTag extends AbstractViewerTag {
 
 	/**
 	 * process tag function
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.taglib.AbstractBaseTag#__process()
 	 */
-	@Override
 	public void __process() throws Exception {
 		// URI for viewer
 		String uri = viewer.createURI(null, null);
@@ -49,9 +48,8 @@ public class ViewerTag extends AbstractViewerTag {
 	 * @param pattern the pattern to set
 	 */
 	public void setPattern(String pattern) {
-		if (pattern == null || !IBirtConstants.VIEWER_RUN.equalsIgnoreCase(pattern)) {
+		if (pattern == null || !IBirtConstants.VIEWER_RUN.equalsIgnoreCase(pattern))
 			pattern = IBirtConstants.VIEWER_FRAMESET;
-		}
 
 		viewer.setPattern(pattern);
 	}

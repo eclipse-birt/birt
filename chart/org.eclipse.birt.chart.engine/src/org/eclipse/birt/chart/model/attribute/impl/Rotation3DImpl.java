@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -51,7 +51,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 	/**
 	 * The cached value of the '{@link #getAngles() <em>Angles</em>}' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getAngles()
 	 * @generated
 	 * @ordered
@@ -60,7 +60,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected Rotation3DImpl() {
@@ -69,7 +69,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -79,20 +79,19 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<Angle3D> getAngles() {
 		if (angles == null) {
-			angles = new EObjectContainmentEList<>(Angle3D.class, this, AttributePackage.ROTATION3_D__ANGLES);
+			angles = new EObjectContainmentEList<Angle3D>(Angle3D.class, this, AttributePackage.ROTATION3_D__ANGLES);
 		}
 		return angles;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -106,7 +105,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -120,7 +119,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -137,7 +136,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -152,7 +151,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -166,7 +165,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * Creates an empty Roatation3D object.
-	 *
+	 * 
 	 * @param ala
 	 * @return
 	 */
@@ -176,7 +175,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * Creates an empty Roatation3D object.
-	 *
+	 * 
 	 * @param ala
 	 * @return
 	 */
@@ -186,7 +185,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * Creates a Rotation3D object using given Angle3D array.
-	 *
+	 * 
 	 * @param ala
 	 * @return
 	 */
@@ -196,7 +195,7 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * Creates a Rotation3D object using given Angle3D array.
-	 *
+	 * 
 	 * @param ala
 	 * @return
 	 */
@@ -213,7 +212,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 	/**
 	 * @generated
 	 */
-	@Override
 	public Rotation3D copyInstance() {
 		Rotation3DImpl dest = new Rotation3DImpl();
 		dest.set(this);

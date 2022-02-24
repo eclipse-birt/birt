@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * reference or a property of name type. This object maintains a cached set of
  * back-references to the "clients" so that changes can be automatically
  * propagated.
- *
+ * 
  */
 
 public interface IReferencable {
@@ -31,36 +31,36 @@ public interface IReferencable {
 	/**
 	 * Adds a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
-	 *
+	 * 
 	 * @param client   The client to add.
 	 * @param propName the property name.
 	 */
 
-	void addClient(DesignElement client, String propName);
+	public void addClient(DesignElement client, String propName);
 
 	/**
 	 * Drops a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
-	 *
+	 * 
 	 * @param client The client to drop.
 	 */
 
-	void dropClient(DesignElement client);
+	public void dropClient(DesignElement client);
 
 	/**
 	 * Returns the list of clients for this element.
-	 *
+	 * 
 	 * @return The list of clients.
 	 */
 
-	List<BackRef> getClientList();
+	public List<BackRef> getClientList();
 
 	/**
 	 * Checks if this referencable object is referenced by others.
-	 *
+	 * 
 	 * @return true if it has client, otherwise return false.
-	 *
+	 * 
 	 */
 
-	boolean hasReferences();
+	public boolean hasReferences();
 }

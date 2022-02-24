@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,17 +37,17 @@ import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 /**
  * <h3>Format of VERSION_5</h3>
- *
+ * 
  * <h3>Format of VERSION_6</h3>
- *
+ * 
  * Compared with the VERSION_5, version 6 adds the support for page variables.
  * There are two kinds of page variables: report level and the page level. Those
  * two kinds of page variables are saved into different places, the report level
  * page variables are saved at the end of page hint stream only once while the
  * page level page variables are saved into each page hint.
- *
+ * 
  * <h4>structure of index stream</h4>
- *
+ * 
  * <table border="all" width="80%">
  * <tr>
  * <th>TYPE</th>
@@ -73,9 +73,9 @@ import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
  * <td colspan="2">index to other pages...</td>
  * </tr>
  * </table>
- *
+ * 
  * <h4>structure of page hint stream</h4>
- *
+ * 
  * <table border="all" width="80%">
  * <tr>
  * <th>TYPE</th>
@@ -97,7 +97,7 @@ import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
  * <td colspan="2">report level page variables (saved only once)</td>
  * <tr>
  * </table>
- *
+ * 
  * <h4>structure for the page hint v6</h4>
  * <table border="all" width="80%">
  * <tr>
@@ -111,7 +111,7 @@ import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
  * <td colspan="2">page variables</td>
  * </tr>
  * </table>
- *
+ * 
  * <h4>structure for page variables</h4>
  * <table border="all" width="80%">
  * <tr>
@@ -170,7 +170,6 @@ public class PageHintReaderV3 implements IPageHintReader {
 		}
 	}
 
-	@Override
 	public int getVersion() {
 		return version;
 	}
@@ -184,7 +183,6 @@ public class PageHintReaderV3 implements IPageHintReader {
 		return version;
 	}
 
-	@Override
 	public void close() {
 		try {
 			if (hintsStream != null) {
@@ -204,7 +202,6 @@ public class PageHintReaderV3 implements IPageHintReader {
 		}
 	}
 
-	@Override
 	synchronized public long getTotalPage() throws IOException {
 		indexStream.refresh();
 		indexStream.seek(0);
@@ -215,10 +212,9 @@ public class PageHintReaderV3 implements IPageHintReader {
 	/**
 	 * The page variable is only supported in VERSION_6
 	 */
-	@Override
 	synchronized public Collection<PageVariable> getPageVariables() throws IOException {
 		if (pageVariables == null) {
-			pageVariables = new ArrayList<>();
+			pageVariables = new ArrayList<PageVariable>();
 			if (version == VERSION_6) {
 				indexStream.seek(8);
 				long offset = indexStream.readLong();
@@ -233,14 +229,14 @@ public class PageHintReaderV3 implements IPageHintReader {
 
 	/**
 	 * return the hint offset for the page.
-	 *
+	 * 
 	 * before version 6, the offset is 8 * pageNumber. the 1st long is the total
 	 * page. the page number starts from integer 1.
-	 *
+	 * 
 	 * after (include) version 6, the offset is 8 * (pageNumber + 1). the 1st long
 	 * is the total page, the 2nd long is the offset to page variable. the page
 	 * number is start from integer 1.
-	 *
+	 * 
 	 * @param pageNumber
 	 * @return the offset of the hints in the hint stream.
 	 */
@@ -258,7 +254,6 @@ public class PageHintReaderV3 implements IPageHintReader {
 		}
 	}
 
-	@Override
 	synchronized public IPageHint getPageHint(long pageNumber) throws IOException {
 		long indexOffset = getHintOffset(pageNumber);
 		indexStream.seek(indexOffset);
@@ -334,7 +329,6 @@ public class PageHintReaderV3 implements IPageHintReader {
 		return indexes;
 	}
 
-	@Override
 	public long getPageOffset(long pageNumber, String masterPage) throws IOException {
 		return pageIndexReader.getPageOffset(masterPage);
 	}

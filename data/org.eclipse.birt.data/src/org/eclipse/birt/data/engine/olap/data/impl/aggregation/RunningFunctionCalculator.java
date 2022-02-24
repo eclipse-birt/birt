@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param aggrDef
 	 * @return
 	 * @throws DataException
@@ -80,11 +80,10 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.
 	 * IAggregationCalculator#execute(org.eclipse.birt.data.engine.impl.StopSign)
 	 */
-	@Override
 	public IAggregationResultSet execute(StopSign stopSign) throws IOException, DataException {
 		AggregationResultRowComparator comparator = null;
 		if (aggregation.getLevels() != null) {
@@ -148,7 +147,7 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param result
 	 * @param lastRow
 	 * @throws DataException
@@ -165,7 +164,7 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param result
 	 * @return
 	 * @throws IOException

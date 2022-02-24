@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
 
 /**
  * Implements of FilterCondition.
- *
+ * 
  */
 
 public class FilterConditionImpl extends Structure implements IFilterCondition {
@@ -32,7 +32,7 @@ public class FilterConditionImpl extends Structure implements IFilterCondition {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param condition
 	 */
 
@@ -43,7 +43,7 @@ public class FilterConditionImpl extends Structure implements IFilterCondition {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param condition
 	 */
 
@@ -59,7 +59,7 @@ public class FilterConditionImpl extends Structure implements IFilterCondition {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param conditionHandle
 	 */
 
@@ -78,22 +78,18 @@ public class FilterConditionImpl extends Structure implements IFilterCondition {
 		return f;
 	}
 
-	@Override
 	public String getOperator() {
 		return condition.getOperator();
 	}
 
-	@Override
 	public String getValue1() {
 		return condition.getValue1();
 	}
 
-	@Override
 	public String getValue2() {
 		return condition.getValue2();
 	}
 
-	@Override
 	public void setOperator(String operator) throws SemanticException {
 		if (structureHandle != null) {
 			ActivityStack cmdStack = structureHandle.getModule().getActivityStack();
@@ -113,7 +109,6 @@ public class FilterConditionImpl extends Structure implements IFilterCondition {
 		condition.setOperator(operator);
 	}
 
-	@Override
 	public void setValue1(String value1) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(FilterCondition.VALUE1_MEMBER, value1);
@@ -123,7 +118,6 @@ public class FilterConditionImpl extends Structure implements IFilterCondition {
 		condition.setValue1(value1);
 	}
 
-	@Override
 	public void setValue2(String value2) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(FilterCondition.VALUE2_MEMBER, value2);
@@ -133,17 +127,14 @@ public class FilterConditionImpl extends Structure implements IFilterCondition {
 		condition.setValue2(value2);
 	}
 
-	@Override
 	public IStructure getStructure() {
 		return condition;
 	}
 
-	@Override
 	public String getExpr() {
 		return condition.getExpr();
 	}
 
-	@Override
 	public void setExpr(String expr) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(FilterCondition.EXPR_MEMBER, expr);

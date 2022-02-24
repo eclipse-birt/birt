@@ -11,10 +11,6 @@
 
 package org.eclipse.birt.data.engine.impl.rd;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,13 +37,15 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import testutil.ConfigText;
 
 import com.ibm.icu.util.TimeZone;
 
-import testutil.ConfigText;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Test whehter the query running on report document can be saved into another
@@ -117,7 +115,6 @@ public class ViewingTest2 extends RDTestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
-	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
 				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName"));
@@ -126,7 +123,6 @@ public class ViewingTest2 extends RDTestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#useFolderArchive()
 	 */
-	@Override
 	protected boolean useFolderArchive() {
 		return true;
 	}
@@ -194,7 +190,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#tearDown()
 	 */
 	@After
@@ -214,7 +210,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -246,7 +242,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Without filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -296,7 +292,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -325,7 +321,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Without execute query.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -406,7 +402,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -442,7 +438,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Test add a filter in presentation mode.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -465,7 +461,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Without filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -487,7 +483,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Without filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -510,7 +506,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * same initial position between run and render task
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -519,7 +515,7 @@ public class ViewingTest2 extends RDTestCase {
 		this.GEN_add_group1 = true;
 		this.GEN_USE_RUNNING_AGGR = true;
 
-		int initialPostion1;
+		int initialPostion1 = -1;
 
 		QueryDefinition qd = newGenIVReportQuery();
 		qd.setUsesDetails(true);
@@ -557,7 +553,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Test the feature of Skip to
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -590,7 +586,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Not use detail. With filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -619,7 +615,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Not use detail. With filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -649,7 +645,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Not use detail. With filter Gen: Test TopN filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -677,7 +673,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Not use detail. Sort when update, then sort+group in presentation.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -711,7 +707,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Without execute query.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	public void atestUpdateGroup() throws Exception {
@@ -744,7 +740,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -775,7 +771,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -797,7 +793,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Test the feature of update new column binding
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -831,7 +827,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Test the feature of update new aggregate column binding
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -957,7 +953,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter Gen: filter A Update: filter A, filter B
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -986,7 +982,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter Gen: filter A Update: filter B
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -1015,7 +1011,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter Gen: filter A Update: filter A, filter B Pre: filter A, filter C
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -1046,7 +1042,7 @@ public class ViewingTest2 extends RDTestCase {
 	/**
 	 * With filter Gen: filter A, Update: filter A, filter B, Presentation: filter
 	 * A, filter B, filter C
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -1077,7 +1073,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter Gen: Test filter on Date type column
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -1105,7 +1101,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter Gen: Test TopN filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -1132,7 +1128,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Test filter target usage
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -1191,7 +1187,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Sort when update, then sort+group in presentation.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1257,7 +1253,7 @@ public class ViewingTest2 extends RDTestCase {
 	/**
 	 * The sub query index of updated report document is not the same as that of
 	 * original one.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1292,7 +1288,7 @@ public class ViewingTest2 extends RDTestCase {
 	/**
 	 * Test the presentation result that based on original filter not updated
 	 * filter.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1328,7 +1324,7 @@ public class ViewingTest2 extends RDTestCase {
 	/**
 	 * Test the presentation result that based on original filter not updated
 	 * filter.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1364,7 +1360,7 @@ public class ViewingTest2 extends RDTestCase {
 	/**
 	 * Test the presentation result that based on original filter not updated
 	 * filter.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1400,7 +1396,7 @@ public class ViewingTest2 extends RDTestCase {
 	/**
 	 * Test the presentation result that based on original filter not updated
 	 * filter.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1498,7 +1494,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With invalid column
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -1516,7 +1512,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * Test disable some column binding on diskCache.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1525,16 +1521,15 @@ public class ViewingTest2 extends RDTestCase {
 		System.setProperty("birt.data.engine.test.memcachesize", "2");
 		incomprehensiveColumnBinding();
 
-		if (initialStr == null) {
+		if (initialStr == null)
 			System.getProperties().remove("birt.data.engine.test.memcachesize");
-		} else {
+		else
 			System.setProperty("birt.data.engine.test.memcachesize", initialStr);
-		}
 	}
 
 	/**
 	 * Test disable some column binding on MemoryCache.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -1543,7 +1538,7 @@ public class ViewingTest2 extends RDTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws BirtException
 	 * @throws DataException
 	 * @throws IOException
@@ -1604,13 +1599,11 @@ public class ViewingTest2 extends RDTestCase {
 			IResultIterator ri1 = qr1.getResultIterator();
 			while (ri1.next()) {
 				String abc = "";
-				for (int i = 0; i < rowExprName.length; i++) {
+				for (int i = 0; i < rowExprName.length; i++)
 					abc += ri1.getValue(this.rowExprName[i]) + "  ";
-				}
 
-				for (int i = 0; i < totalExprName.length; i++) {
+				for (int i = 0; i < totalExprName.length; i++)
 					abc += ri1.getValue(this.totalExprName[i]) + "  ";
-				}
 			}
 			ri1.close();
 			myGenDataEngine.shutdown();
@@ -1636,13 +1629,11 @@ public class ViewingTest2 extends RDTestCase {
 			IResultIterator ri2 = qr2.getResultIterator();
 			while (ri2.next()) {
 				String abc = "";
-				for (int i = 0; i < rowExprName.length; i++) {
+				for (int i = 0; i < rowExprName.length; i++)
 					abc += ri2.getValue(this.rowExprName[i]) + "  ";
-				}
 
-				for (int i = 0; i < totalExprName.length; i++) {
+				for (int i = 0; i < totalExprName.length; i++)
 					abc += ri2.getValue(this.totalExprName[i]) + "  ";
-				}
 			}
 
 			ri2.close();
@@ -1656,7 +1647,7 @@ public class ViewingTest2 extends RDTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param qd1
 	 * @param rowBeArray
 	 * @param totalBeArray
@@ -1664,17 +1655,15 @@ public class ViewingTest2 extends RDTestCase {
 	 */
 	private void populateColumnBinding(QueryDefinition qd1, IBaseExpression[] rowBeArray, IBinding[] totalBeArray)
 			throws DataException {
-		for (int i = 0; i < rowBeArray.length; i++) {
+		for (int i = 0; i < rowBeArray.length; i++)
 			qd1.addResultSetExpression(this.rowExprName[i], rowBeArray[i]);
-		}
 
-		for (int i = 0; i < totalBeArray.length; i++) {
+		for (int i = 0; i < totalBeArray.length; i++)
 			qd1.addBinding(totalBeArray[i]);
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws BirtException
 	 */
@@ -1704,13 +1693,11 @@ public class ViewingTest2 extends RDTestCase {
 		IResultIterator ri1 = qr1.getResultIterator();
 		while (ri1.next()) {
 			String abc = "";
-			for (int i = 0; i < rowExprName.length; i++) {
+			for (int i = 0; i < rowExprName.length; i++)
 				abc += ri1.getValue(this.rowExprName[i]) + "  ";
-			}
 
-			for (int i = 0; i < totalExprName.length; i++) {
+			for (int i = 0; i < totalExprName.length; i++)
 				abc += ri1.getValue(this.totalExprName[i]) + "  ";
-			}
 
 			this.testPrintln(abc);
 			IQueryResults qr = preparedQuery.execute(qr1, scope);
@@ -1737,7 +1724,7 @@ public class ViewingTest2 extends RDTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param ids
 	 * @throws BirtException
 	 * @throws DataException
@@ -1776,12 +1763,10 @@ public class ViewingTest2 extends RDTestCase {
 
 		do {
 			String abc = "";
-			for (int i = 0; i < rowExprName.length; i++) {
+			for (int i = 0; i < rowExprName.length; i++)
 				abc += ri.getValue(rowExprName[i]) + "  ";
-			}
-			for (int i = 0; i < totalExprName.length; i++) {
+			for (int i = 0; i < totalExprName.length; i++)
 				abc += ri.getValue(totalExprName[i]) + "  ";
-			}
 
 			this.testPrintln(abc + ri.getRowId());
 			qd2.setQueryResultsID(ids.get(0).toString());
@@ -1790,9 +1775,8 @@ public class ViewingTest2 extends RDTestCase {
 			IResultIterator subRi = myPreDataEngine.prepare(qd2).execute(qr, null).getResultIterator();
 			while (subRi.next()) {
 				abc = "      ";
-				for (int i = 0; i < rowExprName.length; i++) {
+				for (int i = 0; i < rowExprName.length; i++)
 					abc += subRi.getValue(rowExprName[i]) + "  ";
-				}
 				this.testPrintln(abc);
 			}
 
@@ -1809,7 +1793,7 @@ public class ViewingTest2 extends RDTestCase {
 
 	/**
 	 * With filter
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -1850,10 +1834,10 @@ public class ViewingTest2 extends RDTestCase {
 		ri = qr.getResultIterator();
 
 		while (ri.next()) {
-			StringBuilder abc = new StringBuilder();
-			abc.append(ri.getValue("abc")).append("  ");
-			abc.append(ri.getValue("def")).append("  ");
-			this.testPrintln(abc.toString());
+			String abc = "";
+			abc += ri.getValue("abc") + "  ";
+			abc += ri.getValue("def") + "  ";
+			this.testPrintln(abc);
 		}
 
 		ri.close();
@@ -1873,17 +1857,17 @@ public class ViewingTest2 extends RDTestCase {
 		ri = qr.getResultIterator();
 		this.UPDATE_queryResultID = qr.getID();
 		while (ri.next()) {
-			StringBuilder abc = new StringBuilder();
-			abc.append(ri.getValue("abc")).append("  ");
-			abc.append(ri.getValue("def")).append("  ");
-			this.testPrintln(abc.toString());
+			String abc = "";
+			abc += ri.getValue("abc") + "  ";
+			abc += ri.getValue("def") + "  ";
+			this.testPrintln(abc);
 		}
 		ri.close();
 		this.checkOutputFile();
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -1991,7 +1975,7 @@ public class ViewingTest2 extends RDTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -2098,7 +2082,7 @@ public class ViewingTest2 extends RDTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -2205,7 +2189,7 @@ public class ViewingTest2 extends RDTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -2352,7 +2336,7 @@ public class ViewingTest2 extends RDTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws BirtException
 	 */
@@ -2393,13 +2377,11 @@ public class ViewingTest2 extends RDTestCase {
 		IResultIterator ri1 = qr1.getResultIterator();
 		while (ri1.next()) {
 			String abc = "";
-			for (int i = 0; i < rowExprName.length; i++) {
+			for (int i = 0; i < rowExprName.length; i++)
 				abc += ri1.getValue(this.rowExprName[i]) + "  ";
-			}
 
-			for (int i = 0; i < totalExprName.length; i++) {
+			for (int i = 0; i < totalExprName.length; i++)
 				abc += ri1.getValue(this.totalExprName[i]) + "  ";
-			}
 
 			this.testPrintln(abc);
 			IQueryResults qr2 = preparedQuery2.execute(qr1, scope);
@@ -2440,7 +2422,7 @@ public class ViewingTest2 extends RDTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param ids
 	 * @throws BirtException
 	 * @throws DataException
@@ -2490,12 +2472,10 @@ public class ViewingTest2 extends RDTestCase {
 
 		do {
 			String abc = "";
-			for (int i = 0; i < rowExprName.length; i++) {
+			for (int i = 0; i < rowExprName.length; i++)
 				abc += ri.getValue(rowExprName[i]) + "  ";
-			}
-			for (int i = 0; i < totalExprName.length; i++) {
+			for (int i = 0; i < totalExprName.length; i++)
 				abc += ri.getValue(totalExprName[i]) + "  ";
-			}
 
 			this.testPrintln(abc + ri.getRowId());
 
@@ -2506,9 +2486,8 @@ public class ViewingTest2 extends RDTestCase {
 			IResultIterator subRi1 = qr2.getResultIterator();
 			while (subRi1.next()) {
 				abc = "      ";
-				for (int i = 0; i < rowExprName.length; i++) {
+				for (int i = 0; i < rowExprName.length; i++)
 					abc += subRi1.getValue(rowExprName[i]) + "  ";
-				}
 				this.testPrintln(abc);
 
 				qd3.setQueryResultsID(ids.get(0).toString());
@@ -2517,9 +2496,8 @@ public class ViewingTest2 extends RDTestCase {
 				IResultIterator subRi2 = myPreDataEngine.prepare(qd3).execute(qr2, null).getResultIterator();
 				while (subRi2.next()) {
 					abc = "      		";
-					for (int i = 0; i < rowExprName.length; i++) {
+					for (int i = 0; i < rowExprName.length; i++)
 						abc += subRi2.getValue(rowExprName[i]) + "  ";
-					}
 					this.testPrintln(abc);
 				}
 			}
@@ -2555,20 +2533,17 @@ public class ViewingTest2 extends RDTestCase {
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
 			String abc = "";
-			for (int i = 0; i < rowExprName.length; i++) {
+			for (int i = 0; i < rowExprName.length; i++)
 				abc += ri.getValue(this.rowExprName[i]) + "  ";
-			}
 
 			if (!this.notIncludeAggr) {
-				for (int i = 0; i < totalExprName.length; i++) {
+				for (int i = 0; i < totalExprName.length; i++)
 					abc += ri.getValue(this.totalExprName[i]) + "  ";
-				}
 			}
-			if (this.GEN_print) {
+			if (this.GEN_print == true)
 				this.testPrintln(abc);
-			}
 
-			if (this.GEN_add_subquery) {
+			if (this.GEN_add_subquery == true) {
 				IResultIterator subRi = ri.getSecondaryIterator(subQueryName1, scope);
 				while (subRi.next()) {
 					abc = "      ";
@@ -2576,9 +2551,8 @@ public class ViewingTest2 extends RDTestCase {
 						abc += subRi.getValue(subRowExprName1[i]) + "  ";
 					}
 
-					if (this.USE_DATE_IN_SUBQUERY) {
+					if (this.USE_DATE_IN_SUBQUERY)
 						abc += subRi.getValue("sub4");
-					}
 				}
 				subRi.close();
 			}
@@ -2587,24 +2561,20 @@ public class ViewingTest2 extends RDTestCase {
 		if (this.add_subquery_on_query) {
 			IResultIterator subRi = ri.getSecondaryIterator(subQueryName1, scope);
 			String abc = "      ";
-			for (int i = 0; i < subRowExprName1.length; i++) {
+			for (int i = 0; i < subRowExprName1.length; i++)
 				abc += subRi.getValue(subRowExprName1[i]) + "  ";
-			}
-			if (this.GEN_print) {
+			if (this.GEN_print)
 				this.testPrintln(abc);
-			}
 			while (subRi.next()) {
 				abc = "      ";
-				for (int i = 0; i < subRowExprName1.length; i++) {
+				for (int i = 0; i < subRowExprName1.length; i++)
 					abc += subRi.getValue(subRowExprName1[i]) + "  ";
-				}
 				this.testPrintln(abc);
 			}
 		}
 
-		if (this.GEN_print) {
+		if (this.GEN_print == true)
 			this.testPrintln("");
-		}
 
 		ri.close();
 		qr.close();
@@ -2622,19 +2592,16 @@ public class ViewingTest2 extends RDTestCase {
 		// add basic column binding
 		IBaseExpression[] rowBeArray = getRowExpr();
 		IBinding[] totalBeArray = getAggrExpr();
-		for (int i = 0; i < rowBeArray.length; i++) {
+		for (int i = 0; i < rowBeArray.length; i++)
 			qd.addResultSetExpression(this.rowExprName[i], rowBeArray[i]);
-		}
-		if (this.GEN_use_invalid_column) {
+		if (this.GEN_use_invalid_column)
 			qd.addResultSetExpression("abc", new ScriptExpression("dataSetRow.def"));
-		}
 		if (!this.notIncludeAggr) {
-			for (int i = 0; i < totalBeArray.length; i++) {
+			for (int i = 0; i < totalBeArray.length; i++)
 				qd.addBinding(totalBeArray[i]);
-			}
 		}
 		// add filter
-		if (this.GEN_add_filter) {
+		if (this.GEN_add_filter == true) {
 			ConditionalExpression filterExpr = new ConditionalExpression("row.AMOUNT_1", IConditionalExpression.OP_GT,
 					"50");
 			FilterDefinition filterDefn = new FilterDefinition(filterExpr);
@@ -2644,7 +2611,7 @@ public class ViewingTest2 extends RDTestCase {
 		}
 
 		// add TopN filter
-		if (this.GEN_add_topN_filter) {
+		if (this.GEN_add_topN_filter == true) {
 			ConditionalExpression filterExpr = new ConditionalExpression("row.AMOUNT_1",
 					IConditionalExpression.OP_TOP_N, "5");
 			FilterDefinition filterDefn = new FilterDefinition(filterExpr);
@@ -2671,20 +2638,20 @@ public class ViewingTest2 extends RDTestCase {
 		}
 
 		// add group
-		if (this.GEN_add_group) {
+		if (this.GEN_add_group == true) {
 			// add grouping on column1
 			GroupDefinition gd = new GroupDefinition();
 			gd.setKeyColumn("COUNTRY_1");
 			qd.addGroup(gd);
 
-			if (this.GEN_add_subquery) {
+			if (this.GEN_add_subquery == true) {
 				SubqueryDefinition subqueryDefn = getSubQueryDefn(qd);
 
 				gd.addSubquery(subqueryDefn);
 			}
 		}
 
-		if (this.GEN_add_group1) {
+		if (this.GEN_add_group1 == true) {
 			// add grouping on column1
 			GroupDefinition gd = new GroupDefinition();
 			gd.setKeyColumn("CITY_1");
@@ -2712,12 +2679,10 @@ public class ViewingTest2 extends RDTestCase {
 		exprs[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		exprs[1] = new ScriptExpression("dataSetRow.CITY");
 		exprs[2] = new ScriptExpression("dataSetRow.AMOUNT");
-		for (int i = 0; i < subRowExprName1.length; i++) {
+		for (int i = 0; i < subRowExprName1.length; i++)
 			subqueryDefn.addResultSetExpression(subRowExprName1[i], exprs[i]);
-		}
-		if (this.USE_DATE_IN_SUBQUERY) {
+		if (this.USE_DATE_IN_SUBQUERY)
 			subqueryDefn.addResultSetExpression("sub4", new ScriptExpression("dataSetRow.SALE_DATE"));
-		}
 		subqueryDefn.setApplyOnGroupFlag(true);
 		return subqueryDefn;
 	}
@@ -2728,11 +2693,10 @@ public class ViewingTest2 extends RDTestCase {
 	private void updatePreBasicIV() throws BirtException {
 		// here queryResultID needs to set as the data set
 		int groupNeeded = -1;
-		if (UPDATE_add_diff_group) {
+		if (UPDATE_add_diff_group)
 			groupNeeded = 1;
-		} else if (this.UPDATE_add_same_group) {
+		else if (this.UPDATE_add_same_group)
 			groupNeeded = 0;
-		}
 
 		QueryDefinition qd = newPreIVReportQuery(this.UPDATE_add_filter, this.UPDATE_add_sort, groupNeeded, UPDATE);
 		if (!this.usesDetails) {
@@ -2778,31 +2742,26 @@ public class ViewingTest2 extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		if (useSkipTo) {
-			if (this.PRE_use_skipto_num == -1) {
+			if (this.PRE_use_skipto_num == -1)
 				ri.moveTo(0);
-			} else {
+			else
 				ri.moveTo(this.PRE_use_skipto_num);
-			}
 		} else {
 			ri.next();
 		}
 
 		do {
 			String abc = "";
-			for (int i = 0; i < rowExprName.length; i++) {
+			for (int i = 0; i < rowExprName.length; i++)
 				abc += ri.getValue(rowExprName[i]) + "  ";
-			}
 			if (!this.notIncludeAggr) {
-				for (int i = 0; i < totalExprName.length; i++) {
+				for (int i = 0; i < totalExprName.length; i++)
 					abc += ri.getValue(totalExprName[i]) + "  ";
-				}
 			}
-			if (this.updateNewBindingName != null && this.updateNewBindingExpr != null) {
+			if (this.updateNewBindingName != null && this.updateNewBindingExpr != null)
 				abc += ri.getValue(this.updateNewBindingName) + " ";
-			}
-			if (printGroupInfo) {
+			if (printGroupInfo)
 				abc += ri.getStartingGroupLevel() + " ";
-			}
 			this.testPrintln(abc + ri.getRowId()
 					+ (this.GEN_add_group1 ? (" " + ri.getStartingGroupLevel() + ":" + ri.getEndingGroupLevel()) : ""));
 
@@ -2810,13 +2769,11 @@ public class ViewingTest2 extends RDTestCase {
 				IResultIterator subRi = ri.getSecondaryIterator(subQueryName1, scope);
 				while (subRi.next()) {
 					abc = "      ";
-					for (int i = 0; i < subRowExprName1.length; i++) {
+					for (int i = 0; i < subRowExprName1.length; i++)
 						abc += subRi.getValue(subRowExprName1[i]) + "  ";
-					}
 
-					if (this.USE_DATE_IN_SUBQUERY) {
+					if (this.USE_DATE_IN_SUBQUERY)
 						abc += subRi.getValue("sub4");
-					}
 
 					this.testPrintln(abc);
 				}
@@ -2826,9 +2783,8 @@ public class ViewingTest2 extends RDTestCase {
 				IResultIterator subRi = ri.getSecondaryIterator(subQueryName2, scope);
 				while (subRi.next()) {
 					abc = "      ";
-					for (int i = 0; i < subRowExprName2.length; i++) {
+					for (int i = 0; i < subRowExprName2.length; i++)
 						abc += subRi.getValue(subRowExprName2[i]) + "  ";
-					}
 					this.testPrintln(abc);
 				}
 			}
@@ -2836,26 +2792,23 @@ public class ViewingTest2 extends RDTestCase {
 			if (this.add_subquery_on_query) {
 				IResultIterator subRi = ri.getSecondaryIterator(subQueryName1, scope);
 				abc = "      ";
-				for (int i = 0; i < subRowExprName1.length; i++) {
+				for (int i = 0; i < subRowExprName1.length; i++)
 					abc += subRi.getValue(subRowExprName1[i]) + "  ";
-				}
 				this.testPrintln(abc);
 				while (subRi.next()) {
 					abc = "      ";
-					for (int i = 0; i < subRowExprName1.length; i++) {
+					for (int i = 0; i < subRowExprName1.length; i++)
 						abc += subRi.getValue(subRowExprName1[i]) + "  ";
-					}
 					this.testPrintln(abc);
 				}
 			}
 		} while (ri.next());
 
 		// Test implementation of API IResultIterator.isEmpty().
-		if (this.TEST_ISEMPTY) {
+		if (this.TEST_ISEMPTY)
 			assertTrue(ri.isEmpty());
-		} else {
+		else
 			assertFalse(ri.isEmpty());
-		}
 
 		this.testPrintln("");
 
@@ -2876,13 +2829,11 @@ public class ViewingTest2 extends RDTestCase {
 		// add basic column binding
 		IBaseExpression[] rowBeArray = getRowExpr();
 		IBinding[] totalBeArray = getAggrExpr();
-		for (int i = 0; i < rowBeArray.length; i++) {
+		for (int i = 0; i < rowBeArray.length; i++)
 			qd.addResultSetExpression(this.rowExprName[i], rowBeArray[i]);
-		}
 
-		for (int i = 0; i < totalBeArray.length; i++) {
+		for (int i = 0; i < totalBeArray.length; i++)
 			qd.addBinding(totalBeArray[i]);
-		}
 
 		if (this.updateNewBindingName != null && this.updateNewBindingName.trim().length() > 0) {
 			qd.addResultSetExpression(this.updateNewBindingName, this.updateNewBindingExpr);
@@ -2891,11 +2842,10 @@ public class ViewingTest2 extends RDTestCase {
 		if (mode == UPDATE) {
 			qd.getFilters().addAll(this.GEN_filterDefn);
 		} else if (mode == PRESENTATION) {
-			if (!PRE_basedon_genfilter) {
+			if (PRE_basedon_genfilter == false)
 				qd.getFilters().addAll(UPDATE_filterDefn);
-			} else {
+			else
 				qd.getFilters().addAll(GEN_filterDefn);
-			}
 		}
 
 		if (filterNeeded == 0) {
@@ -3003,9 +2953,8 @@ public class ViewingTest2 extends RDTestCase {
 				ScriptExpression[] exprs = new ScriptExpression[2];
 				exprs[0] = new ScriptExpression("dataSetRow.COUNTRY");
 				exprs[1] = new ScriptExpression("dataSetRow.CITY");
-				for (int i = 0; i < subRowExprName2.length; i++) {
+				for (int i = 0; i < subRowExprName2.length; i++)
 					subqueryDefn.addResultSetExpression(subRowExprName2[i], exprs[i]);
-				}
 				subqueryDefn.setApplyOnGroupFlag(true);
 
 				gd.addSubquery(subqueryDefn);
@@ -3059,9 +3008,8 @@ public class ViewingTest2 extends RDTestCase {
 	 * @throws DataException
 	 */
 	private IBinding[] getAggrExpr() throws DataException {
-		if (this.notIncludeAggr) {
+		if (this.notIncludeAggr)
 			return new IBinding[0];
-		}
 
 		totalExprName = new String[2];
 		this.totalExprName[0] = "TOTAL_COUNT_1";
@@ -3070,21 +3018,19 @@ public class ViewingTest2 extends RDTestCase {
 		int num2 = 2;
 		IBinding[] totalBeArray = new IBinding[num2];
 		totalBeArray[0] = new Binding(this.totalExprName[0], new ScriptExpression(null));
-		if (this.GEN_USE_RUNNING_AGGR) {
+		if (this.GEN_USE_RUNNING_AGGR)
 			totalBeArray[0].setAggrFunction("runningcount");
-		} else {
+		else
 			totalBeArray[0].setAggrFunction("count");
-		}
 		if (this.USE_ROW_IN_AGGREGATION) {
 			totalBeArray[1] = new Binding(this.totalExprName[1], new ScriptExpression("row.AMOUNT_1"));
 		} else {
 			totalBeArray[1] = new Binding(this.totalExprName[1], new ScriptExpression("dataSetRow.AMOUNT"));
 		}
-		if (this.GEN_USE_RUNNING_AGGR) {
+		if (this.GEN_USE_RUNNING_AGGR)
 			totalBeArray[1].setAggrFunction("runningsum");
-		} else {
+		else
 			totalBeArray[1].setAggrFunction("sum");
-		}
 
 		return totalBeArray;
 

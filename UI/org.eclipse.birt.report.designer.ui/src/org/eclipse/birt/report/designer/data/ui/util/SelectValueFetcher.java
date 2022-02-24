@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 
 /**
  * Utility class to fetch all available value for filter use.
- *
+ * 
  */
 public class SelectValueFetcher {
 	/**
@@ -39,7 +39,6 @@ public class SelectValueFetcher {
 	/**
 	 * @deprecated
 	 */
-	@Deprecated
 	public static List getSelectValueList(String expression, DataSetHandle dataSetHandle, boolean useDataSetFilter)
 			throws BirtException {
 		Expression jsExpression = new Expression(expression, ExpressionType.JAVASCRIPT);
@@ -55,7 +54,6 @@ public class SelectValueFetcher {
 	 * @return
 	 * @throws BirtException
 	 */
-	@Deprecated
 	public static List getSelectValueFromBinding(String expression, DataSetHandle dataSetHandle, Iterator binding,
 			boolean useDataSetFilter) throws BirtException {
 		Expression jsExpression = new Expression(expression, ExpressionType.JAVASCRIPT);
@@ -64,7 +62,7 @@ public class SelectValueFetcher {
 
 	/**
 	 * Used in the filter select value dialog in dataset editor
-	 *
+	 * 
 	 * @param expression
 	 * @param dataSetHandle
 	 * @param binding
@@ -89,7 +87,7 @@ public class SelectValueFetcher {
 
 	/**
 	 * Used in filter select value dialog in layout without group definition.
-	 *
+	 * 
 	 * @param expression
 	 * @param dataSetHandle
 	 * @param binding
@@ -104,7 +102,7 @@ public class SelectValueFetcher {
 
 	/**
 	 * Used in filter select value dialog in layout with group definition.
-	 *
+	 * 
 	 * @param expression
 	 * @param dataSetHandle
 	 * @param binding          The iterator of ComputedColumnHandle
@@ -127,7 +125,7 @@ public class SelectValueFetcher {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param selectValueExpression
 	 * @param dataSetHandle
 	 * @return
@@ -138,7 +136,7 @@ public class SelectValueFetcher {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param selectValueExpression
 	 * @param dataSetHandle
 	 * @return

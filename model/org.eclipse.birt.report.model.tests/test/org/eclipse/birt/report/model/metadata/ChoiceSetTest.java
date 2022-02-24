@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test case for ChoiceSetType.
- *
+ * 
  */
 public class ChoiceSetTest extends BaseTestCase {
 
@@ -31,7 +31,6 @@ public class ChoiceSetTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		choiceSet = new ChoiceSet("ChoiceSetName"); //$NON-NLS-1$
@@ -42,7 +41,7 @@ public class ChoiceSetTest extends BaseTestCase {
 
 	/**
 	 * test getters and setters.
-	 *
+	 * 
 	 */
 	public void testGetterAndSetter() {
 		choiceSet.setChoices(choice);
@@ -88,7 +87,6 @@ public class ChoiceSetTest extends BaseTestCase {
 
 		IChoice[] sortedChoices = choiceSet.getChoices(new Comparator() {
 
-			@Override
 			public int compare(Object o1, Object o2) {
 				IChoice choice1 = (IChoice) o1;
 				IChoice choice2 = (IChoice) o2;
@@ -104,7 +102,7 @@ public class ChoiceSetTest extends BaseTestCase {
 
 	/**
 	 * Tests clone choice set.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testClone() throws Exception {

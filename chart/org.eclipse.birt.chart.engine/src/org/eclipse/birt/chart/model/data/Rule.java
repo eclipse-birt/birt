@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -22,9 +22,9 @@ import org.eclipse.birt.chart.model.attribute.RuleType;
  * '<em><b>Rule</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
+ * 
  * This type represents a rule to process a query expression.
- *
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
@@ -40,7 +40,6 @@ import org.eclipse.birt.chart.model.attribute.RuleType;
  * @model extendedMetaData="name='Rule' kind='elementOnly'"
  * @deprecated only reserved for compatibility
  */
-@Deprecated
 public interface Rule extends IChartObject {
 
 	/**
@@ -48,7 +47,7 @@ public interface Rule extends IChartObject {
 	 * is <code>"Filter"</code>. The literals are from the enumeration
 	 * {@link org.eclipse.birt.chart.model.attribute.RuleType}. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.RuleType
 	 * @see #isSetType()
@@ -63,7 +62,7 @@ public interface Rule extends IChartObject {
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Rule#getType
 	 * <em>Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.RuleType
 	 * @see #isSetType()
@@ -77,7 +76,7 @@ public interface Rule extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.data.Rule#getType <em>Type</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(RuleType)
@@ -89,7 +88,7 @@ public interface Rule extends IChartObject {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.data.Rule#getType <em>Type</em>}'
 	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Type</em>' attribute is set.
 	 * @see #unsetType()
 	 * @see #getType()
@@ -101,7 +100,7 @@ public interface Rule extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(String)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getRule_Value()
@@ -114,7 +113,7 @@ public interface Rule extends IChartObject {
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Rule#getValue
 	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
 	 * @generated
@@ -124,7 +123,6 @@ public interface Rule extends IChartObject {
 	/**
 	 * @generated
 	 */
-	@Override
 	Rule copyInstance();
 
 } // Rule

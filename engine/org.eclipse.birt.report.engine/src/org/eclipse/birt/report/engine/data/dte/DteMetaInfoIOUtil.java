@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class DteMetaInfoIOUtil {
 
 	/**
 	 * save the metadata into the streams.
-	 *
+	 * 
 	 * @param key
 	 */
 	static public void storeMetaInfo(DataOutputStream dos, String pRsetId, String rawId, String queryId, String rsetId,
@@ -61,15 +61,19 @@ public class DteMetaInfoIOUtil {
 
 		if (archive.exists(ReportDocumentConstants.DATA_META_STREAM)) {
 			InputStream in = archive.getStream(ReportDocumentConstants.DATA_META_STREAM);
-			try (in) {
+			try {
 				loadDteMetaInfo(result, new DataInputStream(in));
+			} finally {
+				in.close();
 			}
 		}
 
 		if (archive.exists(ReportDocumentConstants.DATA_SNAP_META_STREAM)) {
 			InputStream in = archive.getStream(ReportDocumentConstants.DATA_SNAP_META_STREAM);
-			try (in) {
+			try {
 				loadDteMetaInfo(result, new DataInputStream(in));
+			} finally {
+				in.close();
 			}
 		}
 
@@ -81,13 +85,17 @@ public class DteMetaInfoIOUtil {
 
 		if (archive.exists(ReportDocumentConstants.DATA_SNAP_META_STREAM)) {
 			InputStream in = archive.getStream(ReportDocumentConstants.DATA_SNAP_META_STREAM);
-			try (in) {
+			try {
 				loadDteMetaInfo(result, new DataInputStream(in));
+			} finally {
+				in.close();
 			}
 		} else if (archive.exists(ReportDocumentConstants.DATA_META_STREAM)) {
 			InputStream in = archive.getStream(ReportDocumentConstants.DATA_META_STREAM);
-			try (in) {
+			try {
 				loadDteMetaInfo(result, new DataInputStream(in));
+			} finally {
+				in.close();
 			}
 		}
 		return result;

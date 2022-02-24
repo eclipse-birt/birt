@@ -24,7 +24,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 public interface INewExtensionFileWorkbenchAction extends IWorkbenchAction {
 	/**
 	 * Initialize the window
-	 *
+	 * 
 	 * @param window
 	 */
 	void init(IWorkbenchWindow window);

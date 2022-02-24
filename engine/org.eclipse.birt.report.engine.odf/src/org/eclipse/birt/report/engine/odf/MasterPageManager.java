@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * Manager for master pages.
- *
+ * 
  * For each page in the output, an instance of the master page must be created.
  * This class keeps track of the number of instances for each master page and
  * generates their names accordingly.
@@ -43,7 +43,7 @@ public class MasterPageManager {
 	private String currentMasterPage;
 
 	public MasterPageManager() {
-		masterPages = new HashMap<>();
+		masterPages = new HashMap<String, Integer>();
 		currentInstanceCount = 0;
 		masterPageCount = 0;
 		currentMasterPage = null;

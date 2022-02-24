@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -69,33 +69,30 @@ public class FileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * queryReportModuleHandle()
 	 */
-	@Override
 	public ModuleHandle queryReportModuleHandle() {
 		return model;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * getReportModuleHandle(java.lang.Object)
 	 */
-	@Override
 	public ModuleHandle getReportModuleHandle(Object element) {
 		return getReportModuleHandle(element, false);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * getReportModuleHandle(java.lang.Object, boolean)
 	 */
-	@Override
 	public ModuleHandle getReportModuleHandle(Object element, boolean reset) {
 
 		if ((model == null || reset) && element instanceof IPathEditorInput) {
@@ -124,7 +121,9 @@ public class FileReportProvider implements IReportProvider {
 					model = SessionHandleAdapter.getInstance().init(fileName, stream, properties);
 					// model.setResourceFolder( ReportPlugin.getDefault( ).getResourceFolder(
 					// UIUtil.getCurrentProject( ), model) );
-				} catch (DesignFileException | FileNotFoundException e) {
+				} catch (DesignFileException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
+				} catch (FileNotFoundException e) {
 					logger.log(Level.SEVERE, e.getMessage(), e);
 				} finally {
 					try {
@@ -146,26 +145,24 @@ public class FileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport(org.
 	 * eclipse.birt.report.model.api.ModuleHandle, java.lang.Object,
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
 	public void saveReport(ModuleHandle moduleHandle, Object element, IProgressMonitor monitor) {
 		saveReport(moduleHandle, element, null, monitor);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport(org.
 	 * eclipse.birt.report.model.api.ModuleHandle, java.lang.Object,
 	 * org.eclipse.core.runtime.IPath, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
 	public void saveReport(ModuleHandle moduleHandle, Object element, IPath origReportPath, IProgressMonitor monitor) {
 		if (element instanceof IPathEditorInput) {
 			IPathEditorInput input = (IPathEditorInput) element;
@@ -186,13 +183,11 @@ public class FileReportProvider implements IReportProvider {
 
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 
-			@Override
 			public synchronized final void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				try {
 					IWorkspaceRunnable workspaceRunnable = new IWorkspaceRunnable() {
 
-						@Override
 						public void run(IProgressMonitor pm) throws CoreException {
 							try {
 								execute(pm);
@@ -217,9 +212,11 @@ public class FileReportProvider implements IReportProvider {
 				if (file.exists() || file.createNewFile()) {
 					OutputStream out = new BufferedOutputStream(new FileOutputStream(file), 8192 * 2);
 
-					try (out) {
+					try {
 						moduleHandle.serialize(out);
 						out.flush();
+					} finally {
+						out.close();
 					}
 
 					if (oldReportPath != null) {
@@ -240,7 +237,7 @@ public class FileReportProvider implements IReportProvider {
 
 	/**
 	 * Copys old report config file to new report config file.
-	 *
+	 * 
 	 * @param newReportPath the new report path.
 	 * @param oldReportPath the old report path.
 	 * @throws IOException if an error occurs.
@@ -259,10 +256,13 @@ public class FileReportProvider implements IReportProvider {
 
 			if (oldConfigFile.exists()) {
 				copyFile(oldConfigFile, newConfigFile);
-			} else if (newConfigFile.exists()) {
-				if (!newConfigFile.delete()) {
-					throw new IOException(Messages.getFormattedString("FileReportProvider.CopyConfigFile.DeleteFailure", //$NON-NLS-1$
-							new Object[] { newConfigFile.getAbsolutePath() }));
+			} else {
+				if (newConfigFile.exists()) {
+					if (!newConfigFile.delete()) {
+						throw new IOException(
+								Messages.getFormattedString("FileReportProvider.CopyConfigFile.DeleteFailure", //$NON-NLS-1$
+										new Object[] { newConfigFile.getAbsolutePath() }));
+					}
 				}
 			}
 		}
@@ -270,7 +270,7 @@ public class FileReportProvider implements IReportProvider {
 
 	/**
 	 * Copys a file to another file.
-	 *
+	 * 
 	 * @param srcFile  the source file
 	 * @param destFile the target file
 	 * @throws IOException if an error occurs.
@@ -335,19 +335,20 @@ public class FileReportProvider implements IReportProvider {
 			throw (RuntimeException) exception;
 		} else if (exception instanceof IOException) {
 			throw (IOException) exception;
-		} else if (exception != null) {
-			logger.log(Level.SEVERE, exception.getMessage(), exception);
+		} else {
+			if (exception != null) {
+				logger.log(Level.SEVERE, exception.getMessage(), exception);
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportProvider#getSaveAsPath(
 	 * java.lang.Object)
 	 */
-	@Override
 	public IPath getSaveAsPath(Object element) {
 		if (element instanceof IPathEditorInput) {
 			IEditorInput input = (IEditorInput) element;
@@ -363,11 +364,10 @@ public class FileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * createNewEditorInput(org.eclipse.core.runtime.IPath)
 	 */
-	@Override
 	public IEditorInput createNewEditorInput(IPath path) {
 		File file = new File(path.toOSString());
 		try {
@@ -381,12 +381,11 @@ public class FileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportProvider#getInputPath(org.
 	 * eclipse.ui.IEditorInput)
 	 */
-	@Override
 	public IPath getInputPath(IEditorInput input) {
 		if (input instanceof IPathEditorInput) {
 			return ((IPathEditorInput) input).getPath();
@@ -396,22 +395,20 @@ public class FileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * getReportDocumentProvider(java.lang.Object)
 	 */
-	@Override
 	public IDocumentProvider getReportDocumentProvider(Object element) {
 		return new FileReportDocumentProvider();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#connect(org.
 	 * eclipse.birt.report.model.api.ModuleHandle)
 	 */
-	@Override
 	public void connect(ModuleHandle handle) {
 		model = handle;
 	}

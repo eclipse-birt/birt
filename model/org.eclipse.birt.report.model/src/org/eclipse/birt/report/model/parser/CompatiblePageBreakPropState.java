@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,10 +29,10 @@ public class CompatiblePageBreakPropState extends CompatiblePropertyState {
 	/**
 	 * Constructs a <code>CompatiblePageBreakPropState</code> to parse an pagebreak
 	 * property.
-	 *
+	 * 
 	 * @param theHandler the parser handle
 	 * @param element    the element that holds the obsolete property
-	 *
+	 * 
 	 */
 
 	public CompatiblePageBreakPropState(ModuleParserHandler theHandler, DesignElement element) {
@@ -41,11 +41,10 @@ public class CompatiblePageBreakPropState extends CompatiblePropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 		if (value.equalsIgnoreCase("left") //$NON-NLS-1$

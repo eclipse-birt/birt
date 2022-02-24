@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -41,7 +41,6 @@ public class PDFTableGroupLM extends PDFGroupLM implements IBlockStackingLayoutM
 		tableLM.startGroup((IGroupContent) content);
 	}
 
-	@Override
 	protected boolean traverseChildren() throws BirtException {
 
 		boolean childBreak = super.traverseChildren();
@@ -53,14 +52,12 @@ public class PDFTableGroupLM extends PDFGroupLM implements IBlockStackingLayoutM
 		return childBreak;
 	}
 
-	@Override
 	protected void createRoot() {
 		if (root == null) {
 			root = (ContainerArea) AreaFactory.createBlockContainer(content);
 		}
 	}
 
-	@Override
 	protected void initialize() throws BirtException {
 		if (root == null && keepWithCache.isEmpty() && !isFirst) {
 			repeatCount = 0;
@@ -79,7 +76,10 @@ public class PDFTableGroupLM extends PDFGroupLM implements IBlockStackingLayoutM
 			return;
 		}
 		ITableBandContent header = (ITableBandContent) groupContent.getHeader();
-		if (!isRepeatHeader() || header == null || header.getChildren().isEmpty()) {
+		if (!isRepeatHeader() || header == null) {
+			return;
+		}
+		if (header.getChildren().isEmpty()) {
 			return;
 		}
 		if (child != null) {
@@ -118,19 +118,17 @@ public class PDFTableGroupLM extends PDFGroupLM implements IBlockStackingLayoutM
 	}
 
 	protected int getGroupLevel() {
-		if (content instanceof IGroupContent) {
+		if (content != null && content instanceof IGroupContent) {
 			return ((IGroupContent) content).getGroupLevel();
 		}
 		return 0;
 	}
 
-	@Override
 	protected void repeatHeader() throws BirtException {
 		repeat();
 		skipCachedRow();
 	}
 
-	@Override
 	protected IReportItemExecutor createExecutor() {
 		return executor;
 	}

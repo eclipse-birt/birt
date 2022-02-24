@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,64 +34,64 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testGetLinkExpr()}</td>
  * <td>LinkType is hyperLink</td>
  * <td>Return is Expression value for HyperLink</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>LinkType is Drillthrough</td>
  * <td>Return is Expression value for BookmarkLink in Drillthrough</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>LinkType is BookmarkLink</td>
  * <td>Return is Expression value for BookmarkLink.</td>
  * </tr>
- *
- *
+ * 
+ * 
  * <tr>
  * <td>{@link #testGetDrillthroughParameters()}</td>
  * <td>LinkType is not Drillthrough</td>
  * <td>Return is null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>LinkType is Drillthrough, containing 2 Parameters</td>
  * <td>Return a list containing 2 items.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetDrillthroughSearchKeys()}</td>
  * <td>LinkType is not Drillthrough</td>
  * <td>Return is null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>LinkType is Drillthrough, containing 2 searchKeys</td>
  * <td>Return is a list containing 2 items</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetDrillthroughReportName()}</td>
  * <td>LinkType is not Drillthrough.</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>LinkType is Drillthrough, reportName="iserver/report1"</td>
  * <td>Return is "iserver/report1"</td>
  * </tr>
- *
+ * 
  * </table>
- *
+ * 
  */
 
 public class ActionParseTest extends BaseTestCase {
@@ -100,10 +100,9 @@ public class ActionParseTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("action_test.xml"); //$NON-NLS-1$
@@ -120,7 +119,7 @@ public class ActionParseTest extends BaseTestCase {
 	 * <p>
 	 * Case3: linkType = "BookmarkLink" Return should be Expression value for
 	 * BookmarkLink.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testGetLinkExpr() throws Exception {
@@ -149,7 +148,7 @@ public class ActionParseTest extends BaseTestCase {
 
 	/**
 	 * Tests toolTip in the action structure.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testToolTip() throws Exception {
@@ -164,7 +163,7 @@ public class ActionParseTest extends BaseTestCase {
 	 * <p>
 	 * Case2: linkType = "Drillthrough" drillThroughLinkType = "BookmarkLink" Return
 	 * should be list containing 2 items.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -205,7 +204,7 @@ public class ActionParseTest extends BaseTestCase {
 	 * <p>
 	 * Case2: linkType = "Drillthrough" drillThroughLinkType = "Search" Return
 	 * should be a list containing 2 items
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testGetDrillthroughSearchKeys() throws Exception {
@@ -231,7 +230,7 @@ public class ActionParseTest extends BaseTestCase {
 	 * Test getDrillthroughReportName().
 	 * <p>
 	 * Case: linkType = "Drillthrough"
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -244,9 +243,9 @@ public class ActionParseTest extends BaseTestCase {
 
 	/**
 	 * This test writes the design file and compare it with golden file.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testWriter() throws Exception {
@@ -261,7 +260,7 @@ public class ActionParseTest extends BaseTestCase {
 	 * Tests the action property changes. Now action in label, image, data, level
 	 * and measure is changed to structure list rather than single structure.
 	 * Bugzilla 265391.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testListAction() throws Exception {
@@ -284,7 +283,7 @@ public class ActionParseTest extends BaseTestCase {
 	/**
 	 * Tests the ClassCastException for method dealAction in BoundColumnsMgr. TED
 	 * 27597.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testDealAction() throws Exception {

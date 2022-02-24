@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -81,7 +81,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the '{@link #getExplosion() <em>Explosion</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getExplosion()
 	 * @generated
 	 * @ordered
@@ -91,7 +91,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #getExplosion() <em>Explosion</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getExplosion()
 	 * @generated
 	 * @ordered
@@ -101,7 +101,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * This is true if the Explosion attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -110,7 +110,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the '{@link #getExplosionExpression() <em>Explosion
 	 * Expression</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getExplosionExpression()
 	 * @generated
 	 * @ordered
@@ -120,7 +120,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #getExplosionExpression() <em>Explosion
 	 * Expression</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getExplosionExpression()
 	 * @generated
 	 * @ordered
@@ -130,7 +130,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #getTitle() <em>Title</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getTitle()
 	 * @generated
 	 * @ordered
@@ -140,7 +140,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the ' {@link #getTitlePosition() <em>Title
 	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getTitlePosition()
 	 * @generated
 	 * @ordered
@@ -150,7 +150,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the ' {@link #getTitlePosition() <em>Title
 	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getTitlePosition()
 	 * @generated
 	 * @ordered
@@ -160,7 +160,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * This is true if the Title Position attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -170,7 +170,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	 * The cached value of the '{@link #getLeaderLineAttributes() <em>Leader Line
 	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getLeaderLineAttributes()
 	 * @generated
 	 * @ordered
@@ -180,7 +180,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the '{@link #getLeaderLineStyle() <em>Leader Line
 	 * Style</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLeaderLineStyle()
 	 * @generated
 	 * @ordered
@@ -190,7 +190,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #getLeaderLineStyle() <em>Leader Line
 	 * Style</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLeaderLineStyle()
 	 * @generated
 	 * @ordered
@@ -200,7 +200,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * This is true if the Leader Line Style attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -209,7 +209,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the '{@link #getLeaderLineLength() <em>Leader Line
 	 * Length</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLeaderLineLength()
 	 * @generated
 	 * @ordered
@@ -219,7 +219,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #getLeaderLineLength() <em>Leader Line
 	 * Length</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getLeaderLineLength()
 	 * @generated
 	 * @ordered
@@ -229,7 +229,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * This is true if the Leader Line Length attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -238,7 +238,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #getSliceOutline() <em>Slice Outline</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getSliceOutline()
 	 * @generated
 	 * @ordered
@@ -248,7 +248,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the '{@link #getRatio() <em>Ratio</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRatio()
 	 * @generated
 	 * @ordered
@@ -258,7 +258,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #getRatio() <em>Ratio</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRatio()
 	 * @generated
 	 * @ordered
@@ -268,7 +268,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * This is true if the Ratio attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -277,7 +277,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the '{@link #getRotation() <em>Rotation</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -287,7 +287,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -297,7 +297,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * This is true if the Rotation attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -306,7 +306,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the '{@link #isClockwise() <em>Clockwise</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isClockwise()
 	 * @generated
 	 * @ordered
@@ -316,7 +316,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #isClockwise() <em>Clockwise</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isClockwise()
 	 * @generated
 	 * @ordered
@@ -326,7 +326,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * This is true if the Clockwise attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -335,7 +335,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the '{@link #getInnerRadius() <em>Inner Radius</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getInnerRadius()
 	 * @generated
 	 * @ordered
@@ -345,7 +345,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #getInnerRadius() <em>Inner Radius</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getInnerRadius()
 	 * @generated
 	 * @ordered
@@ -355,7 +355,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * This is true if the Inner Radius attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -364,7 +364,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The default value of the '{@link #isInnerRadiusPercent() <em>Inner Radius
 	 * Percent</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isInnerRadiusPercent()
 	 * @generated
 	 * @ordered
@@ -374,7 +374,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * The cached value of the '{@link #isInnerRadiusPercent() <em>Inner Radius
 	 * Percent</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isInnerRadiusPercent()
 	 * @generated
 	 * @ordered
@@ -384,7 +384,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * This is true if the Inner Radius Percent attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -392,7 +392,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected PieSeriesImpl() {
@@ -401,7 +401,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -411,96 +411,86 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getExplosion() {
 		return explosion;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setExplosion(int newExplosion) {
 		int oldExplosion = explosion;
 		explosion = newExplosion;
 		boolean oldExplosionESet = explosionESet;
 		explosionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__EXPLOSION, oldExplosion,
 					explosion, !oldExplosionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetExplosion() {
 		int oldExplosion = explosion;
 		boolean oldExplosionESet = explosionESet;
 		explosion = EXPLOSION_EDEFAULT;
 		explosionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__EXPLOSION, oldExplosion,
 					EXPLOSION_EDEFAULT, oldExplosionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetExplosion() {
 		return explosionESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getExplosionExpression() {
 		return explosionExpression;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setExplosionExpression(String newExplosionExpression) {
 		String oldExplosionExpression = explosionExpression;
 		explosionExpression = newExplosionExpression;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION,
 					oldExplosionExpression, explosionExpression));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Label getTitle() {
 		return title;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetTitle(Label newTitle, NotificationChain msgs) {
@@ -509,108 +499,95 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.PIE_SERIES__TITLE, oldTitle, newTitle);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setTitle(Label newTitle) {
 		if (newTitle != title) {
 			NotificationChain msgs = null;
-			if (title != null) {
+			if (title != null)
 				msgs = ((InternalEObject) title).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__TITLE, null, msgs);
-			}
-			if (newTitle != null) {
+			if (newTitle != null)
 				msgs = ((InternalEObject) newTitle).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__TITLE, null, msgs);
-			}
 			msgs = basicSetTitle(newTitle, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__TITLE, newTitle, newTitle));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Position getTitlePosition() {
 		return titlePosition;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setTitlePosition(Position newTitlePosition) {
 		Position oldTitlePosition = titlePosition;
 		titlePosition = newTitlePosition == null ? TITLE_POSITION_EDEFAULT : newTitlePosition;
 		boolean oldTitlePositionESet = titlePositionESet;
 		titlePositionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__TITLE_POSITION,
 					oldTitlePosition, titlePosition, !oldTitlePositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetTitlePosition() {
 		Position oldTitlePosition = titlePosition;
 		boolean oldTitlePositionESet = titlePositionESet;
 		titlePosition = TITLE_POSITION_EDEFAULT;
 		titlePositionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__TITLE_POSITION,
 					oldTitlePosition, TITLE_POSITION_EDEFAULT, oldTitlePositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetTitlePosition() {
 		return titlePositionESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LineAttributes getLeaderLineAttributes() {
 		return leaderLineAttributes;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLeaderLineAttributes(LineAttributes newLeaderLineAttributes,
@@ -620,163 +597,144 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, oldLeaderLineAttributes, newLeaderLineAttributes);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setLeaderLineAttributes(LineAttributes newLeaderLineAttributes) {
 		if (newLeaderLineAttributes != leaderLineAttributes) {
 			NotificationChain msgs = null;
-			if (leaderLineAttributes != null) {
+			if (leaderLineAttributes != null)
 				msgs = ((InternalEObject) leaderLineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, null, msgs);
-			}
-			if (newLeaderLineAttributes != null) {
+			if (newLeaderLineAttributes != null)
 				msgs = ((InternalEObject) newLeaderLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, null, msgs);
-			}
 			msgs = basicSetLeaderLineAttributes(newLeaderLineAttributes, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES,
 					newLeaderLineAttributes, newLeaderLineAttributes));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LeaderLineStyle getLeaderLineStyle() {
 		return leaderLineStyle;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setLeaderLineStyle(LeaderLineStyle newLeaderLineStyle) {
 		LeaderLineStyle oldLeaderLineStyle = leaderLineStyle;
 		leaderLineStyle = newLeaderLineStyle == null ? LEADER_LINE_STYLE_EDEFAULT : newLeaderLineStyle;
 		boolean oldLeaderLineStyleESet = leaderLineStyleESet;
 		leaderLineStyleESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_STYLE,
 					oldLeaderLineStyle, leaderLineStyle, !oldLeaderLineStyleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetLeaderLineStyle() {
 		LeaderLineStyle oldLeaderLineStyle = leaderLineStyle;
 		boolean oldLeaderLineStyleESet = leaderLineStyleESet;
 		leaderLineStyle = LEADER_LINE_STYLE_EDEFAULT;
 		leaderLineStyleESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__LEADER_LINE_STYLE,
 					oldLeaderLineStyle, LEADER_LINE_STYLE_EDEFAULT, oldLeaderLineStyleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetLeaderLineStyle() {
 		return leaderLineStyleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public double getLeaderLineLength() {
 		return leaderLineLength;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setLeaderLineLength(double newLeaderLineLength) {
 		double oldLeaderLineLength = leaderLineLength;
 		leaderLineLength = newLeaderLineLength;
 		boolean oldLeaderLineLengthESet = leaderLineLengthESet;
 		leaderLineLengthESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_LENGTH,
 					oldLeaderLineLength, leaderLineLength, !oldLeaderLineLengthESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetLeaderLineLength() {
 		double oldLeaderLineLength = leaderLineLength;
 		boolean oldLeaderLineLengthESet = leaderLineLengthESet;
 		leaderLineLength = LEADER_LINE_LENGTH_EDEFAULT;
 		leaderLineLengthESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__LEADER_LINE_LENGTH,
 					oldLeaderLineLength, LEADER_LINE_LENGTH_EDEFAULT, oldLeaderLineLengthESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetLeaderLineLength() {
 		return leaderLineLengthESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ColorDefinition getSliceOutline() {
 		return sliceOutline;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetSliceOutline(ColorDefinition newSliceOutline, NotificationChain msgs) {
@@ -785,315 +743,279 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.PIE_SERIES__SLICE_OUTLINE, oldSliceOutline, newSliceOutline);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setSliceOutline(ColorDefinition newSliceOutline) {
 		if (newSliceOutline != sliceOutline) {
 			NotificationChain msgs = null;
-			if (sliceOutline != null) {
+			if (sliceOutline != null)
 				msgs = ((InternalEObject) sliceOutline).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__SLICE_OUTLINE, null, msgs);
-			}
-			if (newSliceOutline != null) {
+			if (newSliceOutline != null)
 				msgs = ((InternalEObject) newSliceOutline).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__SLICE_OUTLINE, null, msgs);
-			}
 			msgs = basicSetSliceOutline(newSliceOutline, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__SLICE_OUTLINE,
 					newSliceOutline, newSliceOutline));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public double getRatio() {
 		return ratio;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setRatio(double newRatio) {
 		double oldRatio = ratio;
 		ratio = newRatio;
 		boolean oldRatioESet = ratioESet;
 		ratioESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__RATIO, oldRatio, ratio,
 					!oldRatioESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetRatio() {
 		double oldRatio = ratio;
 		boolean oldRatioESet = ratioESet;
 		ratio = RATIO_EDEFAULT;
 		ratioESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__RATIO, oldRatio,
 					RATIO_EDEFAULT, oldRatioESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetRatio() {
 		return ratioESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public double getRotation() {
 		return rotation;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setRotation(double newRotation) {
 		double oldRotation = rotation;
 		rotation = newRotation;
 		boolean oldRotationESet = rotationESet;
 		rotationESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__ROTATION, oldRotation,
 					rotation, !oldRotationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetRotation() {
 		double oldRotation = rotation;
 		boolean oldRotationESet = rotationESet;
 		rotation = ROTATION_EDEFAULT;
 		rotationESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__ROTATION, oldRotation,
 					ROTATION_EDEFAULT, oldRotationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetRotation() {
 		return rotationESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isClockwise() {
 		return clockwise;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setClockwise(boolean newClockwise) {
 		boolean oldClockwise = clockwise;
 		clockwise = newClockwise;
 		boolean oldClockwiseESet = clockwiseESet;
 		clockwiseESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__CLOCKWISE, oldClockwise,
 					clockwise, !oldClockwiseESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetClockwise() {
 		boolean oldClockwise = clockwise;
 		boolean oldClockwiseESet = clockwiseESet;
 		clockwise = CLOCKWISE_EDEFAULT;
 		clockwiseESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__CLOCKWISE, oldClockwise,
 					CLOCKWISE_EDEFAULT, oldClockwiseESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetClockwise() {
 		return clockwiseESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public double getInnerRadius() {
 		return innerRadius;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setInnerRadius(double newInnerRadius) {
 		double oldInnerRadius = innerRadius;
 		innerRadius = newInnerRadius;
 		boolean oldInnerRadiusESet = innerRadiusESet;
 		innerRadiusESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__INNER_RADIUS, oldInnerRadius,
 					innerRadius, !oldInnerRadiusESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetInnerRadius() {
 		double oldInnerRadius = innerRadius;
 		boolean oldInnerRadiusESet = innerRadiusESet;
 		innerRadius = INNER_RADIUS_EDEFAULT;
 		innerRadiusESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__INNER_RADIUS,
 					oldInnerRadius, INNER_RADIUS_EDEFAULT, oldInnerRadiusESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetInnerRadius() {
 		return innerRadiusESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isInnerRadiusPercent() {
 		return innerRadiusPercent;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setInnerRadiusPercent(boolean newInnerRadiusPercent) {
 		boolean oldInnerRadiusPercent = innerRadiusPercent;
 		innerRadiusPercent = newInnerRadiusPercent;
 		boolean oldInnerRadiusPercentESet = innerRadiusPercentESet;
 		innerRadiusPercentESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__INNER_RADIUS_PERCENT,
 					oldInnerRadiusPercent, innerRadiusPercent, !oldInnerRadiusPercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetInnerRadiusPercent() {
 		boolean oldInnerRadiusPercent = innerRadiusPercent;
 		boolean oldInnerRadiusPercentESet = innerRadiusPercentESet;
 		innerRadiusPercent = INNER_RADIUS_PERCENT_EDEFAULT;
 		innerRadiusPercentESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__INNER_RADIUS_PERCENT,
 					oldInnerRadiusPercent, INNER_RADIUS_PERCENT_EDEFAULT, oldInnerRadiusPercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetInnerRadiusPercent() {
 		return innerRadiusPercentESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1111,7 +1033,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1149,7 +1071,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1200,7 +1122,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1251,7 +1173,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1290,79 +1212,69 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (explosion: "); //$NON-NLS-1$
-		if (explosionESet) {
+		if (explosionESet)
 			result.append(explosion);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", explosionExpression: "); //$NON-NLS-1$
 		result.append(explosionExpression);
 		result.append(", titlePosition: "); //$NON-NLS-1$
-		if (titlePositionESet) {
+		if (titlePositionESet)
 			result.append(titlePosition);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", leaderLineStyle: "); //$NON-NLS-1$
-		if (leaderLineStyleESet) {
+		if (leaderLineStyleESet)
 			result.append(leaderLineStyle);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", leaderLineLength: "); //$NON-NLS-1$
-		if (leaderLineLengthESet) {
+		if (leaderLineLengthESet)
 			result.append(leaderLineLength);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", ratio: "); //$NON-NLS-1$
-		if (ratioESet) {
+		if (ratioESet)
 			result.append(ratio);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", rotation: "); //$NON-NLS-1$
-		if (rotationESet) {
+		if (rotationESet)
 			result.append(rotation);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", clockwise: "); //$NON-NLS-1$
-		if (clockwiseESet) {
+		if (clockwiseESet)
 			result.append(clockwise);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", innerRadius: "); //$NON-NLS-1$
-		if (innerRadiusESet) {
+		if (innerRadiusESet)
 			result.append(innerRadius);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", innerRadiusPercent: "); //$NON-NLS-1$
-		if (innerRadiusPercentESet) {
+		if (innerRadiusPercentESet)
 			result.append(innerRadiusPercent);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 *
+	 * 
 	 * @return series instance
 	 */
 	public static final Series create() {
@@ -1373,10 +1285,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#initialize()
 	 */
-	@Override
 	protected final void initialize() {
 		super.initialize();
 		setExplosion(0);
@@ -1396,7 +1307,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 *
+	 * 
 	 * @return series instance
 	 */
 	public static final Series createDefault() {
@@ -1407,10 +1318,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#initialize()
 	 */
-	@Override
 	protected final void initDefault() {
 		super.initDefault();
 		explosion = 0;
@@ -1434,10 +1344,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("PieSeriesImpl.displayName"); //$NON-NLS-1$
 	}
@@ -1445,7 +1354,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries {
 	/**
 	 * @generated
 	 */
-	@Override
 	public PieSeries copyInstance() {
 		PieSeriesImpl dest = new PieSeriesImpl();
 		dest.set(this);

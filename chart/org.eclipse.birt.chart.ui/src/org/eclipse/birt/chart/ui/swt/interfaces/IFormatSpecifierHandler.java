@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 public interface IFormatSpecifierHandler {
 	/**
 	 * Creates a UI to process format specifier.
-	 *
+	 * 
 	 * @param shellParent
 	 * @param title
 	 * @param axisType

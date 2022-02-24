@@ -55,11 +55,10 @@ public class IncrementalUpdateCaculator {
 
 	protected int getLastGroupIndex(int level) throws DataException {
 		int last;
-		if (level < originGroups.length - 1) {
+		if (level < originGroups.length - 1)
 			last = originGroups[level + 1].size() - 1;
-		} else {
+		else
 			last = populator.getCache().getCount() - 1;
-		}
 		return last;
 	}
 
@@ -69,7 +68,7 @@ public class IncrementalUpdateCaculator {
 
 	@SuppressWarnings("unchecked")
 	public List<GroupInfo>[] getGroups() {
-		ArrayList<List<GroupInfo>> groups = new ArrayList<>();
+		ArrayList<List<GroupInfo>> groups = new ArrayList<List<GroupInfo>>();
 		for (int i = 0; i < groupUpdators.length; i++) {
 			groupUpdators[i].close();
 			groups.add(groupUpdators[i].getGroups());
@@ -78,9 +77,8 @@ public class IncrementalUpdateCaculator {
 	}
 
 	protected void acceptAggrValues(int rowIndex) {
-		for (int i = 0; i < aggrValuesUpdators.length; i++) {
+		for (int i = 0; i < aggrValuesUpdators.length; i++)
 			aggrValuesUpdators[i].onRow(rowIndex);
-		}
 	}
 
 }

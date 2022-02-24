@@ -33,13 +33,11 @@ public class IncrementalUpdateRowFilter extends IncrementalUpdateCaculator {
 		int rIdx = index;
 		for (int level = groupUpdators.length - 1; level >= 0; level--) {
 			rIdx = groupUpdators[level].notOnGroup(getCurrentGroupIndex(level + 1));
-			if (rIdx < 0) {
+			if (rIdx < 0)
 				break;
-			}
 
-			if (level < groupUpdators.length - 1) {
+			if (level < groupUpdators.length - 1)
 				groupUpdators[level + 1].increaseParentIndex();
-			}
 		}
 
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -93,9 +93,9 @@ class ResultIterator2 extends ResultIterator {
 				? ((IQueryDefinition) rService.getQueryDefn()).isSummaryQuery()
 				: false;
 		if (this.isSummary) {
-			if (lowestGroupLevel == 0) {
+			if (lowestGroupLevel == 0)
 				this.groupLevelCalculator = new SummaryGroupLevelCalculator(null);
-			} else {
+			else {
 				int[][] groupIndex = new int[lowestGroupLevel + 1][];
 				for (int i = 0; i <= lowestGroupLevel; i++) {
 					groupIndex[i] = this.odiResult.getGroupStartAndEndIndex(i);
@@ -130,11 +130,11 @@ class ResultIterator2 extends ResultIterator {
 
 	private List<IBinding> findSavedBinding(Map bindingMap) {
 		Iterator bindingIt = bindingMap.values().iterator();
-		List<IBinding> bindingList = new ArrayList<>();
+		List<IBinding> bindingList = new ArrayList<IBinding>();
 
 		while (bindingIt.hasNext()) {
 			IBinding binding = (IBinding) bindingIt.next();
-			List<String> referencedBindings = new ArrayList<>();
+			List<String> referencedBindings = new ArrayList<String>();
 
 			try {
 				if (binding.getAggrFunction() != null) {
@@ -150,9 +150,8 @@ class ResultIterator2 extends ResultIterator {
 					for (IBaseExpression argExpr : (List<IBaseExpression>) binding.getArguments()) {
 						referencedBindings = ExpressionCompilerUtil.extractColumnExpression(argExpr,
 								ExpressionUtil.DATASET_ROW_INDICATOR);
-						if (!referencedBindings.isEmpty()) {
+						if (!referencedBindings.isEmpty())
 							break;
-						}
 					}
 					if (!referencedBindings.isEmpty()) {
 						bindingList.add(binding);
@@ -180,9 +179,8 @@ class ResultIterator2 extends ResultIterator {
 
 						needRecalcualte = needRecalculate(referencedBindings, bindingMap);
 
-						if (needRecalcualte) {
+						if (needRecalcualte)
 							break;
-						}
 					}
 					if (!needRecalcualte) {
 						bindingList.add(binding);
@@ -253,12 +251,11 @@ class ResultIterator2 extends ResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#next()
 	 */
-	@Override
 	public boolean next() throws BirtException {
 		boolean hasNext = super.next();
-		if (hasNext) {
+		if (hasNext)
 			currRowIndex++;
-		} else if (currRowIndex == -1) {
+		else if (currRowIndex == -1) {
 			// If empty result set, the cachedRowId should be -1.
 			this.cachedRowId = -1;
 		}
@@ -268,7 +265,6 @@ class ResultIterator2 extends ResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#hasNextRow()
 	 */
-	@Override
 	protected boolean hasNextRow() throws DataException {
 		boolean result = false;
 
@@ -302,20 +298,20 @@ class ResultIterator2 extends ResultIterator {
 		if (result) {
 			// cachedStartingGroupLevel = odiResult.getStartingGroupLevel( );
 
-			if (rowIDUtil == null) {
+			if (rowIDUtil == null)
 				rowIDUtil = new RowIDUtil();
-			}
 
-			if (this.rowIDUtil.getMode(this.odiResult) == RowIDUtil.MODE_NORMAL) {
+			if (this.rowIDUtil.getMode(this.odiResult) == RowIDUtil.MODE_NORMAL)
 				cachedRowId = this.odiResult.getCurrentResultIndex();
-			} else {
+			else {
 				IResultObject ob = this.odiResult.getCurrentResult();
-				if (ob == null) {
+				if (ob == null)
 					cachedRowId = -1;
-				} else if (ob.getFieldValue(rowIDUtil.getRowIdPos()) != null) {
-					cachedRowId = ((Integer) ob.getFieldValue(rowIDUtil.getRowIdPos())).intValue();
-				} else {
-					cachedRowId = -1;
+				else {
+					if (ob.getFieldValue(rowIDUtil.getRowIdPos()) != null)
+						cachedRowId = ((Integer) ob.getFieldValue(rowIDUtil.getRowIdPos())).intValue();
+					else
+						cachedRowId = -1;
 				}
 			}
 		}
@@ -356,7 +352,6 @@ class ResultIterator2 extends ResultIterator {
 		return rowBytes;
 	}
 
-	@Override
 	public void close() throws BirtException {
 		super.close();
 		if (this.saveToDoc) {
@@ -375,21 +370,19 @@ class ResultIterator2 extends ResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
 	 */
-	@Override
 	public int getRowId() throws BirtException {
 		return this.cachedRowId;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getStartingGroupLevel()
-	 *
+	 * 
 	 * public int getStartingGroupLevel( ) throws DataException { return
 	 * this.odiResult.getStartingGroupLevel( ); }
 	 */
 
-	@Override
 	public int getEndingGroupLevel() throws DataException {
 		// make sure that the ending group level value is also correct
 		if (this.isSummary) {
@@ -402,7 +395,6 @@ class ResultIterator2 extends ResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
 	 */
-	@Override
 	public int getRowIndex() throws BirtException {
 		return currRowIndex;
 	}
@@ -410,26 +402,22 @@ class ResultIterator2 extends ResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
 	 */
-	@Override
 	public void moveTo(int rowIndex) throws BirtException {
-		if (rowIndex < 0 || rowIndex < this.currRowIndex) {
+		if (rowIndex < 0 || rowIndex < this.currRowIndex)
 			throw new DataException(ResourceConstants.INVALID_ROW_INDEX, Integer.valueOf(rowIndex));
-		} else if (rowIndex == currRowIndex) {
+		else if (rowIndex == currRowIndex)
 			return;
-		}
 
 		int gapRows = rowIndex - currRowIndex;
 		for (int i = 0; i < gapRows; i++) {
-			if (!this.next()) {
+			if (this.next() == false)
 				throw new DataException(ResourceConstants.INVALID_ROW_INDEX, Integer.valueOf(rowIndex));
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#goThroughGapRows(int)
 	 */
-	@Override
 	protected void goThroughGapRows(int groupLevel) throws DataException, BirtException {
 		odiResult.last(groupLevel);
 	}

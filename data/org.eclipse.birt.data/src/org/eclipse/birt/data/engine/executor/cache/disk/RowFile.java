@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ class RowFile implements IRowIterator, ICloseListener {
 	private DataFileWriter dfw = null;
 
 	/**
-	 *
+	 * 
 	 * @param file
 	 * @param resultObjectUtil
 	 * @param cacheSize
@@ -59,17 +59,16 @@ class RowFile implements IRowIterator, ICloseListener {
 	// -------------------------write-----------------------
 	/**
 	 * Set cache size and initialize cache.
-	 *
+	 * 
 	 * @param cacheSize
 	 */
 	private void setCacheSize(int cacheSize) {
-		if (cacheSize >= 0) {
+		if (cacheSize >= 0)
 			memoryRowCache = new IResultObject[cacheSize];
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultObject
 	 * @throws IOException
 	 * @throws DataException
@@ -82,7 +81,7 @@ class RowFile implements IRowIterator, ICloseListener {
 
 	/**
 	 * Write one object to file.
-	 *
+	 * 
 	 * @param resultObjects
 	 * @param count
 	 * @param stopSign
@@ -93,17 +92,19 @@ class RowFile implements IRowIterator, ICloseListener {
 		int cacheFreeSize = memoryRowCache.length - rowCount;
 		if (cacheFreeSize >= count) {
 			writeRowsToCache(resultObjects, 0, count);
-		} else if (cacheFreeSize > 0) {
-			writeRowsToCache(resultObjects, 0, cacheFreeSize);
-			writeRowsToFile(resultObjects, cacheFreeSize, count - cacheFreeSize);
 		} else {
-			writeRowsToFile(resultObjects, 0, count);
+			if (cacheFreeSize > 0) {
+				writeRowsToCache(resultObjects, 0, cacheFreeSize);
+				writeRowsToFile(resultObjects, cacheFreeSize, count - cacheFreeSize);
+			} else {
+				writeRowsToFile(resultObjects, 0, count);
+			}
 		}
 	}
 
 	/**
 	 * Write objects to cache.
-	 *
+	 * 
 	 * @param resultObjects
 	 * @param count
 	 * @throws IOException
@@ -115,7 +116,7 @@ class RowFile implements IRowIterator, ICloseListener {
 
 	/**
 	 * Write objects to file.
-	 *
+	 * 
 	 * @param resultObjects
 	 * @param from
 	 * @param count
@@ -132,7 +133,7 @@ class RowFile implements IRowIterator, ICloseListener {
 
 	/**
 	 * Get subarray of a object array
-	 *
+	 * 
 	 * @param resultObjects
 	 * @param count
 	 * @throws IOException
@@ -172,7 +173,6 @@ class RowFile implements IRowIterator, ICloseListener {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#first()
 	 */
-	@Override
 	public void reset() {
 		readPos = 0;
 		createReader();
@@ -181,7 +181,6 @@ class RowFile implements IRowIterator, ICloseListener {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#next()
 	 */
-	@Override
 	public IResultObject fetch() throws IOException, DataException {
 		IResultObject resultObject = readRowFromCache();
 		if (resultObject == null) {
@@ -193,7 +192,7 @@ class RowFile implements IRowIterator, ICloseListener {
 
 	/**
 	 * Read one object from cache.
-	 *
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
@@ -206,7 +205,7 @@ class RowFile implements IRowIterator, ICloseListener {
 
 	/**
 	 * Read one object from file.
-	 *
+	 * 
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
@@ -227,26 +226,23 @@ class RowFile implements IRowIterator, ICloseListener {
 	 *
 	 */
 	private void createReader() {
-		if (dfr != null) {
+		if (dfr != null)
 			dfr.close();
-		}
 
 		dfr = DataFileReader.newInstance(tempFile, resultObjectUtil);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.cache.disk.IRowIterator#close()
 	 */
-	@Override
 	public void close() {
 		closeWriter();
 		closeReader();
 
-		if (tempFile != null) {
+		if (tempFile != null)
 			FileSecurity.fileDelete(tempFile);
-		}
 		memoryRowCache = null;
 	}
 

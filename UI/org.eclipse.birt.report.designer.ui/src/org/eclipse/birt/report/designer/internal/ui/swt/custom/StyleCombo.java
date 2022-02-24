@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
@@ -125,14 +125,12 @@ public final class StyleCombo extends Composite {
 
 		label = new ImageLabel(this, SWT.NONE);
 		int arrowStyle = SWT.ARROW | SWT.DOWN;
-		if ((style & SWT.FLAT) != 0) {
+		if ((style & SWT.FLAT) != 0)
 			arrowStyle |= SWT.FLAT;
-		}
 		arrow = new Button(this, arrowStyle);
 
 		listener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				if (popup == event.widget) {
 					popupEvent(event);
@@ -152,25 +150,23 @@ public final class StyleCombo extends Composite {
 				}
 				if (StyleCombo.this == event.widget) {
 					comboEvent(event);
+					return;
 				}
 			}
 		};
 
 		int[] comboEvents = { SWT.Dispose, SWT.Move, SWT.Resize };
-		for (int i = 0; i < comboEvents.length; i++) {
+		for (int i = 0; i < comboEvents.length; i++)
 			this.addListener(comboEvents[i], listener);
-		}
 
 		int[] arrowEvents = { SWT.Selection, SWT.FocusIn, SWT.FocusOut };
-		for (int i = 0; i < arrowEvents.length; i++) {
+		for (int i = 0; i < arrowEvents.length; i++)
 			arrow.addListener(arrowEvents[i], listener);
-		}
 
 		int[] textEvents = { SWT.KeyDown, SWT.KeyUp, SWT.Modify, SWT.MouseDown, SWT.MouseUp, SWT.Traverse, SWT.FocusIn,
 				SWT.FocusOut };
-		for (int i = 0; i < textEvents.length; i++) {
+		for (int i = 0; i < textEvents.length; i++)
 			label.addListener(textEvents[i], listener);
-		}
 
 		createPopup(null, -1);
 		initAccessible();
@@ -179,7 +175,6 @@ public final class StyleCombo extends Composite {
 	void initAccessible() {
 		AccessibleAdapter accessibleAdapter = new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				String name = null;
 				Label label = getAssociatedLabel();
@@ -187,12 +182,10 @@ public final class StyleCombo extends Composite {
 					name = stripMnemonic(label.getText());
 				}
 				e.result = name;
-				if (e.result == null) {
+				if (e.result == null)
 					getHelp(e);
-				}
 			}
 
-			@Override
 			public void getKeyboardShortcut(AccessibleEvent e) {
 				String shortcut = null;
 				Label label = getAssociatedLabel();
@@ -208,7 +201,6 @@ public final class StyleCombo extends Composite {
 				e.result = shortcut;
 			}
 
-			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -218,17 +210,14 @@ public final class StyleCombo extends Composite {
 
 		arrow.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = isDropped() ? SWT.getMessage("SWT_Close") : SWT.getMessage("SWT_Open"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 
-			@Override
 			public void getKeyboardShortcut(AccessibleEvent e) {
 				e.result = "Alt+Down Arrow"; //$NON-NLS-1$
 			}
 
-			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -236,13 +225,11 @@ public final class StyleCombo extends Composite {
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point pt = toControl(new Point(e.x, e.y));
 				e.childID = (getBounds().contains(pt)) ? ACC.CHILDID_SELF : ACC.CHILDID_NONE;
 			}
 
-			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(location.x, location.y);
@@ -252,17 +239,14 @@ public final class StyleCombo extends Composite {
 				e.height = location.height;
 			}
 
-			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
-			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
@@ -270,7 +254,6 @@ public final class StyleCombo extends Composite {
 
 		arrow.getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			@Override
 			public void getDefaultAction(AccessibleControlEvent e) {
 				e.result = isDropped() ? SWT.getMessage("SWT_Close") : SWT.getMessage("SWT_Open"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -283,21 +266,17 @@ public final class StyleCombo extends Composite {
 	 * string, return '\0'.
 	 */
 	char _findMnemonic(String string) {
-		if (string == null) {
+		if (string == null)
 			return '\0';
-		}
 		int index = 0;
 		int length = string.length();
 		do {
-			while (index < length && string.charAt(index) != '&') {
+			while (index < length && string.charAt(index) != '&')
 				index++;
-			}
-			if (++index >= length) {
+			if (++index >= length)
 				return '\0';
-			}
-			if (string.charAt(index) != '&') {
+			if (string.charAt(index) != '&')
 				return Character.toLowerCase(string.charAt(index));
-			}
 			index++;
 		} while (index < length);
 		return '\0';
@@ -323,12 +302,10 @@ public final class StyleCombo extends Composite {
 		int index = 0;
 		int length = string.length();
 		do {
-			while ((index < length) && (string.charAt(index) != '&')) {
+			while ((index < length) && (string.charAt(index) != '&'))
 				index++;
-			}
-			if (++index >= length) {
+			if (++index >= length)
 				return string;
-			}
 			if (string.charAt(index) != '&') {
 				return string.substring(0, index - 1) + string.substring(index, length);
 			}
@@ -374,9 +351,8 @@ public final class StyleCombo extends Composite {
 	 */
 	public void addSelectionListener(SelectionListener listener) {
 		checkWidget();
-		if (listener == null) {
+		if (listener == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		TypedListener typedListener = new TypedListener(listener);
 		addListener(SWT.Selection, typedListener);
 		addListener(SWT.DefaultSelection, typedListener);
@@ -385,9 +361,8 @@ public final class StyleCombo extends Composite {
 	void arrowEvent(Event event) {
 		switch (event.type) {
 		case SWT.FocusIn: {
-			if (hasFocus) {
+			if (hasFocus)
 				return;
-			}
 			hasFocus = true;
 			Event e = new Event();
 			e.time = event.time;
@@ -397,15 +372,12 @@ public final class StyleCombo extends Composite {
 		case SWT.FocusOut: {
 			event.display.asyncExec(new Runnable() {
 
-				@Override
 				public void run() {
-					if (StyleCombo.this.isDisposed()) {
+					if (StyleCombo.this.isDisposed())
 						return;
-					}
 					Control focusControl = getDisplay().getFocusControl();
-					if (focusControl == arrow || focusControl == label || focusControl == table) {
+					if (focusControl == arrow || focusControl == label || focusControl == table)
 						return;
-					}
 					hasFocus = false;
 					Event e = new Event();
 					notifyListeners(SWT.FocusOut, e);
@@ -457,14 +429,12 @@ public final class StyleCombo extends Composite {
 
 	private int computeSizeWidth = -1;
 
-	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 		checkWidget();
 		// if ( size.x > 0 )
 		// return size;
-		if (wHint > -1) {
+		if (wHint > -1)
 			computeSizeWidth = wHint;
-		}
 		int width = 0, height = 0;
 
 		GC gc = new GC(label);
@@ -492,29 +462,24 @@ public final class StyleCombo extends Composite {
 
 		table = new Table(popup, SWT.SINGLE | SWT.V_SCROLL | SWT.FULL_SELECTION);
 		new TableColumn(table, SWT.LEFT);
-		if (font != null) {
+		if (font != null)
 			table.setFont(font);
-		}
-		if (foreground != null) {
+		if (foreground != null)
 			table.setForeground(foreground);
-		}
-		if (background != null) {
+		if (background != null)
 			table.setBackground(background);
-		}
 
 		label.setBackground(table.getBackground());
 		label.setForeground(table.getForeground());
 		label.setFont(table.getFont());
 
 		int[] popupEvents = { SWT.Close, SWT.Paint, SWT.Deactivate };
-		for (int i = 0; i < popupEvents.length; i++) {
+		for (int i = 0; i < popupEvents.length; i++)
 			popup.addListener(popupEvents[i], listener);
-		}
 		int[] tableEvents = { SWT.MouseUp, SWT.Selection, SWT.Traverse, SWT.KeyDown, SWT.KeyUp, SWT.FocusIn,
 				SWT.FocusOut, SWT.Dispose };
-		for (int i = 0; i < tableEvents.length; i++) {
+		for (int i = 0; i < tableEvents.length; i++)
 			table.addListener(tableEvents[i], listener);
-		}
 	}
 
 	/**
@@ -554,9 +519,8 @@ public final class StyleCombo extends Composite {
 	}
 
 	void dropDown(boolean drop) {
-		if (drop == isDropped()) {
+		if (drop == isDropped())
 			return;
-		}
 		if (!drop) {
 			popup.setVisible(false);
 			label.forceFocus();
@@ -584,9 +548,8 @@ public final class StyleCombo extends Composite {
 		table.setBounds(1, 1, Math.max(size.x - 2, tableSize.x), tableSize.y);
 		table.getColumn(0).setWidth(table.getClientArea().width);
 		int index = table.getSelectionIndex();
-		if (index != -1) {
+		if (index != -1)
 			table.setTopIndex(index);
-		}
 
 		Display display = getDisplay();
 		Rectangle listRect = table.getBounds();
@@ -597,15 +560,13 @@ public final class StyleCombo extends Composite {
 		int height = listRect.height + 2;
 		int x = parentRect.x;
 		int y = parentRect.y + comboSize.y;
-		if (y + height > displayRect.y + displayRect.height) {
+		if (y + height > displayRect.y + displayRect.height)
 			y = parentRect.y - height;
-		}
 		popup.setBounds(x, y, width, height);
 		popup.setVisible(true);
 		table.setFocus();
 	}
 
-	@Override
 	public Control[] getChildren() {
 		checkWidget();
 		return new Control[0];
@@ -635,17 +596,15 @@ public final class StyleCombo extends Composite {
 	public Object getSelectedItem() {
 		checkWidget();
 		int index = table.getSelectionIndex();
-		if (index == -1) {
+		if (index == -1)
 			return null;
-		}
 		return getItem(index);
 	}
 
 	public void setSelectedItem(int index) {
 		checkWidget();
-		if (index < 0 || index > provider.getDisplayItems().length - 1) {
+		if (index < 0 || index > provider.getDisplayItems().length - 1)
 			return;
-		}
 		table.setSelection(index);
 		label.setImage(table.getSelection()[0].getImage());
 	}
@@ -653,9 +612,8 @@ public final class StyleCombo extends Composite {
 	public void setSelectedItem(Object obj) {
 		checkWidget();
 		int index = Arrays.asList(provider.getDisplayItems()).indexOf(obj);
-		if (index == -1) {
+		if (index == -1)
 			return;
-		}
 		setSelectedItem(index);
 	}
 
@@ -728,7 +686,6 @@ public final class StyleCombo extends Composite {
 		return table.getSelectionIndex();
 	}
 
-	@Override
 	public int getStyle() {
 		int style = super.getStyle();
 		style &= ~SWT.READ_ONLY;
@@ -772,9 +729,8 @@ public final class StyleCombo extends Composite {
 	 */
 	public int indexOf(Object item) {
 		checkWidget();
-		if (item == null) {
+		if (item == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		return Arrays.asList(provider.getItems()).indexOf(item);
 	}
 
@@ -782,7 +738,6 @@ public final class StyleCombo extends Composite {
 		return popup.getVisible();
 	}
 
-	@Override
 	public boolean isFocusControl() {
 		checkWidget();
 		if (label.isFocusControl() || arrow.isFocusControl() || table.isFocusControl() || popup.isFocusControl()) {
@@ -792,9 +747,8 @@ public final class StyleCombo extends Composite {
 	}
 
 	void internalLayout(boolean changed) {
-		if (isDropped()) {
+		if (isDropped())
 			dropDown(false);
-		}
 
 		Rectangle rect = getClientArea();
 		int width = rect.width;
@@ -811,9 +765,8 @@ public final class StyleCombo extends Composite {
 		imageHeight = label.getBounds().height;
 		Point size = getSize();
 		imageWidth = size.x - 10 - UIUtil.getMaxStringWidth((String[]) provider.getDisplayItems(), this);
-		if (provider.getItems().length > visibleItemCount) {
+		if (provider.getItems().length > visibleItemCount)
 			imageWidth -= arrowSize.x;
-		}
 		disposeImages();
 		for (int i = 0; i < provider.getItems().length; i++) {
 			TableItem item = table.getItem(i);
@@ -839,9 +792,8 @@ public final class StyleCombo extends Composite {
 			}
 			break;
 		case SWT.FocusIn: {
-			if (hasFocus) {
+			if (hasFocus)
 				return;
-			}
 			hasFocus = true;
 			Event e = new Event();
 			e.time = event.time;
@@ -851,15 +803,12 @@ public final class StyleCombo extends Composite {
 		case SWT.FocusOut: {
 			event.display.asyncExec(new Runnable() {
 
-				@Override
 				public void run() {
-					if (StyleCombo.this.isDisposed()) {
+					if (StyleCombo.this.isDisposed())
 						return;
-					}
 					Control focusControl = getDisplay().getFocusControl();
-					if (focusControl == arrow || focusControl == table || focusControl == label) {
+					if (focusControl == arrow || focusControl == table || focusControl == label)
 						return;
-					}
 					hasFocus = false;
 					Event e = new Event();
 					notifyListeners(SWT.FocusOut, e);
@@ -868,17 +817,15 @@ public final class StyleCombo extends Composite {
 			break;
 		}
 		case SWT.MouseUp: {
-			if (event.button != 1) {
+			if (event.button != 1)
 				return;
-			}
 			dropDown(false);
 			break;
 		}
 		case SWT.Selection: {
 			int index = table.getSelectionIndex();
-			if (index == -1) {
+			if (index == -1)
 				return;
-			}
 			label.setImage(table.getSelection()[0].getImage());
 			Event e = new Event();
 			e.time = event.time;
@@ -936,9 +883,8 @@ public final class StyleCombo extends Composite {
 			}
 			// At this point the widget may have been disposed.
 			// If so, do not continue.
-			if (isDisposed()) {
+			if (isDisposed())
 				break;
-			}
 			Event e = new Event();
 			e.time = event.time;
 			e.character = event.character;
@@ -955,14 +901,12 @@ public final class StyleCombo extends Composite {
 	 * Dispose the image system sources
 	 */
 	private void disposeImages() {
-		if (table.isDisposed()) {
+		if (table.isDisposed())
 			return;
-		}
 		TableItem[] treeItems = table.getItems();
 		for (int i = 0; i < treeItems.length; i++) {
-			if (treeItems[i].getImage() != null && !treeItems[i].getImage().isDisposed()) {
+			if (treeItems[i].getImage() != null && !treeItems[i].getImage().isDisposed())
 				treeItems[i].getImage().dispose();
-			}
 		}
 	}
 
@@ -985,17 +929,14 @@ public final class StyleCombo extends Composite {
 		}
 	}
 
-	@Override
 	public void redraw() {
 		super.redraw();
 		label.redraw();
 		arrow.redraw();
-		if (popup.isVisible()) {
+		if (popup.isVisible())
 			table.redraw();
-		}
 	}
 
-	@Override
 	public void redraw(int x, int y, int width, int height, boolean all) {
 		super.redraw(x, y, width, height, true);
 	}
@@ -1013,9 +954,8 @@ public final class StyleCombo extends Composite {
 	 */
 	public void removeModifyListener(ModifyListener listener) {
 		checkWidget();
-		if (listener == null) {
+		if (listener == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		removeListener(SWT.Modify, listener);
 	}
 
@@ -1032,9 +972,8 @@ public final class StyleCombo extends Composite {
 	 */
 	public void removeSelectionListener(SelectionListener listener) {
 		checkWidget();
-		if (listener == null) {
+		if (listener == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 		removeListener(SWT.Selection, listener);
 		removeListener(SWT.DefaultSelection, listener);
 	}
@@ -1061,19 +1000,15 @@ public final class StyleCombo extends Composite {
 		setSelectedItem(index);
 	}
 
-	@Override
 	public void setBackground(Color color) {
 		super.setBackground(color);
 		background = color;
-		if (label != null) {
+		if (label != null)
 			label.setBackground(color);
-		}
-		if (table != null) {
+		if (table != null)
 			table.setBackground(color);
-		}
-		if (arrow != null) {
+		if (arrow != null)
 			arrow.setBackground(color);
-		}
 	}
 
 	/**
@@ -1092,21 +1027,16 @@ public final class StyleCombo extends Composite {
 	 * @since 3.0
 	 *
 	 */
-	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
-		if (popup != null) {
+		if (popup != null)
 			popup.setVisible(false);
-		}
-		if (label != null) {
+		if (label != null)
 			label.setEnabled(enabled);
-		}
-		if (arrow != null) {
+		if (arrow != null)
 			arrow.setEnabled(enabled);
-		}
 	}
 
-	@Override
 	public boolean setFocus() {
 		checkWidget();
 		label.forceFocus();
@@ -1116,7 +1046,6 @@ public final class StyleCombo extends Composite {
 		return label.isFocusControl();
 	}
 
-	@Override
 	public void setFont(Font font) {
 		super.setFont(font);
 		this.font = font;
@@ -1125,19 +1054,15 @@ public final class StyleCombo extends Composite {
 		internalLayout(true);
 	}
 
-	@Override
 	public void setForeground(Color color) {
 		super.setForeground(color);
 		foreground = color;
-		if (label != null) {
+		if (label != null)
 			label.setForeground(color);
-		}
-		if (table != null) {
+		if (table != null)
 			table.setForeground(color);
-		}
-		if (arrow != null) {
+		if (arrow != null)
 			arrow.setForeground(color);
-		}
 	}
 
 	/**
@@ -1153,9 +1078,8 @@ public final class StyleCombo extends Composite {
 	 */
 	public void setItems(Object[] items) {
 		checkWidget();
-		if (items == null) {
+		if (items == null)
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
 
 		// Point p = computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		// internalLayout( );
@@ -1185,7 +1109,6 @@ public final class StyleCombo extends Composite {
 		}
 	}
 
-	@Override
 	public void setToolTipText(String string) {
 		checkWidget();
 		super.setToolTipText(string);
@@ -1193,12 +1116,10 @@ public final class StyleCombo extends Composite {
 		label.setToolTipText(string);
 	}
 
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
-		if (!visible) {
+		if (!visible)
 			popup.setVisible(false);
-		}
 	}
 
 	/**
@@ -1219,18 +1140,16 @@ public final class StyleCombo extends Composite {
 	 */
 	public void setVisibleItemCount(int count) {
 		checkWidget();
-		if (count < 0) {
+		if (count < 0)
 			return;
-		}
 		visibleItemCount = count;
 	}
 
 	void labelEvent(Event event) {
 		switch (event.type) {
 		case SWT.FocusIn: {
-			if (hasFocus) {
+			if (hasFocus)
 				return;
-			}
 			hasFocus = true;
 			Event e = new Event();
 			e.time = event.time;
@@ -1240,15 +1159,12 @@ public final class StyleCombo extends Composite {
 		case SWT.FocusOut: {
 			event.display.asyncExec(new Runnable() {
 
-				@Override
 				public void run() {
-					if (StyleCombo.this.isDisposed()) {
+					if (StyleCombo.this.isDisposed())
 						return;
-					}
 					Control focusControl = getDisplay().getFocusControl();
-					if (focusControl == arrow || focusControl == table || focusControl == label) {
+					if (focusControl == arrow || focusControl == table || focusControl == label)
 						return;
-					}
 					hasFocus = false;
 					Event e = new Event();
 					notifyListeners(SWT.FocusOut, e);
@@ -1266,16 +1182,14 @@ public final class StyleCombo extends Composite {
 			}
 			// At this point the widget may have been disposed.
 			// If so, do not continue.
-			if (isDisposed()) {
+			if (isDisposed())
 				break;
-			}
 
 			if (event.keyCode == SWT.ARROW_UP || event.keyCode == SWT.ARROW_DOWN) {
 				if ((event.stateMask & SWT.ALT) != 0) {
 					boolean dropped = isDropped();
-					if (!dropped) {
+					if (!dropped)
 						setFocus();
-					}
 					dropDown(!dropped);
 					break;
 				}
@@ -1295,9 +1209,8 @@ public final class StyleCombo extends Composite {
 				}
 				// At this point the widget may have been disposed.
 				// If so, do not continue.
-				if (isDisposed()) {
+				if (isDisposed())
 					break;
-				}
 			}
 
 			// Further work : Need to add support for incremental search in
@@ -1328,20 +1241,17 @@ public final class StyleCombo extends Composite {
 			break;
 		}
 		case SWT.MouseDown: {
-			if (event.button != 1) {
+			if (event.button != 1)
 				return;
-			}
 			boolean dropped = isDropped();
-			if (!dropped) {
+			if (!dropped)
 				setFocus();
-			}
 			dropDown(!dropped);
 			break;
 		}
 		case SWT.MouseUp: {
-			if (event.button != 1) {
+			if (event.button != 1)
 				return;
-			}
 			break;
 		}
 		case SWT.Traverse: {

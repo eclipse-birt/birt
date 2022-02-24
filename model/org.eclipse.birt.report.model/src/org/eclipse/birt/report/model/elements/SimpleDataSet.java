@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,8 +35,8 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
  * Data transforms are most frequently defined by report items that use the data
  * set, and are applied to the result set by BIRT.
  * </ul>
- *
- *
+ * 
+ * 
  */
 
 public abstract class SimpleDataSet extends DataSet implements ISimpleDataSetModel {
@@ -50,7 +50,7 @@ public abstract class SimpleDataSet extends DataSet implements ISimpleDataSetMod
 
 	/**
 	 * Constructs the data set with a required name.
-	 *
+	 * 
 	 * @param theName the required name
 	 */
 
@@ -60,12 +60,11 @@ public abstract class SimpleDataSet extends DataSet implements ISimpleDataSetMod
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module) {
 		List<SemanticException> list = super.validate(module);
 

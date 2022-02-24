@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -39,7 +39,7 @@ public final class ShapedAction {
 
 	private final Shape _sh;
 
-	private final Map<TriggerCondition, Action> _triggers = new HashMap<>();
+	private final Map<TriggerCondition, Action> _triggers = new HashMap<TriggerCondition, Action>();
 
 	private Cursor cursor;
 
@@ -48,7 +48,7 @@ public final class ShapedAction {
 	/**
 	 * This constructor supports polygon shapes Future shapes (and corresponding
 	 * constructors) will be added later
-	 *
+	 * 
 	 * @param source
 	 * @param loa
 	 * @param clipping
@@ -67,7 +67,7 @@ public final class ShapedAction {
 
 	/**
 	 * This constructor supports shape definition via an ellipse
-	 *
+	 * 
 	 * @param oSource
 	 * @param boEllipse
 	 * @param clipping
@@ -88,7 +88,7 @@ public final class ShapedAction {
 
 	/**
 	 * This constructor supports shape definition via an elliptical arc
-	 *
+	 * 
 	 * @param oSource
 	 * @param boEllipse
 	 * @param dStart
@@ -113,28 +113,28 @@ public final class ShapedAction {
 
 	/**
 	 * Returns the shape associated with current ShapedAction.
-	 *
+	 * 
 	 * @return shape
 	 */
-	public Shape getShape() {
+	public final Shape getShape() {
 		return _sh;
 	}
 
 	/**
 	 * Returns the action associated with current ShapedAction.
-	 *
+	 * 
 	 * @return action
 	 */
-	public Action getActionForCondition(TriggerCondition condition) {
+	public final Action getActionForCondition(TriggerCondition condition) {
 		return _triggers.get(condition);
 	}
 
 	/**
 	 * Returns the source object associated with current ShapedAction.
-	 *
+	 * 
 	 * @return source object
 	 */
-	public StructureSource getSource() {
+	public final StructureSource getSource() {
 		return _oSource;
 	}
 
@@ -145,7 +145,7 @@ public final class ShapedAction {
 
 	/**
 	 * Returns cursor.
-	 *
+	 * 
 	 * @return cursor
 	 */
 	public Cursor getCursor() {
@@ -154,7 +154,7 @@ public final class ShapedAction {
 
 	/**
 	 * Sets cursor.
-	 *
+	 * 
 	 * @param cursor
 	 */
 	public void setCursor(Cursor cursor) {
@@ -163,7 +163,7 @@ public final class ShapedAction {
 
 	/**
 	 * Returns z-order
-	 *
+	 * 
 	 * @return zOrder
 	 */
 	public int getZOrder() {
@@ -172,7 +172,7 @@ public final class ShapedAction {
 
 	/**
 	 * Sets z-order
-	 *
+	 * 
 	 * @param zOrder
 	 */
 	public void setZOrder(int zOrder) {

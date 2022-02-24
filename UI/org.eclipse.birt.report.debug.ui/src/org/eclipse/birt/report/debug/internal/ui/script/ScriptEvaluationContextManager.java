@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,6 @@ public class ScriptEvaluationContextManager implements IWindowListener, IDebugCo
 	public static void startup() {
 		Runnable r = new Runnable() {
 
-			@Override
 			public void run() {
 				if (fgManager == null) {
 					fgManager = new ScriptEvaluationContextManager();
@@ -66,55 +65,50 @@ public class ScriptEvaluationContextManager implements IWindowListener, IDebugCo
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.ui.IWindowListener#windowOpened(org.eclipse.ui.IWorkbenchWindow)
 	 */
-	@Override
 	public void windowOpened(IWorkbenchWindow window) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWindowListener#windowActivated(org.eclipse.ui.
 	 * IWorkbenchWindow)
 	 */
-	@Override
 	public void windowActivated(IWorkbenchWindow window) {
 		fActiveWindow = window;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.ui.IWindowListener#windowClosed(org.eclipse.ui.IWorkbenchWindow)
 	 */
-	@Override
 	public void windowClosed(IWorkbenchWindow window) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWindowListener#windowDeactivated(org.eclipse.ui.
 	 * IWorkbenchWindow)
 	 */
-	@Override
 	public void windowDeactivated(IWorkbenchWindow window) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.debug.ui.contexts.IDebugContextListener#debugContextChanged(org.
 	 * eclipse.debug.ui.contexts.DebugContextEvent)
 	 */
-	@Override
 	public void debugContextChanged(DebugContextEvent event) {
 		ISelection selection = event.getContext();
 		if (selection instanceof IStructuredSelection) {

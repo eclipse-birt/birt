@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -62,7 +62,7 @@ import org.eclipse.swt.widgets.Widget;
 /**
  * Custom widget like Table. Comparing to SWT table, some additional features
  * are added, such as D&D support, background color and column selection.
- *
+ * 
  */
 public class CustomPreviewTable extends Composite
 		implements MouseListener, MouseMoveListener, ControlListener, DisposeListener, KeyListener {
@@ -129,7 +129,6 @@ public class CustomPreviewTable extends Composite
 
 	Listener headerButtonListener = new Listener() {
 
-		@Override
 		public void handleEvent(Event event) {
 			switch (event.type) {
 			case SWT.Selection:
@@ -153,7 +152,6 @@ public class CustomPreviewTable extends Composite
 
 	TraverseListener traverseListener = new TraverseListener() {
 
-		@Override
 		public void keyTraversed(TraverseEvent e) {
 			if (e.character != SWT.TAB) {
 				e.doit = false;
@@ -167,10 +165,10 @@ public class CustomPreviewTable extends Composite
 	 */
 	public CustomPreviewTable(Composite parent, int style) {
 		super(parent, SWT.BORDER);
-		fHeadings = new Vector<>();
-		columnWidths = new Vector<>();
-		btnHeaders = new Vector<>();
-		vListeners = new Vector<>();
+		fHeadings = new Vector<ColumnBindingInfo>();
+		columnWidths = new Vector<Integer>();
+		btnHeaders = new Vector<Button>();
+		vListeners = new Vector<Listener>();
 		placeComponents();
 		createDummyTable();
 	}
@@ -384,7 +382,7 @@ public class CustomPreviewTable extends Composite
 	 * null if user hasn't right-clicked in the table yet. This method is for use to
 	 * determine the column for which the popup-menu is to be displayed...since the
 	 * menu is handled externally.
-	 *
+	 * 
 	 * @return the last column in which the user has right-clicked.
 	 */
 	public String getCurrentColumnHeading() {
@@ -395,9 +393,9 @@ public class CustomPreviewTable extends Composite
 	 * Returns head object of current column, if it is sharing query, the head
 	 * object should be instance of <code>ColumnBindingInfo</code>, else it is
 	 * String object.
-	 *
+	 * 
 	 * @return column head object
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	public Object getCurrentColumnHeadObject() {
@@ -409,7 +407,7 @@ public class CustomPreviewTable extends Composite
 	 * user hasn't right-clicked in the table yet. This method is for use to
 	 * determine the column for which the popup-menu is to be displayed...since the
 	 * menu is handled externally.
-	 *
+	 * 
 	 * @return the last column in which the user has right-clicked.
 	 */
 	public int getCurrentColumnIndex() {
@@ -473,7 +471,7 @@ public class CustomPreviewTable extends Composite
 		if (iIndex > columnWidths.size() - 1 || iIndex < 0) {
 			return 0;
 		}
-		Object oTmp;
+		Object oTmp = null;
 		oTmp = columnWidths.get(iIndex);
 		return ((Integer) oTmp).intValue();
 	}
@@ -560,7 +558,6 @@ public class CustomPreviewTable extends Composite
 		}
 	}
 
-	@Override
 	public void addListener(int eventType, Listener listener) {
 		// ONLY ADD LISTENERS INTENDING TO LISTEN TO EVENT TYPES PROCESSED BY
 		// THIS WIDGET
@@ -571,7 +568,6 @@ public class CustomPreviewTable extends Composite
 		}
 	}
 
-	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 		if (e.widget instanceof Label) {
 			// Calculates the max width of selected column and resize
@@ -585,7 +581,6 @@ public class CustomPreviewTable extends Composite
 		}
 	}
 
-	@Override
 	public void mouseDown(MouseEvent e) {
 		if (e.button == 1) {
 			if (e.widget instanceof Label) {
@@ -596,7 +591,6 @@ public class CustomPreviewTable extends Composite
 		}
 	}
 
-	@Override
 	public void mouseUp(MouseEvent e) {
 		if (bDragging) {
 			if (iResizingColumnIndex != -1) {
@@ -612,7 +606,6 @@ public class CustomPreviewTable extends Composite
 		}
 	}
 
-	@Override
 	public void mouseMove(MouseEvent e) {
 		if (bDragging || e.widget instanceof Label) {
 			this.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_SIZEWE));
@@ -720,7 +713,7 @@ public class CustomPreviewTable extends Composite
 
 		/**
 		 * Calculates the max width of specified column data.
-		 *
+		 * 
 		 * @param columnIndex
 		 * @param control
 		 */
@@ -730,7 +723,7 @@ public class CustomPreviewTable extends Composite
 			Vector columnTexts = cells[columnIndex];
 			for (int rowIndex = 0; rowIndex < columnTexts.size(); rowIndex++) {
 				Object obj = columnTexts.get(rowIndex);
-				if (obj instanceof String) {
+				if (obj != null && obj instanceof String) {
 					maxWidth = Math.max(gc.textExtent((String) obj).x, maxWidth);
 				}
 			}
@@ -761,7 +754,7 @@ public class CustomPreviewTable extends Composite
 								new Object[] { String.valueOf(iColumn), String.valueOf(cells.length) }));
 			}
 			if (sText != null && sText.indexOf('\n') > -1) {
-				sText = sText.replace('\n', ' '); // $NON-NLS-1$ //$NON-NLS-2$
+				sText = sText.replaceAll("\n", " "); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 
 			cells[iColumn].add(sText);
@@ -817,7 +810,6 @@ public class CustomPreviewTable extends Composite
 			return iColumnIndex == iIndex;
 		}
 
-		@Override
 		public void paintControl(PaintEvent pe) {
 			if (isFirstPaint) {
 				isFirstPaint = false;
@@ -934,15 +926,12 @@ public class CustomPreviewTable extends Composite
 			return null;
 		}
 
-		@Override
 		public void mouseDoubleClick(MouseEvent e) {
 		}
 
-		@Override
 		public void mouseDown(MouseEvent e) {
 		}
 
-		@Override
 		public void mouseUp(MouseEvent e) {
 			// DO NOT PROCESS IF DRAGGING IN PROGRESS!
 			if (bDragging) {
@@ -1008,7 +997,6 @@ public class CustomPreviewTable extends Composite
 			redraw();
 		}
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			if (e.getSource() instanceof ScrollBar) {
 				ScrollBar sb = (ScrollBar) e.getSource();
@@ -1074,7 +1062,6 @@ public class CustomPreviewTable extends Composite
 			}
 		}
 
-		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 		}
 
@@ -1082,36 +1069,32 @@ public class CustomPreviewTable extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
-	@Override
 	public void controlMoved(ControlEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
-	@Override
 	public void controlResized(ControlEvent e) {
 		cnvCells.updateScrollbars();
 		layout(true);
 		cnvCells.redraw();
 	}
 
-	@Override
 	public void widgetDisposed(DisposeEvent e) {
 		// Remove outside listeners after being disposed
 		getShell().removeControlListener(this);
 	}
 
-	@Override
 	public void keyPressed(KeyEvent event) {
 		if ((event.stateMask == SWT.CTRL) && (event.keyCode == SWT.ARROW_LEFT || event.keyCode == SWT.ARROW_RIGHT)) {
 			scrollTable(cnvCells.getHorizontalBar(), event);
@@ -1122,7 +1105,6 @@ public class CustomPreviewTable extends Composite
 
 	}
 
-	@Override
 	public void keyReleased(KeyEvent event) {
 		// do nothing
 	}
@@ -1155,7 +1137,7 @@ public class CustomPreviewTable extends Composite
 
 	/**
 	 * Move the selected column to specified index.
-	 *
+	 * 
 	 * @param index
 	 */
 	public void moveTo(int index) {

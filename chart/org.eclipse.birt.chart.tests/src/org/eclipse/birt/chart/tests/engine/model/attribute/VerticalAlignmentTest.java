@@ -10,9 +10,8 @@
 *******************************************************************************/
 package org.eclipse.birt.chart.tests.engine.model.attribute;
 
-import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-
 import junit.framework.TestCase;
+import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 
 public class VerticalAlignmentTest extends TestCase {
 

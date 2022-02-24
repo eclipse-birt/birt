@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,14 +44,13 @@ public class CommentTemplatesConfigurationBlock extends OptionsConfigurationBloc
 	}
 
 	private Key[] getKeys() {
-		Key[] keys = { PREF_ENABLE_COMMENT, PREF_COMMENT_TEMPLATES };
+		Key[] keys = new Key[] { PREF_ENABLE_COMMENT, PREF_COMMENT_TEMPLATES };
 		return keys;
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
-	@Override
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -79,7 +78,7 @@ public class CommentTemplatesConfigurationBlock extends OptionsConfigurationBloc
 	private Text commentText;
 
 	private Composite createBuildPathTabContent(Composite parent) {
-		String[] enableDisableValues = { ENABLED, DISABLED };
+		String[] enableDisableValues = new String[] { ENABLED, DISABLED };
 
 		Composite pageContent = new Composite(parent, SWT.NONE);
 
@@ -104,7 +103,6 @@ public class CommentTemplatesConfigurationBlock extends OptionsConfigurationBloc
 
 		enableButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleChangeCommentText();
 			}
@@ -115,9 +113,8 @@ public class CommentTemplatesConfigurationBlock extends OptionsConfigurationBloc
 	}
 
 	private void handleChangeCommentText() {
-		if (enableButton == null || commentText == null) {
+		if (enableButton == null || commentText == null)
 			return;
-		}
 		if (enableButton.getSelection() && enableButton.isEnabled()) {
 			commentText.setEditable(true);
 			commentText.setEnabled(true);
@@ -132,13 +129,11 @@ public class CommentTemplatesConfigurationBlock extends OptionsConfigurationBloc
 	 * or null, if all changed.
 	 */
 
-	@Override
 	public void performDefaults() {
 		super.performDefaults();
 		handleChangeCommentText();
 	}
 
-	@Override
 	public void useProjectSpecificSettings(boolean enable) {
 		super.useProjectSpecificSettings(enable);
 		handleChangeCommentText();

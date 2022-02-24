@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2006 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -53,12 +53,11 @@ public class StaticHTMLController implements IController {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.controller.IController#setViewer(org.
 	 * eclipse.birt.report.designer.ui.preview.extension.IViewer)
 	 */
-	@Override
 	public void setViewer(IViewer viewer) {
 		this.viewer = viewer;
 
@@ -100,10 +99,9 @@ public class StaticHTMLController implements IController {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.controller.IController#getPane()
 	 */
-	@Override
 	public Widget getPane() {
 		if (viewer != null) {
 			return pane;
@@ -113,21 +111,19 @@ public class StaticHTMLController implements IController {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.controller.IController#setBusy(boolean)
 	 */
-	@Override
 	public void setBusy(final boolean b) {
 		if (display != null) {
 			display.asyncExec(new Runnable() {
 
 				/*
 				 * (non-Javadoc)
-				 *
+				 * 
 				 * @see java.lang.Runnable#run()
 				 */
-				@Override
 				public void run() {
 					if (progressBar != null && !progressBar.isDisposed()) {
 						progressBar.setVisible(b);
@@ -139,12 +135,11 @@ public class StaticHTMLController implements IController {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.preview.extension.IController#addButton(
 	 * java.lang.String, java.lang.String, org.eclipse.swt.events.SelectionListener)
 	 */
-	@Override
 	public void addButton(String text, String toolTip, SelectionListener listener) {
 		buttons.add(new ButtonInfo(text, toolTip, listener));
 	}

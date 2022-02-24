@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005, 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -24,9 +24,9 @@ import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizard
 import org.eclipse.swt.widgets.Composite;
 
 /**
- *
+ * 
  * jdbc selection page
- *
+ * 
  */
 public class JDBCSelectionWizardPage extends DataSourceWizardPage {
 	/**
@@ -47,16 +47,14 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceWizardPage#createPageCustomControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	public void createPageCustomControl(Composite parent) {
-		if (m_pageHelper == null) {
+		if (m_pageHelper == null)
 			m_pageHelper = new JDBCSelectionPageHelper(this);
-		}
 		Composite content = m_pageHelper.createCustomControl(parent);
 		m_pageHelper.initCustomControl(m_folderProperties); // in case init was called before create
 		// bidi_hcg: add "Bidi Settings..." button to "Edit Data Source dialog"
@@ -67,40 +65,35 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceWizardPage#initPageCustomControl(java.util.Properties)
 	 */
-	@Override
 	public void setInitialProperties(Properties dataSourceProps) {
 		m_folderProperties = dataSourceProps;
-		if (m_pageHelper == null) {
+		if (m_pageHelper == null)
 			return; // ignore, wait till createPageCustomControl to initialize
-		}
 		m_pageHelper.initCustomControl(m_folderProperties);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceWizardPage#collectCustomProperties()
 	 */
-	@Override
 	public Properties collectCustomProperties() {
-		if (m_pageHelper != null) {
+		if (m_pageHelper != null)
 			return m_pageHelper.collectCustomProperties(m_folderProperties);
-		}
 
 		return (m_folderProperties != null) ? m_folderProperties : new Properties();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		getControl().setFocus();
@@ -108,12 +101,11 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage
 	 * #refresh()
 	 */
-	@Override
 	public void refresh() {
 		// enable/disable all controls on page in respect of the editable session state
 		enableAllControls(getControl(), isSessionEditable());

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -52,8 +52,8 @@ public class FrameworkPacker {
 
 	static Logger logger = Logger.getLogger(FrameworkPacker.class.getName());
 
-	HashSet<String> existingEntries = new HashSet<>();
-	HashMap<String, Filter> filters = new HashMap<>();
+	HashSet<String> existingEntries = new HashSet<String>();
+	HashMap<String, Filter> filters = new HashMap<String, Filter>();
 
 	Framework framework;
 
@@ -152,13 +152,15 @@ public class FrameworkPacker {
 	protected File createTempFile(BundleEntry entry) throws IOException {
 		File tmpFile = File.createTempFile("zip", ".zip");
 		FileOutputStream output = new FileOutputStream(tmpFile);
-		try (output) {
+		try {
 			InputStream input = entry.getInputStream();
 			try {
 				copyStream(input, output);
 			} finally {
 				input.close();
 			}
+		} finally {
+			output.close();
 		}
 		return tmpFile;
 
@@ -203,7 +205,7 @@ public class FrameworkPacker {
 		existingEntries.add(path);
 
 		InputStream input = bundleEntry.getInputStream();
-		try (input) {
+		try {
 			ZipEntry zipEntry = new ZipEntry(bundleEntry.getName());
 			zipEntry.setTime(bundleEntry.getTime());
 			zipEntry.setSize(bundleEntry.getSize());
@@ -213,6 +215,8 @@ public class FrameworkPacker {
 			} finally {
 				output.closeEntry();
 			}
+		} finally {
+			input.close();
 		}
 	}
 
@@ -242,8 +246,10 @@ public class FrameworkPacker {
 			output.putNextEntry(tgtEntry);
 			try {
 				InputStream input = zipFile.getInputStream(srcEntry);
-				try (input) {
+				try {
 					copyStream(input, output);
+				} finally {
+					input.close();
 				}
 			} finally {
 				output.closeEntry();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,6 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor {
 		this.levelIndex = levelIndex;
 	}
 
-	@Override
 	public IContent execute() {
 		IRowContent content = context.getReportContent().createRowContent();
 
@@ -73,7 +72,6 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor {
 		return content;
 	}
 
-	@Override
 	protected void prepareChildren() {
 		super.prepareChildren();
 
@@ -164,7 +162,6 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor {
 		return isFirstTotalRow;
 	}
 
-	@Override
 	protected boolean checkMeasureVerticalSpanOverlapped(ColumnEvent ev) {
 		if (ev.measureIndex == -1 && totalMeasureCount != 1) {
 			// TODO vertical multi meausures, not support span now
@@ -211,7 +208,6 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor {
 		return false;
 	}
 
-	@Override
 	protected void advance() {
 		int mx;
 

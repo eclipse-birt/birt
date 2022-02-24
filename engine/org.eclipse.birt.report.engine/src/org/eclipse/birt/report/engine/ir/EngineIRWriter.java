@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,11 +35,11 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * design: 1. Write design type 2. Write report item design. 3. Write the
  * current design's fields( field type and field value ). 4. Write the current
  * design's children.
- *
+ * 
  * Version 1: remove write isBookmark of ActionDesign. Version 2: remove write
  * base path and unit of report. Version 3: add extended item's children.
  * Version 4: change the way of writing and reading the style.
- *
+ * 
  * <h4>Version 6
  * <h4>support the page script/page variable in the design and master page.
  * <h4>version 7</h4> From that version, we separate the expression with the
@@ -205,12 +205,11 @@ public class EngineIRWriter implements IOConstants {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#
 		 * visitAutoTextItem(org.eclipse.birt.report.engine.ir.AutoTextItemDesign,
 		 * java.lang.Object)
 		 */
-		@Override
 		public Object visitAutoTextItem(AutoTextItemDesign autoText, Object value) {
 			try {
 				bout.reset();
@@ -225,7 +224,6 @@ public class EngineIRWriter implements IOConstants {
 			return null;
 		}
 
-		@Override
 		public Object visitCell(CellDesign cell, Object value) {
 			try {
 				bout.reset();
@@ -249,7 +247,6 @@ public class EngineIRWriter implements IOConstants {
 			return null;
 		}
 
-		@Override
 		public Object visitDataItem(DataItemDesign data, Object value) {
 			try {
 				bout.reset();
@@ -263,7 +260,6 @@ public class EngineIRWriter implements IOConstants {
 			return null;
 		}
 
-		@Override
 		public Object visitExtendedItem(ExtendedItemDesign item, Object value) {
 			try {
 				bout.reset();
@@ -285,12 +281,11 @@ public class EngineIRWriter implements IOConstants {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#
 		 * visitFreeFormItem(org.eclipse.birt.report.engine.ir.FreeFormItemDesign,
 		 * java.lang.Object)
 		 */
-		@Override
 		public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
 			try {
 				bout.reset();
@@ -315,12 +310,11 @@ public class EngineIRWriter implements IOConstants {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#visitGridItem(
 		 * org.eclipse.birt.report.engine.ir.GridItemDesign, java.lang.Object)
 		 */
-		@Override
 		public Object visitGridItem(GridItemDesign grid, Object value) {
 			try {
 				bout.reset();
@@ -344,7 +338,6 @@ public class EngineIRWriter implements IOConstants {
 			return null;
 		}
 
-		@Override
 		public Object visitImageItem(ImageItemDesign image, Object value) {
 			try {
 				bout.reset();
@@ -358,7 +351,6 @@ public class EngineIRWriter implements IOConstants {
 			return null;
 		}
 
-		@Override
 		public Object visitLabelItem(LabelItemDesign label, Object value) {
 			try {
 				bout.reset();
@@ -374,12 +366,11 @@ public class EngineIRWriter implements IOConstants {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#visitListBand(
 		 * org.eclipse.birt.report.engine.ir.ListBandDesign, java.lang.Object)
 		 */
-		@Override
 		public Object visitListBand(ListBandDesign band, Object value) {
 			try {
 				bout.reset();
@@ -403,7 +394,6 @@ public class EngineIRWriter implements IOConstants {
 			return null;
 		}
 
-		@Override
 		public Object visitListGroup(ListGroupDesign group, Object value) {
 			try {
 				bout.reset();
@@ -436,7 +426,6 @@ public class EngineIRWriter implements IOConstants {
 			return null;
 		}
 
-		@Override
 		public Object visitListItem(ListItemDesign list, Object value) {
 			try {
 				bout.reset();
@@ -485,7 +474,6 @@ public class EngineIRWriter implements IOConstants {
 			return null;
 		}
 
-		@Override
 		public Object visitDynamicTextItem(DynamicTextItemDesign multiLine, Object value) {
 			try {
 				bout.reset();
@@ -499,7 +487,6 @@ public class EngineIRWriter implements IOConstants {
 			return null;
 		}
 
-		@Override
 		public Object visitRow(RowDesign row, Object value) {
 			try {
 				bout.reset();
@@ -525,12 +512,11 @@ public class EngineIRWriter implements IOConstants {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#visitTableBand
 		 * (org.eclipse.birt.report.engine.ir.TableBandDesign, java.lang.Object)
 		 */
-		@Override
 		public Object visitTableBand(TableBandDesign band, Object value) {
 			try {
 				bout.reset();
@@ -556,12 +542,11 @@ public class EngineIRWriter implements IOConstants {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#
 		 * visitTableGroup(org.eclipse.birt.report.engine.ir.TableGroupDesign,
 		 * java.lang.Object)
 		 */
-		@Override
 		public Object visitTableGroup(TableGroupDesign group, Object value) {
 			try {
 				bout.reset();
@@ -595,12 +580,11 @@ public class EngineIRWriter implements IOConstants {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#visitTableItem
 		 * (org.eclipse.birt.report.engine.ir.TableItemDesign, java.lang.Object)
 		 */
-		@Override
 		public Object visitTableItem(TableItemDesign table, Object value) {
 			try {
 				bout.reset();
@@ -652,12 +636,11 @@ public class EngineIRWriter implements IOConstants {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#visitTemplate(
 		 * org.eclipse.birt.report.engine.ir.TemplateDesign, java.lang.Object)
 		 */
-		@Override
 		public Object visitTemplate(TemplateDesign template, Object value) {
 			try {
 				bout.reset();
@@ -673,12 +656,11 @@ public class EngineIRWriter implements IOConstants {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#visitTextItem(
 		 * org.eclipse.birt.report.engine.ir.TextItemDesign, java.lang.Object)
 		 */
-		@Override
 		public Object visitTextItem(TextItemDesign text, Object value) {
 			try {
 				bout.reset();
@@ -742,7 +724,7 @@ public class EngineIRWriter implements IOConstants {
 		}
 
 		HighlightDesign highlight = design.getHighlight();
-
+		;
 		if (highlight != null) {
 			IOUtil.writeShort(out, FIELD_HIGHLIGHT);
 			writeHighlight(out, highlight);
@@ -918,7 +900,7 @@ public class EngineIRWriter implements IOConstants {
 		boolean repeatHeader = listing.isRepeatHeader();
 		int pageBreakInterval = listing.getPageBreakInterval();
 
-		if (repeatHeader) {
+		if (repeatHeader == true) {
 			IOUtil.writeShort(out, FIELD_REPEAT_HEADER);
 			IOUtil.writeBool(out, repeatHeader);
 		}
@@ -954,11 +936,11 @@ public class EngineIRWriter implements IOConstants {
 			IOUtil.writeString(out, pageBreakInside);
 		}
 
-		if (headerRepeat) {
+		if (headerRepeat == true) {
 			IOUtil.writeShort(out, FIELD_HEADER_REPEAT);
 			IOUtil.writeBool(out, headerRepeat);
 		}
-		if (hideDetail) {
+		if (hideDetail == true) {
 			IOUtil.writeShort(out, FIELD_HIDE_DETAIL);
 			IOUtil.writeBool(out, hideDetail);
 		}
@@ -1066,7 +1048,7 @@ public class EngineIRWriter implements IOConstants {
 	protected void writeColumn(DataOutputStream out, ColumnDesign column) throws IOException {
 		writeStyledElement(out, column);
 		boolean isColumnHeader = column.isColumnHeader();
-		if (isColumnHeader) {
+		if (isColumnHeader == true) {
 			IOUtil.writeShort(out, FIELD_IS_COLUMN_HEADER);
 			IOUtil.writeBool(out, isColumnHeader);
 		}

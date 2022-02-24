@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +57,7 @@ final class R31Enhance {
 
 	/**
 	 * Returns if r3.1 new feature available.
-	 *
+	 * 
 	 * @return
 	 */
 	public static boolean isR31Available() {
@@ -66,7 +66,7 @@ final class R31Enhance {
 
 	/**
 	 * Equivalent to <code><b>GC.setAdvanced()</b></code> in r3.1.
-	 *
+	 * 
 	 * @param gc
 	 * @param value
 	 */
@@ -81,7 +81,7 @@ final class R31Enhance {
 
 	/**
 	 * Equivalent to <code><b>GC.setAlpha()</b></code> in r3.1.
-	 *
+	 * 
 	 * @param gc
 	 * @param value
 	 */
@@ -93,7 +93,7 @@ final class R31Enhance {
 
 	/**
 	 * Equivalent to <code><b>GC.setAntialias()</b></code> in r3.1.
-	 *
+	 * 
 	 * @param gc
 	 * @param value
 	 */
@@ -105,7 +105,7 @@ final class R31Enhance {
 
 	/**
 	 * Equivalent to <code><b>GC.setTextAntialias()</b></code> in r3.1.
-	 *
+	 * 
 	 * @param gc
 	 * @param value
 	 */
@@ -117,7 +117,7 @@ final class R31Enhance {
 
 	/**
 	 * Equivalent to <code><b>new Transform()</b></code> in r3.1.
-	 *
+	 * 
 	 * @param param
 	 * @return
 	 */
@@ -131,7 +131,7 @@ final class R31Enhance {
 
 	/**
 	 * Equivalent to <code><b>GC.setTransform()</b></code> in r3.1.
-	 *
+	 * 
 	 * @param gc
 	 * @param value
 	 */
@@ -143,7 +143,7 @@ final class R31Enhance {
 
 	/**
 	 * Equivalent to <code><b>Transform.translate()</b></code> in r3.1.
-	 *
+	 * 
 	 * @param gc
 	 * @param transObject
 	 * @param v1
@@ -157,7 +157,7 @@ final class R31Enhance {
 
 	/**
 	 * Equivalent to <code><b>Transform.rotate()</b></code> in r3.1.
-	 *
+	 * 
 	 * @param gc
 	 * @param transform
 	 * @param value
@@ -170,7 +170,7 @@ final class R31Enhance {
 
 	/**
 	 * Equivalent to <code><b>Transform.dispose()</b></code> in r3.1.
-	 *
+	 * 
 	 * @param transform
 	 */
 	static void disposeTransform(Object transform) {
@@ -181,7 +181,7 @@ final class R31Enhance {
 
 	/**
 	 * Convenient method to enable alpha effect on GC if r31 available.
-	 *
+	 * 
 	 * @param gc
 	 * @param cd
 	 * @param useOpaque
@@ -198,7 +198,7 @@ final class R31Enhance {
 
 	/**
 	 * Convenient method to enable alpha effect on GC if r31 available.
-	 *
+	 * 
 	 * @param gc
 	 * @param cd
 	 * @param useOpaque

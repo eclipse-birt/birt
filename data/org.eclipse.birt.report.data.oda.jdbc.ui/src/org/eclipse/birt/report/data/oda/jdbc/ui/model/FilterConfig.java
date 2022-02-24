@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008, 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -19,9 +19,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 
 public class FilterConfig {
 
-	public enum Type {
+	public static enum Type {
 		ALL, TABLE, VIEW, PROCEDURE
-	}
+	};
 
 	public final static String JDBC_TYPE_NO_LIMIT = "NO_LIMIT"; //$NON-NLS-1$
 	public final static String JDBC_TYPE_TABLE = "TABLE"; //$NON-NLS-1$
@@ -101,7 +101,7 @@ public class FilterConfig {
 	 * @return null if no table/view needed to query
 	 */
 	public String[] getTableTypesForJDBC() {
-		ArrayList<String> types = new ArrayList<>();
+		ArrayList<String> types = new ArrayList<String>();
 
 		if (type == TableType.PROCEDURE) {
 

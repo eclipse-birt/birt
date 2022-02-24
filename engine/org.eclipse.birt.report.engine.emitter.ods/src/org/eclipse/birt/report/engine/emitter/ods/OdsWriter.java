@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 
 /**
  * @author Administrator
- *
+ * 
  */
 public class OdsWriter implements IOdsWriter {
 
@@ -54,7 +54,6 @@ public class OdsWriter implements IOdsWriter {
 		this.isRTLSheet = isRtlSheet;
 	}
 
-	@Override
 	public void end() throws IOException {
 		writer.end();
 		if (tempFilePath != null) {
@@ -65,17 +64,14 @@ public class OdsWriter implements IOdsWriter {
 		}
 	}
 
-	@Override
 	public void endRow() {
 		writer.endRow();
 	}
 
-	@Override
 	public void outputData(SheetData data, StyleEntry style, int column, int colSpan) throws IOException {
 		writer.outputData(data, style, column, colSpan);
 	}
 
-	@Override
 	public void start(IReportContent report, HashMap<String, BookmarkDef> bookmarkList) throws IOException {
 		writer = new OdsXmlWriter(out, context, isRTLSheet);
 		writer.setSheetIndex(sheetIndex);
@@ -105,12 +101,10 @@ public class OdsWriter implements IOdsWriter {
 		}
 	}
 
-	@Override
 	public void startRow(StyleEntry rowStyle) {
 		writer.startRow(rowStyle);
 	}
 
-	@Override
 	public void startSheet(String name) throws IOException {
 		if (writer == null) {
 			initializeWriterAsTempWriter();
@@ -119,7 +113,6 @@ public class OdsWriter implements IOdsWriter {
 		sheetIndex++;
 	}
 
-	@Override
 	public void startSheet(StyleEntry tableStyle, StyleEntry[] colStyles, String name) throws IOException {
 		if (writer == null) {
 			initializeWriterAsTempWriter();
@@ -130,7 +123,7 @@ public class OdsWriter implements IOdsWriter {
 
 	/**
 	 * @throws FileNotFoundException
-	 *
+	 * 
 	 */
 	private void initializeWriterAsTempWriter() throws FileNotFoundException {
 		tempFilePath = context.getTempFileDir() + "_BIRTEMITTER_ODS_TEMP_FILE" + Thread.currentThread().getId();
@@ -139,22 +132,18 @@ public class OdsWriter implements IOdsWriter {
 		writer = tempWriter;
 	}
 
-	@Override
 	public void endSheet() {
 		writer.endSheet();
 	}
 
-	@Override
 	public void startRow() {
 		writer.startRow();
 	}
 
-	@Override
 	public void outputData(int col, int row, int type, Object value) {
 		writer.outputData(col, row, type, value);
 	}
 
-	@Override
 	public String defineName(String cells) {
 		return writer.defineName(cells);
 	}

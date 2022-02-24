@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor {
 	 * <li>close the dataset.
 	 * <li>exit current script scope.
 	 * </ul>
-	 *
+	 * 
 	 * @param ds the dataset object, null is valid
 	 */
 	protected void closeQuery() {
@@ -56,7 +56,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor {
 	 * record , register the first row to script context, and return this
 	 * <code>DataSet</code> object if dataset design is null, or open error, or
 	 * empty resultset, return null.
-	 *
+	 * 
 	 * @param item the report item design
 	 * @return the DataSet object if not null, else return null
 	 */
@@ -77,6 +77,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor {
 
 				if (rset != null) {
 					rsetEmpty = !rset.next();
+					return;
 				}
 			} catch (BirtException ex) {
 				rsetEmpty = true;
@@ -95,7 +96,6 @@ abstract public class QueryItemExecutor extends StyledItemExecutor {
 	protected void accessQuery(ReportItemDesign design, IContentEmitter emitter) {
 	}
 
-	@Override
 	public void close() throws BirtException {
 		rset = null;
 		rsetEmpty = false;

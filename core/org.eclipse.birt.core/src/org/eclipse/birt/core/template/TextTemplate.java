@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.core.template;
@@ -22,7 +22,7 @@ public class TextTemplate {
 		return nodes;
 	}
 
-	public interface Visitor {
+	public static interface Visitor {
 
 		Object visitText(TextNode node, Object value);
 
@@ -46,7 +46,6 @@ public class TextTemplate {
 			return content;
 		}
 
-		@Override
 		public void accept(Visitor visitor, Object value) {
 			visitor.visitText(this, value);
 		}
@@ -104,7 +103,6 @@ public class TextTemplate {
 			return null;
 		}
 
-		@Override
 		public void accept(Visitor visitor, Object value) {
 			visitor.visitImage(this, value);
 		}
@@ -128,7 +126,6 @@ public class TextTemplate {
 			return value;
 		}
 
-		@Override
 		public void accept(Visitor visitor, Object value) {
 			visitor.visitValue(this, value);
 		}
@@ -136,7 +133,6 @@ public class TextTemplate {
 
 	public static class ExpressionValueNode extends ValueNode {
 
-		@Override
 		public void accept(Visitor visitor, Object value) {
 			visitor.visitExpressionValue(this, value);
 		}

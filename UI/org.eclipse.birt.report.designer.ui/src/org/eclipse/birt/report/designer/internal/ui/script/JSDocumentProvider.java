@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -24,8 +24,8 @@ import org.eclipse.ui.ISaveablePart;
 /**
  * Subclass of <code>DocumentProvider</code>, creates documents and sets
  * partition scanners
- *
- *
+ * 
+ * 
  */
 public class JSDocumentProvider extends StorageDocumentProvider {
 
@@ -42,7 +42,7 @@ public class JSDocumentProvider extends StorageDocumentProvider {
 	/**
 	 * Creates a new javascript's document provider with the specified saveable
 	 * part.
-	 *
+	 * 
 	 * @param part the saveable part.
 	 */
 	public JSDocumentProvider(ISaveablePart part) {
@@ -52,7 +52,6 @@ public class JSDocumentProvider extends StorageDocumentProvider {
 	/**
 	 * @see DocumentProvider#createDocument(java.lang.Object)
 	 */
-	@Override
 	protected IDocument createDocument(Object element) throws CoreException {
 		IDocument document = super.createDocument(element);
 		if (document != null) {

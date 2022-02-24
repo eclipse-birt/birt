@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,6 @@ public class ScriptableParameters extends BaseScriptable {
 		this.parameters = parameters;
 	}
 
-	@Override
 	public Object get(String name, Scriptable start) {
 		Object result = getScriptableParameter(name);
 		if (result == null) {
@@ -43,7 +42,6 @@ public class ScriptableParameters extends BaseScriptable {
 		return result;
 	}
 
-	@Override
 	public Object get(int index, Scriptable start) {
 		return get(String.valueOf(index), start);
 	}
@@ -55,7 +53,6 @@ public class ScriptableParameters extends BaseScriptable {
 		return null;
 	}
 
-	@Override
 	public boolean has(String name, Scriptable start) {
 		return parameters.get(name) != null;
 	}
@@ -66,7 +63,6 @@ public class ScriptableParameters extends BaseScriptable {
 	 * <li>params["a"] = params["b"]
 	 * <li>params["a"] = "value"
 	 */
-	@Override
 	public void put(String name, Scriptable start, Object value) {
 		ParameterAttribute entry = (ParameterAttribute) parameters.get(name);
 		if (entry == null) {
@@ -101,7 +97,6 @@ public class ScriptableParameters extends BaseScriptable {
 		}
 	}
 
-	@Override
 	public String getClassName() {
 		return JS_CLASS_NAME;
 	}

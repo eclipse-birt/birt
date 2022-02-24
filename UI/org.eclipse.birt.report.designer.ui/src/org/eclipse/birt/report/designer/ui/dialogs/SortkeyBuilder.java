@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -89,12 +89,12 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 	/**
 	 * Constant, represents empty String array.
 	 */
-	private static final String[] EMPTY = {};
+	private static final String[] EMPTY = new String[0];
 
 	public static final Map<String, Integer> STRENGTH_MAP;
 
 	static {
-		STRENGTH_MAP = new HashMap<>();
+		STRENGTH_MAP = new HashMap<String, Integer>();
 		STRENGTH_MAP.put(Messages.getString("SortkeyBuilder.Strength.ASCII"), ISortDefinition.ASCII_SORT_STRENGTH);
 		STRENGTH_MAP.put(Messages.getString("SortkeyBuilder.Strength.PRIMARY"), Collator.PRIMARY);
 		STRENGTH_MAP.put(Messages.getString("SortkeyBuilder.Strength.SECONDARY"), Collator.SECONDARY);
@@ -127,7 +127,6 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 		choiceSet = ChoiceSetFactory.getStructChoiceSet(SortKey.SORT_STRUCT, SortKey.DIRECTION_MEMBER);
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.INSERT_EDIT_SORTKEY_DIALOG_ID);
 
@@ -177,7 +176,6 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 		comboKey.addListener(SWT.Selection, comboKeyModify);
 		comboKey.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
@@ -185,7 +183,6 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 
 		Listener listener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				updateButtons();
 			}
@@ -210,7 +207,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 		gdata = new GridData(GridData.FILL_HORIZONTAL);
 		comboLocale.setLayoutData(gdata);
 		comboLocale.setVisibleItemCount(30);
-		List<String> localeNames = new ArrayList<>();
+		List<String> localeNames = new ArrayList<String>();
 		localeNames.add(Messages.getString("SortkeyBuilder.Locale.Auto"));
 		localeNames.addAll(FormatAdapter.LOCALE_TABLE.keySet());
 		comboLocale.setItems(localeNames.toArray(new String[] {}));
@@ -223,10 +220,9 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 		gdata = new GridData(GridData.FILL_HORIZONTAL);
 		comboStrength.setLayoutData(gdata);
 		comboStrength.setVisibleItemCount(30);
-		List<String> strengthNames = new ArrayList<>(STRENGTH_MAP.keySet());
+		List<String> strengthNames = new ArrayList<String>(STRENGTH_MAP.keySet());
 		Collections.sort(strengthNames, new Comparator<String>() {
 
-			@Override
 			public int compare(String o1, String o2) {
 				return STRENGTH_MAP.get(o1) - STRENGTH_MAP.get(o2);
 			}
@@ -243,7 +239,6 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 
 	protected Listener comboKeyModify = new Listener() {
 
-		@Override
 		public void handleEvent(Event e) {
 			assert e.widget instanceof Combo;
 			Combo combo = (Combo) e.widget;
@@ -252,9 +247,8 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 			IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter(combo);
 			if (converter != null) {
 				String value = ExpressionUtility.getExpression(getResultSetColumn(newValue), converter);
-				if (value != null) {
+				if (value != null)
 					newValue = value;
-				}
 			}
 
 			combo.setText(newValue);
@@ -275,7 +269,6 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 		return null;
 	}
 
-	@Override
 	public int open() {
 		if (getShell() == null) {
 			// create the window
@@ -295,11 +288,10 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog ()
 	 */
-	@Override
 	protected boolean initDialog() {
 		if (sortKey == null) {
 			comboKey.setText(""); //$NON-NLS-1$
@@ -312,9 +304,8 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 		if (sortKey.getDirection() != null && sortKey.getDirection().trim().length() != 0) {
 			String value = sortKey.getDirection().trim();
 			IChoice choice = choiceSet.findChoice(value);
-			if (choice != null) {
+			if (choice != null)
 				value = choice.getDisplayName();
-			}
 			int index;
 			index = comboDirection.indexOf(value);
 			index = index < 0 ? 0 : index;
@@ -352,12 +343,11 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 		if (columnList.isEmpty()) {
 			return EMPTY;
 		}
-		List<String> valueList = new ArrayList<>();
+		List<String> valueList = new ArrayList<String>();
 		for (int i = 0; i < columnList.size(); i++) {
 			ComputedColumnHandle columnHandle = columnList.get(i);
-			if (columnHandle.getAggregateFunction() == null) {
+			if (columnHandle.getAggregateFunction() == null)
 				valueList.add(columnHandle.getName());
-			}
 		}
 		return valueList.toArray(new String[valueList.size()]);
 	}
@@ -379,13 +369,11 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 	 * Subclasses may override.
 	 * </p>
 	 */
-	@Override
 	protected void okPressed() {
 		String direction = comboDirection.getText();
 		IChoice choice = choiceSet.findChoiceByDisplayName(direction);
-		if (choice != null) {
+		if (choice != null)
 			direction = choice.getDisplayName();
-		}
 		int index;
 		index = comboDirection.indexOf(direction);
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -456,7 +444,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Sets the model input.
-	 *
+	 * 
 	 * @param input
 	 */
 	public void setInput(Object input) {
@@ -470,9 +458,8 @@ public class SortkeyBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Refreshes the OK button state.
-	 *
+	 * 
 	 */
-	@Override
 	protected void updateButtons() {
 		getButton(IDialogConstants.OK_ID).setEnabled(isConditionOK());
 	}

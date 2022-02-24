@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,7 +14,7 @@
 package org.eclipse.birt.report.engine.executor.buffermgr;
 
 /**
- *
+ * 
  */
 public class Table {
 
@@ -56,7 +56,7 @@ public class Table {
 
 	/**
 	 * reset the table model.
-	 *
+	 * 
 	 */
 	public void reset() {
 		fillEmptyCells(0, 0, rowBufferSize, colBufferSize);
@@ -75,7 +75,7 @@ public class Table {
 
 	/**
 	 * create a row in the table model
-	 *
+	 * 
 	 * @param content row content
 	 */
 	public void createRow(Object content) {
@@ -106,10 +106,10 @@ public class Table {
 
 	/**
 	 * create a cell in the current row.
-	 *
+	 * 
 	 * if the cell content is not empty put it into the table if the cell is empty:
 	 * if the cell has been used, drop the cell else, put it into the table.
-	 *
+	 * 
 	 * @param cellId  column index of the cell.
 	 * @param rowSpan row span of the cell
 	 * @param colSpan col span of the cell
@@ -224,7 +224,7 @@ public class Table {
 
 	/**
 	 * get the next empty cell.
-	 *
+	 * 
 	 * @return
 	 */
 	protected int getNextEmptyCell() {
@@ -245,9 +245,8 @@ public class Table {
 	protected int getMaxColSpan(int colId, int colSpan) {
 
 		int checkSize = colCount - colId;
-		if (checkSize > colSpan) {
+		if (checkSize > colSpan)
 			checkSize = colSpan;
-		}
 
 		Cell[] cells = rows[rowCount - 1].cells;
 		for (int i = 1; i < checkSize; i++) {
@@ -300,7 +299,7 @@ public class Table {
 	/**
 	 * remove the cell from table layout buffer. The grid cell used by this cell
 	 * fills EMPTY_CELL.
-	 *
+	 * 
 	 * @param rowId row index
 	 * @param colId column index
 	 */
@@ -309,18 +308,16 @@ public class Table {
 		int colId = cell.colId;
 		int rowSpan = cell.rowSpan;
 		int colSpan = cell.colSpan;
-		if (rowSpan < 0) {
+		if (rowSpan < 0)
 			rowSpan = rowCount - rowId;
-		}
-		if (colId + colSpan > colCount) {
+		if (colId + colSpan > colCount)
 			colSpan = colCount - colId;
-		}
 		fillEmptyCells(rowId, colId, rowSpan, colSpan);
 	}
 
 	/**
 	 * fill empty cells in the table.
-	 *
+	 * 
 	 * @param rowId   row index
 	 * @param colId   col index
 	 * @param rowSize fill area size
@@ -329,12 +326,10 @@ public class Table {
 	protected void fillEmptyCells(int rowId, int colId, int rowSize, int colSize) {
 		int lastRowId = rowId + rowSize;
 		int lastColId = colId + colSize;
-		if (lastRowId > rowCount) {
+		if (lastRowId > rowCount)
 			lastRowId = rowCount;
-		}
-		if (lastColId > colCount) {
+		if (lastColId > colCount)
 			lastColId = colCount;
-		}
 
 		for (int i = rowId; i < lastRowId; i++) {
 			Cell[] cells = rows[i].cells;
@@ -347,7 +342,7 @@ public class Table {
 
 	/**
 	 * we never change both the row span and col span at the same time.
-	 *
+	 * 
 	 * @param cell       the cell to be changed
 	 * @param newRowSpan new row span
 	 * @param newColSpan new col span

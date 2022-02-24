@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,11 +46,10 @@ public class SerializableBirtHash extends HashMap implements IIndexSerializer {
 		this.manager = manager;
 	}
 
-	@Override
 	public Object put(Object key, Object value) {
-		if (key == null) {
+		if (key == null)
 			this.valueSet.add(null);
-		} else {
+		else {
 			int hash = key.hashCode();
 			if (this.valueSet.contains(hash)) {
 				this.valueSet.add(key);
@@ -62,20 +61,16 @@ public class SerializableBirtHash extends HashMap implements IIndexSerializer {
 	}
 
 	public Object getKeyValue(Object key) {
-		if (key == null) {
+		if (key == null)
 			return null;
-		}
-		if (this.valueSet.contains(key)) {
+		if (this.valueSet.contains(key))
 			return key;
-		}
 		return key.hashCode();
 	}
 
-	@Override
 	public void close() throws DataException {
-		if (closed) {
+		if (closed)
 			return;
-		}
 		this.closed = true;
 
 		this.doSave();
@@ -84,9 +79,8 @@ public class SerializableBirtHash extends HashMap implements IIndexSerializer {
 
 	private void doSave() throws DataException {
 		try {
-			if (this.keySet().size() == 0) {
+			if (this.keySet().size() == 0)
 				return;
-			}
 			RAOutputStream indexStream = this.manager.getOutStream(indexName);
 			RAOutputStream valueStream = this.manager.getOutStream(valueName);
 			DataOutputStream dis = new DataOutputStream(indexStream);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 /**
  * Represents a joint data set. A joint data set is a data set joined by several
  * data sets which can come from different data sources.
- *
+ * 
  * @see org.eclipse.birt.report.model.elements.SimpleDataSet
  */
 
@@ -45,7 +45,7 @@ public class JointDataSet extends DataSet implements IJointDataSetModel {
 
 	/**
 	 * Constructs this joint data set with a required name.
-	 *
+	 * 
 	 * @param theName the required name
 	 */
 
@@ -55,45 +55,42 @@ public class JointDataSet extends DataSet implements IJointDataSetModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitJointDataSet(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.JOINT_DATA_SET;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the report design of the joint data set
-	 *
+	 * 
 	 * @return an API handle for this element
 	 */
 
@@ -106,21 +103,20 @@ public class JointDataSet extends DataSet implements IJointDataSetModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt
 	 * .report.model.core.Module)
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module) {
 		return Collections.emptyList();
 	}
 
 	/**
 	 * Gets the names of the data sets in this joint data set.
-	 *
+	 * 
 	 * @param module the root module of the element
-	 *
+	 * 
 	 * @return a list of names of data sets in this joint data set.
 	 */
 
@@ -129,7 +125,7 @@ public class JointDataSet extends DataSet implements IJointDataSetModel {
 		if (dataSetsReferences == null) {
 			return Collections.emptyList();
 		}
-		List<String> results = new ArrayList<>();
+		List<String> results = new ArrayList<String>();
 		for (int i = 0; i < dataSetsReferences.size(); i++) {
 			results.add(((ElementRefValue) dataSetsReferences.get(i)).getQualifiedReference());
 		}

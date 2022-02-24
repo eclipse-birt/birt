@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * The label and icon part of the breadcrumb item.
- *
+ * 
  * @since 2.6.2
  */
 class BreadcrumbItemDetails {
@@ -101,7 +101,6 @@ class BreadcrumbItemDetails {
 		addElementListener(fTextComposite);
 		fTextComposite.addPaintListener(new PaintListener() {
 
-			@Override
 			public void paintControl(PaintEvent e) {
 				if (fHasFocus && isTextVisible()) {
 					e.gc.drawFocus(e.x, e.y, e.width, e.height);
@@ -118,14 +117,12 @@ class BreadcrumbItemDetails {
 
 		fTextComposite.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = fElementText.getText();
 			}
 		});
 		fImageComposite.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = fElementText.getText();
 			}
@@ -146,7 +143,7 @@ class BreadcrumbItemDetails {
 
 	/**
 	 * Sets the tool tip to the given text.
-	 *
+	 * 
 	 * @param text the tool tip
 	 */
 	public void setToolTip(String text) {
@@ -164,7 +161,7 @@ class BreadcrumbItemDetails {
 
 	/**
 	 * Sets the image to the given image.
-	 *
+	 * 
 	 * @param image the image to use
 	 */
 	public void setImage(Image image) {
@@ -175,7 +172,7 @@ class BreadcrumbItemDetails {
 
 	/**
 	 * Sets the text to the given text.
-	 *
+	 * 
 	 * @param text the text to use
 	 */
 	public void setText(String text) {
@@ -189,27 +186,24 @@ class BreadcrumbItemDetails {
 
 	/**
 	 * Returns the width of this element.
-	 *
+	 * 
 	 * @return current width of this element
 	 */
 	public int getWidth() {
 		int result = 2;
 
-		if (fElementImage.getImage() != null) {
+		if (fElementImage.getImage() != null)
 			result += fElementImage.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
-		}
 
-		if (fTextVisible && fElementText.getText().length() > 0) {
+		if (fTextVisible && fElementText.getText().length() > 0)
 			result += fElementText.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
-		}
 
 		return result;
 	}
 
 	public void setTextVisible(boolean enabled) {
-		if (fTextVisible == enabled) {
+		if (fTextVisible == enabled)
 			return;
-		}
 
 		fTextVisible = enabled;
 
@@ -239,7 +233,7 @@ class BreadcrumbItemDetails {
 
 	/**
 	 * Tells whether this item shows a text or only an image.
-	 *
+	 * 
 	 * @return <code>true</code> if it shows a text and an image, false if it only
 	 *         shows the image
 	 */
@@ -249,7 +243,7 @@ class BreadcrumbItemDetails {
 
 	/**
 	 * Sets whether details should be shown.
-	 *
+	 * 
 	 * @param visible <code>true</code> if details should be shown
 	 */
 	public void setVisible(boolean visible) {
@@ -260,9 +254,8 @@ class BreadcrumbItemDetails {
 	}
 
 	public void setSelected(boolean selected) {
-		if (selected == fSelected) {
+		if (selected == fSelected)
 			return;
-		}
 
 		fSelected = selected;
 		// if ( !fSelected )
@@ -325,13 +318,12 @@ class BreadcrumbItemDetails {
 
 	/**
 	 * Install focus and key listeners to the given composite.
-	 *
+	 * 
 	 * @param composite the composite which may get focus
 	 */
 	private void installFocusComposite(Composite composite) {
 		composite.addTraverseListener(new TraverseListener() {
 
-			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_TAB_NEXT || e.detail == SWT.TRAVERSE_TAB_PREVIOUS) {
 					int index = fParent.getViewer().getIndexOfItem(fParent);
@@ -351,7 +343,6 @@ class BreadcrumbItemDetails {
 		});
 		composite.addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 				BreadcrumbViewer viewer = fParent.getViewer();
 
@@ -418,7 +409,6 @@ class BreadcrumbItemDetails {
 				shell.setFocus();
 			}
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 			}
 		});
@@ -447,13 +437,12 @@ class BreadcrumbItemDetails {
 
 	/**
 	 * Add mouse listeners to the given control.
-	 *
+	 * 
 	 * @param control the control to which may be clicked
 	 */
 	private void addElementListener(Control control) {
 		control.addMouseListener(new MouseListener() {
 
-			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				fHasFocus = false;
 				updateSelection();
@@ -464,7 +453,6 @@ class BreadcrumbItemDetails {
 
 			}
 
-			@Override
 			public void mouseDown(MouseEvent e) {
 				fHasFocus = true;
 				updateSelection();
@@ -473,11 +461,9 @@ class BreadcrumbItemDetails {
 				viewer.fireOpen();
 			}
 
-			@Override
 			public void mouseUp(MouseEvent e) {
 				Display.getDefault().timerExec(100, new Runnable() {
 
-					@Override
 					public void run() {
 						fHasFocus = false;
 						updateSelection();
@@ -487,7 +473,6 @@ class BreadcrumbItemDetails {
 		});
 		control.addMenuDetectListener(new MenuDetectListener() {
 
-			@Override
 			public void menuDetected(MenuDetectEvent e) {
 				BreadcrumbViewer viewer = fParent.getViewer();
 				viewer.selectItem(fParent);

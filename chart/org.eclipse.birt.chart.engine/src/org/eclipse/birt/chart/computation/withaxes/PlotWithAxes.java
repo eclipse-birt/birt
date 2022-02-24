@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -89,7 +89,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 
 	/**
 	 * Look up table for label limit.
-	 *
+	 * 
 	 * @param la
 	 * @param lbLimit
 	 */
@@ -100,7 +100,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 
 	/**
 	 * Look up table for label limit.
-	 *
+	 * 
 	 * @param la
 	 * @return LabelLimiter
 	 */
@@ -111,7 +111,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 
 	/**
 	 * Converts to internal (non public-model) data structures
-	 *
+	 * 
 	 * @param cd
 	 * @return
 	 */
@@ -129,7 +129,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 
 	/**
 	 * Converts to internal (non public-model) data structures
-	 *
+	 * 
 	 * @param ax
 	 * @return
 	 */
@@ -158,7 +158,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 
 	/**
 	 * Converts to internal (non public-model) data structures
-	 *
+	 * 
 	 * @param ax
 	 * @return
 	 */
@@ -195,7 +195,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 
 	/**
 	 * Converts to internal (non public-model) data structures
-	 *
+	 * 
 	 * @param ax
 	 * @return
 	 */
@@ -243,7 +243,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	}
 
 	/**
-	 *
+	 * 
 	 * @param se
 	 * @return
 	 */
@@ -272,7 +272,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	/**
 	 * This method validates several crucial properties for an axis associated with
 	 * a Chart
-	 *
+	 * 
 	 * @param ax The axis to validate
 	 * @throws ChartException
 	 */
@@ -359,12 +359,12 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	/**
 	 * This method converts a generic text dataset to a typed dataset as expected by
 	 * the renderer
-	 *
+	 * 
 	 * @param ax           The model's axis for which a series will be queried
 	 * @param iType        The renderer datatype associated with the axis
 	 * @param iSeriesIndex The series index for which the typed dataset is being
 	 *                     built
-	 *
+	 * 
 	 * @return
 	 */
 	protected final DataSetIterator getTypedDataSet(Axis ax, int iType, int iSeriesIndex)
@@ -440,7 +440,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	/**
 	 * Converts to internal (non public-model) data structures and transposes value
 	 * if needed
-	 *
+	 * 
 	 * @param iBaseOrOrthogonal
 	 * @return
 	 */
@@ -458,7 +458,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 
 	/**
 	 * Returns a transpose of the original angle
-	 *
+	 * 
 	 * @param dOriginalAngle
 	 * @return angle
 	 * @throws IllegalArgumentException
@@ -477,7 +477,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	/**
 	 * Returns a transposed or the original label position as requested depending on
 	 * the plot's orientation
-	 *
+	 * 
 	 * @param iBaseOrOrthogonal
 	 * @param iOriginalPosition
 	 * @return position state
@@ -521,7 +521,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	/**
 	 * Returns a transposed or the original tick style as requested depending on the
 	 * plot's orientation
-	 *
+	 * 
 	 * @param iBaseOrOrthogonal
 	 * @param iOriginalStyle
 	 * @return
@@ -556,7 +556,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	/**
 	 * Goals: 1. Adjust the two ends of the vertical axis to fit start/end labels 2.
 	 * Compute the horizontal co-ordinate for the axis
-	 *
+	 * 
 	 * @param dBlockX
 	 * @param dBlockWidth
 	 * @param aax
@@ -1165,8 +1165,10 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			if (dYAxisThickness < scX.getStartShift()) {
 				dX = scX.getStart() - (dX1 - dX);
 			}
-		} else if (dYAxisThickness < scX.getEndShift()) {
-			dX = scX.getEnd() - (dX1 - dX);
+		} else {
+			if (dYAxisThickness < scX.getEndShift()) {
+				dX = scX.getEnd() - (dX1 - dX);
+			}
 		}
 
 		// 3. Get final x, xLeft, xRight. Set title coordinate.
@@ -1354,8 +1356,10 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			if (dYAxisThickness < scX.getEndShift()) {
 				dX = scX.getEnd() - (dX2 - dX);
 			}
-		} else if (dYAxisThickness < scX.getStartShift()) {
-			dX = scX.getStart() - (dX2 - dX);
+		} else {
+			if (dYAxisThickness < scX.getStartShift()) {
+				dX = scX.getStart() - (dX2 - dX);
+			}
 		}
 
 		// 3. Get final x, xLeft, xRight. Set title coordinate.
@@ -2115,7 +2119,6 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 		azHelper = AlignZeroHelper.getInstance(this);
 	}
 
-	@Override
 	public ChartWithAxes getModel() {
 		return (ChartWithAxes) cm;
 	}
@@ -2153,7 +2156,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 		}
 
 		public static AlignZeroHelper getInstance(PlotWithAxes pwa) {
-			Map<Axis, double[]> minMaxLookup = new HashMap<>(2);
+			Map<Axis, double[]> minMaxLookup = new HashMap<Axis, double[]>(2);
 			Axis[] axList = pwa.getModel().getOrthogonalAxes(pwa.getModel().getPrimaryBaseAxes()[0], true);
 
 			boolean bAnyPositive = false;
@@ -2182,7 +2185,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 
 			}
 
-			if (bAnyPositive && bAnyNegative && minMaxLookup.size() > 1) {
+			if (bAnyPositive && bAnyNegative && minMaxLookup.values().size() > 1) {
 				for (double[] minmax : minMaxLookup.values()) {
 					applyRateToMinmax(minmax);
 				}
@@ -2199,10 +2202,13 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 				minmax[0] = -minmax[1];
 			} else if (minmax[1] <= 0) {
 				minmax[1] = -minmax[0];
-			} else if (minmax[1] < -minmax[0]) {
-				minmax[1] = -minmax[0];
-			} else if (minmax[1] > -minmax[0]) {
-				minmax[0] = -minmax[1];
+			} else {
+				if (minmax[1] < -minmax[0]) {
+					minmax[1] = -minmax[0];
+				} else if (minmax[1] > -minmax[0]) {
+					minmax[0] = -minmax[1];
+				}
+
 			}
 		}
 

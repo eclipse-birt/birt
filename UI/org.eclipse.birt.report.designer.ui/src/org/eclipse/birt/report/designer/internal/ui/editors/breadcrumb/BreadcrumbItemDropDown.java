@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,7 +70,7 @@ import org.eclipse.ui.forms.FormColors;
 
 /**
  * The part of the breadcrumb item with the drop down menu.
- *
+ * 
  * @since 2.6.2
  */
 class BreadcrumbItemDropDown {
@@ -97,7 +97,6 @@ class BreadcrumbItemDropDown {
 		 * @see org.eclipse.jface.resource.CompositeImageDescriptor#drawCompositeImage
 		 * (int, int)
 		 */
-		@Override
 		protected void drawCompositeImage(int width, int height) {
 			Display display = fParentComposite.getDisplay();
 
@@ -142,9 +141,8 @@ class BreadcrumbItemDropDown {
 		}
 
 		private int mirror(int x) {
-			if (fLTR) {
+			if (fLTR)
 				return x;
-			}
 
 			return ARROW_SIZE - x - 1;
 		}
@@ -152,7 +150,6 @@ class BreadcrumbItemDropDown {
 		/*
 		 * @see org.eclipse.jface.resource.CompositeImageDescriptor#getSize()
 		 */
-		@Override
 		protected Point getSize() {
 			return new Point(10, 16);
 		}
@@ -191,17 +188,14 @@ class BreadcrumbItemDropDown {
 		ToolBarManager manager = new ToolBarManager(fToolBar);
 
 		final Action showDropDownMenuAction = new Action(null, SWT.NONE) {
-			@Override
 			public void run() {
 				Shell shell = fParent.getDropDownShell();
-				if (shell != null) {
+				if (shell != null)
 					return;
-				}
 
 				shell = fParent.getViewer().getDropDownShell();
-				if (shell != null) {
+				if (shell != null)
 					shell.close();
-				}
 
 				showMenu();
 
@@ -218,7 +212,6 @@ class BreadcrumbItemDropDown {
 		if (IS_MAC_WORKAROUND) {
 			manager.getControl().addMouseListener(new MouseAdapter() {
 				// see also BreadcrumbItemDetails#addElementListener(Control)
-				@Override
 				public void mouseDown(MouseEvent e) {
 					showDropDownMenuAction.run();
 				}
@@ -228,7 +221,7 @@ class BreadcrumbItemDropDown {
 
 	/**
 	 * Return the width of this element.
-	 *
+	 * 
 	 * @return the width of this element
 	 */
 	public int getWidth() {
@@ -237,7 +230,7 @@ class BreadcrumbItemDropDown {
 
 	/**
 	 * Set whether the drop down menu is available.
-	 *
+	 * 
 	 * @param enabled true if available
 	 */
 	public void setEnabled(boolean enabled) {
@@ -248,7 +241,7 @@ class BreadcrumbItemDropDown {
 
 	/**
 	 * Tells whether the menu is shown.
-	 *
+	 * 
 	 * @return true if the menu is open
 	 */
 	public boolean isMenuShown() {
@@ -257,27 +250,25 @@ class BreadcrumbItemDropDown {
 
 	/**
 	 * Returns the shell used for the drop down menu if it is shown.
-	 *
+	 * 
 	 * @return the drop down shell or <code>null</code>
 	 */
 	public Shell getDropDownShell() {
-		if (!isMenuShown()) {
+		if (!isMenuShown())
 			return null;
-		}
 
 		return fShell;
 	}
 
 	/**
 	 * Returns the drop down selection provider.
-	 *
+	 * 
 	 * @return the selection provider of the drop down if {@link #isMenuShown()} ,
 	 *         <code>null</code> otherwise
 	 */
 	public ISelectionProvider getDropDownSelectionProvider() {
-		if (!fMenuIsShown) {
+		if (!fMenuIsShown)
 			return null;
-		}
 
 		return fDropDownViewer;
 	}
@@ -287,9 +278,8 @@ class BreadcrumbItemDropDown {
 	 */
 	public void showMenu() {
 
-		if (!fEnabled || fMenuIsShown) {
+		if (!fEnabled || fMenuIsShown)
 			return;
-		}
 
 		fMenuIsShown = true;
 
@@ -321,18 +311,15 @@ class BreadcrumbItemDropDown {
 
 		fDropDownViewer.addOpenListener(new IOpenListener() {
 
-			@Override
 			public void open(OpenEvent event) {
 
 				ISelection selection = event.getSelection();
-				if (!(selection instanceof IStructuredSelection)) {
+				if (!(selection instanceof IStructuredSelection))
 					return;
-				}
 
 				Object element = ((IStructuredSelection) selection).getFirstElement();
-				if (element == null) {
+				if (element == null)
 					return;
-				}
 
 				openElement(element);
 			}
@@ -340,26 +327,24 @@ class BreadcrumbItemDropDown {
 
 		tree.addMouseListener(new MouseListener() {
 
-			@Override
 			public void mouseUp(MouseEvent e) {
 
-				if ((e.button != 1) || ((OpenStrategy.getOpenMethod() & OpenStrategy.SINGLE_CLICK) != 0)) {
+				if (e.button != 1)
 					return;
-				}
+
+				if ((OpenStrategy.getOpenMethod() & OpenStrategy.SINGLE_CLICK) != 0)
+					return;
 
 				Item item = tree.getItem(new Point(e.x, e.y));
-				if (item == null) {
+				if (item == null)
 					return;
-				}
 
 				openElement(item.getData());
 			}
 
-			@Override
 			public void mouseDown(MouseEvent e) {
 			}
 
-			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 			}
 		});
@@ -368,7 +353,6 @@ class BreadcrumbItemDropDown {
 
 			TreeItem fLastItem = null;
 
-			@Override
 			public void mouseMove(MouseEvent e) {
 				if (tree.equals(e.getSource())) {
 					Object o = tree.getItem(new Point(e.x, e.y));
@@ -382,9 +366,8 @@ class BreadcrumbItemDropDown {
 							// Scroll up
 							if (currentItem.getParentItem() == null) {
 								int index = tree.indexOf((TreeItem) o);
-								if (index < 1) {
+								if (index < 1)
 									return;
-								}
 
 								fLastItem = tree.getItem(index - 1);
 								tree.setSelection(new TreeItem[] { fLastItem });
@@ -400,9 +383,8 @@ class BreadcrumbItemDropDown {
 							// Scroll down
 							if (currentItem.getParentItem() == null) {
 								int index = tree.indexOf((TreeItem) o);
-								if (index >= tree.getItemCount() - 1) {
+								if (index >= tree.getItemCount() - 1)
 									return;
-								}
 
 								fLastItem = tree.getItem(index + 1);
 								tree.setSelection(new TreeItem[] { fLastItem });
@@ -422,44 +404,36 @@ class BreadcrumbItemDropDown {
 
 		tree.addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.ARROW_UP) {
 					TreeItem[] selection = tree.getSelection();
-					if (selection.length != 1) {
+					if (selection.length != 1)
 						return;
-					}
 
 					int selectionIndex = tree.indexOf(selection[0]);
-					if (selectionIndex != 0) {
+					if (selectionIndex != 0)
 						return;
-					}
 
 					fShell.close();
 				}
 			}
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 			}
 		});
 
 		fDropDownViewer.addTreeListener(new ITreeViewerListener() {
 
-			@Override
 			public void treeCollapsed(TreeExpansionEvent event) {
 			}
 
-			@Override
 			public void treeExpanded(TreeExpansionEvent event) {
 				tree.setRedraw(false);
 				fShell.getDisplay().asyncExec(new Runnable() {
 
-					@Override
 					public void run() {
-						if (fShell.isDisposed()) {
+						if (fShell.isDisposed())
 							return;
-						}
 
 						try {
 							resizeShell(fShell);
@@ -489,18 +463,16 @@ class BreadcrumbItemDropDown {
 	}
 
 	private void openElement(Object data) {
-		if (data == null) {
+		if (data == null)
 			return;
-		}
 
 		// This might or might not open an editor
 		fParent.getViewer().fireMenuSelection(data);
 
 		boolean treeHasFocus = !fShell.isDisposed() && fDropDownViewer.getTree().isFocusControl();
 
-		if (fShell.isDisposed()) {
+		if (fShell.isDisposed())
 			return;
-		}
 
 		if (!treeHasFocus) {
 			fShell.close();
@@ -512,9 +484,9 @@ class BreadcrumbItemDropDown {
 
 	private void toggleExpansionState(Object element) {
 		Tree tree = fDropDownViewer.getTree();
-		if (fDropDownViewer.getExpandedState(element)) {
+		if (fDropDownViewer.getExpandedState(element))
 			fDropDownViewer.collapseToLevel(element, 1);
-		} else {
+		else {
 			tree.setRedraw(false);
 			try {
 				fDropDownViewer.expandToLevel(element, 1);
@@ -527,13 +499,12 @@ class BreadcrumbItemDropDown {
 
 	/**
 	 * The closer closes the given shell when the focus is lost.
-	 *
+	 * 
 	 * @param shell the shell to install the closer to
 	 */
 	private void installCloser(final Shell shell) {
 		final Listener focusListener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				Widget focusElement = event.widget;
 				boolean isFocusBreadcrumbTreeFocusWidget = focusElement == shell
@@ -570,12 +541,10 @@ class BreadcrumbItemDropDown {
 
 		final ControlListener controlListener = new ControlListener() {
 
-			@Override
 			public void controlMoved(ControlEvent e) {
 				shell.close();
 			}
 
-			@Override
 			public void controlResized(ControlEvent e) {
 				shell.close();
 			}
@@ -584,7 +553,6 @@ class BreadcrumbItemDropDown {
 
 		shell.addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 
 				display.removeFilter(SWT.FocusIn, focusListener);
@@ -597,30 +565,24 @@ class BreadcrumbItemDropDown {
 		});
 		shell.addShellListener(new ShellListener() {
 
-			@Override
 			public void shellActivated(ShellEvent e) {
 			}
 
-			@Override
 			public void shellClosed(ShellEvent e) {
 
-				if (!fMenuIsShown) {
+				if (!fMenuIsShown)
 					return;
-				}
 
 				fMenuIsShown = false;
 				fDropDownViewer = null;
 			}
 
-			@Override
 			public void shellDeactivated(ShellEvent e) {
 			}
 
-			@Override
 			public void shellDeiconified(ShellEvent e) {
 			}
 
-			@Override
 			public void shellIconified(ShellEvent e) {
 			}
 		});
@@ -628,7 +590,7 @@ class BreadcrumbItemDropDown {
 
 	/**
 	 * Calculates a useful size for the given shell.
-	 *
+	 * 
 	 * @param shell the shell to calculate the size for.
 	 */
 	private void setShellBounds(Shell shell) {
@@ -648,21 +610,18 @@ class BreadcrumbItemDropDown {
 
 		Rectangle trim = fShell.computeTrim(0, 0, width, height);
 		int x = toolbarBounds.x + toolbarBounds.width + 2 + trim.x - imageBoundsX;
-		if (!isLTR()) {
+		if (!isLTR())
 			x += width;
-		}
 
 		Point pt = new Point(x, rect.y + rect.height);
 		pt = fParentComposite.toDisplay(pt);
 
 		Rectangle monitor = getClosestMonitor(shell.getDisplay(), pt).getClientArea();
 		int overlap = (pt.x + width) - (monitor.x + monitor.width);
-		if (overlap > 0) {
+		if (overlap > 0)
 			pt.x -= overlap;
-		}
-		if (pt.x < monitor.x) {
+		if (pt.x < monitor.x)
 			pt.x = monitor.x;
-		}
 
 		shell.setLocation(pt);
 		shell.setSize(width, height);
@@ -675,7 +634,7 @@ class BreadcrumbItemDropDown {
 	 * Copied from
 	 * <code>org.eclipse.jface.window.Window.getClosestMonitor(Display, Point)</code>
 	 * </p>
-	 *
+	 * 
 	 * @param display the display showing the monitors
 	 * @param point   point to find (display coordinates)
 	 * @return the monitor closest to the given point
@@ -691,9 +650,8 @@ class BreadcrumbItemDropDown {
 
 			Rectangle clientArea = current.getClientArea();
 
-			if (clientArea.contains(point)) {
+			if (clientArea.contains(point))
 				return current;
-			}
 
 			int distance = Geometry.distanceSquared(Geometry.centerPoint(clientArea), point);
 			if (distance < closest) {
@@ -709,7 +667,7 @@ class BreadcrumbItemDropDown {
 	 * Set the size of the given shell such that more content can be shown. The
 	 * shell size does not exceed {@link #DROP_DOWN_HIGHT} and
 	 * {@link #DROP_DOWN_WIDTH}.
-	 *
+	 * 
 	 * @param shell the shell to resize
 	 */
 	private void resizeShell(final Shell shell) {
@@ -717,9 +675,8 @@ class BreadcrumbItemDropDown {
 		int currentWidth = size.x;
 		int currentHeight = size.y;
 
-		if (currentHeight >= DROP_DOWN_HIGHT && currentWidth >= DROP_DOWN_WIDTH) {
+		if (currentHeight >= DROP_DOWN_HIGHT && currentWidth >= DROP_DOWN_WIDTH)
 			return;
-		}
 
 		Point preferedSize = shell.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
 
@@ -752,7 +709,7 @@ class BreadcrumbItemDropDown {
 
 	/**
 	 * Tells whether this the breadcrumb is in LTR or RTL mode.
-	 *
+	 * 
 	 * @return <code>true</code> if the breadcrumb in left-to-right mode,
 	 *         <code>false</code> otherwise
 	 */
@@ -763,7 +720,6 @@ class BreadcrumbItemDropDown {
 	private void setAccessibilityText(Control control, final String text) {
 		control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = text;
 			}

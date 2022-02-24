@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,6 @@ public abstract class StackWindowAction implements IWorkbenchWindowActionDelegat
 
 	private ActivityStackListener commandStackListener = new ActivityStackListener() {
 
-		@Override
 		public void stackChanged(ActivityStackEvent event) {
 			setAction(iaction, canDo());
 		}
@@ -54,9 +53,10 @@ public abstract class StackWindowAction implements IWorkbenchWindowActionDelegat
 	private IAction iaction;
 
 	protected String getLabelForCommand(Command command) {
-		if ((command == null) || (command.getLabel() == null)) {
+		if (command == null)
 			return "";//$NON-NLS-1$
-		}
+		if (command.getLabel() == null)
+			return "";//$NON-NLS-1$
 		return command.getLabel();
 	}
 
@@ -68,7 +68,7 @@ public abstract class StackWindowAction implements IWorkbenchWindowActionDelegat
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public StackWindowAction() {
 		super();
@@ -76,10 +76,9 @@ public abstract class StackWindowAction implements IWorkbenchWindowActionDelegat
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
 	 */
-	@Override
 	public void dispose() {
 		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
 		if (stack != null) {
@@ -89,11 +88,10 @@ public abstract class StackWindowAction implements IWorkbenchWindowActionDelegat
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
 	 * IWorkbenchWindow)
 	 */
-	@Override
 	public void init(IWorkbenchWindow window) {
 		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
 		if (stack != null) {
@@ -124,10 +122,9 @@ public abstract class StackWindowAction implements IWorkbenchWindowActionDelegat
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	@Override
 	public void run(IAction action) {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Stack window action >> Run ..."); //$NON-NLS-1$
@@ -139,12 +136,11 @@ public abstract class StackWindowAction implements IWorkbenchWindowActionDelegat
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.
 	 * IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		iaction = action;
 		changeEnabled(action);
@@ -206,32 +202,29 @@ public abstract class StackWindowAction implements IWorkbenchWindowActionDelegat
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.ui.actions.StackWindowAction#canDo()
 		 */
-		@Override
 		protected boolean canDo() {
 			return getDesignHandle().getCommandStack().canUndo();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.ui.actions.StackWindowAction#doStack()
 		 */
-		@Override
 		protected void doStack() {
 			getDesignHandle().getCommandStack().undo();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.designer.ui.actions.StackWindowAction#changeLabel(org
 		 * .eclipse.jface.action.IAction)
 		 */
-		@Override
 		protected void changeLabel(IAction action) {
 			Command undoCmd = getCommandStack().getUndoCommand();
 			action.setToolTipText(MessageFormat.format(Messages.getString("UndoAction_Tooltip"), //$NON-NLS-1$
@@ -243,32 +236,29 @@ public abstract class StackWindowAction implements IWorkbenchWindowActionDelegat
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.ui.actions.StackWindowAction#canDo()
 		 */
-		@Override
 		protected boolean canDo() {
 			return getDesignHandle().getCommandStack().canRedo();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.ui.actions.StackWindowAction#doStack()
 		 */
-		@Override
 		protected void doStack() {
 			getDesignHandle().getCommandStack().redo();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.designer.ui.actions.StackWindowAction#changeLabel(org
 		 * .eclipse.jface.action.IAction)
 		 */
-		@Override
 		protected void changeLabel(IAction action) {
 			Command redoCmd = getCommandStack().getRedoCommand();
 			action.setToolTipText(MessageFormat.format(Messages.getString("RedoAction_Tooltip"), //$NON-NLS-1$

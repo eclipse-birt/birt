@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,10 +35,10 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
- *
+ * 
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
- *
+ * 
  */
 public class CellContent extends AbstractContent implements ICellContent {
 
@@ -115,14 +115,13 @@ public class CellContent extends AbstractContent implements ICellContent {
 	 */
 	private String antidiagonalColor = null;
 
-	@Override
 	public int getContentType() {
 		return CELL_CONTENT;
 	}
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param item cell design item
 	 */
 	CellContent(IReportContent report) {
@@ -134,7 +133,7 @@ public class CellContent extends AbstractContent implements ICellContent {
 		this.colSpan = cell.getColSpan();
 		this.rowSpan = cell.getRowSpan();
 		this.column = cell.getColumn();
-		this.displayGroupIcon = cell.getDisplayGroupIcon();
+		this.displayGroupIcon = Boolean.valueOf(cell.getDisplayGroupIcon());
 		this.columnInstance = cell.getColumnInstance();
 		if (generateBy instanceof CellDesign) {
 			cellDesign = (CellDesign) generateBy;
@@ -144,7 +143,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 	/**
 	 * @param generateBy The generateBy to set.
 	 */
-	@Override
 	public void setGenerateBy(Object generateBy) {
 		super.setGenerateBy(generateBy);
 
@@ -156,7 +154,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 	/**
 	 * @return Returns the rowSpan.
 	 */
-	@Override
 	public int getRowSpan() {
 		if (rowSpan == -1 && cellDesign != null) {
 			rowSpan = cellDesign.getRowSpan();
@@ -165,10 +162,9 @@ public class CellContent extends AbstractContent implements ICellContent {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return the column span
 	 */
-	@Override
 	public int getColSpan() {
 		if (colSpan == -1 && cellDesign != null) {
 			colSpan = cellDesign.getColSpan();
@@ -177,10 +173,9 @@ public class CellContent extends AbstractContent implements ICellContent {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return the column number
 	 */
-	@Override
 	public int getColumn() {
 		if (column == -1 && cellDesign != null) {
 			column = cellDesign.getColumn();
@@ -188,9 +183,8 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return column;
 	}
 
-	@Override
 	public int getRow() {
-		if (parent instanceof IRowContent) {
+		if (parent != null && parent instanceof IRowContent) {
 			return ((IRowContent) parent).getRowID();
 		}
 		return 0;
@@ -200,7 +194,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		this.drop = drop;
 	}
 
-	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitCell(this, value);
 	}
@@ -208,22 +201,18 @@ public class CellContent extends AbstractContent implements ICellContent {
 	/**
 	 * @param rowSpan The rowSpan to set.
 	 */
-	@Override
 	public void setRowSpan(int rowSpan) {
 		this.rowSpan = rowSpan;
 	}
 
-	@Override
 	public void setColSpan(int colSpan) {
 		this.colSpan = colSpan;
 	}
 
-	@Override
 	public void setColumn(int column) {
 		this.column = column;
 	}
 
-	@Override
 	public IStyle getComputedStyle() {
 		if (computedStyle == null) {
 			if (inlineStyle == null || inlineStyle.isEmpty()) {
@@ -272,7 +261,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 	static final protected short FIELD_ANTIDIAGONAL_WIDTH = 121;
 	static final protected short FIELD_ANTIDIAGONAL_COLOR = 122;
 
-	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (rowSpan != -1) {
@@ -341,7 +329,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		}
 	}
 
-	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_ROW_SPAN:
@@ -357,7 +344,7 @@ public class CellContent extends AbstractContent implements ICellContent {
 			IOUtil.readBool(in);
 			break;
 		case FIELD_DISPLAY_GROUP_ICON:
-			displayGroupIcon = IOUtil.readBool(in);
+			displayGroupIcon = Boolean.valueOf(IOUtil.readBool(in));
 			break;
 		case FIELD_DROP:
 			drop = IOUtil.readString(in);
@@ -403,7 +390,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		}
 	}
 
-	@Override
 	public boolean needSave() {
 		if (rowSpan != -1 || colSpan != -1 || column != -1) {
 			return true;
@@ -417,7 +403,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return super.needSave();
 	}
 
-	@Override
 	public boolean getDisplayGroupIcon() {
 		if (displayGroupIcon == null) {
 			if (cellDesign != null) {
@@ -428,14 +413,12 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return displayGroupIcon.booleanValue();
 	}
 
-	@Override
 	public void setDisplayGroupIcon(boolean displayGroupIcon) {
-		this.displayGroupIcon = displayGroupIcon;
+		this.displayGroupIcon = Boolean.valueOf(displayGroupIcon);
 	}
 
 	private IColumn columnInstance;
 
-	@Override
 	public IColumn getColumnInstance() {
 		if (columnInstance != null) {
 			return columnInstance;
@@ -453,12 +436,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return columnInstance;
 	}
 
-	@Override
 	protected IContent cloneContent() {
 		return new CellContent(this);
 	}
 
-	@Override
 	public boolean hasDiagonalLine() {
 		if (hasDiagonalLine != null) {
 			return hasDiagonalLine.booleanValue();
@@ -468,7 +449,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return false;
 	}
 
-	@Override
 	public void setDiagonalNumber(int diagonalNumber) {
 		this.diagonalNumber = diagonalNumber;
 		if (getDiagonalNumber() > 0 || getAntidiagonalNumber() > 0) {
@@ -478,7 +458,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		}
 	}
 
-	@Override
 	public int getDiagonalNumber() {
 		if (diagonalNumber >= 0) {
 			return diagonalNumber;
@@ -488,12 +467,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return 0;
 	}
 
-	@Override
 	public void setDiagonalStyle(String diagonalStyle) {
 		this.diagonalStyle = diagonalStyle;
 	}
 
-	@Override
 	public String getDiagonalStyle() {
 		if (diagonalStyle != null) {
 			return diagonalStyle;
@@ -503,12 +480,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return null;
 	}
 
-	@Override
 	public void setDiagonalWidth(DimensionType diagonalWidth) {
 		this.diagonalWidth = diagonalWidth;
 	}
 
-	@Override
 	public DimensionType getDiagonalWidth() {
 		if (diagonalWidth != null) {
 			return diagonalWidth;
@@ -518,12 +493,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return null;
 	}
 
-	@Override
 	public void setDiagonalColor(String diagonalColor) {
 		this.diagonalColor = diagonalColor;
 	}
 
-	@Override
 	public String getDiagonalColor() {
 		if (diagonalColor != null) {
 			return diagonalColor;
@@ -533,7 +506,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return null;
 	}
 
-	@Override
 	public void setAntidiagonalNumber(int antidiagonalNumber) {
 		this.antidiagonalNumber = antidiagonalNumber;
 		if (getDiagonalNumber() > 0 || getAntidiagonalNumber() > 0) {
@@ -543,7 +515,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		}
 	}
 
-	@Override
 	public int getAntidiagonalNumber() {
 		if (antidiagonalNumber >= 0) {
 			return antidiagonalNumber;
@@ -553,12 +524,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return 0;
 	}
 
-	@Override
 	public void setAntidiagonalStyle(String antidiagonalStyle) {
 		this.antidiagonalStyle = antidiagonalStyle;
 	}
 
-	@Override
 	public String getAntidiagonalStyle() {
 		if (antidiagonalStyle != null) {
 			return antidiagonalStyle;
@@ -568,12 +537,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return null;
 	}
 
-	@Override
 	public void setAntidiagonalWidth(DimensionType antidiagonalWidth) {
 		this.antidiagonalWidth = antidiagonalWidth;
 	}
 
-	@Override
 	public DimensionType getAntidiagonalWidth() {
 		if (antidiagonalWidth != null) {
 			return antidiagonalWidth;
@@ -583,12 +550,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return null;
 	}
 
-	@Override
 	public void setAntidiagonalColor(String antidiagonalColor) {
 		this.antidiagonalColor = antidiagonalColor;
 	}
 
-	@Override
 	public String getAntidiagonalColor() {
 		if (antidiagonalColor != null) {
 			return antidiagonalColor;
@@ -598,7 +563,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return null;
 	}
 
-	@Override
 	public String getHeaders() {
 		if (headers != null) {
 			return headers;
@@ -611,7 +575,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return null;
 	}
 
-	@Override
 	public String getScope() {
 		if (scope != null) {
 			return scope;
@@ -621,7 +584,6 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return null;
 	}
 
-	@Override
 	public void setHeaders(String headers) {
 		if (cellDesign != null) {
 			Expression expr = cellDesign.getHeaders();
@@ -635,17 +597,14 @@ public class CellContent extends AbstractContent implements ICellContent {
 		this.headers = headers;
 	}
 
-	@Override
 	public void setScope(String scope) {
 		this.scope = scope;
 	}
 
-	@Override
 	public boolean repeatContent() {
 		return repeatContent;
 	}
 
-	@Override
 	public void setRepeatContent(boolean repeatContent) {
 		this.repeatContent = repeatContent;
 	}

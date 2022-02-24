@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -78,7 +78,7 @@ public class Generator {
 	/**
 	 * Sets the output folder for the generated rom documents. If not specified, rom
 	 * documents will be generated under "gen" folder in the current classpath.
-	 *
+	 * 
 	 * @param dir output foloder for the generated rom documents.
 	 */
 
@@ -89,7 +89,7 @@ public class Generator {
 	/**
 	 * Sets the path of the folder that stores the template document. If not
 	 * specified, a relative path "/romdoc/docs" will be used instead.
-	 *
+	 * 
 	 * @param dir folder that stores the template document
 	 */
 
@@ -211,20 +211,18 @@ public class Generator {
 	}
 
 	private void write(PrintStream out, String s) {
-		if (s == null) {
+		if (s == null)
 			return;
-		}
 		if (s.indexOf('\n') == -1) {
 			out.print(s);
 			return;
 		}
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
-			if (c == '\n') {
+			if (c == '\n')
 				out.println();
-			} else {
+			else
 				out.print(c);
-			}
 		}
 	}
 
@@ -263,7 +261,7 @@ public class Generator {
 
 	/**
 	 * Make a file under output folder.
-	 *
+	 * 
 	 * @param relativeDir relative to the output folder. For example, if current
 	 *                    output folder is "d:\romdoc",
 	 *                    <code>makeFile( "structs", "action.html")</code> will
@@ -274,9 +272,8 @@ public class Generator {
 	 */
 
 	private File makeFile(String relativeDir, String fileName) throws IOException {
-		if (relativeDir == null) {
+		if (relativeDir == null)
 			relativeDir = ""; //$NON-NLS-1$
-		}
 
 		File dir = new File(this.outputDir + "/" + relativeDir); //$NON-NLS-1$
 		if (!dir.exists()) {
@@ -315,9 +312,8 @@ public class Generator {
 		// Display name is encoded as the title.
 
 		String title = obj.getDisplayName();
-		if (isBlank(obj.getDisplayName())) {
+		if (isBlank(obj.getDisplayName()))
 			title = obj.getName();
-		}
 		write(title);
 		writeln(" Element (Eclipse BIRT ROM Documentation)</title>");
 		writeln("<link rel=\"stylesheet\" href=\"../style/style.css\" type=\"text/css\"/>");
@@ -326,21 +322,19 @@ public class Generator {
 		writeln("<p class=\"title\">Eclipse BIRT Report Object Model (ROM)</p>");
 		write("<p class=\"subtitle\">");
 		write(obj.getName());
-		if (obj.isElement()) {
+		if (obj.isElement())
 			write(" Element");
-		} else {
+		else
 			write(" Structure");
-		}
 		writeln("</p>");
 	}
 
 	private void writeIndexEntry(DocComposite obj) {
 		write(index, "<tr><td><a href=\"");
-		if (obj.isElement()) {
+		if (obj.isElement())
 			write(index, "elements/");
-		} else {
+		else
 			write(index, "structs/");
-		}
 		write(index, obj.getName());
 		write(index, ".html\">");
 		write(index, obj.getName());
@@ -370,17 +364,15 @@ public class Generator {
 	}
 
 	private void writeSection(String title, String body) {
-		if (isBlank(body)) {
+		if (isBlank(body))
 			return;
-		}
 		writeSectionHeader(title);
 		writeSectionBody(body);
 	}
 
 	private void writeSectionBody(String body) {
-		if (isBlank(body)) {
+		if (isBlank(body))
 			return;
-		}
 		writeln("<div class=\"section-text\">");
 		write(body);
 		writeln("</div>");
@@ -443,9 +435,8 @@ public class Generator {
 	}
 
 	private void writePropertySummary(DocComposite obj) {
-		if (!obj.hasProperties()) {
+		if (!obj.hasProperties())
 			return;
-		}
 
 		startSummaryTable(PROPERTY_NAME);
 		Iterator iter = obj.getProperties().iterator();
@@ -457,9 +448,8 @@ public class Generator {
 	}
 
 	private void writeMethodSummary(DocElement element) {
-		if (!element.hasMethods()) {
+		if (!element.hasMethods())
 			return;
-		}
 
 		startSummaryTable(METHOD_NAME);
 		Iterator iter = element.getMethods().iterator();
@@ -471,9 +461,8 @@ public class Generator {
 	}
 
 	private void writeSlotSummary(DocElement element) {
-		if (!element.hasSlots()) {
+		if (!element.hasSlots())
 			return;
-		}
 
 		startSummaryTable(SLOT_NAME);
 		Iterator iter = element.getSlots().iterator();
@@ -485,7 +474,7 @@ public class Generator {
 	}
 
 	private String makeMemberReference(String dir, String objName, String prefix, String name) {
-		StringBuilder link = new StringBuilder();
+		StringBuffer link = new StringBuffer();
 		link.append("<a href=\"");
 		if (dir != null) {
 			link.append(dir);
@@ -506,9 +495,8 @@ public class Generator {
 
 	private void writeInheritedProperties(DocElement element) {
 		List props = element.getInheritedProperties();
-		if (props.isEmpty()) {
+		if (props.isEmpty())
 			return;
-		}
 
 		writeSectionHeader("Inherited Properties");
 		writeln("<p class=\"section-text\">");
@@ -516,25 +504,22 @@ public class Generator {
 		while (iter.hasNext()) {
 			PropertyDefn prop = (PropertyDefn) iter.next();
 			write(makeMemberReference(null, prop.definedBy().getName(), PROPERTY_NAME, prop.getName()));
-			if (iter.hasNext()) {
+			if (iter.hasNext())
 				writeln(", ");
-			}
 		}
 		writeln("\n</p>");
 
 		props = element.getInheritedPropertyNotes();
-		if (props.isEmpty()) {
+		if (props.isEmpty())
 			return;
-		}
 
 		writeSectionHeader("Inherited Property Notes");
 		writeln("<dl class=\"section-text\">");
 		iter = props.iterator();
 		while (iter.hasNext()) {
 			DocInheritedProperty prop = (DocInheritedProperty) iter.next();
-			if (prop.isReserved(element)) {
+			if (prop.isReserved(element))
 				continue;
-			}
 			String baseElement = element.getDefiningElement(prop.getName());
 			write("<dt>");
 			write(makeMemberReference(null, baseElement, PROPERTY_NAME, prop.getName()));
@@ -547,9 +532,8 @@ public class Generator {
 
 	private void writeStyleProperties(DocElement element) {
 		List props = element.getStyleProperties();
-		if (props.isEmpty()) {
+		if (props.isEmpty())
 			return;
-		}
 
 		writeSectionHeader("Style Properties");
 		writeln("<p class=\"section-text\">");
@@ -557,18 +541,16 @@ public class Generator {
 		while (iter.hasNext()) {
 			PropertyDefn prop = (PropertyDefn) iter.next();
 			write(makeMemberReference(null, prop.definedBy().getName(), PROPERTY_NAME, prop.getName()));
-			if (iter.hasNext()) {
+			if (iter.hasNext())
 				writeln(", ");
-			}
 		}
 		writeln("\n</p>");
 	}
 
 	private void writeInheritedMethods(DocElement element) {
 		List props = element.getInheritedMethods();
-		if (props.isEmpty()) {
+		if (props.isEmpty())
 			return;
-		}
 
 		writeSectionHeader("Inherited Methods");
 		writeln("<p class=\"section-text\">");
@@ -576,9 +558,8 @@ public class Generator {
 		while (iter.hasNext()) {
 			PropertyDefn method = (PropertyDefn) iter.next();
 			write(makeMemberReference(null, method.definedBy().getName(), METHOD_NAME, method.getName()));
-			if (iter.hasNext()) {
+			if (iter.hasNext())
 				writeln(", ");
-			}
 		}
 		writeln("</p>");
 	}
@@ -591,18 +572,16 @@ public class Generator {
 	 * @param obj
 	 */
 	private void writeProperties(DocComposite obj) {
-		if (!obj.hasProperties()) {
+		if (!obj.hasProperties())
 			return;
-		}
 
 		writeln("<h1>Property Detail</h1>\n");
 		Iterator iter = obj.getProperties().iterator();
 		while (iter.hasNext()) {
 			DocProperty prop = (DocProperty) iter.next();
 			writePropertyDetail(obj, prop);
-			if (iter.hasNext()) {
+			if (iter.hasNext())
 				writeln("\n<hr>");
-			}
 		}
 	}
 
@@ -672,9 +651,8 @@ public class Generator {
 	}
 
 	private void writeChoices(DocProperty prop) {
-		if (!prop.hasChoices()) {
+		if (!prop.hasChoices())
 			return;
-		}
 
 		writeln("<h3>Choices</h3>\n");
 		writeln("<table class=\"section-table\">");
@@ -701,18 +679,16 @@ public class Generator {
 	 * @param element
 	 */
 	private void writeMethods(DocElement element) {
-		if (!element.hasMethods()) {
+		if (!element.hasMethods())
 			return;
-		}
 
 		writeln("<h1>Method Detail</h1>\n");
 		Iterator iter = element.getMethods().iterator();
 		while (iter.hasNext()) {
 			DocMethod method = (DocMethod) iter.next();
 			writeMethodDetail(method);
-			if (iter.hasNext()) {
+			if (iter.hasNext())
 				writeln("\n<hr>");
-			}
 		}
 	}
 
@@ -755,18 +731,16 @@ public class Generator {
 	}
 
 	private void writeSlots(DocElement element) {
-		if (!element.hasSlots()) {
+		if (!element.hasSlots())
 			return;
-		}
 
 		writeln("<h1>Slot Detail</h1>\n");
 		Iterator iter = element.getSlots().iterator();
 		while (iter.hasNext()) {
 			DocSlot slot = (DocSlot) iter.next();
 			writeSlotDetail(element, slot);
-			if (iter.hasNext()) {
+			if (iter.hasNext())
 				writeln("\n<hr>");
-			}
 		}
 	}
 
@@ -783,16 +757,14 @@ public class Generator {
 		detailRow("Display Name", slot.getDisplayName());
 		detailRow("Since", slot.getSince());
 		String name = slot.getXmlName();
-		if (isBlank(name)) {
+		if (isBlank(name))
 			name = "None. (The contents appear directly within the container element.)";
-		} else {
+		else
 			name = "<code>" + name + "</code>";
-		}
 		detailRow("XML Element", name);
 		detailRow("Contents", slot.getContents());
-		if (element.hasStyle() || slot.hasStyle()) {
+		if (element.hasStyle() || slot.hasStyle())
 			detailRow("Default Style", slot.getStyle());
-		}
 		endDetailsTable();
 
 		writeSection("Description", slot.getDescription());
@@ -859,13 +831,13 @@ public class Generator {
 
 	/**
 	 * @throws IOException
-	 *
+	 * 
 	 */
 
 	private void writeTypes() throws IOException {
 		writeIndexEntry("Property Types", "types", "The set of types used to define ROM properties.");
 
-		File output = makeFile(null, "types.html"); //$NON-NLS-1$
+		File output = makeFile(null, "types.html"); //$NON-NLS-1$ //$NON-NLS-2$
 		writer = new PrintStream(new FileOutputStream(output));
 
 		writeln("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 transitional//EN\">");
@@ -916,7 +888,6 @@ public class Generator {
 
 	static class TypeComparator implements Comparator {
 
-		@Override
 		public int compare(Object arg0, Object arg1) {
 			PropertyType s1 = (PropertyType) arg0;
 			PropertyType s2 = (PropertyType) arg1;
@@ -926,7 +897,7 @@ public class Generator {
 
 	/**
 	 * @throws IOException
-	 *
+	 * 
 	 */
 
 	private void writeStyles() throws IOException {
@@ -955,7 +926,8 @@ public class Generator {
 		writeln("<h1>Predefined Styles</h1>\n<table class=\"summary-table\">");
 
 		MetaDataDictionary dict = MetaDataDictionary.getInstance();
-		ArrayList list = new ArrayList(dict.getPredefinedStyles());
+		ArrayList list = new ArrayList();
+		list.addAll(dict.getPredefinedStyles());
 		Collections.sort(list, new StyleComparator());
 		Iterator iter = list.iterator();
 		while (iter.hasNext()) {
@@ -981,7 +953,6 @@ public class Generator {
 
 	static class StyleComparator implements Comparator {
 
-		@Override
 		public int compare(Object arg0, Object arg1) {
 			PredefinedStyle s1 = (PredefinedStyle) arg0;
 			PredefinedStyle s2 = (PredefinedStyle) arg1;
@@ -992,7 +963,7 @@ public class Generator {
 
 	/**
 	 * @throws IOException
-	 *
+	 * 
 	 */
 	private void writePropertyIndex() throws IOException {
 		writeIndexEntry("Property Index", "prop-index", "Index of properties with a link to their definition.");
@@ -1000,7 +971,8 @@ public class Generator {
 		HashMap props = new HashMap();
 		buildIndex(props, elements);
 		buildIndex(props, structs);
-		ArrayList list = new ArrayList(props.values());
+		ArrayList list = new ArrayList();
+		list.addAll(props.values());
 		Collections.sort(list, new PropInfoComparator());
 
 		File output = makeFile(null, "prop-index.html");
@@ -1027,24 +999,21 @@ public class Generator {
 			while (i2.hasNext()) {
 				DocComposite obj = (DocComposite) i2.next();
 				write("<a href=\"");
-				if (obj.isElement()) {
+				if (obj.isElement())
 					write("elements");
-				} else {
+				else
 					write("structs");
-				}
 				write("/");
 				write(obj.getName());
 				write(".html\">");
 				write(obj.getName());
 				write("</a> ");
-				if (obj.isElement()) {
+				if (obj.isElement())
 					write("Element");
-				} else {
+				else
 					write("Structure");
-				}
-				if (i2.hasNext()) {
+				if (i2.hasNext())
 					write(", ");
-				}
 				writeln("");
 			}
 			writeln("</td>\n");
@@ -1080,7 +1049,6 @@ public class Generator {
 
 	static class PropInfoComparator implements Comparator {
 
-		@Override
 		public int compare(Object arg0, Object arg1) {
 			PropInfo s1 = (PropInfo) arg0;
 			PropInfo s2 = (PropInfo) arg1;
@@ -1090,7 +1058,7 @@ public class Generator {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void writeInheritanceTable() {
 		// writeIndexEntry( "Element Inheritance", "inheritance",
@@ -1111,9 +1079,8 @@ public class Generator {
 		Iterator iter = propertyTypes.iterator();
 		while (iter.hasNext()) {
 			DocPropertyType type = (DocPropertyType) iter.next();
-			if (type.getName().equals(name)) {
+			if (type.getName().equals(name))
 				return type;
-			}
 		}
 		return null;
 	}

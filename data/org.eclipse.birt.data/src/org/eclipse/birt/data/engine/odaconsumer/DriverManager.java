@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
  * Package internal class. <code>DriverManager</code> manages a set of data
  * source drivers. Calling <code>getInstance</code> will return the singleton
  * instance of <code>DriverManager</code>.
- *
+ * 
  * When the method <code>getDriverHelper</code> is initiated by the
  * <code>ConnectionManager</code>, the <code>DriverManager</code> will attempt
  * to load the specified driver and return a <code>IDriver</code> instance of
@@ -49,17 +49,15 @@ public class DriverManager {
 	/**
 	 * Returns a <code>DriverManager</code> instance for loading drivers and
 	 * handling driver-related tasks.
-	 *
+	 * 
 	 * @return a <code>DriverManager</code> instance.
 	 */
 	public static DriverManager getInstance() {
-		if (sm_driverManager == null) {
+		if (sm_driverManager == null)
 			synchronized (DriverManager.class) {
-				if (sm_driverManager == null) {
+				if (sm_driverManager == null)
 					sm_driverManager = new DriverManager();
-				}
 			}
-		}
 		return sm_driverManager;
 	}
 
@@ -74,9 +72,8 @@ public class DriverManager {
 	private static LogHelper getLogger() {
 		if (sm_logger == null) {
 			synchronized (DriverManager.class) {
-				if (sm_logger == null) {
+				if (sm_logger == null)
 					sm_logger = LogHelper.getInstance(ConnectionManager.sm_packageName);
-				}
 			}
 		}
 
@@ -85,7 +82,7 @@ public class DriverManager {
 
 	/**
 	 * Returns the <code>IDriver</code> based on driverName.
-	 *
+	 * 
 	 * @param dataSourceElementId the name of the driver.
 	 * @return an <code>IDriver</code> instance.
 	 */
@@ -113,7 +110,7 @@ public class DriverManager {
 	/**
 	 * Returns the id of the type of ODA data source for use as an argument to
 	 * <code>IDriver.getConnection</code>.
-	 *
+	 * 
 	 * @param dataSourceElementId the id of the data source element defined in a
 	 *                            data source extension.
 	 * @return the extension data source type id for
@@ -146,9 +143,8 @@ public class DriverManager {
 
 	@SuppressWarnings("unchecked")
 	Hashtable<String, Driver> getLoadedDrivers() {
-		if (m_loadedDrivers == null) {
+		if (m_loadedDrivers == null)
 			m_loadedDrivers = PropertySecurity.createHashtable();
-		}
 
 		return m_loadedDrivers;
 	}

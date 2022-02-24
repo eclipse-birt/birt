@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,6 +20,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import junit.framework.TestCase;
 
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -35,8 +37,6 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 
-import junit.framework.TestCase;
-
 abstract public class EngineCase extends TestCase {
 
 	protected static final String REPORT_DESIGN = "design.rptdesign";
@@ -44,7 +44,6 @@ abstract public class EngineCase extends TestCase {
 
 	protected IReportEngine engine;
 
-	@Override
 	protected void setUp() throws Exception {
 		engine = new ReportEngine(new EngineConfig());
 	}
@@ -147,7 +146,7 @@ abstract public class EngineCase extends TestCase {
 
 	/**
 	 * create the report document.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	protected void createReportDocument() throws EngineException {
@@ -163,7 +162,7 @@ abstract public class EngineCase extends TestCase {
 
 	/**
 	 * Run and render the report, and return the render result.
-	 *
+	 * 
 	 * @param designFile
 	 * @return render result.
 	 * @throws EngineException
@@ -186,7 +185,7 @@ abstract public class EngineCase extends TestCase {
 
 	/**
 	 * Create run and render result for the design file.
-	 *
+	 * 
 	 * @param designFile
 	 * @return run and render task.
 	 * @throws EngineException
@@ -200,7 +199,7 @@ abstract public class EngineCase extends TestCase {
 
 	/**
 	 * Render a report design file and return the result.
-	 *
+	 * 
 	 * @param designFile
 	 * @return render result.
 	 * @throws EngineException
@@ -219,7 +218,7 @@ abstract public class EngineCase extends TestCase {
 
 	/**
 	 * Get the <code>match</code> string count in the <code>source</code> String.
-	 *
+	 * 
 	 * @param source the source String
 	 * @param match  the match String.
 	 * @return

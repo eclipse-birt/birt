@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.MenuItem;
 
 /**
  * The class provides functions to control and play field assist.
- *
+ * 
  * @since 2.5
  */
 
@@ -61,7 +61,7 @@ public final class FieldAssistHelper {
 
 	/**
 	 * Return only instance of the class.
-	 *
+	 * 
 	 * @return instance of <code>FieldAssistHelper</code>
 	 */
 	public static FieldAssistHelper getInstance() {
@@ -126,7 +126,7 @@ public final class FieldAssistHelper {
 	/**
 	 * Create a ControlDecoration for decorating specified control. Render the
 	 * decoration only on the specified Composite or its children.
-	 *
+	 * 
 	 * @param control   the control to be decorated.
 	 * @param composite The SWT composite within which the decoration should be
 	 *                  rendered. The decoration will be clipped to this composite,
@@ -188,29 +188,24 @@ public final class FieldAssistHelper {
 	private IContentProposalProvider getContentProposalProvider(final String[] values) {
 		return new IContentProposalProvider() {
 
-			@Override
 			public IContentProposal[] getProposals(String contents, int position) {
 				IContentProposal[] proposals = new IContentProposal[values.length];
 				for (int i = 0; i < values.length; i++) {
 					final String user = values[i];
 					proposals[i] = new IContentProposal() {
 
-						@Override
 						public String getContent() {
 							return user;
 						}
 
-						@Override
 						public String getLabel() {
 							return user;
 						}
 
-						@Override
 						public String getDescription() {
 							return null;
 						}
 
-						@Override
 						public int getCursorPosition() {
 							return user.length();
 						}
@@ -224,24 +219,20 @@ public final class FieldAssistHelper {
 	private int getContentAssistAcceptance() {
 		IPreferenceStore store = getPreferenceStore();
 		String acceptanceStyle = store.getString(PreferenceConstants.PREF_CONTENTASSISTRESULT);
-		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTRESULT_INSERT)) {
+		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTRESULT_INSERT))
 			return ContentProposalAdapter.PROPOSAL_INSERT;
-		}
-		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTRESULT_REPLACE)) {
+		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTRESULT_REPLACE))
 			return ContentProposalAdapter.PROPOSAL_REPLACE;
-		}
 		return ContentProposalAdapter.PROPOSAL_IGNORE;
 	}
 
 	private int getContentAssistFilterStyle() {
 		IPreferenceStore store = getPreferenceStore();
 		String acceptanceStyle = store.getString(PreferenceConstants.PREF_CONTENTASSISTFILTER);
-		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTFILTER_CHAR)) {
+		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTFILTER_CHAR))
 			return ContentProposalAdapter.FILTER_CHARACTER;
-		}
-		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTFILTER_CUMULATIVE)) {
+		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTFILTER_CUMULATIVE))
 			return ContentProposalAdapter.FILTER_CUMULATIVE;
-		}
 		return ContentProposalAdapter.FILTER_NONE;
 	}
 
@@ -272,7 +263,7 @@ public final class FieldAssistHelper {
 	/**
 	 * Handle the field modified event, valid the value of field and show correct
 	 * decoration.
-	 *
+	 * 
 	 * @param assistField
 	 */
 	public void handleFieldModify(AssistField assistField) {
@@ -294,7 +285,7 @@ public final class FieldAssistHelper {
 
 	/**
 	 * Create a quick fix menu to specified assist field.
-	 *
+	 * 
 	 * @param field
 	 * @return instance of <code>Menu</code>.
 	 */
@@ -304,12 +295,10 @@ public final class FieldAssistHelper {
 		item.setText(Messages.getString("ssDecorationMenuItem")); //$NON-NLS-1$
 		item.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent event) {
 				field.quickFix();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent event) {
 
 			}
@@ -403,7 +392,7 @@ public final class FieldAssistHelper {
 
 	/**
 	 * Returns required horizontal margin for displaying decoration.
-	 *
+	 * 
 	 * @return
 	 */
 	private int getHorizontialDecorationMargin() {
@@ -412,7 +401,7 @@ public final class FieldAssistHelper {
 
 	/**
 	 * Initializes the margin settings on layout.
-	 *
+	 * 
 	 * @param gl
 	 */
 	public void initDecorationMargin(GridLayout gl) {
@@ -426,7 +415,7 @@ public final class FieldAssistHelper {
 
 	/**
 	 * Add a required field indicator to related label component.
-	 *
+	 * 
 	 * @param assistField
 	 * @param label
 	 */
@@ -442,7 +431,7 @@ public final class FieldAssistHelper {
 
 	/**
 	 * Add a required field indicator to related label component.
-	 *
+	 * 
 	 * @param assistField
 	 * @param label
 	 */

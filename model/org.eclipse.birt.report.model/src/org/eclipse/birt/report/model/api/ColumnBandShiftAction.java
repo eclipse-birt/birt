@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 /**
  * The action to shift one column from one position to another in the same
  * Table/Grid.
- *
+ * 
  */
 
 class ColumnBandShiftAction extends ColumnBandAction {
@@ -37,7 +37,7 @@ class ColumnBandShiftAction extends ColumnBandAction {
 
 	/**
 	 * Constructs a default <code>ColumnBandShiftAction</code>.
-	 *
+	 * 
 	 * @param adapter the adapter to work on tables and grids.
 	 */
 
@@ -52,7 +52,7 @@ class ColumnBandShiftAction extends ColumnBandAction {
 
 	/**
 	 * Returns the shift data of the column band.
-	 *
+	 * 
 	 * @param sourceIndex the source column number to shift
 	 * @return a <code>ColumnBandData</code> object containing the data to shift
 	 * @throws SemanticException if the source column is forbidden to shift because
@@ -61,9 +61,8 @@ class ColumnBandShiftAction extends ColumnBandAction {
 
 	protected ColumnBandData getShiftData(int sourceIndex) throws SemanticException {
 
-		if (sourceIndex <= 0) {
+		if (sourceIndex <= 0)
 			throw new IllegalArgumentException("wrong column to shift"); //$NON-NLS-1$
-		}
 
 		ColumnBandData data = new ColumnBandData();
 
@@ -81,17 +80,20 @@ class ColumnBandShiftAction extends ColumnBandAction {
 
 		List cells = getCellsContextInfo(adapter.getCellsUnderColumn(sourceIndex));
 
-		if (weakMode) {
+		if (weakMode)
 			cells = filter(cells, true);
-		}
 
 		data.setCells(cells);
 
-		if ((!weakMode && !isRectangleArea(cells, 1)) || (!weakMode && adapter.hasDroppingCell(cells))) {
+		if (!weakMode && !isRectangleArea(cells, 1))
 			throw new SemanticError(adapter.getElementHandle().getElement(),
 					new String[] { Integer.toString(sourceIndex), adapter.getElementHandle().getName() },
 					SemanticError.DESIGN_EXCEPTION_COLUMN_COPY_FORBIDDEN);
-		}
+
+		if (!weakMode && adapter.hasDroppingCell(cells))
+			throw new SemanticError(adapter.getElementHandle().getElement(),
+					new String[] { Integer.toString(sourceIndex), adapter.getElementHandle().getName() },
+					SemanticError.DESIGN_EXCEPTION_COLUMN_COPY_FORBIDDEN);
 
 		return data;
 	}
@@ -100,9 +102,8 @@ class ColumnBandShiftAction extends ColumnBandAction {
 		List retval = new ArrayList();
 		for (Object obj : cellContextInfos) {
 			CellContextInfo cellInfo = (CellContextInfo) obj;
-			if (!(valid ^ isValid(cellInfo))) {
+			if (!(valid ^ isValid(cellInfo)))
 				retval.add(cellInfo);
-			}
 		}
 		return retval;
 	}
@@ -115,7 +116,7 @@ class ColumnBandShiftAction extends ColumnBandAction {
 	 * Returns the actual position for the shift action. This is to keep consistent
 	 * with the behavior in <code>ShiftHandle</code> and
 	 * <code>PropertyHandle</code>.
-	 *
+	 * 
 	 * @param posn    the source position
 	 * @param newPosn the new position
 	 * @return the column destination position ready for the shift action
@@ -124,15 +125,13 @@ class ColumnBandShiftAction extends ColumnBandAction {
 	private int adjustDestPosn(int posn, int newPosn) {
 		int columnCount = adapter.getColumnCount();
 
-		if (newPosn > columnCount) {
+		if (newPosn > columnCount)
 			return columnCount;
-		}
 
 		// If the new position is the same as the old, then skip the operation.
 
-		if (posn == newPosn) { // )
+		if (posn == newPosn) // )
 			return -1;
-		}
 
 		return newPosn;
 	}
@@ -140,7 +139,7 @@ class ColumnBandShiftAction extends ColumnBandAction {
 	/**
 	 * Moves one column band from <code>sourceColumn</code> to
 	 * <code>destColumn</code>.
-	 *
+	 * 
 	 * @param sourceColumn the source column to shift
 	 * @param destColumn   the target column to shift
 	 * @throws SemanticException
@@ -153,9 +152,8 @@ class ColumnBandShiftAction extends ColumnBandAction {
 		// If the new position is the same as the old, then skip the operation.
 
 		int newPosn = adjustDestPosn(sourceColumn, destColumn);
-		if (newPosn == -1) {
+		if (newPosn == -1)
 			return;
-		}
 
 		if (weakMode) {
 			List invalidCells = filter(getCellsContextInfo(adapter.getCellsUnderColumn(destColumn)), false);
@@ -165,29 +163,27 @@ class ColumnBandShiftAction extends ColumnBandAction {
 				while (iter.hasNext()) {
 					CellContextInfo cell = (CellContextInfo) iter.next();
 					if (cell.getSlotId() == invalidCell.getSlotId() && cell.getRowIndex() == invalidCell.getRowIndex()
-							&& cell.getGroupId() == invalidCell.getGroupId()) {
+							&& cell.getGroupId() == invalidCell.getGroupId())
 						iter.remove();
-					}
 				}
 			}
 		}
 
 		// shift in the same table, the layout must be same.
 
-		if (!weakMode && !checkTargetColumn(sourceColumn, destColumn)) {
+		if (!weakMode && !checkTargetColumn(sourceColumn, destColumn))
 			throw new SemanticError(adapter.getElementHandle().getElement(),
 					new String[] { Integer.toString(sourceColumn), adapter.getElementHandle().getName() },
 					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN);
-		}
 
 		ActivityStack as = adapter.getModule().getActivityStack();
 
 		try {
-			if (adapter instanceof TableColumnBandAdapter) {
+			if (adapter instanceof TableColumnBandAdapter)
+
 				as.startSilentTrans(CommandLabelFactory.getCommandLabel(MessageConstants.SHIFT_COLUMN_BAND_MESSAGE));
-			} else {
+			else
 				as.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.SHIFT_COLUMN_BAND_MESSAGE));
-			}
 
 			shiftColumn(data.getColumn(), sourceColumn, newPosn);
 			shiftCells(data.getCells(), sourceColumn, newPosn);
@@ -201,7 +197,7 @@ class ColumnBandShiftAction extends ColumnBandAction {
 
 	/**
 	 * Moves one column from <code>sourceColumn</code> to <code>destColumn</code>.
-	 *
+	 * 
 	 * @param column      the column involved in shift action
 	 * @param sourceIndex the source column to shift
 	 * @param destIndex   the target column to shift
@@ -209,9 +205,8 @@ class ColumnBandShiftAction extends ColumnBandAction {
 	 */
 
 	private void shiftColumn(TableColumn column, int sourceIndex, int destIndex) throws SemanticException {
-		if (column == null) {
+		if (column == null)
 			return;
-		}
 
 		SlotHandle columns = adapter.getColumns();
 		TableColumn sourceColumn = ColumnHelper.findColumn(adapter.getModule(), columns.getSlot(), sourceIndex);
@@ -221,16 +216,16 @@ class ColumnBandShiftAction extends ColumnBandAction {
 
 		int repeat = sourceCol.getRepeatCount();
 
-		if (repeat == 1) {
+		if (repeat == 1)
 			columns.drop(sourceCol);
-		} else {
+		else {
 			sourceCol.setRepeatCount(repeat - 1);
 		}
 	}
 
 	/**
 	 * Moves cells from one column band to another column band.
-	 *
+	 * 
 	 * @param cellInfos   a list containing information for cells to shift
 	 * @param sourceIndex the source column to shift
 	 * @param destIndex   the target column to shift
@@ -265,16 +260,14 @@ class ColumnBandShiftAction extends ColumnBandAction {
 				newPosn = 0;
 			} else {
 				CellContextInfo destContext = findCorrespondingCell(destContexts, contextInfo);
-				if (destContext == null) {
+				if (destContext == null)
 					continue;
-				}
 				CellHandle destCell = destContext.getCell().handle(adapter.getModule());
 				newPosn = row.getCells().findPosn(destCell);
 				// adjust the position since the rule is first drop then add.
 
-				if (oldPosn > newPosn + 1) {
+				if (oldPosn > newPosn + 1)
 					newPosn = newPosn + 1;
-				}
 			}
 
 			row.getCells().shift(cell, newPosn);
@@ -288,9 +281,8 @@ class ColumnBandShiftAction extends ColumnBandAction {
 		for (Object obj : destContexts) {
 			CellContextInfo cell = (CellContextInfo) obj;
 			if (cell.getSlotId() == srcCell.getSlotId() && cell.getRowIndex() == srcCell.getRowIndex()
-					&& cell.getGroupId() == srcCell.getGroupId()) {
+					&& cell.getGroupId() == srcCell.getGroupId())
 				return cell;
-			}
 		}
 		return null;
 	}
@@ -298,7 +290,7 @@ class ColumnBandShiftAction extends ColumnBandAction {
 	/**
 	 * Checks whether the paste operation can be done with the given copied column
 	 * band data, the column index and the operation flag.
-	 *
+	 * 
 	 * @param row      the row handle
 	 * @param fromPosn the source position in the shift
 	 * @param toPosn   the destination position in the shift
@@ -314,9 +306,8 @@ class ColumnBandShiftAction extends ColumnBandAction {
 			endIndex = fromPosn;
 		}
 
-		if (row.getCells().getCount() <= endIndex) {
+		if (row.getCells().getCount() <= endIndex)
 			endIndex = row.getCells().getCount() - 1;
-		}
 
 		for (int i = fromIndex; i <= endIndex; i++) {
 			CellHandle cell = (CellHandle) row.getCells().get(i);
@@ -327,7 +318,7 @@ class ColumnBandShiftAction extends ColumnBandAction {
 	/**
 	 * Checks whether the paste operation can be done with the given copied column
 	 * band data, the column index and the operation flag.
-	 *
+	 * 
 	 * @param sourceColumn the source column to shift
 	 * @param destColumn   the target column to shift
 	 * @return <code>true</code> indicates the paste operation can be done.
@@ -338,27 +329,23 @@ class ColumnBandShiftAction extends ColumnBandAction {
 		// if table has parent, its layout can't be changed. so can't do insert
 		// operation.
 
-		if (adapter.hasParent()) {
+		if (adapter.hasParent())
 			return false;
-		}
 
 		// If the new position is the same as the old, then skip the operation.
 
 		int newPosn = adjustDestPosn(sourceColumn, destColumn);
-		if (newPosn == -1) {
+		if (newPosn == -1)
 			return true;
-		}
 
 		int columnCount = adapter.getColumnCount();
-		if (newPosn == 0 || newPosn == columnCount) {
+		if (newPosn == 0 || newPosn == columnCount)
 			return true;
-		}
 
 		List originalCells = getCellsContextInfo(adapter.getCellsUnderColumn(newPosn));
 
-		if (!isRectangleArea(originalCells, 1)) {
+		if (!isRectangleArea(originalCells, 1))
 			return false;
-		}
 
 		return true;
 	}

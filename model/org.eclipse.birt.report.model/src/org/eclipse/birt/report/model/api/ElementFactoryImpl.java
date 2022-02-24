@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -108,7 +108,7 @@ import org.eclipse.birt.report.model.util.ElementStructureUtil;
  * <code>add</code> method in the {@link SlotHandle}class. Obtain an instance of
  * this class by calling the <code>getElementFactory</code> method on any
  * element handle.
- *
+ * 
  * @see SlotHandle
  */
 
@@ -122,7 +122,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Constructs a element factory with the given module.
-	 *
+	 * 
 	 * @param module the module
 	 */
 
@@ -134,10 +134,10 @@ class ElementFactoryImpl {
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by the
 	 * meta-data system.
-	 *
+	 * 
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
-	 *
+	 * 
 	 * @return design element, <code>null</code> returned if the element definition
 	 *         name is not a valid element type name.
 	 */
@@ -149,7 +149,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new free-form item.
-	 *
+	 * 
 	 * @param name the optional free-form name. Can be <code>null</code>.
 	 * @return a handle to the free-form
 	 */
@@ -162,7 +162,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new data item.
-	 *
+	 * 
 	 * @param name the optional data item name. Can be <code>null</code>.
 	 * @return a handle to the data item
 	 */
@@ -175,7 +175,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new label item.
-	 *
+	 * 
 	 * @param name the optional label name. Can be <code>null</code>.
 	 * @return a handle to the label
 	 */
@@ -188,7 +188,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new specialfield item.
-	 *
+	 * 
 	 * @param name the optional data item name. Can be <code>null</code>.
 	 * @return a handle to the data item
 	 */
@@ -201,7 +201,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new image item.
-	 *
+	 * 
 	 * @param name the optional image name. Can be <code>null</code>.
 	 * @return a handle to the image
 	 */
@@ -214,7 +214,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new list group element. List groups cannot have a name.
-	 *
+	 * 
 	 * @return a handle to the list group
 	 */
 
@@ -226,7 +226,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new list item.
-	 *
+	 * 
 	 * @param name the optional list name. Can be <code>null</code>.
 	 * @return a handle to the list
 	 */
@@ -240,7 +240,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new graphic master page element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the required graphic master page name
 	 * @return a handle to the graphic master page
 	 */
@@ -254,7 +254,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new simple master page element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the requirement simple master page name
 	 * @return a handle to the simple master page.
 	 */
@@ -268,7 +268,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new parameter group element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the optional parameter group name. Can be <code>null</code>.
 	 * @return a handle to the parameter group
 	 */
@@ -282,7 +282,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new parameter group element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the optional parameter group name. Can be <code>null</code>.
 	 * @return a handle to the parameter group
 	 */
@@ -296,7 +296,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new scalar parameter element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the required scalar parameter name
 	 * @return a handle to the scalar parameter
 	 */
@@ -310,7 +310,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new dynamic filter parameter element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the required dynamic filter parameter name
 	 * @return a handle to the dynamic filter parameter
 	 */
@@ -323,7 +323,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new style element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the required style name
 	 * @return a handle to the style
 	 */
@@ -338,7 +338,7 @@ class ElementFactoryImpl {
 	 * Creates a new style element, and the style element is supposed to be adding
 	 * to some theme in Library. The name is required. If the <code>name</code> is
 	 * null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param theme the theme to add the style
 	 * @param name  the required style name
 	 * @return a handle to the style
@@ -352,7 +352,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new text item.
-	 *
+	 * 
 	 * @param name the optional text item name. Can be <code>null</code>.
 	 * @return a handle to the text item
 	 */
@@ -365,7 +365,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new table item.
-	 *
+	 * 
 	 * @param name the optional table item name. Can be <code>null</code>.
 	 * @return a handle to the table item
 	 */
@@ -385,7 +385,7 @@ class ElementFactoryImpl {
 	 * <p>
 	 * It has the same effect by calling:
 	 * <code>newTableItem( name, columnNum, 1, 1, 1 )</code>.
-	 *
+	 * 
 	 * @param name      the optional table item name
 	 * @param columnNum column number of the table, if it is less than 0, then
 	 *                  column won't be defined for the table at this stage.
@@ -402,7 +402,7 @@ class ElementFactoryImpl {
 	 * table will have given number of rows for each band(header, footer, detail).
 	 * Each row in band will be filled with cells, number of cells is equal to the
 	 * specified column number.
-	 *
+	 * 
 	 * @param name      the optional table item name
 	 * @param columnNum column number of the table, if it is less than 0, then
 	 *                  column won't be defined for the table at this stage.
@@ -450,7 +450,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new table group element. Table groups cannot have a name.
-	 *
+	 * 
 	 * @return a handle to the table group
 	 */
 
@@ -462,7 +462,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new column element. Columns cannot have a name.
-	 *
+	 * 
 	 * @return a handle to the column
 	 */
 
@@ -474,7 +474,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new row element. Rows cannot have a name.
-	 *
+	 * 
 	 * @return a handle to the row
 	 */
 
@@ -486,9 +486,9 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new table row, filled the row with the given number of cells.
-	 *
+	 * 
 	 * @param cellNum Number of cells to be added to the row.
-	 *
+	 * 
 	 * @return a new table row.
 	 */
 
@@ -508,7 +508,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new cell element. Cells cannot have a name.
-	 *
+	 * 
 	 * @return a handle to the cell
 	 */
 
@@ -520,7 +520,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new grid item.
-	 *
+	 * 
 	 * @param name the optional grid item name. Can be <code>null</code>.
 	 * @return a handle to the grid item
 	 */
@@ -533,13 +533,13 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new grid item with pre-defined columns and rows.
-	 *
+	 * 
 	 * @param name      the optional grid item name.
 	 * @param columnNum column number of the grid. If it is less than 0, none column
 	 *                  will be added.
 	 * @param rowNum    row number of the grid. If it is less than 0, none row will
 	 *                  be added.
-	 *
+	 * 
 	 * @return a handle to the grid item
 	 */
 
@@ -565,7 +565,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new line item.
-	 *
+	 * 
 	 * @param name the optional line item name. Can be <code>null</code>.
 	 * @return a handle to the line item
 	 */
@@ -578,7 +578,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new rectangle.
-	 *
+	 * 
 	 * @param name the optional rectangle name. Can be <code>null</code>.
 	 * @return a handle to rectangle
 	 */
@@ -591,7 +591,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new multi line data item.
-	 *
+	 * 
 	 * @param name the optional multi line data name. Can be <code>null</code>.
 	 * @return a handle to multi line data item
 	 */
@@ -604,7 +604,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new extended item.
-	 *
+	 * 
 	 * @param name          the optional extended item name. Can be
 	 *                      <code>null</code>.
 	 * @param extensionName the required extension name
@@ -623,7 +623,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new extended item which extends from a given parent.
-	 *
+	 * 
 	 * @param name          the optional extended item name. Can be
 	 *                      <code>null</code>.
 	 * @param extensionName the required extension name
@@ -637,17 +637,14 @@ class ElementFactoryImpl {
 			throws ExtendsException {
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
 		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd.getExtension(extensionName);
-		if (extDefn == null) {
+		if (extDefn == null)
 			return null;
-		}
 
-		if (parent != null) {
+		if (parent != null)
 			assert ((ExtendedItem) parent.getElement()).getExtDefn() == extDefn;
-		}
 
-		if (!(extDefn instanceof PeerExtensionElementDefn)) {
+		if (!(extDefn instanceof PeerExtensionElementDefn))
 			throw new IllegalOperationException("Only report item extension can be created through this method."); //$NON-NLS-1$
-		}
 
 		ExtendedItem element = new ExtendedItem(name);
 
@@ -673,7 +670,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new script data source.
-	 *
+	 * 
 	 * @param name the required script data source name.
 	 * @return a handle to script data source
 	 */
@@ -687,7 +684,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new script data set. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the required script data set name.
 	 * @return a handle to script data set
 	 */
@@ -701,14 +698,13 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new oda data source. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the required oda data source name.
 	 * @return a handle to oda data source
 	 * @deprecated see
 	 *             <code>newOdaDataSource( String name, String extensionID )</code>
 	 */
 
-	@Deprecated
 	public OdaDataSourceHandle newOdaDataSource(String name) {
 		OdaDataSource element = new OdaDataSource(name);
 		module.makeUniqueName(element);
@@ -721,7 +717,7 @@ class ElementFactoryImpl {
 	 * used to find the extension definition.If the extension ID is not given, the
 	 * oda data source will be created without extension. If the unknown extension
 	 * ID is given, <code>null</code> will be returned.
-	 *
+	 * 
 	 * @param name        the required oda data source name.
 	 * @param extensionID the extension ID
 	 * @return a handle to oda data source
@@ -730,9 +726,10 @@ class ElementFactoryImpl {
 	public OdaDataSourceHandle newOdaDataSource(String name, String extensionID) {
 		OdaDataSource element = new OdaDataSource(name);
 		if (extensionID != null) {
-			if ((ODAProviderFactory.getInstance().createODAProvider(element, extensionID) == null) || !ODAProviderFactory.getInstance().createODAProvider(element, extensionID).isValidExtensionID()) {
+			if (ODAProviderFactory.getInstance().createODAProvider(element, extensionID) == null)
 				return null;
-			}
+			if (!ODAProviderFactory.getInstance().createODAProvider(element, extensionID).isValidExtensionID())
+				return null;
 		}
 
 		module.makeUniqueName(element);
@@ -744,13 +741,12 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new oda data set. The name is required. If the <code>name</code> is
 	 * null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the required oda data set name.
 	 * @return a handle to oda data set
 	 * @deprecated see <code>newOdaDataSet( String name, String extensionID )</code>
 	 */
 
-	@Deprecated
 	public OdaDataSetHandle newOdaDataSet(String name) {
 		OdaDataSet element = new OdaDataSet(name);
 		module.makeUniqueName(element);
@@ -760,7 +756,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new joint data set. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the required joint data set name.
 	 * @return a handle to joint data set
 	 */
@@ -777,7 +773,7 @@ class ElementFactoryImpl {
 	 * to find the extension definition.If the extension ID is not given, the oda
 	 * data source will be created without extension. If the unknown extension ID is
 	 * given, <code>null</code> will be returned.
-	 *
+	 * 
 	 * @param name        the required oda data set name.
 	 * @param extensionID the extension ID
 	 * @return a handle to oda data set
@@ -786,9 +782,10 @@ class ElementFactoryImpl {
 	public OdaDataSetHandle newOdaDataSet(String name, String extensionID) {
 		OdaDataSet element = new OdaDataSet(name);
 		if (extensionID != null) {
-			if ((ODAProviderFactory.getInstance().createODAProvider(element, extensionID) == null) || !ODAProviderFactory.getInstance().createODAProvider(element, extensionID).isValidExtensionID()) {
+			if (ODAProviderFactory.getInstance().createODAProvider(element, extensionID) == null)
 				return null;
-			}
+			if (!ODAProviderFactory.getInstance().createODAProvider(element, extensionID).isValidExtensionID())
+				return null;
 		}
 
 		module.makeUniqueName(element);
@@ -800,7 +797,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new derived data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the required derived data set name.
 	 * @return a handle to derived data set
 	 */
@@ -815,7 +812,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates one new element based on the given element. The new element will
 	 * extends the given one. The element must be extendable.
-	 *
+	 * 
 	 * @param baseElement the base element.
 	 * @param name        the optional new element name
 	 * @return the handle to the new element.
@@ -825,15 +822,13 @@ class ElementFactoryImpl {
 	 */
 
 	public DesignElementHandle newElementFrom(DesignElementHandle baseElement, String name) throws ExtendsException {
-		if (baseElement == null) {
+		if (baseElement == null)
 			return null;
-		}
 
 		// if the base element is in the module, just generate a child element
 
-		if (baseElement.getRoot().getElement() == module) {
+		if (baseElement.getRoot().getElement() == module)
 			return createElementFrom(name, baseElement);
-		}
 
 		// the base element is not in the module, check whether the root module
 		// of the base element is included
@@ -872,7 +867,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates one new element based on the given element. The new element will
 	 * extends the given one. The element must be extendable.
-	 *
+	 * 
 	 * @param name        the optional new element name
 	 * @param baseElement the base element
 	 * @return the handle to the new element.
@@ -920,7 +915,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new theme element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the theme item name.
 	 * @return a handle to the theme item
 	 */
@@ -934,7 +929,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new report item theme element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the report item theme name.
 	 * @return a handle to the theme item
 	 */
@@ -948,7 +943,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new cube element. The name is required. If the <code>name</code> is
 	 * null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the cube element name.
 	 * @return a handle to the cube element
 	 */
@@ -962,7 +957,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new dimension element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the dimension name
 	 * @return a handle to the dimension element
 	 */
@@ -983,7 +978,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new hierarchy element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name hierarchy name
 	 * @return a handle to the hierarchy element
 	 */
@@ -997,14 +992,13 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new level element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the level name
 	 * @return a handle to the level element
 	 * @deprecated replaced by
 	 *             {@link #newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
 	 */
 
-	@Deprecated
 	public TabularLevelHandle newTabularLevel(String name) {
 		TabularLevel element = new TabularLevel(name);
 		module.makeUniqueName(element);
@@ -1016,9 +1010,9 @@ class ElementFactoryImpl {
 	 * Creates a new level element within the given dimension handle. The name is
 	 * required. If the <code>name</code> is null, we will make a unique name with
 	 * the given dimension scope for it.
-	 *
+	 * 
 	 * @param dimensionHandle the dimension handle where the level will be inserted
-	 *
+	 * 
 	 * @param name            the level name
 	 * @return a handle to the level element
 	 */
@@ -1026,16 +1020,15 @@ class ElementFactoryImpl {
 	public TabularLevelHandle newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
 			String name) {
 		TabularLevel element = new TabularLevel(name);
-		if (dimensionHandle != null) {
+		if (dimensionHandle != null)
 			((Dimension) dimensionHandle.getElement()).makeUniqueName(element);
-		}
 		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new measure element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the measure name
 	 * @return a handle to the measure element
 	 */
@@ -1048,7 +1041,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new measure group.
-	 *
+	 * 
 	 * @param name the optional measure group name.
 	 * @return the measure group element
 	 */
@@ -1060,13 +1053,12 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates an access control element.
-	 *
+	 * 
 	 * @return the access control element
-	 *
+	 * 
 	 * @deprecated
 	 */
 
-	@Deprecated
 	public AccessControlHandle newAccessControl() {
 		AccessControl element = new AccessControl();
 		return element.handle(module);
@@ -1074,13 +1066,12 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a value access control element.
-	 *
+	 * 
 	 * @return the value access control element
-	 *
+	 * 
 	 * @deprecated
 	 */
 
-	@Deprecated
 	public ValueAccessControlHandle newValueAccessControl() {
 		AccessControl element = new ValueAccessControl();
 		return (ValueAccessControlHandle) element.handle(module);
@@ -1089,7 +1080,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new cube element. The name is required. If the <code>name</code> is
 	 * null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the cube element name.
 	 * @return a handle to the cube element
 	 */
@@ -1103,7 +1094,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new dimension element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the dimension name
 	 * @return a handle to the dimension element
 	 */
@@ -1121,7 +1112,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new hierarchy element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name hierarchy name
 	 * @return a handle to the hierarchy element
 	 */
@@ -1135,14 +1126,13 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new level element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the level name
 	 * @return a handle to the level element
 	 * @deprecated replaced by
 	 *             {@link #newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
 	 */
 
-	@Deprecated
 	public OdaLevelHandle newOdaLevel(String name) {
 		OdaLevel element = new OdaLevel(name);
 		module.makeUniqueName(element);
@@ -1153,7 +1143,7 @@ class ElementFactoryImpl {
 	/**
 	 * Creates a new oda level handle. The name is required. If given name is null,
 	 * we will make a unique name within the dimension scope for it.
-	 *
+	 * 
 	 * @param dimensionHandle the dimension handle where the level will be inserted
 	 * @param name            the level name
 	 * @return a handle to the level element
@@ -1161,16 +1151,15 @@ class ElementFactoryImpl {
 	public OdaLevelHandle newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
 			String name) {
 		OdaLevel element = new OdaLevel(name);
-		if (dimensionHandle != null) {
+		if (dimensionHandle != null)
 			((Dimension) dimensionHandle.getElement()).makeUniqueName(element);
-		}
 		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new measure element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 *
+	 * 
 	 * @param name the measure name
 	 * @return a handle to the measure element
 	 */
@@ -1183,7 +1172,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a new measure group.
-	 *
+	 * 
 	 * @param name the optional measure group name.
 	 * @return the measure group element
 	 */
@@ -1195,7 +1184,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a member value handle.
-	 *
+	 * 
 	 * @return a handle to the member value
 	 */
 	public MemberValueHandle newMemberValue() {
@@ -1205,7 +1194,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a sort element handle.
-	 *
+	 * 
 	 * @return a handle to the sort element
 	 */
 	public SortElementHandle newSortElement() {
@@ -1215,7 +1204,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a filter condition element handle.
-	 *
+	 * 
 	 * @return a handle to the filter condition element
 	 */
 	public FilterConditionElementHandle newFilterConditionElement() {
@@ -1225,7 +1214,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a multiple view element handle.
-	 *
+	 * 
 	 * @return a handle to the multiple view element
 	 */
 
@@ -1236,19 +1225,18 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a variable element.
-	 *
+	 * 
 	 * @return the variable element
 	 * @deprecated replaced by newVariableElement( String variableName )
 	 */
 
-	@Deprecated
 	public VariableElementHandle newVariableElement() {
 		return newVariableElement(null);
 	}
 
 	/**
 	 * Creates a variable element and set the variable name.
-	 *
+	 * 
 	 * @param variableName the variable name.
 	 * @return the variable element handle.
 	 */
@@ -1260,7 +1248,7 @@ class ElementFactoryImpl {
 
 	/**
 	 * Creates a data group element.
-	 *
+	 * 
 	 * @return the generated data group element
 	 */
 	public DataGroupHandle newDataGroup() {

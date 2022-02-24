@@ -25,7 +25,6 @@ public class PathResourcePropertyTester extends PropertyTester {
 	public PathResourcePropertyTester() {
 	}
 
-	@Override
 	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
 		if (receiver instanceof PathResourceEntry) {
 			PathResourceEntry entry = (PathResourceEntry) receiver;

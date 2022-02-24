@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,9 +34,9 @@ import org.eclipse.swt.graphics.RGB;
 public final class ColorPalette {
 
 	private static ColorPalette instance = null;
-	private List<RGB> colorLib = new ArrayList<>();
-	private Stack<RGB> colorAvailable = new Stack<>();
-	private HashMap<String, Color> hmColorUsed = new HashMap<>();
+	private List<RGB> colorLib = new ArrayList<RGB>();
+	private Stack<RGB> colorAvailable = new Stack<RGB>();
+	private HashMap<String, Color> hmColorUsed = new HashMap<String, Color>();
 
 	private ColorPalette() {
 		initColorLibrary();
@@ -69,7 +69,7 @@ public final class ColorPalette {
 	/**
 	 * This map stores color name - Color pairs, used to quickly lookup a Color of a
 	 * predefined color.
-	 *
+	 * 
 	 * @param rgb RGB value of color
 	 */
 	private Color getColor(RGB rgb) {
@@ -96,7 +96,7 @@ public final class ColorPalette {
 
 	/**
 	 * Registers the expression with a color. Duplicate expression will be ignored.
-	 *
+	 * 
 	 * @param expression registered expression
 	 */
 	public void putColor(String expression) {
@@ -120,7 +120,7 @@ public final class ColorPalette {
 
 	/**
 	 * Fetches the color by registered expression
-	 *
+	 * 
 	 * @param expression registered expression
 	 * @return the registered color or null if not found
 	 */
@@ -133,7 +133,7 @@ public final class ColorPalette {
 
 	/**
 	 * Restores the current to the initial state.
-	 *
+	 * 
 	 */
 	public void restore() {
 		colorAvailable.clear();
@@ -142,14 +142,14 @@ public final class ColorPalette {
 	}
 
 	public void updateKeys(Collection<String> keys) {
-		Set<String> newKeys = new HashSet<>();
+		Set<String> newKeys = new HashSet<String>();
 		for (String key : keys) {
 			newKeys.add(key.toUpperCase());
 		}
 
 		Set<String> oldKeys = hmColorUsed.keySet();
 
-		Set<String> keysToRemove = new HashSet<>(oldKeys);
+		Set<String> keysToRemove = new HashSet<String>(oldKeys);
 		keysToRemove.removeAll(newKeys);
 
 		for (String key : keysToRemove) {

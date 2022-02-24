@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,6 @@ public class ReportletExecutorV4 extends AbstractReportExecutor {
 		bodyExecutor = new ReportletBodyExecutor(manager, fragment, offset);
 	}
 
-	@Override
 	public void close() {
 		try {
 			if (bodyExecutor != null) {
@@ -58,12 +57,10 @@ public class ReportletExecutorV4 extends AbstractReportExecutor {
 		}
 	}
 
-	@Override
 	public IReportContent execute() {
 		return reportContent;
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() throws BirtException {
 		if (bodyExecutor != null) {
 			IReportItemExecutor executor = bodyExecutor.getNextChild();
@@ -73,7 +70,6 @@ public class ReportletExecutorV4 extends AbstractReportExecutor {
 		return null;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		return bodyExecutor != null;
 	}

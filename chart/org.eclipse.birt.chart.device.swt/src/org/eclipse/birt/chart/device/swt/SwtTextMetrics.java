@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.TextLayout;
 
 /**
- *
+ * 
  */
 public final class SwtTextMetrics extends TextAdapter {
 
@@ -57,7 +57,7 @@ public final class SwtTextMetrics extends TextAdapter {
 	/**
 	 * The constructor initializes a tiny image that provides a graphics context
 	 * capable of performing computations in the absence of a visual component
-	 *
+	 * 
 	 * @param _ids
 	 * @param _la
 	 * @param gc
@@ -80,11 +80,10 @@ public final class SwtTextMetrics extends TextAdapter {
 	/**
 	 * Allows reuse of the multi-line text element for computing bounds of a
 	 * different font
-	 *
+	 * 
 	 * @param fd
 	 */
-	@Override
-	public void reuse(Label la, double forceWrappingSize) {
+	public final void reuse(Label la, double forceWrappingSize) {
 		cachedWidth = Double.NaN;
 
 		String s = la.getCaption().getValue();
@@ -108,7 +107,7 @@ public final class SwtTextMetrics extends TextAdapter {
 
 		if (forceWrappingSize > 0) {
 			// update label with new broken content.
-			StringBuilder sb = new StringBuilder();
+			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < oText.length; i++) {
 				sb.append(oText[i]).append("\n"); //$NON-NLS-1$
 			}
@@ -124,8 +123,7 @@ public final class SwtTextMetrics extends TextAdapter {
 	/**
 	 * Disposal of the internal image
 	 */
-	@Override
-	public void dispose() {
+	public final void dispose() {
 		disposeFont();
 	}
 
@@ -137,10 +135,10 @@ public final class SwtTextMetrics extends TextAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
-	public boolean isDisposed() {
+	public final boolean isDisposed() {
 		return gc.isDisposed();
 	}
 
@@ -152,35 +150,33 @@ public final class SwtTextMetrics extends TextAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param fm
 	 * @return
 	 */
-	@Override
-	public double getHeight() {
+	public final double getHeight() {
 		gc.setFont(getFont());
 		final int iHeight = gc.getFontMetrics().getHeight();
 		return iHeight;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param fm
 	 * @return
 	 */
-	@Override
-	public double getDescent() {
+	public final double getDescent() {
 		gc.setFont(getFont());
 		final int iDescent = gc.getFontMetrics().getDescent();
 		return iDescent;
 	}
 
 	/**
-	 *
+	 * 
 	 * @return The width of the line containing the maximum width (if multiline
 	 *         split by hard breaks) or the width of the single line of text
 	 */
-	private double stringWidth() {
+	private final double stringWidth() {
 		if (!Double.isNaN(cachedWidth)) {
 			return cachedWidth;
 		}
@@ -205,20 +201,18 @@ public final class SwtTextMetrics extends TextAdapter {
 		return cachedWidth;
 	}
 
-	@Override
-	public double getFullHeight() {
+	public final double getFullHeight() {
 
 		return getHeight() * getLineCount() + ins.getTop() + ins.getBottom();
 	}
 
 	@Override
-	public double getFullHeight(double fontHeight) {
+	public final double getFullHeight(double fontHeight) {
 
 		return fontHeight * getLineCount() + ins.getTop() + ins.getBottom();
 	}
 
-	@Override
-	public double getFullWidth() {
+	public final double getFullWidth() {
 
 		return stringWidth() + ins.getLeft() + ins.getRight();
 	}
@@ -232,30 +226,28 @@ public final class SwtTextMetrics extends TextAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return The number of lines created due to the hard breaks inserted
 	 */
-	@Override
-	public int getLineCount() {
+	public final int getLineCount() {
 		return iLineCount;
 	}
 
 	/**
-	 *
+	 * 
 	 * @return The line requested for
 	 */
-	@Override
-	public String getLine(int iIndex) {
+	public final String getLine(int iIndex) {
 		return (iLineCount > 1) ? oText[iIndex] : oText[0];
 	}
 
 	/**
-	 *
+	 * 
 	 * @param s
 	 * @return
 	 */
 	private String[] splitOnBreaks(String s, double maxSize) {
-		List<String> al = new ArrayList<>();
+		List<String> al = new ArrayList<String>();
 
 		// check hard break first
 		int i = 0, j;
@@ -280,7 +272,7 @@ public final class SwtTextMetrics extends TextAdapter {
 			tl.setFont(getFont());
 			tl.setWidth((int) maxSize);
 
-			List<String> nal = new ArrayList<>();
+			List<String> nal = new ArrayList<String>();
 
 			for (Iterator<String> itr = al.iterator(); itr.hasNext();) {
 				String ns = itr.next();

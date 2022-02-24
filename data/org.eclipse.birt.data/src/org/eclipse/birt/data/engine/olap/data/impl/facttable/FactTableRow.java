@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,10 +34,9 @@ public class FactTableRow implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.util.IStructure#getFieldValues()
 	 */
-	@Override
 	public Object[] getFieldValues() {
 		assert getDimensionKeys() != null && getMeasures() != null;
 		assert getDimensionKeys().length > 0 && getMeasures().length > 0;
@@ -62,10 +61,9 @@ public class FactTableRow implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	@Override
 	public int compareTo(Object o) {
 		FactTableRow other = (FactTableRow) o;
 
@@ -82,14 +80,12 @@ public class FactTableRow implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
 	public boolean equals(Object o) {
-		if (o == null) {
+		if (o == null)
 			return false;
-		}
 		FactTableRow other = (FactTableRow) o;
 
 		if (other.getDimensionKeys().length != this.getDimensionKeys().length) {
@@ -107,7 +103,6 @@ public class FactTableRow implements IComparableStructure {
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
-	@Override
 	public int hashCode() {
 		int result = 17;
 		for (int i = 0; i < getDimensionKeys().length; i++) {
@@ -118,21 +113,19 @@ public class FactTableRow implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
 	public String toString() {
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < getDimensionKeys().length; i++) {
 			buffer.append(getDimensionKeys()[i]);
 		}
 		for (int i = 0; i < getMeasures().length; i++) {
-			if (getMeasures()[i] == null) {
+			if (getMeasures()[i] == null)
 				buffer.append("null");
-			} else {
+			else
 				buffer.append(getMeasures()[i]);
-			}
 			buffer.append(' ');
 		}
 		return buffer.toString();
@@ -163,7 +156,7 @@ public class FactTableRow implements IComparableStructure {
 }
 
 /**
- *
+ * 
  * @author Administrator
  *
  */
@@ -171,12 +164,11 @@ class FactTableRowCreator implements IStructureCreator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.olap.data.util.IStructureCreator#createInstance(java.
 	 * lang.Object[])
 	 */
-	@Override
 	public IStructure createInstance(Object[] fields) {
 		IStructureCreator dimensionCreator = DimensionKey.getCreator();
 		FactTableRow result = new FactTableRow();

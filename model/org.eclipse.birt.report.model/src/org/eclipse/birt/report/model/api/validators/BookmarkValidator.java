@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,9 +38,9 @@ public class BookmarkValidator extends AbstractElementValidator {
 
 	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
-		List<SemanticException> ret = new ArrayList<>();
+		List<SemanticException> ret = new ArrayList<SemanticException>();
 		Object obj = element.getProperty(module, IReportItemModel.BOOKMARK_PROP);
-		if (obj instanceof Expression) {
+		if (obj != null && obj instanceof Expression) {
 			Expression expr = (Expression) obj;
 			if (ExpressionType.CONSTANT.equals(expr.getType())) {
 				if (!Pattern.matches(BOOKMARK_PATTERN, expr.getStringExpression())) {

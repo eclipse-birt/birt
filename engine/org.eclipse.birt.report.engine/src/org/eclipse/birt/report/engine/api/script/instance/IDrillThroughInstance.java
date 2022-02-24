@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +17,7 @@ package org.eclipse.birt.report.engine.api.script.instance;
 import java.util.Map;
 
 /**
- *
+ * 
  */
 
 public interface IDrillThroughInstance {
@@ -28,7 +28,7 @@ public interface IDrillThroughInstance {
 
 	/**
 	 * Set the report name.
-	 *
+	 * 
 	 * @param reportName
 	 */
 	void setReportName(String reportName);
@@ -59,13 +59,13 @@ public interface IDrillThroughInstance {
 
 	/**
 	 * @return the format of output report.
-	 *
+	 * 
 	 */
 	String getFormat();
 
 	/**
 	 * Set the format of output report.
-	 *
+	 * 
 	 */
 	void setFormat(String format);
 
@@ -77,7 +77,7 @@ public interface IDrillThroughInstance {
 
 	/**
 	 * Set the bookmark to the drillThrough .
-	 *
+	 * 
 	 * @param bookmark
 	 */
 	void setBookmark(String bookmark);
@@ -90,7 +90,7 @@ public interface IDrillThroughInstance {
 
 	/**
 	 * Set the TOC of this drillThrough.
-	 *
+	 * 
 	 * @param toc
 	 */
 	void setTOC(String toc);

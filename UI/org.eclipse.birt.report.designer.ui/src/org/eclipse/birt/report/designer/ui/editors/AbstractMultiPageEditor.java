@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,12 +21,11 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.IFormPage;
 
 /**
- *
+ * 
  */
 
 public abstract class AbstractMultiPageEditor extends FormEditor {
 
-	@Override
 	protected void pageChange(int newPageIndex) {
 		// TODO Auto-generated method stub
 		super.pageChange(newPageIndex);
@@ -35,10 +34,9 @@ public abstract class AbstractMultiPageEditor extends FormEditor {
 
 	/**
 	 * Notifies action bar contributor about page change.
-	 *
+	 * 
 	 * @param pageIndex the index of the new page
 	 */
-	@Override
 	protected void updateActionBarContributor(int pageIndex) {
 		super.updateActionBarContributor(pageIndex);
 		// Overwrite this method to implement multi-editor action bar
@@ -55,9 +53,9 @@ public abstract class AbstractMultiPageEditor extends FormEditor {
 
 	/**
 	 * Refresh resource markser
-	 *
+	 * 
 	 * temporary for WTP XML editor
-	 *
+	 * 
 	 * @param input
 	 * @throws CoreException
 	 */

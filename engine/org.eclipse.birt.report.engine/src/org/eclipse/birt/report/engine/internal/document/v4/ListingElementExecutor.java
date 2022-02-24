@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,6 @@ public abstract class ListingElementExecutor extends ContainerExecutor {
 		executorUtil = null;
 	}
 
-	@Override
 	public void close() {
 		executableElements = null;
 		totalElements = 0;
@@ -45,7 +44,6 @@ public abstract class ListingElementExecutor extends ContainerExecutor {
 		super.close();
 	}
 
-	@Override
 	protected ReportItemExecutor doCreateExecutor(long offset) throws Exception {
 		if (currentElement >= totalElements) {
 			// we need get the next executable elements.
@@ -65,7 +63,6 @@ public abstract class ListingElementExecutor extends ContainerExecutor {
 		return null;
 	}
 
-	@Override
 	protected void doSkipToExecutor(InstanceID iid, long offset) throws Exception {
 		IQueryResultSet rset = (IQueryResultSet) rsets[0];
 		long uid = iid.getUniqueID();

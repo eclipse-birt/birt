@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class ReportletBodyExecutor implements IReportItemExecutor {
 
 	long offset;
 	IReportItemExecutor bodyExecutor;
-	ArrayList<IReportItemExecutor> parentExecutors = new ArrayList<>();
+	ArrayList<IReportItemExecutor> parentExecutors = new ArrayList<IReportItemExecutor>();
 	IContent bodyContent;
 	IReportItemExecutor childExecutor;
 	WrappedReportExecutor reportExecutor;
@@ -53,7 +53,6 @@ public class ReportletBodyExecutor implements IReportItemExecutor {
 		doExecute();
 	}
 
-	@Override
 	public void close() throws BirtException {
 		if (!parentExecutors.isEmpty()) {
 			for (IReportItemExecutor executor : parentExecutors) {
@@ -107,7 +106,11 @@ public class ReportletBodyExecutor implements IReportItemExecutor {
 	}
 
 	private boolean isNullValue(CSSValue value) {
-		if ((value == null) || (value instanceof DataFormatValue)) {
+		if (value == null) {
+			return true;
+		}
+
+		if (value instanceof DataFormatValue) {
 			return true;
 		}
 
@@ -115,27 +118,22 @@ public class ReportletBodyExecutor implements IReportItemExecutor {
 		return "none".equalsIgnoreCase(cssText) || "transparent".equalsIgnoreCase(cssText);
 	}
 
-	@Override
 	public IContent execute() {
 		return null;
 	}
 
-	@Override
 	public IContent getContent() {
 		return bodyContent;
 	}
 
-	@Override
 	public IExecutorContext getContext() {
 		return bodyExecutor.getContext();
 	}
 
-	@Override
 	public Object getModelObject() {
 		return bodyExecutor.getModelObject();
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		if (childExecutor != null) {
 			IReportItemExecutor executor = childExecutor;
@@ -145,30 +143,24 @@ public class ReportletBodyExecutor implements IReportItemExecutor {
 		return null;
 	}
 
-	@Override
 	public IReportItemExecutor getParent() {
 		return null;
 	}
 
-	@Override
 	public IBaseResultSet[] getQueryResults() {
 		return null;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		return childExecutor != null;
 	}
 
-	@Override
 	public void setContext(IExecutorContext context) {
 	}
 
-	@Override
 	public void setModelObject(Object handle) {
 	}
 
-	@Override
 	public void setParent(IReportItemExecutor parent) {
 
 	}
@@ -184,31 +176,25 @@ public class ReportletBodyExecutor implements IReportItemExecutor {
 			this.childExecutor = childExecutor;
 		}
 
-		@Override
 		public void close() throws BirtException {
 		}
 
-		@Override
 		public IContent execute() {
 			return content;
 		}
 
-		@Override
 		public IContent getContent() {
 			return content;
 		}
 
-		@Override
 		public IExecutorContext getContext() {
 			return executor.getContext();
 		}
 
-		@Override
 		public Object getModelObject() {
 			return executor.getModelObject();
 		}
 
-		@Override
 		public IReportItemExecutor getNextChild() {
 			if (childExecutor != null) {
 				IReportItemExecutor executor = childExecutor;
@@ -218,30 +204,24 @@ public class ReportletBodyExecutor implements IReportItemExecutor {
 			return null;
 		}
 
-		@Override
 		public IReportItemExecutor getParent() {
 			return executor.getParent();
 		}
 
-		@Override
 		public IBaseResultSet[] getQueryResults() {
 			return executor.getQueryResults();
 		}
 
-		@Override
 		public boolean hasNextChild() {
 			return childExecutor != null;
 		}
 
-		@Override
 		public void setContext(IExecutorContext context) {
 		}
 
-		@Override
 		public void setModelObject(Object handle) {
 		}
 
-		@Override
 		public void setParent(IReportItemExecutor parent) {
 		}
 	}

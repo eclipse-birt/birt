@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -45,7 +45,7 @@ public final class GeneratedChartState {
 	/**
 	 * A default constructor provided to create an instance internally via the build
 	 * process.
-	 *
+	 * 
 	 * @param ids           An instance of the display server used in building the
 	 *                      chart
 	 * @param cm            An instance of the chart model for which the chart was
@@ -65,48 +65,48 @@ public final class GeneratedChartState {
 
 	/**
 	 * Returns a sorted lookup list of all series renderers.
-	 *
+	 * 
 	 * @return A sorted lookup list of all series renderers.
 	 */
-	public LinkedHashMap<Series, LegendItemRenderingHints> getRenderers() {
+	public final LinkedHashMap<Series, LegendItemRenderingHints> getRenderers() {
 		return _lhmRenderers;
 	}
 
 	/**
 	 * Returns an internal class capable of computing the chart content.
-	 *
+	 * 
 	 * @return An internal class capable of computing the chart content.
 	 */
-	public PlotComputation getComputations() {
+	public final PlotComputation getComputations() {
 		return _oComputations;
 	}
 
 	/**
 	 * Returns an instance of a display server used in building the chart content.
-	 *
+	 * 
 	 * @return An instance of a display server used in building the chart content.
 	 */
-	public IDisplayServer getDisplayServer() {
+	public final IDisplayServer getDisplayServer() {
 		return _ids;
 	}
 
 	/**
 	 * Returns an instance of the source chart model associated with the built chart
 	 * content.
-	 *
+	 * 
 	 * @return An instance of the source chart model associated with the built chart
 	 *         content.
 	 */
-	public Chart getChartModel() {
+	public final Chart getChartModel() {
 		return _cm;
 	}
 
 	/**
 	 * Returns an instance of the runtime context used in building the chart.
-	 *
+	 * 
 	 * @return An instance of the runtime context used in building the chart.
 	 */
-	public RunTimeContext getRunTimeContext() {
+	public final RunTimeContext getRunTimeContext() {
 		return _rtc;
 	}
 

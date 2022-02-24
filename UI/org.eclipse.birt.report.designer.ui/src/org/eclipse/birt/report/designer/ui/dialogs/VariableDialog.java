@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,6 @@ public class VariableDialog extends BaseTitleAreaDialog {
 		this.variable = variable;
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.INSERT_EDIT_SORTKEY_DIALOG_ID);
 
@@ -105,7 +104,6 @@ public class VariableDialog extends BaseTitleAreaDialog {
 		nameTxt.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		nameTxt.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				validate();
 			}
@@ -145,25 +143,24 @@ public class VariableDialog extends BaseTitleAreaDialog {
 		if (this.variable != null) {
 			this.nameTxt.setText(this.variable.getName());
 			if (this.variable.getType() == null
-					|| this.variable.getType().equals(DesignChoiceConstants.VARIABLE_TYPE_REPORT)) {
+					|| this.variable.getType().equals(DesignChoiceConstants.VARIABLE_TYPE_REPORT))
 				this.reportRadio.setSelection(true);
-			} else {
+			else
 				this.pageRadio.setSelection(true);
-				// if ( this.variable.getDataType( ) != null )
-				// {
-				// String displayName = getDisplayNameByDataType(
-				// this.variable.getDataType( ),
-				// datatypes );
-				// for ( int i = 0; i < dataTypeCombo.getItemCount( ); i++ )
-				// {
-				// if ( dataTypeCombo.getItem( i ).equals( displayName ) )
-				// {
-				// dataTypeCombo.select( i );
-				// break;
-				// }
-				// }
-				// }
-			}
+			// if ( this.variable.getDataType( ) != null )
+			// {
+			// String displayName = getDisplayNameByDataType(
+			// this.variable.getDataType( ),
+			// datatypes );
+			// for ( int i = 0; i < dataTypeCombo.getItemCount( ); i++ )
+			// {
+			// if ( dataTypeCombo.getItem( i ).equals( displayName ) )
+			// {
+			// dataTypeCombo.select( i );
+			// break;
+			// }
+			// }
+			// }
 
 			ExpressionButtonUtil.initExpressionButtonControl(expressionTxt, variable, VariableElementHandle.VALUE_PROP);
 		} else {
@@ -187,11 +184,10 @@ public class VariableDialog extends BaseTitleAreaDialog {
 		}
 		try {
 			this.variable.setVariableName(this.nameTxt.getText().trim());
-			if (this.reportRadio.getSelection()) {
+			if (this.reportRadio.getSelection())
 				this.variable.setType(DesignChoiceConstants.VARIABLE_TYPE_REPORT);
-			} else {
+			else
 				this.variable.setType(DesignChoiceConstants.VARIABLE_TYPE_PAGE);
-			}
 			// this.variable.setDataType( getDataTypeByDisplayName(
 			// this.dataTypeCombo.getText( ),
 			// DEUtil.getMetaDataDictionary( )
@@ -217,13 +213,11 @@ public class VariableDialog extends BaseTitleAreaDialog {
 	}
 
 	private boolean isNameDuplicated(String text) {
-		if (this.variable != null && this.variable.getName().equals(text)) {
+		if (this.variable != null && this.variable.getName().equals(text))
 			return false;
-		}
 		for (VariableElementHandle veh : this.designHandle.getPageVariables()) {
-			if (veh.getName().equals(text)) {
+			if (veh.getName().equals(text))
 				return true;
-			}
 		}
 		return false;
 	}

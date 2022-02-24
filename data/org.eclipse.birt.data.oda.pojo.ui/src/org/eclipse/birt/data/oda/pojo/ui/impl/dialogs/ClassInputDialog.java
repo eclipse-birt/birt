@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- *
+ * 
  */
 
 public class ClassInputDialog extends TrayDialog {
@@ -56,7 +56,7 @@ public class ClassInputDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
@@ -74,7 +74,6 @@ public class ClassInputDialog extends TrayDialog {
 		txtName = new Text(top, SWT.BORDER);
 		txtName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		txtName.addModifyListener(new ModifyListener() {
-			@Override
 			public void modifyText(ModifyEvent e) {
 				classTableViewer.refresh();
 				if (classTableViewer.getElementAt(0) != null) {
@@ -90,16 +89,13 @@ public class ClassInputDialog extends TrayDialog {
 		classTableViewer.getTable().setHeaderVisible(false);
 		classTableViewer.getTable().setLinesVisible(false);
 		classTableViewer.setContentProvider(new IStructuredContentProvider() {
-			@Override
 			public void dispose() {
 
 			}
 
-			@Override
 			public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 			}
 
-			@Override
 			public Object[] getElements(Object arg0) {
 				return classes;
 			}
@@ -109,7 +105,7 @@ public class ClassInputDialog extends TrayDialog {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 			 */
 			@Override
@@ -119,7 +115,7 @@ public class ClassInputDialog extends TrayDialog {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
 			 */
 			@Override
@@ -140,7 +136,7 @@ public class ClassInputDialog extends TrayDialog {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see
 			 * org.eclipse.jface.viewers.ViewerComparator#compare(org.eclipse.jface.viewers.
 			 * Viewer, java.lang.Object, java.lang.Object)
@@ -167,22 +163,22 @@ public class ClassInputDialog extends TrayDialog {
 
 		});
 		classTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection ss = (IStructuredSelection) event.getSelection();
 				if (ss.size() == 1) {
 					if (getButton(IDialogConstants.OK_ID) != null) {
 						getButton(IDialogConstants.OK_ID).setEnabled(true);
 					}
-				} else if (getButton(IDialogConstants.OK_ID) != null) {
-					getButton(IDialogConstants.OK_ID).setEnabled(false);
+				} else {
+					if (getButton(IDialogConstants.OK_ID) != null) {
+						getButton(IDialogConstants.OK_ID).setEnabled(false);
+					}
 				}
 				classTableViewer.refresh(); // the selected items labels are different from those of unselected items
 			}
 
 		});
 		classTableViewer.addDoubleClickListener(new IDoubleClickListener() {
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				IStructuredSelection ss = (IStructuredSelection) classTableViewer.getSelection();
 				if (ss.getFirstElement() != null) {
@@ -211,7 +207,7 @@ public class ClassInputDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#buttonPressed(int)
 	 */
 	@Override
@@ -229,7 +225,7 @@ public class ClassInputDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.
 	 * widgets.Composite)
@@ -249,7 +245,7 @@ public class ClassInputDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#isResizable()
 	 */
 	@Override

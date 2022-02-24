@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,13 +35,13 @@ import org.mozilla.javascript.ast.AstRoot;
 import org.mozilla.javascript.ast.ScriptNode;
 
 /**
- *
+ * 
  */
 
 public class CubeQueryUtil {
 
 	/**
-	 *
+	 * 
 	 * @param targetLevel
 	 * @param bindingExpr
 	 * @param bindings
@@ -56,9 +56,8 @@ public class CubeQueryUtil {
 			List result = new ArrayList();
 			DimensionLevel target = getTargetDimLevel(targetLevel);
 			String bindingName = getReferencedScriptObject(bindingExpr, "data");
-			if (bindingName == null) {
+			if (bindingName == null)
 				return result;
-			}
 			IBinding binding = null;
 			for (int i = 0; i < bindings.size(); i++) {
 				IBinding bd = (IBinding) bindings.get(i);
@@ -84,9 +83,8 @@ public class CubeQueryUtil {
 
 			int candidateEdge = getAxisQualifierEdgeType(rowEdgeExprList, columnEdgeExprList, target);
 
-			if (candidateEdge == -1) {
+			if (candidateEdge == -1)
 				return result;
-			}
 
 			if (isMeasure) {
 				switch (candidateEdge) {
@@ -116,7 +114,7 @@ public class CubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param targetLevel
 	 * @param bindingExpr
 	 * @param bindings
@@ -132,14 +130,14 @@ public class CubeQueryUtil {
 
 	/**
 	 * Get all aggregation binding from <code>bindings</code>
-	 *
+	 * 
 	 * @param bindings: input bindings
 	 * @return aggregation bindings
 	 * @throws AdapterException
 	 */
 	public static IBinding[] getAggregationBindings(IBinding[] bindings) throws AdapterException {
 		assert bindings != null;
-		List<IBinding> result = new ArrayList<>();
+		List<IBinding> result = new ArrayList<IBinding>();
 		for (IBinding b : bindings) {
 			try {
 				if (b.getAggrFunction() != null) {
@@ -155,7 +153,7 @@ public class CubeQueryUtil {
 	/**
 	 * Populate axis levels to the <code>result</code> for the aggregate on levels
 	 * only if they are on the specified level.
-	 *
+	 * 
 	 * @param aggrOns
 	 * @param edgeExprList
 	 * @param result
@@ -193,7 +191,7 @@ public class CubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param levelExpr
 	 * @param rowEdgeExprList
 	 * @return
@@ -201,15 +199,14 @@ public class CubeQueryUtil {
 	private static boolean isAxisQualifierLevel(String levelExpr, List rowEdgeExprList) {
 		for (Iterator i = rowEdgeExprList.iterator(); i.hasNext();) {
 			String expr = (String) i.next();
-			if (expr.equals(levelExpr)) {
+			if (expr.equals(levelExpr))
 				return true;
-			}
 		}
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param levelExprList
 	 * @param result
 	 * @throws AdapterException
@@ -222,7 +219,7 @@ public class CubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param rowEdgeList
 	 * @param columnEdgeList
 	 * @param target
@@ -255,7 +252,7 @@ public class CubeQueryUtil {
 	/**
 	 * Get referenced Script Object (dimension, data, measure, etc) according to
 	 * given object name.
-	 *
+	 * 
 	 * @param expr
 	 * @param objectName
 	 * @return
@@ -264,17 +261,15 @@ public class CubeQueryUtil {
 		if (expr instanceof IScriptExpression) {
 			return getReferencedScriptObject(((IScriptExpression) expr), objectName);
 		} else if (expr instanceof IConditionalExpression) {
-			String dimName;
+			String dimName = null;
 			IScriptExpression expr1 = ((IConditionalExpression) expr).getExpression();
 			dimName = getReferencedScriptObject(expr1, objectName);
-			if (dimName != null) {
+			if (dimName != null)
 				return dimName;
-			}
 			IBaseExpression op1 = ((IConditionalExpression) expr).getOperand1();
 			dimName = getReferencedScriptObject(op1, objectName);
-			if (dimName != null) {
+			if (dimName != null)
 				return dimName;
-			}
 
 			IBaseExpression op2 = ((IConditionalExpression) expr).getOperand2();
 			dimName = getReferencedScriptObject(op2, objectName);
@@ -285,29 +280,27 @@ public class CubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @param objectName
 	 * @return
 	 */
 	private static String getReferencedScriptObject(IScriptExpression expr, String objectName) {
-		if (expr == null) {
+		if (expr == null)
 			return null;
-		} else {
+		else
 			return getReferencedScriptObject(expr.getText(), objectName);
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @param objectName
 	 * @return
 	 */
 	private static String getReferencedScriptObject(String expr, String objectName) {
-		if (expr == null) {
+		if (expr == null)
 			return null;
-		}
 		try {
 			Context cx = Context.enter();
 			CompilerEnvirons ce = new CompilerEnvirons();
@@ -322,44 +315,42 @@ public class CubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param n
 	 * @param objectName
 	 * @return
 	 */
 	private static String getScriptObjectName(Node n, String objectName) {
-		if (n == null) {
+		if (n == null)
 			return null;
-		}
-		String result;
+		String result = null;
 		if (n.getType() == Token.NAME) {
 			if (objectName.equals(n.getString())) {
 				Node dimNameNode = n.getNext();
-				if (dimNameNode == null || dimNameNode.getType() != Token.STRING) {
+				if (dimNameNode == null || dimNameNode.getType() != Token.STRING)
 					return null;
-				}
 
 				return dimNameNode.getString();
 			}
 		}
 
 		result = getScriptObjectName(n.getFirstChild(), objectName);
-		if (result == null) {
+		if (result == null)
 			result = getScriptObjectName(n.getLastChild(), objectName);
-		}
 
 		return result;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 */
 	private static String[] getTargetLevel(String expr) {
-		if ((expr == null) || !expr.matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E")) {
+		if (expr == null)
 			return null;
-		}
+		if (!expr.matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E"))
+			return null;
 
 		expr = expr.replaceFirst("\\Qdimension\\E", "");
 		String[] result = expr.split("\\Q\"][\"\\E");
@@ -369,7 +360,7 @@ public class CubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 * @throws DataException

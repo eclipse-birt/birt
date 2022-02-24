@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -28,7 +28,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * This class fetch the DBConfig from config.xml file.
- *
+ * 
  *
  */
 public class DBConfig {
@@ -46,9 +46,8 @@ public class DBConfig {
 	public static DBConfig getInstance() {
 		if (config == null) {
 			synchronized (DBConfig.class) {
-				if (config == null) {
+				if (config == null)
 					config = new DBConfig();
-				}
 			}
 		}
 		return config;
@@ -56,35 +55,32 @@ public class DBConfig {
 
 	//
 	DBConfig() {
-		driverPolicy = new HashMap<>();
+		driverPolicy = new HashMap<Integer, Set<String>>();
 		new SaxParser(this).parse();
 	}
 
 	/**
-	 *
+	 * 
 	 * @param driverName
 	 * @return
 	 */
 	public boolean qualifyPolicy(String driverName, int policyNumber) {
-		if (driverName == null) {
+		if (driverName == null)
 			return false;
-		}
 		Set<String> policySet = driverPolicy.get(policyNumber);
-		if (policySet == null) {
+		if (policySet == null)
 			return false;
-		}
 		return policySet.contains(driverName.toUpperCase());
 	}
 
 	/**
-	 *
+	 * 
 	 * @param driverName
 	 * @param policy
 	 */
 	public void putPolicy(String driverName, int policy) {
-		if (driverName == null) {
+		if (driverName == null)
 			return;
-		}
 		if (!driverPolicy.containsKey(policy)) {
 			driverPolicy.put(policy, new HashSet<String>());
 		}
@@ -92,7 +88,7 @@ public class DBConfig {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public URL getConfigURL() {
@@ -103,7 +99,7 @@ public class DBConfig {
 }
 
 /**
- *
+ * 
  * @author Administrator
  *
  */
@@ -119,7 +115,7 @@ class SaxParser extends DefaultHandler {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param config
 	 */
 	public SaxParser(DBConfig config) {
@@ -128,11 +124,10 @@ class SaxParser extends DefaultHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.xml.sax.ContentHandler#startElement(java.lang.String,
 	 * java.lang.String, java.lang.String, org.xml.sax.Attributes)
 	 */
-	@Override
 	public void startElement(String uri, String name, String qName, Attributes atts) {
 		String elementName = qName;
 		if (elementName.equals(DRIVER)) {
@@ -148,21 +143,22 @@ class SaxParser extends DefaultHandler {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public void parse() {
-		if (this.dbConfig.getConfigURL() == null) {
+		if (this.dbConfig.getConfigURL() == null)
 			return;
-		}
 		try {
 			XMLReader xmlReader = XMLReaderFactory.createXMLReader();
 			xmlReader.setContentHandler(this);
 			xmlReader.setErrorHandler(this);
 			InputStream is = new BufferedInputStream(this.dbConfig.getConfigURL().openStream());
-			try (is) {
+			try {
 				InputSource source = new InputSource(is);
 				source.setEncoding(source.getEncoding());
 				xmlReader.parse(source);
+			} finally {
+				is.close();
 			}
 		} catch (Exception e) {
 			logger.log(java.util.logging.Level.WARNING, "failed to parse" + dbConfig.getConfigURL(), e);

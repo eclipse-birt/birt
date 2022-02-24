@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -116,7 +116,7 @@ public class ColorUtil {
 
 	/**
 	 * Color display preference for HTML style: #RRGGBB.
-	 *
+	 * 
 	 * #RRGGBB
 	 */
 
@@ -155,17 +155,16 @@ public class ColorUtil {
 	/**
 	 * Gets the integer value of a predefined color. The <code>color</code> should
 	 * be a predefined color name, otherwise <code>-1</code> is returned.
-	 *
+	 * 
 	 * @param color a given color name, it is case insensitive.
 	 * @return the integer value of a predefined color, return -1 if the name of the
 	 *         given color is not defined.
-	 *
+	 * 
 	 */
 
 	public static int parsePredefinedColor(String color) {
-		if (color == null) {
+		if (color == null)
 			return -1;
-		}
 
 		Integer rgbValue = (Integer) cssToRgbMap.get(color.toLowerCase());
 		return rgbValue == null ? -1 : rgbValue.intValue();
@@ -173,7 +172,7 @@ public class ColorUtil {
 
 	/**
 	 * Gets a css predefined color given its rgb value.
-	 *
+	 * 
 	 * @param rgb integer rgb value.
 	 * @return a css predefined color if there is a predefined color matches the
 	 *         given <code>rgb</code>, return <code>null</code> otherwise.
@@ -194,7 +193,7 @@ public class ColorUtil {
 	 * <li>Rgb( 255, 0, 0)</li>
 	 * <li>rgb(300,300,300)</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param value a string color value
 	 * @return <code>true</code> if the color value is in a valid css absolute color
 	 *         representation.
@@ -209,14 +208,14 @@ public class ColorUtil {
 	 * r%, g%, b%)". The RGB prefix is case insensitive and r, g, b should be a
 	 * float value. Whitespace characters are allowed around the numerical values.
 	 * The followings are some cases of valid css relative colors:
-	 *
+	 * 
 	 * <p>
 	 * <ul>
 	 * <li>RGB(100%,0%,0%)</li>
 	 * <li>Rgb( 100% , 0% , 0% )</li>
 	 * <li>rgb(200%,200%,200%)</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param value a string color value
 	 * @return <code>true</code> if the color value is in a valid css relative.
 	 *         color representation.
@@ -239,23 +238,23 @@ public class ColorUtil {
 	 * <p>
 	 * The integer value will first be converted into 6-digits hex format(filling
 	 * "0" from left), so only the right most 6 digits will be used.
-	 *
+	 * 
 	 * @param rgbValue  integer RGB value for a color
 	 * @param rgbFormat Color display preference, one of Color display preference
 	 *                  constants. For example, CSS_ABSOLUTE_FORMAT that will
 	 *                  convert into style "RGB(255,0,0)". If the preference
 	 *                  provided is not in the predefined list, then
 	 *                  {@link ColorUtil#CSS_ABSOLUTE_FORMAT}will be applied.
-	 *
+	 * 
 	 * @return a string representation of the color in the target format.
-	 *
+	 * 
 	 * @see ColorUtil#INT_FORMAT
 	 * @see ColorUtil#HTML_FORMAT
 	 * @see ColorUtil#JAVA_FORMAT
 	 * @see ColorUtil#CSS_ABSOLUTE_FORMAT
 	 * @see ColorUtil#CSS_RELATIVE_FORMAT
 	 * @see ColorUtil#DEFAULT_FORMAT
-	 *
+	 * 
 	 */
 
 	public static String format(int rgbValue, int rgbFormat) {
@@ -282,7 +281,7 @@ public class ColorUtil {
 	/**
 	 * Formats an color value according to the format preference provided. See
 	 * {@link #parseColor(String)}for the allowed color value representations.
-	 *
+	 * 
 	 * @param value     a given string containing one of the allowed notation.
 	 * @param rgbFormat Color display preference, one of Color display preference
 	 *                  constants. For example, CSS_ABSOLUTE_FORMAT that will
@@ -293,24 +292,23 @@ public class ColorUtil {
 	 * @exception NumberFormatException if the <code>String</code> representing a
 	 *                                  numerical value does not contain a parsable
 	 *                                  integer.
-	 *
+	 * 
 	 * @see ColorUtil#INT_FORMAT
 	 * @see ColorUtil#HTML_FORMAT
 	 * @see ColorUtil#JAVA_FORMAT
 	 * @see ColorUtil#CSS_ABSOLUTE_FORMAT
 	 * @see ColorUtil#CSS_RELATIVE_FORMAT
 	 * @see ColorUtil#DEFAULT_FORMAT
-	 *
+	 * 
 	 * @see #parseColor(String)
 	 * @see #format(int, int)
-	 *
+	 * 
 	 */
 
 	public static String format(String value, int rgbFormat) {
 		int rgbValue = parseColor(value);
-		if (rgbValue != -1) {
+		if (rgbValue != -1)
 			return format(rgbValue, rgbFormat);
-		}
 
 		return null;
 	}
@@ -318,12 +316,12 @@ public class ColorUtil {
 	/**
 	 * Convert an hex color text into an css absolute or relative format. For
 	 * example, "#FF0000" to "RGB(255, 0, 0) or to "RGB( 100.0%, 0%, 0%)s".
-	 *
+	 * 
 	 * @param hexColor   an hex color text
 	 * @param isAbsolute if <tt>true</tt>, return will be in css absolute format,
 	 *                   e.g, RGB(255,0,0); if <tt>false</tt>, return will be in css
 	 *                   relative format, e.g, RGB(100.0%,0%,0%).
-	 *
+	 * 
 	 * @return a formatted css relative or absolute color format.
 	 */
 
@@ -341,7 +339,7 @@ public class ColorUtil {
 		g = Integer.valueOf(g, 16).toString();
 		b = Integer.valueOf(b, 16).toString();
 
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 
 		// RGB(r,g,b) or RGB(r%,g%,b%)
 
@@ -350,9 +348,9 @@ public class ColorUtil {
 			sb.append(g).append(","); //$NON-NLS-1$
 			sb.append(b).append(")"); //$NON-NLS-1$
 		} else {
-			int r_iValue = Integer.parseInt(r);
-			int g_iValue = Integer.parseInt(g);
-			int b_iValue = Integer.parseInt(b);
+			int r_iValue = Integer.valueOf(r).intValue();
+			int g_iValue = Integer.valueOf(g).intValue();
+			int b_iValue = Integer.valueOf(b).intValue();
 
 			// round to 1 digit after the comma.
 
@@ -371,11 +369,11 @@ public class ColorUtil {
 	/**
 	 * Parse a valid css color expressed in absolute or relative format as
 	 * "RGB(r%,g%,b%)" or "RGB(r,g,b)" and return the integer value of the color.
-	 *
+	 * 
 	 * @param rgbColor input color value of a valid css relative or absolute format.
 	 * @return an integer value of the color representation. Return <code>-1</code>
 	 *         if the string is not in a valid absolute or relative representation.
-	 *
+	 * 
 	 * @see #isCssAbsolute(String)
 	 * @see #isCssRelative(String)
 	 */
@@ -383,9 +381,8 @@ public class ColorUtil {
 	private static int parseRGBColor(String rgbColor) {
 		// not valid, return -1.
 
-		if (!isCssAbsolute(rgbColor) && !isCssRelative(rgbColor)) {
+		if (!isCssAbsolute(rgbColor) && !isCssRelative(rgbColor))
 			return -1;
-		}
 
 		boolean hasPercentage = false;
 
@@ -420,9 +417,8 @@ public class ColorUtil {
 			if (hasPercentage) {
 				float value = Float.parseFloat(number);
 
-				if (value > 100.0f) {
+				if (value > 100.0f)
 					value = 100.0f;
-				}
 
 				// 100.0% => 255, 0.0% => 0
 
@@ -431,9 +427,8 @@ public class ColorUtil {
 				intValue = Integer.parseInt(number);
 
 				// e,g. clip "300" to "255"
-				if (intValue > 255) {
+				if (intValue > 255)
 					intValue = 255;
-				}
 			}
 
 			// Fill "f" to "0f"
@@ -452,7 +447,7 @@ public class ColorUtil {
 	 * Parses the string color value as a color keyword or a numerical RGB notation,
 	 * return its corresponding rgb integer value. The string value can be one of
 	 * the followings:
-	 *
+	 * 
 	 * <ul>
 	 * <li>A decimal number: "16711680". The number will be clipped into
 	 * 0~#FFFFFF</li>
@@ -482,19 +477,18 @@ public class ColorUtil {
 	 * <li>rgb(255,0,0)</li>
 	 * <li>rgb(100.0%,0%,0%)</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param value a given string containing one of the allowed notation.
 	 * @return the integer value of the color, return <code>-1</code> if the value
 	 *         is not in one of the allowed format. If the value is in a valid
 	 *         integer format, return value will be clipped to 0 ~ 0xFFFFFF
-	 *
-	 *
+	 * 
+	 * 
 	 */
 
 	public static int parseColor(String value) {
-		if (StringUtil.isBlank(value)) {
+		if (StringUtil.isBlank(value))
 			return -1;
-		}
 
 		// 1. Is the value a hexadecimal number or decimal number. It can be
 		// six-digit form (#rrggbb) or three-digit form (#rgb) or java style
@@ -514,9 +508,8 @@ public class ColorUtil {
 			try {
 				int retValue = Integer.decode(value).intValue();
 
-				if (retValue > 0xFFFFFF) {
+				if (retValue > 0xFFFFFF)
 					return 0xFFFFFF;
-				}
 
 				return retValue;
 			} catch (NumberFormatException e) {
@@ -528,15 +521,13 @@ public class ColorUtil {
 		// 2. Is this a predefined color?
 
 		int rgbValue = parsePredefinedColor(value);
-		if (rgbValue != -1) {
+		if (rgbValue != -1)
 			return rgbValue;
-		}
 
 		// 3. CSS absolute or relative format: {rgb(r,g,b)} or {rgb(r%,g%,b%)}
 
-		if (isCssAbsolute(value) || isCssRelative(value)) {
+		if (isCssAbsolute(value) || isCssRelative(value))
 			return parseRGBColor(value);
-		}
 
 		return -1;
 	}
@@ -545,16 +536,15 @@ public class ColorUtil {
 	 * Returns the Red, Blue, Green value for a integer RGB color value. The given
 	 * RGB value should be in the scope of (0~0xFFFFFF), otherwise return
 	 * <code>null</code>.
-	 *
+	 * 
 	 * @param rgbValue a given integer RGB color value.
 	 * @return an array containing Red, Blue, Green separately. Return
 	 *         <code>null</code> if the value is not in (0~0xFFFFFF).
 	 */
 
 	public static int[] getRGBs(int rgbValue) {
-		if (rgbValue > 0xFFFFFF || rgbValue < 0) {
+		if (rgbValue > 0xFFFFFF || rgbValue < 0)
 			return null;
-		}
 
 		int rgb = rgbValue;
 
@@ -568,7 +558,7 @@ public class ColorUtil {
 	/**
 	 * Returns the Red, Blue, Green value for a color value. The given string
 	 * containing one of the allowed notations.
-	 *
+	 * 
 	 * @param colorValue a given string color value in one of the allowed notations.
 	 * @return an array containing Red, Blue, Green separately. Return
 	 *         <code>null</code> if the given color value is not parsable.
@@ -583,8 +573,8 @@ public class ColorUtil {
 	 * Calculates the integer color value given its red, blue, green values. If any
 	 * color factor is over 0xFF, it will be clipped to 0xFF; if any color factor is
 	 * below 0, it will be increased to 0.
-	 *
-	 *
+	 * 
+	 * 
 	 * @param r red value.
 	 * @param g green value.
 	 * @param b blue value.

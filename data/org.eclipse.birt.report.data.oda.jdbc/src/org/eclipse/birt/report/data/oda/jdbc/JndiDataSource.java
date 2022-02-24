@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006, 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -98,12 +98,11 @@ class JndiDataSource implements IConnectionFactory {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory#getConnection(java.
 	 * lang.String, java.lang.String, java.util.Properties)
 	 */
-	@Override
 	public Connection getConnection(String driverClass, String jndiNameUrl, Properties connectionProperties)
 			throws SQLException {
 		final String methodName = "getConnection"; //$NON-NLS-1$
@@ -144,9 +143,8 @@ class JndiDataSource implements IConnectionFactory {
 		Exception error = null;
 
 		// First try to obtain connection without user credential.
-		if (sm_logger.isLoggable(Level.FINER)) {
+		if (sm_logger.isLoggable(Level.FINER))
 			sm_logger.finer("getDataSourceConnection: using getConnection() from data source pool."); //$NON-NLS-1$
-		}
 
 		try {
 			return ds.getConnection();
@@ -164,10 +162,9 @@ class JndiDataSource implements IConnectionFactory {
 		// available.
 		if (username != null && username.length() > 0) // user name is explicitly specified
 		{
-			if (sm_logger.isLoggable(Level.FINER)) {
+			if (sm_logger.isLoggable(Level.FINER))
 				sm_logger.finer(
 						"getDataSourceConnection: using getConnection( username, password ) from data source pool."); //$NON-NLS-1$
-			}
 
 			try {
 				return ds.getConnection(username, password);
@@ -190,13 +187,12 @@ class JndiDataSource implements IConnectionFactory {
 
 	/**
 	 * Validate whether specified url's object is of a DataSource type.
-	 *
+	 * 
 	 * @throws SQLException if unexpected resource type is found
 	 */
 	private void validateDataSourceType(Object namedObject, String jndiNameUrl) throws SQLException {
-		if (namedObject instanceof DataSource) {
+		if (namedObject != null && namedObject instanceof DataSource)
 			return; // is of expected resource type
-		}
 
 		// format exception message
 		String localizedMsg = getMessage(ResourceConstants.CONN_GET_ERROR, jndiNameUrl);
@@ -204,38 +200,34 @@ class JndiDataSource implements IConnectionFactory {
 		localizedMsg += getMessage(ResourceConstants.JNDI_INVALID_RESOURCE,
 				(namedObject != null) ? namedObject.getClass().getName() : "null"); //$NON-NLS-1$
 
-		if (sm_logger.isLoggable(Level.INFO)) {
+		if (sm_logger.isLoggable(Level.INFO))
 			sm_logger.info(localizedMsg);
-		}
 		throw new SQLException(localizedMsg);
 	}
 
 	private void closeContext(Context ctx) {
-		if (ctx == null) {
+		if (ctx == null)
 			return; // nothing to close
-		}
 
 		try {
 			ctx.close();
 		} catch (Exception e) {
 			// log and ignore exception
-			if (sm_logger.isLoggable(Level.INFO)) {
+			if (sm_logger.isLoggable(Level.INFO))
 				sm_logger.info("closeContext(): " + e.toString()); //$NON-NLS-1$
-			}
 		}
 	}
 
 	/**
 	 * Obtains the JNDI initial context environment properties.
-	 *
+	 * 
 	 * @return the jndi properties specified in the plugin drivers sub-directory;
 	 *         may return null if no such file exists or have problem reading file
 	 */
 	protected Properties getDriverJndiProperties() {
 		File jndiPropFile = getDriverJndiPropertyFile();
-		if (jndiPropFile == null) { // no readable properties file found
+		if (jndiPropFile == null) // no readable properties file found
 			return null;
-		}
 
 		Properties jndiProps = new Properties();
 		FileInputStream inputStream = null;
@@ -244,9 +236,8 @@ class JndiDataSource implements IConnectionFactory {
 			jndiProps.load(inputStream);
 		} catch (Exception ex) {
 			// log and ignore exception
-			if (sm_logger.isLoggable(Level.INFO)) {
+			if (sm_logger.isLoggable(Level.INFO))
 				sm_logger.info("getDriverJndiProperties(): " + ex.toString()); //$NON-NLS-1$
-			}
 			jndiProps = null;
 		}
 
@@ -254,9 +245,8 @@ class JndiDataSource implements IConnectionFactory {
 			try {
 				inputStream.close();
 			} catch (IOException e) {
-				if (sm_logger.isLoggable(Level.INFO)) {
+				if (sm_logger.isLoggable(Level.INFO))
 					sm_logger.info("getDriverJndiProperties(): " + e.toString()); //$NON-NLS-1$
-				}
 				inputStream = null;
 			}
 		}
@@ -273,7 +263,7 @@ class JndiDataSource implements IConnectionFactory {
 	 * Finds and returns the file representation of the jndi.properties file in the
 	 * oda.jdbc plugin's drivers sub-directory. Validates that the file exists and
 	 * readable.
-	 *
+	 * 
 	 * @return the jndi.properties file that is readable and exists in the drivers
 	 *         sub-directory
 	 */
@@ -282,14 +272,16 @@ class JndiDataSource implements IConnectionFactory {
 		File driversDir = null;
 		try {
 			driversDir = OdaJdbcDriver.getDriverDirectory();
-		} catch (OdaException | IOException ioEx) {
+		} catch (OdaException ex) {
+			// log and ignore exception
+			sm_logger.info(methodName + ex.toString());
+		} catch (IOException ioEx) {
 			// log and ignore exception
 			sm_logger.info(methodName + ioEx.toString());
 		}
 
-		if (driversDir == null || !driversDir.isDirectory()) {
+		if (driversDir == null || !driversDir.isDirectory())
 			return null;
-		}
 
 		// jndi properties file in bundle's drivers sub-directory
 
@@ -304,10 +296,9 @@ class JndiDataSource implements IConnectionFactory {
 			sm_logger.info(methodName + e.toString());
 		}
 
-		if (sm_logger.isLoggable(Level.CONFIG)) {
+		if (sm_logger.isLoggable(Level.CONFIG))
 			sm_logger.config(
 					methodName + jndiPropFile.getAbsolutePath() + " canReadFile = " + Boolean.valueOf(canReadFile)); //$NON-NLS-1$
-		}
 
 		return canReadFile ? jndiPropFile : null;
 	}
@@ -316,14 +307,12 @@ class JndiDataSource implements IConnectionFactory {
 	 * Utility method to format externalized message, without using JDBCException.
 	 */
 	private String getMessage(String errorCode, String argument) {
-		if (sm_resourceHandle == null) {
+		if (sm_resourceHandle == null)
 			sm_resourceHandle = new JdbcResourceHandle(ULocale.getDefault());
-		}
 
 		String msgText = sm_resourceHandle.getMessage(errorCode);
-		if (argument == null) {
+		if (argument == null)
 			return msgText;
-		}
 		return MessageFormat.format(msgText, new Object[] { argument });
 	}
 

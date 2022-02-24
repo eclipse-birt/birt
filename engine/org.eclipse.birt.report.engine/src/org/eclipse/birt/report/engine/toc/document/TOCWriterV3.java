@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,6 @@ public class TOCWriterV3 implements ITOCWriter, ITOCConstants {
 		writeTreeNode(root);
 	}
 
-	@Override
 	public ITreeNode getTree() {
 		return root;
 	}
@@ -62,7 +61,6 @@ public class TOCWriterV3 implements ITOCWriter, ITOCConstants {
 		return root;
 	}
 
-	@Override
 	public void startTOCEntry(TOCEntry tocEntry) throws IOException {
 		DocTreeNode node = new DocTreeNode(tocEntry);
 		node.offset = (int) offset;
@@ -77,7 +75,6 @@ public class TOCWriterV3 implements ITOCWriter, ITOCConstants {
 		tocEntry.setTreeNode(node);
 	}
 
-	@Override
 	public void closeTOCEntry(TOCEntry entry) throws IOException {
 		DocTreeNode node = (DocTreeNode) entry.getTreeNode();
 		if (node != null) {
@@ -89,7 +86,6 @@ public class TOCWriterV3 implements ITOCWriter, ITOCConstants {
 		}
 	}
 
-	@Override
 	public void close() throws IOException {
 		if (out != null) {
 			try {

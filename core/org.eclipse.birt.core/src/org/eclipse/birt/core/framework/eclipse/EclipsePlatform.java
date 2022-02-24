@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
- *
+ * 
  */
 public class EclipsePlatform implements IPlatform {
 	/**
@@ -57,17 +57,14 @@ public class EclipsePlatform implements IPlatform {
 		this.contextClassLoader = contextClassLoader;
 	}
 
-	@Override
 	public IExtensionRegistry getExtensionRegistry() {
 		return new EclipseExtensionRegistry(Platform.getExtensionRegistry());
 	}
 
-	@Override
 	public IAdapterManager getAdapterManager() {
 		return Platform.getAdapterManager();
 	}
 
-	@Override
 	public IBundle getBundle(String symbolicName) {
 		Bundle bundle = EclipseUtil.getBundle(symbolicName);
 		if (bundle != null) {
@@ -78,11 +75,10 @@ public class EclipsePlatform implements IPlatform {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.core.framework.IPlatform#find(org.eclipse.birt.core.
 	 * framework.IBundle, org.eclipse.core.runtime.IPath)
 	 */
-	@Override
 	public URL find(IBundle bundle, IPlatformPath path) {
 		if ((bundle instanceof EclipseBundle) && (path instanceof EclipsePath)) {
 			return FileLocator.find(((EclipseBundle) bundle).bundle, ((EclipsePath) path).path, null);
@@ -91,7 +87,6 @@ public class EclipsePlatform implements IPlatform {
 		return null;
 	}
 
-	@Override
 	public URL asLocalURL(URL url) throws IOException {
 		return FileLocator.toFileURL(url);
 	}
@@ -163,27 +158,25 @@ public class EclipsePlatform implements IPlatform {
 
 	/**
 	 * get debug options.
-	 *
+	 * 
 	 * call Eclipse's getDebugeOption directly.
-	 *
+	 * 
 	 * @param option option name
 	 * @return option value
 	 */
-	@Override
 	public String getDebugOption(String option) {
 		return Platform.getDebugOption(option);
 	}
 
 	/**
 	 * setup logger used for tracing.
-	 *
+	 * 
 	 * It reads ".options" in the plugin folder to get all the tracing items, call
 	 * the .getDebugOptions() to get the option values and setup the logger use the
 	 * values.
-	 *
+	 * 
 	 * @param pluginId plugin id
 	 */
-	@Override
 	public void initializeTracing(String pluginId) {
 
 		Bundle bundle = EclipseUtil.getBundle(pluginId);
@@ -214,7 +207,7 @@ public class EclipsePlatform implements IPlatform {
 
 	/**
 	 * setup logger
-	 *
+	 * 
 	 * @param option
 	 * @param value
 	 */
@@ -231,13 +224,13 @@ public class EclipsePlatform implements IPlatform {
 
 	/**
 	 * get the logger level from the option.
-	 *
+	 * 
 	 * It checks the option name, to see if it matches the rules:
-	 *
+	 * 
 	 * .fine Logger.FINE .finer Logger.FINER .finest Logger.FINEST
-	 *
+	 * 
 	 * others are Logger.FINE
-	 *
+	 * 
 	 * @param option option name
 	 * @return logger level
 	 */
@@ -254,13 +247,13 @@ public class EclipsePlatform implements IPlatform {
 
 	/**
 	 * get the logger name from the option.
-	 *
+	 * 
 	 * It get the logger name from the options: 1) remove any post fix from the
 	 * option (.fine, .finest, .finer) 2) replace all '/' with '.' 3) trim spaces
-	 *
+	 * 
 	 * @param option option name
 	 * @return the logger used to output the trace of that option
-	 *
+	 * 
 	 */
 	static protected String getLoggerName(String option) {
 		assert option != null;
@@ -282,14 +275,14 @@ public class EclipsePlatform implements IPlatform {
 		public static StreamHandler tracingHandler = new StreamHandler(System.out, new SimpleFormatter());
 		static {
 			tracingHandler.setLevel(Level.ALL);
-		}
+		};
 	}
 
 	/**
 	 * get the trace logger handle.
-	 *
+	 * 
 	 * Trace logger handle output all the logging information to System.out
-	 *
+	 * 
 	 * @return
 	 */
 	static StreamHandler getTracingHandler() {
@@ -299,14 +292,13 @@ public class EclipsePlatform implements IPlatform {
 	/**
 	 * Create factory object for an extension by picking the highest priority
 	 * factory extension
-	 *
+	 * 
 	 * @throws FrameworkException
 	 */
 	public static Object createFactoryObjectForExtension(IExtension[] extensions, String extensionId)
 			throws FrameworkException {
-		if (extensions == null || extensionId == null) {
+		if (extensions == null || extensionId == null)
 			return null;
-		}
 
 		// Find extension with highest priority
 		int hiPriority = Integer.MIN_VALUE;
@@ -319,9 +311,8 @@ public class EclipsePlatform implements IPlatform {
 					String priStr = ces[0].getAttribute("priority");
 					int priority = 0;
 					try {
-						if (priStr != null && !priStr.isEmpty()) {
+						if (priStr != null && !priStr.isEmpty())
 							priority = Integer.parseInt(priStr);
-						}
 					} catch (NumberFormatException e) {
 					}
 
@@ -340,7 +331,6 @@ public class EclipsePlatform implements IPlatform {
 		return null;
 	}
 
-	@Override
 	public Object createFactoryObject(String extensionId) {
 		try {
 			IExtensionRegistry registry = getExtensionRegistry();
@@ -358,7 +348,6 @@ public class EclipsePlatform implements IPlatform {
 
 	}
 
-	@Override
 	public Object enterPlatformContext() {
 		Thread thread = Thread.currentThread();
 		ClassLoader loader = thread.getContextClassLoader();
@@ -366,7 +355,6 @@ public class EclipsePlatform implements IPlatform {
 		return loader;
 	}
 
-	@Override
 	public void exitPlatformContext(Object context) {
 		if (!(context instanceof ClassLoader)) {
 			throw new IllegalArgumentException("The context must be returned by teh enterPlatformContext");
@@ -374,7 +362,6 @@ public class EclipsePlatform implements IPlatform {
 		Thread.currentThread().setContextClassLoader((ClassLoader) context);
 	}
 
-	@Override
 	public String getOS() {
 		return Platform.getOS();
 	}

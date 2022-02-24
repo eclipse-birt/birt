@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return The unique CategoryProviderFactory instance
 	 */
 	public static ICategoryProviderFactory getInstance() {
@@ -50,11 +50,10 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.providers.
 	 * ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
 	 */
-	@Override
 	public ICategoryProvider getCategoryProvider(Object input) {
 		CategoryHolder customHolder = new CategoryHolder(
 				new String[] { CATEGORY_KEY_GENERAL, CATEGORY_KEY_SECTION, CATEGORY_KEY_EMPTYROWCOLUMN, },
@@ -63,7 +62,7 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory {
 						Messages.getString("CrosstabPageGenerator.List.EmptyRowColumn"), //$NON-NLS-1$
 				}, new Class[] { CrosstabGeneralPage.class, CrosstabSectionPage.class, EmptyRowColumnPage.class, });
 
-		List<String> categories = new ArrayList<>(
+		List<String> categories = new ArrayList<String>(
 				Arrays.asList(new String[] { null, CATEGORY_KEY_MARGIN, CATEGORY_KEY_FONT, CATEGORY_KEY_BORDERS, null,
 						CATEGORY_KEY_VISIBILITY, null, CATEGORY_KEY_TOC, CATEGORY_KEY_BOOKMARK, CATEGORY_KEY_COMMENTS,
 						CATEGORY_KEY_USERPROPERTIES, CATEGORY_KEY_NAMEDEXPRESSIONS, CATEGORY_KEY_ADVANCEPROPERTY, }));

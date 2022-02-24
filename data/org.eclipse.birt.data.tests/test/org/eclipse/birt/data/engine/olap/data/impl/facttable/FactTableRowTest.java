@@ -1,35 +1,36 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionKey;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRow;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
+
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- *
+ * 
  */
 
 public class FactTableRowTest {
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	/*
@@ -97,9 +98,8 @@ public class FactTableRowTest {
 		for (int i = 0; i < dimensionLen; i++) {
 			factTableRow.getDimensionKeys()[i] = new DimensionKey(i);
 			for (int j = 0; j < i; j++) {
-				if (j != 1) {
+				if (j != 1)
 					factTableRow.getDimensionKeys()[i].getKeyValues()[j] = new Integer(iValue + j);
-				}
 			}
 		}
 		factTableRow.setMeasures(new Object[measureLen]);

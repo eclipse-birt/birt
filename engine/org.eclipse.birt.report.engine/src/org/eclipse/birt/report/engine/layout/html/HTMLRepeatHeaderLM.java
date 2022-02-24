@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -37,7 +37,6 @@ public abstract class HTMLRepeatHeaderLM extends HTMLBlockStackingLM {
 		super(factory);
 	}
 
-	@Override
 	public void initialize(HTMLAbstractLM parent, IContent content, IReportItemExecutor executor,
 			IContentEmitter emitter) throws BirtException {
 		super.initialize(parent, content, executor, emitter);
@@ -45,7 +44,6 @@ public abstract class HTMLRepeatHeaderLM extends HTMLBlockStackingLM {
 		isHeaderRefined = false;
 	}
 
-	@Override
 	protected boolean layoutChildren() throws BirtException {
 		if (!isFirstLayout && shouldRepeatHeader()) {
 			repeatHeader();
@@ -76,12 +74,11 @@ public abstract class HTMLRepeatHeaderLM extends HTMLBlockStackingLM {
 	}
 
 	private void refineBandContent(IBandContent content) {
-		if (isHeaderRefined) {
+		if (isHeaderRefined)
 			return;
-		}
 
 		Collection<?> children = content.getChildren();
-		ArrayList<IContent> removed = new ArrayList<>();
+		ArrayList<IContent> removed = new ArrayList<IContent>();
 		if (children != null) {
 			Iterator<?> itr = children.iterator();
 			while (itr.hasNext()) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,20 +42,18 @@ public class ExtensionPropertyDefn implements IPropertyDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getGroupName()
 	 */
-	@Override
 	public String getGroupNameID() {
 		return groupNameID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -66,7 +64,7 @@ public class ExtensionPropertyDefn implements IPropertyDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDisplayName()
 	 */
 	public String getDisplayName() {
@@ -75,7 +73,7 @@ public class ExtensionPropertyDefn implements IPropertyDefinition {
 
 	/**
 	 * Sets the resource key for display name
-	 *
+	 * 
 	 * @param displayNameID
 	 */
 
@@ -85,10 +83,9 @@ public class ExtensionPropertyDefn implements IPropertyDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getType()
 	 */
-	@Override
 	public int getType() {
 		return type;
 	}
@@ -99,46 +96,40 @@ public class ExtensionPropertyDefn implements IPropertyDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#isList()
 	 */
-	@Override
 	public boolean isList() {
 		return isList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getChoices()
 	 */
-	@Override
 	public List getChoices() {
-		if (type != PropertyType.CHOICE_TYPE) {
+		if (type != PropertyType.CHOICE_TYPE)
 			return null;
-		}
 		return choices;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getMembers()
 	 */
-	@Override
 	public List getMembers() {
-		if (type != PropertyType.STRUCT_TYPE) {
+		if (type != PropertyType.STRUCT_TYPE)
 			return null;
-		}
 		return members;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDefaultValue()
 	 */
-	@Override
 	public Object getDefaultValue() {
 		return defaultValue;
 	}
@@ -166,29 +157,25 @@ public class ExtensionPropertyDefn implements IPropertyDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID(
 	 * )
 	 */
-	@Override
 	public String getDisplayNameID() {
 		return displayNameID;
 	}
 
-	@Override
 	public IMethodInfo getMethodInfo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public boolean isReadOnly() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public boolean isVisible() {
 		// TODO Auto-generated method stub
 		return false;

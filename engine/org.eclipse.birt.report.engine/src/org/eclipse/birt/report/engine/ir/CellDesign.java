@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,10 +19,10 @@ import java.util.Collection;
 
 /**
  * Cell type
- *
+ * 
  * Cell type is used by Row, which is the base element of the table item and
  * grid item.
- *
+ * 
  */
 public class CellDesign extends ReportItemDesign {
 
@@ -45,7 +45,7 @@ public class CellDesign extends ReportItemDesign {
 	/**
 	 * content in this cell
 	 */
-	protected ArrayList<ReportItemDesign> contents = new ArrayList<>();
+	protected ArrayList<ReportItemDesign> contents = new ArrayList<ReportItemDesign>();
 	/**
 	 * If group icon should be displayed in this cell.
 	 */
@@ -132,7 +132,7 @@ public class CellDesign extends ReportItemDesign {
 
 	/**
 	 * get the content of index.
-	 *
+	 * 
 	 * @param index content index
 	 * @return Returns the content.
 	 */
@@ -143,7 +143,7 @@ public class CellDesign extends ReportItemDesign {
 
 	/**
 	 * add content into the cell.
-	 *
+	 * 
 	 * @param content The content to set.
 	 */
 	public void addContent(ReportItemDesign content) {
@@ -180,12 +180,11 @@ public class CellDesign extends ReportItemDesign {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.
 	 * report.engine.ir.IReportItemVisitor)
 	 */
-	@Override
 	public Object accept(IReportItemVisitor visitor, Object value) {
 		return visitor.visitCell(this, value);
 	}

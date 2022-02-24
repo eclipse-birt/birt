@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,6 @@ public class ReportStandardAppLaunchDelegate extends JavaLaunchDelegate implemen
 		helper = new ReportLaunchHelper();
 	}
 
-	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
 		helper.init(configuration);
@@ -58,58 +57,52 @@ public class ReportStandardAppLaunchDelegate extends JavaLaunchDelegate implemen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#
 	 * verifyWorkingDirectory(org.eclipse.debug.core.ILaunchConfiguration)
 	 */
-	@Override
 	public File verifyWorkingDirectory(ILaunchConfiguration configuration) throws CoreException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#
 	 * getJavaLibraryPath(org.eclipse.debug.core.ILaunchConfiguration)
 	 */
-	@Override
 	public String[] getJavaLibraryPath(ILaunchConfiguration configuration) throws CoreException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#getVMRunner
 	 * (org.eclipse.debug.core.ILaunchConfiguration, java.lang.String)
 	 */
-	@Override
 	public IVMRunner getVMRunner(ILaunchConfiguration configuration, String mode) throws CoreException {
 		IVMInstall vm = verifyVMInstall(configuration);
 		return new StandardScriptVMRunner(vm, this);
 	}
 
-	@Override
 	public String verifyMainTypeName(ILaunchConfiguration configuration) throws CoreException {
 		return ReportLauncher.class.getName();
 	}
 
-	@Override
 	protected IProject[] getBuildOrder(ILaunchConfiguration configuration, String mode) throws CoreException {
 		return super.getBuildOrder(configuration, mode);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.debug.core.model.LaunchConfigurationDelegate#finalLaunchCheck(org
 	 * .eclipse.debug.core.ILaunchConfiguration, java.lang.String,
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
 	public boolean finalLaunchCheck(final ILaunchConfiguration configuration, String mode, IProgressMonitor monitor)
 			throws CoreException {
 
@@ -152,11 +145,10 @@ public class ReportStandardAppLaunchDelegate extends JavaLaunchDelegate implemen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#
 	 * getClasspath(org.eclipse.debug.core.ILaunchConfiguration)
 	 */
-	@Override
 	public String[] getClasspath(ILaunchConfiguration configuration) throws CoreException {
 		ScriptDebugClasspathProvider provider = new ScriptDebugClasspathProvider();
 		IRuntimeClasspathEntry[] entries = provider.computeExtraBootClasspath(configuration);

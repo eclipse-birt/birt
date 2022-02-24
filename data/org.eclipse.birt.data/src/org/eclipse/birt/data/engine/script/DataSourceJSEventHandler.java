@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.script;
@@ -46,7 +46,6 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler {
 		return runner;
 	}
 
-	@Override
 	public void handleBeforeOpen(IDataSourceInstanceHandle dataSource) throws BirtException {
 		String script = getBaseDesign().getBeforeOpenScript();
 		if (script != null && script.length() > 0) {
@@ -54,7 +53,6 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler {
 		}
 	}
 
-	@Override
 	public void handleBeforeClose(IDataSourceInstanceHandle dataSource) throws BirtException {
 		String script = getBaseDesign().getBeforeCloseScript();
 		if (script != null && script.length() > 0) {
@@ -62,7 +60,6 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler {
 		}
 	}
 
-	@Override
 	public void handleAfterOpen(IDataSourceInstanceHandle dataSource) throws BirtException {
 		String script = getBaseDesign().getAfterOpenScript();
 		if (script != null && script.length() > 0) {
@@ -70,7 +67,6 @@ public class DataSourceJSEventHandler implements IBaseDataSourceEventHandler {
 		}
 	}
 
-	@Override
 	public void handleAfterClose(IDataSourceInstanceHandle dataSource) throws BirtException {
 		String script = getBaseDesign().getAfterCloseScript();
 		if (script != null && script.length() > 0) {

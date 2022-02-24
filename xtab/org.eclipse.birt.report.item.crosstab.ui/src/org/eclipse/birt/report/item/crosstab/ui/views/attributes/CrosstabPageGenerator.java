@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -112,7 +112,6 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 		}
 	}
 
-	@Override
 	public void createTabItems(List input) {
 		super.createTabItems(input);
 		this.input = input;
@@ -120,9 +119,8 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 		addSelectionListener(this);
 		basicPage.refresh();
 		createTabItems();
-		if (tabFolder.getSelection() != null) {
+		if (tabFolder.getSelection() != null)
 			buildItemContent(tabFolder.getSelection());
-		}
 	}
 
 	protected void createTabItems() {
@@ -136,7 +134,6 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 
 	}
 
-	@Override
 	public void createControl(Composite parent, Object input) {
 		setCategoryProvider(CrosstabCategoryProviderFactory.getInstance().getCategoryProvider(input));
 		super.createControl(parent, input);

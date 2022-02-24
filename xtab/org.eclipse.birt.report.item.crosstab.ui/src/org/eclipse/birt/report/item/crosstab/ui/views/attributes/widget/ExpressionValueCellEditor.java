@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,14 +64,14 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Expression value cell editor
- *
+ * 
  * @version $Revision: 1.24 $ $Date: 2010/08/02 09:22:22 $
  */
 public class ExpressionValueCellEditor extends CellEditor {
 
 	protected static final Logger logger = Logger.getLogger(ExpressionValueCellEditor.class.getName());
 
-	private static String[] actions = { Messages.getString("ExpressionValueCellEditor.selectValueAction") //$NON-NLS-1$
+	private static String[] actions = new String[] { Messages.getString("ExpressionValueCellEditor.selectValueAction") //$NON-NLS-1$
 	};
 
 	private transient ParamBindingHandle[] bindingParams = null;
@@ -82,7 +82,7 @@ public class ExpressionValueCellEditor extends CellEditor {
 	private transient String[] popupItems = null;
 	private transient boolean refreshItems = true;
 	private List referencedLevelList;
-	private static String[] EMPTY_ARRAY = {};
+	private static String[] EMPTY_ARRAY = new String[] {};
 
 	public void setMemberValue(MemberValueHandle memberValue) {
 		this.memberValue = memberValue;
@@ -90,7 +90,6 @@ public class ExpressionValueCellEditor extends CellEditor {
 
 	private class ExpressionCellLayout extends Layout {
 
-		@Override
 		public void layout(Composite editor, boolean force) {
 			Rectangle bounds = editor.getClientArea();
 			Point size = btnPopup.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
@@ -98,11 +97,9 @@ public class ExpressionValueCellEditor extends CellEditor {
 			btnPopup.setBounds(bounds.width - size.x, 0, size.x, bounds.height);
 		}
 
-		@Override
 		public Point computeSize(Composite editor, int wHint, int hHint, boolean force) {
-			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
+			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT)
 				return new Point(wHint, hHint);
-			}
 			Point contentsSize = expressionText.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
 			Point buttonSize = btnPopup.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
 			// Just return the button width to ensure the button is not clipped
@@ -114,7 +111,7 @@ public class ExpressionValueCellEditor extends CellEditor {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public ExpressionValueCellEditor() {
 		super();
@@ -141,26 +138,23 @@ public class ExpressionValueCellEditor extends CellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.viewers.CellEditor#createControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	protected Control createControl(Composite parent) {
 		Composite editorComposite = new Composite(parent, getStyle());
 		editorComposite.setLayout(new ExpressionCellLayout());
 		expressionText = new Text(editorComposite, SWT.NONE);
 		expressionText.addKeyListener(new KeyAdapter() {
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				keyReleaseOccured(e);
 			}
 		});
 		expressionText.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// fireApplyEditorValue();
 				// deactivate();
@@ -168,7 +162,6 @@ public class ExpressionValueCellEditor extends CellEditor {
 		});
 		expressionText.addTraverseListener(new TraverseListener() {
 
-			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
@@ -179,11 +172,10 @@ public class ExpressionValueCellEditor extends CellEditor {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt
 			 * .events.FocusEvent)
 			 */
-			@Override
 			public void focusLost(FocusEvent e) {
 				ExpressionValueCellEditor.this.focusLost();
 			}
@@ -192,7 +184,6 @@ public class ExpressionValueCellEditor extends CellEditor {
 		btnPopup = new Button(editorComposite, SWT.ARROW | SWT.DOWN);
 		btnPopup.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refreshList();
 				Rectangle textBounds = expressionText.getBounds();
@@ -240,7 +231,6 @@ public class ExpressionValueCellEditor extends CellEditor {
 				}
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
@@ -252,10 +242,9 @@ public class ExpressionValueCellEditor extends CellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#focusLost()
 	 */
-	@Override
 	protected void focusLost() {
 		if (btnPopup != null && !btnPopup.isFocusControl() && Display.getCurrent().getCursorControl() != btnPopup) {
 			super.focusLost();
@@ -264,10 +253,9 @@ public class ExpressionValueCellEditor extends CellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doGetValue()
 	 */
-	@Override
 	protected Object doGetValue() {
 		if (expressionText != null) {
 			return expressionText.getText();
@@ -277,10 +265,9 @@ public class ExpressionValueCellEditor extends CellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	@Override
 	protected void doSetFocus() {
 		if (expressionText != null && expressionText.isVisible()) {
 			expressionText.setFocus();
@@ -289,10 +276,9 @@ public class ExpressionValueCellEditor extends CellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetValue(java.lang.Object)
 	 */
-	@Override
 	protected void doSetValue(Object value) {
 		if (value != null && expressionText != null) {
 			expressionText.setText(value.toString());
@@ -340,10 +326,9 @@ public class ExpressionValueCellEditor extends CellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#activate()
 	 */
-	@Override
 	public void activate() {
 		refreshItems = true;
 		super.activate();
@@ -424,7 +409,7 @@ public class ExpressionValueCellEditor extends CellEditor {
 		}
 
 		// get Level;
-		String targetLevel;
+		String targetLevel = null;
 		int index = 0;
 		if (values != null && values.length > 0 && values.length + 1 <= referencedLevelList.size()) {
 			index = values.length;

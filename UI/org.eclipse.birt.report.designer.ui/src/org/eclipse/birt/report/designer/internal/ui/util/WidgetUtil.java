@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ public class WidgetUtil implements WidgetConstants {
 
 	/**
 	 * Creates a default GridLayout layout Manager.
-	 *
+	 * 
 	 * @param columns The number of columns in the grid
 	 * @return A GridLayout instance.
 	 */
@@ -52,7 +52,7 @@ public class WidgetUtil implements WidgetConstants {
 	public static GridLayout createGridLayout(int columns, int marginWidth) {
 		GridLayout layout = new GridLayout(columns, false);
 		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;
-
+		;
 		layout.marginWidth = marginWidth;
 		layout.horizontalSpacing = WidgetUtil.SPACING;
 		layout.verticalSpacing = WidgetUtil.SPACING;
@@ -62,7 +62,7 @@ public class WidgetUtil implements WidgetConstants {
 	public static GridLayout createGridLayout(int columns, int marginWidth, int marginHeight) {
 		GridLayout layout = new GridLayout(columns, false);
 		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;
-
+		;
 		layout.marginWidth = marginWidth;
 		layout.marginHeight = marginHeight;
 		layout.horizontalSpacing = WidgetUtil.SPACING;
@@ -90,7 +90,7 @@ public class WidgetUtil implements WidgetConstants {
 
 	/**
 	 * Creates a GridLayout layout Manager that specified spaces of each border.
-	 *
+	 * 
 	 * @param columns The number of columns in the grid
 	 * @param space   The space.
 	 * @return A GridLayout instance.
@@ -105,9 +105,8 @@ public class WidgetUtil implements WidgetConstants {
 	}
 
 	public static GridLayout createSpaceGridLayout(int columns, int space, boolean isFormStyle) {
-		if (isFormStyle) {
+		if (isFormStyle)
 			space += 2;
-		}
 		GridLayout layout = new GridLayout(columns, false);
 		layout.marginHeight = space;
 		layout.marginWidth = space;
@@ -118,7 +117,7 @@ public class WidgetUtil implements WidgetConstants {
 
 	/**
 	 * Creates a default FormLayout layout Manager.
-	 *
+	 * 
 	 * @return A FormLayout instance.
 	 */
 	public static FormLayout createFormLayout() {
@@ -131,7 +130,7 @@ public class WidgetUtil implements WidgetConstants {
 
 	/**
 	 * Creates a default FormLayout layout Manager.
-	 *
+	 * 
 	 * @param space The space.
 	 * @return A FormLayout instance.
 	 */
@@ -156,7 +155,7 @@ public class WidgetUtil implements WidgetConstants {
 
 	/**
 	 * Creates a place-holder Label for using in GridLayout.
-	 *
+	 * 
 	 * @param parent    A widget which will be the parent of the new instance
 	 *                  (cannot be null)
 	 * @param hSpan     The number of column cells that operable-control will take
@@ -181,7 +180,7 @@ public class WidgetUtil implements WidgetConstants {
 
 	/**
 	 * Creates a horizontal seperator line.
-	 *
+	 * 
 	 * @param parent A widget which will be the parent of the new instance (cannot
 	 *               be null)
 	 * @param hSpan  The number of column cells that operable-control will take up.
@@ -199,37 +198,34 @@ public class WidgetUtil implements WidgetConstants {
 
 	/**
 	 * Error processor, shows the Error message.
-	 *
+	 * 
 	 * @param shell the parent window.
 	 * @param e     Exception object.
-	 *
+	 * 
 	 * @deprecated use {@link #processError(Exception)} instead
 	 */
-	@Deprecated
 	public static void processError(Shell shell, Exception e) {
 		processError(e);
 	}
 
 	/**
 	 * Error processor, shows the Error message.
-	 *
+	 * 
 	 * @param shell the parent window.
 	 * @param e     Exception object.
-	 *
+	 * 
 	 * @deprecated use {@link ExceptionUtil#handle(Throwable)} instead.
 	 */
-	@Deprecated
 	public static void processError(Exception e) {
 		ExceptionHandler.handle(e);
 	}
 
 	public static void setExcludeGridData(Control control, boolean exclude) {
 		Object obj = control.getLayoutData();
-		if (obj == null) {
+		if (obj == null)
 			control.setLayoutData(new GridData());
-		} else if (!(obj instanceof GridData)) {
+		else if (!(obj instanceof GridData))
 			return;
-		}
 		GridData data = (GridData) control.getLayoutData();
 		data.exclude = exclude;
 		control.setLayoutData(data);

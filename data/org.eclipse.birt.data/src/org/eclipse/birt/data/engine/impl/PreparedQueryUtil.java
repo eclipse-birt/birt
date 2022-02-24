@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -72,6 +72,11 @@ import org.eclipse.birt.data.engine.core.security.URLSecurity;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.NamedExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
+import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
+import org.eclipse.birt.data.engine.impl.document.RDLoad;
+import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
@@ -89,7 +94,7 @@ public class PreparedQueryUtil {
 	/**
 	 * Creates a new instance of the proper subclass based on the type of the query
 	 * passed in.
-	 *
+	 * 
 	 * @param dataEngine
 	 * @param queryDefn
 	 * @param appContext Application context map; could be null.
@@ -117,9 +122,8 @@ public class PreparedQueryUtil {
 						appContext);
 				IPreparedQuery preparedQuery = QueryPrepareUtil.preparePresentationQuery(dataEngine, queryDefn, dset,
 						appContext, contextVisitor);
-				if (preparedQuery != null) {
+				if (preparedQuery != null)
 					return preparedQuery;
-				}
 			}
 
 			return new PreparedIVDataExtractionQuery(dataEngine, queryDefn, appContext, contextVisitor);
@@ -134,9 +138,8 @@ public class PreparedQueryUtil {
 				preparedQuery = QueryPrepareUtil.preparePresentationQuery(dataEngine, queryDefn, dset, appContext,
 						contextVisitor);
 			}
-			if (preparedQuery != null) {
+			if (preparedQuery != null)
 				return preparedQuery;
-			}
 
 			if (dataEngine.getContext().getMode() == DataEngineContext.MODE_GENERATION
 					|| dataEngine.getContext().getMode() == DataEngineContext.DIRECT_PRESENTATION) {
@@ -158,9 +161,8 @@ public class PreparedQueryUtil {
 
 			preparedQuery = QueryPrepareUtil.prepareQuery(dataEngine, queryDefn, dset, appContext, contextVisitor);
 
-			if (preparedQuery != null) {
+			if (preparedQuery != null)
 				return preparedQuery;
-			}
 		}
 
 		if (dset == null) {
@@ -169,9 +171,8 @@ public class PreparedQueryUtil {
 			// internally. But using the dummy one, the binding expression only
 			// can refer to row object and no other object can be refered such
 			// as rows.
-			if (queryDefn.getQueryResultsID() == null) {
+			if (queryDefn.getQueryResultsID() == null)
 				return new PreparedDummyQuery(queryDefn, dataEngine.getSession());
-			}
 		}
 
 		if (dset instanceof IScriptDataSetDesign) {
@@ -194,9 +195,8 @@ public class PreparedQueryUtil {
 			preparedQuery = new PreparedJointDataSourceQuery(dataEngine, queryDefn, dset, appContext, contextVisitor);
 		} else {
 			preparedQuery = DataSetDesignHelper.createPreparedQueryInstance(dset, dataEngine, queryDefn, appContext);
-			if (preparedQuery == null) {
+			if (preparedQuery == null)
 				throw new DataException(ResourceConstants.UNSUPPORTED_DATASET_TYPE, dset.getName());
-			}
 		}
 
 		return preparedQuery;
@@ -205,9 +205,8 @@ public class PreparedQueryUtil {
 	private static void optimizeForTransientQuery(Map appContext, IQueryDefinition query) throws DataException {
 		if (appContext != null) {
 			IQueryOptimizeHints hints = (IQueryOptimizeHints) appContext.get(IQueryOptimizeHints.QUERY_OPTIMIZE_HINT);
-			if (hints == null || !(query instanceof QueryDefinition)) {
+			if (hints == null || !(query instanceof QueryDefinition))
 				return;
-			}
 
 			query.getQueryExecutionHints().setEnablePushDown(hints.enablePushDownForTransientQuery());
 
@@ -234,8 +233,9 @@ public class PreparedQueryUtil {
 					for (String bindingName : bindingNames) {
 						sortedBinding.put(bindingName, sortBindingIndex++);
 					}
-				} else if (sd.getColumn() != null) {
-					sortedBinding.put(sd.getColumn(), sortBindingIndex++);
+				} else {
+					if (sd.getColumn() != null)
+						sortedBinding.put(sd.getColumn(), sortBindingIndex++);
 				}
 			}
 		}
@@ -272,7 +272,7 @@ public class PreparedQueryUtil {
 
 	/**
 	 * validate query
-	 *
+	 * 
 	 * @param dataEngine
 	 * @param queryDefn
 	 * @throws DataException
@@ -280,9 +280,8 @@ public class PreparedQueryUtil {
 	private static void validateQuery(DataEngineImpl dataEngine, IQueryDefinition queryDefn) throws DataException {
 		try {
 			// Need not validate query while in Presentation Mode.
-			if (dataEngine.getContext().getMode() == DataEngineContext.MODE_PRESENTATION) {
+			if (dataEngine.getContext().getMode() == DataEngineContext.MODE_PRESENTATION)
 				return;
-			}
 			String dataSetName = queryDefn.getDataSetName();
 			IBaseDataSetDesign dataSet = dataEngine.getDataSetDesign(dataSetName);
 			if (dataSet != null) {
@@ -301,16 +300,15 @@ public class PreparedQueryUtil {
 	// against data set column.
 	private static void validateSort(IQueryDefinition queryDefn, IBaseDataSetDesign dataSet) throws BirtException {
 		Map bindings = populateValidBinding(queryDefn);
-		List<ISortDefinition> toBeRemoved = new ArrayList<>();
+		List<ISortDefinition> toBeRemoved = new ArrayList<ISortDefinition>();
 		List<ISortDefinition> sorts = queryDefn.getSorts();
 		for (ISortDefinition sort : sorts) {
 			IScriptExpression sortExpr = sort.getExpression();
-			if (sort.getColumn() != null) {
+			if (sort.getColumn() != null)
 				continue;
-			}
-			if (sortExpr == null) {
+			if (sortExpr == null)
 				toBeRemoved.add(sort);
-			} else {
+			else {
 				List referedColumns = ExpressionUtil.extractColumnExpressions(sortExpr.getText());
 				for (int i = 0; i < referedColumns.size(); i++) {
 					IColumnBinding cb = (IColumnBinding) referedColumns.get(i);
@@ -354,12 +352,11 @@ public class PreparedQueryUtil {
 
 		for (int i = 0; i < toBeRemoved.size(); i++) {
 			IScriptExpression expr = toBeRemoved.get(i).getExpression();
-			if (expr != null) {
+			if (expr != null)
 				logger.log(Level.WARNING, "Sort Definition:" + expr.getText()
 						+ " is removed because it refers to an inexist column binding.");
-			} else {
+			else
 				logger.log(Level.WARNING, "Empty Sort Definition is removed.");
-			}
 		}
 
 		queryDefn.getSorts().removeAll(toBeRemoved);
@@ -371,13 +368,34 @@ public class PreparedQueryUtil {
 		IQueryDefinition temp = queryDefn;
 		while (temp != null) {
 			bindings.putAll(temp.getBindings());
-			if (temp.getSourceQuery() instanceof IQueryDefinition) {
+			if (temp.getSourceQuery() instanceof IQueryDefinition)
 				temp = (IQueryDefinition) temp.getSourceQuery();
-			} else {
+			else
 				temp = null;
-			}
 		}
 		return bindings;
+	}
+
+	private static void validateSummaryQuery(IQueryDefinition queryDefn) throws DataException {
+		if (queryDefn.isSummaryQuery()) {
+			String lastGroupName = null;
+			if (queryDefn.getGroups().size() > 0) {
+				IGroupDefinition group = (IGroupDefinition) queryDefn.getGroups().get(queryDefn.getGroups().size() - 1);
+				lastGroupName = group.getName();
+			}
+			Map<String, IBinding> bindings = queryDefn.getBindings();
+			for (IBinding binding : bindings.values()) {
+				if (binding.getAggrFunction() != null) {
+					if (binding.getAggregatOns().size() == 0 && lastGroupName == null)
+						continue;
+					if (binding.getAggregatOns().size() == 1
+							&& binding.getAggregatOns().get(0).toString().equals(lastGroupName))
+						continue;
+					throw new DataException(ResourceConstants.INVALID_AGGR_LEVEL_IN_SUMMARY_QUERY,
+							binding.getBindingName());
+				}
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -393,16 +411,14 @@ public class PreparedQueryUtil {
 					for (String bindingName : bindingNames) {
 						IBinding binding = (IBinding) bindings.get(bindingName);
 						if (binding != null) {
-							if (binding.getAggrFunction() != null) {
+							if (binding.getAggrFunction() != null)
 								return true;
-							}
 
 							List refBindingName = ExpressionCompilerUtil.extractColumnExpression(
 									binding.getExpression(), ScriptConstants.DATA_SET_BINDING_SCRIPTABLE);
 							if (refBindingName.size() > 0) {
-								if (existAggregationBinding(refBindingName, bindings)) {
+								if (existAggregationBinding(refBindingName, bindings))
 									return true;
-								}
 							}
 						}
 					}
@@ -416,9 +432,12 @@ public class PreparedQueryUtil {
 		for (String bindingName : bindingNames) {
 			Object binding = bindings.get(bindingName);
 			if (binding != null) {
+				if (OlapExpressionUtil.isAggregationBinding((IBinding) binding))
+					return true;
+
 				// Need not worry about the cycling reference here as that is already
 				// handled by previous logic
-				if (OlapExpressionUtil.isAggregationBinding((IBinding) binding) || existAggregationBinding(ExpressionCompilerUtil.extractColumnExpression(
+				if (existAggregationBinding(ExpressionCompilerUtil.extractColumnExpression(
 						((IBinding) binding).getExpression(), ScriptConstants.DATA_SET_BINDING_SCRIPTABLE), bindings)) {
 					return true;
 				}
@@ -429,7 +448,7 @@ public class PreparedQueryUtil {
 
 	/**
 	 * Check whether computed columns defined in data set are valid
-	 *
+	 * 
 	 * @param bdsd
 	 * @throws DataException
 	 */
@@ -439,7 +458,7 @@ public class PreparedQueryUtil {
 		List<IComputedColumn> ccs = bdsd.getComputedColumns();
 		if (ccs != null) {
 			// used check whether reference cycle exists
-			Set<NamedExpression> namedExpressions = new HashSet<>();
+			Set<NamedExpression> namedExpressions = new HashSet<NamedExpression>();
 			for (IComputedColumn cc : ccs) {
 				String name = cc.getName();
 				if (name == null || name.equals("")) {
@@ -458,7 +477,7 @@ public class PreparedQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param appContext
 	 * @return
@@ -509,7 +528,6 @@ public class PreparedQueryUtil {
 						adaptedDesign = pscDataSet;
 					} else {
 						String message = (String) AccessController.doPrivileged(new PrivilegedAction<Object>() {
-							@Override
 							public Object run() {
 								return MessageFormat.format(ResourceConstants.UNSUPPORTED_INCRE_CACHE_MODE,
 										new Object[] { mode });
@@ -520,6 +538,8 @@ public class PreparedQueryUtil {
 					}
 				}
 				is.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -534,21 +554,59 @@ public class PreparedQueryUtil {
 		return adaptedDesign;
 	}
 
+	/**
+	 * Whether query is running based on the result set of report document or the
+	 * data set.
+	 * 
+	 * @param dataEngine
+	 * @param queryDefn
+	 * @return true, running on result set
+	 * @throws DataException
+	 */
+	private static int runQueryOnRS(DataEngineImpl dataEngine, IQueryDefinition queryDefn) throws DataException {
+		String queryResultID = queryDefn.getQueryResultsID();
+
+		String rootQueryResultID = QueryResultIDUtil.get1PartID(queryResultID);
+		String parentQueryResultID = null;
+		if (rootQueryResultID != null)
+			parentQueryResultID = QueryResultIDUtil.get2PartID(queryResultID);
+		else
+			rootQueryResultID = queryResultID;
+
+		QueryResultInfo queryResultInfo = new QueryResultInfo(rootQueryResultID, parentQueryResultID, null, null, -1);
+		RDLoad rdLoad = RDUtil.newLoad(dataEngine.getSession().getTempDir(), dataEngine.getContext(), queryResultInfo);
+
+		// Please Note We should use parent scope here, for the new query should be
+		// compared to the query being executed
+		// immediately behind it rather than the root query.
+		IBaseQueryDefinition previousQueryDefn = rdLoad.loadQueryDefn(StreamManager.ROOT_STREAM,
+				StreamManager.PARENT_SCOPE);
+
+		if (QueryCompUtil.isIVQueryDefnEqual(dataEngine.getContext().getMode(), previousQueryDefn, queryDefn)) {
+			return BASED_ON_PRESENTATION;
+		} else {
+			if (queryDefn.isSummaryQuery()) {
+				IResultClass rsMeta = rdLoad.loadResultClass();
+				populateSummaryBinding(queryDefn, rsMeta);
+			}
+			return BASED_ON_DATASET;
+		}
+	}
+
 	public static void populateSummaryBinding(IQueryDefinition queryDefn, IResultClass rsMeta) throws DataException {
-		Set<String> nameSet = new HashSet<>();
+		Set<String> nameSet = new HashSet<String>();
 
 		for (int i = 1; i <= rsMeta.getFieldCount(); i++) {
 			nameSet.add(rsMeta.getFieldName(i));
 		}
 		Iterator<IBinding> bindingIt = queryDefn.getBindings().values().iterator();
 
-		Set<String> modifiedAggrBinding = new HashSet<>();
+		Set<String> modifiedAggrBinding = new HashSet<String>();
 		while (bindingIt.hasNext()) {
 			IBinding binding = bindingIt.next();
 			if (nameSet.contains(binding.getBindingName())) {
-				if (binding.getAggrFunction() != null) {
+				if (binding.getAggrFunction() != null)
 					modifiedAggrBinding.add(binding.getBindingName());
-				}
 				binding.setAggrFunction(null);
 				binding.getAggregatOns().clear();
 				binding.getArguments().clear();
@@ -561,7 +619,7 @@ public class PreparedQueryUtil {
 		while (groups.hasNext()) {
 			IGroupDefinition group = (IGroupDefinition) groups.next();
 			Iterator filters = group.getFilters().iterator();
-			List<IFilterDefinition> removedFilter = new ArrayList<>();
+			List<IFilterDefinition> removedFilter = new ArrayList<IFilterDefinition>();
 			while (filters.hasNext()) {
 				IFilterDefinition filter = (IFilterDefinition) filters.next();
 				List<String> list = ExpressionCompilerUtil.extractColumnExpression(filter.getExpression(),
@@ -582,7 +640,7 @@ public class PreparedQueryUtil {
 
 	/**
 	 * @throws DataException
-	 *
+	 * 
 	 */
 	public static void mappingParentColumnBinding(IBaseQueryDefinition baseQueryDefn) throws DataException {
 		IBaseQueryDefinition queryDef = baseQueryDefn;
@@ -594,7 +652,7 @@ public class PreparedQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param parentBindings
 	 * @throws DataException
 	 */
@@ -624,14 +682,13 @@ public class PreparedQueryUtil {
 	 * an aggregateOn field is set to an expression without aggregation, we should
 	 * also make it inheritable by sub query for the expression actually involves no
 	 * aggregations.
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 */
 	private static ScriptExpression copyScriptExpr(IBaseExpression expr) {
-		if (expr == null) {
+		if (expr == null)
 			return null;
-		}
 		ScriptExpression se = new ScriptExpression(((IScriptExpression) expr).getText(),
 				((IScriptExpression) expr).getDataType());
 		return se;
@@ -647,32 +704,26 @@ class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign {
 		this.source = (IOdaDataSetDesign) source;
 	}
 
-	@Override
 	public String getExtensionID() {
 		return this.source.getExtensionID();
 	}
 
-	@Override
 	public String getPrimaryResultSetName() {
 		return this.source.getPrimaryResultSetName();
 	}
 
-	@Override
 	public Map getPrivateProperties() {
 		return this.source.getPrivateProperties();
 	}
 
-	@Override
 	public Map getPublicProperties() {
 		return this.source.getPublicProperties();
 	}
 
-	@Override
 	public String getQueryText() {
 		return this.source.getQueryText();
 	}
 
-	@Override
 	public int getPrimaryResultSetNumber() {
 		return this.source.getPrimaryResultSetNumber();
 	}
@@ -713,32 +764,26 @@ class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign 
 		this.source = (IJointDataSetDesign) source;
 	}
 
-	@Override
 	public List getJoinConditions() {
 		return this.source.getJoinConditions();
 	}
 
-	@Override
 	public int getJoinType() {
 		return this.source.getJoinType();
 	}
 
-	@Override
 	public String getLeftDataSetDesignName() {
 		return this.source.getLeftDataSetDesignName();
 	}
 
-	@Override
 	public String getRightDataSetDesignName() {
 		return this.source.getRightDataSetDesignName();
 	}
 
-	@Override
 	public String getLeftDataSetDesignQulifiedName() {
 		return this.source.getLeftDataSetDesignQulifiedName();
 	}
 
-	@Override
 	public String getRightDataSetDesignQulifiedName() {
 		return this.source.getRightDataSetDesignQulifiedName();
 	}
@@ -752,29 +797,25 @@ class ScriptDataSetAdapter extends DataSetAdapter implements IScriptDataSetDesig
 		this.source = (IScriptDataSetDesign) source;
 	}
 
-	@Override
 	public String getCloseScript() {
 		return this.source.getCloseScript();
 	}
 
-	@Override
 	public String getDescribeScript() {
 		return this.source.getDescribeScript();
 	}
 
-	@Override
 	public String getFetchScript() {
 		return this.source.getFetchScript();
 	}
 
-	@Override
 	public String getOpenScript() {
 		return this.source.getOpenScript();
 	}
 }
 
 /**
- *
+ * 
  */
 class IncreCacheDataSetAdapter extends OdaDataSetAdapter implements IIncreCacheDataSetDesign {
 
@@ -799,37 +840,34 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter implements IIncreCacheD
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IIncreDataSetDesign#getCacheMode()
 	 */
-	@Override
 	public int getCacheMode() {
 		return cacheMode;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IIncreDataSetDesign#getConfigFilePath()
 	 */
-	@Override
 	public URL getConfigFileUrl() {
 		return configFileUrl;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IIncreDataSetDesign#getQueryForUpdate(long)
 	 */
-	@Override
 	public String getQueryForUpdate(long timestamp) {
 		return parseQuery(timestamp);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param time
 	 * @return
 	 */
@@ -846,7 +884,7 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter implements IIncreCacheD
 	/**
 	 * replace the target substring <code>target</code> in <code>source</code> with
 	 * <code>replacement</code> case insensively.
-	 *
+	 * 
 	 * @param source
 	 * @param target
 	 * @param replacement
@@ -860,15 +898,14 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter implements IIncreCacheD
 	/**
 	 * Returns a literal replacement <code>String</code> for the specified
 	 * <code>String</code>.
-	 *
+	 * 
 	 * @param s
 	 * @return
 	 */
 	private static String quote(String s) {
-		if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1)) {
+		if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1))
 			return s;
-		}
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			if (c == '\\') {
@@ -886,11 +923,10 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter implements IIncreCacheD
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IIncreDataSetDesign#getTimestampColumn()
 	 */
-	@Override
 	public String getTimestampColumn() {
 		return timestampColumn;
 	}
@@ -934,7 +970,7 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter implements IIncreCacheD
 	 * the specified configure value can be a path or an URL object represents the
 	 * location of the configure file, but the final returned value must be an URL
 	 * object or null if fails to parse it.
-	 *
+	 * 
 	 * @param appContext
 	 * @return
 	 * @throws DataException

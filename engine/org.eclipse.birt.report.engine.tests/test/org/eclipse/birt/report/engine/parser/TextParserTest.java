@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,15 +14,15 @@
 
 package org.eclipse.birt.report.engine.parser;
 
+import junit.framework.TestCase;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import junit.framework.TestCase;
-
 /**
  * Test case for DOM parser.
- *
+ * 
  * @version $Revision: 1.3 $ $Date: 2007/02/06 09:51:36 $
  */
 public class TextParserTest extends TestCase {
@@ -62,11 +62,11 @@ public class TextParserTest extends TestCase {
 		Document doc = new TextParser().parse(getClass().getResourceAsStream("htmlparser_plain.txt"), null);
 		Element root = (Element) doc.getFirstChild();
 		Node child = root.getFirstChild();
-		StringBuilder res = new StringBuilder();
+		String res = "";
 		for (; child != null && child.getNodeType() == Node.TEXT_NODE; child = child.getNextSibling()) {
-			res.append(child.getNodeValue());
+			res += child.getNodeValue();
 		}
-		assertEquals("plain text.", res.toString());
+		assertEquals("plain text.", res);
 	}
 
 	/*
@@ -93,11 +93,11 @@ public class TextParserTest extends TestCase {
 		Document doc = new TextParser().parse(html, "Html");
 		Element root = (Element) doc.getFirstChild();
 		Node child = root.getFirstChild();
-		StringBuilder res = new StringBuilder();
+		String res = "";
 		for (; child.getNodeType() == Node.TEXT_NODE; child = child.getNextSibling()) {
-			res.append(child.getNodeValue());
+			res += child.getNodeValue();
 		}
-		assertEquals("first", res.toString());
+		assertEquals("first", res);
 		assertEquals("div", child.getNodeName());
 		assertEquals("div1", child.getFirstChild().getNodeValue());
 		child = child.getNextSibling();
@@ -110,11 +110,11 @@ public class TextParserTest extends TestCase {
 		Document doc = new TextParser().parse(html, null);
 		Element root = (Element) doc.getFirstChild();
 		Node child = root.getFirstChild();
-		StringBuilder res = new StringBuilder();
+		String res = "";
 		for (; child.getNodeType() == Node.TEXT_NODE; child = child.getNextSibling()) {
-			res.append(child.getNodeValue());
+			res += child.getNodeValue();
 		}
-		assertEquals("first", res.toString());
+		assertEquals("first", res);
 		assertEquals("div", child.getNodeName());
 		assertEquals("div1", child.getFirstChild().getNodeValue());
 		child = child.getNextSibling();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ public class ReportRequest extends Request implements IMediatorRequest, ReportRe
 
 	/**
 	 * Create a report request with give source object.
-	 *
+	 * 
 	 * @param source
 	 */
 	public ReportRequest(Object source) {
@@ -63,17 +63,16 @@ public class ReportRequest extends Request implements IMediatorRequest, ReportRe
 
 	/**
 	 * Get the source of request.
-	 *
+	 * 
 	 * @return Returns the source.
 	 */
-	@Override
 	public Object getSource() {
 		return source;
 	}
 
 	/**
 	 * Set the source of request.
-	 *
+	 * 
 	 * @param source The source to set.
 	 */
 	public void setSource(Object source) {
@@ -82,7 +81,7 @@ public class ReportRequest extends Request implements IMediatorRequest, ReportRe
 
 	/**
 	 * Get the selection objcect of request source.
-	 *
+	 * 
 	 * @return Returns the selectionObject.
 	 */
 	public List getSelectionObject() {
@@ -91,7 +90,7 @@ public class ReportRequest extends Request implements IMediatorRequest, ReportRe
 
 	/**
 	 * Get the selection objcect of request source.
-	 *
+	 * 
 	 * @return Returns the selectionObject.
 	 */
 	public List getSelectionModelList() {
@@ -103,7 +102,7 @@ public class ReportRequest extends Request implements IMediatorRequest, ReportRe
 
 	/**
 	 * Set the selection object of reqeust source
-	 *
+	 * 
 	 * @param selectionObject The selectionObject to set.
 	 */
 	public void setSelectionObject(List selectionObject) {
@@ -120,10 +119,9 @@ public class ReportRequest extends Request implements IMediatorRequest, ReportRe
 
 	/**
 	 * @param convert The converter to set.
-	 *
+	 * 
 	 * @deprecated use {@link #setRequestConverter(IRequestConverter)} instead.
 	 */
-	@Deprecated
 	public void setRequestConvert(IRequestConvert converter) {
 		this.converter = converter;
 	}
@@ -135,22 +133,18 @@ public class ReportRequest extends Request implements IMediatorRequest, ReportRe
 		this.converter = converter;
 	}
 
-	@Override
 	public String getType() {
 		return String.valueOf(super.getType());
 	}
 
-	@Override
 	public Object getData() {
 		return getSelectionModelList();
 	}
 
-	@Override
 	public boolean isSticky() {
 		return SELECTION.equals(getType());
 	}
 
-	@Override
 	public Map<?, ?> getExtras() {
 		return getExtendedData();
 	}

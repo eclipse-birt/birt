@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +16,7 @@ package org.eclipse.birt.core.archive.compound.v3;
 
 public interface Ext2Constants {
 
-	int EXT2_MAGIC_TAG = 0xEF53;
-	int EXT2_VERSION_0 = 0;
+	static final int EXT2_MAGIC_TAG = 0xEF53;
+	static final int EXT2_VERSION_0 = 0;
 
 }

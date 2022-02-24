@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.core.data.Constants;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -65,6 +66,7 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -92,7 +94,10 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -105,7 +110,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * An adapter class that creates data engine API interface objects from the
  * model.api objects for data set and data source definition.
- *
+ * 
  * The user of this adaptor can optionally provide an associated
  * ExecutionContext object and a Javascript scope. ExecutionContext is used to
  * provide a context for executing data source and data set event handlers. The
@@ -123,7 +128,6 @@ public class ModelDteApiAdapter {
 	/**
 	 * @deprecated Construct an instance of this class directly
 	 */
-	@Deprecated
 	public static ModelDteApiAdapter getInstance() {
 		return new ModelDteApiAdapter();
 	}
@@ -131,7 +135,6 @@ public class ModelDteApiAdapter {
 	/**
 	 * @deprecated use createDataSourceDesign( dataSource )
 	 */
-	@Deprecated
 	public IBaseDataSourceDesign createDataSourceDesign(DataSourceHandle dataSource, ExecutionContext context)
 			throws EngineException {
 		try {
@@ -151,7 +154,7 @@ public class ModelDteApiAdapter {
 
 	/**
 	 * Constructs an instance with the given report context and scope
-	 *
+	 * 
 	 * @param context Context for event handlers. May be null
 	 * @param jsScope Scope for evaluting property binding expressions. If null,
 	 *                property bindings have no effect
@@ -174,11 +177,10 @@ public class ModelDteApiAdapter {
 	public IBaseDataSourceDesign createDataSourceDesign(DataSourceHandle dataSource) throws BirtException {
 		BaseDataSourceDesign datasourceDesign = this.dteSession.getModelAdaptor().adaptDataSource(dataSource);
 		IBaseDataSourceEventHandler eventHandler = null;
-		if (dataSource instanceof OdaDataSourceHandle) {
+		if (dataSource instanceof OdaDataSourceHandle)
 			eventHandler = new DataSourceScriptExecutor(dataSource, context);
-		} else if (dataSource instanceof ScriptDataSourceHandle) {
+		else if (dataSource instanceof ScriptDataSourceHandle)
 			eventHandler = new ScriptDataSourceScriptExecutor((ScriptDataSourceHandle) dataSource, context);
-		}
 		datasourceDesign.setEventHandler(eventHandler);
 		return datasourceDesign;
 	}
@@ -189,13 +191,11 @@ public class ModelDteApiAdapter {
 	 */
 	public IBaseDataSetDesign appendRuntimeInfoToDataSet(DataSetHandle handle, BaseDataSetDesign dataSet)
 			throws BirtException {
-		if (dataSet instanceof OdaDataSetDesign) {
+		if (dataSet instanceof OdaDataSetDesign)
 			return newOdaDataSet((OdaDataSetHandle) handle, (OdaDataSetDesign) dataSet, context);
-		}
 
-		if (dataSet instanceof ScriptDataSetDesign) {
+		if (dataSet instanceof ScriptDataSetDesign)
 			return newScriptDataSet((ScriptDataSetHandle) handle, (ScriptDataSetDesign) dataSet, context);
-		}
 
 		return newGeneralDataSet(handle, dataSet);
 
@@ -203,15 +203,14 @@ public class ModelDteApiAdapter {
 
 	/**
 	 * Define data set and data source in DataEngine
-	 *
+	 * 
 	 * @param dataSet
 	 * @param dteEngine
 	 * @throws BirtException
 	 */
 	public void defineDataSet(DataSetHandle dataSet, DataRequestSession dteSession) throws BirtException {
-		if (dataSet == null || dteSession == null) {
+		if (dataSet == null || dteSession == null)
 			return;
-		}
 		this.dteSession = dteSession;
 		DataSourceHandle dataSource = dataSet.getDataSource();
 		if (dataSource != null) {
@@ -222,9 +221,8 @@ public class ModelDteApiAdapter {
 	}
 
 	public void defineCombinedDataSet(DataSetHandle[] dataSets, DataRequestSession dteSession) throws BirtException {
-		if (dataSets == null || dataSets.length < 2 || dteSession == null) {
+		if (dataSets == null || dataSets.length < 2 || dteSession == null)
 			return;
-		}
 		this.dteSession = dteSession;
 		DataSourceHandle dataSource = dataSets[0].getDataSource();
 		if (dataSource != null) {
@@ -240,7 +238,7 @@ public class ModelDteApiAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSource
 	 * @throws BirtException
 	 */
@@ -249,7 +247,7 @@ public class ModelDteApiAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSet
 	 * @throws BirtException
 	 */
@@ -275,7 +273,7 @@ public class ModelDteApiAdapter {
 
 	/**
 	 * Create an IJointDataSetDesign instance.
-	 *
+	 * 
 	 * @param handle
 	 * @param context2
 	 * @return
@@ -370,7 +368,7 @@ public class ModelDteApiAdapter {
 
 	/**
 	 * Set the ResourceIdentifiers instance to the data source handle
-	 *
+	 * 
 	 * @param source
 	 */
 	private void setResourceIDtoDataSourceHandle(OdaDataSourceHandle source) {
@@ -379,27 +377,25 @@ public class ModelDteApiAdapter {
 		}
 
 		if (!dteSession.getDataSessionContext().getAppContext()
-				.containsKey(ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS)) {
+				.containsKey(ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS))
 			dteSession.getDataSessionContext().getAppContext().put(
 					ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
 					createResourceIdentifiers(source.getModuleHandle()));
-		}
 	}
 
 	/**
 	 * This method create a ResourceIdentifiers instance which is in turn being
 	 * passed to appContext.
-	 *
+	 * 
 	 * The consumer of appContext, especially those Oda drivers, can then use it for
 	 * acquire Resource info.
-	 *
+	 * 
 	 * @param handle
 	 * @return
 	 */
 	private static ResourceIdentifiers createResourceIdentifiers(ModuleHandle handle) {
-		if (handle == null) {
+		if (handle == null)
 			return null;
-		}
 		try {
 			ResourceIdentifiers identifiers = new ResourceIdentifiers();
 			if (handle.getSystemId() != null) {
@@ -427,7 +423,7 @@ public class ModelDteApiAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 * @throws BirtException
@@ -447,7 +443,7 @@ public class ModelDteApiAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @param dest
 	 */
@@ -509,7 +505,7 @@ public class ModelDteApiAdapter {
 	 * dteDataSet ) throws BirtException { if ( (!(modelDataSet instanceof
 	 * JointDataSetHandle)) && modelDataSet.getDataSource( ) == null ) throw new
 	 * EngineException( MessageConstants.DATA_SOURCE_ERROR );
-	 *
+	 * 
 	 * if ( !( modelDataSet instanceof JointDataSetHandle ) ) {
 	 * dteDataSet.setDataSource( modelDataSet.getDataSource( ) .getQualifiedName( )
 	 * ); dteDataSet.setBeforeOpenScript( modelDataSet.getBeforeOpen( ) );
@@ -519,19 +515,90 @@ public class ModelDteApiAdapter {
 	 * dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) ); //The cache
 	 * row count setting is no longer valid. //dteDataSet.setCacheRowCount(
 	 * modelDataSet.getCachedRowCount( ) );
-	 *
+	 * 
 	 * } populateParameter( modelDataSet, dteDataSet );
-	 *
+	 * 
 	 * populateComputedColumn( modelDataSet, dteDataSet );
-	 *
+	 * 
 	 * populateFilter( modelDataSet, dteDataSet );
-	 *
+	 * 
 	 * dteDataSet.setRowFetchLimit( modelDataSet.getRowFetchLimit( ) );
-	 *
+	 * 
 	 * mergeHints( modelDataSet, dteDataSet );
-	 *
+	 * 
 	 * }
 	 */
+
+	/**
+	 * 
+	 * @param modelDataSet
+	 * @param dteDataSet
+	 * @return
+	 */
+	private Iterator populateParameter(DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet) throws BirtException {
+		// dataset parameters definition
+		HashMap paramBindingCandidates = new HashMap();
+
+		Iterator elmtIter = modelDataSet.parametersIterator();
+		if (elmtIter != null) {
+			while (elmtIter.hasNext()) {
+				DataSetParameterHandle modelParam = (DataSetParameterHandle) elmtIter.next();
+				// collect input parameter default values as
+				// potential parameter binding if no explicit ones are
+				// defined for a parameter
+				if (modelParam.isInput()) {
+					String defaultValueExpr = null;
+					if (modelParam instanceof OdaDataSetParameterHandle) {
+						String linkedReportParam = ((OdaDataSetParameterHandle) modelParam).getParamName();
+						if (linkedReportParam != null) {
+							ParameterHandle ph = modelDataSet.getModuleHandle().findParameter(linkedReportParam);
+							if (ph instanceof ScalarParameterHandle) {
+								if (((ScalarParameterHandle) ph).getParamType()
+										.equals(DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE)) {
+									throw new DataException(ResourceConstants.Linked_REPORT_PARAM_ALLOW_MULTI_VALUES,
+											new String[] { linkedReportParam, modelParam.getName() });
+								}
+							}
+							defaultValueExpr = ExpressionUtil.createJSParameterExpression(
+									((OdaDataSetParameterHandle) modelParam).getParamName());
+						} else {
+							defaultValueExpr = getExpressionDefaultValue(modelParam);
+						}
+					} else {
+						defaultValueExpr = getExpressionDefaultValue(modelParam);
+					}
+					dteDataSet.addParameter(newParam(modelParam));
+					paramBindingCandidates.put(modelParam.getName(), new ScriptExpression(defaultValueExpr,
+							DataAdapterUtil.modelDataTypeToCoreDataType(modelParam.getDataType())));
+				} else {
+					dteDataSet.addParameter(newParam(modelParam));
+				}
+			}
+		}
+
+		// input parameter bindings
+		elmtIter = modelDataSet.paramBindingsIterator();
+		if (elmtIter != null) {
+			while (elmtIter.hasNext()) {
+				ParamBindingHandle modelParamBinding = (ParamBindingHandle) elmtIter.next();
+				// replace default value of the same parameter, if defined
+				paramBindingCandidates.put(modelParamBinding.getParamName(),
+						new ScriptExpression(modelParamBinding.getExpression()));
+			}
+		}
+
+		// assign merged parameter bindings to the data set
+		if (paramBindingCandidates.size() > 0) {
+			elmtIter = paramBindingCandidates.keySet().iterator();
+			while (elmtIter.hasNext()) {
+				Object paramName = elmtIter.next();
+				assert (paramName != null && paramName instanceof String);
+				ScriptExpression expression = (ScriptExpression) paramBindingCandidates.get(paramName);
+				dteDataSet.addInputParamBinding(newInputParamBinding((String) paramName, expression));
+			}
+		}
+		return elmtIter;
+	}
 
 	private String getExpressionDefaultValue(DataSetParameterHandle modelParam) {
 		if (ExpressionType.CONSTANT
@@ -543,6 +610,42 @@ public class ModelDteApiAdapter {
 	}
 
 	/**
+	 * 
+	 * @param modelDataSet
+	 * @param dteDataSet
+	 * @throws EngineException
+	 */
+	private void populateComputedColumn(DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet)
+			throws EngineException {
+		// computed columns
+		Iterator elmtIter = modelDataSet.computedColumnsIterator();
+		if (elmtIter != null) {
+			while (elmtIter.hasNext()) {
+				ComputedColumnHandle modelCmptdColumn = (ComputedColumnHandle) elmtIter.next();
+				IComputedColumn dteCmptdColumn = newComputedColumn(modelCmptdColumn);
+				dteDataSet.addComputedColumn(dteCmptdColumn);
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param modelDataSet
+	 * @param dteDataSet
+	 */
+	private void populateFilter(DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet) {
+		// filter conditions
+		Iterator elmtIter = modelDataSet.filtersIterator();
+		if (elmtIter != null) {
+			while (elmtIter.hasNext()) {
+				FilterConditionHandle modelFilter = (FilterConditionHandle) elmtIter.next();
+				IFilterDefinition dteFilter = newFilter(modelFilter);
+				dteDataSet.addFilter(dteFilter);
+			}
+		}
+	}
+
+	/**
 	 */
 	/*
 	 * private void mergeHints( DataSetHandle modelDataSet, BaseDataSetDesign
@@ -551,7 +654,7 @@ public class ModelDteApiAdapter {
 	 * column hints should base on the result of ResultSet hint. // So in
 	 * ResultSetHint list, the order of items should be // ResultSetColumn and then
 	 * ColumnHint.
-	 *
+	 * 
 	 * // now merge model's result set column info into existing columnDefn // with
 	 * same column name, otherwise create new columnDefn // based on the model's
 	 * result set column Iterator elmtIter = null; if ( modelDataSet instanceof
@@ -561,12 +664,12 @@ public class ModelDteApiAdapter {
 	 * !modelColumn.getColumnName( ) .equals( modelColumn.getNativeName( ) ) )
 	 * dteDataSet.addResultSetHint( newColumnDefn( (ResultSetColumnHandle)
 	 * modelColumn ) ); } } }
-	 *
+	 * 
 	 * elmtIter = modelDataSet.resultSetHintsIterator( ); if ( elmtIter != null ) {
 	 * while ( elmtIter.hasNext( ) ) { ResultSetColumnHandle modelColumn =
 	 * (ResultSetColumnHandle) elmtIter.next( ); dteDataSet.addResultSetHint(
 	 * newColumnDefn( modelColumn ) ); } }
-	 *
+	 * 
 	 * // merging result set column and column hints into DtE columnDefn; // first
 	 * create new columnDefn based on model's column hints elmtIter =
 	 * modelDataSet.columnHintsIterator( ); if ( elmtIter != null ) { List
@@ -585,12 +688,10 @@ public class ModelDteApiAdapter {
 		ParameterDefinition dteParam = new ParameterDefinition();
 
 		dteParam.setName(modelParam.getName());
-		if (modelParam.getPosition() != null) {
+		if (modelParam.getPosition() != null)
 			dteParam.setPosition(modelParam.getPosition().intValue());
-		}
-		if (modelParam.getNativeDataType() != null) {
+		if (modelParam.getNativeDataType() != null)
 			dteParam.setNativeType(modelParam.getNativeDataType().intValue());
-		}
 
 		if (modelParam instanceof OdaDataSetParameterHandle) {
 			dteParam.setNativeName(((OdaDataSetParameterHandle) modelParam).getNativeName());
@@ -617,16 +718,15 @@ public class ModelDteApiAdapter {
 	}
 
 	private IInputParameterBinding newInputParamBinding(String paramName, ScriptExpression paramValueExpr) {
-		if (paramValueExpr == null || paramValueExpr.getText() == null) {
+		if (paramValueExpr == null || paramValueExpr.getText() == null)
 			return null;
-		}
 		return new InputParameterBinding(paramName, paramValueExpr);
 	}
 
 	/**
 	 * Creates a new DtE API Computed Column from a model computed column. Could
 	 * return null if no expression is defined.
-	 *
+	 * 
 	 * @throws EngineException
 	 */
 	IComputedColumn newComputedColumn(ComputedColumnHandle modelCmptdColumn) throws EngineException {
@@ -678,15 +778,13 @@ public class ModelDteApiAdapter {
 	 */
 	IFilterDefinition newFilter(FilterConditionHandle modelFilter) {
 		String filterExpr = modelFilter.getExpr();
-		if (filterExpr == null || filterExpr.length() == 0) {
+		if (filterExpr == null || filterExpr.length() == 0)
 			return null; // no filter defined
-		}
 
 		// converts to DtE exprFilter if there is no operator
 		String filterOpr = modelFilter.getOperator();
-		if (filterOpr == null || filterOpr.length() == 0) {
+		if (filterOpr == null || filterOpr.length() == 0)
 			return new FilterDefinition(new ScriptExpression(filterExpr));
-		}
 
 		/*
 		 * has operator defined, try to convert filter condition to operator/operand
@@ -706,6 +804,16 @@ public class ModelDteApiAdapter {
 		}
 	}
 
+	private IColumnDefinition newColumnDefn(ResultSetColumnHandle modelColumn) {
+		ColumnDefinition newColumn = new ColumnDefinition(modelColumn.getColumnName());
+		if (modelColumn.getPosition() != null)
+			newColumn.setColumnPosition(modelColumn.getPosition().intValue());
+		if (modelColumn.getNativeDataType() != null)
+			newColumn.setNativeDataType(modelColumn.getNativeDataType().intValue());
+		newColumn.setDataType(toDteDataType(modelColumn.getDataType()));
+		return newColumn;
+	}
+
 	private void updateColumnDefn(ColumnDefinition dteColumn, ColumnHintHandle modelColumnHint) {
 		assert dteColumn.getColumnName().equals(modelColumnHint.getColumnName());
 		dteColumn.setAlias(modelColumnHint.getAlias());
@@ -713,13 +821,12 @@ public class ModelDteApiAdapter {
 		String exportConstant = modelColumnHint.getExport();
 		if (exportConstant != null) {
 			int exportHint = IColumnDefinition.DONOT_EXPORT; // default value
-			if (exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_IF_REALIZED)) {
+			if (exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_IF_REALIZED))
 				exportHint = IColumnDefinition.EXPORT_IF_REALIZED;
-			} else if (exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_ALWAYS)) {
+			else if (exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_ALWAYS))
 				exportHint = IColumnDefinition.ALWAYS_EXPORT;
-			} else {
+			else
 				assert exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_NONE);
-			}
 
 			dteColumn.setExportHint(exportHint);
 		}
@@ -727,17 +834,44 @@ public class ModelDteApiAdapter {
 		String searchConstant = modelColumnHint.getSearching();
 		if (searchConstant != null) {
 			int searchHint = IColumnDefinition.NOT_SEARCHABLE;
-			if (searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_INDEXED)) {
+			if (searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_INDEXED))
 				searchHint = IColumnDefinition.SEARCHABLE_IF_INDEXED;
-			} else if (searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_ANY)) {
+			else if (searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_ANY))
 				searchHint = IColumnDefinition.ALWAYS_SEARCHABLE;
-			} else {
+			else
 				assert searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_NONE);
-			}
 
 			dteColumn.setSearchHint(searchHint);
 		}
 
+	}
+
+	private IColumnDefinition newColumnDefn(ColumnHintHandle modelColumnHint) {
+		ColumnDefinition newColumn = new ColumnDefinition(modelColumnHint.getColumnName());
+		updateColumnDefn(newColumn, modelColumnHint);
+		return newColumn;
+	}
+
+	/**
+	 * Find the DtE columnDefn from the given list of columnDefns that matches the
+	 * given columnName.
+	 */
+	private ColumnDefinition findColumnDefn(List columnDefns, String columnName) {
+		assert columnName != null;
+		if (columnDefns == null)
+			return null; // no list to find from
+		Iterator iter = columnDefns.iterator();
+		if (iter == null)
+			return null;
+
+		// iterate thru each columnDefn, and looks for a match of
+		// specified column name
+		while (iter.hasNext()) {
+			ColumnDefinition column = (ColumnDefinition) iter.next();
+			if (columnName.equals(column.getColumnName()))
+				return column;
+		}
+		return null;
 	}
 
 	public static int toDteDataType(String modelDataType) {
@@ -754,9 +888,8 @@ public class ModelDteApiAdapter {
 	 * in String values and returns them in a Map
 	 */
 	private Map getExtensionProperties(ReportElementHandle dataHandle, List driverPropList) {
-		if (driverPropList == null || driverPropList.isEmpty()) {
+		if (driverPropList == null || driverPropList.isEmpty())
 			return null; // nothing to add
-		}
 
 		Map properties = new HashMap();
 		Iterator elmtIter = driverPropList.iterator();
@@ -784,14 +917,13 @@ public class ModelDteApiAdapter {
 
 	/**
 	 * temp method to decide whether need property binding
-	 *
+	 * 
 	 * @return
 	 */
 	private boolean needPropertyBinding() {
-		if (this.context == null || this.jsScope == null) {
+		if (this.context == null || this.jsScope == null)
 			return false;
-		} else {
+		else
 			return true;
-		}
 	}
 }

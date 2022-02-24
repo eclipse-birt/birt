@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -77,14 +77,13 @@ public class Bubble extends Scatter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.AxesRenderer#renderSeries(org.eclipse.birt.
 	 * chart.event.IPrimitiveRenderListener,
 	 * org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.computation.axes.SeriesRenderingHints)
 	 */
-	@Override
 	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		final ChartWithAxes cwa = (ChartWithAxes) getModel();
 		if (cwa.getDimension() != ChartDimension.TWO_DIMENSIONAL_LITERAL
@@ -190,7 +189,7 @@ public class Bubble extends Scatter {
 			dSizePixel[i] = be.getSize() * dPointCoefficient;
 			// Set bubble size measured by points because of the arguments of
 			// MarkerRender
-			iSize[i] = (int) (dSizePixel[i] / getDeviceScale());
+			iSize[i] = Integer.valueOf((int) (dSizePixel[i] / getDeviceScale()));
 		}
 
 		handleOutsideDataPoints(ipr, srh, faX, faY, false);
@@ -223,10 +222,12 @@ public class Bubble extends Scatter {
 					} else {
 						loa[0] = goFactory.createLocation(dAxisMin, faY[i]);
 					}
-				} else if (cwa.isTransposed()) {
-					loa[0] = goFactory.createLocation(dAxisMin, faY[i]);
 				} else {
-					loa[0] = goFactory.createLocation(faX[i], dAxisMin);
+					if (cwa.isTransposed()) {
+						loa[0] = goFactory.createLocation(dAxisMin, faY[i]);
+					} else {
+						loa[0] = goFactory.createLocation(faX[i], dAxisMin);
+					}
 				}
 				loa[1] = goFactory.createLocation(faX[i], faY[i]);
 
@@ -447,7 +448,7 @@ public class Bubble extends Scatter {
 
 	/**
 	 * Computes the max bubble size that fits in all bubble series
-	 *
+	 * 
 	 * @param srh
 	 * @param plotBounds
 	 * @param isCategoryAxis
@@ -490,7 +491,7 @@ public class Bubble extends Scatter {
 
 	/**
 	 * Checks if all bubbles are inside of the plot
-	 *
+	 * 
 	 * @param srh
 	 * @param plotBounds
 	 * @param dCoeff
@@ -559,7 +560,7 @@ public class Bubble extends Scatter {
 
 	/**
 	 * Checks if a bubbles is inside of the plot
-	 *
+	 * 
 	 * @param plotBounds
 	 * @param faX
 	 * @param faY
@@ -570,7 +571,6 @@ public class Bubble extends Scatter {
 				&& faY - size > plotBounds.getTop() && faY + size < plotBounds.getTop() + plotBounds.getHeight();
 	}
 
-	@Override
 	protected int checkEntryInRange(Object entry, Object min, Object max) {
 		if (entry instanceof BubbleEntry) {
 			int iOutside = 0;
@@ -604,7 +604,6 @@ public class Bubble extends Scatter {
 		return 1;
 	}
 
-	@Override
 	protected int getPreviousNonNullIndex(int currentIndex, DataPointHints[] dpha) {
 		for (int i = currentIndex - 1; i >= 0; i--) {
 			if (isValidBubbleEntry((BubbleEntry) dpha[i].getOrthogonalValue())) {
@@ -614,7 +613,6 @@ public class Bubble extends Scatter {
 		return -1;
 	}
 
-	@Override
 	public void set(Chart _cm, PlotComputation _o, Series _se, Axis _ax, SeriesDefinition _sd) {
 		super.set(_cm, _o, _se, _ax, _sd);
 
@@ -625,13 +623,11 @@ public class Bubble extends Scatter {
 		}
 	}
 
-	@Override
 	protected boolean isShowOutside() {
 		// Always clip the bubbles
 		return false;
 	}
 
-	@Override
 	protected void flushClipping() throws ChartException {
 		// Flush markers before clipping
 		getDeferredCache().flushOptions(DeferredCache.FLUSH_MARKER);

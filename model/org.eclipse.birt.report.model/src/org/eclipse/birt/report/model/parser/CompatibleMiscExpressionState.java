@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 
 	/**
 	 * Constructs a compatible state.
-	 *
+	 * 
 	 * @param theHandler the handler to parse the design file.
 	 * @param element    the data item
 	 */
@@ -56,7 +56,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 
 	/**
 	 * Constructs a compatible state.
-	 *
+	 * 
 	 * @param theHandler the handler to parse the design file.
 	 * @param element    the data item
 	 * @param propDefn
@@ -70,26 +70,23 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 
-		if (value == null) {
+		if (value == null)
 			return;
-		}
 
 		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(element, handler.module);
 
 		// if the value is on elements like data set and data source. Not
 		// require to create bound columns.
 
-		if (target != null) {
+		if (target != null)
 			setupBoundDataColumns(target, value, handler.versionNumber < VersionUtil.VERSION_3_2_0);
-		}
 
 		// keep the expression as same.
 
@@ -98,11 +95,10 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 
 	/**
 	 * Changes rows[index] expression to the new format row._outer.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#doEnd(java.lang.String)
 	 */
 
-	@Override
 	protected void doEnd(Object value) {
 		doEnd(value, false);
 	}
@@ -110,13 +106,13 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 	/**
 	 * Sets the property value. This method changes rows[index] expression to the
 	 * new format row._outer.
-	 *
+	 * 
 	 * @param value               the value to set. Can contains rows[index]
 	 *                            expression or not.
 	 * @param isParamBindingValue <code>true</code> means the value is from
 	 *                            parameter binding. Hence, it is not required to
 	 *                            change from rows to row._outer.
-	 *
+	 * 
 	 */
 
 	protected void doEnd(Object value, boolean isParamBindingValue) {
@@ -130,14 +126,15 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 				&& IAbstractScalarParameterModel.DEFAULT_VALUE_PROP.equalsIgnoreCase(name)) {
 			CompatiblePropToExprState.handleDefaultValueList(handler.module, element, propDefn, nameValue,
 					handler.versionNumber, newValue);
-		} else {
-			super.doEnd(newValue);
 		}
+
+		else
+			super.doEnd(newValue);
 	}
 
 	/**
 	 * Creates bound columns.
-	 *
+	 * 
 	 * @param target             the target to add bound columns
 	 * @param value              the expression value
 	 * @param createLocalColumns <code>true</code> if create local data bound
@@ -146,9 +143,8 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 	 */
 
 	protected void setupBoundDataColumns(DesignElement target, String value, boolean createLocalColumns) {
-		if (value == null) {
+		if (value == null)
 			return;
-		}
 
 		List newExprs = null;
 
@@ -158,19 +154,17 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 			// do nothing
 		}
 
-		if (newExprs == null || newExprs.isEmpty()) {
+		if (newExprs == null || newExprs.isEmpty())
 			return;
-		}
 
-		List<IColumnBinding> outerColumns = new ArrayList<>();
-		List<IColumnBinding> localColumns = new ArrayList<>();
+		List<IColumnBinding> outerColumns = new ArrayList<IColumnBinding>();
+		List<IColumnBinding> localColumns = new ArrayList<IColumnBinding>();
 		for (int i = 0; i < newExprs.size(); i++) {
 			IColumnBinding boundColumn = (IColumnBinding) newExprs.get(i);
-			if (boundColumn.getOuterLevel() < 1) {
+			if (boundColumn.getOuterLevel() < 1)
 				localColumns.add(boundColumn);
-			} else {
+			else
 				outerColumns.add(boundColumn);
-			}
 		}
 
 		if (!outerColumns.isEmpty()) {
@@ -178,22 +172,20 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 			addBoundColumnsToTarget(tmpTarget, outerColumns);
 		}
 
-		if (createLocalColumns) {
+		if (createLocalColumns)
 			addBoundColumnsToTarget(target, localColumns);
-		}
 	}
 
 	/**
 	 * Adds column bindings to the target element.
-	 *
+	 * 
 	 * @param target   the target element
 	 * @param newExprs a list containing column bindings
 	 */
 
 	protected void addBoundColumnsToTarget(DesignElement target, List<IColumnBinding> newExprs) {
-		if (newExprs.isEmpty()) {
+		if (newExprs.isEmpty())
 			return;
-		}
 
 		if (target instanceof GroupElement) {
 			appendBoundColumnsToGroup((GroupElement) target, newExprs);
@@ -203,9 +195,8 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 		for (int i = 0; i < newExprs.size(); i++) {
 			IColumnBinding boundColumn = newExprs.get(i);
 			String newExpression = boundColumn.getBoundExpression();
-			if (newExpression == null) {
+			if (newExpression == null)
 				continue;
-			}
 
 			BoundDataColumnUtil.createBoundDataColumn(target, boundColumn.getResultSetColumnName(), newExpression,
 					handler.module);
@@ -216,26 +207,24 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 	 * Appends to the cached group bound columns. Becuase of "aggregateOn" property
 	 * on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
-	 *
+	 * 
 	 * @param target   the group element
 	 * @param newExprs bound columns returned by ExpressionUtil
 	 */
 
 	private void appendBoundColumnsToGroup(GroupElement target, List<IColumnBinding> newExprs) {
-		List<ComputedColumn> newColumns = new ArrayList<>();
+		List<ComputedColumn> newColumns = new ArrayList<ComputedColumn>();
 		for (int i = 0; i < newExprs.size(); i++) {
 			ComputedColumn column = StructureFactory.createComputedColumn();
 			IColumnBinding boundColumn = newExprs.get(i);
 			String newExpression = boundColumn.getBoundExpression();
-			if (newExpression == null) {
+			if (newExpression == null)
 				continue;
-			}
 
 			column.setName(boundColumn.getResultSetColumnName());
 			column.setExpression(boundColumn.getBoundExpression());
-			if (!newColumns.contains(column)) {
+			if (!newColumns.contains(column))
 				newColumns.add(column);
-			}
 		}
 
 		appendBoundColumnsToCachedGroup(target, newColumns);
@@ -245,7 +234,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 	 * Appends to the cached group bound columns. Becuase of "aggregateOn" property
 	 * on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
-	 *
+	 * 
 	 * @param target   the group element
 	 * @param newExprs bound columns returned by ExpressionUtil
 	 */
@@ -259,9 +248,8 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 
 		for (int i = 0; i < newColumns.size(); i++) {
 			ComputedColumn column = newColumns.get(i);
-			if (!boundColumns.contains(column)) {
+			if (!boundColumns.contains(column))
 				boundColumns.add(column);
-			}
 		}
 	}
 
@@ -269,7 +257,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 	 * Appends to the cached group bound columns. Because of "aggregateOn" property
 	 * on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
-	 *
+	 * 
 	 * @param target     the group element
 	 * @param boundName  the bound column name
 	 * @param expression the bound column expression
@@ -290,9 +278,8 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState {
 			return boundName;
 		}
 
-		if (!boundColumns.contains(column)) {
+		if (!boundColumns.contains(column))
 			boundColumns.add(column);
-		}
 
 		return boundName;
 	}

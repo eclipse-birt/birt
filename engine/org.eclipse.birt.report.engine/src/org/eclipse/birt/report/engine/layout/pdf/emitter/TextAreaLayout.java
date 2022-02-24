@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -43,7 +43,7 @@ public class TextAreaLayout extends ContainerLayout {
 		splitChar.add(Character.valueOf(' '));
 		splitChar.add(Character.valueOf('\r'));
 		splitChar.add(Character.valueOf('\n'));
-	}
+	};
 
 	public TextAreaLayout(LayoutEngineContext context, ContainerLayout parentContext, IContent content) {
 		super(context, parentContext, content);
@@ -79,27 +79,22 @@ public class TextAreaLayout extends ContainerLayout {
 		}
 	}
 
-	@Override
 	public boolean addArea(AbstractArea area) {
 		return false;
 	}
 
-	@Override
 	protected void createRoot() {
 
 	}
 
-	@Override
 	public void layout() throws BirtException {
-		while (layoutChildren()) {
+		while (layoutChildren())
 			;
-		}
 	}
 
 	protected boolean layoutChildren() throws BirtException {
-		if (null == textContent) {
+		if (null == textContent)
 			return false;
-		}
 		while (comp.hasNextArea()) {
 			TextArea area = comp.getNextArea(getFreeSpace());
 			// for a textArea which just has a line break. We should not add TextArea into
@@ -162,10 +157,10 @@ public class TextAreaLayout extends ContainerLayout {
 		boolean capitalizeNextChar = true;
 		char[] array = text.toCharArray();
 		for (int i = 0; i < array.length; i++) {
-			Character c = text.charAt(i);
-			if (splitChar.contains(c)) {
+			Character c = Character.valueOf(text.charAt(i));
+			if (splitChar.contains(c))
 				capitalizeNextChar = true;
-			} else if (capitalizeNextChar) {
+			else if (capitalizeNextChar) {
 				array[i] = Character.toUpperCase(array[i]);
 				capitalizeNextChar = false;
 			}
@@ -173,15 +168,12 @@ public class TextAreaLayout extends ContainerLayout {
 		return new String(array);
 	}
 
-	@Override
 	protected void closeLayout() {
 	}
 
-	@Override
 	protected void initialize() {
 	}
 
-	@Override
 	protected void closeLayout(ContainerContext currentContext, int index, boolean finished) {
 	}
 

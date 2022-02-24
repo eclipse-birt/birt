@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,10 +34,10 @@ public class TOCBuilderTest extends TOCTestCase {
 
 	/**
 	 * create the toc node. the design contains :
-	 *
+	 * 
 	 * <pre>
 	 *                     the create toc node should be:
-	 *
+	 *                     
 	 *                     report-header
 	 *                     group
 	 *                     		list(dummy, hidden in html)
@@ -88,10 +88,10 @@ public class TOCBuilderTest extends TOCTestCase {
 
 	/**
 	 * create the toc node. the design contains :
-	 *
+	 * 
 	 * <pre>
 	 *                    the create toc node should be:
-	 *
+	 *                    
 	 *                    report-header
 	 *                    group(hidden in html)
 	 *                  		    detail 1
@@ -138,10 +138,10 @@ public class TOCBuilderTest extends TOCTestCase {
 
 	/**
 	 * create the toc node. the design contains :
-	 *
+	 * 
 	 * <pre>
 	 *                    the create toc node should be:
-	 *
+	 *                    
 	 *                    report-header
 	 *                    group(hidden in pdf)
 	 *                    		list(dummy, hidden in html)
@@ -190,10 +190,10 @@ public class TOCBuilderTest extends TOCTestCase {
 
 	/**
 	 * create the toc node. the design contains :
-	 *
+	 * 
 	 * <pre>
 	 *                    the create toc node should be:
-	 *
+	 *                    
 	 *                    report-header
 	 *                    group
 	 *                      list (hidden in html)

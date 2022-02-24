@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,7 @@ public class CacheMapManager {
 		} else {
 			cacheMap = new HashMap();
 		}
-		tempDataSetCacheMap = new HashMap<>();
+		tempDataSetCacheMap = new HashMap<DataSourceAndDataSet, IDataSetCacheObject>();
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class CacheMapManager {
 	 * Return the cached result metadata featured by the given DataSourceAndDataSet.
 	 * Please note that the paramter would have no impact to DataSourceAndDataSet so
 	 * that will be omited.
-	 *
+	 * 
 	 * @param dsAndDs
 	 * @return
 	 * @throws DataException
@@ -229,7 +229,7 @@ public class CacheMapManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dsAndDs
 	 * @return
 	 */
@@ -246,7 +246,7 @@ public class CacheMapManager {
 	}
 
 	public static void clearCache(Set<String> cacheIDs) {
-		List<IDataSetCacheObject> removed = new ArrayList<>();
+		List<IDataSetCacheObject> removed = new ArrayList<IDataSetCacheObject>();
 
 		Object[] keyArray = JVMLevelCacheMap.keySet().toArray(new DataSourceAndDataSet[] {});
 		for (Object dsAndDs : keyArray) {
@@ -264,9 +264,8 @@ public class CacheMapManager {
 					}
 				}
 				IDataSetCacheObject cacheObj = (IDataSetCacheObject) JVMLevelCacheMap.remove(dsAndDs);
-				if (cacheObj != null) {
+				if (cacheObj != null)
 					removed.add(cacheObj);
-				}
 
 			}
 		}
@@ -294,7 +293,7 @@ public class CacheMapManager {
 /**
  * Register shutdown hook on JVM exit to ensure that JVM cache will be cleared
  * correctly.
- *
+ * 
  *
  */
 class ShutdownHook implements Runnable {
@@ -305,9 +304,8 @@ class ShutdownHook implements Runnable {
 		Runtime.getRuntime().addShutdownHook(new Thread(this));
 	}
 
-	@Override
 	public void run() {
-		List<IDataSetCacheObject> cacheObjects = new ArrayList<>();
+		List<IDataSetCacheObject> cacheObjects = new ArrayList<IDataSetCacheObject>();
 		for (DataSourceAndDataSet dataSetAndSource : cacheMap.keySet().toArray(new DataSourceAndDataSet[0])) {
 			cacheObjects.add(cacheMap.remove(dataSetAndSource));
 		}

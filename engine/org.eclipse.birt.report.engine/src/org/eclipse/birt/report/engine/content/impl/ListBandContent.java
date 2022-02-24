@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -29,17 +29,14 @@ public class ListBandContent extends AbstractBandContent implements IListBandCon
 		super(report);
 	}
 
-	@Override
 	public int getContentType() {
 		return LIST_BAND_CONTENT;
 	}
 
-	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitListBand(this, value);
 	}
 
-	@Override
 	protected IContent cloneContent() {
 		return new ListBandContent(this);
 	}

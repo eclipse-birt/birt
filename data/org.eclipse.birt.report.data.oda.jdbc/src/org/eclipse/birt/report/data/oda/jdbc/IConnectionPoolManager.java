@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ public interface IConnectionPoolManager {
 
 	/**
 	 * Get connection from IConnectionPoolManager.
-	 *
+	 * 
 	 * @param driverClass
 	 * @param url
 	 * @param connectionProps
@@ -37,5 +37,5 @@ public interface IConnectionPoolManager {
 	java.sql.Connection getConnection(String driverClass, String url, Properties connectionProps,
 			Collection<String> driverClassPath, Map appContext) throws SQLException, OdaException;
 
-	void closeConnection(java.sql.Connection connection) throws OdaException, SQLException;
+	public void closeConnection(java.sql.Connection connection) throws OdaException, SQLException;
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,12 +36,10 @@ public class DocumentIndexReaderV2 implements IDocumentIndexReader, ReportDocume
 		this.archive = archive;
 	}
 
-	@Override
 	public int getVersion() {
 		return VERSION_2;
 	}
 
-	@Override
 	public void close() {
 		if (bookmarks != null) {
 			try {
@@ -70,57 +68,49 @@ public class DocumentIndexReaderV2 implements IDocumentIndexReader, ReportDocume
 		}
 	}
 
-	@Override
 	public long getOffsetOfBookmark(String bookmark) throws IOException {
 		if (bookmarks == null) {
 			bookmarks = createIndexReader(REPORTLET_BOOKMARK_INDEX_STREAM);
 		}
 		if (bookmarks != null) {
 			Long value = bookmarks.getLong(bookmark);
-			if (value != null) {
+			if (value != null)
 				return value.longValue();
-			}
 		}
 		return -1L;
 	}
 
-	@Override
 	public long getOffsetOfInstance(String instanceId) throws IOException {
 		if (reportlets == null) {
 			reportlets = createIndexReader(REPORTLET_ID_INDEX_STREAM);
 		}
 		if (reportlets != null) {
 			Long value = reportlets.getLong(instanceId);
-			if (value != null) {
+			if (value != null)
 				return value.longValue();
-			}
 		}
 		return -1L;
 	}
 
-	@Override
 	public long getPageOfBookmark(String bookmark) throws IOException {
 		if (pageNumbers == null) {
 			pageNumbers = createIndexReader(BOOKMARK_STREAM);
 		}
 		if (pageNumbers != null) {
 			BookmarkContent content = pageNumbers.getBookmarkContent(bookmark);
-			if (content != null) {
+			if (content != null)
 				return content.getPageNumber();
-			}
 
 			// The following is for backward compatibility.
 			// The old version is a map from bookmark to pageNumber.
 			// The new version should not get here.
 			Long lvalue = pageNumbers.getLong(bookmark);
-			if (lvalue != null) {
+			if (lvalue != null)
 				return lvalue.longValue();
-			}
 		}
 		return -1L;
 	}
 
-	@Override
 	public BookmarkContent getBookmark(String bookmark) throws IOException {
 		if (pageNumbers == null) {
 			pageNumbers = createIndexReader(BOOKMARK_STREAM);
@@ -131,16 +121,14 @@ public class DocumentIndexReaderV2 implements IDocumentIndexReader, ReportDocume
 		return null;
 	}
 
-	@Override
 	public List<String> getBookmarks() throws IOException {
 		if (pageNumbers == null) {
 			pageNumbers = createIndexReader(BOOKMARK_STREAM);
 		}
 		if (pageNumbers != null) {
-			final ArrayList<String> allBookmarks = new ArrayList<>();
+			final ArrayList<String> allBookmarks = new ArrayList<String>();
 			pageNumbers.forAllKeys(new IndexReader.KeyListener() {
 
-				@Override
 				public void onKey(String key) {
 					if (key != null && !key.startsWith(TOCBuilder.TOC_PREFIX)) {
 						allBookmarks.add(key);
@@ -152,16 +140,14 @@ public class DocumentIndexReaderV2 implements IDocumentIndexReader, ReportDocume
 		return null;
 	}
 
-	@Override
 	public List<BookmarkContent> getBookmarkContents() throws IOException {
 		if (pageNumbers == null) {
 			pageNumbers = createIndexReader(BOOKMARK_STREAM);
 		}
 		if (pageNumbers != null) {
-			final ArrayList<BookmarkContent> allBookmarks = new ArrayList<>();
+			final ArrayList<BookmarkContent> allBookmarks = new ArrayList<BookmarkContent>();
 			pageNumbers.forAllValues(new IndexReader.ValueListener() {
 
-				@Override
 				public void onValue(Object value) {
 					if (value != null) {
 						allBookmarks.add((BookmarkContent) value);

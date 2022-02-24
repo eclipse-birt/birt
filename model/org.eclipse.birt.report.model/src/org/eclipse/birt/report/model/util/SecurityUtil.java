@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class SecurityUtil {
 
 	/**
 	 * Returns the system property with the access controller support.
-	 *
+	 * 
 	 * @param name the name of the system property.
 	 * @param def  a default value.
 	 * @return the string value of the system property, or the default value if
@@ -43,7 +43,6 @@ public class SecurityUtil {
 	public static String getSystemProperty(final String name, final String def) {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			@Override
 			public String run() {
 				return System.getProperty(name, def);
 			}
@@ -52,14 +51,13 @@ public class SecurityUtil {
 
 	/**
 	 * Returns the system properties with the access controller support.
-	 *
+	 * 
 	 * @return the system properties
 	 */
 
 	public static Properties getSystemProperties() {
 		return AccessController.doPrivileged(new PrivilegedAction<Properties>() {
 
-			@Override
 			public Properties run() {
 				return System.getProperties();
 			}
@@ -68,7 +66,7 @@ public class SecurityUtil {
 
 	/**
 	 * Returns the URI schema part with the access controller support.
-	 *
+	 * 
 	 * @param f the file instance
 	 * @return the URI schema part
 	 */
@@ -76,12 +74,10 @@ public class SecurityUtil {
 	public static String getFiletoURISchemaPart(final File f) {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			@Override
 			public String run() {
 				URI uri = f.toURI();
-				if (uri != null) {
+				if (uri != null)
 					return uri.getScheme();
-				}
 				return null;
 			}
 		});
@@ -89,7 +85,7 @@ public class SecurityUtil {
 
 	/**
 	 * Returns the file absolute path with the access controller support.
-	 *
+	 * 
 	 * @param f the file instance
 	 * @return the absolute path
 	 */
@@ -97,7 +93,6 @@ public class SecurityUtil {
 	public static String getFileAbsolutePath(final File f) {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			@Override
 			public String run() {
 				return f.getAbsolutePath();
 			}
@@ -106,7 +101,7 @@ public class SecurityUtil {
 
 	/**
 	 * Returns the file absolute path with the access controller support.
-	 *
+	 * 
 	 * @param f the file instance
 	 * @return the absolute path
 	 */
@@ -115,7 +110,6 @@ public class SecurityUtil {
 
 		return AccessController.doPrivileged(new PrivilegedAction<File>() {
 
-			@Override
 			public File run() {
 				return f.getAbsoluteFile();
 			}
@@ -125,7 +119,7 @@ public class SecurityUtil {
 
 	/**
 	 * Returns the file canonical path with the access controller support.
-	 *
+	 * 
 	 * @param f the file instance
 	 * @return the canonical path
 	 */
@@ -134,7 +128,6 @@ public class SecurityUtil {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<File>() {
 
-				@Override
 				public File run() throws IOException {
 					return f.getAbsoluteFile();
 				}
@@ -146,7 +139,7 @@ public class SecurityUtil {
 
 	/**
 	 * Returns the file URI.
-	 *
+	 * 
 	 * @param f the file instance
 	 * @return the URI
 	 */
@@ -154,7 +147,6 @@ public class SecurityUtil {
 	public static URI fileToURI(final File f) {
 		return AccessController.doPrivileged(new PrivilegedAction<URI>() {
 
-			@Override
 			public URI run() {
 				return f.toURI();
 			}
@@ -163,7 +155,7 @@ public class SecurityUtil {
 
 	/**
 	 * Returns the file output stream with the given file instance.
-	 *
+	 * 
 	 * @param f the file instance
 	 * @return the output stream
 	 * @throws FileNotFoundException if the file exists but is a directory rather
@@ -177,7 +169,6 @@ public class SecurityUtil {
 
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<FileOutputStream>() {
 
-				@Override
 				public FileOutputStream run() throws FileNotFoundException {
 					return new FileOutputStream(f, false);
 				}
@@ -189,7 +180,7 @@ public class SecurityUtil {
 
 	/**
 	 * Tests whether the file or directory denoted by this abstract pathname exists.
-	 *
+	 * 
 	 * @param f the file instance
 	 * @return true if and only if the file or directory denoted by this abstract
 	 *         pathname exists; false otherwise
@@ -198,10 +189,9 @@ public class SecurityUtil {
 	public static boolean exists(final File f) {
 		Boolean exists = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
-			@Override
 			public Boolean run() {
 				boolean exists = f.exists();
-				return exists;
+				return Boolean.valueOf(exists);
 			}
 		});
 		return exists.booleanValue();
@@ -209,7 +199,7 @@ public class SecurityUtil {
 
 	/**
 	 * Tests whether the file denoted by this abstract pathname is a normal file.
-	 *
+	 * 
 	 * @param f the file instance
 	 * @return true if and only if the file denoted by this abstract pathname exists
 	 *         and is a normal file; false otherwise
@@ -218,10 +208,9 @@ public class SecurityUtil {
 	public static boolean isFile(final File f) {
 		Boolean exists = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
-			@Override
 			public Boolean run() {
 				boolean exists = f.isFile();
-				return exists;
+				return Boolean.valueOf(exists);
 			}
 		});
 		return exists.booleanValue();
@@ -229,7 +218,7 @@ public class SecurityUtil {
 
 	/**
 	 * Tests whether the file denoted by this abstract pathname is a directory.
-	 *
+	 * 
 	 * @param f the file instance
 	 * @return true if and only if the file denoted by this abstract pathname exists
 	 *         and is a directory; false otherwise
@@ -238,10 +227,9 @@ public class SecurityUtil {
 	public static boolean isDirectory(final File f) {
 		Boolean exists = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
-			@Override
 			public Boolean run() {
 				boolean exists = f.isDirectory();
-				return exists;
+				return Boolean.valueOf(exists);
 			}
 		});
 		return exists.booleanValue();

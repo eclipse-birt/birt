@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param viewer
 	 */
 	public DesignElementDropAdapter(TreeViewer viewer) {
@@ -41,14 +41,12 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter {
 
 	/**
 	 * @see ViewerDropAdapter#dragOver(DropTargetEvent)
-	 *
+	 * 
 	 */
-	@Override
 	public void dragOver(DropTargetEvent event) {
 		super.dragOver(event);
-		if (event.detail == DND.DROP_NONE) {
+		if (event.detail == DND.DROP_NONE)
 			return;
-		}
 		if (!validateTarget(getCurrentTarget())
 				|| !validateTarget(getCurrentTarget(), TemplateTransfer.getInstance().getTemplate())) {
 			event.detail = DND.DROP_NONE;
@@ -61,7 +59,6 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter {
 	/**
 	 * @see ViewerDropAdapter#performDrop(Object)
 	 */
-	@Override
 	public boolean performDrop(Object data) {
 
 		if (DNDService.getInstance().performDrop(data, getCurrentTarget(), getCurrentOperation(),
@@ -100,7 +97,6 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter {
 	/**
 	 * @see ViewerDropAdapter#validateDrop(Object, int, TransferData)
 	 */
-	@Override
 	public boolean validateDrop(Object target, int op, TransferData type) {
 
 		// if(target!=null){
@@ -118,7 +114,7 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter {
 
 	/**
 	 * Validates target elements can be dropped
-	 *
+	 * 
 	 * @param target target elements
 	 * @return if target elements can be dropped
 	 */
@@ -126,7 +122,7 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter {
 
 	/**
 	 * Validates target elements can contain transfer data data
-	 *
+	 * 
 	 * @param target   target elements
 	 * @param transfer transfer data
 	 * @return if target elements can be dropped
@@ -135,7 +131,7 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter {
 
 	/**
 	 * Moves elements
-	 *
+	 * 
 	 * @param transfer transfer elements.
 	 * @param target   target elements
 	 * @return if succeeding in moving data
@@ -146,7 +142,7 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter {
 
 	/**
 	 * Copys elements
-	 *
+	 * 
 	 * @param transfer transfer elements.
 	 * @param target   target elements
 	 * @return if succeeding in copying data

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2006 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -53,7 +53,7 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/**
 	 * Creates <code>ReportPreviewFormPage</code>
-	 *
+	 * 
 	 * @throws FrameworkException if occurs error when create viewer
 	 */
 	public ReportPreviewFormPage() throws FrameworkException {
@@ -66,12 +66,11 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
-	@Override
 	public boolean onBroughtToTop(IReportEditorPage prePage) {
 		startRender();
 		return true;
@@ -79,10 +78,9 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
-	@Override
 	public Control getPartControl() {
 		if (reportViewer instanceof SWTAbstractViewer) {
 			return ((SWTAbstractViewer) reportViewer).getUI();
@@ -93,21 +91,19 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
-	@Override
 	public String getId() {
 		return ID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	public void createPartControl(Composite parent) {
 		if (reportViewer instanceof SWTAbstractViewer) {
 			((SWTAbstractViewer) reportViewer).createUI(parent);
@@ -125,33 +121,30 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(
 	 * int)
 	 */
-	@Override
 	public void markPageStale(int type) {
 		staleType = type;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
 	 */
-	@Override
 	public int getStaleType() {
 		return staleType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
-	@Override
 	public boolean isDirty() {
 		return false;
 	}
@@ -162,10 +155,9 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(ActionRegistry.class)) {
 			return new ActionRegistry();
@@ -175,12 +167,11 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.
 	 * FormEditor)
 	 */
-	@Override
 	public void initialize(FormEditor editor) {
 		this.editor = editor;
 
@@ -188,108 +179,99 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
-	@Override
 	public FormEditor getEditor() {
 		return editor;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
-	@Override
 	public IManagedForm getManagedForm() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
-	@Override
 	public void setActive(boolean active) {
+		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
-	@Override
 	public boolean isActive() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
-	@Override
 	public boolean canLeaveThePage() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
-	@Override
 	public int getIndex() {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
-	@Override
 	public void setIndex(int index) {
+		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
-	@Override
 	public boolean isEditor() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
-	@Override
 	public boolean selectReveal(Object object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
-	@Override
 	public void setInput(IEditorInput input) {
 		super.setInput(input);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
 	 */
-	@Override
 	protected void firePropertyChange(int type) {
 		if (type == PROP_DIRTY) {
 			editor.editorDirtyStateChanged();
@@ -300,10 +282,9 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-	@Override
 	protected void finalize() throws Throwable {
 		if (Policy.TRACING_PAGE_CLOSE) {
 			System.out.println("Report preview page finalized"); //$NON-NLS-1$
@@ -313,30 +294,29 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
-	@Override
 	public void doSave(IProgressMonitor monitor) {
+		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
-	@Override
 	public void doSaveAs() {
+		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
-	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		setSite(site);
 		setInput(input);
@@ -344,29 +324,27 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
-	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
-	@Override
 	public void setFocus() {
+		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
 	 */
-	@Override
 	public void dispose() {
 		super.dispose();
 	}

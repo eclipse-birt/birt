@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-model-doc --> StyleMap represents the style map for the chart. It
  * includes a list of supported chart components and the styles associated with
  * them.
- *
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
@@ -48,12 +48,12 @@ public interface StyleMap extends IChartObject {
 	 * default value is <code>"Chart_All"</code>. The literals are from the
 	 * enumeration {@link org.eclipse.birt.chart.model.attribute.StyledComponent}.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 *
+	 * 
 	 * Specifies the name of a chart component that can have styles associated with
 	 * it.
-	 *
+	 * 
 	 * <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Component Name</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.StyledComponent
 	 * @see #isSetComponentName()
@@ -71,7 +71,7 @@ public interface StyleMap extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName
 	 * <em>Component Name</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Component Name</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.StyledComponent
 	 * @see #isSetComponentName()
@@ -86,7 +86,7 @@ public interface StyleMap extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName
 	 * <em>Component Name</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetComponentName()
 	 * @see #getComponentName()
 	 * @see #setComponentName(StyledComponent)
@@ -99,7 +99,7 @@ public interface StyleMap extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName
 	 * <em>Component Name</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Component Name</em>' attribute is set.
 	 * @see #unsetComponentName()
 	 * @see #getComponentName()
@@ -111,11 +111,11 @@ public interface StyleMap extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Style</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 *
+	 * 
 	 * Defines the style identifier(s) to be associated with this entry.
-	 *
+	 * 
 	 * <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Style</em>' containment reference.
 	 * @see #setStyle(Style)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyleMap_Style()
@@ -130,7 +130,7 @@ public interface StyleMap extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getStyle
 	 * <em>Style</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Style</em>' containment reference.
 	 * @see #getStyle()
 	 * @generated
@@ -140,7 +140,6 @@ public interface StyleMap extends IChartObject {
 	/**
 	 * @generated
 	 */
-	@Override
 	StyleMap copyInstance();
 
 } // StyleMap

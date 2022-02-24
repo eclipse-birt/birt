@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.core.template;
@@ -79,7 +79,6 @@ public class TemplateParserTest extends TestCase {
 			}
 		}
 
-		@Override
 		public Object visitText(TextNode node, Object value) {
 			StringBuffer buffer = (StringBuffer) value;
 			buffer.append("<text>");
@@ -88,7 +87,6 @@ public class TemplateParserTest extends TestCase {
 			return buffer;
 		}
 
-		@Override
 		public Object visitValue(ValueNode node, Object value) {
 			StringBuffer buffer = (StringBuffer) value;
 			buffer.append("<value-of");
@@ -103,7 +101,6 @@ public class TemplateParserTest extends TestCase {
 			return buffer;
 		}
 
-		@Override
 		public Object visitImage(ImageNode image, Object value) {
 			StringBuffer buffer = (StringBuffer) value;
 			buffer.append("<image");
@@ -122,7 +119,6 @@ public class TemplateParserTest extends TestCase {
 			return buffer;
 		}
 
-		@Override
 		public Object visitExpressionValue(ExpressionValueNode node, Object value) {
 			StringBuffer buffer = (StringBuffer) value;
 			buffer.append("<viewtime-value-of");

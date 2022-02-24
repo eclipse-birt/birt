@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.draw2d.IFigure;
 
 /**
  * List Band figure
- *
+ * 
  */
 public class ListBandFigure extends Figure implements ReportShowFigure {
 
@@ -39,11 +39,10 @@ public class ListBandFigure extends Figure implements ReportShowFigure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.
 	 * ReportShowFigure#getContent()
 	 */
-	@Override
 	public IFigure getContent() {
 		return contend;
 	}
@@ -57,11 +56,10 @@ public class ListBandFigure extends Figure implements ReportShowFigure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.
 	 * ReportShowFigure#setShowing(boolean)
 	 */
-	@Override
 	public void setShowing(boolean bool) {
 		state = bool;
 		getParent().getParent().invalidateTree();
@@ -70,11 +68,10 @@ public class ListBandFigure extends Figure implements ReportShowFigure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.
 	 * ReportShowFigure#setShowing(boolean)
 	 */
-	@Override
 	public boolean isControlShowing() {
 		return state;
 	}
@@ -85,17 +82,16 @@ public class ListBandFigure extends Figure implements ReportShowFigure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#containsPoint(int, int)
 	 */
-	@Override
 	public boolean containsPoint(int x, int y) {
 		return getContent().containsPoint(x, y) || getControlFigure().containsPoint(x, y);
 	}
 
 	/**
 	 * Set control figure.
-	 *
+	 * 
 	 * @param controlFigure
 	 */
 	public void setControlFigure(IFigure controlFigure) {

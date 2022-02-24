@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,13 +16,13 @@ package org.eclipse.birt.report.tests.model.api;
 
 import java.net.URL;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Test <code>DefaultSearchFileAlgorithm</code>
@@ -32,7 +32,7 @@ import junit.framework.TestSuite;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>testFindFile</td>
  * <td>Get a <code>ReportDesign</code> instance, then find another file which
@@ -40,9 +40,9 @@ import junit.framework.TestSuite;
  * <td>If the file exists in the 'base' folder, returns the absolute path of
  * this file. If not, returns null.</td>
  * </tr>
- *
+ * 
  * </table>
- *
+ * 
  */
 public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
@@ -63,10 +63,9 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -80,7 +79,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
 	/**
 	 * Tests the 'findFile' method of DefaultSearchFileAlgorithm.
-	 *
+	 * 
 	 * @throws Exception if the test fails.
 	 */
 

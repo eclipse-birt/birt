@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,14 +40,14 @@ import org.eclipse.datatools.connectivity.oda.design.ValueFormatHints;
 /**
  * Test cases to convert Oda result set and ROM result set columns and column
  * hints.
- *
+ * 
  */
 
 public class ResultSetColumnAdapterTest extends BaseTestCase {
 
 	/**
 	 * Converts ROM result set columns with column hints to ODA data set resultSets.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -82,14 +82,14 @@ public class ResultSetColumnAdapterTest extends BaseTestCase {
 
 	/**
 	 * Converts ODA result set columns to ROM result set columns.
-	 *
+	 * 
 	 * <ul>
 	 * <li>no the latest design session response, update ROM values.
 	 * <li>if the latest design session response changed, update ROM values.
 	 * <li>if the latest design session response didn't change and ROM values
 	 * changed, don't update ROM values.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -177,11 +177,11 @@ public class ResultSetColumnAdapterTest extends BaseTestCase {
 
 	/**
 	 * Converts ODA result set columns to ROM result set columns.
-	 *
+	 * 
 	 * <ul>
 	 * <li>the data type is BLOB.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -210,7 +210,7 @@ public class ResultSetColumnAdapterTest extends BaseTestCase {
 
 	/**
 	 * Updates a oda result set definition.
-	 *
+	 * 
 	 * @param param
 	 */
 	private void updateOrVerifyResultSetColumnAndHint(DataSetDesign setDesign, OdaDataSetHandle setHandle,
@@ -248,7 +248,7 @@ public class ResultSetColumnAdapterTest extends BaseTestCase {
 
 	/**
 	 * Updates a oda result set definition.
-	 *
+	 * 
 	 * @param param
 	 */
 
@@ -260,25 +260,22 @@ public class ResultSetColumnAdapterTest extends BaseTestCase {
 
 		DataElementAttributes dataAttrs = column1.getAttributes();
 		DataElementUIHints dataUIHints = dataAttrs.getUiHints();
-		if (update) {
+		if (update)
 			dataUIHints.setDisplayName("new display name for column 1"); //$NON-NLS-1$
-		} else {
+		else
 			assertEquals("new display name for column 1", dataUIHints.getDisplayName());
-		}
 
 		OutputElementAttributes usageHints = column1.getUsageHints();
-		if (update) {
+		if (update)
 			usageHints.setHelpText("new help text for column 1"); //$NON-NLS-1$
-		} else {
+		else
 			assertEquals("new help text for column 1", usageHints.getHelpText());
-		}
 
 		// Setting to null object
-		if (update) {
+		if (update)
 			usageHints.getFormattingHints().setDisplayFormat("new format for column 1"); //$NON-NLS-1$
-		} else {
+		else
 			assertEquals(null, usageHints.getFormattingHints().getDisplayFormat());
-		}
 
 		if (update) {
 			AxisAttributes axisAttrs = DesignFactory.eINSTANCE.createAxisAttributes();
@@ -322,7 +319,7 @@ public class ResultSetColumnAdapterTest extends BaseTestCase {
 	 * Updates a ROM result set definition. To make sure that
 	 * convertNativeTypeToROMDataType() will be called. So that can verify blob
 	 * conversion.
-	 *
+	 * 
 	 * @param param
 	 */
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,8 +30,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.Listener;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -98,7 +98,7 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor whose parent is given. The combo box lists
 	 * is <code>null</code> initially.
-	 *
+	 * 
 	 * @param parent the parent control
 	 */
 	public ParameterComboCellEditor(Composite parent) {
@@ -109,7 +109,7 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor whose parent is given. The combo box lists
 	 * is initialized with the given items.
-	 *
+	 * 
 	 * @param parent the parent control
 	 * @param items  the combo box list to be initialized
 	 */
@@ -120,7 +120,7 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor whose parent and style are given. The combo
 	 * box lists is initialized with the given items.
-	 *
+	 * 
 	 * @param parent the parent control
 	 * @param items  the combo box list to be initialized
 	 * @param style  the style of this editor
@@ -132,7 +132,7 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 
 	/**
 	 * Returns the list of choices for the combo box
-	 *
+	 * 
 	 * @return the list of choices for the combo box
 	 */
 	public String[] getItems() {
@@ -141,7 +141,7 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 
 	/**
 	 * Sets the list of choices for the combo box
-	 *
+	 * 
 	 * @param items the list of choices for the combo box
 	 */
 	public void setItems(String[] items) {
@@ -157,9 +157,8 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 		if (comboBox != null && items != null) {
 			comboBox.removeAll();
 
-			for (int i = 0; i < items.length; i++) {
+			for (int i = 0; i < items.length; i++)
 				comboBox.add(items[i], i);
-			}
 
 			setValueValid(true);
 			selection = 0;
@@ -169,7 +168,6 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	@Override
 	protected Control createContents(Composite cell) {
 		Color bg = cell.getBackground();
 		composite = new Composite(cell, getStyle());
@@ -182,7 +180,6 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 		comboBox.setFont(cell.getFont());
 		comboBox.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Object newValue = comboBox.getText();
 				if (newValue != null) {
@@ -199,7 +196,6 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 				}
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				Object newValue = comboBox.getText();
 				if (newValue != null) {
@@ -220,11 +216,10 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.
 			 * FocusEvent)
 			 */
-			@Override
 			public void focusLost(FocusEvent e) {
 				if (btnPopup != null && !btnPopup.isFocusControl()
 						&& Display.getCurrent().getCursorControl() != btnPopup) {
@@ -260,7 +255,6 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
 		ParameterDialog dialog = null;
 		ParameterHandle handle = Utility.getScalarParameter(this.comboBox.getText());
@@ -271,7 +265,7 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 					.createElement(null);
 			dialog = new ParameterDialog(cellEditorWindow.getShell(),
 					Messages.getString("ParameterGroupNodeProvider.Dialogue.ParameterNew")); //$NON-NLS-1$
-			if (obj instanceof OdaDataSetParameterHandle) {
+			if (obj != null && obj instanceof OdaDataSetParameterHandle) {
 				ReportParameterAdapter adapter = new ReportParameterAdapter();
 				try {
 					adapter.updateLinkedReportParameter((ScalarParameterHandle) handle,
@@ -296,7 +290,9 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 					try {
 						parameterSlotHandle.add(paramerHandle);
 						comboBox.add(paramerHandle.getQualifiedName());
-					} catch (ContentException | NameException e) {
+					} catch (ContentException e) {
+						logger.log(Level.FINE, e.getMessage(), e);
+					} catch (NameException e) {
 						logger.log(Level.FINE, e.getMessage(), e);
 					}
 				}
@@ -312,11 +308,9 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	@Override
 	protected void updateContents(Object value) {
-		if (comboBox == null) {
+		if (comboBox == null)
 			return;
-		}
 
 		String text = "";//$NON-NLS-1$
 		if (value != null && !value.toString().trim().equals("")) //$NON-NLS-1$
@@ -337,7 +331,7 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param listener
 	 */
 	public void addScalarParmeterLister(Listener listener) {
@@ -346,20 +340,18 @@ public class ParameterComboCellEditor extends DialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	@Override
 	protected void doSetFocus() {
 		comboBox.setFocus();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doGetValue()
 	 */
-	@Override
 	protected Object doGetValue() {
 		int selection = comboBox.getSelectionIndex();
 		if (selection == -1) {

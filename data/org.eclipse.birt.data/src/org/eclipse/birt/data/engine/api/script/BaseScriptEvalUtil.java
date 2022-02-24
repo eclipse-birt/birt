@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ import org.mozilla.javascript.Scriptable;
  * Static utility methods to help evaluating Javascript expressions
  *
  * Code originally in ScriptEvalUtil, moved for class to become API
- *
+ * 
  * @since 4.8
  */
 public class BaseScriptEvalUtil {
@@ -91,7 +91,7 @@ public class BaseScriptEvalUtil {
 	 * obj: Timestamp=>obj, op1 and op2 will be formatted to Date.<br>
 	 * obj: Boolean=>obj and op1 will be formatted to Boolean.<br>
 	 * obj: String=>obj, op1 and op2 will remain the same
-	 *
+	 * 
 	 * @param obj
 	 * @param operator
 	 * @param Op1
@@ -104,7 +104,7 @@ public class BaseScriptEvalUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param obj
 	 * @param operator
 	 * @param Op1
@@ -119,7 +119,7 @@ public class BaseScriptEvalUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param obj
 	 * @param operator
 	 * @param ops
@@ -131,7 +131,7 @@ public class BaseScriptEvalUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param obj
 	 * @param operator
 	 * @param op1
@@ -180,22 +180,20 @@ public class BaseScriptEvalUtil {
 		}
 
 		if (logger.isLoggable(Level.FINER)) {
-			StringBuilder logStr = new StringBuilder();
+			String logStr = "";
 			for (int i = 0; i < ops.length; i++) {
-				logStr.append(
-						resultOp[i] == null ? null : (", resultOp" + i + "=" + BaseLogUtil.toString(resultOp[i])));
+				logStr += resultOp[i] == null ? null : (", resultOp" + i + "=" + BaseLogUtil.toString(resultOp[i]));
 			}
 			logger.entering(BaseScriptEvalUtil.class.getName(), "evalConditionalExpr",
 					"evalConditionalExpr() resultObject=" + BaseLogUtil.toString(resultObject) + ", operator="
-							+ operator + logStr.toString());
+							+ operator + logStr);
 		}
 		boolean result = false;
 
 		if (compareHints != null
 				&& IBaseDataSetDesign.NULLS_ORDERING_EXCLUDE_NULLS.equals(compareHints.getNullType())) {
-			if (resultObject == null) {
+			if (resultObject == null)
 				return false;
-			}
 		}
 		switch (operator) {
 		case IConditionalExpression.OP_EQ:
@@ -283,17 +281,16 @@ public class BaseScriptEvalUtil {
 	 */
 	private static ExprTextAndValue createExprTextAndValueInstance(Object o) {
 		ExprTextAndValue op;
-		if (!(o instanceof ExprTextAndValue)) {
+		if (!(o instanceof ExprTextAndValue))
 			op = ExprTextAndValue.newInstance(o);
-		} else {
+		else
 			op = (ExprTextAndValue) o;
-		}
 		return op;
 	}
 
 	/**
 	 * Compare two value according to given comparator.
-	 *
+	 * 
 	 * @param obj1
 	 * @param obj2
 	 * @param comp
@@ -307,36 +304,31 @@ public class BaseScriptEvalUtil {
 		try {
 			if (MiscUtil.isSameType(obj1, obj2)) {
 				if (obj1 instanceof String) {
-					if (compareHints == null) {
+					if (compareHints == null)
 						return ((String) obj1).compareTo((String) obj2);
-					}
 					return compareAsString(obj1, obj2, compareHints);
 				} else if (obj1 instanceof Boolean) {
-					if (obj1.equals(obj2)) {
+					if (obj1.equals(obj2))
 						return 0;
-					}
 
 					Boolean bool = (Boolean) obj1;
-					if (bool) {
+					if (bool.equals(Boolean.TRUE))
 						return 1;
-					} else {
+					else
 						return -1;
-					}
 				} else if (obj1 instanceof Comparable) {
 					return ((Comparable) obj1).compareTo(obj2);
 				} else if (obj1 instanceof Collection) {
 					Collection o1 = (Collection) obj1;
 					Collection o2 = (Collection) obj2;
-					if (o1.size() != o2.size()) {
+					if (o1.size() != o2.size())
 						return -1;
-					}
 					Iterator it1 = o1.iterator();
 					Iterator it2 = o2.iterator();
 					while (it1.hasNext()) {
 						int result = compare(it1.next(), it2.next());
-						if (result != 0) {
+						if (result != 0)
 							return result;
-						}
 					}
 					return 0;
 				}
@@ -366,7 +358,7 @@ public class BaseScriptEvalUtil {
 					boolean b2 = DataTypeUtil.toBoolean(obj2).booleanValue();
 					if (b1 == b2) {
 						return 0;
-					} else if (!b1 && b2) {
+					} else if (b1 == false && b2 == true) {
 						return -1;
 					} else {
 						return 1;
@@ -376,9 +368,8 @@ public class BaseScriptEvalUtil {
 				}
 			} else if (obj1 instanceof String || obj2 instanceof String) {
 				return compareAsString(obj1, obj2, compareHints);
-			} else {
+			} else
 				throw new DataException(ResourceConstants.BAD_COMPARE_EXPR, new Object[] { obj1, obj2 });
-			}
 		} catch (BirtException e) {
 			throw DataException.wrap(e);
 		}
@@ -403,40 +394,38 @@ public class BaseScriptEvalUtil {
 	private static int CompareNullValue(Object obj1, Object obj2, BaseCompareHints compareHints) {
 		if (compareHints == null) {
 			// all non-null values are greater than null value
-			if (obj1 == null && obj2 != null) {
+			if (obj1 == null && obj2 != null)
 				return -1;
-			} else if (obj1 != null && obj2 == null) {
+			else if (obj1 != null && obj2 == null)
 				return 1;
-			} else {
+			else
 				return 0;
-			}
 		} else {
 			String type = compareHints.getNullType();
 			if (IBaseDataSetDesign.NULLS_ORDERING_NULLS_HIGHEST.equals(type)) {
 				// all non-null values are less than null value
-				if (obj1 == null && obj2 != null) {
+				if (obj1 == null && obj2 != null)
 					return 1;
-				} else if (obj1 != null && obj2 == null) {
+				else if (obj1 != null && obj2 == null)
 					return -1;
-				} else {
+				else
 					return 0;
-				}
 			} else if (IBaseDataSetDesign.NULLS_ORDERING_NULLS_LOWEST.equals(type)) {
 				// all non-null values are greater than null value
-				if (obj1 == null && obj2 != null) {
+				if (obj1 == null && obj2 != null)
 					return -1;
-				} else if (obj1 != null && obj2 == null) {
+				else if (obj1 != null && obj2 == null)
 					return 1;
-				} else {
+				else
 					return 0;
-				}
-			} else // all non-null values are greater than null value
-			if (obj1 == null && obj2 != null) {
-				return -1;
-			} else if (obj1 != null && obj2 == null) {
-				return 1;
 			} else {
-				return 0;
+				// all non-null values are greater than null value
+				if (obj1 == null && obj2 != null)
+					return -1;
+				else if (obj1 != null && obj2 == null)
+					return 1;
+				else
+					return 0;
 			}
 		}
 	}
@@ -452,7 +441,7 @@ public class BaseScriptEvalUtil {
 	 * formatToComparable at this point if neither of them is null. This method will
 	 * therefore be terminated pretty soon except for calling from method between
 	 * with weird parameters like obj:String, op1:Double and op2:Date.
-	 *
+	 * 
 	 * @param obj1
 	 * @param obj2
 	 * @return -1,0 and 1 standing for <,= and > respectively
@@ -482,9 +471,8 @@ public class BaseScriptEvalUtil {
 	 * @return true if obj equals to bln, false otherwise
 	 */
 	private static boolean isTrueOrFalse(Object obj, Boolean bln) {
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
 		try {
 			return DataTypeUtil.toBoolean(obj).equals(bln);
 		} catch (BirtException e) {
@@ -499,9 +487,8 @@ public class BaseScriptEvalUtil {
 	// The pattern matches string like "/regexpr/gmi", which is used in JavaScript
 	// to construct a RegExp object
 	private static Matcher getJSReExprPatternMatcher(String patternStr) {
-		if (s_JSReExprPattern == null) {
+		if (s_JSReExprPattern == null)
 			s_JSReExprPattern = Pattern.compile("^/(.*)/([a-zA-Z]*)$");
-		}
 		return s_JSReExprPattern.matcher(patternStr);
 	}
 
@@ -582,7 +569,7 @@ public class BaseScriptEvalUtil {
 
 		final String reservedChars = "([{^$|)?*+.";
 		int patternLen = patternStr.length();
-		StringBuilder buffer = new StringBuilder(patternLen * 2);
+		StringBuffer buffer = new StringBuffer(patternLen * 2);
 
 		for (int i = 0; i < patternLen; i++) {
 			char c = patternStr.charAt(i);
@@ -592,11 +579,10 @@ public class BaseScriptEvalUtil {
 				++i;
 				if (i < patternLen) {
 					c = patternStr.charAt(i);
-					if (c == '%' || c == '_') {
+					if (c == '%' || c == '_')
 						buffer.append(c);
-					} else if (c == '\\') {
+					else if (c == '\\')
 						buffer.append("\\\\"); // Need to escape \
-					}
 				} else {
 					buffer.append("\\\\"); // Leave last \ and escape it
 				}
@@ -624,40 +610,37 @@ public class BaseScriptEvalUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultObj
 	 * @return
 	 * @throws DataException
 	 */
 	private static boolean in(Object target, Object[] resultObj) throws DataException {
-		if (resultObj == null) {
+		if (resultObj == null)
 			return false;
-		}
 		for (int i = 0; i < resultObj.length; i++) {
-			if (compare(target, resultObj[i]) == 0) {
+			if (compare(target, resultObj[i]) == 0)
 				return true;
-			}
 		}
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultObj
 	 * @return
 	 * @throws DataException
 	 */
 	private static boolean joint(Object target, Object resultObj) throws DataException {
-		if (resultObj == null || target == null) {
+		if (resultObj == null || target == null)
 			return false;
-		}
 		return !java.util.Collections.disjoint(Arrays.asList(target.toString().split(",")),
 				Arrays.asList(resultObj.toString().split(",")));
 	}
 
 	/**
 	 * Evaluates a IJSExpression or IConditionalExpression
-	 *
+	 * 
 	 * @param expr
 	 * @param cx
 	 * @param scope
@@ -669,10 +652,9 @@ public class BaseScriptEvalUtil {
 	public static Object evalExpr(IBaseExpression expr, ScriptContext cx, String source, int lineNo)
 			throws DataException {
 		try {
-			if (logger.isLoggable(Level.FINER)) {
+			if (logger.isLoggable(Level.FINER))
 				logger.entering(BaseScriptEvalUtil.class.getName(), "evalExpr",
 						"evalExpr() expr=" + BaseLogUtil.toString(expr) + ", source=" + source + ", lineNo=" + lineNo);
-			}
 			Object result;
 			if (expr == null) {
 				result = null;
@@ -712,13 +694,13 @@ public class BaseScriptEvalUtil {
 				Collection<IScriptExpression> testExpr = ((ICollectionConditionalExpression) expr).getExpr();
 				Collection<Collection<IScriptExpression>> operand = ((ICollectionConditionalExpression) expr)
 						.getOperand();
-				List<Object> testObj = new ArrayList<>();
+				List<Object> testObj = new ArrayList<Object>();
 				boolean in = false;
 				for (IScriptExpression se : testExpr) {
 					testObj.add(evalExpr(se, cx, source, lineNo));
 				}
 				for (Collection<IScriptExpression> op : operand) {
-					List<Object> targetObj = new ArrayList<>();
+					List<Object> targetObj = new ArrayList<Object>();
 					for (IScriptExpression se : op) {
 						if (se == null) {
 							targetObj.add(null);
@@ -730,7 +712,7 @@ public class BaseScriptEvalUtil {
 						}
 					}
 					if (compareIgnoreNull(testObj, targetObj) == 0) {
-						in = true;
+						in = Boolean.TRUE;
 						break;
 					}
 				}
@@ -740,26 +722,29 @@ public class BaseScriptEvalUtil {
 				IScriptExpression jsExpr = (IScriptExpression) expr;
 				if (BaseExpression.constantId.equals(jsExpr.getScriptId()) && jsExpr.getHandle() != null) {
 					result = jsExpr.getHandle();
-				} else if (BaseExpression.constantId.equals(jsExpr.getScriptId())) {
-					result = jsExpr.getText();
-					jsExpr.setHandle(result);
-				} else if (jsExpr.getText() != null && jsExpr.getHandle() != null) {
-					if (jsExpr.getHandle() instanceof ICompiledScript) {
-						result = cx.evaluate((ICompiledScript) jsExpr.getHandle());
-					} else {
-						result = ((BaseCompiledExpression) jsExpr.getHandle()).evaluate(cx,
-								((IDataScriptEngine) cx.getScriptEngine(IDataScriptEngine.ENGINE_NAME)).getJSScope(cx));
-					}
 				} else {
-					result = evaluateJSAsExpr(cx,
-							((IDataScriptEngine) cx.getScriptEngine(IDataScriptEngine.ENGINE_NAME)).getJSScope(cx),
-							jsExpr.getText(), source, lineNo);
+					if (BaseExpression.constantId.equals(jsExpr.getScriptId())) {
+						result = jsExpr.getText();
+						jsExpr.setHandle(result);
+					} else if (jsExpr.getText() != null && jsExpr.getHandle() != null) {
+						if (jsExpr.getHandle() instanceof ICompiledScript) {
+							result = cx.evaluate((ICompiledScript) jsExpr.getHandle());
+						} else {
+							result = ((BaseCompiledExpression) jsExpr.getHandle()).evaluate(cx,
+									((IDataScriptEngine) cx.getScriptEngine(IDataScriptEngine.ENGINE_NAME))
+											.getJSScope(cx));
+						}
+					} else {
+						result = evaluateJSAsExpr(cx,
+								((IDataScriptEngine) cx.getScriptEngine(IDataScriptEngine.ENGINE_NAME)).getJSScope(cx),
+								jsExpr.getText(), source, lineNo);
+					}
+
 				}
 			}
 
-			if (logger.isLoggable(Level.FINER)) {
+			if (logger.isLoggable(Level.FINER))
 				logger.exiting(BaseScriptEvalUtil.class.getName(), "evalExpr", result);
-			}
 			return result;
 		} catch (BirtException e) {
 			throw DataException.wrap(e);
@@ -769,13 +754,11 @@ public class BaseScriptEvalUtil {
 
 	public static int compareIgnoreNull(List<Object> valueList, List<Object> targetList) throws DataException {
 		for (int i = 0; i < valueList.size(); i++) {
-			if (targetList.get(i) == null) {
+			if (targetList.get(i) == null)
 				continue;
-			}
 			int result = compare(valueList.get(i), targetList.get(i));
-			if (result != 0) {
+			if (result != 0)
 				return result;
-			}
 		}
 		return 0;
 	}
@@ -784,7 +767,7 @@ public class BaseScriptEvalUtil {
 	 * Evaluates a ROM script and converts the result type into one accepted by
 	 * BIRT: Double (for all numeric types), java.util.Date, String, Boolean.
 	 * Converts Javascript exception and script runtime exceptions to DataException
-	 *
+	 * 
 	 * @param cx
 	 * @param scope
 	 * @param scriptText
@@ -795,10 +778,9 @@ public class BaseScriptEvalUtil {
 	 */
 	public static Object evaluateJSAsExpr(ScriptContext cx, Scriptable scope, String scriptText, String source,
 			int lineNo) throws DataException {
-		if (logger.isLoggable(Level.FINER)) {
+		if (logger.isLoggable(Level.FINER))
 			logger.entering(BaseScriptEvalUtil.class.getName(), "evaluateJSExpr",
 					"evaluateJSExpr() scriptText=" + scriptText + ", source=" + source + ", lineNo=" + lineNo);
-		}
 
 		Object result;
 		try {
@@ -811,13 +793,13 @@ public class BaseScriptEvalUtil {
 
 	/**
 	 * Wrap the text and value of the operand
-	 *
+	 * 
 	 */
 	public static class ExprTextAndValue {
 		Object value;
 
 		/**
-		 *
+		 * 
 		 * @param exprText
 		 * @param value
 		 * @return
@@ -827,7 +809,7 @@ public class BaseScriptEvalUtil {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param exprText
 		 * @param value
 		 */
@@ -838,11 +820,11 @@ public class BaseScriptEvalUtil {
 
 	/**
 	 * Utility for miscellaneous use
-	 *
+	 * 
 	 */
 	private static class MiscUtil {
 		/**
-		 *
+		 * 
 		 * @param resultExpr
 		 * @param resultOp1
 		 * @return
@@ -852,7 +834,7 @@ public class BaseScriptEvalUtil {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param result
 		 * @return
 		 */
@@ -861,7 +843,7 @@ public class BaseScriptEvalUtil {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param result
 		 * @return
 		 */
@@ -870,7 +852,7 @@ public class BaseScriptEvalUtil {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param result
 		 * @return
 		 */
@@ -879,7 +861,7 @@ public class BaseScriptEvalUtil {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param result
 		 * @return
 		 */
@@ -888,21 +870,20 @@ public class BaseScriptEvalUtil {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param obj
 		 * @param operator
 		 * @param operands
 		 * @return
 		 */
 		private static Object[] isComparable(Object obj, int operator, ExprTextAndValue[] operands) {
-			if (needFormat(obj, operator, operands)) {
+			if (needFormat(obj, operator, operands))
 				return formatToComparable(obj, operands);
-			}
 			return null;
 		}
 
 		/**
-		 *
+		 * 
 		 * @param obj
 		 * @param operator
 		 * @param ops
@@ -911,12 +892,12 @@ public class BaseScriptEvalUtil {
 		private static boolean needFormat(Object obj, int operator, ExprTextAndValue[] ops) {
 			if (operator < IConditionalExpression.OP_EQ
 					|| (operator > IConditionalExpression.OP_NOT_BETWEEN && operator < IConditionalExpression.OP_IN)
-					|| obj == null || ops.length == 0 || ops[0].value == null) {
+					|| obj == null || ops.length == 0 || ops[0].value == null)
 				return false;
-			} else if ((operator == IConditionalExpression.OP_BETWEEN
-					|| operator == IConditionalExpression.OP_NOT_BETWEEN) && ops.length < 2) {
+			// op2.value can not be null either if it's a between method
+			else if ((operator == IConditionalExpression.OP_BETWEEN
+					|| operator == IConditionalExpression.OP_NOT_BETWEEN) && ops.length < 2)
 				return false;
-			}
 
 			return true;
 		}
@@ -924,7 +905,7 @@ public class BaseScriptEvalUtil {
 		/**
 		 * To ease the methods compare and between. Exception with specific explanation
 		 * will be thrown if anything goes wrong.
-		 *
+		 * 
 		 * @param obj
 		 * @param operands
 		 * @return
@@ -950,22 +931,20 @@ public class BaseScriptEvalUtil {
 				isSameType = false;
 			}
 
-			if (isSameType) {
+			if (isSameType)
 				return obArray;
-			} else if (obj instanceof Boolean) {
+			else if (obj instanceof Boolean)
 				populateObArray(obArray[1], obArray);
-			} else {
+			else
 				populateObArray(obj, obArray);
-			}
 			return obArray;
 		}
 
 		private static Object[] populateObArray(Object obj, Object[] obArray) {
 			try {
 				for (int i = 0; i < obArray.length; i++) {
-					if (obArray[i] instanceof Object[]) {
+					if (obArray[i] instanceof Object[])
 						return obArray;
-					}
 				}
 				if (obj instanceof Number && !(obj instanceof BigDecimal)) {
 					for (int i = 0; i < obArray.length; i++) {
@@ -999,15 +978,14 @@ public class BaseScriptEvalUtil {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param obArray
 		 * @throws BirtException
 		 */
 		private static void makeObjectArrayStringArray(Object[] obArray) throws BirtException {
 			for (int i = 0; i < obArray.length; i++) {
-				if (obArray[i] != null) {
+				if (obArray[i] != null)
 					obArray[i] = DataTypeUtil.toString(obArray[i]);
-				}
 			}
 		}
 
@@ -1016,22 +994,20 @@ public class BaseScriptEvalUtil {
 		 * @return
 		 */
 		private static IScriptExpression constructValidScriptExpression(IScriptExpression ise) {
-			if (ise != null && BaseExpression.constantId.equals(ise.getScriptId())) {
+			if (ise != null && BaseExpression.constantId.equals(ise.getScriptId()))
 				return ise;
-			}
 
 			return ise != null && ise.getText() != null && ise.getText().trim().length() > 0 ? ise
 					: new ScriptExpression("null");
 		}
 
 		/**
-		 *
+		 * 
 		 * @return
 		 */
 		private static Object[] flatternMultipleValues(Object[] values) {
-			if (values == null || values.length == 0) {
+			if (values == null || values.length == 0)
 				return new Object[0];
-			}
 			List flattern = new ArrayList();
 			for (int i = 0; i < values.length; i++) {
 				if (values[i] instanceof Object[]) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- *
+ * 
  */
 
 public class FirstCellLayout extends AbstractHintLayout {
@@ -34,19 +34,16 @@ public class FirstCellLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.draw2d.AbstractHintLayout#calculateMinimumSize(org.eclipse.draw2d
 	 * .IFigure, int, int)
 	 */
-	@Override
 	protected Dimension calculateMinimumSize(IFigure container, int wHint, int hHint) {
-		if (wHint > -1) {
+		if (wHint > -1)
 			wHint = Math.max(0, wHint - container.getInsets().getWidth());
-		}
-		if (hHint > -1) {
+		if (hHint > -1)
 			hHint = Math.max(0, hHint - container.getInsets().getHeight());
-		}
 
 		List list = container.getChildren();
 		// Rectangle rect = container.getClientArea( );
@@ -66,19 +63,16 @@ public class FirstCellLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(org.eclipse.draw2d.
 	 * IFigure, int, int)
 	 */
-	@Override
 	protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
-		if (wHint > -1) {
+		if (wHint > -1)
 			wHint = Math.max(0, wHint - container.getInsets().getWidth());
-		}
-		if (hHint > -1) {
+		if (hHint > -1)
 			hHint = Math.max(0, hHint - container.getInsets().getHeight());
-		}
 		List list = container.getChildren();
 		// Rectangle rect = container.getClientArea( );
 		Dimension retValue = new Dimension();
@@ -97,10 +91,9 @@ public class FirstCellLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 	 */
-	@Override
 	public void layout(IFigure container) {
 		List list = container.getChildren();
 		Rectangle rect = container.getClientArea();
@@ -132,11 +125,10 @@ public class FirstCellLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.draw2d.AbstractLayout#getConstraint(org.eclipse.draw2d.IFigure)
 	 */
-	@Override
 	public Object getConstraint(IFigure child) {
 		return constraints.get(child);
 	}
@@ -144,10 +136,9 @@ public class FirstCellLayout extends AbstractHintLayout {
 	/**
 	 * Sets the layout constraint of the given figure. The constraints can only be
 	 * of type {@link ReportItemConstraint}.
-	 *
+	 * 
 	 * @see LayoutManager#setConstraint(IFigure, Object)
 	 */
-	@Override
 	public void setConstraint(IFigure figure, Object newConstraint) {
 		super.setConstraint(figure, newConstraint);
 		if (newConstraint != null) {

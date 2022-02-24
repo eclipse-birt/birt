@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -121,48 +121,45 @@ public class RDLoad {
 	/**
 	 * This is used for PRESENTATION, the data in report document as the
 	 * CachedResultSet.
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
 	public IExprResultSet loadExprResultSet(int rowIdStartingIndex, IBaseQueryDefinition qd) throws DataException {
-		if (streamManager.isSecondRD() && streamManager.isSubquery()) {
+		if (streamManager.isSecondRD() == true && streamManager.isSubquery() == true)
 			return new ExprResultSet2(tempDir, streamManager, version, streamManager.isSecondRD(), rowIdStartingIndex);
-		}
 		if (isEmptyQueryResultID(this.queryResultInfo.getSelfQueryResultID())) {
 			return new EmptyExprResultSet();
-		} else {
+		} else
 			return new ExprResultSet(tempDir, streamManager, version, streamManager.isSecondRD(),
 					(streamManager.isSubquery() || this.version < VersionManager.VERSION_2_2_1_3) ? null
 							: this.loadDataSetData(null, null, new HashMap()),
 					streamManager.isSubquery() ? rowIdStartingIndex : 0, qd);
-		}
 	}
 
 	/**
 	 * This is used for UPDATE, the data in report document as data source for
 	 * transformation.
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
 	public IExprDataResultSet loadExprDataResultSet(boolean isSummary) throws DataException {
-		if (version == VersionManager.VERSION_2_0) {
+		if (version == VersionManager.VERSION_2_0)
 			throw new DataException(ResourceConstants.WRONG_VERSION);
-		}
 
 		ExprMetaInfo[] exprMetas = loadExprMetaInfo();
 
 		// This is a special case, that the stream needs to be close at the code
 		// of ExprDataResultSet
 		IExprDataResultSet exprDataResultSet = null;
-		if (!streamManager.isBasedOnSecondRD()) {
+		if (streamManager.isBasedOnSecondRD() == false) {
 			exprDataResultSet = new ExprDataResultSet1(
 					streamManager.getInStream(DataEngineContext.EXPR_VALUE_STREAM, StreamManager.ROOT_STREAM,
 							StreamManager.BASE_SCOPE),
 					exprMetas, version, (isSummary || version < VersionManager.VERSION_2_2_1_3) ? null
 							: this.loadDataSetData(null, null, new HashMap()));
-		} else {
+		} else
 			exprDataResultSet = new ExprDataResultSet2(tempDir,
 					streamManager.getInStream(DataEngineContext.EXPR_VALUE_STREAM, StreamManager.ROOT_STREAM,
 							StreamManager.BASE_SCOPE),
@@ -172,7 +169,6 @@ public class RDLoad {
 							StreamManager.PARENT_SCOPE),
 					exprMetas, version,
 					version < VersionManager.VERSION_2_2_1_3 ? null : this.loadDataSetData(null, null, new HashMap()));
-		}
 
 		return exprDataResultSet;
 	}
@@ -206,9 +202,8 @@ public class RDLoad {
 	public IResultClass loadResultClass(boolean includeInnerID) throws DataException {
 
 		if (!streamManager.hasInStream(DataEngineContext.DATASET_META_STREAM, StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE)) {
+				StreamManager.BASE_SCOPE))
 			return null;
-		}
 
 		InputStream stream = streamManager.getInStream(DataEngineContext.DATASET_META_STREAM, StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE);
@@ -239,7 +234,7 @@ public class RDLoad {
 
 	/**
 	 * Load data set with assignment of inner id.
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
@@ -259,34 +254,30 @@ public class RDLoad {
 
 		// TODO Pass in filter rowIds as sorted list.
 		IDataSetReader reader = DataSetStore.createReader(streamManager, targetResultClass, includeInnerID, appContext);
-		if (reader != null) {
+		if (reader != null)
 			return reader.load(preFilteredRowIds == null ? null : preFilteredRowIds);
-		}
 
 		if (!streamManager.hasInStream(DataEngineContext.DATASET_DATA_STREAM, StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE)) {
+				StreamManager.BASE_SCOPE))
 			return null;
-		}
 
 		RAInputStream stream = streamManager.getInStream(DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE);
 
 		RAInputStream lensStream = null;
-		if (version >= VersionManager.VERSION_2_2_1_3) {
+		if (version >= VersionManager.VERSION_2_2_1_3)
 			lensStream = streamManager.getInStream(DataEngineContext.DATASET_DATA_LEN_STREAM, StreamManager.ROOT_STREAM,
 					StreamManager.BASE_SCOPE);
-		}
 
 		int adjustedVersion = resolveVersionConflict();
 
 		if (loadResultClass && includeInnerID) {
-			List<ResultFieldMetadata> fields = new ArrayList<>(
+			List<ResultFieldMetadata> fields = new ArrayList<ResultFieldMetadata>(
 					targetResultClass.getFieldCount() - 1);
 			for (int i = 1; i <= targetResultClass.getFieldCount(); i++) {
 				ResultFieldMetadata f = targetResultClass.getFieldMetaData(i);
-				if (f.getName().equals(ExprMetaUtil.POS_NAME)) {
+				if (f.getName().equals(ExprMetaUtil.POS_NAME))
 					continue;
-				}
 				fields.add(f);
 			}
 
@@ -301,11 +292,10 @@ public class RDLoad {
 
 	private int resolveVersionConflict() {
 		if (version == VersionManager.VERSION_3_7_2_1 && ("4.2.0.v20120611".equals(this.context.getBundleVersion())
-				|| "4.2.1.v20120820".equals(this.context.getBundleVersion()))) {
+				|| "4.2.1.v20120820".equals(this.context.getBundleVersion())))
 			return VersionManager.VERSION_4_2_1_2;
-		} else {
+		else
 			return version;
-		}
 	}
 
 	/**
@@ -370,7 +360,7 @@ public class RDLoad {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param streamPos
 	 * @param streamScope
 	 * @param subQueryName
@@ -379,16 +369,15 @@ public class RDLoad {
 	 */
 	public ISubqueryDefinition loadSubQueryDefn(int streamPos, int streamScope, String subQueryName)
 			throws DataException {
-		if (subQueryName == null) {
+		if (subQueryName == null)
 			return null;
-		}
 		IBaseQueryDefinition baseQueryDefn = loadQueryDefn(streamPos, streamScope);
 		return QueryDefinitionUtil.findSubQueryDefinition(subQueryName, baseQueryDefn);
 	}
 
 	/**
 	 * Read query result ID which result set is empty.
-	 *
+	 * 
 	 * @param reader
 	 * @return
 	 * @throws DataException
@@ -407,9 +396,8 @@ public class RDLoad {
 				emptyQueryResultID.add(temp);
 			}
 			emptyQueryResultStream.close();
-			if (emptyQueryResultID.contains(queryResultID)) {
+			if (emptyQueryResultID.contains(queryResultID))
 				return true;
-			}
 		} catch (IOException e) {
 			throw new DataException(e.getLocalizedMessage(), e);
 		}

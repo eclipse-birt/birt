@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -51,7 +51,6 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 	public ReportMultiBookPage() {
 		selectionChangedListener = new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				ReportMultiBookPage.this.getSite().getSelectionProvider().setSelection(event.getSelection());
 			}
@@ -61,21 +60,17 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 	public void addFocusListener(FocusListener listener) {
 	}
 
-	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		listeners.add(listener);
 	}
 
-	@Override
 	public void createControl(Composite parent) {
 		pagebook = new PageBook(parent, SWT.NONE);
 	}
 
-	@Override
 	public void dispose() {
-		if (pagebook != null && !pagebook.isDisposed()) {
+		if (pagebook != null && !pagebook.isDisposed())
 			pagebook.dispose();
-		}
 		if (emptyPage != null) {
 			emptyPage.dispose();
 			emptyPage = null;
@@ -92,7 +87,6 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 		return listeners == null;
 	}
 
-	@Override
 	public Control getControl() {
 		return pagebook;
 	}
@@ -101,12 +95,10 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 		return pagebook;
 	}
 
-	@Override
 	public ISelection getSelection() {
 		return selection;
 	}
 
-	@Override
 	public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager,
 			IStatusLineManager statusLineManager) {
 	}
@@ -114,18 +106,16 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 	public void removeFocusListener(FocusListener listener) {
 	}
 
-	@Override
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
 		listeners.remove(listener);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
 	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
-	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		setSelection(event.getSelection());
 		StructuredSelection selection = (StructuredSelection) event.getSelection();
@@ -138,15 +128,13 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.Page#setActionBars(org.eclipse.ui.IActionBars)
 	 */
-	@Override
 	public void setActionBars(IActionBars actionBars) {
 		this.actionBars = actionBars;
-		if (currentPage != null) {
+		if (currentPage != null)
 			setActivePage(currentPage);
-		}
 	}
 
 	public IActionBars getActionBars() {
@@ -155,10 +143,9 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.Page#setFocus()
 	 */
-	@Override
 	public void setFocus() {
 		if (currentPage != null) {
 			if (!UIUtil.containsFocusControl(currentPage.getControl())) {
@@ -168,9 +155,8 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 	}
 
 	private IPageBookViewPage getEmptyPage() {
-		if (emptyPage == null) {
+		if (emptyPage == null)
 			emptyPage = new EmptyPage();
-		}
 		return emptyPage;
 	}
 
@@ -232,7 +218,6 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 			final IPageBookViewPage disposePage = previousPage;
 			Display.getDefault().asyncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					disposePage.getControl().dispose();
 					disposePage.dispose();
@@ -244,12 +229,10 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 	/**
 	 * Set the selection.
 	 */
-	@Override
 	public void setSelection(ISelection selection) {
 		this.selection = selection;
-		if (listeners == null) {
+		if (listeners == null)
 			return;
-		}
 		SelectionChangedEvent e = new SelectionChangedEvent(this, selection);
 		for (int i = 0; i < listeners.size(); i++) {
 			((ISelectionChangedListener) listeners.get(i)).selectionChanged(e);
@@ -261,33 +244,29 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 		private Composite control;
 		private IPageSite site;
 
-		@Override
 		public IPageSite getSite() {
 			return site;
 		}
 
-		@Override
 		public void init(IPageSite site) throws PartInitException {
 			this.site = site;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite )
 		 */
-		@Override
 		public void createControl(Composite parent) {
 			control = new Composite(parent, SWT.NULL);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.ui.part.IPage#dispose()
 		 */
-		@Override
 		public void dispose() {
 			control = null;
 			site = null;
@@ -295,19 +274,16 @@ public class ReportMultiBookPage extends Page implements IContentOutlinePage, IS
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.ui.part.IPage#getControl()
 		 */
-		@Override
 		public Control getControl() {
 			return control;
 		}
 
-		@Override
 		public void setActionBars(IActionBars actionBars) {
 		}
 
-		@Override
 		public void setFocus() {
 		}
 	}

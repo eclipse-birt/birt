@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -58,7 +58,6 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 	}
 
-	@Override
 	protected Command getAddCommand(Request req) {
 		EditPart parent = getHost();
 		ChangeBoundsRequest request = (ChangeBoundsRequest) req;
@@ -73,12 +72,11 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getCloneCommand(org.eclipse.gef
 	 * .requests.ChangeBoundsRequest)
 	 */
-	@Override
 	protected Command getCloneCommand(ChangeBoundsRequest request) {
 		return getAddCommand(request);
 	}
@@ -96,7 +94,10 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 		} else {
 			parentModel = parent.getModel();
 		}
-		if (!(child.getModel() instanceof DesignElementHandle) || (insertionReference != null && !(insertionReference.getModel() instanceof DesignElementHandle))) {
+		if (!(child.getModel() instanceof DesignElementHandle)) {
+			return UnexecutableCommand.INSTANCE;
+		}
+		if (insertionReference != null && !(insertionReference.getModel() instanceof DesignElementHandle)) {
 			return UnexecutableCommand.INSTANCE;
 		}
 		return new PasteCommand((DesignElementHandle) child.getModel(), parentModel,
@@ -105,19 +106,18 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createAddCommand(org.
 	 * eclipse.gef.EditPart, org.eclipse.gef.EditPart)
 	 */
-	@Override
 	protected Command createAddCommand(EditPart child, EditPart after) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org
 	 * .eclipse.gef.EditPart, java.lang.Object)
@@ -129,17 +129,15 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.
 	 * eclipse.gef.Request)
 	 */
-	@Override
 	protected org.eclipse.gef.commands.Command getDeleteDependantCommand(Request request) {
 		return null;
 	}
 
-	@Override
 	protected org.eclipse.gef.commands.Command getCreateCommand(CreateRequest request) {
 		EditPart after = getInsertionReference(request);
 
@@ -169,12 +167,11 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createMoveChildCommand(
 	 * org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
 	 */
-	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
 		Object afterModel = null;
 		if (after != null) {
@@ -193,14 +190,12 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.EditPolicy#getCommand(org.eclipse.gef.Request)
 	 */
-	@Override
 	public Command getCommand(Request request) {
-		if (REQ_RESIZE_CHILDREN.equals(request.getType())) {
+		if (REQ_RESIZE_CHILDREN.equals(request.getType()))
 			return getResizeChildrenCommand((ChangeBoundsRequest) request);
-		}
 		return super.getCommand(request);
 	}
 
@@ -229,10 +224,9 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 	 * Viewer-relative Points or Rectangles, the clientArea's location (top-left
 	 * corner) will be subtracted from the Point/Rectangle, resulting in an offset
 	 * from the LayoutOrigin.
-	 *
+	 * 
 	 * @return Point
 	 */
-	@Override
 	protected Point getLayoutOrigin() {
 		return getLayoutContainer().getClientArea().getLocation();
 	}
@@ -279,7 +273,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 	 * EditPart using the provided Request. The returned constraint will be
 	 * translated to the application's model later using
 	 * {@link #translateToModelConstraint(Object)}.
-	 *
+	 * 
 	 * @param request the ChangeBoundsRequest
 	 * @param child   the child EditPart for which the constraint should be
 	 *                generated
@@ -306,12 +300,11 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createChildEditPolicy(
 	 * org.eclipse.gef.EditPart)
 	 */
-	@Override
 	protected EditPolicy createChildEditPolicy(EditPart child) {
 		// if ( child instanceof LabelEditPart
 		// || child instanceof TextEditPart
@@ -347,19 +340,17 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 	 * @return <code>true</code> if the host's LayoutManager is in a horizontal
 	 *         orientation
 	 */
-	@Override
 	protected boolean isHorizontal() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#showLayoutTargetFeedback(org.
 	 * eclipse.gef.Request)
 	 */
-	@Override
 	protected void showLayoutTargetFeedback(Request request) {
 		GraphicalEditPart ep = (GraphicalEditPart) getHost();
 		// show cursor even if there is no children
@@ -419,12 +410,11 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.FlowLayoutEditPolicy#getFeedbackIndexFor(org.
 	 * eclipse.gef.Request)
 	 */
-	@Override
 	protected int getFeedbackIndexFor(Request request) {
 		Transposer transposer = new Transposer();
 		transposer.setEnabled(!isHorizontal());
@@ -451,9 +441,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 	 */
 	protected int getFeedbackPosition(Request request) {
 		List children = getHost().getChildren();
-		if (children.isEmpty()) {
+		if (children.isEmpty())
 			return -1;
-		}
 
 		Transposer transposer = new Transposer();
 		transposer.setEnabled(!isHorizontal());
@@ -474,14 +463,12 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 				 * row, so this Figure (which is at the start of a new row) is the candidate.
 				 */
 				if (p.y <= rowBottom) {
-					if (candidate == -1) {
+					if (candidate == -1)
 						candidate = i;
-					}
 					break;
-				} else {
+				} else
 					candidate = -1; // Mouse's Y is outside the row, so reset
-					// the candidate
-				}
+				// the candidate
 			}
 			rowBottom = Math.max(rowBottom, rect.bottom());
 			if (candidate == -1) {
@@ -489,9 +476,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 				 * See if we have a possible candidate. It is a candidate if the cursor is left
 				 * of the center of this candidate.
 				 */
-				if (p.x <= rect.x + (rect.width / 2) || p.y < rect.y) {
+				if (p.x <= rect.x + (rect.width / 2) || p.y < rect.y)
 					candidate = i;
-				}
 			}
 			if (candidate != -1) {
 				// We have a candidate, see if the rowBottom has grown to
@@ -510,13 +496,12 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 	/**
 	 * Shows an insertion line if there is one or more current children.
-	 *
+	 * 
 	 * @see LayoutEditPolicy#showLayoutTargetFeedback(Request)
 	 */
 	protected void showLayoutTargetPosition(Request request) {
-		if (getHost().getChildren().size() == 0) {
+		if (getHost().getChildren().size() == 0)
 			return;
-		}
 		// Polyline fb = getLineFeedback( );
 		Transposer transposer = new Transposer();
 		transposer.setEnabled(!isHorizontal());
@@ -543,9 +528,9 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 
 			r = transposer.t(getAbsoluteBounds((GraphicalEditPart) editPart));
 			Point p = transposer.t(getLocationFromRequest(request));
-			if (p.x <= r.x + (r.width / 2) && isBlock) {
+			if (p.x <= r.x + (r.width / 2) && isBlock)
 				before = true;
-			} else {
+			else {
 				/*
 				 * We are not to the left of this Figure, so the emphasis line needs to be to
 				 * the right of the previous Figure, which must be on the previous row.
@@ -586,9 +571,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 				// It is a line break.
 				Rectangle parentBox = transposer.t(getAbsoluteBounds((GraphicalEditPart) getHost()));
 				x = r.x - 5;
-				if (x < parentBox.x) {
+				if (x < parentBox.x)
 					x = parentBox.x + (r.x - parentBox.x) / 2;
-				}
 			}
 		} else {
 			/*
@@ -612,17 +596,15 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy {
 					r = transposer.t(getAbsoluteBounds((GraphicalEditPart) editPart));
 					parentBox = transposer.t(getAbsoluteBounds((GraphicalEditPart) getHost()));
 					x = r.x - 5;
-					if (x < parentBox.x) {
+					if (x < parentBox.x)
 						x = parentBox.x + (r.x - parentBox.x) / 2;
-					}
 
 				} else if (getFeedbackIndexFor(request) == 0) {
 
 					parentBox = transposer.t(getAbsoluteBounds((GraphicalEditPart) getHost()));
 					x = r.x - 5;
-					if (x < parentBox.x) {
+					if (x < parentBox.x)
 						x = parentBox.x + (r.x - parentBox.x) / 2;
-					}
 				} else {
 					Point p1 = new Point(parentBox.x + 5, r.y + r.height + 2);
 					Point p2 = new Point(parentBox.x + 5,

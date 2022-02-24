@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,8 +30,8 @@ import org.eclipse.birt.report.model.util.StyleUtil;
 /**
  * Represents a report item theme in the library. Each theme contains some
  * number of styles.
- *
- *
+ * 
+ * 
  * @see org.eclipse.birt.report.model.elements.ReportItemTheme
  */
 
@@ -41,7 +41,7 @@ public class ReportItemThemeHandle extends AbstractThemeHandle implements IRepor
 	 * Constructs the handle for a theme with the given design and element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -62,7 +62,7 @@ public class ReportItemThemeHandle extends AbstractThemeHandle implements IRepor
 	 * At the another side, the type can be extension name for the extended item,
 	 * such as crosstab and chart and others. Generally, the type is the name of the
 	 * element definition{@link IElementDefn#getName()} .
-	 *
+	 * 
 	 * @return
 	 */
 	public String getType() {
@@ -81,7 +81,7 @@ public class ReportItemThemeHandle extends AbstractThemeHandle implements IRepor
 	 * At the another side, the type can be extension name for the extended item,
 	 * such as crosstab and chart and others. Generally, the type is the name of the
 	 * element definition{@link IElementDefn#getName()} .
-	 *
+	 * 
 	 * @param type the type to set for this report item theme
 	 */
 	public void setType(String type) throws SemanticException {
@@ -94,7 +94,7 @@ public class ReportItemThemeHandle extends AbstractThemeHandle implements IRepor
 	 * <code>SharedStyleHandle</code> .If any style selected has a duplicate name
 	 * with that of one style already existing in the report design, this method
 	 * will rename it and then add it to the design.
-	 *
+	 * 
 	 * @param stylesheet     the style sheet handle that contains all the selected
 	 *                       styles
 	 * @param selectedStyles the selected style list
@@ -114,9 +114,8 @@ public class ReportItemThemeHandle extends AbstractThemeHandle implements IRepor
 
 				SharedStyleHandle newStyle = StyleUtil.transferCssStyleToSharedStyle(module, style);
 
-				if (newStyle == null) {
+				if (newStyle == null)
 					continue;
-				}
 
 				getStyles().add(newStyle);
 			} catch (SemanticException e) {

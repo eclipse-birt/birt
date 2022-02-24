@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Intersection Type</b></em>', and utility methods for working with
  * them. <!-- end-user-doc --> <!-- begin-model-doc -->
- *
+ * 
  * This type represents the possible values for axis intersection locations.
- *
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getIntersectionType()
  * @model
  * @generated
@@ -41,7 +41,7 @@ public enum IntersectionType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #MIN
 	 * @generated
 	 * @ordered
@@ -54,7 +54,7 @@ public enum IntersectionType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #MAX
 	 * @generated
 	 * @ordered
@@ -67,7 +67,7 @@ public enum IntersectionType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #VALUE
 	 * @generated
 	 * @ordered
@@ -77,7 +77,7 @@ public enum IntersectionType implements Enumerator {
 	/**
 	 * The '<em><b>Min</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #MIN_LITERAL
 	 * @model name="Min"
 	 * @generated
@@ -88,7 +88,7 @@ public enum IntersectionType implements Enumerator {
 	/**
 	 * The '<em><b>Max</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #MAX_LITERAL
 	 * @model name="Max"
 	 * @generated
@@ -99,7 +99,7 @@ public enum IntersectionType implements Enumerator {
 	/**
 	 * The '<em><b>Value</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #VALUE_LITERAL
 	 * @model name="Value"
 	 * @generated
@@ -110,15 +110,16 @@ public enum IntersectionType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Intersection Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	private static final IntersectionType[] VALUES_ARRAY = { MIN_LITERAL, MAX_LITERAL, VALUE_LITERAL, };
+	private static final IntersectionType[] VALUES_ARRAY = new IntersectionType[] { MIN_LITERAL, MAX_LITERAL,
+			VALUE_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Intersection Type</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static final List<IntersectionType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -126,7 +127,7 @@ public enum IntersectionType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static IntersectionType get(String literal) {
@@ -142,7 +143,7 @@ public enum IntersectionType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static IntersectionType getByName(String name) {
@@ -158,7 +159,7 @@ public enum IntersectionType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static IntersectionType get(int value) {
@@ -175,21 +176,21 @@ public enum IntersectionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String literal;
@@ -197,10 +198,10 @@ public enum IntersectionType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	IntersectionType(int value, String name, String literal) {
+	private IntersectionType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -208,30 +209,27 @@ public enum IntersectionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -239,7 +237,7 @@ public enum IntersectionType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

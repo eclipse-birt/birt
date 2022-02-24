@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -59,7 +59,7 @@ public interface MultiURLValues extends ActionValue {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>URL Values</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMultiURLValues_URLValues()
 	 * @model containment="true" extendedMetaData="kind='element' name='URLValues'"
@@ -75,7 +75,7 @@ public interface MultiURLValues extends ActionValue {
 	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Tooltip</em>' attribute.
 	 * @see #setTooltip(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMultiURLValues_Tooltip()
@@ -89,7 +89,7 @@ public interface MultiURLValues extends ActionValue {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.MultiURLValues#getTooltip
 	 * <em>Tooltip</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Tooltip</em>' attribute.
 	 * @see #getTooltip()
 	 * @generated
@@ -102,7 +102,7 @@ public interface MultiURLValues extends ActionValue {
 	 * {@link java.lang.String}, <!-- begin-user-doc --> <!-- end-user-doc --> <!--
 	 * begin-model-doc --> The map is used to store styles properties for hyperlink
 	 * menu. <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Properties Map</em>' map.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMultiURLValues_PropertiesMap()
 	 * @model mapType="org.eclipse.birt.chart.model.attribute.EStringToStringMapEntry<org.eclipse.emf.ecore.xml.type.String,
@@ -115,7 +115,6 @@ public interface MultiURLValues extends ActionValue {
 	/**
 	 * @generated
 	 */
-	@Override
 	MultiURLValues copyInstance();
 
 } // MultiURLValues

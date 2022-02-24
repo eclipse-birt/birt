@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,6 @@ import org.eclipse.swt.graphics.Image;
 
 public class CubeSubFolderNodeProvider extends DefaultNodeProvider {
 
-	@Override
 	public Image getNodeIcon(Object model) {
 		PropertyHandle property = (PropertyHandle) model;
 		String name = property.getPropertyDefn().getName();
@@ -40,18 +39,15 @@ public class CubeSubFolderNodeProvider extends DefaultNodeProvider {
 		return super.getNodeIcon(model);
 	}
 
-	@Override
 	public boolean hasChildren(Object object) {
 		return getChildren(object).length > 0;
 	}
 
-	@Override
 	public Object getParent(Object model) {
 		PropertyHandle property = (PropertyHandle) model;
 		return property.getElementHandle();
 	}
 
-	@Override
 	public String getNodeDisplayName(Object model) {
 		PropertyHandle property = (PropertyHandle) model;
 		String name = property.getPropertyDefn().getName();
@@ -65,10 +61,9 @@ public class CubeSubFolderNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the children element of the given model using visitor.
-	 *
+	 * 
 	 * @param object the handle
 	 */
-	@Override
 	public Object[] getChildren(Object object) {
 		PropertyHandle property = (PropertyHandle) object;
 		String name = property.getPropertyDefn().getName();
@@ -84,7 +79,6 @@ public class CubeSubFolderNodeProvider extends DefaultNodeProvider {
 		return new Object[0];
 	}
 
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		PropertyHandle property = (PropertyHandle) object;
 		String name = property.getPropertyDefn().getName();
@@ -98,9 +92,8 @@ public class CubeSubFolderNodeProvider extends DefaultNodeProvider {
 			action = new EditCubeAction(property, Messages.getString("CubeModel.summaryfield.edit"));//$NON-NLS-1$
 		}
 
-		if (action != null) {
+		if (action != null)
 			menu.add(action);
-		}
 		super.createContextMenu(sourceViewer, object, menu);
 
 //		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$

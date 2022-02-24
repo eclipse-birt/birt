@@ -62,7 +62,7 @@ public class NoUpdateAggregateFilterHelper {
 		if (!finalFilters.isEmpty()) {
 			List aggrEvalList = new ArrayList<AggrMeasureFilterEvalHelper>();
 			List dimEvalList = new ArrayList<IJSFilterHelper>();
-			List<IFilterDefinition> drillFilterList = new ArrayList<>();
+			List<IFilterDefinition> drillFilterList = new ArrayList<IFilterDefinition>();
 			for (int i = 0; i < finalFilters.size(); i++) {
 				IFilterDefinition filter = (IFilterDefinition) finalFilters.get(i);
 				boolean find = false;
@@ -84,9 +84,8 @@ public class NoUpdateAggregateFilterHelper {
 					}
 
 				}
-				if (find != fromCubeOperation) {
+				if (find != fromCubeOperation)
 					continue;
-				}
 				int type = executor.getFilterType(filter, executor.getDimLevelsDefinedInCubeQuery());
 
 				if (type == executor.DIMENSION_FILTER) {
@@ -101,7 +100,7 @@ public class NoUpdateAggregateFilterHelper {
 					drillFilterList.add(filter);
 				}
 			}
-			List<Integer> affectedAggrResultSetIndex = new ArrayList<>();
+			List<Integer> affectedAggrResultSetIndex = new ArrayList<Integer>();
 			if (aggrEvalList.size() > 0) {
 				AggrMeasureFilterHelper aggrFilterHelper = new AggrMeasureFilterHelper(cube, rs);
 				aggrFilterHelper.setQueryExecutor(executor);
@@ -137,20 +136,18 @@ public class NoUpdateAggregateFilterHelper {
 		int index = -1;
 		for (int i = 0; i < edgeResultSet.size(); i++) {
 			IAggregationResultSet rs = edgeResultSet.get(i);
-			if (rs.length() == 0) {
+			if (rs.length() == 0)
 				index = i;
-			}
 		}
 		if (index >= 0) {
 			for (int i = 0; i < edgeResultSet.size(); i++) {
 				if (i != index) {
 					IAggregationResultSet rs = edgeResultSet.get(i);
 					IDiskArray newRsRows = new BufferedStructureArray(AggregationResultRow.getCreator(), rs.length());
-					if (rs instanceof AggregationResultSet) {
+					if (rs instanceof AggregationResultSet)
 						((AggregationResultSet) rs).setAggregationResultRows(newRsRows);
-					} else if (rs instanceof CachedAggregationResultSet) {
+					else if (rs instanceof CachedAggregationResultSet)
 						((CachedAggregationResultSet) rs).setAggregationResultRows(newRsRows);
-					}
 				}
 			}
 		}
@@ -158,15 +155,14 @@ public class NoUpdateAggregateFilterHelper {
 
 	List<IAggregationResultSet> populateAndFilterEdgeResultSet(IAggregationResultSet[] rs,
 			Map<DimLevel, IJSFacttableFilterEvalHelper> edgeDrillFilterMap) throws IOException, DataException {
-		List<IAggregationResultSet> edgeResultSet = new ArrayList<>();
+		List<IAggregationResultSet> edgeResultSet = new ArrayList<IAggregationResultSet>();
 
 		for (int i = 0; i < rs.length; i++) {
 			if (rs[i].getAggregationDefinition().getAggregationFunctions() == null) {
 				edgeResultSet.add(rs[i]);
 
-				if (edgeDrillFilterMap == null || edgeDrillFilterMap.isEmpty()) {
+				if (edgeDrillFilterMap == null || edgeDrillFilterMap.isEmpty())
 					continue;
-				}
 
 				filterEdgeAggrSet(edgeDrillFilterMap, rs[i]);
 			}
@@ -179,8 +175,7 @@ public class NoUpdateAggregateFilterHelper {
 			IAggregationResultSet edgeAggrSet) throws IOException, DataException {
 		IJSFacttableFilterEvalHelper drillFilterHelper = null;
 		for (DimLevel dimLevel : edgeAggrSet.getAllLevels()) {
-			drillFilterHelper = edgeDrillFilterMap.get(dimLevel);
-			if (drillFilterHelper != null) {
+			if ((drillFilterHelper = edgeDrillFilterMap.get(dimLevel)) != null) {
 				AggregateRowWrapper aggrRowWrapper = new AggregateRowWrapper(edgeAggrSet);
 				IDiskArray newRs = new BufferedStructureArray(AggregationResultRow.getCreator(), 2000);
 				for (int j = 0; j < edgeAggrSet.length(); j++) {
@@ -195,9 +190,9 @@ public class NoUpdateAggregateFilterHelper {
 	}
 
 	private void reSetAggregationResultSetDiskArray(IAggregationResultSet edgeAggrSet, IDiskArray newRs) {
-		if (edgeAggrSet instanceof AggregationResultSet) {
+		if (edgeAggrSet instanceof AggregationResultSet)
 			((AggregationResultSet) edgeAggrSet).setAggregationResultRows(newRs);
-		} else if (edgeAggrSet instanceof CachedAggregationResultSet) {
+		else if (edgeAggrSet instanceof CachedAggregationResultSet) {
 			((CachedAggregationResultSet) edgeAggrSet).setAggregationResultRows(newRs);
 			((CachedAggregationResultSet) edgeAggrSet).setLength(newRs.size());
 		}
@@ -206,7 +201,7 @@ public class NoUpdateAggregateFilterHelper {
 	/**
 	 * Populate Edge Drill Filter Map. There will be one random level picked from
 	 * edge to map to a drill filter.
-	 *
+	 * 
 	 * @param executor
 	 * @param drillFilterList
 	 * @param edgeDrillFilterMap
@@ -214,7 +209,7 @@ public class NoUpdateAggregateFilterHelper {
 	 */
 	private Map<DimLevel, IJSFacttableFilterEvalHelper> populateEdgeDrillFilterMap(CubeQueryExecutor executor,
 			List<IFilterDefinition> drillFilterList) throws DataException {
-		Map<DimLevel, IJSFacttableFilterEvalHelper> result = new HashMap<>();
+		Map<DimLevel, IJSFacttableFilterEvalHelper> result = new HashMap<DimLevel, IJSFacttableFilterEvalHelper>();
 
 		for (IFilterDefinition filterDefn : drillFilterList) {
 			assert filterDefn instanceof ICollectionConditionalExpression;
@@ -225,17 +220,16 @@ public class NoUpdateAggregateFilterHelper {
 			while (exprsIterator.hasNext()) {
 				Iterator dimLevels = OlapExpressionCompiler.getReferencedDimLevel(exprsIterator.next(), new ArrayList())
 						.iterator();
-				if (dimLevels.hasNext()) {
+				while (dimLevels.hasNext()) {
 					containedDimLevel = (DimLevel) dimLevels.next();
-				}
-				if (containedDimLevel != null) {
 					break;
 				}
+				if (containedDimLevel != null)
+					break;
 			}
 
-			if (containedDimLevel == null) {
+			if (containedDimLevel == null)
 				continue;
-			}
 
 			result.put(containedDimLevel, new JSFacttableFilterEvalHelper(executor.getScope(),
 					executor.getSession().getEngineContext().getScriptContext(), filterDefn, null, null));
@@ -254,16 +248,15 @@ public class NoUpdateAggregateFilterHelper {
 
 	void applyJoin(IAggregationResultSet joinRS, IAggregationResultSet detailRS) throws IOException {
 		String[][] detailLevelKeys = detailRS.getLevelKeys();
-		List<Members> detailMember = new ArrayList<>();
-		String[][] joinLevelKeys;
+		List<Members> detailMember = new ArrayList<Members>();
+		String[][] joinLevelKeys = null;
 		Member[] members = null;
 		IDiskArray aggregationResultRows = null;
 
 		joinLevelKeys = joinRS.getLevelKeys();
 
-		if (detailLevelKeys == null) {
+		if (detailLevelKeys == null)
 			return;
-		}
 
 		int pos = getPos(joinLevelKeys, detailLevelKeys);
 		if (pos < 0) {
@@ -281,7 +274,7 @@ public class NoUpdateAggregateFilterHelper {
 			if (members == null) {
 				continue;
 			}
-			List<Member> tmpMembers = new ArrayList<>();
+			List<Member> tmpMembers = new ArrayList<Member>();
 			for (int j = pos; j < pos + joinLevelKeys.length; j++) {
 				if (j > members.length - 1) {
 					break;
@@ -294,11 +287,10 @@ public class NoUpdateAggregateFilterHelper {
 			detailMember.add(new Members(tmpMembers.toArray(new Member[] {})));
 		}
 		Collections.sort(detailMember);
-		if (joinRS instanceof AggregationResultSet) {
+		if (joinRS instanceof AggregationResultSet)
 			aggregationResultRows = ((AggregationResultSet) joinRS).getAggregationResultRows();
-		} else if (joinRS instanceof CachedAggregationResultSet) {
+		else if (joinRS instanceof CachedAggregationResultSet)
 			aggregationResultRows = ((CachedAggregationResultSet) joinRS).getAggregationResultRows();
-		}
 		IDiskArray newRsRows = new BufferedStructureArray(AggregationResultRow.getCreator(),
 				aggregationResultRows.size());
 		int result;
@@ -323,7 +315,6 @@ public class NoUpdateAggregateFilterHelper {
 			this.members = members;
 		}
 
-		@Override
 		public int compareTo(Members other) {
 			for (int i = 0; i < members.length; i++) {
 				int result = members[i].compareTo(other.members[i]);
@@ -351,7 +342,7 @@ public class NoUpdateAggregateFilterHelper {
 	 * The class that wrap an IAggregationResultSet instance into IFacttableRow. The
 	 * actual IAggregationResultRow instance returned is controlled by internal
 	 * cursor in IAggregationResultSet instance.
-	 *
+	 * 
 	 * @author lzhu
 	 *
 	 */
@@ -366,12 +357,10 @@ public class NoUpdateAggregateFilterHelper {
 		 * Not implemented. We only expect this being used in drill filter in which only
 		 * level member is used.
 		 */
-		@Override
 		public Object getMeasureValue(String measureName) throws DataException {
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public Object[] getLevelKeyValue(String dimensionName, String levelName) throws DataException, IOException {
 			return this.aggrResultSet
 					.getLevelKeyValue(this.aggrResultSet.getLevelIndex(new DimLevel(dimensionName, levelName)));
@@ -381,7 +370,6 @@ public class NoUpdateAggregateFilterHelper {
 		 * Not implemented. We only expect this being used in drill filter in which only
 		 * level member is used.
 		 */
-		@Override
 		public Object getLevelAttributeValue(String dimensionName, String levelName, String attributeName)
 				throws DataException, IOException {
 			throw new UnsupportedOperationException();

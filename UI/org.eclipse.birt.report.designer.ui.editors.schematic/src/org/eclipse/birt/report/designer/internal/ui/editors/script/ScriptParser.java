@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2007 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -29,20 +29,20 @@ public class ScriptParser {
 	 * The all comment positons in the script, elements are instance of
 	 * <code>Position</code>.
 	 */
-	private final Collection<Position> commentPositions = new HashSet<>();
+	private final Collection<Position> commentPositions = new HashSet<Position>();
 
 	/**
 	 * The all method positons in the script, elements are instance of
 	 * <code>Position</code>.
 	 */
-	private final Collection<Position> methodPositions = new HashSet<>();
+	private final Collection<Position> methodPositions = new HashSet<Position>();
 
 	/** The script text to parse. */
 	private final String script;
 
 	/**
 	 * Constructs a script parser with the specified script text.
-	 *
+	 * 
 	 * @param script the script to parse.
 	 */
 	public ScriptParser(String script) {
@@ -205,7 +205,7 @@ public class ScriptParser {
 	/**
 	 * Returns <code>true</code> if the text{start, end} include multi line,
 	 * <code>false</code> otherwise.
-	 *
+	 * 
 	 * @param text  the specified text.
 	 * @param start the start index.
 	 * @param end   the end index.
@@ -224,7 +224,7 @@ public class ScriptParser {
 	/**
 	 * Returns <code>true</code> if current index is in a comment line,
 	 * <code>false</code> otherwise.
-	 *
+	 * 
 	 * @param index the current index.
 	 * @return <code>true</code> if current index is in a comment line,
 	 *         <code>false</code> otherwise.
@@ -246,7 +246,7 @@ public class ScriptParser {
 	/**
 	 * Returns a collection of all comment positions, elements are instance of
 	 * <code>Position</code>.
-	 *
+	 * 
 	 * @return a unmodifiable collection of all comment positions.
 	 */
 	public Collection<Position> getCommentPositions() {
@@ -256,7 +256,7 @@ public class ScriptParser {
 	/**
 	 * Returns a collection of all method positions, elements are instance of
 	 * <code>Position</code>.
-	 *
+	 * 
 	 * @return a unmodifiable collection of all method positions.
 	 */
 	public Collection<Position> getMethodPositions() {
@@ -266,12 +266,12 @@ public class ScriptParser {
 	/**
 	 * Returns a collection of all method info. Elements are instance of
 	 * <code>MethodInfo</code>.
-	 *
+	 * 
 	 * @return a unmodifiable collection of all method info. Elements are instance
 	 *         of <code>IScriptMethodInfo</code>.
 	 */
 	public Collection<IScriptMethodInfo> getAllMethodInfo() {
-		Collection<IScriptMethodInfo> allMethodInfo = new HashSet<>();
+		Collection<IScriptMethodInfo> allMethodInfo = new HashSet<IScriptMethodInfo>();
 		Collection<Position> positions = getMethodPositions();
 
 		for (Iterator<Position> iterator = positions.iterator(); iterator.hasNext();) {
@@ -292,7 +292,7 @@ public class ScriptParser {
 
 	/**
 	 * Returns current method name after "function".
-	 *
+	 * 
 	 * @param offset the offset of current mothod.
 	 * @return the method name.
 	 */
@@ -321,7 +321,7 @@ public class ScriptParser {
 
 	/**
 	 * Returns current method name before "function".
-	 *
+	 * 
 	 * @param offset the offset of current mothod.
 	 * @return the method name.
 	 */

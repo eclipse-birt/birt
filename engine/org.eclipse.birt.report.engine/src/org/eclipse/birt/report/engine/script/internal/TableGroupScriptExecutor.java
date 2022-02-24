@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,9 +31,8 @@ public class TableGroupScriptExecutor extends ScriptExecutor {
 		try {
 			ITableGroup group = new TableGroup(groupHandle);
 			ITableGroupEventHandler eh = getEventHandler(groupHandle, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPrepare(group, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -46,13 +45,11 @@ public class TableGroupScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			ReportElementInstance table = new ReportElementInstance(content, context, RunningState.CREATE);
-			if (handleScript(table, tableGroupDesign.getOnCreate(), context).didRun()) {
+			if (handleScript(table, tableGroupDesign.getOnCreate(), context).didRun())
 				return;
-			}
 			ITableGroupEventHandler eh = getEventHandler(tableGroupDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onCreate(table, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, tableGroupDesign.getHandle());
 		}
@@ -65,13 +62,11 @@ public class TableGroupScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			ReportElementInstance table = new ReportElementInstance(content, context, RunningState.RENDER);
-			if (handleScript(table, tableGroupDesign.getOnRender(), context).didRun()) {
+			if (handleScript(table, tableGroupDesign.getOnRender(), context).didRun())
 				return;
-			}
 			ITableGroupEventHandler eh = getEventHandler(tableGroupDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onRender(table, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, tableGroupDesign.getHandle());
 		}
@@ -84,13 +79,11 @@ public class TableGroupScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			ReportElementInstance table = new ReportElementInstance(content, context, RunningState.PAGEBREAK);
-			if (handleScript(table, tableGroupDesign.getOnPageBreak(), context).didRun()) {
+			if (handleScript(table, tableGroupDesign.getOnPageBreak(), context).didRun())
 				return;
-			}
 			ITableGroupEventHandler eh = getEventHandler(tableGroupDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPageBreak(table, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, tableGroupDesign.getHandle());
 		}

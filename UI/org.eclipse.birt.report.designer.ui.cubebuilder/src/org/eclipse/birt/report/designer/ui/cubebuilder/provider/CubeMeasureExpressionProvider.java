@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,7 +70,6 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider {
 	protected void addFilterToProvider(final DesignElementHandle handle) {
 		filter = new ExpressionFilter() {
 
-			@Override
 			public boolean select(Object parentElement, Object element) {
 				if (isDerivedMeasure) // filters DATA_SET
 				{
@@ -79,8 +78,11 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider {
 						return false;
 					}
 				} else {
-					if ((ExpressionFilter.CATEGORY.equals(parentElement)
-							&& ExpressionProvider.CURRENT_CUBE.equals(element)) || (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element))) {
+					if (ExpressionFilter.CATEGORY.equals(parentElement)
+							&& ExpressionProvider.CURRENT_CUBE.equals(element)) {
+						return false;
+					}
+					if (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element)) {
 						return false;
 					}
 				}
@@ -91,11 +93,14 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider {
 					return false;
 				}
 				if (parentElement instanceof MeasureGroupHandle) {
-					if (!isDerivedMeasure() || !(elementHandle instanceof MeasureHandle)) {
+					if (!isDerivedMeasure()) {
+						return true;
+					}
+					if (!(elementHandle instanceof MeasureHandle)) {
 						return true;
 					}
 					CubeHandle cubeHandle = (CubeHandle) ((MeasureGroupHandle) parentElement).getContainer();
-					List<MeasureHandle> measureHnadles = new ArrayList<>();
+					List<MeasureHandle> measureHnadles = new ArrayList<MeasureHandle>();
 					try {
 						measureHnadles = CubeMeasureUtil.getIndependentReferences(cubeHandle, elementHandle.getName());
 					} catch (BirtException e) {
@@ -114,7 +119,6 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider {
 		this.addFilter(filter);
 	}
 
-	@Override
 	protected List getCategoryList() {
 		List categoryList = super.getCategoryList();
 
@@ -124,7 +128,6 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider {
 		return categoryList;
 	}
 
-	@Override
 	public Object[] getChildren(Object parent) {
 		Object[] children = super.getChildren(parent);
 		return children;

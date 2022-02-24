@@ -49,7 +49,7 @@ public class ResultFieldMetadata {
 		m_isCustom = isCustom;
 		m_driverProvidedDataType = null;
 		// initialize to unknown
-		bindings = new HashSet<>();
+		bindings = new HashSet<String>();
 		if (name != null) {
 			bindings.add(name);
 		}
@@ -143,14 +143,12 @@ public class ResultFieldMetadata {
 	}
 
 	public Class getDataType() {
-		if (m_dataType != null) {
+		if (m_dataType != null)
 			return m_dataType;
-		}
 
 		Class driverDataType = getDriverProvidedDataType();
-		if (driverDataType != null) {
+		if (driverDataType != null)
 			return driverDataType;
-		}
 
 		// default to a String if data type is unknown
 		return String.class;

@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -38,51 +38,46 @@ public class TotalPercentSum extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	@Override
 	public String getName() {
 		return IBuildInAggregation.TOTAL_PERCENTSUM_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	@Override
 	public int getType() {
 		return RUNNING_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	@Override
 	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.MultipassAggregation#
 	 * getNumberOfPasses()
 	 */
-	@Override
 	public int getNumberOfPasses() {
 		return 2;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
-	@Override
 	public IParameterDefn[] getParameterDefn() {
 		return new IParameterDefn[] { new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME,
 				false, true, SupportedDataTypes.CALCULATABLE, "") //$NON-NLS-1$
@@ -91,10 +86,9 @@ public class TotalPercentSum extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	@Override
 	public Accumulator newAccumulator() {
 		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
@@ -109,7 +103,6 @@ public class TotalPercentSum extends AggrFunction {
 			super(calc);
 		}
 
-		@Override
 		public void start() throws DataException {
 			super.start();
 			passNo++;
@@ -117,37 +110,36 @@ public class TotalPercentSum extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[]
 		 * )
 		 */
-		@Override
 		public void onRow(Object[] args) throws DataException {
 			assert (args.length > 0);
 			if (passNo == 1) {
 				if (args[0] != null) {
 					sum = calculator.add(sum, calculator.getTypedObject(args[0]));
 				}
-			} else if (args[0] != null) {
-				Double d = RankAggregationUtil.getNumericValue(args[0]);
-				if (sum.equals(0D) || d == null) {
-					value = new Integer(0); // $NON-NLS-1$
-				} else {
-					value = calculator.divide(calculator.getTypedObject(args[0]), sum);
-				}
 			} else {
-				value = Integer.valueOf(0); // $NON-NLS-1$
+				if (args[0] != null) {
+					Double d = RankAggregationUtil.getNumericValue(args[0]);
+					if (sum.equals(0D) || d == null)
+						value = new Integer(0); // $NON-NLS-1$
+					else {
+						value = calculator.divide(calculator.getTypedObject(args[0]), sum);
+					}
+				} else
+					value = Integer.valueOf(0); // $NON-NLS-1$
 			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
 		 */
-		@Override
 		public Object getValue() {
 			return value;
 		}
@@ -155,22 +147,20 @@ public class TotalPercentSum extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	@Override
 	public String getDescription() {
 		return Messages.getString("TotalPercentSum.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("TotalPercentSum.displayName"); //$NON-NLS-1$
 	}

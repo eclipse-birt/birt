@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,7 +68,7 @@ import com.ibm.icu.util.ULocale;
  * This class tests the property parsing and writing. Translation is test in
  * <code>ReportDesignUserDefinedMessagesTest</code> All slots will be tested in
  * the corresponding element parse test.
- *
+ * 
  * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: *
  * collapse" bordercolor="#111111" width="100%" id="AutoNumber5" height="99">
  * <tr>
@@ -76,47 +76,47 @@ import com.ibm.icu.util.ULocale;
  * <td width="33%" height="16"><b>Test Case </b></td>
  * <td width="34%" height="16"><b>Expected Result </b></td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16">{@link #testParser()}</td>
  * <td width="33%" height="16">Test all propertyies</td>
  * <td width="34%" height="16">the correct value are returned</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="14"></td>
  * <td width="33%" height="14">Use iterator to test the reportItems slot in
  * freeform</td>
  * <td width="34%" height="14">content can be retrieved.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16"></td>
  * <td width="33%" height="16">Test the freeform extends relationship</td>
  * <td width="34%" height="16">extend relationship correct.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16">{@link #testWriter()}</td>
  * <td width="33%" height="16">Set new value to properties and save it.</td>
  * <td width="34%" height="16">new value should be save into the output
  * file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16">{@link #testConfigVars()}</td>
  * <td width="33%" height="16">Test add, find, replace and drop operation on
  * Config Variables.</td>
  * <td width="34%" height="16">Check it with find method.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td width="33%" height="16">{@link #testImages()}</td>
  * <td width="33%" height="16">Test add, find, replace and drop operation on
  * embedded images.</td>
  * <td width="34%" height="16">Check it with find method.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testSemanticError()}</td>
  * <td>Test semantic errors with the design file input.</td>
@@ -124,7 +124,7 @@ import com.ibm.icu.util.ULocale;
  * no pages in the page setup slot.</td>
  * </tr>
  * </table>
- *
+ * 
  * @see org.eclipse.birt.report.model.parser.ScalarParameterParseTest
  * @see org.eclipse.birt.report.model.parser.StyleParseTest
  * @see org.eclipse.birt.report.model.parser.ComponentScratchPadTest
@@ -144,14 +144,13 @@ public class ReportDesignParseTest extends BaseTestCase {
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Tests all properties and slots.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testParser() throws Exception {
@@ -362,7 +361,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Tests design file with css file that can't be found
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -377,7 +376,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Tests writing the properties.
-	 *
+	 * 
 	 * @throws Exception if any error found.
 	 */
 
@@ -420,7 +419,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 		// set thumbnail
 
-		designHandle.setThumbnail(Base64.decodeBase64("newthumbnailimageAAA" //$NON-NLS-1$
+		designHandle.setThumbnail(Base64.decodeBase64(new String("newthumbnailimageAAA") //$NON-NLS-1$
 				.getBytes(IReportDesignModel.CHARSET)));
 
 		// set layout preference
@@ -473,7 +472,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Test config variable.
-	 *
+	 * 
 	 * @throws Exception if any error found.
 	 */
 	public void testConfigVars() throws Exception {
@@ -487,7 +486,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 		newConfigVar.setName("VarToReplace"); //$NON-NLS-1$
 		newConfigVar.setValue("ValueToReplace"); //$NON-NLS-1$
 
-		ConfigVariable var;
+		ConfigVariable var = null;
 
 		// Add new config variable and check it
 
@@ -564,7 +563,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Test jar file.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -614,7 +613,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Test embedded images.
-	 *
+	 * 
 	 * @throws Exception if any error found.
 	 */
 	public void testImages() throws Exception {
@@ -622,7 +621,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 		EmbeddedImage add = new EmbeddedImage("VarToAdd", "image/bmp"); //$NON-NLS-1$//$NON-NLS-2$
 		EmbeddedImage replace = new EmbeddedImage("VarToReplace", "image/gif"); //$NON-NLS-1$//$NON-NLS-2$
-		EmbeddedImage image;
+		EmbeddedImage image = null;
 
 		// Add new image and check it
 
@@ -726,7 +725,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Checks the semantic error of ReportDesign.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -771,7 +770,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Tests data source parameter binding.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -784,7 +783,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Tests data source parameter binding.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -808,7 +807,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Tests open empty design file.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -823,9 +822,9 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Tests open a design file will reading the line number.
-	 *
+	 * 
 	 * @throws DesignFileException
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -910,7 +909,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the created-by in moduleOption.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testWriterForCreatedBy() throws Exception {
@@ -930,7 +929,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 	/**
 	 * Tests report design which contains the library which could not be found.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testNotExistLibrary() throws Exception {
@@ -945,7 +944,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 	/**
 	 * Tests the case that the report design can be opended if there is duplicate
 	 * element id. TED 28431.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

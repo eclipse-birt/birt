@@ -4,20 +4,13 @@
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v2.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-2.0.html
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
- *
+ * 
  * *****************************************************************************
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.sql.Types;
@@ -28,10 +21,12 @@ import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.junit.Before;
-import org.junit.Test;
 
 import testutil.JDBCOdaDataSource;
+
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class ProjectedColumnsTest extends ConnectionTest {
 
@@ -188,23 +183,21 @@ public class ProjectedColumnsTest extends ConnectionTest {
 
 	private void testFields(IResultObject resultObject, IResultClass resultClass, int rowPosition, boolean useFieldName)
 			throws DataException {
-		StringBuilder row = new StringBuilder();
+		String row = "";
 		for (int i = 1; i <= resultClass.getFieldCount(); i++) {
 			Object value = null;
 
-			if (!useFieldName) {
+			if (!useFieldName)
 				value = resultObject.getFieldValue(i);
-			} else {
+			else
 				value = (i == 1) ? resultObject.getFieldValue("stringColumn")
 						: resultObject.getFieldValue("doubleColumn");
-			}
 
-			if (i > 1) {
-				row.append(", ");
-			}
-			row.append((value == null) ? "null" : value.toString());
+			if (i > 1)
+				row += ", ";
+			row += (value == null) ? "null" : value.toString();
 		}
-		assertEquals(RESULTS[rowPosition - 1], row.toString());
+		assertEquals(RESULTS[rowPosition - 1], row);
 	}
 
 	public final void testGetAllDataByAlias() throws Exception {

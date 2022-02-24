@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testProperties()}</td>
  * <td>parse the design file and check the related content of text item, such as
@@ -37,16 +37,16 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </td>
  * <td>Content of the properties are consistent with the design file</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testWrite()}</td>
  * <td>parse, write and parse, write again. The result of two writer files is
  * the same.</td>
  * <td>The two writer file is the same.</td>
  * </tr>
- *
+ * 
  * </table>
- *
+ * 
  */
 
 public class TextItemParseTest extends BaseTestCase {
@@ -54,7 +54,6 @@ public class TextItemParseTest extends BaseTestCase {
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -62,7 +61,7 @@ public class TextItemParseTest extends BaseTestCase {
 
 	/**
 	 * Test the write for user-defined properties.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -96,7 +95,7 @@ public class TextItemParseTest extends BaseTestCase {
 
 	/**
 	 * Test the properties for user-defined properties.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

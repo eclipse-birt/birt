@@ -20,42 +20,42 @@ public interface MetaDataConstants {
 	 * Internal name of the style element type.
 	 */
 
-	String STYLE_NAME = "Style"; //$NON-NLS-1$
+	public static final String STYLE_NAME = "Style"; //$NON-NLS-1$
 
 	/**
 	 * Internal name of the report element type.
 	 */
 
-	String REPORT_ELEMENT_NAME = "ReportElement"; //$NON-NLS-1$
+	public static final String REPORT_ELEMENT_NAME = "ReportElement"; //$NON-NLS-1$
 
 	/**
 	 * Internal name of the report design element type.
 	 */
 
-	String REPORT_DESIGN_NAME = "ReportDesign"; //$NON-NLS-1$
+	public static final String REPORT_DESIGN_NAME = "ReportDesign"; //$NON-NLS-1$
 
 	/**
 	 * Code for an element that does not appear in any name space.
 	 */
 
-	String NO_NAME_SPACE = "NONE";
+	public static final String NO_NAME_SPACE = "NONE";
 
 	/**
 	 * Code for an element that does not take a name.
 	 */
 
-	int NO_NAME = 0;
+	public static final int NO_NAME = 0;
 
 	/**
 	 * Code for an element with an optional name.
 	 */
 
-	int OPTIONAL_NAME = 1;
+	public static final int OPTIONAL_NAME = 1;
 
 	/**
 	 * Code for an element with a required name.
 	 */
 
-	int REQUIRED_NAME = 2;
+	public static final int REQUIRED_NAME = 2;
 
 }

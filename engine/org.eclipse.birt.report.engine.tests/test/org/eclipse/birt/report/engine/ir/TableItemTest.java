@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,9 +18,9 @@ import java.util.Random;
 
 /**
  * Test TableItem
- *
+ * 
  * Colunm has repeat, so we need to test if the getColumnCount is right.
- *
+ * 
  */
 public class TableItemTest extends ReportItemTestCase {
 
@@ -33,7 +33,7 @@ public class TableItemTest extends ReportItemTestCase {
 
 	/**
 	 * create a column using name & repeat
-	 *
+	 * 
 	 * @param name   name
 	 * @param repeat repeat
 	 * @return column type
@@ -46,7 +46,7 @@ public class TableItemTest extends ReportItemTestCase {
 
 	/**
 	 * test if the column is match the name an repeate
-	 *
+	 * 
 	 * @param column column
 	 * @param name   column name
 	 * @param repeat repeat
@@ -57,7 +57,7 @@ public class TableItemTest extends ReportItemTestCase {
 
 	/**
 	 * test column related functions.
-	 *
+	 * 
 	 * add several columns into the grid, get one by one to test if the column is
 	 * right.
 	 */
@@ -68,13 +68,13 @@ public class TableItemTest extends ReportItemTestCase {
 
 		// Add
 		for (int i = 0; i < count; i++) {
-			table.addColumn(createColumn(Integer.toString(i), i + 1));
+			table.addColumn(createColumn((new Integer(i)).toString(), i + 1));
 		}
 
 		// Get
 		assertEquals(table.getColumnCount(), count);
 		for (int i = 0; i < count; i++) {
-			checkColumn(table.getColumn(i), Integer.toString(i), i + 1);
+			checkColumn(table.getColumn(i), (new Integer(i)).toString(), i + 1);
 		}
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * This class process extra styles to chart.
- *
+ * 
  * @since 2.6.2
  */
 
@@ -35,7 +35,10 @@ public class ChartStyleProcessorProxy {
 
 	protected ChartValueUpdater chartValueUpdater;
 
+	private ULocale uLocale;
+
 	protected void setULocale(ULocale uLocale) {
+		this.uLocale = uLocale;
 		if (this.chartValueUpdater != null) {
 			this.chartValueUpdater.setULocale(uLocale);
 		}
@@ -50,7 +53,7 @@ public class ChartStyleProcessorProxy {
 
 	/**
 	 * Sets chart's report handle.
-	 *
+	 * 
 	 * @param handle
 	 */
 	public void setHandle(DesignElementHandle handle) {
@@ -59,15 +62,17 @@ public class ChartStyleProcessorProxy {
 
 	/**
 	 * Applies extra styles onto chart.
-	 *
+	 * 
 	 * @param cm
 	 */
 	public void processDataSetStyle(Chart cm) {
+		// No code here, just return
+		return;
 	}
 
 	/**
 	 * Sets format info of chart's category.
-	 *
+	 * 
 	 * @param formatInfo
 	 */
 	protected void setCategoryFormat(FormatInfo formatInfo) {
@@ -76,7 +81,7 @@ public class ChartStyleProcessorProxy {
 
 	/**
 	 * Returns format info of chart's category.
-	 *
+	 * 
 	 * @return object of format info.
 	 */
 	public FormatInfo getCategoryFormat() {
@@ -93,7 +98,7 @@ public class ChartStyleProcessorProxy {
 
 	/**
 	 * Updates chart values.
-	 *
+	 * 
 	 * @param cm
 	 * @param formatDefault indicates if it force to use default values to update
 	 *                      chart model.
@@ -104,7 +109,7 @@ public class ChartStyleProcessorProxy {
 
 	/**
 	 * Indicates if chart need to inherit basic styles from container.
-	 *
+	 * 
 	 * @return true if it needs to inherit styles.
 	 */
 	public boolean needInheritingStyles() {
@@ -113,7 +118,7 @@ public class ChartStyleProcessorProxy {
 
 	/**
 	 * Sets an instance of ChartValueUpdater.
-	 *
+	 * 
 	 * @param valueUpdater
 	 */
 	public void setChartValueUpdater(ChartValueUpdater valueUpdater) {

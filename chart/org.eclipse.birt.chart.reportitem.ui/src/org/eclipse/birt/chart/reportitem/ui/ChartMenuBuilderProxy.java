@@ -27,7 +27,6 @@ public class ChartMenuBuilderProxy implements IMenuBuilder {
 
 	private IMenuBuilder instance = ChartReportItemUIFactory.instance().createMenuBuilder();
 
-	@Override
 	public void buildMenu(IMenuManager menu, List selectedList) {
 		instance.buildMenu(menu, selectedList);
 	}

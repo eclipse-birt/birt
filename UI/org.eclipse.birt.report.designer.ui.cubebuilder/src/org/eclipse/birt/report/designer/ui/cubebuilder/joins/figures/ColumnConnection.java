@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.swt.graphics.Image;
  * Implementation of a Connection between two columns, when a join is created An
  * icon indicating the type of join condition is also displayed on the
  * connection line.
- *
+ * 
  */
 public class ColumnConnection extends PolylineConnection implements AnchorListener {
 
@@ -84,25 +84,22 @@ public class ColumnConnection extends PolylineConnection implements AnchorListen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Connection#setConnectionRouter(org.eclipse.draw2d.
 	 * ConnectionRouter)
 	 */
-	@Override
 	public void setConnectionRouter(ConnectionRouter cr) {
-		if (cr == null) {
+		if (cr == null)
 			super.setConnectionRouter(new ColumnConnectionRouter());
-		} else {
+		else
 			super.setConnectionRouter(cr);
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
 	 */
-	@Override
 	protected void outlineShape(Graphics g) {
 		g.setForegroundColor(ColorConstants.blue);
 		this.setForegroundColor(this.getBackgroundColor());
@@ -111,17 +108,15 @@ public class ColumnConnection extends PolylineConnection implements AnchorListen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.IFigure#getBounds()
 	 */
-	@Override
 	public Rectangle getBounds() {
 
 		if (bounds == null) {
 			super.getBounds();
-			if (joinTypeIcon != null) {
+			if (joinTypeIcon != null)
 				bounds.union(joinTypeIcon.getBounds());
-			}
 		}
 		return bounds;
 
@@ -129,10 +124,9 @@ public class ColumnConnection extends PolylineConnection implements AnchorListen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.IFigure#validate()
 	 */
-	@Override
 	public void validate() {
 		if (!this.isValid()) {
 			this.erase();

@@ -51,13 +51,11 @@ public class NewReportAction extends Action implements IWorkbenchAction {
 		fWindow = window;
 	}
 
-	@Override
 	public void run() {
 		Dialog dialog = new BaseWizardDialog(fWindow.getShell(), new NewReportWizard());
 		dialog.open();
 	}
 
-	@Override
 	public void dispose() {
 		fWindow = null;
 	}

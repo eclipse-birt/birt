@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -94,15 +94,14 @@ public class DataUtil {
 		Expression expr = (Expression) eh.getValue();
 		ScriptExpression scriptExpr = adapter.adaptExpression(expr);
 
-		if (scriptExpr == null) {
+		if (scriptExpr == null)
 			return null;
-		}
 		return scriptExpr.getText();
 	}
 
 	/**
 	 * Get all referenced bindings by the given binding in a set of binding list.
-	 *
+	 * 
 	 * @param target
 	 * @param allHandleList
 	 * @return
@@ -113,7 +112,7 @@ public class DataUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param target
 	 * @param allHandleList
 	 * @param prohibitedSet
@@ -122,9 +121,8 @@ public class DataUtil {
 	private static Set getReferencedBindings(ComputedColumnHandle target, List allHandleList, Set prohibitedSet,
 			IModelAdapter modelAdapter) {
 		Set result = new HashSet();
-		if (target == null || allHandleList == null || allHandleList.size() == 0 || modelAdapter == null) {
+		if (target == null || allHandleList == null || allHandleList.size() == 0 || modelAdapter == null)
 			return result;
-		}
 		prohibitedSet.add(target.getName());
 		String expr = getAdaptedExprText(modelAdapter, target);
 		try {
@@ -143,7 +141,8 @@ public class DataUtil {
 			Set temp = new HashSet();
 
 			for (Iterator it = result.iterator(); it.hasNext();) {
-				Set newProhibitedSet = new HashSet(prohibitedSet);
+				Set newProhibitedSet = new HashSet();
+				newProhibitedSet.addAll(prohibitedSet);
 				temp.addAll(getReferencedBindings((ComputedColumnHandle) it.next(), allHandleList, newProhibitedSet,
 						modelAdapter));
 			}
@@ -159,24 +158,22 @@ public class DataUtil {
 	/**
 	 * Return a list of valid group key bindings. Only those bindings that do not
 	 * involve aggregations will be allowed.
-	 *
+	 * 
 	 * @param availableHandles
 	 * @return
 	 */
 	public static List getValidGroupKeyBindings(List availableHandles) {
 		List result = new ArrayList();
 		IModelAdapter modelAdapter = getModelAdapter();
-		if (availableHandles == null || modelAdapter == null) {
+		if (availableHandles == null || modelAdapter == null)
 			return result;
-		}
 		try {
 			for (int i = 0; i < availableHandles.size(); i++) {
 				ComputedColumnHandle handle = (ComputedColumnHandle) availableHandles.get(i);
 				List originalNames = new ArrayList();
 				originalNames.add(handle.getName());
-				if (acceptBinding(handle, availableHandles, originalNames, modelAdapter)) {
+				if (acceptBinding(handle, availableHandles, originalNames, modelAdapter))
 					result.add(handle);
-				}
 			}
 		} catch (Exception e) {
 			return result;
@@ -188,7 +185,7 @@ public class DataUtil {
 
 	/**
 	 * Get the parameter value from .rptconfig file if it does exist
-	 *
+	 * 
 	 * @return the parameter value
 	 */
 	public static String getParamValue(DataSetHandle dataSetHandle, OdaDataSetParameterHandle paramDefn)
@@ -204,7 +201,7 @@ public class DataUtil {
 			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) moduleHandle.findParameter(paraName);
 			paraName = paraName + "_" + parameterHandle.getID(); //$NON-NLS-1$
 			SessionHandle sessionHandle = new DesignEngine(null).newSessionHandle(ULocale.US);
-			ReportDesignHandle rdHandle;
+			ReportDesignHandle rdHandle = null;
 			// Open report config file
 			rdHandle = sessionHandle.openDesign(reportConfigName);
 
@@ -240,7 +237,7 @@ public class DataUtil {
 
 	/**
 	 * To check whether the object with the specific type should be converted
-	 *
+	 * 
 	 * @param type
 	 * @return true if should be converted
 	 */
@@ -253,7 +250,7 @@ public class DataUtil {
 
 	/**
 	 * Delete the last "_" part
-	 *
+	 * 
 	 * @param name
 	 * @return String
 	 */
@@ -268,7 +265,7 @@ public class DataUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param binding
 	 * @param bindings
 	 * @param originalNames
@@ -297,7 +294,7 @@ public class DataUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param originalBindingName
 	 * @param availableHandles
 	 * @param referredBindings
@@ -311,20 +308,17 @@ public class DataUtil {
 				IColumnBinding cb = (IColumnBinding) referredBindings.get(i);
 				for (int j = 0; j < availableHandles.size(); j++) {
 					ComputedColumnHandle binding = (ComputedColumnHandle) availableHandles.get(j);
-					if (originalBindingName.contains(binding.getName())) {
+					if (originalBindingName.contains(binding.getName()))
 						continue;
-					}
-					if (binding.getName().equals(cb.getResultSetColumnName())) {
+					if (binding.getName().equals(cb.getResultSetColumnName()))
 						candidateBindings.add(binding);
-					}
 				}
 			}
 
 			for (int i = 0; i < candidateBindings.size(); i++) {
 				ComputedColumnHandle handle = (ComputedColumnHandle) candidateBindings.get(i);
-				if (!acceptBinding(handle, availableHandles, originalBindingName, adapter)) {
+				if (!acceptBinding(handle, availableHandles, originalBindingName, adapter))
 					return false;
-				}
 			}
 			return true;
 		} catch (Exception e) {
@@ -337,14 +331,13 @@ public class DataUtil {
 	 * the original ComputedColumnHandle expression as a parameter value now, we
 	 * should retrive expression value from ComputedColumnHandle's expression(old)
 	 * or argument value.
-	 *
+	 * 
 	 * @param bindingColumn
 	 * @return
 	 */
 	public static String getAggregationExpression(ComputedColumnHandle bindingColumn) {
-		if (bindingColumn.getExpression() != null) {
+		if (bindingColumn.getExpression() != null)
 			return bindingColumn.getExpression();
-		}
 		String functionName = bindingColumn.getAggregateFunction();
 		if (functionName != null) {
 			try {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 
 /**
  * Test case for ElementRefPropertyType.
- *
+ * 
  */
 
 public class ElementRefPropertyTypeTest extends PropertyTypeTestCase {
@@ -36,10 +36,9 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -59,35 +58,32 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
 	 * ()
 	 */
-	@Override
 	public void testGetTypeCode() {
 		assertEquals(PropertyType.ELEMENT_REF_TYPE, type.getTypeCode());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
-	@Override
 	public void testGetName() {
 		assertEquals(PropertyType.ELEMENT_REF_NAME, type.getName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
 	 * ()
 	 */
-	@Override
 	public void testValidateValue() throws PropertyValueException {
 		assertEquals(null, type.validateValue(design, null, propDefn, null));
 		assertEquals(null, type.validateValue(design, null, propDefn, "")); //$NON-NLS-1$
@@ -132,53 +128,48 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testValidateInputString()
 	 */
-	@Override
 	public void testValidateInputString() throws PropertyValueException {
 		// covered.
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
 	 * ()
 	 */
-	@Override
 	public void testValidateXml() throws PropertyValueException {
 		// covered.
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
 	 * ()
 	 */
-	@Override
 	public void testToDouble() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger ()
 	 */
-	@Override
 	public void testToInteger() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
-	@Override
 	public void testToXml() {
 		assertEquals(null, type.toXml(design, propDefn, null));
 		assertEquals("Element", type.toXml(design, propDefn, new ElementRefValue(null, "Element"))); //$NON-NLS-1$ //$NON-NLS-2$
@@ -186,11 +177,10 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
-	@Override
 	public void testToString() {
 		assertEquals(null, type.toString(design, propDefn, null));
 		assertEquals("Element", type.toString(design, propDefn, new ElementRefValue(null, "Element"))); //$NON-NLS-1$ //$NON-NLS-2$
@@ -198,11 +188,10 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testToDisplayString()
 	 */
-	@Override
 	public void testToDisplayString() {
 		assertEquals(null, type.toDisplayString(design, propDefn, null));
 		assertEquals("Element", type.toDisplayString(design, propDefn, new ElementRefValue(null, "Element"))); //$NON-NLS-1$ //$NON-NLS-2$
@@ -222,21 +211,19 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
 	 * ()
 	 */
-	@Override
 	public void testToNumber() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean ()
 	 */
-	@Override
 	public void testToBoolean() {
 	}
 

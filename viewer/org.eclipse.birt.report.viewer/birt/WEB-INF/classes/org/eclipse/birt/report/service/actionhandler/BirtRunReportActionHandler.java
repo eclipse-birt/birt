@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -34,7 +34,7 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param context
 	 * @param operation
 	 */
@@ -44,24 +44,21 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Local execution.
-	 *
+	 * 
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	@Override
 	public void __execute() throws Exception {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		assert attrBean != null;
 
 		Map parameterMap = attrBean.getParameters();
-		if (parameterMap == null) {
+		if (parameterMap == null)
 			parameterMap = new HashMap();
-		}
 
 		Map displayTexts = attrBean.getDisplayTexts();
-		if (displayTexts == null) {
+		if (displayTexts == null)
 			displayTexts = new HashMap();
-		}
 
 		String docName = attrBean.getReportDocumentName();
 		IViewerReportDesignHandle designHandle = attrBean.getReportDesignHandle(context.getRequest());
@@ -75,20 +72,18 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler {
 		// handle operation
 		BirtUtility.handleOperation(operation, attrBean, parameterMap, displayTexts);
 
-		List<Exception> errorList = new ArrayList<>();
+		List<Exception> errorList = new ArrayList<Exception>();
 		getReportService().runReport(designHandle, docName, options, parameterMap, displayTexts, errorList);
 		if (errorList != null && !errorList.isEmpty()) {
 			// clear document file
 			File doc = new File(docName);
-			if (doc != null) {
+			if (doc != null)
 				doc.delete();
-			}
 
 			throw BirtUtility.makeAxisFault("BirtRunReportActionHandler.__execute()", errorList); //$NON-NLS-1$
 		}
 	}
 
-	@Override
 	protected IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}

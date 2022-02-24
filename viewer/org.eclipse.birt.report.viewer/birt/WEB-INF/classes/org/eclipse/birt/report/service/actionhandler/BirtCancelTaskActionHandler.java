@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -34,7 +34,7 @@ public class BirtCancelTaskActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param context
 	 * @param operation
 	 */
@@ -45,7 +45,6 @@ public class BirtCancelTaskActionHandler extends AbstractBaseActionHandler {
 	/**
 	 * execute the action
 	 */
-	@Override
 	protected void __execute() throws Exception {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		assert attrBean != null;
@@ -57,7 +56,7 @@ public class BirtCancelTaskActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * After done action,update response
-	 *
+	 * 
 	 */
 	protected void handleUpdate() {
 		// do nothing
@@ -66,7 +65,6 @@ public class BirtCancelTaskActionHandler extends AbstractBaseActionHandler {
 	/**
 	 * Implement getReportService()
 	 */
-	@Override
 	protected IViewerReportService getReportService() {
 		return null;
 	}

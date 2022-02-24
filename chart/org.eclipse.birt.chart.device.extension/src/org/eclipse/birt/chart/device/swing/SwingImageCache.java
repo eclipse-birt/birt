@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -32,29 +32,29 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
- *
+ * 
  */
 public final class SwingImageCache {
 
 	/**
-	 *
+	 * 
 	 */
 	private final java.awt.Panel p = new java.awt.Panel(); // NEEDED FOR IMAGE
 
 	/**
-	 *
+	 * 
 	 */
 	private final Hashtable<String, Image> htCache;
 
 	/**
-	 *
+	 * 
 	 */
 	private final IDisplayServer idsSWING;
 
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.extension/swing"); //$NON-NLS-1$
 
 	/**
-	 *
+	 * 
 	 */
 	SwingImageCache(IDisplayServer idsSWING) {
 		this.idsSWING = idsSWING;
@@ -62,12 +62,12 @@ public final class SwingImageCache {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param url
 	 * @return
 	 * @throws ChartException
 	 */
-	Image loadImage(URL url) throws ChartException {
+	final Image loadImage(URL url) throws ChartException {
 		String sUrl = url.toString();
 		Image img = htCache.get(sUrl);
 		if (img != null) {
@@ -92,7 +92,7 @@ public final class SwingImageCache {
 				tracker.waitForAll();
 
 				if ((tracker.statusAll(true) & MediaTracker.ERRORED) != 0) {
-					StringBuilder sb = new StringBuilder();
+					StringBuffer sb = new StringBuffer();
 					Object[] oa = tracker.getErrorsAny();
 					sb.append('[');
 					for (int i = 0; i < oa.length; i++) {
@@ -106,7 +106,9 @@ public final class SwingImageCache {
 							"SwingImageCache.exception.media.tracker", //$NON-NLS-1$
 							new Object[] { sb.toString() }, Messages.getResourceBundle(idsSWING.getULocale()));
 				}
-			} catch (InterruptedException | IOException e) {
+			} catch (InterruptedException ex) {
+				throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.IMAGE_LOADING, ex);
+			} catch (IOException e) {
 				throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.IMAGE_LOADING, e);
 			}
 			htCache.put(sUrl, img);
@@ -115,9 +117,9 @@ public final class SwingImageCache {
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	void flush() {
+	final void flush() {
 		if (htCache.isEmpty()) {
 			return;
 		}
@@ -134,10 +136,10 @@ public final class SwingImageCache {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
-	Object getObserver() {
+	final Object getObserver() {
 		return p;
 	}
 }

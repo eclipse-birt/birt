@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -35,7 +35,7 @@ public interface ITextMetrics {
 	/**
 	 * Permits reuse of the text metrics instance for a new label with new
 	 * attributes and a forcing wrapping size.
-	 *
+	 * 
 	 * @since 2.1
 	 */
 	void reuse(Label la, double forceWrappingSize);
@@ -43,7 +43,7 @@ public interface ITextMetrics {
 	/**
 	 * Returns the height of a single line of text using the font defined in the
 	 * contained label
-	 *
+	 * 
 	 * @return The height of a single line of text using the font defined in the
 	 *         contained label
 	 */
@@ -52,7 +52,7 @@ public interface ITextMetrics {
 	/**
 	 * Returns the descent of a single line of text using the font defined in the
 	 * contained label
-	 *
+	 * 
 	 * @return The descent of a single line of text using the font defined in the
 	 *         contained label
 	 */
@@ -61,7 +61,7 @@ public interface ITextMetrics {
 	/**
 	 * Returns the full height of all lines of text using the font defined in the
 	 * contained label
-	 *
+	 * 
 	 * @return The full height of all lines of text using the font defined in the
 	 *         contained label
 	 */
@@ -72,7 +72,7 @@ public interface ITextMetrics {
 	/**
 	 * Returns the max width of the widest line of text using the font defined in
 	 * the contained label
-	 *
+	 * 
 	 * @return The max width of the widest line of text using the font defined in
 	 *         the contained label
 	 */
@@ -80,23 +80,23 @@ public interface ITextMetrics {
 
 	/**
 	 * Returns the number of lines of text associated with the label to be rendered
-	 *
+	 * 
 	 * @return The number of lines of text associated with the label to be rendered
 	 */
 	int getLineCount();
 
 	/**
 	 * The text associated with a line index for multi-line text
-	 *
+	 * 
 	 * @param iIndex The line to be retrieved from multi-line text
-	 *
+	 * 
 	 * @return A line of text (subset)
 	 */
 	String getLine(int iIndex);
 
 	/**
 	 * The text's width of associated with a line index.
-	 *
+	 * 
 	 * @param iIndex
 	 * @return
 	 */
@@ -109,16 +109,15 @@ public interface ITextMetrics {
 
 	/**
 	 * Returns the locale associated with the text metrics implementer
-	 *
+	 * 
 	 * @return The locale
 	 * @deprecated use {@link #getULocale()} instead.
 	 */
-	@Deprecated
 	Locale getLocale();
 
 	/**
 	 * Returns the locale associated with the text metrics implementer
-	 *
+	 * 
 	 * @return The locale
 	 * @since 2.1
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * <code>ImageItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulate different types of images. An
  * image can be represented in a design file in one of the following forms:
- *
+ * 
  * <li>
  * <h4>URL</h4>
  * <ul>
@@ -56,13 +56,13 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * The image comes from a BLOB field in the query. It also required to save the
  * image content to a temporary file.
  * </ul>
- *
+ * 
  */
 public class ImageItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * Creates an ImageItemExecutor using this constructor.
-	 *
+	 * 
 	 * @param context The execution context.
 	 * @param visitor The report visitor.
 	 */
@@ -72,7 +72,7 @@ public class ImageItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * execute the image. The execution process is:
-	 *
+	 * 
 	 * <li>create the image content
 	 * <li>push it into the stack
 	 * <li>open the query and seek to the first record
@@ -83,11 +83,10 @@ public class ImageItemExecutor extends QueryItemExecutor {
 	 * <li>call emitter to output the image
 	 * <li>close query
 	 * <li>popup the image
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#excute(org.eclipse.birt.report.engine.ir.ReportItemDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IReportEmitter)
 	 */
-	@Override
 	public IContent execute() {
 		ImageItemDesign imageDesign = (ImageItemDesign) getDesign();
 
@@ -171,7 +170,6 @@ public class ImageItemExecutor extends QueryItemExecutor {
 		}
 	}
 
-	@Override
 	public void close() throws BirtException {
 		finishTOCEntry();
 		closeQuery();

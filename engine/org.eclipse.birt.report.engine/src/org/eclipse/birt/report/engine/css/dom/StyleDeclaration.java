@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,6 @@ public class StyleDeclaration extends AbstractStyle {
 	/**
 	 * set the property
 	 */
-	@Override
 	public void setProperty(int index, CSSValue value) {
 		// assert index >= 0 && index < NUMBER_OF_STYLE;
 		if (values[index] != value) {
@@ -48,7 +47,6 @@ public class StyleDeclaration extends AbstractStyle {
 	/**
 	 * set the property
 	 */
-	@Override
 	public CSSValue getProperty(int index) {
 		assert index >= 0 && index < NUMBER_OF_STYLE;
 		return values[index];
@@ -75,17 +73,14 @@ public class StyleDeclaration extends AbstractStyle {
 		shared = false;
 	}
 
-	@Override
 	public boolean isEmpty() {
 		return propertyCount == 0;
 	}
 
-	@Override
 	public int getLength() {
 		return propertyCount;
 	}
 
-	@Override
 	public boolean equals(Object aStyle) {
 		if (aStyle instanceof StyleDeclaration) {
 			StyleDeclaration style = (StyleDeclaration) aStyle;
@@ -103,7 +98,6 @@ public class StyleDeclaration extends AbstractStyle {
 		return false;
 	}
 
-	@Override
 	public void write(DataOutputStream out) throws IOException {
 		// count how many valid value in the style
 		IOUtil.writeInt(out, propertyCount);

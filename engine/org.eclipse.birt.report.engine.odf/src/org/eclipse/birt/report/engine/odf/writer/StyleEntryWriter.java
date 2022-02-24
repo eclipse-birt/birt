@@ -374,7 +374,7 @@ public class StyleEntryWriter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param style
 	 * @param margins margins array, bottom, top, left, right
 	 */
@@ -467,7 +467,7 @@ public class StyleEntryWriter {
 	/**
 	 * If the cell properties is not set, then check the row properties and write
 	 * those properties.
-	 *
+	 * 
 	 * @param style this cell style
 	 */
 	private void writeCellProperties(StyleEntry style) {

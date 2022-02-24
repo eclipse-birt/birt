@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -53,7 +53,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Legend subtask
- *
+ * 
  */
 public class ChartLegendSheetImpl extends SubtaskSheetImpl implements Listener, SelectionListener {
 
@@ -73,7 +73,6 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements Listener, 
 
 	protected ChartCombo cmbLegendBehavior;
 
-	@Override
 	public void createControl(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.SUBTASK_LEGEND);
 
@@ -299,14 +298,12 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements Listener, 
 		btnLegendText.addSelectionListener(this);
 	}
 
-	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(txtTitle)) {
 			getChart().getLegend().getTitle().getCaption().setValue(txtTitle.getText());
 		}
 	}
 
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		// Detach popup dialog if there's selected button.
 		if (detachPopup(e.widget)) {
@@ -362,7 +359,6 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements Listener, 
 		return value;
 	}
 
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// Do nothing.
 	}

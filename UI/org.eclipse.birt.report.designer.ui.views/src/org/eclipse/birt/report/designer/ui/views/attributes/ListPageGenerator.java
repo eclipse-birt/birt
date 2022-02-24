@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.Form
  */
 public class ListPageGenerator extends BasePageGenerator {
 
-	@Override
 	protected TabPage buildTabContent(String tabKey) {
 		if (tabKey.equals(GROUPSSTITLE)) {
 			return new FormPage(FormPropertyDescriptor.FULL_FUNCTION, new GroupHandleProvider(), true, true);
@@ -33,12 +32,10 @@ public class ListPageGenerator extends BasePageGenerator {
 		return super.buildTabContent(tabKey);
 	}
 
-	@Override
 	protected boolean isSupportAggregationBinding() {
 		return true;
 	}
 
-	@Override
 	protected void createTabItems() {
 		createTabItem(BINDINGTITLE, ATTRIBUTESTITLE);
 		createTabItem(GROUPSSTITLE, BINDINGTITLE);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,6 @@ public class DatasetFilterConditionBuilder extends FilterConditionBuilder {
 		super(parentShell, title, message);
 	}
 
-	@Override
 	protected void setColumnList(DesignElementHandle handle) {
 		try {
 			DataSetHandle dataset = null;
@@ -46,20 +45,17 @@ public class DatasetFilterConditionBuilder extends FilterConditionBuilder {
 			} else if (handle instanceof TabularDimensionHandle) {
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ((TabularDimensionHandle) handle)
 						.getDefaultHierarchy();
-				if (hierarchy != null) {
+				if (hierarchy != null)
 					dataset = hierarchy.getDataSet();
-				}
 			} else if (handle instanceof TabularHierarchyHandle) {
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) handle;
-				if (hierarchy != null) {
+				if (hierarchy != null)
 					dataset = hierarchy.getDataSet();
-				}
 			}
-			if (dataset != null) {
+			if (dataset != null)
 				columnList = DataUtil.getColumnList(dataset);
-			} else {
+			else
 				columnList = Collections.EMPTY_LIST;
-			}
 		} catch (SemanticException e) {
 			ExceptionUtil.handle(e);
 		}

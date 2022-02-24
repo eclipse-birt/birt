@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -80,12 +80,11 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.AxesRenderer#renderSeries(org.eclipse.birt.
 	 * chart.output.IRenderer, Chart.Plot)
 	 */
-	@Override
 	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		// OBTAIN AN INSTANCE OF THE CHART (TO RETRIEVE GENERAL CHART PROPERTIES
 		// IF ANY)
@@ -483,7 +482,7 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.
 	 * birt.chart.device.IPrimitiveRenderer,
@@ -491,8 +490,7 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 	 * org.eclipse.birt.chart.model.attribute.Fill,
 	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
-	@Override
-	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
+	public final void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
 			throws ChartException {
 		if ((bo.getWidth() == 0) && (bo.getHeight() == 0)) {
 			return;
@@ -514,7 +512,7 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 
 		PolygonRenderEvent pre = ((EventObjectCache) ipr).getEventObject(StructureSource.createLegend(lg),
 				PolygonRenderEvent.class);
-		Location[] points = {
+		Location[] points = new Location[] {
 				goFactory.createLocation(bo.getLeft() + 1,
 						bo.getTop() + bo.getHeight() / 2d + liaMarker.getThickness() / 2d),
 				goFactory.createLocation(bo.getLeft() + bo.getWidth() - 1,
@@ -580,7 +578,7 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 				startFill = ((MultipleFill) fPaletteEntry).getFills().get(0);
 			}
 
-			renderMarker(lg, ipr, mStart, loStartMarker, gs.getOutline(), startFill, dph, markerSize,
+			renderMarker(lg, ipr, mStart, loStartMarker, gs.getOutline(), startFill, dph, Integer.valueOf(markerSize),
 					false, false);
 		}
 
@@ -610,7 +608,7 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 				endFill = ((MultipleFill) fPaletteEntry).getFills().get(1);
 			}
 
-			renderMarker(lg, ipr, mEnd, loEndMarker, gs.getOutline(), endFill, dph, markerSize, false,
+			renderMarker(lg, ipr, mEnd, loEndMarker, gs.getOutline(), endFill, dph, Integer.valueOf(markerSize), false,
 					false);
 		}
 	}
@@ -633,26 +631,24 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#compute(org.eclipse.birt.chart.
 	 * model.attribute.Bounds, org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
-	@Override
 	public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		// NOTE: This method is not used by the Gantt Renderer
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.IAxesDecorator#computeDecorationThickness(org.
 	 * eclipse.birt.chart.device.IDisplayServer,
 	 * org.eclipse.birt.chart.computation.withaxes.OneAxis)
 	 */
-	@Override
 	public double[] computeDecorationThickness(IDisplayServer xs, OneAxis ax) throws ChartException {
 		GanttSeries gs = (GanttSeries) getSeries();
 		Label la = gs.getDecorationLabel();
@@ -731,12 +727,11 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.AxesRenderer#getAxesDecorator(org.eclipse.birt.
 	 * chart.computation.withaxes.OneAxis)
 	 */
-	@Override
 	public IAxesDecorator getAxesDecorator(OneAxis ax) {
 		ChartWithAxes cwa = (ChartWithAxes) getModel();
 		Axis baseAxis = cwa.getPrimaryBaseAxes()[0];
@@ -755,14 +750,13 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.IAxesDecorator#decorateAxes(org.eclipse.birt.
 	 * chart.device.IPrimitiveRenderer,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints,
 	 * org.eclipse.birt.chart.computation.withaxes.OneAxis)
 	 */
-	@Override
 	public void decorateAxes(IPrimitiveRenderer ipr, ISeriesRenderingHints isrh, OneAxis ax) throws ChartException {
 		GanttSeries gs = (GanttSeries) getSeries();
 		Label la = gs.getDecorationLabel();
@@ -783,10 +777,12 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 			} else {
 				pos = IConstants.RIGHT;
 			}
-		} else if (pos == Position.BELOW) {
-			pos = IConstants.BELOW;
 		} else {
-			pos = IConstants.ABOVE;
+			if (pos == Position.BELOW) {
+				pos = IConstants.BELOW;
+			} else {
+				pos = IConstants.ABOVE;
+			}
 		}
 
 		la = goFactory.copyOf(la);
@@ -809,10 +805,12 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 			} else {
 				loLabel.setX(dXTick2);
 			}
-		} else if (pos == IConstants.ABOVE) {
-			loLabel.setY(dXTick1);
 		} else {
-			loLabel.setY(dXTick2);
+			if (pos == IConstants.ABOVE) {
+				loLabel.setY(dXTick1);
+			} else {
+				loLabel.setY(dXTick2);
+			}
 		}
 
 		// render decoration label
@@ -845,7 +843,6 @@ public final class Gantt extends AxesRenderer implements IAxesDecorator {
 		return entry != null && entry.isValid();
 	}
 
-	@Override
 	protected int checkEntryInRange(Object entry, Object min, Object max) {
 		if (entry instanceof GanttEntry) {
 			GanttEntry ge = (GanttEntry) entry;

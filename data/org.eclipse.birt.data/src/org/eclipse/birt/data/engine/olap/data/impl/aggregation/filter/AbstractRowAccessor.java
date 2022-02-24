@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 
 /**
- *
+ * 
  */
 
 public abstract class AbstractRowAccessor implements IResultRow {
@@ -31,7 +31,7 @@ public abstract class AbstractRowAccessor implements IResultRow {
 	/**
 	 * parse the complex attribute name to get the original name since it's composed
 	 * of level name and original attribute name.
-	 *
+	 * 
 	 * @param attrName
 	 * @return
 	 */
@@ -47,7 +47,7 @@ public abstract class AbstractRowAccessor implements IResultRow {
 	protected abstract void populateFieldIndexMap();
 
 	/**
-	 *
+	 * 
 	 */
 	abstract class FieldIndex {
 
@@ -55,7 +55,7 @@ public abstract class AbstractRowAccessor implements IResultRow {
 
 		/**
 		 * get the value of current index.
-		 *
+		 * 
 		 * @return
 		 * @throws DataException
 		 */
@@ -63,14 +63,14 @@ public abstract class AbstractRowAccessor implements IResultRow {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	abstract class KeyIndex extends FieldIndex {
 
 		int keyIndex;
 
 		/**
-		 *
+		 * 
 		 * @param levelIndex
 		 * @param keyIndex
 		 */
@@ -81,14 +81,14 @@ public abstract class AbstractRowAccessor implements IResultRow {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	abstract class AttributeIndex extends FieldIndex {
 
 		int attrIndex;
 
 		/**
-		 *
+		 * 
 		 * @param levelIndex
 		 * @param keyIndex
 		 */

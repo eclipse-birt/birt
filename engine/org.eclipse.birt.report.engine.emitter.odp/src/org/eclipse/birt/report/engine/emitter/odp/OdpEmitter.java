@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,6 @@ public class OdpEmitter extends PageEmitter implements OdfConstants {
 	private Package pkg;
 	private OdpContext context;
 
-	@Override
 	public void initialize(IEmitterServices service) throws EngineException {
 		context = new OdpContext();
 		bodyOut = new ByteArrayOutputStream();
@@ -54,12 +53,10 @@ public class OdpEmitter extends PageEmitter implements OdfConstants {
 		super.initialize(service);
 	}
 
-	@Override
 	public PageDeviceRender createRender(IEmitterServices service) throws EngineException {
 		return new OdpRender(service, context, bodyOut, masterPageOut);
 	}
 
-	@Override
 	public void end(IReportContent report) {
 		super.end(report);
 		save();
@@ -95,7 +92,6 @@ public class OdpEmitter extends PageEmitter implements OdfConstants {
 			super(out, reportDpi);
 		}
 
-		@Override
 		public void writeDefaultStyles() {
 			// TODO: also write "style:default-style" entries?
 

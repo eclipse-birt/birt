@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008, 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -49,11 +49,10 @@ public class SchemaNode extends ChildrenAllowedNode implements Comparable<Schema
 	@Override
 	protected IDBNode[] refetchChildren(FilterConfig fc) {
 		String[] tableTypes = fc.getTableTypesForJDBC();
-		List<IDBNode> children = new ArrayList<>();
+		List<IDBNode> children = new ArrayList<IDBNode>();
 		if (tableTypes != null) {
-			if (tableTypes.length == 1 && TableType.NO_LIMIT.getTypeName().equals(tableTypes[0])) {
+			if (tableTypes.length == 1 && TableType.NO_LIMIT.getTypeName().equals(tableTypes[0]))
 				tableTypes = null;
-			}
 
 			ResultSet rs = JdbcMetaDataProvider.getInstance().getAlltables(schemaName, fc.getNamePattern(), tableTypes);
 
@@ -80,26 +79,22 @@ public class SchemaNode extends ChildrenAllowedNode implements Comparable<Schema
 		return children.toArray(new IDBNode[0]);
 	}
 
-	@Override
 	public int compareTo(SchemaNode o) {
 		return schemaName.compareTo(o.schemaName);
 	}
 
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
 	// (if required)
-	@Override
 	public String getDisplayName(String metadataBidiFormatStr) {
 		return BidiTransform.transform(schemaName, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
 	}
 
-	@Override
 	public Image getImage() {
 		return JFaceResources.getImageRegistry().get(SCHEMA_ICON);
 	}
 
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
 	// (if required)
-	@Override
 	public String getQualifiedNameInSQL(boolean useIdentifierQuoteString, boolean includeSchema,
 			String metadataBidiFormatStr) {
 		String quoteFlag = "";

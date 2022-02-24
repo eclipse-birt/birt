@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 
 /**
- *
+ * 
  */
 
 public class TreeListDialogField extends DialogField {
@@ -114,7 +114,7 @@ public class TreeListDialogField extends DialogField {
 
 	/**
 	 * Sets the viewer comparator.
-	 *
+	 * 
 	 * @param viewerComparator The viewer comparator to set
 	 */
 	public void setViewerComparator(ViewerComparator viewerComparator) {
@@ -138,7 +138,7 @@ public class TreeListDialogField extends DialogField {
 
 	/**
 	 * Checks if the button pressed is handled internally
-	 *
+	 * 
 	 * @return Returns true if button has been handled.
 	 */
 	protected boolean managedButtonPressed(int index) {
@@ -159,7 +159,6 @@ public class TreeListDialogField extends DialogField {
 	/*
 	 * @see DialogField#doFillIntoGrid
 	 */
-	@Override
 	public Control[] doFillIntoGrid(Composite parent, int nColumns) {
 		PixelConverter converter = new PixelConverter(parent);
 
@@ -197,7 +196,6 @@ public class TreeListDialogField extends DialogField {
 	/*
 	 * @see DialogField#getNumberOfControls
 	 */
-	@Override
 	public int getNumberOfControls() {
 		return 3;
 	}
@@ -216,7 +214,7 @@ public class TreeListDialogField extends DialogField {
 	/**
 	 * Returns the tree control. When called the first time, the control will be
 	 * created.
-	 *
+	 * 
 	 * @param parent The parent composite when called the first time, or
 	 *               <code>null</code> after.
 	 */
@@ -228,7 +226,6 @@ public class TreeListDialogField extends DialogField {
 
 			fTreeControl = (Tree) fTree.getControl();
 			fTreeControl.addKeyListener(new KeyAdapter() {
-				@Override
 				public void keyPressed(KeyEvent e) {
 					handleKeyPressed(e);
 				}
@@ -311,7 +308,7 @@ public class TreeListDialogField extends DialogField {
 	/**
 	 * Returns the composite containing the buttons. When called the first time, the
 	 * control will be created.
-	 *
+	 * 
 	 * @param parent The parent composite when called the first time, or
 	 *               <code>null</code> after.
 	 */
@@ -320,12 +317,10 @@ public class TreeListDialogField extends DialogField {
 			assertCompositeNotNull(parent);
 
 			SelectionListener listener = new SelectionListener() {
-				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					doButtonSelected(e);
 				}
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					doButtonSelected(e);
 				}
@@ -392,7 +387,6 @@ public class TreeListDialogField extends DialogField {
 	/*
 	 * @see DialogField#dialogFieldChanged
 	 */
-	@Override
 	public void dialogFieldChanged() {
 		super.dialogFieldChanged();
 		updateButtonState();
@@ -438,7 +432,6 @@ public class TreeListDialogField extends DialogField {
 	/*
 	 * @see DialogField#updateEnableState
 	 */
-	@Override
 	protected void updateEnableState() {
 		super.updateEnableState();
 
@@ -662,8 +655,10 @@ public class TreeListDialogField extends DialogField {
 			if (arr.length > 0) {
 				element = arr[0];
 			}
-		} else if (fElements.size() > 0) {
-			element = fElements.get(0);
+		} else {
+			if (fElements.size() > 0) {
+				element = fElements.get(0);
+			}
 		}
 		if (element != null) {
 			selectElements(new StructuredSelection(element));
@@ -674,7 +669,6 @@ public class TreeListDialogField extends DialogField {
 		if (isOkToUse(fTreeControl)) {
 			Display d = fTreeControl.getDisplay();
 			d.asyncExec(new Runnable() {
-				@Override
 				public void run() {
 					if (isOkToUse(fTreeControl)) {
 						selectElements(selection);
@@ -687,7 +681,6 @@ public class TreeListDialogField extends DialogField {
 	/**
 	 * Refreshes the tree.
 	 */
-	@Override
 	public void refresh() {
 		super.refresh();
 		if (isOkToUse(fTreeControl)) {
@@ -824,25 +817,21 @@ public class TreeListDialogField extends DialogField {
 
 	private class TreeViewerAdapter implements ITreeContentProvider, ISelectionChangedListener, IDoubleClickListener {
 
-		private final Object[] NO_ELEMENTS = {};
+		private final Object[] NO_ELEMENTS = new Object[0];
 
 		// ------- ITreeContentProvider Interface ------------
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// will never happen
 		}
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public Object[] getElements(Object obj) {
 			return fElements.toArray();
 		}
 
-		@Override
 		public Object[] getChildren(Object element) {
 			if (fTreeAdapter != null) {
 				return fTreeAdapter.getChildren(TreeListDialogField.this, element);
@@ -850,7 +839,6 @@ public class TreeListDialogField extends DialogField {
 			return NO_ELEMENTS;
 		}
 
-		@Override
 		public Object getParent(Object element) {
 			if (!fElements.contains(element) && fTreeAdapter != null) {
 				return fTreeAdapter.getParent(TreeListDialogField.this, element);
@@ -858,7 +846,6 @@ public class TreeListDialogField extends DialogField {
 			return fParentElement;
 		}
 
-		@Override
 		public boolean hasChildren(Object element) {
 			if (fTreeAdapter != null) {
 				return fTreeAdapter.hasChildren(TreeListDialogField.this, element);
@@ -868,19 +855,17 @@ public class TreeListDialogField extends DialogField {
 
 		// ------- ISelectionChangedListener Interface ------------
 
-		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			doListSelected(event);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.
 		 * viewers.DoubleClickEvent)
 		 */
-		@Override
 		public void doubleClick(DoubleClickEvent event) {
 			doDoubleClick(event);
 		}

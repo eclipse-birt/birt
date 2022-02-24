@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -101,7 +101,7 @@ public class ListPropertyState extends AbstractPropertyState {
 	 * Constructs the design parse state with the design file parser handler. This
 	 * constructor is used when this list property to parse is a property of one
 	 * element.
-	 *
+	 * 
 	 * @param theHandler the design file parser handler
 	 * @param element    the element which holds this property
 	 */
@@ -114,7 +114,7 @@ public class ListPropertyState extends AbstractPropertyState {
 	 * Constructs the design parse state with the design file parser handler. This
 	 * constructor is used when this list property to parse is a member of one
 	 * structure.
-	 *
+	 * 
 	 * @param theHandler the design parser handler
 	 * @param element    the element holding this list property
 	 * @param propDefn   the definition of the property which is structure list
@@ -130,12 +130,11 @@ public class ListPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#setName(java
 	 * .lang.String)
 	 */
 
-	@Override
 	protected void setName(String name) {
 		super.setName(name);
 
@@ -148,19 +147,17 @@ public class ListPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 
 		super.parseAttrs(attrs);
 
-		if (StringUtil.isBlank(name)) {
+		if (StringUtil.isBlank(name))
 			return;
-		}
 
 		// compatible for old Action list property.
 		if (this.struct instanceof Action) {
@@ -183,17 +180,16 @@ public class ListPropertyState extends AbstractPropertyState {
 			if (propDefn == null) {
 				// ROM does not contain public driver properties any more.
 
-				
+				if ("publicDriverProperties".equals(name)) //$NON-NLS-1$
+					return;
 
 				// compatible for "includeLibrary" in the module
 
-				if ("publicDriverProperties".equals(name) || (element instanceof Module && "includeLibraries".equalsIgnoreCase(name))) { //$NON-NLS-1$
+				if (element instanceof Module && "includeLibraries".equalsIgnoreCase(name)) //$NON-NLS-1$
 					return;
-				}
 
-				if (element instanceof ScriptDataSet && "resultSet".equalsIgnoreCase(name)) { //$NON-NLS-1$
+				if (element instanceof ScriptDataSet && "resultSet".equalsIgnoreCase(name)) //$NON-NLS-1$
 					return;
-				}
 
 				// the property has been removed. It must be handled before
 				// checking the
@@ -201,9 +197,8 @@ public class ListPropertyState extends AbstractPropertyState {
 
 				if (handler.versionNumber > VersionUtil.VERSION_3_0_0
 						&& handler.versionNumber <= VersionUtil.VERSION_3_2_1 && ("boundDataColumns".equals(name)) //$NON-NLS-1$
-						&& (element instanceof GroupElement)) {
+						&& (element instanceof GroupElement))
 					return;
-				}
 
 				// If the property name is invalid, no error will be reported.
 
@@ -212,11 +207,13 @@ public class ListPropertyState extends AbstractPropertyState {
 				RecoverableError.dealUndefinedProperty(handler, e);
 
 				valid = false;
-			} else if (IPropertyType.STRUCT_TYPE != propDefn.getTypeCode()) {
-				DesignParserException e = new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE);
-				handler.getErrorHandler().semanticError(e);
-				valid = false;
+			} else {
+				if (IPropertyType.STRUCT_TYPE != propDefn.getTypeCode()) {
+					DesignParserException e = new DesignParserException(
+							DesignParserException.DESIGN_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE);
+					handler.getErrorHandler().semanticError(e);
+					valid = false;
+				}
 			}
 		}
 
@@ -224,43 +221,40 @@ public class ListPropertyState extends AbstractPropertyState {
 			if (struct != null) {
 
 				struct.setProperty(propDefn, new ArrayList());
-			} else if (!IDesignElementModel.USER_PROPERTIES_PROP.equals(propDefn.getName())) {
-				element.setProperty(propDefn, new ArrayList());
+			} else {
+				if (!IDesignElementModel.USER_PROPERTIES_PROP.equals(propDefn.getName()))
+					element.setProperty(propDefn, new ArrayList());
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
-	@Override
 	public AbstractParseState startElement(String tagName) {
 		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STRUCTURE_TAG)) {
-			if (struct != null) {
+			if (struct != null)
 				return new StructureState(handler, element, propDefn, (Structure) struct);
-			}
 
 			return new StructureState(handler, element, propDefn);
 		}
 
-		if (tagName.equalsIgnoreCase(DesignSchemaConstants.EX_PROPERTY_TAG)) {
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.EX_PROPERTY_TAG))
 			return new ExtendedPropertyState(handler, element, propDefn);
-		}
 
 		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		// since 3.2.21, parameter name is case-insensitive
 		if (handler.versionNumber < VersionUtil.VERSION_3_2_21) {
@@ -268,9 +262,8 @@ public class ListPropertyState extends AbstractPropertyState {
 			if (element instanceof ReportItem && IReportItemModel.BOUND_DATA_COLUMNS_PROP.equals(name)) {
 				List boundColumns = (List) element.getLocalProperty(handler.module,
 						IReportItemModel.BOUND_DATA_COLUMNS_PROP);
-				if (boundColumns == null || boundColumns.isEmpty()) {
+				if (boundColumns == null || boundColumns.isEmpty())
 					return;
-				}
 				for (int i = 0; i < boundColumns.size(); i++) {
 					ComputedColumn column = (ComputedColumn) boundColumns.get(i);
 					handleBinding(column, ComputedColumn.EXPRESSION_MEMBER);
@@ -301,11 +294,10 @@ public class ListPropertyState extends AbstractPropertyState {
 		assert binding != null;
 		PropertyDefn propDefn = (PropertyDefn) binding.getMemberDefn(memberName);
 		Object value = binding.getProperty(handler.module, propDefn);
-		if (value == null) {
+		if (value == null)
 			return;
-		}
 
-		List<Expression> expressions = new ArrayList<>();
+		List<Expression> expressions = new ArrayList<Expression>();
 		boolean isExpressionType = propDefn.getTypeCode() == IPropertyType.EXPRESSION_TYPE;
 		if (isExpressionType) {
 			expressions.add((Expression) value);
@@ -313,10 +305,10 @@ public class ListPropertyState extends AbstractPropertyState {
 			expressions.addAll((List<Expression>) value);
 		}
 
-		List<Expression> newExpressions = new ArrayList<>(expressions);
-		if (!isExpressionType) {
+		List<Expression> newExpressions = new ArrayList<Expression>();
+		newExpressions.addAll(expressions);
+		if (!isExpressionType)
 			binding.setProperty(propDefn, newExpressions);
-		}
 		for (int index = 0; index < expressions.size(); index++) {
 			Expression exprObj = expressions.get(index);
 			if (IExpressionType.JAVASCRIPT.equals(exprObj.getType())) {
@@ -330,7 +322,7 @@ public class ListPropertyState extends AbstractPropertyState {
 						// replacement or not any such a name parameter is
 						// renamed in order to do this handling multiple times
 						// for the same name
-						HashSet<String> handledNames = new HashSet<>();
+						HashSet<String> handledNames = new HashSet<String>();
 						if (columnExprs != null) {
 							for (int i = 0; i < columnExprs.size(); i++) {
 								IColumnBinding columnBinding = (IColumnBinding) columnExprs.get(i);
@@ -346,11 +338,10 @@ public class ListPropertyState extends AbstractPropertyState {
 												columnName, newParamName);
 										Expression newExprObj = new Expression(newExpression,
 												IExpressionType.JAVASCRIPT);
-										if (isExpressionType) {
+										if (isExpressionType)
 											binding.setExpressionProperty(memberName, newExprObj);
-										} else {
+										else
 											newExpressions.set(index, newExprObj);
-										}
 									}
 								}
 							}
@@ -366,12 +357,11 @@ public class ListPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
 	 * ()
 	 */
 
-	@Override
 	protected AbstractParseState generalJumpTo() {
 
 		if (supportIsEmpty()) {
@@ -401,7 +391,13 @@ public class ListPropertyState extends AbstractPropertyState {
 
 		}
 
-		if ((PARAM_BOUND_DATA_COLUMNS_PROP == nameValue && element instanceof ScalarParameter) || (BOUND_DATA_COLUMNS_PROP == nameValue && element instanceof ReportItem)) {
+		if (PARAM_BOUND_DATA_COLUMNS_PROP == nameValue && element instanceof ScalarParameter) {
+			CompatibleBoundColumnState state = new CompatibleBoundColumnState(handler, element);
+			state.setName(name);
+			return state;
+		}
+
+		if (BOUND_DATA_COLUMNS_PROP == nameValue && element instanceof ReportItem) {
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(handler, element);
 			state.setName(name);
 			return state;
@@ -421,12 +417,11 @@ public class ListPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
 	 * versionConditionalJumpTo()
 	 */
 
-	@Override
 	protected AbstractParseState versionConditionalJumpTo() {
 		if (element instanceof OdaDataSource) {
 			if (PRIVATE_DRIVER_PROPERTIES_PROP == nameValue || PUBLIC_DRIVER_PROPERTIES_PROP == nameValue) {

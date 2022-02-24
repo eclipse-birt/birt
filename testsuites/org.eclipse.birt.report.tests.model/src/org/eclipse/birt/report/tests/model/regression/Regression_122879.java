@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <li>Add a group"ID" on the table, group on row["CUSTOMERNUMBER"]
  * <li>Switch to outline view, choose the table group, delete the group name
  * </ol>
- *
+ * 
  * <b>Expected result:</b>
  * <p>
  * The table group name can be deleted in outline view
@@ -51,7 +51,6 @@ public class Regression_122879 extends BaseTestCase {
 
 	private final static String INPUT = "regression_122879.xml"; //$NON-NLS-1$
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();

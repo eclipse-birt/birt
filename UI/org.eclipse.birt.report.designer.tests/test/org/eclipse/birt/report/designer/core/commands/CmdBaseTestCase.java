@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 
 /**
- *
+ * 
  * This is base Class for command test provides method for creation of
  * table/row/column/cell
  */
@@ -64,7 +64,6 @@ public abstract class CmdBaseTestCase extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -73,7 +72,6 @@ public abstract class CmdBaseTestCase extends BaseTestCase {
 		adapter = new TableHandleAdapter(table, null);
 	}
 
-	@Override
 	protected void tearDown() throws SemanticException {
 		clearAll(getReportDesignHandle().getBody());
 		clearAll(getReportDesignHandle().getDataSources());
@@ -196,9 +194,8 @@ public abstract class CmdBaseTestCase extends BaseTestCase {
 		command.setParent(parent);
 		command.execute();
 
-		if (dataSource == null) {
+		if (dataSource == null)
 			createDataSource();
-		}
 
 		try {
 			dataSet.setDataSource(DATA_SOURCE_NAME);

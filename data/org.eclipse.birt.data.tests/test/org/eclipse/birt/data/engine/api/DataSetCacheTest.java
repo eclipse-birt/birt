@@ -1,21 +1,17 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.api;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,11 +39,13 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
+
+import testutil.ConfigText;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import testutil.ConfigText;
+import static org.junit.Assert.*;
 
 /**
  * Test cache feature for oda result set.
@@ -84,13 +82,12 @@ public class DataSetCacheTest extends APITestCase {
 	public void dataSetCacheTearDown() throws Exception {
 		getDataSetCacheManager(dataEngine).resetForTest();
 		dataEngine.shutdown();
-		if (myDataEngine != null) {
+		if (myDataEngine != null)
 			myDataEngine.shutdown();
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataEngine
 	 * @return
 	 */
@@ -101,7 +98,6 @@ public class DataSetCacheTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
-	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
 				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName"));
@@ -109,7 +105,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test feature of whether cache will be used
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -134,7 +130,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test feature of whether cache will be used
-	 *
+	 * 
 	 * @throws BirtException
 	 * @throws IOException
 	 */
@@ -154,15 +150,14 @@ public class DataSetCacheTest extends APITestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			StringBuilder str = new StringBuilder();
+			String str = "";
 			for (int i = 0; i < rowBeNames.length; i++) {
-				str.append(ri.getValue(rowBeNames[i]));
+				str += ri.getValue(rowBeNames[i]);
 
-				if (i < rowBeNames.length - 1) {
-					str.append(", ");
-				}
+				if (i < rowBeNames.length - 1)
+					str += ", ";
 			}
-			testPrintln(str.toString());
+			testPrintln(str);
 		}
 		ri.close();
 		qr.close();
@@ -180,15 +175,14 @@ public class DataSetCacheTest extends APITestCase {
 
 		ri = qr.getResultIterator();
 		while (ri.next()) {
-			StringBuilder str = new StringBuilder();
+			String str = "";
 			for (int i = 0; i < rowBeNames.length; i++) {
-				str.append(ri.getValue(rowBeNames[i]));
+				str += ri.getValue(rowBeNames[i]);
 
-				if (i < rowBeNames.length - 1) {
-					str.append(", ");
-				}
+				if (i < rowBeNames.length - 1)
+					str += ", ";
 			}
-			testPrintln(str.toString());
+			testPrintln(str);
 		}
 
 		checkOutputFile();
@@ -200,7 +194,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test the feature of clear cache
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -227,7 +221,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test the feature of enable cache
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -256,7 +250,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test the feature of always cache.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -285,7 +279,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test the feature of always cache.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -319,7 +313,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test the feature of always cache.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -353,7 +347,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test the feature of disable cache.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -382,7 +376,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test the feature of cache. Check the data in between the cache use is corret.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -401,13 +395,11 @@ public class DataSetCacheTest extends APITestCase {
 		IResultIterator ri = getResultIterator1(myDataEngine);
 
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++) {
+			for (int i = 0; i < rowBeArray.length; i++)
 				expectedValue.add(ri.getValue(rowBeNames[i]));
-			}
 
-			for (int i = 0; i < totalBeArray.length; i++) {
+			for (int i = 0; i < totalBeArray.length; i++)
 				expectedValue.add(ri.getValue(totalBeNames[i]));
-			}
 		}
 
 		ri.close();
@@ -429,7 +421,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * Test the feature of cache. Check the data in between the cache use is corret.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
@@ -512,15 +504,14 @@ public class DataSetCacheTest extends APITestCase {
 		IResultIterator ri = qr.getResultIterator();
 
 		while (ri.next()) {
-			StringBuilder s = new StringBuilder();
+			String s = "";
 			for (int i = 0; i < rowBeArray.length; i++) {
-				s.append(ri.getValue(rowBeNames[i]));
-				if (i != rowBeArray.length - 1) {
-					s.append(", ");
-				}
+				s += ri.getValue(rowBeNames[i]);
+				if (i != rowBeArray.length - 1)
+					s += ", ";
 			}
 
-			testPrintln(s.toString());
+			testPrintln(s);
 		}
 		qr.close();
 		myDataEngine.shutdown();
@@ -544,9 +535,8 @@ public class DataSetCacheTest extends APITestCase {
 		IResultIterator ri = qr.getResultIterator();
 
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++) {
+			for (int i = 0; i < rowBeArray.length; i++)
 				ri.getValue(rowBeNames[i]);
-			}
 		}
 
 		FilterDefinition filterDefn = new FilterDefinition(
@@ -558,15 +548,14 @@ public class DataSetCacheTest extends APITestCase {
 		ri = qr.getResultIterator();
 
 		while (ri.next()) {
-			StringBuilder s = new StringBuilder();
+			String s = "";
 			for (int i = 0; i < rowBeArray.length; i++) {
-				s.append(ri.getValue(rowBeNames[i]));
-				if (i != rowBeArray.length - 1) {
-					s.append(", ");
-				}
+				s += ri.getValue(rowBeNames[i]);
+				if (i != rowBeArray.length - 1)
+					s += ", ";
 			}
 
-			testPrintln(s.toString());
+			testPrintln(s);
 		}
 		myDataEngine.shutdown();
 
@@ -586,9 +575,8 @@ public class DataSetCacheTest extends APITestCase {
 		IResultIterator ri = qr.getResultIterator();
 
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++) {
+			for (int i = 0; i < rowBeArray.length; i++)
 				ri.getValue(rowBeNames[i]);
-			}
 		}
 
 		GroupDefinition gd = new GroupDefinition("G1");
@@ -599,15 +587,14 @@ public class DataSetCacheTest extends APITestCase {
 		ri = qr.getResultIterator();
 
 		while (ri.next()) {
-			StringBuilder s = new StringBuilder();
+			String s = "";
 			for (int i = 0; i < rowBeArray.length; i++) {
-				s.append(ri.getValue(rowBeNames[i]));
-				if (i != rowBeArray.length - 1) {
-					s.append(", ");
-				}
+				s += ri.getValue(rowBeNames[i]);
+				if (i != rowBeArray.length - 1)
+					s += ", ";
 			}
 
-			testPrintln(s.toString());
+			testPrintln(s);
 		}
 
 		gd = new GroupDefinition("G2");
@@ -618,15 +605,14 @@ public class DataSetCacheTest extends APITestCase {
 		ri = qr.getResultIterator();
 
 		while (ri.next()) {
-			StringBuilder s = new StringBuilder();
+			String s = "";
 			for (int i = 0; i < rowBeArray.length; i++) {
-				s.append(ri.getValue(rowBeNames[i]));
-				if (i != rowBeArray.length - 1) {
-					s.append(", ");
-				}
+				s += ri.getValue(rowBeNames[i]);
+				if (i != rowBeArray.length - 1)
+					s += ", ";
 			}
 
-			testPrintln(s.toString());
+			testPrintln(s);
 		}
 		myDataEngine.shutdown();
 
@@ -692,7 +678,7 @@ public class DataSetCacheTest extends APITestCase {
 
 	/**
 	 * @throws BirtException
-	 *
+	 * 
 	 */
 	@Test
 	public void testScriptedCache() throws BirtException {
@@ -713,9 +699,8 @@ public class DataSetCacheTest extends APITestCase {
 		DataEngine myDataEngine2 = DataEngine.newDataEngine(platformConfig, context);
 		IResultIterator ri = getResultIterator2(myDataEngine2);
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++) {
+			for (int i = 0; i < rowBeArray.length; i++)
 				expectedValue.add(ri.getValue(rowBeNames[i]));
-			}
 		}
 		ri.close();
 		myDataEngine2.shutdown();
@@ -741,7 +726,7 @@ public class DataSetCacheTest extends APITestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param myDataEngine
 	 * @return
 	 * @throws BirtException
@@ -756,8 +741,8 @@ public class DataSetCacheTest extends APITestCase {
 				+ "row.SQUARE=count*count; " + "row.STR=\"row#\" + count; " + "--count; " + "return true; " + "}");
 
 		// set column defintion for data set
-		String[] scriptColumnNames = { "NUM", "SQUARE", "STR" };
-		int[] scriptColumnTypes = { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE, DataType.STRING_TYPE };
+		String[] scriptColumnNames = new String[] { "NUM", "SQUARE", "STR" };
+		int[] scriptColumnTypes = new int[] { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE, DataType.STRING_TYPE };
 		for (int i = 0; i < scriptColumnNames.length; i++) {
 			ColumnDefinition colInfo = new ColumnDefinition(scriptColumnNames[i]);
 			colInfo.setDataType(scriptColumnTypes[i]);
@@ -780,9 +765,8 @@ public class DataSetCacheTest extends APITestCase {
 		rowBeNames[1] = "SQUARE1";
 		rowBeNames[2] = "STR1";
 
-		for (int i = 0; i < rowBeArray.length; i++) {
+		for (int i = 0; i < rowBeArray.length; i++)
 			queryDefinition.addResultSetExpression(rowBeNames[i], rowBeArray[i]);
-		}
 
 		myDataEngine2.defineDataSource(odaDataSource);
 		myDataEngine2.defineDataSet(odaDataSet);
@@ -886,18 +870,16 @@ public class DataSetCacheTest extends APITestCase {
 		int num = rowBeArray.length;
 		int num2 = totalBeArray.length;
 
-		for (int i = 0; i < num; i++) {
+		for (int i = 0; i < num; i++)
 			qd.addResultSetExpression(rowBeNames[i], rowBeArray[i]);
-		}
 
-		for (int i = 0; i < num2; i++) {
+		for (int i = 0; i < num2; i++)
 			qd.addResultSetExpression(totalBeNames[i], totalBeArray[i]);
-		}
 	}
 
 	/**
 	 * Only check the result of the expectedValue of the result set
-	 *
+	 * 
 	 * @param data.it
 	 * @param ri
 	 * @throws DataException
@@ -907,13 +889,13 @@ public class DataSetCacheTest extends APITestCase {
 		Iterator it = this.expectedValue.iterator();
 
 		while (ri.next()) {
-			StringBuilder str = new StringBuilder();
+			String str = "";
 
 			for (int i = 0; i < rowBeArray.length; i++) {
 				Object ob1 = it.next();
 				Object ob2 = ri.getValue(rowBeNames[i]);
 				assertEquals(ob1, ob2);
-				str.append(" ").append(ob2.toString());
+				str += " " + ob2.toString();
 			}
 
 			if (totalBeArray != null) {
@@ -921,11 +903,11 @@ public class DataSetCacheTest extends APITestCase {
 					Object ob1 = it.next();
 					Object ob2 = ri.getValue(totalBeNames[i]);
 					assertEquals(ob1, ob2);
-					str.append(" ").append(ob2.toString());
+					str += " " + ob2.toString();
 				}
 			}
 
-			System.out.println("row result set: " + str.toString());
+			System.out.println("row result set: " + str);
 		}
 	}
 

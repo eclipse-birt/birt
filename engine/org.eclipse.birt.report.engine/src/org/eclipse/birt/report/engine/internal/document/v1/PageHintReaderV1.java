@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,22 +53,18 @@ public class PageHintReaderV1 implements IPageHintReader {
 		}
 	}
 
-	@Override
 	public int getVersion() {
 		return VERSION_0;
 
 	}
 
-	@Override
 	public void close() {
 	}
 
-	@Override
 	public long getTotalPage() throws IOException {
 		return pageHints.size();
 	}
 
-	@Override
 	public IPageHint getPageHint(long pageNumber) throws IOException {
 		return (IPageHint) pageHints.get((int) pageNumber);
 	}
@@ -95,14 +91,12 @@ public class PageHintReaderV1 implements IPageHintReader {
 		return hint;
 	}
 
-	@Override
 	public long getPageOffset(long pageNumber, String masterPage) throws IOException {
 		return getPageHint(pageNumber).getOffset();
 	}
 
-	@Override
 	public Collection<PageVariable> getPageVariables() throws IOException {
-		return new ArrayList<>();
+		return new ArrayList<PageVariable>();
 	}
 
 }

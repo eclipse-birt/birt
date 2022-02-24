@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,7 @@ import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 
 /**
- *
+ * 
  */
 
 public class CubeQueryUtil implements ICubeQueryUtil {
@@ -78,14 +78,12 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 	 * java.lang.String,
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition, boolean)
 	 */
-	@Override
 	public List getReferableBindings(String targetLevel, ICubeQueryDefinition cubeDefn, boolean isSort)
 			throws AdapterException {
 		try {
 			List bindings = cubeDefn.getBindings();
-			if (bindings == null) {
+			if (bindings == null)
 				return new ArrayList();
-			}
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel(targetLevel);
 
 			List result = new ArrayList();
@@ -105,14 +103,12 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 				}
 				Set refDimLevel = OlapExpressionCompiler.getReferencedDimLevel(binding.getExpression(), bindings,
 						isSort);
-				if (refDimLevel.size() > 1) {
+				if (refDimLevel.size() > 1)
 					continue;
-				}
 				if (!refDimLevel.contains(target)) {
 					List aggrOns = binding.getAggregatOns();
-					if (isGrandTotal(binding) && isSort) {
+					if (isGrandTotal(binding) && isSort)
 						continue;
-					}
 					if (this.getReferencedMeasureName(binding.getExpression()) != null) {
 						if (this.isMeasureBinding(cubeDefn, binding)) {
 							result.add(new BindingMetaInfo(binding.getBindingName(), IBindingMetaInfo.MEASURE_TYPE));
@@ -130,22 +126,20 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 							// Only add to result list if the target dimLevel is the leaf level
 							// of its own edge that referenced in aggrOns list.
 							if (j == aggrOns.size() - 1) {
-								if (fromSameEdge(aggrOns, cubeDefn)) {
+								if (fromSameEdge(aggrOns, cubeDefn))
 									result.add(new BindingMetaInfo(binding.getBindingName(),
 											IBindingMetaInfo.GRAND_TOTAL_TYPE));
-								} else {
+								else
 									result.add(new BindingMetaInfo(binding.getBindingName(),
 											IBindingMetaInfo.SUB_TOTAL_TYPE));
-								}
 							} else {
 								DimLevel next = OlapExpressionUtil.getTargetDimLevel(aggrOns.get(j + 1).toString());
 
 								int candidateEdge = getAxisQualifierEdgeType(dimLevel, cubeDefn);
 								if (candidateEdge != -1) {
-									if (getAxisQualifierLevel(next, cubeDefn.getEdge(candidateEdge)) != null) {
+									if (getAxisQualifierLevel(next, cubeDefn.getEdge(candidateEdge)) != null)
 										result.add(new BindingMetaInfo(binding.getBindingName(),
 												IBindingMetaInfo.SUB_TOTAL_TYPE));
-									}
 								}
 							}
 							break;
@@ -176,16 +170,16 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param queryDefn
 	 * @param binding
 	 * @return
 	 * @throws DataException
 	 */
 	private boolean isMeasureBinding(ICubeQueryDefinition queryDefn, IBinding binding) throws DataException {
-		if (binding.getAggrFunction() == null) {
+		if (binding.getAggrFunction() == null)
 			return true;
-		} else {
+		else {
 
 			List aggrs = binding.getAggregatOns();
 
@@ -197,37 +191,33 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 				}
 			}
 
-			if (coveredLeafLevel != this.getEdgeNumber(queryDefn)) {
+			if (coveredLeafLevel != this.getEdgeNumber(queryDefn))
 				return false;
-			}
 			return true;
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cubeQuery
 	 * @return
 	 */
 	private int getEdgeNumber(ICubeQueryDefinition cubeQuery) {
 		int edgeNumber = 0;
-		if (cubeQuery.getEdge(ICubeQueryDefinition.COLUMN_EDGE) != null) {
+		if (cubeQuery.getEdge(ICubeQueryDefinition.COLUMN_EDGE) != null)
 			edgeNumber++;
-		}
-		if (cubeQuery.getEdge(ICubeQueryDefinition.ROW_EDGE) != null) {
+		if (cubeQuery.getEdge(ICubeQueryDefinition.ROW_EDGE) != null)
 			edgeNumber++;
-		}
 		return edgeNumber;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
 	 * getReferableMeasureBindings(java.lang.String,
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
 	 */
-	@Override
 	public List getReferableMeasureBindings(String measureName, ICubeQueryDefinition cubeDefn) throws DataException {
 		List result = new ArrayList();
 		List bindings = cubeDefn.getBindings();
@@ -238,23 +228,22 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 				List aggrOns = binding.getAggregatOns();
 				if (this.isMeasureBinding(cubeDefn, binding)) {
 					result.add(new BindingMetaInfo(binding.getBindingName(), IBindingMetaInfo.MEASURE_TYPE));
-				} else if (fromSameEdge(aggrOns, cubeDefn)) {
-					result.add(new BindingMetaInfo(binding.getBindingName(), IBindingMetaInfo.GRAND_TOTAL_TYPE));
 				} else {
-					result.add(new BindingMetaInfo(binding.getBindingName(), IBindingMetaInfo.SUB_TOTAL_TYPE));
+					if (fromSameEdge(aggrOns, cubeDefn)) {
+						result.add(new BindingMetaInfo(binding.getBindingName(), IBindingMetaInfo.GRAND_TOTAL_TYPE));
+					} else
+						result.add(new BindingMetaInfo(binding.getBindingName(), IBindingMetaInfo.SUB_TOTAL_TYPE));
 				}
 			}
 		}
 		return result;
 	}
 
-	@Override
 	public List getReferableBindingsForLinkedDataSetCube(String targetLevel, ICubeQueryDefinition cubeQueryDefn,
 			boolean isSort) throws AdapterException {
 		return getReferableBindings(targetLevel, cubeQueryDefn, isSort);
 	}
 
-	@Override
 	public List getReferableMeasureBindingsForLinkedDataSetCube(String measureName, ICubeQueryDefinition cubeDefn)
 			throws DataException {
 		return getReferableMeasureBindings(measureName, cubeDefn);
@@ -262,7 +251,7 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/**
 	 * Indicate whether the binding stands for an OVERALL grand total.
-	 *
+	 * 
 	 * @param binding
 	 * @return
 	 * @throws DataException
@@ -272,7 +261,7 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param aggrOns
 	 * @return
 	 * @throws DataException
@@ -281,17 +270,18 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 		int candidateEdge = -1;
 		for (int i = 0; i < aggrOns.size(); i++) {
 			DimLevel dimLevel = OlapExpressionUtil.getTargetDimLevel(aggrOns.get(i).toString());
-			if (candidateEdge == -1) {
+			if (candidateEdge == -1)
 				candidateEdge = getAxisQualifierEdgeType(dimLevel, cubeDefn);
-			} else if (candidateEdge != getAxisQualifierEdgeType(dimLevel, cubeDefn)) {
-				return false;
+			else {
+				if (candidateEdge != getAxisQualifierEdgeType(dimLevel, cubeDefn))
+					return false;
 			}
 		}
 		return true;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param query
 	 * @param target
 	 * @return
@@ -303,34 +293,31 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param edge
 	 * @param target
 	 * @return
 	 */
 	private boolean isLeafLevel(IEdgeDefinition edge, DimLevel target) {
-		if (edge == null) {
+		if (edge == null)
 			return false;
-		}
 		IDimensionDefinition dim = (IDimensionDefinition) edge.getDimensions().get(edge.getDimensions().size() - 1);
 		if (dim.getName().equals(target.getDimensionName())) {
 			IHierarchyDefinition hier = (IHierarchyDefinition) dim.getHierarchy().get(0);
 			ILevelDefinition level = (ILevelDefinition) hier.getLevels().get(hier.getLevels().size() - 1);
-			if (target.getLevelName().equals(level.getName())) {
+			if (target.getLevelName().equals(level.getName()))
 				return true;
-			}
 		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#
 	 * getReferencedLevels(java.lang.String, java.lang.String,
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
 	 */
-	@Override
 	public List getReferencedLevels(String targetLevel, String bindingExpr, ICubeQueryDefinition queryDefn)
 			throws AdapterException {
 		try {
@@ -338,9 +325,8 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel(targetLevel);
 
 			String bindingName = OlapExpressionCompiler.getReferencedScriptObject(bindingExpr, "data");
-			if (bindingName == null) {
+			if (bindingName == null)
 				return result;
-			}
 			IBinding binding = null;
 			List bindings = queryDefn.getBindings();
 			for (int i = 0; i < bindings.size(); i++) {
@@ -363,9 +349,8 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 			int candidateEdge = this.getAxisQualifierEdgeType(target, queryDefn);
 
-			if (candidateEdge == -1) {
+			if (candidateEdge == -1)
 				return result;
-			}
 
 			IEdgeDefinition axisQualifierEdge = queryDefn.getEdge(candidateEdge);
 			if (isMeasure) {
@@ -378,9 +363,8 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 				for (int i = 0; i < aggrOns.size(); i++) {
 					DimLevel dimLevel = OlapExpressionUtil.getTargetDimLevel(aggrOns.get(i).toString());
 					ILevelDefinition lvl = getAxisQualifierLevel(dimLevel, axisQualifierEdge);
-					if (lvl != null) {
+					if (lvl != null)
 						result.add(lvl);
-					}
 				}
 			}
 			return result;
@@ -390,35 +374,32 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dimLevel
 	 * @param edge
 	 * @return
 	 */
 	private ILevelDefinition getAxisQualifierLevel(DimLevel dimLevel, IEdgeDefinition edge) {
-		if (edge == null) {
+		if (edge == null)
 			return null;
-		}
 		List dims = edge.getDimensions();
 		for (int i = 0; i < dims.size(); i++) {
 			IDimensionDefinition dim = (IDimensionDefinition) dims.get(i);
-			if (!dim.getName().equals(dimLevel.getDimensionName())) {
+			if (!dim.getName().equals(dimLevel.getDimensionName()))
 				return null;
-			}
 			IHierarchyDefinition hier = (IHierarchyDefinition) dim.getHierarchy().get(0);
 			List levels = hier.getLevels();
 			for (int j = 0; j < levels.size(); j++) {
 				ILevelDefinition level = (ILevelDefinition) levels.get(j);
-				if (level.getName().equals(dimLevel.getLevelName())) {
+				if (level.getName().equals(dimLevel.getLevelName()))
 					return level;
-				}
 			}
 		}
 		return null;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dimLevel
 	 * @param queryDefn
 	 * @return
@@ -449,18 +430,17 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 * @throws AdapterException
 	 */
-	@Override
 	public String getReferencedMeasureName(String expr) throws AdapterException {
 		return OlapExpressionCompiler.getReferencedScriptObject(expr, "measure");
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 */
@@ -470,47 +450,42 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
 	 * getMemberValueIterator(org.eclipse.birt.report.model.api.olap.
 	 * TabularCubeHandle, java.lang.String,
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
 	 */
-	@Override
 	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String dataBindingExpr,
 			ICubeQueryDefinition queryDefn) throws AdapterException {
 		return this.getMemberValueIterator(cubeHandle, dataBindingExpr, queryDefn, null);
 	}
 
-	@Override
 	public Iterator getMemberValueIterator(CubeHandle cubeHandle, String dataBindingExpr,
 			ICubeQueryDefinition queryDefn) throws AdapterException {
 		return this.getMemberValueIterator(cubeHandle, dataBindingExpr, queryDefn, null);
 	}
 
-	@Override
 	public Iterator getMemberValueIterator(CubeHandle cubeHandle, String dataBindingExpr,
 			ICubeQueryDefinition queryDefn, Map appContext) throws AdapterException {
 		try {
-			if (cubeHandle == null || dataBindingExpr == null || queryDefn == null) {
+			if (cubeHandle == null || dataBindingExpr == null || queryDefn == null)
 				return null;
-			}
 
 			List bindings = queryDefn.getBindings();
 			Set dimLevels = OlapExpressionCompiler.getReferencedDimLevel(new ScriptExpression(dataBindingExpr),
 					bindings, true);
-			if (dimLevels.size() == 0 || dimLevels.size() > 1) {
+			if (dimLevels.size() == 0 || dimLevels.size() > 1)
 				return null;
-			}
 
 			DimLevel target = (DimLevel) dimLevels.iterator().next();
 			int targetDataType = getTargetDataType(bindings, dataBindingExpr);
 
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) (cubeHandle
 					.getDimension(target.getDimensionName()).getContent(TabularDimensionHandle.HIERARCHIES_PROP, 0));
-			if (hierHandle.getDataSet() != null) {
+			if (hierHandle.getDataSet() != null)
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(hierHandle.getDataSet(), this.sessionImpl);
-			} else {
+			else {
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(
 						(DataSetHandle) cubeHandle.getElementProperty(ITabularCubeModel.DATA_SET_PROP),
 						this.sessionImpl);
@@ -529,36 +504,32 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
 	 * getMemberValueIterator(org.eclipse.birt.report.model.api.olap.
 	 * TabularCubeHandle, java.lang.String,
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
 	 */
-	@Override
 	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String dataBindingExpr,
 			ICubeQueryDefinition queryDefn, Map appContext) throws AdapterException {
 		try {
-			if (cubeHandle == null || dataBindingExpr == null || queryDefn == null) {
+			if (cubeHandle == null || dataBindingExpr == null || queryDefn == null)
 				return null;
-			}
 
 			List bindings = queryDefn.getBindings();
 			Set dimLevels = OlapExpressionCompiler.getReferencedDimLevel(new ScriptExpression(dataBindingExpr),
 					bindings, true);
-			if (dimLevels.size() == 0 || dimLevels.size() > 1) {
+			if (dimLevels.size() == 0 || dimLevels.size() > 1)
 				return null;
-			}
 
 			DimLevel target = (DimLevel) dimLevels.iterator().next();
 			int targetDataType = getTargetDataType(bindings, dataBindingExpr);
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) (cubeHandle
 					.getDimension(target.getDimensionName()).getContent(TabularDimensionHandle.HIERARCHIES_PROP, 0));
-			if (hierHandle.getDataSet() != null) {
+			if (hierHandle.getDataSet() != null)
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(hierHandle.getDataSet(), this.sessionImpl);
-			} else {
+			else
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(cubeHandle.getDataSet(), this.sessionImpl);
-			}
 			Map levelValueMap = new HashMap();
 
 			DataSetIterator it = createDataSetIterator(appContext, cubeHandle.getDimension(target.getDimensionName()),
@@ -571,7 +542,7 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param bindings
 	 * @param dataBindingExpr
 	 * @return
@@ -591,7 +562,6 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 		return DataType.UNKNOWN_TYPE;
 	}
 
-	@Override
 	public Iterator getMemberValueIterator(CubeHandle cubeHandle, String targetLevel, DimensionLevel[] dimensionLevels,
 			Object[] values) throws AdapterException {
 		return this.getMemberValueIterator(cubeHandle, targetLevel, dimensionLevels, values, null);
@@ -599,37 +569,33 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
 	 * getMemberValueIterator(org.eclipse.birt.report.model.api.olap.
 	 * TabularCubeHandle, java.lang.String,
 	 * org.eclipse.birt.report.data.adapter.api.DimensionLevel[],
 	 * java.lang.Object[])
 	 */
-	@Override
 	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
 			DimensionLevel[] dimensionLevels, Object[] values) throws AdapterException {
 		return this.getMemberValueIterator(cubeHandle, targetLevel, dimensionLevels, values, null);
 	}
 
-	@Override
 	public Iterator getMemberValueIterator(CubeHandle cubeHandle, String targetLevel, DimensionLevel[] dimensionLevels,
 			Object[] values, Map appContext) throws AdapterException {
 		try {
 			if ((dimensionLevels == null && values != null) || (dimensionLevels != null && values == null)
-					|| cubeHandle == null || targetLevel == null) {
+					|| cubeHandle == null || targetLevel == null)
 				return null;
-			}
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel(targetLevel);
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) (cubeHandle
 					.getDimension(target.getDimensionName()).getContent(TabularDimensionHandle.HIERARCHIES_PROP, 0));
-			if (hierHandle.getDataSet() != null) {
+			if (hierHandle.getDataSet() != null)
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(hierHandle.getDataSet(), this.sessionImpl);
-			} else {
+			else
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(
 						(DataSetHandle) cubeHandle.getElementProperty(ITabularCubeModel.DATA_SET_PROP),
 						this.sessionImpl);
-			}
 			Map levelValueMap = new HashMap();
 			if (dimensionLevels != null) {
 				for (int i = 0; i < dimensionLevels.length; i++) {
@@ -649,29 +615,26 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
 	 * getMemberValueIterator(org.eclipse.birt.report.model.api.olap.
 	 * TabularCubeHandle, java.lang.String,
 	 * org.eclipse.birt.report.data.adapter.api.DimensionLevel[],
 	 * java.lang.Object[], java.util.Map)
 	 */
-	@Override
 	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
 			DimensionLevel[] dimensionLevels, Object[] values, Map appContext) throws AdapterException {
 		try {
 			if ((dimensionLevels == null && values != null) || (dimensionLevels != null && values == null)
-					|| cubeHandle == null || targetLevel == null) {
+					|| cubeHandle == null || targetLevel == null)
 				return null;
-			}
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel(targetLevel);
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) (cubeHandle
 					.getDimension(target.getDimensionName()).getContent(TabularDimensionHandle.HIERARCHIES_PROP, 0));
-			if (hierHandle.getDataSet() != null) {
+			if (hierHandle.getDataSet() != null)
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(hierHandle.getDataSet(), this.sessionImpl);
-			} else {
+			else
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(cubeHandle.getDataSet(), this.sessionImpl);
-			}
 			Map levelValueMap = new HashMap();
 			if (dimensionLevels != null) {
 				for (int i = 0; i < dimensionLevels.length; i++) {
@@ -691,14 +654,13 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
 	 * getMemberValueIterator(org.eclipse.birt.report.model.api.olap.
 	 * TabularCubeHandle, java.lang.String,
 	 * org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition[],
 	 * java.lang.Object[])
 	 */
-	@Override
 	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
 			ILevelDefinition[] higherLevelDefns, Object[] values) throws AdapterException {
 		return this.getMemberValueIterator(cubeHandle, targetLevel, higherLevelDefns, values, null);
@@ -706,29 +668,26 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
 	 * getMemberValueIterator(org.eclipse.birt.report.model.api.olap.
 	 * TabularCubeHandle, java.lang.String,
 	 * org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition[],
 	 * java.lang.Object[])
 	 */
-	@Override
 	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
 			ILevelDefinition[] higherLevelDefns, Object[] values, Map appContext) throws AdapterException {
 		try {
 			if ((higherLevelDefns == null && values != null) || (higherLevelDefns != null && values == null)
-					|| cubeHandle == null || targetLevel == null) {
+					|| cubeHandle == null || targetLevel == null)
 				return null;
-			}
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel(targetLevel);
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) (cubeHandle
 					.getDimension(target.getDimensionName()).getContent(TabularDimensionHandle.HIERARCHIES_PROP, 0));
-			if (hierHandle.getDataSet() != null) {
+			if (hierHandle.getDataSet() != null)
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(hierHandle.getDataSet(), this.sessionImpl);
-			} else {
+			else
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet(cubeHandle.getDataSet(), this.sessionImpl);
-			}
 			Map levelValueMap = new HashMap();
 			if (higherLevelDefns != null) {
 				for (int i = 0; i < higherLevelDefns.length; i++) {
@@ -749,18 +708,17 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/**
 	 * Checks whether the given string is valid to be the name for a level/dimension
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
-	@Override
 	public boolean isValidDimensionName(String name) {
 		Matcher isNum = pattern.matcher(name);
 		return !isNum.matches();
 	}
 
 	/**
-	 *
+	 * 
 	 * @param appContext
 	 * @param hierHandle
 	 * @return
@@ -769,7 +727,7 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 	 */
 	private DataSetIterator createDataSetIterator(Map appContext, DimensionHandle dim, String cubeName)
 			throws AdapterException, BirtException {
-		List<ColumnMeta> metaList = new ArrayList<>();
+		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>();
 		IQueryDefinition defn = sessionImpl.createDimensionQuery(sessionImpl, dim,
 				(TabularHierarchyHandle) dim.getContent(TabularDimensionHandle.HIERARCHIES_PROP, 0), metaList,
 				cubeName);
@@ -783,9 +741,9 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 	 */
 
 	/**
-	 *
+	 * 
 	 * @author Administrator
-	 *
+	 * 
 	 */
 	private static class MemberValueIterator implements Iterator {
 		private IDatasetIterator dataSetIterator;
@@ -811,17 +769,14 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 			this.next();
 		}
 
-		@Override
 		public boolean hasNext() {
 			return this.hasNext;
 		}
 
-		@Override
 		public Object next() {
 			try {
-				if (!this.hasNext) {
+				if (!this.hasNext)
 					return null;
-				}
 				Object result = this.currentValue;
 				boolean accept = false;
 				while (this.dataSetIterator.next()) {
@@ -853,7 +808,6 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 			}
 		}
 
-		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
@@ -862,12 +816,11 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getInvalidBindings(
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
 	 */
-	@Override
 	public List getInvalidBindings(ICubeQueryDefinition queryDefn) throws AdapterException {
 		try {
 			List invalidBindingNameList = new ArrayList();
@@ -882,13 +835,12 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 		}
 	}
 
-	@Override
 	public List getInvalidBindingsForLinkedDataSetCube(ICubeQueryDefinition queryDefn) throws AdapterException {
 		return getInvalidBindings(queryDefn);
 	}
 
 	/**
-	 *
+	 * 
 	 *
 	 */
 	private static class BindingMetaInfo implements IBindingMetaInfo {
@@ -898,7 +850,7 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 		/**
 		 * Constructor.
-		 *
+		 * 
 		 * @param name
 		 * @param type
 		 */
@@ -909,22 +861,20 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo#getBindingType()
 		 */
-		@Override
 		public int getBindingType() {
 			return type;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo#getBindingName()
 		 */
-		@Override
 		public String getBindingName() {
 			return name;
 		}
@@ -933,14 +883,13 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
 	 * getReferencedDimensionLevel(java.lang.String)
 	 */
-	@Override
 	public IDimensionLevel[] getReferencedDimensionLevel(String expression) throws AdapterException {
 		try {
-			IDimensionLevel[] result = {};
+			IDimensionLevel[] result = new IDimensionLevel[0];
 			Set dimLevels = OlapExpressionCompiler.getReferencedDimLevel(new ScriptExpression(expression),
 					new ArrayList());
 			if (dimLevels != null) {
@@ -962,15 +911,14 @@ public class CubeQueryUtil implements ICubeQueryUtil {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
 	 * getReferencedDimensionLevel(java.lang.String)
 	 */
-	@Override
 	public IDimensionLevel[] getReferencedDimensionLevel(String expression, List<IBinding> bindings)
 			throws AdapterException {
 		try {
-			IDimensionLevel[] result = {};
+			IDimensionLevel[] result = new IDimensionLevel[0];
 			Set dimLevels = OlapExpressionCompiler.getReferencedDimLevel(new ScriptExpression(expression), bindings);
 			if (dimLevels != null) {
 				result = new IDimensionLevel[dimLevels.size()];

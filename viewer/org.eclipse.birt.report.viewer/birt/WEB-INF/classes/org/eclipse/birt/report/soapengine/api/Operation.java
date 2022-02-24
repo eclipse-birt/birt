@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,7 +39,7 @@ public class Operation implements java.io.Serializable {
 
 	/**
 	 * Gets the target value for this Operation.
-	 *
+	 * 
 	 * @return target
 	 */
 	public org.eclipse.birt.report.soapengine.api.ReportId getTarget() {
@@ -48,7 +48,7 @@ public class Operation implements java.io.Serializable {
 
 	/**
 	 * Sets the target value for this Operation.
-	 *
+	 * 
 	 * @param target
 	 */
 	public void setTarget(org.eclipse.birt.report.soapengine.api.ReportId target) {
@@ -57,7 +57,7 @@ public class Operation implements java.io.Serializable {
 
 	/**
 	 * Gets the operator value for this Operation.
-	 *
+	 * 
 	 * @return operator
 	 */
 	public java.lang.String getOperator() {
@@ -66,7 +66,7 @@ public class Operation implements java.io.Serializable {
 
 	/**
 	 * Sets the operator value for this Operation.
-	 *
+	 * 
 	 * @param operator
 	 */
 	public void setOperator(java.lang.String operator) {
@@ -75,7 +75,7 @@ public class Operation implements java.io.Serializable {
 
 	/**
 	 * Gets the oprand value for this Operation.
-	 *
+	 * 
 	 * @return oprand
 	 */
 	public org.eclipse.birt.report.soapengine.api.Oprand[] getOprand() {
@@ -84,7 +84,7 @@ public class Operation implements java.io.Serializable {
 
 	/**
 	 * Sets the oprand value for this Operation.
-	 *
+	 * 
 	 * @param oprand
 	 */
 	public void setOprand(org.eclipse.birt.report.soapengine.api.Oprand[] oprand) {
@@ -101,7 +101,7 @@ public class Operation implements java.io.Serializable {
 
 	/**
 	 * Gets the data value for this Operation.
-	 *
+	 * 
 	 * @return data
 	 */
 	public org.eclipse.birt.report.soapengine.api.Data getData() {
@@ -110,7 +110,7 @@ public class Operation implements java.io.Serializable {
 
 	/**
 	 * Sets the data value for this Operation.
-	 *
+	 * 
 	 * @param data
 	 */
 	public void setData(org.eclipse.birt.report.soapengine.api.Data data) {
@@ -119,18 +119,14 @@ public class Operation implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Operation)) {
+		if (!(obj instanceof Operation))
 			return false;
-		}
 		Operation other = (Operation) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -151,7 +147,6 @@ public class Operation implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

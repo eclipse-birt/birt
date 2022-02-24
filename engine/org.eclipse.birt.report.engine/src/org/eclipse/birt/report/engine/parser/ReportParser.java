@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,10 +36,10 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Report Parser.
- *
+ * 
  * used to parse the design file, and get the IR of design.
- *
- *
+ * 
+ * 
  */
 public class ReportParser {
 
@@ -94,9 +94,9 @@ public class ReportParser {
 
 	/**
 	 * parse the XML input stream.
-	 *
+	 * 
 	 * @param name design file name
-	 *
+	 * 
 	 * @param in   design file
 	 * @return created report IR, null if exit any errors.
 	 */
@@ -108,7 +108,7 @@ public class ReportParser {
 
 	/**
 	 * parse the XML input stream.
-	 *
+	 * 
 	 * @param name design file name
 	 * @return created report IR, null if exit any errors.
 	 */
@@ -132,18 +132,17 @@ public class ReportParser {
 		// Obtain design handle
 		ReportDesignHandle designHandle = null;
 		ModuleOption modOptions = new ModuleOption(options);
-		if (in != null) {
+		if (in != null)
 			designHandle = sessionHandle.openDesign(name, in, modOptions);
-		} else {
+		else
 			designHandle = sessionHandle.openDesign(name, modOptions);
-		}
 
 		return designHandle;
 	}
 
 	/**
 	 * parse the XML input stream.
-	 *
+	 * 
 	 * @param design DE's IR
 	 * @return FPE's IR, null if there is any error.
 	 */

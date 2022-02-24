@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,7 +69,7 @@ class ReportContentWriterV1 {
 
 	/**
 	 * get the current offset.
-	 *
+	 * 
 	 * @return
 	 */
 	public long getOffset() {
@@ -78,7 +78,7 @@ class ReportContentWriterV1 {
 
 	/**
 	 * get the parent offset of the next content.
-	 *
+	 * 
 	 * @return
 	 */
 	public long getParentOffset() {
@@ -87,7 +87,7 @@ class ReportContentWriterV1 {
 
 	/**
 	 * @throws IOException
-	 *
+	 * 
 	 */
 	protected void writeContent(DataOutputStream oo, Object object) throws IOException {
 		if (object instanceof IContent) {
@@ -101,7 +101,7 @@ class ReportContentWriterV1 {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param content
 	 * @return the content object's offset.
 	 * @throws IOException
@@ -136,7 +136,7 @@ class ReportContentWriterV1 {
 
 	/**
 	 * return the parent offset of the content.
-	 *
+	 * 
 	 * @param content
 	 * @return
 	 */

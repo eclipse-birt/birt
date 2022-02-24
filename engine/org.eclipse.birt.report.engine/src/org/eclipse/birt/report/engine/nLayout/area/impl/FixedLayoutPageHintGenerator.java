@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -40,12 +40,12 @@ public class FixedLayoutPageHintGenerator {
 	protected SizeBasedContent currentContent = null;
 
 	protected HTMLLayoutContext htmlLayoutContext = null;
-	private ArrayList<SizeBasedContent[]> fixedLayoutPageHints = new ArrayList<>();
+	private ArrayList<SizeBasedContent[]> fixedLayoutPageHints = new ArrayList<SizeBasedContent[]>();
 
-	protected HashSet<String> tableIds = new HashSet<>();
+	protected HashSet<String> tableIds = new HashSet<String>();
 	HashMap<String, UnresolvedRowHint> htmlUnresolvedRowHints = null;
 	HashMap<String, UnresolvedRowHint> currentPageUnresolvedRowHints = null;
-	HashMap<String, UnresolvedRowHint> docUnresolvedRowHints = new HashMap<>();
+	HashMap<String, UnresolvedRowHint> docUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>();
 
 	protected LayoutContext context;
 
@@ -60,7 +60,7 @@ public class FixedLayoutPageHintGenerator {
 
 	public void addUnresolvedRowHint(String tableId, UnresolvedRowHint hint) {
 		if (currentPageUnresolvedRowHints == null) {
-			currentPageUnresolvedRowHints = new HashMap<>();
+			currentPageUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>();
 		}
 		currentPageUnresolvedRowHints.put(htmlLayoutContext.getPageHintManager().getHintMapKey(tableId), hint);
 	}
@@ -74,7 +74,7 @@ public class FixedLayoutPageHintGenerator {
 	}
 
 	public List<UnresolvedRowHint> getUnresolvedRowHints() {
-		ArrayList<UnresolvedRowHint> unresolvedRowHintsList = new ArrayList<>();
+		ArrayList<UnresolvedRowHint> unresolvedRowHintsList = new ArrayList<UnresolvedRowHint>();
 		Iterator<String> iter = getTableKeys().iterator();
 		while (iter.hasNext()) {
 			String key = iter.next();
@@ -144,22 +144,24 @@ public class FixedLayoutPageHintGenerator {
 		if (startContent == null) {
 			startContent = createSizeBasedContent(area);
 			currentContent = startContent;
-		} else if (currentContent != null) {
-			if (InstanceIDComparator.isNextWith(currentContent.content, currentContent.isChildrenRemoved,
-					area.content)) {
-				if (currentContent.dimension > 0) {
+		} else {
+			if (currentContent != null) {
+				if (InstanceIDComparator.isNextWith(currentContent.content, currentContent.isChildrenRemoved,
+						area.content)) {
+					if (currentContent.dimension > 0) {
+						fixedLayoutPageHints.add(new SizeBasedContent[] { startContent, currentContent });
+						startContent = createSizeBasedContent(area);
+						currentContent = startContent;
+						return;
+					}
+					currentContent = createSizeBasedContent(area);
+				} else if (InstanceIDComparator.equals(currentContent.content, area.content)) {
+					// Does nothing. this case is for inline text.
+				} else {
 					fixedLayoutPageHints.add(new SizeBasedContent[] { startContent, currentContent });
 					startContent = createSizeBasedContent(area);
 					currentContent = startContent;
-					return;
 				}
-				currentContent = createSizeBasedContent(area);
-			} else if (InstanceIDComparator.equals(currentContent.content, area.content)) {
-				// Does nothing. this case is for inline text.
-			} else {
-				fixedLayoutPageHints.add(new SizeBasedContent[] { startContent, currentContent });
-				startContent = createSizeBasedContent(area);
-				currentContent = startContent;
 			}
 		}
 	}
@@ -228,7 +230,7 @@ public class FixedLayoutPageHintGenerator {
 	private void reset() {
 		startContent = null;
 		currentContent = null;
-		tableIds = new HashSet<>();
+		tableIds = new HashSet<String>();
 		fixedLayoutPageHints.clear();
 	}
 
@@ -263,27 +265,29 @@ public class FixedLayoutPageHintGenerator {
 					InstanceID pid2 = parent2.getInstanceID();
 					if (pid2 == null) {
 						return false;
-					} else // the parent2 is the first child.
-					if (pid2.getUniqueID() == 0) {
-						return isNextWith(content1, isContent1ChildrenRemoved, parent2);
 					} else {
-						// content1 must be the last child.
-						if (!content1.isLastChild()) {
-							return false;
-						}
-						// if content1's children are removed, the page hint should break here.
-						else if (isContent1ChildrenRemoved) {
-							return false;
-						}
-
-						IContent parent1 = (IContent) content1.getParent();
-						while (parent1.isLastChild()) {
-							parent1 = (IContent) parent1.getParent();
-						}
-						if (parent1 instanceof IListBandContent || parent1 instanceof ITableBandContent) {
-							return isSibling(parent1, parent2);
+						// the parent2 is the first child.
+						if (pid2.getUniqueID() == 0) {
+							return isNextWith(content1, isContent1ChildrenRemoved, parent2);
 						} else {
-							return false;
+							// content1 must be the last child.
+							if (!content1.isLastChild()) {
+								return false;
+							}
+							// if content1's children are removed, the page hint should break here.
+							else if (isContent1ChildrenRemoved) {
+								return false;
+							}
+
+							IContent parent1 = (IContent) content1.getParent();
+							while (parent1.isLastChild()) {
+								parent1 = (IContent) parent1.getParent();
+							}
+							if (parent1 instanceof IListBandContent || parent1 instanceof ITableBandContent) {
+								return isSibling(parent1, parent2);
+							} else {
+								return false;
+							}
 						}
 					}
 				} else {
@@ -354,13 +358,13 @@ public class FixedLayoutPageHintGenerator {
 //			{
 //				return false;
 //			}
-//
+//			
 //			// 1. content2 is the first child of content1
 //			if ( id2.getUniqueID( ) == 0 )
 //			{
 //				return equals( content1, (IContent) content2.getParent( ) );
 //			}
-//			// 2. content1 is the last child of its parent p, and content2 is the sibling of p.
+//			// 2. content1 is the last child of its parent p, and content2 is the sibling of p. 
 //			else if ( ( content1 != null ) && content1.isLastChild( ) )
 //			{
 //				// cross level
@@ -378,19 +382,18 @@ public class FixedLayoutPageHintGenerator {
 //		}
 
 		static boolean equals(IContent content1, IContent content2) {
-			if (content1 == content2) {
+			if (content1 == content2)
 				return true;
-			}
 			if (content1 == null) {
 				return false;
-			} else if (content2 == null) {
-				return false;
+			} else {
+				if (content2 == null)
+					return false;
 			}
 			InstanceID id1 = content1.getInstanceID();
 			InstanceID id2 = content2.getInstanceID();
-			if (id1 == null || id2 == null) {
+			if (id1 == null || id2 == null)
 				return false;
-			}
 			if (id1.getUniqueID() == id2.getUniqueID()) {
 				IContent parent1 = (IContent) content1.getParent();
 				IContent parent2 = (IContent) content2.getParent();

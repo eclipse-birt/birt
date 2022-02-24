@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,35 +31,35 @@ public interface IIncreCacheDataSetDesign extends IOdaDataSetDesign {
 	 * disk. In future, we may introduce another cache mode: MODE_EXPIRE, in which
 	 * the local disk cache will be expired in some period.
 	 */
-	int MODE_PERSISTENT = 1;
+	public final static int MODE_PERSISTENT = 1;
 
 	/**
 	 * get current cache mode: currently it will just return
 	 * DataEngineContext.CACHE_MODE_INCREMENTAL.
-	 *
+	 * 
 	 * @return
 	 */
-	int getCacheMode();
+	public int getCacheMode();
 
 	/**
 	 * get the specified timestamp column name.
-	 *
+	 * 
 	 * @return
 	 */
-	String getTimestampColumn();
+	public String getTimestampColumn();
 
 	/**
 	 * get the parsed query for updating to retrieve the delta data.
-	 *
+	 * 
 	 * @param time
 	 * @return
 	 */
-	String getQueryForUpdate(long time);
+	public String getQueryForUpdate(long time);
 
 	/**
 	 * get the configure file URL.
-	 *
+	 * 
 	 * @return
 	 */
-	URL getConfigFileUrl();
+	public URL getConfigFileUrl();
 }

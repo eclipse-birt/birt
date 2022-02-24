@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ public class URIUtil {
 	 * <li>C:/disk/test/data.file
 	 * <li>./test/data.file
 	 * </ul>
-	 *
+	 * 
 	 * @param uri the input uri
 	 * @return the file path if <code>uri</code> refers to a file. Otherwise null.
 	 */
@@ -73,7 +73,7 @@ public class URIUtil {
 	 * <li>C:\\hello\..\
 	 * <li>/C:/../hello/.
 	 * </ul>
-	 *
+	 * 
 	 * @param filePath the input filePath
 	 * @return true if filePath exists on the disk. Otherwise false.
 	 */
@@ -85,50 +85,54 @@ public class URIUtil {
 	/**
 	 * Converts a filename to a valid URL string. The filename can include directory
 	 * information, either relative or absolute directory.
-	 *
+	 * 
 	 * @param filePath the file name
 	 * @return a valid URL String
 	 */
 
 	public static String convertFileNameToURLString(String filePath) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		String path = filePath;
 
 		// copy, converting URL special characters as we go
 
 		for (int i = 0; i < path.length(); i++) {
 			char c = path.charAt(i);
-			if (c < 0x1F || c == 0x7f) {
+			if (c < 0x1F || c == 0x7f)
 				buffer.append("%" + Character.toString(c)); //$NON-NLS-1$
-			} else if (c == '#') {
+			else if (c == '#')
 				buffer.append("%23"); //$NON-NLS-1$
-			} else if (c == '%') {
+			else if (c == '%')
 				buffer.append("%25"); //$NON-NLS-1$
-			} else if (c == '<') {
+			else if (c == '<')
 				buffer.append("%3C"); //$NON-NLS-1$
-			} else if (c == '>') {
+			else if (c == '>')
 				buffer.append("%3E"); //$NON-NLS-1$
-			} else if (c == '"') {
+			else if (c == '"')
 				buffer.append("%22"); //$NON-NLS-1$
-			} else if (c == ' ') {
+			else if (c == ' ')
 				buffer.append("%20"); //$NON-NLS-1$
-			} else if (c == '^') {
+			else if (c == '%')
+				buffer.append("%25"); //$NON-NLS-1$
+			else if (c == '^')
 				buffer.append("%5E"); //$NON-NLS-1$
-			} else if (c == '`') {
+			else if (c == '`')
 				buffer.append("%60"); //$NON-NLS-1$
-			} else if (c == '[') {
+			else if (c == '[')
 				buffer.append("%5B"); //$NON-NLS-1$
-			} else if (c == ']') {
+			else if (c == ']')
 				buffer.append("%5D"); //$NON-NLS-1$
-			} else if (c == '{') {
+			else if (c == '{')
 				buffer.append("%7B"); //$NON-NLS-1$
-			} else if (c == '}') {
+			else if (c == '}')
 				buffer.append("%7D"); //$NON-NLS-1$
-			} else if (c == '\\') {
+
+			// change the '\' to '/' if applicable
+
+			else if (c == '\\')
 				buffer.append("/"); //$NON-NLS-1$
-			} else {
+			else
 				buffer.append(c);
-			}
 		}
 
 		// return URL
@@ -142,14 +146,13 @@ public class URIUtil {
 	 * file should be on the local disk. The parameter filePath should be decoded.
 	 * If the filePath is encoded, it should be converted to URL and call
 	 * getDirectory as the parameter.
-	 *
+	 * 
 	 * @param filePath the file name
 	 * @return a valid URL
-	 *
+	 * 
 	 * @deprecated not supported
 	 */
 
-	@Deprecated
 	public static URL getDirectory(String filePath) {
 		return URIUtilImpl.getDirectory(filePath);
 	}
@@ -158,14 +161,13 @@ public class URIUtil {
 	 * Returns the directory of the given file name in a valid URL.The filename can
 	 * include directory information, either relative or absolute directory. And the
 	 * file should be on the local disk. The url has been encoded.
-	 *
+	 * 
 	 * @param url the url of the file.
 	 * @return a valid URL
-	 *
+	 * 
 	 * @deprecated not supported
 	 */
 
-	@Deprecated
 	public static URL getDirectory(URL url) {
 		return URIUtilImpl.getDirectory(url);
 	}
@@ -184,20 +186,18 @@ public class URIUtil {
 	 * The spearator in the return path is platform-indepedent "/". Please note that
 	 * the <code>/</code> in the end of directory will be striped in the return
 	 * value.
-	 *
+	 * 
 	 * @param base     the base directory
 	 * @param resource the full path
 	 * @return the relative path.
 	 */
 
 	public static String getRelativePath(String base, String resource) {
-		if (base == null || resource == null) {
+		if (base == null || resource == null)
 			return resource;
-		}
 
-		if (isFileProtocol(resource) && isFileProtocol(base)) {
+		if (isFileProtocol(resource) && isFileProtocol(base))
 			return createRelativePathFromFilePath(base, resource);
-		}
 
 		return createRelativePathFromString(base, resource, URL_SEPARATOR);
 	}
@@ -205,7 +205,7 @@ public class URIUtil {
 	/**
 	 * Return the relative path for the given file path <code>resource</code>
 	 * according to <code>base</code>. Only handle file system.
-	 *
+	 * 
 	 * @param base     the base directory
 	 * @param resource the full path
 	 * @return the relative path.
@@ -215,9 +215,8 @@ public class URIUtil {
 		String baseDir = getLocalPath(base);
 		String resourceDir = getLocalPath(resource);
 
-		if (baseDir == null || resourceDir == null) {
+		if (baseDir == null || resourceDir == null)
 			return resource;
-		}
 
 		File baseFile = new File(baseDir);
 		File resourceFile = new File(resourceDir);
@@ -233,7 +232,7 @@ public class URIUtil {
 	/**
 	 * Return the relative path for the given string <code>resource</code> according
 	 * to <code>base</code>. This method purely works on character level.
-	 *
+	 * 
 	 * @param baseDir     the base directory
 	 * @param resourceDir the full path
 	 * @return the relative path.
@@ -242,17 +241,15 @@ public class URIUtil {
 	private static String createRelativePathFromString(String baseDir, String resourceDir, String separator) {
 		String newBaseDir = baseDir;
 
-		if (newBaseDir.endsWith("/") || newBaseDir.endsWith(separator)) { //$NON-NLS-1$
+		if (newBaseDir.endsWith("/") || newBaseDir.endsWith(separator)) //$NON-NLS-1$
 			newBaseDir = newBaseDir.substring(0, newBaseDir.length() - 1);
-		}
 
 		// do the string match to get the location of same prefix
 
 		int matchedPos = 0;
 		for (matchedPos = 0; matchedPos < newBaseDir.length() && matchedPos < resourceDir.length(); matchedPos++) {
-			if (newBaseDir.charAt(matchedPos) != resourceDir.charAt(matchedPos)) {
+			if (newBaseDir.charAt(matchedPos) != resourceDir.charAt(matchedPos))
 				break;
-			}
 		}
 
 		// adjust the same prefix by the path separator
@@ -264,9 +261,9 @@ public class URIUtil {
 		// the slash before "test".
 
 		if (isLastDirectoryMatched(newBaseDir, resourceDir, matchedPos)
-				|| isLastDirectoryMatched(resourceDir, newBaseDir, matchedPos)) {
+				|| isLastDirectoryMatched(resourceDir, newBaseDir, matchedPos))
 			;
-		} else {
+		else {
 			int oldMatchedPos = matchedPos;
 			matchedPos = newBaseDir.lastIndexOf(separator, oldMatchedPos - 1);
 		}
@@ -286,7 +283,7 @@ public class URIUtil {
 
 		// appends up directories information.
 
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < upDirs; i++) {
 			sb.append("../"); //$NON-NLS-1$
 		}
@@ -304,9 +301,8 @@ public class URIUtil {
 		int len = sb.length();
 		if (len > 0) {
 			char lastChar = sb.charAt(len - 1);
-			if (lastChar == '/') {
+			if (lastChar == '/')
 				sb.deleteCharAt(len - 1);
-			}
 		}
 
 		return sb.toString();
@@ -324,20 +320,18 @@ public class URIUtil {
 	 * <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-depedent.
-	 *
+	 * 
 	 * @param base         the base directory
 	 * @param relativePath the relative path
 	 * @return the absolute path
 	 */
 
 	public static String resolveAbsolutePath(String base, String relativePath) {
-		if (base == null || relativePath == null) {
+		if (base == null || relativePath == null)
 			return relativePath;
-		}
 
-		if (isFileProtocol(base) && isFileProtocol(relativePath)) {
+		if (isFileProtocol(base) && isFileProtocol(relativePath))
 			return resolveAbsolutePathFromFilePath(base, relativePath);
-		}
 
 		return resolveAbsolutePathFromString(base, relativePath);
 	}
@@ -354,7 +348,7 @@ public class URIUtil {
 	 * <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-depedent.
-	 *
+	 * 
 	 * @param base         the base directory
 	 * @param relativePath the relative path
 	 * @return the absolute path
@@ -363,16 +357,14 @@ public class URIUtil {
 	private static String resolveAbsolutePathFromFilePath(String base, String relativePath) {
 
 		File file = new File(relativePath);
-		if (file.isAbsolute()) {
+		if (file.isAbsolute())
 			return relativePath;
-		}
 
 		String baseDir = getLocalPath(base);
 		String relativeDir = getLocalPath(relativePath);
 
-		if (baseDir == null || relativeDir == null) {
+		if (baseDir == null || relativeDir == null)
 			return relativePath;
-		}
 
 		File baseFile = new File(baseDir);
 		File resourceFile = new File(baseFile, relativeDir);
@@ -397,16 +389,15 @@ public class URIUtil {
 	 * <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-depedent.
-	 *
+	 * 
 	 * @param base         the base directory
 	 * @param relativePath the relative path
 	 * @return the absolute path
 	 */
 
 	private static String resolveAbsolutePathFromString(String base, String relativePath) {
-		if (base == null || relativePath == null) {
+		if (base == null || relativePath == null)
 			return relativePath;
-		}
 
 		URI uri = URIUtilImpl.resolveAbsolutePath(relativePath);
 		if (uri != null && uri.isAbsolute()) {
@@ -419,9 +410,8 @@ public class URIUtil {
 			char firstRelativeChar = relativePath.charAt(0);
 
 			if (lastBaseChar != '/' && lastBaseChar != File.separatorChar && firstRelativeChar != '/'
-					&& firstRelativeChar != File.separatorChar) {
+					&& firstRelativeChar != File.separatorChar)
 				appendDirectorySeparator = true;
-			}
 		}
 
 		String path = null;
@@ -440,7 +430,7 @@ public class URIUtil {
 
 	/**
 	 * Tests whether the string before <code>matchedPos</code> is a directory.
-	 *
+	 * 
 	 * @param baseDir     the base directory
 	 * @param resourceDir the resource directory
 	 * @param matchedPos  the 0-based position
@@ -451,16 +441,15 @@ public class URIUtil {
 	private static boolean isLastDirectoryMatched(String baseDir, String resourceDir, int matchedPos) {
 		if (matchedPos == baseDir.length() && ((matchedPos < resourceDir.length()
 				&& (resourceDir.charAt(matchedPos) == File.separatorChar || resourceDir.charAt(matchedPos) == '/')
-				|| matchedPos == resourceDir.length()))) {
+				|| matchedPos == resourceDir.length())))
 			return true;
-		}
 
 		return false;
 	}
 
 	/**
 	 * Tests whether the input string is a valid resource directory.
-	 *
+	 * 
 	 * @param resourceDir the resource directory
 	 * @return <code>true</code> if the input string is a valid resource directory,
 	 *         <code>false</code> otherwise.
@@ -468,14 +457,12 @@ public class URIUtil {
 	 */
 
 	public static boolean isValidResourcePath(final String resourceDir) {
-		if (resourceDir == null) {
+		if (resourceDir == null)
 			return false;
-		}
 
 		File f = new File(resourceDir);
-		if (f.isAbsolute() && SecurityUtil.isFile(f) && SecurityUtil.isDirectory(f)) {
+		if (f.isAbsolute() && SecurityUtil.isFile(f) && SecurityUtil.isDirectory(f))
 			return true;
-		}
 
 		return false;
 	}

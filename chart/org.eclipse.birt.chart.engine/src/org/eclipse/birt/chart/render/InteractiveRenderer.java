@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,32 +42,31 @@ import org.eclipse.emf.common.util.EList;
 
 public class InteractiveRenderer {
 
-	private final Map<String, Set<ActionType>> targets = new HashMap<>();
+	private final Map<String, Set<ActionType>> targets = new HashMap<String, Set<ActionType>>();
 	private IUpdateNotifier iun;
 
-	private final Map<ColorDefinition, ColorDefinition> savedColors = new HashMap<>();
-	private final Map<LineAttributes, LineAttributes> savedLines = new HashMap<>();
-	private final Map<Label, Label> savedLabels = new HashMap<>();
+	private final Map<ColorDefinition, ColorDefinition> savedColors = new HashMap<ColorDefinition, ColorDefinition>();
+	private final Map<LineAttributes, LineAttributes> savedLines = new HashMap<LineAttributes, LineAttributes>();
+	private final Map<Label, Label> savedLabels = new HashMap<Label, Label>();
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance();
 
 	/**
 	 * Register a chart element with an interactive action
-	 *
+	 * 
 	 * @param target
 	 * @param type
 	 */
 	public boolean registerAction(StructureSource target, ActionType type) {
-		if (iun == null) {
+		if (iun == null)
 			return false;
-		}
 
 		String source = getSource(target);
 		Set<ActionType> set = targets.get(source);
 		if (set != null) {
 			return set.add(type);
 		} else {
-			set = new HashSet<>();
+			set = new HashSet<ActionType>();
 			set.add(type);
 			targets.put(source, set);
 			return true;
@@ -76,9 +75,8 @@ public class InteractiveRenderer {
 	}
 
 	public void unregisterAction(StructureSource target, ActionType type) {
-		if (iun == null) {
+		if (iun == null)
 			return;
-		}
 
 		Object source = getSource(target);
 		Set<ActionType> set = targets.get(source);
@@ -103,16 +101,14 @@ public class InteractiveRenderer {
 	}
 
 	public void modifyEvent(PrimitiveRenderEvent event) {
-		if (iun == null) {
+		if (iun == null)
 			return;
-		}
 
 		restoreEvent();
 
 		String source = getSource((StructureSource) event.getSource());
-		if (source == null) {
+		if (source == null)
 			return;
-		}
 
 		Set<ActionType> typeSet = targets.get(source);
 
@@ -155,9 +151,8 @@ public class InteractiveRenderer {
 					int index = hints.getIndex();
 
 					return "category_" + String.valueOf(index); //$NON-NLS-1$
-				} else {
+				} else
 					return null;
-				}
 			} else {
 				Series series;
 				if (src.getType() == StructureType.SERIES) {
@@ -220,22 +215,19 @@ public class InteractiveRenderer {
 			highlightFill(fill);
 		}
 		LineAttributes lineAttributes = event.getLineAttributes();
-		if (lineAttributes != null) {
+		if (lineAttributes != null)
 			highlightLine(lineAttributes);
-		}
 
 		Label label = event.getLabel();
-		if (label != null) {
+		if (label != null)
 			highlightLabel(label);
-		}
 	}
 
 	private void highlightLabel(Label label) {
 		saveLabel(label);
 		ColorDefinition color = label.getCaption().getColor();
-		if (color != null) {
+		if (color != null)
 			color.brighter();
-		}
 
 	}
 
@@ -243,9 +235,8 @@ public class InteractiveRenderer {
 		saveLine(la);
 		// la.setThickness( 3 );
 		ColorDefinition color = la.getColor();
-		if (color != null) {
+		if (color != null)
 			color.brighter();
-		}
 
 	}
 
@@ -270,28 +261,24 @@ public class InteractiveRenderer {
 	}
 
 	private void saveColor(ColorDefinition cd) {
-		if (!savedColors.containsKey(cd)) {
+		if (!savedColors.containsKey(cd))
 			savedColors.put(cd, goFactory.copyOf(cd));
-		}
 
 	}
 
 	private void saveLine(LineAttributes line) {
-		if (!savedLines.containsKey(line)) {
+		if (!savedLines.containsKey(line))
 			savedLines.put(line, goFactory.copyOf(line));
-		}
 	}
 
 	private void saveLabel(Label label) {
-		if (!savedLabels.containsKey(label)) {
+		if (!savedLabels.containsKey(label))
 			savedLabels.put(label, goFactory.copyOf(label));
-		}
 	}
 
 	protected void restoreEvent() {
-		if (iun == null) {
+		if (iun == null)
 			return;
-		}
 
 		for (Iterator<ColorDefinition> iter = savedColors.keySet().iterator(); iter.hasNext();) {
 			ColorDefinition original = iter.next();

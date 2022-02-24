@@ -22,7 +22,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 public class ReportEngineCreator {
 	/**
 	 * create an engine instance
-	 *
+	 * 
 	 * @param config
 	 * @return
 	 * @throws BirtException

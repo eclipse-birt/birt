@@ -26,12 +26,11 @@ public enum MimeType implements ContentType {
 
 	private String type;
 
-	MimeType(String extension, String type) {
+	private MimeType(String extension, String type) {
 		this.extension = extension;
 		this.type = type;
 	}
 
-	@Override
 	public void write(OOXmlWriter writer) {
 		writer.openTag("Default");
 		writer.attribute("Extension", extension);
@@ -39,7 +38,6 @@ public enum MimeType implements ContentType {
 		writer.closeTag("Default");
 	}
 
-	@Override
 	public String toString() {
 		return extension;
 	}

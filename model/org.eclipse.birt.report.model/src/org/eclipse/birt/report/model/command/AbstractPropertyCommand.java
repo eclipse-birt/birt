@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param module the root of <code>obj</code>
 	 * @param obj    the element to modify.
 	 */
@@ -68,11 +68,11 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 	/**
 	 * Justifies whether the extended element is created if the UI invokes some
 	 * operations to change the extension properties.
-	 *
+	 * 
 	 * Note that <code>PropertyCommand</code> do not support structure operations
 	 * like addItem, removeItem, etc. for extension elements. This method is kept
 	 * but NERVER call it in <code>doSetProperty</code>.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the extended item that holds the extended element
 	 * @param prop    the extension property definition to change
@@ -90,7 +90,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Validates the values of the item members.
-	 *
+	 * 
 	 * @param context context to a list.
 	 * @param item    the item to check
 	 * @throws SemanticException if the item has any member with invalid value or if
@@ -105,7 +105,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 	/**
 	 * Validates the structure list. Currently it only support
 	 * structure.structureList or structureList.structureList.
-	 *
+	 * 
 	 * @param propDefn   the property definition
 	 * @param memberDefn the structure member definition. It should be
 	 *                   ref.getMemeberDefn().
@@ -115,11 +115,10 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 	private void checkItems(PropertyDefn propDefn, PropertyDefn memberDefn, List<Object> items)
 			throws SemanticException {
-		if (items == null) {
+		if (items == null)
 			return;
-		}
 
-		List<Object> currentList = new ArrayList<>();
+		List<Object> currentList = new ArrayList<Object>();
 
 		for (int i = 0; i < items.size(); i++) {
 			IStructure struct = (IStructure) items.get(i);
@@ -128,9 +127,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 			List<SemanticException> errors = StructureListValidator.getInstance()
 					.validateForAdding(element.getHandle(module), memberDefn, currentList, struct);
 
-			if (!errors.isEmpty()) {
+			if (!errors.isEmpty())
 				throw errors.get(0);
-			}
 
 			currentList.add(struct);
 		}
@@ -138,7 +136,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Validates the values of the item members.
-	 *
+	 * 
 	 * @param ref  reference to a list.
 	 * @param item the item to check
 	 * @throws SemanticException if the item has any member with invalid value or if
@@ -166,9 +164,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 		for (Iterator<IPropertyDefn> iter = item.getDefn().propertiesIterator(); iter.hasNext();) {
 			PropertyDefn tmpMemberDefn = (PropertyDefn) iter.next();
-			if (ReferencableStructure.LIB_REFERENCE_MEMBER.equals(tmpMemberDefn.getName())) {
+			if (ReferencableStructure.LIB_REFERENCE_MEMBER.equals(tmpMemberDefn.getName()))
 				continue;
-			}
 
 			Object value = ((Structure) item).getLocalProperty(module, tmpMemberDefn);
 
@@ -191,18 +188,18 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 				value = tmpMemberDefn.validateValue(module, element, refValue.getQualifiedReference());
 
 				checkRecursiveElementReference(tmpMemberDefn, (ElementRefValue) value);
-			} else if (tmpMemberDefn.isList() && tmpMemberDefn.getStructDefn() != null) {
-				checkItems(currentDefn, tmpMemberDefn, (List<Object>) value);
 			} else {
-				value = tmpMemberDefn.validateValue(module, element, value);
+				if (tmpMemberDefn.isList() && tmpMemberDefn.getStructDefn() != null) {
+					checkItems(currentDefn, tmpMemberDefn, (List<Object>) value);
+				} else
+					value = tmpMemberDefn.validateValue(module, element, value);
 			}
 
 			// do some special handle for binding value
 			if (item instanceof PropertyBinding && tmpMemberDefn.getName().equals(PropertyBinding.VALUE_MEMBER)) {
 				EncryptionUtil.setEncryptionBindingValue(module, (Structure) item, tmpMemberDefn, value);
-			} else {
+			} else
 				item.setProperty(tmpMemberDefn, value);
-			}
 		}
 
 		if (item instanceof Structure) {
@@ -223,17 +220,16 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 	 * referenced structure to the client. That back pointer has both a pointer to
 	 * the client element, and the property within that element that holds the
 	 * reference. The reference property is unresolved.
-	 *
+	 * 
 	 * @param struct the structure to be deleted
 	 */
 
 	protected void adjustReferenceClients(ReferencableStructure struct) {
 		assert struct != null;
-		if (!struct.hasReferences()) {
+		if (!struct.hasReferences())
 			return;
-		}
 
-		List<BackRef> clients = new ArrayList<>(struct.getClientList());
+		List<BackRef> clients = new ArrayList<BackRef>(struct.getClientList());
 
 		Iterator<BackRef> iter = clients.iterator();
 		while (iter.hasNext()) {
@@ -248,7 +244,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Checks whether recursive element reference occurs.
-	 *
+	 * 
 	 * @param memberDefn the property/member definition
 	 * @param refValue   the element reference value
 	 * @throws SemanticException
@@ -260,17 +256,17 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 		if (refValue.isResolved() && element instanceof IReferencableElement) {
 			DesignElement reference = refValue.getElement();
-			if (ModelUtil.isRecursiveReference(reference, (IReferencableElement) element)) {
+			if (ModelUtil.isRecursiveReference(reference, (IReferencableElement) element))
+
 				throw new SemanticError(element, new String[] { reference.getIdentifier() },
 						SemanticError.DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE);
-			}
 		}
 
 	}
 
 	/**
 	 * Validates the values of the item members.
-	 *
+	 * 
 	 * @param memberContext context to a list.
 	 * @param item          the item to check
 	 * @throws SemanticException if the item has any member with invalid value or if
@@ -304,14 +300,14 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 	 * by <code>unresolveReference</code>. If <code>unresolveReference</code> is
 	 * <code>true</code>, the reference property is unresolved. Otherwise, it's
 	 * cleared.
-	 *
+	 * 
 	 * @param referred           the element to be deleted
 	 * @param memberContext
 	 * @param unresolveReference the flag indicating the reference property should
 	 *                           be unresolved, instead of cleared
 	 * @throws SemanticException if an error occurs, but the operation should not
 	 *                           fail under normal conditions
-	 *
+	 * 
 	 * @see #adjustReferredClients(DesignElement)
 	 */
 
@@ -321,15 +317,13 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 		while (memberDefns.hasNext()) {
 			StructPropertyDefn memberDefn = (StructPropertyDefn) memberDefns.next();
-			if (memberDefn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE) {
+			if (memberDefn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE)
 				continue;
-			}
 
 			ReferenceValue refValue = (ReferenceValue) referred.getLocalProperty(module, memberDefn);
 
-			if (refValue == null || !refValue.isResolved()) {
+			if (refValue == null || !refValue.isResolved())
 				continue;
-			}
 
 			IReferencableElement client = (IReferencableElement) ((ElementRefValue) refValue).getElement();
 
@@ -356,7 +350,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 	 * property is inherited as a whole, so when the value changed from a child
 	 * element. This method will be called to ensure that a local copy will be made,
 	 * so change to the child won't affect the original value in the parent.
-	 *
+	 * 
 	 * @param context a context to a list property or member.
 	 */
 
@@ -374,9 +368,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 			List list = (ArrayList) element.getLocalProperty(module, propDefn);
 
-			if (list != null) {
+			if (list != null)
 				return context;
-			}
 
 			// Make a local copy of the inherited list value.
 			ArrayList inherited = (ArrayList) element.getProperty(module, propDefn);
@@ -385,12 +378,10 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 				list = (List) ModelUtil.copyValue(propDefn, inherited);
 
 				// establish context when add items.
-				if (propDefn.getTypeCode() == IPropertyType.STRUCT_TYPE) {
+				if (propDefn.getTypeCode() == IPropertyType.STRUCT_TYPE)
 					StructureContextUtil.setStructureContext(propDefn, list, element);
-				}
-			} else {
+			} else
 				list = new ArrayList();
-			}
 
 			// Set the list value on the element itself.
 
@@ -406,9 +397,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 		Structure struct = (Structure) element.getLocalProperty(module, propDefn);
 
-		if (struct != null) {
+		if (struct != null)
 			return context;
-		}
 
 		// Make a local copy of the inherited list value.
 
@@ -430,9 +420,9 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Validates the values of the item members.
-	 *
+	 * 
 	 * @param prop
-	 *
+	 * 
 	 * @param ref  reference to a list.
 	 * @param item the item to check
 	 * @return the validated item
@@ -444,9 +434,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 	protected Object checkItem(PropertyDefn prop, Object item) throws PropertyValueException {
 		assert prop.getTypeCode() == IPropertyType.LIST_TYPE;
 		Object value = item;
-		if (item instanceof DesignElementHandle) {
+		if (item instanceof DesignElementHandle)
 			value = ((DesignElementHandle) item).getElement();
-		}
 
 		// make use of the sub-type to get the validated value
 
@@ -486,20 +475,18 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Returns the target element for the notification event.
-	 *
+	 * 
 	 * @return the event target.
 	 */
 
 	protected ContentElementInfo getEventTarget() {
 		DesignElement tmpContainer = element.getContainer();
-		if (tmpContainer == null) {
+		if (tmpContainer == null)
 			return null;
-		}
 
 		String tmpPropName = element.getContainerInfo().getPropertyName();
-		if (tmpPropName == null) {
+		if (tmpPropName == null)
 			return null;
-		}
 
 		return ModelUtil.getContentContainer(element, tmpContainer.getPropertyDefn(tmpPropName));
 	}

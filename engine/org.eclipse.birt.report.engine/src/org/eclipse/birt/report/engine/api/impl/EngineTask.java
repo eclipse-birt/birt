@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -259,7 +259,6 @@ public abstract class EngineTask implements IEngineTask {
 	/**
 	 * @return Returns the locale.
 	 */
-	@Override
 	public Locale getLocale() {
 		return ulocale.toLocale();
 	}
@@ -267,19 +266,17 @@ public abstract class EngineTask implements IEngineTask {
 	/**
 	 * @return Returns the ulocale.
 	 */
-	@Override
 	public ULocale getULocale() {
 		return ulocale;
 	}
 
 	/**
 	 * sets the task locale
-	 *
+	 * 
 	 * The locale must be called in the same thread which create the engine task
-	 *
+	 * 
 	 * @param locale the task locale
 	 */
-	@Override
 	public void setLocale(Locale locale) {
 		if (locale == null) {
 			throw new NullPointerException();
@@ -296,10 +293,9 @@ public abstract class EngineTask implements IEngineTask {
 
 	/**
 	 * sets the task locale
-	 *
+	 * 
 	 * @param locale the task locale
 	 */
-	@Override
 	public void setLocale(ULocale ulocale) {
 		if (ulocale == null) {
 			throw new NullPointerException();
@@ -308,7 +304,6 @@ public abstract class EngineTask implements IEngineTask {
 		doSetLocale(ulocale);
 	}
 
-	@Override
 	public void setTimeZone(TimeZone timeZone) {
 		if (timeZone == null) {
 			throw new NullPointerException();
@@ -323,10 +318,9 @@ public abstract class EngineTask implements IEngineTask {
 
 	/**
 	 * sets the task context
-	 *
+	 * 
 	 * @param context the task context
 	 */
-	@Override
 	public void setAppContext(Map context) {
 		HashMap appContext = new HashMap();
 		HashMap sysAppContext = engine.getConfig().getAppContext();
@@ -344,9 +338,8 @@ public abstract class EngineTask implements IEngineTask {
 		executionContext.setAppContext(appContext);
 
 		StringBuffer logStr = null;
-		if (log.isLoggable(Level.FINE)) {
+		if (log.isLoggable(Level.FINE))
 			logStr = new StringBuffer();
-		}
 
 		// add the contexts into ScriptableJavaObject
 		if (!appContext.isEmpty()) {
@@ -369,22 +362,21 @@ public abstract class EngineTask implements IEngineTask {
 			}
 		}
 
-		if (logStr != null) {
+		if (logStr != null)
 			log.log(Level.FINE, "EngineTask.setAppContext: context={0}", logStr);
-		}
 	}
 
 	/**
 	 * Merges user specified app context to that of EngineTask. The context
 	 * variables in entry with following keys will be ignored:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>EngineConstants.APPCONTEXT_CLASSLOADER_KEY</code>
 	 * <li><code>EngineConstants.WEBAPP_CLASSPATH_KEY</code>
 	 * <li><code>EngineConstants.PROJECT_CLASSPATH_KEY</code>
 	 * <li><code>EngineConstants.WORKSPACE_CLASSPATH_KEY</code>
 	 * </ul>
-	 *
+	 * 
 	 * @param from the source app contexts.
 	 * @param to   the destination app contexts.
 	 */
@@ -418,20 +410,18 @@ public abstract class EngineTask implements IEngineTask {
 
 	/**
 	 * returns the object that encapsulates the context for running the task
-	 *
+	 * 
 	 * @return Returns the context.
 	 */
-	@Override
 	public Map getAppContext() {
 		return executionContext.getAppContext();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#getEngine()
 	 */
-	@Override
 	public IReportEngine getEngine() {
 		return engine;
 	}
@@ -453,17 +443,16 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#getReportRunnable()
 	 */
-	@Override
 	public IReportRunnable getReportRunnable() {
 		return executionContext.getOriginalRunnable();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IRenderTask#setRenderOption(org.eclipse.
 	 * birt.report.engine.api.IRenderOption)
@@ -481,14 +470,13 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IRenderTask#setEmitterID(java.lang.String)
 	 */
 	/**
 	 * @deprecated
 	 */
-	@Deprecated
 	public void setEmitterID(String id) {
 		this.emitterID = id;
 	}
@@ -499,7 +487,6 @@ public abstract class EngineTask implements IEngineTask {
 	 *         which case the engine will choose one emitter that matches the
 	 *         requested output format.
 	 */
-	@Deprecated
 	public String getEmitterID() {
 		return this.emitterID;
 	}
@@ -510,22 +497,20 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api2.IEngineTask#addScriptableJavaObject(java.
 	 * lang.String, java.lang.Object)
 	 */
-	@Override
 	public void addScriptableJavaObject(String jsName, Object obj) {
 		executionContext.registerBean(jsName, obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#getID()
 	 */
-	@Override
 	public int getID() {
 		return taskID;
 	}
@@ -572,11 +557,10 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api2.IRunAndRenderTask#validateParameters()
 	 */
-	@Override
 	public boolean validateParameters() {
 		IReportRunnable runnable = executionContext.getRunnable();
 		if (runnable == null) {
@@ -609,7 +593,6 @@ public abstract class EngineTask implements IEngineTask {
 	}
 
 	private class ParameterValidationVisitor extends ParameterVisitor {
-		@Override
 		boolean visitScalarParameter(ScalarParameterHandle param, Object value) {
 			try {
 				return validateAbstractScalarParameter(param);
@@ -619,7 +602,6 @@ public abstract class EngineTask implements IEngineTask {
 			return false;
 		}
 
-		@Override
 		boolean visitDynamicFilterParameter(DynamicFilterParameterHandle param, Object value) {
 			try {
 				return validateAbstractScalarParameter(param);
@@ -629,11 +611,10 @@ public abstract class EngineTask implements IEngineTask {
 			return false;
 		}
 
-		@Override
 		boolean visitParameterGroup(ParameterGroupHandle group, Object value) {
 			return visitParametersInGroup(group, value);
 		}
-	}
+	};
 
 	protected void loggerParamters() {
 		if (log.isLoggable(Level.FINE)) {
@@ -641,7 +622,6 @@ public abstract class EngineTask implements IEngineTask {
 			// validate each parameter to see if it is validate
 			new ParameterVisitor() {
 
-				@Override
 				boolean visitScalarParameter(ScalarParameterHandle param, Object value) {
 					String paramName = param.getName();
 					Object paramValue = runValues.get(paramName);
@@ -652,7 +632,6 @@ public abstract class EngineTask implements IEngineTask {
 					return true;
 				}
 
-				@Override
 				boolean visitDynamicFilterParameter(DynamicFilterParameterHandle param, Object userData) {
 					String paramName = param.getName();
 					Object paramValue = runValues.get(paramName);
@@ -663,7 +642,6 @@ public abstract class EngineTask implements IEngineTask {
 					return true;
 				}
 
-				@Override
 				boolean visitParameterGroup(ParameterGroupHandle group, Object value) {
 					return visitParametersInGroup(group, value);
 				}
@@ -674,7 +652,7 @@ public abstract class EngineTask implements IEngineTask {
 
 	/**
 	 * validate whether the parameter value is a valid value for the parameter
-	 *
+	 * 
 	 * @param p          the parameter to be verified
 	 * @param paramValue the value for the parameter
 	 * @return true if the given parameter value is valid; false otherwise
@@ -687,9 +665,8 @@ public abstract class EngineTask implements IEngineTask {
 
 		// Handle null parameter values
 		if (paramValue == null) {
-			if (!paramHandle.isRequired()) {
+			if (!paramHandle.isRequired())
 				return true;
-			}
 
 			throw new ParameterValidationException(MessageConstants.PARAMETER_IS_NULL_EXCEPTION,
 					new String[] { paramName });
@@ -750,46 +727,39 @@ public abstract class EngineTask implements IEngineTask {
 		 */
 		if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type)
 				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type)) {
-			if (paramValue instanceof Number) {
+			if (paramValue instanceof Number)
 				return true;
-			}
 			throw new ParameterValidationException(MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[] { paramName, type, paramValue.getClass().getName() });
 		} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type)) {
-			if (paramValue instanceof Date) {
+			if (paramValue instanceof Date)
 				return true;
-			}
 			throw new ParameterValidationException(MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[] { paramName, type, paramValue.getClass().getName() });
 		} else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(type)) {
-			if (paramValue instanceof java.sql.Date) {
+			if (paramValue instanceof java.sql.Date)
 				return true;
-			}
 			throw new ParameterValidationException(MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[] { paramName, type, paramValue.getClass().getName() });
 		} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(type)) {
-			if (paramValue instanceof java.sql.Time) {
+			if (paramValue instanceof java.sql.Time)
 				return true;
-			}
 			throw new ParameterValidationException(MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[] { paramName, type, paramValue.getClass().getName() });
 		} else if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type)) {
-			if (!(paramValue instanceof String)) {
+			if (!(paramValue instanceof String))
 				throw new ParameterValidationException(MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 						new String[] { paramName, type, paramValue.getClass().getName() });
-			}
 			validateStringParameter(paramName, paramValue, paramHandle);
 			return true;
 		} else if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type)) {
-			if (paramValue instanceof Boolean) {
+			if (paramValue instanceof Boolean)
 				return true;
-			}
 			throw new ParameterValidationException(MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[] { paramName, type, paramValue.getClass().getName() });
 		} else if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(type)) {
-			if (paramValue instanceof Integer) {
+			if (paramValue instanceof Integer)
 				return true;
-			}
 			throw new ParameterValidationException(MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[] { paramName, type, paramValue.getClass().getName() });
 		}
@@ -810,12 +780,11 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IEngineTask#setParameterValues(java.util.
 	 * HashMap)
 	 */
-	@Override
 	public void setParameterValues(Map params) {
 		Iterator iterator = params.entrySet().iterator();
 		while (iterator.hasNext()) {
@@ -834,12 +803,11 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IEngineTask#setParameterValue(java.lang.
 	 * String, java.lang.Object)
 	 */
-	@Override
 	public void setParameterValue(String name, Object value) {
 		log.log(Level.FINE, "EngineTask.setParameterValue: {0}={1} [{2}]",
 				new Object[] { name, value, value == null ? null : value.getClass().getName() });
@@ -853,7 +821,6 @@ public abstract class EngineTask implements IEngineTask {
 		}
 	}
 
-	@Override
 	public void setParameterValue(String name, Object[] values) {
 		log.log(Level.FINE, "EngineTask.setParameterValue: {0}={1} [{2}]",
 				new Object[] { name, values, values == null ? null : values.getClass().getName() });
@@ -869,7 +836,7 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IEngineTask#setParameterValue(java.lang.
 	 * String, java.lang.Object)
@@ -880,7 +847,7 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IEngineTask#setParameterValue(java.lang.
 	 * String, java.lang.Object)
@@ -891,10 +858,9 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IEngineTask#getParameterValues()
 	 */
-	@Override
 	public HashMap getParameterValues() {
 		HashMap result = new HashMap();
 		Iterator iterator = inputValues.entrySet().iterator();
@@ -908,12 +874,11 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IEngineTask#getParameterValue(java.lang.
 	 * String)
 	 */
-	@Override
 	public Object getParameterValue(String name) {
 		Object parameter = inputValues.get(name);
 		if (parameter == null) {
@@ -923,19 +888,16 @@ public abstract class EngineTask implements IEngineTask {
 		return ((ParameterAttribute) parameter).getValue();
 	}
 
-	@Override
 	public void setParameter(String name, Object value, String displayText) {
 		parameterChanged = true;
 		inputValues.put(name, new ParameterAttribute(value, displayText));
 	}
 
-	@Override
 	public void setParameter(String name, Object[] values, String[] displayText) {
 		parameterChanged = true;
 		inputValues.put(name, new ParameterAttribute(values, displayText));
 	}
 
-	@Override
 	public Object getParameterDisplayText(String name) {
 		Object parameter = inputValues.get(name);
 		if (parameter != null) {
@@ -961,7 +923,6 @@ public abstract class EngineTask implements IEngineTask {
 		}
 	}
 
-	@Override
 	public void setParameterDisplayText(String name, String displayText) {
 		parameterChanged = true;
 		Object parameter = inputValues.get(name);
@@ -973,7 +934,6 @@ public abstract class EngineTask implements IEngineTask {
 		}
 	}
 
-	@Override
 	public void setParameterDisplayText(String name, String[] displayText) {
 		parameterChanged = true;
 		Object parameter = inputValues.get(name);
@@ -988,7 +948,7 @@ public abstract class EngineTask implements IEngineTask {
 	protected Object evaluateDefaultValue(AbstractScalarParameterHandle parameter) {
 		if (parameter != null) {
 			String name = parameter.getName();
-			if (defaultValues.containsKey(name)) {
+			if (defaultValues.keySet().contains(name)) {
 				return defaultValues.get(name);
 			}
 		}
@@ -1000,9 +960,8 @@ public abstract class EngineTask implements IEngineTask {
 			if (valueExpr != null) {
 				try {
 					Object result = executionContext.evaluate(valueExpr);
-					if (result == null) {
+					if (result == null)
 						return null;
-					}
 					if (DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals(sparameter.getParamType())) {
 						ArrayList results = new ArrayList();
 						String dataType = sparameter.getDataType();
@@ -1120,10 +1079,9 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IEngineTask#cancel()
 	 */
-	@Override
 	public void cancel() {
 		cancelFlag = true;
 		if (executionContext != null) {
@@ -1133,7 +1091,6 @@ public abstract class EngineTask implements IEngineTask {
 		changeStatusToStopped();
 	}
 
-	@Override
 	public void cancel(String reason) {
 		cancelReason = reason;
 		cancel();
@@ -1167,12 +1124,10 @@ public abstract class EngineTask implements IEngineTask {
 //		return;
 //	}
 
-	@Override
 	public boolean getCancelFlag() {
 		return cancelFlag;
 	}
 
-	@Override
 	public void setErrorHandlingOption(int option) {
 		if (option == CANCEL_ON_ERROR) {
 			executionContext.setCancelOnError(true);
@@ -1187,7 +1142,7 @@ public abstract class EngineTask implements IEngineTask {
 
 	/**
 	 * class used to visit all parameters
-	 *
+	 * 
 	 */
 	static abstract class ParameterVisitor {
 		ParameterValidationException engineException;
@@ -1313,7 +1268,6 @@ public abstract class EngineTask implements IEngineTask {
 		// use default value for the parameter without user value.
 		new ParameterVisitor() {
 
-			@Override
 			boolean visitScalarParameter(ScalarParameterHandle param, Object userData) {
 				String name = param.getName();
 				if (!inputValues.containsKey(name)) {
@@ -1330,7 +1284,7 @@ public abstract class EngineTask implements IEngineTask {
 							IScalarParameterModel.PARAM_TYPE_PROP);
 					if (DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals(paramType)) {
 						Object[] values = (Object[]) value;
-						List<String> displayTextList = new ArrayList<>();
+						List<String> displayTextList = new ArrayList<String>();
 						if (values != null && selectList != null && selectList.size() > 0) {
 							for (Object o : values) {
 								for (SelectionChoice select : selectList) {
@@ -1338,8 +1292,10 @@ public abstract class EngineTask implements IEngineTask {
 										if (select.getValue() == null) {
 											displayTextList.add(select.getLabel());
 										}
-									} else if (o.equals(select.getValue())) {
-										displayTextList.add(select.getLabel());
+									} else {
+										if (o.equals(select.getValue())) {
+											displayTextList.add(select.getLabel());
+										}
 									}
 								}
 
@@ -1356,9 +1312,11 @@ public abstract class EngineTask implements IEngineTask {
 										displayText = select.getLabel();
 										break;
 									}
-								} else if (value.equals(select.getValue())) {
-									displayText = select.getLabel();
-									break;
+								} else {
+									if (value.equals(select.getValue())) {
+										displayText = select.getLabel();
+										break;
+									}
 								}
 							}
 						}
@@ -1368,7 +1326,6 @@ public abstract class EngineTask implements IEngineTask {
 				return true;
 			}
 
-			@Override
 			boolean visitDynamicFilterParameter(DynamicFilterParameterHandle param, Object userData) {
 				String name = param.getName();
 				if (!inputValues.containsKey(name)) {
@@ -1380,14 +1337,12 @@ public abstract class EngineTask implements IEngineTask {
 				return true;
 			}
 
-			@Override
 			boolean visitParameterGroup(ParameterGroupHandle group, Object value) {
 				return visitParametersInGroup(group, value);
 			}
 		}.visit((ModuleHandle) runnable.getDesignHandle(), executionContext);
 	}
 
-	@Override
 	public void close() {
 		executionContext.close();
 		disposeResourceLocator();
@@ -1579,7 +1534,8 @@ public abstract class EngineTask implements IEngineTask {
 					ReportRunnable newRunnable = executionContext.getRunnable().cloneRunnable();
 					executionContext.updateRunnable(newRunnable);
 					ReportDesignHandle newDesign = newRunnable.getReport();
-					Map options = new HashMap(getAppContext());
+					Map options = new HashMap();
+					options.putAll(getAppContext());
 					newDesign.setOptions(options);
 					ScriptedDesignVisitor visitor = new ScriptedDesignHandler(newDesign, executionContext);
 					visitor.apply(newDesign.getRoot());
@@ -1595,7 +1551,8 @@ public abstract class EngineTask implements IEngineTask {
 		ReportDesignHandle handle = executionContext.getReportDesign();
 		if (handle != null) {
 			Map options = handle.getOptions();
-			Map newOptions = new HashMap(options);
+			Map newOptions = new HashMap();
+			newOptions.putAll(options);
 			if (!newOptions.isEmpty()) {
 				Set keyset = newOptions.keySet();
 				Iterator iter = keyset.iterator();
@@ -1636,7 +1593,6 @@ public abstract class EngineTask implements IEngineTask {
 	}
 
 	// TODO: throw out the IOException
-	@Override
 	public void setDataSource(IDocArchiveReader dataSource) {
 		setDataSource(dataSource, null);
 	}
@@ -1644,18 +1600,15 @@ public abstract class EngineTask implements IEngineTask {
 	protected IDocArchiveReader dataSource;
 	private String dataSourceReportlet;
 
-	@Override
 	public void setDataSource(IDocArchiveReader dataSource, String reportlet) {
 		this.dataSource = dataSource;
 		this.dataSourceReportlet = reportlet;
 	}
 
-	@Override
 	public int getStatus() {
 		return runningStatus;
 	}
 
-	@Override
 	public List getErrors() {
 		ArrayList errorList = new ArrayList();
 		if (fatalError != null) {
@@ -1682,15 +1635,15 @@ public abstract class EngineTask implements IEngineTask {
 
 	/**
 	 * intialize the render options used to render the report.
-	 *
+	 * 
 	 * the render options are load from:
 	 * <li>engine level default options</li>
 	 * <li>engine level format options</li>
 	 * <li>engine level emitter options</li>
 	 * <li>task level options</li>
-	 *
+	 * 
 	 * @throws EngineException
-	 *
+	 * 
 	 */
 	protected void setupRenderOption() throws EngineException {
 		ExtensionManager extManager = ExtensionManager.getInstance();
@@ -1838,7 +1791,6 @@ public abstract class EngineTask implements IEngineTask {
 		emitter.initialize(services);
 	}
 
-	@Override
 	public int getTaskType() {
 		return taskType;
 	}
@@ -1879,12 +1831,10 @@ public abstract class EngineTask implements IEngineTask {
 		}
 	}
 
-	@Override
 	public Logger getLogger() {
 		return log;
 	}
 
-	@Override
 	public void setLogger(Logger logger) {
 		if (logger == null || EngineLogger.isValidLogger(logger)) {
 			throw new IllegalArgumentException(
@@ -1897,7 +1847,7 @@ public abstract class EngineTask implements IEngineTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IRunTask#setPageHandler(org.eclipse.birt.
 	 * report.engine.api.IPageHandler)
@@ -1929,7 +1879,7 @@ public abstract class EngineTask implements IEngineTask {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws EngineException
 	 */
 	protected void loadDataSource() throws EngineException {
@@ -2000,10 +1950,10 @@ public abstract class EngineTask implements IEngineTask {
 
 			ClassLoader loader = document.getClassLoader();
 			RAInputStream in = dataSource.getInputStream(ReportDocumentConstants.CONTENT_STREAM);
-			try (in) {
+			try {
 				ReportContentReaderV3 reader = new ReportContentReaderV3(new ReportContent(), in, loader);
 				try {
-					LinkedList<InstanceID> iids = new LinkedList<>();
+					LinkedList<InstanceID> iids = new LinkedList<InstanceID>();
 					while (offset != -1) {
 						IContent content = reader.readContent(offset);
 						iids.addFirst(content.getInstanceID());
@@ -2020,6 +1970,8 @@ public abstract class EngineTask implements IEngineTask {
 				} finally {
 					reader.close();
 				}
+			} finally {
+				in.close();
 			}
 		}
 		// set the datasources
@@ -2028,13 +1980,11 @@ public abstract class EngineTask implements IEngineTask {
 
 	protected void updateRtLFlag() throws EngineException {
 		// get RtL flag from renderOptions
-		if (renderOptions == null) {
+		if (renderOptions == null)
 			return;
-		}
 		IReportRunnable runnable = executionContext.getRunnable();
-		if (runnable == null) {
+		if (runnable == null)
 			return;
-		}
 		ReportDesignHandle handle = (ReportDesignHandle) runnable.getDesignHandle();
 		if (handle != null) {
 			Object bidiFlag = renderOptions.getOption(IRenderOption.RTL_FLAG);
@@ -2063,7 +2013,7 @@ public abstract class EngineTask implements IEngineTask {
 		// prepare the extension executor
 		String[] extensions = executionContext.getEngineExtensions();
 		if (extensions != null) {
-			ArrayList<IContentProcessor> processors = new ArrayList<>();
+			ArrayList<IContentProcessor> processors = new ArrayList<IContentProcessor>();
 			EngineExtensionManager manager = executionContext.getEngineExtensionManager();
 			for (String extName : extensions) {
 				IGenerateExtension genExt = manager.getGenerateExtension(extName);
@@ -2082,7 +2032,6 @@ public abstract class EngineTask implements IEngineTask {
 		return executor;
 	}
 
-	@Override
 	public void setUserACL(String[] acls) {
 		if (acls != null) {
 			String[] strippedAcls = strip(acls);
@@ -2096,7 +2045,7 @@ public abstract class EngineTask implements IEngineTask {
 	}
 
 	protected String[] strip(String[] acls) {
-		ArrayList<String> strippedAcls = new ArrayList<>();
+		ArrayList<String> strippedAcls = new ArrayList<String>();
 		for (int i = 0; i < acls.length; i++) {
 			String acl = acls[i];
 			if (acl != null) {
@@ -2109,13 +2058,11 @@ public abstract class EngineTask implements IEngineTask {
 		return strippedAcls.toArray(new String[strippedAcls.size()]);
 	}
 
-	@Override
 	public void setProgressMonitor(IProgressMonitor monitor) {
 		progressMonitor = monitor;
 		executionContext.setProgressMonitor(monitor);
 	}
 
-	@Override
 	public void setStatusHandler(IStatusHandler handler) {
 		statusHandler = handler;
 	}

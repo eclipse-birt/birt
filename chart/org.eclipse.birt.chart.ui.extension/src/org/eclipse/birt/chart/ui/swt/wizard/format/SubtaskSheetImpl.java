@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Widget;
 
 /**
  * UI constants for chart builder
- *
+ * 
  */
 public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext>
 		implements ShellListener, ChartUIConstants, ITaskPreviewable {
@@ -56,17 +56,16 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 
 	private static boolean POPUP_ATTACHING = false;
 
-	private Map<String, Button> popupButtonRegistry = new HashMap<>(6);
+	private Map<String, Button> popupButtonRegistry = new HashMap<String, Button>(6);
 
-	private Map<String, ITaskPopupSheet> popupSheetRegistry = new HashMap<>(6);
+	private Map<String, ITaskPopupSheet> popupSheetRegistry = new HashMap<String, ITaskPopupSheet>(6);
 
-	private Map<String, String> lastPopupRegistry = new HashMap<>(3);
+	private Map<String, String> lastPopupRegistry = new HashMap<String, String>(3);
 
 	public SubtaskSheetImpl() {
 		super();
 	}
 
-	@Override
 	public Object onHide() {
 		// No need to clear popup selection because it's closed automatically
 		ChartWizard.POPUP_CLOSING_BY_USER = false;
@@ -81,7 +80,7 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 	/**
 	 * Detaches the popup dialogue if the name is same with the widget. Called when
 	 * clicking buttons manually.
-	 *
+	 * 
 	 * @param widget the button widget
 	 * @return detach result
 	 */
@@ -98,7 +97,6 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 		return false;
 	}
 
-	@Override
 	public boolean detachPopup() {
 		if (popupShell != null && !popupShell.isDisposed()) {
 			getWizard().detachPopup();
@@ -119,7 +117,7 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 
 	/**
 	 * Selects all registered buttons
-	 *
+	 * 
 	 * @param isSelected selection status
 	 */
 	final protected void selectAllButtons(boolean isSelected) {
@@ -172,7 +170,7 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 	 * Creates a toggle button to popup and registers it. Note that all toggle
 	 * buttons are registered, each button enable should call
 	 * setToggleButtonEnabled().
-	 *
+	 * 
 	 * @param parent     control parent
 	 * @param buttonId   button id without node path
 	 * @param popupName  button text and registry key
@@ -217,7 +215,7 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 	 * Creates a toggle button to popup and registers it. Note that all toggle
 	 * buttons are registered, each button enable should call
 	 * setToggleButtonEnabled().
-	 *
+	 * 
 	 * @param parent     control parent
 	 * @param buttonId   button id without node path
 	 * @param popupName  button text and registry key
@@ -231,7 +229,7 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 
 	/**
 	 * Updates popup sheet
-	 *
+	 * 
 	 * @param buttonId   button id without node path
 	 * @param popupSheet popup sheet
 	 * @since 3.7
@@ -245,7 +243,7 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 
 	/**
 	 * Finds the toggle button by exclusive id or button id
-	 *
+	 * 
 	 * @param buttonId exclusive id or button id
 	 * @return the toggle button or null
 	 */
@@ -281,13 +279,11 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 		}
 	}
 
-	@Override
 	public void shellActivated(ShellEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void shellClosed(ShellEvent e) {
 		Control focusControl = Display.getDefault().getFocusControl();
 		if (focusControl instanceof Text) {
@@ -308,25 +304,21 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 		}
 	}
 
-	@Override
 	public void shellDeactivated(ShellEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void shellDeiconified(ShellEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void shellIconified(ShellEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public boolean attachPopup(String buttonId) {
 		// If general selection is null or not existent, to open subtask
 		// selection.
@@ -377,34 +369,28 @@ public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext
 		lastPopupRegistry.put(getContext().getWizardID(), lastPopup);
 	}
 
-	@Override
 	public boolean isPreviewable() {
 		// Doesn't support preview by default
 		return false;
 	}
 
-	@Override
 	public ChartPreviewPainter createPreviewPainter() {
 		return null;
 	}
 
-	@Override
 	public void doPreview() {
 
 	}
 
-	@Override
 	public Canvas getPreviewCanvas() {
 		return null;
 	}
 
-	@Override
 	public void setParentTask(ITask parentTask) {
 		assert parentTask instanceof TreeCompoundTask;
 		super.setParentTask(parentTask);
 	}
 
-	@Override
 	protected TreeCompoundTask getParentTask() {
 		return (TreeCompoundTask) super.getParentTask();
 	}

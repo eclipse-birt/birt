@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ class EdgeTraverse {
 
 	/**
 	 * Move the cursor to the first row of the edge.
-	 *
+	 * 
 	 * @return
 	 */
 	boolean first() {
@@ -69,7 +69,7 @@ class EdgeTraverse {
 
 	/**
 	 * get the current position of edge cursor.
-	 *
+	 * 
 	 * @return
 	 */
 	int getEdgePostion() {
@@ -78,7 +78,7 @@ class EdgeTraverse {
 
 	/**
 	 * indicate whether the cursor move after the last row.
-	 *
+	 * 
 	 * @return
 	 */
 	boolean isAfterLast() {
@@ -87,7 +87,7 @@ class EdgeTraverse {
 
 	/**
 	 * indicate whether the cursor move before the first row
-	 *
+	 * 
 	 * @return
 	 */
 	boolean isBeforeFirst() {
@@ -96,7 +96,7 @@ class EdgeTraverse {
 
 	/**
 	 * indicate whether the cursor move to the first row
-	 *
+	 * 
 	 * @return
 	 */
 	boolean isFirst() {
@@ -105,7 +105,7 @@ class EdgeTraverse {
 
 	/**
 	 * indicate whether the cursor move to the last row
-	 *
+	 * 
 	 * @return
 	 */
 	boolean isLast() {
@@ -114,7 +114,7 @@ class EdgeTraverse {
 
 	/**
 	 * move the cursor to the last row.
-	 *
+	 * 
 	 * @return
 	 */
 	boolean last() {
@@ -129,7 +129,7 @@ class EdgeTraverse {
 
 	/**
 	 * move the cursor to the next row.
-	 *
+	 * 
 	 * @return
 	 */
 	boolean next() {
@@ -144,7 +144,7 @@ class EdgeTraverse {
 
 	/**
 	 * move the cursor to the previous row.
-	 *
+	 * 
 	 * @return
 	 */
 	boolean previous() {
@@ -160,14 +160,13 @@ class EdgeTraverse {
 
 	/**
 	 * move the cursor to the relative offset.
-	 *
+	 * 
 	 * @param arg0
 	 * @return
 	 */
 	boolean relative(int arg0) {
-		if (arg0 == 0) {
+		if (arg0 == 0)
 			return true;
-		}
 		int position = this.currentPosition + arg0;
 		if (position >= this.relationMap.traverseLength) {
 			return false;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 public class LibraryChangeChartDataSetTest extends BaseTestCase {
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("DesignWithChartLibrary.xml"); //$NON-NLS-1$
@@ -43,7 +42,7 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase {
 
 	/**
 	 * Tests change dataset of table.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -93,7 +92,7 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase {
 
 	/**
 	 * Gets count of column bindings.
-	 *
+	 * 
 	 * @param iterator column bindings iterator.
 	 * @return count of column bindings
 	 */
@@ -102,18 +101,17 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase {
 		int count = 0;
 		while (iterator != null && iterator.hasNext()) {
 			Object obj = iterator.next();
-			if (obj != null) {
+			if (obj != null)
 				++count;
-			}
 		}
 		return count;
 	}
 
 	/**
 	 * Tests change dataset of chart.
-	 *
+	 * 
 	 * @throws SemanticException
-	 *
+	 * 
 	 */
 
 	public void testChangeChartDataSet() throws SemanticException {
@@ -142,7 +140,7 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase {
 
 	/**
 	 * Add column binding for report item.
-	 *
+	 * 
 	 * @param itemHandle report item handle
 	 * @param dsHandle   data set handle
 	 * @throws SemanticException

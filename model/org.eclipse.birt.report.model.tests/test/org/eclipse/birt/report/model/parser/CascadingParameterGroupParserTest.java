@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public class CascadingParameterGroupParserTest extends BaseTestCase {
 
 	/**
 	 * Tests get properties and get contents.
-	 *
+	 * 
 	 * @throws DesignFileException
 	 */
 
@@ -70,7 +70,7 @@ public class CascadingParameterGroupParserTest extends BaseTestCase {
 
 	/**
 	 * Test writer
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -88,7 +88,7 @@ public class CascadingParameterGroupParserTest extends BaseTestCase {
 
 	/**
 	 * Returns the parameter group handle given the name of the parameter group.
-	 *
+	 * 
 	 * @param name the parameter name.
 	 * @return cascading parameter group handle.
 	 */
@@ -97,9 +97,8 @@ public class CascadingParameterGroupParserTest extends BaseTestCase {
 		SlotHandle parameters = this.designHandle.getParameters();
 		for (int i = 0; i < parameters.getCount(); i++) {
 			DesignElementHandle elementHandle = parameters.get(i);
-			if (elementHandle.getName().equals(name)) {
+			if (elementHandle.getName().equals(name))
 				return (CascadingParameterGroupHandle) elementHandle;
-			}
 		}
 
 		return null;
@@ -108,7 +107,7 @@ public class CascadingParameterGroupParserTest extends BaseTestCase {
 	/**
 	 * 1) Cacading parameter type should be "dynamic" 2) Dataset for the cascading
 	 * parameter should be valid.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

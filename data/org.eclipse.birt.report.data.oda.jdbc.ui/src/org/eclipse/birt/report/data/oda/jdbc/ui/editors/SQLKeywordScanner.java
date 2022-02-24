@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,13 +30,13 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * TODO: Please document
- *
+ * 
  * @version $Revision: 1.4 $ $Date: 2009/07/07 06:50:16 $
  */
 
 public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax {
 	/**
-	 *
+	 *  
 	 */
 	public SQLKeywordScanner() {
 		super();
@@ -51,7 +51,6 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax {
 		// Add generic whitespace rule.
 		rules.add(new WhitespaceRule(new IWhitespaceDetector() {
 
-			@Override
 			public boolean isWhitespace(char c) {
 				return Character.isWhitespace(c);
 			}

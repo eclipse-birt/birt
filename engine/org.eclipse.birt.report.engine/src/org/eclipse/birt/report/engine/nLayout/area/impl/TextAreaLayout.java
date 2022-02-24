@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -56,16 +56,16 @@ public class TextAreaLayout implements ILayout {
 		splitChar.add(Character.valueOf(' '));
 		splitChar.add(Character.valueOf('\r'));
 		splitChar.add(Character.valueOf('\n'));
-	}
+	};
 
 	public TextAreaLayout(ContainerArea parent, LayoutContext context, IContent content) {
 		parentLM = (InlineStackingArea) parent;
 		ITextContent textContent = (ITextContent) content;
 		parentLM.setTextIndent(textContent);
 		String text = textContent.getText();
-		if (text != null && text.length() != 0) {
+		if (text != null && text.length() != 0)
 			transform(textContent);
-		} else {
+		else {
 			textContent.setText(" ");
 			blankText = true;
 		}
@@ -100,7 +100,7 @@ public class TextAreaLayout implements ILayout {
 
 	public void addListener(ITextListener listener) {
 		if (listenerList == null) {
-			listenerList = new ArrayList<>();
+			listenerList = new ArrayList<ITextListener>();
 		}
 		listenerList.add(listener);
 	}
@@ -126,10 +126,12 @@ public class TextAreaLayout implements ILayout {
 		Color color = PropertyUtil.getColor(s.getProperty(IStyle.STYLE_COLOR));
 		if (color != null) {
 			textStyle.setColor(color);
-		} else if (content.getHyperlinkAction() != null) {
-			textStyle.setColor(Color.BLUE);
 		} else {
-			textStyle.setColor(PropertyUtil.getColor(style.getProperty(IStyle.STYLE_COLOR)));
+			if (content.getHyperlinkAction() != null) {
+				textStyle.setColor(Color.BLUE);
+			} else {
+				textStyle.setColor(PropertyUtil.getColor(style.getProperty(IStyle.STYLE_COLOR)));
+			}
 		}
 		if (content.getHyperlinkAction() != null) {
 			textStyle.setHasHyperlink(true);
@@ -137,15 +139,13 @@ public class TextAreaLayout implements ILayout {
 		return textStyle;
 	}
 
-	@Override
 	public void layout() throws BirtException {
 		layoutChildren();
 	}
 
 	protected void layoutChildren() throws BirtException {
-		if (null == textContent) {
+		if (null == textContent)
 			return;
-		}
 		while (comp.hasNextArea()) {
 			TextArea area = comp.getNextArea(getFreeSpace());
 			// for a textArea which just has a line break. We should not add TextArea into
@@ -221,10 +221,10 @@ public class TextAreaLayout implements ILayout {
 		boolean capitalizeNextChar = true;
 		char[] array = text.toCharArray();
 		for (int i = 0; i < array.length; i++) {
-			Character c = text.charAt(i);
-			if (splitChar.contains(c)) {
+			Character c = Character.valueOf(text.charAt(i));
+			if (splitChar.contains(c))
 				capitalizeNextChar = true;
-			} else if (capitalizeNextChar) {
+			else if (capitalizeNextChar) {
 				array[i] = Character.toUpperCase(array[i]);
 				capitalizeNextChar = false;
 			}

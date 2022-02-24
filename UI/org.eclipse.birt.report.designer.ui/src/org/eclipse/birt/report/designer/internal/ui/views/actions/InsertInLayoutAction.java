@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ public class InsertInLayoutAction extends AbstractViewAction {
 
 	/**
 	 * Constructor. Uses DISPLAY_TEXT as default text.
-	 *
+	 * 
 	 * @param selectedObject
 	 */
 	public InsertInLayoutAction(Object selectedObject) {
@@ -58,7 +58,7 @@ public class InsertInLayoutAction extends AbstractViewAction {
 	}
 
 	/**
-	 *
+	 *  
 	 */
 	public InsertInLayoutAction(Object selectedObject, String text) {
 		super(selectedObject, text);
@@ -66,10 +66,9 @@ public class InsertInLayoutAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
 		return isTypeAvailable() && getTargetEditPart() != null
 				&& InsertInLayoutUtil.handleValidateInsertToLayout(getSelection(), getTargetEditPart());
@@ -89,9 +88,8 @@ public class InsertInLayoutAction extends AbstractViewAction {
 				return null;
 			}
 			IStructuredSelection targets = (IStructuredSelection) viewer.getSelection();
-			if (targets.isEmpty() && targets.size() > 1) {
+			if (targets.isEmpty() && targets.size() > 1)
 				return null;
-			}
 			targetPart = (EditPart) targets.getFirstElement();
 		}
 		return targetPart;
@@ -99,10 +97,9 @@ public class InsertInLayoutAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	@Override
 	public void run() {
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 		stack.startTrans(DISPLAY_TEXT);
@@ -111,9 +108,8 @@ public class InsertInLayoutAction extends AbstractViewAction {
 				System.out.println("Insert layout action >> Runs ..."); //$NON-NLS-1$
 			}
 			Object newElement = InsertInLayoutUtil.performInsert(getSelection(), getTargetEditPart());
-			if (newElement != null) {
+			if (newElement != null)
 				runCreate(newElement, targetPart.getModel());
-			}
 			stack.commit();
 			fireCreateRequest(newElement, getSelection());
 		} catch (SemanticException e) {

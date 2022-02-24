@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ public class HTMLParser {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public void close() {
 		try {
@@ -64,22 +64,18 @@ public class HTMLParser {
 	}
 
 	public int getElementType() {
-		if (token.startsWith("/")) { //$NON-NLS-1$
+		if (token.startsWith("/")) //$NON-NLS-1$
 			return END_ELEMENT;
-		}
-		if (token.endsWith("/")) { //$NON-NLS-1$
+		if (token.endsWith("/")) //$NON-NLS-1$
 			return SINGLE_ELEMENT;
-		}
 		return START_ELEMENT;
 	}
 
 	public String getElement() {
-		if (token.startsWith("/")) { //$NON-NLS-1$
+		if (token.startsWith("/")) //$NON-NLS-1$
 			return token.substring(1);
-		}
-		if (token.endsWith("/")) { //$NON-NLS-1$
+		if (token.endsWith("/")) //$NON-NLS-1$
 			return token.substring(0, token.length() - 1);
-		}
 		return token;
 
 	}
@@ -91,9 +87,8 @@ public class HTMLParser {
 	public String getAttrib(String name) {
 		for (int i = 0; i < attribs.size(); i++) {
 			AttribPair a = (AttribPair) attribs.get(i);
-			if (a.attrib.equalsIgnoreCase(name)) {
+			if (a.attrib.equalsIgnoreCase(name))
 				return a.value;
-			}
 		}
 		return null;
 	}
@@ -125,20 +120,18 @@ public class HTMLParser {
 				return getElement(c);
 			default: {
 				parseText(c);
-				if (!ignoreWhitespace || token.trim().length() > 0) {
+				if (!ignoreWhitespace || token.trim().length() > 0)
 					return TEXT;
-				}
 			}
 			}
 		}
 	}
 
 	private int parseText(int c) {
-		StringBuilder text = new StringBuilder();
+		StringBuffer text = new StringBuffer();
 		for (;;) {
-			if (c == EOF) {
+			if (c == EOF)
 				break;
-			}
 			if (c == '<') {
 				pushC(c);
 				break;
@@ -146,11 +139,10 @@ public class HTMLParser {
 
 			// Convert MS-Word-style quotes.
 
-			if (c == 8220 || c == 8221) {
+			if (c == 8220 || c == 8221)
 				text.append("&quot;");
-			} else {
+			else
 				text.append((char) c);
-			}
 			c = getC();
 		}
 
@@ -170,21 +162,18 @@ public class HTMLParser {
 
 		// Broken element
 
-		if (c == EOF) {
+		if (c == EOF)
 			return EOF;
-		}
 
-		if (c == '!') {
+		if (c == '!')
 			return getSpecialElement();
-		}
 
 		attribs.clear();
 		c = skipSpace(c);
-		if (c == EOF) {
+		if (c == EOF)
 			return EOF;
-		}
 
-		StringBuilder tag = new StringBuilder();
+		StringBuffer tag = new StringBuffer();
 		if (c == '/') {
 			tag.append((char) c);
 			c = skipSpace(getC());
@@ -194,9 +183,8 @@ public class HTMLParser {
 			}
 			token = tag.toString();
 			for (;;) {
-				if (c == '>' || c == -1) {
+				if (c == '>' || c == -1)
 					break;
-				}
 				c = getC();
 			}
 			return ELEMENT;
@@ -213,18 +201,16 @@ public class HTMLParser {
 
 		for (;;) {
 			c = skipSpace(c);
-			if (c == EOF || c == '>' || c == '/') {
+			if (c == EOF || c == '>' || c == '/')
 				break;
-			}
 			c = getAttrib(c);
 		}
 		if (c == '/') {
 			tag.append((char) c);
 			for (;;) {
 				c = getC();
-				if (c == -1 || c == '>') {
+				if (c == -1 || c == '>')
 					break;
-				}
 			}
 		}
 		token = tag.toString();
@@ -233,7 +219,7 @@ public class HTMLParser {
 
 	private int getAttrib(int c) {
 		AttribPair a = new AttribPair();
-		StringBuilder s = new StringBuilder();
+		StringBuffer s = new StringBuffer();
 		while (c != EOF && c != '=' && !Character.isWhitespace((char) c)) {
 			s.append((char) c);
 			c = getC();
@@ -244,24 +230,22 @@ public class HTMLParser {
 			attribs.add(a);
 			return c;
 		}
-		s = new StringBuilder();
+		s = new StringBuffer();
 		c = skipSpace(getC());
 		if (c == '\'' || c == '"') {
 			int quote = c;
 			for (;;) {
 				c = getC();
-				if (c == -1) {
+				if (c == -1)
 					break;
-				}
 				if (c == quote) {
 					c = getC();
 					break;
 				}
 				if (c == '\\') {
 					c = getC();
-					if (c == EOF) {
+					if (c == EOF)
 						break;
-					}
 					s.append('\\');
 					s.append((char) c);
 				} else {
@@ -271,9 +255,8 @@ public class HTMLParser {
 		} else {
 			for (;;) {
 				c = getC();
-				if (c == -1) {
+				if (c == -1)
 					break;
-				}
 				if (c == '>' || c == '/' || Character.isWhitespace((char) c)) {
 					c = getC();
 					break;
@@ -292,20 +275,18 @@ public class HTMLParser {
 	}
 
 	private int getSpecialElement() {
-		StringBuilder text = new StringBuilder();
+		StringBuffer text = new StringBuffer();
 		text.append("<!"); //$NON-NLS-1$
 		for (;;) {
 			int c = getC();
-			if (c == EOF || c == '>') {
+			if (c == EOF || c == '>')
 				break;
-			}
 			text.append((char) c);
 		}
 		text.append('>');
 		token = text.toString();
-		if (token.startsWith("<!--")) { //$NON-NLS-1$
+		if (token.startsWith("<!--")) //$NON-NLS-1$
 			return COMMENT;
-		}
 		return SPECIAL_ELEMENT;
 	}
 
@@ -321,20 +302,18 @@ public class HTMLParser {
 
 	public boolean isFormatTag(String tag) {
 		for (int i = 0; i < formatTags.length; i++) {
-			if (formatTags[i].equalsIgnoreCase(tag)) {
+			if (formatTags[i].equalsIgnoreCase(tag))
 				return true;
-			}
 		}
 		return false;
 	}
 
 	public Object getFullElement() {
-		StringBuilder text = new StringBuilder();
+		StringBuffer text = new StringBuffer();
 		text.append('<');
 		int elementType = getElementType();
-		if (elementType == END_ELEMENT) {
+		if (elementType == END_ELEMENT)
 			text.append('/');
-		}
 		text.append(getElement());
 
 		for (int i = 0; i < attribs.size(); i++) {
@@ -342,14 +321,12 @@ public class HTMLParser {
 			AttribPair a = (AttribPair) attribs.get(i);
 			text.append(a.attrib);
 			text.append("=\""); //$NON-NLS-1$
-			if (a.value != null) {
+			if (a.value != null)
 				text.append(a.value);
-			}
 			text.append("\""); //$NON-NLS-1$
 		}
-		if (elementType == SINGLE_ELEMENT) {
+		if (elementType == SINGLE_ELEMENT)
 			text.append('/');
-		}
 		text.append('>');
 		return text.toString();
 	}

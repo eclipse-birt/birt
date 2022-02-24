@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,7 +36,6 @@ public class BoxStyle implements IStyleDeclaration {
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IStyleDeclaration#getName()
 	 */
-	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
 		return styleName;
@@ -49,7 +48,6 @@ public class BoxStyle implements IStyleDeclaration {
 	 * org.eclipse.birt.report.model.api.extension.IStyleDeclaration#getProperty(
 	 * java.lang.String)
 	 */
-	@Override
 	public Object getProperty(String name) {
 		if (name != null) {
 			if (name.equals(Style.NAME_PROP)) {

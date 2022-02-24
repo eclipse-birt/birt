@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,9 +18,10 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.junit.Test;
 
 import testutil.ConfigText;
+
+import org.junit.Test;
 
 /**
  *
@@ -33,7 +34,6 @@ public class ClobAndBlobTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
-	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestBlobAndClob.TableName"),
 				ConfigText.getString("Api.TestBlobAndClob.TableSQL"),
@@ -41,7 +41,7 @@ public class ClobAndBlobTest extends APITestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -53,20 +53,18 @@ public class ClobAndBlobTest extends APITestCase {
 		IResultMetaData md = ri.getResultMetaData();
 
 		while (ri.next()) {
-			StringBuilder str = new StringBuilder();
+			String str = "";
 			for (int i = 0; i < beArray.length; i++) {
 				if (md.getColumnTypeName(i + 1).equals(DataType.BINARY_TYPE_NAME)
-						|| md.getColumnTypeName(i + 1).equals(DataType.BLOB_TYPE_NAME)) {
-					str.append(ri.getBytes(beName[i]));
-				} else {
-					str.append(ri.getValue(beName[i]));
-				}
+						|| md.getColumnTypeName(i + 1).equals(DataType.BLOB_TYPE_NAME))
+					str += new String(ri.getBytes(beName[i]));
+				else
+					str += ri.getValue(beName[i]);
 
-				if (i < beArray.length - 1) {
-					str.append(", ");
-				}
+				if (i < beArray.length - 1)
+					str += ", ";
 			}
-			testPrintln(str.toString());
+			testPrintln(str);
 		}
 
 		checkOutputFile();
@@ -74,7 +72,7 @@ public class ClobAndBlobTest extends APITestCase {
 
 	/**
 	 * Add expression to query definition
-	 *
+	 * 
 	 * @param queryDefn
 	 * @throws DataException
 	 */

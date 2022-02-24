@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * Converts values between a report scalar parameter and ODA Design Session
  * Request.
- *
+ * 
  */
 
 class ReportParameterAdapter extends AbstractReportParameterAdapter implements IReportParameterAdapter {
@@ -51,26 +51,24 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 *
+	 * 
+	 * 
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter #
 	 * updateLinkedReportParameter
 	 * (org.eclipse.birt.report.model.api.ScalarParameterHandle,
 	 * org.eclipse.birt.report.model.api.OdaDataSetParameterHandle)
 	 */
-	@Override
 	public void updateLinkedReportParameter(ScalarParameterHandle reportParam, OdaDataSetParameterHandle dataSetParam)
 			throws SemanticException {
-		if (reportParam == null || dataSetParam == null) {
+		if (reportParam == null || dataSetParam == null)
 			return;
-		}
 
 		updateLinkedReportParameterFromROMParameter(reportParam, dataSetParam, true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter#
 	 * updateLinkedReportParameter
 	 * (org.eclipse.birt.report.model.api.ScalarParameterHandle,
@@ -78,12 +76,10 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 	 * org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
 
-	@Override
 	public void updateLinkedReportParameter(ScalarParameterHandle reportParam, OdaDataSetParameterHandle dataSetParam,
 			DataSetDesign dataSetDesign) throws SemanticException {
-		if (reportParam == null || dataSetParam == null) {
+		if (reportParam == null || dataSetParam == null)
 			return;
-		}
 
 		ParameterDefinition matchedParam = null;
 
@@ -103,10 +99,9 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 
 		cmdStack.startTrans(null);
 		try {
-			if (matchedParam != null) {
+			if (matchedParam != null)
 				updateLinkedReportParameter(reportParam, matchedParam, null, dataType,
 						(OdaDataSetHandle) dataSetParam.getElementHandle());
-			}
 
 			updateLinkedReportParameterFromROMParameter(reportParam, dataSetParam, false);
 		} catch (SemanticException e) {
@@ -123,11 +118,11 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 	 * <p>
 	 * If any input argument is null or the matched ODA parameter definition cannot
 	 * be found, return <code>true</code>.
-	 *
+	 * 
 	 * @param reportParam the report parameter
 	 * @param odaParam    the ODA parameter definition
 	 * @param newDataType the data type
-	 *
+	 * 
 	 * @return <code>true</code> if the report paramter is updated or has no
 	 *         parameter definition in the data set design. Otherwise
 	 *         <code>false</code>.
@@ -135,22 +130,19 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 
 	boolean isUpdatedReportParameter(ScalarParameterHandle reportParam, ParameterDefinition odaParam,
 			String newDataType) {
-		if (reportParam == null || odaParam == null) {
+		if (reportParam == null || odaParam == null)
 			return true;
-		}
 
 		DataElementAttributes dataAttrs = odaParam.getAttributes();
 		Boolean odaAllowNull = AdapterUtil.getROMNullability(dataAttrs.getNullability());
 		boolean allowNull = getReportParamAllowMumble(reportParam, ALLOW_NULL_PROP_NAME);
 
-		if (odaAllowNull != null && allowNull != odaAllowNull.booleanValue()) {
+		if (odaAllowNull != null && allowNull != odaAllowNull.booleanValue())
 			return false;
-		}
 
 		if (!DesignChoiceConstants.PARAM_TYPE_ANY.equalsIgnoreCase(newDataType)) {
-			if (!CompareUtil.isEquals(newDataType, reportParam.getDataType())) {
+			if (!CompareUtil.isEquals(newDataType, reportParam.getDataType()))
 				return false;
-			}
 		}
 
 		DataElementUIHints dataUiHints = dataAttrs.getUiHints();
@@ -158,9 +150,11 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 			String newPromptText = dataUiHints.getDisplayName();
 			String newHelpText = dataUiHints.getDescription();
 
-			if (!CompareUtil.isEquals(newPromptText, reportParam.getPromptText()) || !CompareUtil.isEquals(newHelpText, reportParam.getHelpText())) {
+			if (!CompareUtil.isEquals(newPromptText, reportParam.getPromptText()))
 				return false;
-			}
+
+			if (!CompareUtil.isEquals(newHelpText, reportParam.getHelpText()))
+				return false;
 		}
 
 		InputParameterAttributes paramAttrs = odaParam.getInputAttributes();
@@ -180,9 +174,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 			if (tmpParamDefn.getUiHints() != null) {
 				tmpParamDefn.setUiHints(null);
 			}
-		} else {
+		} else
 			tmpParamDefn = designFactory.createInputParameterAttributes();
-		}
 
 		InputParameterAttributes tmpParamDefn1 = designFactory.createInputParameterAttributes();
 
@@ -197,16 +190,15 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 			tmpDynamicQuery1.setDataSetDesign(null);
 		}
 
-		if (!EcoreUtil.equals(tmpDataSet, tmpDataSet1)) {
+		if (!EcoreUtil.equals(tmpDataSet, tmpDataSet1))
 			return false;
-		}
 
 		return EcoreUtil.equals(tmpParamDefn, tmpParamDefn1);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
 	 * # updateLinkedReportParameterFromROMParameter(org.eclipse.birt.report.model
@@ -214,10 +206,9 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 	 * org.eclipse.birt.report.model.api.OdaDataSetParameterHandle, boolean)
 	 */
 
-	@Override
 	protected void updateLinkedReportParameterFromROMParameter(AbstractScalarParameterHandle reportParam,
 			OdaDataSetParameterHandle dataSetParam, boolean updateDefaultValue) throws SemanticException {
-		assert reportParam instanceof ScalarParameterHandle;
+		assert reportParam != null && reportParam instanceof ScalarParameterHandle;
 
 		ScalarParameterHandle scalarParam = (ScalarParameterHandle) reportParam;
 
@@ -235,7 +226,7 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
 	 * #updateInputElementAttrs(org.eclipse.datatools.connectivity.oda.design.
@@ -243,7 +234,6 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 	 * org.eclipse.birt.report.model.api.AbstractScalarParameterHandle,
 	 * org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
-	@Override
 	protected InputParameterAttributes updateInputElementAttrs(InputParameterAttributes inputParamAttrs,
 			AbstractScalarParameterHandle paramHandle, DataSetDesign dataSetDesign) {
 		assert paramHandle instanceof ScalarParameterHandle;
@@ -260,9 +250,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 		// not set the ROM default value on ODA objects.
 
 		PropertyHandle tmpPropHandle = paramHandle.getPropertyHandle(ScalarParameterHandle.AUTO_SUGGEST_THRESHOLD_PROP);
-		if (tmpPropHandle.isSet()) {
+		if (tmpPropHandle.isSet())
 			uiHints.setAutoSuggestThreshold(scalarParam.getAutoSuggestThreshold());
-		}
 		inputAttrs.setUiHints(uiHints);
 
 		return retInputParamAttrs;
@@ -270,47 +259,43 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
 	 * #setReportParamIsRequired(org.eclipse.birt.report.model.api.
 	 * AbstractScalarParameterHandle, java.lang.String, boolean)
 	 */
-	@Override
 	protected void setReportParamIsRequired(AbstractScalarParameterHandle param, String obsoletePropName, boolean value)
 			throws SemanticException {
 		assert param instanceof ScalarParameterHandle;
-		if (ALLOW_NULL_PROP_NAME.equalsIgnoreCase(obsoletePropName)) {
+		if (ALLOW_NULL_PROP_NAME.equalsIgnoreCase(obsoletePropName))
 			((ScalarParameterHandle) param).setAllowNull(value);
-		} else if (ALLOW_BLANK_PROP_NAME.equalsIgnoreCase(obsoletePropName)) {
+		else if (ALLOW_BLANK_PROP_NAME.equalsIgnoreCase(obsoletePropName))
 			((ScalarParameterHandle) param).setAllowBlank(value);
-		} else {
+		else
 			super.setReportParamIsRequired(param, obsoletePropName, value);
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
 	 * #getReportParamAllowMumble(org.eclipse.birt.report.model.api.
 	 * AbstractScalarParameterHandle, java.lang.String)
 	 */
-	@Override
 	protected boolean getReportParamAllowMumble(AbstractScalarParameterHandle param, String propName) {
 		assert param instanceof ScalarParameterHandle;
-		if (ALLOW_NULL_PROP_NAME.equalsIgnoreCase(propName)) {
+		if (ALLOW_NULL_PROP_NAME.equalsIgnoreCase(propName))
 			return ((ScalarParameterHandle) param).allowNull();
-		} else if (ALLOW_BLANK_PROP_NAME.equalsIgnoreCase(propName)) {
+		else if (ALLOW_BLANK_PROP_NAME.equalsIgnoreCase(propName))
 			return ((ScalarParameterHandle) param).allowBlank();
-		}
 		return super.getReportParamAllowMumble(param, propName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
 	 * #updateLinkedReportParameter(org.eclipse.birt.report.model.api.
@@ -332,7 +317,7 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
 	 * #updateAbstractScalarParameter(org.eclipse.birt.report.model.api.
@@ -341,7 +326,6 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 	 * org.eclipse.datatools.connectivity.oda.design.ParameterDefinition,
 	 * org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
-	@Override
 	protected void updateAbstractScalarParameter(AbstractScalarParameterHandle reportParam,
 			ParameterDefinition paramDefn, ParameterDefinition cachedParamDefn, OdaDataSetHandle setHandle)
 			throws SemanticException {
@@ -360,7 +344,7 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
 	 * # updateInputElementAttrsToReportParam(org.eclipse.datatools.connectivity.
@@ -369,7 +353,6 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 	 * org.eclipse.birt.report.model.api.AbstractScalarParameterHandle,
 	 * org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
-	@Override
 	protected void updateInputElementAttrsToReportParam(InputElementAttributes elementAttrs,
 			InputElementAttributes cachedElementAttrs, AbstractScalarParameterHandle reportParam,
 			OdaDataSetHandle setHandle) throws SemanticException {
@@ -378,13 +361,12 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 
 		// update conceal value
 
-		Boolean masksValue = elementAttrs.isMasksValue();
+		Boolean masksValue = Boolean.valueOf(elementAttrs.isMasksValue());
 		Boolean cachedMasksValues = cachedElementAttrs == null ? null
-				: cachedElementAttrs.isMasksValue();
+				: Boolean.valueOf(cachedElementAttrs.isMasksValue());
 
-		if (!CompareUtil.isEquals(cachedMasksValues, masksValue)) {
+		if (!CompareUtil.isEquals(cachedMasksValues, masksValue))
 			param.setConcealValue(masksValue.booleanValue());
-		}
 
 		InputElementUIHints uiHints = elementAttrs.getUiHints();
 		if (uiHints != null) {
@@ -394,17 +376,15 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 			InputPromptControlStyle cachedStyle = cachedUiHints == null ? null : cachedUiHints.getPromptStyle();
 
 			if (cachedStyle == null || (style != null && cachedStyle.getValue() != style.getValue())) {
-				if (isAutoSuggest(elementAttrs)) {
+				if (isAutoSuggest(elementAttrs))
 					param.setControlType(DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST);
-				} else {
+				else
 					param.setControlType(style == null ? null : AdapterUtil.newROMControlType(style));
-				}
 			}
 
 			param.setAutoSuggestThreshold(uiHints.getAutoSuggestThreshold());
-		} else if (cachedElementAttrs == null || cachedElementAttrs.getUiHints() == null) {
+		} else if (cachedElementAttrs == null || cachedElementAttrs.getUiHints() == null)
 			param.setControlType(DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX);
-		}
 
 		super.updateInputElementAttrsToReportParam(elementAttrs, cachedElementAttrs, reportParam, setHandle);
 	}
@@ -414,35 +394,29 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter implements I
 	 * and only if isSetAutoSuggestThreshold is TRUE, _mAutoSuggestThreshold is
 	 * larger than 0, prompt control style is SELECTABLE_LIST_WITH_TEXT_FIELD and
 	 * DynamicValuesQuery is not null.
-	 *
+	 * 
 	 * @param elementAttrs
 	 * @return
 	 */
 	private boolean isAutoSuggest(InputElementAttributes elementAttrs) {
-		if (elementAttrs == null) {
+		if (elementAttrs == null)
 			return false;
-		}
 		InputElementUIHints uiHints = elementAttrs.getUiHints();
-		if (uiHints == null) {
+		if (uiHints == null)
 			return false;
-		}
 		boolean isSetAutoSuggestThreshold = uiHints.isSetAutoSuggestThreshold();
-		if (!isSetAutoSuggestThreshold) {
+		if (!isSetAutoSuggestThreshold)
 			return false;
-		}
 		int threshold = uiHints.getAutoSuggestThreshold();
-		if (threshold <= 0) {
+		if (threshold <= 0)
 			return false;
-		}
 		InputPromptControlStyle style = uiHints.getPromptStyle();
-		if (style == null) {
+		if (style == null)
 			return false;
-		}
 		int styleMode = style.getValue();
 		if (InputPromptControlStyle.SELECTABLE_LIST_WITH_TEXT_FIELD == styleMode
-				&& elementAttrs.getDynamicValueChoices() != null) {
+				&& elementAttrs.getDynamicValueChoices() != null)
 			return true;
-		}
 
 		return false;
 	}

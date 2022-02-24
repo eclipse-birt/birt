@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,8 +41,8 @@ import org.eclipse.swt.widgets.Shell;
  * When tries to delete the data source and data set, if other element
  * references them, this dialog will show up. Click the node and position the
  * node in editor to choose the node to be deleted.
- *
- *
+ * 
+ * 
  */
 public class InputParameterHtmlDialog extends Dialog {
 
@@ -96,7 +96,7 @@ public class InputParameterHtmlDialog extends Dialog {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param parent The parent shell
 	 * @param title  The title of the dialog
 	 */
@@ -111,25 +111,23 @@ public class InputParameterHtmlDialog extends Dialog {
 	 * Self-defined string escaper
 	 */
 	protected String stringEscape(String string) {
-		return string.replace("&", "&&"); //$NON-NLS-1$ //$NON-NLS-2$
+		return string.replaceAll("&", "&&"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * override the super method.
-	 *
+	 * 
 	 * @param parent The parent
 	 */
-	@Override
 	protected Control createButtonBar(Composite parent) {
 		return parent;
 	}
 
 	/**
 	 * Creates the dialog area.
-	 *
+	 * 
 	 * @param parent The parent
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		parent.setBackground(ColorManager.getColor(219, 228, 238));
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -157,7 +155,6 @@ public class InputParameterHtmlDialog extends Dialog {
 		// Listen window close event
 		browser.addCloseWindowListener(new CloseWindowListener() {
 
-			@Override
 			public void close(final WindowEvent event) {
 				((Browser) event.widget).getShell().close();
 				List parameters = SessionHandleAdapter.getInstance().getReportDesignHandle().getParameters()
@@ -171,7 +168,6 @@ public class InputParameterHtmlDialog extends Dialog {
 		// Listen window status changed event
 		browser.addStatusTextListener(new StatusTextListener() {
 
-			@Override
 			public void changed(StatusTextEvent event) {
 				if (STATUS_CLOSE.equalsIgnoreCase(event.text)) {
 					((Browser) event.widget).getShell().close();
@@ -183,22 +179,19 @@ public class InputParameterHtmlDialog extends Dialog {
 					}
 				} else if (STATUS_CANCEL.equalsIgnoreCase(event.text)) {
 					// If fire cancel event, close parameter dialog directly
-					if (!((Browser) event.widget).getShell().isDisposed()) {
+					if (!((Browser) event.widget).getShell().isDisposed())
 						((Browser) event.widget).getShell().close();
-					}
 				}
 			}
 		});
 
 		browser.addTitleListener(new TitleListener() {
 
-			@Override
 			public void changed(TitleEvent event) {
 				if (STATUS_CANCEL.equalsIgnoreCase(event.title)) {
 					// If fire cancel event, close parameter dialog directly
-					if (!((Browser) event.widget).getShell().isDisposed()) {
+					if (!((Browser) event.widget).getShell().isDisposed())
 						((Browser) event.widget).getShell().close();
-					}
 				}
 			}
 		});
@@ -225,7 +218,7 @@ public class InputParameterHtmlDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
 	 */
@@ -240,10 +233,9 @@ public class InputParameterHtmlDialog extends Dialog {
 	 * The <code>BaseDialog</code> overrides this framework method sets in order to
 	 * set the title of the dialog.
 	 * </p>
-	 *
+	 * 
 	 * @param shell the shell
 	 */
-	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		if (title != null) {
@@ -264,7 +256,7 @@ public class InputParameterHtmlDialog extends Dialog {
 
 	/**
 	 * Gets the title of the dialog
-	 *
+	 * 
 	 * @return Returns the title.
 	 */
 	public String getTitle() {

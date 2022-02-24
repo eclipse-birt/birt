@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -98,17 +98,16 @@ public abstract class HTMLAbstractLM implements ILayoutManager {
 
 	/**
 	 * layout the content and its children.
-	 *
+	 * 
 	 * It can be called in three status: 1. start, the first time it is called, in
 	 * this status, it first check if it need page-break-before,
-	 *
+	 * 
 	 * 2. inprogress, the second or more time it is called. In this status, it tries
 	 * to layout the content and its children to the current page.
-	 *
+	 * 
 	 * 3. end, the last time it is called. In this status, it means all the content
 	 * has been layout, it is the time to handle the page-break-after.
 	 */
-	@Override
 	public boolean layout() throws BirtException {
 		switch (status) {
 		case STATUS_INTIALIZE:
@@ -138,9 +137,14 @@ public abstract class HTMLAbstractLM implements ILayoutManager {
 			} else {
 				status = STATUS_INPROGRESS;
 			}
+			if (hasNext) {
+				// there are sill some content to output,
+				// return to caller to create the new page.
+				return true;
+			}
 			// We need create an extra page for the following elements, so
 			// return true for next element.
-			if (hasNext || isPageBreakAfter()) {
+			if (isPageBreakAfter()) {
 				return true;
 			}
 			return false;
@@ -152,7 +156,6 @@ public abstract class HTMLAbstractLM implements ILayoutManager {
 
 	protected abstract boolean isChildrenFinished() throws BirtException;
 
-	@Override
 	public boolean isFinished() {
 		return status == STATUS_END;
 	}
@@ -190,10 +193,12 @@ public abstract class HTMLAbstractLM implements ILayoutManager {
 		if (allowPageBreak == null) {
 			if (!allowPageBreak()) {
 				allowPageBreak = Boolean.FALSE;
-			} else if (parent != null) {
-				allowPageBreak = parent.canPageBreak();
 			} else {
-				allowPageBreak = Boolean.TRUE;
+				if (parent != null) {
+					allowPageBreak = Boolean.valueOf(parent.canPageBreak());
+				} else {
+					allowPageBreak = Boolean.TRUE;
+				}
 			}
 		}
 		return allowPageBreak.booleanValue();
@@ -215,7 +220,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager {
 			return true;
 		}
 
-		if (parent instanceof HTMLListingBandLM) {
+		if (parent != null && parent instanceof HTMLListingBandLM) {
 			HTMLListingBandLM bandLayout = (HTMLListingBandLM) parent;
 			if (isVisible && bandLayout.needSoftPageBreak) {
 				if (pageBreak == null || IStyle.AUTO_VALUE.equals(pageBreak)) {
@@ -343,7 +348,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager {
 
 	/**
 	 * execute the executor, drip all its children contents.
-	 *
+	 * 
 	 * @param executor
 	 */
 	private void traverse(IReportItemExecutor executor, IContent content) throws BirtException {
@@ -367,7 +372,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager {
 
 	/**
 	 * execute the report and add all its contents into the content.
-	 *
+	 * 
 	 * @param content
 	 * @param executor
 	 */
@@ -396,12 +401,10 @@ public abstract class HTMLAbstractLM implements ILayoutManager {
 		}
 	}
 
-	@Override
 	public void close() throws BirtException {
 		engine.getFactory().releaseLayoutManager(this);
 	}
 
-	@Override
 	public void cancel() {
 		status = STATUS_END;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -205,11 +205,9 @@ public class ColumnBindingDialog extends BaseDialog {
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider() {
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public Object[] getElements(Object inputElement) {
 			List elementsList = getBindingList((DesignElementHandle) inputElement);
 			Object[] arrays = elementsList.toArray();
@@ -217,25 +215,22 @@ public class ColumnBindingDialog extends BaseDialog {
 			return arrays;
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	};
 
 	private class BindingComparator implements Comparator {
 
-		@Override
 		public int compare(Object o1, Object o2) {
 			ComputedColumnHandle binding1 = (ComputedColumnHandle) o1;
 			ComputedColumnHandle binding2 = (ComputedColumnHandle) o2;
 			String columnText1 = labelProvider.getColumnText(binding1, sortingColumnIndex);
 			String columnText2 = labelProvider.getColumnText(binding2, sortingColumnIndex);
 			int result = (columnText1 == null ? "" : columnText1).compareTo((columnText2 == null ? "" : columnText2));
-			if (sortDirection == SWT.UP) {
+			if (sortDirection == SWT.UP)
 				return result;
-			} else {
+			else
 				return 0 - result;
-			}
 		}
 	}
 
@@ -279,20 +274,16 @@ public class ColumnBindingDialog extends BaseDialog {
 
 	private ITableLabelProvider labelProvider = new ITableLabelProvider() {
 
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
-		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (element == dummyChoice) {
 				if (columnIndex == 1) {
@@ -324,10 +315,9 @@ public class ColumnBindingDialog extends BaseDialog {
 					String function = handle.getAggregateFunction();
 					if (function != null) {
 						if (org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationManager()
-								.getAggregation(function) != null) {
+								.getAggregation(function) != null)
 							text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationManager()
 									.getAggregation(function).getDisplayName();
-						}
 					}
 				} catch (BirtException e) {
 					ExceptionHandler.handle(e);
@@ -341,9 +331,8 @@ public class ColumnBindingDialog extends BaseDialog {
 				if (value == null) {
 					if (handle.getAggregateFunction() != null) {
 						text = ALL;
-					} else {
+					} else
 						text = NONE_AGGREGATEON;
-					}
 				} else {
 					text = value;
 				}
@@ -357,12 +346,10 @@ public class ColumnBindingDialog extends BaseDialog {
 			return text;
 		}
 
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
@@ -448,10 +435,10 @@ public class ColumnBindingDialog extends BaseDialog {
 	}
 
 	private void generateOutputParmsBindings(DataSetHandle datasetHandle) {
-		List<DataSetParameterHandle> outputParams = new ArrayList<>();
+		List<DataSetParameterHandle> outputParams = new ArrayList<DataSetParameterHandle>();
 		for (Iterator iter = datasetHandle.parametersIterator(); iter.hasNext();) {
 			Object obj = iter.next();
-			if ((obj instanceof DataSetParameterHandle) && ((DataSetParameterHandle) obj).isOutput()) {
+			if ((obj instanceof DataSetParameterHandle) && ((DataSetParameterHandle) obj).isOutput() == true) {
 				outputParams.add((DataSetParameterHandle) obj);
 			}
 		}
@@ -468,7 +455,7 @@ public class ColumnBindingDialog extends BaseDialog {
 			ret = prefDialog.open();
 		}
 
-		if (ret == 0) {
+		if (ret == 0)
 			for (int i = 0; i < outputParams.size(); i++) {
 				DataSetParameterHandle param = outputParams.get(i);
 				ComputedColumn bindingColumn = StructureFactory.newComputedColumn(inputElement, param.getName());
@@ -480,13 +467,13 @@ public class ColumnBindingDialog extends BaseDialog {
 				} catch (SemanticException e) {
 					ExceptionHandler.handle(e);
 				}
+				continue;
 			}
-		}
 	}
 
 	/**
 	 * Adds buttons in Button area.
-	 *
+	 * 
 	 * @param cmp   parent composite
 	 * @param table the Table widget affected by Buttons
 	 * @return the number of added buttons
@@ -499,7 +486,6 @@ public class ColumnBindingDialog extends BaseDialog {
 		btnRefresh.setLayoutData(data);
 		btnRefresh.addListener(SWT.Selection, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				if (inputElement != null) {
 					DataSetHandle datasetHandle = inputElement.getDataSet();
@@ -534,7 +520,6 @@ public class ColumnBindingDialog extends BaseDialog {
 		}
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 
 		UIUtil.bindHelp(parent, IHelpContextIds.COLUMNBINDING_DIALOG_ID);
@@ -557,16 +542,14 @@ public class ColumnBindingDialog extends BaseDialog {
 			datasetRadio.setLayoutData(new GridData(GridData.BEGINNING));
 			datasetRadio.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					refreshBinding();
 					if (datasetRadio.getSelection()
 							&& inputElement.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF
-							&& (DEUtil.getBindingHolder(inputElement, true) == null || DEUtil
-									.getBindingHolder(inputElement, true)
-									.getDataBindingType() != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)) {
+							&& (DEUtil.getBindingHolder(inputElement, true) == null
+									|| DEUtil.getBindingHolder(inputElement, true)
+											.getDataBindingType() != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF))
 						saveBinding();
-					}
 				}
 
 			});
@@ -594,7 +577,6 @@ public class ColumnBindingDialog extends BaseDialog {
 			datasetCombo.setLayoutData(gd);
 			datasetCombo.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent event) {
 					saveBinding();
 				}
@@ -604,16 +586,14 @@ public class ColumnBindingDialog extends BaseDialog {
 			reportItemRadio.setText(Messages.getString("BindingPage.ReportItem.Label")); //$NON-NLS-1$
 			reportItemRadio.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					refreshBinding();
 					if (reportItemRadio.getSelection()
 							&& inputElement.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_DATA
-							&& (DEUtil.getBindingHolder(inputElement, true) == null || DEUtil
-									.getBindingHolder(inputElement, true)
-									.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)) {
+							&& (DEUtil.getBindingHolder(inputElement, true) == null
+									|| DEUtil.getBindingHolder(inputElement, true)
+											.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF))
 						saveBinding();
-					}
 				}
 			});
 			reportItemCombo = new Combo(composite, SWT.READ_ONLY | SWT.BORDER);
@@ -625,7 +605,6 @@ public class ColumnBindingDialog extends BaseDialog {
 			reportItemCombo.setLayoutData(gd);
 			reportItemCombo.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					saveBinding();
 				}
@@ -649,7 +628,6 @@ public class ColumnBindingDialog extends BaseDialog {
 
 		Listener sortListener = new Listener() {
 
-			@Override
 			public void handleEvent(Event e) {
 				int modelPos = -1;
 				if (table.getSelectionIndex() > -1) {
@@ -706,7 +684,6 @@ public class ColumnBindingDialog extends BaseDialog {
 
 		table.addKeyListener(new KeyAdapter() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.DEL && (DEUtil.getBindingHolder(inputElement)
 						.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_DATA
@@ -734,7 +711,6 @@ public class ColumnBindingDialog extends BaseDialog {
 
 		table.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				selectIndex = table.getSelectionIndex();
 				updateButtons();
@@ -746,7 +722,6 @@ public class ColumnBindingDialog extends BaseDialog {
 			/**
 			 * @param e
 			 */
-			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				editSelectedBinding(table.getSelectionIndex());
 				refreshBindingTable();
@@ -773,9 +748,8 @@ public class ColumnBindingDialog extends BaseDialog {
 
 		for (int i = 0; i < columns.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.LEFT);
-			if (i == 0) {
+			if (i == 0)
 				table.setSortColumn(column);
-			}
 			column.setResizable(columns[i] != null);
 			if (columns[i] != null) {
 				column.setText(columns[i]);
@@ -789,7 +763,6 @@ public class ColumnBindingDialog extends BaseDialog {
 			bindingTable = new CheckboxTableViewer(table);
 			((CheckboxTableViewer) bindingTable).addCheckStateListener(new ICheckStateListener() {
 
-				@Override
 				public void checkStateChanged(CheckStateChangedEvent event) {
 
 					if (event.getElement() instanceof ComputedColumnHandle) {
@@ -817,7 +790,6 @@ public class ColumnBindingDialog extends BaseDialog {
 
 		bindingTable.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateButtons();
 			}
@@ -831,13 +803,11 @@ public class ColumnBindingDialog extends BaseDialog {
 		btnAdd.setLayoutData(data);
 		btnAdd.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleAddEvent();
 				refreshBindingTable();
-				if (table.getItemCount() > 0) {
+				if (table.getItemCount() > 0)
 					selectIndex = getShowIndex(table.getItemCount() - 1);
-				}
 				updateButtons();
 			}
 
@@ -851,7 +821,6 @@ public class ColumnBindingDialog extends BaseDialog {
 			btnAddAggr.setLayoutData(data);
 			btnAddAggr.addListener(SWT.Selection, new Listener() {
 
-				@Override
 				public void handleEvent(Event event) {
 					DataColumnBindingDialog dialog = new DataColumnBindingDialog(true);
 					dialog.setInput(inputElement);
@@ -865,9 +834,8 @@ public class ColumnBindingDialog extends BaseDialog {
 					}
 
 					refreshBindingTable();
-					if (table.getItemCount() > 0) {
+					if (table.getItemCount() > 0)
 						setSelectionInTable(table.getItemCount() - 1);
-					}
 					updateButtons();
 				}
 
@@ -881,7 +849,6 @@ public class ColumnBindingDialog extends BaseDialog {
 		btnEdit.setLayoutData(data);
 		btnEdit.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleEditEvent();
 				refreshBindingTable();
@@ -895,7 +862,6 @@ public class ColumnBindingDialog extends BaseDialog {
 		btnDel.setLayoutData(data);
 		btnDel.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (bindingTable.isCellEditorActive()) {
 					bindingTable.cancelEditing();
@@ -931,9 +897,8 @@ public class ColumnBindingDialog extends BaseDialog {
 		}
 
 		if (!isDataSetVisible) {
-			if (composite != null) {
+			if (composite != null)
 				((GridData) composite.getLayoutData()).exclude = true;
-			}
 		}
 
 		return parentComposite;
@@ -957,15 +922,14 @@ public class ColumnBindingDialog extends BaseDialog {
 				addBinding((ComputedColumn) iter.next());
 			}
 		}
-		if (inputElement != null && inputElement.getDataSet() != null) {
+		if (inputElement != null && inputElement.getDataSet() != null)
 			generateOutputParmsBindings(inputElement.getDataSet());
-		}
 		refreshBindingTable();
 	}
 
 	/**
 	 * Gets the DE CommandStack instance
-	 *
+	 * 
 	 * @return CommandStack instance
 	 */
 	private CommandStack getActionStack() {
@@ -984,7 +948,7 @@ public class ColumnBindingDialog extends BaseDialog {
 		List elementsList = DEUtil.getVisiableColumnBindingsList(inputElement);
 		if (this.filterSelf) {
 			Iterator iterator = this.inputElement.columnBindingsIterator();
-
+			;
 			while (iterator.hasNext()) {
 				Object obj = iterator.next();
 				System.out.println(obj);
@@ -1020,7 +984,7 @@ public class ColumnBindingDialog extends BaseDialog {
 		return dataSetName;
 	}
 
-	protected Map<String, ReportItemHandle> referMap = new HashMap<>();
+	protected Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>();
 
 	private Button btnAddAggr;
 
@@ -1079,9 +1043,8 @@ public class ColumnBindingDialog extends BaseDialog {
 	}
 
 	protected void handleDelEvent() {
-		if (!btnDel.isEnabled()) {
+		if (!btnDel.isEnabled())
 			return;
-		}
 		int pos = bindingTable.getTable().getSelectionIndex();
 		pos = getOriginalIndex(pos);
 		if (pos > -1) {
@@ -1102,34 +1065,30 @@ public class ColumnBindingDialog extends BaseDialog {
 
 	/**
 	 * Edits the selected binding of table.
-	 *
+	 * 
 	 * @param bindingIndex
 	 */
 	private void editSelectedBinding(int bindingIndex) {
-		if (!btnEdit.isEnabled()) {
+		if (!btnEdit.isEnabled())
 			return;
-		}
 		ComputedColumnHandle bindingHandle = null;
 		bindingIndex = getOriginalIndex(bindingIndex);
 		if (bindingIndex > -1) {
 			bindingHandle = (ComputedColumnHandle) (DEUtil.getBindingHolder(inputElement)).getColumnBindings()
 					.getAt(bindingIndex);
 		}
-		if (bindingHandle == null) {
+		if (bindingHandle == null)
 			return;
-		}
 
 		String bindingName = bindingHandle.getName();
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog(false);
 		setDialogInput(dialog, bindingHandle);
 		dialog.setExpressionProvider(expressionProvider);
 		if (dialog.open() == Dialog.OK) {
-			if (bindingTable != null) {
+			if (bindingTable != null)
 				bindingTable.getTable().setSelection(bindingIndex);
-			}
-			if (selectedColumnName != null && selectedColumnName.equals(bindingName)) {
+			if (selectedColumnName != null && selectedColumnName.equals(bindingName))
 				selectedColumnName = bindingHandle.getName();
-			}
 		}
 		selectIndex = getShowIndex(bindingIndex);
 	}
@@ -1140,7 +1099,6 @@ public class ColumnBindingDialog extends BaseDialog {
 		}
 	}
 
-	@Override
 	protected boolean initDialog() {
 		if (canSelect) {
 			if (inputElement instanceof DataItemHandle) {
@@ -1183,25 +1141,22 @@ public class ColumnBindingDialog extends BaseDialog {
 		if (canSelect) {
 			int type = inputElement.getDataBindingType();
 			Object value;
-			if (type == ReportItemHandle.DATABINDING_TYPE_NONE) {
+			if (type == ReportItemHandle.DATABINDING_TYPE_NONE)
 				type = DEUtil.getBindingHolder(inputElement).getDataBindingType();
-			}
 			switch (type) {
 			case ReportItemHandle.DATABINDING_TYPE_DATA:
 				DataSetHandle dataset = inputElement.getDataSet();
-				if (dataset == null) {
+				if (dataset == null)
 					value = NullDatasetChoice;
-				} else {
+				else
 					value = dataset.getQualifiedName();
-				}
 				break;
 			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF:
 				ReportItemHandle reference = inputElement.getDataBindingReference();
-				if (reference == null) {
+				if (reference == null)
 					value = NullReportItemChoice;
-				} else {
+				else
 					value = reference.getQualifiedName();
-				}
 				break;
 			default:
 				value = NullDatasetChoice;
@@ -1212,7 +1167,6 @@ public class ColumnBindingDialog extends BaseDialog {
 		return null;
 	}
 
-	@Override
 	protected void okPressed() {
 		if (canSelect) {
 			setResult(selectedColumnName);
@@ -1265,9 +1219,8 @@ public class ColumnBindingDialog extends BaseDialog {
 			Object value = info.getBindingValue();
 			datasetCombo.setItems(getAvailableDatasetItems());
 			reportItemCombo.setItems(getReferences());
-			if (type == ReportItemHandle.DATABINDING_TYPE_NONE) {
+			if (type == ReportItemHandle.DATABINDING_TYPE_NONE)
 				type = DEUtil.getBindingHolder(inputElement).getDataBindingType();
-			}
 			switch (type) {
 			case ReportItemHandle.DATABINDING_TYPE_NONE:
 				if (oldInfo != null) {
@@ -1552,44 +1505,36 @@ public class ColumnBindingDialog extends BaseDialog {
 
 		if ((min <= selectIndex) && (selectIndex <= max)) {
 			btnDel.setEnabled(true);
-			if (btnEdit != null) {
+			if (btnEdit != null)
 				btnEdit.setEnabled(true);
-			}
 		} else {
 			btnDel.setEnabled(false);
-			if (btnEdit != null) {
+			if (btnEdit != null)
 				btnEdit.setEnabled(false);
-			}
 		}
 		bindingTable.getTable().select(selectIndex);
 		if (DEUtil.getBindingHolder(inputElement).getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_DATA) {
 			btnAdd.setEnabled(true);
-			if (btnAddAggr != null) {
+			if (btnAddAggr != null)
 				btnAddAggr.setEnabled(true);
-			}
-			if (btnRefresh != null) {
+			if (btnRefresh != null)
 				btnRefresh.setEnabled(true);
-			}
 		} else if (DEUtil.getBindingHolder(inputElement).getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_NONE
 				&& (DEUtil.getBindingHolder(inputElement, true) == null || DEUtil.getBindingHolder(inputElement, true)
 						.getDataBindingType() != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)) {
 			btnAdd.setEnabled(true);
-			if (btnAddAggr != null) {
+			if (btnAddAggr != null)
 				btnAddAggr.setEnabled(true);
-			}
-			if (btnRefresh != null) {
+			if (btnRefresh != null)
 				btnRefresh.setEnabled(true);
-			}
 		} else {
 			btnAdd.setEnabled(false);
 			btnEdit.setEnabled(false);
 			btnDel.setEnabled(false);
-			if (btnAddAggr != null) {
+			if (btnAddAggr != null)
 				btnAddAggr.setEnabled(false);
-			}
-			if (btnRefresh != null) {
+			if (btnRefresh != null)
 				btnRefresh.setEnabled(false);
-			}
 		}
 	}
 

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * The dialog to configurate BIRT runtime settings
- *
+ * 
  */
 public class BirtConfigurationDialog extends Dialog implements IBirtWizardConstants {
 
@@ -123,7 +123,7 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 
 	/**
 	 * default contrustor
-	 *
+	 * 
 	 * @param parentShell
 	 * @param properties
 	 */
@@ -134,7 +134,7 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 
 	/**
 	 * default contructor
-	 *
+	 * 
 	 * @param parentShell
 	 * @param properties
 	 */
@@ -145,10 +145,9 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 
 	/**
 	 * Create Dialog Content
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		// dialog title
 		getShell().setText(BirtWTPMessages.BIRTConfigurationDialog_title);
@@ -238,7 +237,7 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 
 	/**
 	 * Do initialize page properties map
-	 *
+	 * 
 	 */
 	protected void initializeProperties() {
 		WebArtifactUtil.setContextParamValue(properties, BIRT_RESOURCE_FOLDER_SETTING, txtResourceFolder.getText());
@@ -264,7 +263,6 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 	/**
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		this.isClear = this.btClear.getSelection();
 		super.okPressed();

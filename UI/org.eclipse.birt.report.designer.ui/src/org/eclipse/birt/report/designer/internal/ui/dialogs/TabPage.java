@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * TabPage is the abstract superclass of every page in the tab folder of BIRT.
  * Each page in the tab folder describes a control.
- *
+ * 
  */
 
 public abstract class TabPage {
@@ -36,7 +36,7 @@ public abstract class TabPage {
 
 	/**
 	 * Creates a tab page with the given name and style
-	 *
+	 * 
 	 * @param name  the name of the page
 	 * @param style the style of the page
 	 */
@@ -47,9 +47,9 @@ public abstract class TabPage {
 
 	/**
 	 * Creates the top level control of the page under the given parent
-	 *
+	 * 
 	 * @param parent the parent composite
-	 *
+	 * 
 	 * @return Returns the control
 	 */
 	public Composite createControl(Composite parent) {
@@ -62,7 +62,7 @@ public abstract class TabPage {
 	/**
 	 * Sets the top level layout of the page.The default implementation of this
 	 * framework method is to sets a grid layout with two columns
-	 *
+	 * 
 	 * @param composite the top level composite of the page
 	 */
 	protected void setLayout(Composite composite) {
@@ -71,23 +71,23 @@ public abstract class TabPage {
 
 	/**
 	 * Creates the widgets of this tab page.Subclasses must implement this method.
-	 *
+	 * 
 	 * @param composite the top level composite of the page
-	 *
+	 * 
 	 */
 
 	abstract protected void createWidgets(Composite composite);
 
 	/**
 	 * Sets the input of the page
-	 *
+	 * 
 	 * @param input the input to set
 	 */
 	abstract public void setInput(Object input);
 
 	/**
 	 * Saves the result of the page
-	 *
+	 * 
 	 * @param result the object to save the result
 	 * @throws SemanticException
 	 */
@@ -97,7 +97,7 @@ public abstract class TabPage {
 
 	/**
 	 * Gets the name of the page
-	 *
+	 * 
 	 * @return Returns the name.
 	 */
 	public String getName() {

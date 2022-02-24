@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -47,7 +47,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 	/**
 	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal
 	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -57,7 +57,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 	/**
 	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal
 	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -67,7 +67,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 	/**
 	 * This is true if the Horizontal Spacing attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -76,7 +76,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 	/**
 	 * The default value of the ' {@link #getVerticalSpacing() <em>Vertical
 	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getVerticalSpacing()
 	 * @generated
 	 * @ordered
@@ -86,7 +86,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 	/**
 	 * The cached value of the ' {@link #getVerticalSpacing() <em>Vertical
 	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getVerticalSpacing()
 	 * @generated
 	 * @ordered
@@ -96,7 +96,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 	/**
 	 * This is true if the Vertical Spacing attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -105,7 +105,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 	/**
 	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getClientArea()
 	 * @generated
 	 * @ordered
@@ -114,7 +114,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected PlotImpl() {
@@ -123,7 +123,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -133,125 +133,112 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getHorizontalSpacing() {
 		return horizontalSpacing;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setHorizontalSpacing(int newHorizontalSpacing) {
 		int oldHorizontalSpacing = horizontalSpacing;
 		horizontalSpacing = newHorizontalSpacing;
 		boolean oldHorizontalSpacingESet = horizontalSpacingESet;
 		horizontalSpacingESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__HORIZONTAL_SPACING,
 					oldHorizontalSpacing, horizontalSpacing, !oldHorizontalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetHorizontalSpacing() {
 		int oldHorizontalSpacing = horizontalSpacing;
 		boolean oldHorizontalSpacingESet = horizontalSpacingESet;
 		horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
 		horizontalSpacingESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.PLOT__HORIZONTAL_SPACING,
 					oldHorizontalSpacing, HORIZONTAL_SPACING_EDEFAULT, oldHorizontalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetHorizontalSpacing() {
 		return horizontalSpacingESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getVerticalSpacing() {
 		return verticalSpacing;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setVerticalSpacing(int newVerticalSpacing) {
 		int oldVerticalSpacing = verticalSpacing;
 		verticalSpacing = newVerticalSpacing;
 		boolean oldVerticalSpacingESet = verticalSpacingESet;
 		verticalSpacingESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__VERTICAL_SPACING,
 					oldVerticalSpacing, verticalSpacing, !oldVerticalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetVerticalSpacing() {
 		int oldVerticalSpacing = verticalSpacing;
 		boolean oldVerticalSpacingESet = verticalSpacingESet;
 		verticalSpacing = VERTICAL_SPACING_EDEFAULT;
 		verticalSpacingESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.PLOT__VERTICAL_SPACING,
 					oldVerticalSpacing, VERTICAL_SPACING_EDEFAULT, oldVerticalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetVerticalSpacing() {
 		return verticalSpacingESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ClientArea getClientArea() {
 		return clientArea;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetClientArea(ClientArea newClientArea, NotificationChain msgs) {
@@ -260,45 +247,39 @@ public class PlotImpl extends BlockImpl implements Plot {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.PLOT__CLIENT_AREA, oldClientArea, newClientArea);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setClientArea(ClientArea newClientArea) {
 		if (newClientArea != clientArea) {
 			NotificationChain msgs = null;
-			if (clientArea != null) {
+			if (clientArea != null)
 				msgs = ((InternalEObject) clientArea).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.PLOT__CLIENT_AREA, null, msgs);
-			}
-			if (newClientArea != null) {
+			if (newClientArea != null)
 				msgs = ((InternalEObject) newClientArea).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.PLOT__CLIENT_AREA, null, msgs);
-			}
 			msgs = basicSetClientArea(newClientArea, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__CLIENT_AREA, newClientArea,
 					newClientArea));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -312,7 +293,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -330,7 +311,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -351,7 +332,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -372,7 +353,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -390,57 +371,52 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (horizontalSpacing: "); //$NON-NLS-1$
-		if (horizontalSpacingESet) {
+		if (horizontalSpacingESet)
 			result.append(horizontalSpacing);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", verticalSpacing: "); //$NON-NLS-1$
-		if (verticalSpacingESet) {
+		if (verticalSpacingESet)
 			result.append(verticalSpacing);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public boolean isPlot() {
 		return true;
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public boolean isCustom() {
 		return false;
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Plot' instance
-	 *
+	 * 
 	 * @return
 	 */
 	public static final Block create() {
@@ -451,10 +427,9 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * Resets all member variables within this object recursively
-	 *
+	 * 
 	 * Note: Manually written
 	 */
-	@Override
 	protected final void initialize() {
 		super.initialize();
 
@@ -468,7 +443,7 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * A convenience method to create an initialized 'Plot' instance
-	 *
+	 * 
 	 * @return
 	 */
 	public static final Block createDefault() {
@@ -479,10 +454,9 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * Resets all member variables within this object recursively
-	 *
+	 * 
 	 * Note: Manually written
 	 */
-	@Override
 	protected final void initDefault() {
 		super.initDefault();
 
@@ -497,7 +471,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 	/**
 	 * @generated
 	 */
-	@Override
 	public Plot copyInstance() {
 		PlotImpl dest = new PlotImpl();
 		dest.set(this);

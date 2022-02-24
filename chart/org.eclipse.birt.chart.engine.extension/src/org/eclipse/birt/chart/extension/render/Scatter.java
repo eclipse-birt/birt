@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -65,7 +65,7 @@ public class Scatter extends Line {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.AxesRenderer#renderSeries(org.eclipse.birt.
 	 * chart.event.IPrimitiveRenderListener,
@@ -219,7 +219,11 @@ public class Scatter extends Line {
 							continue;
 						}
 					} else {
-						if (isNaN(dpha[i].getOrthogonalValue()) || (i > 0 && isNaN(dpha[i - 1].getOrthogonalValue()))) {
+						if (isNaN(dpha[i].getOrthogonalValue())) {
+							continue;
+						}
+
+						if (i > 0 && isNaN(dpha[i - 1].getOrthogonalValue())) {
 							continue;
 						}
 						pindex = i - 1;
@@ -264,7 +268,11 @@ public class Scatter extends Line {
 							continue;
 						}
 					} else {
-						if (isNaN(dpha[i].getOrthogonalValue()) || (i > 0 && isNaN(dpha[i - 1].getOrthogonalValue()))) {
+						if (isNaN(dpha[i].getOrthogonalValue())) {
+							continue;
+						}
+
+						if (i > 0 && isNaN(dpha[i - 1].getOrthogonalValue())) {
 							continue;
 						}
 						pindex = i - 1;

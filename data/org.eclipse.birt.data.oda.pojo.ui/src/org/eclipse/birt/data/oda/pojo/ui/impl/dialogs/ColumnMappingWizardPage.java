@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -101,7 +101,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
 /**
- *
+ * 
  */
 
 public class ColumnMappingWizardPage extends DataSetWizardPage {
@@ -124,7 +124,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.
@@ -173,9 +173,8 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 	}
 
 	private void updateVariableParameters(ColumnDefinition[] inputs, DataSetDesign design) {
-		if (design.getParameters() == null) {
+		if (design.getParameters() == null)
 			return;
-		}
 
 		List<ParameterDefinition> parameters = design.getParameters().getParameterDefinitions();
 		for (int i = 0; i < inputs.length; i++) {
@@ -200,7 +199,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #refresh(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
@@ -280,7 +279,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #createPageCustomControl(org.eclipse.swt.widgets.Composite)
@@ -349,7 +348,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		Menu menu = new Menu(columnMappingsTable.getTable());
 		menu.addMenuListener(new MenuAdapter() {
 
-			@Override
 			public void menuShown(MenuEvent e) {
 				columnMappingsTable.cancelEditing();
 			}
@@ -359,7 +357,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		menuRemove.setText(Messages.getString("ColumnMappingDialog.MenuItem.remove")); //$NON-NLS-1$
 		menuRemove.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeColumnMappingsFromTable();
 				refreshColumnMappingTable();
@@ -372,7 +369,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		menuRemoveAll.setText(Messages.getString("ColumnMappingDialog.MenuItem.removeAll")); //$NON-NLS-1$
 		menuRemoveAll.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeAllColumnMappingsFromTable();
 				refreshColumnMappingTable();
@@ -396,7 +392,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		editButton.setText(Messages.getString("DataSet.Edit")); //$NON-NLS-1$
 		editButton.setToolTipText(Messages.getString("DataSet.button.tooltip.Edit")); //$NON-NLS-1$
 		editButton.addSelectionListener(new SelectionAdapter() {
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editColumnMapping();
 			}
@@ -408,7 +403,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		upButton.setText(Messages.getString("DataSet.Up")); //$NON-NLS-1$
 		upButton.setToolTipText(Messages.getString("DataSet.button.tooltip.Up")); //$NON-NLS-1$
 		upButton.addSelectionListener(new SelectionAdapter() {
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				upColumnMapping();
 			}
@@ -420,7 +414,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		downButton.setText(Messages.getString("DataSet.Down")); //$NON-NLS-1$
 		downButton.setToolTipText(Messages.getString("DataSet.button.tooltip.Down")); //$NON-NLS-1$
 		downButton.addSelectionListener(new SelectionAdapter() {
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				downColumnMapping();
 			}
@@ -436,7 +429,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		addDoubleClickListeners();
 		addKeyListener();
 		columnMappingsTable.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateButtonStatus();
 			}
@@ -469,7 +461,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		txtMethodNameRegex.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		txtMethodNameRegex.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				try {
 					initClassStructure(getInitializationDesign());
@@ -481,12 +472,10 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 		txtMethodNameRegex.addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent arg0) {
 
 			}
 
-			@Override
 			public void keyReleased(KeyEvent event) {
 				if (event.keyCode == SWT.ARROW_DOWN) {
 					classStructureTree.getTree().setFocus();
@@ -504,7 +493,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 		classStructureTree.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateCenterButtonStatus();
 			}
@@ -533,7 +521,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		addBtn.setLayoutData(buttonData);
 		addBtn.setEnabled(false);
 		addBtn.addSelectionListener(new SelectionAdapter() {
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addColumnMappingsFromTree();
 				refreshColumnMappingTable();
@@ -546,7 +533,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		removeBtn.setLayoutData(buttonData);
 		removeBtn.setEnabled(false);
 		removeBtn.addSelectionListener(new SelectionAdapter() {
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeColumnMappingsFromTable();
 				refreshColumnMappingTable();
@@ -591,7 +577,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 		browseButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ClassInputDialog cid = new ClassInputDialog(getControl().getShell(),
 						ClassLister.listClasses(getPojoClassPath()), pojoClassNameText.getText().trim());
@@ -623,7 +608,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 		applyButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setPojoRootClass(pojoClassNameText.getText().trim());
 				txtMethodNameRegex.setText(DEFAULT_FILTER_STRING);
@@ -639,7 +623,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 		pojoClassNameText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				pojoRootClass = pojoClassNameText.getText().trim();
 				applyButton.setEnabled(pojoRootClass.length() > 0);
@@ -656,11 +639,9 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 	private void addKeyListener() {
 		columnMappingsTable.getTable().addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 			}
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					removeColumnMappings();
@@ -685,22 +666,19 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 	}
 
 	private String[] splitNameFilterRegex(String methodNameRegex) {
-		if (methodNameRegex == null || methodNameRegex.trim().length() == 0) {
+		if (methodNameRegex == null || methodNameRegex.trim().length() == 0)
 			return null;
-		}
 
-		if (!methodNameRegex.contains(".")) { //$NON-NLS-1$
+		if (!methodNameRegex.contains(".")) //$NON-NLS-1$
 			return new String[] { methodNameRegex };
-		}
 
-		methodNameRegex = methodNameRegex.replace("(", EMPTY_STRING); //$NON-NLS-1$
-		methodNameRegex = methodNameRegex.replace(")", EMPTY_STRING); //$NON-NLS-1$
+		methodNameRegex = methodNameRegex.replaceAll("\\(", EMPTY_STRING); //$NON-NLS-1$
+		methodNameRegex = methodNameRegex.replaceAll("\\)", EMPTY_STRING); //$NON-NLS-1$
 
 		String[] splits = methodNameRegex.split("\\."); //$NON-NLS-1$
 		for (int i = 0; i < splits.length; i++) {
-			if (splits[i].trim().length() == 0) {
+			if (splits[i].trim().length() == 0)
 				return null;
-			}
 		}
 		return splits;
 	}
@@ -727,7 +705,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 				final URL[] urls = Utils.createURLParser(this.getHostResourceIdentifiers()).parse(pojoClassPath);
 
 				ClassLoader cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-					@Override
 					public ClassLoader run() {
 						return new URLClassLoader(urls,
 								// so cl can also load classes in pojo driver plugin
@@ -740,13 +717,12 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 				TreeData treeData = new TreeData(c, 0);
 				classStructureTree.setInput(treeData);
 
-				if (splits == null) {
+				if (splits == null)
 					classStructureTree.expandToLevel(2);
-				} else if (txtMethodNameRegex.getText().trim().endsWith(".")) { //$NON-NLS-1$
+				else if (txtMethodNameRegex.getText().trim().endsWith(".")) //$NON-NLS-1$
 					classStructureTree.expandToLevel(splits.length + 2);
-				} else { // $NON-NLS-1$
+				else
 					classStructureTree.expandToLevel(splits.length + 1);
-				}
 
 			} catch (Throwable e) {
 
@@ -796,7 +772,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	private ColumnDefinition[] getMappingsToAdd() {
 		helper.clearParametersCache();
-		List<ColumnDefinition> result = new ArrayList<>();
+		List<ColumnDefinition> result = new ArrayList<ColumnDefinition>();
 
 		for (TreeItem item : classStructureTree.getTree().getSelection()) {
 			if (item.getData() instanceof TreeData
@@ -811,7 +787,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 	}
 
 	private IMappingSource[] getMappingPath(TreeItem item) {
-		List<Member> backs = new ArrayList<>();
+		List<Member> backs = new ArrayList<Member>();
 		while (item != null && item.getData() instanceof TreeData
 				&& ((TreeData) item.getData()).getWrappedObject() instanceof Member) {
 			backs.add((Member) ((TreeData) item.getData()).getWrappedObject());
@@ -833,9 +809,8 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 			DataSourceDesign ds = dataSetDesign.getDataSourceDesign();
 
 			String dsClassPath = Utils.getPublicProperty(ds, Constants.POJO_DATA_SET_CLASS_PATH);
-			if (dsClassPath != null) {
+			if (dsClassPath != null)
 				properties.put(Constants.POJO_DATA_SET_CLASS_PATH, dsClassPath);
-			}
 
 			conn.open(properties);
 
@@ -864,7 +839,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	/**
 	 * Set parameter metadata in dataset design
-	 *
+	 * 
 	 * @param design
 	 * @param query
 	 */
@@ -880,16 +855,15 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	/**
 	 * merge paramter meta data between dataParameter and datasetDesign's parameter.
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param md
 	 * @throws OdaException
 	 */
 	private void mergeParameterMetaData(DataSetDesign dataSetDesign, IParameterMetaData paramMetaData)
 			throws OdaException {
-		if (paramMetaData == null || dataSetDesign == null) {
+		if (paramMetaData == null || dataSetDesign == null)
 			return;
-		}
 
 		DataSetParameters dataSetParameter = DesignSessionUtil.toDataSetParametersDesign(paramMetaData,
 				ParameterMode.IN_LITERAL);
@@ -902,9 +876,8 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		List<IMethodParameter> parameters = helper.getAllParameters();
 		List<ParameterDefinition> params = dataSetParameter.getParameterDefinitions();
 		for (int i = 0; i < params.size(); i++) {
-			if (params.get(i).getAttributes() == null) {
+			if (params.get(i).getAttributes() == null)
 				continue;
-			}
 
 			String paramName = params.get(i).getAttributes().getName();
 
@@ -912,9 +885,8 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 				IMethodParameter mp = parameters.get(j);
 				if ((mp instanceof VariableParameter) && paramName != null
 						&& paramName.equals(((VariableParameter) mp).getName())) {
-					if (mp.getStringValue() != null && !mp.getStringValue().equals("")) {
+					if (mp.getStringValue() != null && !mp.getStringValue().equals(""))
 						params.get(i).setDefaultScalarValue(mp.getStringValue());
-					}
 				}
 			}
 		}
@@ -924,7 +896,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	/**
 	 * set resultset meta data
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param md
 	 * @throws OdaException
@@ -966,7 +938,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 	}
 
 	private boolean containsParameter(ColumnDefinition mapping) {
-		boolean containsParam;
+		boolean containsParam = false;
 		IMappingSource[] sources = mapping.getMappingPath();
 		containsParam = containsParameter(sources);
 		return containsParam;
@@ -1044,9 +1016,8 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		Iterator itr = ss.iterator();
 		while (itr.hasNext()) {
 			Object value = itr.next();
-			if (value instanceof ColumnDefinition) {
+			if (value instanceof ColumnDefinition)
 				helper.removeColumnDefinition((ColumnDefinition) value);
-			}
 		}
 		refreshColumnMappingTable();
 		updateButtonStatus();
@@ -1076,7 +1047,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	private void addDoubleClickListeners() {
 		columnMappingsTable.addDoubleClickListener(new IDoubleClickListener() {
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				editColumnMapping();
 			}
@@ -1084,7 +1054,6 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 		classStructureTree.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent arg0) {
 				addColumnMappingsFromTree();
 			}
@@ -1105,7 +1074,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * canLeave()

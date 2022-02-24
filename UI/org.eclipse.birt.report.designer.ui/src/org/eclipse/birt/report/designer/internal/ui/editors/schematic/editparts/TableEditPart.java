@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -87,7 +87,7 @@ import org.eclipse.swt.widgets.Display;
  * <p>
  * Table EditPart,control the UI & model of table
  * </p>
- *
+ * 
  */
 public class TableEditPart extends AbstractTableEditPart implements ITableAdapterHelper {
 
@@ -104,7 +104,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param obj
 	 */
 	public TableEditPart(Object obj) {
@@ -113,11 +113,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createGuideHandle()
 	 */
-	@Override
 	protected AbstractGuideHandle createGuideHandle() {
 		TableGuideHandle handle = new TableGuideHandle(this);
 		handle.setIndicatorLabel(getGuideLabel());
@@ -131,27 +130,23 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 		return handle;
 	}
 
-	@Override
 	public String getGuideLabel() {
 		return GUIDEHANDLE_TEXT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy() {
 
-			@Override
 			public boolean understandsRequest(Request request) {
 				if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
 						|| RequestConstants.REQ_OPEN.equals(request.getType())
-						|| ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
+						|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
 					return true;
-				}
 				return super.understandsRequest(request);
 			}
 		});
@@ -165,18 +160,16 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
-	@Override
 	protected List getModelChildren() {
 		return getTableAdapter().getChildren();
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	@Override
 	protected void contentChange(Map info) {
 		super.contentChange(info);
 		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE);
@@ -204,10 +197,9 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
 	 */
-	@Override
 	public void performRequest(Request request) {
 		if (RequestConstants.REQ_OPEN.equals(request.getType())) {
 			Object obj = request.getExtendedData().get(DesignerConstants.TABLE_ROW_NUMBER);
@@ -226,11 +218,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .AbstractReportEditPart#refreshFigure()
 	 */
-	@Override
 	public void refreshFigure() {
 		checkHelper();
 		refreshBorder(getTableAdapter().getHandle(), (BaseBorder) getFigure().getBorder());
@@ -260,7 +251,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Gets the top, left, right, bottom of edit part.
-	 *
+	 * 
 	 * @param parts
 	 * @return cell edit parts.
 	 */
@@ -305,10 +296,9 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	@Override
 	protected IFigure createFigure() {
 		TableFigure viewport = new TableFigure();
 		viewport.setOpaque(false);
@@ -321,7 +311,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Creates the top-most set of layers on the given layered pane.
-	 *
+	 * 
 	 * @param layeredPane the parent for the created layers
 	 */
 	protected void createLayers(LayeredPane layeredPane) {
@@ -337,7 +327,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	 * layer (i.e., beneath the primary layer) if it is not to cover up parts on the
 	 * primary layer. In that case, the primary layer should be transparent so that
 	 * the grid is visible.
-	 *
+	 * 
 	 * @return the newly created GridLayer
 	 */
 	protected GridLayer createGridLayer() {
@@ -357,7 +347,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Resets size of column.
-	 *
+	 * 
 	 * @param start
 	 * @param end
 	 * @param value
@@ -368,8 +358,8 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 		Object endColumn = getColumn(end);
 		ColumnHandleAdapter endAdapt = HandleAdapterFactory.getInstance().getColumnHandleAdapter(endColumn);
-		int startWidth;
-		int endWidth;
+		int startWidth = 0;
+		int endWidth = 0;
 
 		startWidth = TableUtil.caleVisualWidth(this, startColumn);
 		endWidth = TableUtil.caleVisualWidth(this, endColumn);
@@ -388,7 +378,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Selects the columns
-	 *
+	 * 
 	 * @param numbers
 	 */
 	public void selectColumn(int[] numbers) {
@@ -397,7 +387,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Selects the columns
-	 *
+	 * 
 	 * @param numbers
 	 */
 	public void selectColumn(int[] numbers, boolean notofyToMedia) {
@@ -433,8 +423,9 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 		setSelectRowAndColumnRect(rect);
 		if (notofyToMedia) {
 			getViewer().setSelection(new StructuredSelection(list));
-		} else if (getViewer() instanceof DeferredGraphicalViewer) {
-			((DeferredGraphicalViewer) getViewer()).setSelection(new StructuredSelection(list), notofyToMedia);
+		} else {
+			if (getViewer() instanceof DeferredGraphicalViewer)
+				((DeferredGraphicalViewer) getViewer()).setSelection(new StructuredSelection(list), notofyToMedia);
 		}
 
 		setSelectRowAndColumnRect(null);
@@ -442,7 +433,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Resize the row.
-	 *
+	 * 
 	 * @param start
 	 * @param end
 	 * @param value
@@ -469,7 +460,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Selects rows
-	 *
+	 * 
 	 * @param numbers
 	 */
 	public void selectRow(int[] numbers, boolean notofyToMedia) {
@@ -509,19 +500,19 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 		setSelectRowAndColumnRect(rect);
 		if (notofyToMedia) {
 			getViewer().setSelection(new StructuredSelection(list));
-		} else if (getViewer() instanceof DeferredGraphicalViewer) {
-			((DeferredGraphicalViewer) getViewer()).setSelection(new StructuredSelection(list), notofyToMedia);
+		} else {
+			if (getViewer() instanceof DeferredGraphicalViewer)
+				((DeferredGraphicalViewer) getViewer()).setSelection(new StructuredSelection(list), notofyToMedia);
 		}
 		setSelectRowAndColumnRect(null);
 	}
 
 	/**
 	 * Get mini height of row.
-	 *
+	 * 
 	 * @param rowNumber
 	 * @return the minimum height of row.
 	 */
-	@Override
 	public int getMinHeight(int rowNumber) {
 		if (isFixLayout()) {
 			return TableUtil.getMinHeight(this, rowNumber);
@@ -532,11 +523,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Get mini width of column.
-	 *
+	 * 
 	 * @param columnNumber
 	 * @return the minimum height of column.
 	 */
-	@Override
 	public int getMinWidth(int columnNumber) {
 		if (isFixLayout()) {
 			return TableUtil.getMinWidth(this, columnNumber);
@@ -554,7 +544,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Get all rows list
-	 *
+	 * 
 	 * @return all rows list.
 	 */
 	public List getRows() {
@@ -579,7 +569,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Gets all columns list
-	 *
+	 * 
 	 * @return all columns list.
 	 */
 	public List getColumns() {
@@ -588,20 +578,18 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Gets the rows count
-	 *
+	 * 
 	 * @return row count
 	 */
-	@Override
 	public int getRowCount() {
 		return getTableAdapter().getRowCount();
 	}
 
 	/**
 	 * Gets the columns count
-	 *
+	 * 
 	 * @return column count
 	 */
-	@Override
 	public int getColumnCount() {
 		return getTableAdapter().getColumnCount();
 	}
@@ -637,7 +625,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Set selected row and column area.
-	 *
+	 * 
 	 * @param selectRowAndColumnRect
 	 */
 	public void setSelectRowAndColumnRect(Rectangle selectRowAndColumnRect) {
@@ -646,7 +634,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Gets data set, which is biding on table.
-	 *
+	 * 
 	 */
 	public Object getDataSet() {
 		return getTableAdapter().getDataSet();
@@ -654,11 +642,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Get the cell on give position.
-	 *
+	 * 
 	 * @param rowNumber
 	 * @param columnNumber
 	 */
-	@Override
 	public AbstractCellEditPart getCell(int rowNumber, int columnNumber) {
 		Object cell = getTableAdapter().getCell(rowNumber, columnNumber);
 		return (TableCellEditPart) getViewer().getEditPartRegistry().get(cell);
@@ -666,7 +653,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Delete specified row.
-	 *
+	 * 
 	 * @param numbers
 	 */
 	public void deleteRow(int[] numbers) {
@@ -679,7 +666,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Delete specified column
-	 *
+	 * 
 	 * @param numbers
 	 */
 	public void deleteColumn(int[] numbers) {
@@ -692,7 +679,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * inserts a row after the row number
-	 *
+	 * 
 	 * @param rowNumber
 	 */
 	public void insertRow(int rowNumber) {
@@ -701,7 +688,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Inserts a single row at give position.
-	 *
+	 * 
 	 * @param relativePos     The relative position to insert the new row.
 	 * @param originRowNumber The row number of the original row.
 	 */
@@ -716,7 +703,6 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 		Display.getCurrent().asyncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				// reLayout();
 				selectRow(new int[] { adapter.getRowNumber() });
@@ -726,11 +712,11 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Inserts multi rows( or a single row ) at give position.
-	 *
+	 * 
 	 * @author Liu sanyong
-	 *
+	 * 
 	 * @version 1.0 2005.4.22
-	 *
+	 * 
 	 * @param relativePos The direction to indicate inserting rows above or below.
 	 * @param rowNumbers  The row numbers of the origin selected rows.
 	 */
@@ -750,7 +736,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Inserts a row after the row number
-	 *
+	 * 
 	 * @param columnNumber
 	 */
 	public void insertColumn(int columnNumber) {
@@ -759,7 +745,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Inserts a single column at give position.
-	 *
+	 * 
 	 * @param relativePos     The relative position to insert the new column.
 	 * @param originColNumber The column number of the original column.
 	 */
@@ -774,7 +760,6 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 		Display.getCurrent().asyncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				// reLayout();
 				selectColumn(new int[] { adapter.getColumnNumber() });
@@ -784,11 +769,11 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Inserts multi columns( or a single column ) at give position.
-	 *
+	 * 
 	 * @author Liu sanyong
-	 *
+	 * 
 	 * @version 1.0 2005.4.22
-	 *
+	 * 
 	 * @param relativePos The direction to indicate inserting rows above or below.
 	 * @param colNumbers  The column numbers of the origin selected column(s).
 	 */
@@ -882,7 +867,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * not use?
-	 *
+	 * 
 	 * @param list
 	 */
 	private void removeMergeList(ArrayList list) {
@@ -895,7 +880,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * not use?
-	 *
+	 * 
 	 * @param cellPart
 	 */
 	public void remove(TableCellEditPart cellPart) {
@@ -908,11 +893,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.core.model.IModelAdaptHelper#
 	 * getPreferredSize()
 	 */
-	@Override
 	public Dimension getPreferredSize() {
 		Dimension retValue = getFigure().getParent().getClientArea().getSize();
 		Rectangle rect = getBounds();
@@ -932,11 +916,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.core.facade.ITableAdaptHelper#
 	 * caleVisualWidth(int)
 	 */
-	@Override
 	public int caleVisualWidth(int columnNumber) {
 		assert columnNumber > 0;
 		return TableUtil.caleVisualWidth(this, getColumn(columnNumber));
@@ -944,18 +927,17 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.core.facade.ITableAdaptHelper#
 	 * caleVisualHeight(int)
 	 */
-	@Override
 	public int caleVisualHeight(int rowNumber) {
 		return TableUtil.caleVisualHeight(this, getRow(rowNumber));
 	}
 
 	/**
 	 * Determines if selected cells can be merged.
-	 *
+	 * 
 	 * @return true if merge success, else false.
 	 */
 	public boolean canMerge() {
@@ -984,12 +966,16 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Split merged cells
-	 *
+	 * 
 	 * @param part
 	 */
 	public void splitCell(TableCellEditPart part) {
 		try {
 			getTableAdapter().splitCell(part.getModel());
+		} catch (ContentException e) {
+			ExceptionHandler.handle(e);
+		} catch (NameException e) {
+			ExceptionHandler.handle(e);
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 		}
@@ -1020,7 +1006,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Inserts group in table.
-	 *
+	 * 
 	 * @param position insert position
 	 */
 	public boolean insertGroup(int position) {
@@ -1029,7 +1015,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Removes group in table
-	 *
+	 * 
 	 * @param group
 	 */
 	public void removeGroup(Object group) {
@@ -1042,23 +1028,21 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.core.model.ITableAdaptHelper#
 	 * getClientAreaSize()
 	 */
-	@Override
 	public Dimension getClientAreaSize() {
 		return getFigure().getParent().getClientArea().getSize();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editparts.AbstractEditPart#showTargetFeedback(org.eclipse
 	 * .gef.Request)
 	 */
-	@Override
 	public void showTargetFeedback(Request request) {
 		if (this.getSelected() == 0 && isActive() && request.getType() == RequestConstants.REQ_SELECTION) {
 
@@ -1078,12 +1062,11 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editparts.AbstractEditPart#eraseTargetFeedback(org.eclipse
 	 * .gef.Request)
 	 */
-	@Override
 	public void eraseTargetFeedback(Request request) {
 		if (isActive()) {
 			this.getViewer().setCursor(null);
@@ -1093,11 +1076,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#addChildVisual(org
 	 * .eclipse.gef.EditPart, int)
 	 */
-	@Override
 	protected void addChildVisual(EditPart part, int index) {
 		// make sure we don't keep a select cell cursor after new contents
 		// are added
@@ -1107,7 +1089,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * The class use for select row in table.
-	 *
+	 * 
 	 */
 	public static class DummyColumnEditPart extends DummyEditpart {
 
@@ -1121,16 +1103,14 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 		 * .DummyEditpart#createEditPolicies()
 		 */
-		@Override
 		protected void createEditPolicies() {
 
 			ReportComponentEditPolicy policy = new ReportComponentEditPolicy() {
 
-				@Override
 				protected org.eclipse.gef.commands.Command createDeleteCommand(GroupRequest deleteRequest) {
 					DeleteColumnCommand command = new DeleteColumnCommand(getModel());
 					return command;
@@ -1152,7 +1132,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * The class use for select row in table.
-	 *
+	 * 
 	 */
 	public static class DummyRowEditPart extends DummyEditpart {
 
@@ -1166,15 +1146,13 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 		 * .DummyEditpart#createEditPolicies()
 		 */
-		@Override
 		protected void createEditPolicies() {
 			ReportComponentEditPolicy policy = new ReportComponentEditPolicy() {
 
-				@Override
 				protected org.eclipse.gef.commands.Command createDeleteCommand(GroupRequest deleteRequest) {
 					DeleteRowCommand command = new DeleteRowCommand(getModel());
 					return command;
@@ -1194,11 +1172,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#notifyModelChange()
 	 */
-	@Override
 	public void notifyModelChange() {
 		super.notifyModelChange();
 		layoutManagerLayout();
@@ -1206,11 +1183,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
-	@Override
 	public boolean isinterest(Object model) {
 		if (model instanceof RowHandle || model instanceof ColumnHandle || model instanceof TableGroupHandle) {
 			if (getModelAdapter().isChildren((DesignElementHandle) model)) {
@@ -1222,11 +1198,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getColumnWidth(int)
 	 */
-	@Override
 	public ITableLayoutOwner.DimensionInfomation getColumnWidth(int number) {
 		Object obj = getColumn(number);
 		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance().getColumnHandleAdapter(obj);
@@ -1239,11 +1214,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRowHeight(int)
 	 */
-	@Override
 	public ITableLayoutOwner.DimensionInfomation getRowHeight(int number) {
 		Object obj = getRow(number);
 		RowHandleAdapter adapt = HandleAdapterFactory.getInstance().getRowHandleAdapter(obj);
@@ -1256,11 +1230,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getDefinedWidth()
 	 */
-	@Override
 	public String getDefinedWidth() {
 		TableHandleAdapter tadp = HandleAdapterFactory.getInstance().getTableHandleAdapter(getModel());
 		return tadp.getDefinedWidth();
@@ -1268,11 +1241,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRawWidth(int)
 	 */
-	@Override
 	public String getRawWidth(int columNumber) {
 		Object obj = getColumn(columNumber);
 		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance().getColumnHandleAdapter(obj);
@@ -1281,11 +1253,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getColumnWidthValue(int)
 	 */
-	@Override
 	public int getColumnWidthValue(int number) {
 		Object obj = getColumn(number);
 		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance().getColumnHandleAdapter(obj);
@@ -1294,11 +1265,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRowHeightValue(int)
 	 */
-	@Override
 	public int getRowHeightValue(int number) {
 		Object obj = getRow(number);
 		RowHandleAdapter adapt = HandleAdapterFactory.getInstance().getRowHandleAdapter(obj);
@@ -1319,11 +1289,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
-	@Override
 	public EditPolicy getResizePolice(EditPolicy parentPolice) {
 		TableResizeEditPolice rpc = new TableResizeEditPolice();
 		rpc.setResizeDirections(PositionConstants.SOUTH_EAST);
@@ -1361,11 +1330,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#
 	 * getDefinedHeight()
 	 */
-	@Override
 	public String getDefinedHeight() {
 		// Table don't support the table height
 		return null;
@@ -1373,17 +1341,15 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#
 	 * isForceWidth()
 	 */
-	@Override
 	public boolean isForceWidth() {
 		TableHandleAdapter tadp = HandleAdapterFactory.getInstance().getTableHandleAdapter(getModel());
 		return tadp.isForceWidth();
 	}
 
-	@Override
 	public Object getAdapter(Class key) {
 		if (key == IBreadcrumbNodeProvider.class) {
 			return new TableElementBreadcrumbNodeProvider();

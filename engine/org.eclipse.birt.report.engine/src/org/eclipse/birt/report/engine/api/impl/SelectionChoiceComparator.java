@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,7 +50,6 @@ public class SelectionChoiceComparator implements Comparator {
 		}
 	}
 
-	@Override
 	public int compare(Object o1, Object o2) {
 		int compareResult = -1;/* default value */
 		if ((o1 instanceof IParameterSelectionChoice) && (o2 instanceof IParameterSelectionChoice)) {
@@ -67,9 +66,8 @@ public class SelectionChoiceComparator implements Comparator {
 				}
 
 				compareResult = compareValues(value1, value2);
-				if (compareResult != 0) {
+				if (compareResult != 0)
 					return compareResult;
-				}
 			}
 
 			value1 = ((IParameterSelectionChoice) o1).getValue();
@@ -122,7 +120,7 @@ public class SelectionChoiceComparator implements Comparator {
 
 	/**
 	 * convert value to display value
-	 *
+	 * 
 	 * @param value
 	 */
 	private String getDisplayValue(Object value) {

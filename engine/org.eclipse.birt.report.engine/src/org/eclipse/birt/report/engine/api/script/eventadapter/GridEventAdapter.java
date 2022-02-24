@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,22 +24,18 @@ import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
  */
 public class GridEventAdapter implements IGridEventHandler {
 
-	@Override
 	public void onPrepare(IGrid grid, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void onCreate(IGridInstance grid, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void onRender(IGridInstance grid, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	@Override
 	public void onPageBreak(IGridInstance grid, IReportContext reportContext) throws ScriptException {
 
 	}

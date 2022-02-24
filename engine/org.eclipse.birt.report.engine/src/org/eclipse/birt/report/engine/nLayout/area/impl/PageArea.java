@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -143,7 +143,6 @@ public class PageArea extends BlockContainerArea {
 		this.enlargePageSize = enlargePageSize;
 	}
 
-	@Override
 	public PageArea cloneArea() {
 		return new PageArea(this);
 	}
@@ -184,7 +183,6 @@ public class PageArea extends BlockContainerArea {
 		return boxStyle.DEFAULT;
 	}
 
-	@Override
 	public void initialize() throws BirtException {
 		createRoot();
 		Color backgroundColor = PropertyUtil
@@ -308,7 +306,7 @@ public class PageArea extends BlockContainerArea {
 
 	/**
 	 * support body auto resize, remove invalid header and footer
-	 *
+	 * 
 	 * @param page
 	 */
 	protected void updateBodySize() {
@@ -336,7 +334,7 @@ public class PageArea extends BlockContainerArea {
 
 	/**
 	 * layout page header area
-	 *
+	 * 
 	 */
 	protected void layoutHeader() {
 		IContent headerContent = pageContent.getPageHeader();
@@ -363,7 +361,7 @@ public class PageArea extends BlockContainerArea {
 
 	/**
 	 * layout page footer area
-	 *
+	 * 
 	 */
 	protected void layoutFooter() {
 		IContent footerContent = pageContent.getPageFooter();
@@ -517,7 +515,6 @@ public class PageArea extends BlockContainerArea {
 		// TODO add left area and right area;
 	}
 
-	@Override
 	public void close() throws BirtException {
 		int overFlowType = context.getPageOverflow();
 		if (overFlowType == IPDFRenderOption.FIT_TO_PAGE_SIZE) {

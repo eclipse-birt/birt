@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -67,7 +67,6 @@ public class PageLayout extends BlockStackingLayout {
 		report = pageContent.getReportContent();
 	}
 
-	@Override
 	protected void initialize() throws BirtException {
 		PageContext pageContext = new PageContext();
 		if (context.autoPageBreak) {
@@ -98,7 +97,7 @@ public class PageLayout extends BlockStackingLayout {
 
 	/**
 	 * support body auto resize, remove invalid header and footer
-	 *
+	 * 
 	 * @param page
 	 */
 	protected void updateBodySize(PageArea page) {
@@ -132,7 +131,7 @@ public class PageLayout extends BlockStackingLayout {
 
 	/**
 	 * layout page header area
-	 *
+	 * 
 	 */
 	protected void layoutHeader(PageArea page) throws BirtException {
 		IContent headerContent = ((PageContext) currentContext).pageContent.getPageHeader();
@@ -143,7 +142,7 @@ public class PageLayout extends BlockStackingLayout {
 
 	/**
 	 * layout page footer area
-	 *
+	 * 
 	 */
 	protected void layoutFooter(PageArea page) throws BirtException {
 		IContent footerContent = ((PageContext) currentContext).pageContent.getPageFooter();
@@ -161,7 +160,6 @@ public class PageLayout extends BlockStackingLayout {
 		}
 	}
 
-	@Override
 	protected void createRoot() {
 		currentContext.root = new PageArea(((PageContext) currentContext).pageContent);
 		PageArea page = (PageArea) currentContext.root;
@@ -282,7 +280,6 @@ public class PageLayout extends BlockStackingLayout {
 		// TODO add left area and right area;
 	}
 
-	@Override
 	protected void closeLayout(ContainerContext currentContext, int index, boolean finished) throws BirtException {
 		PageArea page = (PageArea) currentContext.root;
 		int overFlowType = context.getPageOverflow();
@@ -307,7 +304,6 @@ public class PageLayout extends BlockStackingLayout {
 		}
 	}
 
-	@Override
 	public boolean isPageEmpty() {
 		PageArea page = (PageArea) currentContext.root;
 		if (page != null) {
@@ -322,7 +318,7 @@ public class PageLayout extends BlockStackingLayout {
 	/*
 	 * public void flushPage() { int size = contextList.size( ); if ( size > 0 ) {
 	 * closeLayout( size, false ); } }
-	 *
+	 * 
 	 * public void flushFinishedPage() { int size = contextList.size( ) - 1; if (
 	 * size > 0 ) { closeLayout( size, false ); } }
 	 */
@@ -404,7 +400,6 @@ public class PageLayout extends BlockStackingLayout {
 
 	}
 
-	@Override
 	public void addToRoot(AbstractArea area) {
 		currentContext.root.addChild(area);
 		area.setAllocatedPosition(currentContext.currentIP + offsetX, currentContext.currentBP + offsetY);
@@ -441,16 +436,15 @@ public class PageLayout extends BlockStackingLayout {
 			if (type == IAutoTextContent.PAGE_NUMBER || type == IAutoTextContent.UNFILTERED_PAGE_NUMBER) {
 				DataFormatValue format = autoText.getComputedStyle().getDataFormat();
 				NumberFormatter nf = null;
-				if (format == null) {
+				if (format == null)
 					nf = new NumberFormatter();
-				} else {
+				else {
 					String pattern = format.getNumberPattern();
 					String locale = format.getNumberLocale();
-					if (locale == null) {
+					if (locale == null)
 						nf = new NumberFormatter(pattern);
-					} else {
+					else
 						nf = new NumberFormatter(pattern, new ULocale(locale));
-					}
 				}
 				autoText.setText(nf.format(pageNumber));
 			}

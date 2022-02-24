@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,37 +19,37 @@ import java.util.List;
 
 public interface IArchiveFile {
 
-	String getName();
+	public String getName();
 
-	void close() throws IOException;
+	public void close() throws IOException;
 
-	void flush() throws IOException;
+	public void flush() throws IOException;
 
-	void refresh() throws IOException;
+	public void refresh() throws IOException;
 
-	boolean exists(String name);
+	public boolean exists(String name);
 
-	void setCacheSize(long cacheSize);
+	public void setCacheSize(long cacheSize);
 
-	long getUsedCache();
+	public long getUsedCache();
 
-	ArchiveEntry openEntry(String name) throws IOException;
+	public ArchiveEntry openEntry(String name) throws IOException;
 
-	List<String> listEntries(String namePattern);
+	public List<String> listEntries(String namePattern);
 
-	ArchiveEntry createEntry(String name) throws IOException;
+	public ArchiveEntry createEntry(String name) throws IOException;
 
-	boolean removeEntry(String name) throws IOException;
+	public boolean removeEntry(String name) throws IOException;
 
-	Object lockEntry(String entry) throws IOException;
+	public Object lockEntry(String entry) throws IOException;
 
-	void unlockEntry(Object locker) throws IOException;
+	public void unlockEntry(Object locker) throws IOException;
 
-	String getSystemId();
+	public String getSystemId();
 
-	String getDependId();
+	public String getDependId();
 
-	void save() throws IOException;
+	public void save() throws IOException;
 
-	long getLength();
+	public long getLength();
 }

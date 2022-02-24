@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,15 +69,13 @@ public class RAFileOutputStream extends RAOutputStream {
 	 *                        <code>IOException</code> may be thrown if the output
 	 *                        stream has been closed.
 	 */
-	@Override
 	public void write(int b) throws IOException {
 		seekParent(cur);
 		parent.write(b);
 
 		long tmp = parent.getFilePointer();
-		if (tmp > endPos) {
+		if (tmp > endPos)
 			endPos = tmp;
-		}
 
 		cur++; // since we write a byte, the pointer (in bytes) should be increased by 1
 	}
@@ -92,15 +90,13 @@ public class RAFileOutputStream extends RAOutputStream {
 	 * @exception IOException if an I/O error occurs.
 	 * @see java.io.OutputStream#write(byte[], int, int)
 	 */
-	@Override
 	public void write(byte b[]) throws IOException {
 		seekParent(cur);
 		parent.write(b);
 
 		long tmp = parent.getFilePointer();
-		if (tmp > endPos) {
+		if (tmp > endPos)
 			endPos = tmp;
-		}
 
 		cur += b.length; // since we write a byte, the pointer (in bytes) should be increased by 1
 	}
@@ -118,22 +114,19 @@ public class RAFileOutputStream extends RAOutputStream {
 	 * @param len the number of bytes to write.
 	 * @exception IOException if an I/O error occurs.
 	 */
-	@Override
 	public void write(byte b[], int off, int len) throws IOException {
 		seekParent(cur);
 		parent.write(b, off, len);
 
 		long tmp = parent.getFilePointer();
-		if (tmp > endPos) {
+		if (tmp > endPos)
 			endPos = tmp;
-		}
 
 		cur += len; // since we write a byte, the pointer (in bytes) should be increased by 1
 	}
 
 	private byte writeBuffer[] = new byte[8];
 
-	@Override
 	public void writeInt(int v) throws IOException {
 		writeBuffer[0] = (byte) (v >>> 24);
 		writeBuffer[1] = (byte) (v >>> 16);
@@ -142,7 +135,6 @@ public class RAFileOutputStream extends RAOutputStream {
 		write(writeBuffer, 0, 4);
 	}
 
-	@Override
 	public void writeLong(long v) throws IOException {
 		writeBuffer[0] = (byte) (v >>> 56);
 		writeBuffer[1] = (byte) (v >>> 48);
@@ -162,17 +154,15 @@ public class RAFileOutputStream extends RAOutputStream {
 	 * the file. Setting the offset beyond the end of the file does not change the
 	 * file length. The file length will change only by writing after the offset has
 	 * been set beyond the end of the file.
-	 *
+	 * 
 	 * @param localPos - the new local postion in the stream, measured in bytes from
 	 *                 the beginning of the stream
 	 */
-	@Override
 	public void seek(long localPos) throws IOException {
 		seekParent(localPos);
 		cur = localPos;
 	}
 
-	@Override
 	public long getOffset() throws IOException {
 		return cur;
 	}
@@ -186,7 +176,7 @@ public class RAFileOutputStream extends RAOutputStream {
 
 	/**
 	 * Convert the local position to global position.
-	 *
+	 * 
 	 * @param localPos - the local postion which starts from 0
 	 * @return
 	 */
@@ -197,7 +187,7 @@ public class RAFileOutputStream extends RAOutputStream {
 	/**
 	 * Convert the local position to global position and move the file pointer to
 	 * there in parent file.
-	 *
+	 * 
 	 * @param localPos - the local position which starts from 0
 	 * @throws IOException
 	 */
@@ -205,7 +195,6 @@ public class RAFileOutputStream extends RAOutputStream {
 		parent.seek(localPosToGlobalPos(localPos));
 	}
 
-	@Override
 	public long length() throws IOException {
 		return getStreamLength();
 	}

@@ -41,7 +41,7 @@ public class ExcelFileSource {
 	private URI uri;
 	private boolean hasColumnNames;
 	private boolean hasTypeLine;
-	private List<String> sheetNameList = new ArrayList<>();
+	private List<String> sheetNameList = new ArrayList<String>();
 	private ExcelFileReader excelFileReader;
 	private int resultSetMaxRows = 0;
 	private int maxRowsToRead = 0;
@@ -272,7 +272,7 @@ public class ExcelFileSource {
 	 * @throws OdaException
 	 */
 	private List<String[]> fetchQueriedDataFromFileToList() throws OdaException {
-		List<String[]> result = new ArrayList<>();
+		List<String[]> result = new ArrayList<String[]>();
 		try {
 			if (isFirstTimeToReadSourceData) {
 				excelFileReader.setCurrentRowIndex(0);
@@ -290,9 +290,8 @@ public class ExcelFileSource {
 				// line
 				// of file
 				if (this.hasTypeLine) {
-					while (isEmptyRow(excelFileReader.readLine())) {
+					while (isEmptyRow(excelFileReader.readLine()))
 						continue;
-					}
 				}
 
 				if (!this.hasColumnNames) {
@@ -342,11 +341,10 @@ public class ExcelFileSource {
 		for (int i = 0; i < v.size(); i++) {
 			String[] temp = (String[]) v.get(i);
 			for (int j = 0; j < temp.length; j++) {
-				if (temp[j] != null) {
+				if (temp[j] != null)
 					rowSet[i][j] = temp[j].trim();
-				} else {
+				else
 					throw new OdaException(Messages.getString("data_read_error")); //$NON-NLS-1$
-				}
 			}
 		}
 		return rowSet;
@@ -354,7 +352,7 @@ public class ExcelFileSource {
 
 	private void initNameIndexMap() throws OdaException {
 		assert originalColumnNames != null;
-		HashMap<String, Integer> originalColumnNameIndexMap = new HashMap<>();
+		HashMap<String, Integer> originalColumnNameIndexMap = new HashMap<String, Integer>();
 		for (int i = 0; i < originalColumnNames.length; i++) {
 			originalColumnNameIndexMap.put(originalColumnNames[i].trim().toUpperCase(), Integer.valueOf(i));
 		}
@@ -436,9 +434,8 @@ public class ExcelFileSource {
 
 	public void resetRowCounter() {
 
-		if (this.excelFileReader != null) {
+		if (this.excelFileReader != null)
 			this.excelFileReader.setCurrentRowIndex(0);
-		}
 	}
 
 	/**
@@ -448,9 +445,8 @@ public class ExcelFileSource {
 	 */
 	private void initialiseReader() throws OdaException, IOException {
 
-		if (isReaderInitialised) {
+		if (isReaderInitialised)
 			return;
-		}
 		this.fileExtension = ExcelFileReader.getExtensionName(uri);
 		this.excelFileReader = new ExcelFileReader(ResourceLocatorUtil.getURIStream(uri), this.fileExtension,
 				this.sheetNameList, this.statementMaxRows);
@@ -467,9 +463,8 @@ public class ExcelFileSource {
 	 * @throws OdaException
 	 */
 	public String[] getColumnNameArray(List<?> line) throws OdaException {
-		if (line == null) {
+		if (line == null)
 			throw new OdaException(Messages.getString("common_CANNOT_FIND_COLUMN")); //$NON-NLS-1$
-		}
 		return getStringArrayFromList(line);
 	}
 
@@ -485,9 +480,8 @@ public class ExcelFileSource {
 			array = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
 				String columnName = (String) list.get(i);
-				if (columnName == null || columnName.isEmpty()) {
+				if (columnName == null || columnName.isEmpty())
 					columnName = formatTempColumnName(i + 1);
-				}
 				array[i] = columnName;
 			}
 		}
@@ -502,27 +496,24 @@ public class ExcelFileSource {
 	 * @throws OdaException
 	 */
 	public boolean isEmptyRow(List<String> line) throws OdaException {
-		if (line == null) {
+		if (line == null)
 			throw new OdaException(Messages.getString("query_INVALID_EXCEL_FILE")); //$NON-NLS-1$
-		}
 
 		return line.isEmpty() || (line.size() == 1 && line.get(0).equals("")); //$NON-NLS-1$
 	}
 
 	public void close() throws OdaException {
 		try {
-			if (isReaderInitialised) {
+			if (isReaderInitialised)
 				excelFileReader.close();
-			}
 		} catch (IOException e) {
 		}
 	}
 
 	public int getMaxRows() throws OdaException {
 		try {
-			if (!isReaderInitialised) {
+			if (!isReaderInitialised)
 				initialiseReader();
-			}
 			return excelFileReader.getMaxRows();
 		} catch (IOException e) {
 			close();
@@ -547,9 +538,8 @@ public class ExcelFileSource {
 	 */
 	public void closeFileSource() {
 		try {
-			if (this.excelFileReader != null) {
+			if (this.excelFileReader != null)
 				this.excelFileReader.close();
-			}
 		} catch (IOException e) {
 		}
 		this.excelFileReader = null;
@@ -560,7 +550,6 @@ public class ExcelFileSource {
 	 *
 	 * @see java.lang.Object#finalize()
 	 */
-	@Override
 	public void finalize() {
 		this.closeFileSource();
 	}

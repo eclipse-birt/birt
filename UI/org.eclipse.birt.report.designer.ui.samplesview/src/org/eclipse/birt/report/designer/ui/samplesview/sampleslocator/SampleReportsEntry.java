@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -78,9 +78,8 @@ public class SampleReportsEntry implements ResourceEntry {
 							SampleReportsEntry parent = this;
 							for (int m = 0; m < pathtoken.length; m++) {
 								if (pathtoken[m].equals("") //$NON-NLS-1$
-										|| pathtoken[m].equals(fragmentPath.substring(fragmentPath.indexOf('/') + 1))) {
+										|| pathtoken[m].equals(fragmentPath.substring(fragmentPath.indexOf('/') + 1)))
 									continue;
-								}
 								SampleReportsEntry child = parent.getChild(pathtoken[m]);
 								if (child == null) {
 									child = new SampleReportsEntry(pathtoken[m], (parent.path.equals("/") ? "" //$NON-NLS-1$//$NON-NLS-2$
@@ -100,9 +99,8 @@ public class SampleReportsEntry implements ResourceEntry {
 		this.name = entryname;
 		this.path = fragmentPath;
 		this.parent = parentEntry;
-		if (parent != null) {
+		if (parent != null)
 			parent.addChild(this);
-		}
 		this.isFile = isFile;
 	}
 
@@ -113,46 +111,38 @@ public class SampleReportsEntry implements ResourceEntry {
 	private SampleReportsEntry getChild(String name) {
 		for (Iterator iter = this.children.iterator(); iter.hasNext();) {
 			SampleReportsEntry entry = (SampleReportsEntry) iter.next();
-			if (entry.getName().equals(name)) {
+			if (entry.getName().equals(name))
 				return entry;
-			}
 		}
 		return null;
 	}
 
-	@Override
 	public boolean hasChildren() {
 		return children.size() > 0;
 	}
 
-	@Override
 	public ResourceEntry[] getChildren() {
 		return (ResourceEntry[]) this.children.toArray(new ResourceEntry[this.children.size()]);
 	}
 
-	@Override
 	public ResourceEntry[] getChildren(Filter filter) {
 		ResourceEntry[] children = getChildren();
 		List childrenFiltered = new ArrayList();
 		for (int i = 0; i < children.length; i++) {
-			if (filter.accept(children[i])) {
+			if (filter.accept(children[i]))
 				childrenFiltered.add(children[i]);
-			}
 		}
 		return (ResourceEntry[]) childrenFiltered.toArray(new ResourceEntry[childrenFiltered.size()]);
 	}
 
-	@Override
 	public String getName() {
 		return this.name;
 	}
 
-	@Override
 	public String getDisplayName() {
 		return this.displayName;
 	}
 
-	@Override
 	public Image getImage() {
 		if (this.isRoot || hasChildren()) {
 			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER);
@@ -160,25 +150,20 @@ public class SampleReportsEntry implements ResourceEntry {
 		return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
 	}
 
-	@Override
 	public ResourceEntry getParent() {
 		return this.parent;
 	}
 
-	@Override
 	public URL getURL() {
-		if (samplesBundle != null) {
+		if (samplesBundle != null)
 			return samplesBundle.getResource(this.path);
-		}
 		return null;
 	}
 
-	@Override
 	public boolean isFile() {
 		return this.isFile;
 	}
 
-	@Override
 	public void dispose() {
 		if (this.sampleReport != null) {
 			this.sampleReport.close();
@@ -190,7 +175,6 @@ public class SampleReportsEntry implements ResourceEntry {
 		}
 	}
 
-	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == ReportDesignHandle.class) {
 			if (!hasChildren() && this.sampleReport == null) {
@@ -202,13 +186,11 @@ public class SampleReportsEntry implements ResourceEntry {
 			}
 			return sampleReport;
 		}
-		if (adapter == ResourceEntry.class) {
+		if (adapter == ResourceEntry.class)
 			return this;
-		}
 		return null;
 	}
 
-	@Override
 	public boolean isRoot() {
 		return isRoot;
 	}

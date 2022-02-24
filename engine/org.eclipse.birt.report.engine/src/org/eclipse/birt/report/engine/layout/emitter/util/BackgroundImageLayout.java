@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
  * Represents the algorithm to calculate the positions of background images for
  * a rectangle area. The background maybe set to "no-repeat", "repeat-x",
  * "repeat-y" or no "repeat"
- *
+ * 
  */
 public class BackgroundImageLayout {
 
@@ -34,7 +34,7 @@ public class BackgroundImageLayout {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param areaPosition  the left up corner of the area which need to be filled
 	 *                      by the background.
 	 * @param areaSize      the size of the area. Width is represented by
@@ -55,7 +55,7 @@ public class BackgroundImageLayout {
 		if (repeat < AreaConstants.NO_REPEAT || repeat > AreaConstants.REPEAT) {
 			throw new IllegalArgumentException(" repeat should in range 0-3 : " + repeat);
 		}
-		Set<Position> positions = new HashSet<>();
+		Set<Position> positions = new HashSet<Position>();
 		calculateRepeatX(imagePosition, repeat, positions);
 		if (isRepeatY(repeat)) {
 			float x = imagePosition.x;

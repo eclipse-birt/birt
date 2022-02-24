@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,78 +20,78 @@ import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * Parameter interface
- *
+ * 
  */
 public interface IParameter {
 
 	/**
 	 * Gets parameter values
-	 *
+	 * 
 	 * @return parameter values.
 	 */
 
-	List getValueList();
+	public List getValueList();
 
 	/**
 	 * Formats input value.
-	 *
+	 * 
 	 * @param input
 	 * @return formatted input value
 	 */
-	String format(String input) throws BirtException;
+	public String format(String input) throws BirtException;
 
 	/**
 	 * Converts the value to chosen data type
-	 *
+	 * 
 	 * @param value
 	 * @param type
 	 * @return value of chosen data type
 	 * @throws BirtException
 	 */
-	Object converToDataType(Object value) throws BirtException;
+	public Object converToDataType(Object value) throws BirtException;
 
 	/**
 	 * Gets default value.
-	 *
+	 * 
 	 * @return default value.
 	 */
 
-	Object getDefaultValue();
+	public Object getDefaultValue();
 
 	/**
 	 * Sets parameter group
-	 *
+	 * 
 	 * @param group
 	 */
 
-	void setParentGroup(IParameterGroup group);
+	public void setParentGroup(IParameterGroup group);
 
 	/**
 	 * Gets parameter group
-	 *
+	 * 
 	 * @return
 	 */
-	IParameterGroup getParentGroup();
+	public IParameterGroup getParentGroup();
 
 	/**
 	 * Sets selection value.
-	 *
+	 * 
 	 * @param value
 	 */
-	void setSelectionValue(Object value);
+	public void setSelectionValue(Object value);
 
 	/**
 	 * Gets selection value.
-	 *
+	 * 
 	 * @return selection value.
 	 */
-	Object getSelectionValue();
+	public Object getSelectionValue();
 
 	/**
 	 * Gets isRequired property.
-	 *
+	 * 
 	 * @return
 	 */
-	boolean isRequired();
+	public boolean isRequired();
 
 }

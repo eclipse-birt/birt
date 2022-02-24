@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,9 +27,9 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 
 /**
  * One line Class Desc
- *
+ * 
  * Complete Class Desc
- *
+ * 
  */
 public class URIManager extends IdentifierManager {
 
@@ -55,7 +55,6 @@ public class URIManager extends IdentifierManager {
 	 * Implements
 	 * {@link org.apache.batik.css.engine.value.ValueManager#isInheritedProperty()}.
 	 */
-	@Override
 	public boolean isInheritedProperty() {
 		return inherit;
 	}
@@ -64,7 +63,6 @@ public class URIManager extends IdentifierManager {
 	 * Implements
 	 * {@link org.apache.batik.css.engine.value.ValueManager#getPropertyName()}.
 	 */
-	@Override
 	public String getPropertyName() {
 		return propertyName;
 	}
@@ -73,7 +71,6 @@ public class URIManager extends IdentifierManager {
 	 * Implements
 	 * {@link org.apache.batik.css.engine.value.ValueManager#getDefaultValue()}.
 	 */
-	@Override
 	public Value getDefaultValue() {
 		return defaultValue;
 	}
@@ -88,7 +85,6 @@ public class URIManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	@Override
 	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		if (lu.getLexicalUnitType() == LexicalUnit.SAC_URI) {
 			return new URIValue(lu.getStringValue());
@@ -98,12 +94,11 @@ public class URIManager extends IdentifierManager {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.css.engine.ValueManager#createStringValue(
 	 * short, java.lang.String, org.eclipse.birt.report.engine.css.engine.CSSEngine)
 	 */
-	@Override
 	public Value createStringValue(short type, String value, CSSEngine engine) throws DOMException {
 		return new StringValue(CSSPrimitiveValue.CSS_STRING, value);
 	}
@@ -111,7 +106,6 @@ public class URIManager extends IdentifierManager {
 	/**
 	 * Implements {@link IdentifierManager#getIdentifiers()}.
 	 */
-	@Override
 	public StringMap getIdentifiers() {
 		return values;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,13 +50,11 @@ public class ReportScriptExecutor extends ScriptExecutor {
 				scriptExpr = Expression.newScript(scriptText);
 				scriptExpr.setFileName(id);
 			}
-			if (handleScript(null, scriptExpr, context).didRun()) {
+			if (handleScript(null, scriptExpr, context).didRun())
 				return;
-			}
 			IReportEventHandler eh = (IReportEventHandler) getInstance(report, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPrepare(context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, report);
 		}
@@ -71,13 +69,11 @@ public class ReportScriptExecutor extends ScriptExecutor {
 				scriptExpr = Expression.newScript(scriptText);
 				scriptExpr.setFileName(id);
 			}
-			if (handleScript(null, scriptExpr, context).didRun()) {
+			if (handleScript(null, scriptExpr, context).didRun())
 				return;
-			}
 			IReportEventHandler eh = (IReportEventHandler) getInstance(design, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.initialize(context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, design);
 		}
@@ -94,13 +90,11 @@ public class ReportScriptExecutor extends ScriptExecutor {
 				scriptExpr = Expression.newScript(scriptText);
 				scriptExpr.setFileName(id);
 			}
-			if (handleScript(element, scriptExpr, context).didRun()) {
+			if (handleScript(element, scriptExpr, context).didRun())
 				return;
-			}
 			IReportEventHandler eh = (IReportEventHandler) getInstance(report, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.beforeFactory(reportDesign, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, report);
 		}
@@ -115,13 +109,11 @@ public class ReportScriptExecutor extends ScriptExecutor {
 				scriptExpr = Expression.newScript(scriptText);
 				scriptExpr.setFileName(id);
 			}
-			if (handleScript(null, scriptExpr, context).didRun()) {
+			if (handleScript(null, scriptExpr, context).didRun())
 				return;
-			}
 			IReportEventHandler eh = (IReportEventHandler) getInstance(report, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.afterFactory(context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, report);
 		}
@@ -136,13 +128,11 @@ public class ReportScriptExecutor extends ScriptExecutor {
 				scriptExpr = Expression.newScript(scriptText);
 				scriptExpr.setFileName(id);
 			}
-			if (handleScript(null, scriptExpr, context).didRun()) {
+			if (handleScript(null, scriptExpr, context).didRun())
 				return;
-			}
 			IReportEventHandler eh = (IReportEventHandler) getInstance(report, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.beforeRender(context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, report);
 		}
@@ -157,13 +147,11 @@ public class ReportScriptExecutor extends ScriptExecutor {
 				scriptExpr = Expression.newScript(scriptText);
 				scriptExpr.setFileName(id);
 			}
-			if (handleScript(null, scriptExpr, context).didRun()) {
+			if (handleScript(null, scriptExpr, context).didRun())
 				return;
-			}
 			IReportEventHandler eh = (IReportEventHandler) getInstance(report, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.afterRender(context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, report);
 		}
@@ -176,13 +164,11 @@ public class ReportScriptExecutor extends ScriptExecutor {
 				return;
 			}
 			IPageInstance pageInstance = new PageInstance(context, pageContent, contents);
-			if (handleScript(pageInstance, report.getOnPageEnd(), context).didRun()) {
+			if (handleScript(pageInstance, report.getOnPageEnd(), context).didRun())
 				return;
-			}
 			IReportEventHandler eh = getEventHandler(report, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPageEnd(pageInstance, context.getReportContext());
-			}
 
 		} catch (Exception e) {
 			addException(context, e, report.getReportDesign());
@@ -197,13 +183,11 @@ public class ReportScriptExecutor extends ScriptExecutor {
 			}
 
 			IPageInstance pageInstance = new PageInstance(context, pageContent, contents);
-			if (handleScript(pageInstance, report.getOnPageStart(), context).didRun()) {
+			if (handleScript(pageInstance, report.getOnPageStart(), context).didRun())
 				return;
-			}
 			IReportEventHandler eh = getEventHandler(report, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPageStart(pageInstance, context.getReportContext());
-			}
 
 		} catch (Exception e) {
 			addException(context, e, report.getReportDesign());

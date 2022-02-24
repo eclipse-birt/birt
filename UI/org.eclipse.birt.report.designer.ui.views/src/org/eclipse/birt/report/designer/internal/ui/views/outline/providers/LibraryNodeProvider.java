@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,18 +30,17 @@ import org.eclipse.jface.viewers.TreeViewer;
 /**
  * Root node - Report Library node provider - Implements the getChildren -
  * Implements the getNodeDiplayName
- *
+ * 
  */
 public class LibraryNodeProvider extends ReportDesignNodeProvider {
 
 	/**
 	 * Gets the children of the given model. The default children element include
 	 * following: Body,Styles,MasterPage
-	 *
+	 * 
 	 * @param model the given report design
 	 * @return the result list that contains the model
 	 */
-	@Override
 	public Object[] getChildren(Object model) {
 
 		// Report design may not be the current, use model to get.
@@ -66,7 +65,6 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider {
 
 	}
 
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		menu.add(new RefreshModuleHandleAction(object));
 		if (sourceViewer.getInput() instanceof Object[]) {
@@ -87,7 +85,6 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider {
 		}
 	}
 
-	@Override
 	public String getNodeDisplayName(Object model) {
 		LibraryHandle handle = (LibraryHandle) model;
 		if (handle.getName() != null && !handle.getName().equals("")) //$NON-NLS-1$
@@ -100,7 +97,6 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider {
 		return super.getNodeDisplayName(model);
 	}
 
-	@Override
 	public Object getParent(Object model) {
 		LibraryHandle handle = ((LibraryHandle) model);
 		if (handle.getNamespace() == null) {
@@ -109,7 +105,6 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider {
 		return new LibraryNode(handle.getHostHandle());
 	}
 
-	@Override
 	public String getIconName(Object model) {
 		LibraryHandle handle = ((LibraryHandle) model);
 		if (handle.getNamespace() != null) {
@@ -118,7 +113,6 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider {
 		return IReportGraphicConstants.ICON_ELEMENT_LIBRARY;
 	}
 
-	@Override
 	public String getNodeTooltip(Object model) {
 		LibraryHandle handle = ((LibraryHandle) model);
 		if (handle.getNamespace() != null) {

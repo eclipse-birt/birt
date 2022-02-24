@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,18 +31,17 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 
 /**
  * Deals with dataset node
- *
+ * 
  */
 public class LeveAttributelNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the menu.
-	 *
+	 * 
 	 * @param menu   the menu
 	 * @param object the object
 	 */
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		super.createContextMenu(sourceViewer, object, menu);
 
@@ -58,17 +57,15 @@ public class LeveAttributelNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
-	@Override
 	public String getNodeDisplayName(Object model) {
 		LevelAttributeHandle handle = (LevelAttributeHandle) model;
 		return handle.getName();
 	}
 
-	@Override
 	public Object getParent(Object model) {
 		LevelAttributeHandle handle = (LevelAttributeHandle) model;
 		return handle.getElementHandle();
@@ -76,11 +73,10 @@ public class LeveAttributelNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
-	@Override
 	public Image getNodeIcon(Object model) {
 		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);

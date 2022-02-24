@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,20 +14,20 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
-import java.sql.SQLException;
+import com.ibm.icu.util.ULocale;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.SQLException;
 
 import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * JDBCException is thrown when a JDBC call results in a java.sql.SQLException
  * being thrown. Error code and SQLState are copied from the SQLException, and
  * the caught SQLException is set as the initCause of the new exception.
- *
+ * 
  */
 public class JDBCException extends OdaException {
 	/** serial ID */
@@ -43,7 +43,7 @@ public class JDBCException extends OdaException {
 	private static JdbcResourceHandle resourceHandle = new JdbcResourceHandle(ULocale.getDefault());
 
 	/**
-	 *
+	 * 
 	 * @param message
 	 * @param vendorCode
 	 */
@@ -56,7 +56,7 @@ public class JDBCException extends OdaException {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param errorCode
 	 * @param cause
 	 */
@@ -72,7 +72,7 @@ public class JDBCException extends OdaException {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param errorCode
 	 * @param cause
 	 * @param argv
@@ -90,7 +90,7 @@ public class JDBCException extends OdaException {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param errorCode
 	 * @param cause
 	 * @param argv
@@ -111,7 +111,6 @@ public class JDBCException extends OdaException {
 	/*
 	 * @see java.lang.Throwable#getMessage()
 	 */
-	@Override
 	public String getMessage() {
 		String msg;
 		if (argv == null) {
@@ -128,9 +127,8 @@ public class JDBCException extends OdaException {
 			} else {
 				extraMsg = cause.getLocalizedMessage();
 			}
-			if (extraMsg != null && extraMsg.length() > 0) {
+			if (extraMsg != null && extraMsg.length() > 0)
 				msg += "\n" + extraMsg;
-			}
 		}
 		return msg;
 	}
@@ -152,9 +150,8 @@ public class JDBCException extends OdaException {
 			} else {
 				extraMsg = cause.getLocalizedMessage();
 			}
-			if (extraMsg != null && extraMsg.length() > 0) {
+			if (extraMsg != null && extraMsg.length() > 0)
 				msg += "\n" + extraMsg;
-			}
 		}
 		return msg;
 	}
@@ -184,7 +181,7 @@ public class JDBCException extends OdaException {
 		assert sqlException != null;
 
 		// SQL Exception may be chained. Need to get all exception messages
-		StringBuilder msg = new StringBuilder();
+		StringBuffer msg = new StringBuffer();
 
 		SQLException e = sqlException;
 		int count = 1;

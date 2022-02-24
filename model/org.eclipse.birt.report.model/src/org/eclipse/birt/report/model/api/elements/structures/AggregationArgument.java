@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,30 +63,26 @@ public class AggregationArgument extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	@Override
 	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (NAME_MEMBER.equals(propName)) {
+		if (NAME_MEMBER.equals(propName))
 			return name;
-		}
-		if (VALUE_MEMBER.equals(propName)) {
+		if (VALUE_MEMBER.equals(propName))
 			return value;
-		}
 
 		assert false;
 		return null;
@@ -94,25 +90,23 @@ public class AggregationArgument extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (NAME_MEMBER.equals(propName)) {
+		if (NAME_MEMBER.equals(propName))
 			name = (String) value;
-		} else if (VALUE_MEMBER.equals(propName)) {
+		else if (VALUE_MEMBER.equals(propName))
 			this.value = (Expression) value;
-		} else {
+		else
 			assert false;
-		}
 	}
 
 	/**
 	 * Returns the argument name.
-	 *
+	 * 
 	 * @return the argument name.
 	 */
 
@@ -122,7 +116,7 @@ public class AggregationArgument extends Structure {
 
 	/**
 	 * Sets the argument name.
-	 *
+	 * 
 	 * @param argumentName the argument name to set
 	 */
 
@@ -132,7 +126,7 @@ public class AggregationArgument extends Structure {
 
 	/**
 	 * Returns the argument value.
-	 *
+	 * 
 	 * @return the argument value.
 	 */
 
@@ -142,7 +136,7 @@ public class AggregationArgument extends Structure {
 
 	/**
 	 * Sets the argument value.
-	 *
+	 * 
 	 * @param argumentValue the argument value to set
 	 */
 
@@ -152,22 +146,20 @@ public class AggregationArgument extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new AggregationArgumentHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
 	 * .report.model.core.Module, org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	@Override
 	public List validate(Module module, DesignElement element) {
 		List list = super.validate(module, element);
 

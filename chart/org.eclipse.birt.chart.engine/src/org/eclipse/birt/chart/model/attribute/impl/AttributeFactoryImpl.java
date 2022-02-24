@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -15,8 +15,8 @@
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import java.util.Map;
+import org.eclipse.birt.chart.model.attribute.*;
 
-import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -31,8 +31,6 @@ import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ChartType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.Cursor;
-import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
@@ -46,12 +44,10 @@ import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Image;
-import org.eclipse.birt.chart.model.attribute.ImageSourceType;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
@@ -67,13 +63,9 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
-import org.eclipse.birt.chart.model.attribute.MenuStylesKeyType;
-import org.eclipse.birt.chart.model.attribute.MultiURLValues;
-import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
-import org.eclipse.birt.chart.model.attribute.PatternImage;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
@@ -84,7 +76,6 @@ import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.Stretch;
-import org.eclipse.birt.chart.model.attribute.StringFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
@@ -101,15 +92,17 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- *
+ * 
  * @generated
  */
 public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFactory {
@@ -117,7 +110,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 	/**
 	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static AttributeFactory init() {
@@ -136,7 +129,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 	/**
 	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public AttributeFactoryImpl() {
@@ -145,7 +138,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -246,7 +239,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -417,7 +410,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -588,10 +581,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public AccessibilityValue createAccessibilityValue() {
 		AccessibilityValueImpl accessibilityValue = new AccessibilityValueImpl();
 		return accessibilityValue;
@@ -599,10 +591,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ActionValue createActionValue() {
 		ActionValueImpl actionValue = new ActionValueImpl();
 		return actionValue;
@@ -610,10 +601,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Angle3D createAngle3D() {
 		Angle3DImpl angle3D = new Angle3DImpl();
 		return angle3D;
@@ -621,10 +611,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public AxisOrigin createAxisOrigin() {
 		AxisOriginImpl axisOrigin = new AxisOriginImpl();
 		return axisOrigin;
@@ -632,10 +621,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Bounds createBounds() {
 		BoundsImpl bounds = new BoundsImpl();
 		return bounds;
@@ -643,10 +631,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public CallBackValue createCallBackValue() {
 		CallBackValueImpl callBackValue = new CallBackValueImpl();
 		return callBackValue;
@@ -654,10 +641,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ColorDefinition createColorDefinition() {
 		ColorDefinitionImpl colorDefinition = new ColorDefinitionImpl();
 		return colorDefinition;
@@ -665,10 +651,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Cursor createCursor() {
 		CursorImpl cursor = new CursorImpl();
 		return cursor;
@@ -676,10 +661,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DataPoint createDataPoint() {
 		DataPointImpl dataPoint = new DataPointImpl();
 		return dataPoint;
@@ -687,10 +671,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DataPointComponent createDataPointComponent() {
 		DataPointComponentImpl dataPointComponent = new DataPointComponentImpl();
 		return dataPointComponent;
@@ -698,10 +681,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DateFormatSpecifier createDateFormatSpecifier() {
 		DateFormatSpecifierImpl dateFormatSpecifier = new DateFormatSpecifierImpl();
 		return dateFormatSpecifier;
@@ -709,10 +691,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EmbeddedImage createEmbeddedImage() {
 		EmbeddedImageImpl embeddedImage = new EmbeddedImageImpl();
 		return embeddedImage;
@@ -720,7 +701,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Map.Entry<String, String> createEStringToStringMapEntry() {
@@ -730,10 +711,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ExtendedProperty createExtendedProperty() {
 		ExtendedPropertyImpl extendedProperty = new ExtendedPropertyImpl();
 		return extendedProperty;
@@ -741,10 +721,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Fill createFill() {
 		FillImpl fill = new FillImpl();
 		return fill;
@@ -752,10 +731,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public FontDefinition createFontDefinition() {
 		FontDefinitionImpl fontDefinition = new FontDefinitionImpl();
 		return fontDefinition;
@@ -763,10 +741,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public FormatSpecifier createFormatSpecifier() {
 		FormatSpecifierImpl formatSpecifier = new FormatSpecifierImpl();
 		return formatSpecifier;
@@ -774,10 +751,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public FractionNumberFormatSpecifier createFractionNumberFormatSpecifier() {
 		FractionNumberFormatSpecifierImpl fractionNumberFormatSpecifier = new FractionNumberFormatSpecifierImpl();
 		return fractionNumberFormatSpecifier;
@@ -785,10 +761,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Gradient createGradient() {
 		GradientImpl gradient = new GradientImpl();
 		return gradient;
@@ -796,10 +771,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Image createImage() {
 		ImageImpl image = new ImageImpl();
 		return image;
@@ -807,10 +781,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Insets createInsets() {
 		InsetsImpl insets = new InsetsImpl();
 		return insets;
@@ -818,10 +791,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Interactivity createInteractivity() {
 		InteractivityImpl interactivity = new InteractivityImpl();
 		return interactivity;
@@ -829,10 +801,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public JavaDateFormatSpecifier createJavaDateFormatSpecifier() {
 		JavaDateFormatSpecifierImpl javaDateFormatSpecifier = new JavaDateFormatSpecifierImpl();
 		return javaDateFormatSpecifier;
@@ -840,10 +811,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public JavaNumberFormatSpecifier createJavaNumberFormatSpecifier() {
 		JavaNumberFormatSpecifierImpl javaNumberFormatSpecifier = new JavaNumberFormatSpecifierImpl();
 		return javaNumberFormatSpecifier;
@@ -851,10 +821,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LineAttributes createLineAttributes() {
 		LineAttributesImpl lineAttributes = new LineAttributesImpl();
 		return lineAttributes;
@@ -862,10 +831,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Location createLocation() {
 		LocationImpl location = new LocationImpl();
 		return location;
@@ -873,10 +841,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Location3D createLocation3D() {
 		Location3DImpl location3D = new Location3DImpl();
 		return location3D;
@@ -884,10 +851,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Marker createMarker() {
 		MarkerImpl marker = new MarkerImpl();
 		return marker;
@@ -895,10 +861,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public MultipleFill createMultipleFill() {
 		MultipleFillImpl multipleFill = new MultipleFillImpl();
 		return multipleFill;
@@ -906,10 +871,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public MultiURLValues createMultiURLValues() {
 		MultiURLValuesImpl multiURLValues = new MultiURLValuesImpl();
 		return multiURLValues;
@@ -917,10 +881,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public NumberFormatSpecifier createNumberFormatSpecifier() {
 		NumberFormatSpecifierImpl numberFormatSpecifier = new NumberFormatSpecifierImpl();
 		return numberFormatSpecifier;
@@ -928,10 +891,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Palette createPalette() {
 		PaletteImpl palette = new PaletteImpl();
 		return palette;
@@ -939,10 +901,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public PatternImage createPatternImage() {
 		PatternImageImpl patternImage = new PatternImageImpl();
 		return patternImage;
@@ -950,10 +911,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Rotation3D createRotation3D() {
 		Rotation3DImpl rotation3D = new Rotation3DImpl();
 		return rotation3D;
@@ -961,10 +921,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ScriptValue createScriptValue() {
 		ScriptValueImpl scriptValue = new ScriptValueImpl();
 		return scriptValue;
@@ -972,10 +931,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public SeriesValue createSeriesValue() {
 		SeriesValueImpl seriesValue = new SeriesValueImpl();
 		return seriesValue;
@@ -983,10 +941,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Size createSize() {
 		SizeImpl size = new SizeImpl();
 		return size;
@@ -994,10 +951,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public StringFormatSpecifier createStringFormatSpecifier() {
 		StringFormatSpecifierImpl stringFormatSpecifier = new StringFormatSpecifierImpl();
 		return stringFormatSpecifier;
@@ -1005,10 +961,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Style createStyle() {
 		StyleImpl style = new StyleImpl();
 		return style;
@@ -1016,10 +971,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public StyleMap createStyleMap() {
 		StyleMapImpl styleMap = new StyleMapImpl();
 		return styleMap;
@@ -1027,10 +981,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Text createText() {
 		TextImpl text = new TextImpl();
 		return text;
@@ -1038,10 +991,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public TextAlignment createTextAlignment() {
 		TextAlignmentImpl textAlignment = new TextAlignmentImpl();
 		return textAlignment;
@@ -1049,10 +1001,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public TooltipValue createTooltipValue() {
 		TooltipValueImpl tooltipValue = new TooltipValueImpl();
 		return tooltipValue;
@@ -1060,10 +1011,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public URLValue createURLValue() {
 		URLValueImpl urlValue = new URLValueImpl();
 		return urlValue;
@@ -1071,21 +1021,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ActionType createActionTypeFromString(EDataType eDataType, String initialValue) {
 		ActionType result = ActionType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertActionTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1094,21 +1043,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Anchor createAnchorFromString(EDataType eDataType, String initialValue) {
 		Anchor result = Anchor.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertAnchorToString(EDataType eDataType, Object instanceValue) {
@@ -1117,21 +1065,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public AngleType createAngleTypeFromString(EDataType eDataType, String initialValue) {
 		AngleType result = AngleType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertAngleTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1140,21 +1087,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public AxisType createAxisTypeFromString(EDataType eDataType, String initialValue) {
 		AxisType result = AxisType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertAxisTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1163,21 +1109,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ChartDimension createChartDimensionFromString(EDataType eDataType, String initialValue) {
 		ChartDimension result = ChartDimension.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertChartDimensionToString(EDataType eDataType, Object instanceValue) {
@@ -1186,21 +1131,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ChartType createChartTypeFromString(EDataType eDataType, String initialValue) {
 		ChartType result = ChartType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertChartTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1209,21 +1153,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public CursorType createCursorTypeFromString(EDataType eDataType, String initialValue) {
 		CursorType result = CursorType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertCursorTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1232,21 +1175,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DataPointComponentType createDataPointComponentTypeFromString(EDataType eDataType, String initialValue) {
 		DataPointComponentType result = DataPointComponentType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDataPointComponentTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1255,21 +1197,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DataType createDataTypeFromString(EDataType eDataType, String initialValue) {
 		DataType result = DataType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDataTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1278,21 +1219,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DateFormatDetail createDateFormatDetailFromString(EDataType eDataType, String initialValue) {
 		DateFormatDetail result = DateFormatDetail.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDateFormatDetailToString(EDataType eDataType, Object instanceValue) {
@@ -1301,21 +1241,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DateFormatType createDateFormatTypeFromString(EDataType eDataType, String initialValue) {
 		DateFormatType result = DateFormatType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDateFormatTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1324,21 +1263,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Direction createDirectionFromString(EDataType eDataType, String initialValue) {
 		Direction result = Direction.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDirectionToString(EDataType eDataType, Object instanceValue) {
@@ -1347,21 +1285,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public GroupingUnitType createGroupingUnitTypeFromString(EDataType eDataType, String initialValue) {
 		GroupingUnitType result = GroupingUnitType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertGroupingUnitTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1370,21 +1307,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public HorizontalAlignment createHorizontalAlignmentFromString(EDataType eDataType, String initialValue) {
 		HorizontalAlignment result = HorizontalAlignment.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertHorizontalAlignmentToString(EDataType eDataType, Object instanceValue) {
@@ -1393,21 +1329,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ImageSourceType createImageSourceTypeFromString(EDataType eDataType, String initialValue) {
 		ImageSourceType result = ImageSourceType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertImageSourceTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1416,21 +1351,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public IntersectionType createIntersectionTypeFromString(EDataType eDataType, String initialValue) {
 		IntersectionType result = IntersectionType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertIntersectionTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1439,21 +1373,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LeaderLineStyle createLeaderLineStyleFromString(EDataType eDataType, String initialValue) {
 		LeaderLineStyle result = LeaderLineStyle.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLeaderLineStyleToString(EDataType eDataType, Object instanceValue) {
@@ -1462,21 +1395,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LegendBehaviorType createLegendBehaviorTypeFromString(EDataType eDataType, String initialValue) {
 		LegendBehaviorType result = LegendBehaviorType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLegendBehaviorTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1485,21 +1417,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LegendItemType createLegendItemTypeFromString(EDataType eDataType, String initialValue) {
 		LegendItemType result = LegendItemType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLegendItemTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1508,21 +1439,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LineDecorator createLineDecoratorFromString(EDataType eDataType, String initialValue) {
 		LineDecorator result = LineDecorator.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLineDecoratorToString(EDataType eDataType, Object instanceValue) {
@@ -1531,21 +1461,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LineStyle createLineStyleFromString(EDataType eDataType, String initialValue) {
 		LineStyle result = LineStyle.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLineStyleToString(EDataType eDataType, Object instanceValue) {
@@ -1554,21 +1483,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public MarkerType createMarkerTypeFromString(EDataType eDataType, String initialValue) {
 		MarkerType result = MarkerType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertMarkerTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1577,21 +1505,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public MenuStylesKeyType createMenuStylesKeyTypeFromString(EDataType eDataType, String initialValue) {
 		MenuStylesKeyType result = MenuStylesKeyType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertMenuStylesKeyTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1600,21 +1527,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Orientation createOrientationFromString(EDataType eDataType, String initialValue) {
 		Orientation result = Orientation.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertOrientationToString(EDataType eDataType, Object instanceValue) {
@@ -1623,21 +1549,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Position createPositionFromString(EDataType eDataType, String initialValue) {
 		Position result = Position.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertPositionToString(EDataType eDataType, Object instanceValue) {
@@ -1646,21 +1571,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public RiserType createRiserTypeFromString(EDataType eDataType, String initialValue) {
 		RiserType result = RiserType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertRiserTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1669,21 +1593,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public RuleType createRuleTypeFromString(EDataType eDataType, String initialValue) {
 		RuleType result = RuleType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertRuleTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1692,21 +1615,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ScaleUnitType createScaleUnitTypeFromString(EDataType eDataType, String initialValue) {
 		ScaleUnitType result = ScaleUnitType.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertScaleUnitTypeToString(EDataType eDataType, Object instanceValue) {
@@ -1715,21 +1637,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public SortOption createSortOptionFromString(EDataType eDataType, String initialValue) {
 		SortOption result = SortOption.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertSortOptionToString(EDataType eDataType, Object instanceValue) {
@@ -1738,21 +1659,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Stretch createStretchFromString(EDataType eDataType, String initialValue) {
 		Stretch result = Stretch.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertStretchToString(EDataType eDataType, Object instanceValue) {
@@ -1761,21 +1681,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public StyledComponent createStyledComponentFromString(EDataType eDataType, String initialValue) {
 		StyledComponent result = StyledComponent.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertStyledComponentToString(EDataType eDataType, Object instanceValue) {
@@ -1784,21 +1703,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public TickStyle createTickStyleFromString(EDataType eDataType, String initialValue) {
 		TickStyle result = TickStyle.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertTickStyleToString(EDataType eDataType, Object instanceValue) {
@@ -1807,21 +1725,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public TriggerCondition createTriggerConditionFromString(EDataType eDataType, String initialValue) {
 		TriggerCondition result = TriggerCondition.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertTriggerConditionToString(EDataType eDataType, Object instanceValue) {
@@ -1830,21 +1747,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public TriggerFlow createTriggerFlowFromString(EDataType eDataType, String initialValue) {
 		TriggerFlow result = TriggerFlow.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertTriggerFlowToString(EDataType eDataType, Object instanceValue) {
@@ -1853,21 +1769,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public UnitsOfMeasurement createUnitsOfMeasurementFromString(EDataType eDataType, String initialValue) {
 		UnitsOfMeasurement result = UnitsOfMeasurement.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertUnitsOfMeasurementToString(EDataType eDataType, Object instanceValue) {
@@ -1876,21 +1791,20 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public VerticalAlignment createVerticalAlignmentFromString(EDataType eDataType, String initialValue) {
 		VerticalAlignment result = VerticalAlignment.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertVerticalAlignmentToString(EDataType eDataType, Object instanceValue) {
@@ -1899,7 +1813,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ActionType createActionTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -1908,7 +1822,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertActionTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -1917,7 +1831,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Anchor createAnchorObjectFromString(EDataType eDataType, String initialValue) {
@@ -1926,7 +1840,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertAnchorObjectToString(EDataType eDataType, Object instanceValue) {
@@ -1935,7 +1849,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public AngleType createAngleTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -1944,7 +1858,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertAngleTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -1953,7 +1867,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public AxisType createAxisTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -1962,7 +1876,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertAxisTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -1971,7 +1885,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ChartDimension createChartDimensionObjectFromString(EDataType eDataType, String initialValue) {
@@ -1980,7 +1894,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertChartDimensionObjectToString(EDataType eDataType, Object instanceValue) {
@@ -1989,7 +1903,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ChartType createChartTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -1998,7 +1912,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertChartTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2007,7 +1921,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public CursorType createCursorTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2016,7 +1930,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertCursorTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2025,7 +1939,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DataPointComponentType createDataPointComponentTypeObjectFromString(EDataType eDataType,
@@ -2036,7 +1950,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDataPointComponentTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2046,7 +1960,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DataType createDataTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2055,7 +1969,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDataTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2064,7 +1978,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DateFormatDetail createDateFormatDetailObjectFromString(EDataType eDataType, String initialValue) {
@@ -2073,7 +1987,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDateFormatDetailObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2082,7 +1996,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DateFormatType createDateFormatTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2091,7 +2005,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDateFormatTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2100,7 +2014,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Direction createDirectionObjectFromString(EDataType eDataType, String initialValue) {
@@ -2109,7 +2023,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertDirectionObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2118,7 +2032,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public GroupingUnitType createGroupingUnitTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2127,7 +2041,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertGroupingUnitTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2136,7 +2050,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public HorizontalAlignment createHorizontalAlignmentObjectFromString(EDataType eDataType, String initialValue) {
@@ -2145,7 +2059,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertHorizontalAlignmentObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2154,7 +2068,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String createIDFromString(EDataType eDataType, String initialValue) {
@@ -2163,7 +2077,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertIDToString(EDataType eDataType, Object instanceValue) {
@@ -2172,7 +2086,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ImageSourceType createImageSourceTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2181,7 +2095,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertImageSourceTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2190,7 +2104,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public IntersectionType createIntersectionTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2199,7 +2113,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertIntersectionTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2208,7 +2122,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LeaderLineStyle createLeaderLineStyleObjectFromString(EDataType eDataType, String initialValue) {
@@ -2217,7 +2131,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLeaderLineStyleObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2226,7 +2140,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LegendBehaviorType createLegendBehaviorTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2235,7 +2149,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLegendBehaviorTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2244,7 +2158,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LegendItemType createLegendItemTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2253,7 +2167,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLegendItemTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2262,7 +2176,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LineDecorator createLineDecoratorObjectFromString(EDataType eDataType, String initialValue) {
@@ -2271,7 +2185,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLineDecoratorObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2280,7 +2194,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LineStyle createLineStyleObjectFromString(EDataType eDataType, String initialValue) {
@@ -2289,7 +2203,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertLineStyleObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2298,7 +2212,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public MarkerType createMarkerTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2307,7 +2221,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertMarkerTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2316,7 +2230,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public MenuStylesKeyType createMenuStylesKeyTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2325,7 +2239,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertMenuStylesKeyTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2334,7 +2248,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Orientation createOrientationObjectFromString(EDataType eDataType, String initialValue) {
@@ -2343,7 +2257,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertOrientationObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2352,7 +2266,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Long createPatternBitmapFromString(EDataType eDataType, String initialValue) {
@@ -2361,7 +2275,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertPatternBitmapToString(EDataType eDataType, Object instanceValue) {
@@ -2370,7 +2284,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Long createPatternBitmapObjectFromString(EDataType eDataType, String initialValue) {
@@ -2379,7 +2293,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertPatternBitmapObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2388,7 +2302,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Double createPercentageFromString(EDataType eDataType, String initialValue) {
@@ -2397,7 +2311,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertPercentageToString(EDataType eDataType, Object instanceValue) {
@@ -2406,7 +2320,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Double createPercentageObjectFromString(EDataType eDataType, String initialValue) {
@@ -2415,7 +2329,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertPercentageObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2424,7 +2338,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Position createPositionObjectFromString(EDataType eDataType, String initialValue) {
@@ -2433,7 +2347,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertPositionObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2442,7 +2356,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Integer createRGBValueFromString(EDataType eDataType, String initialValue) {
@@ -2451,7 +2365,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertRGBValueToString(EDataType eDataType, Object instanceValue) {
@@ -2460,7 +2374,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Integer createRGBValueObjectFromString(EDataType eDataType, String initialValue) {
@@ -2469,7 +2383,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertRGBValueObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2478,7 +2392,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public RiserType createRiserTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2487,7 +2401,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertRiserTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2496,7 +2410,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public RuleType createRuleTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2505,7 +2419,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertRuleTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2514,7 +2428,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public ScaleUnitType createScaleUnitTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2523,7 +2437,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertScaleUnitTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2532,7 +2446,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public SortOption createSortOptionObjectFromString(EDataType eDataType, String initialValue) {
@@ -2541,7 +2455,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertSortOptionObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2550,7 +2464,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Stretch createStretchObjectFromString(EDataType eDataType, String initialValue) {
@@ -2559,7 +2473,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertStretchObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2568,7 +2482,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public StyledComponent createStyledComponentObjectFromString(EDataType eDataType, String initialValue) {
@@ -2577,7 +2491,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertStyledComponentObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2586,7 +2500,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public TickStyle createTickStyleObjectFromString(EDataType eDataType, String initialValue) {
@@ -2595,7 +2509,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertTickStyleObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2604,7 +2518,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public TriggerCondition createTriggerConditionObjectFromString(EDataType eDataType, String initialValue) {
@@ -2613,7 +2527,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertTriggerConditionObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2622,7 +2536,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public TriggerFlow createTriggerFlowObjectFromString(EDataType eDataType, String initialValue) {
@@ -2631,7 +2545,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertTriggerFlowObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2640,7 +2554,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public UnitsOfMeasurement createUnitsOfMeasurementObjectFromString(EDataType eDataType, String initialValue) {
@@ -2649,7 +2563,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertUnitsOfMeasurementObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2658,7 +2572,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public VerticalAlignment createVerticalAlignmentObjectFromString(EDataType eDataType, String initialValue) {
@@ -2667,7 +2581,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertVerticalAlignmentObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2676,17 +2590,16 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public AttributePackage getAttributePackage() {
 		return (AttributePackage) getEPackage();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @deprecated
 	 * @generated
 	 */

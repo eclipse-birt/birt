@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,22 +51,19 @@ public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb implements IV
 		 * #configureDropDownViewer(org.eclipse.jface.viewers.TreeViewer,
 		 * java.lang.Object)
 		 */
-		@Override
 		public void configureDropDownViewer(TreeViewer viewer, Object input) {
 			BreadcrumbViewTreeProvider provier = new BreadcrumbViewTreeProvider(getEditor());
 			viewer.setContentProvider(provier);
 			viewer.setLabelProvider(provier);
 		}
 
-		@Override
 		protected int buildItemChain(Object element) {
 			if (element != null && !getBreadcrumbNodeProvider(getEditor().getGraphicalViewer()).validate(element)) {
-				if (getEditor().getGraphicalViewer().getRootEditPart().getChildren().size() == 1) {
+				if (getEditor().getGraphicalViewer().getRootEditPart().getChildren().size() == 1)
 					return super.buildItemChain(
 							getEditor().getGraphicalViewer().getRootEditPart().getChildren().get(0));
-				} else {
+				else
 					return 0;
-				}
 			}
 			return super.buildItemChain(element);
 		}
@@ -105,21 +102,18 @@ public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb implements IV
 
 		if (getEditor() != null) {
 			Object model = getEditor().getGraphicalViewer().getRootEditPart().getContents().getModel();
-			if (model instanceof ModuleHandle) {
+			if (model instanceof ModuleHandle)
 				((ModuleHandle) model).addValidationListener(this);
-			}
 		}
 
 		return fViewer;
 	}
 
-	@Override
 	public void dispose() {
 		if (getEditor() != null) {
 			Object model = getEditor().getGraphicalViewer().getRootEditPart().getContents().getModel();
-			if (model instanceof ModuleHandle) {
+			if (model instanceof ModuleHandle)
 				((ModuleHandle) model).removeValidationListener(this);
-			}
 		}
 		super.dispose();
 	}
@@ -150,9 +144,8 @@ public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb implements IV
 		boolean flag = false;
 		List list = getEditor().getGraphicalViewer().getSelectedEditParts();
 		if (list.size() == 1) {
-			if (getBreadcrumbNodeProvider(getEditor().getGraphicalViewer()).getEditPart(element) != list.get(0)) {
+			if (getBreadcrumbNodeProvider(getEditor().getGraphicalViewer()).getEditPart(element) != list.get(0))
 				return false;
-			}
 			EditPart editPart = (EditPart) list.get(0);
 			Request request = new Request(org.eclipse.gef.RequestConstants.REQ_OPEN);
 			if (editPart.understandsRequest(request)) {
@@ -184,7 +177,6 @@ public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb implements IV
 		ProviderFactory.createProvider(model).createContextMenu(null, model, manager);
 	}
 
-	@Override
 	public void elementValidated(DesignElementHandle targetElement, ValidationEvent ev) {
 		if (fBreadcrumbViewer != null && fBreadcrumbViewer.getControl() != null
 				&& !fBreadcrumbViewer.getControl().isDisposed()) {

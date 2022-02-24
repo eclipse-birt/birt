@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,17 +31,14 @@ public class DataSource implements IDataSource {
 		dataSourceImpl = dataSource;
 	}
 
-	@Override
 	public String getExtensionID() {
 		return dataSourceImpl.getExtensionID();
 	}
 
-	@Override
 	public String getPrivateDriverProperty(String name) {
 		return dataSourceImpl.getPrivateDriverProperty(name);
 	}
 
-	@Override
 	public void setPrivateDriverProperty(String name, String value) throws ScriptException {
 		try {
 			dataSourceImpl.setPrivateDriverProperty(name, value);

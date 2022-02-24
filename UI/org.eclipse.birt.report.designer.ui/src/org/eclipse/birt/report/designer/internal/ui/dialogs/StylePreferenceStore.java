@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param model
 	 */
 	public StylePreferenceStore(Object model) {
@@ -47,21 +47,19 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#addPropertyChangeListener
 	 * (org.eclipse.jface.util.IPropertyChangeListener)
 	 */
-	@Override
 	public void addPropertyChangeListener(IPropertyChangeListener listener) {
 		// TODO Auto-generated method stub
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#contains(java.lang.String)
 	 */
-	@Override
 	public boolean contains(String name) {
 		// TODO Auto-generated method stub
 		return false;
@@ -69,11 +67,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#firePropertyChangeEvent
 	 * (java.lang.String, java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	public void firePropertyChangeEvent(String name, Object oldValue, Object newValue) {
 		// TODO Auto-generated method stub
 
@@ -81,38 +78,34 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#getBoolean(java.lang.String )
 	 */
-	@Override
 	public boolean getBoolean(String name) {
 		return ((StyleHandle) model).getBooleanProperty(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultBoolean(java.
 	 * lang.String)
 	 */
-	@Override
 	public boolean getDefaultBoolean(String name) {
 		Object obj = ((StyleHandle) model).getPropertyHandle(name).getDefn().getDefault();
-		if (obj != null) {
-			return Boolean.parseBoolean(obj.toString());
-		} else {
+		if (obj != null)
+			return Boolean.valueOf(obj.toString());
+		else
 			return false;
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultDouble(java.lang
 	 * .String)
 	 */
-	@Override
 	public double getDefaultDouble(String name) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -120,11 +113,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultFloat(java.lang
 	 * .String)
 	 */
-	@Override
 	public float getDefaultFloat(String name) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -132,11 +124,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultInt(java.lang
 	 * .String)
 	 */
-	@Override
 	public int getDefaultInt(String name) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -144,11 +135,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultLong(java.lang
 	 * .String)
 	 */
-	@Override
 	public long getDefaultLong(String name) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -156,26 +146,23 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultString(java.lang
 	 * .String)
 	 */
-	@Override
 	public String getDefaultString(String name) {
 		Object obj = ((StyleHandle) model).getPropertyHandle(name).getDefn().getDefault();
-		if (obj != null) {
+		if (obj != null)
 			return obj.toString();
-		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#getDouble(java.lang.String)
 	 */
-	@Override
 	public double getDouble(String name) {
 		// TODO Auto-generated method stub
 		return ((StyleHandle) model).getFloatProperty(name);
@@ -183,10 +170,9 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getFloat(java.lang.String)
 	 */
-	@Override
 	public float getFloat(String name) {
 		return (float) ((StyleHandle) model).getFloatProperty(name);
 	}
@@ -262,9 +248,8 @@ public class StylePreferenceStore implements IPreferenceStore {
 			PropertyHandle propHandle = ((StyleHandle) model).getPropertyHandle(property);
 			FormatValue formatValueToSet = (FormatValue) formatValue;
 			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle(propHandle);
-			if (locale != null) {
+			if (locale != null)
 				formatHandle.setLocale(locale);
-			}
 		}
 	}
 
@@ -324,20 +309,18 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getInt(java.lang.String)
 	 */
-	@Override
 	public int getInt(String name) {
 		return ((StyleHandle) model).getIntProperty(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getLong(java.lang.String)
 	 */
-	@Override
 	public long getLong(String name) {
 		// TODO
 		return 0;
@@ -345,11 +328,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#getString(java.lang.String)
 	 */
-	@Override
 	public String getString(String name) {
 		return ((StyleHandle) model).getStringProperty(name);
 	}
@@ -360,11 +342,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#isDefault(java.lang.String)
 	 */
-	@Override
 	public boolean isDefault(String name) {
 		// TODO Auto-generated method stub
 		return false;
@@ -372,10 +353,9 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#needsSaving()
 	 */
-	@Override
 	public boolean needsSaving() {
 		// TODO Auto-generated method stub
 		return false;
@@ -383,11 +363,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#putValue(java.lang.String,
 	 * java.lang.String)
 	 */
-	@Override
 	public void putValue(String name, String value) {
 		// TODO Auto-generated method stub
 
@@ -395,12 +374,11 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#removePropertyChangeListener
 	 * (org.eclipse.jface.util.IPropertyChangeListener)
 	 */
-	@Override
 	public void removePropertyChangeListener(IPropertyChangeListener listener) {
 		// TODO Auto-generated method stub
 
@@ -408,12 +386,11 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String ,
 	 * double)
 	 */
-	@Override
 	public void setDefault(String name, double value) {
 		// TODO Auto-generated method stub
 
@@ -421,12 +398,11 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String ,
 	 * float)
 	 */
-	@Override
 	public void setDefault(String name, float value) {
 		// TODO Auto-generated method stub
 
@@ -434,12 +410,11 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String ,
 	 * int)
 	 */
-	@Override
 	public void setDefault(String name, int value) {
 		// TODO Auto-generated method stub
 
@@ -447,12 +422,11 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String ,
 	 * long)
 	 */
-	@Override
 	public void setDefault(String name, long value) {
 		// TODO Auto-generated method stub
 
@@ -460,12 +434,11 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String ,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setDefault(String name, String defaultObject) {
 		// TODO Auto-generated method stub
 
@@ -473,12 +446,11 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String ,
 	 * boolean)
 	 */
-	@Override
 	public void setDefault(String name, boolean value) {
 		// TODO Auto-generated method stub
 
@@ -486,11 +458,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#setToDefault(java.lang.
 	 * String)
 	 */
-	@Override
 	public void setToDefault(String name) {
 		// TODO Auto-generated method stub
 
@@ -498,11 +469,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
 	 * double)
 	 */
-	@Override
 	public void setValue(String name, double value) {
 		try {
 			((StyleHandle) model).setProperty(name, new Double(value));
@@ -514,11 +484,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
 	 * float)
 	 */
-	@Override
 	public void setValue(String name, float value) {
 		try {
 			((StyleHandle) model).setProperty(name, new Double(value));
@@ -530,11 +499,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
 	 * int)
 	 */
-	@Override
 	public void setValue(String name, int value) {
 		try {
 			((StyleHandle) model).setProperty(name, Integer.valueOf(value));
@@ -546,11 +514,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
 	 * long)
 	 */
-	@Override
 	public void setValue(String name, long value) {
 		// TODO Auto-generated method stub
 
@@ -558,11 +525,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setValue(String name, String value) {
 		try {
 			((StyleHandle) model).setProperty(name, value);
@@ -575,11 +541,10 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
 	 * boolean)
 	 */
-	@Override
 	public void setValue(String name, boolean value) {
 		try {
 			((StyleHandle) model).setProperty(name, Boolean.valueOf(value));
@@ -598,7 +563,7 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	/**
 	 * Checks if the previous operations cause error.
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean hasError() {
@@ -607,9 +572,8 @@ public class StylePreferenceStore implements IPreferenceStore {
 
 	public boolean hasLocalValue(String name) {
 		PropertyHandle property = ((StyleHandle) model).getPropertyHandle(name);
-		if (property != null) {
+		if (property != null)
 			return property.isLocal();
-		}
 		return false;
 	}
 

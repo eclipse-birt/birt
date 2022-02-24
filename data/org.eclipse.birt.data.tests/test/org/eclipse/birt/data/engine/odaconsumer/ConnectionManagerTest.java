@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -16,11 +16,6 @@
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,10 +29,12 @@ import org.eclipse.datatools.connectivity.oda.LogConfiguration;
 import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaConsumerPlugin;
 import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaDriver;
 import org.eclipse.datatools.connectivity.oda.util.logging.Level;
-import org.junit.After;
-import org.junit.Before;
 
 import testutil.JDBCOdaDataSource;
+
+import org.junit.After;
+import org.junit.Before;
+import static org.junit.Assert.*;
 
 public class ConnectionManagerTest extends OdaconsumerTestCase {
 	private ConnectionManager sm_manager;
@@ -46,9 +43,8 @@ public class ConnectionManagerTest extends OdaconsumerTestCase {
 	private File m_logDir;
 
 	ConnectionManager getManager() {
-		if (sm_manager == null) {
+		if (sm_manager == null)
 			sm_manager = ConnectionManager.getInstance();
-		}
 		return sm_manager;
 	}
 
@@ -106,9 +102,8 @@ public class ConnectionManagerTest extends OdaconsumerTestCase {
 	public final void testPassThruContext() throws Exception {
 		// do not run this test when triggered by a sub-class
 		String testClassName = this.getClass().getName();
-		if (!testClassName.endsWith("ConnectionManagerTest")) {
+		if (!testClassName.endsWith("ConnectionManagerTest"))
 			return;
-		}
 
 		// assure the test number matches that used in connectionManagerSetUp()
 		assertNotNull(m_testerLogConfig);
@@ -129,7 +124,8 @@ public class ConnectionManagerTest extends OdaconsumerTestCase {
 
 		// now check the log file for expected log entries
 		final String emptyParen = "\\(\\)\t";
-		String[] expectedLogs = { "OdaDriver.setAppContext" + emptyParen + "Passing thru application context ",
+		String[] expectedLogs = new String[] {
+				"OdaDriver.setAppContext" + emptyParen + "Passing thru application context ",
 				"OdaConnection.setAppContext" + emptyParen + "Passing thru application context ",
 				"OdaQuery.setAppContext" + emptyParen + "Passing thru application context " };
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +61,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The test case of all the issues about the templates.
- *
+ * 
  * @see org.eclipse.birt.report.model.api.TemplateParameterDefinitionHandle
  * @see org.eclipse.birt.report.model.api.TemplateElementHandle
  * @see org.eclipse.birt.report.model.api.TemplateReportItemHandle
@@ -86,7 +86,6 @@ public class TemplateElementParserTest extends BaseTestCase {
 	 * @see TestCase#setUp()
 	 */
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -109,8 +108,8 @@ public class TemplateElementParserTest extends BaseTestCase {
 	 * <li>case 7 -- check the reference between template definitions and template
 	 * elements
 	 * </ul>
-	 *
-	 *
+	 * 
+	 * 
 	 * @throws Exception
 	 */
 
@@ -256,7 +255,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 
 	/**
 	 * Tests the writer.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -292,7 +291,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 	/**
 	 * Tests the design file parser exception if the template elements refer a wrong
 	 * type template definition. Test the semantic errors.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -323,9 +322,9 @@ public class TemplateElementParserTest extends BaseTestCase {
 
 	/**
 	 * Tests creates template element from a report item or data set.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testCreateTemplate() throws Exception {
@@ -409,7 +408,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 		// case 3 -- create a template data set from the real data set
 
 		name = "templateDataSet"; //$NON-NLS-1$
-		TemplateDataSetHandle templateDataSet;
+		TemplateDataSetHandle templateDataSet = null;
 		DataSetHandle dataSetHandle = designHandle.getElementFactory().newScriptDataSet("dataSet"); //$NON-NLS-1$
 
 		// the data set has not been in the tree, there is an error
@@ -463,7 +462,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 	 * needs no name. That is to say, even if data set is name-required, the data
 	 * set that resides in any template definition can have no name. Such a file can
 	 * be correctly opened.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testParserWithNoName() throws Exception {
@@ -473,7 +472,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 
 	/**
 	 * Tests transform a tempalte element to a real report item or data set.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -543,7 +542,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 	/**
 	 * Tests a report item or data set based on template definition to be reverted
 	 * to a template element.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -564,7 +563,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 
 		// revert the label and data set to a template element
 
-		TemplateElementHandle templateHandle;
+		TemplateElementHandle templateHandle = null;
 		templateHandle = label.revertToTemplate("templateLabel"); //$NON-NLS-1$
 		assertNotNull(templateHandle);
 		assertTrue(templateHandle instanceof TemplateReportItemHandle);
@@ -580,7 +579,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 
 	/**
 	 * Tests complex template issues.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -608,9 +607,9 @@ public class TemplateElementParserTest extends BaseTestCase {
 	/**
 	 * Tests the destroying the useless TemplateParameterDefinition when calling
 	 * semanticCheck of report design.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testDestroyTemplateParameterDefinition() throws Exception {
@@ -636,7 +635,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 	/**
 	 * Tests checkAdd() in TemplateCommand about the handler of
 	 * refTemplateParameter.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -674,7 +673,7 @@ public class TemplateElementParserTest extends BaseTestCase {
 	/**
 	 * Tests canTransformToTemplate(). Now support template for data set and part of
 	 * report items. Auto text does not support template.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -699,14 +698,13 @@ public class TemplateElementParserTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse.
 		 * birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
 
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			this.event = ev;
 			this.focus = focus;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -78,7 +78,6 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 
 	private Listener locationModifyListener = new Listener() {
 
-		@Override
 		public void handleEvent(Event e) {
 			setPageComplete(validatePage());
 		}
@@ -88,7 +87,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 
 	/**
 	 * The Constructor.
-	 *
+	 * 
 	 * @param pageName
 	 */
 	public WizardNewLibraryCreationPage(String pageName) {
@@ -96,7 +95,6 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 		pageSupport = new NewReportPageSupport();
 	}
 
-	@Override
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 		setControl(pageSupport.createComposite(parent));
@@ -110,7 +108,6 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 		UIUtil.bindHelp(getControl(), IHelpContextIds.NEW_LIBRARY_WIZARD_ID);
 	}
 
-	@Override
 	public void setVisible(boolean visible) {
 		getControl().setVisible(visible);
 		if (visible) {
@@ -120,7 +117,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validatePage()
 	 */
 	public boolean validatePage() {
@@ -148,10 +145,12 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 			} else {
 				path = getContainerFullPath().append(getFileName());
 			}
-		} else if (!getFileName().toLowerCase().endsWith(IReportEditorContants.LIBRARY_FILE_EXTENTION.toLowerCase())) {
-			path = getContainerFullPath().append(getFileName() + IReportEditorContants.LIBRARY_FILE_EXTENTION);
 		} else {
-			path = getContainerFullPath().append(getFileName());
+			if (!getFileName().toLowerCase().endsWith(IReportEditorContants.LIBRARY_FILE_EXTENTION.toLowerCase())) {
+				path = getContainerFullPath().append(getFileName() + IReportEditorContants.LIBRARY_FILE_EXTENTION);
+			} else {
+				path = getContainerFullPath().append(getFileName());
+			}
 		}
 
 		if (path.lastSegment().equals("." + fileExtension)) {
@@ -169,7 +168,6 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 		return true;
 	}
 
-	@Override
 	public void setContainerFullPath(IPath initPath) {
 		pageSupport.setInitialFileLocation(initPath.toOSString());
 	}
@@ -177,7 +175,6 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages
 			.getString("NewLibraryWizard.displayName.NewReportFileNamePrefix"); //$NON-NLS-1$
 
-	@Override
 	public void setFileName(String initFileName) {
 		pageSupport.setInitialFileName(getNewFileFullName(NEW_REPORT_FILE_NAME_PREFIX));
 	}
@@ -209,17 +206,14 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 		return defaultPath.toOSString();
 	}
 
-	@Override
 	public String getFileName() {
 		return pageSupport.getFileName();
 	}
 
-	@Override
 	public IPath getContainerFullPath() {
 		return pageSupport.getFileLocationFullPath();
 	}
 
-	@Override
 	public boolean performFinish() {
 		final IPath locPath = getContainerFullPath();
 		String fn = getFileName();
@@ -232,18 +226,20 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 			} else {
 				fileName = fn;
 			}
-		} else if (!fn.toLowerCase(Locale.getDefault()).endsWith("." + fileExtension)) //$NON-NLS-1$
-		{
-			fileName = fn + "." + fileExtension; //$NON-NLS-1$
 		} else {
-			fileName = fn;
+			if (!fn.toLowerCase(Locale.getDefault()).endsWith("." + fileExtension)) //$NON-NLS-1$
+			{
+				fileName = fn + "." + fileExtension; //$NON-NLS-1$
+			} else {
+				fileName = fn;
+			}
 		}
 
 		if (EclipseUtil.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST) == null) {
 			return true;
 		}
-		URL url = FileLocator.find(EclipseUtil.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST),
-				new Path(TEMPLATE_FILE), null);
+		URL url = FileLocator.find(EclipseUtil.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST), new Path(TEMPLATE_FILE),
+				null);
 
 		if (url == null) {
 			return true;
@@ -258,7 +254,6 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 
-			@Override
 			public void run(IProgressMonitor monitor) {
 				try {
 					doFinish(locPath, fileName, libraryFileName, monitor);
@@ -332,7 +327,6 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 		monitor.setTaskName(OPENING_FILE_FOR_EDITING);
 		getShell().getDisplay().asyncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -367,11 +361,10 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage#
 	 * updatePerspective(org.eclipse.core.runtime.IConfigurationElement)
 	 */
-	@Override
 	public void updatePerspective(IConfigurationElement configElement) {
 		// do nothing on updating perspective for RCP
 	}

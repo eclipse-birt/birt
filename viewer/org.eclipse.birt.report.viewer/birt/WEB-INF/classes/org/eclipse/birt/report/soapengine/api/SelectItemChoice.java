@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -40,7 +40,7 @@ public class SelectItemChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the value value for this SelectItemChoice.
-	 *
+	 * 
 	 * @return value
 	 */
 	public java.lang.String getValue() {
@@ -49,7 +49,7 @@ public class SelectItemChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the value value for this SelectItemChoice.
-	 *
+	 * 
 	 * @param value
 	 */
 	public void setValue(java.lang.String value) {
@@ -58,7 +58,7 @@ public class SelectItemChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the label value for this SelectItemChoice.
-	 *
+	 * 
 	 * @return label
 	 */
 	public java.lang.String getLabel() {
@@ -67,7 +67,7 @@ public class SelectItemChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the label value for this SelectItemChoice.
-	 *
+	 * 
 	 * @param label
 	 */
 	public void setLabel(java.lang.String label) {
@@ -76,18 +76,14 @@ public class SelectItemChoice implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof SelectItemChoice)) {
+		if (!(obj instanceof SelectItemChoice))
 			return false;
-		}
 		SelectItemChoice other = (SelectItemChoice) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -104,7 +100,6 @@ public class SelectItemChoice implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

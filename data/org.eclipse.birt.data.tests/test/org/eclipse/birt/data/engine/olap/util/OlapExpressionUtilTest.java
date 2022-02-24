@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,20 +14,20 @@
 
 package org.eclipse.birt.data.engine.olap.util;
 
-import static org.junit.Assert.assertEquals;
-
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- *
+ * 
  */
 
 public class OlapExpressionUtilTest {
 	/**
 	 * @throws DataException
-	 *
+	 * 
 	 */
 	@Test
 	public void testGetTargetLevel() throws DataException {

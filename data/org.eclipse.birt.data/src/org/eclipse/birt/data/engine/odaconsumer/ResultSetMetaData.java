@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -39,9 +39,8 @@ public class ResultSetMetaData extends ExceptionHandler {
 	ResultSetMetaData(IResultSetMetaData metadata, String driverName, String dataSetType) {
 		super(sm_className);
 		final String methodName = "ResultSetMetaData"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel()) {
+		if (getLogger().isLoggingEnterExitLevel())
 			getLogger().entering(sm_className, methodName, new Object[] { metadata, driverName, dataSetType });
-		}
 
 		m_metadata = metadata;
 		m_driverName = driverName;
@@ -52,18 +51,19 @@ public class ResultSetMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the number of columns in the corresponding result set.
-	 *
+	 * 
 	 * @return the number of columns in the result set.
 	 * @throws DataException if data source error occurs.
 	 */
 	public int getColumnCount() throws DataException {
 		final String methodName = "getColumnCount"; //$NON-NLS-1$
 		try {
-			if (m_metadata == null) {
+			if (m_metadata == null)
 				return 0;
-			}
 			return m_metadata.getColumnCount();
-		} catch (OdaException | UnsupportedOperationException ex) {
+		} catch (OdaException ex) {
+			throwException(ex, ResourceConstants.CANNOT_GET_COLUMN_COUNT, methodName);
+		} catch (UnsupportedOperationException ex) {
 			throwException(ex, ResourceConstants.CANNOT_GET_COLUMN_COUNT, methodName);
 		}
 		return 0;
@@ -71,7 +71,7 @@ public class ResultSetMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the column name at the specified column index.
-	 *
+	 * 
 	 * @param index the column index.
 	 * @return the column name at the specified column index.
 	 * @throws DataException if data source error occurs.
@@ -92,7 +92,7 @@ public class ResultSetMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the column label at the specified column index.
-	 *
+	 * 
 	 * @param index the column index.
 	 * @return the column label at the specified column index.
 	 * @throws DataException if data source error occurs.
@@ -113,7 +113,7 @@ public class ResultSetMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the ODA type at the specified column index.
-	 *
+	 * 
 	 * @param index the column index.
 	 * @return the ODA type, in <code>java.sql.Types</code> value, at the specified
 	 *         column index; or Types.NULL if runtime data type is unknown
@@ -130,17 +130,16 @@ public class ResultSetMetaData extends ExceptionHandler {
 		int odaType = (nativeType == Types.NULL) ? Types.NULL
 				: DataTypeUtil.toOdaType(nativeType, m_driverName, m_dataSetType);
 
-		if (getLogger().isLoggable(Level.FINEST)) {
+		if (getLogger().isLoggable(Level.FINEST))
 			getLogger().logp(Level.FINEST, sm_className, methodName, "Column at index {0} has ODA data type {1}.", //$NON-NLS-1$
 					new Object[] { Integer.valueOf(index), Integer.valueOf(odaType) });
-		}
 
 		return odaType;
 	}
 
 	/**
 	 * Returns the native type name at the specified column index.
-	 *
+	 * 
 	 * @param index the column index.
 	 * @return the native type name.
 	 * @throws DataException if data source error occurs.
@@ -165,7 +164,9 @@ public class ResultSetMetaData extends ExceptionHandler {
 		verifyHasRuntimeMetaData(methodName);
 		try {
 			return m_metadata.getColumnType(index);
-		} catch (OdaException | UnsupportedOperationException ex) {
+		} catch (OdaException ex) {
+			throwException(ex, ResourceConstants.CANNOT_GET_COLUMN_TYPE, index, methodName);
+		} catch (UnsupportedOperationException ex) {
 			throwException(ex, ResourceConstants.CANNOT_GET_COLUMN_TYPE, index, methodName);
 		}
 		return Types.NULL;
@@ -177,9 +178,8 @@ public class ResultSetMetaData extends ExceptionHandler {
 	}
 
 	private void verifyHasRuntimeMetaData(String methodName) throws DataException {
-		if (m_metadata == null) {
+		if (m_metadata == null)
 			throwError(ResourceConstants.CANNOT_GET_RESULTSET_METADATA, null, methodName);
-		}
 	}
 
 	String getOdaDataSourceId() {

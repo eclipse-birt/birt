@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -36,9 +36,9 @@ public class CutAction extends AbstractViewAction {
 
 	/**
 	 * Create a new cut action with given selection and default text
-	 *
+	 * 
 	 * @param selectedObject the selected object,which cannot be null
-	 *
+	 * 
 	 */
 	public CutAction(Object selectedObject) {
 		this(selectedObject, DEFAULT_TEXT);
@@ -46,7 +46,7 @@ public class CutAction extends AbstractViewAction {
 
 	/**
 	 * Create a new cut action with given selection and text
-	 *
+	 * 
 	 * @param selectedObject the selected object,which cannot be null
 	 * @param text           the text of the action
 	 */
@@ -60,10 +60,9 @@ public class CutAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
 		Object selection = getSelection();
 
@@ -79,10 +78,9 @@ public class CutAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	@Override
 	public void run() {
 
 		try {
@@ -97,11 +95,10 @@ public class CutAction extends AbstractViewAction {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction#
 			 * getTransactionLabel()
 			 */
-			@Override
 			protected String getTransactionLabel() {
 				if (objects instanceof IStructuredSelection) {
 					return Messages.getString("CutAction.trans"); //$NON-NLS-1$

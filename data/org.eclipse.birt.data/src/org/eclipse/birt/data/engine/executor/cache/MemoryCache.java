@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,16 +55,14 @@ public class MemoryCache implements ResultSetCache {
 		this.rsMeta = rsMeta;
 		this.countOfResult = resultObjects.length;
 
-		if (comparator != null) {
+		if (comparator != null)
 			Arrays.sort(this.resultObjects, comparator);
-		}
 	}
 
 	/*
 	 * @see
 	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCurrentIndex()
 	 */
-	@Override
 	public int getCurrentIndex() throws DataException {
 		return currResultIndex;
 	}
@@ -73,7 +71,6 @@ public class MemoryCache implements ResultSetCache {
 	 * @see
 	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCurrentResult()
 	 */
-	@Override
 	public IResultObject getCurrentResult() throws DataException {
 		return currResultObject;
 	}
@@ -81,21 +78,18 @@ public class MemoryCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#next()
 	 */
-	@Override
 	public boolean next() throws DataException {
-		if (countOfResult == 0) {
+		if (countOfResult == 0)
 			return false;
-		}
 
 		if (currResultIndex > countOfResult - 1) {
 			currResultObject = null;
 		} else {
 			currResultIndex++;
-			if (currResultIndex == countOfResult) {
+			if (currResultIndex == countOfResult)
 				currResultObject = null;
-			} else {
+			else
 				currResultObject = resultObjects[currResultIndex];
-			}
 		}
 
 		return currResultObject != null;
@@ -104,7 +98,6 @@ public class MemoryCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#fetch()
 	 */
-	@Override
 	public IResultObject fetch() throws DataException {
 		next();
 		IResultObject resultObject = getCurrentResult();
@@ -114,37 +107,33 @@ public class MemoryCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#moveTo(int)
 	 */
-	@Override
 	public void moveTo(int destIndex) throws DataException {
 		checkValid(destIndex);
 
 		currResultIndex = destIndex;
 
 		// currResultObject needs to be updated
-		if (currResultIndex == -1 || currResultIndex == countOfResult) {
+		if (currResultIndex == -1 || currResultIndex == countOfResult)
 			currResultObject = null;
-		} else {
+		else
 			currResultObject = resultObjects[currResultIndex];
-		}
 	}
 
 	/**
 	 * Validate the value of destIndex
-	 *
+	 * 
 	 * @param destIndex
 	 * @throws DataException
 	 */
 	private void checkValid(int destIndex) throws DataException {
-		if (destIndex < -1 || destIndex > countOfResult) {
+		if (destIndex < -1 || destIndex > countOfResult)
 			throw new DataException(ResourceConstants.DESTINDEX_OUTOF_RANGE,
 					new Object[] { Integer.valueOf(-1), Integer.valueOf(countOfResult) });
-		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCount()
 	 */
-	@Override
 	public int getCount() {
 		return countOfResult;
 	}
@@ -152,7 +141,6 @@ public class MemoryCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#reset()
 	 */
-	@Override
 	public void reset() {
 		currResultIndex = -1;
 		currResultObject = null;
@@ -161,7 +149,6 @@ public class MemoryCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#close()
 	 */
-	@Override
 	public void close() {
 		reset();
 		resultObjects = null;
@@ -172,7 +159,6 @@ public class MemoryCache implements ResultSetCache {
 	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.
 	 * io.OutputStream)
 	 */
-	@Override
 	public void doSave(DataOutputStream outputStream, DataOutputStream rowLensStream,
 			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap,
 			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators, boolean saveInnerId)
@@ -218,7 +204,6 @@ public class MemoryCache implements ResultSetCache {
 	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.
 	 * io.OutputStream)
 	 */
-	@Override
 	public void incrementalUpdate(OutputStream outputStream, OutputStream rowLensStream, int originalRowCount,
 			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
 			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators) throws DataException {
@@ -229,19 +214,16 @@ public class MemoryCache implements ResultSetCache {
 			int colCount = this.rsMeta.getFieldCount();
 
 			IOUtil.writeInt(outputStream, rowCount);
-			if (outputStream instanceof RAOutputStream) {
+			if (outputStream instanceof RAOutputStream)
 				((RAOutputStream) outputStream).seek(((RAOutputStream) outputStream).length());
-			}
-			if (rowLensStream instanceof RAOutputStream) {
+			if (rowLensStream instanceof RAOutputStream)
 				((RAOutputStream) rowLensStream).seek(((RAOutputStream) rowLensStream).length());
-			}
 			DataOutputStream dos = new DataOutputStream(outputStream);
 			DataOutputStream rlos = new DataOutputStream(rowLensStream);
 
 			long offset = 4;
-			if (outputStream instanceof RAOutputStream) {
+			if (outputStream instanceof RAOutputStream)
 				offset = ((RAOutputStream) outputStream).length();
-			}
 			for (int i = 0; i < rowCount - originalRowCount; i++) {
 				IOUtil.writeLong(rlos, offset);
 				offset += ResultSetUtil.writeResultObject(dos, resultObjects[i], colCount, resultSetNameSet,
@@ -258,11 +240,10 @@ public class MemoryCache implements ResultSetCache {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param rsMeta
 	 * @throws DataException
 	 */
-	@Override
 	public void setResultClass(IResultClass rsMeta) throws DataException {
 		this.rsMeta = rsMeta;
 	}

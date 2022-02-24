@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004-2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.report.data.oda.sampledb;
@@ -20,28 +20,26 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.data.oda.jdbc.Connection;
-import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.birt.report.data.oda.jdbc.Connection;
+import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 
 /**
  * Implements the BIRT ODA connection factory interface.
- *
+ * 
  * @deprecated This class remains solely for backward compatibility. In BIRT
  *             2.0M3 and beyond, all SampleDB data sources are created as proper
  *             JDBC data sources. SampleDB data sources created using prior
  *             builds will continue to use this class to obtain runtime
  *             connectivity.
  */
-@Deprecated
 public class SampleDBDriver extends OdaJdbcDriver {
 	private static Logger logger = Logger.getLogger(SampleDBDriver.class.getName());
 
 	/**
 	 * @see org.eclipse.birt.data.oda.IDriver#getConnection(java.lang.String)
 	 */
-	@Override
 	public IConnection getConnection(String connectionClassName) throws OdaException {
 		return new SampleDBConnection();
 	}
@@ -56,7 +54,6 @@ public class SampleDBDriver extends OdaJdbcDriver {
 		/**
 		 * @see org.eclipse.birt.data.oda.IConnection#open(java.util.Propertikes)
 		 */
-		@Override
 		public void open(Properties connProperties) throws OdaException {
 			logger.entering(SampleDBConnection.class.getName(), "open");
 

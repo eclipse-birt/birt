@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,13 +21,13 @@ import com.ibm.icu.util.ULocale;
 /**
  * Test for ResourceHandle. The message files are named like
  * "Messages.properties", "Messages_xx.properties".
- *
+ * 
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testGetMessage()}</td>
  * <td>Given the key, get a localized message from the corresponding resource
@@ -35,7 +35,7 @@ import com.ibm.icu.util.ULocale;
  * <td>The name returned should be the same as defined in the corresponding
  * message files.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetMessage()}</td>
  * <td>Get a message that has placeholders.</td>
@@ -43,14 +43,13 @@ import com.ibm.icu.util.ULocale;
  * parameters.</td>
  * </tr>
  * </table>
- *
+ * 
  */
 public class ResourceHandleTest extends BaseTestCase {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- *
+ * 
  */
 
 public class ComplexUnit extends Canvas {
@@ -73,15 +73,12 @@ public class ComplexUnit extends Canvas {
 		this.setLayout(layout);
 
 		int textStyle = SWT.SINGLE;
-		if ((style & SWT.READ_ONLY) != 0) {
+		if ((style & SWT.READ_ONLY) != 0)
 			textStyle |= SWT.READ_ONLY;
-		}
-		if ((style & SWT.FLAT) != 0) {
+		if ((style & SWT.FLAT) != 0)
 			textStyle |= SWT.FLAT;
-		}
-		if ((style & SWT.BORDER) != 0) {
+		if ((style & SWT.BORDER) != 0)
 			textStyle |= SWT.BORDER;
-		}
 		text = new Text(this, textStyle);
 		combo = new CCombo(this, textStyle | SWT.READ_ONLY);
 		combo.setVisibleItemCount(30);
@@ -94,14 +91,12 @@ public class ComplexUnit extends Canvas {
 
 		text.addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.KEYPAD_CR || e.keyCode == SWT.TRAVERSE_RETURN) {
 					fireValueChanged();
 				}
 			}
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.ARROW_UP) {
 					up();
@@ -117,7 +112,6 @@ public class ComplexUnit extends Canvas {
 
 		text.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				dirty = true;
 				fireTextModified(e);
@@ -127,7 +121,6 @@ public class ComplexUnit extends Canvas {
 
 		combo.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				dirty = true;
 			}
@@ -136,7 +129,6 @@ public class ComplexUnit extends Canvas {
 
 		combo.addKeyListener(new KeyAdapter() {
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.KEYPAD_CR || e.keyCode == SWT.TRAVERSE_RETURN) {
 					fireValueChanged();
@@ -146,7 +138,6 @@ public class ComplexUnit extends Canvas {
 
 		text.addTraverseListener(new TraverseListener() {
 
-			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_RETURN) {
 					fireValueChanged();
@@ -162,7 +153,6 @@ public class ComplexUnit extends Canvas {
 
 		combo.addTraverseListener(new TraverseListener() {
 
-			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_RETURN) {
 					fireValueChanged();
@@ -177,12 +167,10 @@ public class ComplexUnit extends Canvas {
 
 		FocusListener focusListner = new FocusListener() {
 
-			@Override
 			public void focusGained(FocusEvent e) {
 				handleFocus(SWT.FocusIn);
 			}
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				handleFocus(SWT.FocusOut);
 
@@ -199,11 +187,9 @@ public class ComplexUnit extends Canvas {
 
 		filter = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
-				if (isDisposed()) {
+				if (isDisposed())
 					return;
-				}
 				Shell shell = ((Control) event.widget).getShell();
 				if (shell == ComplexUnit.this.getShell()) {
 					handleFocus(SWT.FocusOut);
@@ -213,7 +199,6 @@ public class ComplexUnit extends Canvas {
 
 		addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				Display display = getDisplay();
 				display.removeFilter(SWT.FocusIn, filter);
@@ -226,7 +211,7 @@ public class ComplexUnit extends Canvas {
 
 	/**
 	 * Adds a IValueChangedListener instance.
-	 *
+	 * 
 	 * @param listener the IValueChangedListener instance.
 	 */
 	public void addValueChangeListener(IDimensionValueChangedListener listener) {
@@ -235,7 +220,7 @@ public class ComplexUnit extends Canvas {
 
 	/**
 	 * Removes a given IValueChangedListener instance.
-	 *
+	 * 
 	 * @param listener the IValueChangedListener instance.
 	 */
 	public void removeValueChangedListener(IDimensionValueChangedListener listener) {
@@ -253,7 +238,7 @@ public class ComplexUnit extends Canvas {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected void fireValueChanged() {
 //		if ( !verify( text.getText( ) ) )
@@ -289,7 +274,7 @@ public class ComplexUnit extends Canvas {
 
 	/**
 	 * Returns the current spinner value.
-	 *
+	 * 
 	 * @return The current spinner value.
 	 */
 	public double getValue() {
@@ -315,7 +300,7 @@ public class ComplexUnit extends Canvas {
 
 	/**
 	 * Gets the step value.
-	 *
+	 * 
 	 * @return Returns the step.
 	 */
 	public double getStep() {
@@ -324,7 +309,7 @@ public class ComplexUnit extends Canvas {
 
 	/**
 	 * Sets the step value
-	 *
+	 * 
 	 * @param step The step to set.
 	 */
 	public void setStep(double step) {
@@ -332,33 +317,29 @@ public class ComplexUnit extends Canvas {
 	}
 
 	public String getUnit() {
-		if (!combo.isDisposed()) {
+		if (!combo.isDisposed())
 			return combo.getText().trim().length() == 0 ? null : combo.getText();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	public String[] getUnits() {
-		if (!combo.isDisposed()) {
+		if (!combo.isDisposed())
 			return combo.getItems();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	public int getUnitSelectionIndex() {
-		if (!combo.isDisposed()) {
+		if (!combo.isDisposed())
 			return combo.getSelectionIndex();
-		} else {
+		else
 			return -1;
-		}
 	}
 
 	public void selectUnit(int index) {
-		if (!combo.isDisposed()) {
+		if (!combo.isDisposed())
 			combo.select(index);
-		}
 	}
 
 	public void setUnit(String unit) {
@@ -377,7 +358,7 @@ public class ComplexUnit extends Canvas {
 
 	/**
 	 * Sets the initial spinner value.
-	 *
+	 * 
 	 * @param selection The spinner value to set.
 	 */
 	public void setValue(double selection) {
@@ -397,9 +378,8 @@ public class ComplexUnit extends Canvas {
 
 	private boolean verify(String value) {
 		try {
-			if (value.trim().length() == 0) {
+			if (value.trim().length() == 0)
 				return true;
-			}
 			validValue = parse(value);
 			if (validValue < minimum) {
 				validValue = minimum;
@@ -427,9 +407,8 @@ public class ComplexUnit extends Canvas {
 	void handleFocus(int type) {
 		switch (type) {
 		case SWT.FocusIn: {
-			if (hasFocus) {
+			if (hasFocus)
 				return;
-			}
 			dirty = false;
 			hasFocus = true;
 
@@ -440,25 +419,22 @@ public class ComplexUnit extends Canvas {
 			break;
 		}
 		case SWT.FocusOut: {
-			if (!hasFocus) {
+			if (!hasFocus)
 				return;
-			}
 			Control focusControl = getDisplay().getFocusControl();
-			if (focusControl == text || focusControl == combo) {
+			if (focusControl == text || focusControl == combo)
 				return;
-			} else if (focusControl != null) {
+			else if (focusControl != null) {
 				Control parent = focusControl.getParent();
 				while (parent != null) {
-					if (parent == this) {
+					if (parent == this)
 						return;
-					}
 					parent = parent.getParent();
 				}
 			}
 			hasFocus = false;
-			if (dirty) {
+			if (dirty)
 				fireValueChanged();
-			}
 
 			Display display = getDisplay();
 			display.removeFilter(SWT.FocusIn, filter);
@@ -503,9 +479,8 @@ public class ComplexUnit extends Canvas {
 	}
 
 	public void setValue(String value) {
-		if (verify(value)) {
+		if (verify(value))
 			text.setText(value);
-		}
 
 	}
 

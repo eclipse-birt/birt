@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +57,7 @@ import com.ibm.icu.util.TimeZone;
 /**
  * Used to output metadata, including group collpase/expand icon, column filter
  * icon, element select handle container and instance id, element type id,etc.
- *
+ * 
  */
 public class MetadataEmitter {
 	/**
@@ -90,7 +90,7 @@ public class MetadataEmitter {
 	protected String attrType, attrRowType, attrElementType, attrIID;
 
 	/**
-	 *
+	 * 
 	 * @param writer
 	 * @param htmlOption
 	 * @param idGenerator
@@ -120,7 +120,7 @@ public class MetadataEmitter {
 
 	/**
 	 * Initialize the attribute name for metadata.
-	 *
+	 * 
 	 * @param prefix : the prefix of the attribute name.
 	 */
 	public void initializeAttrName(String prefix) {
@@ -141,7 +141,7 @@ public class MetadataEmitter {
 	 * Starts a table. To ensure column filter is output in the first detail row, a
 	 * state is used to record if first detail row is reached and if column filter
 	 * icon is ouput.
-	 *
+	 * 
 	 * @param table
 	 */
 	public void startTable(ITableContent table) {
@@ -158,7 +158,7 @@ public class MetadataEmitter {
 
 	/**
 	 * Ends a table. Pop the detail row state for this table.
-	 *
+	 * 
 	 * @param table
 	 */
 	public void endTable(ITableContent table) {
@@ -169,7 +169,7 @@ public class MetadataEmitter {
 	 * Starts a row. If the row is the first row of the table, the
 	 * <code>isStartOfDetail</code> is set so that column filter icon will be input
 	 * into the cells in this row.
-	 *
+	 * 
 	 * @param row
 	 */
 	public void startRow(IRowContent row) {
@@ -201,7 +201,7 @@ public class MetadataEmitter {
 	/**
 	 * Starts a cell. Output a wrap table if group icon or column filter need to be
 	 * output in this cell. Output group icon before the items in this cell.
-	 *
+	 * 
 	 * @param cell
 	 */
 	public void startCell(ICellContent cell) {
@@ -246,7 +246,7 @@ public class MetadataEmitter {
 	/**
 	 * Ends a cell. Complete the wrap table for group icon and column filter icon
 	 * and output the column filter icon.
-	 *
+	 * 
 	 * @param cell
 	 */
 	public void endCell(ICellContent cell) {
@@ -287,7 +287,7 @@ public class MetadataEmitter {
 				} else {
 					htmlBookmark = bookmark;
 				}
-				StringBuilder buffer = new StringBuilder();
+				StringBuffer buffer = new StringBuffer();
 				buffer.append(htmlBookmark);
 				buffer.append(",");
 				buffer.append(elementType);
@@ -300,7 +300,7 @@ public class MetadataEmitter {
 
 	/**
 	 * Output metadata properties.
-	 *
+	 * 
 	 * @param map
 	 * @param element
 	 * @param tagName
@@ -394,12 +394,14 @@ public class MetadataEmitter {
 							writer.attributeAllowEmpty(HTMLTags.ATTR_RAW_DATA, rawData);
 						}
 					}
-				} else if (valueObj != null) {
-					if (keyStr.length() > 0) {
-						if (attrNamePrefix != null) {
-							writer.attribute(attrNamePrefix + keyStr, valueObj.toString());
-						} else {
-							writer.attribute(keyStr, valueObj.toString());
+				} else {
+					if (valueObj != null) {
+						if (keyStr.length() > 0) {
+							if (attrNamePrefix != null) {
+								writer.attribute(attrNamePrefix + keyStr, valueObj.toString());
+							} else {
+								writer.attribute(keyStr, valueObj.toString());
+							}
 						}
 					}
 				}
@@ -415,7 +417,7 @@ public class MetadataEmitter {
 
 	/**
 	 * Checks if a row is in detail band.
-	 *
+	 * 
 	 * @param row
 	 * @return
 	 */
@@ -464,7 +466,7 @@ public class MetadataEmitter {
 	 * <li>The cell has child(any items). And
 	 * <li>The column containing the cell has column filters.
 	 * </ol>
-	 *
+	 * 
 	 * @param cell
 	 * @return
 	 */
@@ -482,7 +484,7 @@ public class MetadataEmitter {
 
 	/**
 	 * Checks if group icon needs to be displayed in this cell.
-	 *
+	 * 
 	 * @param cell
 	 * @return
 	 */
@@ -493,7 +495,7 @@ public class MetadataEmitter {
 
 	/**
 	 * judge the table content is a top-level template table or not.
-	 *
+	 * 
 	 * @param table table content
 	 */
 	private boolean isTopLevelTemplateTable(IContent table) {
@@ -527,7 +529,7 @@ public class MetadataEmitter {
 
 	/**
 	 * wrap the top-level template table
-	 *
+	 * 
 	 * @param table table content
 	 */
 	public void startWrapTable(IContent table) {
@@ -537,7 +539,7 @@ public class MetadataEmitter {
 			writer.openTag(HTMLTags.TAG_TABLE);
 			DimensionType width = table.getWidth();
 			if (width != null) {
-				StringBuilder styleBuffer = new StringBuilder();
+				StringBuffer styleBuffer = new StringBuffer();
 				styleBuffer.append(" border: medium none ; border-collapse: collapse; width: ");
 				styleBuffer.append(width.toString());
 				styleBuffer.append(";");
@@ -560,7 +562,7 @@ public class MetadataEmitter {
 
 	/**
 	 * wrap the top-level template table
-	 *
+	 * 
 	 * @param table table content
 	 */
 	public void endWrapTable(IContent table) {
@@ -576,13 +578,13 @@ public class MetadataEmitter {
 	/**
 	 * Generates description text for the filters of a column which contains the
 	 * specified cell.
-	 *
+	 * 
 	 * @param cell the cell.
 	 * @return the description text.
 	 */
 	private String getColumnFilterText(ICellContent cell) {
 		List filterConditions = getFilterConditions(cell);
-		StringBuilder conditionString = new StringBuilder();
+		StringBuffer conditionString = new StringBuffer();
 		for (int i = 0; i < filterConditions.size(); i++) {
 			if (i != 0) {
 				conditionString.append(';');
@@ -597,7 +599,7 @@ public class MetadataEmitter {
 
 	/**
 	 * Gets filter conditions of the column which contains the specified cell.
-	 *
+	 * 
 	 * @param cell the cell.
 	 * @return the column filter conditions. Empty list is returned when the column
 	 *         has no filter conditions.

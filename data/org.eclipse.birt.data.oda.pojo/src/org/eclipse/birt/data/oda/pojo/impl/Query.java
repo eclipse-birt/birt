@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,7 @@ public class Query implements IQuery {
 
 	private Connection connection;
 
-	private Map<String, Object> passedInParams = new HashMap<>();
+	private Map<String, Object> passedInParams = new HashMap<String, Object>();
 
 	@SuppressWarnings("unchecked")
 	Map appContext;
@@ -72,7 +72,6 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#prepare(java.lang.String)
 	 */
-	@Override
 	public void prepare(String queryText) throws OdaException {
 		testClosed();
 		if (queryText == null) {
@@ -86,7 +85,6 @@ public class Query implements IQuery {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setAppContext(java.lang.Object)
 	 */
-	@Override
 	@SuppressWarnings("unchecked")
 	public void setAppContext(Object context) throws OdaException {
 		testClosed();
@@ -100,7 +98,6 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#close()
 	 */
-	@Override
 	public void close() throws OdaException {
 		isClosed = true;
 	}
@@ -108,7 +105,6 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getMetaData()
 	 */
-	@Override
 	public IResultSetMetaData getMetaData() throws OdaException {
 		testClosed();
 		return new ResultSetMetaData(pojoQuery.getReferenceGraph());
@@ -117,7 +113,6 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#executeQuery()
 	 */
-	@Override
 	public IResultSet executeQuery() throws OdaException {
 		testClosed();
 		URLClassLoader pojoClassLoader = getPojoDataSetClassLoader();
@@ -144,7 +139,9 @@ public class Query implements IQuery {
 				} else {
 					pojoDataSet = new PojoDataSetFromCustomClass(pojoDataSetClass);
 				}
-			} catch (InstantiationException | IllegalAccessException e) {
+			} catch (InstantiationException e) {
+				throw new OdaException(e);
+			} catch (IllegalAccessException e) {
 				throw new OdaException(e);
 			}
 
@@ -196,7 +193,6 @@ public class Query implements IQuery {
 					};
 				} else if (pojoInstances instanceof Object[]) {
 					return new PojoDataSetFromArray() {
-						@Override
 						protected Object[] fetchPojos() throws OdaException {
 							return (Object[]) pojoInstances;
 						}
@@ -212,10 +208,9 @@ public class Query implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#cancel()
 	 */
-	@Override
 	public void cancel() throws OdaException, UnsupportedOperationException {
 		throw new UnsupportedOperationException();
 	}
@@ -225,14 +220,12 @@ public class Query implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setProperty(java.lang.String,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setProperty(String name, String value) throws OdaException {
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setMaxRows(int)
 	 */
-	@Override
 	public void setMaxRows(int max) throws OdaException {
 		testClosed();
 		maxRows = max > 0 ? max : 0;
@@ -241,7 +234,6 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getMaxRows()
 	 */
-	@Override
 	public int getMaxRows() throws OdaException {
 		testClosed();
 		return maxRows;
@@ -250,7 +242,6 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#clearInParameters()
 	 */
-	@Override
 	public void clearInParameters() throws OdaException {
 		passedInParams.clear();
 	}
@@ -259,7 +250,6 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(java.lang.String,
 	 * int)
 	 */
-	@Override
 	public void setInt(String parameterName, int value) throws OdaException {
 		passedInParams.put(parameterName, value);
 	}
@@ -267,7 +257,6 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(int, int)
 	 */
-	@Override
 	public void setInt(int parameterId, int value) throws OdaException {
 		setParamValueByIndex(parameterId, value);
 	}
@@ -277,7 +266,6 @@ public class Query implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setDouble(java.lang.String,
 	 * double)
 	 */
-	@Override
 	public void setDouble(String parameterName, double value) throws OdaException {
 		passedInParams.put(parameterName, value);
 	}
@@ -285,7 +273,6 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDouble(int, double)
 	 */
-	@Override
 	public void setDouble(int parameterId, double value) throws OdaException {
 		setParamValueByIndex(parameterId, value);
 	}
@@ -295,7 +282,6 @@ public class Query implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(java.lang.String,
 	 * java.math.BigDecimal)
 	 */
-	@Override
 	public void setBigDecimal(String parameterName, BigDecimal value) throws OdaException {
 		passedInParams.put(parameterName, value);
 	}
@@ -304,7 +290,6 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(int,
 	 * java.math.BigDecimal)
 	 */
-	@Override
 	public void setBigDecimal(int parameterId, BigDecimal value) throws OdaException {
 		setParamValueByIndex(parameterId, value);
 	}
@@ -314,7 +299,6 @@ public class Query implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setString(java.lang.String,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setString(String parameterName, String value) throws OdaException {
 		passedInParams.put(parameterName, value);
 	}
@@ -323,7 +307,6 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setString(int,
 	 * java.lang.String)
 	 */
-	@Override
 	public void setString(int parameterId, String value) throws OdaException {
 		setParamValueByIndex(parameterId, value);
 	}
@@ -332,7 +315,6 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDate(java.lang.String,
 	 * java.sql.Date)
 	 */
-	@Override
 	public void setDate(String parameterName, Date value) throws OdaException {
 		passedInParams.put(parameterName, value);
 	}
@@ -341,7 +323,6 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDate(int,
 	 * java.sql.Date)
 	 */
-	@Override
 	public void setDate(int parameterId, Date value) throws OdaException {
 		setParamValueByIndex(parameterId, value);
 	}
@@ -350,7 +331,6 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTime(java.lang.String,
 	 * java.sql.Time)
 	 */
-	@Override
 	public void setTime(String parameterName, Time value) throws OdaException {
 		passedInParams.put(parameterName, value);
 	}
@@ -359,7 +339,6 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTime(int,
 	 * java.sql.Time)
 	 */
-	@Override
 	public void setTime(int parameterId, Time value) throws OdaException {
 		setParamValueByIndex(parameterId, value);
 	}
@@ -369,7 +348,6 @@ public class Query implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(java.lang.String,
 	 * java.sql.Timestamp)
 	 */
-	@Override
 	public void setTimestamp(String parameterName, Timestamp value) throws OdaException {
 		passedInParams.put(parameterName, value);
 	}
@@ -378,72 +356,65 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(int,
 	 * java.sql.Timestamp)
 	 */
-	@Override
 	public void setTimestamp(int parameterId, Timestamp value) throws OdaException {
 		setParamValueByIndex(parameterId, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String,
 	 * boolean)
 	 */
-	@Override
 	public void setBoolean(String parameterName, boolean value) throws OdaException {
 		passedInParams.put(parameterName, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
 	 */
-	@Override
 	public void setBoolean(int parameterId, boolean value) throws OdaException {
 		setParamValueByIndex(parameterId, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setObject(java.lang.String,
 	 * java.lang.Object)
 	 */
-	@Override
 	public void setObject(String parameterName, Object value) throws OdaException {
 		passedInParams.put(parameterName, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(int,
 	 * java.lang.Object)
 	 */
-	@Override
 	public void setObject(int parameterId, Object value) throws OdaException {
 		setParamValueByIndex(parameterId, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
 	 */
-	@Override
 	public void setNull(String parameterName) throws OdaException {
 		passedInParams.put(parameterName, null);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
 	 */
-	@Override
 	public void setNull(int parameterId) throws OdaException {
 		setParamValueByIndex(parameterId, null);
 	}
@@ -459,7 +430,6 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#findInParameter(java.lang.
 	 * String)
 	 */
-	@Override
 	public int findInParameter(String parameterName) throws OdaException {
 		return pojoQuery.getQueryParameters().findInParameter(parameterName);
 	}
@@ -467,7 +437,6 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getParameterMetaData()
 	 */
-	@Override
 	public IParameterMetaData getParameterMetaData() throws OdaException {
 		return pojoQuery.getQueryParameters().getParameterMetaData();
 	}
@@ -476,7 +445,6 @@ public class Query implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setSortSpec(org.eclipse.
 	 * datatools.connectivity.oda.SortSpec)
 	 */
-	@Override
 	public void setSortSpec(SortSpec sortBy) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -484,19 +452,17 @@ public class Query implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getSortSpec()
 	 */
-	@Override
 	public SortSpec getSortSpec() throws OdaException {
 		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setSpecification(org.eclipse.
 	 * datatools.connectivity.oda.spec.QuerySpecification)
 	 */
-	@Override
 	@SuppressWarnings("restriction")
 	public void setSpecification(QuerySpecification querySpec) throws OdaException, UnsupportedOperationException {
 		// TODO Auto-generated method stub
@@ -505,10 +471,9 @@ public class Query implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getSpecification()
 	 */
-	@Override
 	@SuppressWarnings("restriction")
 	public QuerySpecification getSpecification() {
 		// TODO Auto-generated method stub
@@ -517,10 +482,9 @@ public class Query implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getEffectiveQueryText()
 	 */
-	@Override
 	public String getEffectiveQueryText() {
 		throw new UnsupportedOperationException();
 	}
@@ -532,7 +496,7 @@ public class Query implements IQuery {
 	/**
 	 * If the result set is closed then throw an OdaException. This method is
 	 * invoked before an method defined in IResultSet is called.
-	 *
+	 * 
 	 * @throws OdaException
 	 */
 	private void testClosed() throws OdaException {

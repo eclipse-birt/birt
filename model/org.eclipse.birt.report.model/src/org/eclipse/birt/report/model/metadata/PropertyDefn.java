@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -106,7 +106,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * The trim option value.
-	 *
+	 * 
 	 */
 	protected int trimOption = XMLPropertyType.NO_VALUE;
 
@@ -123,29 +123,29 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	/**
 	 * Optional detailed information for the property type. The type of this object
 	 * depends on the property type:
-	 *
+	 * 
 	 * <p>
 	 * <dl>
 	 * <dt><strong>Choice set </strong></dt>
 	 * <dd>details holds an object of type <code>ChoiceSet</code> that holds the
 	 * list of available choices.</dd>
-	 *
+	 * 
 	 * <dt><strong>Extended Choice set </strong></dt>
 	 * <dd>details holds an object of type <code>ChoiceSet</code> that holds the
 	 * list of available extended choices.</dd>
-	 *
+	 * 
 	 * <dt><strong>User Defined Choice set </strong></dt>
 	 * <dd>details holds an object of type <code>ChoiceSet</code> that holds the
 	 * list of user defined choices.</dd>
-	 *
+	 * 
 	 * <dt><strong>Element Reference </strong></dt>
 	 * <dd>details holds an object of type <code>ElementDefn</code> that identifies
 	 * the type of element that is referenced.</dd>
-	 *
+	 * 
 	 * <dt><strong>Structure definition </strong></dt>
 	 * <dd>details holds an object of type <code>StructureDefn</code> that defines
 	 * the structures in the list.</dd>
-	 *
+	 * 
 	 * <dt><strong>Argument List </strong></dt>
 	 * <dd>details holds a list of argument <code>ArgumentDefn</code>.</dd>
 	 * </dl>
@@ -182,7 +182,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	/**
 	 * Indicates if this whether this property is a list. This property is useful
 	 * only when the property type is a structure type.
-	 *
+	 * 
 	 */
 
 	protected boolean isList = false;
@@ -243,7 +243,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	protected boolean allowExpression;
 
 	static {
-		supportedSubTypes = new ArrayList<>();
+		supportedSubTypes = new ArrayList<IPropertyType>();
 		Iterator<IPropertyType> iter = MetaDataDictionary.getInstance().getPropertyTypes().iterator();
 		while (iter.hasNext()) {
 			IPropertyType propType = iter.next();
@@ -280,7 +280,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	/**
 	 * Sets the owner definition of the property. It may be <code>ElementDefn</code>
 	 * or <code>StructureDefn</code>.
-	 *
+	 * 
 	 * @param owner the owner definition to set
 	 */
 
@@ -291,7 +291,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	/**
 	 * Gets the owner that defines this property. It may be <code>ElementDefn</code>
 	 * or <code>StructureDefn</code>.
-	 *
+	 * 
 	 * @return the owner definition
 	 */
 
@@ -309,17 +309,16 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * <li>STRUCT_PROPERTY</li>
 	 * <li>EXTENSION_PROPERTY</li>
 	 * </ul>
-	 *
+	 * 
 	 * @return the type of this definition
 	 */
 
-	@Override
 	public abstract int getValueType();
 
 	/**
 	 * Builds the semantic information for this property. Called once while loading
 	 * the meta-data. The build must succeed, or a programming error has occurred.
-	 *
+	 * 
 	 * @throws MetaDataException if the property definition is inconsistent.
 	 */
 
@@ -333,7 +332,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Builds the trigger definition set. This method cached all validators defined
 	 * in property definition and slot definition. The cached validators are used to
 	 * perform full validation of one element instance.
-	 *
+	 * 
 	 * @throws MetaDataException if the validator is not found.
 	 */
 
@@ -347,16 +346,15 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Validates the property definition and adds validator for the property
 	 * definition. Called once while loading the meta-data. The build must succeed,
 	 * or a programming error has occurred.
-	 *
+	 * 
 	 * @throws MetaDataException if the property definition is inconsistent.
 	 */
 
 	final protected void buildDefn() throws MetaDataException {
 		// Ensure we can find the property type.
 
-		if (getType() == null) {
+		if (getType() == null)
 			throw new MetaDataException(new String[] { name }, MetaDataException.DESIGN_EXCEPTION_PROP_TYPE_ERROR);
-		}
 
 		displayNameID = StringUtil.trimString(displayNameID);
 
@@ -372,20 +370,18 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 			// is a choice property, and is not allowed otherwise.
 
 			IChoiceSet choiceSet = getChoices();
-			if (choiceSet == null || choiceSet.getChoices() == null) {
+			if (choiceSet == null || choiceSet.getChoices() == null)
 				throw new MetaDataException(new String[] { name },
 						MetaDataException.DESIGN_EXCEPTION_MISSING_PROP_CHOICES);
-			}
 			break;
 
 		case IPropertyType.STRUCT_TYPE:
 
 			// A structure definition must be provided.
 
-			if (details == null) {
+			if (details == null)
 				throw new MetaDataException(new String[] { name, definedBy().getName() },
 						MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_DEFN);
-			}
 
 			// Look up a string name reference.
 
@@ -417,10 +413,9 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 			// A structure definition must be provided.
 
-			if (details == null) {
+			if (details == null)
 				throw new MetaDataException(new String[] { name },
 						MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_DEFN);
-			}
 
 			// Look up a string name reference.
 
@@ -443,10 +438,9 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 					}
 				}
 			}
-			if (!isFound) {
+			if (!isFound)
 				throw new MetaDataException(new String[] { name },
 						MetaDataException.DESIGN_EXCEPTION_UNREFERENCABLE_STRUCT_DEFN);
-			}
 
 			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(StructureReferenceValidator.NAME);
 			triggerDefn.setPropertyName(getName());
@@ -459,20 +453,19 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 			// list property must provide the subtype
 
-			if (subType == null) {
+			if (subType == null)
 				throw new MetaDataException(new String[] { name }, MetaDataException.DESIGN_EXCEPTION_MISSING_SUB_TYPE);
-			}
 
 			// check the subtype, not all simple types are supported;
 			// furthermore, a structure member not support element-ref
 			// subtype, just simple types, such as int, float and...
-			if (this instanceof StructPropertyDefn && subType.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
+			if (this instanceof StructPropertyDefn && subType.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE)
 				throw new MetaDataException(new String[] { name, subType.getName() },
 						MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE);
-			} else if (!supportedSubTypes.contains(subType)) {
+
+			else if (!supportedSubTypes.contains(subType))
 				throw new MetaDataException(new String[] { name, subType.getName() },
 						MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE);
-			}
 
 			// add the simple list validator
 
@@ -484,31 +477,27 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 			// sub-type is element, then do some checks for it
 
-			if (subType.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
+			if (subType.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE)
 				buildElementType();
-			}
 
 			break;
 		case IPropertyType.ELEMENT_TYPE:
 		case IPropertyType.CONTENT_ELEMENT_TYPE:
 			// must define detail types
-			if (!(details instanceof List)) {
+			if (!(details instanceof List))
 				throw new MetaDataException(new String[] { name, type.getName() },
 						MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE);
-			}
 			List<String> elementNames = (List<String>) details;
-			if (elementNames.isEmpty()) {
+			if (elementNames.isEmpty())
 				throw new MetaDataException(new String[] { name, type.getName() },
 						MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE);
-			}
-			List<ElementDefn> elementTypes = new ArrayList<>();
+			List<ElementDefn> elementTypes = new ArrayList<ElementDefn>();
 			for (int i = 0; i < elementNames.size(); i++) {
 				String elementName = elementNames.get(i);
 				ElementDefn type = (ElementDefn) dd.getElement(elementName);
-				if (type == null) {
+				if (type == null)
 					throw new MetaDataException(new String[] { elementName, name },
 							MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE);
-				}
 				elementTypes.add(type);
 			}
 			details = elementTypes;
@@ -530,7 +519,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 		}
 
 		if (tmpTypeCode != IPropertyType.STRUCT_TYPE && tmpTypeCode != IPropertyType.ELEMENT_TYPE
-				&& tmpTypeCode != IPropertyType.CONTENT_ELEMENT_TYPE && isList) {
+				&& tmpTypeCode != IPropertyType.CONTENT_ELEMENT_TYPE && isList == true) {
 			// only support list of structures.
 
 			throw new MetaDataException(new String[] { getType().getName() },
@@ -553,10 +542,9 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 		if (valueValidator != null) {
 			MetaDataDictionary dict = MetaDataDictionary.getInstance();
-			if (dict.getValueValidator(valueValidator) == null) {
+			if (dict.getValueValidator(valueValidator) == null)
 				throw new MetaDataException(new String[] { valueValidator, name },
 						MetaDataException.DESIGN_EXCEPTION_VALIDATOR_NOT_FOUND);
-			}
 		}
 
 		// default unit check
@@ -584,7 +572,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Build trim option according to the type code. If the trim option value of the
 	 * property is not defined in rom, the default value will be set according to
 	 * the property type.
-	 *
+	 * 
 	 * @param typeCode the type code.
 	 */
 	protected void buildTrimOption(int typeCode) {
@@ -606,15 +594,14 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Builds the semantic checks for the element reference type.
-	 *
+	 * 
 	 * @throws MetaDataException
 	 */
 
 	private void buildElementType() throws MetaDataException {
-		if (details == null) {
+		if (details == null)
 			throw new MetaDataException(new String[] { name, type.getName() },
 					MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE);
-		}
 
 		// Look up a string name reference.
 
@@ -622,23 +609,20 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 			MetaDataDictionary dd = MetaDataDictionary.getInstance();
 			ElementDefn elementDefn = (ElementDefn) dd.getElement(StringUtil.trimString((String) details));
 			// the detail can not be 'extended-item'
-			if (elementDefn == null || ReportDesignConstants.EXTENDED_ITEM.equalsIgnoreCase((String) details)) {
+			if (elementDefn == null || ReportDesignConstants.EXTENDED_ITEM.equalsIgnoreCase((String) details))
 				throw new MetaDataException(new String[] { (String) details, name },
 						MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE);
-			}
-			if (elementDefn.getNameSpaceID() == MetaDataConstants.NO_NAME_SPACE) {
+			if (elementDefn.getNameSpaceID() == MetaDataConstants.NO_NAME_SPACE)
 				throw new MetaDataException(new String[] { (String) details, name },
 						MetaDataException.DESIGN_EXCEPTION_UNNAMED_ELEMENT_TYPE);
-			}
 			details = elementDefn;
 		}
 
 		// Otherwise, an element definition must be provided.
 
-		else if (getTargetElementType() == null) {
+		else if (getTargetElementType() == null)
 			throw new MetaDataException(new String[] { name, type.getName() },
 					MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE);
-		}
 
 		if (!name.equalsIgnoreCase(IStyledElementModel.STYLE_PROP)) {
 			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(ElementReferenceValidator.NAME);
@@ -651,7 +635,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	/**
 	 * Determines whether this is a system-defined property. Must be overridden by
 	 * derived classes.
-	 *
+	 * 
 	 * @return true if a system-defined property, otherwise false
 	 */
 
@@ -661,7 +645,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Determines whether this is a user-defined property.
-	 *
+	 * 
 	 * @return True if a user-defined property
 	 */
 
@@ -672,7 +656,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	/**
 	 * Determines whether this is a structure member. The subclass will override
 	 * this method if necessary.
-	 *
+	 * 
 	 * @return true if a structure member, otherwise false
 	 * @see StructPropertyDefn
 	 */
@@ -683,22 +667,20 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Returns the internal name for the property.
-	 *
+	 * 
 	 * @return the internal (non-localized) name for the property
 	 */
 
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Returns the property type. See the list in MetaDataConstants.
-	 *
+	 * 
 	 * @return he property type code
 	 */
 
-	@Override
 	public int getTypeCode() {
 		assert type != null;
 		return type.getTypeCode();
@@ -706,7 +688,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Gets the property type object for this property.
-	 *
+	 * 
 	 * @return the property type object
 	 */
 
@@ -718,23 +700,21 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Checks whether <code>value</code> exists in the choice set for an extended
 	 * choice property type. If <code>value</code> exists in the choice set, return
 	 * this value. Otherwise, return null.
-	 *
+	 * 
 	 * @param value the candidate value
 	 * @return the internal choice name if found. Otherwise, return
 	 *         <code>null</code>.
 	 */
 
 	private String validateExtendedChoicesByName(Object value) {
-		if (value == null || !hasChoices()) {
+		if (value == null || hasChoices() == false)
 			return null;
-		}
 
 		IChoiceSet choiceSet = getChoices();
 		IChoice choice = choiceSet.findChoice(value.toString());
 
-		if (choice != null) {
+		if (choice != null)
 			return choice.getName();
-		}
 
 		return null;
 	}
@@ -744,23 +724,21 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * for an extended choice property type. If <code>displayName</code> exists in
 	 * the choice set, return the name of this choice. Otherwise, return
 	 * <code>null</code>.
-	 *
+	 * 
 	 * @param module      the report design
 	 * @param displayName the candidate display name
 	 * @return the choice name if found. Otherwise, return <code>null</code>.
 	 */
 
 	protected String validateExtendedChoicesByDisplayName(Module module, String displayName) {
-		if (displayName == null || !hasChoices()) {
+		if (displayName == null || hasChoices() == false)
 			return null;
-		}
 
 		IChoiceSet choiceSet = getChoices();
 		IChoice choice = choiceSet.findChoiceByDisplayName(displayName);
 
-		if (choice != null) {
+		if (choice != null)
 			return choice.getName();
-		}
 
 		return null;
 	}
@@ -769,7 +747,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Validates a value to be stored for this value definition. This method checks
 	 * names of choice properties first. Then, checks display names of choice
 	 * properties. Then uses type to validate value.
-	 *
+	 * 
 	 * @param module the report design
 	 * @param value  the candidate value
 	 * @return the translated value to be stored
@@ -785,22 +763,19 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 		if (hasChoices() && getTypeCode() != IPropertyType.CHOICE_TYPE) {
 			retValue = validateExtendedChoicesByName(value);
 
-			if (retValue == null && value != null) {
+			if (retValue == null && value != null)
 				retValue = validateExtendedChoicesByDisplayName(module, value.toString());
-			}
 
-			if (retValue != null) {
+			if (retValue != null)
 				return retValue;
-			}
 		}
 
 		retValue = doValidateValueWithExpression(module, element, type, value);
 
 		// Per-property validations using a specific validator.
 
-		if (valueValidator != null) {
+		if (valueValidator != null)
 			MetaDataDictionary.getInstance().getValueValidator(valueValidator).validate(module, this, retValue);
-		}
 
 		return retValue;
 	}
@@ -809,7 +784,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Checks whether the value is Expression and validate the value accordingly. If
 	 * the value is an expression and its type is "constant", extract the raw value
 	 * and do the validation.
-	 *
+	 * 
 	 * @param module  the root
 	 * @param tmpType the property type to validate
 	 * @param value   the value to validate
@@ -831,7 +806,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * checks names of predefined choice properties first. Then uses type to
 	 * validate value. If the property definition has a validator, uses this
 	 * validator to validate the value.
-	 *
+	 * 
 	 * @param module the report design
 	 * @param value  the candidate value
 	 * @return the translated value to be stored
@@ -846,9 +821,8 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 		if (hasChoices() && getTypeCode() != IPropertyType.CHOICE_TYPE) {
 			retValue = validateExtendedChoicesByName(value);
 
-			if (retValue != null) {
+			if (retValue != null)
 				return retValue;
-			}
 		}
 
 		// Property type validation
@@ -857,9 +831,8 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 		// Per-property validations using a specific validator.
 
-		if (valueValidator != null) {
+		if (valueValidator != null)
 			MetaDataDictionary.getInstance().getValueValidator(valueValidator).validate(module, this, retValue);
-		}
 
 		return retValue;
 	}
@@ -868,7 +841,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Checks whether the value is Expression and validate the value accordingly. If
 	 * the value is an expression and its type is "constant", extract the raw value
 	 * and do the validation.
-	 *
+	 * 
 	 * @param module  the root
 	 * @param tmpType the property type to validate
 	 * @param value   the value to validate
@@ -887,11 +860,10 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Returns the display name for the property.
-	 *
+	 * 
 	 * @return the user-visible, localized display name for the property
 	 */
 
-	@Override
 	public String getDisplayName() {
 		if (displayNameID != null) {
 			String displayName = null;
@@ -910,7 +882,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Sets the internal name of the property.
-	 *
+	 * 
 	 * @param theName the internal property name
 	 */
 
@@ -920,37 +892,33 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Gets the list of choices for the property.
-	 *
+	 * 
 	 * @return the list of choices
 	 */
 
-	@Override
 	public IChoiceSet getChoices() {
-		if (details instanceof ChoiceSet) {
+		if (details instanceof ChoiceSet)
 			return (ChoiceSet) details;
-		}
 		return null;
 	}
 
 	/**
 	 * Checks if a property has a set of choices whatever choice is choice, extended
 	 * choice or user defined choice.
-	 *
+	 * 
 	 * @return true if it has, otherwise false.
 	 */
 
-	@Override
 	public boolean hasChoices() {
 		return getChoices() != null;
 	}
 
 	/**
 	 * Returns the message id for the display name.
-	 *
+	 * 
 	 * @return The display name message ID.
 	 */
 
-	@Override
 	public String getDisplayNameID() {
 		return displayNameID;
 	}
@@ -966,7 +934,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * <li>Structure List: details holds an object of type
 	 * <code>StructureDefn</code> that defines the structures in the list.</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param obj the details object to set
 	 */
 
@@ -980,7 +948,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Sets the message ID for the display name.
-	 *
+	 * 
 	 * @param id message ID for the display name
 	 */
 
@@ -990,33 +958,31 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Gets the XML value for a value of this type.
-	 *
+	 * 
 	 * This method checks the predefined choice properties first. If has not, then
 	 * uses type to return the value.
-	 *
+	 * 
 	 * @param module the report design
 	 * @param value  the internal value
 	 * @return the XML value string
 	 */
 
 	public String getXmlValue(Module module, Object value) {
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		Object[] tmps = getCompatibleTypeAndValue(type, value);
 
 		String retValue = validateExtendedChoicesByName(tmps[1]);
-		if (retValue != null) {
+		if (retValue != null)
 			return retValue;
-		}
 
 		return ((PropertyType) tmps[0]).toXml(module, this, tmps[1]);
 	}
 
 	/**
 	 * Returns a value as a locale independent string.
-	 *
+	 * 
 	 * @param module the report design
 	 * @param value  the internal value
 	 * @return the XML value string
@@ -1031,9 +997,9 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Returns a value as a <code>double</code>.
-	 *
+	 * 
 	 * Uses type to return the value.
-	 *
+	 * 
 	 * @param module the module
 	 * @param value  the internal value
 	 * @return the value as <code>double</code>
@@ -1047,9 +1013,9 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Returns a value as a <code>int</code>.
-	 *
+	 * 
 	 * Uses type to return the value.
-	 *
+	 * 
 	 * @param module the module
 	 * @param value  the internal value
 	 * @return the value as <code>int</code>
@@ -1063,9 +1029,9 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Returns a value as a <code>BigDecimal</code>.
-	 *
+	 * 
 	 * Uses type to return the value.
-	 *
+	 * 
 	 * @param module the module
 	 * @param value  the internal value
 	 * @return the value as <code>BigDecimal</code>
@@ -1079,9 +1045,9 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Returns a value as a <code>boolean</code>.
-	 *
+	 * 
 	 * Uses type to return the value.
-	 *
+	 * 
 	 * @param module the module
 	 * @param value  the internal value
 	 * @return the value as <code>boolean</code>
@@ -1095,30 +1061,28 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Returns the localized string value of a property.
-	 *
+	 * 
 	 * @param module the report design
 	 * @param value  the internal value
 	 * @return the property as a localized string
 	 */
 
 	public String getDisplayValue(Module module, Object value) {
-		if (value == null) {
+		if (value == null)
 			return null;
-		}
 
 		Object[] tmps = getCompatibleTypeAndValue(type, value);
 
 		String retValue = validateExtendedChoicesByName(tmps[1]);
-		if (retValue == null) {
+		if (retValue == null)
 			return ((PropertyType) tmps[0]).toDisplayString(module, this, tmps[1]);
-		}
 
 		return getChoices().findChoice(tmps[1].toString()).getDisplayName();
 	}
 
 	/**
 	 * Sets the property type.
-	 *
+	 * 
 	 * @param typeDefn the property type
 	 */
 
@@ -1128,33 +1092,30 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Returns the structure definition for this value.
-	 *
+	 * 
 	 * @return the structure definition, or null if this value is not a list of
 	 *         structures
 	 */
 
-	@Override
 	public IStructureDefn getStructDefn() {
-		if (details instanceof StructureDefn) {
+		if (details instanceof StructureDefn)
 			return (StructureDefn) details;
-		}
 		return null;
 	}
 
 	/**
 	 * Returns the default value for the property.
-	 *
+	 * 
 	 * @return The default value.
 	 */
 
-	@Override
 	public Object getDefault() {
 		return defaultValue;
 	}
 
 	/**
 	 * Sets the default value for the property.
-	 *
+	 * 
 	 * @param value The default value to set.
 	 */
 
@@ -1165,7 +1126,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	/**
 	 * Indicates whether the property is intrinsic or not. An intrinsic property is
 	 * a system one represented by a member variable.
-	 *
+	 * 
 	 * @return true if the property is intrinsic, false if it is a "normal" property
 	 */
 
@@ -1175,7 +1136,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Sets the property as intrinsic.
-	 *
+	 * 
 	 * @param flag true if the property is intrinsic, false otherwise
 	 */
 
@@ -1185,15 +1146,13 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Return the element type associated with this property.
-	 *
+	 * 
 	 * @return the element type associated with the property
 	 */
 
-	@Override
 	public IElementDefn getTargetElementType() {
-		if (details instanceof ElementDefn) {
+		if (details instanceof ElementDefn)
 			return (ElementDefn) details;
-		}
 		return null;
 	}
 
@@ -1203,22 +1162,20 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * <p>
 	 * If a property has not defined the restriction, then whole set will be
 	 * returned.
-	 *
+	 * 
 	 * @return Returns the allowed choices of this property.
 	 */
 
-	@Override
 	public IChoiceSet getAllowedChoices() {
-		if (allowedChoices != null) {
+		if (allowedChoices != null)
 			return allowedChoices;
-		}
 
 		return getChoices();
 	}
 
 	/**
 	 * Sets the allowed choices for this property
-	 *
+	 * 
 	 * @param allowedChoices The allowed choices to set.
 	 */
 
@@ -1228,7 +1185,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Sets the allowed choices for this property
-	 *
+	 * 
 	 * @param allowedUnits The allowed choices to set.
 	 */
 
@@ -1242,22 +1199,20 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * <p>
 	 * If a property has not defined the restriction, then whole set will be
 	 * returned.
-	 *
+	 * 
 	 * @return Returns the allowed choices of this property.
 	 */
 
-	@Override
 	public IChoiceSet getAllowedUnits() {
-		if (allowedUnits != null) {
+		if (allowedUnits != null)
 			return allowedUnits;
-		}
 
 		return MetaDataDictionary.getInstance().getChoiceSet(DesignChoiceConstants.CHOICE_UNITS);
 	}
 
 	/**
 	 * Set a validator.
-	 *
+	 * 
 	 * @param validator
 	 */
 
@@ -1267,7 +1222,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Indicates whether the property is defined by the extended element.
-	 *
+	 * 
 	 * @return true if the property is defined by the extended element, false if the
 	 *         property is BIRT system-defined or user-defined
 	 */
@@ -1279,18 +1234,17 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	/**
 	 * Indicates whether this property is a list. It is useful only when the
 	 * property type is a structure type.
-	 *
+	 * 
 	 * @return whether the property is a list or not.
 	 */
 
-	@Override
 	public boolean isList() {
 		return isList;
 	}
 
 	/**
 	 * Set if the property is a list.
-	 *
+	 * 
 	 * @param isList whether the property is a list or not.
 	 */
 
@@ -1300,15 +1254,13 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.metadata.ISemanticTriggerProvider#
 	 * getTriggerDefnSet()
 	 */
-	@Override
 	public SemanticTriggerDefnSet getTriggerDefnSet() {
-		if (triggers == null) {
+		if (triggers == null)
 			triggers = new SemanticTriggerDefnSet();
-		}
 
 		return triggers;
 	}
@@ -1317,7 +1269,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Returns whether the value of this property is required. Generally, this flag
 	 * is not applied for style property. That means the value of style property is
 	 * not required anyway.
-	 *
+	 * 
 	 * @return <code>true</code>, if the value of this property is required.
 	 */
 
@@ -1327,7 +1279,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Sets the flag for indicating whether the value of this property is required.
-	 *
+	 * 
 	 * @param valueRequired the flag to set
 	 */
 
@@ -1339,22 +1291,21 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Gets the default unit if the property is dimension type. The default unit of
 	 * dimension property type can not be null or empty string, it must be an
 	 * effective unit string.
-	 *
+	 * 
 	 * @return the default unit if the property is dimension type, otherwise empty
 	 *         string
 	 */
 
 	public String getDefaultUnit() {
-		if (getTypeCode() != IPropertyType.DIMENSION_TYPE) {
+		if (getTypeCode() != IPropertyType.DIMENSION_TYPE)
 			return DimensionValue.DEFAULT_UNIT;
-		}
 
 		return defaultUnit;
 	}
 
 	/**
 	 * Sets the default unit of the dimension property.
-	 *
+	 * 
 	 * @param defaultUnit the default unit to set
 	 */
 
@@ -1365,18 +1316,17 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isEncrypted()
 	 */
 
-	@Override
 	public boolean isEncryptable() {
 		return isEncryptable;
 	}
 
 	/**
 	 * Sets this property encrypted or not.
-	 *
+	 * 
 	 * @param isEncryptable flag indicating whether this property is encrypted.
 	 */
 
@@ -1386,14 +1336,13 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Set the release in which this object was introduced.
-	 *
+	 * 
 	 * @param value the release value
 	 */
 
 	public void setSince(String value) {
-		if (!StringUtil.isBlank(value)) {
+		if (!StringUtil.isBlank(value))
 			since = value;
-		}
 	}
 
 	/**
@@ -1407,7 +1356,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Set the indication of whether this property can be set at runtime.
-	 *
+	 * 
 	 * @param flag true if it can be set, false if it is read-only
 	 */
 
@@ -1417,7 +1366,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Indicates whether this property can be set at runtime.
-	 *
+	 * 
 	 * @return true if it can be set, false if it is read-only
 	 */
 
@@ -1427,7 +1376,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Set the trim option value.
-	 *
+	 * 
 	 * @param value trim option value.
 	 */
 	protected void setTrimOption(int trimOption) {
@@ -1436,7 +1385,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Gets the trim option value.
-	 *
+	 * 
 	 * @return trim option value.
 	 */
 	int getTrimOption() {
@@ -1445,7 +1394,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Set the context for a method or expression.
-	 *
+	 * 
 	 * @param value the context to set
 	 */
 	public void setContext(String value) {
@@ -1454,18 +1403,17 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Return the context for a method or expression.
-	 *
+	 * 
 	 * @return the expression or method context
 	 */
 
-	@Override
 	public String getContext() {
 		return context;
 	}
 
 	/**
 	 * Sets the return type of an expression or method.
-	 *
+	 * 
 	 * @param type the return type to set
 	 */
 
@@ -1477,7 +1425,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Returns the return type of an expression or method. A null type for an
 	 * expression means that return type is any type. A null type for a method means
 	 * that the method does not return anything.
-	 *
+	 * 
 	 * @return the method or property return type
 	 */
 
@@ -1487,21 +1435,19 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 
-	@Override
 	public String toString() {
-		if (!StringUtil.isBlank(getName())) {
+		if (!StringUtil.isBlank(getName()))
 			return getName();
-		}
 		return super.toString();
 	}
 
 	/**
 	 * Sets the sub-type of this property definition.
-	 *
+	 * 
 	 * @param subType the sub-type to set
 	 */
 
@@ -1511,7 +1457,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Gets the sub-type of this property definition.
-	 *
+	 * 
 	 * @return the sub-type of this property definition
 	 */
 
@@ -1523,49 +1469,47 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	 * Gets the sub-type code of this property definition. This method returns an
 	 * effective type code only when the type is list; otherwise return
 	 * <code>-1</code>.
-	 *
+	 * 
 	 * @return the sub-type code of this property defintion
 	 */
 
 	public int getSubTypeCode() {
-		if (subType != null) {
+		if (subType != null)
 			return subType.getTypeCode();
-		}
 		return -1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getAllowedElements
 	 * ()
 	 */
-	@Override
 	public List<IElementDefn> getAllowedElements() {
 		return getAllowedElements(true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
 	 * (boolean)
 	 */
-	@Override
 	public List<IElementDefn> getAllowedElements(boolean extractExtensions) {
 		if (details instanceof List && isElementType()) {
 			// if not extract extension definitions, return details directly
-			if (!extractExtensions) {
+			if (!extractExtensions)
 				return Collections.unmodifiableList((List<IElementDefn>) details);
-			}
 
 			// extract is true, then build extension definitions
 			List<IElementDefn> allowedElements = (List<IElementDefn>) details;
 			MetaDataDictionary dd = MetaDataDictionary.getInstance();
 			IElementDefn extendItem = dd.getElement(ReportDesignConstants.EXTENDED_ITEM);
 
-			ArrayList<IElementDefn> contentsWithExtensions = new ArrayList<>(allowedElements);
+			ArrayList<IElementDefn> contentsWithExtensions = new ArrayList<IElementDefn>();
+			contentsWithExtensions.addAll(allowedElements);
+
 			if (allowedElements.contains(extendItem)) {
 				contentsWithExtensions.remove(extendItem);
 
@@ -1573,9 +1517,8 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 					ExtensionElementDefn extension = (ExtensionElementDefn) dd.getExtensions().get(i);
 					if (extension.isKindOf(dd.getElement(ReportDesignConstants.REPORT_ITEM))
 							&& PeerExtensionLoader.EXTENSION_POINT.equals(extension.extensionPoint)
-							&& !contentsWithExtensions.contains(extension)) {
+							&& !contentsWithExtensions.contains(extension))
 						contentsWithExtensions.add(extension);
-					}
 				}
 			}
 			return Collections.unmodifiableList(contentsWithExtensions);
@@ -1586,16 +1529,14 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Determines if this property can contain an element of the given type.
-	 *
+	 * 
 	 * @param type the type to test
 	 * @return true if the property can contain the type, false otherwise
 	 */
 
-	@Override
 	public final boolean canContain(IElementDefn type) {
-		if (type == null) {
+		if (type == null)
 			return false;
-		}
 
 		List<IElementDefn> contentElements = getAllowedElements();
 		assert contentElements != null;
@@ -1605,24 +1546,21 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 			// if element is not "extended-item", then do no conversion
 			if (!ReportDesignConstants.EXTENDED_ITEM.equals(element.getName())) {
-				if (type.isKindOf(element)) {
+				if (type.isKindOf(element))
 					return true;
-				}
 			} else {
 				// if element is "extended-item", then the type must be an
 				// extension of "reportItemModel" and is kind of ReportItem.
 				if (type instanceof ExtensionElementDefn) {
 					ExtensionElementDefn extensionDefn = (ExtensionElementDefn) type;
 					if (PeerExtensionLoader.EXTENSION_POINT.equals(extensionDefn.getExtensionPoint()) && extensionDefn
-							.isKindOf(MetaDataDictionary.getInstance().getElement(ReportDesignConstants.REPORT_ITEM))) {
+							.isKindOf(MetaDataDictionary.getInstance().getElement(ReportDesignConstants.REPORT_ITEM)))
 						return true;
-					}
 				}
 
 				// type is "ExtendedItem" itself
-				if (ReportDesignConstants.EXTENDED_ITEM.equals(type.getName())) {
+				if (ReportDesignConstants.EXTENDED_ITEM.equals(type.getName()))
 					return true;
-				}
 
 			}
 		}
@@ -1631,43 +1569,40 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Determines if an element can reside within this property.
-	 *
+	 * 
 	 * @param content the design element to check
 	 * @return true if the element can reside in the property, false otherwise
 	 */
 
-	@Override
 	public final boolean canContain(DesignElement content) {
 		return canContain(content.getDefn());
 	}
 
 	/**
 	 * Checks whether the property type is a kind of element types.
-	 *
+	 * 
 	 * @return <code>true</code> if the type is element/content element type.
 	 *         Otherwise <code>false</code>.
 	 */
 
 	public final boolean isElementType() {
 		int typeCode = getTypeCode();
-		if (typeCode == IPropertyType.ELEMENT_TYPE || typeCode == IPropertyType.CONTENT_ELEMENT_TYPE) {
+		if (typeCode == IPropertyType.ELEMENT_TYPE || typeCode == IPropertyType.CONTENT_ELEMENT_TYPE)
 			return true;
-		}
 
 		return false;
 	}
 
 	/**
 	 * Checks whether the property type is a kind of element types.
-	 *
+	 * 
 	 * @return <code>true</code> if the type is element/content element type.
 	 *         Otherwise <code>false</code>.
 	 */
 
 	public final boolean isListType() {
-		if (isList) {
+		if (isList)
 			return true;
-		}
 
 		int typeCode = type.getTypeCode();
 		return typeCode == IPropertyType.LIST_TYPE;
@@ -1675,12 +1610,11 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#allowExpression
 	 * ()
 	 */
 
-	@Override
 	public boolean allowExpression() {
 		return allowExpression || getTypeCode() == IPropertyType.EXPRESSION_TYPE
 				|| getSubTypeCode() == IPropertyType.EXPRESSION_TYPE;
@@ -1689,7 +1623,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 	/**
 	 * Sets the flag to indicate whether the property can be set with the expression
 	 * value.
-	 *
+	 * 
 	 * @param allowExpression the allowExpression to set
 	 */
 
@@ -1699,7 +1633,7 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 	/**
 	 * Returns the correct type and the value for validation or the conversion.
-	 *
+	 * 
 	 * @param tmpType the property type. For the list property type, should be
 	 *                subType.
 	 * @param value   the value to validate or convert
@@ -1742,11 +1676,10 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 
 		if (allowExpression && type.getTypeCode() != IPropertyType.EXPRESSION_TYPE && value instanceof Expression) {
 			Expression tmpValue = (Expression) value;
-			if (validated == null && tmpValue.getUserDefinedType() == null) {
+			if (validated == null && tmpValue.getUserDefinedType() == null)
 				retValue = null;
-			} else if (!(validated instanceof Expression)) {
+			else if (!(validated instanceof Expression))
 				retValue = new Expression(validated, tmpValue.getUserDefinedType());
-			}
 		}
 
 		return retValue;
@@ -1764,7 +1697,6 @@ public abstract class PropertyDefn implements IPropertyDefn, ISemanticTriggerDef
 		this.nameConfig = nameConfig;
 	}
 
-	@Override
 	public NameConfig getNameConfig() {
 		return nameConfig;
 	}

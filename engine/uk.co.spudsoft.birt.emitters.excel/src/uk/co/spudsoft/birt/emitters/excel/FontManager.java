@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -32,7 +32,7 @@ import org.w3c.dom.css.CSSValue;
 /**
  * FontManager is a cache of fonts to enable POI Fonts to be reused based upon
  * their BIRT styles.
- *
+ * 
  * @author Jim Talbut
  *
  */
@@ -40,7 +40,7 @@ public class FontManager {
 
 	/**
 	 * FontPair maintains the relationship between a BIRT style and a POI font.
-	 *
+	 * 
 	 * @author Jim Talbut
 	 *
 	 */
@@ -56,7 +56,7 @@ public class FontManager {
 
 	private Workbook workbook;
 	private StyleManagerUtils smu;
-	private List<FontPair> fonts = new ArrayList<>();
+	private List<FontPair> fonts = new ArrayList<FontPair>();
 	private Font defaultFont = null;
 	private CSSEngine cssEngine;
 
@@ -80,7 +80,7 @@ public class FontManager {
 
 	/**
 	 * Remove quotes surrounding a string.
-	 *
+	 * 
 	 * @param family The string that may be surrounded by double quotes.
 	 * @return family, without any surrounding double quotes.
 	 */
@@ -117,7 +117,7 @@ public class FontManager {
 	 * are concerned. <br/>
 	 * Every attribute tested in this method must be used in the construction of the
 	 * font in createFont.
-	 *
+	 * 
 	 * @param style1 The first BIRT style to be compared.
 	 * @param style2 The second BIRT style to be compared.
 	 * @return true if style1 and style2 would produce identical Fonts if passed to
@@ -138,7 +138,7 @@ public class FontManager {
 
 	/**
 	 * Create a new POI Font based upon a BIRT style.
-	 *
+	 * 
 	 * @param birtStyle The BIRT style to base the Font upon.
 	 * @return The Font whose attributes are described by the BIRT style.
 	 */
@@ -159,12 +159,11 @@ public class FontManager {
 		}
 		// Weight
 		// short fontWeight = smu
-		// .poiFontWeightFromBirt(cleanupQuotes(birtStyle.getProperty(StyleConstants.STYLE_FONT_WEIGHT)));
+		// 		.poiFontWeightFromBirt(cleanupQuotes(birtStyle.getProperty(StyleConstants.STYLE_FONT_WEIGHT)));
 		// if (fontWeight > 0) {
-		// font.setBoldweight(fontWeight);
+		// 	font.setBoldweight(fontWeight);
 		// }
-		boolean fontWeight = smu
-				.poiFontWeightFromBirt(cleanupQuotes(birtStyle.getProperty(StyleConstants.STYLE_FONT_WEIGHT)));
+		boolean fontWeight = smu.poiFontWeightFromBirt(cleanupQuotes(birtStyle.getProperty( StyleConstants.STYLE_FONT_WEIGHT )));
 		font.setBold(fontWeight);
 		// Style
 		String fontStyle = cleanupQuotes(birtStyle.getProperty(StyleConstants.STYLE_FONT_STYLE));
@@ -191,7 +190,7 @@ public class FontManager {
 	 * At this stage this is hardcoded to return Calibri 11pt, but it could be
 	 * changed to either pull a value from POI or to have a parameterised value set
 	 * from the emitter (via the constructor).
-	 *
+	 * 
 	 * @return A Font object representing the default to use when no other options
 	 *         are available.
 	 */
@@ -207,7 +206,7 @@ public class FontManager {
 	/**
 	 * Get a Font matching the BIRT style, either from the cache or by creating a
 	 * new one.
-	 *
+	 * 
 	 * @param birtStyle The BIRT style to base the Font upon.
 	 * @return A Font whose attributes are described by the BIRT style.
 	 */
@@ -247,7 +246,7 @@ public class FontManager {
 	/**
 	 * Return a POI font created by combining a POI font with a BIRT style, where
 	 * the BIRT style overrides the values in the POI font.
-	 *
+	 * 
 	 * @param source         The POI font that represents the base font.
 	 * @param birtExtraStyle The BIRT style to overlay on top of the POI style.
 	 * @return A POI font representing the combination of source and birtExtraStyle.

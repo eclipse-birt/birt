@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -30,13 +30,12 @@ public class DeleteGrouphandler extends SelectionHandler {
 
 	private static final String STACK_MSG_DELETE_GROUP = Messages.getString("DeleteGroupAction.stackMsg.deleteGroup"); //$NON-NLS-1$
 
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		super.execute(event);
 
-		GroupHandle handle;
+		GroupHandle handle = null;
 
-		ReportElementEditPart editPart;
+		ReportElementEditPart editPart = null;
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
 		Object obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.DELETE_GROUP_HANDLE);
@@ -71,10 +70,9 @@ public class DeleteGrouphandler extends SelectionHandler {
 
 	/**
 	 * Gets the activity stack of the report
-	 *
+	 * 
 	 * @return returns the stack
 	 */
-	@Override
 	protected CommandStack getActiveCommandStack() {
 		return SessionHandleAdapter.getInstance().getCommandStack();
 	}

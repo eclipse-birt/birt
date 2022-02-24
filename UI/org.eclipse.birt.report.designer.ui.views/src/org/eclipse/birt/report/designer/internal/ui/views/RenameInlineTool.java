@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -71,7 +71,7 @@ public class RenameInlineTool {
 
 	/**
 	 * Constructor. Creates a new tool to renames element on the tree.
-	 *
+	 * 
 	 * @param item The tree item to rename on
 	 */
 	public RenameInlineTool(TreeItem item) {
@@ -80,7 +80,13 @@ public class RenameInlineTool {
 	}
 
 	public void doRename() {
-		if ((activeInstance != null && activeInstance != this) || (textEditor == null && !tree.isFocusControl())) {// the focus has lost
+		if (activeInstance != null && activeInstance != this) {// avoid being
+																// invoked by two
+																// instances
+			return;
+		}
+
+		if (textEditor == null && !tree.isFocusControl()) {// the focus has lost
 			return;
 		}
 
@@ -128,31 +134,28 @@ public class RenameInlineTool {
 		textEditorParent.setVisible(false);
 		treeEditor.setEditor(textEditorParent, selectedItem);
 		final int inset = getCellEditorInset(textEditorParent);
-		if (inset > 0) { // only register for paint events if we have a
+		if (inset > 0) // only register for paint events if we have a
 			// border
 			textEditorParent.addPaintListener(new PaintListener() {
-				@Override
+
 				public void paintControl(PaintEvent e) {
 					Point textSize = textEditor.getSize();
 					Point parentSize = textEditorParent.getSize();
 					e.gc.drawRectangle(0, 0, Math.min(textSize.x + 4, parentSize.x - 1), parentSize.y - 1);
 				}
 			});
-		}
 		// Create inner text editor.
 		textEditor = new Text(textEditorParent, SWT.NONE);
 		textEditor.setFont(selectedItem.getFont());
 		textEditorParent.setBackground(textEditor.getBackground());
 		textEditor.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				computeTextSize();
 			}
 		});
 		textEditor.addTraverseListener(new TraverseListener() {
 
-			@Override
 			public void keyTraversed(TraverseEvent e) {
 				switch (e.detail) {
 				case SWT.TRAVERSE_ESCAPE:
@@ -179,7 +182,6 @@ public class RenameInlineTool {
 
 		textEditor.addFocusListener(new FocusAdapter() {
 
-			@Override
 			public void focusLost(FocusEvent fe) {
 				saveChangesAndClose();
 			}
@@ -230,7 +232,7 @@ public class RenameInlineTool {
 
 	/**
 	 * Perform renaming
-	 *
+	 * 
 	 * @param handle  the handle of the element to rename
 	 * @param newName the newName to set
 	 * @return Returns true if perform successfully,or false if failed
@@ -279,9 +281,8 @@ public class RenameInlineTool {
 		if ("carbon".equals(SWT.getPlatform())) //$NON-NLS-1$
 		{ // special case for MacOS X
 			if (System.getProperty("org.eclipse.swt.internal.carbon.noFocusRing") == null //$NON-NLS-1$
-					|| c.getShell().getParent() != null) {
+					|| c.getShell().getParent() != null)
 				return -2; // native border
-			}
 		}
 		return 1; // one pixel wide black border
 	}

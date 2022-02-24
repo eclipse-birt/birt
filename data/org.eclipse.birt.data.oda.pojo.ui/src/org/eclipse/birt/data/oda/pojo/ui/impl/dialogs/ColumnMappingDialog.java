@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,20 +16,6 @@ package org.eclipse.birt.data.oda.pojo.ui.impl.dialogs;
 
 import java.util.Arrays;
 
-import org.eclipse.birt.data.oda.pojo.querymodel.ConstantParameter;
-import org.eclipse.birt.data.oda.pojo.querymodel.FieldSource;
-import org.eclipse.birt.data.oda.pojo.querymodel.IMappingSource;
-import org.eclipse.birt.data.oda.pojo.querymodel.IMethodParameter;
-import org.eclipse.birt.data.oda.pojo.querymodel.MethodSource;
-import org.eclipse.birt.data.oda.pojo.querymodel.VariableParameter;
-import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
-import org.eclipse.birt.data.oda.pojo.ui.impl.dialogs.MethodParameterDialog.IModifyValidator;
-import org.eclipse.birt.data.oda.pojo.ui.impl.models.ColumnDefinition;
-import org.eclipse.birt.data.oda.pojo.ui.impl.models.OdaType;
-import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ColumnMappingPageHelper;
-import org.eclipse.birt.data.oda.pojo.ui.util.Constants;
-import org.eclipse.birt.data.oda.pojo.ui.util.HelpUtil;
-import org.eclipse.birt.data.oda.pojo.ui.util.Utils;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
@@ -71,8 +57,23 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
+import org.eclipse.birt.data.oda.pojo.querymodel.ConstantParameter;
+import org.eclipse.birt.data.oda.pojo.querymodel.FieldSource;
+import org.eclipse.birt.data.oda.pojo.querymodel.IMappingSource;
+import org.eclipse.birt.data.oda.pojo.querymodel.IMethodParameter;
+import org.eclipse.birt.data.oda.pojo.querymodel.MethodSource;
+import org.eclipse.birt.data.oda.pojo.querymodel.VariableParameter;
+import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
+import org.eclipse.birt.data.oda.pojo.ui.impl.dialogs.MethodParameterDialog.IModifyValidator;
+import org.eclipse.birt.data.oda.pojo.ui.impl.models.ColumnDefinition;
+import org.eclipse.birt.data.oda.pojo.ui.impl.models.OdaType;
+import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ColumnMappingPageHelper;
+import org.eclipse.birt.data.oda.pojo.ui.util.Constants;
+import org.eclipse.birt.data.oda.pojo.ui.util.HelpUtil;
+import org.eclipse.birt.data.oda.pojo.ui.util.Utils;
+
 /**
- *
+ * 
  */
 
 public class ColumnMappingDialog extends StatusDialog {
@@ -106,7 +107,7 @@ public class ColumnMappingDialog extends StatusDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
@@ -137,7 +138,6 @@ public class ColumnMappingDialog extends StatusDialog {
 		txtName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		txtName.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				name = txtName.getText().trim();
 				validateSyntax();
@@ -153,18 +153,15 @@ public class ColumnMappingDialog extends StatusDialog {
 
 		comboTypes.setContentProvider(new IStructuredContentProvider() {
 
-			@Override
 			public Object[] getElements(Object arg0) {
 				OdaType[] result = OdaType.values();
 				Arrays.sort(result, new OdaType.OdaTypeComparator());
 				return result;
 			}
 
-			@Override
 			public void dispose() {
 			}
 
-			@Override
 			public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 			}
 		});
@@ -179,7 +176,6 @@ public class ColumnMappingDialog extends StatusDialog {
 			txtMappingPath.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			txtMappingPath.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					validateSyntax();
 				}
@@ -276,7 +272,6 @@ public class ColumnMappingDialog extends StatusDialog {
 
 		checkBoxViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				editBtn.setEnabled(checkBoxViewer.getTable().getSelectionCount() == 1);
 			}
@@ -284,7 +279,6 @@ public class ColumnMappingDialog extends StatusDialog {
 
 		checkBoxViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				doEditPrameter();
 			}
@@ -309,7 +303,6 @@ public class ColumnMappingDialog extends StatusDialog {
 		editBtn.setEnabled(false);
 		editBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doEditPrameter();
 			}
@@ -335,9 +328,8 @@ public class ColumnMappingDialog extends StatusDialog {
 		TreeProvider treeProvider = new TreeProvider();
 		treeViewer.setLabelProvider(treeProvider);
 		treeViewer.setContentProvider(treeProvider);
-		if (this.input != null) {
+		if (this.input != null)
 			treeViewer.setInput(this.input.getMappingPath());
-		}
 
 		treeViewer.expandAll();
 		TreeItem[] items = treeViewer.getTree().getItems();
@@ -346,13 +338,11 @@ public class ColumnMappingDialog extends StatusDialog {
 			item = items[0];
 			items = item.getItems();
 		}
-		if (item != null) {
+		if (item != null)
 			treeViewer.getTree().select(item);
-		}
 
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				editBtn.setEnabled(false);
 				if (treeViewer.getTree().getSelectionCount() == 1) {
@@ -368,7 +358,7 @@ public class ColumnMappingDialog extends StatusDialog {
 	}
 
 	/*
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#buttonPressed(int)
 	 */
 	@Override
@@ -379,9 +369,8 @@ public class ColumnMappingDialog extends StatusDialog {
 			try {
 				if (this.containsParam) {
 					sources = input.getMappingPath();
-				} else {
+				} else
 					sources = Utils.getMappingSource(txtMappingPath.getText().trim());
-				}
 			} catch (OdaException e) {
 				ExceptionHandler.showException(getShell(), e.getLocalizedMessage(), e.getLocalizedMessage(), e);
 				txtMappingPath.selectAll();
@@ -395,7 +384,7 @@ public class ColumnMappingDialog extends StatusDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
@@ -412,7 +401,6 @@ public class ColumnMappingDialog extends StatusDialog {
 				MethodParameterDialog dialog = new MethodParameterDialog((IMethodParameter) element);
 				dialog.setValidator(new IModifyValidator() {
 
-					@Override
 					public boolean validateInputValue(Object value, Object[] args) {
 						if ((value instanceof VariableParameter) && args.length >= 2) {
 							return helper.isValidParamName((VariableParameter) value, (String) args[0],
@@ -449,9 +437,8 @@ public class ColumnMappingDialog extends StatusDialog {
 			status = getOKStatus();
 		}
 
-		if (status != null) {
+		if (status != null)
 			updateStatus(status);
-		}
 	}
 
 	private Status getMiscStatus(int severity, String message) {
@@ -467,7 +454,7 @@ public class ColumnMappingDialog extends StatusDialog {
 	}
 
 	/*
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#isResizable()
 	 */
 	@Override
@@ -477,19 +464,17 @@ public class ColumnMappingDialog extends StatusDialog {
 
 	private static class TableProvider implements ITableLabelProvider, IStructuredContentProvider {
 
-		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			if (columnIndex == 0) {
-				if (element instanceof VariableParameter) {
+				if (element instanceof VariableParameter)
 					return Utils.getOKIcon();
-				} else if (element instanceof ConstantParameter) {
+
+				else if (element instanceof ConstantParameter)
 					return Utils.getFailIcon();
-				}
 			}
 			return null;
 		}
 
-		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof IMethodParameter) {
 				IMethodParameter param = (IMethodParameter) element;
@@ -509,27 +494,22 @@ public class ColumnMappingDialog extends StatusDialog {
 			return null;
 		}
 
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 
 		}
 
-		@Override
 		public void dispose() {
 
 		}
 
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 
 		}
 
-		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof MethodSource) {
 				return ((MethodSource) inputElement).getParameters();
@@ -537,7 +517,6 @@ public class ColumnMappingDialog extends StatusDialog {
 			return new Object[0];
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 		}
@@ -549,35 +528,32 @@ public class ColumnMappingDialog extends StatusDialog {
 		private IMappingSource[] sources;
 		private int count;
 
-		@Override
 		public Image getImage(Object element) {
-			if (element instanceof MethodSource) {
+			if (element instanceof MethodSource)
 				return Utils.getMethodFlagImg();
-			} else if (element instanceof FieldSource) {
+
+			else if (element instanceof FieldSource)
 				return Utils.getFieldFlagImg();
-			}
 
 			return null;
 		}
 
-		@Override
 		public String getText(Object element) {
-			if (element instanceof FieldSource) {
+			if (element instanceof FieldSource)
 				return ((FieldSource) element).getName();
-			} else if (element instanceof MethodSource) {
+
+			else if (element instanceof MethodSource)
 				return ((MethodSource) element).getName() + "(" //$NON-NLS-1$
 						+ getParametersLabel((MethodSource) element) + ")"; //$NON-NLS-1$
-			}
 
 			return "";//$NON-NLS-1$
 		}
 
 		private String getParametersLabel(MethodSource method) {
-			if (method == null) {
+			if (method == null)
 				return ""; //$NON-NLS-1$
-			}
 
-			StringBuilder sb = new StringBuilder();
+			StringBuffer sb = new StringBuffer();
 			for (IMethodParameter param : method.getParameters()) {
 				sb.append(", ").append(param.getDataType()); //$NON-NLS-1$
 			}
@@ -588,27 +564,22 @@ public class ColumnMappingDialog extends StatusDialog {
 			return result;
 		}
 
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 
 		}
 
-		@Override
 		public void dispose() {
 
 		}
 
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 
 		}
 
-		@Override
 		public Object[] getChildren(Object parentElement) {
 			if (count < sources.length) {
 				return new Object[] { sources[count++] };
@@ -616,17 +587,14 @@ public class ColumnMappingDialog extends StatusDialog {
 			return new Object[0];
 		}
 
-		@Override
 		public Object getParent(Object element) {
 			return null;
 		}
 
-		@Override
 		public boolean hasChildren(Object element) {
 			return count < sources.length;
 		}
 
-		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IMappingSource[]) {
 				sources = (IMappingSource[]) inputElement;
@@ -637,7 +605,6 @@ public class ColumnMappingDialog extends StatusDialog {
 			return new Object[0];
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 		}

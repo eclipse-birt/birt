@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +55,6 @@ public class ColorUtilTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -63,7 +62,7 @@ public class ColorUtilTest extends BaseTestCase {
 	/**
 	 * Test to see all meta support colors are supported by ColorUtil. And all
 	 * ColorUtil colors are also defined in rom.def.
-	 *
+	 * 
 	 */
 
 	public void testConsistency() {
@@ -91,7 +90,7 @@ public class ColorUtilTest extends BaseTestCase {
 
 	/**
 	 * test formatRGBValue().
-	 *
+	 * 
 	 */
 
 	public void testFormatRGB() {
@@ -262,8 +261,8 @@ public class ColorUtilTest extends BaseTestCase {
 
 	public void tesetGetPredefinedColor() {
 		assertNull(ColorUtil.getPredefinedColor(123));
-		assertEquals("red", ColorUtil.getPredefinedColor(Integer.parseInt("#FF0000"))); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals("black", ColorUtil.getPredefinedColor(Integer.parseInt("#FFFFFF"))); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("red", ColorUtil.getPredefinedColor(Integer.valueOf("#FF0000").intValue())); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("black", ColorUtil.getPredefinedColor(Integer.valueOf("#FFFFFF").intValue())); //$NON-NLS-1$//$NON-NLS-2$
 
 	}
 

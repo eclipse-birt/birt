@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -132,10 +132,9 @@ public class ImageRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	@Override
 	public PrimitiveRenderEvent copy() throws ChartException {
 		ImageRenderEvent ire = new ImageRenderEvent(source);
 
@@ -157,34 +156,31 @@ public class ImageRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
-	@Override
 	public void fill(IDeviceRenderer idr) throws ChartException {
 		draw(idr);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
-	@Override
 	public void draw(IDeviceRenderer idr) throws ChartException {
 		idr.drawImage(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	@Override
 	public void reset() {
 		this.loc = null;
 		this.pos = null;

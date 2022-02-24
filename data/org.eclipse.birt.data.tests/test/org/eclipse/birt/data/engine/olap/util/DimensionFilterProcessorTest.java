@@ -1,21 +1,18 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.util;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,14 +31,16 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 /**
- *
+ * 
  */
 
 public class DimensionFilterProcessorTest {
@@ -149,13 +148,11 @@ public class DimensionFilterProcessorTest {
 			this.nameValuePair = nameValuePair;
 		}
 
-		@Override
 		public Object getAggrValue(String aggrName) throws DataException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
 		public Object getFieldValue(String name) throws DataException {
 			String[] list = name.split("/");
 			if (list.length >= 2 && list[list.length - 1].equals(list[list.length - 2])) {
@@ -166,7 +163,6 @@ public class DimensionFilterProcessorTest {
 			return this.nameValuePair.get(name);
 		}
 
-		@Override
 		public boolean isTimeDimensionRow() {
 			return false;
 		}

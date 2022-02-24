@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ public class AggregationArgumentHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of aggregation argument.
-	 *
+	 * 
 	 * @param valueHandle the value handle for aggregation argument list of one
 	 *                    property
 	 * @param index       the position of this aggregation argument in the list
@@ -36,7 +36,7 @@ public class AggregationArgumentHandle extends StructureHandle {
 
 	/**
 	 * Returns the argument name.
-	 *
+	 * 
 	 * @return the argument name.
 	 */
 
@@ -46,7 +46,7 @@ public class AggregationArgumentHandle extends StructureHandle {
 
 	/**
 	 * Sets the argument name.
-	 *
+	 * 
 	 * @param argumentName the argument name to set
 	 * @throws SemanticException
 	 */
@@ -57,7 +57,7 @@ public class AggregationArgumentHandle extends StructureHandle {
 
 	/**
 	 * Returns the argument value.
-	 *
+	 * 
 	 * @return the argument value.
 	 */
 
@@ -67,7 +67,7 @@ public class AggregationArgumentHandle extends StructureHandle {
 
 	/**
 	 * Sets the argument value.
-	 *
+	 * 
 	 * @param argumentValue the argument value to set
 	 * @throws SemanticException
 	 */
@@ -78,7 +78,7 @@ public class AggregationArgumentHandle extends StructureHandle {
 
 	/**
 	 * Returns the argument expression.
-	 *
+	 * 
 	 * @return the argument expression.
 	 */
 	public Expression getExpression() {

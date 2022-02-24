@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,14 +38,15 @@ public class PDFListGroupLM extends PDFGroupLM implements IBlockStackingLayoutMa
 		return (IListBandContent) ((IGroupContent) content).getHeader();
 	}
 
-	@Override
 	protected IReportItemExecutor createExecutor() {
 		return new ListContainerExecutor(content, executor);
 	}
 
-	@Override
 	protected void repeatHeader() throws BirtException {
-		if (isFirst || !needRepeat || !isRepeatHeader() || !isCurrentDetailBand()) {
+		if (isFirst) {
+			return;
+		}
+		if (!needRepeat || !isRepeatHeader() || !isCurrentDetailBand()) {
 			return;
 		}
 		IListBandContent band = getHeader();
@@ -70,14 +71,12 @@ public class PDFListGroupLM extends PDFGroupLM implements IBlockStackingLayoutMa
 
 	}
 
-	@Override
 	protected void createRoot() {
 		if (root == null) {
 			root = (ContainerArea) AreaFactory.createBlockContainer(content);
 		}
 	}
 
-	@Override
 	protected void initialize() throws BirtException {
 		if (root == null && keepWithCache.isEmpty() && !isFirst) {
 			repeatCount = 0;

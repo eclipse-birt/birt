@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,9 +33,9 @@ import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
 /**
- *
+ * 
  * the table content object which contains columns object and row objects
- *
+ * 
  */
 public class TableContent extends AbstractContent implements ITableContent {
 
@@ -50,17 +50,15 @@ public class TableContent extends AbstractContent implements ITableContent {
 		super(table);
 		this.caption = table.getCaption();
 		this.captionKey = table.getCaptionKey();
-		this.headerRepeat = table.isHeaderRepeat();
+		this.headerRepeat = Boolean.valueOf(table.isHeaderRepeat());
 		this.columns = table.getColumns();
 		this.summary = table.getSummary();
 	}
 
-	@Override
 	public int getContentType() {
 		return TABLE_CONTENT;
 	}
 
-	@Override
 	public void setHeaderRepeat(boolean headerRepeat) {
 		if (generateBy instanceof TableItemDesign) {
 			boolean repeatHeader = ((TableItemDesign) generateBy).isRepeatHeader();
@@ -69,10 +67,9 @@ public class TableContent extends AbstractContent implements ITableContent {
 				return;
 			}
 		}
-		this.headerRepeat = headerRepeat;
+		this.headerRepeat = Boolean.valueOf(headerRepeat);
 	}
 
-	@Override
 	public boolean isHeaderRepeat() {
 		if (headerRepeat != null) {
 			return headerRepeat.booleanValue();
@@ -85,14 +82,13 @@ public class TableContent extends AbstractContent implements ITableContent {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param item the table deign
 	 */
 	TableContent(IReportContent report) {
 		super(report);
 	}
 
-	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitTable(this, value);
 	}
@@ -100,7 +96,6 @@ public class TableContent extends AbstractContent implements ITableContent {
 	/**
 	 * @return Returns the caption.
 	 */
-	@Override
 	public String getCaption() {
 		if (caption == null) {
 			if (generateBy instanceof TableItemDesign) {
@@ -115,17 +110,14 @@ public class TableContent extends AbstractContent implements ITableContent {
 	/**
 	 * @param caption The caption to set.
 	 */
-	@Override
 	public void setCaption(String caption) {
 		this.caption = caption;
 	}
 
-	@Override
 	public void setCaptionKey(String key) {
 		this.captionKey = key;
 	}
 
-	@Override
 	public String getCaptionKey() {
 		if (captionKey == null) {
 			if (generateBy instanceof TableItemDesign) {
@@ -137,27 +129,22 @@ public class TableContent extends AbstractContent implements ITableContent {
 		return captionKey;
 	}
 
-	@Override
 	public int getColumnCount() {
 		return columns.size();
 	}
 
-	@Override
 	public IColumn getColumn(int index) {
 		return (IColumn) columns.get(index);
 	}
 
-	@Override
 	public void addColumn(IColumn column) {
 		this.columns.add(column);
 	}
 
-	@Override
 	public ITableBandContent getHeader() {
 		return getTableBand(ITableBandContent.BAND_HEADER);
 	}
 
-	@Override
 	public ITableBandContent getFooter() {
 		return getTableBand(ITableBandContent.BAND_FOOTER);
 	}
@@ -186,7 +173,6 @@ public class TableContent extends AbstractContent implements ITableContent {
 	static final protected short FIELD_HEADERREPEAT = 1003;
 	static final protected short FIELD_SUMMARY = 1004;
 
-	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (columns != null) {
@@ -216,12 +202,10 @@ public class TableContent extends AbstractContent implements ITableContent {
 		}
 	}
 
-	@Override
 	public boolean needSave() {
 		return true;
 	}
 
-	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_COLUMNS:
@@ -242,19 +226,17 @@ public class TableContent extends AbstractContent implements ITableContent {
 			summary = IOUtil.readString(in);
 			break;
 		case FIELD_HEADERREPEAT:
-			headerRepeat = IOUtil.readBool(in);
+			headerRepeat = Boolean.valueOf(IOUtil.readBool(in));
 			break;
 		default:
 			super.readField(version, filedId, in, loader);
 		}
 	}
 
-	@Override
 	public List getColumns() {
 		return this.columns;
 	}
 
-	@Override
 	protected IContent cloneContent() {
 		return new TableContent(this);
 	}
@@ -262,7 +244,6 @@ public class TableContent extends AbstractContent implements ITableContent {
 	/**
 	 * @param summary the summary to set
 	 */
-	@Override
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
@@ -270,7 +251,6 @@ public class TableContent extends AbstractContent implements ITableContent {
 	/**
 	 * @returns Return the summary
 	 */
-	@Override
 	public String getSummary() {
 		if (summary == null) {
 			if (generateBy instanceof TableItemDesign) {

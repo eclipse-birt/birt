@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -90,7 +90,7 @@ public class FormPageDef implements IExtensionConstants {
 	private boolean loadBooleanAttribute(IConfigurationElement element, String attributeName) {
 		String value = element.getAttribute(attributeName);
 		if (value != null) {
-			return Boolean.parseBoolean(value);
+			return Boolean.valueOf(value).booleanValue();
 		}
 		return true;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,10 +45,17 @@ public class EngineLogger {
 
 	static private final Logger ROOT_LOGGER = Logger.getLogger(BIRT_NAME_SPACE);
 
-	static private final List<Logger> ROOT_LOGGERS = new ArrayList<>();
+	static private final List<Logger> ROOT_LOGGERS = new ArrayList<Logger>();
 	static {
 		ROOT_LOGGERS.add(ROOT_LOGGER);
 	}
+
+	/**
+	 * the user defined logger output file.
+	 */
+	static private String logFileName;
+	static private int logRollingSize;
+	static private int logMaxBackupIndex;
 
 	/**
 	 * the log record are delegated to the adapter handler
@@ -101,7 +108,6 @@ public class EngineLogger {
 	private static void stopEngineLogging() {
 		java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
 
-			@Override
 			public Object run() {
 				doStopEngineLogging();
 				return null;
@@ -118,6 +124,9 @@ public class EngineLogger {
 			adapterHandler.close();
 			adapterHandler = null;
 		}
+		logFileName = null;
+		logRollingSize = 0;
+		logMaxBackupIndex = 0;
 	}
 
 	public static void changeLogLevel(LoggerSetting loggerSetting, Level newLevel) {
@@ -176,7 +185,7 @@ public class EngineLogger {
 				if (threadLoggers == null) {
 					synchronized (this) {
 						if (threadLoggers == null) {
-							threadLoggers = new ThreadLocal<>();
+							threadLoggers = new ThreadLocal<Logger>();
 						}
 					}
 				}
@@ -186,7 +195,6 @@ public class EngineLogger {
 			}
 		}
 
-		@Override
 		public void publish(LogRecord record) {
 			// first try the threadLogger
 			if (threadLoggers != null) {
@@ -199,14 +207,12 @@ public class EngineLogger {
 			// then try the user and file handler
 			if (userLoggers != null || fileHandlers != null) {
 				if (userLoggers != null) {
-					for (Logger logger : userLoggers) {
+					for (Logger logger : userLoggers)
 						publishToLogger(logger, record);
-					}
 				}
 				if (fileHandlers != null) {
-					for (Handler handler : fileHandlers) {
+					for (Handler handler : fileHandlers)
 						handler.publish(record);
-					}
 				}
 				return;
 			}
@@ -214,7 +220,6 @@ public class EngineLogger {
 			publishToLogger(parent, record);
 		}
 
-		@Override
 		public void close() throws SecurityException {
 			if (fileHandlers != null) {
 				fileHandlers = null;
@@ -224,7 +229,6 @@ public class EngineLogger {
 			}
 		}
 
-		@Override
 		public void flush() {
 			if (fileHandlers != null) {
 				for (Handler handler : fileHandlers) {
@@ -273,9 +277,9 @@ public class EngineLogger {
 	 * There is one root logger in list by default, it's name space is
 	 * "org.eclipse.birt" If there is another root logger need using, invoke this
 	 * method, e.g. the name space of the logger is "com.actuate.birt"
-	 *
+	 * 
 	 * @param rootLogger the root logger need add to list
-	 *
+	 * 
 	 */
 	public static void addRootLogger(Logger rootLogger) {
 		if (ROOT_LOGGERS.contains(rootLogger)) {
@@ -306,10 +310,9 @@ public class EngineLogger {
 
 		LoggerSetting mergedSetting = lsmInst.getMergedSetting();
 
-		if (mergedSetting != null) {
+		if (mergedSetting != null)
 			startEngineLogging(lsmInst.getMergedSetting());
-		} else {
+		else
 			stopEngineLogging();
-		}
 	}
 }

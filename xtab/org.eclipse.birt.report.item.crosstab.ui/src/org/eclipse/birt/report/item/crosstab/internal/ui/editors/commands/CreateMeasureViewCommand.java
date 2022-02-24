@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param handleAdpter
 	 * @param measureHandle
 	 */
@@ -52,20 +52,18 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	@Override
 	public boolean canExecute() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	@Override
 	public void execute() {
 		transStart(NAME);
 		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle();
@@ -78,18 +76,18 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand {
 //			MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
 //					0 );
 //			measureViewHandle.addHeader( );
-//
+//			
 //			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), measureHandle );
 //			ComputedColumnHandle bindingHandle =((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
-//
+//			
 //			CrosstabCellHandle cellHandle = measureViewHandle.getCell( );
 //
 //			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 //					.newDataItem( measureHandle.getName( ) );
 //			dataHandle.setResultSetColumn( bindingHandle.getName( ) );
-//
+//			
 //			cellHandle.addContent( dataHandle );
-//
+//			
 //			LabelHandle labelHandle = DesignElementFactory.getInstance( ).newLabel(  null );
 //			labelHandle.setText( measureHandle.getName( ) );
 //

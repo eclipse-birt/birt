@@ -1,13 +1,13 @@
 /*******************************************************************************
  * Copyright (c) 2012 Innovent Solutions, Inc.
- *
- * Unless otherwise indicated, all Content made available
- * by Innovent Solutions, Inc  is provided to you under the terms and
- * conditions of the Eclipse Public License Version 2.0 ("EPL"). A copy
- * of the EPL is provided with this Content and is also available at
- * http://www.eclipse.org/legal/epl-2.0.html. For purposes of the EPL,
+ * 
+ * Unless otherwise indicated, all Content made available 
+ * by Innovent Solutions, Inc  is provided to you under the terms and 
+ * conditions of the Eclipse Public License Version 2.0 ("EPL"). A copy 
+ * of the EPL is provided with this Content and is also available at 
+ * http://www.eclipse.org/legal/epl-2.0.html. For purposes of the EPL, 
  * "Program" will mean the Content.
- *
+ * 
  * Contributors:
  *   Steve Schafer
  *******************************************************************************/

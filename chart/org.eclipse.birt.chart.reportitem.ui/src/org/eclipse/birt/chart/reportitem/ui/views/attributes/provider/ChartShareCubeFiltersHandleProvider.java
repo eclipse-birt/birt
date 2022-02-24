@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
- *
+ * 
  */
 
 public class ChartShareCubeFiltersHandleProvider extends ChartCubeFilterHandleProvider {
@@ -32,7 +32,7 @@ public class ChartShareCubeFiltersHandleProvider extends ChartCubeFilterHandlePr
 	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof List<?>) {
-			List<Object> elements = new ArrayList<>();
+			List<Object> elements = new ArrayList<Object>();
 			for (Iterator<Object> iter = ((List<Object>) inputElement).iterator(); iter.hasNext();) {
 				DesignElementHandle handle = (DesignElementHandle) iter.next();
 				if (handle instanceof ReportItemHandle
@@ -44,7 +44,7 @@ public class ChartShareCubeFiltersHandleProvider extends ChartCubeFilterHandlePr
 			}
 			setContentInput(elements);
 		} else {
-			List<Object> contentInput = new ArrayList<>();
+			List<Object> contentInput = new ArrayList<Object>();
 			if (inputElement instanceof ReportItemHandle
 					&& ((ReportItemHandle) inputElement).getDataBindingReference() != null) {
 				contentInput.add(((ReportItemHandle) inputElement).getDataBindingReference());

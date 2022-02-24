@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,14 +53,12 @@ public class JavascriptContext implements IScriptContext {
 	 * @param name  the name of a property
 	 * @param value the value of a property
 	 */
-	@Override
 	public void setAttribute(String name, Object value) {
 		value = wrap(scope, name, value);
 		Object jsValue = Context.javaToJS(value, scope);
 		scope.put(name, scope, jsValue);
 	}
 
-	@Override
 	public void removeAttribute(String name) {
 		scope.delete(name);
 	}
@@ -79,5 +77,9 @@ public class JavascriptContext implements IScriptContext {
 			return new ScriptablePageVariables((Map<String, PageVariable>) value, scope);
 		}
 		return value;
+	}
+
+	private Object javaToJs(Object value, Scriptable scope) {
+		return Context.javaToJS(value, scope);
 	}
 }

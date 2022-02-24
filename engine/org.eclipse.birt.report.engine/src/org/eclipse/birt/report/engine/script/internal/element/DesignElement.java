@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,32 +37,28 @@ public class DesignElement implements IDesignElement {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getStyle()
 	 */
-	@Override
 	public IScriptStyleDesign getStyle() {
 		return new StyleDesign(designElementImpl.getStyle());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#
 	 * getQualifiedName()
 	 */
 
-	@Override
 	public String getQualifiedName() {
 		return designElementImpl.getQualifiedName();
 	}
 
-	@Override
 	public String getNamedExpression(String name) {
 		return designElementImpl.getNamedExpression(name);
 	}
 
-	@Override
 	public void setNamedExpression(String name, String exp) throws ScriptException {
 		try {
 			designElementImpl.setNamedExpression(name, exp);
@@ -71,12 +67,10 @@ public class DesignElement implements IDesignElement {
 		}
 	}
 
-	@Override
 	public Object getUserProperty(String name) {
 		return designElementImpl.getUserProperty(name);
 	}
 
-	@Override
 	public void setUserProperty(String name, String value) throws ScriptException {
 		try {
 			designElementImpl.setUserProperty(name, value);
@@ -85,7 +79,6 @@ public class DesignElement implements IDesignElement {
 		}
 	}
 
-	@Override
 	public void setUserProperty(String name, Object value, String type) throws ScriptException {
 		try {
 			designElementImpl.setUserProperty(name, value, type);
@@ -94,29 +87,26 @@ public class DesignElement implements IDesignElement {
 		}
 	}
 
-	@Override
 	public IDesignElement getParent() {
 		return ElementUtil.getElement(designElementImpl.getParent());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.IDesignElement#getReport()
 	 */
-	@Override
 	public IReportDesign getReport() {
 		return (IReportDesign) ElementUtil.getElement(designElementImpl.getReport());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IDesignElement#
 	 * getUserPropertyExpression(java.lang.String)
 	 */
-	@Override
 	public Object getUserPropertyExpression(String name) {
 		return designElementImpl.getUserPropertyExpression(name);
 	}

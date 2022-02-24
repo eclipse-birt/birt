@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -51,7 +51,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Actuate Corporation
- *
+ * 
  */
 public class FontDefinitionComposite extends Composite {
 
@@ -120,7 +120,7 @@ public class FontDefinitionComposite extends Composite {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void init() {
 		if (Display.getCurrent().getHighContrast()) {
@@ -128,11 +128,11 @@ public class FontDefinitionComposite extends Composite {
 			iSize = gc.getFontMetrics().getHeight() + 2;
 		}
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-		vListeners = new Vector<>();
+		vListeners = new Vector<Listener>();
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void placeComponents() {
 		FillLayout flMain = new FillLayout();
@@ -158,7 +158,6 @@ public class FontDefinitionComposite extends Composite {
 		cnvSelection.setToolTipText(TOOLTIP);
 		cnvSelection.addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseUp(MouseEvent e) {
 				openFontDialog();
 			}
@@ -166,7 +165,6 @@ public class FontDefinitionComposite extends Composite {
 		});
 		cnvSelection.addFocusListener(new FocusAdapter() {
 
-			@Override
 			public void focusGained(FocusEvent e) {
 				cnvSelection.traverse(SWT.TRAVERSE_TAB_NEXT);
 			}
@@ -183,7 +181,6 @@ public class FontDefinitionComposite extends Composite {
 		btnFont.setToolTipText(TOOLTIP);
 		btnFont.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				openFontDialog();
 			}
@@ -191,7 +188,6 @@ public class FontDefinitionComposite extends Composite {
 		});
 	}
 
-	@Override
 	public void setEnabled(boolean bState) {
 		this.btnFont.setEnabled(bState);
 		this.cnvSelection.setEnabled(bState);
@@ -199,7 +195,6 @@ public class FontDefinitionComposite extends Composite {
 		this.bEnabled = bState;
 	}
 
-	@Override
 	public boolean isEnabled() {
 		return this.bEnabled;
 	}
@@ -251,7 +246,7 @@ public class FontDefinitionComposite extends Composite {
 		for (int iL = 0; iL < vListeners.size(); iL++) {
 			Event se = new Event();
 			se.widget = this;
-			Object[] data = { fdCurrent, cdCurrent };
+			Object[] data = new Object[] { fdCurrent, cdCurrent };
 			se.data = data;
 			se.type = FONT_CHANTED_EVENT;
 			vListeners.get(iL).handleEvent(se);
@@ -266,7 +261,6 @@ public class FontDefinitionComposite extends Composite {
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -274,7 +268,6 @@ public class FontDefinitionComposite extends Composite {
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -282,7 +275,6 @@ public class FontDefinitionComposite extends Composite {
 				}
 			}
 
-			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -292,17 +284,14 @@ public class FontDefinitionComposite extends Composite {
 				e.height = location.height;
 			}
 
-			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
-			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -71,7 +71,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	/**
 	 * Constructor <br>
 	 * The default alignment is <code>PositionConstants.CENTER</code>.
-	 *
+	 * 
 	 * @param image The Image to be displayed
 	 */
 	public ReportElementFigure(Image image) {
@@ -80,10 +80,10 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param image     The Image to be displayed
 	 * @param alignment A PositionConstant indicating the alignment
-	 *
+	 * 
 	 * @see ImageFigure#setImage(Image)
 	 * @see ImageFigure#setAlignment(int)
 	 */
@@ -95,7 +95,6 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	/**
 	 * @return The Image that this Figure displays
 	 */
-	@Override
 	public Image getImage() {
 		return img;
 	}
@@ -106,10 +105,9 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#paintBorder(org.eclipse.draw2d.Graphics)
 	 */
-	@Override
 	protected void paintBorder(Graphics graphics) {
 		if (clip != null) {
 			graphics.getClip(OLD_CLIP);
@@ -126,7 +124,6 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	/**
 	 * @see org.eclipse.draw2d.Figure#paintFigure(Graphics)
 	 */
-	@Override
 	protected void paintFigure(Graphics graphics) {
 		if (isOpaque()) {
 			if (getBorder() instanceof BaseBorder) {
@@ -197,7 +194,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 
 	/**
 	 * Create the list of all the images to be displayed.
-	 *
+	 * 
 	 * @param x the x-cordinator of the base image.
 	 * @param y the y-cordinator of the base image.
 	 * @return the list of all the images to be displayed.
@@ -254,7 +251,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 * Sets the alignment of the Image within this Figure. The alignment comes into
 	 * play when the ImageFigure is larger than the Image. The alignment could be
 	 * any valid combination of the following:
-	 *
+	 * 
 	 * <UL>
 	 * <LI>PositionConstants.NORTH</LI>
 	 * <LI>PositionConstants.SOUTH</LI>
@@ -262,20 +259,18 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 * <LI>PositionConstants.WEST</LI>
 	 * <LI>PositionConstants.CENTER or PositionConstants.NONE</LI>
 	 * </UL>
-	 *
+	 * 
 	 * @param flag A constant indicating the alignment
 	 */
-	@Override
 	public void setAlignment(int flag) {
 		alignment = flag;
 	}
 
 	/**
 	 * Sets the position of the Image within this Figure.
-	 *
+	 * 
 	 * @param point The position of the image to be displayed.
 	 */
-	@Override
 	public void setPosition(Point point) {
 		this.position = point;
 	}
@@ -283,17 +278,16 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	/**
 	 * Sets the repeat of the Image within this Figure. The repeat could be any
 	 * valid combination of the following:
-	 *
+	 * 
 	 * <UL>
 	 * <LI>no_repeat:0</LI>
 	 * <LI>repeat_x:1</LI>
 	 * <LI>repeat_y:2</LI>
 	 * <LI>repeat:3</LI>
 	 * </UL>
-	 *
+	 * 
 	 * @param flag A constant indicating the repeat.
 	 */
-	@Override
 	public void setRepeat(int flag) {
 		this.repeat = flag;
 	}
@@ -303,14 +297,12 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 * <p>
 	 * IMPORTANT: Note that it is the client's responsibility to dispose the given
 	 * image.
-	 *
+	 * 
 	 * @param image The Image to be displayed. It can be <code>null</code>.
 	 */
-	@Override
 	public void setImage(Image image) {
-		if (img == image) {
+		if (img == image)
 			return;
-		}
 		img = image;
 		if (img != null) {
 			if (backgroundImageDPI > 0) {
@@ -322,19 +314,17 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 			} else {
 				size = new Rectangle(image.getBounds()).getSize();
 			}
-		} else {
+		} else
 			size = new Dimension();
-		}
 		revalidate();
 		repaint();
 	}
 
 	/**
 	 * Sets the margin for current figure.
-	 *
+	 * 
 	 * @param newMargin
 	 */
-	@Override
 	public void setMargin(Insets newMargin) {
 		if (newMargin == null) {
 			margin = new Insets();
@@ -358,42 +348,38 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 
 	/**
 	 * Returns the margin of current figure.
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public Insets getMargin() {
 		return margin;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.Figure#fireMoved()
 	 */
-	@Override
 	public void fireMoved() {
 		super.fireMoved();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.IFixLayoutHelper#
 	 * getFixPreferredSize(int, int)
 	 */
-	@Override
 	public Dimension getFixPreferredSize(int w, int h) {
 		return getPreferredSize(w, h);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.IFixLayoutHelper#
 	 * getFixMinimumSize(int, int)
 	 */
-	@Override
 	public Dimension getFixMinimumSize(int w, int h) {
 		return getMinimumSize(w, h);
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,30 +43,24 @@ public class ArchiveWriter implements IDocArchiveWriter {
 	 * @deprecated use getArchiveFile instead
 	 * @return
 	 */
-	@Deprecated
 	public IArchiveFile getArchive() {
 		return archive;
 	}
 
-	@Override
 	public IArchiveFile getArchiveFile() {
 		return archive;
 	}
 
-	@Override
 	public RAOutputStream createRandomAccessStream(String relativePath) throws IOException {
-		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR)) {
+		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR))
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		}
 		ArchiveEntry entry = archive.createEntry(relativePath);
 		return new ArchiveEntryOutputStream(entry);
 	}
 
-	@Override
 	public RAOutputStream openRandomAccessStream(String relativePath) throws IOException {
-		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR)) {
+		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR))
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		}
 		ArchiveEntry entry;
 		if (archive.exists(relativePath)) {
 			entry = archive.openEntry(relativePath);
@@ -76,30 +70,24 @@ public class ArchiveWriter implements IDocArchiveWriter {
 		return new ArchiveEntryOutputStream(entry);
 	}
 
-	@Override
 	public RAOutputStream createOutputStream(String relativePath) throws IOException {
 		return createRandomAccessStream(relativePath);
 	}
 
-	@Override
 	public RAOutputStream getOutputStream(String relativePath) throws IOException {
 		return openRandomAccessStream(relativePath);
 	}
 
-	@Override
 	public RAInputStream getInputStream(String relativePath) throws IOException {
-		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR)) {
+		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR))
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		}
 		ArchiveEntry entry = archive.openEntry(relativePath);
 		return new ArchiveEntryInputStream(entry);
 	}
 
-	@Override
 	public boolean dropStream(String relativePath) {
-		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR)) {
+		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR))
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		}
 		try {
 			return archive.removeEntry(relativePath);
 		} catch (IOException ex) {
@@ -107,15 +95,12 @@ public class ArchiveWriter implements IDocArchiveWriter {
 		}
 	}
 
-	@Override
 	public boolean exists(String relativePath) {
-		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR)) {
+		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR))
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		}
 		return archive.exists(relativePath);
 	}
 
-	@Override
 	public void finish() throws IOException {
 		try {
 			// flush the archvies
@@ -127,33 +112,26 @@ public class ArchiveWriter implements IDocArchiveWriter {
 		}
 	}
 
-	@Override
 	public void flush() throws IOException {
 		archive.flush();
 	}
 
-	@Override
 	public String getName() {
 		return archive.getName();
 	}
 
-	@Override
 	public void initialize() throws IOException {
 	}
 
-	@Override
 	public void setStreamSorter(IStreamSorter streamSorter) {
 	}
 
-	@Override
 	public Object lock(String relativePath) throws IOException {
-		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR)) {
+		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR))
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		}
 		return archive.lockEntry(relativePath);
 	}
 
-	@Override
 	public void unlock(Object locker) {
 		try {
 			archive.unlockEntry(locker);
@@ -161,15 +139,14 @@ public class ArchiveWriter implements IDocArchiveWriter {
 		}
 	}
 
-	@Override
 	public List<String> listAllStreams() throws IOException {
-		ArrayList<String> list = new ArrayList<>(archive.listEntries("/"));
+		ArrayList<String> list = new ArrayList<String>();
+		list.addAll(archive.listEntries("/"));
 		return list;
 	}
 
-	@Override
 	public List<String> listStreams(String namePattern) throws IOException {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<String>();
 		List<String> archiveEntries = archive.listEntries(namePattern);
 		for (String name : archiveEntries) {
 			if (name.startsWith(namePattern) && !name.equalsIgnoreCase(namePattern)) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -45,11 +45,9 @@ public class CheckSection extends Section {
 		this.showDisplayLabel = showDisplayLabel;
 	}
 
-	@Override
 	public void createSection() {
-		if (!getLabelText().trim().equals("") || showDisplayLabel) { //$NON-NLS-1$
+		if (!getLabelText().trim().equals("") || showDisplayLabel) //$NON-NLS-1$
 			getLabelControl(parent);
-		}
 		getCheckControl(parent);
 		getGridPlaceholder(parent);
 	}
@@ -62,7 +60,6 @@ public class CheckSection extends Section {
 			check.getControl().setLayoutData(new GridData());
 			check.getControl().addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					check = null;
 				}
@@ -77,42 +74,34 @@ public class CheckSection extends Section {
 		return check;
 	}
 
-	@Override
 	public void layout() {
 		GridData gd = (GridData) check.getControl().getLayoutData();
-		if (getLayoutNum() > 0) {
+		if (getLayoutNum() > 0)
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		} else {
+		else
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
-		}
-		if (getLabelControl() != null) {
+		if (getLabelControl() != null)
 			gd.horizontalSpan = gd.horizontalSpan - 1;
-		}
 		gd.horizontalAlignment = GridData.FILL;
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else {
+		} else
 			gd.grabExcessHorizontalSpace = fillCheck;
-		}
 
 	}
 
-	@Override
 	public void load() {
-		if (check != null && !check.getControl().isDisposed()) {
+		if (check != null && !check.getControl().isDisposed())
 			check.load();
-		}
 	}
 
-	@Override
 	public void reset() {
 		if (check != null && !check.getControl().isDisposed()) {
 			check.reset();
 		}
 	}
 
-	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		check.setInput(input);
@@ -138,30 +127,22 @@ public class CheckSection extends Section {
 		this.fillCheck = fillCheck;
 	}
 
-	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		}
-		if (check != null) {
+		if (check != null)
 			check.setHidden(isHidden);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
-		}
 	}
 
-	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			displayLabel.setVisible(isVisible);
-		}
-		if (check != null) {
+		if (check != null)
 			check.setVisible(isVisible);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			placeholderLabel.setVisible(isVisible);
-		}
 	}
 
 	IDescriptorProvider provider;

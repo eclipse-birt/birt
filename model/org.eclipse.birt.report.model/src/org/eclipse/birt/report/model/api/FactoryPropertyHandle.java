@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * <p>
  * The various "get" methods also have special meanings: they convert property
  * values to the format needed by the Factory.
- *
+ * 
  */
 
 public class FactoryPropertyHandle extends ElementDetailHandle {
@@ -61,7 +61,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 	/**
 	 * Constructs a factory property handle with the given
 	 * <code>DesignElementHandle</code> and the definition of the property.
-	 *
+	 * 
 	 * @param element handle to the design element. It provides the Factory context.
 	 * @param prop    the definition of the property
 	 */
@@ -74,7 +74,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the cached factory property value.
-	 *
+	 * 
 	 * @return the cached factory property value.
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getFactoryProperty(Module,
 	 *      ElementPropertyDefn)
@@ -86,7 +86,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 
 	/**
 	 * Tests whether this is a style property.
-	 *
+	 * 
 	 * @return <code>true</code> if this is a style property, otherwise
 	 *         <code>false</code>.
 	 */
@@ -99,7 +99,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 	 * Tests whether this property value is set for this element. It is set if it is
 	 * defined on this element or any of its parents, or in the element's private
 	 * style. It is considered unset if it is set on a shared style.
-	 *
+	 * 
 	 * @return <code>true</code> if the value is set, <code>false</code> if it is
 	 *         not set
 	 */
@@ -110,7 +110,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the property value as an integer.
-	 *
+	 * 
 	 * @return The value as an integer. Returns 0 if the value cannot be converted
 	 *         to an integer.
 	 */
@@ -121,7 +121,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the value as a non-localized string.
-	 *
+	 * 
 	 * @return The value as a non-localized string.
 	 */
 
@@ -136,7 +136,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the value as a double.
-	 *
+	 * 
 	 * @return The value as a double. Returns 0 if the value cannot be converted to
 	 *         a double.
 	 */
@@ -147,7 +147,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the value as a number (BigDecimal).
-	 *
+	 * 
 	 * @return The value as a number. Returns <code>null</code> if the value cannot
 	 *         be converted to a number.
 	 */
@@ -162,7 +162,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 	 * Note: This method returns false if the value is unset. It DOES NOT return the
 	 * default value for the property. Call <code>isSet</code> before calling this
 	 * method to determine if the property is set.
-	 *
+	 * 
 	 * @return the value as a boolean. Returns <code>false</code> if the value
 	 *         cannot be converted to a boolean, or if the value is not set.
 	 */
@@ -175,7 +175,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 	 * Gets the CSS color value. This is either a CSS (pre-defined) color name or an
 	 * RGB value encoded in CSS format: rgb(r,g,b). Returns <code>null</code> if the
 	 * property is not set.
-	 *
+	 * 
 	 * @return the color value as a string
 	 */
 
@@ -186,9 +186,8 @@ public class FactoryPropertyHandle extends ElementDetailHandle {
 		// do not
 		// need get value from property definition.
 
-		if (type.getTypeCode() == IPropertyType.COLOR_TYPE) {
+		if (type.getTypeCode() == IPropertyType.COLOR_TYPE)
 			return ((ColorPropertyType) type).toCssColor(getModule(), value);
-		}
 		return null;
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,12 +29,12 @@ import junit.framework.TestCase;
 
 /**
  * DateFormatterTest.
- *
+ * 
  * Design for test whether DateFormatter Class can do a correct formating,
  * translate the Date/Time instance to an object of String according to the
  * format string. In this unit test, we pay more attention the new method which
  * we add in the subclss.
- *
+ * 
  */
 public class DateFormatterTest extends TestCase {
 
@@ -227,8 +227,8 @@ public class DateFormatterTest extends TestCase {
 
 	@Test
 	public void testTimeZone() {
-		String result;
-		DateFormatter df;
+		String result = null;
+		DateFormatter df = null;
 
 		Calendar dateCal = Calendar.getInstance();
 		dateCal.setTimeZone(java.util.TimeZone.getTimeZone("PST"));

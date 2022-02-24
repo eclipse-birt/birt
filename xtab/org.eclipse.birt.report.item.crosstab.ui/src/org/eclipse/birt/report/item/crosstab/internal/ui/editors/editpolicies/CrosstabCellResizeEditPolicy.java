@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,11 +32,10 @@ public class CrosstabCellResizeEditPolicy extends ResizableEditPolicy {
 
 	/**
 	 * Obtains the specified layer.
-	 *
+	 * 
 	 * @param layer the key identifying the layer
 	 * @return the requested layer
 	 */
-	@Override
 	protected IFigure getLayer(Object layer) {
 		IFigure figure = null;
 		if (getHost() instanceof CrosstabCellEditPart) {
@@ -50,11 +49,10 @@ public class CrosstabCellResizeEditPolicy extends ResizableEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.ResizableEditPolicy#createSelectionHandles()
 	 */
-	@Override
 	protected List createSelectionHandles() {
 		List list = new ArrayList();
 		if (getHost().getSelected() != EditPart.SELECTED_PRIMARY) {
@@ -66,22 +64,20 @@ public class CrosstabCellResizeEditPolicy extends ResizableEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#getTargetEditPart(org.
 	 * eclipse.gef.Request)
 	 */
-	@Override
 	public EditPart getTargetEditPart(Request request) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy#addSelectionHandles()
 	 */
-	@Override
 	protected void addSelectionHandles() {
 		if (((ReportElementEditPart) getHost()).isDelete() || getHost().getSelected() != EditPart.SELECTED_PRIMARY) {
 			return;
@@ -94,17 +90,15 @@ public class CrosstabCellResizeEditPolicy extends ResizableEditPolicy {
 	 * @param handle_layer
 	 * @return
 	 */
-	@Override
 	protected void removeSelectionHandles() {
 		super.removeSelectionHandles();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editpolicies.NonResizableEditPolicy#showFocus()
 	 */
-	@Override
 	protected void showFocus() {
 		// do nothing
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -34,7 +34,7 @@ public class Oprand implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this Oprand.
-	 *
+	 * 
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -43,7 +43,7 @@ public class Oprand implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this Oprand.
-	 *
+	 * 
 	 * @param name
 	 */
 	public void setName(java.lang.String name) {
@@ -52,7 +52,7 @@ public class Oprand implements java.io.Serializable {
 
 	/**
 	 * Gets the value value for this Oprand.
-	 *
+	 * 
 	 * @return value
 	 */
 	public java.lang.String getValue() {
@@ -61,7 +61,7 @@ public class Oprand implements java.io.Serializable {
 
 	/**
 	 * Sets the value value for this Oprand.
-	 *
+	 * 
 	 * @param value
 	 */
 	public void setValue(java.lang.String value) {
@@ -70,18 +70,14 @@ public class Oprand implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Oprand)) {
+		if (!(obj instanceof Oprand))
 			return false;
-		}
 		Oprand other = (Oprand) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -98,7 +94,6 @@ public class Oprand implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

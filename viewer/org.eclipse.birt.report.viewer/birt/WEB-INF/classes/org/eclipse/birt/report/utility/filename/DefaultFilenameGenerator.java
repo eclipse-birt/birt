@@ -29,14 +29,13 @@ public class DefaultFilenameGenerator implements IFilenameGenerator {
 	/**
 	 * @see org.eclipse.birt.report.utility.filename.IFilenameGenerator#getExportFilename(String,String,Map)
 	 */
-	@Override
 	public String getFilename(String baseName, String extension, String outputType, Map options) {
 		return makeFileName(baseName, extension);
 	}
 
 	/**
 	 * Makes a filename using the target extension from the options.
-	 *
+	 * 
 	 * @param fileName file name which extension must be replaced
 	 * @return file name with replaced extension
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ public class CompatibleColumnDataTypeState extends CompatiblePropertyState {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 * @param theHandler the parser handler
 	 * @param element    the element to parse
 	 * @param propDefn   the property definition
@@ -45,11 +45,10 @@ public class CompatibleColumnDataTypeState extends CompatiblePropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 

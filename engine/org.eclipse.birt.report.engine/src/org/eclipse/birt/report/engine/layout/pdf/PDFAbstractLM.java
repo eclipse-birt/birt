@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -92,20 +92,19 @@ public abstract class PDFAbstractLM implements ILayoutManager {
 
 	/**
 	 * layout the content and its children.
-	 *
+	 * 
 	 * It can be called in three status:
 	 * <ol>
 	 * <li>start, the first time it is called. In this status, it first check if it
 	 * need page-break-before,
-	 *
+	 * 
 	 * <li>inprogress, the second or more time it is called. In this status, it
 	 * tries to layout the content and its children to the current page.
-	 *
+	 * 
 	 * <li>end, the last time it is called. In this status, it means all the content
 	 * has been layout, it is the time to handle the page-break-after.
 	 * </ol>
 	 */
-	@Override
 	public boolean layout() throws BirtException {
 		boolean hasNextPage = false;
 		switch (status) {
@@ -160,7 +159,6 @@ public abstract class PDFAbstractLM implements ILayoutManager {
 
 	protected abstract boolean layoutChildren() throws BirtException;
 
-	@Override
 	public boolean isFinished() {
 		return status == STATUS_END;
 	}
@@ -330,7 +328,6 @@ public abstract class PDFAbstractLM implements ILayoutManager {
 
 	protected abstract void cancelChildren() throws BirtException;
 
-	@Override
 	public void cancel() throws BirtException {
 		if (executor != null && status != STATUS_END) {
 			cancelChildren();
@@ -360,22 +357,18 @@ public abstract class PDFAbstractLM implements ILayoutManager {
 			this.executor = executor;
 		}
 
-		@Override
 		public void close() throws BirtException {
 			executor.close();
 		}
 
-		@Override
 		public IContent execute() {
 			return null;
 		}
 
-		@Override
 		public IReportItemExecutor getNextChild() throws BirtException {
 			return executor.getNextChild();
 		}
 
-		@Override
 		public boolean hasNextChild() throws BirtException {
 			return executor.hasNextChild();
 		}
@@ -470,7 +463,7 @@ public abstract class PDFAbstractLM implements ILayoutManager {
 //			if ( calHeight > 0 && calHeight < context.getMaxHeight( ) )
 //			{
 //				this.specifiedHeight = calHeight;
-//			}
+//			} 
 		}
 	}
 
@@ -503,10 +496,10 @@ public abstract class PDFAbstractLM implements ILayoutManager {
 		int topBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_TOP_WIDTH), 0));
 		int bottomBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_BOTTOM_WIDTH), 0));
 
-		int[] vs = { rightMargin, leftMargin, rightPadding, leftPadding, rightBorder, leftBorder };
+		int[] vs = new int[] { rightMargin, leftMargin, rightPadding, leftPadding, rightBorder, leftBorder };
 		resolveBoxConflict(vs, maxWidth);
 
-		int[] hs = { bottomMargin, topMargin, bottomPadding, topPadding, bottomBorder, topBorder };
+		int[] hs = new int[] { bottomMargin, topMargin, bottomPadding, topPadding, bottomBorder, topBorder };
 		resolveBoxConflict(hs, maxHeight);
 
 		style.setProperty(IStyle.STYLE_MARGIN_LEFT, new FloatValue(CSSPrimitiveValue.CSS_NUMBER, vs[1]));
@@ -533,20 +526,20 @@ public abstract class PDFAbstractLM implements ILayoutManager {
 		try {
 			if (d.endsWith("in") || d.endsWith("in")) //$NON-NLS-1$ //$NON-NLS-2$
 			{
-				return (int) ((Float.parseFloat(d.substring(0, d.length() - 2))) * 72000.0f);
+				return (int) ((Float.valueOf(d.substring(0, d.length() - 2)).floatValue()) * 72000.0f);
 			} else if (d.endsWith("cm") || d.endsWith("CM")) //$NON-NLS-1$//$NON-NLS-2$
 			{
-				return (int) ((Float.parseFloat(d.substring(0, d.length() - 2))) * 72000.0f / 2.54f);
+				return (int) ((Float.valueOf(d.substring(0, d.length() - 2)).floatValue()) * 72000.0f / 2.54f);
 			} else if (d.endsWith("mm") || d.endsWith("MM")) //$NON-NLS-1$ //$NON-NLS-2$
 			{
-				return (int) ((Float.parseFloat(d.substring(0, d.length() - 2))) * 7200.0f / 2.54f);
+				return (int) ((Float.valueOf(d.substring(0, d.length() - 2)).floatValue()) * 7200.0f / 2.54f);
 			} else if (d.endsWith("px") || d.endsWith("PX")) //$NON-NLS-1$//$NON-NLS-2$
 			{
-				return (int) ((Float.parseFloat(d.substring(0, d.length() - 2))) / 96.0f * 72000.0f);// set
-																										// as
-																										// 96dpi
+				return (int) ((Float.valueOf(d.substring(0, d.length() - 2)).floatValue()) / 96.0f * 72000.0f);// set
+																												// as
+																												// 96dpi
 			} else {
-				return (int) ((Float.parseFloat(d)));
+				return (int) ((Float.valueOf(d).floatValue()));
 			}
 		} catch (NumberFormatException ex) {
 			logger.log(Level.WARNING, ex.getLocalizedMessage());
@@ -697,7 +690,6 @@ public abstract class PDFAbstractLM implements ILayoutManager {
 		return false;
 	}
 
-	@Override
 	public void close() {
 		// TODO Auto-generated method stub
 
@@ -705,7 +697,7 @@ public abstract class PDFAbstractLM implements ILayoutManager {
 
 	/**
 	 * create block text area by text content
-	 *
+	 * 
 	 * @param content          the text content
 	 * @param text             the text string
 	 * @param contentDimension the content dimension

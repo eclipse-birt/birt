@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,16 +45,16 @@ public class ScriptContext implements IScriptContext {
 
 	private ScriptContext(ScriptContext scriptContext, Object scope, Map<String, Object> attributes) {
 		if (scriptContext == null) {
-			engines = new HashMap<>();
+			engines = new HashMap<String, IScriptEngine>();
 		} else {
 			engines = scriptContext.engines;
 		}
-		this.attributes = new HashMap<>();
+		this.attributes = new HashMap<String, Object>();
 		if (attributes != null) {
 			this.attributes.putAll(attributes);
 		}
 		parent = scriptContext;
-		scriptContexts = new HashMap<>();
+		scriptContexts = new HashMap<String, IScriptContext>();
 		this.scope = scope;
 		if (parent != null) {
 			this.locale = parent.locale;
@@ -105,7 +105,6 @@ public class ScriptContext implements IScriptContext {
 		}
 	}
 
-	@Override
 	public void setAttribute(String name, Object value) {
 		attributes.put(name, value);
 		for (IScriptContext context : scriptContexts.values()) {
@@ -113,7 +112,6 @@ public class ScriptContext implements IScriptContext {
 		}
 	}
 
-	@Override
 	public void removeAttribute(String name) {
 		attributes.remove(name);
 		for (IScriptContext context : scriptContexts.values()) {

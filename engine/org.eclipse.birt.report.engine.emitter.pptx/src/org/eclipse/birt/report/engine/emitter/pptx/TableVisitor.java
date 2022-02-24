@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -25,7 +25,7 @@ public class TableVisitor extends TreeVisitor<IArea> {
 
 	/**
 	 * return the next row
-	 *
+	 * 
 	 * @param row
 	 * @param rowSpan
 	 * @return
@@ -39,7 +39,6 @@ public class TableVisitor extends TreeVisitor<IArea> {
 
 			int rowCount = 0;
 
-			@Override
 			public int getRowCount() {
 				return rowCount;
 			}
@@ -77,7 +76,7 @@ public class TableVisitor extends TreeVisitor<IArea> {
 
 		/**
 		 * create a root node for table.
-		 *
+		 * 
 		 * @param table
 		 */
 		public AreaTreeNode(IArea value) {
@@ -88,7 +87,7 @@ public class TableVisitor extends TreeVisitor<IArea> {
 
 		/**
 		 * create a child root in parent using index
-		 *
+		 * 
 		 * @param parent
 		 * @param index
 		 */
@@ -106,10 +105,9 @@ public class TableVisitor extends TreeVisitor<IArea> {
 
 		/**
 		 * get the next sibling of current node.
-		 *
+		 * 
 		 * @return
 		 */
-		@Override
 		public ITreeNode<IArea> getNext() {
 			initParent();
 			if (parent == null) {
@@ -124,9 +122,9 @@ public class TableVisitor extends TreeVisitor<IArea> {
 
 		/**
 		 * get the first child of current node.
-		 *
+		 * 
 		 * rowArea is handled as leaf node.
-		 *
+		 * 
 		 * @return
 		 */
 		@Override
@@ -186,7 +184,10 @@ public class TableVisitor extends TreeVisitor<IArea> {
 		}
 
 		private int getChildCount(IArea value) {
-			if ((value == null) || (value instanceof RowArea)) {
+			if (value == null) {
+				return 0;
+			}
+			if (value instanceof RowArea) {
 				return 0;
 			}
 

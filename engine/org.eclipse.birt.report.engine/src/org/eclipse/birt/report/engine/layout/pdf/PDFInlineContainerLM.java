@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -38,7 +38,6 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM implements ILineSt
 		lineParent = (ILineStackingLayoutManager) parent;
 	}
 
-	@Override
 	protected void closeLayout() {
 		// TODO support specified height/width/alignment
 		if (root != null) {
@@ -60,12 +59,10 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM implements ILineSt
 		verticalAlign();
 	}
 
-	@Override
 	protected void createRoot() {
 		root = (ContainerArea) AreaFactory.createInlineContainer(content);
 	}
 
-	@Override
 	protected boolean traverseChildren() throws BirtException {
 
 		boolean hasNextPage = false;
@@ -91,7 +88,7 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM implements ILineSt
 	}
 
 	private boolean layoutChildNode(IReportItemExecutor childExecutor) throws BirtException {
-		boolean hasNextPage;
+		boolean hasNextPage = false;
 		IContent childContent = childExecutor.execute();
 		PDFAbstractLM childLM = getFactory().createLayoutManager(this, childContent, childExecutor);
 		hasNextPage = childLM.layout();
@@ -103,7 +100,6 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM implements ILineSt
 		return hasNextPage;
 	}
 
-	@Override
 	protected void initialize() {
 		createRoot();
 		maxAvaWidth = parent.getCurrentMaxContentWidth();
@@ -120,7 +116,6 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM implements ILineSt
 		return 0;
 	}
 
-	@Override
 	public boolean addArea(IArea area, boolean keepWithPrevious, boolean keepWithNext) {
 		AbstractArea child = (AbstractArea) area;
 		submit(child);
@@ -128,14 +123,12 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM implements ILineSt
 		return true;
 	}
 
-	@Override
 	public void submit(AbstractArea area) {
 		root.addChild(area);
 		area.setAllocatedPosition(getCurrentIP(), getCurrentBP());
 		setCurrentIP(getCurrentIP() + area.getAllocatedWidth());
 	}
 
-	@Override
 	public boolean endLine() {
 		if (root != null && root.getChildrenCount() > 0) {
 			closeLayout();
@@ -153,12 +146,10 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM implements ILineSt
 		return true;
 	}
 
-	@Override
 	public int getMaxLineWidth() {
 		return lineParent.getMaxLineWidth();
 	}
 
-	@Override
 	public boolean isEmptyLine() {
 		if (root != null && root.getChildrenCount() > 0) {
 			return false;
@@ -166,7 +157,6 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM implements ILineSt
 		return lineParent.isEmptyLine();
 	}
 
-	@Override
 	public void setTextIndent(ITextContent content) {
 		if (parent instanceof ILineStackingLayoutManager) {
 			((ILineStackingLayoutManager) parent).setTextIndent(content);

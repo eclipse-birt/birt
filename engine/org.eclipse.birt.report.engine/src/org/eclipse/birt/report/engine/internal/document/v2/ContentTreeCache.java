@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -19,9 +19,9 @@ import java.util.ListIterator;
 /**
  * this class is used to constuct the content tree. The tree is a cache and it
  * will be droped if the entry is not used any.
- *
+ * 
  * A entry is not used only if all its child has been retrived.
- *
+ * 
  */
 class ContentTreeCache {
 
@@ -45,7 +45,7 @@ class ContentTreeCache {
 	LinkedList entries = new LinkedList();
 
 	/**
-	 *
+	 * 
 	 * @param entry
 	 * @throws Exception
 	 */
@@ -78,12 +78,14 @@ class ContentTreeCache {
 		}
 
 		iter.add(entry);
+
+		return;
 	}
 
 	/**
 	 * as the entry are always load from the last, so also search it from the last
 	 * to the first.
-	 *
+	 * 
 	 * @param offset
 	 * @return
 	 */

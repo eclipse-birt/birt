@@ -1,24 +1,24 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
 /*
  * Copyright 1999-2002,2004 The Apache Software Foundation.
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,6 +30,7 @@ package utility;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Text;
+
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
@@ -45,7 +46,7 @@ public interface ParserWrapper {
 	//
 
 	/** Parses the specified URI and returns the document. */
-	Document parse(String uri) throws Exception;
+	public Document parse(String uri) throws Exception;
 
 	/**
 	 * Set the state of a feature.
@@ -66,10 +67,10 @@ public interface ParserWrapper {
 	 *                                                  problem fulfilling the
 	 *                                                  request.
 	 */
-	void setFeature(String featureId, boolean state) throws SAXNotRecognizedException, SAXNotSupportedException;
+	public void setFeature(String featureId, boolean state) throws SAXNotRecognizedException, SAXNotSupportedException;
 
 	/** Returns the document information. */
-	DocumentInfo getDocumentInfo();
+	public DocumentInfo getDocumentInfo();
 
 	//
 	// Interfaces
@@ -90,7 +91,7 @@ public interface ParserWrapper {
 		/**
 		 * Returns true if the specified text node is ignorable whitespace.
 		 */
-		boolean isIgnorableWhitespace(Text text);
+		public boolean isIgnorableWhitespace(Text text);
 
 	} // interface DocumentInfo
 

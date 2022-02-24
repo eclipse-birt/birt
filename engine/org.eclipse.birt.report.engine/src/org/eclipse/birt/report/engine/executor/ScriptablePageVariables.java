@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,6 @@ public class ScriptablePageVariables extends BaseScriptable {
 		this.variables = variables;
 	}
 
-	@Override
 	public Object get(String name, Scriptable start) {
 		PageVariable variable = variables.get(name);
 		if (variable != null) {
@@ -42,12 +41,10 @@ public class ScriptablePageVariables extends BaseScriptable {
 		throw new JavaScriptException(errorMessage, "<unknown>", -1);
 	}
 
-	@Override
 	public Object get(int index, Scriptable start) {
 		return get(String.valueOf(index), start);
 	}
 
-	@Override
 	public boolean has(String name, Scriptable start) {
 		return variables.get(name) != null;
 	}
@@ -55,7 +52,6 @@ public class ScriptablePageVariables extends BaseScriptable {
 	/**
 	 * Support setting parameter value by following methods:
 	 */
-	@Override
 	public void put(String name, Scriptable start, Object value) {
 		PageVariable variable = variables.get(name);
 		if (variable != null) {
@@ -69,7 +65,6 @@ public class ScriptablePageVariables extends BaseScriptable {
 		throw new JavaScriptException(errorMessage, "<unknown>", -1);
 	}
 
-	@Override
 	public String getClassName() {
 		return JS_CLASS_NAME;
 	}

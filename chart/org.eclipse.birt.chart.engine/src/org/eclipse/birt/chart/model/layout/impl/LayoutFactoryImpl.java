@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- *
+ * 
  * @generated
  */
 public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
@@ -42,7 +42,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 	/**
 	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static LayoutFactory init() {
@@ -61,7 +61,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 	/**
 	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public LayoutFactoryImpl() {
@@ -70,7 +70,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -95,7 +95,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -116,7 +116,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -137,10 +137,9 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Block createBlock() {
 		BlockImpl block = new BlockImpl();
 		return block;
@@ -148,10 +147,9 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ClientArea createClientArea() {
 		ClientAreaImpl clientArea = new ClientAreaImpl();
 		return clientArea;
@@ -159,10 +157,9 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LabelBlock createLabelBlock() {
 		LabelBlockImpl labelBlock = new LabelBlockImpl();
 		return labelBlock;
@@ -170,10 +167,9 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Legend createLegend() {
 		LegendImpl legend = new LegendImpl();
 		return legend;
@@ -181,10 +177,9 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Plot createPlot() {
 		PlotImpl plot = new PlotImpl();
 		return plot;
@@ -192,10 +187,9 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public TitleBlock createTitleBlock() {
 		TitleBlockImpl titleBlock = new TitleBlockImpl();
 		return titleBlock;
@@ -203,7 +197,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Integer createEllipsisTypeFromString(EDataType eDataType, String initialValue) {
@@ -212,7 +206,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertEllipsisTypeToString(EDataType eDataType, Object instanceValue) {
@@ -221,7 +215,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Integer createEllipsisTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -230,7 +224,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertEllipsisTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -239,7 +233,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Double createTitlePercentTypeFromString(EDataType eDataType, String initialValue) {
@@ -248,7 +242,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertTitlePercentTypeToString(EDataType eDataType, Object instanceValue) {
@@ -257,7 +251,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public Double createTitlePercentTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -266,7 +260,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public String convertTitlePercentTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -275,17 +269,16 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LayoutPackage getLayoutPackage() {
 		return (LayoutPackage) getEPackage();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @deprecated
 	 * @generated
 	 */

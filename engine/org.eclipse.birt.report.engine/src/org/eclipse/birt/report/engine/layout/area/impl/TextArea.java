@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -64,7 +64,6 @@ public class TextArea extends AbstractArea implements ITextArea {
 	 * @param text
 	 * @param fi
 	 */
-	@Deprecated
 	public TextArea(ITextContent textContent, String text, FontInfo fi) {
 		super(textContent);
 		this.textContent = textContent;
@@ -158,7 +157,6 @@ public class TextArea extends AbstractArea implements ITextArea {
 		}
 	}
 
-	@Override
 	public String getLogicalOrderText() {
 		calculateText();
 		return text;
@@ -166,11 +164,10 @@ public class TextArea extends AbstractArea implements ITextArea {
 
 	/**
 	 * Gets the text in visual order.
-	 *
+	 * 
 	 * @param text the original text.
 	 * @return the text in visual order.
 	 */
-	@Override
 	public String getText() {
 		calculateText();
 		if ((runLevel & 1) == 0) {
@@ -188,12 +185,10 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return runLevel;
 	}
 
-	@Override
 	public FontInfo getFontInfo() {
 		return this.fi;
 	}
 
-	@Override
 	public void accept(IAreaVisitor visitor) {
 		visitor.visitText(this);
 	}
@@ -222,7 +217,6 @@ public class TextArea extends AbstractArea implements ITextArea {
 		this.maxWidth = maxWidth;
 	}
 
-	@Override
 	public int getWidth() {
 		int fontStyle = fi.getFontStyle();
 		// get width for text with simulated italic font.

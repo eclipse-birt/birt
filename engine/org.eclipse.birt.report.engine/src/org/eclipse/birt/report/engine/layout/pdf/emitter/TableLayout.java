@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -82,7 +82,6 @@ public class TableLayout extends RepeatableLayout {
 		isInBlockStacking &= isBlock;
 	}
 
-	@Override
 	protected void createRoot() {
 		currentContext.root = AreaFactory.createTableArea((ITableContent) content);
 		currentContext.root.setWidth(tableWidth);
@@ -116,7 +115,6 @@ public class TableLayout extends RepeatableLayout {
 		}
 	}
 
-	@Override
 	protected void initialize() throws BirtException {
 		checkInlineBlock();
 		currentContext = new TableContext();
@@ -150,13 +148,11 @@ public class TableLayout extends RepeatableLayout {
 
 	}
 
-	@Override
 	protected void setCurrentContext(int index) {
 		super.setCurrentContext(index);
 		tableContext = (TableContext) currentContext;
 	}
 
-	@Override
 	protected void closeLayout(ContainerContext currentContext, int index, boolean finished) {
 		if (currentContext.root == null || currentContext.root.getChildrenCount() == 0) {
 			return;
@@ -192,7 +188,7 @@ public class TableLayout extends RepeatableLayout {
 
 	/**
 	 * resolve cell border conflict
-	 *
+	 * 
 	 * @param cellArea
 	 */
 	public void resolveBorderConflict(CellArea cellArea, boolean isFirst) {
@@ -203,7 +199,7 @@ public class TableLayout extends RepeatableLayout {
 
 	/**
 	 * Creates a hidden column at X position 0.
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 	private void addDummyColumnForRTL() {
@@ -229,7 +225,7 @@ public class TableLayout extends RepeatableLayout {
 		/**
 		 * Calculates the column width for the table. the return value should be each
 		 * column width in point.
-		 *
+		 * 
 		 * @param columns             The column width specified in report design.
 		 * @param tableWidth          The suggested table width. If isTableWidthDefined
 		 *                            is true, this value is user defined table width;
@@ -304,42 +300,47 @@ public class TableLayout extends RepeatableLayout {
 								.getDimensionValue(columns[index.intValue()], tableWidth);
 					}
 				}
-			} else if (percentageList.isEmpty()) {
-				int left = tableWidth - fixedLength;
-				int eachWidth = left / unsetList.size();
-				for (int i = 0; i < unsetList.size(); i++) {
-					Integer index = (Integer) unsetList.get(i);
-					resolvedColumnWidth[index.intValue()] = eachWidth;
-				}
-			} else {
-				float leftPercentage = (((float) (tableWidth - fixedLength)) / tableWidth) * 100.0f;
-				if (leftPercentage <= total) {
-					double ratio = leftPercentage / total;
-					for (int i = 0; i < unsetList.size(); i++) {
-						Integer index = (Integer) unsetList.get(i);
-						resolvedColumnWidth[index.intValue()] = 0;
-					}
-					for (int i = 0; i < percentageList.size(); i++) {
-						Integer index = (Integer) percentageList.get(i);
-						columns[index.intValue()] = new DimensionType(columns[index.intValue()].getMeasure() * ratio,
-								columns[index.intValue()].getUnits());
-						resolvedColumnWidth[index.intValue()] = TableLayout.this
-								.getDimensionValue(columns[index.intValue()], tableWidth);
-					}
-				} else {
-					int usedLength = fixedLength;
-					for (int i = 0; i < percentageList.size(); i++) {
-						Integer index = (Integer) percentageList.get(i);
-						int width = TableLayout.this.getDimensionValue(columns[index.intValue()], tableWidth);
-						usedLength += width;
-						resolvedColumnWidth[index.intValue()] = width;
-
-					}
-					int left = tableWidth - usedLength;
+			}
+			// unsetList is not empty.
+			else {
+				if (percentageList.isEmpty()) {
+					int left = tableWidth - fixedLength;
 					int eachWidth = left / unsetList.size();
 					for (int i = 0; i < unsetList.size(); i++) {
 						Integer index = (Integer) unsetList.get(i);
 						resolvedColumnWidth[index.intValue()] = eachWidth;
+					}
+				} else {
+					float leftPercentage = (((float) (tableWidth - fixedLength)) / tableWidth) * 100.0f;
+					if (leftPercentage <= total) {
+						double ratio = leftPercentage / total;
+						for (int i = 0; i < unsetList.size(); i++) {
+							Integer index = (Integer) unsetList.get(i);
+							resolvedColumnWidth[index.intValue()] = 0;
+						}
+						for (int i = 0; i < percentageList.size(); i++) {
+							Integer index = (Integer) percentageList.get(i);
+							columns[index.intValue()] = new DimensionType(
+									columns[index.intValue()].getMeasure() * ratio,
+									columns[index.intValue()].getUnits());
+							resolvedColumnWidth[index.intValue()] = TableLayout.this
+									.getDimensionValue(columns[index.intValue()], tableWidth);
+						}
+					} else {
+						int usedLength = fixedLength;
+						for (int i = 0; i < percentageList.size(); i++) {
+							Integer index = (Integer) percentageList.get(i);
+							int width = TableLayout.this.getDimensionValue(columns[index.intValue()], tableWidth);
+							usedLength += width;
+							resolvedColumnWidth[index.intValue()] = width;
+
+						}
+						int left = tableWidth - usedLength;
+						int eachWidth = left / unsetList.size();
+						for (int i = 0; i < unsetList.size(); i++) {
+							Integer index = (Integer) unsetList.get(i);
+							resolvedColumnWidth[index.intValue()] = eachWidth;
+						}
 					}
 				}
 			}
@@ -366,12 +367,10 @@ public class TableLayout extends RepeatableLayout {
 
 				}
 			}
-			if (startCol < 0) {
+			if (startCol < 0)
 				startCol = 0;
-			}
-			if (endCol < 0) {
+			if (endCol < 0)
 				endCol = 0;
-			}
 
 			boolean isTableWidthDefined = false;
 			int specifiedWidth = getDimensionValue(tableContent.getWidth(), maxWidth);
@@ -415,26 +414,29 @@ public class TableLayout extends RepeatableLayout {
 					}
 					return columns;
 				}
-			} else if (specifiedWidth == 0) {
-				if (colSum < maxWidth) {
-					distributeLeftWidth(columns, (maxWidth - colSum) / (columnNumber - columnWithWidth));
-				} else {
-					redistributeWidth(columns,
-							colSum - maxWidth + (columnNumber - columnWithWidth) * maxWidth / columnNumber, maxWidth,
-							colSum);
-				}
 			} else {
-				if (colSum < specifiedWidth) {
-					distributeLeftWidth(columns, (specifiedWidth - colSum) / (columnNumber - columnWithWidth));
-				} else {
+				if (specifiedWidth == 0) {
 					if (colSum < maxWidth) {
 						distributeLeftWidth(columns, (maxWidth - colSum) / (columnNumber - columnWithWidth));
 					} else {
 						redistributeWidth(columns,
-								colSum - specifiedWidth
-										+ (columnNumber - columnWithWidth) * specifiedWidth / columnNumber,
-								specifiedWidth, colSum);
+								colSum - maxWidth + (columnNumber - columnWithWidth) * maxWidth / columnNumber,
+								maxWidth, colSum);
 					}
+				} else {
+					if (colSum < specifiedWidth) {
+						distributeLeftWidth(columns, (specifiedWidth - colSum) / (columnNumber - columnWithWidth));
+					} else {
+						if (colSum < maxWidth) {
+							distributeLeftWidth(columns, (maxWidth - colSum) / (columnNumber - columnWithWidth));
+						} else {
+							redistributeWidth(columns,
+									colSum - specifiedWidth
+											+ (columnNumber - columnWithWidth) * specifiedWidth / columnNumber,
+									specifiedWidth, colSum);
+						}
+					}
+
 				}
 
 			}
@@ -470,6 +472,41 @@ public class TableLayout extends RepeatableLayout {
 				+ getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT));
 
 		return new TableLayoutInfo(columnWidthResolver.resolveFixedLayout(parentMaxWidth - marginWidth));
+	}
+
+	private TableLayoutInfo resolveTableLayoutInfo(TableArea area) {
+		assert (parent != null);
+		int avaWidth = parent.getCurrentMaxContentWidth() - parent.currentContext.currentIP;
+		int parentMaxWidth = parent.getCurrentMaxContentWidth();
+		IStyle style = area.getStyle();
+		int marginWidth = getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT))
+				+ getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT));
+		int specifiedWidth = getDimensionValue(tableContent.getWidth(), parentMaxWidth);
+		if (specifiedWidth + marginWidth > parentMaxWidth) {
+			specifiedWidth = 0;
+		}
+
+		boolean isInline = PropertyUtil.isInlineElement(content);
+		if (specifiedWidth == 0) {
+			if (isInline) {
+				if (avaWidth - marginWidth > parentMaxWidth / 4) {
+					tableWidth = avaWidth - marginWidth;
+				} else {
+					tableWidth = parentMaxWidth - marginWidth;
+				}
+			} else {
+				tableWidth = avaWidth - marginWidth;
+			}
+			return new TableLayoutInfo(columnWidthResolver.resolve(tableWidth, tableWidth));
+		} else {
+			if (!isInline) {
+				tableWidth = Math.min(specifiedWidth, avaWidth - marginWidth);
+				return new TableLayoutInfo(columnWidthResolver.resolve(tableWidth, avaWidth - marginWidth));
+			} else {
+				tableWidth = Math.min(specifiedWidth, parentMaxWidth - marginWidth);
+				return new TableLayoutInfo(columnWidthResolver.resolve(tableWidth, parentMaxWidth - marginWidth));
+			}
+		}
 	}
 
 	public void addRow(RowArea row, int specifiedHeight, int index, int size) {
@@ -532,13 +569,15 @@ public class TableLayout extends RepeatableLayout {
 		return row;
 	}
 
-	@Override
 	protected void repeatHeader() throws BirtException {
 		if (bandStatus == IBandContent.BAND_HEADER) {
 			return;
 		}
 		ITableBandContent header = context.getWrappedTableHeader(content.getInstanceID());
-		if (header == null || !tableContent.isHeaderRepeat() || header.getChildren().isEmpty()) {
+		if (header == null || !tableContent.isHeaderRepeat()) {
+			return;
+		}
+		if (header.getChildren().isEmpty()) {
 			return;
 		}
 
@@ -623,7 +662,7 @@ public class TableLayout extends RepeatableLayout {
 
 		/**
 		 * get cell width
-		 *
+		 * 
 		 * @param startColumn
 		 * @param endColumn
 		 * @return
@@ -653,7 +692,7 @@ public class TableLayout extends RepeatableLayout {
 
 		/**
 		 * Creates a hidden column at X position 0.
-		 *
+		 * 
 		 * @author bidi_hcg
 		 */
 		private void addDummyColumnForRTL(int[] colWidth) {
@@ -671,7 +710,6 @@ public class TableLayout extends RepeatableLayout {
 		}
 	}
 
-	@Override
 	public boolean addArea(AbstractArea area) {
 		return super.addArea(area);
 	}

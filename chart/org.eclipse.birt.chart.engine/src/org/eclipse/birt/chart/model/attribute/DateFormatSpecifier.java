@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -25,7 +25,7 @@ import com.ibm.icu.util.ULocale;
  *
  * <!-- begin-model-doc --> DateFormatSpecifier extends the type FormatSpecifier
  * to devote itself to formating text output of a date/time value.
- *
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
@@ -49,11 +49,11 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 	 * is <code>"Long"</code>. The literals are from the enumeration
 	 * {@link org.eclipse.birt.chart.model.attribute.DateFormatType}. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 *
+	 * 
 	 * Defines the format specifier.
-	 *
+	 * 
 	 * <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.DateFormatType
 	 * @see #isSetType()
@@ -69,7 +69,7 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType
 	 * <em>Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.DateFormatType
 	 * @see #isSetType()
@@ -83,7 +83,7 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 	 * Unsets the value of the '
 	 * {@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType
 	 * <em>Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(DateFormatType)
@@ -96,7 +96,7 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 	 * {@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType
 	 * <em>Type</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Type</em>' attribute is set.
 	 * @see #unsetType()
 	 * @see #getType()
@@ -110,11 +110,11 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 	 * value is <code>"Date"</code>. The literals are from the enumeration
 	 * {@link org.eclipse.birt.chart.model.attribute.DateFormatDetail}. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 *
+	 * 
 	 * Species the form of the date.
-	 *
+	 * 
 	 * <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Detail</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.DateFormatDetail
 	 * @see #isSetDetail()
@@ -130,7 +130,7 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 	 * Sets the value of the '
 	 * {@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getDetail
 	 * <em>Detail</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Detail</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.DateFormatDetail
 	 * @see #isSetDetail()
@@ -144,7 +144,7 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 	 * Unsets the value of the '
 	 * {@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getDetail
 	 * <em>Detail</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetDetail()
 	 * @see #getDetail()
 	 * @see #setDetail(DateFormatDetail)
@@ -157,7 +157,7 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getDetail
 	 * <em>Detail</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Detail</em>' attribute is set.
 	 * @see #unsetDetail()
 	 * @see #getDetail()
@@ -168,21 +168,20 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 
 	/**
 	 * Formats a calendar value using the date format pattern
-	 *
+	 * 
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @param c
 	 * @param lcl
 	 * @deprecated
 	 */
-	@Deprecated
 	String format(Calendar c, Locale lcl);
 
 	/**
 	 * Formats a calendar value using the date format pattern
-	 *
+	 * 
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @param c
 	 * @param lcl
 	 * @since 2.1
@@ -192,7 +191,6 @@ public interface DateFormatSpecifier extends FormatSpecifier {
 	/**
 	 * @generated
 	 */
-	@Override
 	DateFormatSpecifier copyInstance();
 
 } // DateFormatSpecifier

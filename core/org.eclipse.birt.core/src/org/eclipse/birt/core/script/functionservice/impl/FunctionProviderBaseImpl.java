@@ -68,8 +68,8 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 	protected static final String DEFAULT_CATEGORYNAME = null;
 
 	protected Map<String, Category> categories;
-	protected List<URL> jsLibs = new ArrayList<>();
-	protected List<URL> jarLibs = new ArrayList<>();
+	protected List<URL> jsLibs = new ArrayList<URL>();
+	protected List<URL> jarLibs = new ArrayList<URL>();
 	protected final IExtensionPoint extPoint;
 
 	public FunctionProviderBaseImpl(IExtensionPoint extPoint) {
@@ -78,23 +78,21 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 
 	/**
 	 * Return all the categories defined by extensions.
-	 *
+	 * 
 	 * @return
 	 * @throws BirtException
 	 */
-	@Override
 	public IScriptFunctionCategory[] getCategories() throws BirtException {
 		return getCategoryMap().values().toArray(new IScriptFunctionCategory[] {});
 	}
 
 	/**
 	 * Return the functions that defined in a category.
-	 *
+	 * 
 	 * @param categoryName
 	 * @return
 	 * @throws BirtException
 	 */
-	@Override
 	public IScriptFunction[] getFunctions(String categoryName) throws BirtException {
 		if (getCategoryMap().containsKey(categoryName)) {
 			Category category = getCategoryMap().get(categoryName);
@@ -106,12 +104,11 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 
 	/**
 	 * Register script functions to scope.
-	 *
+	 * 
 	 * @param cx
 	 * @param scope
 	 * @throws BirtException
 	 */
-	@Override
 	public void registerScriptFunction(Context cx, Scriptable scope) throws BirtException {
 		List<CategoryWrapper> wrapperedCategories = getWrapperedCategories();
 		for (CategoryWrapper category : wrapperedCategories) {
@@ -143,7 +140,6 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 		} catch (ClassNotFoundException e) {
 			loader = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
 
-				@Override
 				public ClassLoader run() {
 					return new RhinoClassLoaderDecoration(appLoader, FunctionProviderImpl.class.getClassLoader());
 				}
@@ -157,7 +153,6 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 		final ClassLoader parentClassLoader = parent;
 		URLClassLoader scriptClassLoader = AccessController.doPrivileged(new PrivilegedAction<URLClassLoader>() {
 
-			@Override
 			public URLClassLoader run() {
 				return new URLClassLoader(jarUrls, parentClassLoader);
 			}
@@ -175,7 +170,6 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 			this.rhinoClassLoader = rhinoClassLoader;
 		}
 
-		@Override
 		public Class<?> loadClass(String name) throws ClassNotFoundException {
 			try {
 				return applicationClassLoader.loadClass(name);
@@ -187,19 +181,17 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 
 	/**
 	 * Return the category map.
-	 *
+	 * 
 	 * @return
 	 */
 	private synchronized Map<String, Category> getCategoryMap() {
-		if (categories != null) {
+		if (categories != null)
 			return categories;
-		}
 
-		categories = new HashMap<>();
+		categories = new HashMap<String, Category>();
 
-		if (extPoint == null) {
+		if (extPoint == null)
 			return categories;
-		}
 
 		// Fetch all extensions
 		IExtension[] exts = extPoint.getExtensions();
@@ -211,9 +203,8 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 		for (int e = 0; e < exts.length; e++) {
 			try {
 				IConfigurationElement[] configElems = exts[e].getConfigurationElements();
-				if (configElems == null) {
+				if (configElems == null)
 					continue;
-				}
 
 				for (int i = 0; i < configElems.length; i++) {
 					boolean isVisible = extractBoolean(configElems[i].getAttribute(ATTRIBUTE_ISVISIBLE), true);
@@ -224,16 +215,14 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 						categories.put(category.getName(), category);
 
 						IScriptFunctionFactory factory = null;
-						if (configElems[i].getAttribute(ATTRIBUTE_FACTORYCLASS) != null) {
+						if (configElems[i].getAttribute(ATTRIBUTE_FACTORYCLASS) != null)
 							factory = (IScriptFunctionFactory) configElems[i]
 									.createExecutableExtension(ATTRIBUTE_FACTORYCLASS);
-						}
 						IConfigurationElement[] functions = configElems[i].getChildren(ELEMENT_FUNCTION);
 						for (int j = 0; j < functions.length; j++) {
 							IScriptFunction function = getScriptFunction(category, factory, functions[j]);
-							if (function != null) {
+							if (function != null)
 								category.addFunction(function);
-							}
 						}
 
 					}
@@ -246,9 +235,8 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 						}
 						IScriptFunction function = getScriptFunction(categories.get(DEFAULT_CATEGORYNAME), null,
 								configElems[i]);
-						if (function != null) {
+						if (function != null)
 							categories.get(DEFAULT_CATEGORYNAME).addFunction(function);
-						}
 					}
 					// Populate the .js script library
 					else if (configElems[i].getName().equals(ELEMENT_JSLIB)) {
@@ -266,7 +254,7 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 	/**
 	 * Populate library resources. The library resources includes .js script lib and
 	 * .jar java lib.
-	 *
+	 * 
 	 * @param libs
 	 * @param suffix
 	 * @param confElement
@@ -277,7 +265,7 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 
 	/**
 	 * Create script function out of a function element.
-	 *
+	 * 
 	 * @param category
 	 * @param factory
 	 * @param function
@@ -297,7 +285,7 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 			boolean isStatic = extractBoolean(function.getAttribute(ATTRIBUTE_ISSTATIC), true);
 			boolean isVisible = extractBoolean(function.getAttribute(ATTRIBUTE_ISVISIBLE), true);
 			String dataType = null;
-			List<IScriptFunctionArgument> arguments = new ArrayList<>();
+			List<IScriptFunctionArgument> arguments = new ArrayList<IScriptFunctionArgument>();
 			// Populate function return data type info.
 			if (hasChildren(ELEMENT_DATATYPE, function)) {
 				dataType = function.getChildren(ELEMENT_DATATYPE)[0].getAttribute(ATTRIBUTE_VALUE);
@@ -324,7 +312,7 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 
 	/**
 	 * Populate function argument.
-	 *
+	 * 
 	 * @param argument
 	 * @return
 	 * @throws BirtException
@@ -350,7 +338,7 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @param element
 	 * @return
@@ -362,17 +350,16 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 
 	/**
 	 * Create category wrapper.
-	 *
+	 * 
 	 * @return
 	 * @throws BirtException
 	 */
 	private List<CategoryWrapper> getWrapperedCategories() throws BirtException {
-		List<CategoryWrapper> result = new ArrayList<>();
+		List<CategoryWrapper> result = new ArrayList<CategoryWrapper>();
 
 		for (Category category : getCategoryMap().values()) {
-			if (category.getName() != DEFAULT_CATEGORYNAME) {
+			if (category.getName() != DEFAULT_CATEGORYNAME)
 				result.add(new CategoryWrapper(category));
-			}
 		}
 		return result;
 	}

@@ -1,20 +1,18 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
 package org.eclipse.birt.report.engine.layout.pdf.hyphen;
-
-import com.lowagie.text.pdf.hyphenation.Hyphen;
 
 /**
  * This class represents a hyphenated word.
@@ -71,9 +69,8 @@ public class Hyphenation {
 		return hyphenPoints;
 	}
 
-	@Override
 	public String toString() {
-		StringBuilder str = new StringBuilder();
+		StringBuffer str = new StringBuffer();
 		int start = 0;
 		for (int i = 0; i < len; i++) {
 			str.append(word.substring(start, hyphenPoints[i]) + "-"); //$NON-NLS-1$

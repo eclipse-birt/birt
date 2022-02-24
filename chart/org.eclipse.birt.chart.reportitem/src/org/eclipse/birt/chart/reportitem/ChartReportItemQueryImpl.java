@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005, 2007, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,11 +50,10 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject
 	 * (org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	@Override
 	public void setModelObject(ExtendedItemHandle eih) {
 		IReportItem item;
 		try {
@@ -81,11 +80,10 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.extension.ReportItemQueryBase#
 	 * createReportQueries (org.eclipse.birt.data.engine.api.IDataQueryDefinition)
 	 */
-	@Override
 	public IDataQueryDefinition[] createReportQueries(IDataQueryDefinition parent) throws BirtException {
 		logger.log(ILogger.INFORMATION, Messages.getString("ChartReportItemQueryImpl.log.getReportQueries.start")); //$NON-NLS-1$
 
@@ -105,7 +103,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase {
 
 	/**
 	 * Create query definition by report item handle.
-	 *
+	 * 
 	 * @param handle
 	 * @param parent
 	 * @return

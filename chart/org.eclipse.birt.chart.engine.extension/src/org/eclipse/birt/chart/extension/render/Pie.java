@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -61,14 +61,13 @@ public final class Pie extends BaseRenderer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param bo
 	 * @param p
 	 * @param isrh
 	 * @throws ChartException
 	 */
-	@Override
-	public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
+	public final void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		final SeriesRenderingHints srh = (SeriesRenderingHints) isrh;
 
 		// VALIDATE CONSISTENT DATASET COUNT BETWEEN BASE AND ORTHOGONAL
@@ -94,13 +93,12 @@ public final class Pie extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#renderSeries(org.eclipse.birt.
 	 * chart.device.IPrimitiveRenderer, org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints)
 	 */
-	@Override
 	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		ChartWithoutAxes cwoa = (ChartWithoutAxes) getModel();
 		if (cwoa.getDimension() != ChartDimension.TWO_DIMENSIONAL_LITERAL
@@ -156,7 +154,7 @@ public final class Pie extends BaseRenderer {
 		pr.render(getDevice(), boCB);
 	}
 
-	protected boolean isFirstPie() {
+	final protected boolean isFirstPie() {
 		for (int i = 1; i < iSeriesCount; i++) {
 			if (getRenderer(i) instanceof Pie) {
 				return getRenderer(i) == this;
@@ -166,13 +164,13 @@ public final class Pie extends BaseRenderer {
 		return false;
 	}
 
-	private PieRenderer getActualRenderer() {
+	private final PieRenderer getActualRenderer() {
 		return pr;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.render.BaseRenderer#getFilteredMinSliceEntry(org.
 	 * eclipse.birt.chart.computation.DataSetIterator)
 	 */
@@ -204,7 +202,7 @@ public final class Pie extends BaseRenderer {
 		}
 
 		double dMinSliceAbs = Math.abs(dMinSlice);
-		Set<Integer> setIds = new HashSet<>();
+		Set<Integer> setIds = new HashSet<Integer>();
 
 		for (int idx = 0; dsi.hasNext(); idx++) {
 			Object obj = dsi.next();
@@ -221,7 +219,7 @@ public final class Pie extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.
 	 * birt.chart.device.IPrimitiveRenderer,
@@ -229,8 +227,7 @@ public final class Pie extends BaseRenderer {
 	 * org.eclipse.birt.chart.model.attribute.Fill,
 	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
-	@Override
-	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
+	public final void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
 			throws ChartException {
 		if ((bo.getWidth() == 0) && (bo.getHeight() == 0)) {
 			return;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
  * is defined by a series of bands. A table defines the same bands as a list.
  * Like a list, each band is divided into a number of sections. Each section
  * contains one or more rows. Each row is further divided into a set of cells.
- *
+ * 
  */
 
 public class TableItem extends ListingElement implements ITableItemModel {
@@ -69,7 +69,7 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/**
 	 * Constructs the table item with an optional name.
-	 *
+	 * 
 	 * @param theName the optional name of the table
 	 */
 
@@ -79,42 +79,39 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitTable(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.TABLE_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the module
 	 * @return an API handle for this element.
 	 */
@@ -130,7 +127,7 @@ public class TableItem extends ListingElement implements ITableItemModel {
 	 * Computes the number of columns in the table. The number is defined as 1) the
 	 * sum of columns describe in the Columns slot, or 2) the widest row defined in
 	 * the other slots.
-	 *
+	 * 
 	 * @param module the module
 	 * @return the number of columns in the table
 	 */
@@ -139,9 +136,8 @@ public class TableItem extends ListingElement implements ITableItemModel {
 		// Method 1: sum columns in the column slot.
 
 		int colCount = getColDefnCount(module);
-		if (colCount != 0) {
+		if (colCount != 0)
 			return colCount;
-		}
 
 		// Method 2: find the widest row.
 
@@ -150,22 +146,21 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/**
 	 * Computes the maximum column count in the table.
-	 *
+	 * 
 	 * @param module the module
 	 * @return the maximum column count in the table
 	 */
 
 	public int findMaxCols(Module module) {
-		if (table == null) {
+		if (table == null)
 			refreshRenderModel(module);
-		}
 
 		return table.getColumnCount();
 	}
 
 	/**
 	 * Gets the number of columns described in the column definition section.
-	 *
+	 * 
 	 * @param module the module
 	 * @return the number of columns described by column definitions
 	 */
@@ -183,20 +178,18 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/**
 	 * Returns the column number with a specified <code>Cell</code>.
-	 *
+	 * 
 	 * @param module the module
 	 * @param target the cell to find
 	 * @return 1-based the column number
 	 */
 
 	public int getColumnPosition4Cell(Module module, Cell target) {
-		if (target == null) {
+		if (target == null)
 			return 0;
-		}
 
-		if (table == null) {
+		if (table == null)
 			refreshRenderModel(module);
-		}
 
 		int slotId = target.getContainer().getContainerInfo().getSlotID();
 
@@ -214,7 +207,7 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/**
 	 * Gets column in table item according to the cell.
-	 *
+	 * 
 	 * @param module     the module.
 	 * @param columnSlot the column slot.
 	 * @param target     the cell.
@@ -227,9 +220,8 @@ public class TableItem extends ListingElement implements ITableItemModel {
 		// mode, we should avoid to cache.
 
 		if (module.isCached()) {
-			if (cachedColumn == null) {
+			if (cachedColumn == null)
 				return null;
-			}
 
 			return cachedColumn.get(Long.valueOf(target.getID()));
 
@@ -239,9 +231,8 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 		// if the layout still not updated yet.
 
-		if (columnNum == 0) {
+		if (columnNum == 0)
 			return null;
-		}
 
 		return ColumnHelper.findColumn(module, columnSlot, columnNum);
 
@@ -249,19 +240,17 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.elements.ReportItem#cacheValues()
 	 */
-	@Override
 	public void cacheValues() {
 
 		ContainerSlot columnSlot = getSlot(ITableItemModel.COLUMN_SLOT);
-		if (columnSlot.getCount() == 0) {
+		if (columnSlot.getCount() == 0)
 			return;
-		}
 
 		Module module = getRoot();
-		cachedColumn = new HashMap<>();
+		cachedColumn = new HashMap<Long, TableColumn>();
 
 		// The array which caches the table column in the table, if the column
 		// repeat this array will record it accordingly.
@@ -288,23 +277,21 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 			// if the layout still not updated yet.
 
-			if (columnNum == 0) {
+			if (columnNum == 0)
 				continue;
-			}
 
 			TableColumn column = ColumnHelper.getColumnInArray(cachedColumnArray, columnNum);
 
 			// if the column could be found using the column number of the cell,
 			// then caches.
 			if (column != null) {
-				cachedColumn.put(cell.getID(), column);
+				cachedColumn.put(Long.valueOf(cell.getID()), column);
 			}
 
 		}
 
 	}
 
-	@Override
 	public List validate(Module module) {
 		List list = super.validate(module);
 
@@ -326,22 +313,21 @@ public class TableItem extends ListingElement implements ITableItemModel {
 	 * from the natural of <code>TableItem</code> since "colSpan", "rowSpan" and
 	 * "dropping cells" are applied. Mainly uses this model to render the
 	 * <code>TableItem</code>.
-	 *
+	 * 
 	 * @param module the module
 	 * @return the table model for rendering
 	 */
 
 	public LayoutTable getLayoutModel(Module module) {
-		if (table == null) {
+		if (table == null)
 			refreshRenderModel(module);
-		}
 
 		return table;
 	}
 
 	/**
 	 * Refreshes the table model of <code>TableItem</code>.
-	 *
+	 * 
 	 * @param module the module
 	 */
 
@@ -351,7 +337,7 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
 	 * .birt.report.model.elements.ReportDesign,
@@ -359,12 +345,10 @@ public class TableItem extends ListingElement implements ITableItemModel {
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	@Override
 	public List checkContent(Module module, ContainerContext containerInfo, DesignElement content) {
 		List errors = super.checkContent(module, containerInfo, content);
-		if (!errors.isEmpty()) {
+		if (!errors.isEmpty())
 			return errors;
-		}
 
 		errors.addAll(
 				TableHeaderContextContainmentValidator.getInstance().validateForAdding(module, containerInfo, content));
@@ -374,19 +358,17 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
 	 * .birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.ContainerInfo,
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
-	@Override
 	public List checkContent(Module module, ContainerContext containerInfo, IElementDefn defn) {
 		List errors = super.checkContent(module, containerInfo, defn);
-		if (!errors.isEmpty()) {
+		if (!errors.isEmpty())
 			return errors;
-		}
 
 		errors.addAll(TableHeaderContextContainmentValidator.getInstance().validateForAdding(module,
 				containerInfo.getElement(), defn));
@@ -396,11 +378,10 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.elements.ListingElement#clone()
 	 */
 
-	@Override
 	public Object doClone(CopyPolicy policy) throws CloneNotSupportedException {
 		TableItem clonedTable = (TableItem) super.doClone(policy);
 		clonedTable.refreshRenderModel(table.getTable().getModule());
@@ -411,16 +392,15 @@ public class TableItem extends ListingElement implements ITableItemModel {
 
 	/**
 	 * Gets the column number of the cell.
-	 *
+	 * 
 	 * @param module the module.
 	 * @param cell   the cell.
 	 * @return the column number of the cell.
 	 */
 	private int getColumnNum(Module module, Cell cell) {
 		int columnNum = cell.getColumn(module);
-		if (columnNum == 0) {
+		if (columnNum == 0)
 			columnNum = getColumnPosition4Cell(module, cell);
-		}
 		return columnNum;
 	}
 

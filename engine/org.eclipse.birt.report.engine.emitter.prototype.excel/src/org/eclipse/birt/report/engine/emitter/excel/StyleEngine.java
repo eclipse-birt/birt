@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,8 +30,8 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 /**
  * This class is used to caculate styles for Excel.
- *
- *
+ * 
+ * 
  */
 public class StyleEngine {
 	public static final int DEFAULT_DATE_STYLE = 1;
@@ -39,16 +39,16 @@ public class StyleEngine {
 	public static final int RESERVE_STYLE_ID = 20;
 
 	private int styleID = RESERVE_STYLE_ID;
-	private HashMap<StyleEntry, Integer> style2id = new HashMap<>();
-	private HashMap<Integer, StyleEntry> id2Style = new HashMap<>();
+	private HashMap<StyleEntry, Integer> style2id = new HashMap<StyleEntry, Integer>();
+	private HashMap<Integer, StyleEntry> id2Style = new HashMap<Integer, StyleEntry>();
 	private ExcelLayoutEngine engine;
-	private Stack<StyleEntry> containerStyles = new Stack<>();
+	private Stack<StyleEntry> containerStyles = new Stack<StyleEntry>();
 
 	// TODO: style ranges.
 	// private List<ExcelRange> styleRanges;
 
 	/**
-	 *
+	 * 
 	 * @param dataMap layout data
 	 * @return a StyleEngine instance
 	 */
@@ -83,9 +83,8 @@ public class StyleEngine {
 		StyleEntry entry;
 		if (style == null) {
 			entry = StyleBuilder.createEmptyStyleEntry();
-		} else {
+		} else
 			entry = initStyle(style, sizeInfo, parent);
-		}
 
 		StyleBuilder.applyDiagonalLine(entry, PropertyUtil.getColor(diagonalLineColor), diagonalLineStyle,
 				diagonalLineWidth);
@@ -107,7 +106,7 @@ public class StyleEngine {
 			StyleEntry parent) {
 
 		StyleEntry entry = StyleBuilder.createStyleEntry(style, parent);
-
+		;
 		if (!containerStyles.isEmpty()) {
 			StyleEntry centry = containerStyles.peek();
 			StyleBuilder.mergeInheritableProp(centry, entry);
@@ -212,9 +211,8 @@ public class StyleEngine {
 	}
 
 	public void removeForeignContainerStyle() {
-		if (!containerStyles.isEmpty()) {
+		if (!containerStyles.isEmpty())
 			containerStyles.pop();
-		}
 	}
 
 	public void applyContainerBottomStyle(XlsContainer container, Page page) {
@@ -235,9 +233,8 @@ public class StyleEngine {
 				StyleEntry originalStyle = getStyle(styleId);
 				StyleEntry newStyle = new StyleEntry(originalStyle);
 				boolean isChanged = StyleBuilder.applyBottomBorder(entry, newStyle);
-				if (isChanged) {
+				if (isChanged)
 					data.setStyleId(getStyleId(newStyle));
-				}
 			}
 		}
 	}
@@ -257,7 +254,7 @@ public class StyleEngine {
 		private Set<ExcelArea> areas;
 
 		public ExcelRange() {
-			areas = new HashSet<>();
+			areas = new HashSet<ExcelArea>();
 		}
 
 		public void addArea(ExcelArea area) {
@@ -286,7 +283,6 @@ public class StyleEngine {
 			this.colSpan = colSpan;
 		}
 
-		@Override
 		public int hashCode() {
 			int result = 0;
 			result = 31 * result + row;
@@ -296,7 +292,6 @@ public class StyleEngine {
 			return result;
 		}
 
-		@Override
 		public boolean equals(Object obj) {
 			if (obj == this) {
 				return true;

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004-2008 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -90,7 +90,7 @@ import org.eclipse.swt.widgets.Widget;
 
 /**
  * This class represents the tree view page of the data view
- *
+ * 
  */
 public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage implements IValidationListener,
 		IPreferenceChangeListener, IResourceChangeListener, IReportResourceChangeListener {
@@ -131,10 +131,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	/**
 	 * Creates the tree view
-	 *
+	 * 
 	 * @param parent the parent
 	 */
-	@Override
 	protected TreeViewer createTreeViewer(Composite parent) {
 		TreeViewer treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 
@@ -143,12 +142,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			@Override
 			public int compare(Viewer viewer, Object e1, Object e2) {
 				if (e1 instanceof ReportElementEntry || e2 instanceof ReportElementEntry) {
-					if (e1 instanceof ReportElementEntry) {
+					if (e1 instanceof ReportElementEntry)
 						e1 = ((ReportElementEntry) e1).getReportElement();
-					}
-					if (e2 instanceof ReportElementEntry) {
+					if (e2 instanceof ReportElementEntry)
 						e2 = ((ReportElementEntry) e2).getReportElement();
-					}
 				} else if (e1 instanceof ResourceEntry && e2 instanceof ResourceEntry) {
 					ResourceEntry entry1 = (ResourceEntry) e1;
 					ResourceEntry entry2 = (ResourceEntry) e2;
@@ -182,32 +179,29 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	/**
 	 * Configures the tree viewer.
-	 *
+	 * 
 	 * @param treeViewer the tree viewer to config.
 	 */
 	protected void configTreeViewer(final TreeViewer treeViewer) {
 		ViewsTreeProvider provider = (ViewsTreeProvider) ElementAdapterManager.getAdapter(this,
 				ViewsTreeProvider.class);
-		if (provider == null) {
+		if (provider == null)
 			provider = new LibraryExplorerProvider();
-		}
 
 		treeViewer.setContentProvider(provider);
 		treeViewer.setLabelProvider(provider);
 
 		// Adds drag and drop support
 		int ops = DND.DROP_COPY | DND.DROP_LINK;
-		Transfer[] transfers = { TemplateTransfer.getInstance() };
+		Transfer[] transfers = new Transfer[] { TemplateTransfer.getInstance() };
 		treeViewer.addDragSupport(ops, transfers, new LibraryDragListener(treeViewer));
 
 		treeViewer.getControl().addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 
 			}
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.F5) {
 					treeViewer.refresh();
@@ -217,15 +211,13 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		treeViewer.getTree().addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				Object input = treeViewer.getInput();
 				if (input instanceof Object[]) {
 					Object[] array = (Object[]) input;
 					for (int i = 0; i < array.length; i++) {
-						if (array[i] instanceof ResourceEntry) {
+						if (array[i] instanceof ResourceEntry)
 							((ResourceEntry) array[i]).dispose();
-						}
 					}
 
 				}
@@ -235,21 +227,17 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		TreeListener libraryTreeListener = new TreeListener() {
 
-			@Override
 			public void treeCollapsed(TreeEvent e) {
 				Item item = (Item) e.item;
-				if (libraryBackup != null) {
+				if (libraryBackup != null)
 					libraryBackup.updateCollapsedStatus(treeViewer, item.getData());
-				}
 
 			}
 
-			@Override
 			public void treeExpanded(TreeEvent e) {
 				Item item = (Item) e.item;
-				if (libraryBackup != null) {
+				if (libraryBackup != null)
 					libraryBackup.updateExpandedStatus(treeViewer, item.getData());
-				}
 			}
 
 		};
@@ -258,11 +246,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org
 			 * .eclipse.jface.viewers.DoubleClickEvent)
 			 */
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				handleDoubleClick(event);
 			}
@@ -272,11 +259,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org
 			 * .eclipse.jface.viewers.DoubleClickEvent)
 			 */
-			@Override
 			public void open(OpenEvent event) {
 				try {
 					handleOpen(event);
@@ -289,7 +275,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	/**
 	 * Handles a double-click event from the viewer.
-	 *
+	 * 
 	 * @param event the double-click event
 	 */
 	protected void handleDoubleClick(DoubleClickEvent event) {
@@ -316,7 +302,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	/**
 	 * Handles an open event from the viewer. Opens an editor on the selected
 	 * library.
-	 *
+	 * 
 	 * @param event the open event
 	 * @throws IOException if an I/O error occurs.
 	 */
@@ -344,19 +330,21 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					} else if (((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.RPTDESIGN) {
 						ResourceAction.openDesigner(this, file, false);
 					}
-				} else if (((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.LIBRARY) {
-					if (MessageDialog.openConfirm(getSite().getShell(),
-							Messages.getString("LibraryNotExist.Dialog.Title"), //$NON-NLS-1$
-							Messages.getString("LibraryNotExist.Dialog.Message"))) //$NON-NLS-1$
-					{
-						refreshRoot();
-					}
-				} else if (((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.RPTDESIGN) {
-					if (MessageDialog.openConfirm(getSite().getShell(),
-							Messages.getString("DesignerNotExist.Dialog.Title"), //$NON-NLS-1$
-							Messages.getString("DesignerNotExist.Dialog.Message"))) //$NON-NLS-1$
-					{
-						refreshRoot();
+				} else {
+					if (((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.LIBRARY) {
+						if (MessageDialog.openConfirm(getSite().getShell(),
+								Messages.getString("LibraryNotExist.Dialog.Title"), //$NON-NLS-1$
+								Messages.getString("LibraryNotExist.Dialog.Message"))) //$NON-NLS-1$
+						{
+							refreshRoot();
+						}
+					} else if (((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.RPTDESIGN) {
+						if (MessageDialog.openConfirm(getSite().getShell(),
+								Messages.getString("DesignerNotExist.Dialog.Title"), //$NON-NLS-1$
+								Messages.getString("DesignerNotExist.Dialog.Message"))) //$NON-NLS-1$
+						{
+							refreshRoot();
+						}
 					}
 				}
 				break;
@@ -392,7 +380,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		tree.addMouseTrackListener(new MouseTrackAdapter() {
 
-			@Override
 			public void mouseHover(MouseEvent event) {
 				Widget widget = event.widget;
 				if (widget == tree) {
@@ -502,7 +489,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * disposes of this page's control (if it has one and it has not already been
 	 * disposed). Disposes the visitor of the element
 	 */
-	@Override
 	public void dispose() {
 		SessionHandleAdapter.getInstance().getSessionHandle().removeResourceChangeListener(this);
 
@@ -530,12 +516,11 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.validators.IValidationListener#
 	 * elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 	 */
-	@Override
 	public void elementValidated(DesignElementHandle targetElement, ValidationEvent ev) {
 		TreeViewer treeViewer = getTreeViewer();
 
@@ -575,30 +560,29 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.core.runtime.preferences.
 	 * IEclipsePreferences$IPreferenceChangeListener #preferenceChange(org.eclipse
 	 * .core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent)
 	 */
-	@Override
 	public void preferenceChange(PreferenceChangeEvent event) {
 		if (event.getKey().equals(PreferenceChangeEvent.SPECIALTODEFAULT)
-				|| ReportPlugin.RESOURCE_PREFERENCE.equals(event.getKey())) {
+				|| ReportPlugin.RESOURCE_PREFERENCE.equals(event.getKey()))
 			Display.getDefault().asyncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					refreshRoot();
 				}
 			});
-		}
 	}
 
-	@Override
 	public void resourceChanged(IReportResourceChangeEvent event) {
-		if ((event.getType() != IReportResourceChangeEvent.NewResource
+		if (event.getType() != IReportResourceChangeEvent.NewResource
 				&& event.getType() != IReportResourceChangeEvent.LibraySaveChange
-				&& event.getType() != IReportResourceChangeEvent.DataDesignSaveChange) || (event.getSource() == this)) {
+				&& event.getType() != IReportResourceChangeEvent.DataDesignSaveChange) {
+			return;
+		}
+		if (event.getSource() == this) {
 			// filter events by self
 			return;
 		}
@@ -606,7 +590,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		if (allowRefreshing) {
 			Display.getDefault().asyncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					if (!isDisposed()) {
 						refreshRoot();
@@ -622,7 +605,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		allowRefreshing = false;
 	}
 
-	@Override
 	public void resourceChanged(ModuleHandle module, ResourceChangeEvent event) {
 		if (isDisposed()) {
 			return;
@@ -646,7 +628,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	/**
 	 * Sets selections for the specified tree viewer and optionally makes it
 	 * visible.
-	 *
+	 * 
 	 * @param treeViewer the specified tree viewer to select.
 	 * @param paths      the specified paths to select.
 	 */
@@ -659,7 +641,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		display.asyncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				TreeViewer treeViewer = getTreeViewer();
 				boolean needSelect = false;
@@ -677,7 +658,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 					needSelect = true;
 					String parent = file.getParent();
-					List<String> folders = new ArrayList<>();
+					List<String> folders = new ArrayList<String>();
 
 					while (parent != null) {
 						folders.add(parent);
@@ -701,9 +682,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		ResourceEntry sharedResource = (ResourceEntry) ElementAdapterManager.getAdapter(this, ResourceEntry.class);
 
-		if (sharedResource == null) {
+		if (sharedResource == null)
 			sharedResource = new PathResourceEntry();
-		}
 
 		// System Resources node should not be shown if no file is contained in
 		// this node.

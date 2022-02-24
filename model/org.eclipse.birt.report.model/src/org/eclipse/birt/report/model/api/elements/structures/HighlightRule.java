@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * defined on the style. Each rule has an expression that matches a set of
  * values, and a set of font and border instructions for how to format the data
  * item when the rule "fires."
- *
+ * 
  */
 
 public class HighlightRule extends StyleRule {
@@ -105,7 +105,7 @@ public class HighlightRule extends StyleRule {
 
 	/**
 	 * Constructs the highlight rule with an operator and its arguments.
-	 *
+	 * 
 	 * @param op        the supported operator. One of the internal choice values
 	 *                  identified in the meta-data dictionary
 	 * @param v1        the comparison value expressions for operators that take one
@@ -121,49 +121,44 @@ public class HighlightRule extends StyleRule {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	@Override
 	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IStructure#getDefn()
 	 */
 
-	@Override
 	public IStructureDefn getDefn() {
 		return MetaDataDictionary.getInstance().getStructure(STRUCTURE_NAME);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new HighlightRuleHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
 	 * getIntrinsicProperty(java.lang.String)
 	 */
 
-	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (STYLE_MEMBER.equals(propName)) {
+		if (STYLE_MEMBER.equals(propName))
 			return style;
-		}
 
 		return super.getIntrinsicProperty(propName);
 	}
@@ -171,71 +166,63 @@ public class HighlightRule extends StyleRule {
 	/**
 	 * Gets the style which defined on this element itself. This method will try to
 	 * resolve the style.
-	 *
+	 * 
 	 * @param module the module
 	 * @return style element. Null if the style is not defined on this element
 	 *         itself.
-	 *
+	 * 
 	 */
 	private StyleElement getStyle(Module module) {
 		getLocalProperty(module, (PropertyDefn) getMemberDefn(STYLE_MEMBER));
-		if (style == null) {
+		if (style == null)
 			return null;
-		}
 
 		return (StyleElement) style.getElement();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
 	 * setIntrinsicProperty(java.lang.String, java.lang.Object)
 	 */
 
-	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
 		if (STYLE_MEMBER.equals(propName)) {
-			if (value instanceof String) {
+			if (value instanceof String)
 				style = new ElementRefValue(StringUtil.extractNamespace((String) value),
 						StringUtil.extractName((String) value));
-			} else if (value instanceof StyleElement) {
+			else if (value instanceof StyleElement)
 				style = new ElementRefValue(null, (Style) value);
-			} else {
+			else
 				style = (ElementRefValue) value;
-			}
-		} else {
+		} else
 			super.setIntrinsicProperty(propName, value);
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IPropertySet#getProperty(org.eclipse
 	 * .birt.report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
-	@Override
 	public Object getProperty(Module module, PropertyDefn propDefn) {
 		Object value = getLocalProperty(module, propDefn);
-		if (value != null) {
+		if (value != null)
 			return value;
-		}
 
 		StyleElement styleElement = getStyle(module);
 
 		if (styleElement != null) {
 			ElementPropertyDefn newPropDefn = styleElement.getPropertyDefn(propDefn.getName());
-			if (newPropDefn != null && newPropDefn.isStyleProperty()) {
+			if (newPropDefn != null && newPropDefn.isStyleProperty())
 				value = styleElement.getLocalProperty(module, newPropDefn);
-			}
 		}
 
-		if (value != null) {
+		if (value != null)
 			return value;
-		}
 
 		return propDefn.getDefault();
 	}
@@ -243,7 +230,7 @@ public class HighlightRule extends StyleRule {
 	/**
 	 * Sets the style property. If it is a valid style and highlight rule has no
 	 * local values, values on the style are returned.
-	 *
+	 * 
 	 * @param styleElement the style
 	 */
 
@@ -255,14 +242,13 @@ public class HighlightRule extends StyleRule {
 
 	/**
 	 * Returns the style that the highlight rule links with.
-	 *
+	 * 
 	 * @return the style
 	 */
 
 	public StyleHandle getStyle() {
-		if (style == null || !style.isResolved()) {
+		if (style == null || !style.isResolved())
 			return null;
-		}
 
 		Style styleElement = (Style) style.getElement();
 		Module root = styleElement.getRoot();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2001, 2006 IBM Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
@@ -42,7 +42,7 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 
 /**
  * A FormToolkit customized for use by tabbed property sheet page.
- *
+ * 
  * @author Anthony Hunter
  */
 public class FormWidgetFactory extends FormToolkit {
@@ -72,7 +72,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates the tab folder as a part of the form.
-	 *
+	 * 
 	 * @param parent the composite parent.
 	 * @param style  the tab folder style.
 	 * @return the tab folder
@@ -84,7 +84,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates the tab item as a part of the tab folder.
-	 *
+	 * 
 	 * @param tabFolder the parent.
 	 * @param style     the tab folder style.
 	 * @return the tab item.
@@ -96,7 +96,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates the list as a part of the form.
-	 *
+	 * 
 	 * @param parent the composite parent.
 	 * @param style  the list style.
 	 * @return the list.
@@ -106,14 +106,12 @@ public class FormWidgetFactory extends FormToolkit {
 		return list;
 	}
 
-	@Override
 	public Composite createComposite(Composite parent, int style) {
 		Composite c = super.createComposite(parent, style);
 		paintBordersFor(c);
 		return c;
 	}
 
-	@Override
 	public Composite createComposite(Composite parent) {
 		Composite c = createComposite(parent, SWT.NONE);
 		return c;
@@ -121,76 +119,69 @@ public class FormWidgetFactory extends FormToolkit {
 
 	public Button createButton(Composite parent, int style, boolean isFormStyle) {
 		Button b;
-		if (isFormStyle) {
+		if (isFormStyle)
 			b = super.createButton(parent, "", style); //$NON-NLS-1$
-		} else {
+		else
 			b = new Button(parent, style);
-		}
 		return b;
 	}
 
 	public MenuButton createMenuButton(Composite parent, String text, int style) {
 		MenuButton button = new MenuButton(parent, style | SWT.FLAT);
-		if (text != null) {
+		if (text != null)
 			button.setText(text);
-		}
 		button.setBackground(parent.getBackground());
 		return button;
 	}
 
 	public MenuButton createSplitButton(Composite parent, int style, boolean isFormStyle) {
 		MenuButton b;
-		if (isFormStyle) {
+		if (isFormStyle)
 			b = createMenuButton(parent, "", style); //$NON-NLS-1$
-		} else {
+		else
 			b = new MenuButton(parent, style);
-		}
 		return b;
 	}
 
 	public Label createLabel(Composite parent, int style, boolean isFormStyle) {
 		Label l;
-		if (isFormStyle) {
+		if (isFormStyle)
 			l = super.createLabel(parent, "", style); //$NON-NLS-1$
-		} else {
+		else
 			l = new Label(parent, style);
-		}
 		return l;
 	}
 
 	public Label createLabel(Composite parent, boolean isFormStyle) {
 		Label l;
-		if (isFormStyle) {
+		if (isFormStyle)
 			l = super.createLabel(parent, "", SWT.NONE); //$NON-NLS-1$
-		} else {
+		else
 			l = new Label(parent, SWT.NONE);
-		}
 		return l;
 	}
 
 	public CLabel createCLabel(Composite parent, int style, boolean isFormStyle) {
 		CLabel l;
-		if (isFormStyle) {
+		if (isFormStyle)
 			l = createCLabel(parent, "", style); //$NON-NLS-1$
-		} else {
+		else
 			l = new CLabel(parent, style);
-		}
 		return l;
 	}
 
 	public CLabel createCLabel(Composite parent, boolean isFormStyle) {
 		CLabel l;
-		if (isFormStyle) {
+		if (isFormStyle)
 			l = createCLabel(parent, "", SWT.NONE); //$NON-NLS-1$
-		} else {
+		else
 			l = new CLabel(parent, SWT.NONE);
-		}
 		return l;
 	}
 
 	/**
 	 * Creates a plain composite as a part of the form.
-	 *
+	 * 
 	 * @param parent the composite parent.
 	 * @param style  the composite style.
 	 * @return the composite.
@@ -204,7 +195,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates a scrolled composite as a part of the form.
-	 *
+	 * 
 	 * @param parent the composite parent.
 	 * @param style  the composite style.
 	 * @return the composite.
@@ -222,7 +213,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates a combo box as a part of the form.
-	 *
+	 * 
 	 * @param parent the combo box parent.
 	 * @return the combo box.
 	 */
@@ -252,7 +243,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates a combo box as a part of the form.
-	 *
+	 * 
 	 * @param parent     the combo box parent.
 	 * @param comboStyle the combo box style.
 	 * @return the combo box.
@@ -266,7 +257,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates a combo box as a part of the form.
-	 *
+	 * 
 	 * @param parent the combo box parent.
 	 * @return the combo box.
 	 */
@@ -275,11 +266,10 @@ public class FormWidgetFactory extends FormToolkit {
 	}
 
 	public CCombo createCCombo(Composite parent, boolean isReadOnly) {
-		if (isReadOnly) {
+		if (isReadOnly)
 			return createCCombo(parent, SWT.FLAT | SWT.READ_ONLY);
-		} else {
+		else
 			return createCCombo(parent, SWT.FLAT);
-		}
 	}
 
 	public org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo createBirtCCombo(Composite parent,
@@ -292,7 +282,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates a combo box as a part of the form.
-	 *
+	 * 
 	 * @param parent the combo box parent.
 	 * @return the combo box.
 	 */
@@ -302,16 +292,15 @@ public class FormWidgetFactory extends FormToolkit {
 
 	public org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo createBirtCCombo(Composite parent,
 			boolean isReadOnly) {
-		if (isReadOnly) {
+		if (isReadOnly)
 			return createBirtCCombo(parent, SWT.FLAT | SWT.READ_ONLY);
-		} else {
+		else
 			return createBirtCCombo(parent, SWT.FLAT);
-		}
 	}
 
 	/**
 	 * Creates a group as a part of the form.
-	 *
+	 * 
 	 * @param parent the group parent.
 	 * @param text   the group title.
 	 * @return the composite.
@@ -326,7 +315,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates a flat form composite as a part of the form.
-	 *
+	 * 
 	 * @param parent the composite parent.
 	 * @return the composite.
 	 */
@@ -342,7 +331,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates a label as a part of the form.
-	 *
+	 * 
 	 * @param parent the label parent.
 	 * @param text   the label text.
 	 * @return the label.
@@ -353,7 +342,7 @@ public class FormWidgetFactory extends FormToolkit {
 
 	/**
 	 * Creates a label as a part of the form.
-	 *
+	 * 
 	 * @param parent the label parent.
 	 * @param text   the label text.
 	 * @param style  the label style.
@@ -366,16 +355,14 @@ public class FormWidgetFactory extends FormToolkit {
 		return label;
 	}
 
-	@Override
 	public void dispose() {
 		super.dispose();
 		factory = null;
 	}
 
 	public void paintFormStyle(Composite composite) {
-		if (composite instanceof TabbedPropertyTitle) {
+		if (composite instanceof TabbedPropertyTitle)
 			return;
-		}
 		if (composite instanceof Table) {
 			adapt(composite);
 			return;
@@ -393,41 +380,37 @@ public class FormWidgetFactory extends FormToolkit {
 
 	private class BorderPainter implements PaintListener {
 
-		@Override
 		public void paintControl(PaintEvent event) {
 			Composite composite = (Composite) event.widget;
 			Control[] children = composite.getChildren();
 			for (int i = 0; i < children.length; i++) {
 				Control c = children[i];
-				if (c instanceof BorderCanvas || c instanceof FormText || c instanceof CLabel) {
+				if (c instanceof BorderCanvas || c instanceof FormText || c instanceof CLabel)
 					continue;
-				}
 				boolean inactiveBorder = false;
 				boolean textBorder = false;
+				if (!c.isVisible())
+					continue;
 				/*
 				 * if (c.getEnabled() == false && !(c instanceof CCombo)) continue;
 				 */
-				if (!c.isVisible() || (c instanceof Hyperlink)) {
+				if (c instanceof Hyperlink)
 					continue;
-				}
 				Object flag = c.getData(KEY_DRAW_BORDER);
 				if (flag != null) {
-					if (flag.equals(Boolean.FALSE)) {
+					if (flag.equals(Boolean.FALSE))
 						continue;
-					}
-					if (flag.equals(TREE_BORDER)) {
+					if (flag.equals(TREE_BORDER))
 						inactiveBorder = true;
-					} else if (flag.equals(TEXT_BORDER)) {
+					else if (flag.equals(TEXT_BORDER))
 						textBorder = true;
-					}
 				}
 				if (getBorderStyle() == SWT.BORDER) {
 					if (!inactiveBorder && !textBorder) {
 						continue;
 					}
-					if (c instanceof Text || c instanceof Table || c instanceof Tree) {
+					if (c instanceof Text || c instanceof Table || c instanceof Tree)
 						continue;
-					}
 				}
 				if (!inactiveBorder && (c instanceof Text || c instanceof CCombo || textBorder
 						|| c instanceof org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo
@@ -443,11 +426,10 @@ public class FormWidgetFactory extends FormToolkit {
 					if (c instanceof CCombo
 							|| c instanceof org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo
 							|| c instanceof StyleCombo || c instanceof ComplexUnit || c instanceof Spinner
-							|| c instanceof CSpinner) {
+							|| c instanceof CSpinner)
 						gc.drawRectangle(b.x - 2, b.y - 1, b.width + 2, b.height + 1);
-					} else {
+					else
 						gc.drawRectangle(b.x - 2, b.y - 2, b.width + 2, b.height + 3);
-					}
 				} else if (inactiveBorder || c instanceof Table || c instanceof Tree || c instanceof Canvas
 						|| c instanceof List || c instanceof AccordionSubComposite) {
 					Rectangle b = c.getBounds();
@@ -461,13 +443,11 @@ public class FormWidgetFactory extends FormToolkit {
 
 	private BorderPainter borderPainter;
 
-	@Override
 	public void paintBordersFor(Composite parent) {
 		// if (borderStyle == SWT.BORDER)
 		// return;
-		if (borderPainter == null) {
+		if (borderPainter == null)
 			borderPainter = new BorderPainter();
-		}
 		parent.removePaintListener(borderPainter);
 		parent.addPaintListener(borderPainter);
 	}

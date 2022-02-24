@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -30,7 +30,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Action handler for invoke RunAndRenderTask to retrieve report content.
- *
+ * 
  */
 public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler {
 
@@ -41,7 +41,7 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param context
 	 * @param operation
 	 * @param response
@@ -55,11 +55,10 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Do execution.
-	 *
+	 * 
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	@Override
 	public void __execute() throws Exception {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		Map params = attrBean.getParameters();
@@ -74,7 +73,6 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler {
 				displayTexts);
 	}
 
-	@Override
 	protected IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}

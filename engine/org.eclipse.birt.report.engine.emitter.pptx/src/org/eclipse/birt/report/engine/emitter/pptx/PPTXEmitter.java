@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.layout.emitter.PageEmitter;
 
 public class PPTXEmitter extends PageEmitter {
 
-	@Override
 	public PageDeviceRender createRender(IEmitterServices service) throws EngineException {
 		return new PPTXRender(service);
 	}

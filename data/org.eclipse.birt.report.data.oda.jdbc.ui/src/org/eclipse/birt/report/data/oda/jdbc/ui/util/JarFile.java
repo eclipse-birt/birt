@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -103,7 +103,7 @@ public class JarFile implements Serializable {
 
 	/**
 	 * Copies the specified file to ODA driver path and viewer dirver path.
-	 *
+	 * 
 	 * @param filePath
 	 */
 	public void copyJarToODADir() {
@@ -142,6 +142,8 @@ public class JarFile implements Serializable {
 				} catch (IOException e1) {
 					// does nothing.
 				}
+			} catch (FileNotFoundException e) {
+				// does nothing.
 			} catch (IOException e) {
 				// does nothing.
 			} finally {
@@ -162,7 +164,7 @@ public class JarFile implements Serializable {
 	/**
 	 * Deletes the specified file from ODA driver path and viewer dirver path, NOTE
 	 * just the file name is used.
-	 *
+	 * 
 	 * @param filePath
 	 */
 	public void deleteJarFromODADir() {
@@ -189,20 +191,20 @@ public class JarFile implements Serializable {
 	 * * - not exist in the disk.
 	 */
 	public void checkJarState() {
-		if (hasRestored) {
+		if (hasRestored == true) {
 			state = FILE_HAS_BEEN_RESOTRED;
 		} else {
 			File f = new File(filePath);
 			if (!isUnderODAPath(f)) {
-				if (f.exists()) {
+				if (f.exists())
 					state = JarFile.ODA_FILE_NOT_EXIST_TOKEN;
-				} else {
+				else
 					state = JarFile.ODA_FILE_NOT_EXIST_TOKEN + JarFile.ORIGINAL_FILE_NOT_EXIST_TOKEN;
-				}
-			} else if (f.exists()) {
-				state = ""; //$NON-NLS-1$
 			} else {
-				state = JarFile.ORIGINAL_FILE_NOT_EXIST_TOKEN;
+				if (f.exists())
+					state = ""; //$NON-NLS-1$
+				else
+					state = JarFile.ORIGINAL_FILE_NOT_EXIST_TOKEN;
 			}
 		}
 	}
@@ -213,7 +215,10 @@ public class JarFile implements Serializable {
 	public static File getDriverLocation() {
 		try {
 			return OdaJdbcDriver.getDriverDirectory();
-		} catch (IOException | OdaException e) {
+		} catch (IOException e) {
+			ExceptionHandler.showException(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+					JdbcPlugin.getResourceString("exceptionHandler.title.error"), e.getLocalizedMessage(), e);
+		} catch (OdaException e) {
 			ExceptionHandler.showException(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
 					JdbcPlugin.getResourceString("exceptionHandler.title.error"), e.getLocalizedMessage(), e);
 		}
@@ -223,7 +228,7 @@ public class JarFile implements Serializable {
 
 	/**
 	 * check whether the given file is under ODA Drivers path.
-	 *
+	 * 
 	 * @param f the file to be checked
 	 * @return true if <tt>f</tt> is under ODA Drivers path,else false
 	 */

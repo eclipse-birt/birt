@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2006 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -148,7 +148,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 
 	// end UI controls
 
-	@Override
 	public void init() {
 		super.init();
 		configEngine();
@@ -160,12 +159,10 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 
 		emitterConfig.setActionHandler(new HTMLActionHandler() {
 
-			@Override
 			public String getURL(IAction actionDefn, Object context) {
-				if (actionDefn.getType() == IAction.ACTION_DRILLTHROUGH) {
+				if (actionDefn.getType() == IAction.ACTION_DRILLTHROUGH)
 					return "birt://" //$NON-NLS-1$
 							+ URLEncoder.encode(super.getURL(actionDefn, context));
-				}
 				return super.getURL(actionDefn, context);
 			}
 
@@ -182,12 +179,11 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.preview.extension.IViewer#createUI(org.
 	 * eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Control createUI(Composite parent) {
 		if (parent == null) {
 			return null;
@@ -211,7 +207,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		reRunReportAction = new Action("Re-run the report", //$NON-NLS-1$
 				Action.AS_PUSH_BUTTON) {
 
-			@Override
 			public void run() {
 				render();
 			}
@@ -224,7 +219,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		// paramAction
 		paramAction = new Action("Enter parameter", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			@Override
 			public void run() {
 				render();
 			}
@@ -237,7 +231,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		// tocAction
 		tocAction = new Action("TOC", Action.AS_RADIO_BUTTON) { //$NON-NLS-1$
 
-			@Override
 			public void run() {
 				if (sashForm.getMaximizedControl() != null) {
 					sashForm.setMaximizedControl(null);
@@ -259,7 +252,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		// navFirstAction
 		navFirstAction = new Action("First", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			@Override
 			public void run() {
 				currentPageNum = 1;
 				renderWithoutAskingForParams();
@@ -273,7 +265,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		// navPreAction
 		navPreAction = new Action("Previous", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			@Override
 			public void run() {
 				if (currentPageNum > 1) {
 					currentPageNum--;
@@ -290,7 +281,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		// navNextAction
 		navNextAction = new Action("Next", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			@Override
 			public void run() {
 				if (currentPageNum < totalPageNum) {
 					currentPageNum++;
@@ -307,7 +297,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		// navLastAction
 		navLastAction = new Action("Last", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			@Override
 			public void run() {
 				currentPageNum = totalPageNum;
 				renderWithoutAskingForParams();
@@ -323,7 +312,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 
 		ContributionItem inputText = new ContributionItem() {
 
-			@Override
 			public void fill(ToolBar parent, int index) {
 				ToolItem toolitem = new ToolItem(parent, SWT.SEPARATOR, index);
 				Composite container = new Composite(parent, SWT.NULL);
@@ -343,7 +331,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 				goPageInput.setLayoutData(new GridData(GridData.FILL_BOTH));
 				goPageInput.addKeyListener(new KeyAdapter() {
 
-					@Override
 					public void keyPressed(KeyEvent e) {
 						if (e.character == SWT.LF || e.character == SWT.CR) {
 							if (navGoAction.isEnabled()) {
@@ -362,7 +349,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 					 */
 					private boolean isValid = true;
 
-					@Override
 					public void modifyText(ModifyEvent e) {
 						if (!"".equals(goPageInput.getText())) //$NON-NLS-1$
 						{
@@ -406,7 +392,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		// navSelectAction
 		navGoAction = new Action("Go to page", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			@Override
 			public void run() {
 				if (goPageInput != null && !goPageInput.isDisposed()) {
 					currentPageNum = Long.parseLong(goPageInput.getText());
@@ -480,7 +465,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 
 		tocViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (reportDocumentFile != null) {
 					StructuredSelection selection = (StructuredSelection) event.getSelection();
@@ -518,34 +502,31 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IViewer#getUI()
 	 */
-	@Override
 	public Control getUI() {
 		return this.form;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.preview.extension.IViewer#getEngingConfig
 	 * ()
 	 */
-	@Override
 	public EngineConfig getEngineConfig() {
 		return engineConfig;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.preview.extension.IViewer#getRenderOption
 	 * ()
 	 */
-	@Override
 	public IRenderOption getRenderOption() {
 		if (isDrillThrough) {
 			isDrillThrough = false;
@@ -556,16 +537,14 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.preview.extension.IViewer#setInput(java.
 	 * lang.Object)
 	 */
-	@Override
 	public void setInput(final Object input) {
-		if (input instanceof String) {
+		if (input instanceof String)
 			setReportDesignFile((String) input);
-		}
 	}
 
 	public void setParamValues(Map paramValues) {
@@ -582,7 +561,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 
 	/**
 	 * Get the path of the report design file to be rendered.
-	 *
+	 * 
 	 * @return
 	 */
 	public String getReportDesignFile() {
@@ -593,7 +572,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 	 * Get the parameters pair values for current report design. This method will
 	 * raise a dialog if the report design has some parameters. TODO change to check
 	 * if there are any required parameters not set then open dialog.
-	 *
+	 * 
 	 * @return
 	 */
 	public void getParameterValues(List params) {
@@ -601,9 +580,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 			this.hasParas = true;
 			// Parameters have been set values, this is case for hyperlink
 			// drill-through
-			if (assignParamValues && checkParamsValues(params)) {
+			if (assignParamValues && checkParamsValues(params))
 				return;
-			}
 			// assignParamValues = false;
 			InputParameterDialog dialog = new InputParameterDialog(Display.getCurrent().getActiveShell(), params,
 					paramValues);
@@ -621,9 +599,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		for (Iterator ite = params.iterator(); ite.hasNext();) {
 			Object obj = ite.next();
 			if (obj instanceof ScalarParam && !((ScalarParam) obj).getHandle().isHidden()) {
-				if (!paramValues.containsKey((((ScalarParam) obj).getHandle().getName()))) {
+				if (!paramValues.containsKey((((ScalarParam) obj).getHandle().getName())))
 					return false;
-				}
 			} else if (obj instanceof AbstractParamGroup) {
 				AbstractParamGroup group = (AbstractParamGroup) obj;
 				checkParamsValues(group.getChildren());
@@ -633,9 +610,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 	}
 
 	public void renderReport(IProgressMonitor monitor) {
-		if (hasParas && !assignParamValues) {
+		if (hasParas && !assignParamValues)
 			return;
-		}
 		assignParamValues = false;
 
 		monitor.subTask("Collecting parameters"); //$NON-NLS-1$
@@ -698,7 +674,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		navGoAction.setEnabled(false);
 	}
 
-	@Override
 	public void render() {
 		setControlStatus();
 
@@ -723,7 +698,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		Job initJob = new AbstractJob("Initialize engine", //$NON-NLS-1$
 				this.reportDesignFile) {
 
-			@Override
 			public void work(IProgressMonitor monitor) {
 				if (!isInitialize) {
 					monitor.subTask("Initialize engine"); //$NON-NLS-1$
@@ -741,7 +715,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		Job getParameterJob = new AbstractUIJob("Collecting parameters", //$NON-NLS-1$
 				this.reportDesignFile) {
 
-			@Override
 			public void work(IProgressMonitor monitor) {
 				monitor.subTask("Collecting parameters"); //$NON-NLS-1$
 				getParameterValues(inputParameters);
@@ -755,7 +728,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		Job renderJob = new AbstractJob("Rendering report", //$NON-NLS-1$
 				this.reportDesignFile) {
 
-			@Override
 			public void work(IProgressMonitor monitor) {
 				monitor.subTask(reportDesignFile);
 				renderReport(monitor);
@@ -768,7 +740,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 		Job showJob = new AbstractUIJob("Showing report", //$NON-NLS-1$
 				this.reportDesignFile) {
 
-			@Override
 			public void work(IProgressMonitor monitor) {
 				monitor.subTask("Show report in Browser"); //$NON-NLS-1$
 				if (!form.isDisposed()) {
@@ -804,7 +775,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 	private void updateFormJob(RenderJobRule jobRule) {
 		Job updateFormJob = new AbstractUIJob("Update", "") { //$NON-NLS-1$ //$NON-NLS-2$
 
-			@Override
 			public void work(IProgressMonitor monitor) {
 				if (!form.isDisposed()) {
 					form.setBusy(false);

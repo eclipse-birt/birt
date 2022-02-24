@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -14,26 +14,27 @@
 
 package org.eclipse.birt.chart.examples.radar.model.type.impl;
 
-import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
-import org.eclipse.birt.chart.examples.radar.model.type.RadarTypeFactory;
-import org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage;
+import org.eclipse.birt.chart.examples.radar.model.type.*;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
  * end-user-doc -->
- *
+ * 
  * @generated
  */
 public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFactory {
 	/**
 	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static RadarTypeFactory init() {
@@ -52,7 +53,7 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFacto
 	/**
 	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public RadarTypeFactoryImpl() {
@@ -61,7 +62,7 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -76,10 +77,9 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public RadarSeries createRadarSeries() {
 		RadarSeriesImpl radarSeries = new RadarSeriesImpl();
 		return radarSeries;
@@ -87,17 +87,16 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public RadarTypePackage getRadarTypePackage() {
 		return (RadarTypePackage) getEPackage();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @deprecated
 	 * @generated
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -47,7 +47,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the level value for this S_Info.
-	 *
+	 * 
 	 * @return level
 	 */
 	public int getLevel() {
@@ -56,7 +56,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the level value for this S_Info.
-	 *
+	 * 
 	 * @param level
 	 */
 	public void setLevel(int level) {
@@ -65,7 +65,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the h_Count value for this S_Info.
-	 *
+	 * 
 	 * @return h_Count The number of rows in section header
 	 */
 	public int getH_Count() {
@@ -74,7 +74,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the h_Count value for this S_Info.
-	 *
+	 * 
 	 * @param h_Count The number of rows in section header
 	 */
 	public void setH_Count(int h_Count) {
@@ -83,7 +83,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the f_Count value for this S_Info.
-	 *
+	 * 
 	 * @return f_Count The number of rows in section footer
 	 */
 	public int getF_Count() {
@@ -92,7 +92,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the f_Count value for this S_Info.
-	 *
+	 * 
 	 * @param f_Count The number of rows in section footer
 	 */
 	public void setF_Count(int f_Count) {
@@ -101,7 +101,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the HR_Index value for this S_Info.
-	 *
+	 * 
 	 * @return HR_Index The index of section header row
 	 */
 	public int getHR_Index() {
@@ -110,7 +110,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the HR_Index value for this S_Info.
-	 *
+	 * 
 	 * @param HR_Index The index of section header row
 	 */
 	public void setHR_Index(int HR_Index) {
@@ -119,7 +119,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the CR_Index value for this S_Info.
-	 *
+	 * 
 	 * @return CR_Index The index of chart row
 	 */
 	public int getCR_Index() {
@@ -128,7 +128,7 @@ public class S_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the CR_Index value for this S_Info.
-	 *
+	 * 
 	 * @param CR_Index The index of chart row
 	 */
 	public void setCR_Index(int CR_Index) {
@@ -137,18 +137,14 @@ public class S_Info implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof S_Info)) {
+		if (!(obj instanceof S_Info))
 			return false;
-		}
 		S_Info other = (S_Info) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -163,7 +159,6 @@ public class S_Info implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

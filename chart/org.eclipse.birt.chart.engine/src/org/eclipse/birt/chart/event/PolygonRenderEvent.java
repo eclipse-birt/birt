@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -59,7 +59,6 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent {
 	/**
 	 * @return Returns the background fill attributes for the polygon
 	 */
-	@Override
 	public Fill getBackground() {
 		return _ifBackground;
 	}
@@ -87,10 +86,9 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
 	 */
-	@Override
 	public Bounds getBounds() throws ChartException {
 		final Bounds bo = goFactory.createBounds(0, 0, 0, 0);
 		bo.updateFrom(_loa);
@@ -99,10 +97,9 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	@Override
 	public PrimitiveRenderEvent copy() {
 		final PolygonRenderEvent pre = new PolygonRenderEvent(source);
 		if (_loa != null) {
@@ -127,12 +124,11 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
-	@Override
 	public final void draw(IDeviceRenderer idr) throws ChartException {
 		if (bEnabled) {
 			idr.drawPolygon(this);
@@ -141,12 +137,11 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
-	@Override
 	public final void fill(IDeviceRenderer idr) throws ChartException {
 		if (bEnabled) {
 			idr.fillPolygon(this);
@@ -155,10 +150,9 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	@Override
 	public void reset() {
 		this._ifBackground = null;
 		this._lia = null;
@@ -166,7 +160,6 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent {
 
 	}
 
-	@Override
 	public LineAttributes getLineAttributes() {
 		return getOutline();
 	}

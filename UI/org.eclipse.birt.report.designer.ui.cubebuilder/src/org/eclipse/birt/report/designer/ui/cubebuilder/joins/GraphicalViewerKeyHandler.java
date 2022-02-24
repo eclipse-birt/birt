@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -26,7 +26,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 
 /**
- *
+ * 
  * The handler for Key events on the Join Page. Whenever the join page has the
  * focus, any key event will be sent to this class. The events supported include
  * Deleting a Join, Deleting a Table.
@@ -47,10 +47,9 @@ public class GraphicalViewerKeyHandler extends KeyHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.KeyHandler#keyPressed(org.eclipse.swt.events.KeyEvent)
 	 */
-	@Override
 	public boolean keyPressed(KeyEvent event) {
 		List selectedParts = viewer.getSelectedEditParts();
 		if (selectedParts != null && selectedParts.size() > 0) {
@@ -67,41 +66,37 @@ public class GraphicalViewerKeyHandler extends KeyHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.KeyHandler#keyReleased(org.eclipse.swt.events.KeyEvent)
 	 */
-	@Override
 	public boolean keyReleased(KeyEvent event) {
 		return super.keyReleased(event);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.KeyHandler#put(org.eclipse.gef.KeyStroke,
 	 * org.eclipse.jface.action.IAction)
 	 */
-	@Override
 	public void put(KeyStroke keystroke, IAction action) {
 		super.put(keystroke, action);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.KeyHandler#remove(org.eclipse.gef.KeyStroke)
 	 */
-	@Override
 	public void remove(KeyStroke keystroke) {
 		super.remove(keystroke);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.KeyHandler#setParent(org.eclipse.gef.KeyHandler)
 	 */
-	@Override
 	public KeyHandler setParent(KeyHandler parent) {
 		return super.setParent(parent);
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.xml.sax.Locator;
 
 /**
  * Implements the error handler during the XML parser.
- *
+ * 
  */
 
 public abstract class ErrorHandler {
@@ -36,13 +36,13 @@ public abstract class ErrorHandler {
 	 * The list contains errors encountered when parsing a XML file.
 	 */
 
-	protected List<XMLParserException> errors = new ArrayList<>();
+	protected List<XMLParserException> errors = new ArrayList<XMLParserException>();
 
 	/**
 	 * The list contains warnings encountered when parsing a XML file.
 	 */
 
-	protected List<XMLParserException> warnings = new ArrayList<>();
+	protected List<XMLParserException> warnings = new ArrayList<XMLParserException>();
 
 	/**
 	 * SAX <code>Locator</code> for reporting errors.
@@ -52,7 +52,7 @@ public abstract class ErrorHandler {
 
 	/**
 	 * Returns the error list when parsing xml file.
-	 *
+	 * 
 	 * @return the errors
 	 */
 
@@ -62,7 +62,7 @@ public abstract class ErrorHandler {
 
 	/**
 	 * Gets the warning list when parsing xml file.
-	 *
+	 * 
 	 * @return the warnings
 	 */
 
@@ -72,7 +72,7 @@ public abstract class ErrorHandler {
 
 	/**
 	 * Add a recoverable semantic error to the error list.
-	 *
+	 * 
 	 * @param e The exception to log.
 	 * @return the added semantic error
 	 */
@@ -83,7 +83,7 @@ public abstract class ErrorHandler {
 
 	/**
 	 * Add a recoverable semantic error to the error list.
-	 *
+	 * 
 	 * @param e The exception to log
 	 * @return the added semantic error
 	 */
@@ -92,7 +92,7 @@ public abstract class ErrorHandler {
 
 	/**
 	 * Receive a Locator object for document events.
-	 *
+	 * 
 	 * @param theLocator a locator for all SAX document events
 	 * @see org.xml.sax.Locator
 	 */
@@ -103,7 +103,7 @@ public abstract class ErrorHandler {
 
 	/**
 	 * Sets the current element name.
-	 *
+	 * 
 	 * @param theCurrentElement the current element name
 	 */
 
@@ -113,7 +113,7 @@ public abstract class ErrorHandler {
 
 	/**
 	 * Gets the current element name.
-	 *
+	 * 
 	 * @return the current element name
 	 */
 
@@ -124,7 +124,7 @@ public abstract class ErrorHandler {
 	/**
 	 * Adds a warning to the warning list inherited from XMLParserHandler during
 	 * parsing the design file.
-	 *
+	 * 
 	 * @param e the exception to log
 	 */
 

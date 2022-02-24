@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -17,6 +17,11 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
@@ -28,8 +33,6 @@ import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.DesignFileException;
-
-import junit.framework.TestCase;
 
 public class NamedExpressionTest extends TestCase {
 
@@ -48,6 +51,19 @@ public class NamedExpressionTest extends TestCase {
 		return report;
 	}
 
+	private IDataEngine getDataEngine(Report report, IDocArchiveWriter arch, String archiveMetaName, int mode)
+			throws Exception {
+		ExecutionContext context = new ExecutionContext();
+
+		if (mode == MODE_GENERATION) {
+			DataGenerationEngine dataGenEngine = new DataGenerationEngine(null, context, arch);
+			dataGenEngine.prepare(report, null);
+			return dataGenEngine;
+		} else {
+			return null;
+		}
+	}
+
 	protected String loadResource(String resourceName) throws Exception {
 		InputStream in = this.getClass().getResourceAsStream(resourceName);
 		assertTrue(in != null);
@@ -56,13 +72,11 @@ public class NamedExpressionTest extends TestCase {
 		return new String(buffer);
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		delete(NAMED_EXPRESSION_FILENAME);
 	}
 
-	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		delete(NAMED_EXPRESSION_FILENAME);

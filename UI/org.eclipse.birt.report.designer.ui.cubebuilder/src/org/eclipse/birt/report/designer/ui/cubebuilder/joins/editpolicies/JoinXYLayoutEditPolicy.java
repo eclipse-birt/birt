@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -42,12 +42,11 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org
 	 * .eclipse.gef.EditPart, java.lang.Object)
 	 */
-	@Override
 	protected Command createAddCommand(EditPart child, Object constraint) {
 		// TODO Auto-generated method stub
 		return null;
@@ -55,18 +54,16 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#
 	 * createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
 	 */
-	@Override
 	protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 		SetConstraintCommand locationCommand = new SetConstraintCommand();
 		if (child instanceof DatasetNodeEditPart) {
 			locationCommand.setModuleHandle(((DatasetNodeEditPart) child).getCube().getRoot());
-		} else {
+		} else
 			locationCommand.setModuleHandle(((DesignElementHandle) child.getModel()).getRoot());
-		}
 
 		locationCommand.setId(UIHelper.getId(child.getModel(), cube));
 
@@ -78,12 +75,11 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.
 	 * gef.requests.CreateRequest)
 	 */
-	@Override
 	protected Command getCreateCommand(CreateRequest request) {
 		return null;
 
@@ -91,27 +87,23 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.
 	 * eclipse.gef.Request)
 	 */
-	@Override
 	protected Command getDeleteDependantCommand(Request request) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	protected EditPolicy createChildEditPolicy(EditPart child) {
 		return new ResizableEditPolicy() {
 
-			@Override
 			protected IFigure createDragSourceFeedbackFigure() {
 				// Use a ghost rectangle for feedback
 				Figure r = new Figure() {
 
-					@Override
 					protected void paintFigure(Graphics graphics) {
 						Rectangle rect = getBounds().getCopy();
 

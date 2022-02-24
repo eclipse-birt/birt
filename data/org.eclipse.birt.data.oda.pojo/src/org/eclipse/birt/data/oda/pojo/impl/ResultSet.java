@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getMetaData()
 	 */
-	@Override
 	public IResultSetMetaData getMetaData() throws OdaException {
 		return new ResultSetMetaData(query.getReferenceGraph());
 	}
@@ -67,14 +66,13 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#setMaxRows(int)
 	 */
-	@Override
 	public void setMaxRows(int max) throws OdaException {
 		maxRows = max > 0 ? max : 0;
 	}
 
 	/**
 	 * Returns the maximum number of rows that can be fetched from this result set.
-	 *
+	 * 
 	 * @return the maximum number of rows to fetch.
 	 */
 	protected int getMaxRows() {
@@ -84,7 +82,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#next()
 	 */
-	@Override
 	public boolean next() throws OdaException {
 		if (maxRows > 0 && currentRowId >= maxRows) {
 			subResultSet = null;
@@ -121,7 +118,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#close()
 	 */
-	@Override
 	public void close() throws OdaException {
 		currentRowId = 0; // reset row counter
 		if (pojoDataSet != null) {
@@ -132,7 +128,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getRow()
 	 */
-	@Override
 	public int getRow() throws OdaException {
 		return currentRowId;
 	}
@@ -140,7 +135,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getString(int)
 	 */
-	@Override
 	public String getString(int index) throws OdaException {
 		return DataTypeUtil.toString(getColumnValue(index));
 	}
@@ -149,7 +143,6 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getString(java.lang.String)
 	 */
-	@Override
 	public String getString(String columnName) throws OdaException {
 		return getString(findColumn(columnName));
 	}
@@ -157,7 +150,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getInt(int)
 	 */
-	@Override
 	public int getInt(int index) throws OdaException {
 		return DataTypeUtil.toInt(getColumnValue(index));
 	}
@@ -166,7 +158,6 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getInt(java.lang.String)
 	 */
-	@Override
 	public int getInt(String columnName) throws OdaException {
 		return getInt(findColumn(columnName));
 	}
@@ -174,7 +165,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(int)
 	 */
-	@Override
 	public double getDouble(int index) throws OdaException {
 		return DataTypeUtil.toDouble(getColumnValue(index));
 	}
@@ -183,7 +173,6 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(java.lang.String)
 	 */
-	@Override
 	public double getDouble(String columnName) throws OdaException {
 		return getDouble(findColumn(columnName));
 	}
@@ -191,7 +180,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(int)
 	 */
-	@Override
 	public BigDecimal getBigDecimal(int index) throws OdaException {
 		return DataTypeUtil.toBigDecimal(getColumnValue(index));
 	}
@@ -201,7 +189,6 @@ public class ResultSet implements IResultSet {
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(java.lang.
 	 * String)
 	 */
-	@Override
 	public BigDecimal getBigDecimal(String columnName) throws OdaException {
 		return getBigDecimal(findColumn(columnName));
 	}
@@ -209,7 +196,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDate(int)
 	 */
-	@Override
 	public Date getDate(int index) throws OdaException {
 		return DataTypeUtil.toDate(getColumnValue(index));
 	}
@@ -218,7 +204,6 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getDate(java.lang.String)
 	 */
-	@Override
 	public Date getDate(String columnName) throws OdaException {
 		return getDate(findColumn(columnName));
 	}
@@ -226,7 +211,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(int)
 	 */
-	@Override
 	public Time getTime(int index) throws OdaException {
 		return DataTypeUtil.toTime(getColumnValue(index));
 	}
@@ -235,7 +219,6 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getTime(java.lang.String)
 	 */
-	@Override
 	public Time getTime(String columnName) throws OdaException {
 		return getTime(findColumn(columnName));
 	}
@@ -243,7 +226,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(int)
 	 */
-	@Override
 	public Timestamp getTimestamp(int index) throws OdaException {
 		return DataTypeUtil.toTimestamp(getColumnValue(index));
 	}
@@ -253,7 +235,6 @@ public class ResultSet implements IResultSet {
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(java.lang.
 	 * String)
 	 */
-	@Override
 	public Timestamp getTimestamp(String columnName) throws OdaException {
 		return getTimestamp(findColumn(columnName));
 	}
@@ -261,7 +242,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBlob(int)
 	 */
-	@Override
 	public IBlob getBlob(int index) throws OdaException {
 		return DataTypeUtil.toBlob(getColumnValue(index));
 	}
@@ -270,7 +250,6 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getBlob(java.lang.String)
 	 */
-	@Override
 	public IBlob getBlob(String columnName) throws OdaException {
 		return getBlob(findColumn(columnName));
 	}
@@ -278,7 +257,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getClob(int)
 	 */
-	@Override
 	public IClob getClob(int index) throws OdaException {
 		return DataTypeUtil.toClob(getColumnValue(index));
 	}
@@ -287,49 +265,44 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getClob(java.lang.String)
 	 */
-	@Override
 	public IClob getClob(String columnName) throws OdaException {
 		return getClob(findColumn(columnName));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(int)
 	 */
-	@Override
 	public boolean getBoolean(int index) throws OdaException {
 		return DataTypeUtil.toBoolean(getColumnValue(index));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(java.lang.
 	 * String)
 	 */
-	@Override
 	public boolean getBoolean(String columnName) throws OdaException {
 		return getBoolean(findColumn(columnName));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(int)
 	 */
-	@Override
 	public Object getObject(int index) throws OdaException {
 		return getColumnValue(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getObject(java.lang.String)
 	 */
-	@Override
 	public Object getObject(String columnName) throws OdaException {
 		return getObject(findColumn(columnName));
 	}
@@ -337,7 +310,6 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#wasNull()
 	 */
-	@Override
 	public boolean wasNull() throws OdaException {
 		return columnValue == null;
 	}
@@ -346,14 +318,13 @@ public class ResultSet implements IResultSet {
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#findColumn(java.lang.
 	 * String)
 	 */
-	@Override
 	public int findColumn(String columnName) throws OdaException {
 		return query.getReferenceGraph().findColumn(columnName);
 	}
 
 	/**
 	 * set to "public" only for exposing it to test cases project
-	 *
+	 * 
 	 * @param index: 1-based
 	 * @return
 	 */

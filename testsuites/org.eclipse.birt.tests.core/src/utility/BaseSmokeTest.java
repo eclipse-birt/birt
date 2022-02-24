@@ -46,7 +46,7 @@ public abstract class BaseSmokeTest extends EngineCase {
 
 	/**
 	 * Working folder that containing the smoke test cases.
-	 *
+	 * 
 	 * @return Working folder that containing the 'TestCases' folder containing the
 	 *         smoke test collections.
 	 */
@@ -58,13 +58,11 @@ public abstract class BaseSmokeTest extends EngineCase {
 	 * @throws Exception
 	 */
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		// removeResource( );
 	}
 
-	@Override
 	public void tearDown() {
 		// removeResource( );
 	}
@@ -78,9 +76,8 @@ public abstract class BaseSmokeTest extends EngineCase {
 		while (true) {
 			try {
 				String content = reader.readLine();
-				if (content == null) {
+				if (content == null)
 					break;
-				}
 				resultList.add(content);
 			} catch (Exception e) {
 				// do nothing.
@@ -105,11 +102,9 @@ public abstract class BaseSmokeTest extends EngineCase {
 
 		File[] reports = inputFile.listFiles(new FilenameFilter() {
 
-			@Override
 			public boolean accept(File dir, String name) {
-				if (name.endsWith(".xml")) { //$NON-NLS-1$
+				if (name.endsWith(".xml")) //$NON-NLS-1$
 					return true;
-				}
 				return false;
 			}
 		});
@@ -124,7 +119,7 @@ public abstract class BaseSmokeTest extends EngineCase {
 				compareHTML(html, html);
 
 				if (engineErrors != null && engineErrors.size() > 0) {
-					StringBuilder sb = new StringBuilder();
+					StringBuffer sb = new StringBuffer();
 					for (Iterator iter = engineErrors.iterator(); iter.hasNext();) {
 						sb.append(iter.next().toString());
 						sb.append("\n"); //$NON-NLS-1$
@@ -189,7 +184,9 @@ public abstract class BaseSmokeTest extends EngineCase {
 		}
 
 		testsuite.setAttribute("failures", String.valueOf(failuresCount)); //$NON-NLS-1$
-		testsuite.setAttribute("tests", String.valueOf(testStatus.size()));
+		testsuite.setAttribute("tests", String.valueOf(testStatus
+				// $NON-NLS-1$
+				.keySet().size()));
 
 		domwriter.write(testsuite);
 	}
@@ -231,16 +228,15 @@ public abstract class BaseSmokeTest extends EngineCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see utility.EngineCase#compareHTML(java.lang.String, java.lang.String)
 	 */
 
-	@Override
 	protected boolean compareHTML(String golden, String output) throws Exception {
 		FileReader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
-		StringBuilder errorText = new StringBuilder();
+		StringBuffer errorText = new StringBuffer();
 
 		try {
 			golden = this.tempFolder() + this.getFullQualifiedClassName() + "/TestCases/golden/" + golden; //$NON-NLS-1$
@@ -273,7 +269,7 @@ public abstract class BaseSmokeTest extends EngineCase {
 	}
 
 	protected boolean compareHTMLFile(Reader golden, Reader output, String fileName) throws Exception {
-		StringBuilder errorText = new StringBuilder();
+		StringBuffer errorText = new StringBuffer();
 
 		BufferedReader lineReaderA = null;
 		BufferedReader lineReaderB = null;
@@ -295,7 +291,7 @@ public abstract class BaseSmokeTest extends EngineCase {
 				same = filterA.trim().equals(filterB.trim());
 
 				if (!same) {
-					StringBuilder message = new StringBuilder();
+					StringBuffer message = new StringBuffer();
 
 					message.append("line="); //$NON-NLS-1$
 					message.append(lineNo);
@@ -318,7 +314,7 @@ public abstract class BaseSmokeTest extends EngineCase {
 					message.append(filterB);
 
 					String outputFile = fileName;
-					String diffOutputFile = fileName.replace("output", "diffOutput");
+					String diffOutputFile = fileName.replaceAll("output", "diffOutput");
 					File parent = new File(diffOutputFile).getParentFile();
 					if (parent != null) {
 						parent.mkdirs();

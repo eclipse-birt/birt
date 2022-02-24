@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -49,7 +49,7 @@ public class TextImpl extends EObjectImpl implements Text {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -59,7 +59,7 @@ public class TextImpl extends EObjectImpl implements Text {
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -69,7 +69,7 @@ public class TextImpl extends EObjectImpl implements Text {
 	/**
 	 * The cached value of the '{@link #getFont() <em>Font</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getFont()
 	 * @generated
 	 * @ordered
@@ -79,7 +79,7 @@ public class TextImpl extends EObjectImpl implements Text {
 	/**
 	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -88,7 +88,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected TextImpl() {
@@ -97,7 +97,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -107,41 +107,37 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__VALUE, oldValue, value));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public FontDefinition getFont() {
 		return font;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFont(FontDefinition newFont, NotificationChain msgs) {
@@ -150,54 +146,47 @@ public class TextImpl extends EObjectImpl implements Text {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__FONT,
 					oldFont, newFont);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setFont(FontDefinition newFont) {
 		if (newFont != font) {
 			NotificationChain msgs = null;
-			if (font != null) {
+			if (font != null)
 				msgs = ((InternalEObject) font).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.TEXT__FONT, null, msgs);
-			}
-			if (newFont != null) {
+			if (newFont != null)
 				msgs = ((InternalEObject) newFont).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.TEXT__FONT, null, msgs);
-			}
 			msgs = basicSetFont(newFont, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__FONT, newFont, newFont));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ColorDefinition getColor() {
 		return color;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetColor(ColorDefinition newColor, NotificationChain msgs) {
@@ -206,44 +195,38 @@ public class TextImpl extends EObjectImpl implements Text {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__COLOR,
 					oldColor, newColor);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setColor(ColorDefinition newColor) {
 		if (newColor != color) {
 			NotificationChain msgs = null;
-			if (color != null) {
+			if (color != null)
 				msgs = ((InternalEObject) color).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.TEXT__COLOR, null, msgs);
-			}
-			if (newColor != null) {
+			if (newColor != null)
 				msgs = ((InternalEObject) newColor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.TEXT__COLOR, null, msgs);
-			}
 			msgs = basicSetColor(newColor, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__COLOR, newColor, newColor));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -259,7 +242,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -277,7 +260,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -298,7 +281,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -319,7 +302,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -337,16 +320,15 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (value: "); //$NON-NLS-1$
 		result.append(value);
 		result.append(')');
@@ -355,7 +337,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * Resets all member variables within this object recursively
-	 *
+	 * 
 	 * Note: Manually written
 	 */
 	protected final void initialize() {
@@ -365,7 +347,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * A convenience method provided to create a Text instance
-	 *
+	 * 
 	 * @param sValue
 	 */
 	public static final Text create(String sValue) {
@@ -380,7 +362,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * A convenience method provided to create a Text instance
-	 *
+	 * 
 	 * @param sValue
 	 */
 	public static final Text createDefault(String sValue) {
@@ -392,7 +374,7 @@ public class TextImpl extends EObjectImpl implements Text {
 
 	/**
 	 * Resets all member variables within this object recursively
-	 *
+	 * 
 	 * Note: Manually written
 	 */
 	protected final void initDefault() {
@@ -404,7 +386,6 @@ public class TextImpl extends EObjectImpl implements Text {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
-	@Override
 	public Text copyInstance() {
 		TextImpl dest = new TextImpl();
 

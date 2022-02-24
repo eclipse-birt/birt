@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,6 @@ public class FixedLayoutPageHintReader implements IPageHintReader {
 		}
 	}
 
-	@Override
 	public int getVersion() {
 		return version;
 	}
@@ -73,7 +72,6 @@ public class FixedLayoutPageHintReader implements IPageHintReader {
 		return version;
 	}
 
-	@Override
 	public void close() {
 		try {
 			if (hintsStream != null) {
@@ -93,7 +91,6 @@ public class FixedLayoutPageHintReader implements IPageHintReader {
 		}
 	}
 
-	@Override
 	synchronized public long getTotalPage() throws IOException {
 		indexStream.refresh();
 		indexStream.seek(0);
@@ -104,10 +101,9 @@ public class FixedLayoutPageHintReader implements IPageHintReader {
 	/**
 	 * The page variable is only supported in VERSION_6
 	 */
-	@Override
 	synchronized public Collection<PageVariable> getPageVariables() throws IOException {
 		if (pageVariables == null) {
-			pageVariables = new ArrayList<>();
+			pageVariables = new ArrayList<PageVariable>();
 			if (version == VERSION_6) {
 				indexStream.seek(8);
 				long offset = indexStream.readLong();
@@ -122,14 +118,14 @@ public class FixedLayoutPageHintReader implements IPageHintReader {
 
 	/**
 	 * return the hint offset for the page.
-	 *
+	 * 
 	 * before version 6, the offset is 8 * pageNumber. the 1st long is the total
 	 * page. the page number starts from integer 1.
-	 *
+	 * 
 	 * after (include) version 6, the offset is 8 * (pageNumber + 1). the 1st long
 	 * is the total page, the 2nd long is the offset to page variable. the page
 	 * number starts from integer 1.
-	 *
+	 * 
 	 * @param pageNumber
 	 * @return the offset of the hints in the hint stream.
 	 */
@@ -137,7 +133,6 @@ public class FixedLayoutPageHintReader implements IPageHintReader {
 		return (pageNumber + 1) * 8;
 	}
 
-	@Override
 	synchronized public IPageHint getPageHint(long pageNumber) throws IOException {
 		long indexOffset = getHintOffset(pageNumber);
 		indexStream.seek(indexOffset);
@@ -223,7 +218,6 @@ public class FixedLayoutPageHintReader implements IPageHintReader {
 		return hint;
 	}
 
-	@Override
 	public long getPageOffset(long pageNumber, String masterPage) throws IOException {
 		return pageIndexReader.getPageOffset(masterPage);
 	}

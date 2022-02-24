@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.w3c.dom.Element;
 public abstract class PropertiesProcessor implements HTMLConstants {
 
 	/** the possible values for property SIZE of HTML element FONT */
-	private static String[] FONT_SIZE = { "7.5pt", //$NON-NLS-1$
+	private static String[] FONT_SIZE = new String[] { "7.5pt", //$NON-NLS-1$
 			"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
 			"7.5pt", "7.5pt", //$NON-NLS-1$//$NON-NLS-2$
 			"7.5pt", "10pt", //$NON-NLS-1$ //$NON-NLS-2$
@@ -33,11 +33,11 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 			"13.8pt", "18pt", //$NON-NLS-1$//$NON-NLS-2$
 			"23pt", "36pt" }; //$NON-NLS-1$//$NON-NLS-2$
 
-	public final static HashMap<String, String[]> tagPropertiesMap = new HashMap<>();
+	public final static HashMap<String, String[]> tagPropertiesMap = new HashMap<String, String[]>();
 
 	abstract void process(String value, StyleProperties sp);
 
-	private static Map<String, PropertiesProcessor> properties2Style = new HashMap<>();
+	private static Map<String, PropertiesProcessor> properties2Style = new HashMap<String, PropertiesProcessor>();
 
 	public static void process(String[] properties, Element ele, StyleProperties sp) {
 		for (int i = 0; i < properties.length; i++) {
@@ -68,7 +68,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("cellpadding", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						if (value != null && value.length() > 0) {
 							if (value.endsWith("%")) {
@@ -112,7 +111,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("background", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						IStyle style = sp.getStyle();
 						if (!hasProperty(style, IStyle.STYLE_BACKGROUND_COLOR)) {
@@ -123,7 +121,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("size", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						try {
 							int size = Integer.parseInt(value); // $NON-NLS-1$
@@ -141,7 +138,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("text", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						IStyle style = sp.getStyle();
 						if (!hasProperty(style, IStyle.STYLE_COLOR)) {
@@ -153,7 +149,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("color", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						IStyle style = sp.getStyle();
 						if (!hasProperty(style, IStyle.STYLE_COLOR)) {
@@ -165,7 +160,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("bgcolor", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						IStyle style = sp.getStyle();
 						if (!hasProperty(style, IStyle.STYLE_BACKGROUND_COLOR)) {
@@ -176,7 +170,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("border", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						try {
 							// FIXME
@@ -215,7 +208,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("face", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						IStyle style = sp.getStyle();
 						if (!hasProperty(style, IStyle.STYLE_FONT_FAMILY)) {
@@ -226,7 +218,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("align", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						IStyle style = sp.getStyle();
 						if (!hasProperty(style, IStyle.STYLE_TEXT_ALIGN)) {
@@ -238,7 +229,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("valign", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						IStyle style = sp.getStyle();
 						if (!hasProperty(style, IStyle.STYLE_VERTICAL_ALIGN)) {
@@ -250,7 +240,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("width", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						if (value != null && value.length() > 0) {
 							DimensionType d = DimensionType.parserUnit(value);
@@ -267,7 +256,6 @@ public abstract class PropertiesProcessor implements HTMLConstants {
 		properties2Style.put("height", //$NON-NLS-1$
 				new PropertiesProcessor() {
 
-					@Override
 					public void process(String value, StyleProperties sp) {
 						if (value != null && value.length() > 0) {
 							DimensionType d = DimensionType.parserUnit(value);

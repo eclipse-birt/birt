@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -25,12 +25,10 @@ public class ICellContentTest extends BaseEmitter {
 	private String reportName = "ICellContentTest.rptdesign";
 	private static int count = 0;
 
-	@Override
 	protected String getReportName() {
 		return reportName;
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -38,7 +36,6 @@ public class ICellContentTest extends BaseEmitter {
 		cell = new ReportContent().createCellContent();
 	}
 
-	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
@@ -83,7 +80,6 @@ public class ICellContentTest extends BaseEmitter {
 		runandrender_emitter(EMITTER_HTML, false);
 	}
 
-	@Override
 	public void endCell(ICellContent cell) {
 		if (count == 0) {
 			assertEquals(2, cell.getColSpan());

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -53,7 +53,7 @@ public class TimeDimensionDatasetIterator implements IDatasetIterator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param timeType
 	 * @param d
 	 * @return
@@ -108,13 +108,12 @@ public class TimeDimensionDatasetIterator implements IDatasetIterator {
 			return new Integer(getCalendar(d).get(Calendar.MINUTE));
 		} else if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals(timeType)) {
 			return Integer.valueOf(getCalendar(d).get(Calendar.SECOND));
-		} else {
+		} else
 			throw new AdapterException(ResourceConstants.INVALID_DATE_TIME_TYPE, timeType);
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param d
 	 * @return
 	 */
@@ -132,70 +131,60 @@ public class TimeDimensionDatasetIterator implements IDatasetIterator {
 		}
 	}
 
-	@Override
 	public void close() throws BirtException {
 
 	}
 
-	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		for (int i = 0; i < fieldName.length; i++) {
-			if (fieldName[i].equals(name)) {
+			if (fieldName[i].equals(name))
 				return i;
-			}
 		}
 		return -1;
 	}
 
-	@Override
 	public int getFieldType(String name) throws BirtException {
 		for (int i = 0; i < fieldName.length; i++) {
-			if (fieldName[i].equals(name)) {
+			if (fieldName[i].equals(name))
 				return DataType.INTEGER_TYPE;
-			}
 		}
 		return DataType.DATE_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator#getValue(
 	 * int)
 	 */
-	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
-		if (fieldIndex == -1) {
+		if (fieldIndex == -1)
 			return calendar.getTime();
-		}
 		return getValue(timeType[fieldIndex], calendar.getTime());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator#next()
 	 */
-	@Override
 	public boolean next() throws BirtException {
-		if (calendar == null || endTime == null) {
+		if (calendar == null || endTime == null)
 			return false;
-		}
 		if (!firstNext) {
 			firstNext = true;
 			return true;
 		}
 		nextValue(timeType[timeType.length - 1]);
-		if (endTime.compareTo(calendar.getTime()) < 0) {
+		if (endTime.compareTo(calendar.getTime()) < 0)
 			return false;
-		} else {
+		else
 			return true;
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param timeType
 	 */
 	private void nextValue(String timeType) {

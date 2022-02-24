@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c)2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -79,10 +79,10 @@ public class EmitterUtil {
 
 		if (out == null) {
 			Object value = services.getOption(RenderOption.OUTPUT_STREAM);
-			if (value instanceof OutputStream) {
+			if (value != null && value instanceof OutputStream) {
 				Object closeOnExitValue = services.getOption(RenderOption.CLOSE_OUTPUTSTREAM_ON_EXIT);
 				boolean closeOnExit = false;
-				if (closeOnExitValue instanceof Boolean) {
+				if (closeOnExitValue != null && closeOnExitValue instanceof Boolean) {
 					closeOnExit = ((Boolean) closeOnExitValue).booleanValue();
 				}
 				out = new EmitterOutputStream((OutputStream) value, closeOnExit);
@@ -106,17 +106,14 @@ public class EmitterUtil {
 			this.closeOutputStreamOnExit = closeOutputStreamOnExit;
 		}
 
-		@Override
 		public void write(byte[] b) throws IOException {
 			out.write(b);
 		}
 
-		@Override
 		public void write(byte[] b, int off, int len) throws IOException {
 			out.write(b, off, len);
 		}
 
-		@Override
 		public void close() throws IOException {
 			try {
 				flush();
@@ -165,9 +162,8 @@ public class EmitterUtil {
 			case IImageContent.IMAGE_EXPRESSION:
 				byte[] data = content.getData();
 				ByteArrayInputStream in = new ByteArrayInputStream(data);
-				if (SvgFile.isSvg(mimeType, uri, extension)) {
+				if (SvgFile.isSvg(mimeType, uri, extension))
 					data = SvgFile.transSvgToArray(in);
-				}
 				in.close();
 				image = Image.getInstance(data);
 				break;
@@ -406,41 +402,40 @@ public class EmitterUtil {
 		}
 		if (color.startsWith("#")) {
 			return color.substring(1, Math.min(color.length(), 7));
-		} else if (color.equalsIgnoreCase("Black")) {
+		} else if (color.equalsIgnoreCase("Black"))
 			return "000000";
-		} else if (color.equalsIgnoreCase("Gray")) {
+		else if (color.equalsIgnoreCase("Gray"))
 			return "121212";
-		} else if (color.equalsIgnoreCase("White")) {
+		else if (color.equalsIgnoreCase("White"))
 			return "ffffff";
-		} else if (color.equalsIgnoreCase("Red")) {
+		else if (color.equalsIgnoreCase("Red"))
 			return "ff0000";
-		} else if (color.equalsIgnoreCase("Green")) {
+		else if (color.equalsIgnoreCase("Green"))
 			return "00ff00";
-		} else if (color.equalsIgnoreCase("Yellow")) {
+		else if (color.equalsIgnoreCase("Yellow"))
 			return "ffff00";
-		} else if (color.equalsIgnoreCase("Blue")) {
+		else if (color.equalsIgnoreCase("Blue"))
 			return "0000ff";
-		} else if (color.equalsIgnoreCase("Teal")) {
+		else if (color.equalsIgnoreCase("Teal"))
 			return "008080";
-		} else if (color.equalsIgnoreCase("Aqua")) {
+		else if (color.equalsIgnoreCase("Aqua"))
 			return "00FFFF";
-		} else if (color.equalsIgnoreCase("Silver")) {
+		else if (color.equalsIgnoreCase("Silver"))
 			return "C0C0C0";
-		} else if (color.equalsIgnoreCase("Navy")) {
+		else if (color.equalsIgnoreCase("Navy"))
 			return "000080";
-		} else if (color.equalsIgnoreCase("Lime")) {
+		else if (color.equalsIgnoreCase("Lime"))
 			return "00FF00";
-		} else if (color.equalsIgnoreCase("Olive")) {
+		else if (color.equalsIgnoreCase("Olive"))
 			return "808000";
-		} else if (color.equalsIgnoreCase("Purple")) {
+		else if (color.equalsIgnoreCase("Purple"))
 			return "800080";
-		} else if (color.equalsIgnoreCase("Fuchsia")) {
+		else if (color.equalsIgnoreCase("Fuchsia"))
 			return "FF00FF";
-		} else if (color.equalsIgnoreCase("Maroon")) {
+		else if (color.equalsIgnoreCase("Maroon"))
 			return "800000";
-		} else if (color.equalsIgnoreCase("Orange")) {
+		else if (color.equalsIgnoreCase("Orange"))
 			return "#FFA500";
-		}
 		String[] values = color.substring(color.indexOf("(") + 1, color.length() - 1).split(",");
 		String value = "";
 		for (int i = 0; i < values.length; i++) {

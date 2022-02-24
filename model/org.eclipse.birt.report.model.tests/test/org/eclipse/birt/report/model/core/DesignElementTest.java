@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,793 +70,793 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Unit test for Class DesignElement.
- *
+ * 
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testAddRemoveListener}</td>
  * <td>add listener</td>
  * <td>contain listener</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>remove an unknown listener</td>
  * <td>don't contain listener</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>remove listener</td>
  * <td>don't contain listener</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>clears listeners when remove an element or add an element then undo.</td>
  * <td>listeners are cleaned.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testBroadcast}</td>
  * <td>set element and their relationships , all elements subscribe
  * listener</td>
  * <td>all elements contain listener</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>check property of element</td>
  * <td>properties of elements are null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>broadcast all elements and check property of element</td>
  * <td>properties of elements are have value " listener"</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetPropertyDefn}</td>
  * <td>get propertyDefn from DesignElement</td>
  * <td>directly get ElementPropertyDefn</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>get propertyDefn from UserPropertyDefn</td>
  * <td>get UserPropertyDefn through right name</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetProperty}</td>
  * <td>get local system property</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>all elements contain listener</td>
  * <td>get value "Hello" from system property</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>get local user-defined property</td>
  * <td>get value "user" from "MyProperty" property</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>get the user-defined property from the ancestor</td>
  * <td>get value "userParent" from "MyProperty" property</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>get the system property from the ancestor</td>
  * <td>get value "English" from system property</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>get the property from the associated style</td>
  * <td>get value "red" from style property</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetLocalProperty}</td>
  * <td>get local system property</td>
  * <td>get value "Hello" from system property</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testSetPropertyValue}</td>
  * <td>get local system property</td>
  * <td>get value "Hello" which just set</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>set local system property</td>
  * <td>get value "element" which just set</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testClearPropertyValue}</td>
  * <td>get local system property</td>
  * <td>get value "Hello" which just set</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>clear local system property</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetDefn}</td>
  * <td>get definition</td>
  * <td>object is equal to element which get through element name</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testAddUserProperty}</td>
  * <td>add UserPropertyDefn and check it</td>
  * <td>get right Object</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>add UserPropertyDefn to its parent and check it</td>
  * <td>get right Object from parent</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testDropUserProperty}</td>
  * <td>add UserPropertyDefn</td>
  * <td>get right Object</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>drop it</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetUserProperty}</td>
  * <td>add UserPropertyDefn and check it</td>
  * <td>get right Object</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>add UserPropertyDefn to its parent and check it</td>
  * <td>get right Object from parent</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testValidatePropertyValue}</td>
  * <td>validate value when propName is not exist</td>
  * <td>throw out exception</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>validate value when propName is exist</td>
  * <td>validate right</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetDisplayName}</td>
  * <td>set displayname property</td>
  * <td>get right value "Hello"</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetDisplayNameID}</td>
  * <td>set displaynameid property</td>
  * <td>get right value "111"</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testAddDerived}</td>
  * <td>add parent</td>
  * <td>contain descendent</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>drop parent</td>
  * <td>don't contain descendent</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>add parent</td>
  * <td>contain descendent</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testDropDerived}</td>
  * <td>add parent</td>
  * <td>contain descendent</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>drop parent</td>
  * <td>don't contain descendent</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testSetExtends}</td>
  * <td>set parent</td>
  * <td>contain descendent</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetDescendents}</td>
  * <td>direct check arraylist size</td>
  * <td>0</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>set parent</td>
  * <td>contain descendent</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>set ancestor</td>
  * <td>size of ancestor's arraylist is 2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>drop parent , and check size of ancestor's arraylist</td>
  * <td>size of ancestor's arraylist is 1</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGatherDescendents}</td>
  * <td>no descendents</td>
  * <td>don't contain element</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>add descendent</td>
  * <td>contain element</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>add ancestor</td>
  * <td>contain two elements</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>drop ancestor and add two parents</td>
  * <td>both contain element</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testHasUserProperties}</td>
  * <td>add UserPropertyDefn</td>
  * <td>has not user property</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>drop UserPropertyDefn</td>
  * <td>has user property</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testHasLocalPropertyValues}</td>
  * <td>direct check propValues</td>
  * <td>false</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>set display name value</td>
  * <td>true</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetUserProperties}</td>
  * <td>direct check arraylist size</td>
  * <td>0</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>add UserPropertyDefn</td>
  * <td>1</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>add ancestor with UserPropertyDefn</td>
  * <td>2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testIsKindOf}</td>
  * <td>set parent element and check element</td>
  * <td>isKindOf is true</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>set ancestor element and check element</td>
  * <td>after set ancestor , isKindOf is true</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testHasDerived}</td>
  * <td>no derive</td>
  * <td>false</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>set derive</td>
  * <td>true</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetDoubleProperty}</td>
  * <td>the property value is null and check float property</td>
  * <td>double value 0.0</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>the type of property value is integer and check float property</td>
  * <td>double value 2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>the property type is double</td>
  * <td>double value 2.5</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testLabelDisplayLabel}</td>
  * <td>label1 has resource-key ,label name and value of display-name</td>
  * <td>he</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>label2 just has label name</td>
  * <td>label2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>label3 has resource-key and label name but hasnot value of
  * display-name</td>
  * <td>label3</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this label has no label name but has resource-key and value of
  * display-name</td>
  * <td>Ant</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this label has no label name and value of display-name, just has
  * resource-key</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this label has nothing attribute</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this label has text attribute and value is blue , it also has label name
  * hexingjie</td>
  * <td>hexingjie("blue")</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this label has text attribute and value is blue , but hasnot label
  * name</td>
  * <td>label("blue")</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this label has text attribute,value is blue and length more than 30 chars
  * </td>
  * <td>label("test asdf sadf sadf sdaf...")</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testTextDisplayLabel}</td>
  * <td>text1 has resource-key ,label name and value of display-name</td>
  * <td>he</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>text2 just has label name</td>
  * <td>text2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>text3 has resource-key and label name but hasnot value of
  * display-name</td>
  * <td>text3</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this text hasnot label name but has resource-key and value of
  * display-name</td>
  * <td>Ant</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this text hasnot label name and value of display-name, just has
  * resource-key</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this text has nothing attribute</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this text has static-text attribute , it also has text name</td>
  * <td>hexingjie("This is a sample bit of plain...")</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this text has static-text attribute , but hasnot text name</td>
  * <td>text("hello,12345678910111213141adfa...")</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this text has static-text attribute , and length is less than 30
  * chars</td>
  * <td>text("This is ")</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this text has static-text attribute , and length is more than 30
  * chars</td>
  * <td>text("a sample bit of plain...")</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGridDisplayLabel}</td>
  * <td>gird1 has resource-key ,label name and value of display-name</td>
  * <td>he</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>grid2 just has label name</td>
  * <td>grid2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>grid3 has resource-key and label name but hasnot value of
  * display-name</td>
  * <td>grid3</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this grid hasnot label name but has resource-key and value of
  * display-name</td>
  * <td>Ant</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this grid hasnot label name and value of display-name, just has
  * resource-key</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this grid has nothing attribute</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this grid has two columns and three rows attributes</td>
  * <td>hexingjie(3 x 2)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this grid has row attribute</td>
  * <td>grid(1 x 0)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testListDisplayLabel}</td>
  * <td>list1 has resource-key ,list name and value of display-name</td>
  * <td>he</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>list2 just has list name</td>
  * <td>list2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>list3 has resource-key and list name but hasnot value of
  * display-name</td>
  * <td>list3</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this list hasnot list name but has resource-key and value of display-name
  * </td>
  * <td>Ant</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this list hasnot list name and value of display-name, just has
  * resource-key</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this list has nothing attribute</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this list has data-set attribute and has list name</td>
  * <td>hexingjie(firstDataSet)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this list has data-set attribute but hasnot list name</td>
  * <td>list(secondDataSet)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this list has data-set attribute and length more than 30 chars</td>
  * <td>list(test asdf sadf sadf sdaf...)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testImageDisplayLabel}</td>
  * <td>image1 has resource-key ,image name and value of display-name</td>
  * <td>he</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>image2 just has list name</td>
  * <td>image2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>image3 has resource-key and image name but hasnot value of
  * display-name</td>
  * <td>image3</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this image hasnot image name but has resource-key and value of
  * display-name</td>
  * <td>Ant</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this image hasnot image name and value of display-name, just has
  * resource-key</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this image has nothing attribute</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this image has uri attribute</td>
  * <td>hexingjie1(Blue He)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this image has image-name attribute</td>
  * <td>hexingjie2(test image)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this image has value-expr attribute</td>
  * <td>image(haha)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this image has uri attribute and length more than 30 chars</td>
  * <td>image(test asdf sadf sadf sdaf...)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this image has image-name attribute and length more than 30 chars</td>
  * <td>image(test asdf sadf sadf...)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this image has value-expr attribute and length more than 30 chars</td>
  * <td>image(test asdf sadf...)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testTableDisplayLabel}</td>
  * <td>table1 has resource-key ,table name and value of display-name</td>
  * <td>he</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>table2 just has table name</td>
  * <td>table2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>table3 has resource-key and table name but hasnot value of
  * display-name</td>
  * <td>table3</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this table hasnot table name but has resource-key and value of
  * display-name</td>
  * <td>Ant</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this table hasnot table name and value of display-name, just has
  * resource-key</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this table has nothing attribute</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this table has data-set attribute</td>
  * <td>hexingjie1(firstDataSet)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this table has data-set attribute but hasnot name</td>
  * <td>table(secondDataSet)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this table has data-set attribute and length more than 30 chars</td>
  * <td>table(asdf sadf asdfa...)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testDataDisplayLabel}</td>
  * <td>data1 has resource-key ,data name and value of display-name</td>
  * <td>he</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>data2 just has data name</td>
  * <td>data2</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>data3 has resource-key and data name but hasnot value of
  * display-name</td>
  * <td>data3</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this data hasnot data name but has resource-key and value of display-name
  * </td>
  * <td>Ant</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this data hasnot data name and value of display-name, just has
  * resource-key</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this data has nothing attribute</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this data has value-expr attribute and data name</td>
  * <td>hexingjie1(haha)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this data has value-expr attribute</td>
  * <td>data(testtest)</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>this data has value-expr attribute and length more than 30 chars</td>
  * <td>data(test asdf sadf sadf sdaf...)</td>
  * </tr>
- *
+ * 
  * </table>
- *
- *
+ * 
+ * 
  */
 
 public class DesignElementTest extends BaseTestCase {
@@ -887,7 +887,6 @@ public class DesignElementTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()1
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -919,9 +918,9 @@ public class DesignElementTest extends BaseTestCase {
 	 * <li>don't contain listener</li>
 	 * <li>don't contain listener</li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 	public void testAddRemoveListener() throws Exception {
 		assertNull(CoreTestUtil.getListeners(designElement));
@@ -990,18 +989,18 @@ public class DesignElementTest extends BaseTestCase {
 	 * <li>check property of element</li>
 	 * <li>broadcast all elements and check property of element</li>
 	 * </ul>
-	 *
+	 * 
 	 * Excepted:
 	 * <ul>
 	 * <li>all elements contain listener</li>
 	 * <li>properties of elements are null</li>
 	 * <li>properties of elements are have value " listener"</li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws ContentException
 	 * @throws NameException
 	 * @throws ExtendsException
-	 *
+	 * 
 	 */
 	public void testBroadcast() throws ContentException, NameException, ExtendsException {
 		// set the derivation relationship and the listener.
@@ -1058,7 +1057,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * <li>directly get ElementPropertyDefn</li>
 	 * <li>get UserPropertyDefn through right name</li>
 	 * </ul>
-	 *
+	 * 
 	 */
 	public void testGetPropertyDefn() {
 		UserPropertyDefn uDefn = new UserPropertyDefn();
@@ -1098,7 +1097,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * <li>get value "red" from style property</li>
 	 * <li>get value "blue" from style property</li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void testGetProperty() throws SemanticException {
@@ -1426,7 +1425,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * <li>throw out exception</li>
 	 * <li>validate right</li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	/*
@@ -1434,7 +1433,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * designElement .validatePropertyValue( design, "Hello world", "hello" );
 	 * //$NON-NLS-1$ //$NON-NLS-2$ } catch ( Exception e ) { assertTrue( e
 	 * instanceof PropertyNameException ); }
-	 *
+	 * 
 	 * designElement.setProperty( DesignElement.DISPLAY_NAME_PROP, "report"
 	 * );//$NON-NLS-1$ }
 	 */
@@ -1873,7 +1872,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * Excepted :
 	 * <ul>
 	 * <li>Test for USER_LABEL
@@ -1910,7 +1909,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -2047,7 +2046,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * Excepted :
 	 * <ul>
 	 * <li>Test for USER_LABEL
@@ -2085,7 +2084,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -2225,7 +2224,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * Excepted :
 	 * <ul>
 	 * <li>Test for USER_LABEL
@@ -2261,7 +2260,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -2388,7 +2387,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * Excepted :
 	 * <ul>
 	 * <li>Test for USER_LABEL
@@ -2425,7 +2424,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -2558,7 +2557,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * Excepted :
 	 * <ul>
 	 * <li>Test for USER_LABEL
@@ -2596,7 +2595,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -2734,7 +2733,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * Excepted :
 	 * <ul>
 	 * <li>Test for USER_LABEL
@@ -2774,7 +2773,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -2931,7 +2930,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * Excepted :
 	 * <ul>
 	 * <li>Test for USER_LABEL
@@ -2968,7 +2967,7 @@ public class DesignElementTest extends BaseTestCase {
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -3075,7 +3074,7 @@ public class DesignElementTest extends BaseTestCase {
 
 	/**
 	 * match result which the special type generates to excepted value.
-	 *
+	 * 
 	 * @param type        there are seven
 	 *                    types:label,text,grid,list,table,image,data
 	 * @param number      which sequence element should be selected
@@ -3142,7 +3141,7 @@ public class DesignElementTest extends BaseTestCase {
 
 	/**
 	 * Tests element IDs in the report design.
-	 *
+	 * 
 	 * @throws SemanticException if setting properties with errors.
 	 */
 
@@ -3179,7 +3178,7 @@ public class DesignElementTest extends BaseTestCase {
 
 	/**
 	 * Tests element references in the report design.
-	 *
+	 * 
 	 * @throws SemanticException if setting properties with errors.
 	 */
 
@@ -3271,7 +3270,7 @@ public class DesignElementTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void testIsContentOf() throws SemanticException {
@@ -3288,7 +3287,7 @@ public class DesignElementTest extends BaseTestCase {
 	/**
 	 * Creates a design for <code>{@link #testID()}</code> and
 	 * <code>{@link #testElementRef()}</code>.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -3349,7 +3348,7 @@ public class DesignElementTest extends BaseTestCase {
 
 	/**
 	 * Tests element identifier
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 
@@ -3402,7 +3401,7 @@ public class DesignElementTest extends BaseTestCase {
 
 	/**
 	 * Tests the resolveExtends() method and ElementExtendsValidator.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -3430,7 +3429,7 @@ public class DesignElementTest extends BaseTestCase {
 
 	/**
 	 * Tests the name-manager.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testNameManager() throws Exception {
@@ -3479,7 +3478,7 @@ public class DesignElementTest extends BaseTestCase {
 
 	/**
 	 * Tests the display lable of the ROM defined selector.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -3497,7 +3496,7 @@ public class DesignElementTest extends BaseTestCase {
 	/**
 	 * Tests the default value for page-break-inside. bugzilla_292425. Row in table
 	 * or table group, default is avoid; otherwise default is auto.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testPageBreakInsideInRow() throws Exception {
@@ -3541,12 +3540,11 @@ public class DesignElementTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			done = true;
 			path = ev.getDeliveryPath();

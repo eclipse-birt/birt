@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * This class represents a shared style.
- *
+ * 
  */
 
 public class Style extends StyleElement implements IStyleModel {
@@ -56,7 +56,7 @@ public class Style extends StyleElement implements IStyleModel {
 
 	/**
 	 * Constructs the style element with an optional name.
-	 *
+	 * 
 	 * @param theName the optional name
 	 */
 
@@ -66,44 +66,41 @@ public class Style extends StyleElement implements IStyleModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitStyle(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.STYLE_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the report design of the style
-	 *
+	 * 
 	 * @return an API handle for this element
 	 */
 
@@ -116,12 +113,11 @@ public class Style extends StyleElement implements IStyleModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module) {
 		List<SemanticException> list = super.validate(module);
 
@@ -132,7 +128,7 @@ public class Style extends StyleElement implements IStyleModel {
 
 	/**
 	 * Checks the style properties of style elements and styled elements.
-	 *
+	 * 
 	 * @param module  the report design of the element
 	 * @param element the element to check
 	 * @return the list of the errors found in validation, each of which is the
@@ -140,7 +136,7 @@ public class Style extends StyleElement implements IStyleModel {
 	 */
 
 	public static List<SemanticException> validateStyleProperties(Module module, DesignElement element) {
-		List<SemanticException> list = new ArrayList<>();
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
 		List<Object> rules = element.getListProperty(module, HIGHLIGHT_RULES_PROP);
 		if (rules != null) {
@@ -152,13 +148,11 @@ public class Style extends StyleElement implements IStyleModel {
 		return list;
 	}
 
-	@Override
 	public String getDisplayLabel(Module module, int level) {
 		MetaDataDictionary meta = MetaDataDictionary.getInstance();
 		IPredefinedStyle selector = meta.getPredefinedStyle(name);
-		if (selector == null) {
+		if (selector == null)
 			return super.getDisplayLabel(module, level);
-		}
 
 		// must scan all extension definition to found the corresponding element
 		// definition.
@@ -175,25 +169,21 @@ public class Style extends StyleElement implements IStyleModel {
 
 		String displayLabel = null;
 		if (elementDefn != null) {
-			if (!(elementDefn instanceof PeerExtensionElementDefn)) {
+			if (!(elementDefn instanceof PeerExtensionElementDefn))
 				throw new IllegalOperationException("Only report item extension can be created through this method."); //$NON-NLS-1$
-			}
 
 			PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) elementDefn;
 			IReportItemFactory reportItemFactory = extDefn.getReportItemFactory();
-			if (reportItemFactory == null) {
+			if (reportItemFactory == null)
 				return super.getDisplayLabel(module, level);
-			}
 			IMessages msgs = reportItemFactory.getMessages();
-			if (msgs == null) {
+			if (msgs == null)
 				return super.getDisplayLabel(module, level);
-			}
 
 			ULocale locale = module == null ? ThreadResources.getLocale() : module.getLocale();
 			displayLabel = msgs.getMessage(selector.getDisplayNameKey(), locale);
-		} else {
+		} else
 			displayLabel = ModelMessages.getMessage(selector.getDisplayNameKey());
-		}
 
 		if (StringUtil.isBlank(displayLabel)) {
 			displayLabel = super.getDisplayLabel(module, level);

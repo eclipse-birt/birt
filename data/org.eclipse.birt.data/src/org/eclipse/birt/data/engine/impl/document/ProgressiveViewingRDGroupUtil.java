@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,23 +37,19 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil {
 		}
 	}
 
-	@Override
 	public void setCacheProvider(CacheProvider cacheProvider) {
 		this.cacheProvider = cacheProvider;
 
 	}
 
-	@Override
 	public void next(boolean hasNext) throws DataException {
 		// Do nothing
 	}
 
-	@Override
 	public int getCurrentGroupIndex(int groupLevel) throws DataException {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
 	public void move() throws DataException {
 		// Do nothing
 	}
@@ -79,20 +75,18 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil {
 		}
 	}
 
-	@Override
 	public void last(int groupLevel) throws DataException {
-		if (this.getEndingGroupLevel() <= groupLevel) {
-		} else {
+		if (this.getEndingGroupLevel() <= groupLevel)
+			return;
+		else {
 			while (this.cacheProvider.next()) {
-				if (this.getEndingGroupLevel() <= groupLevel) {
+				if (this.getEndingGroupLevel() <= groupLevel)
 					return;
-				}
 			}
 		}
 
 	}
 
-	@Override
 	public void close() throws DataException {
 		try {
 			if (this.inputStream != null) {
@@ -105,16 +99,13 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil {
 		}
 	}
 
-	@Override
 	public int[] getGroupStartAndEndIndex(int groupIndex) throws DataException {
-		if (this.groupStartingEndingIndex != null) {
+		if (this.groupStartingEndingIndex != null)
 			return this.groupStartingEndingIndex.get(groupIndex);
-		}
-		this.groupStartingEndingIndex = new ArrayList<>();
-		List<List<Integer>> temp = new ArrayList<>();
-		for (int i = 0; i <= this.groupCount; i++) {
+		this.groupStartingEndingIndex = new ArrayList<int[]>();
+		List<List<Integer>> temp = new ArrayList<List<Integer>>();
+		for (int i = 0; i <= this.groupCount; i++)
 			temp.add(new ArrayList<Integer>());
-		}
 		for (int i = 0; i < this.cacheProvider.getCount(); i++) {
 			int starting = this.getStartingGroupLevel(i);
 			int ending = this.getEndingGroupLevel(i);
@@ -129,25 +120,21 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil {
 		for (int i = 0; i < temp.size(); i++) {
 			List<Integer> tempArray = temp.get(i);
 			int[] startingEnding = new int[tempArray.size()];
-			for (int j = 0; j < tempArray.size(); j++) {
+			for (int j = 0; j < tempArray.size(); j++)
 				startingEnding[j] = tempArray.get(j);
-			}
 			this.groupStartingEndingIndex.add(startingEnding);
 		}
 		return this.groupStartingEndingIndex.get(groupIndex);
 	}
 
-	@Override
 	public int getEndingGroupLevel() throws DataException {
 		return this.getEndingGroupLevel(this.cacheProvider.getCurrentIndex());
 	}
 
-	@Override
 	public int getStartingGroupLevel() throws DataException {
 		return this.getStartingGroupLevel(this.cacheProvider.getCurrentIndex());
 	}
 
-	@Override
 	public List[] getGroups() throws DataException {
 		return null;
 	}

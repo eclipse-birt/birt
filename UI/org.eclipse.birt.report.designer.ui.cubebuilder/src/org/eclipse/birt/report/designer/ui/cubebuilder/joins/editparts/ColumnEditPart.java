@@ -39,13 +39,13 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
  * The Edit Part corresponding to the Column of a Table
- *
+ * 
  * @see
  *      <p>
  *      NodeDditPartHelper
  *      <p>
  *      for other methods defined here
- *
+ * 
  */
 public class ColumnEditPart extends NodeEditPartHelper implements Listener
 
@@ -71,12 +71,11 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	@Override
 	protected IFigure createFigure() {
-		ColumnFigure columnFigure;
+		ColumnFigure columnFigure = null;
 		columnFigure = new ColumnFigure();
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorSpacing(2);
@@ -98,10 +97,9 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	@Override
 	protected void createEditPolicies() {
 		// // TODO Auto-generated method stub
 		ColumnSelectionEditPolicy colEditPol = new ColumnSelectionEditPolicy();
@@ -110,12 +108,10 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 
 	}
 
-	@Override
 	public IFigure getChopFigure() {
 		return ((AbstractGraphicalEditPart) this.getParent()).getFigure();
 	}
 
-	@Override
 	protected List getModelTargetConnections() {
 		List targetjoins = new ArrayList();
 
@@ -129,9 +125,8 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 				DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next();
 				if (joinCondition.getCubeKey().equals(getColumn().getColumnName())) {
 					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) condition.getHierarchy();
-					if (hierarchy == null || hierarchy.getDataSet() == null) {
+					if (hierarchy == null || hierarchy.getDataSet() == null)
 						break;
-					}
 
 					if (OlapUtil.getDataField(hierarchy.getDataSet(), joinCondition.getHierarchyKey()) != null) {
 						List columnList = new ArrayList();
@@ -142,9 +137,8 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 							for (int i = 0; i < levels.length; i++) {
 								ResultSetColumnHandle resultSetColumn = OlapUtil.getDataField(hierarchy.getDataSet(),
 										levels[i].getColumnName());
-								if (resultSetColumn != null && !columnList.contains(resultSetColumn)) {
+								if (resultSetColumn != null && !columnList.contains(resultSetColumn))
 									columnList.add(resultSetColumn);
-								}
 							}
 						}
 
@@ -165,20 +159,17 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 		return targetjoins;
 	}
 
-	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (isActive() && !isDelete()) {
 			refreshTargetConnections();
 		}
 	}
 
-	@Override
 	public void deactivate() {
 		super.deactivate();
 		cube.removeListener(this);
 	}
 
-	@Override
 	public void activate() {
 		super.activate();
 		cube.addListener(this);

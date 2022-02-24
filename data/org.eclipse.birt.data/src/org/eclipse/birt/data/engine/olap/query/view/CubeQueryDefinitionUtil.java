@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
+ * 
  *
- *
- * Contributors:
+ * Contributors: 
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
@@ -73,7 +73,7 @@ public class CubeQueryDefinitionUtil {
 	 * Populate all aggregation member in CubeQueryDefinition. For initial
 	 * implementation: we only consider IMeasureDefintion we will take into consider
 	 * to handle the aggregation definition in binding expression;
-	 *
+	 * 
 	 * @param queryDefn
 	 * @param measureMapping
 	 * @return
@@ -101,9 +101,8 @@ public class CubeQueryDefinitionUtil {
 			throws DataException {
 		List measureList = queryDefn.getMeasures();
 
-		if (measureList == null) {
+		if (measureList == null)
 			return new CalculatedMember[0];
-		}
 		List measureAggrOns = populateMeasureAggrOns(queryDefn);
 
 		List unreferencedMeasures = getUnreferencedMeasures(queryDefn, measureList, measureMapping, measureAggrOns);
@@ -132,7 +131,7 @@ public class CubeQueryDefinitionUtil {
 			return new CalculatedMember[0];
 		}
 
-		List<CalculatedMember> withDistinctRsIds = new ArrayList<>();
+		List<CalculatedMember> withDistinctRsIds = new ArrayList<CalculatedMember>();
 		if (calculatedMembers1 != null && calculatedMembers1.length > 0) {
 			withDistinctRsIds.add(calculatedMembers1[0]);
 		}
@@ -173,18 +172,16 @@ public class CubeQueryDefinitionUtil {
 	}
 
 	public static List<DrillOnDimensionHierarchy> flatternDrillFilter(IEdgeDefinition edge) {
-		if (edge == null || edge.getDrillFilter().isEmpty()) {
+		if (edge == null || edge.getDrillFilter().isEmpty())
 			return Collections.EMPTY_LIST;
-		}
 
 		List<IDimensionDefinition> dimensionList = edge.getDimensions();
-		List<DrillOnDimensionHierarchy> drillOnDimension = new ArrayList<>();
+		List<DrillOnDimensionHierarchy> drillOnDimension = new ArrayList<DrillOnDimensionHierarchy>();
 		for (int i = 0; i < dimensionList.size(); i++) {
 			IDimensionDefinition dimension = dimensionList.get(i);
 			IEdgeDrillFilter[] drill = edge.getDrillFilter(dimension);
-			if (drill.length > 0) {
+			if (drill.length > 0)
 				drillOnDimension.add(new DrillOnDimensionHierarchy(dimension, drill));
-			}
 		}
 		return drillOnDimension;
 	}
@@ -242,8 +239,8 @@ public class CubeQueryDefinitionUtil {
 		if (calculatedMembers == null) {
 			return new AggregationDefinition[0];
 		}
-		List<AggregationDefinition> result = new ArrayList<>();
-		Set<Integer> rsIDSet = new HashSet<>();
+		List<AggregationDefinition> result = new ArrayList<AggregationDefinition>();
+		Set<Integer> rsIDSet = new HashSet<Integer>();
 		for (int i = 0; i < calculatedMembers.length; i++) {
 			if (rsIDSet.contains(Integer.valueOf(calculatedMembers[i].getRsID()))) {
 				continue;
@@ -296,7 +293,7 @@ public class CubeQueryDefinitionUtil {
 				sortType[index] = getSortDirection(levels[index], query);
 			}
 
-			rsIDSet.add(calculatedMembers[i].getRsID());
+			rsIDSet.add(Integer.valueOf(calculatedMembers[i].getRsID()));
 			result.add(new AggregationDefinition(levels, sortType, funcitons));
 		}
 		return result.toArray(new AggregationDefinition[0]);
@@ -315,9 +312,8 @@ public class CubeQueryDefinitionUtil {
 
 					List<ILevelDefinition> levels = dimension.get(i).getHierarchy().get(0).getLevels();
 					for (int j = 0; j < levels.size(); j++) {
-						if (onlevels.contains(new DimLevel(levels.get(j)))) {
+						if (onlevels.contains(new DimLevel(levels.get(j))))
 							return true;
-						}
 					}
 					return false;
 				}
@@ -330,9 +326,8 @@ public class CubeQueryDefinitionUtil {
 				if (dimension.get(i).getName().equals(timeFunction.getTimeDimension())) {
 					List<ILevelDefinition> levels = dimension.get(i).getHierarchy().get(0).getLevels();
 					for (int j = 0; j < levels.size(); j++) {
-						if (onlevels.contains(new DimLevel(levels.get(j)))) {
+						if (onlevels.contains(new DimLevel(levels.get(j))))
 							return true;
-						}
 					}
 					return false;
 				}
@@ -342,7 +337,7 @@ public class CubeQueryDefinitionUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param levelDefn
 	 * @param query
 	 * @return
@@ -360,7 +355,7 @@ public class CubeQueryDefinitionUtil {
 						return sortDfn.getSortDirection();
 					}
 				} else {
-					String expr;
+					String expr = null;
 					expr = sortDfn.getExpression().getText();
 					info = getDimLevel(expr, query.getBindings());
 
@@ -375,7 +370,7 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * Get dim level from an expression.
-	 *
+	 * 
 	 * @param expr
 	 * @param bindings
 	 * @return
@@ -384,14 +379,12 @@ public class CubeQueryDefinitionUtil {
 	private static DimLevel getDimLevel(String expr, List bindings) throws DataException {
 		String bindingName = OlapExpressionUtil.getBindingName(expr);
 		DimLevel dimLevel = getDimLevelByBindingName(bindingName, bindings);
-		if (dimLevel != null) {
+		if (dimLevel != null)
 			return dimLevel;
-		}
-		if (!OlapExpressionUtil.isReferenceToDimLevel(expr)) {
+		if (OlapExpressionUtil.isReferenceToDimLevel(expr) == false)
 			return null;
-		} else {
+		else
 			return OlapExpressionUtil.getTargetDimLevel(expr);
-		}
 	}
 
 	private static DimLevel getDimLevelByBindingName(String bindingName, List bindings) throws DataException {
@@ -399,9 +392,8 @@ public class CubeQueryDefinitionUtil {
 			for (int j = 0; j < bindings.size(); j++) {
 				IBinding binding = (IBinding) bindings.get(j);
 				if (binding.getBindingName().equals(bindingName)) {
-					if (!(binding.getExpression() instanceof IScriptExpression)) {
+					if (!(binding.getExpression() instanceof IScriptExpression))
 						return null;
-					}
 					return getDimLevel(((IScriptExpression) binding.getExpression()).getText(), bindings);
 				}
 			}
@@ -410,26 +402,25 @@ public class CubeQueryDefinitionUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param calMember
 	 * @param index
 	 * @return
 	 */
 	private static List<CalculatedMember> getCalculatedMemberWithSameRSId(CalculatedMember[] calMember, int index) {
 		CalculatedMember member = calMember[index];
-		List<CalculatedMember> list = new ArrayList<>();
+		List<CalculatedMember> list = new ArrayList<CalculatedMember>();
 		list.add(member);
 
 		for (int i = index + 1; i < calMember.length; i++) {
-			if (calMember[i].getRsID() == member.getRsID()) {
+			if (calMember[i].getRsID() == member.getRsID())
 				list.add(calMember[i]);
-			}
 		}
 		return list;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param queryDefn
 	 * @param levelExpr
 	 * @param type
@@ -461,7 +452,7 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * used for backward capability.
-	 *
+	 * 
 	 * @param measureDefn
 	 * @return
 	 */
@@ -470,7 +461,7 @@ public class CubeQueryDefinitionUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param queryDefn
 	 * @param measureList
 	 * @param measureMapping
@@ -499,7 +490,7 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * get the binding that directly reference to the specified measure.
-	 *
+	 * 
 	 * @param measure
 	 * @param bindings
 	 * @param measureAggrOns
@@ -529,9 +520,8 @@ public class CubeQueryDefinitionUtil {
 									break;
 								}
 							}
-							if (t == measureAggrOns.size()) {
+							if (t == measureAggrOns.size())
 								return binding;
-							}
 						}
 					}
 				}
@@ -542,7 +532,7 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * To populate the relational measures from Sort list of queryDefn
-	 *
+	 * 
 	 * @param queryDefn
 	 */
 	private static void populateMeasureFromSort(ICubeQueryDefinition queryDefn, ScriptContext cx) throws DataException {
@@ -554,7 +544,7 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * To populate the relational measures from filter list of queryDefn
-	 *
+	 * 
 	 * @param queryDefn
 	 */
 	private static void populateMeasureFromFilter(ICubeQueryDefinition queryDefn, ScriptContext cx)
@@ -567,7 +557,7 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * To populate the relational measures from binding list of queryDefn
-	 *
+	 * 
 	 * @param queryDefn
 	 */
 	private static void populateMeasureFromBinding(ICubeQueryDefinition queryDefn, ScriptContext cx)
@@ -586,14 +576,14 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * Get the drilled target level for the drill operation.
-	 *
+	 * 
 	 * @param drill
 	 * @return
 	 */
 	public static List<DimLevel> getDrilledTargetLevels(IEdgeDrillFilter drill) {
 		IHierarchyDefinition hierarchy = drill.getTargetHierarchy();
 		List levels = hierarchy.getLevels();
-		List<DimLevel> targetLevels = new ArrayList<>();
+		List<DimLevel> targetLevels = new ArrayList<DimLevel>();
 		for (int j = 0; j < levels.size(); j++) {
 			ILevelDefinition levelDefn = (ILevelDefinition) levels.get(j);
 			targetLevels.add(new DimLevel(hierarchy.getDimension().getName(), levelDefn.getName()));
@@ -607,14 +597,14 @@ public class CubeQueryDefinitionUtil {
 	/**
 	 * To create all the rational measures for CubeQueryDefinition according to the
 	 * expression
-	 *
+	 * 
 	 * @param queryDefn, expression
 	 * @return List
 	 * @throws DataException
 	 */
 	private static List createRelationalMeasures(ICubeQueryDefinition queryDefn, IBaseExpression expression,
 			ScriptContext cx) throws DataException {
-		List<IMeasureDefinition> measures = new ArrayList<>();
+		List<IMeasureDefinition> measures = new ArrayList<IMeasureDefinition>();
 		List<IScriptExpression> exprTextList = getExprTextList(expression);
 		for (int i = 0; i < exprTextList.size(); i++) {
 			IScriptExpression exprText = (IScriptExpression) exprTextList.get(i);
@@ -640,12 +630,12 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * To get all the sub expressions' text list of the given expression
-	 *
+	 * 
 	 * @param queryDefn, expression
 	 * @return List
 	 */
 	private static List<IScriptExpression> getExprTextList(IBaseExpression expression) {
-		List<IScriptExpression> textList = new ArrayList<>();
+		List<IScriptExpression> textList = new ArrayList<IScriptExpression>();
 		if (expression instanceof IScriptExpression) {
 			textList.add((IScriptExpression) expression);
 		} else if (expression instanceof IExpressionCollection) {
@@ -664,7 +654,7 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * Populate the list of measure aggregation ons.
-	 *
+	 * 
 	 * @param queryDefn
 	 * @return
 	 */
@@ -686,8 +676,18 @@ public class CubeQueryDefinitionUtil {
 		return levelList;
 	}
 
+	private static List getReferenceDimLevelOnEdge(ICubeQueryDefinition queryDefn, int type) {
+		List levelList = new ArrayList();
+		ILevelDefinition[] rowLevels = getLevelsOnEdge(queryDefn.getEdge(type));
+
+		for (int i = 0; i < rowLevels.length; i++) {
+			levelList.add(new DimLevel(rowLevels[i]));
+		}
+		return levelList;
+	}
+
 	/**
-	 *
+	 * 
 	 * @param aggrList
 	 * @param levelList
 	 * @return
@@ -704,14 +704,13 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * get all ILevelDefinition from certain IEdgeDefinition
-	 *
+	 * 
 	 * @param edgeDefn
 	 * @return
 	 */
 	public static ILevelDefinition[] getLevelsOnEdge(IEdgeDefinition edgeDefn) {
-		if (edgeDefn == null) {
+		if (edgeDefn == null)
 			return new ILevelDefinition[0];
-		}
 
 		List levelList = new ArrayList();
 		Iterator dimIter = edgeDefn.getDimensions().iterator();
@@ -734,7 +733,7 @@ public class CubeQueryDefinitionUtil {
 
 	/**
 	 * Get related level's info for all measure.
-	 *
+	 * 
 	 * @param queryDefn
 	 * @param measureMapping
 	 * @return
@@ -783,9 +782,8 @@ public class CubeQueryDefinitionUtil {
 		System.arraycopy(aggrsFromCubeOperations, 0, cubeAggrs, cubeAggrs1.length, aggrsFromCubeOperations.length);
 		if (cubeAggrs != null && cubeAggrs.length > 0) {
 			for (int i = 0; i < cubeAggrs.length; i++) {
-				if (cubeAggrs[i].getAggrName() == null) {
+				if (cubeAggrs[i].getAggrName() == null)
 					continue;
-				}
 				List aggrOns = cubeAggrs[i].getAggrLevelsInAggregationResult();
 				List usedLevelOnRow = new ArrayList();
 				List usedLevelOnColumn = new ArrayList();
@@ -808,7 +806,7 @@ public class CubeQueryDefinitionUtil {
 	}
 
 	public static List<IBinding> getNewBindingsFromCubeOperations(ICubeQueryDefinition cubeQueryDefn) {
-		List<IBinding> list = new ArrayList<>();
+		List<IBinding> list = new ArrayList<IBinding>();
 		for (ICubeOperation co : cubeQueryDefn.getCubeOperations()) {
 			IBinding[] newBindings = co.getNewBindings();
 			list.addAll(Arrays.asList(newBindings));
@@ -818,7 +816,8 @@ public class CubeQueryDefinitionUtil {
 
 	@SuppressWarnings("unchecked")
 	public static List<IBinding> getAllBindings(ICubeQueryDefinition cubeQueryDefn) {
-		List<IBinding> result = new ArrayList(cubeQueryDefn.getBindings());
+		List<IBinding> result = new ArrayList();
+		result.addAll(cubeQueryDefn.getBindings());
 		result.addAll(getNewBindingsFromCubeOperations(cubeQueryDefn));
 		return result;
 	}
@@ -840,9 +839,8 @@ public class CubeQueryDefinitionUtil {
 		List aggrs = binding.getAggregatOns();
 		if (aggrs.size() == 0) {
 			if (OlapExpressionCompiler.getReferencedScriptObject(binding.getExpression(),
-					ScriptConstants.DIMENSION_SCRIPTABLE) != null) {
+					ScriptConstants.DIMENSION_SCRIPTABLE) != null)
 				return null;
-			}
 
 			IBinding directReferenceBinding = OlapExpressionUtil.getDirectMeasureBinding(binding,
 					cubeQuery.getBindings());
@@ -857,6 +855,25 @@ public class CubeQueryDefinitionUtil {
 				levels[i] = OlapExpressionUtil.getTargetDimLevel(aggrs.get(i).toString());
 			}
 			return levels;
+		}
+	}
+
+	/**
+	 * 
+	 * @param levelList
+	 * @param edge
+	 */
+	private void populateDimLevel(List levelList, IEdgeDefinition edge) {
+		if (edge == null)
+			return;
+		List rowDims = edge.getDimensions();
+		for (Iterator i = rowDims.iterator(); i.hasNext();) {
+			IDimensionDefinition dim = (IDimensionDefinition) i.next();
+			IHierarchyDefinition hirarchy = (IHierarchyDefinition) dim.getHierarchy().get(0);
+			for (Iterator j = hirarchy.getLevels().iterator(); j.hasNext();) {
+				ILevelDefinition level = (ILevelDefinition) j.next();
+				levelList.add(new DimLevel(dim.getName(), level.getName()));
+			}
 		}
 	}
 }

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -76,13 +77,13 @@ import org.osgi.framework.Bundle;
 
 /**
  * Supplies template selection page of new report wizard
- *
+ * 
  */
 public class WizardTemplateChoicePage extends WizardPage implements TemplateUICallback {
 
 	protected static final Logger logger = Logger.getLogger(WizardTemplateChoicePage.class.getName());
 
-	private static final String[] IMAGE_TYPES = { ".bmp", //$NON-NLS-1$
+	private static final String[] IMAGE_TYPES = new String[] { ".bmp", //$NON-NLS-1$
 			".jpg", //$NON-NLS-1$
 			".jpeg", //$NON-NLS-1$
 			".jpe", //$NON-NLS-1$
@@ -145,7 +146,7 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 
 	Image thumbnailImage;
 
-	protected java.util.List<ReportDesignHandle> templates = new ArrayList<>();
+	protected java.util.List<ReportDesignHandle> templates = new ArrayList<ReportDesignHandle>();
 
 	// protected int selectedIndex;
 
@@ -166,7 +167,7 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 
 		provider = new ExtensionTemplateListProvider(this);
 
-		imageMap = new HashMap<>();
+		imageMap = new HashMap<String, Image>();
 
 		if (UIUtil.getFragmentDirectory() == null) {
 			return;
@@ -206,19 +207,18 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 			}
 			File[] filesArray = templateDirectory.listFiles(new FilenameFilter() {
 
-				@Override
 				public boolean accept(File dir, String name) {
 					return name.endsWith(".rpttemplate");//$NON-NLS-1$
 				}
 			});
 
-			java.util.List<ReportDesignHandle> reportDesingHandleList = new ArrayList<>();
+			java.util.List<ReportDesignHandle> reportDesingHandleList = new ArrayList<ReportDesignHandle>();
 			for (int i = 0; i < filesArray.length; i++) {
 				try {
 					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getSessionHandle()
 							.openModule(filesArray[i].getAbsolutePath());
 					// templateArray[i] = reportDesignHandle;
-					if (moduleHandle instanceof ReportDesignHandle) {
+					if (moduleHandle != null && moduleHandle instanceof ReportDesignHandle) {
 						reportDesingHandleList.add((ReportDesignHandle) moduleHandle);
 					}
 				} catch (Exception e) {
@@ -239,12 +239,11 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		UIUtil.bindHelp(composite, IHelpContextIds.NEW_REPORT_COPY_WIZARD_ID);
@@ -315,12 +314,10 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 		chkBox.setSelection(ReportPlugin.readCheatSheetPreference());
 		chkBox.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ReportPlugin.writeCheatSheetPreference(chkBox.getSelection());
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				ReportPlugin.writeCheatSheetPreference(chkBox.getSelection());
 			}
@@ -368,10 +365,58 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 
 	}
 
+	private void addBidiPart(Composite composite) {
+		new Label(composite, SWT.NONE);
+
+		Composite bidiComposite = new Composite(composite, SWT.NONE);
+		GridData bidiGridData = new GridData(GridData.FILL_HORIZONTAL);
+		bidiGridData.horizontalSpan = 2;
+		bidiComposite.setLayoutData(bidiGridData);
+
+		GridLayout bidiGridLayout = new GridLayout();
+		bidiGridLayout.numColumns = 3;
+		bidiGridLayout.marginHeight = 10;
+		bidiGridLayout.marginWidth = 5;
+		bidiGridLayout.horizontalSpacing = 5;
+		bidiGridLayout.verticalSpacing = 10;
+		bidiGridLayout.makeColumnsEqualWidth = false;
+		bidiComposite.setLayout(bidiGridLayout);
+
+		bidiGridData = new GridData();
+		directionLabel = new Label(bidiComposite, SWT.NONE);
+		directionLabel.setText(MESSAGE_CHOOSE_BIDI_DIR);
+		directionLabel.setLayoutData(bidiGridData);
+
+		directionCombo = new Combo(bidiComposite, SWT.DROP_DOWN | SWT.READ_ONLY);
+		directionCombo.add(MESSAGE_LTR_BIDI, LTR_DIRECTION_INDX);
+		directionCombo.add(MESSAGE_RTL_BIDI, RTL_DIRECTION_INDX);
+		bidiGridData = new GridData();
+		bidiGridData.grabExcessHorizontalSpace = true;
+		bidiGridData.widthHint = 200;
+		bidiGridData.horizontalIndent = 20;
+		directionCombo.setLayoutData(bidiGridData);
+		directionCombo.setVisibleItemCount(30);
+		reSelectDirectionCombo();
+		directionCombo.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent e) {
+				if (directionCombo.getSelectionIndex() == LTR_DIRECTION_INDX)
+					isLTRDirection = true;
+				else
+					isLTRDirection = false;
+
+				isModified = true;
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+
+	}
+
 	private void reSelectDirectionCombo() {
-		if (directionCombo != null) {
+		if (directionCombo != null)
 			directionCombo.select(isLTRDirection ? LTR_DIRECTION_INDX : RTL_DIRECTION_INDX);
-		}
 	}
 
 	private void createCustomTemplateList() {
@@ -405,7 +450,6 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 
 	private ISelectionChangedListener templateListener = new ISelectionChangedListener() {
 
-		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			ReportDesignHandle handle = getSelectionHandle();
 			processSelectionReportDesignHandle(handle);
@@ -443,7 +487,7 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 		previewPane.layout();
 
 		String key = handle.getIconFile();
-		if (key != null && key.trim().length() != 0 && !checkExtensions(key)) {
+		if (key != null && key.trim().length() != 0 && checkExtensions(key) == false) {
 			key = null;
 		}
 
@@ -568,7 +612,6 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 		return chkBox.getSelection();
 	}
 
-	@Override
 	public void dispose() {
 		super.dispose();
 		for (Iterator<ReportDesignHandle> it = templates.iterator(); it.hasNext();) {
@@ -592,7 +635,6 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 	/*
 	 * @see DialogPage.setVisible(boolean)
 	 */
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (visible) {
@@ -652,7 +694,7 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 	}
 
 	private URL getPreviewImageURL(String reportFileName, String key) {
-		URL url;
+		URL url = null;
 
 		Bundle bundle = EclipseUtil.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST);
 		if (bundle == null) {
@@ -717,7 +759,6 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 		templateList.expandAll();
 	}
 
-	@Override
 	public void contentChanged() {
 		if (templateList != null && templateList.getTree() != null && !templateList.getTree().isDisposed()) {
 			ISelection oldSel = templateList.getSelection();
@@ -755,7 +796,6 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 
 	private class TemplateListProvider implements ILabelProvider, ITreeContentProvider {
 
-		@Override
 		public Image getImage(Object element) {
 			if (element instanceof ReportDesignHandle) {
 				return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_TEMPLATE_FILE);
@@ -766,7 +806,6 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 			return image;
 		}
 
-		@Override
 		public String getText(Object element) {
 			String displayName = null;
 			if (element instanceof ReportDesignHandle) {
@@ -800,28 +839,23 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 			return displayName;
 		}
 
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 			// do nothing
 
 		}
 
-		@Override
 		public void dispose() {
 			provider.dispose();
 		}
 
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 
 		}
 
-		@Override
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof Object[]) {
 				return (Object[]) parentElement;
@@ -835,22 +869,18 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 			return objs;
 		}
 
-		@Override
 		public Object getParent(Object element) {
 			return null;
 		}
 
-		@Override
 		public boolean hasChildren(Object element) {
 			return getChildren(element).length != 0;
 		}
 
-		@Override
 		public Object[] getElements(Object inputElement) {
 			return getChildren(inputElement);
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// do nothing
 

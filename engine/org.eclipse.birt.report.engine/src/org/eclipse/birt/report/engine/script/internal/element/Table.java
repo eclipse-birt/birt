@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,36 +33,33 @@ public class Table extends Listing implements ITable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ITable#getColumnCount()
 	 */
 
-	@Override
 	public int getColumnCount() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getColumnCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#repeatHeader()
 	 */
 
-	@Override
 	public boolean repeatHeader() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).repeatHeader();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ITable#setRepeatHeader(
 	 * boolean)
 	 */
 
-	@Override
 	public void setRepeatHeader(boolean value) throws ScriptException {
 		try {
 			((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).setRepeatHeader(value);
@@ -73,24 +70,22 @@ public class Table extends Listing implements ITable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaption()
 	 */
 
-	@Override
 	public String getCaption() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getCaption();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ITable#setCaption(java.lang
 	 * .String)
 	 */
 
-	@Override
 	public void setCaption(String caption) throws ScriptException {
 		try {
 			((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).setCaption(caption);
@@ -101,24 +96,22 @@ public class Table extends Listing implements ITable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaptionKey()
 	 */
 
-	@Override
 	public String getCaptionKey() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getCaptionKey();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ITable#setCaptionKey(java.
 	 * lang.String)
 	 */
 
-	@Override
 	public void setCaptionKey(String captionKey) throws ScriptException {
 		try {
 			((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).setCaptionKey(captionKey);
@@ -129,33 +122,30 @@ public class Table extends Listing implements ITable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumn(int)
 	 */
 
-	@Override
 	public IColumn getColumn(int index) {
 		return new Column(((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getColumn(index));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getSummary()
 	 */
-	@Override
 	public String getSummary() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getSummary();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ITable#setSummary(java.lang
 	 * .String)
 	 */
-	@Override
 	public void setSummary(String summary) throws ScriptException {
 		try {
 			((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).setSummary(summary);

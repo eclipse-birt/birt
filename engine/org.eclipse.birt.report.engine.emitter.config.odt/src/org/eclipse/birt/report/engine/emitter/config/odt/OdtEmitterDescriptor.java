@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.emitter.config.odt.i18n.Messages;
 public class OdtEmitterDescriptor extends AbstractEmitterDescriptor {
 	protected static final String CHART_DPI = "ChartDpi";
 
-	@Override
 	protected void initOptions() {
 		loadDefaultValues("org.eclipse.birt.report.engine.emitter.config.odt");
 		// Initializes the option for chart DPI.
@@ -56,32 +55,29 @@ public class OdtEmitterDescriptor extends AbstractEmitterDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDescription()
 	 */
-	@Override
 	public String getDescription() {
 		return getMessage("OdtEmitter.Description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return getMessage("OdtEmitter.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#getID()
 	 */
-	@Override
 	public String getID() {
 		return "org.eclipse.birt.report.engine.emitter.odt"; //$NON-NLS-1$
 	}

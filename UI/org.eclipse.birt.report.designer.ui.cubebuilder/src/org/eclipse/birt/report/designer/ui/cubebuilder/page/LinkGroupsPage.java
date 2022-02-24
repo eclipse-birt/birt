@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,6 @@ public class LinkGroupsPage extends AbstractCubePropertyPage {
 		this.builder = builder;
 	}
 
-	@Override
 	public Control createContents(Composite parent) {
 		Composite contents = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -84,7 +83,6 @@ public class LinkGroupsPage extends AbstractCubePropertyPage {
 		filterButton.setEnabled(false);
 		filterButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				EditPart editPart = (EditPart) viewer.getSelectedEditParts().get(0);
 				CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -92,21 +90,18 @@ public class LinkGroupsPage extends AbstractCubePropertyPage {
 
 				FilterHandleProvider provider = (FilterHandleProvider) ElementAdapterManager.getAdapter(builder,
 						FilterHandleProvider.class);
-				if (provider == null) {
+				if (provider == null)
 					provider = new FilterHandleProvider();
-				}
 
 				FilterListDialog dialog = new FilterListDialog(provider);
-				if (editPart instanceof DatasetNodeEditPart) {
+				if (editPart instanceof DatasetNodeEditPart)
 					dialog.setInput((ReportElementHandle) (editPart.getParent().getModel()));
-				} else if (editPart instanceof HierarchyNodeEditPart) {
+				else if (editPart instanceof HierarchyNodeEditPart)
 					dialog.setInput((ReportElementHandle) (editPart.getModel()));
-				}
 				if (dialog.open() == Window.OK) {
 					stack.commit();
-				} else {
+				} else
 					stack.rollback();
-				}
 			}
 
 		});
@@ -132,7 +127,6 @@ public class LinkGroupsPage extends AbstractCubePropertyPage {
 		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (event.getSelection() != null) {
 					StructuredSelection selection = (StructuredSelection) event.getSelection();
@@ -144,18 +138,14 @@ public class LinkGroupsPage extends AbstractCubePropertyPage {
 									.getModel();
 							if (hierarchy.getPrimaryKeys() != null && hierarchy.getPrimaryKeys().size() > 0) {
 								filterButton.setEnabled(false);
-							} else {
+							} else
 								filterButton.setEnabled(true);
-							}
-						} else {
+						} else
 							filterButton.setEnabled(true);
-						}
-					} else {
+					} else
 						filterButton.setEnabled(false);
-					}
-				} else {
+				} else
 					filterButton.setEnabled(false);
-				}
 			}
 		});
 		load();
@@ -166,7 +156,6 @@ public class LinkGroupsPage extends AbstractCubePropertyPage {
 	private GraphicalEditPartsFactory factory;
 	private Button filterButton;
 
-	@Override
 	public void pageActivated() {
 		UIUtil.bindHelp(builder.getShell(), IHelpContextIds.CUBE_BUILDER_LINK_GROUPS_PAGE);
 		getContainer().setMessage(Messages.getString("LinkGroupsPage.Container.Title.Message"), //$NON-NLS-1$

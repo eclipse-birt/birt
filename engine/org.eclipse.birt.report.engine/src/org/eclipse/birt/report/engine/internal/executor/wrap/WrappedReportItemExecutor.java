@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,33 +34,27 @@ public class WrappedReportItemExecutor implements IReportItemExecutor {
 		this.executor = executor;
 	}
 
-	@Override
 	public void close() throws BirtException {
 		executor.close();
 		reportExecutor.closeWrappedExecutor(this);
 	}
 
-	@Override
 	public IContent execute() throws BirtException {
 		return executor.execute();
 	}
 
-	@Override
 	public IContent getContent() {
 		return executor.getContent();
 	}
 
-	@Override
 	public IExecutorContext getContext() {
 		return executor.getContext();
 	}
 
-	@Override
 	public Object getModelObject() {
 		return executor.getModelObject();
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() throws BirtException {
 		IReportItemExecutor child = executor.getNextChild();
 		if (child != null) {
@@ -69,32 +63,26 @@ public class WrappedReportItemExecutor implements IReportItemExecutor {
 		return null;
 	}
 
-	@Override
 	public IReportItemExecutor getParent() {
 		return executor.getParent();
 	}
 
-	@Override
 	public IBaseResultSet[] getQueryResults() {
 		return executor.getQueryResults();
 	}
 
-	@Override
 	public boolean hasNextChild() throws BirtException {
 		return executor.hasNextChild();
 	}
 
-	@Override
 	public void setContext(IExecutorContext context) {
 		executor.setContext(context);
 	}
 
-	@Override
 	public void setModelObject(Object handle) {
 		executor.setModelObject(handle);
 	}
 
-	@Override
 	public void setParent(IReportItemExecutor parent) {
 		executor.setParent(parent);
 	}

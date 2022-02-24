@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -43,9 +43,8 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle implements IL
 	 */
 	public ModuleHandle getHostHandle() {
 		Module host = ((Library) getElement()).getHost();
-		if (host == null) {
+		if (host == null)
 			return null;
-		}
 		return (ModuleHandle) host.getHandle(getModule());
 	}
 
@@ -76,13 +75,10 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle implements IL
 	 *         library has no values for the theme property
 	 * @deprecated uses the theme instead
 	 */
-	@Deprecated
-	@Override
 	public SlotHandle getStyles() {
 		ThemeHandle theme = getTheme();
-		if (theme == null) {
+		if (theme == null)
 			return null;
-		}
 
 		return theme.getStyles();
 	}
@@ -94,13 +90,11 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle implements IL
 	 *                       styles
 	 * @param selectedStyles the selected style list
 	 */
-	@Override
 	public void importCssStyles(CssStyleSheetHandle stylesheet, List selectedStyles) {
 		String themeName = ((Module) getElement()).getThemeName();
 
-		if (themeName == null) {
+		if (themeName == null)
 			themeName = CommandLabelFactory.getCommandLabel(IThemeModel.DEFAULT_THEME_NAME);
-		}
 
 		importCssStyles(stylesheet, selectedStyles, themeName);
 
@@ -121,16 +115,17 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle implements IL
 			ThemeHandle newTheme = getModuleHandle().getElementFactory().newTheme(themeName);
 			try {
 				getThemes().add(newTheme);
-			} catch (ContentException | NameException e) {
+			} catch (ContentException e) {
+				assert false;
+			} catch (NameException e) {
 				assert false;
 			}
 			theme = (Theme) newTheme.getElement();
 		}
 
 		try {
-			if (libElement.getThemeName() == null) {
+			if (libElement.getThemeName() == null)
 				setThemeName(themeName);
-			}
 		} catch (SemanticException e) {
 			assert false;
 		}
@@ -151,9 +146,8 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle implements IL
 	 * @param themeName      the name of the theme to put styles
 	 */
 	public void importCssStyles(CssStyleSheetHandle stylesheet, List selectedStyles, String themeName) {
-		if (StringUtil.isBlank(themeName)) {
+		if (StringUtil.isBlank(themeName))
 			return;
-		}
 
 		ActivityStack stack = module.getActivityStack();
 		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.IMPORT_CSS_STYLES_MESSAGE));
@@ -170,13 +164,14 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle implements IL
 
 					SharedStyleHandle newStyle = StyleUtil.transferCssStyleToSharedStyle(module, style);
 
-					if (newStyle == null) {
+					if (newStyle == null)
 						continue;
-					}
 					newStyle.getElement().setName(themeHandle.makeUniqueStyleName(newStyle.getName()));
 
 					themeHandle.getStyles().add(newStyle);
-				} catch (ContentException | NameException e) {
+				} catch (ContentException e) {
+					assert false;
+				} catch (NameException e) {
 					assert false;
 				}
 			}
@@ -185,7 +180,6 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle implements IL
 		stack.commit();
 	}
 
-	@Override
 	public SlotHandle getCubes() {
 		return getSlot(CUBE_SLOT);
 	}
@@ -198,24 +192,20 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle implements IL
 	 */
 	public String getRelativeFileName() {
 		ModuleHandle hostHandle = getHostHandle();
-		if (hostHandle == null) {
+		if (hostHandle == null)
 			return null;
-		}
 
 		Module host = (Module) hostHandle.getElement();
-		if (host == null) {
+		if (host == null)
 			return null;
-		}
 
 		IncludedLibrary libStruct = host.findIncludedLibrary(getNamespace());
-		if (libStruct != null) {
+		if (libStruct != null)
 			return libStruct.getFileName();
-		}
 
 		return null;
 	}
 
-	@Override
 	public boolean isDirectionRTL() {
 		return false;
 	}

@@ -27,7 +27,6 @@ import org.eclipse.core.runtime.Path;
  */
 public class IDEModelResourceAdapterFactory implements IAdapterFactory {
 
-	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adapterType == IResource.class) {
 			if (adaptableObject instanceof SlotHandle) {
@@ -45,7 +44,6 @@ public class IDEModelResourceAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	@Override
 	public Class[] getAdapterList() {
 		return new Class[] { IResource.class };
 	}

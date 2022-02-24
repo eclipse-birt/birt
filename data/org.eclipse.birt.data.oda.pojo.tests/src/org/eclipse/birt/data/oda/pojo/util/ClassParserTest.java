@@ -1,28 +1,29 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.oda.pojo.util;
 
-import static org.junit.Assert.assertEquals;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.eclipse.birt.data.oda.pojo.util.ClassParser;
+
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- *
+ * 
  */
 
 public class ClassParserTest {
@@ -49,23 +50,23 @@ public class ClassParserTest {
 		return m.getGenericReturnType();
 	}
 
-	private interface TestClass {
-		List<List<String>> getNestGenericList();
+	private static interface TestClass {
+		public List<List<String>> getNestGenericList();
 
 		@SuppressWarnings("unchecked")
-		List<List<List>> getNestGenericAndCommonList();
+		public List<List<List>> getNestGenericAndCommonList();
 
-		String getCommonObject();
+		public String getCommonObject();
 
-		int getPrimitive();
+		public int getPrimitive();
 
-		ClassParser[] getObjects();
+		public ClassParser[] getObjects();
 
-		int[] getPrimitives();
+		public int[] getPrimitives();
 
-		List<String>[] getArrayListNest();
+		public List<String>[] getArrayListNest();
 
-		List<String[]> getListArrayNest();
+		public List<String[]> getListArrayNest();
 
 	}
 

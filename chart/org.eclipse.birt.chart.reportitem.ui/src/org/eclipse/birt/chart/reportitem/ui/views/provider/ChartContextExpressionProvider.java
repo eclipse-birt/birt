@@ -14,7 +14,7 @@ import org.eclipse.birt.report.designer.ui.expressions.AbstractContextExpression
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 
 /**
- *
+ * 
  */
 
 public class ChartContextExpressionProvider extends AbstractContextExpressionProvider {

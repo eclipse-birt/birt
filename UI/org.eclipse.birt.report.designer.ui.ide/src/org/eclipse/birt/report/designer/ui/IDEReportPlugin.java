@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,19 +35,18 @@ public class IDEReportPlugin extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
 	 * )
 	 */
-	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 
 		ReportPlugin.getDefault().addIgnoreViewID(LibraryExplorerView.ID);
 
 		// make higher ranking than default service
-		Hashtable<String, Object> dict = new Hashtable<>();
+		Hashtable<String, Object> dict = new Hashtable<String, Object>();
 		dict.put(Constants.SERVICE_RANKING, Integer.valueOf(3));
 
 		syncService = context.registerService(IReportResourceSynchronizer.class.getName(),

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,8 +36,8 @@ import org.eclipse.swt.graphics.Image;
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement DesignElementHandleAdapter responds to model
  * DesignElmentHandle
- *
- *
+ * 
+ * 
  */
 public abstract class DesignElementHandleAdapter {
 
@@ -47,7 +47,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param element Design element handle
 	 * @param mark    Helper mark
 	 */
@@ -59,7 +59,7 @@ public abstract class DesignElementHandleAdapter {
 	/**
 	 * Gets the Children iterator. This children relationship is determined by GUI
 	 * requirement. This is not the model children relationship.
-	 *
+	 * 
 	 * @return Children iterator
 	 */
 	public List getChildren() {
@@ -69,7 +69,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Gets display name of report element
-	 *
+	 * 
 	 * @return Display name
 	 */
 
@@ -86,7 +86,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Gets the handle of the report design
-	 *
+	 * 
 	 * @return Returns the handle of the report design
 	 */
 	public ReportDesignHandle getReportDesignHandle() {
@@ -95,7 +95,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Gets the handle of the moudule handle
-	 *
+	 * 
 	 * @return The module hanle
 	 */
 	public ModuleHandle getModuleHandle() {
@@ -138,7 +138,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Sets the handle this adapter
-	 *
+	 * 
 	 * @param handle
 	 */
 	public void setElementHandle(DesignElementHandle handle) {
@@ -147,7 +147,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Starts a transaction on the current activity stack.
-	 *
+	 * 
 	 * @param name
 	 */
 	public void transStar(String name) {
@@ -174,7 +174,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Get the padding of the current element.
-	 *
+	 * 
 	 * @param retValue The padding value of the current element.
 	 * @return The padding's new value of the current element.
 	 */
@@ -188,7 +188,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Get the margin of the current element.
-	 *
+	 * 
 	 * @param retValue The margin value of the current element.
 	 * @return The maring's new value of the current element.
 	 */
@@ -299,7 +299,7 @@ public abstract class DesignElementHandleAdapter {
 		}
 		int fontSize = DEUtil.getFontSizeIntValue(getHandle());
 
-		double px;
+		double px = 0;
 
 		px = DEUtil.convertToPixel(obj, fontSize);
 
@@ -342,7 +342,7 @@ public abstract class DesignElementHandleAdapter {
 		}
 		int fontSize = DEUtil.getFontSizeIntValue(getHandle());
 
-		double py;
+		double py = 0;
 
 		py = DEUtil.convertToPixel(obj, fontSize);
 
@@ -351,7 +351,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Get the foreground color.
-	 *
+	 * 
 	 * @param handle The handle of design element.
 	 * @return fore ground color
 	 */
@@ -377,7 +377,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Get the background color.
-	 *
+	 * 
 	 * @param handle The handle of design element.
 	 * @return back ground color
 	 */
@@ -403,7 +403,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Get background image.
-	 *
+	 * 
 	 * @param handle The handle of design element.
 	 * @return background image
 	 */
@@ -413,7 +413,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Get background position.
-	 *
+	 * 
 	 * @param handle The handle of design element.
 	 * @return background position
 	 */
@@ -454,7 +454,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Get background repeat property.
-	 *
+	 * 
 	 * @param handle The handle of design element.
 	 * @return background repeat property
 	 */
@@ -464,7 +464,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Get the position from string
-	 *
+	 * 
 	 * @param position The given string
 	 * @return The position
 	 */
@@ -486,7 +486,7 @@ public abstract class DesignElementHandleAdapter {
 
 	/**
 	 * Get reppeat value
-	 *
+	 * 
 	 * @param repeat Given string
 	 * @return The repeat value
 	 */

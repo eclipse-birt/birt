@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,17 +67,14 @@ public class FilePathEntry extends BaseResourceEntity {
 		if (filePattern != null) {
 			filter = new FileFilter() {
 
-				@Override
 				public boolean accept(File pathname) {
-					if (pathname.isDirectory()) {
+					if (pathname.isDirectory())
 						return true;
-					}
 					for (int i = 0; i < filePattern.length; i++) {
 						String[] regs = filePattern[i].split(";"); //$NON-NLS-1$
 						for (int j = 0; j < regs.length; j++) {
-							if (pathname.getName().toLowerCase().endsWith(regs[j].toLowerCase().substring(1))) {
+							if (pathname.getName().toLowerCase().endsWith(regs[j].toLowerCase().substring(1)))
 								return true;
-							}
 						}
 					}
 					return false;
@@ -87,11 +84,9 @@ public class FilePathEntry extends BaseResourceEntity {
 		} else {
 			filter = new FileFilter() {
 
-				@Override
 				public boolean accept(File pathname) {
-					if (pathname.isDirectory()) {
+					if (pathname.isDirectory())
 						return true;
-					}
 					return showFiles;
 				}
 
@@ -129,21 +124,17 @@ public class FilePathEntry extends BaseResourceEntity {
 		}
 	}
 
-	@Override
 	public boolean hasChildren() {
 		File file = new File(this.path);
 		if (file.isDirectory()) {
 			String[] list = file.list();
-			if (list == null) {
+			if (list == null)
 				return false;
-			}
 			return file.list().length > 0;
-		} else {
+		} else
 			return false;
-		}
 	}
 
-	@Override
 	public ResourceEntry[] getChildren() {
 		if (this.childrenList == null) {
 			this.childrenList = new ArrayList();
@@ -166,47 +157,38 @@ public class FilePathEntry extends BaseResourceEntity {
 		return (ResourceEntry[]) childrenList.toArray(new ResourceEntry[childrenList.size()]);
 	}
 
-	@Override
 	public String getName() {
 		return this.name;
 	}
 
-	@Override
 	public String getDisplayName() {
 		return this.displayName;
 	}
 
-	@Override
 	public Image getImage() {
-		if (this.isRoot) {
+		if (this.isRoot)
 			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_PROJECT);
-		} else if (this.isFolder) {
+		else if (this.isFolder)
 			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER);
-		}
 		return super.getImage();
 	}
 
-	@Override
 	public ResourceEntry getParent() {
 		return this.parent;
 	}
 
-	@Override
 	public URL getURL() {
 		return this.url;
 	}
 
-	@Override
 	public boolean isFile() {
 		return this.isFile;
 	}
 
-	@Override
 	public boolean isRoot() {
 		return this.isRoot;
 	}
 
-	@Override
 	public void dispose() {
 		if (this.library != null) {
 			this.library.close();
@@ -220,7 +202,6 @@ public class FilePathEntry extends BaseResourceEntity {
 		}
 	}
 
-	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == LibraryHandle.class && getURL().toString().toLowerCase().endsWith("library")) {
 			if (!this.isFolder && this.library == null) {
@@ -235,23 +216,21 @@ public class FilePathEntry extends BaseResourceEntity {
 		return null;
 	}
 
-	@Override
 	public boolean equals(Object object) {
-		if ((object == null) || !(object instanceof FilePathEntry)) {
+		if (object == null)
 			return false;
-		}
-		if (object == this) {
+		if (!(object instanceof FilePathEntry))
+			return false;
+		if (object == this)
 			return true;
-		} else {
+		else {
 			FilePathEntry temp = (FilePathEntry) object;
-			if (temp.path.equals(this.path)) {
+			if (temp.path.equals(this.path))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	@Override
 	public int hashCode() {
 		return this.path.hashCode();
 	}

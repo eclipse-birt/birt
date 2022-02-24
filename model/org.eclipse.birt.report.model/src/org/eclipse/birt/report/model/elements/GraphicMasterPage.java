@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
  * of the content area. Use the
  * {@link org.eclipse.birt.report.model.api.GraphicMasterPageHandle}class to
  * access the content slot of the graphic master page.
- *
+ * 
  */
 public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageModel {
 
@@ -55,7 +55,7 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 
 	/**
 	 * Constructs the graphic master page with a required and unique name.
-	 *
+	 * 
 	 * @param theName the required name
 	 */
 
@@ -66,11 +66,10 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	@Override
 	public ContainerSlot getSlot(int slot) {
 		assert slot == CONTENT_SLOT;
 		return slots[CONTENT_SLOT];
@@ -78,7 +77,7 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the report design
 	 * @return an API handle for this element
 	 */
@@ -92,26 +91,24 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.elements.MasterPage#apply(org.eclipse.birt.
 	 * report.model.elements.ElementVisitor)
 	 */
 
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitGraphicMasterPage(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.
 	 * report.model.elements.ReportDesign)
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module) {
 		List<SemanticException> list = super.validate(module);
 
@@ -124,24 +121,22 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
 	 * report.model.elements.ReportDesign)
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}

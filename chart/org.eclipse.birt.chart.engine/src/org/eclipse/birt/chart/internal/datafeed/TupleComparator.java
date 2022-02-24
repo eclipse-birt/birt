@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,10 +37,9 @@ public class TupleComparator implements Comparator {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	public int compare(Object o1, Object o2) {
 		final Object[] oaTuple1 = (Object[]) o1;
 		final Object[] oaTuple2 = (Object[]) o2;

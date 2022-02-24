@@ -4,7 +4,7 @@
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-2.0.html
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -16,32 +16,31 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * An interface that provides methods of a property page.
- *
+ * 
  * @deprecated As of BIRT 2.1, replaced by
  *             {@link org.eclipse.birt.report.designer.data.ui.property.IPropertyPage
  *             org.eclipse.birt.report.designer.data.ui.property.IPropertyPage
  *             }.
  */
-@Deprecated
 public interface IPropertyPage {
 
-	Control createPageControl(Composite parent);
+	public Control createPageControl(Composite parent);
 
-	void setContainer(IPropertyPageContainer parentContainer);
+	public void setContainer(IPropertyPageContainer parentContainer);
 
-	String getName();
+	public String getName();
 
-	Image getImage();
+	public Image getImage();
 
-	boolean canLeave();
+	public boolean canLeave();
 
-	boolean performOk();
+	public boolean performOk();
 
-	boolean performCancel();
+	public boolean performCancel();
 
-	void performHelp();
+	public void performHelp();
 
-	void pageActivated();
+	public void pageActivated();
 
-	String getToolTip();
+	public String getToolTip();
 }

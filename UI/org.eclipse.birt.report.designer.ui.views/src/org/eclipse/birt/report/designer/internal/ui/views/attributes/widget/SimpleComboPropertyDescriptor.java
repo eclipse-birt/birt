@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,6 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
-	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
@@ -62,22 +61,20 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
-	@Override
 	public Control getControl() {
 		return combo;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Control createControl(Composite parent) {
 		if (isFormStyle()) {
 			combo = FormWidgetFactory.getInstance().createCCombo(parent, false);
@@ -92,24 +89,20 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor {
 	protected void addListeners() {
 		combo.addControlListener(new ControlListener() {
 
-			@Override
 			public void controlMoved(ControlEvent e) {
 				combo.clearSelection();
 			}
 
-			@Override
 			public void controlResized(ControlEvent e) {
 				combo.clearSelection();
 			}
 		});
 		combo.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleComboSelectEvent();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				handleComboSelectEvent();
 			}
@@ -117,7 +110,6 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor {
 
 		focusListener = new FocusAdapter() {
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				if (combo.isEnabled()) {
 					handleComboSelectEvent();
@@ -154,7 +146,6 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor {
 		return style;
 	}
 
-	@Override
 	public void load() {
 		oldValue = getDescriptorProvider().load().toString();
 		refresh(oldValue);
@@ -162,7 +153,7 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor {
 
 	/**
 	 * Add a SWT style to the combo widget
-	 *
+	 * 
 	 * @param style The SWT style to add.
 	 */
 	public void addStyle(int style) {
@@ -174,9 +165,8 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor {
 			String[] items = ((ISimpleComboDescriptorProvider) getDescriptorProvider()).getItems();
 			combo.setItems(items);
 			boolean stateFlag = ((value == null) == combo.getEnabled());
-			if (stateFlag) {
+			if (stateFlag)
 				combo.setEnabled(value != null);
-			}
 
 			if (((PropertyDescriptorProvider) getDescriptorProvider()).isReadOnly()) {
 				combo.setEnabled(false);
@@ -213,7 +203,6 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor {
 		}
 	}
 
-	@Override
 	public void save(Object value) throws SemanticException {
 		descriptorProvider.save(value);
 	}

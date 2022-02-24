@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,15 +20,15 @@ import junit.framework.TestCase;
 
 /**
  * Page Setup test
- *
+ * 
  */
 public class PageSetupTest extends TestCase {
 
 	/**
 	 * Test add/getPageSequenceDesign methods
-	 *
+	 * 
 	 * set the page sequence
-	 *
+	 * 
 	 * then get it to test if they work correctly
 	 */
 	public void testPageSequence() {
@@ -53,9 +53,9 @@ public class PageSetupTest extends TestCase {
 
 	/**
 	 * Test add/getMasterPage methods
-	 *
+	 * 
 	 * add a random list of master pages item into the page setup
-	 *
+	 * 
 	 * then get the master pages one by one to test if they work correctly
 	 */
 	public void testAddMasterPage() {

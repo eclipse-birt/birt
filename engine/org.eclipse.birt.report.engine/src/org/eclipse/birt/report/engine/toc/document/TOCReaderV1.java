@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,12 +43,10 @@ public class TOCReaderV1 implements ITOCReader, ITOCConstants {
 		root = readNode(input, loader);
 	}
 
-	@Override
 	public void close() throws IOException {
 
 	}
 
-	@Override
 	public ITreeNode readTree() throws IOException {
 		return root;
 	}

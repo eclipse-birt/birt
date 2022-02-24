@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,15 +20,15 @@ import org.eclipse.swt.widgets.TreeItem;
 
 /**
  * Viewer utility
- *
- *
- *
+ * 
+ * 
+ * 
  */
 public class ViewerUnti {
 
 	/**
 	 * View Tree
-	 *
+	 * 
 	 * @param treeViewer the tree viewer to display
 	 */
 	public static void viewTree(TreeViewer treeViewer) {
@@ -37,7 +37,7 @@ public class ViewerUnti {
 
 	/**
 	 * View Tree
-	 *
+	 * 
 	 * @param tree the tree to display
 	 */
 	public static void viewTree(Tree tree) {
@@ -46,7 +46,7 @@ public class ViewerUnti {
 
 	/**
 	 * View Tree
-	 *
+	 * 
 	 * @param root the tree item to display
 	 */
 
@@ -84,11 +84,9 @@ public class ViewerUnti {
 					System.err.print(out);
 					viewTree(ti[i], root);
 				}
-			} else {
+			} else
 				System.err.println("+" + item.getText() + "(?)"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-		} else {
+		} else
 			System.err.println(item.getText());
-		}
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class ElementNamesCellModifier implements ICellModifier {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
 	 * java.lang.String)
 	 */
@@ -49,11 +49,10 @@ public class ElementNamesCellModifier implements ICellModifier {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
 	 * java.lang.String)
 	 */
-	@Override
 	public boolean canModify(Object element, String property) {
 		// TODO Auto-generated method stub
 		int columnIndex = elementPreferPage.getElementNames().indexOf(property);
@@ -70,11 +69,10 @@ public class ElementNamesCellModifier implements ICellModifier {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object,
 	 * java.lang.String)
 	 */
-	@Override
 	public Object getValue(Object element, String property) {
 		// Find the index of the column
 		int columnIndex = elementPreferPage.getElementNames().indexOf(property);
@@ -100,11 +98,10 @@ public class ElementNamesCellModifier implements ICellModifier {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object,
 	 * java.lang.String, java.lang.Object)
 	 */
-	@Override
 	public void modify(Object element, String property, Object value) {
 		// Find the index of the column
 		int columnIndex = elementPreferPage.getElementNames().indexOf(property);

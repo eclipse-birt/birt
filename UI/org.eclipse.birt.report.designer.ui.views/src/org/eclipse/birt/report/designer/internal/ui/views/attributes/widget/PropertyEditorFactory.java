@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -49,10 +49,11 @@ public class PropertyEditorFactory {
 
 	private static PropertyEditorFactory instance = new PropertyEditorFactory();
 
-	private static String booleanValues[] = { "false", "true" }; //$NON-NLS-1$ //$NON-NLS-2$
+	private static String booleanValues[] = new String[] { "false", "true" }; //$NON-NLS-1$ //$NON-NLS-2$
 
-	private static String booleanDisplayValues[] = { Messages.getString("PropertyEditorFactory.Boolean.False"),
-			Messages.getString("PropertyEditorFactory.Boolean.True") }; //$NON-NLS-1$
+	private static String booleanDisplayValues[] = new String[] {
+			Messages.getString("PropertyEditorFactory.Boolean.False"),
+			Messages.getString("PropertyEditorFactory.Boolean.True") }; //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * Avoid instantiation.
@@ -62,7 +63,7 @@ public class PropertyEditorFactory {
 
 	/**
 	 * Gets the single instance of this class.
-	 *
+	 * 
 	 * @return instance
 	 */
 	public static PropertyEditorFactory getInstance() {
@@ -188,7 +189,7 @@ public class PropertyEditorFactory {
 	/**
 	 * Returns the array of choice names if the property has a choice list;or null
 	 * otherwise.
-	 *
+	 * 
 	 * @return the list of available choice names.
 	 */
 	private String[] getChoiceNames(Object o) {
@@ -206,9 +207,8 @@ public class PropertyEditorFactory {
 				}
 			}
 		}
-		if (values == null) {
+		if (values == null)
 			return new String[] {};
-		}
 
 		return values;
 	}
@@ -228,16 +228,15 @@ public class PropertyEditorFactory {
 				}
 			}
 		}
-		if (values == null) {
+		if (values == null)
 			return new String[] {};
-		}
 
 		return values;
 	}
 
 	/**
 	 * Gets the name of the model
-	 *
+	 * 
 	 * @param o
 	 * @return the name of the input object
 	 */

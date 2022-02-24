@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,14 +25,14 @@ import org.eclipse.birt.chart.internal.datafeed.GroupingLookupHelper;
  * <p>
  * Through the class, it returns appropriate expressions if current has
  * aggregations defined in chart.
- *
+ * 
  * @since 2.3
  */
 public abstract class AbstractGroupedDataRowExpressionEvaluator implements IGroupedDataRowExpressionEvaluator {
 
 	/**
 	 * Returns appropriate expressions if current has aggregations defined in chart.
-	 *
+	 * 
 	 * @param helper
 	 * @param isSharingQuery
 	 * @return expressions list
@@ -41,12 +41,10 @@ public abstract class AbstractGroupedDataRowExpressionEvaluator implements IGrou
 		return helper.getExpressions();
 	}
 
-	@Override
 	public boolean needOptionalGrouping() {
 		return false;
 	}
 
-	@Override
 	public boolean needCategoryGrouping() {
 		return false;
 	}
@@ -54,7 +52,6 @@ public abstract class AbstractGroupedDataRowExpressionEvaluator implements IGrou
 	/*
 	 * Returns if group is enabled in each group-level.
 	 */
-	@Override
 	public boolean[] getGroupStatus() {
 		return new boolean[] { true };
 	}

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -55,7 +55,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The cached value of the '{@link #getComponents() <em>Components</em>}'
 	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getComponents()
 	 * @generated
 	 * @ordered
@@ -65,7 +65,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -75,7 +75,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -85,7 +85,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -95,7 +95,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -105,7 +105,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The default value of the '{@link #getSeparator() <em>Separator</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getSeparator()
 	 * @generated
 	 * @ordered
@@ -115,7 +115,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The cached value of the '{@link #getSeparator() <em>Separator</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getSeparator()
 	 * @generated
 	 * @ordered
@@ -124,7 +124,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected DataPointImpl() {
@@ -133,7 +133,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -143,13 +143,12 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<DataPointComponent> getComponents() {
 		if (components == null) {
-			components = new EObjectContainmentEList<>(DataPointComponent.class, this,
+			components = new EObjectContainmentEList<DataPointComponent>(DataPointComponent.class, this,
 					AttributePackage.DATA_POINT__COMPONENTS);
 		}
 		return components;
@@ -157,82 +156,73 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getPrefix() {
 		return prefix;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setPrefix(String newPrefix) {
 		String oldPrefix = prefix;
 		prefix = newPrefix;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__PREFIX, oldPrefix,
 					prefix));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getSuffix() {
 		return suffix;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setSuffix(String newSuffix) {
 		String oldSuffix = suffix;
 		suffix = newSuffix;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__SUFFIX, oldSuffix,
 					suffix));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getSeparator() {
 		return separator;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setSeparator(String newSeparator) {
 		String oldSeparator = separator;
 		separator = newSeparator;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__SEPARATOR, oldSeparator,
 					separator));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -246,7 +236,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -266,7 +256,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -292,7 +282,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -316,7 +306,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -336,16 +326,15 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (prefix: "); //$NON-NLS-1$
 		result.append(prefix);
 		result.append(", suffix: "); //$NON-NLS-1$
@@ -358,9 +347,9 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * A convenience methods provided to create an initialized DataPoint instance
-	 *
+	 * 
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @param sPrefix
 	 * @param sSuffix
 	 * @param sSeparator
@@ -383,7 +372,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * @generated
 	 */
-	@Override
 	public DataPoint copyInstance() {
 		DataPointImpl dest = new DataPointImpl();
 		dest.set(this);

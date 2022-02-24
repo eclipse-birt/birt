@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -41,7 +41,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -51,7 +51,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -61,7 +61,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -71,7 +71,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -80,7 +80,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected ExtendedPropertyImpl() {
@@ -89,7 +89,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -99,57 +99,51 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.EXTENDED_PROPERTY__NAME, oldName,
 					name));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.EXTENDED_PROPERTY__VALUE, oldValue,
 					value));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -165,7 +159,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -183,7 +177,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -201,7 +195,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -217,16 +211,15 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(", value: "); //$NON-NLS-1$
@@ -238,7 +231,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 	/**
 	 * @generated
 	 */
-	@Override
 	public ExtendedProperty copyInstance() {
 		ExtendedPropertyImpl dest = new ExtendedPropertyImpl();
 		dest.set(this);

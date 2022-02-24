@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,7 +69,7 @@ public class ReportPrintGraphicalViewerOperation {
 
 	/**
 	 * Gets the printSource.
-	 *
+	 * 
 	 * @return
 	 */
 	protected IFigure getPrintSource() {
@@ -78,7 +78,7 @@ public class ReportPrintGraphicalViewerOperation {
 
 	/**
 	 * Gets the composite.
-	 *
+	 * 
 	 * @return
 	 */
 	protected Drawable getDrawable() {
@@ -87,7 +87,7 @@ public class ReportPrintGraphicalViewerOperation {
 
 	/**
 	 * Gets the orientation.
-	 *
+	 * 
 	 * @return
 	 */
 	public String getOrientation() {
@@ -96,7 +96,7 @@ public class ReportPrintGraphicalViewerOperation {
 
 	/**
 	 * Sets the orientation.
-	 *
+	 * 
 	 * @param orientation
 	 */
 	public void setOrientation(String orientation) {
@@ -129,9 +129,8 @@ public class ReportPrintGraphicalViewerOperation {
 			printerGraphics.dispose();
 			g.dispose();
 		}
-		if (printerGC != null) {
+		if (printerGC != null)
 			printerGC.dispose();
-		}
 	}
 
 	/**
@@ -155,7 +154,7 @@ public class ReportPrintGraphicalViewerOperation {
 
 	/**
 	 * Prints the pages based on the current print mode.
-	 *
+	 * 
 	 * @see org.eclipse.draw2d.PrintOperation#printPages()
 	 */
 	protected void printPages() {
@@ -187,7 +186,7 @@ public class ReportPrintGraphicalViewerOperation {
 	/**
 	 * Returns a new PrinterGraphics setup for the Printer associated with this
 	 * PrintOperation.
-	 *
+	 * 
 	 * @return PrinterGraphics The new PrinterGraphics
 	 */
 	protected Graphics getFreshGraphics() {
@@ -206,7 +205,7 @@ public class ReportPrintGraphicalViewerOperation {
 
 	/**
 	 * Sets up Graphics object for the given IFigure.
-	 *
+	 * 
 	 * @param graphics The Graphics to setup
 	 * @param figure   The IFigure used to setup graphics
 	 */
@@ -232,7 +231,7 @@ public class ReportPrintGraphicalViewerOperation {
 	/**
 	 * Manipulates the PrinterGraphics to position it to paint in the desired region
 	 * of the page. (Default is the top left corner of the page).
-	 *
+	 * 
 	 * @param pg The PrinterGraphics to setup
 	 */
 	protected void setupGraphicsForPage(CompositePrinterGraphics pg) {
@@ -244,7 +243,7 @@ public class ReportPrintGraphicalViewerOperation {
 	/**
 	 * Returns a Rectangle that represents the region that can be printed to. The x,
 	 * y, height, and width values are using the printers coordinates.
-	 *
+	 * 
 	 * @return the print region
 	 */
 	protected Rectangle getPrintRegion() {
@@ -259,7 +258,7 @@ public class ReportPrintGraphicalViewerOperation {
 
 		/**
 		 * Creates a new PrinterGraphics with Graphics g, using Printer p ;
-		 *
+		 * 
 		 * @param g Graphics object to draw with
 		 * @param p Printer to print to
 		 */
@@ -268,7 +267,6 @@ public class ReportPrintGraphicalViewerOperation {
 			printer = p;
 		}
 
-		@Override
 		public void dispose() {
 			for (Iterator itr = imageCache.values().iterator(); itr.hasNext();) {
 				((Image) itr.next()).dispose();
@@ -279,9 +277,8 @@ public class ReportPrintGraphicalViewerOperation {
 
 		private Image printerImage(Image image) {
 			Image result = (Image) imageCache.get(image);
-			if (result != null) {
+			if (result != null)
 				return result;
-			}
 
 			result = new Image(printer, image.getImageData());
 			imageCache.put(image, result);
@@ -291,7 +288,6 @@ public class ReportPrintGraphicalViewerOperation {
 		/**
 		 * @see org.eclipse.draw2d.Graphics#drawImage(Image, int, int)
 		 */
-		@Override
 		public void drawImage(Image srcImage, int x, int y) {
 			super.drawImage(printerImage(srcImage), x, y);
 		}
@@ -299,7 +295,6 @@ public class ReportPrintGraphicalViewerOperation {
 		/**
 		 * @see Graphics#drawImage(Image, int, int, int, int, int, int, int, int)
 		 */
-		@Override
 		public void drawImage(Image srcImage, int sx, int sy, int sw, int sh, int tx, int ty, int tw, int th) {
 			super.drawImage(printerImage(srcImage), sx, sy, sw, sh, tx, ty, tw, th);
 		}

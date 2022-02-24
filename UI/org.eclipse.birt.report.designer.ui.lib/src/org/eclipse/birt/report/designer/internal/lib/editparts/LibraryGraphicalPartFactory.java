@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,11 +25,10 @@ import org.eclipse.gef.EditPart;
 
 /**
  * Factory to populate the edit part for given model type
- *
+ * 
  */
 public class LibraryGraphicalPartFactory extends GraphicalPartFactory {
 
-	@Override
 	public EditPart createEditPart(EditPart context, Object model) {
 		// default edit part
 		EditPart editPart = null;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Megha Nidhi Dahal and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
@@ -44,16 +44,14 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage
 	 * #createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public void createPageCustomControl(Composite parent) {
-		if (pageHelper == null) {
+		if (pageHelper == null)
 			pageHelper = new ExcelDataSourcePageHelper(this);
-		}
 		pageHelper.setResourceIdentifiers(getHostResourceIdentifiers());
 		pageHelper.createCustomControl(parent);
 		pageHelper.initCustomControl(folderProperties); // in case init was
@@ -68,32 +66,27 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage {
 
 	private NewDataSourceWizardBase odaWizard;
 
-	@Override
 	protected NewDataSourceWizardBase getOdaWizard() {
 		return odaWizard;
 	}
 
-	@Override
 	public void setWizard(IWizard newWizard) {
-		if (newWizard instanceof NewDataSourceWizardBase) {
+		if (newWizard instanceof NewDataSourceWizardBase)
 			odaWizard = (NewDataSourceWizardBase) newWizard;
-		}
 		super.setWizard(newWizard);
 	}
 
-	@Override
 	public IWizard getWizard() {
 		return getOdaWizard();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage
 	 * #collectCustomProperties()
 	 */
-	@Override
 	public Properties collectCustomProperties() {
 		/*
 		 * Optionally assign a custom designer state, for inclusion in the ODA design
@@ -101,32 +94,29 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage {
 		 * );
 		 */
 
-		if (pageHelper != null) {
+		if (pageHelper != null)
 			return pageHelper.collectCustomProperties(folderProperties);
-		}
 
 		return (folderProperties != null) ? folderProperties : new Properties();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage
 	 * #initPageCustomControl(java.util.Properties)
 	 */
-	@Override
 	public void setInitialProperties(Properties dataSourceProps) {
 		folderProperties = dataSourceProps;
-		if (pageHelper == null) {
+		if (pageHelper == null)
 			return; // ignore, wait till createPageCustomControl to initialize
-		}
 		pageHelper.initCustomControl(folderProperties);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage
 	 * #refresh()
@@ -140,35 +130,31 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSourceWizardPageCore #createTestConnectionRunnable(org.eclipse.datatools
 	 * .connectivity.IConnectionProfile)
 	 */
-	@Override
 	protected Runnable createTestConnectionRunnable(IConnectionProfile profile) {
 		return pageHelper.createTestConnectionRunnable(profile);
 	}
 
 	private Shell shell;
 
-	@Override
 	public void createControl(Composite parent) {
 		shell = parent.getShell();
 		super.createControl(parent);
 	}
 
-	@Override
 	public Shell getShell() {
 		Shell shell = super.getShell();
-		if (shell == null) {
+		if (shell == null)
 			return this.shell;
-		} else {
+		else
 			return shell;
-		}
 	}
 
-	private List<IChangeListener> pageStatusChangedListeners = new ArrayList<>();
+	private List<IChangeListener> pageStatusChangedListeners = new ArrayList<IChangeListener>();
 
 	public void addPageChangedListener(IChangeListener listener) {
 		if (listener != null && !pageStatusChangedListeners.contains(listener)) {
@@ -180,7 +166,6 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage {
 		pageStatusChangedListeners.remove(listener);
 	}
 
-	@Override
 	public void setPageComplete(boolean complete) {
 		super.setPageComplete(complete);
 		for (int i = 0; i < pageStatusChangedListeners.size(); i++) {
@@ -191,11 +176,10 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage {
 	/**
 	 * Returns the resource identifiers of the ODA consumer application, if
 	 * available.
-	 *
+	 * 
 	 * @return a ResourceIdentifiers instance; may be null if none is specified
 	 * @since 4.9.0
 	 */
-	@Override
 	protected ResourceIdentifiers getHostResourceIdentifiers() {
 		ResourceIdentifiers designResourceIds = super.getHostResourceIdentifiers();
 

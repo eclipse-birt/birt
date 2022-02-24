@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -159,7 +159,7 @@ public class HyperlinkBuilder extends BaseDialog {
 	private static final String TOOLTIP_BROWSE_FILE = Messages.getString("HyperlinkBuilder.BrowseForFile"); //$NON-NLS-1$
 	// private static final String TOOLTIP_EXPRESSION = Messages.getString(
 	// "HyperlinkBuilder.OpenExpression" ); //$NON-NLS-1$
-	private static final String[] STEPS = { "", //$NON-NLS-1$
+	private static final String[] STEPS = new String[] { "", //$NON-NLS-1$
 			Messages.getString("HyperlinkBuilder.Step.1"), //$NON-NLS-1$
 			Messages.getString("HyperlinkBuilder.Step.2"), //$NON-NLS-1$
 			Messages.getString("HyperlinkBuilder.Step.3"), //$NON-NLS-1$
@@ -200,9 +200,9 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	private ComboBoxCellEditor parameterChooser;
 
-	private ArrayList<ParamBinding> paramBindingList = new ArrayList<>();
+	private ArrayList<ParamBinding> paramBindingList = new ArrayList<ParamBinding>();
 
-	private List<String> typeFilterList = new ArrayList<>(2);
+	private List<String> typeFilterList = new ArrayList<String>(2);
 	private boolean bTargetEnabled = true;
 	private boolean bTooltipEnabled = true;
 
@@ -210,20 +210,17 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	private Object targetReportHandle;
 
-	private ArrayList<IHyperlinkParameter> paramList = new ArrayList<>();
-	private HashMap<String, String> paramTypes = new HashMap<>();
+	private ArrayList<IHyperlinkParameter> paramList = new ArrayList<IHyperlinkParameter>();
+	private HashMap<String, String> paramTypes = new HashMap<String, String>();
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider() {
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
-		@Override
 		public Object[] getElements(Object inputElement) {
 			ArrayList list = ((ArrayList) inputElement);
 			ArrayList elementsList = (ArrayList) list.clone();
@@ -238,7 +235,6 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	private ITableLabelProvider labelProvider = new ITableLabelProvider() {
 
-		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			if (columnIndex == 1) {
 				ParamBinding parameterBinding = ((ParamBinding) element);
@@ -261,7 +257,6 @@ public class HyperlinkBuilder extends BaseDialog {
 			return null;
 		}
 
-		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			String text = null;
 			ParamBinding parameterBinding = ((ParamBinding) element);
@@ -289,20 +284,16 @@ public class HyperlinkBuilder extends BaseDialog {
 			return text;
 		}
 
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
@@ -503,7 +494,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		this.showBookMark = showBookMark;
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -517,7 +507,6 @@ public class HyperlinkBuilder extends BaseDialog {
 
 		scrollContent.addControlListener(new ControlAdapter() {
 
-			@Override
 			public void controlResized(ControlEvent e) {
 				computeSize();
 			}
@@ -602,7 +591,7 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	/**
 	 * Adds hyperlink type filter to disable one type
-	 *
+	 * 
 	 * @param disabledType hyperlink type string
 	 * @see DesignChoiceConstants#ACTION_LINK_TYPE_NONE
 	 * @see DesignChoiceConstants#ACTION_LINK_TYPE_HYPERLINK
@@ -653,7 +642,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		locationEditor.setLayoutData(gd);
 		locationEditor.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
@@ -661,7 +649,6 @@ public class HyperlinkBuilder extends BaseDialog {
 
 		locationEditor.addTraverseListener(new TraverseListener() {
 
-			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_TAB_NEXT || e.detail == SWT.TRAVERSE_TAB_PREVIOUS) {
 					e.doit = true;
@@ -772,7 +759,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		reportDesignButton.setText(Messages.getString("HyperlinkBuilder.ReportDesignButton")); //$NON-NLS-1$
 		reportDesignButton.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				initTargetReport(locationEditor.getText());
 				selectRadio(targetGroup, reportDesignButton);
@@ -781,7 +767,6 @@ public class HyperlinkBuilder extends BaseDialog {
 				updateButtons();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
@@ -789,7 +774,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		locationEditor = new Text(targetGroup, SWT.BORDER | SWT.SINGLE);
 		locationEditor.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				String target = locationEditor.getText();
 				handleTargetReportChange(target);
@@ -804,7 +788,6 @@ public class HyperlinkBuilder extends BaseDialog {
 
 		reportDocumentButton.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				initTargetReport(documentEditor.getText());
 				selectRadio(targetGroup, reportDocumentButton);
@@ -813,7 +796,6 @@ public class HyperlinkBuilder extends BaseDialog {
 				updateButtons();
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
@@ -821,7 +803,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		documentEditor = new Text(targetGroup, SWT.BORDER | SWT.SINGLE);
 		documentEditor.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				String target = documentEditor.getText();
 				handleTargetReportChange(target);
@@ -845,12 +826,10 @@ public class HyperlinkBuilder extends BaseDialog {
 		targetBookmarkButton.setText(Messages.getString("HyperlinkBuilder.DrillThroughTargetBookmark")); //$NON-NLS-1$
 		targetBookmarkButton.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				initAnchorChooser(targetReportHandle, false);
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
@@ -860,12 +839,10 @@ public class HyperlinkBuilder extends BaseDialog {
 
 		tocButton.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				initAnchorChooser(targetReportHandle, true);
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
@@ -875,7 +852,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		anchorChooser.setVisibleItemCount(30);
 		anchorChooser.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (anchorChooser.getData() instanceof List) {
 					List value = (List) anchorChooser.getData();
@@ -930,7 +906,7 @@ public class HyperlinkBuilder extends BaseDialog {
 		supportedFormats = new String[0];
 		EmitterInfo[] emitters = engine.getEmitterInfo();
 		if (emitters != null && emitters.length > 0) {
-			List<String> temp = new ArrayList<>();
+			List<String> temp = new ArrayList<String>();
 			for (int i = 0; i < emitters.length; i++) {
 				EmitterInfo info = emitters[i];
 				if (!info.isHidden()) {
@@ -950,10 +926,9 @@ public class HyperlinkBuilder extends BaseDialog {
 		checkButton.setText(Messages.getString("HyperlinkBuilder.TargetReportFormat")); //$NON-NLS-1$
 		checkButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				targetFormatsChooser.setEnabled(((Button) e.widget).getSelection());
-				if (!((Button) e.widget).getSelection() && targetFormatsChooser.getSelectionIndex() != -1) {
+				if (((Button) e.widget).getSelection() == false && targetFormatsChooser.getSelectionIndex() != -1) {
 					targetFormatsChooser.deselect(targetFormatsChooser.getSelectionIndex());
 				}
 			}
@@ -967,14 +942,12 @@ public class HyperlinkBuilder extends BaseDialog {
 		// select format affects getting TOCTree from ReportDocument
 		targetFormatsChooser.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (tocButton.getSelection() && targetReportHandle instanceof IReportDocument) {
 					initAnchorChooser(targetReportHandle, true);
 				}
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
@@ -1023,7 +996,6 @@ public class HyperlinkBuilder extends BaseDialog {
 			 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt
 			 *      .events.KeyEvent)
 			 */
-			@Override
 			public void keyReleased(KeyEvent e) {
 				// If Delete pressed, delete the selected row
 				if (e.keyCode == SWT.DEL) {
@@ -1035,7 +1007,6 @@ public class HyperlinkBuilder extends BaseDialog {
 
 		table.addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				editRow();
 			}
@@ -1072,7 +1043,6 @@ public class HyperlinkBuilder extends BaseDialog {
 
 		paramBindingTable.getTable().addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateParamBindingButtons();
 			}
@@ -1094,7 +1064,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		addParamButton.setLayoutData(gd);
 		addParamButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				HyperlinkParameterBuilder builder = new HyperlinkParameterBuilder(
 						Messages.getString("HyperlinkBuilder.ParamterBuilder.Add.Title")); //$NON-NLS-1$
@@ -1118,7 +1087,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		editParamButton.setLayoutData(gd);
 		editParamButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editRow();
 				updateParamBindingButtons();
@@ -1133,7 +1101,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		removeParamButton.setLayoutData(gd);
 		removeParamButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				deleteRow();
 				updateParamBindingButtons();
@@ -1149,7 +1116,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		removeAllParamButton.setLayoutData(gd);
 		removeAllParamButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				paramBindingList.clear();
 				refreshParamBindingTable();
@@ -1168,7 +1134,6 @@ public class HyperlinkBuilder extends BaseDialog {
 	private void createExpressionButton(Composite parent, final Text text) {
 		Listener listener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				updateButtons();
 			}
@@ -1186,7 +1151,7 @@ public class HyperlinkBuilder extends BaseDialog {
 	/**
 	 * Configures the expression builder which is to be opened in the hyper-link
 	 * builder
-	 *
+	 * 
 	 * @param builder Expression builder
 	 */
 	protected void configureExpressionBuilder(ExpressionBuilder builder) {
@@ -1197,11 +1162,10 @@ public class HyperlinkBuilder extends BaseDialog {
 	 * @return
 	 */
 	protected ExpressionProvider getExpressionProvider() {
-		if (provider == null) {
+		if (provider == null)
 			return new ExpressionProvider(inputHandle.getElementHandle());
-		} else {
+		else
 			return provider;
-		}
 	}
 
 	public void setExpressionProvider(ExpressionProvider provider) {
@@ -1236,7 +1200,6 @@ public class HyperlinkBuilder extends BaseDialog {
 
 		button.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean projectMode = false;
 				String userSelection = builder.projectFileServiceHelper.getUserSelection(isIDE, getProjectFolder(),
@@ -1262,7 +1225,7 @@ public class HyperlinkBuilder extends BaseDialog {
 						filename = file.toURL().toString();
 
 						// should check extensions in Linux enviroment
-						if (needFilter && !checkExtensions(fileExt, filename)) {
+						if (needFilter && checkExtensions(fileExt, filename) == false) {
 							ExceptionHandler.openErrorMessageBox(
 									Messages.getString("HyperlinkBuilder.FileNameError.Title"), //$NON-NLS-1$
 									Messages.getString("HyperlinkBuilder.FileNameError.Message")); //$NON-NLS-1$
@@ -1286,8 +1249,10 @@ public class HyperlinkBuilder extends BaseDialog {
 						if (text.getData(ExpressionButtonUtil.EXPR_BUTTON) != null) {
 							text.setData(ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT);
 							((ExpressionButton) text.getData(ExpressionButtonUtil.EXPR_BUTTON)).refresh();
-						} else if (needQuote) {
-							filename = "\"" + filename + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+						} else {
+							if (needQuote) {
+								filename = "\"" + filename + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+							}
 						}
 
 						String location = builder.projectFileServiceHelper.getTargetReportLocation(filename,
@@ -1332,7 +1297,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		bookmarkChooser.setVisibleItemCount(30);
 		bookmarkChooser.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Expression expr = (Expression) bookmarkChooser.getData(bookmarkChooser.getText());
 				bookmarkEditor.setText(expr.getStringExpression());
@@ -1363,7 +1327,6 @@ public class HyperlinkBuilder extends BaseDialog {
 		return inputHandle.getExpressionProperty(Action.URI_MEMBER);
 	}
 
-	@Override
 	protected void okPressed() {
 		try {
 			// Remove original settings
@@ -1453,15 +1416,13 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	private void saveTooltip() throws SemanticException {
 		if (bTooltipEnabled) {
-			if (tooltipText.getText().trim().length() == 0) {
+			if (tooltipText.getText().trim().length() == 0)
 				inputHandle.setToolTip(null);
-			} else {
+			else
 				inputHandle.setToolTip(tooltipText.getText().trim());
-			}
 		}
 	}
 
-	@Override
 	public boolean close() {
 		closeTargetReport();
 		return super.close();
@@ -1469,14 +1430,13 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	/**
 	 * Set the action to edit.
-	 *
+	 * 
 	 * @param input the action to edit.
 	 */
 	public void setInput(ActionHandle input) {
 		inputHandle = input;
 	}
 
-	@Override
 	protected boolean initDialog() {
 		switchTo(inputHandle.getLinkType());
 
@@ -1496,7 +1456,6 @@ public class HyperlinkBuilder extends BaseDialog {
 
 		this.getShell().addListener(SWT.Resize, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				GridData gd = (GridData) scrollContent.getLayoutData();
 				if (gd.horizontalAlignment != SWT.FILL || gd.verticalAlignment != SWT.FILL) {
@@ -1517,9 +1476,8 @@ public class HyperlinkBuilder extends BaseDialog {
 			locationEditor.setData(ExpressionButtonUtil.EXPR_TYPE,
 					uri == null || uri.getType() == null ? ExpressionType.CONSTANT : (String) uri.getType());
 			ExpressionButton button = (ExpressionButton) locationEditor.getData(ExpressionButtonUtil.EXPR_BUTTON);
-			if (button != null) {
+			if (button != null)
 				button.refresh();
-			}
 
 			if (bTargetEnabled) {
 				if (inputHandle.getTargetWindow() != null) {
@@ -1644,9 +1602,8 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	private void loadTooltip() {
 		if (bTooltipEnabled) {
-			if (inputHandle.getToolTip() != null) {
+			if (inputHandle.getToolTip() != null)
 				tooltipText.setText(inputHandle.getToolTip());
-			}
 		}
 	}
 
@@ -1687,9 +1644,8 @@ public class HyperlinkBuilder extends BaseDialog {
 							if (hps != null) {
 								for (IHyperlinkParameter hp : hps) {
 									if (hp instanceof ReportHyperlinkParameter
-											&& targetReportHandle instanceof IReportDocument) {
+											&& targetReportHandle instanceof IReportDocument)
 										continue;
-									}
 									paramList.add(hp);
 									paramTypes.put(hp.getName(), hp.getDataType());
 								}
@@ -1737,7 +1693,7 @@ public class HyperlinkBuilder extends BaseDialog {
 	}
 
 	private Map<String, List<IHyperlinkParameter>> getHyperlinkParameters(ReportDesignHandle design, String format) {
-		Map<String, List<IHyperlinkParameter>> result = new LinkedHashMap<>();
+		Map<String, List<IHyperlinkParameter>> result = new LinkedHashMap<String, List<IHyperlinkParameter>>();
 
 		Object[] adapters = ElementAdapterManager.getAdapters(design, IHyperlinkParameterProvider.class);
 
@@ -1756,7 +1712,7 @@ public class HyperlinkBuilder extends BaseDialog {
 								List<IHyperlinkParameter> buk = result.get(cat);
 
 								if (buk == null) {
-									buk = new ArrayList<>();
+									buk = new ArrayList<IHyperlinkParameter>();
 									result.put(cat, buk);
 								}
 
@@ -1780,7 +1736,7 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	private void initBookmarkList(Object handle) {
 		bookmarkChooser.removeAll();
-		if (handle instanceof ReportDesignHandle) {
+		if (handle != null && handle instanceof ReportDesignHandle) {
 			List<Object> expressions = getAllBookMarkExpressions((ReportDesignHandle) handle);
 			for (Object obj : expressions) {
 				Expression expr = (Expression) obj;
@@ -1863,7 +1819,7 @@ public class HyperlinkBuilder extends BaseDialog {
 	}
 
 	private List<String> getAllTocDisplayString(TOCNode parent) {
-		List<String> tocList = new ArrayList<>();
+		List<String> tocList = new ArrayList<String>();
 		if (parent.getParent() != null) {
 			tocList.add("\"" + parent.getDisplayString() + "\""); //$NON-NLS-1$//$NON-NLS-2$
 		}
@@ -1878,7 +1834,6 @@ public class HyperlinkBuilder extends BaseDialog {
 	private void addRadioListener(Button radio, final String type) {
 		radio.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (selectedType != type) {
 					switchTo(type);
@@ -1920,7 +1875,7 @@ public class HyperlinkBuilder extends BaseDialog {
 	}
 
 	private ArrayList<String> getAvailableParamList(String selectedParameter) {
-		ArrayList<String> avaliableList = new ArrayList<>();
+		ArrayList<String> avaliableList = new ArrayList<String>();
 
 		for (Iterator<IHyperlinkParameter> iter = paramList.iterator(); iter.hasNext();) {
 			IHyperlinkParameter parameter = iter.next();
@@ -1953,9 +1908,8 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	private void editRow() {
 		ParamBinding paramBinding = getSelectedBinding();
-		if (paramBinding == null) {
+		if (paramBinding == null)
 			return;
-		}
 		HyperlinkParameterBuilder builder = new HyperlinkParameterBuilder(
 				Messages.getString("HyperlinkBuilder.ParamterBuilder.Edit.Title")); //$NON-NLS-1$
 		builder.setHyperlinkBuilder(HyperlinkBuilder.this);
@@ -2036,7 +1990,7 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	/**
 	 * Set the action to edit with a serialized string
-	 *
+	 * 
 	 * @param input  the serialized string
 	 * @param handle DesignElementHandle
 	 * @throws DesignFileException
@@ -2047,7 +2001,7 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	/**
 	 * Returns the serialized result action.
-	 *
+	 * 
 	 * @return the serialized result action
 	 * @throws IOException
 	 */
@@ -2057,15 +2011,14 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	/**
 	 * Set radio members enable, and others radio's members disable.
-	 *
+	 * 
 	 * @param container
 	 * @param radio
 	 * @param enable
 	 */
 	private void selectRadio(Composite container, Button radio) {
-		if (!radio.getSelection()) {
+		if (!radio.getSelection())
 			return;
-		}
 		Control[] children = container.getChildren();
 		boolean isChoiceChild = false;
 		for (int i = 0; i < children.length; i++) {
@@ -2155,9 +2108,8 @@ public class HyperlinkBuilder extends BaseDialog {
 
 	protected Expression getParamBindingExpression(ParamBinding param) {
 		List<Expression> expressions = param.getExpressionList();
-		if (expressions == null || expressions.isEmpty()) {
+		if (expressions == null || expressions.isEmpty())
 			return null;
-		}
 		return expressions.get(0);
 	}
 

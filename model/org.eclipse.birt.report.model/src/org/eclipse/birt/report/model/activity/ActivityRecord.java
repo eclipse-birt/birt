@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,34 +39,34 @@ import org.eclipse.birt.report.model.validators.ValidationNode;
  * <p>
  * This class is an abstract record. Most routine records should inherit from
  * the {@link AbstractElementRecord AbstractElementRecord class}.
- *
+ * 
  * <h3>Activity Record Life Cycle</h3>
- *
+ * 
  * The life cycle of a record is given by the following states as defined by
  * contents in this class.
  * <p>
  * <dl>
  * <dt><strong>Initial state </strong></dt>
  * <dd>The record has been created, but not yet executed.</dd>
- *
+ * 
  * <dt><strong>Done state </strong></dt>
  * <dd>The record has been executed, but not been undone.</dd>
- *
+ * 
  * <dt><strong>Undone state </strong></dt>
  * <dd>The record has executed and been undone. Or, the record has been redone
  * and undone.</dd>
- *
+ * 
  * <dt><strong>Redone state </strong></dt>
  * <dd>The record has executed, been undone, and has been redone. The (undo,
  * redo) cycle could have been repeated any number of times.</dd>
- *
+ * 
  * <dt><strong>Discard </strong></dt>
  * <dd>The record has been flushed from the record stack. It is no longer
  * eligible for undo or redo.</dd>
  * </dl>
- *
+ * 
  * <h3>Activity Record States</h3>
- *
+ * 
  * Records support the following valid state transitions.
  * <p>
  * <table>
@@ -106,9 +106,9 @@ import org.eclipse.birt.report.model.validators.ValidationNode;
  * <td>The record is discarded from the record stack.</td>
  * </tr>
  * </table>
- *
+ * 
  * <h3>The Target Element and Notification</h3>
- *
+ * 
  * Model elements provide notification of changes. Notifications depend on the
  * specific action performed.
  * <p>
@@ -144,9 +144,9 @@ import org.eclipse.birt.report.model.validators.ValidationNode;
  * notification. Then, when the UI receives the event, it can check the sender.
  * If the sender is itself, it ignores the update. If the sender is anything
  * else (including null), then the UI updates based on a change made elsewhere.
- *
+ * 
  * <h3>Saving Model State with Mementos</h3>
- *
+ * 
  * Records must often cache information in the form of a <em>memento</em>. The
  * memento gathers information needed to undo or redo the record. If a record
  * deletes an element E, then it must cache element E so that it can restore the
@@ -158,9 +158,9 @@ import org.eclipse.birt.report.model.validators.ValidationNode;
  * information needed to reverse the command. This pattern keeps the model from
  * depending on the record, and keeps the command from having inappropriately
  * deep knowledge of the model.
- *
+ * 
  * <h3>Error Management</h3>
- *
+ * 
  * Note that none of the record methods throw an exception. As described in the
  * {@link org.eclipse.birt.report.model.activity.ActivityStack command stack},
  * records must be designed so that they do not fail. The application (generally
@@ -174,9 +174,9 @@ import org.eclipse.birt.report.model.validators.ValidationNode;
  * Another way of saying this is that records are low-level operations that
  * simply perform physical updates. They are "dumb" in that they do not
  * understand, nor enforce (except via assertions) semantic rules.
- *
+ * 
  * <h3>Labels</h3>
- *
+ * 
  * User-level operations can have labels. Labels appear in the menu commands for
  * undo and redo. For example: "Undo Delete Text Item" or "Redo Move". In
  * general, there are multiple activity records for each user-level operation.
@@ -275,18 +275,17 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 
 	/**
 	 * Gets the label of this record. This label should be localized.
-	 *
+	 * 
 	 * @return the label of this record
 	 */
 
-	@Override
 	public final String getLabel() {
 		return label;
 	}
 
 	/**
 	 * Sets the label of this record. This label should be localized.
-	 *
+	 * 
 	 * @param text the label to set
 	 */
 
@@ -300,7 +299,6 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	 * succeed.
 	 */
 
-	@Override
 	abstract public void execute();
 
 	/**
@@ -311,7 +309,6 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	 * programming error has occurred.)
 	 */
 
-	@Override
 	abstract public void undo();
 
 	/**
@@ -320,18 +317,16 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	 * the state of the model must be identical to that after execute( ) was called.
 	 */
 
-	@Override
 	abstract public void redo();
 
 	/**
 	 * Tells if this record can be undone. All records should be undoable in the
 	 * production system. A record may temporarily not support undo during a
 	 * development cycle.
-	 *
+	 * 
 	 * @return true if the record can be undone, false otherwise
 	 */
 
-	@Override
 	public boolean canUndo() {
 		return true;
 	}
@@ -340,11 +335,10 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	 * Tells if this record can be redone. All records should be redoable in the
 	 * production system. A record may temporarily not support redo during a
 	 * development cycle.
-	 *
+	 * 
 	 * @return true if redoable, false otherwise.
 	 */
 
-	@Override
 	public boolean canRedo() {
 		return true;
 	}
@@ -359,7 +353,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	 * <li><code>REDONE_STATE</code>
 	 * <li><code>DISCARD_STATE</code>
 	 * </ul>
-	 *
+	 * 
 	 * @return the record state.
 	 */
 
@@ -370,7 +364,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	/**
 	 * Sets the record state. This method can be called only by the record stack.
 	 * The state transition must be legal.
-	 *
+	 * 
 	 * @param newState the state to set
 	 */
 
@@ -386,7 +380,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	/**
 	 * Returns the optional UI hint to be sent with the execute notification for
 	 * this record.
-	 *
+	 * 
 	 * @return the sender.
 	 */
 
@@ -397,7 +391,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	/**
 	 * Sets the optional UI hint to be sent with the execute notification for this
 	 * record.
-	 *
+	 * 
 	 * @param obj the sender to set
 	 */
 
@@ -407,7 +401,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 
 	/**
 	 * Sets the transaction number for top-level commands.
-	 *
+	 * 
 	 * @param n the transaction number to set
 	 */
 
@@ -417,7 +411,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 
 	/**
 	 * Returns the transaction number of this command.
-	 *
+	 * 
 	 * @return the transaction number or 0 if this is not a top-level command
 	 */
 
@@ -427,12 +421,11 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.validators.core.IValidatorProvider#
 	 * getValidators()
 	 */
 
-	@Override
 	public List<ValidationNode> getValidators() {
 		return Collections.emptyList();
 	}
@@ -440,7 +433,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	/**
 	 * Justifies whether the record is undoable or persistent when the application
 	 * calls <code>rollback</code> or <code>rollbackAll</code>.
-	 *
+	 * 
 	 * @return true if the record is persistent, otherwise false
 	 */
 
@@ -450,7 +443,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 
 	/**
 	 * Sets the persistent status of the record.
-	 *
+	 * 
 	 * @param isPersistent <code>true</code> if the record is persistent. Otherwise
 	 *                     <code>false</code>.
 	 */
@@ -462,7 +455,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	/**
 	 * Rollbacks the record. If the record is persistent, then there will be no
 	 * operation with the method. Otherwise the record is undone.
-	 *
+	 * 
 	 */
 
 	abstract public void rollback();
@@ -470,7 +463,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 	/**
 	 * Returns tasks that will be executed after the record and before sending
 	 * notifications to elements.
-	 *
+	 * 
 	 * @return a list containing tasks
 	 */
 
@@ -480,7 +473,7 @@ public abstract class ActivityRecord implements IActivityRecord, IValidatorProvi
 
 	/**
 	 * Performs tasks after the execution of the record.
-	 *
+	 * 
 	 * @param transStack the transaction stack.
 	 */
 

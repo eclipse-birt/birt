@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,19 +39,17 @@ public class PreviewSection extends Section {
 		this.isTabbed = isTabbed;
 	}
 
-	private boolean showLabel = false;
+	private boolean showLabel = false;;
 
 	public void showDisplayLabel(boolean show) {
 		this.showLabel = show;
 	}
 
-	@Override
 	public void createSection() {
-		if (isTabbed) {
+		if (isTabbed)
 			getTitleControl(parent);
-		} else if (showLabel) {
+		else if (showLabel)
 			getLabelControl(parent);
-		}
 		getPreviewControl(parent);
 		getGridPlaceholder(parent);
 
@@ -75,7 +73,6 @@ public class PreviewSection extends Section {
 			}
 			title.addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					title = null;
 				}
@@ -86,32 +83,27 @@ public class PreviewSection extends Section {
 		return title;
 	}
 
-	@Override
 	public void layout() {
 		GridData gd = (GridData) preview.getControl().getLayoutData();
-		if (getLayoutNum() > 0) {
+		if (getLayoutNum() > 0)
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		} else {
+		else
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
-		}
 		gd.horizontalAlignment = SWT.FILL;
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else {
+		} else
 			gd.grabExcessHorizontalSpace = fillForm;
-		}
 
 		if (height > -1) {
-			if (height > preview.getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y) {
+			if (height > preview.getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y)
 				gd.heightHint = height;
-			} else {
+			else
 				gd.heightHint = preview.getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-			}
 			gd.grabExcessVerticalSpace = false;
-		} else {
+		} else
 			gd.grabExcessVerticalSpace = fillForm;
-		}
 
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = GridData.FILL;
@@ -132,11 +124,9 @@ public class PreviewSection extends Section {
 
 	}
 
-	@Override
 	public void load() {
-		if (preview != null && !preview.getControl().isDisposed()) {
+		if (preview != null && !preview.getControl().isDisposed())
 			preview.load();
-		}
 
 	}
 
@@ -148,9 +138,8 @@ public class PreviewSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (preview != null) {
+		if (preview != null)
 			preview.setDescriptorProvider(provider);
-		}
 	}
 
 	private int height = -1;
@@ -164,7 +153,6 @@ public class PreviewSection extends Section {
 		this.width = width;
 	}
 
-	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		preview.setInput(input);
@@ -180,36 +168,26 @@ public class PreviewSection extends Section {
 		this.fillForm = fillForm;
 	}
 
-	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		}
-		if (title != null) {
+		if (title != null)
 			WidgetUtil.setExcludeGridData(title, isHidden);
-		}
-		if (preview != null) {
+		if (preview != null)
 			preview.setHidden(isHidden);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
-		}
 	}
 
-	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null) {
+		if (displayLabel != null)
 			displayLabel.setVisible(isVisible);
-		}
-		if (title != null) {
+		if (title != null)
 			title.setVisible(isVisible);
-		}
-		if (preview != null) {
+		if (preview != null)
 			preview.setVisible(isVisible);
-		}
-		if (placeholderLabel != null) {
+		if (placeholderLabel != null)
 			placeholderLabel.setVisible(isVisible);
-		}
 	}
 
 	protected PreviewPropertyDescriptor preview;
@@ -220,23 +198,20 @@ public class PreviewSection extends Section {
 
 	protected PreviewPropertyDescriptor getPreviewControl(Composite parent) {
 		if (preview == null) {
-			if (customPreview == null) {
+			if (customPreview == null)
 				return null;
-			} else {
+			else
 				preview = customPreview;
-			}
 			preview.setDescriptorProvider(provider);
 			preview.createControl(parent);
 			preview.getControl().addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					preview = null;
 				}
 			});
-		} else {
+		} else
 			checkParent(preview.getControl(), parent);
-		}
 		return preview;
 	}
 

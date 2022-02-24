@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
  * RAInputStream implementation based on the ArchiveEntry.
- *
+ * 
  */
 public class ArchiveEntryInputStream extends RAInputStream {
 
@@ -43,7 +43,7 @@ public class ArchiveEntryInputStream extends RAInputStream {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param fs     the compound file system.
 	 * @param stream the stream item.
 	 */
@@ -55,7 +55,6 @@ public class ArchiveEntryInputStream extends RAInputStream {
 		this.buffer_offset = 0;
 	}
 
-	@Override
 	public void close() throws IOException {
 		if (entry != null) {
 			try {
@@ -68,10 +67,9 @@ public class ArchiveEntryInputStream extends RAInputStream {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.io.InputStream#read()
 	 */
-	@Override
 	public int read() throws IOException {
 		if (buffer_offset >= buffer_size) {
 			refreshBuffer();
@@ -82,39 +80,33 @@ public class ArchiveEntryInputStream extends RAInputStream {
 		return buffer[buffer_offset++] & 0xff;
 	}
 
-	@Override
 	public int available() throws IOException {
 		long av = entry.getLength() - getOffset();
-
+		;
 		if (av > Integer.MAX_VALUE) {
 			return Integer.MAX_VALUE;
 		}
 		return (int) av;
 	}
 
-	@Override
 	public long getOffset() throws IOException {
 		return offset + buffer_offset;
 	}
 
-	@Override
 	public long length() throws IOException {
 		return entry.getLength();
 	}
 
-	@Override
 	public void readFully(byte[] b, int off, int len) throws IOException {
 		int n = 0;
 		do {
 			int count = read(b, off + n, len - n);
-			if (count < 0) {
+			if (count < 0)
 				throw new EOFException();
-			}
 			n += count;
 		} while (n < len);
 	}
 
-	@Override
 	public int read(byte b[], int off, int len) throws IOException {
 		// we need first read from the cache
 		if (buffer_offset < buffer_size) {
@@ -136,7 +128,6 @@ public class ArchiveEntryInputStream extends RAInputStream {
 		return size;
 	}
 
-	@Override
 	public int readInt() throws IOException {
 		if (buffer_offset + 4 > buffer_size) {
 			refreshBuffer();
@@ -149,7 +140,6 @@ public class ArchiveEntryInputStream extends RAInputStream {
 		return v;
 	}
 
-	@Override
 	public long readLong() throws IOException {
 		if (buffer_offset + 8 > buffer_size) {
 			refreshBuffer();
@@ -179,7 +169,6 @@ public class ArchiveEntryInputStream extends RAInputStream {
 		}
 	}
 
-	@Override
 	public void refresh() throws IOException {
 		offset += buffer_offset;
 		buffer_offset = 0;
@@ -187,7 +176,6 @@ public class ArchiveEntryInputStream extends RAInputStream {
 		entry.refresh();
 	}
 
-	@Override
 	public void seek(long localPos) throws IOException {
 		if (localPos < 0) {
 			throw new IOException(

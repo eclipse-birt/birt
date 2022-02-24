@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -69,7 +69,7 @@ import com.ibm.icu.text.DecimalFormatSymbols;
 
 /**
  * Chart Area subtask
- *
+ * 
  */
 public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListener, Listener {
 
@@ -99,7 +99,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 
 	protected static final int DEFAULT_COVERAGE = 50;
 
-	@Override
 	public void createControl(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.SUBTASK_CHART);
 		Chart defChart = ChartDefaultValueUtil.getDefaultValueChart(getChart());
@@ -421,11 +420,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(cmbBackground)) {
 			getChart().getBlock().setBackground((Fill) event.data);
@@ -440,7 +438,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 		}
 	}
 
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		// Detach popup dialog if there's selected popup button.
 		if (detachPopup(e.widget)) {
@@ -500,7 +497,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 
 	}
 
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
@@ -508,7 +504,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 
 	/**
 	 * Refreshes the preview by model modification. Used by non-model change.
-	 *
+	 * 
 	 */
 	private void refreshPreview() {
 		// Populate a model changed event to refresh the preview canvas.
@@ -589,7 +585,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 			btnRotation.setEnabled(enabled);
 		}
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			if (e.widget.equals(btnAntiRotation)) {
 				setAxisAngle(angleType, (int) getAxisAngle(angleType) - 10);
@@ -600,18 +595,16 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 			}
 		}
 
-		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 			// TODO Auto-generated method stub
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.
 		 * events.ModifyEvent)
 		 */
-		@Override
 		public void modifyText(ModifyEvent e) {
 			if (e.widget.equals(txtRotation)) {
 				if (!TextEditorComposite.TEXT_RESET_MODEL.equals(e.data)) {
@@ -671,7 +664,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 
 		/**
 		 * Constructor of the class.
-		 *
+		 * 
 		 * @param numberEditor
 		 * @param composite
 		 */
@@ -681,7 +674,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.chart.ui.swt.fieldassist.SmartField#isValid()
 		 */
 		@Override
@@ -706,14 +699,13 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements SelectionListene
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @seeorg.eclipse.birt.chart.ui.swt.fieldassist.
 		 * LocalizedNumberEditorAssistField#quickFix()
 		 */
-		@Override
 		public void quickFix() {
 			String contents = getContents();
-			StringBuilder numbersOnly = new StringBuilder();
+			StringBuffer numbersOnly = new StringBuffer();
 			char groupingSeparator = DecimalFormatSymbols.getInstance().getGroupingSeparator();
 			int length = contents.length();
 			for (int i = 0; i < length;) {

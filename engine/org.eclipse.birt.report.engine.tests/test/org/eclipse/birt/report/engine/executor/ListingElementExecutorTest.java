@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,10 +25,10 @@ public class ListingElementExecutorTest extends EngineCase {
 	 * the interval. Refer to
 	 * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=157418">Bugzilla bug
 	 * 157418</a>.
-	 *
+	 * 
 	 * @throws EngineException
 	 * @throws IOException
-	 *
+	 * 
 	 */
 	public void testPageBreakInterval() throws EngineException, IOException {
 		String designFile = "org/eclipse/birt/report/engine/executor/ListingElementExecutorTest.xml";

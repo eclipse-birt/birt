@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -96,11 +96,9 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getName()
 	 */
-	@Override
 	public String getID() {
-		if (selfQueryResultID == null) {
+		if (selfQueryResultID == null)
 			selfQueryResultID = this.session.getQueryResultIDUtil().nextID();
-		}
 
 		return QueryResultIDUtil.buildID(rootQueryResultID, selfQueryResultID);
 	}
@@ -108,10 +106,9 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * Returns the PreparedQuery that contains the execution plan for producing
 	 * this. A convenience method for the API consumer.
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getPreparedQuery()
 	 */
-	@Override
 	public IPreparedQuery getPreparedQuery() {
 		return queryService.getPreparedQuery();
 	}
@@ -119,11 +116,9 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultMetaData()
 	 */
-	@Override
 	public IResultMetaData getResultMetaData() throws DataException {
-		if (queryService == null) {
+		if (queryService == null)
 			throw new DataException(ResourceConstants.RESULT_CLOSED);
-		}
 
 		try {
 			IResultMetaData metaData = queryService.getResultMetaData();
@@ -144,21 +139,18 @@ public class QueryResults implements IQueryResults, IQueryService {
 	}
 
 	/*
-	 *
+	 * 
 	 * Returns the current result's iterator. Repeated call of this method without
 	 * having advanced to the next result would return the same iterator at its
 	 * current state.
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultIterator()
 	 */
-	@Override
 	public IResultIterator getResultIterator() throws DataException {
-		if (this.session.getStopSign().isStopped()) {
+		if (this.session.getStopSign().isStopped())
 			return null;
-		}
-		if (queryService == null) {
+		if (queryService == null)
 			throw new DataException(ResourceConstants.RESULT_CLOSED);
-		}
 
 		try {
 			if (iterator == null) {
@@ -183,28 +175,29 @@ public class QueryResults implements IQueryResults, IQueryService {
 					iterator = QueryResultsUtil.processOdiResult(session, this,
 							(IQueryDefinition) queryService.getQueryDefn(), odiIterator,
 							((IQueryDefinition) queryService.getQueryDefn()).getDataSetName());
-					if (iterator != null) {
+					if (iterator != null)
 						return iterator;
-					}
 				}
 
 				if (isDummyQuery(odiIterator)) {
 					iterator = new DummyResultIterator(new ResultService(session, this), odiIterator, this.queryScope,
 							this.queryService.getStartingRawID());
-				} else if (queryService.getQueryDefn() instanceof IQueryDefinition
-						&& ((IQueryDefinition) queryService.getQueryDefn()).isSummaryQuery()) {
-					iterator = new ResultIterator2(new ResultService(session, this), odiIterator, this.queryScope,
-							this.queryService.getStartingRawID());
-				} else if (queryService.getQueryDefn().usesDetails()
-						|| queryService.getQueryDefn().cacheQueryResults()) {
-					// First create the cache. The cache is created when
-					// a ResultIterator is closed;Please note that whether usesDetails or
-					// not, we should always create a complete ResultIterator.
-					iterator = new ResultIterator(new ResultService(session, this), odiIterator, this.queryScope,
-							this.queryService.getStartingRawID());
 				} else {
-					iterator = new ResultIterator2(new ResultService(session, this), odiIterator, this.queryScope,
-							this.queryService.getStartingRawID());
+					if (queryService.getQueryDefn() instanceof IQueryDefinition
+							&& ((IQueryDefinition) queryService.getQueryDefn()).isSummaryQuery()) {
+						iterator = new ResultIterator2(new ResultService(session, this), odiIterator, this.queryScope,
+								this.queryService.getStartingRawID());
+					} else if (queryService.getQueryDefn().usesDetails() == true
+							|| queryService.getQueryDefn().cacheQueryResults()) {
+						// First create the cache. The cache is created when
+						// a ResultIterator is closed;Please note that whether usesDetails or
+						// not, we should always create a complete ResultIterator.
+						iterator = new ResultIterator(new ResultService(session, this), odiIterator, this.queryScope,
+								this.queryService.getStartingRawID());
+					} else {
+						iterator = new ResultIterator2(new ResultService(session, this), odiIterator, this.queryScope,
+								this.queryService.getStartingRawID());
+					}
 				}
 			}
 		} catch (BirtException e) {
@@ -215,7 +208,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param odiIterator
 	 * @return
 	 * @throws DataException
@@ -233,10 +226,9 @@ public class QueryResults implements IQueryResults, IQueryService {
 	 * to the query that it can safely release all associated resources. The query
 	 * results might have iterators open on them. Iterators associated with the
 	 * query result sets are invalidated and can no longer be used.
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#close()
 	 */
-	@Override
 	public void close() throws BirtException {
 		if (this.queryService == null) {
 			// already closed
@@ -268,7 +260,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 	 * Set current queryresult ID for sub query. Sub query result ID can not be
 	 * generated independently, and it is needs to be attached with its parent
 	 * query.
-	 *
+	 * 
 	 * @param selfQueryResultID
 	 */
 	public void setID(String selfQueryResultID) {
@@ -278,7 +270,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/**
 	 * If current query results is associated with a sub query, its result iterator
 	 * needs to know which group level this sub query belongs to.
-	 *
+	 * 
 	 * @return group level of sub query
 	 */
 	int getGroupLevel() {
@@ -292,7 +284,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return queryService == null;
 	}
@@ -300,7 +291,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getNestedLevel()
 	 */
-	@Override
 	public int getNestedLevel() {
 		return this.nestedLevel;
 	}
@@ -308,7 +298,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getQueryScope()
 	 */
-	@Override
 	public Scriptable getQueryScope() {
 		return this.queryScope;
 	}
@@ -316,19 +305,16 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getExecutorHelper()
 	 */
-	@Override
 	public IExecutorHelper getExecutorHelper() throws DataException {
-		if (this.getResultIterator() instanceof ResultIterator) {
+		if (this.getResultIterator() instanceof ResultIterator)
 			return ((ResultIterator) this.getResultIterator()).getOdiResult().getExecutorHelper();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntime(int)
 	 */
-	@Override
 	public DataSetRuntime[] getDataSetRuntime(int count) {
 		return this.queryService.getDataSetRuntimes(count);
 	}
@@ -336,7 +322,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/**
 	 * The ODI result iterator for DummyQuery. A DummyQuery is a query without data
 	 * set. A DummyQuery result iterator always have one row.
-	 *
+	 * 
 	 * @author Administrator
 	 *
 	 */
@@ -348,12 +334,10 @@ public class QueryResults implements IQueryResults, IQueryService {
 			this.prototype = result;
 		}
 
-		@Override
 		public void close() {
 
 		}
 
-		@Override
 		public void doSave(StreamWrapper streamsWrapper, boolean isSubQuery) throws DataException {
 			try {
 				if (streamsWrapper.getStreamForResultClass() != null) {
@@ -374,70 +358,57 @@ public class QueryResults implements IQueryResults, IQueryService {
 			}
 		}
 
-		@Override
 		public void first(int groupingLevel) throws DataException {
 			this.prototype.first(groupingLevel);
 		}
 
-		@Override
 		public int getCurrentGroupIndex(int groupLevel) throws DataException {
 			return 0;
 		}
 
-		@Override
 		public IResultObject getCurrentResult() throws DataException {
 			return this.prototype.getCurrentResult();
 		}
 
-		@Override
 		public int getCurrentResultIndex() throws DataException {
 			return 0;
 		}
 
-		@Override
 		public int getEndingGroupLevel() throws DataException {
 			return 0;
 		}
 
-		@Override
 		public IExecutorHelper getExecutorHelper() {
 			return this.prototype.getExecutorHelper();
 		}
 
-		@Override
 		public int[] getGroupStartAndEndIndex(int groupLevel) throws DataException {
 
 			return this.prototype.getGroupStartAndEndIndex(groupLevel);
 		}
 
-		@Override
 		public IResultClass getResultClass() throws DataException {
 
 			return this.prototype.getResultClass();
 		}
 
-		@Override
 		public ResultSetCache getResultSetCache() {
 
 			return this.prototype.getResultSetCache();
 		}
 
-		@Override
 		public int getRowCount() throws DataException {
 			return 1;
 		}
 
-		@Override
 		public int getStartingGroupLevel() throws DataException {
 			return 0;
 		}
 
-		@Override
 		public void last(int groupingLevel) throws DataException {
 			this.prototype.last(groupingLevel);
 		}
 
-		@Override
 		public boolean next() throws DataException {
 			if (!this.isFirstRowFetched) {
 				this.isFirstRowFetched = true;
@@ -448,7 +419,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 	}
 
 	/**
-	 *
+	 * 
 	 * @author Administrator
 	 *
 	 */
@@ -458,12 +429,10 @@ public class QueryResults implements IQueryResults, IQueryService {
 			super(rService, new DummyOdiResultIterator(odiResult), scope, staringRawId);
 		}
 
-		@Override
 		public boolean next() throws DataException {
 			return this.getOdiResult().next();
 		}
 
-		@Override
 		public IResultIterator getSecondaryIterator(String subQueryName, Scriptable subScope) throws DataException {
 			Collection subQueries = this.getQueryResults().getPreparedQuery().getReportQueryDefn().getSubqueries();
 			Iterator subIt = subQueries.iterator();
@@ -486,19 +455,17 @@ public class QueryResults implements IQueryResults, IQueryService {
 			}
 		}
 
-		@Override
 		public int getRowId() throws BirtException {
 			return getRowIndex();
 		}
 
-		@Override
 		public void close() throws BirtException {
 			super.close();
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private static class ResultService implements IServiceForResultSet {
 		/** */
@@ -516,7 +483,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.IResultService#getQueryResults()
 		 */
-		@Override
 		public IQueryResults getQueryResults() {
 			return queryResults;
 		}
@@ -524,7 +490,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.IResultService#getQueryDefn()
 		 */
-		@Override
 		public IBaseQueryDefinition getQueryDefn() {
 			return queryResults.queryService.getQueryDefn();
 		}
@@ -535,7 +500,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 		 * birt.data.engine.odi.IResultIterator, java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public IQueryResults execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator iterator,
 				String subQueryName, Scriptable subScope) throws DataException {
 			return queryResults.queryService.execSubquery(iterator, this.queryResults.queryService.getQueryExecutor(),
@@ -547,7 +511,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 		 * org.eclipse.birt.data.engine.impl.IResultService#getBaseExpression(java.lang.
 		 * String)
 		 */
-		@Override
 		public IBaseExpression getBindingExpr(String exprName) throws DataException {
 			return queryResults.queryService.getBindingExpr(exprName);
 		}
@@ -557,7 +520,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 		 * org.eclipse.birt.data.engine.impl.IResultService#getAutoBindingExpr(java.lang
 		 * .String)
 		 */
-		@Override
 		public IScriptExpression getAutoBindingExpr(String exprName) {
 			return queryResults.queryService.getAutoBindingExpr(exprName);
 		}
@@ -566,7 +528,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.IServiceForResultSet#getAllBindingExprs()
 		 */
-		@Override
 		public List getAllBindingExprs() {
 			return queryResults.queryService.getAllBindingExprs();
 		}
@@ -576,12 +537,10 @@ public class QueryResults implements IQueryResults, IQueryService {
 		 * org.eclipse.birt.data.engine.impl.IServiceForResultSet#getAllAutoBindingExprs
 		 * ()
 		 */
-		@Override
 		public Map getAllAutoBindingExprs() {
 			return queryResults.queryService.getAllAutoBindingExprs();
 		}
 
-		@Override
 		public DataEngineSession getSession() {
 			return session;
 		}
@@ -589,30 +548,27 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#cancel()
 	 */
-	@Override
 	public void cancel() {
 		this.session.getStopSign().stop();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.INamedObject#setName(java.lang.String)
 	 */
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}

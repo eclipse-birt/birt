@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2014 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -46,7 +46,7 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 /**
  * A dialog which can browser all properties in BIRT resource folder. User can
  * select a properties or enter new file name to creat a new one.
- *
+ * 
  */
 
 public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog {
@@ -69,7 +69,6 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog {
 
 	private class Validator implements ISelectionStatusValidator {
 
-		@Override
 		public IStatus validate(Object[] selection) {
 			int nSelected = selection.length;
 			if (nSelected == 0) {
@@ -100,11 +99,10 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite rt = (Composite) super.createDialogArea(parent);
 		rt.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -121,7 +119,6 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog {
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				newFileName = text.getText();
 				updateOKStatus();
@@ -137,7 +134,6 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog {
 
 		getTreeViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				Object object = ((StructuredSelection) event.getSelection()).getFirstElement();
 				if (object instanceof ResourceEntry) {
@@ -161,10 +157,9 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		super.okPressed();
 		Object[] selected = getResult();
@@ -172,9 +167,8 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog {
 		{
 			ResourceEntry entry = (ResourceEntry) selected[0];
 			File file = new File(entry.getURL().getPath());
-			if (file == null || file.isFile()) {
+			if (file == null || file.isFile())
 				return;
-			}
 			try {
 				File newFile = new File(file, newFileName);
 
@@ -194,11 +188,10 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.resource.
 	 * FileFolderSelectionDialog#getPath()
 	 */
-	@Override
 	public String getPath() {
 		Object[] selected = getResult();
 		if (selected.length > 0 && !newFileName.equals("")) //$NON-NLS-1$
@@ -206,9 +199,8 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog {
 			String path = super.getPath();
 			ResourceEntry entry = (ResourceEntry) selected[0];
 			File file = new File(entry.getURL().getPath());
-			if (file == null || file.isFile()) {
+			if (file == null || file.isFile())
 				return path;
-			}
 			return path + ((path.equals("") || path.endsWith("/")) ? "" : "/") //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 					+ newFileName;
 		} else {

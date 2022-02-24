@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,11 +44,10 @@ import org.eclipse.ui.PlatformUI;
 public class OlapUtil {
 
 	public static String[] getDataFieldNames(DataSetHandle dataset) {
-		if (dataset == null) {
+		if (dataset == null)
 			return new String[0];
-		}
 
-		String[] columns = {};
+		String[] columns = new String[0];
 		try {
 			List columnList = DataUtil.getColumnList(dataset);
 			columns = new String[columnList.size()];
@@ -63,27 +62,24 @@ public class OlapUtil {
 	}
 
 	public static String getDataFieldDisplayName(ResultSetColumnHandle column) {
-		if (column == null) {
+		if (column == null)
 			return null;
-		}
 
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle();
 		for (Iterator iter = dataset.getPropertyHandle(DataSetHandle.COLUMN_HINTS_PROP).iterator(); iter.hasNext();) {
 			ColumnHintHandle element = (ColumnHintHandle) iter.next();
 			if (element.getColumnName().equals(column.getColumnName())
 					|| column.getColumnName().equals(element.getAlias())) {
-				if (element.getDisplayName() != null && element.getDisplayName().length() > 0) {
+				if (element.getDisplayName() != null && element.getDisplayName().length() > 0)
 					return element.getDisplayName();
-				}
 			}
 		}
 		return column.getColumnName();
 	}
 
 	public static String getDataFieldName(ResultSetColumnHandle column) {
-		if (column == null) {
+		if (column == null)
 			return null;
-		}
 
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle();
 		for (Iterator iter = dataset.getPropertyHandle(DataSetHandle.COLUMN_HINTS_PROP).iterator(); iter.hasNext();) {
@@ -97,9 +93,8 @@ public class OlapUtil {
 	}
 
 	public static ColumnHintHandle getColumnHintHandle(ResultSetColumnHandle column) {
-		if (column == null) {
+		if (column == null)
 			return null;
-		}
 
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle();
 		for (Iterator iter = dataset.getPropertyHandle(DataSetHandle.COLUMN_HINTS_PROP).iterator(); iter.hasNext();) {
@@ -113,11 +108,10 @@ public class OlapUtil {
 	}
 
 	public static String[] getDataFieldDisplayNames(DataSetHandle dataset) {
-		if (dataset == null) {
+		if (dataset == null)
 			return new String[0];
-		}
 
-		String[] columns = {};
+		String[] columns = new String[0];
 		try {
 			List columnList = DataUtil.getColumnList(dataset);
 			columns = new String[columnList.size()];
@@ -132,11 +126,10 @@ public class OlapUtil {
 	}
 
 	public static ResultSetColumnHandle[] getDataFields(DataSetHandle dataset) {
-		if (dataset == null) {
+		if (dataset == null)
 			return new ResultSetColumnHandle[0];
-		}
 
-		ResultSetColumnHandle[] columns = {};
+		ResultSetColumnHandle[] columns = new ResultSetColumnHandle[0];
 		try {
 			List columnList = DataUtil.getColumnList(dataset);
 			columns = new ResultSetColumnHandle[columnList.size()];
@@ -151,16 +144,14 @@ public class OlapUtil {
 	}
 
 	public static ResultSetColumnHandle getDataField(DataSetHandle dataset, String fieldName) {
-		if (dataset == null || fieldName == null) {
+		if (dataset == null || fieldName == null)
 			return null;
-		}
 		try {
 			List columnList = DataUtil.getColumnList(dataset);
 			for (int i = 0; i < columnList.size(); i++) {
 				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get(i);
-				if (fieldName.equals(resultSetColumn.getColumnName())) {
+				if (fieldName.equals(resultSetColumn.getColumnName()))
 					return resultSetColumn;
-				}
 			}
 		} catch (SemanticException e) {
 			ExceptionUtil.handle(e);
@@ -170,9 +161,8 @@ public class OlapUtil {
 
 	public static String[] getAvailableDatasetNames() {
 		SlotHandle slot = SessionHandleAdapter.getInstance().getReportDesignHandle().getDataSets();
-		if (slot == null || slot.getCount() == 0) {
+		if (slot == null || slot.getCount() == 0)
 			return new String[0];
-		}
 		String[] datasets = new String[slot.getCount()];
 		for (int i = 0; i < slot.getCount(); i++) {
 			DataSetHandle dataset = (DataSetHandle) slot.get(i);
@@ -183,9 +173,8 @@ public class OlapUtil {
 
 	public static DataSetHandle[] getAvailableDatasets() {
 		SlotHandle slot = SessionHandleAdapter.getInstance().getReportDesignHandle().getDataSets();
-		if (slot == null || slot.getCount() == 0) {
+		if (slot == null || slot.getCount() == 0)
 			return new DataSetHandle[0];
-		}
 		DataSetHandle[] datasets = new DataSetHandle[slot.getCount()];
 		for (int i = 0; i < slot.getCount(); i++) {
 			datasets[i] = (DataSetHandle) slot.get(i);
@@ -195,26 +184,22 @@ public class OlapUtil {
 
 	public static int getIndexOfPrimaryDataset(DataSetHandle dataset) {
 		SlotHandle slot = SessionHandleAdapter.getInstance().getReportDesignHandle().getDataSets();
-		if (slot == null || slot.getCount() == 0) {
+		if (slot == null || slot.getCount() == 0)
 			return -1;
-		}
 		for (int i = 0; i < slot.getCount(); i++) {
-			if (slot.get(i) == dataset) {
+			if (slot.get(i) == dataset)
 				return i;
-			}
 		}
 		return -1;
 	}
 
 	public static DataSetHandle getDataset(String datasetName) {
 		SlotHandle slot = SessionHandleAdapter.getInstance().getReportDesignHandle().getDataSets();
-		if (slot == null || slot.getCount() == 0) {
+		if (slot == null || slot.getCount() == 0)
 			return null;
-		}
 		for (int i = 0; i < slot.getCount(); i++) {
-			if (((DataSetHandle) slot.get(i)).getName().equals(datasetName)) {
+			if (((DataSetHandle) slot.get(i)).getName().equals(datasetName))
 				return (DataSetHandle) slot.get(i);
-			}
 		}
 		return null;
 	}
@@ -251,9 +236,8 @@ public class OlapUtil {
 	}
 
 	public static DataSetHandle getHierarchyDataset(TabularHierarchyHandle hierarchy) {
-		if (hierarchy == null) {
+		if (hierarchy == null)
 			return null;
-		}
 		DataSetHandle dataset = hierarchy.getDataSet();
 		if (dataset == null && hierarchy.getLevelCount() > 0
 				&& hierarchy.getContainer().getContainer() instanceof TabularCubeHandle) {
@@ -271,7 +255,8 @@ public class OlapUtil {
 
 	private static IChoice[] TIME_LEVEL_TYPE_ALL;
 	static {
-		List choiceList = new ArrayList(Arrays.asList(choiceSet.getChoices()));
+		List choiceList = new ArrayList();
+		choiceList.addAll(Arrays.asList(choiceSet.getChoices()));
 		choiceList.remove(choiceSet.findChoice(DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR));
 		choiceList.remove(choiceSet.findChoice(DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE));
 		choiceList.remove(choiceSet.findChoice(DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND));

@@ -58,13 +58,13 @@ public final class ResourceLocator {
 	public static String resolveResource(String location, Map appContext) throws OdaException {
 		String absolutePath = null;
 		if (location != null) {
-			File docFile;
+			File docFile = null;
 			if (appContext == null) {
 				logger.warning("No ResourceIdentifiers instance is provided from appContext"); //$NON-NLS-1$
 				absolutePath = location;
-			} else if ((new File(location)).isAbsolute()) {
+			} else if ((new File(location)).isAbsolute())
 				absolutePath = location;
-			} else {
+			else {
 				Object obj = appContext.get(ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS);
 				if (obj != null) {
 					try {
@@ -95,15 +95,14 @@ public final class ResourceLocator {
 
 	/**
 	 * Acquire the resource path.
-	 *
+	 * 
 	 * @param resourceIdentifiersObj
 	 * @return
 	 * @throws OdaException
 	 */
 	private static String getResourcePath(Object resourceIdentifiersObj, URI path) throws OdaException {
-		if (resourceIdentifiersObj == null) {
+		if (resourceIdentifiersObj == null)
 			return null;
-		}
 
 		if (resourceIdentifiersObj instanceof ResourceIdentifiers) {
 			URILocator appLocator = ((ResourceIdentifiers) resourceIdentifiersObj).getApplResourceURILocator();
@@ -148,7 +147,11 @@ public final class ResourceLocator {
 		Object returnValue = null;
 		try {
 			returnValue = objMethod.invoke(anObj, arg);
-		} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
+		} catch (IllegalArgumentException ex) {
+			// TODO - log warning
+		} catch (IllegalAccessException ex) {
+			// TODO - log warning
+		} catch (InvocationTargetException ex) {
 			// TODO - log warning
 		}
 		return returnValue;
@@ -159,7 +162,9 @@ public final class ResourceLocator {
 		Method theMethod = null;
 		try {
 			theMethod = clazz.getDeclaredMethod(methodName, argument);
-		} catch (SecurityException | NoSuchMethodException ex) {
+		} catch (SecurityException ex) {
+			// TODO - log warning
+		} catch (NoSuchMethodException ex) {
 			// TODO - log warning
 		}
 
@@ -167,20 +172,18 @@ public final class ResourceLocator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param location
 	 * @return
 	 */
 	private static String encode(String location) {
 		try {
-			if (File.separatorChar != '/') {
+			if (File.separatorChar != '/')
 				location = location.replace(File.separatorChar, '/');
-			}
 			if (location.startsWith("/")) {
 				return new File(location).toURI().toASCIIString().replace(new File("/").toURI().toASCIIString(), "/");
-			} else {
+			} else
 				return new File(location).toURI().toASCIIString().replace(new File("").toURI().toASCIIString(), "");
-			}
 		} catch (Exception e) {
 			return location;
 		}

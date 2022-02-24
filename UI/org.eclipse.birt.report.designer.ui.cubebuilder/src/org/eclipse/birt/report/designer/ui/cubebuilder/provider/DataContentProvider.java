@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,26 +33,23 @@ import org.eclipse.jface.viewers.Viewer;
 
 /**
  * Tree viewer content provider adapter for resource browser.
- *
+ * 
  */
 
 public class DataContentProvider implements ITreeContentProvider {
 
 	static class CustomComparator implements Comparator {
 
-		@Override
 		public int compare(Object arg0, Object arg1) {
 			String name1 = OlapUtil.getDataFieldDisplayName((ResultSetColumnHandle) arg0);
 			String name2 = OlapUtil.getDataFieldDisplayName((ResultSetColumnHandle) arg1);
-			if (name1 == null) {
+			if (name1 == null)
 				return -1;
-			} else {
+			else
 				return name1.compareTo(name2);
-			}
 		}
 	}
 
-	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Object[]) {
 			return (Object[]) parentElement;
@@ -82,7 +79,8 @@ public class DataContentProvider implements ITreeContentProvider {
 		}
 		if (parentElement instanceof VirtualField
 				&& ((VirtualField) parentElement).getType().equals(VirtualField.TYPE_OTHER_DATASETS)) {
-			ArrayList datasets = new ArrayList(Arrays.asList(OlapUtil.getAvailableDatasets()));
+			ArrayList datasets = new ArrayList();
+			datasets.addAll(Arrays.asList(OlapUtil.getAvailableDatasets()));
 			datasets.remove(((TabularCubeHandle) ((VirtualField) parentElement).getModel()).getDataSet());
 			return datasets.toArray();
 		}
@@ -100,31 +98,28 @@ public class DataContentProvider implements ITreeContentProvider {
 		if (parentElement instanceof LevelHandle) {
 			HierarchyHandle hierarchy = (HierarchyHandle) ((LevelHandle) parentElement).getContainer();
 			int pos = ((LevelHandle) parentElement).getIndex();
-			if (hierarchy.getLevel(pos + 1) != null) {
+			if (hierarchy.getLevel(pos + 1) != null)
 				return new Object[] { hierarchy.getLevel(pos + 1) };
-			}
 		}
 		return new Object[0];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object )
 	 */
-	@Override
 	public Object getParent(Object element) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
 	 * Object)
 	 */
-	@Override
 	public boolean hasChildren(Object element) {
 		if (element instanceof Object[]) {
 			return ((Object[]) element).length > 0;
@@ -133,25 +128,21 @@ public class DataContentProvider implements ITreeContentProvider {
 			return OlapUtil.getDataFields((DataSetHandle) element).length > 0;
 		}
 		if (element instanceof TabularCubeHandle) {
-			if (((TabularCubeHandle) element).getDataSet() != null) {
+			if (((TabularCubeHandle) element).getDataSet() != null)
 				return true;
-			}
 		}
 		if (element instanceof VirtualField
 				&& ((VirtualField) element).getType().equals(VirtualField.TYPE_OTHER_DATASETS)
-				&& OlapUtil.getAvailableDatasets().length > 1) {
+				&& OlapUtil.getAvailableDatasets().length > 1)
 			return true;
-		}
 		if (element instanceof VirtualField
-				&& ((VirtualField) element).getType().equals(VirtualField.TYPE_SHARED_DIMENSIONS)) {
+				&& ((VirtualField) element).getType().equals(VirtualField.TYPE_SHARED_DIMENSIONS))
 			return true;
-		}
 		if (element instanceof DimensionHandle) {
 			HierarchyHandle hierarchy = (HierarchyHandle) ((DimensionHandle) element)
 					.getContent(DimensionHandle.HIERARCHIES_PROP, 0);
-			if (hierarchy.getLevelCount() > 0) {
+			if (hierarchy.getLevelCount() > 0)
 				return true;
-			}
 		}
 		if (element instanceof LevelHandle) {
 			HierarchyHandle hierarchy = (HierarchyHandle) ((LevelHandle) element).getContainer();
@@ -163,21 +154,18 @@ public class DataContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
 	 * .lang.Object)
 	 */
-	@Override
 	public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
 	}
 
-	@Override
 	public void dispose() {
 
 	}
 
-	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,24 +19,24 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- *
+ * 
  * the node structure is:
- *
+ * 
  * <pre>
- *
+ * 
  * NEXT_BLOCK		INT			if the node contains extra blocks
  * NODE_TYPE		INT			node type, must be VALUE
- *
+ * 
  * NODE_SIZE		INT			node size, exclude the NODE_TYPE and NEXT_BLOCK
  * PREV_NODE_ID		INT			previous node id
  * NEXT_NODE_ID		INT			next node id
  * VALUE_COUNT		INT			value count saved in this node
  * VALUE_1			...			value 1
  * VALUE_2  		...			value 2
- *
+ * 
  * </pre>
- *
- *
+ * 
+ * 
  * @param <K> the key type
  * @param <V> the value type
  */
@@ -61,7 +61,6 @@ public class ValueNode<K, V> extends BTreeNode<K, V> {
 		this.lastEntry = null;
 	}
 
-	@Override
 	public void read(DataInput in) throws IOException {
 		nodeSize = in.readInt();
 		prevNodeId = in.readInt();
@@ -69,7 +68,7 @@ public class ValueNode<K, V> extends BTreeNode<K, V> {
 		entryCount = in.readInt();
 		for (int i = 0; i < entryCount; i++) {
 			BTreeValue<V> value = btree.readValue(in);
-			ValueEntry<V> entry = new ValueEntry<>(value);
+			ValueEntry<V> entry = new ValueEntry<V>(value);
 			if (firstEntry == null) {
 				firstEntry = entry;
 				lastEntry = entry;
@@ -81,7 +80,6 @@ public class ValueNode<K, V> extends BTreeNode<K, V> {
 		}
 	}
 
-	@Override
 	public void write(DataOutput out) throws IOException {
 		out.writeInt(nodeSize);
 		out.writeInt(prevNodeId);
@@ -103,7 +101,7 @@ public class ValueNode<K, V> extends BTreeNode<K, V> {
 	}
 
 	public ValueEntry<V> append(BTreeValue<V> value) throws IOException {
-		ValueEntry<V> entry = new ValueEntry<>(value);
+		ValueEntry<V> entry = new ValueEntry<V>(value);
 		// insert it as the last entry
 		if (lastEntry == null) {
 			firstEntry = entry;
@@ -144,7 +142,6 @@ public class ValueNode<K, V> extends BTreeNode<K, V> {
 		return entryCount;
 	}
 
-	@Override
 	void dumpNode() throws IOException {
 		System.out.println("VALUE:" + nodeId);
 		System.out.println("nodeSize:" + nodeSize);
@@ -153,7 +150,6 @@ public class ValueNode<K, V> extends BTreeNode<K, V> {
 		System.out.println("entryCount:" + entryCount);
 	}
 
-	@Override
 	void dumpAll() throws IOException {
 		dumpNode();
 		ValueEntry<V> entry = firstEntry;

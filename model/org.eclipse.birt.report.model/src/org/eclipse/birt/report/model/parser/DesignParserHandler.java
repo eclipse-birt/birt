@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,14 +26,14 @@ import org.eclipse.birt.report.model.util.URIUtilImpl;
 /**
  * Top-level handler for the XML design file. Recognizes the top-level tags in
  * the file.
- *
+ * 
  */
 
 public class DesignParserHandler extends ModuleParserHandler {
 
 	/**
 	 * Constructs the design parser handler with the design session.
-	 *
+	 * 
 	 * @param theSession the design session that is to own the design
 	 * @param systemId   the uri path for the design file
 	 * @param fileName   name of the design file
@@ -59,7 +59,7 @@ public class DesignParserHandler extends ModuleParserHandler {
 
 	/**
 	 * Constructs the design parser handler with the design session.
-	 *
+	 * 
 	 * @param theSession the design session that is to own the design
 	 * @param systemId   the uri path for the design file
 	 * @param fileName   name of the design file
@@ -79,11 +79,10 @@ public class DesignParserHandler extends ModuleParserHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.XMLParserHandler#createStartState()
 	 */
 
-	@Override
 	public AbstractParseState createStartState() {
 		return new StartState();
 	}
@@ -96,17 +95,15 @@ public class DesignParserHandler extends ModuleParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
-		@Override
 		public AbstractParseState startElement(String tagName) {
 			if (tagName.equalsIgnoreCase(DesignSchemaConstants.REPORT_TAG)) {
-				if (markLineNumber) {
+				if (markLineNumber)
 					tempLineNumbers.put(module, Integer.valueOf(locator.getLineNumber()));
-				}
 
 				return new ReportState(DesignParserHandler.this);
 			}

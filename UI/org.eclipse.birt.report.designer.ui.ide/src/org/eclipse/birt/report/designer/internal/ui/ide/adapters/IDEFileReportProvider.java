@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -79,33 +79,30 @@ public class IDEFileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#connect(org
 	 * .eclipse.birt.report.model.api.ModuleHandle)
 	 */
-	@Override
 	public void connect(ModuleHandle model) {
 		this.model = model;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * queryReportModuleHandle()
 	 */
-	@Override
 	public ModuleHandle queryReportModuleHandle() {
 		return model;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * getReportModuleHandle(java.lang.Object)
 	 */
-	@Override
 	public ModuleHandle getReportModuleHandle(Object element) {
 		return getReportModuleHandle(element, false);
 
@@ -113,24 +110,22 @@ public class IDEFileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport
 	 * (org.eclipse.birt.report.model.api.ModuleHandle, java.lang.Object,
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
 	public void saveReport(ModuleHandle moduleHandle, Object element, IProgressMonitor monitor) {
 		saveReport(moduleHandle, element, null, monitor);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport
 	 * (org.eclipse.birt.report.model.api.ModuleHandle, java.lang.Object,
 	 * org.eclipse.core.runtime.IPath, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
 	public void saveReport(ModuleHandle moduleHandle, Object element, IPath origReportPath, IProgressMonitor monitor) {
 		if (element instanceof IFileEditorInput) {
 			IFileEditorInput input = (IFileEditorInput) element;
@@ -150,7 +145,7 @@ public class IDEFileReportProvider implements IReportProvider {
 
 	/**
 	 * Save content to a java.io.File
-	 *
+	 * 
 	 * @param moduleHandle
 	 * @param file
 	 * @param monitor
@@ -167,13 +162,11 @@ public class IDEFileReportProvider implements IReportProvider {
 
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 
-			@Override
 			public synchronized final void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				try {
 					IWorkspaceRunnable workspaceRunnable = new IWorkspaceRunnable() {
 
-						@Override
 						public void run(IProgressMonitor pm) throws CoreException {
 							try {
 								execute(pm);
@@ -196,13 +189,19 @@ public class IDEFileReportProvider implements IReportProvider {
 
 			public void execute(final IProgressMonitor monitor) throws CoreException, IOException {
 				if (file.exists() || file.createNewFile()) {
-					try (OutputStream out = new BufferedOutputStream(new FileOutputStream(file), 8192 * 2)) {
+					OutputStream out = null;
+					try {
+						out = new BufferedOutputStream(new FileOutputStream(file), 8192 * 2);
 						moduleHandle.serialize(out);
 						out.flush();
 						if (oldReportPath != null) {
 							FileReportProvider.copyReportConfigFile(new Path(file.getAbsolutePath()), oldReportPath);
 						}
+					} catch (FileNotFoundException e) {
 					} catch (IOException e) {
+					} finally {
+						if (out != null)
+							out.close();
 					}
 				}
 			}
@@ -210,11 +209,10 @@ public class IDEFileReportProvider implements IReportProvider {
 
 		try {
 			IRunnableContext runner = getOperationRunner(monitor);
-			if (runner != null) {
+			if (runner != null)
 				runner.run(false, false, op);
-			} else {
+			else
 				new ProgressMonitorDialog(UIUtil.getDefaultShell()).run(false, true, op);
-			}
 		} catch (InterruptedException x) {
 			// do nothing now
 		} catch (Exception e) {
@@ -224,7 +222,7 @@ public class IDEFileReportProvider implements IReportProvider {
 
 	/**
 	 * Save content to workspace file.
-	 *
+	 * 
 	 * @param moduleHandle
 	 * @param file
 	 * @param monitor
@@ -241,13 +239,11 @@ public class IDEFileReportProvider implements IReportProvider {
 
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 
-			@Override
 			public synchronized final void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				try {
 					IWorkspaceRunnable workspaceRunnable = new IWorkspaceRunnable() {
 
-						@Override
 						public void run(IProgressMonitor pm) throws CoreException {
 							try {
 								execute(pm);
@@ -297,11 +293,10 @@ public class IDEFileReportProvider implements IReportProvider {
 
 		try {
 			IRunnableContext runner = getOperationRunner(monitor);
-			if (runner != null) {
+			if (runner != null)
 				runner.run(false, false, op);
-			} else {
+			else
 				new ProgressMonitorDialog(UIUtil.getDefaultShell()).run(false, true, op);
-			}
 		} catch (InterruptedException x) {
 			// do nothing now
 		} catch (Exception e) {
@@ -317,12 +312,11 @@ public class IDEFileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportProvider#getSaveAsPath
 	 * (java.lang.Object)
 	 */
-	@Override
 	public IPath getSaveAsPath(Object element) {
 		IFile file = null;
 		if (element instanceof IFileEditorInput) {
@@ -339,29 +333,26 @@ public class IDEFileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * createNewEditorInput(org.eclipse.core.runtime.IPath)
 	 */
-	@Override
 	public IEditorInput createNewEditorInput(IPath path) {
 		return new FileEditorInput(ResourcesPlugin.getWorkspace().getRoot().getFile(path));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#getInputPath
 	 * (org.eclipse.ui.IEditorInput)
 	 */
-	@Override
 	public IPath getInputPath(IEditorInput input) {
 		if (input instanceof IURIEditorInput) {
 			// return new Path( ( (IURIEditorInput) input ).getURI( ).getPath( ) );
 			URI uri = ((IURIEditorInput) input).getURI();
-			if (uri == null && input instanceof IFileEditorInput) {
+			if (uri == null && input instanceof IFileEditorInput)
 				return ((IFileEditorInput) input).getFile().getFullPath();
-			}
 			IPath localPath = URIUtil.toPath(uri);
 			String host = uri.getHost();
 			if (host != null && localPath == null) {
@@ -377,12 +368,11 @@ public class IDEFileReportProvider implements IReportProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.editors.IReportProvider#
 	 * getReportDocumentProvider(java.lang.Object)
 	 */
 
-	@Override
 	public IDocumentProvider getReportDocumentProvider(Object element) {
 		if (element instanceof FileEditorInput) {
 			// workspace file
@@ -393,7 +383,6 @@ public class IDEFileReportProvider implements IReportProvider {
 		}
 	}
 
-	@Override
 	public ModuleHandle getReportModuleHandle(Object element, boolean reset) {
 		if (model == null || reset) {
 			IEditorInput input = (IEditorInput) element;
@@ -416,7 +405,10 @@ public class IDEFileReportProvider implements IReportProvider {
 					}
 					model = SessionHandleAdapter.getInstance().init(fileName, new FileInputStream(path.toFile()),
 							properties);
-				} catch (DesignFileException | IOException e) {
+				} catch (DesignFileException e) {
+					// not safe pop up a dialog here, just log it.
+					ExceptionHandler.handle(e, true);
+				} catch (IOException e) {
 					// not safe pop up a dialog here, just log it.
 					ExceptionHandler.handle(e, true);
 				}
@@ -438,9 +430,8 @@ public class IDEFileReportProvider implements IReportProvider {
 	}
 
 	private IRunnableContext getOperationRunner(IProgressMonitor monitor) {
-		if (fOperationRunner == null) {
+		if (fOperationRunner == null)
 			fOperationRunner = new WorkspaceOperationRunner();
-		}
 		fOperationRunner.setProgressMonitor(monitor);
 		return fOperationRunner;
 	}

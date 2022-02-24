@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -125,7 +125,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	protected static final Logger logger = Logger.getLogger(HighlightRuleBuilder.class.getName());
 
-	protected static final String[] EMPTY_ARRAY = {};
+	protected static final String[] EMPTY_ARRAY = new String[] {};
 
 	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages
 			.getString("HighlightRuleBuilderDialog.choice.ValueOfThisDataItem"); //$NON-NLS-1$
@@ -152,7 +152,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	protected List<ComputedColumnHandle> columnList;
 
-	protected List<Expression> valueList = new ArrayList<>();
+	protected List<Expression> valueList = new ArrayList<Expression>();
 
 	/**
 	 * Usable operators for building highlight rule conditions.
@@ -187,7 +187,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 	protected Table table;
 	protected TableViewer tableViewer;
 	protected int valueVisible;
-	protected List<Control> compositeList = new ArrayList<>();
+	protected List<Control> compositeList = new ArrayList<Control>();
 
 	private Combo expressionValue1, expressionValue2;
 
@@ -211,11 +211,11 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	private boolean isBoldChanged, isItalicChanged, isUnderlineChanged, isLinethroughChanged;
 
-	private Map<String, StyleHandle> styles = new HashMap<>();
+	private Map<String, StyleHandle> styles = new HashMap<String, StyleHandle>();
 
 	/**
 	 * Returns the operator value by its display name.
-	 *
+	 * 
 	 * @param name
 	 */
 	public static String getValueForOperator(String name) {
@@ -230,7 +230,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns how many value fields this operator needs.
-	 *
+	 * 
 	 * @param operatorValue
 	 */
 	public static int determineValueVisible(String operatorValue) {
@@ -261,7 +261,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns the operator display name by its value.
-	 *
+	 * 
 	 * @param value
 	 */
 	public static String getNameForOperator(String value) {
@@ -276,7 +276,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns the index for given operator value in the operator list.
-	 *
+	 * 
 	 * @param value
 	 */
 	public static int getIndexForOperatorValue(String value) {
@@ -291,7 +291,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 * @param parentShell Parent Shell
 	 * @param title       Windows Title
 	 */
@@ -318,7 +318,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	protected SelectionListener expSelListener = new SelectionAdapter() {
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter(expressionCombo);
 			if (converter != null) {
@@ -334,9 +333,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 				} else {
 					String newValue = getExpression();
 					String value = ExpressionUtility.getExpression(getResultSetColumn(newValue), converter);
-					if (value != null) {
+					if (value != null)
 						newValue = value;
-					}
 					setExpression(newValue);
 				}
 			}
@@ -345,7 +343,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		}
 	};
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -376,7 +373,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			expressionCombo.addSelectionListener(expSelListener);
 			expressionCombo.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					updateButtons();
 				}
@@ -391,7 +387,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			}
 			expressionText.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					updateButtons();
 				}
@@ -400,7 +395,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 		Listener listener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				updateButtons();
 			}
@@ -419,7 +413,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 		operator.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				operatorChange();
 			}
@@ -439,7 +432,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			expressionProvider = new ExpressionProvider(designHandle);
 			expressionProvider.addFilter(new ExpressionFilter() {
 
-				@Override
 				public boolean select(Object parentElement, Object element) {
 					if (ExpressionFilter.CATEGORY.equals(parentElement)
 							&& ExpressionProvider.CURRENT_CUBE.equals(element)) {
@@ -455,11 +447,10 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	protected Control createContents(Composite parent) {
 		Composite composite = (Composite) super.createContents(parent);
 		parent.getShell().setText(dlgTitle);
@@ -510,7 +501,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		fillStyles(stylesChooser);
 		stylesChooser.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateButtons();
 				updatePreview();
@@ -545,7 +535,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		font.add(DEFAULT_CHOICE, 0);
 		font.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updatePreview();
 			}
@@ -570,7 +559,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		size.setFontSizeValue(null);
 		size.addListener(SWT.Modify, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				updatePreview();
 			}
@@ -589,7 +577,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		color.setRGB(null);
 		color.addListener(SWT.Modify, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				previewLabel.setForeground(ColorManager.getColor(color.getRGB()));
 				previewLabel.redraw();
@@ -607,7 +594,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		bold.setImage(ReportPlatformUIImages.getImage(AttributeConstant.FONT_WIDTH));
 		bold.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				isBoldChanged = true;
 				updatePreview();
@@ -619,7 +605,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		italic.setImage(ReportPlatformUIImages.getImage(AttributeConstant.FONT_STYLE));
 		italic.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				isItalicChanged = true;
 				updatePreview();
@@ -631,7 +616,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		underline.setImage(ReportPlatformUIImages.getImage(AttributeConstant.TEXT_UNDERLINE));
 		underline.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				isUnderlineChanged = true;
 				previewLabel.setUnderline(underline.getSelection());
@@ -644,7 +628,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		linethrough.setImage(ReportPlatformUIImages.getImage(AttributeConstant.TEXT_LINE_THROUGH));
 		linethrough.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				isLinethroughChanged = true;
 				previewLabel.setLinethrough(linethrough.getSelection());
@@ -666,7 +649,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		backColor.setRGB(null);
 		backColor.addListener(SWT.Modify, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				previewLabel.setBackground(ColorManager.getColor(backColor.getRGB()));
 				previewLabel.redraw();
@@ -845,7 +827,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			previewLabel.setOverline(false);
 
 			previewLabel.updateView();
-
+			;
 		} else {
 			StyleHandle style = styles.get(stylesChooser.getText());
 
@@ -889,7 +871,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 	/**
 	 * For newly create highlight rule, transfer the handle as <b>null </b>, or
 	 * transfer the handle as current highlight rule handle to be modified.
-	 *
+	 * 
 	 * @param handle
 	 * @param handleCount current highlight rule items count.
 	 */
@@ -931,7 +913,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 	/**
 	 * Returns current highlight rule handle, this handle can be newly created or
 	 * set by the updateHandle method.
-	 *
+	 * 
 	 * @return highlight rule handle.
 	 */
 	public HighlightRuleHandle getHandle() {
@@ -974,9 +956,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Refreshes the OK button state.
-	 *
+	 * 
 	 */
-	@Override
 	protected void updateButtons() {
 		enableInput(isExpressionOK());
 
@@ -992,12 +973,10 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		operator.setEnabled(val);
 
 		if (valueVisible != 3) {
-			if (expressionValue1 != null && (!expressionValue1.isDisposed())) {
+			if (expressionValue1 != null && (!expressionValue1.isDisposed()))
 				expressionValue1.setEnabled(val);
-			}
-			if (expressionValue2 != null && (!expressionValue2.isDisposed())) {
+			if (expressionValue2 != null && (!expressionValue2.isDisposed()))
 				expressionValue2.setEnabled(val);
-			}
 			if (andLabel != null && (!andLabel.isDisposed())) {
 				andLabel.setEnabled(val);
 			}
@@ -1011,7 +990,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 		if (stylesChooser != null && (!stylesChooser.isDisposed())) {
 			stylesChooser.setEnabled(val);
-			if ((!stylesChooser.getText().equals(NONE_DISPLAY_TEXT)) || !stylesChooser.isEnabled()) {
+			if ((!stylesChooser.getText().equals(NONE_DISPLAY_TEXT)) || (stylesChooser.isEnabled() == false)) {
 				val2 = false;
 			}
 
@@ -1031,7 +1010,11 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 	 * Gets if the expression field is not empty.
 	 */
 	private boolean isExpressionOK() {
-		if ((getExpressionControl() == null) || getExpression() == null || getExpression().length() == 0) {
+		if (getExpressionControl() == null) {
+			return false;
+		}
+
+		if (getExpression() == null || getExpression().length() == 0) {
 			return false;
 		}
 
@@ -1042,7 +1025,11 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 	 * Gets if the condition is available.
 	 */
 	private boolean isConditionOK() {
-		if ((getExpressionControl() == null) || !isExpressionOK()) {
+		if (getExpressionControl() == null) {
+			return false;
+		}
+
+		if (!isExpressionOK()) {
 			return false;
 		}
 
@@ -1109,9 +1096,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 				if (handle != null) {
 					valueList = new ArrayList();
 					if (handle.getValue1ExpressionList().getListValue() != null
-							&& handle.getValue1ExpressionList().getListValue().size() > 0) {
+							&& handle.getValue1ExpressionList().getListValue().size() > 0)
 						valueList.addAll(handle.getValue1ExpressionList().getListValue());
-					}
 				}
 				tableViewer.setInput(valueList);
 			} else {
@@ -1120,10 +1106,9 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 				// {
 				if (handle != null) {
 					if (handle.getValue1ExpressionList().getListValue() != null
-							&& handle.getValue1ExpressionList().getListValue().size() > 0) {
+							&& handle.getValue1ExpressionList().getListValue().size() > 0)
 						ExpressionButtonUtil.initExpressionButtonControl(expressionValue1,
 								handle.getValue1ExpressionList().getListValue().get(0));
-					}
 					ExpressionButtonUtil.initExpressionButtonControl(expressionValue2, handle, StyleRule.VALUE2_MEMBER);
 				}
 				// }
@@ -1146,7 +1131,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 				expressionValue1.setVisible(true);
 				ExpressionButtonUtil.getExpressionButton(expressionValue1).getControl().setVisible(true);
 				expressionValue2.setVisible(true);
-
+				;
 				ExpressionButtonUtil.getExpressionButton(expressionValue2).getControl().setVisible(true);
 				andLabel.setVisible(true);
 				andLabel.setEnabled(true);
@@ -1183,6 +1168,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			String fm = DEUtil.removeQuote(handle.getFontFamilyHandle().getDisplayValue());
 
 			if (innerSyncFamily(fm)) {
+				return;
 			}
 		}
 	}
@@ -1311,10 +1297,9 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		try {
 			String familyValue = getRawFontFamily();
@@ -1514,9 +1499,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			operatorChange();
 		}
 		condition.getParent().layout(true, true);
-		if (getButtonBar() != null) {
+		if (getButtonBar() != null)
 			layout();
-		}
 		return 1;
 	}
 
@@ -1524,7 +1508,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		final Combo expressionValue = new Combo(parent, SWT.BORDER);
 		expressionValue.addVerifyListener(new VerifyListener() {
 
-			@Override
 			public void verifyText(VerifyEvent e) {
 				String selection = e.text;
 				if (expressionValue.indexOf(selection) == -1) {
@@ -1541,23 +1524,19 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		});
 		expressionValue.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (expressionValue.getSelectionIndex() == -1) {
+				if (expressionValue.getSelectionIndex() == -1)
 					return;
-				}
 				String selection = expressionValue.getItem(expressionValue.getSelectionIndex());
 				if (selection.equals(CHOICE_SELECT_VALUE)) {
 					String value = getSelectionValue(expressionValue);
-					if (value != null) {
+					if (value != null)
 						expressionValue.setText(value);
-					}
 				}
 			}
 		});
 		expressionValue.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
@@ -1572,7 +1551,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		final Combo expressionValue = new Combo(parent, SWT.BORDER);
 		expressionValue.addVerifyListener(new VerifyListener() {
 
-			@Override
 			public void verifyText(VerifyEvent e) {
 				String selection = e.text;
 				if (expressionValue.indexOf(selection) == -1) {
@@ -1589,11 +1567,9 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		});
 		expressionValue.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (expressionValue.getSelectionIndex() == -1) {
+				if (expressionValue.getSelectionIndex() == -1)
 					return;
-				}
 				String selection = expressionValue.getItem(expressionValue.getSelectionIndex());
 				if (selection.equals(CHOICE_SELECT_VALUE)) {
 					selectMultiValues(expressionValue);
@@ -1602,7 +1578,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		});
 		expressionValue.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
@@ -1616,7 +1591,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 	private void createComplexExpressionButton(Composite parent, final Combo combo) {
 		Listener listener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				updateButtons();
 			}
@@ -1683,7 +1657,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 		addBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Expression value = ExpressionButtonUtil.getExpression(addExpressionValue);
 				if (valueList.indexOf(value) < 0) {
@@ -1712,9 +1685,9 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		table.setLinesVisible(true);
 		TableColumn column;
 		int i;
-		String[] columNames = { Messages.getString("HightlightRuleBuilder.list.item1"), //$NON-NLS-1$
+		String[] columNames = new String[] { Messages.getString("HightlightRuleBuilder.list.item1"), //$NON-NLS-1$
 		};
-		int[] columLength = { 288 };
+		int[] columLength = new int[] { 288 };
 		for (i = 0; i < columNames.length; i++) {
 			column = new TableColumn(table, SWT.NONE, i);
 			column.setText(columNames[i]);
@@ -1722,7 +1695,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		}
 		table.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkEditDelButtonStatus();
 			}
@@ -1730,7 +1702,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 		table.addKeyListener(new KeyAdapter() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					delTableValue();
@@ -1740,7 +1711,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		});
 		table.addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				editTableValue();
 			}
@@ -1769,7 +1739,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		editBtn.setLayoutData(gd);
 		editBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editTableValue();
 			}
@@ -1782,7 +1751,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		setButtonLayoutData(delBtn);
 		delBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				delTableValue();
 			}
@@ -1799,7 +1767,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		delAllBtn.setLayoutData(gd);
 		delAllBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int count = valueList.size();
 				if (count > 0) {
@@ -1815,7 +1782,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 		addExpressionValue.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				checkAddButtonStatus();
 				updateButtons();
@@ -1823,9 +1789,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		});
 
 		parent.getParent().layout(true, true);
-		if (getButtonBar() != null) {
+		if (getButtonBar() != null)
 			layout();
-		}
 		return 1;
 
 	}
@@ -1835,7 +1800,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			return;
 		}
 		boolean enabled = (tableViewer.getSelection() == null) ? false : true;
-		if (enabled && tableViewer.getSelection() instanceof StructuredSelection) {
+		if (enabled == true && tableViewer.getSelection() instanceof StructuredSelection) {
 			StructuredSelection selection = (StructuredSelection) tableViewer.getSelection();
 			if (selection.toList().size() <= 0) {
 				enabled = false;
@@ -1870,12 +1835,10 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	protected ITableLabelProvider tableLableProvier = new ITableLabelProvider() {
 
-		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
-		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 0) {
 				if (element instanceof Expression) {
@@ -1886,35 +1849,28 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			return ""; //$NON-NLS-1$
 		}
 
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 	};
 
 	protected IStructuredContentProvider tableContentProvider = new IStructuredContentProvider() {
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
-		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement == null) {
 				return new Object[0];
@@ -1945,7 +1901,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 	protected int getHighlightExpCtrType(DesignElementHandle handle) {
 		int type = EXPRESSION_CONTROL_COMBO;
-		Set<Class<?>> comboClassSet = new HashSet<>();
+		Set<Class<?>> comboClassSet = new HashSet<Class<?>>();
 		comboClassSet.add(TableHandle.class);
 		comboClassSet.add(ListHandle.class);
 		comboClassSet.add(GridHandle.class);
@@ -1961,7 +1917,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 	protected void initilizeDlgDescription(DesignElementHandle handle) {
 		Class<?> classList[] = new Class[] { TableHandle.class, ListHandle.class, GridHandle.class, RowHandle.class,
 				ColumnHandle.class, DataItemHandle.class, CellHandle.class };
-		String desList[] = { Messages.getString("HighlightRuleBuilderDialog.text.Description.Element.Table"), //$NON-NLS-1$
+		String desList[] = new String[] {
+				Messages.getString("HighlightRuleBuilderDialog.text.Description.Element.Table"), //$NON-NLS-1$
 				Messages.getString("HighlightRuleBuilderDialog.text.Description.Element.List"), //$NON-NLS-1$
 				Messages.getString("HighlightRuleBuilderDialog.text.Description.Element.Grid"), //$NON-NLS-1$
 				Messages.getString("HighlightRuleBuilderDialog.text.Description.Element.Row"), //$NON-NLS-1$
@@ -2013,9 +1970,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 	}
 
 	protected void operatorChange() {
-		if (operator.getSelectionIndex() == -1) {
+		if (operator.getSelectionIndex() == -1)
 			return;
-		}
 		valueVisible = determineValueVisible(DEUtil.resolveNull(getValueForOperator(operator.getText())));
 
 		if (valueVisible == 3) {
@@ -2024,9 +1980,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 				valueList = new ArrayList();
 				if (handle != null) {
 					if (handle.getValue1ExpressionList().getListValue() != null
-							&& handle.getValue1ExpressionList().getListValue().size() > 0) {
+							&& handle.getValue1ExpressionList().getListValue().size() > 0)
 						valueList.addAll(handle.getValue1ExpressionList().getListValue());
-					}
 				}
 				tableViewer.setInput(valueList);
 			}
@@ -2034,10 +1989,9 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			int ret = create2ValueComposite(operator.getParent());
 			if (ret != 0 && handle != null) {
 				if (handle.getValue1ExpressionList().getListValue() != null
-						&& handle.getValue1ExpressionList().getListValue().size() > 0) {
+						&& handle.getValue1ExpressionList().getListValue().size() > 0)
 					ExpressionButtonUtil.initExpressionButtonControl(expressionValue1,
 							handle.getValue1ExpressionList().getListValue().get(0));
-				}
 				ExpressionButtonUtil.initExpressionButtonControl(expressionValue2, handle,
 						FilterCondition.VALUE2_MEMBER);
 			}
@@ -2067,7 +2021,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		updateButtons();
 	}
 
-	@Override
 	public int open() {
 		if (getShell() == null) {
 			// create the window
@@ -2077,7 +2030,6 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 		return super.open();
 	}
 
-	@Override
 	protected void constrainShellSize() {
 		// limit the shell size to the display size
 		Rectangle bounds = getShell().getBounds();
@@ -2094,17 +2046,14 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 	private void layout() {
 		GridData gd = (GridData) condition.getLayoutData();
 		Point size = condition.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-		if (gd.widthHint < size.x) {
+		if (gd.widthHint < size.x)
 			gd.widthHint = size.x;
-		}
-		if (gd.heightHint < size.y) {
+		if (gd.heightHint < size.y)
 			gd.heightHint = size.y;
-		}
 		condition.setLayoutData(gd);
 		condition.getShell().layout();
-		if (getButtonBar() != null) {
+		if (getButtonBar() != null)
 			condition.getShell().pack();
-		}
 	}
 
 	protected String getSelectionValue(Combo combo) {
@@ -2112,9 +2061,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 		bindingName = getExpressionBindingName();
 
-		if (bindingName == null && getExpression().length() > 0) {
+		if (bindingName == null && getExpression().length() > 0)
 			bindingName = getExpression();
-		}
 
 		if (bindingName != null) {
 			try {
@@ -2168,12 +2116,14 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 							.equals(getExpression())) {
 						return columnName;
 					}
-				} else if (ExpressionUtility
-						.getColumnExpression(columnName,
-								ExpressionUtility.getExpressionConverter(
-										ExpressionButtonUtil.getExpression(getExpressionControl()).getType()))
-						.equals(getExpression())) {
-					return columnName;
+				} else {
+					if (ExpressionUtility
+							.getColumnExpression(columnName,
+									ExpressionUtility.getExpressionConverter(
+											ExpressionButtonUtil.getExpression(getExpressionControl()).getType()))
+							.equals(getExpression())) {
+						return columnName;
+					}
 				}
 
 			} else {
@@ -2202,9 +2152,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 			return ((ComputedColumnHandle) obj).getName();
 		} else if (obj instanceof ResultSetColumnHandle) {
 			return ((ResultSetColumnHandle) obj).getColumnName();
-		} else {
+		} else
 			return ""; //$NON-NLS-1$
-		}
 	}
 
 	protected void selectMultiValues(Combo combo) {
@@ -2212,9 +2161,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog {
 
 		bindingName = getExpressionBindingName();
 
-		if (bindingName == null && getExpression().length() > 0) {
+		if (bindingName == null && getExpression().length() > 0)
 			bindingName = getExpression();
-		}
 
 		if (bindingName != null) {
 			try {

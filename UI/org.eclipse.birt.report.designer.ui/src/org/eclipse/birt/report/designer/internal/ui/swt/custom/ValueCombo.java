@@ -21,47 +21,45 @@ import org.eclipse.swt.widgets.Listener;
 
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 /**
- *
+ * 
  */
 
 public class ValueCombo extends Combo {
 
 	int visibleCount = 30;
 
-	public interface ISelection {
+	public static interface ISelection {
 
-		String doSelection(String input);
+		public String doSelection(String input);
 	}
 
-	public interface ISelection2 extends ISelection {
+	public static interface ISelection2 extends ISelection {
 
-		String doSelection(String comboValue, int selectedIndex, String selectedValue);
+		public String doSelection(String comboValue, int selectedIndex, String selectedValue);
 	}
 
-	Map<Integer, ISelection> actionMap = new HashMap<>();
+	Map<Integer, ISelection> actionMap = new HashMap<Integer, ISelection>();
 
 	// super.addSelectionListener( listener )
 	protected SelectionListener selListener = new SelectionListener() {
 
-		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 			// TODO Auto-generated method stub
 		}
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			// TODO Auto-generated method stub
 
@@ -110,7 +108,6 @@ public class ValueCombo extends Combo {
 
 	protected ModifyListener modifyListener = new ModifyListener() {
 
-		@Override
 		public void modifyText(ModifyEvent e) {
 			// TODO Auto-generated method stub
 
@@ -139,7 +136,6 @@ public class ValueCombo extends Combo {
 
 	protected VerifyListener verifyListener = new VerifyListener() {
 
-		@Override
 		public void verifyText(VerifyEvent e) {
 			// TODO Auto-generated method stub
 			// System.out.print( "Verify Listener is involved.\n" );
@@ -166,13 +162,11 @@ public class ValueCombo extends Combo {
 
 	protected KeyListener keyListener = new KeyListener() {
 
-		@Override
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
-		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
 			ValueCombo combo = (ValueCombo) e.widget;
@@ -191,9 +185,8 @@ public class ValueCombo extends Combo {
 	String oldValue = null;
 	boolean shouldSaveValue = false;
 	boolean shouldClearValues = false;
-	List<String> oldValueList = new ArrayList<>();
+	List<String> oldValueList = new ArrayList<String>();
 
-	@Override
 	protected void checkSubclass() {
 
 	}
@@ -221,20 +214,17 @@ public class ValueCombo extends Combo {
 
 	// add SelectionListener is forbidden, please use addSelectionListener(index
 	// , selection) instead.
-	@Override
 	public void addSelectionListener(SelectionListener listener) {
 		// do nothing
 	}
 
 	// add KeyListener is forbidden
-	@Override
 	public void addKeyListener(KeyListener listener) {
 		// do nothing
 	}
 
-	@Override
 	public void addListener(int eventType, Listener listener) {
-		if (addListenerLock
+		if (addListenerLock == true
 				&& (eventType == SWT.Selection || eventType == SWT.KeyUp || eventType == SWT.KeyDown)) {
 			return;
 		}

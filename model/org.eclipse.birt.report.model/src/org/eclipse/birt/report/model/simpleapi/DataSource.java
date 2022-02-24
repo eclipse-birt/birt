@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,23 +28,18 @@ public class DataSource implements IDataSource {
 		this.dataSource = dataSource;
 	}
 
-	@Override
 	public String getExtensionID() {
-		if (dataSource instanceof OdaDataSourceHandle) {
+		if (dataSource instanceof OdaDataSourceHandle)
 			return ((OdaDataSourceHandle) dataSource).getExtensionID();
-		}
 		return null;
 	}
 
-	@Override
 	public String getPrivateDriverProperty(String name) {
-		if (dataSource instanceof OdaDataSourceHandle) {
+		if (dataSource instanceof OdaDataSourceHandle)
 			return ((OdaDataSourceHandle) dataSource).getPrivateDriverProperty(name);
-		}
 		return null;
 	}
 
-	@Override
 	public void setPrivateDriverProperty(String name, String value) throws SemanticException {
 		if (dataSource instanceof OdaDataSourceHandle) {
 			ActivityStack cmdStack = dataSource.getModule().getActivityStack();

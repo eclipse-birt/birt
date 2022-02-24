@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,7 +64,7 @@ public class TransactionOption {
 
 	/**
 	 * Gets the event filter set in this option.
-	 *
+	 * 
 	 * @return the event filter
 	 */
 
@@ -74,12 +74,12 @@ public class TransactionOption {
 
 	/**
 	 * Gets the event send option. It can be one of the following options.
-	 *
+	 * 
 	 * <p>
 	 * <li>INSTANTANEOUS_EVENT_SEND
 	 * <li>SELF_TRANSACTION_EVENT_SEND
 	 * <li>OUTMOST_TRANSACTION_EVENT_SEND
-	 *
+	 * 
 	 * @return the event send option
 	 */
 
@@ -96,7 +96,7 @@ public class TransactionOption {
 
 	/**
 	 * Sets the option to control when to send the event.
-	 *
+	 * 
 	 * @param eventTime the eventTime to set
 	 */
 

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -49,12 +49,10 @@ public class PDFRowLM extends PDFInlineStackingLM implements IInlineStackingLayo
 	 * ) ); specifiedHeight = fontSize; } }
 	 */
 
-	@Override
 	protected void createRoot() {
 		root = AreaFactory.createRowArea((IRowContent) content);
 	}
 
-	@Override
 	protected void initialize() {
 		if (root == null) {
 			createRoot();
@@ -66,7 +64,6 @@ public class PDFRowLM extends PDFInlineStackingLM implements IInlineStackingLayo
 		hasNext = false;
 	}
 
-	@Override
 	protected boolean traverseChildren() throws BirtException {
 
 		// first loop
@@ -80,25 +77,25 @@ public class PDFRowLM extends PDFInlineStackingLM implements IInlineStackingLayo
 					hasNext = true;
 				}
 			}
-		} else if (!isRowFinished()) {
-			for (int i = 0; i < children.size(); i++) {
-				ILayoutManager childLM = (ILayoutManager) children.get(i);
-				if (childLM.layout() && !hasNext) {
-					hasNext = true;
+		} else {
+			if (!isRowFinished()) {
+				for (int i = 0; i < children.size(); i++) {
+					ILayoutManager childLM = (ILayoutManager) children.get(i);
+					if (childLM.layout() && !hasNext) {
+						hasNext = true;
+					}
 				}
 			}
 		}
 		return hasNext;
 	}
 
-	@Override
 	protected void closeLayout() {
 		if (root != null) {
 			tbl.updateRow((RowArea) root, specifiedHeight, !hasNext);
 		}
 	}
 
-	@Override
 	protected boolean submitRoot() {
 		RowArea row = (RowArea) root;
 		boolean ret = super.submitRoot();
@@ -113,7 +110,6 @@ public class PDFRowLM extends PDFInlineStackingLM implements IInlineStackingLayo
 	 * protected boolean isHidden( ) { return isHiddenByVisibility( ); }
 	 */
 
-	@Override
 	public boolean addArea(IArea area, boolean keepWithPrevious, boolean keepWithNext) {
 		submit((AbstractArea) area);
 		return true;
@@ -131,7 +127,6 @@ public class PDFRowLM extends PDFInlineStackingLM implements IInlineStackingLayo
 		return true;
 	}
 
-	@Override
 	protected boolean hasNextChild() {
 		if (children.size() > 0) {
 			return !isRowFinished();
@@ -140,7 +135,6 @@ public class PDFRowLM extends PDFInlineStackingLM implements IInlineStackingLayo
 
 	}
 
-	@Override
 	protected boolean isRootEmpty() {
 
 		if (root != null) {
@@ -159,7 +153,6 @@ public class PDFRowLM extends PDFInlineStackingLM implements IInlineStackingLayo
 
 	}
 
-	@Override
 	public void submit(AbstractArea area) {
 		CellArea cArea = (CellArea) area;
 		root.addChild(area);
@@ -169,16 +162,14 @@ public class PDFRowLM extends PDFInlineStackingLM implements IInlineStackingLayo
 		int colSpan = cArea.getColSpan();
 		if (colSpan > 1) {
 			ReportDesignHandle design = context.report.getDesign().getReportDesign();
-			if (design.isDirectionRTL()) {
+			if (design.isDirectionRTL())
 				columnID += colSpan - 1;
-			}
 		}
 		// bidi_hcg end
 
 		cArea.setPosition(tbl.getXPos(columnID), 0);
 	}
 
-	@Override
 	protected boolean clearCache() {
 		// TODO Auto-generated method stub
 		return false;

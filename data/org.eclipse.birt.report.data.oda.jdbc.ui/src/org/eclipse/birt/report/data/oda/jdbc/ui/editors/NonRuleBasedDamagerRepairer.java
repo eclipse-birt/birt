@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.jface.text.presentation.IPresentationRepairer;
 import org.eclipse.swt.custom.StyleRange;
 
 /**
- *
+ * 
  * Damager and repairer for javascript editor
  */
 public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPresentationRepairer {
@@ -42,7 +42,7 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 
 	/**
 	 * Constructor for NonRuleBasedDamagerRepairer.
-	 *
+	 * 
 	 * @param defaultTextAttribute
 	 */
 	public NonRuleBasedDamagerRepairer(TextAttribute defaultTextAttribute) {
@@ -54,7 +54,6 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	/**
 	 * @see IPresentationRepairer#setDocument(IDocument)
 	 */
-	@Override
 	public void setDocument(IDocument document) {
 		fDocument = document;
 	}
@@ -62,11 +61,11 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	/**
 	 * Returns the end offset of the line that contains the specified offset or if
 	 * the offset is inside a line delimiter, the end offset of the next line.
-	 *
+	 * 
 	 * @param offset the offset whose line end offset must be computed
-	 *
+	 * 
 	 * @return the line end offset for the given offset
-	 *
+	 * 
 	 * @exception BadLocationException if offset is invalid in the current document
 	 */
 	protected int endOfLineOf(int offset) throws BadLocationException {
@@ -91,7 +90,6 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	 * @see IPresentationDamager#getDamageRegion(ITypedRegion, DocumentEvent,
 	 *      boolean)
 	 */
-	@Override
 	public IRegion getDamageRegion(ITypedRegion partition, DocumentEvent event, boolean documentPartitioningChanged) {
 		if (!documentPartitioningChanged) {
 			try {
@@ -120,14 +118,13 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	/**
 	 * @see IPresentationRepairer#createPresentation(TextPresentation, ITypedRegion)
 	 */
-	@Override
 	public void createPresentation(TextPresentation presentation, ITypedRegion region) {
 		addRange(presentation, region.getOffset(), region.getLength(), fDefaultTextAttribute);
 	}
 
 	/**
 	 * Adds style information to the given text presentation.
-	 *
+	 * 
 	 * @param presentation the text presentation to be extended
 	 * @param offset       the offset of the range to be styled
 	 * @param length       the length of the range to be styled

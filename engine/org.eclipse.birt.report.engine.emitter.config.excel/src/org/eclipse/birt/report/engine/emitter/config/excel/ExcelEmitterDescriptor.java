@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,6 @@ import org.eclipse.birt.report.engine.emitter.config.excel.i18n.Messages;
  * This class is a descriptor of excel emitter.
  */
 public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor {
-	@Override
 	protected void initOptions() {
 		loadDefaultValues("org.eclipse.birt.report.engine.emitter.config.excel");
 		// Initializes the option for WrappingText.
@@ -81,32 +80,29 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.config.AbstractEmitterDescriptor
 	 * #getDescription()
 	 */
-	@Override
 	public String getDescription() {
 		return getMessage("ExcelEmitter.Description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getDisplayName ()
 	 */
-	@Override
 	public String getDisplayName() {
 		return getMessage("ExcelEmitter.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getID()
 	 */
-	@Override
 	public String getID() {
 		return "org.eclipse.birt.report.engine.emitter.prototype.excel"; //$NON-NLS-1$
 	}
@@ -116,12 +112,10 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor {
 	 */
 	class ExcelOptionObserver extends AbstractConfigurableOptionObserver {
 
-		@Override
 		public IConfigurableOption[] getOptions() {
 			return options;
 		}
 
-		@Override
 		public IRenderOption getPreferredRenderOption() {
 			EXCELRenderOption renderOption = new EXCELRenderOption();
 

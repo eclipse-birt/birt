@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ public class NewLibraryAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for creating library.
-	 *
+	 * 
 	 * @param page the resource explorer page
 	 */
 	public NewLibraryAction(LibraryExplorerTreeViewPage page) {
@@ -89,7 +89,7 @@ public class NewLibraryAction extends ResourceAction {
 	/**
 	 * Returns an unique file with the specified prefix and the specified ext name
 	 * in the specified path.
-	 *
+	 * 
 	 * @param path   the specified path.
 	 * @param prefix the specified prefix name.
 	 * @param ext    the specified ext name.
@@ -111,7 +111,7 @@ public class NewLibraryAction extends ResourceAction {
 
 	/**
 	 * Creates an library with the specified file name.
-	 *
+	 * 
 	 * @param fileName the library's file name.
 	 * @throws IOException if an I/O error occurs.
 	 */
@@ -121,15 +121,18 @@ public class NewLibraryAction extends ResourceAction {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
 			 * .core.runtime.IProgressMonitor)
 			 */
-			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				try {
 					doFinish(fileName, templateName, monitor);
-				} catch (SemanticException | DesignFileException | IOException e) {
+				} catch (SemanticException e) {
+					throw new InvocationTargetException(e);
+				} catch (DesignFileException e) {
+					throw new InvocationTargetException(e);
+				} catch (IOException e) {
 					throw new InvocationTargetException(e);
 				} finally {
 					monitor.done();
@@ -139,14 +142,16 @@ public class NewLibraryAction extends ResourceAction {
 
 		try {
 			new ProgressMonitorDialog(getShell()).run(true, false, op);
-		} catch (InvocationTargetException | InterruptedException e) {
+		} catch (InvocationTargetException e) {
+			ExceptionUtil.handle(e);
+		} catch (InterruptedException e) {
 			ExceptionUtil.handle(e);
 		}
 	}
 
 	/**
 	 * Returns the library template's file name.
-	 *
+	 * 
 	 * @return the library template's file name.
 	 * @throws IOException if an I/O error occurs.
 	 */
@@ -161,7 +166,7 @@ public class NewLibraryAction extends ResourceAction {
 
 	/**
 	 * Finishes the work.
-	 *
+	 * 
 	 * @param libraryName  the library's file name.
 	 * @param templateName the library template's file name.
 	 * @param monitor      the progress monitor to use to display progress and
@@ -185,7 +190,7 @@ public class NewLibraryAction extends ResourceAction {
 
 	/**
 	 * Creates a new library with the specified file name.
-	 *
+	 * 
 	 * @param fileName     the library's file name.
 	 * @param templateName the library template's file name.
 	 * @throws DesignFileException If the library template is not found, or it

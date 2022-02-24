@@ -50,14 +50,13 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	private Key[] getKeys() {
-		Key[] keys = { PREF_TEMPLATE };
+		Key[] keys = new Key[] { PREF_TEMPLATE };
 		return keys;
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
-	@Override
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -125,7 +124,6 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock {
 
 			controlTypeHelper.addListener(SWT.Selection, new Listener() {
 
-				@Override
 				public void handleEvent(Event event) {
 					resourceText.setText(event.text);
 				}
@@ -138,7 +136,6 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock {
 			browser.setLayoutData(data);
 			browser.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent event) {
 					DirectoryDialog dialog = new DirectoryDialog(
 							PlatformUI.getWorkbench().getDisplay().getActiveShell());
@@ -148,7 +145,7 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock {
 					if (folderName == null) {
 						return;
 					}
-					folderName = folderName.replace('\\', '/'); // $NON-NLS-1$
+					folderName = folderName.replace('\\', '/'); // $NON-NLS-1$ //$NON-NLS-2$
 					if (!folderName.endsWith("/")) //$NON-NLS-1$
 					{
 						folderName = folderName + "/"; //$NON-NLS-1$

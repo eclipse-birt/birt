@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,52 +27,52 @@ public interface IClassInfo extends ILocalizableInfo {
 	/**
 	 * Returns the method definition list. For methods that have the same name, only
 	 * return one method.
-	 *
+	 * 
 	 * @return a list of method definitions
 	 */
 
-	List<IMethodInfo> getMethods();
+	public List<IMethodInfo> getMethods();
 
 	/**
 	 * Get the method definition given the method name.
-	 *
+	 * 
 	 * @param name the name of the method to get
 	 * @return the definition of the method to get
 	 */
 
-	IMethodInfo getMethod(String name);
+	public IMethodInfo getMethod(String name);
 
 	/**
 	 * Returns the list of member definitions.
-	 *
+	 * 
 	 * @return the list of member definitions
 	 */
 
-	List<IMemberInfo> getMembers();
+	public List<IMemberInfo> getMembers();
 
 	/**
 	 * Returns the member definition given method name.
-	 *
+	 * 
 	 * @param name name of the member to get
 	 * @return the member definition to get
 	 */
 
-	IMemberInfo getMember(String name);
+	public IMemberInfo getMember(String name);
 
 	/**
 	 * Returns the constructor definition.
-	 *
+	 * 
 	 * @return the constructor definition
 	 */
 
-	IMethodInfo getConstructor();
+	public IMethodInfo getConstructor();
 
 	/**
 	 * Returns whether a class object is native.
-	 *
+	 * 
 	 * @return <code>true</code> if an object of this class is native, otherwise
 	 *         <code>false</code>
 	 */
 
-	boolean isNative();
+	public boolean isNative();
 }

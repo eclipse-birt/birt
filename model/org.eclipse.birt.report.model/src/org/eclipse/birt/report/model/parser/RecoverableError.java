@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ class RecoverableError {
 	/**
 	 * Handles property value exceptions with the given value exception and the
 	 * property value.
-	 *
+	 * 
 	 * @param handler        the handler for the design parser
 	 * @param valueException the exception thrown by the parser
 	 */
@@ -44,9 +44,8 @@ class RecoverableError {
 		element.setProperty(propName, retValue);
 
 		if (valueException.getErrorCode().equals(PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND)
-				&& ChoicePropertyType.isDataTypeAny(element.getPropertyDefn(propName).getChoices(), retValue)) {
+				&& ChoicePropertyType.isDataTypeAny(element.getPropertyDefn(propName).getChoices(), retValue))
 			return;
-		}
 
 		handler.getErrorHandler().semanticWarning(valueException);
 	}
@@ -54,7 +53,7 @@ class RecoverableError {
 	/**
 	 * Handles property value exceptions with the given value exception and the
 	 * property value.
-	 *
+	 * 
 	 * @param handler        the handler for the design parser
 	 * @param valueException the exception thrown by the parser
 	 * @param structre       the structure that have this member value
@@ -69,16 +68,15 @@ class RecoverableError {
 		structre.setProperty(memberDefn, retValue);
 
 		if (valueException.getErrorCode().equals(PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND)
-				&& ChoicePropertyType.isDataTypeAny(memberDefn.getChoices(), retValue)) {
+				&& ChoicePropertyType.isDataTypeAny(memberDefn.getChoices(), retValue))
 			return;
-		}
 
 		handler.getErrorHandler().semanticWarning(valueException);
 	}
 
 	/**
 	 * Handles design parser exceptions with the given parser exception.
-	 *
+	 * 
 	 * @param handler   the handler for the design parser
 	 * @param exception the design parser exception to record
 	 */
@@ -89,7 +87,7 @@ class RecoverableError {
 
 	/**
 	 * Handles the semantic error when an extended item has a invalid extension.
-	 *
+	 * 
 	 * @param handler   the handler for the design parser
 	 * @param exception the exception thrown by the parser
 	 */

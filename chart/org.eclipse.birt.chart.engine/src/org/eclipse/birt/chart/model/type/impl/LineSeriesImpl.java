@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -81,7 +81,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * The cached value of the '{@link #getMarkers() <em>Markers</em>}' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getMarkers()
 	 * @generated
 	 * @ordered
@@ -91,7 +91,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * The cached value of the '{@link #getMarker() <em>Marker</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getMarker()
 	 * @generated
 	 * @ordered
@@ -102,7 +102,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	 * The cached value of the '{@link #getLineAttributes() <em>Line
 	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -112,7 +112,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line
 	 * Color</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -122,7 +122,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line
 	 * Color</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -132,7 +132,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * This is true if the Palette Line Color attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -141,7 +141,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * The default value of the '{@link #isCurve() <em>Curve</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isCurve()
 	 * @generated
 	 * @ordered
@@ -151,7 +151,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * The cached value of the '{@link #isCurve() <em>Curve</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isCurve()
 	 * @generated
 	 * @ordered
@@ -161,7 +161,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * This is true if the Curve attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -170,7 +170,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getShadowColor()
 	 * @generated
 	 * @ordered
@@ -180,7 +180,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * The default value of the '{@link #isConnectMissingValue() <em>Connect Missing
 	 * Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isConnectMissingValue()
 	 * @generated
 	 * @ordered
@@ -190,7 +190,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * The cached value of the '{@link #isConnectMissingValue() <em>Connect Missing
 	 * Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isConnectMissingValue()
 	 * @generated
 	 * @ordered
@@ -200,7 +200,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * This is true if the Connect Missing Value attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -208,7 +208,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected LineSeriesImpl() {
@@ -217,7 +217,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -227,30 +227,28 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<Marker> getMarkers() {
 		if (markers == null) {
-			markers = new EObjectContainmentEList<>(Marker.class, this, TypePackage.LINE_SERIES__MARKERS);
+			markers = new EObjectContainmentEList<Marker>(Marker.class, this, TypePackage.LINE_SERIES__MARKERS);
 		}
 		return markers;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Marker getMarker() {
 		return marker;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMarker(Marker newMarker, NotificationChain msgs) {
@@ -259,55 +257,48 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.LINE_SERIES__MARKER, oldMarker, newMarker);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setMarker(Marker newMarker) {
 		if (newMarker != marker) {
 			NotificationChain msgs = null;
-			if (marker != null) {
+			if (marker != null)
 				msgs = ((InternalEObject) marker).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__MARKER, null, msgs);
-			}
-			if (newMarker != null) {
+			if (newMarker != null)
 				msgs = ((InternalEObject) newMarker).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__MARKER, null, msgs);
-			}
 			msgs = basicSetMarker(newMarker, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__MARKER, newMarker,
 					newMarker));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LineAttributes getLineAttributes() {
 		return lineAttributes;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs) {
@@ -316,163 +307,144 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.LINE_SERIES__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setLineAttributes(LineAttributes newLineAttributes) {
 		if (newLineAttributes != lineAttributes) {
 			NotificationChain msgs = null;
-			if (lineAttributes != null) {
+			if (lineAttributes != null)
 				msgs = ((InternalEObject) lineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__LINE_ATTRIBUTES, null, msgs);
-			}
-			if (newLineAttributes != null) {
+			if (newLineAttributes != null)
 				msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__LINE_ATTRIBUTES, null, msgs);
-			}
 			msgs = basicSetLineAttributes(newLineAttributes, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__LINE_ATTRIBUTES,
 					newLineAttributes, newLineAttributes));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isPaletteLineColor() {
 		return paletteLineColor;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setPaletteLineColor(boolean newPaletteLineColor) {
 		boolean oldPaletteLineColor = paletteLineColor;
 		paletteLineColor = newPaletteLineColor;
 		boolean oldPaletteLineColorESet = paletteLineColorESet;
 		paletteLineColorESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__PALETTE_LINE_COLOR,
 					oldPaletteLineColor, paletteLineColor, !oldPaletteLineColorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetPaletteLineColor() {
 		boolean oldPaletteLineColor = paletteLineColor;
 		boolean oldPaletteLineColorESet = paletteLineColorESet;
 		paletteLineColor = PALETTE_LINE_COLOR_EDEFAULT;
 		paletteLineColorESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.LINE_SERIES__PALETTE_LINE_COLOR,
 					oldPaletteLineColor, PALETTE_LINE_COLOR_EDEFAULT, oldPaletteLineColorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetPaletteLineColor() {
 		return paletteLineColorESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isCurve() {
 		return curve;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setCurve(boolean newCurve) {
 		boolean oldCurve = curve;
 		curve = newCurve;
 		boolean oldCurveESet = curveESet;
 		curveESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__CURVE, oldCurve, curve,
 					!oldCurveESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetCurve() {
 		boolean oldCurve = curve;
 		boolean oldCurveESet = curveESet;
 		curve = CURVE_EDEFAULT;
 		curveESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.LINE_SERIES__CURVE, oldCurve,
 					CURVE_EDEFAULT, oldCurveESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetCurve() {
 		return curveESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public ColorDefinition getShadowColor() {
 		return shadowColor;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetShadowColor(ColorDefinition newShadowColor, NotificationChain msgs) {
@@ -481,99 +453,87 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.LINE_SERIES__SHADOW_COLOR, oldShadowColor, newShadowColor);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setShadowColor(ColorDefinition newShadowColor) {
 		if (newShadowColor != shadowColor) {
 			NotificationChain msgs = null;
-			if (shadowColor != null) {
+			if (shadowColor != null)
 				msgs = ((InternalEObject) shadowColor).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__SHADOW_COLOR, null, msgs);
-			}
-			if (newShadowColor != null) {
+			if (newShadowColor != null)
 				msgs = ((InternalEObject) newShadowColor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__SHADOW_COLOR, null, msgs);
-			}
 			msgs = basicSetShadowColor(newShadowColor, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__SHADOW_COLOR, newShadowColor,
 					newShadowColor));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isConnectMissingValue() {
 		return connectMissingValue;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setConnectMissingValue(boolean newConnectMissingValue) {
 		boolean oldConnectMissingValue = connectMissingValue;
 		connectMissingValue = newConnectMissingValue;
 		boolean oldConnectMissingValueESet = connectMissingValueESet;
 		connectMissingValueESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE,
 					oldConnectMissingValue, connectMissingValue, !oldConnectMissingValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetConnectMissingValue() {
 		boolean oldConnectMissingValue = connectMissingValue;
 		boolean oldConnectMissingValueESet = connectMissingValueESet;
 		connectMissingValue = CONNECT_MISSING_VALUE_EDEFAULT;
 		connectMissingValueESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE,
 					oldConnectMissingValue, CONNECT_MISSING_VALUE_EDEFAULT, oldConnectMissingValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetConnectMissingValue() {
 		return connectMissingValueESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -593,7 +553,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -619,7 +579,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -654,7 +614,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -687,7 +647,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -713,57 +673,51 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (paletteLineColor: "); //$NON-NLS-1$
-		if (paletteLineColorESet) {
+		if (paletteLineColorESet)
 			result.append(paletteLineColor);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", curve: "); //$NON-NLS-1$
-		if (curveESet) {
+		if (curveESet)
 			result.append(curve);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", connectMissingValue: "); //$NON-NLS-1$
-		if (connectMissingValueESet) {
+		if (connectMissingValueESet)
 			result.append(connectMissingValue);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.model.component.Series#canParticipateInCombination()
 	 */
-	@Override
 	public boolean canParticipateInCombination() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.
 	 * chart.model.component.Series, int, org.eclipse.birt.chart.model.Chart)
 	 */
-	@Override
 	public void translateFrom(Series series, int iSeriesDefinitionIndex, Chart chart) {
 		if (series instanceof ScatterSeries && ((ScatterSeries) series).getMarkers().size() > 0) {
 			getMarkers().addAll(((ScatterSeries) series).getMarkers());
@@ -830,7 +784,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	private String getConvertedOrthogonalSampleDataRepresentation(String sOldRepresentation) {
 		StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
-		StringBuilder sbNewRepresentation = new StringBuilder(""); //$NON-NLS-1$
+		StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
 		while (strtok.hasMoreTokens()) {
 			String sElement = strtok.nextToken().trim();
 			if (sElement.startsWith("H")) //$NON-NLS-1$ // Orthogonal sample data is for a
@@ -850,17 +804,16 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#canShareAxisUnit()
 	 */
-	@Override
 	public final boolean canShareAxisUnit() {
 		return true;
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 *
+	 * 
 	 * @return line series instance with setting 'isSet' flag.
 	 */
 	public static Series create() // SUBCLASSED BY ScatterSeriesImpl
@@ -872,10 +825,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * Initializes all member variables within this object recursively
-	 *
+	 * 
 	 * Note: Manually written
 	 */
-	@Override
 	protected void initialize() // SUBCLASSED BY ScatterSeriesImpl
 	{
 		super.initialize();
@@ -899,7 +851,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 *
+	 * 
 	 * @return line series instance without setting 'isSet' flag.
 	 */
 	public static Series createDefault() // SUBCLASSED BY ScatterSeriesImpl
@@ -911,10 +863,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * Initializes all member variables within this object recursively
-	 *
+	 * 
 	 * Note: Manually written
 	 */
-	@Override
 	protected void initDefault() // SUBCLASSED BY ScatterSeriesImpl
 	{
 		super.initDefault();
@@ -933,20 +884,18 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#canBeStacked()
 	 */
-	@Override
 	public boolean canBeStacked() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("LineSeriesImpl.displayName"); //$NON-NLS-1$
 	}
@@ -954,7 +903,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	/**
 	 * @generated
 	 */
-	@Override
 	public LineSeries copyInstance() {
 		LineSeriesImpl dest = new LineSeriesImpl();
 		dest.set(this);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSess
 public class SQLUtility {
 	/**
 	 * save the dataset design's metadata info
-	 *
+	 * 
 	 * @param design
 	 */
 	public static void saveDataSetDesign(DataSetDesign design, IResultSetMetaData meta, IParameterMetaData paramMeta) {
@@ -54,7 +54,7 @@ public class SQLUtility {
 
 	/**
 	 * Set parameter metadata in dataset design
-	 *
+	 * 
 	 * @param design
 	 * @param query
 	 */
@@ -70,7 +70,7 @@ public class SQLUtility {
 
 	/**
 	 * solve the BIDI line problem
-	 *
+	 * 
 	 * @param lineText
 	 * @return
 	 */
@@ -87,9 +87,8 @@ public class SQLUtility {
 			// !=, <> etc. leading to "" will be filtered to meet the rule that
 			// segments must not have duplicates.
 			for (int i = 0; i < splits.length; i++) {
-				if (!splits[i].equals("")) {
+				if (!splits[i].equals(""))
 					list.add(splits[i]);
-				}
 			}
 			splits = list.toArray();
 
@@ -106,12 +105,12 @@ public class SQLUtility {
 
 	/**
 	 * Return pre-defined query text pattern with every element in a cell.
-	 *
+	 * 
 	 * @return pre-defined query text
 	 */
 	public static String getQueryPresetTextString(String extensionId) {
 		String[] lines = getQueryPresetTextArray(extensionId);
-		StringBuilder result = new StringBuilder();
+		StringBuffer result = new StringBuffer();
 		if (lines != null && lines.length > 0) {
 			for (int i = 0; i < lines.length; i++) {
 				result.append(lines[i]).append(i == lines.length - 1 ? " " : " \n"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -123,30 +122,28 @@ public class SQLUtility {
 	/**
 	 * Return pre-defined query text pattern with every element in a cell in an
 	 * Array
-	 *
+	 * 
 	 * @return pre-defined query text in an Array
 	 */
 	public static String[] getQueryPresetTextArray(String extensionId) {
 		final String[] lines;
-		if (extensionId.equals("org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet")) {
+		if (extensionId.equals("org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet"))
 			lines = new String[] { "{call procedure-name(arg1,arg2, ...)}" };
-		} else {
+		else
 			lines = new String[] { "select", "from" };
-		}
 		return lines;
 	}
 
 	/**
 	 * merge paramter meta data between dataParameter and datasetDesign's parameter.
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param md
 	 * @throws OdaException
 	 */
 	private static void mergeParameterMetaData(DataSetDesign dataSetDesign, IParameterMetaData md) throws OdaException {
-		if (md == null || dataSetDesign == null) {
+		if (md == null || dataSetDesign == null)
 			return;
-		}
 		DataSetParameters dataSetParameter = DesignSessionUtil.toDataSetParametersDesign(md, ParameterMode.IN_LITERAL);
 
 		if (dataSetParameter != null) {
@@ -161,7 +158,7 @@ public class SQLUtility {
 
 	/**
 	 * Process the parameter definition for some special case
-	 *
+	 * 
 	 * @param defn
 	 * @param parameters
 	 */
@@ -173,15 +170,14 @@ public class SQLUtility {
 
 	/**
 	 * Set the resultset metadata in dataset design
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param md
 	 * @throws OdaException
 	 */
 	private static void setResultSetMetaData(DataSetDesign dataSetDesign, IResultSetMetaData md) throws OdaException {
-		if (md == null || dataSetDesign == null) {
+		if (md == null || dataSetDesign == null)
 			return;
-		}
 
 		ResultSetColumns columns = DesignSessionUtil.toResultSetColumnsDesign(md);
 

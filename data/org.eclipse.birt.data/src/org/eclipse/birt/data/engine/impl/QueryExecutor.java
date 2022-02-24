@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,12 +41,12 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
-import org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -79,7 +79,7 @@ import org.mozilla.javascript.Scriptable;
 import com.ibm.icu.text.Collator;
 
 /**
- *
+ * 
  */
 public abstract class QueryExecutor implements IQueryExecutor {
 
@@ -139,35 +139,34 @@ public abstract class QueryExecutor implements IQueryExecutor {
 		logger.exiting(QueryExecutor.class.getName(), "QueryExecutor");
 	}
 
-	@Override
 	public IQueryContextVisitor getQueryContextVisitor() {
 		return this.contextVisitor;
 	}
 
 	/**
 	 * Provide the actual DataSourceRuntime used for the query.
-	 *
+	 * 
 	 * @return
 	 */
 	abstract protected DataSourceRuntime findDataSource() throws DataException;
 
 	/**
 	 * Create a new instance of data set runtime
-	 *
+	 * 
 	 * @return
 	 */
 	abstract protected DataSetRuntime newDataSetRuntime() throws DataException;
 
 	/**
 	 * Create a new unopened odiDataSource given the data source runtime definition
-	 *
+	 * 
 	 * @return
 	 */
 	abstract protected IDataSource createOdiDataSource() throws DataException;
 
 	/**
 	 * Create an empty instance of odi query
-	 *
+	 * 
 	 * @return
 	 */
 	abstract protected IQuery createOdiQuery() throws DataException;
@@ -179,7 +178,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	protected void dataSourceBeforeOpen() throws DataException {
@@ -189,7 +188,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	protected void dataSourceAfterOpen() throws DataException {
@@ -199,7 +198,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	protected void dataSetBeforeOpen() throws DataException {
@@ -209,7 +208,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	protected void dataSetAfterOpen() throws DataException {
@@ -219,7 +218,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	protected void dataSetBeforeClose() throws DataException {
@@ -229,7 +228,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	protected void dataSetAfterClose() throws DataException {
@@ -240,7 +239,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 	/**
 	 * Executes the ODI query to reproduce a ODI result set
-	 *
+	 * 
 	 * @param eventHandler
 	 * @param stopSign
 	 * @return
@@ -256,15 +255,14 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 	/**
 	 * Prepare Executor so that it is ready to execute the query
-	 *
+	 * 
 	 * @param outerRts
 	 * @param targetScope
 	 * @throws DataException
 	 */
 	void prepareExecution(IBaseQueryResults outerRts, Scriptable targetScope) throws DataException {
-		if (isPrepared) {
+		if (isPrepared)
 			return;
-		}
 
 		this.parentScope = targetScope;
 		dataSource = findDataSource();
@@ -328,19 +326,17 @@ public abstract class QueryExecutor implements IQueryExecutor {
 			if (odiQuery instanceof BaseQuery) {
 				BaseQuery bq = (BaseQuery) odiQuery;
 				List fetchEvents = bq.getFetchEvents();
-				if (fetchEvents != null) {
+				if (fetchEvents != null)
 					for (Object e : fetchEvents) {
 						if (e instanceof IFilterByRow) {
 							filterPresent = true;
 							break;
 						}
 					}
-				}
 
 			}
-			if (!filterPresent) {
+			if (!filterPresent)
 				odiQuery.setRowFetchLimit(dataSet.getDesign().getRowFetchLimit());
-			}
 		}
 
 		try {
@@ -370,14 +366,15 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
 	private boolean loadFromCache() throws DataException {
-		if ((this.dataSource == null) || !(this.baseQueryDefn instanceof IQueryDefinition)) {
+		if (this.dataSource == null)
 			return false;
-		}
+		if (!(this.baseQueryDefn instanceof IQueryDefinition))
+			return false;
 		return this.session.getDataSetCacheManager().doesLoadFromCache(
 				((DataEngineImpl) session.getEngine())
 						.getDataSourceDesign(this.dataSet.getDesign().getDataSourceName()),
@@ -391,7 +388,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	/**
 	 * Open the required DataSource. This method should be called after "dataSource"
 	 * is initialized by findDataSource() method.
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	protected void openDataSource() throws DataException {
@@ -444,7 +441,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 	/**
 	 * Populates odiQuery with this query's definitions
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	protected void populateOdiQuery() throws DataException {
@@ -487,7 +484,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 	/**
 	 * Populate grouping to the query.
-	 *
+	 * 
 	 * @param cx
 	 * @throws DataException
 	 */
@@ -535,20 +532,19 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 	/**
 	 * Validating the group expression.
-	 *
+	 * 
 	 * @param src
 	 * @throws DataException
 	 */
 	private void validateGroupExpression(IGroupDefinition src) throws DataException {
 		if ((src.getKeyColumn() == null || src.getKeyColumn().trim().length() == 0)
-				&& (src.getKeyExpression() == null || src.getKeyExpression().trim().length() == 0)) {
+				&& (src.getKeyExpression() == null || src.getKeyExpression().trim().length() == 0))
 			throw new DataException(ResourceConstants.BAD_GROUP_EXPRESSION);
-		}
 	}
 
 	/**
 	 * Populate the group name according to the given expression.
-	 *
+	 * 
 	 * @param i
 	 * @param expr
 	 * @return
@@ -569,7 +565,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 * Get the computed column instance according to the group type.If group has
 	 * interval, return GroupComputedColumn, otherwise return normal computed
 	 * column.
-	 *
+	 * 
 	 * @param cx
 	 * @param groupSpecs
 	 * @param i
@@ -597,13 +593,12 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 	/**
 	 * Populate the sortings in a query.
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	private void populateSorting(SortingOptimizer opt) throws DataException {
-		if (opt.acceptQuerySorting()) {
+		if (opt.acceptQuerySorting())
 			return;
-		}
 
 		populateQuerySorting();
 	}
@@ -615,7 +610,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 			Iterator<?> it = sorts.iterator();
 			for (int i = 0; it.hasNext(); i++) {
 				ISortDefinition src = (ISortDefinition) it.next();
-				int sortIndex;
+				int sortIndex = -1;
 				String sortKey = src.getColumn();
 				if (sortKey == null) {
 					sortKey = src.getExpression().getText();
@@ -656,7 +651,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 					return null;
 				}
 				IBaseExpression expr = ((IBinding) binding).getExpression();
-				if (expr instanceof IScriptExpression) {
+				if (expr != null && expr instanceof IScriptExpression) {
 					dataSetExpr = ((IScriptExpression) expr).getText();
 				}
 			}
@@ -667,56 +662,50 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expression
 	 * @return
 	 * @throws DataException
 	 */
 	private int getExpressionDataType(String expression) throws DataException {
 		try {
-			if (expression == null) {
+			if (expression == null)
 				return DataType.ANY_TYPE;
-			}
 			String bindingName = ExpressionUtil.getColumnBindingName(expression);
-			if (bindingName == null) {
+			if (bindingName == null)
 				return DataType.ANY_TYPE;
-			}
-			if (bindingName.equals(ScriptConstants.ROW_NUM_KEYWORD)) {
+			if (bindingName.equals(ScriptConstants.ROW_NUM_KEYWORD))
 				return DataType.INTEGER_TYPE;
-			}
 			Object binding = this.baseQueryDefn.getBindings().get(bindingName);
-			if (binding == null) {
+			if (binding == null)
 				return DataType.ANY_TYPE;
-			}
 			int dataType = ((IBinding) binding).getDataType();
-			if (dataType != DataType.UNKNOWN_TYPE) {
+			if (dataType != DataType.UNKNOWN_TYPE)
 				return dataType;
-			} else {
+			else
 				return DataType.ANY_TYPE;
-			}
 		} catch (BirtException e) {
 			throw DataException.wrap(e);
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cx
 	 * @throws DataException
 	 */
 	private void populateFetchEvent(ScriptContext cx) throws DataException {
-		List<IFilterDefinition> dataSetFilters = new ArrayList<>();
-		List<IFilterDefinition> queryFilters = new ArrayList<>();
-		List<IFilterDefinition> aggrFilters = new ArrayList<>();
-		List<IFilterDefinition> aggrNoUpdateFilters = new ArrayList<>();
-		List<IFilterDefinition> dataSetAggrFilters = new ArrayList<>();
+		List<IFilterDefinition> dataSetFilters = new ArrayList<IFilterDefinition>();
+		List<IFilterDefinition> queryFilters = new ArrayList<IFilterDefinition>();
+		List<IFilterDefinition> aggrFilters = new ArrayList<IFilterDefinition>();
+		List<IFilterDefinition> aggrNoUpdateFilters = new ArrayList<IFilterDefinition>();
+		List<IFilterDefinition> dataSetAggrFilters = new ArrayList<IFilterDefinition>();
 
 		if (dataSet.getFilters() != null && !ignoreDataSetFilter) {
 			Map bindings = createBindingFromComputedColumn(dataSet.getComputedColumns());
 			for (int i = 0; i < dataSet.getFilters().size(); i++) {
-				if (!((IFilterDefinition) dataSet.getFilters().get(i)).updateAggregation()) {
+				if (!((IFilterDefinition) dataSet.getFilters().get(i)).updateAggregation())
 					continue;
-				}
 
 				if (QueryExecutorUtil.isAggrFilter((IFilterDefinition) dataSet.getFilters().get(i), bindings)) {
 					dataSetAggrFilters.add((IFilterDefinition) dataSet.getFilters().get(i));
@@ -741,11 +730,10 @@ public abstract class QueryExecutor implements IQueryExecutor {
 				if (!QueryExecutorUtil.isValidFilterExpression(filter.getExpression(), bindings,
 						this.session.getEngineContext().getScriptContext())) {
 					String expression = filter.getExpression().toString();
-					if (filter.getExpression() instanceof IScriptExpression) {
+					if (filter.getExpression() instanceof IScriptExpression)
 						expression = ((IScriptExpression) filter.getExpression()).getText();
-					} else if (filter.getExpression() instanceof IConditionalExpression) {
+					else if (filter.getExpression() instanceof IConditionalExpression)
 						expression = ((IConditionalExpression) filter.getExpression()).getExpression().getText();
-					}
 					throw new DataException(ResourceConstants.INVALID_DEFINITION_IN_FILTER,
 							new Object[] { expression });
 				}
@@ -764,19 +752,18 @@ public abstract class QueryExecutor implements IQueryExecutor {
 		List multipassFilters = prepareFilters(cx, dataSetFilters, queryFilters, temporaryComputedColumns);
 
 		// ******************populate the onFetchEvent below**********************/
-		List computedColumns;
+		List computedColumns = null;
 		// set computed column event
 		computedColumns = this.dataSet.getComputedColumns();
-		if (computedColumns == null) {
+		if (computedColumns == null)
 			computedColumns = new ArrayList();
-		}
 
 		if (computedColumns.size() > 0 && this.getAppContext() != null
 				&& getAppContext().containsKey(IQueryOptimizeHints.QUERY_OPTIMIZE_HINT)) {
 			List<IColumnDefinition> trimmedColumns = ((IQueryOptimizeHints) getAppContext()
 					.get(IQueryOptimizeHints.QUERY_OPTIMIZE_HINT)).getTrimmedColumns().get(dataSet.getName());
 			if (trimmedColumns != null) {
-				Set<String> trimmedNames = new HashSet<>();
+				Set<String> trimmedNames = new HashSet<String>();
 				for (IColumnDefinition col : trimmedColumns) {
 					trimmedNames.add(col.getColumnName());
 				}
@@ -810,16 +797,15 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param computedColumns
 	 * @return
 	 * @throws DataException
 	 */
 	private Map<String, IBinding> createBindingFromComputedColumn(List computedColumns) throws DataException {
-		Map<String, IBinding> result = new HashMap<>();
-		if (computedColumns == null || computedColumns.size() == 0) {
+		Map<String, IBinding> result = new HashMap<String, IBinding>();
+		if (computedColumns == null || computedColumns.size() == 0)
 			return result;
-		}
 		for (Object computedColumn : computedColumns) {
 			IComputedColumn cc = (IComputedColumn) computedColumn;
 			IBinding binding = new Binding(cc.getName());
@@ -832,7 +818,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 	/**
 	 * get the data type of a expression
-	 *
+	 * 
 	 * @param cx
 	 * @param expr
 	 * @return
@@ -852,9 +838,8 @@ public abstract class QueryExecutor implements IQueryExecutor {
 			return DataType.UNKNOWN_TYPE;
 		}
 		int dataType = ((IBinding) baseExpr).getDataType();
-		if (dataType == DataType.UNKNOWN_TYPE) {
+		if (dataType == DataType.UNKNOWN_TYPE)
 			return DataType.ANY_TYPE;
-		}
 		return dataType;
 	}
 
@@ -872,12 +857,10 @@ public abstract class QueryExecutor implements IQueryExecutor {
 			dataSetExpr = null;
 		}
 		try {
-			if ("dataSetRow._rowPosition".equals(dataSetExpr)) {
+			if ("dataSetRow._rowPosition".equals(dataSetExpr))
 				return expr;
-			}
-			if (dataSetExpr != null && ExpressionUtil.getColumnName(dataSetExpr) != null) {
+			if (dataSetExpr != null && ExpressionUtil.getColumnName(dataSetExpr) != null)
 				return dataSetExpr;
-			}
 		} catch (BirtException e) {
 		}
 		return expr;
@@ -894,7 +877,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 */
@@ -907,7 +890,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cx
 	 * @param dataSetFilters
 	 * @param queryFilters
@@ -930,7 +913,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param cx
 	 * @param dataSetFilters
 	 * @param temporaryComputedColumns
@@ -973,7 +956,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param filter
 	 * @return
 	 * @throws DataException
@@ -983,10 +966,9 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 		if (expr instanceof IConditionalExpression) {
 			if (!ExpressionCompilerUtil.isValidExpressionInQueryFilter(expr,
-					session.getEngineContext().getScriptContext())) {
+					session.getEngineContext().getScriptContext()))
 				throw new DataException(ResourceConstants.INVALID_DEFINITION_IN_FILTER,
 						new Object[] { ((IConditionalExpression) expr).getExpression().getText() });
-			}
 			try {
 				if (odiQuery instanceof BaseQuery) {
 					return ((BaseQuery) odiQuery).getExprProcessor().hasAggregation(expr);
@@ -1001,33 +983,29 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getResultMetaData()
 	 */
-	@Override
 	public IResultMetaData getResultMetaData() throws DataException {
 		assert odiQuery instanceof IPreparedDSQuery || odiQuery instanceof ICandidateQuery
 				|| odiQuery instanceof JointDataSetQuery;
 
 		if (odiQuery instanceof IPreparedDSQuery) {
-			if (((IPreparedDSQuery) odiQuery).getResultClass() != null) {
+			if (((IPreparedDSQuery) odiQuery).getResultClass() != null)
 				return new ColumnBindingMetaData(baseQueryDefn, ((IPreparedDSQuery) odiQuery).getResultClass());
-			} else {
+			else
 				return null;
-			}
 		} else if (odiQuery instanceof JointDataSetQuery) {
 			return new ColumnBindingMetaData(baseQueryDefn, ((JointDataSetQuery) odiQuery).getResultClass());
 		} else {
 			IResultMetaData meta = DataSetDesignHelper.getResultMetaData(baseQueryDefn, odiQuery);
-			if (meta == null) {
+			if (meta == null)
 				return new ColumnBindingMetaData(baseQueryDefn, ((ICandidateQuery) odiQuery).getResultClass());
-			} else {
+			else
 				return meta;
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getOdiResultClass()
 	 */
-	@Override
 	public IResultClass getOdiResultClass() throws DataException {
 		assert odiQuery instanceof IPreparedDSQuery || odiQuery instanceof ICandidateQuery
 				|| odiQuery instanceof JointDataSetQuery;
@@ -1038,24 +1016,21 @@ public abstract class QueryExecutor implements IQueryExecutor {
 			return ((JointDataSetQuery) odiQuery).getResultClass();
 		} else {
 			IResultClass resultClass = DataSetDesignHelper.getResultClass(odiQuery);
-			if (resultClass != null) {
+			if (resultClass != null)
 				return resultClass;
-			} else {
+			else
 				return ((ICandidateQuery) odiQuery).getResultClass();
-			}
 		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#execute()
 	 */
-	@Override
 	public void execute(IEventHandler eventHandler) throws DataException {
 		logger.logp(Level.FINER, QueryExecutor.class.getName(), "execute", "Start to execute");
 
-		if (this.isExecuted) {
+		if (this.isExecuted)
 			return;
-		}
 
 		ExecutorHelper helper = new ExecutorHelper(this.parentHelper);
 
@@ -1092,17 +1067,15 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 */
 	private void resetComputedColumns() {
 		List l = this.getDataSet().getComputedColumns();
-		if (l != null) {
+		if (l != null)
 			l.removeAll(this.temporaryComputedColumns);
-		}
 	}
 
 	/*
 	 * Closes the executor; release all odi resources
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#close()
 	 */
-	@Override
 	public void close() {
 		if (odiQuery == null) {
 			// already closed
@@ -1156,7 +1129,6 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getDataSet()
 	 */
-	@Override
 	public DataSetRuntime getDataSet() {
 		return dataSet;
 	}
@@ -1164,18 +1136,16 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getSharedScope()
 	 */
-	@Override
 	public Scriptable getSharedScope() {
 		return this.sharedScope;
 	}
 
 	/**
 	 * Gets the Javascript scope for evaluating expressions for this query
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
-	@Override
 	public Scriptable getQueryScope() throws DataException {
 		try {
 			if (queryScope == null) {
@@ -1197,15 +1167,14 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 	/**
 	 * Creates a subscope within parent scope
-	 *
+	 * 
 	 * @param parentAndProtoScope parent scope. If null, the shared top-level scope
 	 *                            is used as parent
 	 * @throws BirtException
 	 */
 	private Scriptable newSubScope(Scriptable parentAndProtoScope) throws BirtException {
-		if (parentAndProtoScope == null) {
+		if (parentAndProtoScope == null)
 			parentAndProtoScope = sharedScope;
-		}
 
 		Scriptable scope = ((IDataScriptEngine) session.getEngineContext().getScriptContext()
 				.getScriptEngine(IDataScriptEngine.ENGINE_NAME))
@@ -1219,7 +1188,6 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getNestedLevel()
 	 */
-	@Override
 	public int getNestedLevel() {
 		return this.nestedLevel;
 	}
@@ -1229,7 +1197,6 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 * org.eclipse.birt.data.engine.impl.IQueryExecutor#getDataSourceInstanceHandle(
 	 * )
 	 */
-	@Override
 	public IDataSourceInstanceHandle getDataSourceInstanceHandle() {
 		return this.dataSource;
 	}
@@ -1237,7 +1204,6 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getJSAggrValueObject()
 	 */
-	@Override
 	public Scriptable getJSAggrValueObject() {
 		return this.aggrTable.getJSAggrValueObject();
 	}
@@ -1245,7 +1211,6 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getNestedDataSets(int)
 	 */
-	@Override
 	public DataSetRuntime[] getNestedDataSets(int nestedCount) {
 		return tabularOuterResults == null ? null : tabularOuterResults.getDataSetRuntime(nestedCount);
 	}
@@ -1253,7 +1218,6 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getOdiResultSet()
 	 */
-	@Override
 	public IResultIterator getOdiResultSet() {
 		return this.odiResult;
 	}
@@ -1271,21 +1235,19 @@ public abstract class QueryExecutor implements IQueryExecutor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getAppContext()
 	 */
-	@Override
 	public Map getAppContext() {
 		return this.queryAppContext;
 	}
 
-	@Override
 	public DataEngineSession getSession() {
 		return this.session;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param serviceForQueryResults
 	 * @param scope
 	 * @param level

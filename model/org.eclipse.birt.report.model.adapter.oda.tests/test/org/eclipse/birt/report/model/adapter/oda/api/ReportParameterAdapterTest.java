@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 /**
  * Test cases to convert Oda data set parameters and ROM data set parameter and
  * linked report parameters.
- *
+ * 
  */
 
 public class ReportParameterAdapterTest extends BaseTestCase {
@@ -55,7 +55,7 @@ public class ReportParameterAdapterTest extends BaseTestCase {
 	/**
 	 * Converts ROM data set parameters with report parameters to ODA data set
 	 * parameters.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -78,7 +78,7 @@ public class ReportParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Converts ODA data set parameters to ROM data set parameters.
-	 *
+	 * 
 	 * <ul>
 	 * <li>no the latest design session response, update ROM values. Default value
 	 * is not copied to data set parameter since it has linked report parameter.
@@ -88,7 +88,7 @@ public class ReportParameterAdapterTest extends BaseTestCase {
 	 * <li>update native type and default value on data set parameter
 	 * <li>update the data set handle in the reportParameter.dataSet value
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -287,7 +287,7 @@ public class ReportParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Updates a oda parameter definition. Keep the direction.
-	 *
+	 * 
 	 * @param param
 	 */
 
@@ -337,7 +337,7 @@ public class ReportParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Verify parameter definition change.
-	 *
+	 * 
 	 * @param param
 	 * @throws Exception
 	 */
@@ -383,7 +383,7 @@ public class ReportParameterAdapterTest extends BaseTestCase {
 	/**
 	 * Updates a oda parameter definition. Change the direction from input to
 	 * output.
-	 *
+	 * 
 	 * @param param
 	 */
 
@@ -403,7 +403,7 @@ public class ReportParameterAdapterTest extends BaseTestCase {
 	/**
 	 * Updates a oda parameter definition. Change the direction from input to
 	 * output.
-	 *
+	 * 
 	 * @param param
 	 */
 
@@ -422,9 +422,23 @@ public class ReportParameterAdapterTest extends BaseTestCase {
 		setDesign.setQueryText("select * from CLASSICMODELS.CUSTOMERS"); //$NON-NLS-1$
 	}
 
+	private void verifyParameterDefinition3(ParameterDefinition param) {
+		DynamicValuesQuery dynamicValue = param.getInputAttributes().getElementAttributes().getDynamicValueChoices();
+		if (dynamicValue == null) {
+			dynamicValue = DesignFactory.eINSTANCE.createDynamicValuesQuery();
+			dynamicValue.setValueColumn("new value column 1"); //$NON-NLS-1$
+			dynamicValue.setDisplayNameColumn("new lable column 1"); //$NON-NLS-1$
+			dynamicValue.setDataSetDesign(OdaDataSetAdapterTest.createDataSetDesign());
+			param.getInputAttributes().getElementAttributes().setDynamicValueChoices(dynamicValue);
+		}
+		DataSetDesign setDesign = dynamicValue.getDataSetDesign();
+		assertEquals("new display name", setDesign.getDisplayName());
+		assertEquals("select * from CLASSMODELS.CUSTOMERS", setDesign.getQueryText());
+	}
+
 	/**
 	 * Checks whether update parameter definition3 method works OK.
-	 *
+	 * 
 	 * @param param
 	 */
 

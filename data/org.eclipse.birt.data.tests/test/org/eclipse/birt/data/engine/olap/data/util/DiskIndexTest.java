@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,27 +14,31 @@
 
 package org.eclipse.birt.data.engine.olap.data.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.util.Date;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.data.api.ISelection;
+import org.eclipse.birt.data.engine.olap.data.api.*;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
+import org.eclipse.birt.data.engine.olap.data.util.Bytes;
+import org.eclipse.birt.data.engine.olap.data.util.DiskIndex;
+import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
+
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- *
+ * 
  */
 
 public class DiskIndexTest {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	/*
@@ -72,7 +76,7 @@ public class DiskIndexTest {
 	}
 
 	private Bytes getBytes(int i) {
-		byte[] b;
+		byte[] b = null;
 		b = new byte[3];
 		b[0] = (byte) i;
 		b[1] = (byte) (i + 1);
@@ -82,9 +86,8 @@ public class DiskIndexTest {
 
 	@Test
 	public void testDiskIndexDate() throws IOException, DataException {
-		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i < 10; i++)
 			DiskIndexDateTest(i);
-		}
 		DiskIndexDateTest(200);
 		DiskIndexDateTest(2000);
 	}
@@ -454,7 +457,7 @@ public class DiskIndexTest {
 		DiskIndex indexTree = DiskIndex.createIndex(DocumentManagerFactory.createFileDocumentManager(), "student_index",
 				3, keyList, false);
 
-		IDiskArray list;
+		IDiskArray list = null;
 
 		list = indexTree.topN(1);
 		assertEquals(list.size(), 1);
@@ -538,7 +541,7 @@ public class DiskIndexTest {
 		IndexKey key = null;
 		for (int i = 1; i < keyNumber; i++) {
 			key = new IndexKey();
-			key.setKey(new Object[] { "abcdefghijklmno" + Integer.toString(i) });
+			key.setKey(new Object[] { "abcdefghijklmno" + new Integer(i).toString() });
 			key.setDimensionPos(new int[] { i });
 			key.setOffset(new int[] { i * 4 });
 			keyList.add(key);
@@ -547,13 +550,17 @@ public class DiskIndexTest {
 		DiskIndex indexTree = DiskIndex.createIndex(DocumentManagerFactory.createFileDocumentManager(), "student_index",
 				3, keyList, false);
 		System.out.println("create index finished :" + System.currentTimeMillis() / 100);
-		Object[][] selectedObjs1 = { { "abcdefghijklmno" + Integer.toString(0) },
-				{ "abcdefghijklmno" + Integer.toString(100) }, { "abcdefghijklmno" + Integer.toString(101) },
-				{ "abcdefghijklmno" + Integer.toString(102) }, { "abcdefghijklmno" + Integer.toString(110) },
-				{ "abcdefghijklmno" + Integer.toString(121) }, { "abcdefghijklmno" + Integer.toString(122) },
-				{ "abcdefghijklmno" + Integer.toString(134) } };
-		Object[][] selectedObjs2 = { { "abcdefghijklmno" + Integer.toString(9999) },
-				{ "abcdefghijklmno" + Integer.toString(99999) }, { "abcdefghijklmno" + Integer.toString(999999) } };
+		Object[][] selectedObjs1 = { { "abcdefghijklmno" + new Integer(0).toString() },
+				{ "abcdefghijklmno" + new Integer(100).toString() },
+				{ "abcdefghijklmno" + new Integer(101).toString() },
+				{ "abcdefghijklmno" + new Integer(102).toString() },
+				{ "abcdefghijklmno" + new Integer(110).toString() },
+				{ "abcdefghijklmno" + new Integer(121).toString() },
+				{ "abcdefghijklmno" + new Integer(122).toString() },
+				{ "abcdefghijklmno" + new Integer(134).toString() } };
+		Object[][] selectedObjs2 = { { "abcdefghijklmno" + new Integer(9999).toString() },
+				{ "abcdefghijklmno" + new Integer(99999).toString() },
+				{ "abcdefghijklmno" + new Integer(999999).toString() } };
 
 		int[] resultObjs1 = { 100, 101, 102, 110, 121, 122, 134 };
 		int[] resultObjs2 = { 9999, 99999 };
@@ -561,14 +568,14 @@ public class DiskIndexTest {
 		ISelection[] selections = new ISelection[5];
 		selections[0] = SelectionFactory.createMutiKeySelection(selectedObjs1);
 		selections[1] = SelectionFactory.createRangeSelection(
-				new Object[] { "abcdefghijklmno" + Integer.toString(20000) },
-				new Object[] { "abcdefghijklmno" + Integer.toString(20100) }, true, true);
+				new Object[] { "abcdefghijklmno" + new Integer(20000).toString() },
+				new Object[] { "abcdefghijklmno" + new Integer(20100).toString() }, true, true);
 		selections[2] = SelectionFactory.createRangeSelection(
-				new Object[] { "abcdefghijklmno" + Integer.toString(30000) },
-				new Object[] { "abcdefghijklmno" + Integer.toString(30900) }, false, true);
+				new Object[] { "abcdefghijklmno" + new Integer(30000).toString() },
+				new Object[] { "abcdefghijklmno" + new Integer(30900).toString() }, false, true);
 		selections[3] = SelectionFactory.createRangeSelection(
-				new Object[] { "abcdefghijklmno" + Integer.toString(40000) },
-				new Object[] { "abcdefghijklmno" + Integer.toString(42001) }, true, false);
+				new Object[] { "abcdefghijklmno" + new Integer(40000).toString() },
+				new Object[] { "abcdefghijklmno" + new Integer(42001).toString() }, true, false);
 		selections[4] = SelectionFactory.createMutiKeySelection(selectedObjs2);
 		System.out.println("search running    :" + System.currentTimeMillis() / 100);
 		IDiskArray list = null;
@@ -580,20 +587,20 @@ public class DiskIndexTest {
 
 		for (int i = 0; i < resultObjs1.length; i++) {
 			key = (IndexKey) list.get(i);
-			assertEquals(key.getKey()[0], "abcdefghijklmno" + Integer.toString(resultObjs1[i]));
+			assertEquals(key.getKey()[0], "abcdefghijklmno" + new Integer(resultObjs1[i]).toString());
 			assertEquals(key.getDimensionPos()[0], resultObjs1[i]);
 			assertEquals(key.getOffset()[0], (resultObjs1[i]) * 4);
 		}
 
 		for (int i = 0; i < 101; i++) {
 			key = (IndexKey) list.get(resultObjs1.length + i);
-			assertEquals(key.getDimensionPos()[0], Integer.parseInt(key.getKey()[0].toString().substring(15)));
-			assertEquals(key.getOffset()[0], (Integer.parseInt(key.getKey()[0].toString().substring(15))) * 4);
+			assertEquals(key.getDimensionPos()[0], new Integer(key.getKey()[0].toString().substring(15)).intValue());
+			assertEquals(key.getOffset()[0], (new Integer(key.getKey()[0].toString().substring(15)).intValue()) * 4);
 		}
 
 		for (int i = 0; i < resultObjs2.length; i++) {
 			key = (IndexKey) list.get(list.size() - resultObjs2.length + i);
-			assertEquals(key.getKey()[0], "abcdefghijklmno" + Integer.toString(resultObjs2[i]));
+			assertEquals(key.getKey()[0], "abcdefghijklmno" + new Integer(resultObjs2[i]).toString());
 			assertEquals(key.getDimensionPos()[0], resultObjs2[i]);
 			assertEquals(key.getOffset()[0], (resultObjs2[i]) * 4);
 		}

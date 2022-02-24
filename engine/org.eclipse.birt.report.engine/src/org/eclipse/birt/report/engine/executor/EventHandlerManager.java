@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ public class EventHandlerManager {
 	private Map<DesignElementHandle, Object> eventHandlers;
 
 	public EventHandlerManager() {
-		eventHandlers = new HashMap<>();
+		eventHandlers = new HashMap<DesignElementHandle, Object>();
 	}
 
 	public Object getInstance(DesignElementHandle element, ExecutionContext context) throws EngineException {
@@ -47,16 +47,14 @@ public class EventHandlerManager {
 	}
 
 	public Object getInstance(ReportItemDesign element, ExecutionContext context) throws EngineException {
-		if (element == null) {
+		if (element == null)
 			return null;
-		}
 		return getInstance(element.getHandle(), context);
 	}
 
 	public static Object getInstance(String className, ExecutionContext context) throws EngineException {
-		if (className == null) {
+		if (className == null)
 			return null;
-		}
 
 		Object o = null;
 		Class c = null;

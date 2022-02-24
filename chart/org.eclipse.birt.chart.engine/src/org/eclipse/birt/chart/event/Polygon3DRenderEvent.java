@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +53,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 
 	/**
 	 * Returns true if double sided polygons (not enclosing a volume)
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isDoubleSided() {
@@ -62,7 +62,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 
 	/**
 	 * Sets if this polygon is double sided.
-	 *
+	 * 
 	 * @param value
 	 */
 	public void setDoubleSided(boolean value) {
@@ -86,12 +86,11 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.event.PolygonRenderEvent#setBackground(org.eclipse.
 	 * birt.chart.model.attribute.Fill)
 	 */
-	@Override
 	public void setBackground(Fill ifBackground) {
 		super.setBackground(ifBackground);
 
@@ -100,10 +99,9 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PolygonRenderEvent#getBackground()
 	 */
-	@Override
 	public Fill getBackground() {
 		return runtimeBackground;
 	}
@@ -156,10 +154,10 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 	 * and so that two adjacent points define a line of the polygon. A minimum of
 	 * three points is required, less will throw an IllegalArgumentException, three
 	 * consecutive points cannot be aligned.
-	 *
+	 * 
 	 * @param la Sets the co-ordinates for each point that defines the polygon
 	 */
-	public void setPoints3D(Location3D[] loa) throws ChartException {
+	public final void setPoints3D(Location3D[] loa) throws ChartException {
 		setPoints3D(loa, false);
 	}
 
@@ -170,11 +168,11 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 	 * and so that two adjacent points define a line of the polygon. A minimum of
 	 * three points is required, less will throw an IllegalArgumentException, three
 	 * consecutive points cannot be aligned.
-	 *
+	 * 
 	 * @param la       Sets the co-ordinates for each point that defines the polygon
 	 * @param inverted Inverts the orientation of the surface if true
 	 */
-	public void setPoints3D(Location3D[] loa, boolean inverted) throws ChartException {
+	public final void setPoints3D(Location3D[] loa, boolean inverted) throws ChartException {
 
 		if (loa.length < 3) {
 			throw new ChartException(ChartEnginePlugin.ID, ChartException.RENDERING,
@@ -193,10 +191,9 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
 	 */
-	@Override
 	public void prepare2D(double xOffset, double yOffset) {
 		Location[] points = object3D.getPoints2D(xOffset, yOffset);
 		setPoints(points);
@@ -204,10 +201,9 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	@Override
 	public PrimitiveRenderEvent copy() {
 		final Polygon3DRenderEvent pre = new Polygon3DRenderEvent(source);
 		if (object3D != null) {
@@ -231,10 +227,9 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.PolygonRenderEvent#reset()
 	 */
-	@Override
 	public void reset() {
 		if (object3D != null) {
 			object3D.reset();
@@ -249,10 +244,9 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements I3
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
-	@Override
 	public Object3D getObject3D() {
 		return object3D;
 	}

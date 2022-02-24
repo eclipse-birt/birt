@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILineItemModel;
  * vertical lines. Use the {@link org.eclipse.birt.report.model.api.LineHandle}
  * class to change the properties, such as the line size, line color and line
  * pattern using the item's style.
- *
+ * 
  */
 
 public class LineItem extends ReportItem implements ILineItemModel {
@@ -44,7 +44,7 @@ public class LineItem extends ReportItem implements ILineItemModel {
 
 	/**
 	 * Constructs the line item with an optional name.
-	 *
+	 * 
 	 * @param theName the optional name of the line item
 	 */
 
@@ -54,43 +54,40 @@ public class LineItem extends ReportItem implements ILineItemModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
 	 * report.model.elements.ElementVisitor)
 	 */
 
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitLine(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.LINE_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
 	 * report.model.elements.ReportDesign)
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the report design
 	 * @return an API handle for this element
 	 */

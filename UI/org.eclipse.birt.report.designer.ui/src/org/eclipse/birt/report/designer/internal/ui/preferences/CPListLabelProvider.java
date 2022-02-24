@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 /**
- *
+ * 
  */
 
 public class CPListLabelProvider extends LabelProvider {
@@ -38,10 +38,9 @@ public class CPListLabelProvider extends LabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
 	 */
-	@Override
 	public String getText(Object element) {
 		if (element instanceof CPListElement) {
 			return getCPListElementText((CPListElement) element);
@@ -51,18 +50,18 @@ public class CPListLabelProvider extends LabelProvider {
 
 	/**
 	 * Gets the entry Text to display
-	 *
+	 * 
 	 * @param cpentry
 	 * @return
 	 */
 	public String getCPListElementText(CPListElement cpentry) {
 		IPath path = cpentry.getPath();
 
-		StringBuilder label = new StringBuilder().append(getPathString(path, true));
+		String label = getPathString(path, true);
 		if (cpentry.isMissing()) {
-			label.append(' ').append(fMissing);
+			label = label + ' ' + fMissing;
 		}
-		return label.toString();
+		return label;
 	}
 
 	private String getPathString(IPath path, boolean isExternal) {
@@ -77,9 +76,8 @@ public class CPListLabelProvider extends LabelProvider {
 	}
 
 	public static boolean isArchivePath(IPath path, boolean allowAllAchives) {
-		if (allowAllAchives) {
+		if (allowAllAchives)
 			return true;
-		}
 
 		String ext = path.getFileExtension();
 		if (ext != null && ext.length() != 0) {
@@ -108,10 +106,9 @@ public class CPListLabelProvider extends LabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
-	@Override
 	public Image getImage(Object element) {
 		if (element instanceof CPListElement) {
 			CPListElement cpentry = (CPListElement) element;
@@ -123,7 +120,7 @@ public class CPListLabelProvider extends LabelProvider {
 
 	/**
 	 * Gets the path label
-	 *
+	 * 
 	 * @param path
 	 * @param isOSPath
 	 * @return

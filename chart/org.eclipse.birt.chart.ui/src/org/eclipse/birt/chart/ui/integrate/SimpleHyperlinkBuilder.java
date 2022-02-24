@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- *
+ * 
  */
 
 public class SimpleHyperlinkBuilder extends TrayDialog {
@@ -62,7 +62,7 @@ public class SimpleHyperlinkBuilder extends TrayDialog {
 
 	/**
 	 * Returns the serialized result action.
-	 *
+	 * 
 	 * @return the serialized result action
 	 * @throws IOException
 	 */
@@ -72,7 +72,7 @@ public class SimpleHyperlinkBuilder extends TrayDialog {
 
 	/**
 	 * Set the action to edit with a serialized string
-	 *
+	 * 
 	 * @param input  the serialized string
 	 * @param handle DesignElementHandle
 	 */
@@ -88,7 +88,6 @@ public class SimpleHyperlinkBuilder extends TrayDialog {
 		getShell().setText(title);
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		setTitle(TITLE);
@@ -119,7 +118,6 @@ public class SimpleHyperlinkBuilder extends TrayDialog {
 		noneRadio.setText(RADIO_NONE);
 		noneRadio.addListener(SWT.Selection, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				clearArea();
 			}
@@ -131,7 +129,6 @@ public class SimpleHyperlinkBuilder extends TrayDialog {
 		uriRadio.setText(RADIO_URI);
 		uriRadio.addListener(SWT.Selection, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				clearArea();
 				displayArea.setLayout(new GridLayout(2, false));
@@ -171,14 +168,13 @@ public class SimpleHyperlinkBuilder extends TrayDialog {
 
 	/**
 	 * Set the action to edit.
-	 *
+	 * 
 	 * @param input the action to edit.
 	 */
 	public void setInput(SimpleActionHandle input) {
 		inputHandle = input;
 	}
 
-	@Override
 	protected void okPressed() {
 		if (noneRadio.getSelection()) {
 			inputHandle = null;

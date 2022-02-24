@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ public interface ITextRenderer extends IConstants {
 	/**
 	 * This method renders the 'shadow' at an offset from the text 'rotated
 	 * rectangle' subsequently rendered.
-	 *
+	 * 
 	 * @param ipr
 	 * @param iLabelPosition The position of the label w.r.t. the location specified
 	 *                       by 'lo'
@@ -44,7 +44,7 @@ public interface ITextRenderer extends IConstants {
 			throws ChartException;
 
 	/**
-	 *
+	 * 
 	 * @param ipr
 	 * @param iLabelPosition IConstants. LEFT, RIGHT, ABOVE or BELOW
 	 * @param lo             POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR
@@ -55,7 +55,7 @@ public interface ITextRenderer extends IConstants {
 	void renderTextAtLocation(IPrimitiveRenderer ipr, int iLabelPosition, Location lo, Label la) throws ChartException;
 
 	/**
-	 *
+	 * 
 	 * @param idr
 	 * @param boBlock
 	 * @param taBlock

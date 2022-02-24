@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -126,7 +126,7 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void setOptionalStyles(int optionalStyles) {
 		this.bEnableStyles = (ENABLE_STYLES == (optionalStyles & ENABLE_STYLES));
@@ -135,16 +135,16 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected void init(Grid grid) {
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
 		this.grid = grid;
-		this.vListeners = new Vector<>();
+		this.vListeners = new Vector<Listener>();
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private void placeComponents() {
 		// Layout for entire composite
@@ -197,7 +197,6 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 			final String lineVisibleLabel = this.lineVisibleLabel;
 			liacLines = new LineAttributesComposite(cmpLines, SWT.NONE, lineStyels, context, grid.getLineAttributes(),
 					defGrid.getLineAttributes()) {
-				@Override
 				protected void placeComponents() {
 					super.placeComponents();
 					if (btnVisible != null) {
@@ -236,7 +235,6 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 			final String tickVisibleLabel = this.tickVisibleLabel;
 			liacTicks = new LineAttributesComposite(grpTicks, SWT.NONE, lineStyles, context, grid.getTickAttributes(),
 					defGrid.getTickAttributes()) {
-				@Override
 				protected void placeComponents() {
 					super.placeComponents();
 					if (btnVisible != null) {
@@ -305,11 +303,10 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(cmbTickStyle)) {
 			String selectedTickStyle = cmbTickStyle.getSelectedItemData();
@@ -326,12 +323,11 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -341,11 +337,10 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		Event eGrid = new Event();
 		eGrid.widget = this;

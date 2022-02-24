@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * need not specify a cell for each column; Columns without cells are presumed
  * empty. Use the {@link org.eclipse.birt.report.model.api.CellHandle}class to
  * change the properties.
- *
+ * 
  */
 
 public class Cell extends StyledElement implements ICellModel {
@@ -56,15 +56,14 @@ public class Cell extends StyledElement implements ICellModel {
 
 	/**
 	 * Returns the slot in this cell defined by the slot ID.
-	 *
+	 * 
 	 * @param slot the slot ID
-	 *
+	 * 
 	 * @return the retrieved slot.
-	 *
-	 *
+	 * 
+	 * 
 	 */
 
-	@Override
 	public ContainerSlot getSlot(int slot) {
 		assert (slot == CONTENT_SLOT);
 		return slots[CONTENT_SLOT];
@@ -72,12 +71,11 @@ public class Cell extends StyledElement implements ICellModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitCell(this);
 	}
@@ -85,33 +83,31 @@ public class Cell extends StyledElement implements ICellModel {
 	/**
 	 * Returns the name of this cell element. The name will be the predefined name
 	 * for this element.
-	 *
+	 * 
 	 * @return the cell element's name.
-	 *
+	 * 
 	 */
 
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.CELL_ELEMENT;
 	}
 
 	/**
 	 * Returns the corresponding handle to this element.
-	 *
+	 * 
 	 * @param module the report design
 	 * @return an API handle of this element
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the module of the cell
-	 *
+	 * 
 	 * @return an API handle for this element.
 	 */
 
@@ -124,7 +120,7 @@ public class Cell extends StyledElement implements ICellModel {
 
 	/**
 	 * Returns the number of columns spanned by this cell.
-	 *
+	 * 
 	 * @param module the module
 	 * @return the number of columns spanned by this cell
 	 */
@@ -135,7 +131,7 @@ public class Cell extends StyledElement implements ICellModel {
 
 	/**
 	 * Returns the number of rows spanned by this cell.
-	 *
+	 * 
 	 * @param module the module
 	 * @return the number of rows spanned by this cell
 	 */
@@ -146,7 +142,7 @@ public class Cell extends StyledElement implements ICellModel {
 
 	/**
 	 * Returns the column position.
-	 *
+	 * 
 	 * @param module the module
 	 * @return the column position, or 0 if the columns is to occupy the next
 	 *         available column position.
@@ -158,21 +154,18 @@ public class Cell extends StyledElement implements ICellModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementSelector()
 	 */
-	@Override
 	public List<String> getElementSelectors() {
 
 		TableRow row = (TableRow) getContainer();
-		if (row == null) {
+		if (row == null)
 			return Collections.emptyList();
-		}
 
 		DesignElement rowContainer = row.getContainer();
-		if (rowContainer == null) {
+		if (rowContainer == null)
 			return Collections.emptyList();
-		}
 
 		String cellSelector = null;
 		String tableCellSelector = null;
@@ -190,15 +183,13 @@ public class Cell extends StyledElement implements ICellModel {
 		if (cellSelector == null && tableCellSelector == null) {
 			return Collections.emptyList();
 		} else {
-			List<String> list = new ArrayList<>();
+			List<String> list = new ArrayList<String>();
 			// the order matters because header/detail/footer selector always overwrites
 			// table row selector
-			if (cellSelector != null) {
+			if (cellSelector != null)
 				list.add(cellSelector);
-			}
-			if (tableCellSelector != null) {
+			if (tableCellSelector != null)
 				list.add(tableCellSelector);
-			}
 			return list;
 		}
 	}
@@ -206,12 +197,10 @@ public class Cell extends StyledElement implements ICellModel {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Object getFactoryProperty(Module module, ElementPropertyDefn prop, boolean forExport) {
 		// when exporting cells should not get prop values from its container
-		if (forExport) {
+		if (forExport)
 			return cachedExportStrategy.getPropertyFromElement(module, this, prop);
-		}
 		return super.getFactoryProperty(module, prop, forExport);
 	}
 }

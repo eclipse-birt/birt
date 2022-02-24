@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,16 +36,16 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * This is a managed object, meaning that all changes should be made though the
  * command layer so that they can be undone and redone. Each computed column has
  * the following properties:
- *
+ * 
  * <p>
  * <dl>
  * <dt><strong>Column Name </strong></dt>
  * <dd>a computed column has a required column name.</dd>
- *
+ * 
  * <dt><strong>Expression </strong></dt>
  * <dd>expression of the computation for the column.</dd>
  * </dl>
- *
+ * 
  */
 
 public class ComputedColumn extends PropertyStructure {
@@ -75,11 +75,10 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Name of the column name member.
-	 *
+	 * 
 	 * @deprecated using {@link #NAME_MEMBER} instead.
 	 */
 
-	@Deprecated
 	public static final String COLUMN_NAME_MEMBER = "columnName"; //$NON-NLS-1$
 
 	/**
@@ -102,11 +101,10 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Name of the aggregateOn member.
-	 *
+	 * 
 	 * @deprecated
 	 */
 
-	@Deprecated
 	public static final String AGGREGRATEON_MEMBER = "aggregrateOn"; //$NON-NLS-1$
 
 	/**
@@ -160,30 +158,28 @@ public class ComputedColumn extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	@Override
 	public String getStructName() {
 		return COMPUTED_COLUMN_STRUCT;
 	}
 
 	/**
 	 * Returns the column name.
-	 *
+	 * 
 	 * @return the column name
 	 * @deprecated using {@link #getName()} instead.
 	 */
 
-	@Deprecated
 	public String getColumnName() {
 		return getName();
 	}
 
 	/**
 	 * Returns the column name.
-	 *
+	 * 
 	 * @return the column name
 	 */
 
@@ -193,7 +189,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Returns column display name.
-	 *
+	 * 
 	 * @return column display name.
 	 */
 
@@ -203,7 +199,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Gets column display name id.
-	 *
+	 * 
 	 * @return the column display name id.
 	 */
 	public String getDisplayNameID() {
@@ -212,9 +208,9 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the column display name.
-	 *
+	 * 
 	 * @param columnDisplayName the column display name to set.
-	 *
+	 * 
 	 */
 
 	public void setDisplayName(String columnDisplayName) {
@@ -223,7 +219,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the column display name id.
-	 *
+	 * 
 	 * @param displayNameID the column display name id.
 	 */
 	public void setDisplayNameID(String displayNameID) {
@@ -232,19 +228,18 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the column name.
-	 *
+	 * 
 	 * @param columnName the column name to set
 	 * @deprecated using {@link #setName(String)} instead.
 	 */
 
-	@Deprecated
 	public void setColumnName(String columnName) {
 		setName(columnName);
 	}
 
 	/**
 	 * Sets the column name
-	 *
+	 * 
 	 * @param name the column name to set.
 	 */
 
@@ -254,7 +249,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Returns the expression to compute.
-	 *
+	 * 
 	 * @return the expression to compute
 	 */
 
@@ -275,7 +270,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the expression.
-	 *
+	 * 
 	 * @param expression the expression to set
 	 */
 
@@ -285,12 +280,11 @@ public class ComputedColumn extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
-	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new ComputedColumnHandle(valueHandle, index);
 	}
@@ -300,12 +294,11 @@ public class ComputedColumn extends PropertyStructure {
 	 * <ul>
 	 * <li>The column name is required.
 	 * </ul>
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	@Override
 	public List validate(Module module, DesignElement element) {
 		List list = super.validate(module, element);
 
@@ -332,7 +325,7 @@ public class ComputedColumn extends PropertyStructure {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 *
+	 * 
 	 * @return the data type of this column.
 	 */
 
@@ -354,7 +347,7 @@ public class ComputedColumn extends PropertyStructure {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 *
+	 * 
 	 * @param dataType the data type to set
 	 */
 
@@ -364,64 +357,60 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Returns the aggregrateOn expression to compute.
-	 *
+	 * 
 	 * @return the aggregrateOn expression to compute.
-	 *
+	 * 
 	 * @deprecated by {@link #getAggregateOn()}
 	 */
 
-	@Deprecated
 	public String getAggregrateOn() {
 		return getAggregateOn();
 	}
 
 	/**
 	 * Sets the aggregateOn expression.
-	 *
+	 * 
 	 * @param aggregateOn the aggregateOn expression to set
 	 * @deprecated by {@link #setAggregateOn(String)}
-	 *
+	 * 
 	 */
 
-	@Deprecated
 	public void setAggregrateOn(String aggregateOn) {
 		setAggregateOn(aggregateOn);
 	}
 
 	/**
 	 * Returns the aggregateOn expression to compute.
-	 *
+	 * 
 	 * @return the aggregateOn expression to compute.
-	 *
+	 * 
 	 */
 
 	public String getAggregateOn() {
 		List aggres = getAggregateOnList();
-		if (aggres == null || aggres.isEmpty()) {
+		if (aggres == null || aggres.isEmpty())
 			return null;
-		}
 
 		return (String) aggres.get(0);
 	}
 
 	/**
 	 * Returns the list containing levels to be aggregated on.
-	 *
+	 * 
 	 * @return the list containing levels to be aggregated on
 	 */
 
 	public List getAggregateOnList() {
 		List value = (List) getProperty(null, AGGREGATEON_MEMBER);
-		if (value == null) {
+		if (value == null)
 			return Collections.EMPTY_LIST;
-		}
 
 		return value;
 	}
 
 	/**
 	 * Sets the aggregateOn expression.
-	 *
+	 * 
 	 * @param aggregateOn the aggregateOn expression to set
 	 */
 
@@ -437,16 +426,15 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Adds an aggregate level to the list.
-	 *
+	 * 
 	 * @param aggreValue the aggregate name. For listing elements, this can be "All"
 	 *                   or the name of a single group.
 	 */
 
 	public void addAggregateOn(String aggreValue) {
 		List aggregationOn = (List) getProperty(null, AGGREGATEON_MEMBER);
-		if (aggregationOn == null) {
+		if (aggregationOn == null)
 			aggregationOn = new ArrayList();
-		}
 
 		aggregationOn.add(aggreValue);
 		propValues.put(AGGREGATEON_MEMBER, aggregationOn);
@@ -454,23 +442,22 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Removes an aggregate level from the list.
-	 *
+	 * 
 	 * @param aggreValue the aggregate name. For listing elements, this can be "All"
 	 *                   or the name of a single group.
 	 */
 
 	public void removeAggregateOn(String aggreValue) {
 		List aggregationOn = (List) getProperty(null, AGGREGATEON_MEMBER);
-		if (aggregationOn == null) {
+		if (aggregationOn == null)
 			return;
-		}
 
 		aggregationOn.remove(aggreValue);
 	}
 
 	/**
 	 * Returns the expression used to define this computed column.
-	 *
+	 * 
 	 * @return the expression used to define this computed column
 	 */
 
@@ -480,7 +467,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Returns the expression used to define this computed column.
-	 *
+	 * 
 	 * @return the expression used to define this computed column
 	 */
 
@@ -490,7 +477,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the expression used to define this computed column.
-	 *
+	 * 
 	 * @param expression the expression to set
 	 * @throws SemanticException value required exception
 	 */
@@ -501,7 +488,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the expression used to define this computed column.
-	 *
+	 * 
 	 * @param expression the expression to set
 	 * @throws SemanticException value required exception
 	 */
@@ -512,7 +499,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the expression used to define this computed column.
-	 *
+	 * 
 	 * @param expression the expression to set
 	 * @throws SemanticException value required exception
 	 */
@@ -523,7 +510,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Adds an argument to list.
-	 *
+	 * 
 	 * @param argument the aggregate function argument
 	 */
 
@@ -539,35 +526,33 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Removes an argument from list.
-	 *
+	 * 
 	 * @param argument the aggregate function argument
 	 */
 
 	public void removeArgument(AggregationArgument argument) {
 		List arguments = (List) getProperty(null, ARGUMENTS_MEMBER);
-		if (arguments == null) {
+		if (arguments == null)
 			return;
-		}
 
 		arguments.remove(argument);
 	}
 
 	/**
 	 * Gets the flag which indicates whether the computed column supports export.
-	 *
+	 * 
 	 * @return true if it allows, otherwise false.
 	 */
 	public boolean allowExport() {
 		Boolean value = (Boolean) getProperty(null, ALLOW_EXPORT_MEMBER);
-		if (value != null) {
+		if (value != null)
 			return value.booleanValue();
-		}
 		return true;
 	}
 
 	/**
 	 * Sets the flag which indicates whether the computed column supports export.
-	 *
+	 * 
 	 * @param allowExport the flag to set
 	 */
 	public void setAllowExport(boolean allowExport) {
@@ -576,7 +561,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the calculation type.
-	 *
+	 * 
 	 * @param calculationType
 	 */
 	public void setCalculationType(String calculationType) {
@@ -585,7 +570,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Adds a calculation argument to list.
-	 *
+	 * 
 	 * @param argument the calculation argument
 	 */
 
@@ -601,15 +586,14 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Removes a calculation argument from list.
-	 *
+	 * 
 	 * @param argument the calculation argument
 	 */
 
 	public void removeCalculationArgument(CalculationArgument argument) {
 		List arguments = (List) getProperty(null, CALCULATION_ARGUMENTS_MEMBER);
-		if (arguments == null) {
+		if (arguments == null)
 			return;
-		}
 
 		arguments.remove(argument);
 	}
@@ -617,7 +601,7 @@ public class ComputedColumn extends PropertyStructure {
 	/**
 	 * Sets the reference date value with the expression value. It must be set when
 	 * reference date type is <code>TODAY</code>.
-	 *
+	 * 
 	 * @param expr
 	 */
 	public void setReferenceDateValue(Expression expr) {
@@ -626,7 +610,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the reference date type.
-	 *
+	 * 
 	 * @param offset
 	 */
 	public void setReferenceDateType(String type) {
@@ -635,7 +619,7 @@ public class ComputedColumn extends PropertyStructure {
 
 	/**
 	 * Sets the time dimension expression value.
-	 *
+	 * 
 	 * @param expr
 	 */
 	public void setTimeDimension(String expr) {

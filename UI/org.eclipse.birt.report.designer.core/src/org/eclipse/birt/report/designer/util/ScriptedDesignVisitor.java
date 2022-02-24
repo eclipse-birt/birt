@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
- *
+ * 
  * Visit the Design Element Handle has scripts
  */
 public class ScriptedDesignVisitor extends DesignVisitor {
@@ -50,12 +50,11 @@ public class ScriptedDesignVisitor extends DesignVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.model.api.DesignVisitor#visitDesignElement(org.eclipse.birt.
 	 * model.api.DesignElementHandle)
 	 */
-	@Override
 	public void visitDesignElement(DesignElementHandle elementHandle) {
 		List scriptMethods = elementHandle.getMethods();
 		boolean hasCurrentView = false;

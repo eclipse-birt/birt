@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- *
+ * 
  */
 
 public class TextFieldEditor extends AbstractFieldEditor {
@@ -51,7 +51,7 @@ public class TextFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Creates a boolean field editor in the given style.
-	 *
+	 * 
 	 * @param name      the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param style     the style, either <code>DEFAULT</code> or
@@ -66,7 +66,7 @@ public class TextFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Creates a text field editor in the default style.
-	 *
+	 * 
 	 * @param name   the name of the preference this field editor works on
 	 * @param label  the label text of the field editor
 	 * @param parent the parent of the field editor's control
@@ -78,7 +78,6 @@ public class TextFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		((GridData) text.getLayoutData()).horizontalSpan = numColumns;
 	}
@@ -86,7 +85,6 @@ public class TextFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		Control control = getLabelControl(parent);
 		GridData gd = new GridData();
@@ -102,7 +100,6 @@ public class TextFieldEditor extends AbstractFieldEditor {
 	 * (non-Javadoc) Method declared on FieldEditor. Loads the value from the
 	 * preference store and sets it to the check box.
 	 */
-	@Override
 	protected void doLoad() {
 		updateTextForValue(getPreferenceStore().getString(getPreferenceName()), true);
 	}
@@ -111,19 +108,16 @@ public class TextFieldEditor extends AbstractFieldEditor {
 	 * (non-Javadoc) Method declared on FieldEditor. Loads the default value from
 	 * the preference store and sets it to the check box.
 	 */
-	@Override
 	protected void doLoadDefault() {
 		updateTextForValue(getPreferenceStore().getDefaultString(getPreferenceName()), false);
 		if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-			if (store.hasLocalValue(getPreferenceName())) {
+			if (store.hasLocalValue(getPreferenceName()))
 				markDirty(true);
-			} else {
+			else
 				markDirty(false);
-			}
-		} else {
+		} else
 			markDirty(true);
-		}
 	}
 
 	// /**
@@ -140,9 +134,9 @@ public class TextFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns the text for this field editor.
-	 *
+	 * 
 	 * @param parent The Composite to create the receiver in.
-	 *
+	 * 
 	 * @return the text
 	 */
 	protected Text getTextControl(Composite parent) {
@@ -151,14 +145,12 @@ public class TextFieldEditor extends AbstractFieldEditor {
 			text.setFont(parent.getFont());
 			text.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					valueChanged(VALUE);
 				}
 			});
 			text.addDisposeListener(new DisposeListener() {
 
-				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					text = null;
 				}
@@ -172,7 +164,6 @@ public class TextFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	public int getNumberOfControls() {
 		return 1;
 	}
@@ -180,7 +171,6 @@ public class TextFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	public void setFocus() {
 		if (text != null) {
 			text.setFocus();
@@ -190,7 +180,6 @@ public class TextFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
-	@Override
 	public void setLabelText(String text) {
 		super.setLabelText(text);
 		Label label = getLabelControl();
@@ -203,7 +192,7 @@ public class TextFieldEditor extends AbstractFieldEditor {
 	 * Informs this field editor's listener, if it has one, about a change to the
 	 * value (<code>VALUE</code> property) provided that the old and new values are
 	 * different.
-	 *
+	 * 
 	 * @param oldValue the old value
 	 * @param newValue the new value
 	 */
@@ -218,19 +207,17 @@ public class TextFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor.setEnabled
 	 */
-	@Override
 	public void setEnabled(boolean enabled, Composite parent) {
 		getTextControl(parent).setEnabled(enabled);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#
 	 * getValue()
 	 */
-	@Override
 	protected String getStringValue() {
 		if (text != null) {
 			return text.getText();

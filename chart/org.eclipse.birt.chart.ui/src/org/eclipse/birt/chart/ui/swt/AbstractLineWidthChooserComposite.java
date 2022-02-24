@@ -32,7 +32,7 @@ public abstract class AbstractLineWidthChooserComposite extends CustomChooserCom
 
 	/**
 	 * Returns the currently selected line width
-	 *
+	 * 
 	 * @return currently selected line width
 	 */
 	abstract public int getLineWidth();
@@ -41,7 +41,6 @@ public abstract class AbstractLineWidthChooserComposite extends CustomChooserCom
 
 	abstract public void setLineWidth(int iWidth, EObject eParent);
 
-	@Override
 	protected void initAccessible() {
 		super.initAccessible();
 		ChartUIUtil.addScreenReaderAccessibility(this, (Canvas) cnvSelection);

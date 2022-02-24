@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -101,37 +101,35 @@ public abstract class ReportPreviewEditor extends EditorPart {
 	 * This method is long-running; progress and cancellation are provided by the
 	 * given progress monitor.
 	 * </p>
-	 *
+	 * 
 	 * @param monitor the progress monitor
 	 * @see org.eclipse.ui.ISaveablePart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
 	public void doSave(IProgressMonitor monitor) {
 		IReportProvider provider = getProvider();
 		if (provider != null) {
 			provider.saveReport(getModel(), getEditorInput(), monitor);
 			firePropertyChange(PROP_DIRTY);
 		}
+		return;
 	}
 
 	protected abstract IReportProvider getProvider();
 
 	/**
 	 * Is editor in dirty mode.
-	 *
+	 * 
 	 * @return edit in dirty mode or not
 	 */
-	@Override
 	public boolean isDirty() {
 		return false;
 	}
 
 	/**
 	 * Create controls in the preview editor.
-	 *
+	 * 
 	 * @param parent parent composite
 	 */
-	@Override
 	public void createPartControl(Composite parent) {
 		final ScrolledComposite sc = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		sc.setExpandHorizontal(true);
@@ -173,7 +171,6 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 		note.addHyperlinkListener(new HyperlinkAdapter() {
 
-			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				if (PreferencesUtil.createPreferenceDialogOn(UIUtil.getDefaultShell(),
 						"org.eclipse.birt.report.designer.ui.preferences.PreviewDataPreferencePage", //$NON-NLS-1$
@@ -182,7 +179,7 @@ public abstract class ReportPreviewEditor extends EditorPart {
 					boolean ret = MessageDialog.openQuestion(UIUtil.getDefaultShell(),
 							Messages.getString("PreviewEditor.ConfirmRefresh.Title"), //$NON-NLS-1$
 							Messages.getString("PreviewEditor.ConfirmRefresh.Message")); //$NON-NLS-1$
-					if (ret) {
+					if (ret == true) {
 						refresh();
 					}
 				}
@@ -192,7 +189,6 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 		final IPropertyChangeListener prefListener = new IPropertyChangeListener() {
 
-			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				if (note != null && !note.isDisposed() && WebViewer.PREVIEW_MAXROW.equals(event.getProperty())) {
 					note.setText(
@@ -206,7 +202,6 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 		note.addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				ViewerPlugin.getDefault().getPluginPreferences().removePropertyChangeListener(prefListener);
 			}
@@ -232,7 +227,6 @@ public abstract class ReportPreviewEditor extends EditorPart {
 		if (bParameter != null) {
 			bParameter.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					refresh();
 				}
@@ -241,7 +235,6 @@ public abstract class ReportPreviewEditor extends EditorPart {
 		}
 		sc.addControlListener(new ControlAdapter() {
 
-			@Override
 			public void controlResized(ControlEvent e) {
 				sc.setMinSize(buttonTray.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 				mainPane.layout();
@@ -279,7 +272,7 @@ public abstract class ReportPreviewEditor extends EditorPart {
 			// When change the browser location, show the progress bar
 			/*
 			 * browser.addLocationListener( new LocationAdapter( ) {
-			 *
+			 * 
 			 * public void changing( final LocationEvent e ) { progressBar.setVisible( true
 			 * ); } } );
 			 */
@@ -287,11 +280,9 @@ public abstract class ReportPreviewEditor extends EditorPart {
 			// When browser loaded completely, the hide the progress bar
 			browser.addProgressListener(new ProgressListener() {
 
-				@Override
 				public void changed(ProgressEvent event) {
 				}
 
-				@Override
 				public void completed(ProgressEvent event) {
 					progressBar.setVisible(false);
 				}
@@ -299,7 +290,6 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 			browser.addOpenWindowListener(new OpenWindowListener() {
 
-				@Override
 				public void open(final WindowEvent event) {
 					final Shell shell = UIUtil.createDefaultShell();
 					shell.setLayout(new FillLayout());
@@ -317,14 +307,12 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 			browser.addCloseWindowListener(new CloseWindowListener() {
 
-				@Override
 				public void close(WindowEvent event) {
 					// prevent main broswer been accidentally closed by
 					// javascript:
 					// window.close()
 					Display.getCurrent().asyncExec(new Runnable() {
 
-						@Override
 						public void run() {
 							createMainBrowser();
 
@@ -373,17 +361,16 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 	/**
 	 * initialize browser.
-	 *
+	 * 
 	 * @param display Display
 	 * @param browser Browser
-	 *
+	 * 
 	 * @return
 	 */
 
 	private static void initialize(final Display display, Browser browser) {
 		browser.addOpenWindowListener(new OpenWindowListener() {
 
-			@Override
 			public void open(final WindowEvent event) {
 				final Shell shell = UIUtil.createDefaultShell();
 				shell.setLayout(new FillLayout());
@@ -403,11 +390,10 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.swt.browser.TitleListener#changed(org.eclipse.swt
 			 * .browser.TitleEvent)
 			 */
-			@Override
 			public void changed(TitleEvent event) {
 				if (event.title != null && event.title.length() > 0) {
 					Browser browser = (Browser) event.widget;
@@ -422,7 +408,7 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 	/**
 	 * Get model instance.
-	 *
+	 * 
 	 * @return model instance
 	 */
 	public ModuleHandle getModel() {
@@ -460,7 +446,7 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 	/**
 	 * Get report design file uri.
-	 *
+	 * 
 	 */
 	public String getFileUri() {
 		IEditorInput input = getEditorInput();
@@ -483,7 +469,7 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 		if (uri != null && uri.length() > 0) {
 			if (this.options == null) {
-				this.options = new HashMap<>();
+				this.options = new HashMap<String, String>();
 				this.options.put(WebViewer.SERVLET_NAME_KEY, InputParameterHtmlDialog.VIEWER_RUN);
 				this.options.put(WebViewer.FORMAT_KEY, WebViewer.HTML);
 			}
@@ -533,7 +519,7 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 	/**
 	 * handle something when try to leave the page
-	 *
+	 * 
 	 */
 	public void handleLeaveThePage() {
 		if (browser != null && !browser.isDisposed()) {
@@ -545,10 +531,9 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
 	 */
-	@Override
 	public void dispose() {
 		super.dispose();
 
@@ -561,29 +546,25 @@ public abstract class ReportPreviewEditor extends EditorPart {
 		browser = null;
 	}
 
-	@Override
 	public void doSaveAs() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
-	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.setSite(site);
 
 		setInput(input);
 	}
 
-	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
-	@Override
 	public void setFocus() {
 	}
 
@@ -593,10 +574,9 @@ public abstract class ReportPreviewEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(ActionRegistry.class)) {
 			new ActionRegistry();

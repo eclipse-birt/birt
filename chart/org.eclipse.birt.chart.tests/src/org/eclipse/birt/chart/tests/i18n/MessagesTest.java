@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,13 +14,13 @@
 
 package org.eclipse.birt.chart.tests.i18n;
 
-import com.ibm.icu.util.ULocale;
-
 import junit.framework.TestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Test class for all of Messages.java classes in chart-related packages.
- *
+ * 
  * It checks whether the Messages.java classes could retreive the correct value
  * according to the provided key. If the required value-key pair does not exist,
  * returns !key!.

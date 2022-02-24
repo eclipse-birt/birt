@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  *
  * <!-- begin-model-doc --> Location represents a 2D coordinate point within the
  * chart.
- *
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
@@ -47,7 +47,7 @@ public interface Location extends IChartObject {
 	 * --> Returns the 'X' co-ordinate component of the location. <!-- end-user-doc
 	 * --> <!-- begin-model-doc --> Attribute "x" specifies the x coordinate of the
 	 * location. <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>X</em>' attribute.
 	 * @see #isSetX()
 	 * @see #unsetX()
@@ -64,7 +64,7 @@ public interface Location extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}'
 	 * attribute. <!-- begin-user-doc --> Sets the 'X' co-ordinate component of the
 	 * location. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>X</em>' attribute.
 	 * @see #isSetX()
 	 * @see #unsetX()
@@ -77,7 +77,7 @@ public interface Location extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetX()
 	 * @see #getX()
 	 * @see #setX(double)
@@ -89,7 +89,7 @@ public interface Location extends IChartObject {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}'
 	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>X</em>' attribute is set.
 	 * @see #unsetX()
 	 * @see #getX()
@@ -103,7 +103,7 @@ public interface Location extends IChartObject {
 	 * --> Returns the 'Y' co-ordinate component of the location. <!-- end-user-doc
 	 * --> <!-- begin-model-doc --> Attribute "y" specifies the y coordinate of the
 	 * location. <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Y</em>' attribute.
 	 * @see #isSetY()
 	 * @see #unsetY()
@@ -120,7 +120,7 @@ public interface Location extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}'
 	 * attribute. <!-- begin-user-doc --> Sets the 'Y' co-ordinate component of the
 	 * location. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value the new value of the '<em>Y</em>' attribute.
 	 * @see #isSetY()
 	 * @see #unsetY()
@@ -133,7 +133,7 @@ public interface Location extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isSetY()
 	 * @see #getY()
 	 * @see #setY(double)
@@ -145,7 +145,7 @@ public interface Location extends IChartObject {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}'
 	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return whether the value of the '<em>Y</em>' attribute is set.
 	 * @see #unsetY()
 	 * @see #getY()
@@ -156,9 +156,9 @@ public interface Location extends IChartObject {
 
 	/**
 	 * A convenience method for defining member variables
-	 *
+	 * 
 	 * NOTE: Manually created
-	 *
+	 * 
 	 * @param dX
 	 * @param dY
 	 */
@@ -167,7 +167,7 @@ public interface Location extends IChartObject {
 	/**
 	 * Causes the internal (x,y) values to be translated by a relative value of
 	 * (dTranslateX, dTranslateY)
-	 *
+	 * 
 	 * @param dX
 	 * @param dY
 	 */
@@ -175,7 +175,7 @@ public interface Location extends IChartObject {
 
 	/**
 	 * Causes the internal (x,y) values to be scaled by a relative (dScale) value
-	 *
+	 * 
 	 * @param dScale
 	 */
 	void scale(double dScale);
@@ -183,7 +183,6 @@ public interface Location extends IChartObject {
 	/**
 	 * @generated
 	 */
-	@Override
 	Location copyInstance();
 
 } // Location

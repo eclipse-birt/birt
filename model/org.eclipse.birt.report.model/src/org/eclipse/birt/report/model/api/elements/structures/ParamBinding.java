@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,16 +32,16 @@ import org.eclipse.birt.report.model.core.Structure;
  * to expression by position. Order of these bindings must match the order of
  * parameter markers ("?"") in the statement. Each parameter binding has the
  * following properties:
- *
+ * 
  * <p>
  * <dl>
  * <dt><strong>Parameter Name </strong></dt>
  * <dd>a parameter bing has a required parameter name to bind.</dd>
- *
+ * 
  * <dt><strong>Expression </strong></dt>
  * <dd>associated an expression with a named input parameter.</dd>
  * </dl>
- *
+ * 
  */
 
 public class ParamBinding extends Structure {
@@ -78,30 +78,26 @@ public class ParamBinding extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	@Override
 	public String getStructName() {
 		return PARAM_BINDING_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (PARAM_NAME_MEMBER.equals(propName)) {
+		if (PARAM_NAME_MEMBER.equals(propName))
 			return paramName;
-		}
-		if (EXPRESSION_MEMBER.equals(propName)) {
+		if (EXPRESSION_MEMBER.equals(propName))
 			return expressions;
-		}
 
 		assert false;
 		return null;
@@ -109,26 +105,24 @@ public class ParamBinding extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (PARAM_NAME_MEMBER.equals(propName)) {
+		if (PARAM_NAME_MEMBER.equals(propName))
 			paramName = (String) value;
-		} else if (EXPRESSION_MEMBER.equals(propName)) {
+		else if (EXPRESSION_MEMBER.equals(propName)) {
 			expressions = (List) value;
-		} else {
+		} else
 			assert false;
-		}
 
 	}
 
 	/**
 	 * Returns the parameter name of this binding.
-	 *
+	 * 
 	 * @return the parameter name of this binding
 	 */
 
@@ -138,7 +132,7 @@ public class ParamBinding extends Structure {
 
 	/**
 	 * Sets the parameter name of this binding.
-	 *
+	 * 
 	 * @param name the parameter name to set
 	 */
 
@@ -148,23 +142,21 @@ public class ParamBinding extends Structure {
 
 	/**
 	 * Returns the binding expression.
-	 *
+	 * 
 	 * @return the binding expression
 	 * @deprecated replaced by {@link #getExpressionList()}
 	 */
 
-	@Deprecated
 	public String getExpression() {
 		List<Expression> values = getExpressionList();
-		if (values == null || values.isEmpty()) {
+		if (values == null || values.isEmpty())
 			return null;
-		}
 		return values.get(0).getStringExpression();
 	}
 
 	/**
 	 * Returns the list of the expressions.
-	 *
+	 * 
 	 * @return
 	 */
 	public List<Expression> getExpressionList() {
@@ -173,26 +165,25 @@ public class ParamBinding extends Structure {
 
 	/**
 	 * Sets the binding expression.
-	 *
+	 * 
 	 * @param expression the expression to set
 	 * @deprecated by {@link #setExpression(List)}
 	 */
 
-	@Deprecated
 	public void setExpression(String expression) {
 		if (expression == null) {
 			setProperty(EXPRESSION_MEMBER, null);
 			return;
 		}
 
-		List<String> values = new ArrayList<>();
+		List<String> values = new ArrayList<String>();
 		values.add(expression);
 		setProperty(EXPRESSION_MEMBER, values);
 	}
 
 	/**
 	 * Sets the binding expression list.
-	 *
+	 * 
 	 * @param values the list of expressions to set
 	 */
 
@@ -202,13 +193,12 @@ public class ParamBinding extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
 	 * .report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	@Override
 	public List validate(Module module, DesignElement element) {
 		ArrayList list = new ArrayList();
 
@@ -221,11 +211,10 @@ public class ParamBinding extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new ParamBindingHandle(valueHandle, index);
 	}

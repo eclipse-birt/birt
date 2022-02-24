@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,13 +57,12 @@ public class SqlBlobUtil {
 
 		/**
 		 * read stream to cache
-		 *
+		 * 
 		 * @throws SQLException
 		 */
 		private void init() throws SQLException {
-			if (isInit) {
+			if (isInit == true)
 				return;
-			}
 
 			List byteList = new ArrayList();
 			int b;
@@ -79,9 +78,8 @@ public class SqlBlobUtil {
 			blobLength = byteList.size();
 			blobContent = new byte[blobLength];
 
-			for (int i = 0; i < blobLength; i++) {
+			for (int i = 0; i < blobLength; i++)
 				blobContent[i] = (byte) ((Integer) byteList.get(i)).intValue();
-			}
 
 			byteList = null;
 			isInit = true;
@@ -90,7 +88,6 @@ public class SqlBlobUtil {
 		/*
 		 * @see java.sql.Blob#length()
 		 */
-		@Override
 		public long length() throws SQLException {
 			init();
 
@@ -100,7 +97,6 @@ public class SqlBlobUtil {
 		/*
 		 * @see java.sql.Blob#truncate(long)
 		 */
-		@Override
 		public void truncate(long len) throws SQLException {
 			throw new SQLException("Unsupported in this database");
 		}
@@ -108,7 +104,6 @@ public class SqlBlobUtil {
 		/*
 		 * @see java.sql.Blob#getBytes(long, int)
 		 */
-		@Override
 		public byte[] getBytes(long pos, int length) throws SQLException {
 			init();
 
@@ -127,7 +122,6 @@ public class SqlBlobUtil {
 		/*
 		 * @see java.sql.Blob#setBytes(long, byte[])
 		 */
-		@Override
 		public int setBytes(long pos, byte[] bytes) throws SQLException {
 			throw new SQLException("Unsupported in this database");
 		}
@@ -135,7 +129,6 @@ public class SqlBlobUtil {
 		/*
 		 * @see java.sql.Blob#setBytes(long, byte[], int, int)
 		 */
-		@Override
 		public int setBytes(long pos, byte[] bytes, int offset, int len) throws SQLException {
 			throw new SQLException("Unsupported in this database");
 		}
@@ -143,7 +136,6 @@ public class SqlBlobUtil {
 		/*
 		 * @see java.sql.Blob#position(byte[], long)
 		 */
-		@Override
 		public long position(byte[] pattern, long start) throws SQLException {
 			throw new SQLException("Unsupported in this database");
 		}
@@ -151,7 +143,6 @@ public class SqlBlobUtil {
 		/*
 		 * @see java.sql.Blob#getBinaryStream()
 		 */
-		@Override
 		public InputStream getBinaryStream() throws SQLException {
 			init();
 
@@ -161,7 +152,6 @@ public class SqlBlobUtil {
 		/*
 		 * @see java.sql.Blob#setBinaryStream(long)
 		 */
-		@Override
 		public OutputStream setBinaryStream(long pos) throws SQLException {
 			throw new SQLException("Unsupported in this database");
 		}
@@ -169,17 +159,14 @@ public class SqlBlobUtil {
 		/*
 		 * @see java.sql.Blob#position(java.sql.Blob, long)
 		 */
-		@Override
 		public long position(Blob pattern, long start) throws SQLException {
 			throw new SQLException("Unsupported in this database");
 		}
 
-		@Override
 		public void free() throws SQLException {
 			throw new SQLException("Unsupported in this database");
 		}
 
-		@Override
 		public InputStream getBinaryStream(long pos, long length) throws SQLException {
 			throw new SQLException("Unsupported in this database");
 		}

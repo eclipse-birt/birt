@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -96,7 +96,7 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param _lhmAllTriggers
 	 * @param _jc
 	 * @param _lcl
@@ -109,11 +109,11 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 		this.iv = iv;
 	}
 
-	private boolean isLeftButton(MouseEvent e) {
+	private final boolean isLeftButton(MouseEvent e) {
 		return (e.getButton() == MouseEvent.BUTTON1);
 	}
 
-	private ShapedAction getShapedActionForConditionPoint(TriggerCondition[] tca, Point p) {
+	private final ShapedAction getShapedActionForConditionPoint(TriggerCondition[] tca, Point p) {
 		if (tca == null || tca.length == 0) {
 			return null;
 		}
@@ -157,9 +157,8 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 		if (sa == null) {
 			// If the event matches a trigger, disable its previous action.
 			for (int i = 0; i < tg.length; i++) {
-				if (lhmAllTriggers.get(tg[i]) != null) {
+				if (lhmAllTriggers.get(tg[i]) != null)
 					disableActions(getActionTypesForConditions(tg));
-				}
 			}
 			return;
 		}
@@ -168,9 +167,8 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 		Action ac = null;
 		for (int i = 0; i < tg.length; i++) {
 			ac = sa.getActionForCondition(tg[i]);
-			if (ac != null) {
+			if (ac != null)
 				break;
-			}
 		}
 		if (ac == null) {
 
@@ -277,15 +275,13 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 			JMenuItem menuItem = new JMenuItem();
 			popupMenu.add(menuItem);
 			menuItem.setText(uv.getLabel().getCaption().getValue());
-			if (uv.getTooltip() != null && uv.getTooltip().length() > 0) {
+			if (uv.getTooltip() != null && uv.getTooltip().length() > 0)
 				menuItem.setToolTipText(uv.getTooltip());
-			}
 			URLMenuItemModel uim = new URLMenuItemModel();
 			uim.setURLValue(uv);
 			menuItem.setModel(uim);
 			menuItem.addActionListener(new ActionListener() {
 
-				@Override
 				public void actionPerformed(ActionEvent e) {
 					URLValue urlValue = ((URLMenuItemModel) ((JMenuItem) e.getSource()).getModel()).getURLValue();
 					openURL(urlValue);
@@ -308,15 +304,13 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 	}
 
 	private void disableActions(Set<ActionType> actions) {
-		if (actions == null) {
+		if (actions == null)
 			return;
-		}
 
 		for (Iterator<ActionType> iter = actions.iterator(); iter.hasNext();) {
 			ActionType action = iter.next();
-			if (action == null) {
+			if (action == null)
 				continue;
-			}
 			switch (action.getValue()) {
 			case ActionType.SHOW_TOOLTIP:
 				if (acTooltip != null) {
@@ -371,20 +365,21 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 				}
 			}
 			iun.repaintChart();
-		} else if (cleanState) {
-			iv.unregisterAction(previousSrc, actionType);
-			previousSrc = null;
-			iun.repaintChart();
+		} else {
+			if (cleanState) {
+				iv.unregisterAction(previousSrc, actionType);
+				previousSrc = null;
+				iun.repaintChart();
+			}
 		}
 		return previousSrc;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
-	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (isLeftButton(e)) {
 			handleAction(
@@ -398,19 +393,17 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
-	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
-	@Override
 	public void mouseExited(MouseEvent e) {
 		// FILTER OUT ALL TRIGGERS FOR MOUSE OUT ONLY
 		handleAction(new TriggerCondition[] { TriggerCondition.ONMOUSEOUT_LITERAL }, e);
@@ -418,10 +411,9 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
-	@Override
 	public void mousePressed(MouseEvent e) {
 		if (!isLeftButton(e)) {
 			return;
@@ -432,10 +424,9 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
-	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (!isLeftButton(e)) {
 			return;
@@ -446,20 +437,18 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
 	 */
-	@Override
 	public void mouseDragged(MouseEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
-	@Override
 	public void mouseMoved(MouseEvent e) {
 		final Point p = e.getPoint();
 
@@ -482,32 +471,28 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 				TriggerCondition.ONMOUSEMOVE_LITERAL, TriggerCondition.ONMOUSEOVER_LITERAL }, e, false);
 	}
 
-	@Override
 	public void focusGained(FocusEvent e) {
 		handleAction(new TriggerCondition[] { TriggerCondition.ONFOCUS_LITERAL }, e);
 	}
 
-	@Override
 	public void focusLost(FocusEvent e) {
 		handleAction(new TriggerCondition[] { TriggerCondition.ONBLUR_LITERAL }, e);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 	 */
-	@Override
 	public void keyPressed(KeyEvent e) {
 		handleAction(new TriggerCondition[] { TriggerCondition.ONKEYDOWN_LITERAL }, e);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
 	 */
-	@Override
 	public void keyReleased(KeyEvent e) {
 		handleAction(new TriggerCondition[] { TriggerCondition.ONKEYUP_LITERAL, TriggerCondition.ONKEYPRESS_LITERAL },
 				e);
@@ -515,18 +500,17 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 	 */
-	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
-	private void hideTooltip() {
+	private final void hideTooltip() {
 		((JComponent) iun.peerInstance()).setToolTipText(null);
 	}
 
-	private void showTooltip(Action ac) {
+	private final void showTooltip(Action ac) {
 		TooltipValue tv = (TooltipValue) ac.getValue();
 
 		if (tv.getText() == null) {
@@ -546,13 +530,12 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 		if (tca == null || tca.length == 0) {
 			return null;
 		}
-		Set<ActionType> set = new HashSet<>();
+		Set<ActionType> set = new HashSet<ActionType>();
 
 		for (int i = 0; i < tca.length; i++) {
 			List<ShapedAction> tal = lhmAllTriggers.get(tca[i]);
-			if (tal == null) {
+			if (tal == null)
 				continue;
-			}
 			for (Iterator<ShapedAction> iter = tal.iterator(); iter.hasNext();) {
 				ShapedAction sa = iter.next();
 				ActionType actionType = sa.getActionForCondition(tca[i]).getType();
@@ -591,7 +574,9 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 						composite.setCursor(composite.getToolkit().createCustomCursor(image, new Point(0, 0), ""));//$NON-NLS-1$
 						return;
 					}
-				} catch (URISyntaxException | MalformedURLException e) {
+				} catch (URISyntaxException e) {
+					// Do not process exception here.
+				} catch (MalformedURLException e) {
 					// Do not process exception here.
 				}
 			}

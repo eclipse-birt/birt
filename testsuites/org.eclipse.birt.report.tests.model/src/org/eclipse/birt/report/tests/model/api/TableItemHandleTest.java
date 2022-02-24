@@ -4,12 +4,15 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -21,9 +24,6 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Test case for TableItemHandle class.
@@ -37,7 +37,7 @@ import junit.framework.TestSuite;
  * <tr>
  * <td>{@link #testACL_table()}</td>
  * </tr>
- *
+ * 
  * @see TableItem
  */
 
@@ -58,14 +58,13 @@ public class TableItemHandleTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Test suppressduplicate in table row
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testSuppressDuplicatesProp() throws Exception {
@@ -86,7 +85,7 @@ public class TableItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Test ACLExpression and cascadeACL in table
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void testACL_table() throws SemanticException {

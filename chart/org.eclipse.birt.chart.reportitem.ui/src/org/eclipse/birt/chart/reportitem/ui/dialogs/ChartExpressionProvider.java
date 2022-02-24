@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -81,7 +81,7 @@ public class ChartExpressionProvider extends ExpressionProvider {
 
 	private void init() {
 		// Filter categories according to the style
-		final List<Object> filteredList = new ArrayList<>(3);
+		final List<Object> filteredList = new ArrayList<Object>(3);
 
 		// Always remove Cube since measure/dimension expression are not
 		// supported
@@ -100,7 +100,6 @@ public class ChartExpressionProvider extends ExpressionProvider {
 		if (!filteredList.isEmpty()) {
 			addFilter(new ExpressionFilter() {
 
-				@Override
 				public boolean select(Object parentElement, Object element) {
 					return !filteredList.contains(element);
 				}
@@ -110,7 +109,6 @@ public class ChartExpressionProvider extends ExpressionProvider {
 		// Do not display category items, including DataSet item and Cube item.
 		addFilter(new ExpressionFilter() {
 
-			@Override
 			public boolean select(Object parentElement, Object element) {
 				if (!ExpressionFilter.CATEGORY.equals(parentElement)) {
 					return true;
@@ -132,7 +130,6 @@ public class ChartExpressionProvider extends ExpressionProvider {
 		return false;
 	}
 
-	@Override
 	protected List<Object> getCategoryList() {
 		List<Object> list = super.getCategoryList();
 		if ((this._categoryStyle & CATEGORY_WITH_DATA_POINTS) == CATEGORY_WITH_DATA_POINTS
@@ -145,20 +142,16 @@ public class ChartExpressionProvider extends ExpressionProvider {
 		return list;
 	}
 
-	@Override
 	protected List<Object> getChildrenList(Object parent) {
 		List<Object> list = super.getChildrenList(parent);
 
 		if (CHART_VARIABLES.equals(parent)) {
-			if ((this._categoryStyle & CATEGORY_WITH_DATA_POINTS) == CATEGORY_WITH_DATA_POINTS) {
+			if ((this._categoryStyle & CATEGORY_WITH_DATA_POINTS) == CATEGORY_WITH_DATA_POINTS)
 				list.add(DATA_POINTS);
-			}
-			if ((this._categoryStyle & CATEGORY_WITH_JAVASCRIPT) == CATEGORY_WITH_JAVASCRIPT) {
+			if ((this._categoryStyle & CATEGORY_WITH_JAVASCRIPT) == CATEGORY_WITH_JAVASCRIPT)
 				list.add(JAVASCRIPT);
-			}
-			if ((this._categoryStyle & CATEGORY_WITH_LEGEND_ITEMS) == CATEGORY_WITH_LEGEND_ITEMS) {
+			if ((this._categoryStyle & CATEGORY_WITH_LEGEND_ITEMS) == CATEGORY_WITH_LEGEND_ITEMS)
 				list.add(LEGEND_ITEMS);
-			}
 
 		} else if (DATA_POINTS.equals(parent)) {
 			list.add(ScriptHandler.BASE_VALUE);
@@ -176,11 +169,10 @@ public class ChartExpressionProvider extends ExpressionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#
 	 * getDisplayText(java.lang.Object)
 	 */
-	@Override
 	public String getDisplayText(Object element) {
 		if (element.equals(ScriptHandler.BASE_VALUE)) {
 			return Messages.getString("ChartExpressionProvider.DataPoints.BaseValue");//$NON-NLS-1$ ;
@@ -199,7 +191,7 @@ public class ChartExpressionProvider extends ExpressionProvider {
 	protected Iterator<ComputedColumnHandle> getColumnBindings(ReportItemHandle handle) {
 		if (isInheritColumnsOnly()) {
 			// If column bindings inherited only, remove aggregations.
-			List<ComputedColumnHandle> bindings = new ArrayList<>();
+			List<ComputedColumnHandle> bindings = new ArrayList<ComputedColumnHandle>();
 			Iterator iterator = handle.columnBindingsIterator();
 			while (iterator.hasNext()) {
 				ComputedColumnHandle cch = (ComputedColumnHandle) iterator.next();
@@ -227,7 +219,6 @@ public class ChartExpressionProvider extends ExpressionProvider {
 	 *      java.lang.String, java.lang.Object)
 	 * @since 2.6
 	 */
-	@Override
 	protected void addEditBindingsItem(ArrayList<Object> childrenList, String itemText, Object parent) {
 		ReportItemHandle itemHandle = (ReportItemHandle) elementHandle;
 		if (!ChartItemUtil.isChildOfMultiViewsHandle(itemHandle)) {

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -221,9 +221,8 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	private static final ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine/render"); //$NON-NLS-1$
 
 	/** The comparator compares the order of SeriesDefinition objects. */
-	static Comparator<SeriesDefinition> zOrderComparatorImpl = new Comparator<>() {
+	static Comparator<SeriesDefinition> zOrderComparatorImpl = new Comparator<SeriesDefinition>() {
 
-		@Override
 		public int compare(SeriesDefinition o1, SeriesDefinition o2) {
 			if (o1 != null && o2 != null) {
 				return o1.getZOrder() - o2.getZOrder();
@@ -233,9 +232,8 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	};
 
 	/** The comparator compares the order of BaseRender objects. */
-	static Comparator<BaseRenderer> zOrderComparator = new Comparator<>() {
+	static Comparator<BaseRenderer> zOrderComparator = new Comparator<BaseRenderer>() {
 
-		@Override
 		public int compare(BaseRenderer o1, BaseRenderer o2) {
 			if (o1 != null && o2 != null) {
 				return zOrderComparatorImpl.compare(o1.getSeriesDefinition(), o2.getSeriesDefinition());
@@ -246,7 +244,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * The internal constructor that must be defined as public
-	 *
+	 * 
 	 * @param _ir
 	 * @param _cm
 	 */
@@ -255,7 +253,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Sets the context information for current renderer.
-	 *
+	 * 
 	 * @param _cm
 	 * @param _o
 	 * @param _se
@@ -346,7 +344,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Identifies the series sequence # in the list of series renders(start from 0).
-	 *
+	 * 
 	 * @return The index of the Series being rendered
 	 */
 	public final int getSeriesIndex() {
@@ -370,7 +368,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	/**
 	 * Provides access to any other renderer in the group that participates in chart
 	 * rendering
-	 *
+	 * 
 	 * @param iIndex
 	 * @return renderer
 	 */
@@ -388,7 +386,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	/**
 	 * Renders all blocks using the appropriate block z-order and the containment
 	 * hierarchy.
-	 *
+	 * 
 	 * @param bo
 	 */
 	public void render(Map<Series, LegendItemRenderingHints> htRenderers, Bounds bo) throws ChartException {
@@ -480,7 +478,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * compute legend item width, it will be the column width if vertical
-	 *
+	 * 
 	 * @param columnCache
 	 * @param bo
 	 * @param lih
@@ -744,11 +742,11 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renders the legend block based on the legend rendering rules.
-	 *
+	 * 
 	 * @param ipr
 	 * @param lg
 	 * @param htRenderers
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	public void renderLegend(IPrimitiveRenderer ipr, Legend lg, Map<Series, LegendItemRenderingHints> htRenderers)
@@ -1015,7 +1013,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Internally used to render a legend item separator
-	 *
+	 * 
 	 * @param ipr
 	 * @param lg
 	 * @param dX
@@ -1044,13 +1042,13 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Search the width for each column when legend is vertical.
-	 *
+	 * 
 	 * @param liha
 	 * @return
 	 */
 	protected Map<LegendItemHints, Double> searchMaxColumnWidth(LegendItemHints[] liha, double dItemHeight,
 			Insets insCA) {
-		Map<LegendItemHints, Double> rt = new HashMap<>();
+		Map<LegendItemHints, Double> rt = new HashMap<LegendItemHints, Double>();
 
 		int start = -1;
 		double x = 0;
@@ -1150,7 +1148,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Internally provided to render a single legend entry
-	 *
+	 * 
 	 * @param ipr
 	 * @param lg
 	 * @param la
@@ -1164,7 +1162,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	 * @param fPaletteEntry
 	 * @param lirh
 	 * @param i                  data row index
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	@SuppressWarnings("deprecation")
@@ -1364,10 +1362,10 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renders the Plot
-	 *
+	 * 
 	 * @param ipr The Primitive Renderer of a Device Renderer
 	 * @param p   The Plot to render
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	public void renderPlot(IPrimitiveRenderer ipr, Plot p) throws ChartException {
@@ -1401,10 +1399,10 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renders the background.
-	 *
+	 * 
 	 * @param ipr
 	 * @param p
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	protected void renderBackground(IPrimitiveRenderer ipr, Plot p) throws ChartException {
@@ -1470,10 +1468,10 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renders the block.
-	 *
+	 * 
 	 * @param ipr
 	 * @param b
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	protected void renderBlock(IPrimitiveRenderer ipr, Block b, Object oSource) throws ChartException {
@@ -1486,10 +1484,10 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renders the chart block.
-	 *
+	 * 
 	 * @param ipr
 	 * @param b
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	protected void renderChartBlock(IPrimitiveRenderer ipr, Block b, Object oSource) throws ChartException {
@@ -1540,10 +1538,10 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renders label of a LabelBlock.
-	 *
+	 * 
 	 * @param ipr
 	 * @param b
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	public void renderLabel(IPrimitiveRenderer ipr, Block b, Object oSource) throws ChartException {
@@ -1585,10 +1583,10 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renders the Chart Title Block
-	 *
+	 * 
 	 * @param ipr The Primitive Renderer of a Device Renderer
 	 * @param b   The TitleBlock to render
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	public void renderTitle(IPrimitiveRenderer ipr, TitleBlock b) throws ChartException {
@@ -1640,7 +1638,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Creates empty renderer instance.
-	 *
+	 * 
 	 * @param cm
 	 * @param oComputations
 	 * @return
@@ -1659,11 +1657,11 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	/**
 	 * This method returns appropriate renders for the given chart model. It uses
 	 * extension points to identify a renderer corresponding to a custom series.
-	 *
+	 * 
 	 * @param cm
 	 * @param rtc
 	 * @param oComputations
-	 *
+	 * 
 	 * @return renderers
 	 * @throws ChartException
 	 */
@@ -1679,7 +1677,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 			Axis axPrimaryBase = axa[0];
 			Series se;
 			AxesRenderer ar = null;
-			List<AxesRenderer> al = new ArrayList<>();
+			List<AxesRenderer> al = new ArrayList<AxesRenderer>();
 			List<Series> alRunTimeSeries;
 			EList<SeriesDefinition> elBase, elOrthogonal;
 			SeriesDefinition sd = null;
@@ -1839,14 +1837,14 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	 * polygon. Takes into account the correct z-ordering of each plane and applies
 	 * basic lighting. This convenience method may be used by series type rendering
 	 * extensions if needed.
-	 *
+	 * 
 	 * @param ipr              A handle to the primitive rendering device
 	 * @param oSource          The object wrapped in the polygon rendering event
 	 * @param loaFront         The co-ordinates of the front face polygon
 	 * @param f                The fill color for the front face
 	 * @param lia              The edge color for the polygon
 	 * @param dSeriesThickness The thickness or the extrusion level (for 2.5D or 3D)
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	protected final void renderPlane(IPrimitiveRenderer ipr, Object oSource, Location[] loaFront, Fill f,
@@ -1917,9 +1915,8 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 		double dY, dSmallestY = 0;
 		for (int j, i = 0; i < nSides; i++) {
 			j = i + 1;
-			if (j >= loaFront.length) {
+			if (j >= loaFront.length)
 				j = 0;
-			}
 			loa = new Location[4];
 			loa[0] = goFactory.createLocation(loaFront[i].getX(), loaFront[i].getY());
 			loa[1] = goFactory.createLocation(loaFront[j].getX(), loaFront[j].getY());
@@ -1975,7 +1972,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 			}
 		}
 
-		ArrayList<PrimitiveRenderEvent> alModel = new ArrayList<>(nSides + 1);
+		ArrayList<PrimitiveRenderEvent> alModel = new ArrayList<PrimitiveRenderEvent>(nSides + 1);
 		Fill fP;
 		for (int i = 0; i <= nSides; i++) {
 			pre = ((EventObjectCache) ipr).getEventObject(oSource, PolygonRenderEvent.class);
@@ -2041,7 +2038,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renders planes as 3D presentation.
-	 *
+	 * 
 	 * @param ipr
 	 * @param oSource
 	 * @param loaFace
@@ -2067,7 +2064,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Finds particular Y value from given location list.
-	 *
+	 * 
 	 * @param loa       Location list.
 	 * @param iProperty This value must be one of following:
 	 *                  <ul>
@@ -2075,7 +2072,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	 *                  <li>IConstants.MAX
 	 *                  <li>IConstants.AVERAGE
 	 *                  </ul>
-	 *
+	 * 
 	 */
 	public static final double getY(Location[] loa, int iProperty) {
 		int iCount = loa.length;
@@ -2101,7 +2098,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Finds particular X value from given location list.
-	 *
+	 * 
 	 * @param loa       Location list.
 	 * @param iProperty This value must be one of following:
 	 *                  <ul>
@@ -2109,7 +2106,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	 *                  <li>IConstants.MAX
 	 *                  <li>IConstants.AVERAGE
 	 *                  </ul>
-	 *
+	 * 
 	 * @return x value
 	 */
 	public static final double getX(Location[] loa, int iProperty) {
@@ -2136,7 +2133,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * post-process the triggers.
-	 *
+	 * 
 	 * @param tg     The Trigger to modify
 	 * @param source The StructureSource associated with the Trigger
 	 */
@@ -2192,9 +2189,8 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 			} else {
 				for (Action subAction : mas.getActions()) {
 					ChartUtil.setLabelTo(subAction, rtc.getULocale());
-					if (subAction.getValue() instanceof URLValue) {
+					if (subAction.getValue() instanceof URLValue)
 						buildMultiURL(valueHints, (URLValue) subAction.getValue());
-					}
 				}
 			}
 		} else if (tg.getAction().getValue() instanceof MultiURLValues) {
@@ -2225,7 +2221,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 		if (sBaseURL == null) {
 			sBaseURL = ""; //$NON-NLS-1$
 		}
-		final StringBuilder sb = new StringBuilder(sBaseURL);
+		final StringBuffer sb = new StringBuffer(sBaseURL);
 		char c = '?';
 		if (sBaseURL.indexOf(c) != -1) {
 			c = '&';
@@ -2278,7 +2274,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 		if (sBaseURL == null) {
 			sBaseURL = ""; //$NON-NLS-1$
 		}
-		final StringBuilder sb = new StringBuilder(""); //$NON-NLS-1$
+		final StringBuffer sb = new StringBuffer(""); //$NON-NLS-1$
 		sb.append(sBaseURL);
 		char c = '?';
 		if (sBaseURL.indexOf(c) != -1) {
@@ -2336,7 +2332,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Formats value in URL parameters so that it can be read in server
-	 *
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -2371,7 +2367,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	 * Returns the bounds of an individual cell (if the rendered model is a
 	 * ChartWithoutAxis and plot is to be split into a grid) or the entire plot
 	 * bounds (if the rendered model is a ChartWithAxis).
-	 *
+	 * 
 	 * @return
 	 */
 	protected final Bounds getCellBounds(int seriesIndex) {
@@ -2402,7 +2398,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Returns the bounds of the plot area, NOTE this bounds has reduced the insets.
-	 *
+	 * 
 	 * @return
 	 */
 	protected final Bounds getPlotBounds() {
@@ -2554,7 +2550,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renderer label with specified <code>DeferredCache</code>.
-	 *
+	 * 
 	 * @param oSource
 	 * @param iTextRenderType
 	 * @param laDataPoint
@@ -2612,12 +2608,12 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	/**
 	 * Filters the Null or invalid entry(contains NaN value) from the list. Each
 	 * entry should be a double[2] or double[3] array object.
-	 *
+	 * 
 	 * @param ll
 	 * @return
 	 */
 	protected List<double[]> filterNull(List<double[]> ll) {
-		List<double[]> al = new ArrayList<>();
+		List<double[]> al = new ArrayList<double[]>();
 		for (int i = 0; i < ll.size(); i++) {
 			double[] obj = ll.get(i);
 
@@ -2633,12 +2629,12 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Filters the Null or invalid entry(contains NaN value) from the array.
-	 *
+	 * 
 	 * @param ll
 	 * @return
 	 */
 	protected Location[] filterNull(Location[] ll) {
-		ArrayList<Location> al = new ArrayList<>();
+		ArrayList<Location> al = new ArrayList<Location>();
 		for (int i = 0; i < ll.length; i++) {
 			if (Double.isNaN(ll[i].getX()) || Double.isNaN(ll[i].getY())) {
 				continue;
@@ -2656,7 +2652,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	/**
 	 * Filters the Null or invalid entry(contains NaN value) from the array in
 	 * respect of DataPointHints.
-	 *
+	 * 
 	 * @param ll
 	 * @return
 	 */
@@ -2667,7 +2663,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 		int iLen = dpha.length;
 
-		ArrayList<Location> al = new ArrayList<>(iLen);
+		ArrayList<Location> al = new ArrayList<Location>(iLen);
 		for (int i = 0; i < iLen; i++) {
 			if (dpha[i].getBaseValue() != null && dpha[i].getOrthogonalValue() != null) {
 				al.add(ll[i]);
@@ -2682,7 +2678,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Check the if the given value is NaN.
-	 *
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -2692,7 +2688,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Returns if the right-left mode is enabled.
-	 *
+	 * 
 	 */
 	public boolean isRightToLeft() {
 		if (rtc == null) {
@@ -2703,7 +2699,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Returns if current palette is from the category series.
-	 *
+	 * 
 	 * @return
 	 */
 	protected boolean isPaletteByCategory() {
@@ -2712,7 +2708,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Switch Anchor value due to right-left setting.
-	 *
+	 * 
 	 * @param anchor
 	 */
 	public Anchor switchAnchor(Anchor anchor) {
@@ -2743,7 +2739,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Switch Position value due to right-left setting.
-	 *
+	 * 
 	 * @param po
 	 */
 	public Position switchPosition(Position po) {
@@ -2759,7 +2755,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Switch TextAlignment value due to right-left setting.
-	 *
+	 * 
 	 * @param ta
 	 */
 	public TextAlignment switchTextAlignment(TextAlignment ta) {
@@ -2775,7 +2771,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Returns if interactivity is enabled on the model.
-	 *
+	 * 
 	 */
 	public boolean isInteractivityEnabled() {
 		return (cm.getInteractivity() == null || cm.getInteractivity().isEnable());
@@ -2785,7 +2781,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 	 * Returns if the corresponding category entry is filtered as minslice in
 	 * legend. Subclass should override this method to implement their own legend
 	 * strategy.
-	 *
+	 * 
 	 * @return return null if no minslice applied or minslice feature is not
 	 *         supported.
 	 */
@@ -2796,7 +2792,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Updates the tranlucency of the fill according to series setting.
-	 *
+	 * 
 	 * @param fill
 	 * @param se
 	 */
@@ -2823,7 +2819,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Returns <code>DeferredCacheManager</code> instance.
-	 *
+	 * 
 	 * @return <code>DeferredCacheManager</code> instance.
 	 */
 	public DeferredCacheManager getDeferredCacheManager() {
@@ -2832,7 +2828,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Creates the interaction event for triggers list
-	 *
+	 * 
 	 * @param iSource
 	 * @param elTriggers
 	 * @param ipr
@@ -2851,7 +2847,7 @@ public abstract class BaseRenderer implements ISeriesRenderer {
 
 	/**
 	 * Renders the interactivity hotspot for a data point
-	 *
+	 * 
 	 * @param ipr
 	 * @param dph
 	 * @param pre

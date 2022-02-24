@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,20 +21,20 @@ package org.eclipse.birt.report.engine.api;
 public interface IRunAndRenderTask extends IEngineTask {
 	/**
 	 * set the rendering options
-	 *
+	 * 
 	 * @param settings the rendering options
 	 */
-	void setRenderOption(IRenderOption options);
+	public abstract void setRenderOption(IRenderOption options);
 
 	/**
 	 * @return the render option
 	 */
-	IRenderOption getRenderOption();
+	public abstract IRenderOption getRenderOption();
 
 	/**
 	 * runs the task to generate report document or other output format
 	 */
-	void run() throws EngineException;
+	public abstract void run() throws EngineException;
 
 	/**
 	 * sets a specific emitter to use when generate output. Used when there are more
@@ -42,22 +42,22 @@ public interface IRunAndRenderTask extends IEngineTask {
 	 * PDF emitter and the new PDF emitter added in BIRT2.0. If this function is not
 	 * called when there are more than 1 emitters that support a format, engine may
 	 * arbitrarily pick one.
-	 *
+	 * 
 	 * @param id the identifier for the emitter
 	 */
-	void setEmitterID(String id);
+	public abstract void setEmitterID(String id);
 
 	/**
 	 * set the max rows per query
-	 *
+	 * 
 	 * @param maxRows: max rows
 	 */
-	void setMaxRowsPerQuery(int maxRows);
+	public void setMaxRowsPerQuery(int maxRows);
 
 	/**
 	 * set user defined IPageHandler
-	 *
+	 * 
 	 * @param callback user-defined IPageHandler
 	 */
-	void setPageHandler(IPageHandler callback);
+	public void setPageHandler(IPageHandler callback);
 }

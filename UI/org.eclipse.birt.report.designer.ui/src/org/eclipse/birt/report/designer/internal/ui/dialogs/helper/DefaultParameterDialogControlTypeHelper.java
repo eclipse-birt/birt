@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,26 +38,21 @@ public class DefaultParameterDialogControlTypeHelper extends AbstractDialogHelpe
 
 	protected Combo controlTypeChooser;
 
-	@Override
 	public void createContent(Composite parent) {
 		controlTypeChooser = new Combo(parent, SWT.READ_ONLY | SWT.DROP_DOWN);
 		controlTypeChooser.setVisibleItemCount(30);
 		controlTypeChooser.addListener(SWT.Selection, new Listener() {
 
-			@Override
 			public void handleEvent(Event e) {
 				List<Listener> listeners = DefaultParameterDialogControlTypeHelper.this.listeners.get(SWT.Selection);
-				if (listeners == null) {
+				if (listeners == null)
 					return;
-				}
-				for (int i = 0; i < listeners.size(); i++) {
+				for (int i = 0; i < listeners.size(); i++)
 					listeners.get(i).handleEvent(e);
-				}
 			}
 		});
 	}
 
-	@Override
 	public Control getControl() {
 		return controlTypeChooser;
 	}
@@ -74,7 +69,6 @@ public class DefaultParameterDialogControlTypeHelper extends AbstractDialogHelpe
 		return (String) this.getProperty(ParameterDialog.CONTROLTYPE_INPUTVALUE);
 	}
 
-	@Override
 	public void update(boolean inward) {
 		if (inward) {
 			inwardUpdate();
@@ -137,10 +131,12 @@ public class DefaultParameterDialogControlTypeHelper extends AbstractDialogHelpe
 		String displayName = null;
 		if (CONTROL_TYPE_CHOICE_SET.findChoice(type) != null) {
 			displayName = CONTROL_TYPE_CHOICE_SET.findChoice(type).getDisplayName();
-		} else if (ParameterDialog.PARAM_CONTROL_COMBO.equals(type)) {
-			displayName = ParameterDialog.DISPLAY_NAME_CONTROL_COMBO;
-		} else if (ParameterDialog.PARAM_CONTROL_LIST.equals(type)) {
-			displayName = ParameterDialog.DISPLAY_NAME_CONTROL_LIST;
+		} else {
+			if (ParameterDialog.PARAM_CONTROL_COMBO.equals(type)) {
+				displayName = ParameterDialog.DISPLAY_NAME_CONTROL_COMBO;
+			} else if (ParameterDialog.PARAM_CONTROL_LIST.equals(type)) {
+				displayName = ParameterDialog.DISPLAY_NAME_CONTROL_LIST;
+			}
 		}
 		return displayName;
 	}

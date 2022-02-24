@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -42,7 +42,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 	 * The default value of the '{@link #getDataSetRepresentation() <em>Data Set
 	 * Representation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 * @ordered
@@ -53,7 +53,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 	 * The cached value of the '{@link #getDataSetRepresentation() <em>Data Set
 	 * Representation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 * @ordered
@@ -64,7 +64,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 	 * The default value of the '{@link #getSeriesDefinitionIndex() <em>Series
 	 * Definition Index</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @see #getSeriesDefinitionIndex()
 	 * @generated
 	 * @ordered
@@ -75,7 +75,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 	 * The cached value of the '{@link #getSeriesDefinitionIndex() <em>Series
 	 * Definition Index</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @see #getSeriesDefinitionIndex()
 	 * @generated
 	 * @ordered
@@ -85,7 +85,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 	/**
 	 * This is true if the Series Definition Index attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -93,7 +93,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected OrthogonalSampleDataImpl() {
@@ -102,7 +102,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -112,89 +112,80 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getDataSetRepresentation() {
 		return dataSetRepresentation;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setDataSetRepresentation(String newDataSetRepresentation) {
 		String oldDataSetRepresentation = dataSetRepresentation;
 		dataSetRepresentation = newDataSetRepresentation;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					DataPackage.ORTHOGONAL_SAMPLE_DATA__DATA_SET_REPRESENTATION, oldDataSetRepresentation,
 					dataSetRepresentation));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getSeriesDefinitionIndex() {
 		return seriesDefinitionIndex;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setSeriesDefinitionIndex(int newSeriesDefinitionIndex) {
 		int oldSeriesDefinitionIndex = seriesDefinitionIndex;
 		seriesDefinitionIndex = newSeriesDefinitionIndex;
 		boolean oldSeriesDefinitionIndexESet = seriesDefinitionIndexESet;
 		seriesDefinitionIndexESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					DataPackage.ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX, oldSeriesDefinitionIndex,
 					seriesDefinitionIndex, !oldSeriesDefinitionIndexESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetSeriesDefinitionIndex() {
 		int oldSeriesDefinitionIndex = seriesDefinitionIndex;
 		boolean oldSeriesDefinitionIndexESet = seriesDefinitionIndexESet;
 		seriesDefinitionIndex = SERIES_DEFINITION_INDEX_EDEFAULT;
 		seriesDefinitionIndexESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					DataPackage.ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX, oldSeriesDefinitionIndex,
 					SERIES_DEFINITION_INDEX_EDEFAULT, oldSeriesDefinitionIndexESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetSeriesDefinitionIndex() {
 		return seriesDefinitionIndexESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -210,7 +201,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -228,7 +219,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -246,7 +237,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -263,24 +254,22 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (dataSetRepresentation: "); //$NON-NLS-1$
 		result.append(dataSetRepresentation);
 		result.append(", seriesDefinitionIndex: "); //$NON-NLS-1$
-		if (seriesDefinitionIndexESet) {
+		if (seriesDefinitionIndexESet)
 			result.append(seriesDefinitionIndex);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -288,7 +277,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
 	/**
 	 * @generated
 	 */
-	@Override
 	public OrthogonalSampleData copyInstance() {
 		OrthogonalSampleDataImpl dest = new OrthogonalSampleDataImpl();
 		dest.set(this);

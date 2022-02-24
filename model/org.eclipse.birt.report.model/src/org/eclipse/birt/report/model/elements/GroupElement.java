@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 /**
  * This class represents a grouping level within either a List or Table item.
  * Groups are defined by a grouping expression on the data set.
- *
+ * 
  */
 
 public abstract class GroupElement extends DesignElement implements IGroupElementModel {
@@ -56,11 +56,10 @@ public abstract class GroupElement extends DesignElement implements IGroupElemen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	@Override
 	public ContainerSlot getSlot(int slot) {
 		assert slot >= 0 && slot < SLOT_COUNT;
 		return slots[slot];
@@ -69,15 +68,15 @@ public abstract class GroupElement extends DesignElement implements IGroupElemen
 	/**
 	 * Returns the level of this group within the list. The grouping level is cached
 	 * for performance.
-	 *
+	 * 
 	 * @return the 1-based grouping level of this group
 	 */
 
 	public int getGroupLevel() {
 		DesignElement container = getContainer();
-		if (container == null) {
+		if (container == null)
 			groupLevel = LEVEL_NOT_SET;
-		} else {
+		else {
 			groupLevel = getContainerInfo().indexOf(this) + 1;
 		}
 		return groupLevel;
@@ -85,12 +84,11 @@ public abstract class GroupElement extends DesignElement implements IGroupElemen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module) {
 		List<SemanticException> list = super.validate(module);
 
@@ -104,12 +102,11 @@ public abstract class GroupElement extends DesignElement implements IGroupElemen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
 	 */
 
-	@Override
 	protected String getNameForDisplayLabel() {
 		// This getting is not relative to design.
 
@@ -119,41 +116,37 @@ public abstract class GroupElement extends DesignElement implements IGroupElemen
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getFactoryProperty(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	@Override
 	public Object getFactoryProperty(Module module, ElementPropertyDefn prop) {
-		if (!prop.isStyleProperty()) {
+		if (!prop.isStyleProperty())
 			return super.getFactoryProperty(module, prop);
-		}
 
 		return getStrategy().getPropertyFromElement(module, this, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#canDrop(org.eclipse.
 	 * birt.report.model.core.Module)
 	 */
 
-	@Override
 	public boolean canDrop(Module module) {
 		boolean retValue = super.canDrop(module);
-		if (!retValue) {
+		if (!retValue)
 			return retValue;
-		}
 
 		return !isReferredDataGroup(module);
 	}
 
 	/**
 	 * Checks whether the group refers to groups in the other listing element.
-	 *
+	 * 
 	 * @param module the root of the group element
 	 * @return <code>true</code> if the group shares data with other groups.
 	 *         Otherwise <code>false</code>.
@@ -161,14 +154,12 @@ public abstract class GroupElement extends DesignElement implements IGroupElemen
 
 	private boolean isReferredDataGroup(Module module) {
 		ListingElement tmpContainer = (ListingElement) getContainer();
-		if (tmpContainer == null) {
+		if (tmpContainer == null)
 			return false;
-		}
 
 		return tmpContainer.isDataBindingReferring(module);
 	}
 
-	@Override
 	public void setName(String name) {
 		this.setProperty(GROUP_NAME_PROP, name);
 	}

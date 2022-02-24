@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -35,31 +35,26 @@ public final class ChartReportItemPresentationAxisImpl extends ChartReportItemPr
 
 	private static IDataRowExpressionEvaluator DUMMY_AXIS_CHART_EVALUATOR = new IDataRowExpressionEvaluator() {
 
-		@Override
 		public void close() {
 
 		}
 
-		@Override
 		public Object evaluate(String expression) {
 			// Always return null since shared scale will be used to render axis
 			// chart
 			return null;
 		}
 
-		@Override
 		@SuppressWarnings("deprecation")
 		public Object evaluateGlobal(String expression) {
 			return null;
 		}
 
-		@Override
 		public boolean first() {
 			// Only one row of null data
 			return true;
 		}
 
-		@Override
 		public boolean next() {
 			return false;
 		}
@@ -87,7 +82,6 @@ public final class ChartReportItemPresentationAxisImpl extends ChartReportItemPr
 		setChartModelObject(item);
 	}
 
-	@Override
 	protected Bounds computeBounds() throws ChartException {
 		final Bounds originalBounds = cm.getBlock().getBounds();
 
@@ -135,7 +129,6 @@ public final class ChartReportItemPresentationAxisImpl extends ChartReportItemPr
 		return bounds;
 	}
 
-	@Override
 	protected void updateChartModel() {
 		super.updateChartModel();
 

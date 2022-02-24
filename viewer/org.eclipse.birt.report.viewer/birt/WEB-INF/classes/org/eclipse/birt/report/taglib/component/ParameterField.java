@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004-2008 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -67,8 +67,8 @@ public class ParameterField extends ParamValueField implements Serializable {
 	private List<String> attributeDisplayTexts;
 
 	public ParameterField() {
-		externalValues = new ArrayList<>();
-		externalDisplayTexts = new ArrayList<>();
+		externalValues = new ArrayList<Object>();
+		externalDisplayTexts = new ArrayList<String>();
 		attributeValues = null;
 		attributeDisplayTexts = null;
 		delimiter = DEFAULT_DELIMITER;
@@ -76,7 +76,7 @@ public class ParameterField extends ParamValueField implements Serializable {
 
 	/**
 	 * validate parameter
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean validate() {
@@ -116,14 +116,12 @@ public class ParameterField extends ParamValueField implements Serializable {
 	 */
 	public boolean isLocale() {
 		// Set isLocale attribute
-		if (this.isLocale != null) {
-			return Boolean.parseBoolean(isLocale);
-		}
+		if (this.isLocale != null)
+			return Boolean.valueOf(isLocale).booleanValue();
 
 		// If set pattern, return true
-		if (this.pattern != null) {
+		if (this.pattern != null)
 			return true;
-		}
 
 		return false;
 	}
@@ -137,7 +135,7 @@ public class ParameterField extends ParamValueField implements Serializable {
 
 	/**
 	 * Sets the delimiters when specifying multiple values.
-	 *
+	 * 
 	 * @param delim delimiter
 	 */
 	public void setDelim(String delim) {
@@ -153,7 +151,7 @@ public class ParameterField extends ParamValueField implements Serializable {
 
 	/**
 	 * Adds a value to the value list.
-	 *
+	 * 
 	 * @param value
 	 */
 	public void addValue(ParamValueField valueField) {
@@ -167,7 +165,7 @@ public class ParameterField extends ParamValueField implements Serializable {
 	/**
 	 * Returns the values. The values added by addValue() have priority over the
 	 * ones defined by setValue().
-	 *
+	 * 
 	 * @return values collection
 	 */
 	public Collection<Object> getValues() {
@@ -184,7 +182,7 @@ public class ParameterField extends ParamValueField implements Serializable {
 	/**
 	 * Returns the display texts. The display texts added by addValue() have
 	 * priority over the ones defined by setDisplayText().
-	 *
+	 * 
 	 * @return display texts collection
 	 */
 	public Collection<String> getDisplayTexts() {
@@ -220,7 +218,7 @@ public class ParameterField extends ParamValueField implements Serializable {
 	 * Extract values from the given value object. If the value object is already a
 	 * collection, return it. If the value object is a string, split using the
 	 * delimiter. Else, consider the object as a single value.
-	 *
+	 * 
 	 * @param value value object
 	 * @return collection based on the value object
 	 */
@@ -241,7 +239,7 @@ public class ParameterField extends ParamValueField implements Serializable {
 
 	/**
 	 * Same as extractValues() but only with strings.
-	 *
+	 * 
 	 * @see #extractValues(Object)
 	 */
 	private List<String> extractStringValues(Object value) {

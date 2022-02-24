@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public class CharSegment {
 
 	/**
 	 * merge the two segments, the mergedSegs must be sorted
-	 *
+	 * 
 	 * @param mergedSegs
 	 * @return
 	 */
@@ -142,17 +142,19 @@ public class CharSegment {
 						tgt.add(new CharSegment(start2, end1, seg2.name));
 						break;
 					}
-				} else if (end2 <= end1) {
-					// ____S1____E1__
-					// __S2____E2____
-					tgt.add(new CharSegment(start1, end2, seg2.name));
-					index2++;
-					continue;
 				} else {
-					// _____S1____E1____
-					// __S2__________E2_
-					tgt.add(new CharSegment(start1, end1, seg2.name));
-					break;
+					if (end2 <= end1) {
+						// ____S1____E1__
+						// __S2____E2____
+						tgt.add(new CharSegment(start1, end2, seg2.name));
+						index2++;
+						continue;
+					} else {
+						// _____S1____E1____
+						// __S2__________E2_
+						tgt.add(new CharSegment(start1, end1, seg2.name));
+						break;
+					}
 				}
 			}
 			// insert the seg1
@@ -186,7 +188,6 @@ public class CharSegment {
 
 	static class SortingComparator implements Comparator {
 
-		@Override
 		public int compare(Object arg0, Object arg1) {
 			CharSegment seg0 = (CharSegment) arg0;
 			CharSegment seg1 = (CharSegment) arg1;
@@ -196,7 +197,6 @@ public class CharSegment {
 
 	static class SearchingComparator implements Comparator {
 
-		@Override
 		public int compare(Object arg0, Object arg1) {
 			CharSegment seg = (CharSegment) arg0;
 			int c = ((Integer) arg1).intValue();
@@ -210,9 +210,8 @@ public class CharSegment {
 		}
 	}
 
-	@Override
 	public String toString() {
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		if (start == end) {
 			buffer.append(start);
 		} else {

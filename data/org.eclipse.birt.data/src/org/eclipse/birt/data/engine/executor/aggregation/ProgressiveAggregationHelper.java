@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
- *
+ * 
  */
 
 public class ProgressiveAggregationHelper implements IProgressiveAggregationHelper {
@@ -85,7 +85,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
 	 * aggregateTable
-	 *
+	 * 
 	 * @param aggrTable
 	 * @param odiResult
 	 * @throws DataException
@@ -95,7 +95,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		this.columnBindings = columnBindings;
 		this.manager = manager;
 		this.currentRoundAggrValue = new List[0];
-		this.accumulators = new ArrayList<>();
+		this.accumulators = new ArrayList<Accumulator>();
 		this.sc = sc;
 		try {
 			this.currentScope = ((IDataScriptEngine) this.sc.getScriptEngine(IDataScriptEngine.ENGINE_NAME))
@@ -112,7 +112,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	}
 
 	private void populateAggregations(String tempDir) throws DataException {
-		this.aggrNames = new HashSet<>();
+		this.aggrNames = new HashSet<String>();
 		this.currentAggrCount = manager.getAggrCount();
 		if (currentAggrCount > 0) {
 			currentRoundAggrValue = new List[currentAggrCount];
@@ -132,12 +132,11 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.aggregation.
 	 * IProgressiveAggregationHelper#onRow(int, int,
 	 * org.eclipse.birt.data.engine.odi.IResultObject, int)
 	 */
-	@Override
 	public void onRow(int startingGroupLevel, int endingGroupLevel, IResultObject ro, int currentRowIndex)
 			throws DataException {
 		this.jsRow.currentRow = ro;
@@ -149,18 +148,17 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.aggregation.
 	 * IProgressiveAggregationHelper#close()
 	 */
-	@Override
 	public void close() throws DataException {
 		this.currentScope.delete("row");
 	}
 
 	/**
 	 * Calculate the value by row
-	 *
+	 * 
 	 * @param aggrIndex
 	 * @param startingGroupLevel
 	 * @param endingGroupLevel
@@ -184,11 +182,11 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 			try {
 				Object filterResult = ExprEvaluateUtil.evaluateValue(aggrInfo.getFilter(), currentRowIndex, ro,
 						this.currentScope, this.sc);
-				if (filterResult == null) {
+				if (filterResult == null)
 					accepted = true;
-				} else {
+				else
+
 					accepted = DataTypeUtil.toBoolean(filterResult).booleanValue();
-				}
 			} catch (BirtException e) {
 				currentRoundAggrValue[aggrIndex].add(e);
 			}
@@ -255,7 +253,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 
 	/**
 	 * Checks whether the arguments number is valid
-	 *
+	 * 
 	 * @param aggrArgNumb
 	 * @param argDefsLength
 	 * @param optionalNum
@@ -267,7 +265,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 
 	/**
 	 * Check whether the input aggregation script expression is empty
-	 *
+	 * 
 	 * @param aggrInfo
 	 * @return
 	 */
@@ -278,8 +276,24 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	}
 
 	/**
+	 * Check whether the number of the aggregation arguments is valid
+	 * 
+	 * @param aggrInfo
+	 * @param argDefs
+	 * @return
+	 */
+	private boolean isInvalidArgumentNum(IAggrInfo aggrInfo, IParameterDefn[] argDefs) {
+		if (aggrInfo.getArgument() == null) {
+
+		}
+		// if input argument is null or the
+		return aggrInfo.getArgument() == null || ((aggrInfo.getArgument().length != argDefs.length)
+				&& !((aggrInfo.getArgument().length == (argDefs.length - 1)) && argDefs[0].isOptional()));
+	}
+
+	/**
 	 * Get the evaluated result by the ScriptExpression
-	 *
+	 * 
 	 * @param aggrIndex
 	 * @param aggrInfo
 	 * @param i
@@ -311,7 +325,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 
 	/**
 	 * Checks whether the ScriptExpression has empty expression text
-	 *
+	 * 
 	 * @param argExpr
 	 * @return
 	 */
@@ -334,47 +348,42 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.aggregation.
 	 * IProgressiveAggregationHelper#getLatestAggrValue(java.lang.String)
 	 */
-	@Override
 	public Object getLatestAggrValue(String name) throws DataException {
 		List currentValues = this.currentRoundAggrValue[this.manager.getAggrDefnIndex(name)];
-		if (currentValues.isEmpty()) {
+		if (currentValues.isEmpty())
 			return null;
-		}
 		return currentValues.get(currentValues.size() - 1);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.aggregation.
 	 * IProgressiveAggregationHelper#getAggrValue(java.lang.String,
 	 * org.eclipse.birt.data.engine.odi.IResultIterator)
 	 */
-	@Override
 	public Object getAggrValue(String name, IResultIterator ri) throws DataException {
 		IAggrInfo aggrInfo = this.manager.getAggrDefn(name);
-		if (this.currentRoundAggrValue[this.manager.getAggrDefnIndex(name)].isEmpty()) {
+		if (this.currentRoundAggrValue[this.manager.getAggrDefnIndex(name)].isEmpty())
 			return this.manager.getAggrDefn(name).getAggregation().getDefaultValue();
-			/*
-			 * if ( this.populator.getCache( ).getCount( ) == 0 ) { return
-			 * aggrInfo.getAggregation( ).getDefaultValue( ); }
-			 */
-		}
+		/*
+		 * if ( this.populator.getCache( ).getCount( ) == 0 ) { return
+		 * aggrInfo.getAggregation( ).getDefaultValue( ); }
+		 */
 
 		try {
 			int groupIndex;
 
 			if (aggrInfo.getAggregation().getType() == IAggrFunction.SUMMARY_AGGR) {
 				// Aggregate on the whole list: there is only one group
-				if (aggrInfo.getGroupLevel() == 0) {
+				if (aggrInfo.getGroupLevel() == 0)
 					groupIndex = 0;
-				} else {
+				else
 					groupIndex = ri.getCurrentGroupIndex(aggrInfo.getGroupLevel());
-				}
 			} else {
 				groupIndex = ri.getCurrentResultIndex();
 			}
@@ -388,48 +397,43 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.aggregation.
 	 * IProgressiveAggregationHelper#getAggrValues(java.lang.String)
 	 */
-	@Override
 	public List getAggrValues(String name) throws DataException {
 		return this.currentRoundAggrValue[this.manager.getAggrDefnIndex(name)];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.aggregation.
 	 * IProgressiveAggregationHelper#hasAggr(java.lang.String)
 	 */
-	@Override
 	public boolean hasAggr(String name) throws DataException {
 		return this.manager.getAggrDefnIndex(name) != -1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.aggregation.
 	 * IProgressiveAggregationHelper#getAggrNames()
 	 */
-	@Override
 	public Set<String> getAggrNames() throws DataException {
 		return this.aggrNames;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.aggregation.
 	 * IProgressiveAggregationHelper#getAggrInfo(java.lang.String)
 	 */
-	@Override
 	public IAggrInfo getAggrInfo(String aggrName) throws DataException {
-		if (this.hasAggr(aggrName)) {
+		if (this.hasAggr(aggrName))
 			return this.manager.getAggrDefn(aggrName);
-		}
 		return null;
 	}
 
@@ -441,7 +445,6 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		 * @see org.mozilla.javascript.ScriptableObject#get(int,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public Object get(int index, Scriptable start) {
 			return this.get(String.valueOf(index), start);
 		}
@@ -450,27 +453,23 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public Object get(String name, Scriptable start) {
 			try {
 				if (ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase(name)) {
-					if (helper.getParent() != null) {
+					if (helper.getParent() != null)
 						return helper.getParent().getScriptable();
-					} else {
+					else
 						throw Context.reportRuntimeError(
 								DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
-					}
 				}
-				if (this.currentRow != null) {
+				if (this.currentRow != null)
 					return this.currentRow.getFieldValue(name);
-				}
 			} catch (DataException e) {
 				return null;
 			}
 			return null;
 		}
 
-		@Override
 		public String getClassName() {
 			return "dataSetRow";
 		}
@@ -484,7 +483,6 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		 * @see org.mozilla.javascript.ScriptableObject#get(int,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public Object get(int index, Scriptable start) {
 			return this.get(String.valueOf(index), start);
 		}
@@ -493,16 +491,14 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public Object get(String name, Scriptable start) {
 			try {
 				if (ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase(name)) {
-					if (helper.getParent() != null) {
+					if (helper.getParent() != null)
 						return helper.getParent().getScriptable();
-					} else {
+					else
 						throw Context.reportRuntimeError(
 								DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
-					}
 				}
 				IBinding binding = (IBinding) columnBindings.get(name);
 				IBaseExpression dataExpr = binding.getExpression();

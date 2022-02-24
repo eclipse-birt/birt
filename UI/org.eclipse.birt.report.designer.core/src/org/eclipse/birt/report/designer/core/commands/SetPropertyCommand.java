@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,8 +29,8 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * This command set a generic property on a model object
- *
- *
+ * 
+ * 
  */
 
 public class SetPropertyCommand extends Command {
@@ -50,7 +50,6 @@ public class SetPropertyCommand extends Command {
 	 * executable.
 	 */
 
-	@Override
 	public void execute() {
 		if (DesignerConstants.TRACING_COMMANDS) {
 			System.out.println("SetPropertyCommand >> Starts ..."); //$NON-NLS-1$
@@ -61,8 +60,8 @@ public class SetPropertyCommand extends Command {
 
 			for (Iterator it = elementProperties.iterator(); it.hasNext();) {
 				String key = ((IElementPropertyDefn) it.next()).getName();
-				Object value = extendsData.get(DEUtil.getGUIPropertyKey(key));
-				if (value != null) {
+				Object value = null;
+				if ((value = extendsData.get(DEUtil.getGUIPropertyKey(key))) != null) {
 					if (DesignerConstants.TRACING_COMMANDS) {
 						System.out.println("SetPropertyCommand >>  Target: " //$NON-NLS-1$
 								+ DEUtil.getDisplayLabel(handle) + ",Property: " //$NON-NLS-1$

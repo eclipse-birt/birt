@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ public class CommandExpressionUtil {
 
 	/**
 	 * Fetch the string text from the file with the given file name.
-	 *
+	 * 
 	 * @param fileName
 	 * @return
 	 * @throws IOException
@@ -36,14 +36,14 @@ public class CommandExpressionUtil {
 
 	/**
 	 * Fetch the string text from the given file.
-	 *
+	 * 
 	 * @param file
 	 * @return
 	 * @throws IOException
 	 */
 	public static String getCommandExpressionText(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
-		StringBuilder buffer = new StringBuilder((int) file.length());
+		StringBuffer buffer = new StringBuffer((int) file.length());
 		String line;
 		while ((line = reader.readLine()) != null) {
 			buffer.append(line).append("\n"); //$NON-NLS-1$
@@ -55,7 +55,7 @@ public class CommandExpressionUtil {
 
 	/**
 	 * Export the string text to the file with the specified file name.
-	 *
+	 * 
 	 * @param fileName
 	 * @param text
 	 * @return

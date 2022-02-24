@@ -18,7 +18,7 @@ import java.io.OutputStream;
 
 /**
  * Entry inside an ODF package.
- *
+ * 
  * @see Package
  */
 public class PackageEntry {

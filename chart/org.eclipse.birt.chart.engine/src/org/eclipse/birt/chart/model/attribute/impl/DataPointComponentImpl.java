@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -48,7 +48,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -58,7 +58,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -68,7 +68,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 	/**
 	 * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -78,7 +78,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format
 	 * Specifier</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -88,7 +88,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 	/**
 	 * The default value of the '{@link #getOrthogonalType() <em>Orthogonal
 	 * Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getOrthogonalType()
 	 * @generated
 	 * @ordered
@@ -98,7 +98,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 	/**
 	 * The cached value of the '{@link #getOrthogonalType() <em>Orthogonal
 	 * Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getOrthogonalType()
 	 * @generated
 	 * @ordered
@@ -108,7 +108,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 	/**
 	 * This is true if the Orthogonal Type attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -116,7 +116,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected DataPointComponentImpl() {
@@ -125,7 +125,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -135,71 +135,64 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public DataPointComponentType getType() {
 		return type;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setType(DataPointComponentType newType) {
 		DataPointComponentType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		boolean oldTypeESet = typeESet;
 		typeESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT_COMPONENT__TYPE, oldType,
 					type, !oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetType() {
 		DataPointComponentType oldType = type;
 		boolean oldTypeESet = typeESet;
 		type = TYPE_EDEFAULT;
 		typeESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATA_POINT_COMPONENT__TYPE,
 					oldType, TYPE_EDEFAULT, oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetType() {
 		return typeESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public FormatSpecifier getFormatSpecifier() {
 		return formatSpecifier;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs) {
@@ -208,101 +201,89 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setFormatSpecifier(FormatSpecifier newFormatSpecifier) {
 		if (newFormatSpecifier != formatSpecifier) {
 			NotificationChain msgs = null;
-			if (formatSpecifier != null) {
+			if (formatSpecifier != null)
 				msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, null, msgs);
-			}
-			if (newFormatSpecifier != null) {
+			if (newFormatSpecifier != null)
 				msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, null, msgs);
-			}
 			msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, newFormatSpecifier, newFormatSpecifier));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getOrthogonalType() {
 		return orthogonalType;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setOrthogonalType(String newOrthogonalType) {
 		String oldOrthogonalType = orthogonalType;
 		orthogonalType = newOrthogonalType;
 		boolean oldOrthogonalTypeESet = orthogonalTypeESet;
 		orthogonalTypeESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.DATA_POINT_COMPONENT__ORTHOGONAL_TYPE, oldOrthogonalType, orthogonalType,
 					!oldOrthogonalTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetOrthogonalType() {
 		String oldOrthogonalType = orthogonalType;
 		boolean oldOrthogonalTypeESet = orthogonalTypeESet;
 		orthogonalType = ORTHOGONAL_TYPE_EDEFAULT;
 		orthogonalTypeESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.DATA_POINT_COMPONENT__ORTHOGONAL_TYPE, oldOrthogonalType, ORTHOGONAL_TYPE_EDEFAULT,
 					oldOrthogonalTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetOrthogonalType() {
 		return orthogonalTypeESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -316,7 +297,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -334,7 +315,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -355,7 +336,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -376,7 +357,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -394,28 +375,25 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (type: "); //$NON-NLS-1$
-		if (typeESet) {
+		if (typeESet)
 			result.append(type);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", orthogonalType: "); //$NON-NLS-1$
-		if (orthogonalTypeESet) {
+		if (orthogonalTypeESet)
 			result.append(orthogonalType);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -423,9 +401,9 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 	/**
 	 * A convenience methods provided to create an initialized DataPointComponent
 	 * instance
-	 *
+	 * 
 	 * NOTE: Manually written
-	 *
+	 * 
 	 * @param dpct
 	 * @param fs
 	 * @return
@@ -440,7 +418,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 	/**
 	 * @generated
 	 */
-	@Override
 	public DataPointComponent copyInstance() {
 		DataPointComponentImpl dest = new DataPointComponentImpl();
 		dest.set(this);

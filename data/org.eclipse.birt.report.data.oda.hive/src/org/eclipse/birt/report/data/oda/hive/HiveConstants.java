@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -29,20 +29,18 @@ public class HiveConstants {
 	/**
 	 * @deprecated since 4.2.3; replaced by {@link HS1_DEFAULT_URL}
 	 */
-	@Deprecated
 	public static final String DRIVER_URL = "jdbc:hive://localhost:10000/default"; //$NON-NLS-1$
 
 	/**
 	 * @deprecated since 4.2.3; replaced by {@link HS1_JDBC_DRIVER_CLASS}
 	 */
-	@Deprecated
 	public static final String HIVE_DRIVER_CLASS = "org.apache.hadoop.hive.jdbc.HiveDriver"; //$NON-NLS-1$
 
 	public static final String HIVE_ADD_FILE_PROPERTY = "addListFile"; //$NON-NLS-1$
 
 	/**
 	 * Support for HiveServer1 and HiveServer2
-	 *
+	 * 
 	 * @since 4.2.3
 	 */
 	public static final String HS1_JDBC_DRIVER_CLASS = HIVE_DRIVER_CLASS;
@@ -60,7 +58,7 @@ public class HiveConstants {
 	/**
 	 * Formats the specified JDBC connection URL string to adopt the HiveServer1
 	 * protocol.
-	 *
+	 * 
 	 * @param dbURL a JDBC connection URL
 	 * @return JDBC connection URL formatted with the HiveServer1 protocol
 	 */
@@ -71,7 +69,7 @@ public class HiveConstants {
 	/**
 	 * Formats the specified JDBC connection URL string to adopt the HiveServer2
 	 * protocol.
-	 *
+	 * 
 	 * @param dbURL a JDBC connection URL
 	 * @return JDBC connection URL formatted with the HiveServer2 protocol
 	 */
@@ -80,20 +78,17 @@ public class HiveConstants {
 	}
 
 	private static String resetURLProtocol(String dbURL, final String toProtocol) {
-		if (dbURL == null) {
+		if (dbURL == null)
 			return dbURL; // nothing to format
-		}
 
 		String trimmedURL = dbURL.trim();
-		if (trimmedURL.length() == 0 || trimmedURL.startsWith(toProtocol)) {
+		if (trimmedURL.length() == 0 || trimmedURL.startsWith(toProtocol))
 			return trimmedURL; // empty, or already has requested protocol
-		}
 
 		// replace existing URL protocol, if exists
 		int slashIndex = trimmedURL.indexOf("//"); //$NON-NLS-1$
-		if (slashIndex >= 0) {
+		if (slashIndex >= 0)
 			return toProtocol + trimmedURL.substring(slashIndex);
-		}
 
 		return trimmedURL; // return as is, trimmed
 	}

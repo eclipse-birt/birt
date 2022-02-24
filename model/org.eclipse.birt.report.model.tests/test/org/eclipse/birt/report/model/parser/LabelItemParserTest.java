@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,7 +63,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
  * <td width="34%">new value should be save into the output file.</td>
  * </tr>
  * </table>
- *
+ * 
  */
 
 public class LabelItemParserTest extends ParserTestCase {
@@ -82,7 +82,7 @@ public class LabelItemParserTest extends ParserTestCase {
 
 	/**
 	 * Tests Label element in the PageSetup and Body slots.
-	 *
+	 * 
 	 * @throws Exception if opening design file failed.
 	 */
 
@@ -206,7 +206,7 @@ public class LabelItemParserTest extends ParserTestCase {
 	/**
 	 * This test sets properties, writes the design file and compares it with golden
 	 * file.
-	 *
+	 * 
 	 * @throws Exception if opening or saving design file failed.
 	 */
 
@@ -269,7 +269,7 @@ public class LabelItemParserTest extends ParserTestCase {
 
 	/**
 	 * Test semantic errors.
-	 *
+	 * 
 	 */
 
 	public void testSemanticCheck() {
@@ -285,7 +285,7 @@ public class LabelItemParserTest extends ParserTestCase {
 
 	/**
 	 * Returns a lable handle by reading a label in design file.
-	 *
+	 * 
 	 * @return a label handle.
 	 * @throws Exception if opening design file failed.
 	 */

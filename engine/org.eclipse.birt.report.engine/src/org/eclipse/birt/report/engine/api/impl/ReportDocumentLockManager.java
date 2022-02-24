@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,9 +22,9 @@ import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
 
 /**
  * The locker manager used by the system.
- *
+ * 
  * The user should register the lock mangager to the report engine.
- *
+ * 
  */
 public class ReportDocumentLockManager implements IReportDocumentLockManager {
 
@@ -45,17 +45,18 @@ public class ReportDocumentLockManager implements IReportDocumentLockManager {
 	private ReportDocumentLockManager() {
 	}
 
-	@Override
 	public IReportDocumentLock lock(String document) throws BirtException {
 		return null;
 	}
 
 	private static class InternalLock implements IReportDocumentLock {
 
+		String document;
+
 		InternalLock(String document) {
+			this.document = document;
 		}
 
-		@Override
 		public void unlock() {
 		}
 	}
@@ -67,7 +68,6 @@ public class ReportDocumentLockManager implements IReportDocumentLockManager {
 		InternalLockManager() {
 		}
 
-		@Override
 		public IReportDocumentLock lock(String document) throws BirtException {
 			synchronized (this) {
 				IReportDocumentLock lock = (IReportDocumentLock) locks.get(document);

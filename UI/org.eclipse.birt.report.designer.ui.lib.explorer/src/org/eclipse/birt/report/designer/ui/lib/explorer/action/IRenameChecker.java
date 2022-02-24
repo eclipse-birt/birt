@@ -17,11 +17,11 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 import java.io.File;
 
 /**
- *
+ * 
  */
 
 public interface IRenameChecker {
 
-	boolean renameCheck(File file);
+	public boolean renameCheck(File file);
 
 }

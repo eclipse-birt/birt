@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- *
+ * 
  */
 
 public class CrosstabPageBreakDialog extends BaseDialog {
@@ -110,11 +110,10 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	protected Control createContents(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.INSERT_EDIT_PAGE_BREAK_DIALOG_ID);
 
@@ -170,11 +169,10 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 			if (axis == ICrosstabConstants.ROW_AXIS_TYPE && levelHandle.getPageBreakInside() != null) {
 				pageBreakInsideCombo.select(getPageBreakIndex(levelHandle.getPageBreakInside(), PAGE_BREAK_INSIDE));
 			}
-			if (levelHandle.getModelHandle().getProperty(ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP) != null) {
+			if (levelHandle.getModelHandle().getProperty(ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP) != null)
 				intervalText.setText(Integer.toString(levelHandle.getPageBreakInterval()));
-			} else {
+			else
 				intervalText.setText(""); //$NON-NLS-1$
-			}
 		} else {
 			levelCombo.setItems(getLevelNames(reportItemHandle, axis));
 			levelCombo.setEnabled(true);
@@ -195,7 +193,6 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	@Override
 	protected void okPressed() {
 
 		CommandStack stack = getActionStack();
@@ -210,9 +207,8 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 			}
 			if (intervalText.getText().trim().length() == 0) {
 				level.getModelHandle().setProperty(ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP, null);
-			} else {
+			} else
 				level.setPageBreakInterval(Integer.parseInt(intervalText.getText().trim()));
-			}
 			stack.commit();
 		} catch (SemanticException e) {
 			// TODO Auto-generated catch block
@@ -298,7 +294,6 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 
 		titleArea.addPaintListener(new PaintListener() {
 
-			@Override
 			public void paintControl(PaintEvent e) {
 				e.gc.setForeground(titleArea.getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW));
 				Rectangle bounds = titleArea.getClientArea();
@@ -332,6 +327,27 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 		}
 
 		return retArray;
+
+	}
+
+	private String getPageBreakDisplayName(String name, int type) {
+		IChoice[][] pageBreakChoices = new IChoice[3][];
+		pageBreakChoices[0] = pagebreakBeforeChoicesAll;
+		pageBreakChoices[1] = pagebreakAfterChoicesAll;
+		pageBreakChoices[2] = pagebreakInsideChoicesAll;
+
+		if (type > 3 || type < 0) {
+			type = PAGE_BREAK_BEFORE;
+		}
+
+		for (int i = 0; i < pageBreakChoices[type].length; i++) {
+			if (pageBreakChoices[type][i].getName().equals(name)) {
+				return pageBreakChoices[type][i].getDisplayName();
+			}
+
+		}
+
+		return ""; //$NON-NLS-1$
 
 	}
 
@@ -390,9 +406,8 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 			DimensionViewHandle dimension = crosstabView.getDimension(i);
 			int levelCount = dimension.getLevelCount();
 			for (int j = 0; j < levelCount; j++) {
-				if (!isInLevelList(dimension.getLevel(j))) {
+				if (!isInLevelList(dimension.getLevel(j)))
 					list.add(dimension.getLevel(j).getCubeLevelName());
-				}
 			}
 		}
 
@@ -426,7 +441,11 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 	}
 
 	private boolean isConditionOK() {
-		if ((levelCombo.getSelectionIndex() == -1) || (pageBreakBeforeCombo.getSelectionIndex() == -1 && pageBreakAfterCombo.getSelectionIndex() == -1)) {
+		if (levelCombo.getSelectionIndex() == -1) {
+			return false;
+		}
+
+		if (pageBreakBeforeCombo.getSelectionIndex() == -1 && pageBreakAfterCombo.getSelectionIndex() == -1) {
 			return false;
 		}
 
@@ -472,7 +491,7 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 
 	/**
 	 * Refreshes the OK button state.
-	 *
+	 * 
 	 */
 	protected void updateButtons() {
 		getOkButton().setEnabled(isConditionOK());
@@ -480,7 +499,6 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 
 	protected Listener updateButtonListener = new Listener() {
 
-		@Override
 		public void handleEvent(Event event) {
 			updateButtons();
 
@@ -490,7 +508,6 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 
 	protected Listener numberVerifyListener = new Listener() {
 
-		@Override
 		public void handleEvent(Event e) {
 			// TODO Auto-generated method stub
 			Pattern pattern = Pattern.compile("[0-9]\\d*"); //$NON-NLS-1$
@@ -509,8 +526,7 @@ public class CrosstabPageBreakDialog extends BaseDialog {
 			}
 
 			try {
-				e.doit = true && Integer.parseInt(((Text) e.widget).getText() + e.text) >= 0;
-				if (e.doit) {
+				if (e.doit = true && Integer.parseInt(((Text) e.widget).getText() + e.text) >= 0) {
 					e.doit = true;
 				}
 			} catch (NumberFormatException e1) {

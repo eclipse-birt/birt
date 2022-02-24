@@ -30,7 +30,6 @@ public class OOXmlType implements ContentType {
 		this.part = part;
 	}
 
-	@Override
 	public void write(OOXmlWriter writer) {
 		writer.openTag("Override");
 		writer.attribute("PartName", part.getAbsoluteUri());
@@ -38,7 +37,6 @@ public class OOXmlType implements ContentType {
 		writer.closeTag("Overrrid");
 	}
 
-	@Override
 	public String toString() {
 		return type;
 	}

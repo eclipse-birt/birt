@@ -34,7 +34,6 @@ public class ArgumentInfo implements IArgumentInfo {
 	/*
 	 * @see org.eclipse.birt.report.data.adapter.api.IArgumentInfo#getName()
 	 */
-	@Override
 	public String getName() {
 		return this.name;
 	}
@@ -42,7 +41,6 @@ public class ArgumentInfo implements IArgumentInfo {
 	/*
 	 * @see org.eclipse.birt.report.data.adapter.api.IArgumentInfo#isOptional()
 	 */
-	@Override
 	public boolean isOptional() {
 		return this.isOptional;
 	}
@@ -50,7 +48,6 @@ public class ArgumentInfo implements IArgumentInfo {
 	/*
 	 * @see org.eclipse.birt.report.data.adapter.api.IArgumentInfo#getDescription()
 	 */
-	@Override
 	public String getDescription() {
 		return this.description;
 	}
@@ -59,14 +56,13 @@ public class ArgumentInfo implements IArgumentInfo {
 	 * @see
 	 * org.eclipse.birt.report.data.adapter.api.IArgumentInfo#getPeriodChoices()
 	 */
-	@Override
 	public List<Period_Type> getPeriodChoices() {
 		return this.periodType;
 	}
 
 	/**
 	 * set period choice for arguments
-	 *
+	 * 
 	 * @param type
 	 */
 	public void setPeriodChoices(List<Period_Type> type) {
@@ -76,7 +72,6 @@ public class ArgumentInfo implements IArgumentInfo {
 	/**
 	 * get display name for argument
 	 */
-	@Override
 	public String getDisplayName() {
 		return this.displayName;
 	}

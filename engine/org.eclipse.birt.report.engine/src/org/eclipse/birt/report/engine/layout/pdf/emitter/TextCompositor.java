@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -169,7 +169,7 @@ public class TextCompositor {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param textArea
 	 * @param words
 	 */
@@ -185,9 +185,9 @@ public class TextCompositor {
 
 	/**
 	 * layout a word, add the word to the line buffer.
-	 *
+	 * 
 	 * @param word the word
-	 *
+	 * 
 	 */
 	private void addWordIntoTextArea(TextArea textArea, Word word) {
 		// get the word's size
@@ -231,18 +231,18 @@ public class TextCompositor {
 		Hyphenation hyph = hm.getHyphenation(str);
 		FontInfo fi = area.getFontInfo();
 		if (area.getMaxWidth() < 0) {
-			addWordVestige(area, 1, getTextWidth(fi, hyph.getHyphenText(0, 1)), str.substring(1));
+			addWordVestige(area, 1, getTextWidth(fi, hyph.getHyphenText(0, 1)), str.substring(1, str.length()));
 			return;
 		}
 		int endHyphenIndex = hyphen(0, area.getMaxWidth() - area.getWidth(), hyph, fi);
 		// current line can't even place one character. Force to add the first
 		// character into the line.
 		if (endHyphenIndex == 0 && area.getWidth() == 0) {
-			addWordVestige(area, 1, getTextWidth(fi, hyph.getHyphenText(0, 1)), str.substring(1));
+			addWordVestige(area, 1, getTextWidth(fi, hyph.getHyphenText(0, 1)), str.substring(1, str.length()));
 		} else {
 			addWordVestige(area, endHyphenIndex,
 					getTextWidth(fi, hyph.getHyphenText(0, endHyphenIndex)) + letterSpacing * (endHyphenIndex - 1),
-					str.substring(endHyphenIndex));
+					str.substring(endHyphenIndex, str.length()));
 		}
 	}
 
@@ -257,7 +257,7 @@ public class TextCompositor {
 
 	/**
 	 * Gets the hyphenation index
-	 *
+	 * 
 	 * @param startIndex  the start index
 	 * @param width       the width of the free space
 	 * @param hyphenation the hyphenation

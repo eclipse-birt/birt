@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ class MultiViewsAPIProvider implements IMultiViewsModel {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param element  the element
 	 * @param propName the property name. Corresponding property value must be is a
 	 *                 subclass of <code>AbstractMultiViewHandle</code>.
@@ -62,13 +62,11 @@ class MultiViewsAPIProvider implements IMultiViewsModel {
 		this.element = element;
 		propertyName = propName;
 
-		if (this.element == null) {
+		if (this.element == null)
 			throw new IllegalArgumentException("Must provide a NON-NULL element."); //$NON-NLS-1$
-		}
 
-		if (propName == null) {
+		if (propName == null)
 			throw new IllegalArgumentException("Must provide the name for the views property."); //$NON-NLS-1$
-		}
 
 		IPropertyDefn propDefn = element.getPropertyDefn(propName);
 
@@ -79,27 +77,24 @@ class MultiViewsAPIProvider implements IMultiViewsModel {
 			return;
 		}
 
-		if (propDefn.getTypeCode() != IPropertyType.ELEMENT_TYPE) {
+		if (propDefn.getTypeCode() != IPropertyType.ELEMENT_TYPE)
 			throw new IllegalArgumentException("The views property must defined as element type."); //$NON-NLS-1$
-		}
 
 	}
 
 	/**
 	 * Returns the view that is being used.
-	 *
+	 * 
 	 * @return the view that is being used
 	 */
 
 	public DesignElementHandle getCurrentView() {
-		if (propertyName == null) {
+		if (propertyName == null)
 			return null;
-		}
 
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element.getProperty(propertyName);
-		if (multiView == null || multiView.getCurrentViewIndex() == MultiViewsHandle.HOST) {
+		if (multiView == null || multiView.getCurrentViewIndex() == MultiViewsHandle.HOST)
 			return null;
-		}
 
 		MultiViewsElementProvider subProvider = new MultiViewsElementProvider(multiView);
 		return subProvider.getCurrentView();
@@ -107,19 +102,17 @@ class MultiViewsAPIProvider implements IMultiViewsModel {
 
 	/**
 	 * Returns the view that is being used.
-	 *
+	 * 
 	 * @return the view that is being used
 	 */
 
 	public List getViews() {
-		if (propertyName == null) {
+		if (propertyName == null)
 			return Collections.EMPTY_LIST;
-		}
 
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element.getProperty(propertyName);
-		if (multiView == null) {
+		if (multiView == null)
 			return Collections.EMPTY_LIST;
-		}
 
 		MultiViewsElementProvider subProvider = new MultiViewsElementProvider(multiView);
 		return subProvider.getViews();
@@ -127,15 +120,14 @@ class MultiViewsAPIProvider implements IMultiViewsModel {
 
 	/**
 	 * Adds a new element as the view.
-	 *
+	 * 
 	 * @param viewElement the element
 	 * @throws SemanticException
 	 */
 
 	public void addView(DesignElementHandle viewElement) throws SemanticException {
-		if (propertyName == null) {
+		if (propertyName == null)
 			return;
-		}
 
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element.getProperty(propertyName);
 
@@ -159,20 +151,18 @@ class MultiViewsAPIProvider implements IMultiViewsModel {
 
 	/**
 	 * Deletes the given view.
-	 *
+	 * 
 	 * @param viewElement the element
 	 * @throws SemanticException
 	 */
 
 	public void dropView(DesignElementHandle viewElement) throws SemanticException {
-		if (propertyName == null) {
+		if (propertyName == null)
 			return;
-		}
 
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element.getProperty(propertyName);
-		if (multiView == null) {
+		if (multiView == null)
 			return;
-		}
 
 		MultiViewsElementProvider subProvider = new MultiViewsElementProvider(multiView);
 		subProvider.dropView(viewElement);
@@ -181,16 +171,15 @@ class MultiViewsAPIProvider implements IMultiViewsModel {
 	/**
 	 * Sets the index for the view to be used. If the given element is not in the
 	 * multiple view, it will be added and set as the active view.
-	 *
+	 * 
 	 * @param viewElement the view element
-	 *
+	 * 
 	 * @throws SemanticException if the given element resides in the other elements.
 	 */
 
 	public void setCurrentView(DesignElementHandle viewElement) throws SemanticException {
-		if (propertyName == null) {
+		if (propertyName == null)
 			return;
-		}
 
 		// if the viewElement is in the design tree and not in table, throw
 		// exception
@@ -264,13 +253,12 @@ class MultiViewsAPIProvider implements IMultiViewsModel {
 	/**
 	 * Determines whether this report item can add a view with the specified
 	 * extension type or not.
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean canAddView(String extensionType) {
-		if (propertyName == null) {
+		if (propertyName == null)
 			return false;
-		}
 
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element.getProperty(propertyName);
 		ModuleHandle module = element.getModuleHandle();
@@ -281,9 +269,8 @@ class MultiViewsAPIProvider implements IMultiViewsModel {
 		}
 
 		ExtendedItemHandle itemHandle = module.getElementFactory().newExtendedItem(null, extensionType);
-		if (itemHandle == null) {
+		if (itemHandle == null)
 			return false;
-		}
 		return multiView.canContain(IMultiViewsModel.VIEWS_PROP, itemHandle);
 
 	}

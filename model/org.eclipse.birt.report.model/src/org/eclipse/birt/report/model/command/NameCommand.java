@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Renames a design element.
- *
+ * 
  */
 
 public class NameCommand extends AbstractElementCommand {
@@ -73,7 +73,7 @@ public class NameCommand extends AbstractElementCommand {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param module the module
 	 * @param obj    the element to modify.
 	 */
@@ -84,7 +84,7 @@ public class NameCommand extends AbstractElementCommand {
 
 	/**
 	 * Sets the element name.
-	 *
+	 * 
 	 * @param name the new name.
 	 * @throws NameException if the element name is not allowed to change.
 	 */
@@ -95,15 +95,13 @@ public class NameCommand extends AbstractElementCommand {
 		// Ignore change to the current name.
 
 		String oldName = element.getName();
-		if ((name == null && oldName == null) || (name != null && oldName != null && name.equals(oldName))) {
+		if ((name == null && oldName == null) || (name != null && oldName != null && name.equals(oldName)))
 			return;
-		}
 
 		// ignore change to the dimension that refers a shared dimension
 		Dimension sharedDimension = TabularDimensionPropSearchStrategy.getSharedDimension(module, element);
-		if (sharedDimension != null && !sharedDimension.getName().equals(name)) {
+		if (sharedDimension != null && !sharedDimension.getName().equals(name))
 			return;
-		}
 
 		checkName(name);
 
@@ -154,7 +152,7 @@ public class NameCommand extends AbstractElementCommand {
 	/**
 	 * Checks the current element name. Done when adding a newly created element
 	 * where the element name is already set on the new element.
-	 *
+	 * 
 	 * @param name the name to check.
 	 * @throws NameException if the element name is not allowed to change.
 	 */
@@ -169,13 +167,15 @@ public class NameCommand extends AbstractElementCommand {
 			// Cannot clear the name when there are references. It would leave
 			// the dependents with no way to identify this element.
 
-			if (element.hasDerived() || element.hasReferences()) {
+			if (element.hasDerived() || element.hasReferences())
 				throw new NameException(element, null, NameException.DESIGN_EXCEPTION_HAS_REFERENCES);
-			}
 
 			// Cannot clear the name of an element when the name is required.
 
-			if ((metaData.getNameOption() == MetaDataConstants.REQUIRED_NAME) || ((module instanceof Library) && (element.getContainer() instanceof Library))) {
+			if (metaData.getNameOption() == MetaDataConstants.REQUIRED_NAME)
+				throw new NameException(element, null, NameException.DESIGN_EXCEPTION_NAME_REQUIRED);
+
+			if ((module instanceof Library) && (element.getContainer() instanceof Library)) {
 				throw new NameException(element, null, NameException.DESIGN_EXCEPTION_NAME_REQUIRED);
 			}
 		} else {
@@ -183,9 +183,8 @@ public class NameCommand extends AbstractElementCommand {
 			PropertyDefn propDefn = (PropertyDefn) metaData.getProperty(IDesignElementModel.NAME_PROP);
 
 			// no name is defined in this element
-			if (propDefn == null) {
+			if (propDefn == null)
 				throw new NameException(element, name, NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN);
-			}
 
 			try {
 				name = (String) propDefn.validateValue(module, element, name);
@@ -194,23 +193,27 @@ public class NameCommand extends AbstractElementCommand {
 			}
 
 			if (element instanceof StyleElement) {
-				if (!styleNamePattern.matcher(name).matches()) {
+				if (!styleNamePattern.matcher(name).matches())
 					throw new NameException(element, name, NameException.DESIGN_EXCEPTION_INVALID_STYLE_NAME);
-				}
 			}
 
 			// if it is a style in the theme, no need to check duplicate names.
 			// In the library, style names can be duplicate.
-			if (!isNameValidInContext(name)) {
+			if (!isNameValidInContext(name))
 				throw new NameException(element, name, NameException.DESIGN_EXCEPTION_DUPLICATE);
-			}
 
 			// Cannot set the name of an element when the name is not allowed.
+
+			if (metaData.getNameOption() == MetaDataConstants.NO_NAME)
+				// the element has name without namespace
+				return;
+//				throw new NameException( element, name,
+//						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 
 			// if the element is a pending node and not in any module, or it is
 			// in a slot that is not managed by namespace, then we need not
 			// check whether the name is duplicate
-			if ((metaData.getNameOption() == MetaDataConstants.NO_NAME) || !element.isManagedByNameSpace()) {
+			if (!element.isManagedByNameSpace()) {
 				return;
 			}
 
@@ -225,16 +228,15 @@ public class NameCommand extends AbstractElementCommand {
 			// a design tree(module) and the slot it exists is managed by
 			// namespace
 
-			if (existedElement != null) {
+			if (existedElement != null)
 				throw new NameException(element, name, NameException.DESIGN_EXCEPTION_DUPLICATE);
-			}
 
 		}
 	}
 
 	/**
 	 * Adds the element into its name space.
-	 *
+	 * 
 	 * @throws NameException if the element with the same name exists.
 	 */
 
@@ -260,9 +262,8 @@ public class NameCommand extends AbstractElementCommand {
 
 	private void addSymbol() {
 		String name = element.getName();
-		if (name == null) {
+		if (name == null)
 			return;
-		}
 
 		// add a style into theme
 		DesignElement container = element.getContainer();
@@ -271,9 +272,8 @@ public class NameCommand extends AbstractElementCommand {
 			return;
 		}
 
-		if (!element.isManagedByNameSpace()) {
+		if (!element.isManagedByNameSpace())
 			return;
-		}
 
 		assert element.getRoot() != null;
 
@@ -296,24 +296,22 @@ public class NameCommand extends AbstractElementCommand {
 	 */
 
 	private void dropSymbol() {
-		if (element.getName() == null || !element.isManagedByNameSpace()) {
+		if (element.getName() == null || !element.isManagedByNameSpace())
 			return;
-		}
 		NameExecutor executor = new NameExecutor(module, element);
 		INameHelper nameHelper = executor.getNameHelper();
 		if (nameHelper != null) {
 			String ns = executor.getNameSpaceId();
 			NameSpace namespace = executor.getNameSpace();
-			if (namespace.getElement(element.getName()) != element) {
+			if (namespace.getElement(element.getName()) != element)
 				return;
-			}
 			getActivityStack().execute(new NameSpaceRecord(nameHelper, ns, element, false));
 		}
 	}
 
 	/**
 	 * Renames the namespace when call {@link #setName(String)}.
-	 *
+	 * 
 	 * @param oldName the old name of the element
 	 */
 
@@ -330,7 +328,7 @@ public class NameCommand extends AbstractElementCommand {
 
 	/**
 	 * Checks whether the name is valid in the context.
-	 *
+	 * 
 	 * @param name the new name
 	 * @return <code>true</code> if the name is valid. Otherwise <code>false</code>.
 	 */
@@ -342,9 +340,8 @@ public class NameCommand extends AbstractElementCommand {
 				List<SemanticException> errors = ThemeStyleNameValidator.getInstance().validateForRenamingStyle(
 						(AbstractThemeHandle) tmpContainer.getHandle(module), (StyleHandle) element.getHandle(module),
 						name);
-				if (!errors.isEmpty()) {
+				if (!errors.isEmpty())
 					return false;
-				}
 			}
 		}
 
@@ -368,14 +365,16 @@ public class NameCommand extends AbstractElementCommand {
 						// the name is not put in name space, then simply rename
 						// it to the name of the shared element
 						setName(sharedName);
-					} else if (existedElement == element) {
-						// remove it from the name space and then rename it
-						getActivityStack().execute(new NameSpaceRecord(nameHelper, namespaceId, element, false));
-						setName(sharedName);
 					} else {
-						// do nothing and simply rename it to the name of
-						// the shared element
-						setName(sharedName);
+						if (existedElement == element) {
+							// remove it from the name space and then rename it
+							getActivityStack().execute(new NameSpaceRecord(nameHelper, namespaceId, element, false));
+							setName(sharedName);
+						} else {
+							// do nothing and simply rename it to the name of
+							// the shared element
+							setName(sharedName);
+						}
 					}
 				}
 			}
@@ -393,7 +392,7 @@ public class NameCommand extends AbstractElementCommand {
 	 * inherited as a whole, so when the value changed from a child element. This
 	 * method will be called to ensure that a local copy will be made, so change to
 	 * the child won't affect the original value in the parent.
-	 *
+	 * 
 	 * @param ref a reference to a list property or member.
 	 */
 
@@ -403,9 +402,8 @@ public class NameCommand extends AbstractElementCommand {
 
 		Object localValue = topElement.getLocalProperty(module, prop);
 
-		if (localValue != null) {
+		if (localValue != null)
 			return content;
-		}
 
 		// Make a local copy of the inherited list value.
 
@@ -413,15 +411,13 @@ public class NameCommand extends AbstractElementCommand {
 
 		// if the action is add, the inherited can be null.
 
-		if (inherited == null) {
+		if (inherited == null)
 			return null;
-		}
 
 		int index = -1;
 
-		if (content != null && inherited instanceof List) {
+		if (content != null && inherited instanceof List)
 			index = ((List) inherited).indexOf(content);
-		}
 
 		Object newValue = ModelUtil.copyValue(prop, inherited);
 		ActivityStack activityStack = module.getActivityStack();
@@ -444,9 +440,8 @@ public class NameCommand extends AbstractElementCommand {
 			activityStack.execute(propRecord);
 		}
 
-		if (index != -1) {
+		if (index != -1)
 			return (DesignElement) ((List) newValue).get(index);
-		}
 
 		return content;
 	}
@@ -462,7 +457,7 @@ public class NameCommand extends AbstractElementCommand {
 	 * inherited as a whole, so when the value changed from a child element. This
 	 * method will be called to ensure that a local copy will be made, so change to
 	 * the child won't affect the original value in the parent.
-	 *
+	 * 
 	 * @param ref a reference to a list property or member.
 	 */
 
@@ -493,9 +488,8 @@ public class NameCommand extends AbstractElementCommand {
 
 			if (stepPropDefn.isListType()) {
 				tmpElement = (DesignElement) ((List) stepValue).get(index);
-			} else {
+			} else
 				tmpElement = (DesignElement) stepValue;
-			}
 		}
 
 		return tmpElement;

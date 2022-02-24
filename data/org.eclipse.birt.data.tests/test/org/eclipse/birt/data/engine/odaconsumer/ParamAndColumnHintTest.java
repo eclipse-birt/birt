@@ -1,24 +1,21 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -28,10 +25,12 @@ import java.util.Properties;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.junit.After;
-import org.junit.Before;
 
 import testutil.JDBCOdaDataSource;
+
+import org.junit.After;
+import org.junit.Before;
+import static org.junit.Assert.*;
 
 /**
  * Tests the use of parameter hints and column hints.
@@ -55,12 +54,10 @@ public class ParamAndColumnHintTest extends OdaconsumerTestCase {
 		 * dropTimeDataTypeTableData();
 		 */
 
-		if (m_statement != null) {
+		if (m_statement != null)
 			m_statement.close();
-		}
-		if (m_connection != null) {
+		if (m_connection != null)
 			m_connection.close();
-		}
 	}
 
 	public final void testSetParamValueRetryWithParamHint() throws DataException {
@@ -226,13 +223,36 @@ public class ParamAndColumnHintTest extends OdaconsumerTestCase {
 	}
 
 	private Connection getLocalMySqlConnection() throws DataException {
-		if (m_connection != null) {
+		if (m_connection != null)
 			return m_connection;
-		}
 
 		m_connection = ConnectionManager.getInstance().openConnection(JDBCOdaDataSource.DATA_SOURCE_TYPE,
 				getLocalMySqlConnProperties(), null);
 		return m_connection;
+	}
+
+	private void createTimeDataTypeTableData() throws Exception {
+		java.sql.Connection conn = openMySqlConnection();
+		java.sql.Statement stmt = conn.createStatement();
+
+		// MySQL syntax
+		stmt.execute(
+				"create table IF NOT EXISTS acTimeDataTypes" + " ( acDate date, acTime time, acTimestamp timestamp )");
+		stmt.execute("insert into acTimeDataTypes values( " + "'2000-10-13' , '06:30:18', '2000-10-13 06:30:18' )");
+		stmt.execute("insert into acTimeDataTypes values( " + "'2001-11-13' , '03:30:28', '2001-11-13 03:30:28' )");
+
+		stmt.close();
+		conn.close();
+	}
+
+	private void dropTimeDataTypeTableData() throws Exception {
+		java.sql.Connection conn = openMySqlConnection();
+		java.sql.Statement stmt = conn.createStatement();
+
+		stmt.execute("drop table acTimeDataTypes");
+
+		stmt.close();
+		conn.close();
 	}
 
 	private java.sql.Connection openMySqlConnection() throws Exception {

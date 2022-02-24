@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -76,7 +76,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 	 */
 	protected Stack groupStack = new Stack();
 
-	protected HashMap<String, UnresolvedRowHint> hintMap = new HashMap<>();
+	protected HashMap<String, UnresolvedRowHint> hintMap = new HashMap<String, UnresolvedRowHint>();
 
 	protected boolean isFirst = true;
 
@@ -89,22 +89,18 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		this.context = context;
 	}
 
-	@Override
 	public void end(IReportContent report) throws BirtException {
 		emitter.end(report);
 	}
 
-	@Override
 	public String getOutputFormat() {
 		return emitter.getOutputFormat();
 	}
 
-	@Override
 	public void initialize(IEmitterServices service) throws BirtException {
 		emitter.initialize(service);
 	}
 
-	@Override
 	public void start(IReportContent report) throws BirtException {
 		emitter.start(report);
 	}
@@ -130,7 +126,6 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		return false;
 	}
 
-	@Override
 	public void startContent(IContent content) throws BirtException {
 		if (cellEmitter != null) {
 			ContentEmitterUtil.startContent(content, cellEmitter);
@@ -139,7 +134,6 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void endContent(IContent content) throws BirtException {
 		if (cellEmitter != null) {
 			ContentEmitterUtil.endContent(content, cellEmitter);
@@ -244,12 +238,10 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 			return cell;
 		}
 
-		@Override
 		public boolean isEmpty() {
 			return buffer == null || buffer.isEmpty();
 		}
 
-		@Override
 		public void reset() {
 			buffer = null;
 		}
@@ -323,18 +315,19 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		return nestTableCount > 1;
 	}
 
-	@Override
 	public void startTable(ITableContent table) throws BirtException {
 		nestTableCount++;
 		if (cellEmitter != null) {
 			cellEmitter.startTable(table);
-		} else if (!isNestTable()) {
-			UnresolvedRowHint hint = null;
-			initLayout(table);
-			emitter.startTable(layout.getWrappedTableContent());
-			this.lastRowId = -1;
 		} else {
-			emitter.startTable(table);
+			if (!isNestTable()) {
+				UnresolvedRowHint hint = null;
+				initLayout(table);
+				emitter.startTable(layout.getWrappedTableContent());
+				this.lastRowId = -1;
+			} else {
+				emitter.startTable(table);
+			}
 		}
 	}
 
@@ -358,21 +351,21 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void endTable(ITableContent table) throws BirtException {
 		if (cellEmitter != null) {
 			cellEmitter.endTable(table);
-		} else if (!isNestTable()) {
-			resolveAll(isContentFinished(table));
-			flush();
-			emitter.endTable(layout.getWrappedTableContent());
 		} else {
-			emitter.endTable(table);
+			if (!isNestTable()) {
+				resolveAll(isContentFinished(table));
+				flush();
+				emitter.endTable(layout.getWrappedTableContent());
+			} else {
+				emitter.endTable(table);
+			}
 		}
 		nestTableCount--;
 	}
 
-	@Override
 	public void startTableGroup(ITableGroupContent group) throws BirtException {
 		if (cellEmitter != null) {
 			cellEmitter.startTableGroup(group);
@@ -389,7 +382,6 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void endTableGroup(ITableGroupContent group) throws BirtException {
 		if (cellEmitter != null) {
 			cellEmitter.endTableGroup(group);
@@ -412,7 +404,6 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void startTableBand(ITableBandContent band) throws BirtException {
 		if (cellEmitter != null) {
 			cellEmitter.startTableBand(band);
@@ -432,7 +423,6 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void endTableBand(ITableBandContent band) throws BirtException {
 		if (cellEmitter != null) {
 			cellEmitter.endTableBand(band);
@@ -455,7 +445,6 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void startRow(IRowContent row) throws BirtException {
 		if (cellEmitter != null) {
 			cellEmitter.startRow(row);
@@ -504,7 +493,6 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void endRow(IRowContent row) throws BirtException {
 		if (cellEmitter != null) {
 			cellEmitter.endRow(row);
@@ -542,62 +530,65 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
-	@Override
 	public void startCell(ICellContent cell) throws BirtException {
 		if (cellEmitter != null) {
 			cellEmitter.startCell(cell);
-		} else if (!isNestTable()) {
-			BufferedReportEmitter buffer = null;
-			int colId = cell.getColumn();
-			int colSpan = cell.getColSpan();
-			int rowSpan = cell.getRowSpan();
+		} else {
+			if (!isNestTable()) {
+				BufferedReportEmitter buffer = null;
+				int colId = cell.getColumn();
+				int colSpan = cell.getColSpan();
+				int rowSpan = cell.getRowSpan();
 
-			// the current executed cell is rowIndex, columnIndex
-			// get the span value of that cell.
-			if (cell.getGenerateBy() instanceof CellDesign) {
-				CellDesign cellDesign = (CellDesign) cell.getGenerateBy();
-				if (cellDesign != null) {
-					String dropType = cellDesign.getDrop();
-					if (dropType != null && !"none".equals(dropType)) //$NON-NLS-1$
-					{
-						rowSpan = createDropID(getGroupLevel(), dropType);
+				// the current executed cell is rowIndex, columnIndex
+				// get the span value of that cell.
+				if (cell.getGenerateBy() instanceof CellDesign) {
+					CellDesign cellDesign = (CellDesign) cell.getGenerateBy();
+					if (cellDesign != null) {
+						String dropType = cellDesign.getDrop();
+						if (dropType != null && !"none".equals(dropType)) //$NON-NLS-1$
+						{
+							rowSpan = createDropID(getGroupLevel(), dropType);
+						}
 					}
 				}
-			}
 
-			// the table has no cache, the cell is the first drop or spanned cell
-			if (!hasDropCell() && (rowSpan < 0 || rowSpan > 1)) {
-				layoutEvents.push(new LayoutEvent(LayoutEvent.ON_FIRST_DROP_CELL,
-						new StartInfo(layout.getRowCount() - 1, colId)));
+				// the table has no cache, the cell is the first drop or spanned cell
+				if (!hasDropCell() && (rowSpan < 0 || rowSpan > 1)) {
+					layoutEvents.push(new LayoutEvent(LayoutEvent.ON_FIRST_DROP_CELL,
+							new StartInfo(layout.getRowCount() - 1, colId)));
+				}
+				if (hasDropCell() || rowSpan < 0 || rowSpan > 1) {
+					buffer = new BufferedReportEmitter(emitter);
+					cellEmitter = buffer;
+				}
+				// we need cache the cell
+				createCell(colId, rowSpan, colSpan, new CellContent(cell, buffer));
+				if (hasDropCell()) {
+					return;
+				}
+				// TODO: changes the column id and output it.
+				emitter.startCell(layout.getWrappedCellContent(cell));
+			} else {
+				emitter.startCell(cell);
 			}
-			if (hasDropCell() || rowSpan < 0 || rowSpan > 1) {
-				buffer = new BufferedReportEmitter(emitter);
-				cellEmitter = buffer;
-			}
-			// we need cache the cell
-			createCell(colId, rowSpan, colSpan, new CellContent(cell, buffer));
-			if (hasDropCell()) {
-				return;
-			}
-			// TODO: changes the column id and output it.
-			emitter.startCell(layout.getWrappedCellContent(cell));
-		} else {
-			emitter.startCell(cell);
 		}
 	}
 
-	@Override
 	public void endCell(ICellContent cell) throws BirtException {
 		if (!isNestTable()) {
 			if (cellEmitter != null) {
 				cellEmitter = null;
+				return;
 			} else {
 				emitter.endCell(layout.getWrappedCellContent(cell));
 			}
-		} else if (cellEmitter != null) {
-			cellEmitter.endCell(cell);
 		} else {
-			emitter.endCell(cell);
+			if (cellEmitter != null) {
+				cellEmitter.endCell(cell);
+			} else {
+				emitter.endCell(cell);
+			}
 		}
 	}
 

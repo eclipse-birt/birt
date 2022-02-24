@@ -35,7 +35,7 @@ public class FileSystemFactory implements IFileSystemFactory {
 	/**
 	 * Gets the instance of file system factory. If extension is not found, default
 	 * implementation of local file system will be used.
-	 *
+	 * 
 	 * @return instance of file system factory.
 	 */
 	public static IFileSystemFactory getInstance() {

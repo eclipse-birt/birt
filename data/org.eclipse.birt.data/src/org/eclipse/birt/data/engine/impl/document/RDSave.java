@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
 /**
  * Save expression value of every row into report document. The output format in
  * stream is, <expressCount, [expression id, expression value]*>.
- *
+ * 
  * When no value of one row is saved, the expressionCount will automatically be
  * ouptput as 0. It will happen when caller does not call getValue on this row
  * or call skipToEnd method.
@@ -86,11 +86,9 @@ class RDSave implements IRDSave {
 	 * @see org.eclipse.birt.data.engine.impl.document.IRDSave#saveExprValue(int,
 	 * java.lang.String, java.lang.Object)
 	 */
-	@Override
 	public void saveExprValue(int currIndex, Map valueMap) throws DataException {
-		if (rowSaveUtil == null) {
+		if (rowSaveUtil == null)
 			this.initSaveRowUtil();
-		}
 
 		rowSaveUtil.saveExprValue(currIndex, valueMap);
 	}
@@ -126,15 +124,13 @@ class RDSave implements IRDSave {
 			}
 
 			if (streamManager.getVersion() >= VersionManager.VERSION_2_5_1_0) {
-				if (binding.getAggrFunction() != null) {
+				if (binding.getAggrFunction() != null)
 					continue;
-				}
 			}
 
 			if (bindingNameColumnName.get(binding.getBindingName()) == null
-					|| ((IQueryDefinition) this.queryDefn).isSummaryQuery()) {
+					|| ((IQueryDefinition) this.queryDefn).isSummaryQuery())
 				bindingNamesToSave.add(binding.getBindingName());
-			}
 			bindingNameType.put(binding.getBindingName(), Integer.valueOf(binding.getDataType()));
 		}
 		if (this.context.getMode() == DataEngineContext.MODE_UPDATE && !((this.queryDefn instanceof IQueryDefinition
@@ -147,7 +143,7 @@ class RDSave implements IRDSave {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 */
@@ -162,11 +158,9 @@ class RDSave implements IRDSave {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.IRDSave#saveFinish(int)
 	 */
-	@Override
 	public void saveFinish(int currIndex) throws DataException {
-		if (rowSaveUtil == null) {
+		if (rowSaveUtil == null)
 			this.initSaveRowUtil();
-		}
 
 		exprNameSet = this.getExprNameSet();
 		rowSaveUtil.saveFinish(currIndex);
@@ -207,7 +201,6 @@ class RDSave implements IRDSave {
 	 * org.eclipse.birt.data.engine.impl.document.IRDSave#saveResultIterator(org.
 	 * eclipse.birt.data.engine.odi.IResultIterator, int, int[])
 	 */
-	@Override
 	public void saveResultIterator(IResultIterator odiResult, int groupLevel, int[] subQueryInfo) throws DataException {
 		this.rdSaveUtil.saveResultIterator(odiResult, groupLevel, subQueryInfo);
 	}
@@ -226,11 +219,9 @@ class RDSave implements IRDSave {
 		return set;
 	}
 
-	@Override
 	public void saveStart() throws DataException {
-		if (!this.streamManager.isSubquery()) {
+		if (this.streamManager.isSubquery() == false)
 			this.rdSaveUtil.saveQueryDefn();
-		}
 
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -109,15 +111,17 @@ public class ReportEngine implements IReportEngine {
 
 	private EngineExtensionManager extensionManager = new EngineExtensionManager();
 
+	private String version;
+
 	private Map<String, Object> beans;
 
 	private LoggerSetting loggerSetting;
 
 	/**
 	 * Create a Report Engine using a configuration.
-	 *
+	 * 
 	 * The user must set the BIRT_HOME in the EngineConfig.
-	 *
+	 * 
 	 * @param config an engine configuration object used to configure the engine
 	 */
 	public ReportEngine(EngineConfig config) {
@@ -125,14 +129,14 @@ public class ReportEngine implements IReportEngine {
 			throw new NullPointerException("config is null");
 		}
 		this.config = config;
-		beans = new HashMap<>();
+		beans = new HashMap<String, Object>();
 		mergeConfigToAppContext();
 
 		intializeLogger();
 
 		logger.log(Level.FINE, "ReportEngine created. EngineConfig: {0} ", config);
 		this.helper = new ReportEngineHelper(this);
-		openedDocuments = new LinkedObjectManager<>();
+		openedDocuments = new LinkedObjectManager<ReportDocumentReader>();
 		IStatusHandler handler = config.getStatusHandler();
 		if (handler != null) {
 			handler.initialize();
@@ -161,15 +165,15 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * setup class path properties.
-	 *
+	 * 
 	 * The class path is defined in following sequence:
-	 *
+	 * 
 	 * <li>a. defined in the appContext.</li>
-	 *
+	 * 
 	 * <li>b. defined in the engine configuration.</li>
-	 *
+	 * 
 	 * <li>c. defined in the system configuration.</li>
-	 *
+	 * 
 	 * After this method, the class path are set into the appContext, so we can
 	 * safely get the class path from the appContext only.
 	 */
@@ -221,30 +225,42 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * get the root scope used by the engine
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public Object getRootScope() {
 		return rootScope;
 	}
 
 	/**
+	 * register the map entry into script object.
+	 * 
+	 * @param scope script scope to be added.
+	 * @param map   map
+	 */
+	private void registerBeans(Map<String, Object> map) {
+		Set<Entry<String, Object>> attributes = map.entrySet();
+		for (Entry<String, Object> attribute : attributes) {
+			if (attribute.getKey() != null) {
+				beans.put(attribute.getKey(), attribute.getValue());
+			}
+		}
+	}
+
+	/**
 	 * Change the log level to newLevel
-	 *
+	 * 
 	 * @param newLevel - new log level
 	 */
-	@Override
 	public void changeLogLevel(Level newLevel) {
 		EngineLogger.changeLogLevel(loggerSetting, newLevel);
 	}
 
 	/**
 	 * returns the engine configuration object
-	 *
+	 * 
 	 * @return the engine configuration object
 	 */
-	@Override
 	public EngineConfig getConfig() {
 		return config;
 	}
@@ -254,13 +270,12 @@ public class ReportEngine implements IReportEngine {
 	 * ReportRunnable object, embedded images and parameter definitions can be
 	 * retrieved. Constructing an engine task requires a report design runnable
 	 * object.
-	 *
+	 * 
 	 * @param designName the full path of the report design file
 	 * @return a report design runnable object
 	 * @throws EngineException throwed when the input file does not exist, or the
 	 *                         file is invalid
 	 */
-	@Override
 	public IReportRunnable openReportDesign(String designName) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDesign: designName={0} ", designName);
 		IResourceLocator locator = config.getResourceLocator();
@@ -272,12 +287,11 @@ public class ReportEngine implements IReportEngine {
 	 * ReportRunnable object, embedded images and parameter definitions can be
 	 * retrieved. Constructing an engine task requires a report design runnable
 	 * object.
-	 *
+	 * 
 	 * @param designHandle
 	 * @return a report design runnable object
 	 * @throws EngineException
 	 */
-	@Override
 	public IReportRunnable openReportDesign(ReportDesignHandle designHandle) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDesign: designHandle={0} ", designHandle);
 		return helper.openReportDesign(designHandle);
@@ -288,19 +302,17 @@ public class ReportEngine implements IReportEngine {
 	 * ReportRunnable object, embedded images and parameter definitions can be
 	 * retrieved. Constructing an engine task requires a report design
 	 * runnableobject.
-	 *
+	 * 
 	 * @param designStream the report design input stream
 	 * @return a report design runnable object
 	 * @throws EngineException throwed when the input stream is null, or the stream
 	 *                         does not yield a valid report design
 	 */
-	@Override
 	public IReportRunnable openReportDesign(InputStream designStream) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDesign: designStream={0} ", designStream);
 		return helper.openReportDesign(designStream);
 	}
 
-	@Override
 	public IReportRunnable openReportDesign(String name, InputStream designStream) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDesign: name={0}, designStream={1} ",
 				new Object[] { name, designStream });
@@ -310,11 +322,10 @@ public class ReportEngine implements IReportEngine {
 	/**
 	 * creates an engine task for running and rendering report directly to output
 	 * format
-	 *
+	 * 
 	 * @param reportRunnable the runnable report design object
 	 * @return a run and render report task
 	 */
-	@Override
 	public IRunAndRenderTask createRunAndRenderTask(IReportRunnable reportRunnable) {
 		logger.log(Level.FINE, "ReportEngine.createRunAndRenderTask: reportRunnable={0} ", reportRunnable);
 		return helper.createRunAndRenderTask(reportRunnable);
@@ -322,11 +333,10 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * creates an engine task for obtaining report parameter definitions
-	 *
+	 * 
 	 * @param reportRunnable the runnable report design object
 	 * @return a run and render report task
 	 */
-	@Override
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(IRunnable reportRunnable) {
 		logger.log(Level.FINE, "ReportEngine.createGetParameterDefinitionTask: reportRunnable={0} ", reportRunnable);
 		return helper.createGetParameterDefinitionTask((ReportRunnable) reportRunnable);
@@ -334,11 +344,10 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * creates an engine task for obtaining report parameter definitions
-	 *
+	 * 
 	 * @param reportRunnable the runnable report design object
 	 * @return a GetParameterDefinitionTask
 	 */
-	@Override
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(IReportRunnable reportRunnable) {
 		logger.log(Level.FINE, "ReportEngine.createGetParameterDefinitionTask: reportRunnable={0} ", reportRunnable);
 		return helper.createGetParameterDefinitionTask((ReportRunnable) reportRunnable);
@@ -346,33 +355,30 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * returns all supported output formats through BIRT engine emitter extensions
-	 *
+	 * 
 	 * @return all supported output formats through BIRT engine emitter extensions
 	 */
-	@Override
 	public String[] getSupportedFormats() {
 		return helper.getSupportedFormats();
 	}
 
 	/**
 	 * Return all the emitter information which BIRT Engine can load.
-	 *
+	 * 
 	 * @return the emitter information
 	 */
-	@Override
 	public EmitterInfo[] getEmitterInfo() {
 		return helper.getEmitterInfo();
 	}
 
 	/**
 	 * the MIME type for the specific formatted supported by the extension.
-	 *
+	 * 
 	 * @param format      the output format
 	 * @param extensionID the extension ID, which could be null if only one plugin
 	 *                    supports the output format
 	 * @return the MIME type for the specific formatted supported by the extension.
 	 */
-	@Override
 	public String getMIMEType(String format) {
 		return helper.getMIMEType(format);
 	}
@@ -380,7 +386,6 @@ public class ReportEngine implements IReportEngine {
 	/**
 	 * shuts down the report engine
 	 */
-	@Override
 	public void destroy() {
 		logger.fine("ReportEngine.destroy");
 		rootScope = null;
@@ -410,11 +415,10 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * creates a task to run a report to generate a report document
-	 *
+	 * 
 	 * @param reportRunnable the runnable report design object
 	 * @return a task that runs the report
 	 */
-	@Override
 	public IRunTask createRunTask(IReportRunnable reportRunnable) {
 		logger.log(Level.FINE, "ReportEngine.createRunTask: reportRunnable={0} ", reportRunnable);
 		return helper.createRunTask(reportRunnable);
@@ -422,11 +426,10 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * creates a task that renders the report to a specific output format.
-	 *
+	 * 
 	 * @param reportDocument a handle to an IReportDocument object
 	 * @return a task that renders a report to an output format
 	 */
-	@Override
 	public IRenderTask createRenderTask(IReportDocument reportDocument) {
 		logger.log(Level.FINE, "ReportEngine.createRenderTask: reportDocument={0} ", reportDocument);
 		return helper.createRenderTask(reportDocument);
@@ -434,12 +437,11 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * creates a task that renders the report to a specific output format.
-	 *
+	 * 
 	 * @param reportDocument a handle to an IReportDocument object
 	 * @param reportRunnable the runnable report design object
 	 * @return a task that renders a report to an output format
 	 */
-	@Override
 	public IRenderTask createRenderTask(IReportDocument reportDocument, IReportRunnable reportRunnable) {
 		logger.log(Level.FINE, "ReportEngine.createRenderTask: reportDocument={0}, runnable={1}",
 				new Object[] { reportDocument, reportRunnable });
@@ -449,14 +451,13 @@ public class ReportEngine implements IReportEngine {
 	/**
 	 * opens a report document and returns an IReportDocument object, from which
 	 * further information can be retrieved.
-	 *
+	 * 
 	 * @param fileName the report document name. report document is an archive in
 	 *                 BIRT.
 	 * @return A handle to the report document
 	 * @throws EngineException throwed when the report document archive does not
 	 *                         exist, or the file is not a valud report document
 	 */
-	@Override
 	public IReportDocument openReportDocument(String fileName) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDocument: fileName={0} ", fileName);
 		return helper.openReportDocument(fileName);
@@ -464,11 +465,10 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * creates a task that allows data extraction from a report document
-	 *
+	 * 
 	 * @param reportDocument a handle to an IReportDocument object
 	 * @return a task that renders a report to an output format
 	 */
-	@Override
 	public IDataExtractionTask createDataExtractionTask(IReportDocument reportDocument) {
 		logger.log(Level.FINE, "ReportEngine.createDataExtractionTask: reportDocument={0} ", reportDocument);
 		return helper.createDataExtractionTask(reportDocument);
@@ -476,30 +476,25 @@ public class ReportEngine implements IReportEngine {
 
 	/**
 	 * shut down the engine, release all the resources.
-	 *
+	 * 
 	 * @deprecated
 	 */
-	@Deprecated
-	@Override
 	public void shutdown() {
 		destroy();
 	}
 
-	@Override
 	public IReportDocument openReportDocument(String systemId, String fileName) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDocument: systemID={0}, file={1} ",
 				new Object[] { systemId, fileName });
 		return openReportDocument(systemId, fileName, (IResourceLocator) null);
 	}
 
-	@Override
 	public IReportRunnable openReportDesign(String designName, IResourceLocator locator) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDesign: design={0}, locator={1} ",
 				new Object[] { designName, locator });
 		return helper.openReportDesign(designName, locator);
 	}
 
-	@Override
 	public IReportRunnable openReportDesign(String name, InputStream designStream, IResourceLocator locator)
 			throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDesign: name={0}, designStream={1}, locator={2} ",
@@ -507,21 +502,18 @@ public class ReportEngine implements IReportEngine {
 		return helper.openReportDesign(name, designStream, locator);
 	}
 
-	@Override
 	public IReportRunnable openReportDesign(String name, InputStream designStream, Map options) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDesign: name={0}, designStream={1}, options={3} ",
 				new Object[] { name, designStream, options });
 		return helper.openReportDesign(name, designStream, options);
 	}
 
-	@Override
 	public IReportDocument openReportDocument(String fileName, IResourceLocator locator) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDocument: file={0}, locator={1} ",
 				new Object[] { fileName, locator });
 		return openReportDocument(fileName, fileName, locator);
 	}
 
-	@Override
 	public IReportDocument openReportDocument(String systemId, String fileName, IResourceLocator locator)
 			throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDocument: systemId={0}, file={1}, locator={2} ",
@@ -529,14 +521,12 @@ public class ReportEngine implements IReportEngine {
 		return helper.openReportDocument(systemId, fileName, locator);
 	}
 
-	@Override
 	public IReportDocument openReportDocument(String systemId, String fileName, Map options) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDocument: systemId={0}, file={1}, options={2} ",
 				new Object[] { systemId, fileName, options });
 		return helper.openReportDocument(systemId, fileName, options);
 	}
 
-	@Override
 	public IReportDocument openReportDocument(String systemId, IDocArchiveReader reader, Map options)
 			throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openReportDocument: systemId={0}, reader={1}, options={2} ",
@@ -544,18 +534,15 @@ public class ReportEngine implements IReportEngine {
 		return helper.openReportDocument(systemId, reader, options);
 	}
 
-	@Override
 	public IDocumentWriter openDocumentWriter(IArchiveFile file) throws EngineException {
 		logger.log(Level.FINE, "ReportEngine.openDocumentWriter: archive={0} ", new Object[] { file });
 		return helper.openDocumentWriter(file);
 	}
 
-	@Override
 	public Logger getLogger() {
 		return logger;
 	}
 
-	@Override
 	public void setLogger(Logger logger) {
 		if (logger != null) {
 			EngineLogger.setLogger(loggerSetting, logger);
@@ -575,10 +562,10 @@ public class ReportEngine implements IReportEngine {
 	}
 
 	private URLClassLoader createEngineClassLoader() {
-		ArrayList<URL> urls = new ArrayList<>();
+		ArrayList<URL> urls = new ArrayList<URL>();
 
-		String[] CLASS_PATHES = { EngineConstants.WEBAPP_CLASSPATH_KEY, EngineConstants.PROJECT_CLASSPATH_KEY,
-				EngineConstants.WORKSPACE_CLASSPATH_KEY };
+		String[] CLASS_PATHES = new String[] { EngineConstants.WEBAPP_CLASSPATH_KEY,
+				EngineConstants.PROJECT_CLASSPATH_KEY, EngineConstants.WORKSPACE_CLASSPATH_KEY };
 
 		HashMap appContext = getAppContext();
 		for (int i = 0; i < CLASS_PATHES.length; i++) {
@@ -619,14 +606,12 @@ public class ReportEngine implements IReportEngine {
 
 		return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
 
-			@Override
 			public ClassLoader run() {
 				return IReportEngine.class.getClassLoader();
 			}
 		});
 	}
 
-	@Override
 	public DataExtractionFormatInfo[] getDataExtractionFormatInfo() {
 		return helper.getDataExtractionFormatInfo();
 	}
@@ -656,14 +641,13 @@ public class ReportEngine implements IReportEngine {
 		}
 	}
 
-	@Override
 	public String getVersion() {
 		return BundleVersionUtil.getBundleVersion("org.eclipse.birt.report.engine");
 	}
 
 	private class EngineExtensionManager {
 
-		HashMap<String, IReportEngineExtension> exts = new HashMap<>();
+		HashMap<String, IReportEngineExtension> exts = new HashMap<String, IReportEngineExtension>();
 
 		EngineExtensionManager() {
 			IExtensionRegistry registry = Platform.getExtensionRegistry();
@@ -697,7 +681,7 @@ public class ReportEngine implements IReportEngine {
 		}
 
 		String[] getExtensions(IReportRunnable runnable) {
-			ArrayList<String> extensions = new ArrayList<>();
+			ArrayList<String> extensions = new ArrayList<String>();
 			for (Map.Entry<String, IReportEngineExtension> entry : exts.entrySet()) {
 				String extName = entry.getKey();
 				IReportEngineExtension ext = entry.getValue();
@@ -718,7 +702,6 @@ public class ReportEngine implements IReportEngine {
 		}
 	}
 
-	@Override
 	public IEngineTask createEngineTask(String taskName) throws EngineException {
 		String extName = taskName;
 		int index = taskName.lastIndexOf('.');
@@ -737,7 +720,6 @@ public class ReportEngine implements IReportEngine {
 		return DataEngineFactory.getInstance();
 	}
 
-	@Override
 	public IDatasetPreviewTask createDatasetPreviewTask() throws EngineException {
 		logger.log(Level.FINE, "createDatasetPreviewTask");
 		return helper.createDatasetPreviewTask();

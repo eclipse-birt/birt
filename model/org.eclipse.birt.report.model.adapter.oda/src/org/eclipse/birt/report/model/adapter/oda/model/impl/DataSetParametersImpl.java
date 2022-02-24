@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -23,11 +23,16 @@ import java.util.Collection;
 import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter;
 import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
+
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -48,7 +53,7 @@ public class DataSetParametersImpl extends EObjectImpl implements DataSetParamet
 	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameter</em>}'
 	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getParameters()
 	 * @generated
 	 * @ordered
@@ -57,7 +62,7 @@ public class DataSetParametersImpl extends EObjectImpl implements DataSetParamet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected DataSetParametersImpl() {
@@ -66,7 +71,7 @@ public class DataSetParametersImpl extends EObjectImpl implements DataSetParamet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -76,13 +81,12 @@ public class DataSetParametersImpl extends EObjectImpl implements DataSetParamet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<DataSetParameter> getParameters() {
 		if (parameter == null) {
-			parameter = new EObjectContainmentEList<>(DataSetParameter.class, this,
+			parameter = new EObjectContainmentEList<DataSetParameter>(DataSetParameter.class, this,
 					ModelPackage.DATA_SET_PARAMETERS__PARAMETER);
 		}
 		return parameter;
@@ -90,7 +94,7 @@ public class DataSetParametersImpl extends EObjectImpl implements DataSetParamet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -104,7 +108,7 @@ public class DataSetParametersImpl extends EObjectImpl implements DataSetParamet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -118,7 +122,7 @@ public class DataSetParametersImpl extends EObjectImpl implements DataSetParamet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -135,7 +139,7 @@ public class DataSetParametersImpl extends EObjectImpl implements DataSetParamet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -150,7 +154,7 @@ public class DataSetParametersImpl extends EObjectImpl implements DataSetParamet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

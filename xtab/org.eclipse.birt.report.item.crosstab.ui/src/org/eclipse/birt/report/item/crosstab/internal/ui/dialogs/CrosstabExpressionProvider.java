@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.swt.graphics.Image;
 
 /**
- *
+ * 
  */
 
 public class CrosstabExpressionProvider extends BindingExpressionProvider {
@@ -46,7 +46,6 @@ public class CrosstabExpressionProvider extends BindingExpressionProvider {
 
 	}
 
-	@Override
 	protected List getChildrenList(Object parent) {
 		if (parent instanceof DimensionHandle) {
 			List children = new ArrayList();
@@ -55,16 +54,14 @@ public class CrosstabExpressionProvider extends BindingExpressionProvider {
 				CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle();
 				for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++) {
 					DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i);
-					if (dimensionHandle.getCubeDimension().equals(handle)) {
+					if (dimensionHandle.getCubeDimension().equals(handle))
 						children.add(dimensionHandle.getLevel(0).getCubeLevel());
-					}
 				}
 				for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++) {
 					DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE,
 							i);
-					if (dimensionHandle.getCubeDimension().equals(handle)) {
+					if (dimensionHandle.getCubeDimension().equals(handle))
 						children.add(dimensionHandle.getLevel(0).getCubeLevel());
-					}
 				}
 			} catch (ExtendedElementException e) {
 			}
@@ -77,21 +74,17 @@ public class CrosstabExpressionProvider extends BindingExpressionProvider {
 				for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++) {
 					DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i);
 					LevelViewHandle levelViewHandle = dimensionHandle.getLevel(levelHandle.getQualifiedName());
-					if (levelViewHandle != null) {
-						if (dimensionHandle.getLevelCount() > levelViewHandle.getIndex() + 1) {
+					if (levelViewHandle != null)
+						if (dimensionHandle.getLevelCount() > levelViewHandle.getIndex() + 1)
 							children.add(dimensionHandle.getLevel(levelViewHandle.getIndex() + 1).getCubeLevel());
-						}
-					}
 				}
 				for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++) {
 					DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE,
 							i);
 					LevelViewHandle levelViewHandle = dimensionHandle.getLevel(levelHandle.getQualifiedName());
-					if (levelViewHandle != null) {
-						if (dimensionHandle.getLevelCount() > levelViewHandle.getIndex() + 1) {
+					if (levelViewHandle != null)
+						if (dimensionHandle.getLevelCount() > levelViewHandle.getIndex() + 1)
 							children.add(dimensionHandle.getLevel(levelViewHandle.getIndex() + 1).getCubeLevel());
-						}
-					}
 				}
 			} catch (ExtendedElementException e) {
 			}
@@ -104,23 +97,18 @@ public class CrosstabExpressionProvider extends BindingExpressionProvider {
 		return (CrosstabReportItemHandle) ((ExtendedItemHandle) elementHandle).getReportItem();
 	}
 
-	@Override
 	public String getDisplayText(Object element) {
-		if (element instanceof LevelViewHandle) {
+		if (element instanceof LevelViewHandle)
 			return ((LevelViewHandle) element).getCubeLevel().getName();
-		}
 		return super.getDisplayText(element);
 	}
 
-	@Override
 	public Image getImage(Object element) {
-		if (element instanceof LevelViewHandle) {
+		if (element instanceof LevelViewHandle)
 			return UIHelper.getImage(BuilderConstants.IMAGE_LEVEL);
-		}
 		return super.getImage(element);
 	}
 
-	@Override
 	public boolean hasChildren(Object element) {
 		if (element instanceof LevelHandle) {
 			return getChildrenList(element).size() > 0;

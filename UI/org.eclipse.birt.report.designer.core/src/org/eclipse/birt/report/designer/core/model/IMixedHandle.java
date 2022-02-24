@@ -24,13 +24,13 @@ import org.eclipse.swt.graphics.Image;
  * A composition of SlotHandle and PropertyHandle
  */
 public interface IMixedHandle {
-	SlotHandle getSlotHandle();
+	public SlotHandle getSlotHandle();
 
-	PropertyHandle getPropertyHandle();
+	public PropertyHandle getPropertyHandle();
 
-	List getChildren();
+	public List getChildren();
 
-	String getDisplayName();
+	public String getDisplayName();
 
-	Image getNodeIcon();
+	public Image getNodeIcon();
 }

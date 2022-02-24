@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param handle
 	 */
 	public VirtualCrosstabCellAdapter(CrosstabCellHandle handle) {
@@ -55,7 +55,7 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param handle
 	 * @param type
 	 */
@@ -70,18 +70,17 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 
 	/*
 	 * Virtual adapter has no children. (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.core.model.schematic.crosstab.
 	 * CrosstabCellAdapter#getModelList()
 	 */
-	@Override
 	public final List getModelList() {
 		return Collections.EMPTY_LIST;
 	}
 
 	/**
 	 * Sets the type
-	 *
+	 * 
 	 * @param type
 	 */
 	public void setType(int type) {
@@ -97,11 +96,10 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.util.IVirtualValidator#handleValidate
 	 * (java.lang.Object)
 	 */
-	@Override
 	public boolean handleValidate(Object obj) {
 		if (obj instanceof Object[]) {
 			Object[] objects = (Object[]) obj;
@@ -115,9 +113,8 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 				boolean isValidate = false;
 				for (int i = 0; i < len; i++) {
 					Object temp = objects[i];
-					if (temp instanceof LevelAttributeHandle) {
+					if (temp instanceof LevelAttributeHandle)
 						temp = ((LevelAttributeHandle) temp).getElementHandle();
-					}
 					if ((crosstab.getCube() == CrosstabAdaptUtil.getCubeHandle((DesignElementHandle) temp)
 							|| crosstab.getCube() == null)) {
 						isValidate = handleValidate(temp);
@@ -141,16 +138,14 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 			if (obj instanceof LevelAttributeHandle) {
 				LevelAttributeHandle lah = (LevelAttributeHandle) obj;
 				LevelHandle lh = (LevelHandle) lah.getElementHandle();
-				if (handleValidate(CrosstabAdaptUtil.getDimensionHandle(lh))) {
+				if (handleValidate(CrosstabAdaptUtil.getDimensionHandle(lh)))
 					return true;
-				}
 
 				if (getCrosstabCellHandle() != null
 						&& getCrosstabCellHandle().getContainer() instanceof LevelViewHandle) {
 					LevelViewHandle lvh = (LevelViewHandle) getCrosstabCellHandle().getContainer();
-					if (lvh.getCubeLevel() == lh) {
+					if (lvh.getCubeLevel() == lh)
 						return true;
-					}
 				}
 			}
 		}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 /**
  * Indicates a change to a user-defined property. Use the {@link #getAction}
  * method to determine the specific kind of change.
- *
+ * 
  */
 
 public class UserPropertyEvent extends NotificationEvent {
@@ -52,7 +52,7 @@ public class UserPropertyEvent extends NotificationEvent {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param obj       the element that changed.
 	 * @param prop      the property that changed.
 	 * @param theAction the action which causes this event: {@link #ADD}, or
@@ -68,7 +68,7 @@ public class UserPropertyEvent extends NotificationEvent {
 	/**
 	 * Returns the action that causes this event. One of {@link #ADD}, or
 	 * {@link #DROP}.
-	 *
+	 * 
 	 * @return the action that causes this event.
 	 */
 
@@ -78,7 +78,7 @@ public class UserPropertyEvent extends NotificationEvent {
 
 	/**
 	 * Returns the definition of the user-defined property that changed.
-	 *
+	 * 
 	 * @return the user-defined property definition.
 	 */
 
@@ -88,35 +88,32 @@ public class UserPropertyEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
 	 * )
 	 */
-	@Override
 	public int getEventType() {
 		return USER_PROP_EVENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
 	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
 
-	@Override
 	public boolean isSame(NotificationEvent event) {
-		if (!super.isSame(event)) {
+		if (!super.isSame(event))
 			return false;
-		}
 		UserPropertyEvent userPropertyEvent = (UserPropertyEvent) event;
-		if ((action != userPropertyEvent.getAction()) || (property != null && !property.equals(userPropertyEvent.getProperty()))) {
+		if (action != userPropertyEvent.getAction())
 			return false;
-		}
-		if (property == null && userPropertyEvent.getProperty() != null) {
+		if (property != null && !property.equals(userPropertyEvent.getProperty()))
 			return false;
-		}
+		if (property == null && userPropertyEvent.getProperty() != null)
+			return false;
 		return true;
 	}
 }

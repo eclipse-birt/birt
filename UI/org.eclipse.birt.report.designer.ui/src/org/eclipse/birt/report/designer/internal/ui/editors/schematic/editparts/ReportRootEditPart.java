@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -43,7 +43,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Root editPart
- *
+ * 
  */
 public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 
@@ -52,7 +52,7 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param manager
 	 */
 	public ReportRootEditPart() {
@@ -61,25 +61,22 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
-	@Override
 	public DragTracker getDragTracker(Request req) {
 		return new RootDragTracker();
 	}
 
 	/**
 	 * Creates a layered pane and the layers that should be printed.
-	 *
+	 * 
 	 * @see org.eclipse.gef.print.PrintGraphicalViewerOperation
 	 * @return a new LayeredPane containing the printable layers
 	 */
-	@Override
 	protected LayeredPane createPrintableLayers() {
 		FreeformLayeredPane layeredPane = new FreeformLayeredPane() {
 
-			@Override
 			protected void paintFigure(Graphics graphics) {
 				graphics.setBackgroundColor(ReportColorConstants.ReportRootBackgroundColor);
 				graphics.fillRectangle(getBounds());
@@ -126,10 +123,9 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.draw2d.FreeformLayer#getFreeformExtent()
 			 */
-			@Override
 			public Rectangle getFreeformExtent() {
 				Rectangle rect = super.getFreeformExtent();
 				Rectangle retValue = rect.getCopy();
@@ -156,7 +152,6 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 	/**
 	 * @see FreeformGraphicalRootEditPart#createLayers(LayeredPane)
 	 */
-	@Override
 	protected void createLayers(LayeredPane layeredPane) {
 		layeredPane.add(getScaledLayers(), SCALABLE_LAYERS);
 
@@ -168,11 +163,9 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 	/**
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class adapter) {
-		if (adapter == AutoexposeHelper.class) {
+		if (adapter == AutoexposeHelper.class)
 			return new ReportViewportAutoexposeHelper(this);
-		}
 		if (adapter == IModelEventProcessor.class) {
 			return getContents().getAdapter(IModelEventProcessor.class);
 		}
@@ -194,7 +187,7 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 		 * Constructs a new helper on the given GraphicalEditPart. The editpart must
 		 * have a <code>Viewport</code> somewhere between its <i>contentsPane </i> and
 		 * its <i>figure </i> inclusively.
-		 *
+		 * 
 		 * @param owner the GraphicalEditPart that owns the Viewport
 		 */
 		public ReportViewportAutoexposeHelper(GraphicalEditPart owner) {
@@ -206,7 +199,7 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 		 * Constructs a new helper on the given GraphicalEditPart. The editpart must
 		 * have a <code>Viewport</code> somewhere between its <i>contentsPane </i> and
 		 * its <i>figure </i> inclusively.
-		 *
+		 * 
 		 * @param owner     the GraphicalEditPart that owns the Viewport
 		 * @param threshold the Expose Threshold to use when determing whether or not a
 		 *                  scroll should occur.
@@ -219,10 +212,9 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 		/**
 		 * Returns <code>true</code> if the given point is inside the viewport, but near
 		 * its edge.
-		 *
+		 * 
 		 * @see org.eclipse.gef.AutoexposeHelper#detect(org.eclipse.draw2d.geometry.Point)
 		 */
-		@Override
 		public boolean detect(Point where) {
 			lastStepTime = 0;
 			Viewport port = findViewport(owner);
@@ -237,13 +229,12 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 		 * Returns <code>true</code> if the given point is outside the viewport or near
 		 * its edge. Scrolls the viewport by a calculated (time based) amount in the
 		 * current direction.
-		 *
+		 * 
 		 * todo: investigate if we should allow auto expose when the pointer is outside
 		 * the viewport
-		 *
+		 * 
 		 * @see org.eclipse.gef.AutoexposeHelper#step(org.eclipse.draw2d.geometry.Point)
 		 */
-		@Override
 		public boolean step(Point where) {
 			Viewport port = findViewport(owner);
 
@@ -251,17 +242,15 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 			port.getClientArea(rect);
 			port.translateToParent(rect);
 			port.translateToAbsolute(rect);
-			if (!rect.contains(where) || rect.crop(threshold).contains(where)) {
+			if (!rect.contains(where) || rect.crop(threshold).contains(where))
 				return false;
-			}
 
 			// set scroll offset (speed factor)
 			int scrollOffset = 0;
 
 			// calculate time based scroll offset
-			if (lastStepTime == 0) {
+			if (lastStepTime == 0)
 				lastStepTime = System.currentTimeMillis();
-			}
 
 			DeferredGraphicalViewer.OriginStepData stepData = ((DeferredGraphicalViewer) owner.getViewer())
 					.getOriginStepData();
@@ -272,39 +261,32 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 				lastStepTime = System.currentTimeMillis();
 			}
 
-			if (scrollOffset == 0) {
+			if (scrollOffset == 0)
 				return true;
-			}
 
 			rect.crop(threshold);
 
 			int region = rect.getPosition(where);
 			Point loc = port.getViewLocation();
 
-			if ((region & PositionConstants.SOUTH) != 0) {
+			if ((region & PositionConstants.SOUTH) != 0)
 				loc.y += scrollOffset;
-			} else if ((region & PositionConstants.NORTH) != 0) {
+			else if ((region & PositionConstants.NORTH) != 0)
 				loc.y -= scrollOffset;
-			}
 
-			if ((region & PositionConstants.EAST) != 0) {
+			if ((region & PositionConstants.EAST) != 0)
 				loc.x += scrollOffset;
-			} else if ((region & PositionConstants.WEST) != 0) {
+			else if ((region & PositionConstants.WEST) != 0)
 				loc.x -= scrollOffset;
-			}
 
-			if (stepData.minX > loc.x) {
+			if (stepData.minX > loc.x)
 				loc.x = port.getHorizontalRangeModel().getValue();
-			}
-			if (stepData.maxX - stepData.extendX < loc.x) {
+			if (stepData.maxX - stepData.extendX < loc.x)
 				loc.x = port.getHorizontalRangeModel().getValue();
-			}
-			if (stepData.minY > loc.y) {
+			if (stepData.minY > loc.y)
 				loc.y = port.getVerticalRangeModel().getValue();
-			}
-			if (stepData.maxY - stepData.extendY < loc.y) {
+			if (stepData.maxY - stepData.extendY < loc.y)
 				loc.y = port.getVerticalRangeModel().getValue();
-			}
 			port.setViewLocation(loc);
 
 			return true;
@@ -323,7 +305,6 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart {
 	public void activate() {
 		getViewer().addPropertyChangeListener(new PropertyChangeListener() {
 
-			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (DeferredGraphicalViewer.LAYOUT_SIZE.equals(evt.getPropertyName())) {
 					getFigure().repaint();

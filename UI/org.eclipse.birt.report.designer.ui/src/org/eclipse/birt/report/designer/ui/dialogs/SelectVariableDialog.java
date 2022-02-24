@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,6 @@ public class SelectVariableDialog extends BaseDialog {
 		variablesCombo.setVisibleItemCount(30);
 		variablesCombo.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validate();
 			}
@@ -71,18 +70,16 @@ public class SelectVariableDialog extends BaseDialog {
 	@Override
 	protected boolean initDialog() {
 		List<VariableElementHandle> variables = this.designHandle.getPageVariables();
-		List<String> items = new ArrayList<>();
+		List<String> items = new ArrayList<String>();
 		items.add(Messages.getString("SelectVariableDialog.ReportSeperator")); //$NON-NLS-1$
 		for (VariableElementHandle variable : variables) {
-			if (variable.getType() == null || variable.getType().equals(DesignChoiceConstants.VARIABLE_TYPE_REPORT)) {
+			if (variable.getType() == null || variable.getType().equals(DesignChoiceConstants.VARIABLE_TYPE_REPORT))
 				items.add(variable.getName());
-			}
 		}
 		items.add(Messages.getString("SelectVariableDialog.PageSeperator")); //$NON-NLS-1$
 		for (VariableElementHandle variable : variables) {
-			if (variable.getType() != null && variable.getType().equals(DesignChoiceConstants.VARIABLE_TYPE_PAGE)) {
+			if (variable.getType() != null && variable.getType().equals(DesignChoiceConstants.VARIABLE_TYPE_PAGE))
 				items.add(variable.getName());
-			}
 		}
 		variablesCombo.setItems(items.toArray(new String[items.size()]));
 		variablesCombo.select(0);
@@ -98,9 +95,9 @@ public class SelectVariableDialog extends BaseDialog {
 
 	private void validate() {
 		String value = variablesCombo.getText();
-		if (value == null || value.equals("")) { //$NON-NLS-1$
+		if (value == null || value.equals("")) //$NON-NLS-1$
 			getOkButton().setEnabled(false);
-		} else if (value.equals(Messages.getString("SelectVariableDialog.ReportSeperator")) //$NON-NLS-1$
+		else if (value.equals(Messages.getString("SelectVariableDialog.ReportSeperator")) //$NON-NLS-1$
 				|| value.equals(Messages.getString("SelectVariableDialog.PageSeperator"))) //$NON-NLS-1$
 		{
 			getOkButton().setEnabled(false);

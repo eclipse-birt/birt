@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
  */
 public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
-	private Map<String, String> defaultEmitterIdsOfFormats = new HashMap<>();
+	private Map<String, String> defaultEmitterIdsOfFormats = new HashMap<String, String>();
 
 	/**
 	 * constructor
@@ -49,7 +49,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * set the BIRT_HOME system property
-	 *
+	 * 
 	 * @param birtHome the value for the BIRT_HOMT configuration
 	 *                 variable @deprecated, use setBIRTHome instead.
 	 */
@@ -59,30 +59,28 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * sets a configuration variable that is available through scripting in engine
-	 *
+	 * 
 	 * @param name  configuration variable name
 	 * @param value configuration variable value
 	 * @deprecated use setProperty() instead.
 	 */
-	@Deprecated
 	public void setConfigurationVariable(String name, String value) {
 		setProperty(name, value);
 	}
 
 	/**
 	 * returns a hash map that contains all the configuration objects
-	 *
+	 * 
 	 * @return the configuration object map
 	 * @deprecated use getProperties() instead.
 	 */
-	@Deprecated
 	public HashMap getConfigMap() {
 		return properties;
 	}
 
 	/**
 	 * set log configuration, i.e., log file name prefix and log level
-	 *
+	 * 
 	 * @param directoryName - the directory name of the log file(e.g C:\Log). Engine
 	 *                      appends a file name with date and time to the directory
 	 *                      name (e.g. C:\Log\BIRT_Engine_2005_02_26_11_26_56.log).
@@ -95,9 +93,9 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * set the logger used by the report engine.
-	 *
+	 * 
 	 * the logger will overides the setLogConfig().
-	 *
+	 * 
 	 * @param logger
 	 */
 	public void setLogger(Logger logger) {
@@ -109,7 +107,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * return the user's logger set through setLogger.
-	 *
+	 * 
 	 * @return the logger setted by user. NULL if the user doesn't set it.
 	 */
 	public Logger getLogger() {
@@ -123,31 +121,29 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 	/**
 	 * returns a hash map that contains all the app-specific, app-wide scriptable
 	 * Java objects
-	 *
+	 * 
 	 * @return a hash map with all the app-specific, app-wide scriptable Java
 	 *         objects
 	 * @deprecated use getAppContext() instead.
 	 */
-	@Deprecated
 	public HashMap getScriptObjects() {
 		return getAppContext();
 	}
 
 	/**
 	 * defines an additional Java object that is exposed to BIRT scripting
-	 *
+	 * 
 	 * @param jsName the name that the object is referenced in JavaScript
 	 * @param obj    the Java object that is wrapped and scripted
 	 * @deprecated the user need add the object to the appContext directly.
 	 */
-	@Deprecated
 	public void addScriptableJavaObject(String jsName, Object obj) {
 		getScriptObjects().put(jsName, obj);
 	}
 
 	/**
 	 * returns a hash map that contains appContext
-	 *
+	 * 
 	 * @return
 	 */
 	public HashMap getAppContext() {
@@ -161,7 +157,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Set appContext
-	 *
+	 * 
 	 * @param appContext
 	 */
 	public void setAppContext(HashMap appContext) {
@@ -171,7 +167,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 	/**
 	 * sets configuration for a specific extension to engine, i.e., an emitter
 	 * extension
-	 *
+	 * 
 	 * @param extensionID     identifier for the emitter
 	 * @param extensionConfig configuration object for the emitter, which must be an
 	 *                        instance of HashMap or IRenderOption
@@ -188,7 +184,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * gets a map for emitter configuration objects
-	 *
+	 * 
 	 * @return emitter configuration
 	 */
 	public HashMap getEmitterConfigs() {
@@ -202,7 +198,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * returns the status handler
-	 *
+	 * 
 	 * @return the status handler
 	 */
 	public IStatusHandler getStatusHandler() {
@@ -216,7 +212,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * sets the handler for reporting report running status.
-	 *
+	 * 
 	 * @param handler status handler
 	 */
 	public void setStatusHandler(IStatusHandler handler) {
@@ -225,7 +221,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Get the level of the log file
-	 *
+	 * 
 	 * @return level
 	 */
 	public Level getLogLevel() {
@@ -236,7 +232,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Get directory of the log file
-	 *
+	 * 
 	 * @return log directory
 	 */
 	public String getLogDirectory() {
@@ -246,7 +242,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Get the name of the log file.
-	 *
+	 * 
 	 * @return log file name
 	 */
 	public String getLogFile() {
@@ -256,7 +252,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Set the name of the log file.
-	 *
+	 * 
 	 * @param filename
 	 */
 	public void setLogFile(String filename) {
@@ -266,12 +262,12 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 	/**
 	 * Get the maximum number of bytes that the output file is allowed to reach
 	 * before being rolled over to backup files.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getLogRollingSize() {
 		Object obj = getProperty(LOG_ROLLING_SIZE);
-		if (obj instanceof Integer) {
+		if (obj != null && obj instanceof Integer) {
 			return ((Integer) obj).intValue();
 		}
 		return 0;// there is no limit for the file size by default
@@ -280,7 +276,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 	/**
 	 * Set the maximum number of bytes that the output file is allowed to reach
 	 * before being rolled over to backup files.
-	 *
+	 * 
 	 * @param size
 	 */
 	public void setLogRollingSize(int size) {
@@ -289,12 +285,12 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Returns the value of the MaxBackupIndex option.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getLogMaxBackupIndex() {
 		Object obj = getProperty(LOG_MAX_BACKUP_INDEX);
-		if (obj instanceof Integer) {
+		if (obj != null && obj instanceof Integer) {
 			return ((Integer) obj).intValue();
 		}
 		return 1;// There is one backup file by default.
@@ -302,7 +298,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Set the maximum number of backup files to keep around.
-	 *
+	 * 
 	 * @param maxBackupIndex
 	 */
 	public void setLogMaxBackupIndex(int maxBackupIndex) {
@@ -312,7 +308,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 	/**
 	 * return a lock manager. The lock manager is used to lock the report document
 	 * opened by this engine.
-	 *
+	 * 
 	 * @return lock manager, NULL if not set.
 	 */
 	public IReportDocumentLockManager getReportDocumentLockManager() {
@@ -325,7 +321,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Set report document lock manager
-	 *
+	 * 
 	 * @param manager lock manager
 	 */
 	public void setReportDocumentLockManager(IReportDocumentLockManager manager) {
@@ -334,22 +330,20 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * set the framework context
-	 *
+	 * 
 	 * @param context the platform context
 	 * @deprecated use setPlatformContext instead.
 	 */
-	@Deprecated
 	public void setEngineContext(IPlatformContext context) {
 		setPlatformContext(context);
 	}
 
 	/**
 	 * set the framework context
-	 *
+	 * 
 	 * @return context, the framework context
 	 * @deprecated use getPlatformContext instead
 	 */
-	@Deprecated
 	public IPlatformContext getServletContext() {
 		return getPlatformContext();
 	}
@@ -410,22 +404,20 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Set the max rows per query
-	 *
+	 * 
 	 * @param maxRows: max rows
 	 * @deprecated
 	 */
-	@Deprecated
 	public void setMaxRowsPerQuery(int maxRows) {
 		setProperty(MAX_ROWS_PER_QUERY, Integer.valueOf(maxRows));
 	}
 
 	/**
 	 * Get the max rows per query
-	 *
+	 * 
 	 * @return the max rows per query
 	 * @deprecated
 	 */
-	@Deprecated
 	public int getMaxRowsPerQuery() {
 		Object maxRows = getProperty(MAX_ROWS_PER_QUERY);
 		if (maxRows instanceof Integer) {
@@ -436,7 +428,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Sets default emitter for an output format.
-	 *
+	 * 
 	 * @param format    the format.
 	 * @param emitterId the id of the default emitter.
 	 */
@@ -449,7 +441,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Gets default emitter id of an output format.
-	 *
+	 * 
 	 * @param format the format.
 	 * @return the id of the default emitter of this output format, "null" is
 	 *         returned if default emitter is not set for this format.
@@ -463,12 +455,11 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig {
 
 	/**
 	 * Output properties for debug tracing
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
 	public String toString() {
-		StringBuilder buf = new StringBuilder("EngineConfig: ");
+		StringBuffer buf = new StringBuffer("EngineConfig: ");
 		if (properties == null) {
 			buf.append("null");
 		} else {

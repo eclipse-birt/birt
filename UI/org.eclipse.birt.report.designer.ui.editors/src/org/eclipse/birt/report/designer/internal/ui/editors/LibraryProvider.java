@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,26 +40,24 @@ import org.eclipse.ui.IPathEditorInput;
  * Implement of ILibraryProvider Return libraries defined in preference and
  * libraries in the same folder(and sub folders) with the report file. Used in
  * when editor input is no workspace resource.
- *
+ * 
  * @deprecated
  */
 
-@Deprecated
 public class LibraryProvider implements ILibraryProvider {
 
 	private static final String MSG_OPEN_DEFINED_LIBRARY_ERROR_TITLE = Messages
 			.getString("LibraryProvider.openDefinedLibrary.error.dialog.title"); //$NON-NLS-1$
 	private static final String MSG_OPEN_DEFINED_LIBRARY_ERROR_MSG = Messages
 			.getString("LibraryProvider.openDefinedLibrary.error.dialog.message"); //$NON-NLS-1$
-	private static final LibraryHandle[] empty = {};
+	private static final LibraryHandle[] empty = new LibraryHandle[0];
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.lib.ILibraryProvider#
 	 * getLibrarys()
 	 */
-	@Override
 	public LibraryHandle[] getLibraries() {
 		File inputFolder = getInputForlder();
 		if (inputFolder != null) {
@@ -70,9 +68,8 @@ public class LibraryProvider implements ILibraryProvider {
 				try {
 					LibraryHandle handle = SessionHandleAdapter.getInstance().getSessionHandle()
 							.openLibrary(predefinedLibrarys[i]);
-					if (!isLibExist(libSet, handle)) {
+					if (!isLibExist(libSet, handle))
 						libSet.add(handle);
-					}
 				} catch (Exception e) {
 					ExceptionUtil.handle(e, MSG_OPEN_DEFINED_LIBRARY_ERROR_TITLE, MSG_OPEN_DEFINED_LIBRARY_ERROR_MSG);
 				}
@@ -86,7 +83,6 @@ public class LibraryProvider implements ILibraryProvider {
 		ArrayList libList = new ArrayList();
 		File[] libs = folder.listFiles(new FileFilter() {
 
-			@Override
 			public boolean accept(File pathname) {
 				return pathname.getPath().indexOf(".rptlibrary") == pathname.getPath() //$NON-NLS-1$
 						.length() - 11;
@@ -102,9 +98,8 @@ public class LibraryProvider implements ILibraryProvider {
 				} catch (Exception e) {
 					continue;
 				}
-				if (!isLibExist(libList, handle)) {
+				if (!isLibExist(libList, handle))
 					libList.add(handle);
-				}
 			} else {
 				libList.addAll(getFolderLibraries(lib));
 			}
@@ -126,9 +121,8 @@ public class LibraryProvider implements ILibraryProvider {
 	private boolean isLibExist(Collection list, LibraryHandle handle) {
 		for (Iterator iter = list.iterator(); iter.hasNext();) {
 			LibraryHandle element = (LibraryHandle) iter.next();
-			if (element.getFileName().equals(handle.getFileName())) {
+			if (element.getFileName().equals(handle.getFileName()))
 				return true;
-			}
 		}
 		return false;
 	}
@@ -137,7 +131,6 @@ public class LibraryProvider implements ILibraryProvider {
 		return new File(handle.getFileName()).getParentFile().equals(getInputForlder());
 	}
 
-	@Override
 	public Image getDisplayIcon(LibraryHandle handle) {
 		if (!isInCurrentFileFolder(handle)) {
 			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_LIBRARY_REFERENCED);

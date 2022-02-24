@@ -58,15 +58,14 @@ public class XlsxFileReader {
 
 	public LinkedHashMap<String, String> getSheetNames() throws InvalidFormatException, IOException, SAXException {
 		BufferedInputStream wbData = new BufferedInputStream(reader.getWorkbookData());
-		LinkedHashMap<String, String> sheetMap = new LinkedHashMap<>();
+		LinkedHashMap<String, String> sheetMap = new LinkedHashMap<String, String>();
 		try {
 			InputSource wbSource = new InputSource(wbData);
 			XMLReader parser = fetchWorkbookParser(sheetMap);
 			parser.parse(wbSource);
 		} finally {
-			if (wbData != null) {
+			if (wbData != null)
 				wbData.close();
-			}
 		}
 		return sheetMap;
 	}
@@ -78,9 +77,12 @@ public class XlsxFileReader {
 
 		XMLReader parser = fetchSheetParser(st, sst, callback, xlsxRowsToRead);
 		BufferedInputStream sheet = new BufferedInputStream(reader.getSheet(rid));
-		try (sheet) {
+		try {
 			InputSource sheetSource = new InputSource(sheet);
 			parser.parse(sheetSource);
+		} finally {
+			if (sheet != null)
+				sheet.close();
 		}
 	}
 
@@ -133,45 +135,42 @@ public class XlsxFileReader {
 			this.sst = sst;
 			this.st = st;
 			this.callback = callback;
-			values = new ArrayList<>();
+			values = new ArrayList<Object>();
 			this.cellDataType = cDataType.NUMBER;
 			this.xlsxRowsToRead = xlsxRowsToRead;
 			sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");// ISO date format
 		}
 
-		@Override
 		public void startElement(String uri, String localName, String qName, Attributes attributes)
 				throws SAXException {
 			if (qName.equals("c")) {
 				String vCellType = attributes.getValue("t");
 				String cellS = attributes.getValue("s");
-				if ("b".equals(vCellType)) {
+				if ("b".equals(vCellType))
 					cellDataType = cDataType.BOOL;
-				} else if ("e".equals(vCellType)) {
+				else if ("e".equals(vCellType))
 					cellDataType = cDataType.FORMULA;
-				} else if ("s".equals(vCellType)) {
+				else if ("s".equals(vCellType))
 					cellDataType = cDataType.SSTINDEX;
-				} else if ("str".equals(vCellType)) {
+				else if ("str".equals(vCellType))
 					cellDataType = cDataType.STATIC;
-				} else if (cellS != null) {
+				else if (cellS != null) {
 					// number with formatting or date
 					int styleIndex = Integer.parseInt(cellS);
 					XSSFCellStyle style = st.getStyleAt(styleIndex);
 					short formatIndex = style.getDataFormat();
 					String formatString = style.getDataFormatString();
 
-					if (formatString == null) {
+					if (formatString == null)
 						formatString = BuiltinFormats.getBuiltinFormat(formatIndex);
-					}
 
 					if (org.apache.poi.ss.usermodel.DateUtil.isADateFormat(formatIndex, formatString)) {
 						cellDataType = cDataType.DATETIME;
 					} else {
 						cellDataType = cDataType.NUMBER;
 					}
-				} else {
+				} else
 					cellDataType = cDataType.NUMBER;
-				}
 
 				String r = attributes.getValue("r");
 
@@ -201,7 +200,6 @@ public class XlsxFileReader {
 			lastContents = ExcelODAConstants.EMPTY_STRING;
 		}
 
-		@Override
 		public void endElement(String uri, String localName, String name) throws SAXException {
 			if (name.equals("row")) {
 				callback.handleRow(values);
@@ -213,8 +211,10 @@ public class XlsxFileReader {
 						throw new SAXException(ROW_LIMIT_REACHED_EX_MSG);
 					}
 				}
+				return;
 			} else if (name.equals("c")) {
 				cellDataType = cDataType.NUMBER;
+				return;
 			} else if (name.equals("v")) {
 
 				String val = ExcelODAConstants.EMPTY_STRING;
@@ -235,11 +235,11 @@ public class XlsxFileReader {
 					val = sdf.format(myjavadate);
 				} else if (cellDataType == cDataType.BOOL) {
 					if (lastContents.compareTo("1") == 0) {
-						boolean mybool = true;
-						val = Boolean.toString(mybool);
+						Boolean mybool = new Boolean(true);
+						val = mybool.toString();
 					} else if (lastContents.compareTo("0") == 0) {
-						boolean mybool = false;
-						val = Boolean.toString(mybool);
+						Boolean mybool = new Boolean(false);
+						val = mybool.toString();
 					}
 				}
 
@@ -253,7 +253,6 @@ public class XlsxFileReader {
 			}
 		}
 
-		@Override
 		public void characters(char[] ch, int start, int length) throws SAXException {
 			lastContents += new String(ch, start, length);
 		}
@@ -288,7 +287,6 @@ public class XlsxFileReader {
 			this.sheetMap = sheetMap;
 		}
 
-		@Override
 		public void startElement(String uri, String localName, String qName, Attributes attributes)
 				throws SAXException {
 			// <sheet r:id="rId1" name="Sheet1" />

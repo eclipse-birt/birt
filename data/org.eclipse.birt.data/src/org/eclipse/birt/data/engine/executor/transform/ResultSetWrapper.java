@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
- *
+ * 
  */
 
 public class ResultSetWrapper implements IResultIterator {
@@ -47,12 +47,11 @@ public class ResultSetWrapper implements IResultIterator {
 		this.index = source.getCurrentResultIndex();
 		this.cachedRows = new CachedList(session.getTempDir(), DataEngineSession.getCurrentClassLoader(),
 				new ResultObjectHolderCreator());
-		List<ResultFieldMetadata> metas = new ArrayList<>();
+		List<ResultFieldMetadata> metas = new ArrayList<ResultFieldMetadata>();
 		for (int i = 1; i <= this.source.getResultClass().getFieldCount(); i++) {
 			ResultFieldMetadata meta = this.source.getResultClass().getFieldMetaData(i);
-			if (meta.getName().startsWith("_{$TEMP")) {
+			if (meta.getName().startsWith("_{$TEMP"))
 				continue;
-			}
 			metas.add(meta);
 		}
 		this.trimedResultClass = new ResultClass(metas);
@@ -70,12 +69,10 @@ public class ResultSetWrapper implements IResultIterator {
 		}
 	}
 
-	@Override
 	public IResultClass getResultClass() throws DataException {
 		return this.source.getResultClass();
 	}
 
-	@Override
 	public boolean next() throws DataException {
 		if (this.index < this.cachedRows.size() - 1) {
 			this.index++;
@@ -94,37 +91,29 @@ public class ResultSetWrapper implements IResultIterator {
 		}
 	}
 
-	@Override
 	public void first(int groupingLevel) throws DataException {
-		if (groupingLevel != 0) {
+		if (groupingLevel != 0)
 			throw new UnsupportedOperationException();
-		}
 	}
 
-	@Override
 	public void last(int groupingLevel) throws DataException {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
 	public IResultObject getCurrentResult() throws DataException {
-		if (this.index >= this.cachedRows.size() || this.index < 0) {
+		if (this.index >= this.cachedRows.size() || this.index < 0)
 			return null;
-		}
 		return getResultObjectHolder().getResultObject();
 	}
 
-	@Override
 	public int getCurrentResultIndex() throws DataException {
 		return this.index;
 	}
 
-	@Override
 	public int getCurrentGroupIndex(int groupLevel) throws DataException {
 		return this.getResultObjectHolder().getCurrentGroupIndex(groupLevel - 1);
 	}
 
-	@Override
 	public int getStartingGroupLevel() throws DataException {
 		assert this.index < this.cachedRows.size();
 		return getResultObjectHolder().getStartingGroupIndex();
@@ -134,48 +123,39 @@ public class ResultSetWrapper implements IResultIterator {
 		return ((ResultObjectHolder) this.cachedRows.get(this.index));
 	}
 
-	@Override
 	public int getEndingGroupLevel() throws DataException {
 		assert this.index < this.cachedRows.size();
 		return getResultObjectHolder().getEndingGroupIndex();
 	}
 
-	@Override
 	public void close() throws DataException {
 		this.source.close();
 	}
 
-	@Override
 	public int[] getGroupStartAndEndIndex(int groupLevel) throws DataException {
 		return this.source.getGroupStartAndEndIndex(groupLevel);
 	}
 
-	@Override
 	public ResultSetCache getResultSetCache() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
 	public int getRowCount() throws DataException {
 		return this.source.getRowCount();
 	}
 
-	@Override
 	public IExecutorHelper getExecutorHelper() {
 		return this.source.getExecutorHelper();
 	}
 
-	@Override
 	public void doSave(StreamWrapper streamsWrapper, boolean isSubQuery) throws DataException {
 		this.source.doSave(streamsWrapper, isSubQuery);
 	}
 
-	@Override
 	public void incrementalUpdate(StreamWrapper streamsWrapper, int rowCount, boolean isSubQuery) throws DataException {
 		this.source.incrementalUpdate(streamsWrapper, rowCount, isSubQuery);
 	}
 
-	@Override
 	public Object getAggrValue(String aggrName) throws DataException {
 		while (!this.source.aggrValueAvailable(aggrName, this.index)) {
 			if (this.source.next()) {
@@ -205,9 +185,8 @@ public class ResultSetWrapper implements IResultIterator {
 
 		public int getCurrentGroupIndex(int groupLevel) {
 			int candidateIndex = (Integer) this.groupIndex[groupLevel] - 1;
-			if (candidateIndex >= 0) {
+			if (candidateIndex >= 0)
 				return candidateIndex;
-			}
 			return 0;
 		}
 
@@ -223,7 +202,6 @@ public class ResultSetWrapper implements IResultIterator {
 			return this.endingGroupIndex;
 		}
 
-		@Override
 		public Object[] getFieldValues() {
 			Object[] result = new Object[trimedResultClass.getFieldCount() + 2 + this.groupIndex.length];
 			for (int i = 0; i < trimedResultClass.getFieldCount(); i++) {
@@ -245,19 +223,18 @@ public class ResultSetWrapper implements IResultIterator {
 	/**
 	 * A creator class implemented ICachedObjectCreator. This class is used to
 	 * create GroupInfo object.
-	 *
+	 * 
 	 * @author Administrator
-	 *
+	 * 
 	 */
 	class ResultObjectHolderCreator implements ICachedObjectCreator {
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.cache.ICachedObjectCreator#createInstance(java.
 		 * lang.Object[])
 		 */
-		@Override
 		public ICachedObject createInstance(Object[] fields) {
 			try {
 

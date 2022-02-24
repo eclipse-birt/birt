@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,27 +42,27 @@ public class Formatter implements IScriptFunctionExecutor {
 	 * utilities used in the report execution.
 	 */
 
-	private ThreadLocal<HashMap<String, StringFormatter>> stringFormatters = new ThreadLocal<>() {
+	private ThreadLocal<HashMap<String, StringFormatter>> stringFormatters = new ThreadLocal<HashMap<String, StringFormatter>>() {
 
 		@Override
 		protected HashMap<String, StringFormatter> initialValue() {
-			return new HashMap<>();
+			return new HashMap<String, StringFormatter>();
 		}
 	};
 
-	private ThreadLocal<HashMap<String, NumberFormatter>> numberFormatters = new ThreadLocal<>() {
+	private ThreadLocal<HashMap<String, NumberFormatter>> numberFormatters = new ThreadLocal<HashMap<String, NumberFormatter>>() {
 
 		@Override
 		protected HashMap<String, NumberFormatter> initialValue() {
-			return new HashMap<>();
+			return new HashMap<String, NumberFormatter>();
 		}
 	};
 
-	private ThreadLocal<HashMap<String, DateFormatter>> dateFormatters = new ThreadLocal<>() {
+	private ThreadLocal<HashMap<String, DateFormatter>> dateFormatters = new ThreadLocal<HashMap<String, DateFormatter>>() {
 
 		@Override
 		protected HashMap<String, DateFormatter> initialValue() {
-			return new HashMap<>();
+			return new HashMap<String, DateFormatter>();
 		}
 	};
 
@@ -82,7 +82,6 @@ public class Formatter implements IScriptFunctionExecutor {
 		return fmt;
 	}
 
-	@Override
 	public Object execute(Object[] arguments, IScriptFunctionContext scriptContext) throws BirtException {
 		if (scriptContext != null) {
 			locale = (ULocale) scriptContext
@@ -125,7 +124,6 @@ public class Formatter implements IScriptFunctionExecutor {
 			this.formatter = formatter;
 		}
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (args == null || args.length < 2) {
 				throw new IllegalArgumentException(MessageFormat.format(WRONG_ARGUMENT, new Object[] { FORMAT }));

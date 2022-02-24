@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ public class StructureReferenceValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 *
+	 * 
 	 * @return the validator instance
 	 */
 
@@ -58,7 +58,7 @@ public class StructureReferenceValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Validates the structure reference value can refer to an actual structure.
-	 *
+	 * 
 	 * @param module   the module
 	 * @param element  the element holding the structure reference property
 	 * @param propName the name of the structure reference property
@@ -66,7 +66,6 @@ public class StructureReferenceValidator extends AbstractPropertyValidator {
 	 *         <code>SemanticException</code>.
 	 */
 
-	@Override
 	public List validate(Module module, DesignElement element, String propName) {
 		List list = new ArrayList();
 
@@ -84,7 +83,7 @@ public class StructureReferenceValidator extends AbstractPropertyValidator {
 	 * Attempts to resolve a structure reference property. If the property is empty,
 	 * or the reference is already resolved, return true. If the reference is not
 	 * resolved, attempt to resolve it. If it cannot be resolved, return false.
-	 *
+	 * 
 	 * @param module   the module
 	 * @param element  the element holding this structure reference property
 	 * @param propName the name of the property
@@ -98,9 +97,8 @@ public class StructureReferenceValidator extends AbstractPropertyValidator {
 		// Is the value set?
 
 		Object value = element.getLocalProperty(module, propName);
-		if (value == null) {
+		if (value == null)
 			return true;
-		}
 
 		// This must be a structure reference property.
 

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -73,12 +73,11 @@ public final class Stock extends AxesRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.AxesRenderer#renderSeries(org.eclipse.birt.
 	 * chart.output.IRenderer, Chart.Plot)
 	 */
-	@Override
 	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		final ChartWithAxes cwa = (ChartWithAxes) getModel();
 		if (cwa.getDimension() != ChartDimension.TWO_DIMENSIONAL_LITERAL) {
@@ -171,8 +170,8 @@ public final class Stock extends AxesRenderer {
 
 		renderClipping(ipr, getPlotBounds());
 
-		StackedSeriesLookup ssl;
-		StackGroup sg;
+		StackedSeriesLookup ssl = null;
+		StackGroup sg = null;
 
 		ssl = srh.getStackedSeriesLookup();
 		sg = ssl.getStackGroup(ss);
@@ -389,7 +388,7 @@ public final class Stock extends AxesRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.
 	 * birt.chart.device.IPrimitiveRenderer,
@@ -397,7 +396,6 @@ public final class Stock extends AxesRenderer {
 	 * org.eclipse.birt.chart.model.attribute.Fill,
 	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
-	@Override
 	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
 			throws ChartException {
 		if ((bo.getWidth() == 0) && (bo.getHeight() == 0)) {
@@ -461,7 +459,7 @@ public final class Stock extends AxesRenderer {
 
 	/**
 	 * Auto correct the invalid stock entry and log the error.
-	 *
+	 * 
 	 * @param entry stock entry
 	 * @since 2.2
 	 */
@@ -503,13 +501,12 @@ public final class Stock extends AxesRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#compute(org.eclipse.birt.chart.
 	 * model.attribute.Bounds, org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
-	@Override
 	public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		// NOTE: This method is not used by the Stock Renderer
 	}
@@ -576,7 +573,6 @@ public final class Stock extends AxesRenderer {
 				laDataPoint);
 	}
 
-	@Override
 	protected int checkEntryInRange(Object entry, Object min, Object max) {
 		if (entry instanceof StockEntry) {
 			StockEntry se = (StockEntry) entry;
@@ -602,12 +598,14 @@ public final class Stock extends AxesRenderer {
 				// White color
 				fill = ColorDefinitionImpl.WHITE();
 			}
-		} else // Price decrease
-		if (fill instanceof MultipleFill) {
-			// Negative color
-			fill = goFactory.copyOf(((MultipleFill) fill).getFills().get(1));
+		} else {
+			// Price decrease
+			if (fill instanceof MultipleFill) {
+				// Negative color
+				fill = goFactory.copyOf(((MultipleFill) fill).getFills().get(1));
+			}
+			// Palette color
 		}
-		// Palette color
 		return fill;
 	}
 

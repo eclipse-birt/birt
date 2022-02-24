@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,14 +23,14 @@ import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 
 /**
- *
+ * 
  */
 
 public class FilterConditionElement extends DesignElement implements IFilterConditionElement {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 * @param handle
 	 */
 
@@ -40,81 +40,74 @@ public class FilterConditionElement extends DesignElement implements IFilterCond
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getExpr
 	 * ()
 	 */
-	@Override
 	public String getExpr() {
 		return ((FilterConditionElementHandle) handle).getExpr();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * getFilterTarget()
 	 */
 
-	@Override
 	public String getFilterTarget() {
 		return ((FilterConditionElementHandle) handle).getFilterTarget();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * getOperator()
 	 */
-	@Override
 	public String getOperator() {
 		return ((FilterConditionElementHandle) handle).getOperator();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * getValue1List()
 	 */
-	@Override
 	public List getValue1List() {
 		return ((FilterConditionElementHandle) handle).getValue1List();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getValue2
 	 * ()
 	 */
-	@Override
 	public String getValue2() {
 		return ((FilterConditionElementHandle) handle).getValue2();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * isOptional()
 	 */
-	@Override
 	public boolean isOptional() {
 		return ((FilterConditionElementHandle) handle).isOptional();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setExpr
 	 * (java.lang.String)
 	 */
-	@Override
 	public void setExpr(String filterExpr) throws SemanticException {
 		setProperty(IFilterConditionElementModel.EXPR_PROP, filterExpr);
 
@@ -122,11 +115,10 @@ public class FilterConditionElement extends DesignElement implements IFilterCond
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * setFilterTarget(java.lang.String)
 	 */
-	@Override
 	public void setFilterTarget(String filterTarget) throws SemanticException {
 		setProperty(IFilterConditionElementModel.FILTER_TARGET_PROP, filterTarget);
 
@@ -134,11 +126,10 @@ public class FilterConditionElement extends DesignElement implements IFilterCond
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * setOperator(java.lang.String)
 	 */
-	@Override
 	public void setOperator(String operator) throws SemanticException {
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
@@ -156,11 +147,10 @@ public class FilterConditionElement extends DesignElement implements IFilterCond
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * setOptional(boolean)
 	 */
-	@Override
 	public void setOptional(boolean isOptional) throws SemanticException {
 
 		setProperty(IFilterConditionElementModel.IS_OPTIONAL_PROP, Boolean.valueOf(isOptional));
@@ -169,13 +159,12 @@ public class FilterConditionElement extends DesignElement implements IFilterCond
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setValue1
 	 * (java.util.List)
 	 */
 
-	@Override
 	public void setValue1(List value1List) throws SemanticException {
 
 		setProperty(IFilterConditionElementModel.VALUE1_PROP, value1List);
@@ -184,12 +173,11 @@ public class FilterConditionElement extends DesignElement implements IFilterCond
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setValue2
 	 * (java.lang.String)
 	 */
-	@Override
 	public void setValue2(String value2Expr) throws SemanticException {
 		setProperty(IFilterConditionElementModel.VALUE2_PROP, value2Expr);
 

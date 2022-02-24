@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,42 +35,36 @@ public abstract class ApplyButtonHandler implements IButtonHandler {
 		this.wizard = wizard;
 	}
 
-	@Override
 	public Button getButton() {
 		return button;
 	}
 
-	@Override
 	public int getId() {
 		return IDialogConstants.OK_ID;
 	}
 
-	@Override
 	public String getLabel() {
 		return Messages.getString("ApplyButtonHandler.Label.Apply"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Returns tool-tip text of this button.
-	 *
+	 * 
 	 * @return tool-tip text of this button.
 	 */
-	@Override
 	public String getTooltip() {
 		return null;
 	}
 
 	/**
 	 * Returns button icon.
-	 *
+	 * 
 	 * @return button icon.
 	 */
-	@Override
 	public Image getIcon() {
 		return null;
 	}
 
-	@Override
 	public void setButton(Button button) {
 		this.button = button;
 		((GridData) button.getLayoutData()).horizontalIndent = 10;
@@ -79,7 +73,6 @@ public abstract class ApplyButtonHandler implements IButtonHandler {
 		button.setEnabled(false);
 	}
 
-	@Override
 	public void run() {
 		// Update title and button status
 		wizard.updateTitleAsEdit();

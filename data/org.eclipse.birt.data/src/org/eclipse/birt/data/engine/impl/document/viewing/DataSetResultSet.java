@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -87,9 +87,8 @@ public class DataSetResultSet implements IDataSetResultSet {
 		this.version = version;
 
 		this.dataSetRowLensStream = lensStream;
-		if (lensStream != null) {
+		if (lensStream != null)
 			this.disRowLensStream = new DataInputStream(this.dataSetRowLensStream);
-		}
 		try {
 			this.initPos = this.inputStream.getOffset();
 		} catch (IOException e) {
@@ -102,9 +101,8 @@ public class DataSetResultSet implements IDataSetResultSet {
 		this.colCount = rsMetaData.getFieldCount();
 
 		this.prefilteredRowIds = prefilteredRows;
-		if (this.prefilteredRowIds != null) {
+		if (this.prefilteredRowIds != null)
 			this.rowIdIterator = this.prefilteredRowIds.iterator();
-		}
 
 		this.index = index;
 		this.stringTableMap = stringTableMap;
@@ -113,7 +111,7 @@ public class DataSetResultSet implements IDataSetResultSet {
 	}
 
 	private IResultClass populateResultClass(IResultClass meta) throws DataException {
-		List<ResultFieldMetadata> list = new ArrayList<>();
+		List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>();
 		for (int i = 1; i <= meta.getFieldCount(); i++) {
 			list.add(meta.getFieldMetaData(i));
 		}
@@ -126,10 +124,9 @@ public class DataSetResultSet implements IDataSetResultSet {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public int getRowCount() {
 		if (this.prefilteredRowIds != null) {
 			return this.prefilteredRowIds.size();
@@ -140,12 +137,10 @@ public class DataSetResultSet implements IDataSetResultSet {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
-	@Override
 	public IResultObject next() throws DataException {
 		if (this.prefilteredRowIds != null) {
-			if (!this.rowIdIterator.hasNext()) {
+			if (!this.rowIdIterator.hasNext())
 				return null;
-			}
 			this.skipTo(this.rowIdIterator.next());
 			return this.getResultObject();
 		}
@@ -167,7 +162,6 @@ public class DataSetResultSet implements IDataSetResultSet {
 		return this.currentObject;
 	}
 
-	@Override
 	public IResultObject getResultObject() {
 		return this.currentObject;
 	}
@@ -176,12 +170,10 @@ public class DataSetResultSet implements IDataSetResultSet {
 		return rowIndex;
 	}
 
-	@Override
 	public void skipTo(int index) throws DataException {
 		try {
-			if (this.rowIndex == index) {
+			if (this.rowIndex == index)
 				return;
-			}
 
 			if (this.rowIndex < this.rowCount || this.rowCount == -1) {
 				if (this.dataSetRowLensStream != null) {
@@ -196,6 +188,7 @@ public class DataSetResultSet implements IDataSetResultSet {
 					if (this.includeInnerID && !readInnerId) {
 						this.currentObject.setCustomFieldValue(ExprMetaUtil.POS_NAME, this.getCurrentIndex());
 					}
+					return;
 				}
 			}
 		} catch (IOException e) {
@@ -224,10 +217,9 @@ public class DataSetResultSet implements IDataSetResultSet {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public IResultClass getResultClass() {
 		return this.rsMetaData;
 	}
@@ -235,16 +227,14 @@ public class DataSetResultSet implements IDataSetResultSet {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#close()
 	 */
-	@Override
 	public void close() {
 		try {
 			if (dis != null) {
 				dis.close();
 				bis.close();
 			}
-			if (disRowLensStream != null) {
+			if (disRowLensStream != null)
 				disRowLensStream.close();
-			}
 		} catch (IOException e) {
 			// ignore throw new DataException( "error in close" );
 		}

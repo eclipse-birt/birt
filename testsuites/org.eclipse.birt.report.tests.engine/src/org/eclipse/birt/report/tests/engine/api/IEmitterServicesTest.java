@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,20 +39,17 @@ public class IEmitterServicesTest extends BaseEmitter {
 	private String report = "IEmitterServicesTest.rptdesign";
 	private Object emitterConfig;
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT(report, report);
 	}
 
-	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
 	}
 
-	@Override
 	protected String getReportName() {
 		return report;
 	}
@@ -89,7 +86,6 @@ public class IEmitterServicesTest extends BaseEmitter {
 		rrTask.close();
 	}
 
-	@Override
 	public void initialize(IEmitterServices service) {
 		assertNotNull(service.getEmitterConfig());
 		assertEquals(emitterConfig, service.getEmitterConfig().get(EMITTER_HTML));

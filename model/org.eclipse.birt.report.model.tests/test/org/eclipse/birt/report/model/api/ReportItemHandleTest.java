@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,26 +36,26 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Test ReportItemHandle.
- *
+ * 
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testDataSet()}</td>
  * <td>check free-form element which contains attribute data-set</td>
  * <td>dataset name is myDataSet</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>check list element which doesn't contain attribute data-set</td>
  * <td>null</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>testReadVisibilityRules()</td>
  * <td>Gets visibility rules in elements and tests whether values match with
@@ -63,33 +63,33 @@ import com.ibm.icu.util.ULocale;
  * <td>Returned values match with the design file. If "format" values are not
  * defined, the default value "all" is used.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>The number of visibility rules in elements.</td>
  * <td>The number is 2.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>testWriteVisibilityRules</td>
  * <td>The default format value in the visibility rule.</td>
  * <td>The default value can be written out to the design file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Sets "format" and "valueExpr" properties of a visibility rule.</td>
  * <td>"format" and "valueExpr" can be written out and the output file matches
  * with the golden file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testCssProperties()}</td>
  * <td>Tests the special "vertical-align" property.</td>
  * <td>If the property is defined on the row, cell, elements in cells can get
  * the "vertical-align" value.</td>
  * </tr>
- *
+ * 
  * </table>
  */
 
@@ -101,17 +101,16 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
-	 *
+	 * 
 	 */
 
 	class InnerReportItemHandle extends ReportItemHandle {
@@ -125,18 +124,18 @@ public class ReportItemHandleTest extends BaseTestCase {
 	 * test getDataSet().
 	 * <p>
 	 * Test Cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>check free-form element which contains attribute data-set</li>
 	 * <li>check list element which doesn't contain attribute data-set</li>
 	 * </ul>
-	 *
+	 * 
 	 * Excepted:
 	 * <ul>
 	 * <li>dataset name is myDataSet</li>
 	 * <li>null</li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -170,7 +169,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests 'addTOC' , 'getTOC' , 'setExpression' , 'getExpression' method.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -206,7 +205,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests 'setStringProperty' method.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -221,7 +220,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests addcolumnBinding method.
-	 *
+	 * 
 	 * @throws SemanticException
 	 * @throws DesignFileException
 	 */
@@ -358,7 +357,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Test to read hide rules.
-	 *
+	 * 
 	 * @throws Exception if open the design file with errors.
 	 */
 
@@ -426,7 +425,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to write hide rules to the design file.
-	 *
+	 * 
 	 * @throws Exception if open/write the design file with IO errors.
 	 */
 
@@ -478,8 +477,8 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests common properties on a report item.
-	 *
-	 *
+	 * 
+	 * 
 	 * @throws Exception
 	 */
 
@@ -512,7 +511,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the undo operation for invalid style name.
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 
@@ -532,7 +531,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the undo operation for invalid DataSet name.
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 
@@ -552,7 +551,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the function for adding bound data columns.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -640,7 +639,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests removedColumnBindings().
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -660,7 +659,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * tests getAvailableBindings().
-	 *
+	 * 
 	 * @throws DesignFileException
 	 */
 	public void testGetAvailableBindings() throws DesignFileException {
@@ -698,7 +697,9 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 		assertNotNull(tableone);
 
-		Map two = new HashMap(one);
+		Map two = new HashMap();
+		two.putAll(one);
+
 		List tableTwoBindings = new ArrayList();
 		for (Iterator itr = tableTwo.getAvailableBindings(); itr.hasNext();) {
 			tableTwoBindings.add(itr.next());

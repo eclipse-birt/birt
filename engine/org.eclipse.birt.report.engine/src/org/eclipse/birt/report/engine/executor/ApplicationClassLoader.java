@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c)2008, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.api.ScriptLibHandle;
 
 /**
  * The application class loader.
- *
+ * 
  * The class loader first try to the load the class as following sequence:
  * <li>1. standard java class loader,
  * <li>2. classloader setted through the appContext.
@@ -112,7 +112,7 @@ public class ApplicationClassLoader extends ClassLoader {
 
 	/**
 	 * create the class loader used by the design.
-	 *
+	 * 
 	 * the method should be synchronized as the class loader of a document may be
 	 * used by multiple tasks.
 	 */
@@ -120,7 +120,7 @@ public class ApplicationClassLoader extends ClassLoader {
 		if (designClassLoader != null) {
 			return;
 		}
-		ArrayList<URL> urls = new ArrayList<>();
+		ArrayList<URL> urls = new ArrayList<URL>();
 		if (runnable != null) {
 			ModuleHandle module = (ModuleHandle) runnable.getDesignHandle();
 			Iterator iter = module.scriptLibsIterator();

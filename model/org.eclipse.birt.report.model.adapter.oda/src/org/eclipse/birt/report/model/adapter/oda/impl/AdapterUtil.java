@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ import org.eclipse.emf.common.util.EList;
 
 /**
  * Utility class to provide some method used for adapter classes.
- *
+ * 
  */
 public class AdapterUtil {
 
@@ -56,7 +56,7 @@ public class AdapterUtil {
 
 	/**
 	 * Creates a ODA ParameterMode with the given parameter input/output flags.
-	 *
+	 * 
 	 * @param isInput  the parameter is inputable.
 	 * @param isOutput the parameter is outputable
 	 * @return the created <code>ParameterMode</code>.
@@ -64,29 +64,27 @@ public class AdapterUtil {
 
 	static ParameterMode newParameterMode(boolean isInput, boolean isOutput) {
 		int mode = ParameterMode.IN;
-		if (isOutput && isInput) {
+		if (isOutput && isInput)
 			mode = ParameterMode.IN_OUT;
-		} else if (isOutput) {
+		else if (isOutput)
 			mode = ParameterMode.OUT;
-		} else if (isInput) {
+		else if (isInput)
 			mode = ParameterMode.IN;
-		}
 
 		return ParameterMode.get(mode);
 	}
 
 	/**
 	 * Updates allowNull property for the given data set parameter definition.
-	 *
+	 * 
 	 * @param romParamDefn the data set parameter definition.
 	 * @param nullability  the ODA object indicates nullability.
 	 * @return <code>true</code> if is nullable. <code>false</code> if not nullable.
 	 */
 
 	static Boolean getROMNullability(ElementNullability nullability) {
-		if (nullability == null) {
+		if (nullability == null)
 			return null;
-		}
 
 		switch (nullability.getValue()) {
 		case ElementNullability.NULLABLE:
@@ -102,7 +100,7 @@ public class AdapterUtil {
 
 	/**
 	 * Returns the prompty style with the given ROM defined parameter type.
-	 *
+	 * 
 	 * @param controlType the ROM defined parameter type
 	 * @param mustMatch   <code>true</code> if means list box, <code>false</code>
 	 *                    means combo box.
@@ -110,39 +108,35 @@ public class AdapterUtil {
 	 */
 
 	static InputPromptControlStyle newPromptStyle(String controlType, boolean mustMatch) {
-		if (controlType == null) {
+		if (controlType == null)
 			return null;
-		}
 
 		int type = -1;
-		if (DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equalsIgnoreCase(controlType)) {
+		if (DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equalsIgnoreCase(controlType))
 			type = InputPromptControlStyle.CHECK_BOX;
-		} else if (DesignChoiceConstants.PARAM_CONTROL_LIST_BOX.equalsIgnoreCase(controlType)) {
-			if (mustMatch) {
+		else if (DesignChoiceConstants.PARAM_CONTROL_LIST_BOX.equalsIgnoreCase(controlType)) {
+			if (mustMatch)
 				type = InputPromptControlStyle.SELECTABLE_LIST;
-			} else {
+			else
 				type = InputPromptControlStyle.SELECTABLE_LIST_WITH_TEXT_FIELD;
-			}
-		} else if (DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equalsIgnoreCase(controlType)) {
+		} else if (DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equalsIgnoreCase(controlType))
 			type = InputPromptControlStyle.RADIO_BUTTON;
-		} else if (DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equalsIgnoreCase(controlType)) {
+		else if (DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equalsIgnoreCase(controlType))
 			type = InputPromptControlStyle.TEXT_FIELD;
-		}
 
 		return InputPromptControlStyle.get(type);
 	}
 
 	/**
 	 * Returns ROM defined control type by given ODA defined prompt style.
-	 *
+	 * 
 	 * @param style the ODA defined prompt style
 	 * @return the ROM defined control type
 	 */
 
 	static String newROMControlType(InputPromptControlStyle style) {
-		if (style == null) {
+		if (style == null)
 			return null;
-		}
 		switch (style.getValue()) {
 		case InputPromptControlStyle.CHECK_BOX:
 			return DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX;
@@ -160,7 +154,7 @@ public class AdapterUtil {
 
 	/**
 	 * Checks whether the data type needs quote.
-	 *
+	 * 
 	 * @param romDataType the ROM defined data type
 	 * @return <code>true</code> if data type is string. Otherwise
 	 *         <code>false</code>.
@@ -169,36 +163,34 @@ public class AdapterUtil {
 	static boolean needsQuoteDelimiters(String romDataType) {
 		boolean needs = false;
 
-		if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(romDataType)) {
+		if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(romDataType))
 			needs = true;
-		} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(romDataType)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(romDataType))
 			needs = true;
-		} else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(romDataType)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(romDataType))
 			needs = true;
-		} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(romDataType)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(romDataType))
 			needs = true;
-		} else if (DesignChoiceConstants.PARAM_TYPE_ANY.equals(romDataType)) {
+		else if (DesignChoiceConstants.PARAM_TYPE_ANY.equals(romDataType))
 			needs = true;
-		}
 		return needs;
 	}
 
 	/**
 	 * Updates the static values to report parameter handle.
-	 *
+	 * 
 	 * @param defaultValues
 	 * @param reportParam
 	 * @throws SemanticException
 	 */
 	static void updateROMDefaultValues(StaticValues defaultValues, AbstractScalarParameterHandle reportParam)
 			throws SemanticException {
-		if (defaultValues == null || reportParam == null) {
+		if (defaultValues == null || reportParam == null)
 			return;
-		}
 
 		List<Expression> newValues = null;
 		if (defaultValues != null && !defaultValues.isEmpty()) {
-			newValues = new ArrayList<>();
+			newValues = new ArrayList<Expression>();
 			for (Object tmpValue : defaultValues.getValues()) {
 				newValues.add(AdapterUtil.createExpression(tmpValue));
 			}
@@ -208,7 +200,7 @@ public class AdapterUtil {
 
 	/**
 	 * Updates values in ScalarValueChoices to the given report parameter.
-	 *
+	 * 
 	 * @param staticChoices the latest scalar values
 	 * @param cachedChoices the cached scalar value
 	 * @param paramHandle   the report parameter
@@ -217,23 +209,20 @@ public class AdapterUtil {
 
 	static void updateROMSelectionList(ScalarValueChoices staticChoices, ScalarValueChoices cachedChoices,
 			AbstractScalarParameterHandle paramHandle) throws SemanticException {
-		if (staticChoices == null || paramHandle == null) {
+		if (staticChoices == null || paramHandle == null)
 			return;
-		}
 
 		List retList = new ArrayList();
 
 		EList choiceList = staticChoices.getScalarValues();
 		EList cachedChoiceList = null;
 
-		if (cachedChoices != null) {
+		if (cachedChoices != null)
 			cachedChoiceList = cachedChoices.getScalarValues();
-		}
 
 		boolean useCached = false;
-		if (cachedChoiceList != null && choiceList.size() == cachedChoiceList.size()) {
+		if (cachedChoiceList != null && choiceList.size() == cachedChoiceList.size())
 			useCached = true;
-		}
 
 		for (int i = 0; i < choiceList.size(); i++) {
 			ScalarValueDefinition valueDefn = (ScalarValueDefinition) choiceList.get(i);
@@ -274,7 +263,7 @@ public class AdapterUtil {
 
 	/**
 	 * Updates values in DynamicValuesQuery to the given report parameter.
-	 *
+	 * 
 	 * @param valueQuery       the latest dynamic values
 	 * @param cachedValueQuery the cached dynamic values
 	 * @param reportParam      the report parameter
@@ -284,19 +273,16 @@ public class AdapterUtil {
 
 	static void updateROMDyanmicList(DynamicValuesQuery valueQuery, DynamicValuesQuery cachedValueQuery,
 			AbstractScalarParameterHandle reportParam, OdaDataSetHandle setHandle) throws SemanticException {
-		if (valueQuery == null) {
+		if (valueQuery == null)
 			return;
-		}
 
 		String value = valueQuery.getDataSetDesign().getName();
 		String cachedValue = null;
 		DataSetDesign dataSetDesign = null;
-		if (cachedValueQuery != null) {
+		if (cachedValueQuery != null)
 			dataSetDesign = cachedValueQuery.getDataSetDesign();
-		}
-		if (dataSetDesign != null) {
+		if (dataSetDesign != null)
 			cachedValue = dataSetDesign.getName();
-		}
 
 		if (cachedValue == null || !cachedValue.equals(value)) {
 
@@ -307,10 +293,9 @@ public class AdapterUtil {
 
 			ModuleHandle module = setHandle.getModuleHandle();
 			DataSetHandle target = module.findDataSet(value);
-			if (target instanceof OdaDataSetHandle && target != setHandle) {
+			if (target instanceof OdaDataSetHandle && target != setHandle)
 				new ModelOdaAdapter().updateLinkedParameterDataSetHandle(valueQuery.getDataSetDesign(),
 						(OdaDataSetHandle) target, false, setHandle.getDataSource());
-			}
 
 			// if there is no corresponding data set, creates a new one.
 
@@ -343,7 +328,7 @@ public class AdapterUtil {
 
 	/**
 	 * Converts the ODA native data type code to rom data type.
-	 *
+	 * 
 	 * @param dataSourceId       the id of the data source
 	 * @param dataSetId          the ide of the data set
 	 * @param nativeDataTypeCode the oda data type code
@@ -367,7 +352,7 @@ public class AdapterUtil {
 
 	/**
 	 * Returns the matched column hint with the given result set column.
-	 *
+	 * 
 	 * @param setColumn   the result set column
 	 * @param columnHints the iterator that includes column hints
 	 * @return the matched column hint
@@ -381,22 +366,20 @@ public class AdapterUtil {
 
 	/**
 	 * Returns the matched column hint with the given result set column.
-	 *
+	 * 
 	 * @param name        the name of the column hint
 	 * @param columnHints the iterator that includes column hints
 	 * @return the matched column hint
 	 */
 
 	static ColumnHintHandle findColumnHint(String name, Iterator columnHints) {
-		if (name == null) {
+		if (name == null)
 			return null;
-		}
 
 		while (columnHints.hasNext()) {
 			ColumnHintHandle hint = (ColumnHintHandle) columnHints.next();
-			if (name.equals(hint.getColumnName())) {
+			if (name.equals(hint.getColumnName()))
 				return hint;
-			}
 		}
 
 		return null;
@@ -404,7 +387,7 @@ public class AdapterUtil {
 
 	/**
 	 * Creates expression value from ODA value
-	 *
+	 * 
 	 * @param value the ODA value
 	 * @return the expression created
 	 */
@@ -414,9 +397,8 @@ public class AdapterUtil {
 			if (StringUtil.isBlank((String) value)) {
 				exprType = IExpressionType.JAVASCRIPT;
 				value = "\"" + value + "\"";
-			} else {
+			} else
 				exprType = IExpressionType.CONSTANT;
-			}
 		}
 		if (value instanceof CustomData) {
 			CustomData customData = (CustomData) value;
@@ -427,23 +409,23 @@ public class AdapterUtil {
 			}
 		}
 
-		if (exprType != null) {
+		if (exprType != null)
 			return new Expression(value, exprType);
-		}
 
 		return null;
 	}
 
 	static boolean isNullExpression(Object value) {
-		if ((value == null) || (value instanceof Expression && ((Expression) value).getExpression() == null)) {
+		if (value == null)
 			return true;
-		}
+		if (value instanceof Expression && ((Expression) value).getExpression() == null)
+			return true;
 		return false;
 	}
 
 	/**
 	 * Extracts the column name from the given column.
-	 *
+	 * 
 	 * @param column the column to extract
 	 * @return the column name, or null if it cannot be extracted.
 	 */

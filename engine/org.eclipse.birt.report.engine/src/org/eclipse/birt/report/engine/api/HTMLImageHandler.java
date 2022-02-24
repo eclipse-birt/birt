@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,13 +23,10 @@ public class HTMLImageHandler implements IHTMLImageHandler {
 	/**
 	 * @deprecated
 	 */
-	@Deprecated
-	@Override
 	public String onCustomImage(IImage image, Object context) {
 		return null;
 	}
 
-	@Override
 	public String onCustomImage(IImage image, IReportContext context) {
 		return onCustomImage(image, getRenderContext(context));
 	}
@@ -37,13 +34,10 @@ public class HTMLImageHandler implements IHTMLImageHandler {
 	/**
 	 * @deprecated
 	 */
-	@Deprecated
-	@Override
 	public String onDesignImage(IImage image, Object context) {
 		return null;
 	}
 
-	@Override
 	public String onDesignImage(IImage image, IReportContext context) {
 		return onDesignImage(image, getRenderContext(context));
 	}
@@ -51,13 +45,10 @@ public class HTMLImageHandler implements IHTMLImageHandler {
 	/**
 	 * @deprecated
 	 */
-	@Deprecated
-	@Override
 	public String onDocImage(IImage image, Object context) {
 		return null;
 	}
 
-	@Override
 	public String onDocImage(IImage image, IReportContext context) {
 		return onDocImage(image, getRenderContext(context));
 	}
@@ -65,13 +56,10 @@ public class HTMLImageHandler implements IHTMLImageHandler {
 	/**
 	 * @deprecated
 	 */
-	@Deprecated
-	@Override
 	public String onFileImage(IImage image, Object context) {
 		return null;
 	}
 
-	@Override
 	public String onFileImage(IImage image, IReportContext context) {
 		return onFileImage(image, getRenderContext(context));
 	}
@@ -79,20 +67,17 @@ public class HTMLImageHandler implements IHTMLImageHandler {
 	/**
 	 * @deprecated
 	 */
-	@Deprecated
-	@Override
 	public String onURLImage(IImage image, Object context) {
 		return null;
 	}
 
-	@Override
 	public String onURLImage(IImage image, IReportContext context) {
 		return onURLImage(image, getRenderContext(context));
 	}
 
 	/**
 	 * Get render context.
-	 *
+	 * 
 	 * @param context
 	 * @return
 	 */
@@ -114,27 +99,25 @@ public class HTMLImageHandler implements IHTMLImageHandler {
 
 	/**
 	 * get the cached image.
-	 *
+	 * 
 	 * @param id      cache key
 	 * @param type    image type.
 	 * @param context report context
 	 * @return the cached image
 	 */
-	@Override
 	public CachedImage getCachedImage(String id, int type, IReportContext context) {
 		return null;
 	}
 
 	/**
 	 * add the image into cache.
-	 *
+	 * 
 	 * @param id      cached key
 	 * @param type    image type
 	 * @param image   image object.
 	 * @param context report context
 	 * @return the cached image.
 	 */
-	@Override
 	public CachedImage addCachedImage(String id, int type, IImage image, IReportContext context) {
 		return null;
 	}

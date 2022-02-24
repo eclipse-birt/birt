@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.core.template.TextTemplate.ValueNode;
 
 /**
  * Text element captures a long string with internal formatting.
- *
+ * 
  */
 public class TextItemDesign extends ReportItemDesign {
 
@@ -54,7 +54,10 @@ public class TextItemDesign extends ReportItemDesign {
 	protected HashMap<String, Expression> exprs = null;
 
 	public HashMap<String, Expression> getExpressions() {
-		if (!hasExpression() || (text == null)) {
+		if (!hasExpression()) {
+			return null;
+		}
+		if (text == null) {
 			return null;
 		}
 		if (exprs != null) {
@@ -65,7 +68,7 @@ public class TextItemDesign extends ReportItemDesign {
 	}
 
 	public static HashMap<String, Expression> extractExpression(String textContent, String textType) {
-		HashMap<String, Expression> expressions = new HashMap<>();
+		HashMap<String, Expression> expressions = new HashMap<String, Expression>();
 		if (HTML_TEXT.equals(textType) || (AUTO_TEXT.equals(textType) && startsWithIgnoreCase(textContent, "<html>"))) {
 			TextTemplate template = null;
 			try {
@@ -136,11 +139,10 @@ public class TextItemDesign extends ReportItemDesign {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse
 	 * .birt.report.engine.ir.IReportItemVisitor)
 	 */
-	@Override
 	public Object accept(IReportItemVisitor visitor, Object value) {
 		return visitor.visitTextItem(this, value);
 	}

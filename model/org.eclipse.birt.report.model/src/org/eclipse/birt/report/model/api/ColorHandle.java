@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,17 +48,17 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * <li>CSS absolute or relative format: {rgb(r,g,b)} or {rgb(r%,g%,b%)}</li>
  * <li>A custom defined color.</li>
  * </ul>
- *
+ * 
  * <pre>
- *
+ * 
  * ColorHandle colorHandle = styleHandle.getColor();
  * </pre>
- *
+ * 
  * <p>
  * Use {@link ColorUtil#format(int, int)}and
  * {@link ColorUtil#format(String, int)}to do the formatting work on a color
  * value.
- *
+ * 
  * @see ColorUtil
  * @see ColorPropertyType
  */
@@ -75,7 +75,7 @@ public class ColorHandle extends ComplexValueHandle {
 	/**
 	 * Constructs a color handle for a member in a structure. This member must be a
 	 * color type.
-	 *
+	 * 
 	 * @param element the design element handle
 	 * @param context the context for the member property
 	 */
@@ -88,13 +88,12 @@ public class ColorHandle extends ComplexValueHandle {
 	/**
 	 * Constructs a color handle for a member in a structure. This member must be a
 	 * color type.
-	 *
+	 * 
 	 * @param element the design element handle
 	 * @param context the context for the member property
 	 * @deprecated
 	 */
 
-	@Deprecated
 	public ColorHandle(DesignElementHandle element, MemberRef context) {
 		super(element, context);
 		assert context.getPropDefn().getType() instanceof ColorPropertyType;
@@ -103,7 +102,7 @@ public class ColorHandle extends ComplexValueHandle {
 	/**
 	 * Constructs a color handle for a element property. This property must be a
 	 * color type.
-	 *
+	 * 
 	 * @param element     handle to the element that defined the property.
 	 * @param thePropDefn definition of the color property.
 	 */
@@ -118,7 +117,7 @@ public class ColorHandle extends ComplexValueHandle {
 	 * Returns the color value as an integer RGB value. Return <code>-1</code> if
 	 * color value is not set( value is <code>null</code>) or the <code>value</code>
 	 * is not a valid internal value for a color.
-	 *
+	 * 
 	 * @return the color value as an integer RGB value
 	 * @see ColorPropertyType#toInteger(Module, Object)
 	 */
@@ -129,7 +128,7 @@ public class ColorHandle extends ComplexValueHandle {
 
 	/**
 	 * Sets a color with a given integer RGB value.
-	 *
+	 * 
 	 * @param rgbValue rgb color value.
 	 * @throws SemanticException if the rgb value is invalid.
 	 */
@@ -141,7 +140,7 @@ public class ColorHandle extends ComplexValueHandle {
 	/**
 	 * Returns a CSS-compatible color value. It is a CSS-defined color name like
 	 * "red", or a CSS absolute RGB value like RGB(255,0,0).
-	 *
+	 * 
 	 * @return a CSS-compatible color value
 	 * @see ColorPropertyType#toCSSCompatibleColor(ReportDesign, Object)
 	 */
@@ -153,19 +152,18 @@ public class ColorHandle extends ComplexValueHandle {
 	/**
 	 * Returns a list containing all the names of both standard(CSS) colors or user
 	 * defined colors. The color names are localized.
-	 *
+	 * 
 	 * @return a list of localized color names, including both standard(CSS) colors
 	 *         and user defined colors.
-	 *
+	 * 
 	 */
 
 	public List getColors() {
 		List retList = getCSSColors();
 
 		List colors = getModule().getListProperty(getModule(), IModuleModel.COLOR_PALETTE_PROP);
-		if (colors == null) {
+		if (colors == null)
 			return retList;
-		}
 
 		for (int i = 0; i < colors.size(); i++) {
 			CustomColor customColor = (CustomColor) colors.get(i);
@@ -177,9 +175,9 @@ public class ColorHandle extends ComplexValueHandle {
 
 	/**
 	 * Returns a list containing standard(CSS) color names. The names are localized.
-	 *
+	 * 
 	 * @return a list of localized CSS color names.
-	 *
+	 * 
 	 */
 
 	public List getCSSColors() {

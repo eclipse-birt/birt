@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -109,7 +109,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages
 			.getString("CrosstabSortKeyBuilder.choice.ValueOfThisDataItem"); //$NON-NLS-1$
 
-	protected final String[] columns = { " ", //$NON-NLS-1$
+	protected final String[] columns = new String[] { " ", //$NON-NLS-1$
 			Messages.getString("SelColumnMemberValue.Column.Level"), //$NON-NLS-1$
 			Messages.getString("SelColumnMemberValue.Column.Value") //$NON-NLS-1$
 	};
@@ -135,7 +135,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 	private Combo comboStrength;
 
-	@Override
 	public void setHandle(DesignElementHandle handle) {
 		this.handle = handle;
 		if (editor != null) {
@@ -150,11 +149,10 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog ()
 	 */
-	@Override
 	protected boolean initDialog() {
 		if (sortElementHandle == null) {
 			textKey.setText(""); //$NON-NLS-1$
@@ -200,9 +198,8 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 		if (sortElementHandle.getDirection() != null && sortElementHandle.getDirection().trim().length() != 0) {
 			String value = sortElementHandle.getDirection().trim();
 			IChoice choice = choiceSet.findChoice(value);
-			if (choice != null) {
+			if (choice != null)
 				value = choice.getDisplayName();
-			}
 			int index;
 			index = comboDirection.indexOf(value);
 			index = index < 0 ? 0 : index;
@@ -245,14 +242,12 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 	 * Subclasses may override.
 	 * </p>
 	 */
-	@Override
 	protected void okPressed() {
 		LevelViewHandle level = (LevelViewHandle) groupLevelList.get(comboGroupLevel.getSelectionIndex());
 		String direction = comboDirection.getText();
 		IChoice choice = choiceSet.findChoiceByDisplayName(direction);
-		if (choice != null) {
+		if (choice != null)
 			direction = choice.getDisplayName();
-		}
 		int index;
 		index = comboDirection.indexOf(direction);
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -293,70 +288,74 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 				DesignElementHandle designElement = level.getModelHandle();
 				designElement.add(ILevelViewConstants.SORT_PROP, sortElementHandle);
-			} else if (level == levelViewHandle) {
-				ExpressionButtonUtil.saveExpressionButtonControl(textKey, sortElementHandle,
-						SortElementHandle.KEY_PROP);
-				if (index >= 0) {
-					sortElementHandle.setDirection(choice.getName());
-				}
-
-				if (sortElementHandle.getMember() != null) {
-					sortElementHandle.drop(ISortElementModel.MEMBER_PROP, 0);
-				}
-
-				// test code -- begin --
-				// MemberValueHandle parent = memberValueHandle;
-				// while(true)
-				// {
-				// if(parent != null)
-				// {
-				// parent.getCubeLevelName( );
-				// parent.getValue( );
-				// MemberValueHandle child = getChildMemberValue(parent);
-				// parent = child;
-				// }else
-				// {
-				// break;
-				// }
-				//
-				// }
-				// test code -- end --
-
-				if (referencedLevelList != null && referencedLevelList.size() > 0) {
-					sortElementHandle.add(ISortElementModel.MEMBER_PROP, memberValueHandle);
-				}
 			} else
-			// The level is changed
+			// edit
 			{
-				SortElementHandle sortElement = DesignElementFactory.getInstance().newSortElement();
-				ExpressionButtonUtil.saveExpressionButtonControl(textKey, sortElement, SortElementHandle.KEY_PROP);
-				if (index >= 0) {
-					sortElement.setDirection(choice.getName());
-				}
+				if (level == levelViewHandle) {
+					ExpressionButtonUtil.saveExpressionButtonControl(textKey, sortElementHandle,
+							SortElementHandle.KEY_PROP);
+					if (index >= 0) {
+						sortElementHandle.setDirection(choice.getName());
+					}
 
-				// test code -- begin --
-				// MemberValueHandle parent = memberValueHandle;
-				// while(true)
-				// {
-				// if(parent != null)
-				// {
-				// parent.getCubeLevelName( );
-				// parent.getValue( );
-				// MemberValueHandle child = getChildMemberValue(parent);
-				// parent = child;
-				// }else
-				// {
-				// break;
-				// }
-				//
-				// }
-				// test code -- end --
+					if (sortElementHandle.getMember() != null) {
+						sortElementHandle.drop(ISortElementModel.MEMBER_PROP, 0);
+					}
 
-				if (referencedLevelList != null && referencedLevelList.size() > 0) {
-					sortElement.add(ISortElementModel.MEMBER_PROP, memberValueHandle);
+					// test code -- begin --
+					// MemberValueHandle parent = memberValueHandle;
+					// while(true)
+					// {
+					// if(parent != null)
+					// {
+					// parent.getCubeLevelName( );
+					// parent.getValue( );
+					// MemberValueHandle child = getChildMemberValue(parent);
+					// parent = child;
+					// }else
+					// {
+					// break;
+					// }
+					//
+					// }
+					// test code -- end --
+
+					if (referencedLevelList != null && referencedLevelList.size() > 0) {
+						sortElementHandle.add(ISortElementModel.MEMBER_PROP, memberValueHandle);
+					}
+				} else
+				// The level is changed
+				{
+					SortElementHandle sortElement = DesignElementFactory.getInstance().newSortElement();
+					ExpressionButtonUtil.saveExpressionButtonControl(textKey, sortElement, SortElementHandle.KEY_PROP);
+					if (index >= 0) {
+						sortElement.setDirection(choice.getName());
+					}
+
+					// test code -- begin --
+					// MemberValueHandle parent = memberValueHandle;
+					// while(true)
+					// {
+					// if(parent != null)
+					// {
+					// parent.getCubeLevelName( );
+					// parent.getValue( );
+					// MemberValueHandle child = getChildMemberValue(parent);
+					// parent = child;
+					// }else
+					// {
+					// break;
+					// }
+					//
+					// }
+					// test code -- end --
+
+					if (referencedLevelList != null && referencedLevelList.size() > 0) {
+						sortElement.add(ISortElementModel.MEMBER_PROP, memberValueHandle);
+					}
+					levelViewHandle.getModelHandle().drop(ILevelViewConstants.SORT_PROP, sortElementHandle);
+					level.getModelHandle().add(ILevelViewConstants.SORT_PROP, sortElement);
 				}
-				levelViewHandle.getModelHandle().drop(ILevelViewConstants.SORT_PROP, sortElementHandle);
-				level.getModelHandle().add(ILevelViewConstants.SORT_PROP, sortElement);
 			}
 
 			String locale = comboLocale.getText();
@@ -398,7 +397,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 		super(parentShell, title, message);
 	}
 
-	@Override
 	protected Composite createInputContents(Composite parent) {
 
 		UIUtil.bindHelp(parent, IHelpContextIds.XTAB_SORTER_CONDITION_BUILDER);
@@ -429,7 +427,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 		textKey.addListener(SWT.Selection, comboKeySelection);
 		textKey.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				updateMemberValues();
 				updateButtons();
@@ -442,7 +439,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 		Listener listener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				updateButtons();
 			}
@@ -468,7 +464,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 		gdata.horizontalSpan = 2;
 		comboLocale.setLayoutData(gdata);
 		comboLocale.setVisibleItemCount(30);
-		List<String> localeNames = new ArrayList<>();
+		List<String> localeNames = new ArrayList<String>();
 		localeNames.add(Messages.getString("SortkeyBuilder.Locale.Auto"));
 		localeNames.addAll(FormatAdapter.LOCALE_TABLE.keySet());
 		comboLocale.setItems(localeNames.toArray(new String[] {}));
@@ -481,10 +477,9 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 		gdata.horizontalSpan = 2;
 		comboStrength.setLayoutData(gdata);
 		comboStrength.setVisibleItemCount(30);
-		List<String> strengthNames = new ArrayList<>(STRENGTH_MAP.keySet());
+		List<String> strengthNames = new ArrayList<String>(STRENGTH_MAP.keySet());
 		Collections.sort(strengthNames, new Comparator<String>() {
 
-			@Override
 			public int compare(String o1, String o2) {
 				return STRENGTH_MAP.get(o1) - STRENGTH_MAP.get(o2);
 			}
@@ -496,16 +491,18 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 		return content;
 	}
 
-	@Override
 	protected ExpressionProvider getExpressionProvider() {
 
 		ExpressionProvider expressionProvider = new ExpressionProvider(handle);
 		expressionProvider.addFilter(new ExpressionFilter() {
 
-			@Override
 			public boolean select(Object parentElement, Object element) {
-				if ((ExpressionFilter.CATEGORY.equals(parentElement)
-						&& ExpressionProvider.COLUMN_BINDINGS.equals(element)) || (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element))) {
+				if (ExpressionFilter.CATEGORY.equals(parentElement)
+						&& ExpressionProvider.COLUMN_BINDINGS.equals(element)) {
+					return false;
+				}
+
+				if (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element)) {
 					return false;
 				}
 
@@ -529,7 +526,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 	protected Listener comboGroupLeveModify = new Listener() {
 
-		@Override
 		public void handleEvent(Event e) {
 			updateBindings();
 			updateMemberValues();
@@ -538,16 +534,14 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 	protected Listener comboKeySelection = new Listener() {
 
-		@Override
 		public void handleEvent(Event e) {
 			String newValue = textKey.getText();
 			if (newValue.length() > 0 && textKey.getItemCount() > 0 && textKey.indexOf(newValue) != -1) {
 				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter(textKey);
 				if (converter != null) {
 					String value = converter.getCubeBindingExpression(newValue);
-					if (value != null) {
+					if (value != null)
 						newValue = value;
-					}
 				}
 				textKey.setText(newValue);
 			}
@@ -594,7 +588,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 		editor = new ExpressionValueCellEditor(dynamicViewer.getTable(), SWT.READ_ONLY);
 		TextCellEditor textEditor = new TextCellEditor(dynamicViewer.getTable(), SWT.READ_ONLY);
 		TextCellEditor textEditor2 = new TextCellEditor(dynamicViewer.getTable(), SWT.READ_ONLY);
-		CellEditor[] cellEditors = { textEditor, textEditor2, editor };
+		CellEditor[] cellEditors = new CellEditor[] { textEditor, textEditor2, editor };
 		if (handle != null) {
 			editor.setExpressionProvider(new ExpressionProvider(handle));
 			editor.setReportElement((ExtendedItemHandle) handle);
@@ -609,13 +603,12 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 	private ISelectionChangedListener selectionChangeListener = new ISelectionChangedListener() {
 
-		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			// TODO Auto-generated method stub
 			ISelection selection = event.getSelection();
 			if (selection instanceof StructuredSelection) {
 				Object obj = ((StructuredSelection) selection).getFirstElement();
-				if (obj instanceof MemberValueHandle && editor != null) {
+				if (obj != null && obj instanceof MemberValueHandle && editor != null) {
 					editor.setMemberValue((MemberValueHandle) obj);
 				}
 			}
@@ -627,15 +620,12 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider() {
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
-		@Override
 		public Object[] getElements(Object inputObj) {
 			if (!(inputObj instanceof List)) {
 				return new Object[0];
@@ -646,26 +636,23 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 	private ITableLabelProvider labelProvider = new ITableLabelProvider() {
 
-		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
-		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 0) {
-				if (element == dummyChoice) {
+				if (element == dummyChoice)
 					return Messages.getString("CrosstabSortKeyBuilder.MSG.CreateNew"); //$NON-NLS-1$
-				} else {
+				else {
 					if (element instanceof RuleHandle) {
 						return ((RuleHandle) element).getDisplayExpression();
 					}
 					return ""; //$NON-NLS-1$
 				}
 			} else if (columnIndex == 1) {
-				if (((MemberValueHandle) element).getLevel() != null) {
+				if (((MemberValueHandle) element).getLevel() != null)
 					return ((MemberValueHandle) element).getLevel().getName();
-				}
 			} else if (columnIndex == 2) {
 				String value = ((MemberValueHandle) element).getValue();
 				return value == null ? "" : value; //$NON-NLS-1$
@@ -673,20 +660,16 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 			return ""; //$NON-NLS-1$
 		}
 
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
@@ -694,7 +677,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 	private ICellModifier cellModifier = new ICellModifier() {
 
-		@Override
 		public boolean canModify(Object element, String property) {
 			if (Arrays.asList(columns).indexOf(property) == 2) {
 				return true;
@@ -704,7 +686,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 		}
 
-		@Override
 		public Object getValue(Object element, String property) {
 			if (Arrays.asList(columns).indexOf(property) != 2) {
 				return ""; //$NON-NLS-1$
@@ -714,7 +695,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 		}
 
-		@Override
 		public void modify(Object element, String property, Object value) {
 			if (Arrays.asList(columns).indexOf(property) != 2) {
 				return;
@@ -733,7 +713,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 	};
 	private ExpressionValueCellEditor editor;
 
-	@Override
 	protected boolean isConditionOK() {
 		if (textKey.getText().trim().length() == 0 || comboGroupLevel.getText().trim().length() == 0) {
 			return false;
@@ -859,7 +838,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 				}
 			}
 		}
-		if (!enabled) {
+		if (enabled == false) {
 			memberValueTable.setEnabled(false);
 			return;
 		}
@@ -910,6 +889,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 	private List getReferableBindings(LevelViewHandle level) {
 		List retList = new ArrayList();
+		;
 
 		if (level.getCubeLevel() == null) {
 			return retList;
@@ -945,6 +925,17 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 		return retList;
 	}
 
+	private int getBindingIndex(String dataExpression) {
+		int ret = -1;
+		for (int i = 0; i < textKey.getItemCount(); i++) {
+			String expression = textKey.getItem(i);
+			if (expression.equals(dataExpression)) {
+				return i;
+			}
+		}
+		return ret;
+	}
+
 	private MemberValueHandle getChildMemberValue(MemberValueHandle memberValue) {
 		if (memberValue.getContentCount(IMemberValueModel.MEMBER_VALUES_PROP) != 1
 				|| memberValue.getContent(IMemberValueModel.MEMBER_VALUES_PROP, 0) == null) {
@@ -955,9 +946,8 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 
 	private void dropChildMemberValue(MemberValueHandle memberValue) {
 		MemberValueHandle child = getChildMemberValue(memberValue);
-		if (child == null) {
+		if (child == null)
 			return;
-		}
 		try {
 			memberValue.drop(IMemberValueModel.MEMBER_VALUES_PROP, 0);
 		} catch (SemanticException e) {
@@ -1015,7 +1005,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 	}
 
 	private LevelHandle getLevelHandle(IDimensionLevel levelInfo) {
-		LevelHandle levelHandle;
+		LevelHandle levelHandle = null;
 		String levelName = levelInfo.getLevelName();
 		String dimensionName = levelInfo.getDimensionName();
 		ExtendedItemHandle extHandle = (ExtendedItemHandle) handle;
@@ -1029,9 +1019,8 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder {
 		dimensionName = StringUtil.buildQualifiedReference(extHandle.getCube().getModule().getNamespace(),
 				dimensionName);
 		DimensionViewHandle dimension = crosstab.getDimension(dimensionName);
-		if (dimension == null) {
+		if (dimension == null)
 			return null;
-		}
 		// LevelViewHandle level = getLevel(dimension, levelName );
 		LevelViewHandle level = dimension.findLevel(levelName);
 		levelHandle = level.getCubeLevel();

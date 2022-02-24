@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The abstract value for the format of string, data-time and number.
- *
+ * 
  */
 
 public class FormatValue extends Structure {
@@ -69,22 +69,18 @@ public class FormatValue extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	@Override
 	protected Object getIntrinsicProperty(String memberName) {
-		if (CATEGORY_MEMBER.equals(memberName)) {
+		if (CATEGORY_MEMBER.equals(memberName))
 			return category;
-		}
-		if (PATTERN_MEMBER.equals(memberName)) {
+		if (PATTERN_MEMBER.equals(memberName))
 			return pattern;
-		}
-		if (LOCALE_MEMBER.equals(memberName)) {
+		if (LOCALE_MEMBER.equals(memberName))
 			return locale;
-		}
 
 		assert false;
 		return null;
@@ -92,27 +88,25 @@ public class FormatValue extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	@Override
 	protected void setIntrinsicProperty(String memberName, Object value) {
-		if (CATEGORY_MEMBER.equals(memberName)) {
+		if (CATEGORY_MEMBER.equals(memberName))
 			category = (String) value;
-		} else if (PATTERN_MEMBER.equals(memberName)) {
+		else if (PATTERN_MEMBER.equals(memberName))
 			this.pattern = (String) value;
-		} else if (LOCALE_MEMBER.equals(memberName)) {
+		else if (LOCALE_MEMBER.equals(memberName))
 			this.locale = (ULocale) value;
-		} else {
+		else
 			assert false;
-		}
 	}
 
 	/**
 	 * Returns the variable name.
-	 *
+	 * 
 	 * @return the variable name
 	 */
 
@@ -122,7 +116,7 @@ public class FormatValue extends Structure {
 
 	/**
 	 * Sets the variable name.
-	 *
+	 * 
 	 * @param name the name to set
 	 */
 
@@ -132,7 +126,7 @@ public class FormatValue extends Structure {
 
 	/**
 	 * Returns the variable value.
-	 *
+	 * 
 	 * @return the variable value
 	 */
 
@@ -142,7 +136,7 @@ public class FormatValue extends Structure {
 
 	/**
 	 * Sets the variable value.
-	 *
+	 * 
 	 * @param value the value to set
 	 */
 
@@ -152,7 +146,7 @@ public class FormatValue extends Structure {
 
 	/**
 	 * Gets the ULocale.
-	 *
+	 * 
 	 * @return the ULocale.
 	 */
 	public ULocale getLocale() {
@@ -161,7 +155,7 @@ public class FormatValue extends Structure {
 
 	/**
 	 * Sets the ULocale.
-	 *
+	 * 
 	 * @param value the value of the ULocale.
 	 */
 	public void setLocale(ULocale value) {
@@ -170,38 +164,33 @@ public class FormatValue extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 
-	@Override
 	public String toString() {
-		if (!StringUtil.isEmpty(pattern)) {
+		if (!StringUtil.isEmpty(pattern))
 			return pattern;
-		}
-		if (!StringUtil.isEmpty(category)) {
+		if (!StringUtil.isEmpty(category))
 			return category;
-		}
 		return ""; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
-	@Override
 	public String getStructName() {
 		return FORMAT_VALUE_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
@@ -209,11 +198,10 @@ public class FormatValue extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
 	 * .report.model.api.SimpleValueHandle)
 	 */
-	@Override
 	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
 		return new FormatValueHandle(valueHandle.getElementHandle(), getContext());
 	}

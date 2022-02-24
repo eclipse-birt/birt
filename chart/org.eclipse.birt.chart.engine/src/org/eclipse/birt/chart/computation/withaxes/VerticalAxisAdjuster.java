@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import com.ibm.icu.util.Calendar;
 
 /**
  * The class is used to adjust the location and scale of one vertical axis.
- *
+ * 
  * @since 2.5
  */
 
@@ -108,7 +108,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param verticalAxis
 	 * @param horizontalAxis
 	 * @param plotWithAxes
@@ -125,7 +125,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Returns vertical axis.
-	 *
+	 * 
 	 * @return
 	 */
 	OneAxis getVerticalAxis() {
@@ -134,7 +134,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Returns the x of axis.
-	 *
+	 * 
 	 * @return
 	 */
 	double getAxisX() {
@@ -143,7 +143,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Returns the axis left edge.
-	 *
+	 * 
 	 * @return
 	 */
 	double getAxisLeftEdge() {
@@ -152,7 +152,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Returns the axis right edge.
-	 *
+	 * 
 	 * @return
 	 */
 	double getAxisRightEdge() {
@@ -161,7 +161,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Returns the axis label thickness.
-	 *
+	 * 
 	 * @return
 	 */
 	double getAxisLabelThickness() {
@@ -171,7 +171,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Returns the axis title thickness.
-	 *
+	 * 
 	 * @return
 	 */
 	double getAxisTitleThickness() {
@@ -180,7 +180,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Initializes internal fields values.
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	private void init() throws ChartException {
@@ -288,7 +288,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Computes the axis title thickness.
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	private void computeTitleThickness() throws ChartException {
@@ -316,10 +316,9 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.computation.withaxes.IAxesAdjuster#adjust()
 	 */
-	@Override
 	public void adjust() throws ChartException {
 		init();
 
@@ -744,7 +743,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Computes the title coordinate .
-	 *
+	 * 
 	 * @param axisCoordinate
 	 * @return
 	 */

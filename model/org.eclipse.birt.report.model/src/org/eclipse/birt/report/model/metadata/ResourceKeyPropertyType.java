@@ -41,22 +41,20 @@ public class ResourceKeyPropertyType extends TextualPropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
-	@Override
 	public int getTypeCode() {
 		return RESOURCE_KEY_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
-	@Override
 	public String getName() {
 		return RESOURCE_KEY_TYPE_NAME;
 	}

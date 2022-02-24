@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 /**
  * This class parses an element that contains only text, and that text is stored
  * as a property.
- *
+ * 
  */
 
 public class TextState extends DesignParseState {
@@ -39,7 +39,7 @@ public class TextState extends DesignParseState {
 	/**
 	 * Constructs the text state with the design file parser handler, the element or
 	 * structure that holds the text and the property name of the text.
-	 *
+	 * 
 	 * @param handler the design file parser handler
 	 * @param obj     the element or structure that has the property to set
 	 * @param theProp the name of the property to set
@@ -53,11 +53,10 @@ public class TextState extends DesignParseState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 
@@ -68,11 +67,10 @@ public class TextState extends DesignParseState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	@Override
 	public DesignElement getElement() {
 		return null;
 	}

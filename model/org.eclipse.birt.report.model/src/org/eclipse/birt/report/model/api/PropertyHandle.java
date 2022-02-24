@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.util.PropertyHandleHelper;
 
 /**
  * A handle for working with a top-level property of an element.
- *
+ * 
  * @see org.eclipse.birt.report.model.metadata.PropertyDefn
  * @see org.eclipse.birt.report.model.metadata.PropertyType
  */
@@ -31,7 +31,7 @@ public class PropertyHandle extends PropertyHandleImpl {
 	/**
 	 * Constructs the handle for a top-level property with the given element handle
 	 * and property name.
-	 *
+	 * 
 	 * @param element  a handle to a report element
 	 * @param propName the name of the property
 	 */
@@ -42,7 +42,7 @@ public class PropertyHandle extends PropertyHandleImpl {
 	/**
 	 * Constructs the handle for a top-level property with the given element handle
 	 * and the definition of the property.
-	 *
+	 * 
 	 * @param element a handle to a report element
 	 * @param prop    the definition of the property.
 	 */
@@ -53,50 +53,45 @@ public class PropertyHandle extends PropertyHandleImpl {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isReadOnly()
 	 */
 
-	@Override
 	public boolean isReadOnly() {
 		boolean isReadOnly = false;
 
 		Module root = getElementHandle().getModule();
 		assert root != null;
-		if (root.isReadOnly()) {
+		if (root.isReadOnly())
 			isReadOnly = true;
-		} else {
+		else {
 			switch (propDefn.getValueType()) {
 			case IPropertyDefn.SYSTEM_PROPERTY:
 			case IPropertyDefn.EXTENSION_PROPERTY:
 			case IPropertyDefn.ODA_PROPERTY:
 				IElementDefn elementDefn = getElementHandle().getDefn();
-				if (elementDefn.isPropertyReadOnly(propDefn.getName())) {
+				if (elementDefn.isPropertyReadOnly(propDefn.getName()))
 					isReadOnly = true;
-				}
 				break;
 			case IPropertyDefn.EXTENSION_MODEL_PROPERTY:
-				if (propDefn.isReadOnly()) {
+				if (propDefn.isReadOnly())
 					isReadOnly = true;
-				}
 				break;
 			}
 		}
 
-		if (isReadOnly) {
+		if (isReadOnly)
 			return true;
-		}
 
 		return PropertyHandleHelper.getInstance().isReadOnlyInContext(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isVisible()
 	 */
 
-	@Override
 	public boolean isVisible() {
 		boolean isVisible = true;
 		switch (propDefn.getValueType()) {
@@ -104,25 +99,21 @@ public class PropertyHandle extends PropertyHandleImpl {
 		case IPropertyDefn.EXTENSION_PROPERTY:
 		case IPropertyDefn.ODA_PROPERTY:
 			IElementDefn elementDefn = getElementHandle().getDefn();
-			if (!elementDefn.isPropertyVisible(propDefn.getName())) {
+			if (!elementDefn.isPropertyVisible(propDefn.getName()))
 				isVisible = false;
-			}
 			break;
 		case IPropertyDefn.EXTENSION_MODEL_PROPERTY:
-			if (!propDefn.isVisible()) {
+			if (!propDefn.isVisible())
 				isVisible = false;
-			}
 			break;
 		case IPropertyDefn.USER_PROPERTY:
-			if (!propDefn.isVisible()) {
+			if (!propDefn.isVisible())
 				isVisible = false;
-			}
 			break;
 		}
 
-		if (!isVisible) {
+		if (!isVisible)
 			return false;
-		}
 
 		return PropertyHandleHelper.getInstance().isVisibleInContext(this);
 	}

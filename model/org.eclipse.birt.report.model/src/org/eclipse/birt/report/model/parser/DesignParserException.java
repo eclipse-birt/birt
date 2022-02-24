@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 /**
  * This class describes a parse error. Many errors are reported using the same
  * exceptions used for API operations.
- *
+ * 
  */
 
 public class DesignParserException extends ModelException implements ErrorCodes {
@@ -76,11 +76,10 @@ public class DesignParserException extends ModelException implements ErrorCodes 
 
 	/**
 	 * An action Drillthrough is missing the "reportName" value.
-	 *
+	 * 
 	 * @deprecated no such error
 	 */
 
-	@Deprecated
 	public static final String DESIGN_EXCEPTION_ACTION_REPORTNAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_ACTION_REPORTNAME_REQUIRED;
 
 	/**
@@ -91,11 +90,10 @@ public class DesignParserException extends ModelException implements ErrorCodes 
 
 	/**
 	 * Break the restriction that "occurrence == 1" for a choice type.
-	 *
+	 * 
 	 * @deprecated no such error
 	 */
 
-	@Deprecated
 	public static final String DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION = MessageConstants.DESIGN_PARSER_EXCEPTION_CHOICE_RESTRICTION_VIOLATION;
 
 	/**
@@ -197,7 +195,7 @@ public class DesignParserException extends ModelException implements ErrorCodes 
 
 	/**
 	 * Constructs the design parser exception with the error code.
-	 *
+	 * 
 	 * @param errCode the error condition
 	 */
 
@@ -208,7 +206,7 @@ public class DesignParserException extends ModelException implements ErrorCodes 
 	/**
 	 * Constructs the design parser exception with the file name, the property name
 	 * and the error code.
-	 *
+	 * 
 	 * @param values  the values for message
 	 * @param errCode the error condition
 	 */
@@ -220,7 +218,7 @@ public class DesignParserException extends ModelException implements ErrorCodes 
 	/**
 	 * Constructs the design parser exception with the error code, the exception
 	 * argument lists and the caused exception.
-	 *
+	 * 
 	 * @param errCode
 	 * @param values
 	 * @param ex
@@ -231,11 +229,10 @@ public class DesignParserException extends ModelException implements ErrorCodes 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	@Override
 	public String getLocalizedMessage() {
 		if (sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND || sResourceKey == DESIGN_EXCEPTION_FILE_FORMAT_NOT_SUPPORT
 				|| sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY
@@ -263,11 +260,10 @@ public class DesignParserException extends ModelException implements ErrorCodes 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Throwable#getMessage()
 	 */
 
-	@Override
 	public String getMessage() {
 		return getLocalizedMessage();
 	}

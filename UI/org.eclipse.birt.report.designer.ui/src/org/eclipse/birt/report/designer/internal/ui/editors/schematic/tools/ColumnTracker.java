@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ public class ColumnTracker extends TableSelectionGuideTracker {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param sourceEditPart
 	 */
 	public ColumnTracker(TableEditPart sourceEditPart, int column, IContainer container) {
@@ -41,11 +41,10 @@ public class ColumnTracker extends TableSelectionGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableSelectionGuideTracker#select()
 	 */
-	@Override
 	public void select() {
 		if (container.isSelect() && getCurrentInput().isMouseButtonDown(3)) {
 			return;
@@ -77,11 +76,10 @@ public class ColumnTracker extends TableSelectionGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableSelectionGuideTracker#handleButtonUp(int)
 	 */
-	@Override
 	protected boolean handleButtonUp(int button) {
 		boolean rlt = super.handleButtonUp(button);
 
@@ -92,7 +90,6 @@ public class ColumnTracker extends TableSelectionGuideTracker {
 		return rlt;
 	}
 
-	@Override
 	public boolean isDealwithDrag() {
 		Handle handle = getHandleUnderMouse();
 		if (handle instanceof ColumnHandle) {
@@ -104,7 +101,6 @@ public class ColumnTracker extends TableSelectionGuideTracker {
 		// isSameTable();
 	}
 
-	@Override
 	public void selectDrag() {
 		ColumnHandle handle = (ColumnHandle) getHandleUnderMouse();
 
@@ -114,7 +110,7 @@ public class ColumnTracker extends TableSelectionGuideTracker {
 	}
 
 	private void selectColumns(int number, int columnNumber) {
-		int[] columns = {};
+		int[] columns = new int[] {};
 		for (int i = number; i <= number + Math.abs(number - columnNumber); i++) {
 			int lenegth = columns.length;
 			int[] temp = new int[lenegth + 1];

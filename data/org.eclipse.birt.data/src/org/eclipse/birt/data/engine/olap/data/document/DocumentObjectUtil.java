@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,12 +26,12 @@ import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 
 /**
- *
+ * 
  */
 
 public class DocumentObjectUtil {
 	/**
-	 *
+	 * 
 	 * @param documentObject
 	 * @param dataType
 	 * @param value
@@ -46,7 +46,7 @@ public class DocumentObjectUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param documentObject
 	 * @param dataType
 	 * @param value
@@ -89,18 +89,16 @@ public class DocumentObjectUtil {
 				documentObject.writeBytes((Bytes) value);
 				break;
 			case DataType.SQL_DATE_TYPE:
-				if (value instanceof java.sql.Date) {
+				if (value instanceof java.sql.Date)
 					documentObject.writeDate((Date) value);
-				} else {
+				else
 					documentObject.writeDate(DataTypeUtil.toSqlDate(value));
-				}
 				break;
 			case DataType.SQL_TIME_TYPE:
-				if (value instanceof java.sql.Time) {
+				if (value instanceof java.sql.Time)
 					documentObject.writeDate((Date) value);
-				} else {
+				else
 					documentObject.writeDate(DataTypeUtil.toSqlTime(value));
-				}
 				break;
 			case DataType.JAVA_OBJECT_TYPE:
 				if (value != null && !(value instanceof Serializable)) {
@@ -118,7 +116,7 @@ public class DocumentObjectUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param documentObject
 	 * @param dataType
 	 * @return
@@ -133,7 +131,7 @@ public class DocumentObjectUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param documentObject
 	 * @param dataType
 	 * @return

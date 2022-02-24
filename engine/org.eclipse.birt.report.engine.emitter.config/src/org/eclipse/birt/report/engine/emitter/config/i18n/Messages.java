@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class Messages {
 
 	/**
 	 * Returns the resource bundle.
-	 *
+	 * 
 	 * @return the resource bundle.
 	 */
 	public static ResourceBundle getReportResourceBundle() {
@@ -46,7 +46,7 @@ public class Messages {
 
 	/**
 	 * Returns common translation for current local.
-	 *
+	 * 
 	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
@@ -63,7 +63,7 @@ public class Messages {
 
 	/**
 	 * Returns formatted translation for current local.
-	 *
+	 * 
 	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
@@ -74,7 +74,7 @@ public class Messages {
 	/**
 	 * In meta xml file we use %keyName% as externalized key instead of value We use
 	 * this method to translate the %keyName% into value from resource bundle.
-	 *
+	 * 
 	 * @param key the externalized key like %keyName%
 	 * @return value the %keyName% represent
 	 */

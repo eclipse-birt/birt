@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -131,7 +131,7 @@ class PropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
 	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement element )
 	 */
@@ -142,7 +142,7 @@ class PropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
 	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement element,
 	 * String propName, IStructure struct)
@@ -157,11 +157,10 @@ class PropertyState extends AbstractPropertyState {
 
 	/**
 	 * Sets the name in attribute.
-	 *
+	 * 
 	 * @param name the value of the attribute name
 	 */
 
-	@Override
 	protected void setName(String name) {
 		super.setName(name);
 
@@ -174,12 +173,11 @@ class PropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#parseAttrs
 	 * (org.xml.sax.Attributes)
 	 */
 
-	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		super.parseAttrs(attrs);
 
@@ -189,33 +187,30 @@ class PropertyState extends AbstractPropertyState {
 		exprType = attrs.getValue(DesignSchemaConstants.TYPE_TAG);
 
 		if (handler.markLineNumber && IModuleModel.THEME_PROP.equalsIgnoreCase(name)) {
-			handler.module.addLineNo(element.getPropertyDefn(name), handler.getCurrentLineNo());
+			handler.module.addLineNo(element.getPropertyDefn(name), Integer.valueOf(handler.getCurrentLineNo()));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 
 		Object toSet = value;
-		if (propDefn == null) {
+		if (propDefn == null)
 			propDefn = element.getPropertyDefn(name);
-		}
-		if (propDefn != null && propDefn.allowExpression() && exprType != null) {
+		if (propDefn != null && propDefn.allowExpression() && exprType != null)
 			toSet = new Expression(value, exprType);
-		}
 
 		doEnd(toSet);
 	}
 
 	/**
-	 *
+	 * 
 	 * @param value
 	 */
 
@@ -258,15 +253,13 @@ class PropertyState extends AbstractPropertyState {
 
 				// add the element to help do backward compatibilities
 				if (value != null) {
-					if (handler.styledElements == null) {
-						handler.styledElements = new ArrayList<>();
-					}
+					if (handler.styledElements == null)
+						handler.styledElements = new ArrayList<DesignElement>();
 					handler.styledElements.add(element);
 				}
 
-			} else {
+			} else
 				((StyledElement) element).setStyleName((String) value);
-			}
 		} else if (element instanceof OdaDataSet && QUERY_TEXT_MEMBER == nameValue
 				&& handler.versionNumber < VersionUtil.VERSION_3_2_19) {
 			// the original property type of the query text is
@@ -295,19 +288,17 @@ class PropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
 	 * ()
 	 */
 
-	@Override
 	protected AbstractParseState generalJumpTo() {
 		IPropertyDefn jmpDefn = null;
-		if (struct != null) {
+		if (struct != null)
 			jmpDefn = struct.getDefn().getMember(name);
-		} else {
+		else
 			jmpDefn = element.getPropertyDefn(name);
-		}
 
 		if (jmpDefn != null && ((PropertyDefn) jmpDefn).isElementType()) {
 			ElementPropertyState state = new ElementPropertyState(handler, element);
@@ -349,21 +340,19 @@ class PropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
 	 * versionConditionalJumpTo()
 	 */
 
-	@Override
 	protected AbstractParseState versionConditionalJumpTo() {
 		if (handler.versionNumber <= VersionUtil.VERSION_3_2_7) {
 			IPropertyDefn jmpDefn = null;
 
-			if (struct != null) {
+			if (struct != null)
 				jmpDefn = struct.getDefn().getMember(name);
-			} else {
+			else
 				jmpDefn = element.getPropertyDefn(name);
-			}
 
 			if (element instanceof ListGroup && GROUP_START_PROP == nameValue) {
 				CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(handler, element,
@@ -384,9 +373,8 @@ class PropertyState extends AbstractPropertyState {
 			if (jmpDefn != null) {
 				jmpDefnValue = jmpDefn.getName().toLowerCase().hashCode();
 				IStructureDefn structDefn = jmpDefn.getStructDefn();
-				if (structDefn != null) {
+				if (structDefn != null)
 					jmpStructDefnValue = structDefn.getName().toLowerCase().hashCode();
-				}
 			}
 
 			if ((FILTER_OPERATOR_MEMBER == jmpDefnValue && struct instanceof FilterCondition)
@@ -406,27 +394,26 @@ class PropertyState extends AbstractPropertyState {
 				return state;
 			}
 
-			if (element instanceof GraphicMasterPage && (HEADER_HEIGHT == nameValue || FOOTER_HEIGHT == nameValue)) {
+			if (element instanceof GraphicMasterPage && (HEADER_HEIGHT == nameValue || FOOTER_HEIGHT == nameValue))
 				return new CompatibleIgnorePropertyState(handler, element);
-			}
 
 			if ((element instanceof ListingElement || element instanceof GroupElement)) {
 				// now 'pageBreakInterval' is supported on table/list
 
-				if ((IListingElementModel.PAGE_BREAK_INTERVAL_PROP.equalsIgnoreCase(name)
-						&& element instanceof GroupElement) || name.equalsIgnoreCase("onStart") || name //$NON-NLS-1$
-						.equalsIgnoreCase("onFinish")) {
+				if (IListingElementModel.PAGE_BREAK_INTERVAL_PROP.equalsIgnoreCase(name)
+						&& element instanceof GroupElement)
 					return new CompatibleIgnorePropertyState(handler, element);
-				}
+
+				if (name.equalsIgnoreCase("onStart") || name //$NON-NLS-1$
+						.equalsIgnoreCase("onFinish")) //$NON-NLS-1$
+					return new CompatibleIgnorePropertyState(handler, element);
 
 				if ("onRow".equalsIgnoreCase(name) //$NON-NLS-1$
-						&& !(element instanceof TableItem)) {
+						&& !(element instanceof TableItem))
 					return new CompatibleIgnorePropertyState(handler, element);
-				}
 
-				if ("onRow".equalsIgnoreCase(name)) { //$NON-NLS-1$
+				if ("onRow".equalsIgnoreCase(name))//$NON-NLS-1$
 					return new CompatibleOnRowPropertyState(handler, element);
-				}
 			}
 
 		}
@@ -484,11 +471,10 @@ class PropertyState extends AbstractPropertyState {
 				&& element instanceof IOdaExtendableElementModel) {
 			ODAExtensionElementDefn elementDefn = null;
 
-			if (element instanceof OdaDataSet) {
+			if (element instanceof OdaDataSet)
 				elementDefn = (ODAExtensionElementDefn) ((OdaDataSet) element).getExtDefn();
-			} else if (element instanceof OdaDataSource) {
+			else if (element instanceof OdaDataSource)
 				elementDefn = (ODAExtensionElementDefn) ((OdaDataSource) element).getExtDefn();
-			}
 
 			if (elementDefn != null) {
 				List<String> privatePropDefns = elementDefn.getODAPrivateDriverPropertyNames();
@@ -595,7 +581,7 @@ class PropertyState extends AbstractPropertyState {
 
 	/**
 	 * Checks input property definition is XML or script type.
-	 *
+	 * 
 	 * @param jmpDefn the property definition.
 	 * @return true if the input property definition is XML or script type.
 	 */

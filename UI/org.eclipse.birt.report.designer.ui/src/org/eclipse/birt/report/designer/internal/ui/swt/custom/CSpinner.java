@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -87,30 +87,25 @@ public class CSpinner extends Composite {
 		super(parent, style);
 
 		int textStyle = SWT.SINGLE;
-		if ((style & SWT.READ_ONLY) != 0) {
+		if ((style & SWT.READ_ONLY) != 0)
 			textStyle |= SWT.READ_ONLY;
-		}
-		if ((style & SWT.FLAT) != 0) {
+		if ((style & SWT.FLAT) != 0)
 			textStyle |= SWT.FLAT;
-		}
 		text = new Text(this, textStyle);
 		int arrowStyle = SWT.ARROW;
-		if ((style & SWT.FLAT) != 0) {
+		if ((style & SWT.FLAT) != 0)
 			arrowStyle |= SWT.FLAT;
-		}
 		up = new Button(this, style | SWT.ARROW | SWT.UP);
 		down = new Button(this, style | SWT.ARROW | SWT.DOWN);
 
 		addListener(SWT.Traverse, new Listener() {
 
-			@Override
 			public void handleEvent(Event e) {
 				traverse(e);
 			}
 		});
 		text.addKeyListener(new KeyAdapter() {
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.KEYPAD_CR || e.keyCode == SWT.TRAVERSE_RETURN) {
 					fireValueChanged();
@@ -131,7 +126,6 @@ public class CSpinner extends Composite {
 
 		text.addTraverseListener(new TraverseListener() {
 
-			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_RETURN) {
 					fireValueChanged();
@@ -146,12 +140,10 @@ public class CSpinner extends Composite {
 
 		text.addFocusListener(new FocusListener() {
 
-			@Override
 			public void focusGained(FocusEvent e) {
 
 			}
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				if (!isInErrrorHandle) {
 					fireValueChanged();
@@ -163,7 +155,6 @@ public class CSpinner extends Composite {
 
 		up.addListener(SWT.Selection, new Listener() {
 
-			@Override
 			public void handleEvent(Event e) {
 				up();
 				fireValueChanged();
@@ -172,7 +163,6 @@ public class CSpinner extends Composite {
 
 		down.addListener(SWT.Selection, new Listener() {
 
-			@Override
 			public void handleEvent(Event e) {
 				down();
 				fireValueChanged();
@@ -181,7 +171,6 @@ public class CSpinner extends Composite {
 
 		addListener(SWT.Resize, new Listener() {
 
-			@Override
 			public void handleEvent(Event e) {
 				resize();
 			}
@@ -189,7 +178,6 @@ public class CSpinner extends Composite {
 
 		addListener(SWT.FocusIn, new Listener() {
 
-			@Override
 			public void handleEvent(Event e) {
 				focusIn();
 			}
@@ -204,12 +192,10 @@ public class CSpinner extends Composite {
 	void initAccessible() {
 		AccessibleAdapter accessibleAdapter = new AccessibleAdapter() {
 
-			@Override
 			public void getName(AccessibleEvent e) {
 				getHelp(e);
 			}
 
-			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -220,7 +206,6 @@ public class CSpinner extends Composite {
 
 		getAccessible().addAccessibleTextListener(new AccessibleTextAdapter() {
 
-			@Override
 			public void getCaretOffset(AccessibleTextEvent e) {
 				e.offset = text.getCaretPosition();
 			}
@@ -228,13 +213,11 @@ public class CSpinner extends Composite {
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point pt = toControl(new Point(e.x, e.y));
 				e.childID = (getBounds().contains(pt)) ? ACC.CHILDID_SELF : ACC.CHILDID_NONE;
 			}
 
-			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(location.x, location.y);
@@ -244,17 +227,14 @@ public class CSpinner extends Composite {
 				e.height = location.height;
 			}
 
-			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
-			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
@@ -263,7 +243,7 @@ public class CSpinner extends Composite {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected void fireValueChanged() {
 		if (!verify(text.getText())) {
@@ -276,7 +256,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Adds a IValueChangedListener instance.
-	 *
+	 * 
 	 * @param listener the IValueChangedListener instance.
 	 */
 	public void addValueChangeListener(IValueChangedListener listener) {
@@ -285,7 +265,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Removes a given IValueChangedListener instance.
-	 *
+	 * 
 	 * @param listener the IValueChangedListener instance.
 	 */
 	public void removeValueChangedListener(IValueChangedListener listener) {
@@ -293,7 +273,7 @@ public class CSpinner extends Composite {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param pattern A non-localized pattern string.
 	 * @see java.text.DecimalFormat
 	 */
@@ -303,7 +283,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Verifies whether the input String is a valid double.
-	 *
+	 * 
 	 * @param value The string to be verified.
 	 * @return Returns true if the string is a valid double value, or false if it is
 	 *         invalid.
@@ -333,7 +313,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Processes up/down key event
-	 *
+	 * 
 	 * @param e The key event type.
 	 */
 	protected void traverse(Event e) {
@@ -377,10 +357,9 @@ public class CSpinner extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Control#setFont(org.eclipse.swt.graphics.Font)
 	 */
-	@Override
 	public void setFont(Font font) {
 		super.setFont(font);
 		text.setFont(font);
@@ -388,7 +367,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Sets the initial spinner value.
-	 *
+	 * 
 	 * @param selection The spinner value to set.
 	 */
 	public void setSelection(double selection) {
@@ -404,7 +383,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Returns the current spinner value.
-	 *
+	 * 
 	 * @return The current spinner value.
 	 */
 	public double getSelection() {
@@ -418,7 +397,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Sets the max spinner value.
-	 *
+	 * 
 	 * @param maximum the max value.
 	 */
 	public void setMaximum(double maximum) {
@@ -430,7 +409,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Gets the max spinner value.
-	 *
+	 * 
 	 * @return the max value.
 	 */
 	public double getMaximum() {
@@ -439,7 +418,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Sets the minimum spinner value.
-	 *
+	 * 
 	 * @param minimum the minimum value.
 	 */
 	public void setMinimum(double minimum) {
@@ -448,7 +427,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Gets the minimum spinner value.
-	 *
+	 * 
 	 * @return the minimum value.
 	 */
 	public double getMinimum() {
@@ -473,10 +452,9 @@ public class CSpinner extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Control#computeSize(int, int, boolean)
 	 */
-	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 		Point textPt = text.computeSize(SWT.DEFAULT, SWT.DEFAULT, changed);
 		Point upPt = up.computeSize(SWT.DEFAULT, SWT.DEFAULT, changed);
@@ -484,28 +462,25 @@ public class CSpinner extends Composite {
 		int width = textPt.x + BUTTON_WIDTH;
 		int height = Math.max(textPt.y, upPt.y);
 
-		if (wHint != SWT.DEFAULT) {
+		if (wHint != SWT.DEFAULT)
 			width = wHint;
-		}
 
-		if (hHint != SWT.DEFAULT) {
+		if (hHint != SWT.DEFAULT)
 			height = hHint;
-		}
 
 		return new Point(width, height);
 	}
 
 	protected void addSelectionListener(SelectionListener listener) {
 
-		if (listener == null) {
+		if (listener == null)
 			throw new SWTError(SWT.ERROR_NULL_ARGUMENT);
-		}
 		addListener(SWT.Selection, new TypedListener(listener));
 	}
 
 	/**
 	 * Gets the step value.
-	 *
+	 * 
 	 * @return Returns the step.
 	 */
 	public double getStep() {
@@ -514,7 +489,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Sets the step value
-	 *
+	 * 
 	 * @param step The step to set.
 	 */
 	public void setStep(double step) {
@@ -523,10 +498,9 @@ public class CSpinner extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
-	@Override
 	public void setEnabled(boolean enabled) {
 		text.setEnabled(enabled);
 		up.setEnabled(enabled);
@@ -536,7 +510,7 @@ public class CSpinner extends Composite {
 
 	/**
 	 * Returns the text of the spinner.
-	 *
+	 * 
 	 * @return the text of the spinner.
 	 */
 

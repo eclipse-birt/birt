@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
@@ -45,17 +45,16 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign implements IOdaDat
 	/**
 	 * Gets the data source extension id as defined by ODA driver This property is
 	 * required in a data source design.
-	 *
+	 * 
 	 * @return The data source extension id
 	 */
-	@Override
 	public String getExtensionID() {
 		return extensionID;
 	}
 
 	/**
 	 * Sets the data source extension id as defined by ODA driver
-	 *
+	 * 
 	 * @param id The data source extension id
 	 */
 	public void setExtensionID(String id) {
@@ -64,29 +63,25 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign implements IOdaDat
 
 	/**
 	 * Gets the public properties for the data source.
-	 *
+	 * 
 	 * @return public properties as a map. Null if no public property is defined for
 	 *         the data source
 	 */
-	@Override
 	public Map getPublicProperties() {
-		if (publicProps == null) {
+		if (publicProps == null)
 			publicProps = new HashMap();
-		}
 		return publicProps;
 	}
 
 	/**
 	 * Gets the private properties for the data source.
-	 *
+	 * 
 	 * @return private properties as a map. Null if no public property is defined
 	 *         for the data source
 	 */
-	@Override
 	public Map getPrivateProperties() {
-		if (privateProps == null) {
+		if (privateProps == null)
 			privateProps = new HashMap();
-		}
 		return privateProps;
 	}
 
@@ -113,15 +108,13 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign implements IOdaDat
 	 * named property must be unique.
 	 */
 	protected void addProperty(Map properties, String name, String value) throws BirtException {
-		if (properties.containsKey(name)) {
+		if (properties.containsKey(name))
 			throw new DataException(ResourceConstants.DUPLICATE_PROPERTY_NAME, name);
-		}
 
 		// since the ultimate destination used is a java.util.Properties,
 		// a null property value is not accepted
-		if (value != null) {
+		if (value != null)
 			properties.put(name, value);
-		}
 	}
 
 }

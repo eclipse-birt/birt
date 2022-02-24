@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,11 +35,11 @@ public class StyleSheet implements CSSStyleSheet {
 	 * The list to store all the rules.
 	 */
 
-	private List<CSSRule> rules = new ArrayList<>();
+	private List<CSSRule> rules = new ArrayList<CSSRule>();
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 */
 
 	public StyleSheet() {
@@ -48,7 +48,7 @@ public class StyleSheet implements CSSStyleSheet {
 
 	/**
 	 * Gets the rule list of the style sheet.
-	 *
+	 * 
 	 * @return the rule list
 	 */
 
@@ -58,7 +58,7 @@ public class StyleSheet implements CSSStyleSheet {
 
 	/**
 	 * Adds a rule into the tail of the style sheet.
-	 *
+	 * 
 	 * @param rule the rule to add
 	 */
 
@@ -68,7 +68,7 @@ public class StyleSheet implements CSSStyleSheet {
 
 	/**
 	 * Inserts a rule to the given position of the style sheet.
-	 *
+	 * 
 	 * @param rule  the rule to insert
 	 * @param index the position to insert
 	 */
@@ -79,13 +79,12 @@ public class StyleSheet implements CSSStyleSheet {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 
-	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < rules.size(); i++) {
 			sb.append(rules.get(i).toString()).append("\r\n"); //$NON-NLS-1$
 		}
@@ -94,22 +93,20 @@ public class StyleSheet implements CSSStyleSheet {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.css.CSSStyleSheet#deleteRule(int)
 	 */
 
-	@Override
 	public void deleteRule(int index) throws DOMException {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.css.CSSStyleSheet#insertRule(java.lang.String, int)
 	 */
 
-	@Override
 	public int insertRule(String rule, int index) throws DOMException {
 
 		return 0;
@@ -117,109 +114,99 @@ public class StyleSheet implements CSSStyleSheet {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.css.CSSStyleSheet#getOwnerRule()
 	 */
 
-	@Override
 	public CSSRule getOwnerRule() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.css.CSSStyleSheet#getCssRules()
 	 */
 
-	@Override
 	public CSSRuleList getCssRules() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getDisabled()
 	 */
 
-	@Override
 	public boolean getDisabled() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#setDisabled(boolean)
 	 */
 
-	@Override
 	public void setDisabled(boolean disabled) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getHref()
 	 */
 
-	@Override
 	public String getHref() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getTitle()
 	 */
 
-	@Override
 	public String getTitle() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getType()
 	 */
 
-	@Override
 	public String getType() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getOwnerNode()
 	 */
 
-	@Override
 	public Node getOwnerNode() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getMedia()
 	 */
 
-	@Override
 	public MediaList getMedia() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getParentStyleSheet()
 	 */
 
-	@Override
 	public org.w3c.dom.stylesheets.StyleSheet getParentStyleSheet() {
 		return null;
 	}

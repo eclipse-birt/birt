@@ -1,28 +1,28 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 /**
- *
+ * 
  */
 /*******************************************************************************
  * Copyright (c) 2004, 2008Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,31 +38,32 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 
 public interface IExcelWriter {
 
-	void start(IReportContent report, Map<StyleEntry, Integer> styles,
+	public void start(IReportContent report, Map<StyleEntry, Integer> styles,
 			// TODO: style ranges.
 			// List<ExcelRange> styleRanges,
 			HashMap<String, BookmarkDef> bookmarkList) throws IOException;
 
-	void end() throws IOException;
+	public void end() throws IOException;
 
-	void startSheet(double[] coordinates, String pageHeader, String pageFooter, String sheetName) throws IOException;
+	public void startSheet(double[] coordinates, String pageHeader, String pageFooter, String sheetName)
+			throws IOException;
 
-	void startSheet(String sheetName) throws IOException;
+	public void startSheet(String sheetName) throws IOException;
 
-	void endSheet(double[] coordinates, String orientation, int pageWidth, int pageHeight, float leftMargin,
+	public void endSheet(double[] coordinates, String orientation, int pageWidth, int pageHeight, float leftMargin,
 			float rightMargin, float topMargin, float bottomMargin);
 
-	void endSheet();
+	public void endSheet();
 
-	void startRow(double rowHeight);
+	public void startRow(double rowHeight);
 
-	void startRow();
+	public void startRow();
 
-	void endRow();
+	public void endRow();
 
-	void outputData(SheetData data, StyleEntry style, int column, int colSpan) throws IOException;
+	public void outputData(SheetData data, StyleEntry style, int column, int colSpan) throws IOException;
 
-	void outputData(String sheet, SheetData data, StyleEntry style, int column, int colSpan) throws IOException;
+	public void outputData(String sheet, SheetData data, StyleEntry style, int column, int colSpan) throws IOException;
 
 	void outputData(int col, int row, int type, Object value);
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,13 +26,13 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 
 /**
  * the gridItem excutor
- *
+ * 
  */
 public class GridItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param context the executor context
 	 * @param visitor the report executor visitor
 	 */
@@ -52,10 +52,9 @@ public class GridItemExecutor extends QueryItemExecutor {
 	 * <li>call emitter to close the grid.
 	 * <li>close the query
 	 * <li>popup the table.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.excutor.ReportItemExcutor#excute()
 	 */
-	@Override
 	public IContent execute() {
 		GridItemDesign gridDesign = (GridItemDesign) getDesign();
 		ITableContent tableContent = report.createTableContent();
@@ -97,7 +96,6 @@ public class GridItemExecutor extends QueryItemExecutor {
 		return tableContent;
 	}
 
-	@Override
 	public void close() throws BirtException {
 		finishTOCEntry();
 		closeQuery();
@@ -107,13 +105,11 @@ public class GridItemExecutor extends QueryItemExecutor {
 	int curRowDesign;
 	int curRowContent;
 
-	@Override
 	public boolean hasNextChild() {
 		GridItemDesign gridDesign = (GridItemDesign) getDesign();
 		return curRowDesign < gridDesign.getRowCount();
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		GridItemDesign gridDesign = (GridItemDesign) getDesign();
 

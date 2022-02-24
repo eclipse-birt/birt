@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -32,14 +32,12 @@ public class IDataIteratorTest extends EngineCase {
 	private String output = "IDataIteratorTest.rptdocument";
 	private IDataExtractionTask task;
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT(report, report);
 	}
 
-	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
@@ -50,21 +48,21 @@ public class IDataIteratorTest extends EngineCase {
 		TimeZone timeZone = TimeZone.getDefault();
 		try {
 			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-			run(report, output);
-			String outputFile = this.genOutputFile(output);
-			IReportDocument reportDoc = engine.openReportDocument(outputFile);
-			task = engine.createDataExtractionTask(reportDoc);
-			task.selectResultSet("ELEMENT_6");
-			IExtractionResults results = task.extract();
-			IDataIterator iterator = results.nextResultIterator();
+		run(report, output);
+		String outputFile = this.genOutputFile(output);
+		IReportDocument reportDoc = engine.openReportDocument(outputFile);
+		task = engine.createDataExtractionTask(reportDoc);
+		task.selectResultSet("ELEMENT_6");
+		IExtractionResults results = task.extract();
+		IDataIterator iterator = results.nextResultIterator();
 
-			checkGetQueryResults(iterator, results);
-			checkGetResultMetaData(iterator);
-			checkGetValue(iterator);
-			checkNext(iterator);
-		} finally {
-			TimeZone.setDefault(timeZone);
-		}
+		checkGetQueryResults(iterator, results);
+		checkGetResultMetaData(iterator);
+		checkGetValue(iterator);
+		checkNext(iterator);
+	} finally {
+		TimeZone.setDefault(timeZone);
+	}
 	}
 
 	private void checkGetQueryResults(IDataIterator iterator, IExtractionResults results) {
@@ -96,7 +94,10 @@ public class IDataIteratorTest extends EngineCase {
 			} else {
 				fail();
 			}
-		} catch (NumberFormatException | BirtException e) {
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			fail();
+		} catch (BirtException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -105,9 +106,8 @@ public class IDataIteratorTest extends EngineCase {
 	private void checkNext(IDataIterator iterator) {
 		int count = 0;
 		try {
-			while (iterator.next()) {
+			while (iterator.next())
 				count++;
-			}
 		} catch (BirtException e) {
 			e.printStackTrace();
 			fail();

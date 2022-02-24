@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -49,7 +49,7 @@ public class ColumnHint {
 
 	/**
 	 * Constructs a <code>ColumnHint</code> with the specified column name.
-	 *
+	 * 
 	 * @param columnName the column name of this <code>ColumnHint</code>.
 	 * @throws IllegalArgumentException if <code>columnName</code> is null or empty.
 	 */
@@ -70,7 +70,7 @@ public class ColumnHint {
 
 	/**
 	 * Returns the column name for this <code>ColumnHint</code>.
-	 *
+	 * 
 	 * @return the name of the column.
 	 */
 	public String getName() {
@@ -79,7 +79,7 @@ public class ColumnHint {
 
 	/**
 	 * Sets the 1-based column position for this <code>ColumnHint</code>.
-	 *
+	 * 
 	 * @param position the 1-based column position.
 	 * @throws IllegalArgumentException if the column position is less than 1.
 	 */
@@ -91,10 +91,9 @@ public class ColumnHint {
 					.getMessage(ResourceConstants.COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE);
 			RuntimeException ex = new IllegalArgumentException(localizedMessage);
 
-			if (sm_logger.isLoggable(Level.SEVERE)) {
+			if (sm_logger.isLoggable(Level.SEVERE))
 				sm_logger.logp(Level.SEVERE, sm_className, methodName, "Invalid column position {0}.", //$NON-NLS-1$
 						Integer.valueOf(position));
-			}
 			throw ex;
 		}
 
@@ -103,7 +102,7 @@ public class ColumnHint {
 
 	/**
 	 * Returns the 1-based column position for this <code>ColumnHint</code>.
-	 *
+	 * 
 	 * @return the 1-based column position; 0 if no position was not specified.
 	 */
 	public int getPosition() {
@@ -112,7 +111,7 @@ public class ColumnHint {
 
 	/**
 	 * Sets the data type for this <code>ColumnHint</code>.
-	 *
+	 * 
 	 * @param dataType the data type.
 	 */
 	public void setDataType(Class dataType) {
@@ -129,7 +128,7 @@ public class ColumnHint {
 	/**
 	 * Returns the column data type specified in this <code>ColumnHint</code>. Note
 	 * that this may not be the most effective data type to use.
-	 *
+	 * 
 	 * @see #getEffectiveDataType(String, String)
 	 * @return the column data type.
 	 */
@@ -139,7 +138,7 @@ public class ColumnHint {
 
 	/**
 	 * Sets the native data type for this <code>ColumnHint</code>.
-	 *
+	 * 
 	 * @param typeCode the native data type of the column.
 	 */
 	public void setNativeDataType(int typeCode) {
@@ -150,7 +149,7 @@ public class ColumnHint {
 	 * Returns the native data type for this <code>ColumnHint</code>. The native
 	 * data type code value is implementation-specific, and collected at design
 	 * time. Default value is 0 for none or unknown value.
-	 *
+	 * 
 	 * @return the native data type of the column.
 	 */
 	public int getNativeDataType() {
@@ -159,7 +158,7 @@ public class ColumnHint {
 
 	/**
 	 * Sets the column alias for this <code>ColumnHint</code>.
-	 *
+	 * 
 	 * @param alias the column alias.
 	 */
 	public void setAlias(String alias) {
@@ -172,10 +171,9 @@ public class ColumnHint {
 					.getMessage(ResourceConstants.COLUMN_ALIAS_CANNOT_BE_EMPTY);
 			RuntimeException ex = new IllegalArgumentException(localizedMessage);
 
-			if (sm_logger.isLoggable(Level.SEVERE)) {
+			if (sm_logger.isLoggable(Level.SEVERE))
 				sm_logger.logp(Level.SEVERE, sm_className, methodName,
 						"The alias is empty; must be either null or non-empty value."); //$NON-NLS-1$
-			}
 			throw ex;
 		}
 
@@ -184,7 +182,7 @@ public class ColumnHint {
 
 	/**
 	 * Returns the column alias for this <code>ColumnHint</code>.
-	 *
+	 * 
 	 * @return the column alias.
 	 */
 	public String getAlias() {
@@ -194,7 +192,7 @@ public class ColumnHint {
 	/**
 	 * Returns the most effective ODI data type defined in this hint. It determines
 	 * the best type to use based on the native data type defined.
-	 *
+	 * 
 	 * @param odaDataSourceId underlying ODA driver's data source id that defines
 	 *                        the native data type mappings
 	 * @param dataSetType     type of data set; may be null if the ODA data source
@@ -213,9 +211,8 @@ public class ColumnHint {
 		if (getNativeDataType() != UNKNOWN_NATIVE_TYPE) {
 			Class effectiveType = DataTypeUtil
 					.toTypeClass(DataTypeUtil.toOdaType(getNativeDataType(), odaDataSourceId, dataSetType));
-			if (effectiveType != null) {
+			if (effectiveType != null)
 				return effectiveType; // found valid native to odi type mapping
-			}
 		}
 
 		// no native data type mapping info, use the BIRT DtE ODI API data type instead

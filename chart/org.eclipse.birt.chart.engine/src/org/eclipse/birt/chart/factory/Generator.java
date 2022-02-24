@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -119,10 +119,10 @@ public final class Generator implements IGenerator {
 
 	/**
 	 * Returns a singleton instance of the chart generator.
-	 *
+	 * 
 	 * @return A singleton instance for the chart generator.
 	 */
-	public static synchronized Generator instance() {
+	public static synchronized final Generator instance() {
 		if (g == null) {
 			g = new Generator();
 		}
@@ -131,12 +131,12 @@ public final class Generator implements IGenerator {
 
 	/**
 	 * Prepare all default styles for various StyledComponent.
-	 *
+	 * 
 	 * @param model
 	 * @param externalProcessor
 	 * @param rtc               runtime context.
 	 */
-	public void prepareStyles(Chart model, IStyleProcessor externalProcessor, RunTimeContext rtc) {
+	public final void prepareStyles(Chart model, IStyleProcessor externalProcessor, RunTimeContext rtc) {
 		boolean updatedModel = false;
 		if (externalProcessor != null) {
 			updatedModel = externalProcessor.updateChart(model, null);
@@ -157,16 +157,18 @@ public final class Generator implements IGenerator {
 
 		if (needInheritingStyles) {
 			updateWithInhertingtyles(model, externalProcessor);
-		} else // If no need to inherit styles, just set inherited styles into a
-		// default value chart, user can get these styles from default value
-		// chart later.
-		if (rtc != null) {
-			Chart defChart = rtc.getDefaultValueChart();
-			if (rtc.getDefaultValueChart() == null) {
-				defChart = ChartDefaultValueUtil.createDefaultValueChartInstance(model);
-				rtc.setDefaultValueChart(defChart);
+		} else {
+			// If no need to inherit styles, just set inherited styles into a
+			// default value chart, user can get these styles from default value
+			// chart later.
+			if (rtc != null) {
+				Chart defChart = rtc.getDefaultValueChart();
+				if (rtc.getDefaultValueChart() == null) {
+					defChart = ChartDefaultValueUtil.createDefaultValueChartInstance(model);
+					rtc.setDefaultValueChart(defChart);
+				}
+				updateWithInhertingtyles(defChart, externalProcessor);
 			}
-			updateWithInhertingtyles(defChart, externalProcessor);
 		}
 
 		// Still set default value chart instance to avoid null.
@@ -177,23 +179,23 @@ public final class Generator implements IGenerator {
 
 	/**
 	 * Prepare all default styles for various StyledComponent.
-	 *
+	 * 
 	 * @param model
 	 * @param externalProcessor
 	 */
-	public void prepareStyles(Chart model, IStyleProcessor externalProcessor) {
+	public final void prepareStyles(Chart model, IStyleProcessor externalProcessor) {
 		prepareStyles(model, externalProcessor, null);
 	}
 
 	/**
 	 * Update chart UI attributes with inherited styles if those UI attributes don't
 	 * be set or updated.
-	 *
+	 * 
 	 * @param model
 	 * @param externalProcessor
 	 */
 	protected void updateWithInhertingtyles(Chart model, IStyleProcessor externalProcessor) {
-		Stack<StyledComponent> token = new Stack<>();
+		Stack<StyledComponent> token = new Stack<StyledComponent>();
 
 		token.push(StyledComponent.CHART_ALL_LITERAL);
 
@@ -283,10 +285,12 @@ public final class Generator implements IGenerator {
 				if (background == null) {
 					if (newBackcolor != null) {
 						((Block) component).setBackground(newBackcolor);
-					} else if (implicitProcessor.getDefaultBackgroundColor() != null) {
-						((Block) component).setBackground(implicitProcessor.getDefaultBackgroundColor());
 					} else {
-						((Block) component).setBackground(goFactory.WHITE());
+						if (implicitProcessor.getDefaultBackgroundColor() != null) {
+							((Block) component).setBackground(implicitProcessor.getDefaultBackgroundColor());
+						} else {
+							((Block) component).setBackground(goFactory.WHITE());
+						}
 					}
 					if (newBackimage != null) {
 						((Block) component).setBackground(newBackimage);
@@ -446,11 +450,11 @@ public final class Generator implements IGenerator {
 	/**
 	 * This retrieves all the data row related expressions stored in the chart
 	 * model. This is useful to prepare a specific query for the chart.
-	 *
+	 * 
 	 * @param cm The Chart model
 	 * @return All row expressions in a list of String instances.
 	 * @throws ChartException
-	 *
+	 * 
 	 * @since 2.0
 	 */
 	public List<String> getRowExpressions(Chart cm) throws ChartException {
@@ -462,12 +466,12 @@ public final class Generator implements IGenerator {
 	 * useful to prepare a specific query for the chart. If the given
 	 * IActionEvaluator is not null, then it will also search available expressions
 	 * within the action.
-	 *
+	 * 
 	 * @param cm  The Chart model
 	 * @param iae An IActionEvaluator instance
 	 * @return All row expressions in a list of String instances.
 	 * @throws ChartException
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	public List<String> getRowExpressions(Chart cm, IActionEvaluator iae, boolean needChangeValueExpr)
@@ -485,12 +489,12 @@ public final class Generator implements IGenerator {
 	 * useful to prepare a specific query for the chart. If the given
 	 * IActionEvaluator is not null, then it will also search available expressions
 	 * within the action.
-	 *
+	 * 
 	 * @param cm  The Chart model
 	 * @param iae An IActionEvaluator instance
 	 * @return All row expressions in a list of String instances.
 	 * @throws ChartException
-	 *
+	 * 
 	 * @since 2.0
 	 */
 	public List<String> getRowExpressions(Chart cm, IActionEvaluator iae) throws ChartException {
@@ -506,17 +510,16 @@ public final class Generator implements IGenerator {
 	 * Binds a sql Resuset to a chart model. This is based on the assumption the
 	 * column names of the resultset match exactly the data query definitions and
 	 * other expressions set inside the chart model.
-	 *
+	 * 
 	 * @param resultSet A sql resultset that contains the data. The following
 	 *                  methods of the interface need to be implemented: first(),
 	 *                  next(), getObject(String), close()
 	 * @param chart     The chart model to bind the data to
 	 * @param rtc       The runtime context
 	 * @throws ChartException
-	 *
+	 * 
 	 * @since 2.0
 	 */
-	@Override
 	public void bindData(java.sql.ResultSet resultSet, Chart chart, RunTimeContext rtc) throws ChartException {
 		SqlDataRowEvaluator rowEvaluator = new SqlDataRowEvaluator(resultSet);
 		bindData(rowEvaluator, chart, rtc);
@@ -526,15 +529,14 @@ public final class Generator implements IGenerator {
 	 * Binds data to the chart model using a row expression evaluator. The evaluator
 	 * provides the ability to evaluate the expressions set in the chart on a row
 	 * context.
-	 *
+	 * 
 	 * @param expressionEvaluator The data row expression evaluator implementation
 	 * @param chart               The chart model
 	 * @param rtc                 The runtime context
 	 * @throws ChartException
-	 *
+	 * 
 	 * @since 2.0
 	 */
-	@Override
 	public void bindData(IDataRowExpressionEvaluator expressionEvaluator, Chart chart, RunTimeContext rtc)
 			throws ChartException {
 		bindData(expressionEvaluator, null, chart, rtc);
@@ -545,16 +547,15 @@ public final class Generator implements IGenerator {
 	 * provides the ability to evaluate the expressions set in the chart on a row
 	 * context.If the given IActionEvaluator is not null, then it will also search
 	 * available expressions within the action and bind it as the user dataSets.
-	 *
+	 * 
 	 * @param expressionEvaluator The data row expression evaluator implementation
 	 * @param iae                 An IActionEvaluator instance.
 	 * @param chart               The chart model
 	 * @param rtc                 The runtime context
 	 * @throws ChartException
-	 *
+	 * 
 	 * @since 2.0
 	 */
-	@Override
 	public void bindData(IDataRowExpressionEvaluator expressionEvaluator, IActionEvaluator iae, Chart chart,
 			RunTimeContext rtc) throws ChartException {
 		// Since beforeDatasetFilled and afterDatasetFilled script functions are
@@ -582,19 +583,18 @@ public final class Generator implements IGenerator {
 	/**
 	 * Since v2, it must be called before build( ), and should only be called once
 	 * per design model.
-	 *
+	 * 
 	 * @param model           Chart design model
 	 * @param externalContext External Context
 	 * @param locale          Locale
 	 * @return a runtime context used by build( )
-	 *
+	 * 
 	 * @throws ChartException
-	 *
+	 * 
 	 * @deprecated use
 	 *             {@link #prepare(Chart, IExternalContext, IScriptClassLoader, ULocale)}
 	 *             instead.
 	 */
-	@Deprecated
 	public RunTimeContext prepare(Chart model, IExternalContext externalContext, IScriptClassLoader iscl, Locale locale)
 			throws ChartException {
 		return prepare(model, externalContext, iscl, ULocale.forLocale(locale));
@@ -603,17 +603,16 @@ public final class Generator implements IGenerator {
 	/**
 	 * Since v2, it must be called before build( ), and should only be called once
 	 * per design model.
-	 *
+	 * 
 	 * @param model           Chart design model
 	 * @param externalContext External Context
 	 * @param locale          Locale
 	 * @return a runtime context used by build( )
-	 *
+	 * 
 	 * @throws ChartException
-	 *
+	 * 
 	 * @since 2.1
 	 */
-	@Override
 	public RunTimeContext prepare(Chart model, IExternalContext externalContext, IScriptClassLoader iscl,
 			ULocale locale) throws ChartException {
 		RunTimeContext rtc = new RunTimeContext();
@@ -646,11 +645,11 @@ public final class Generator implements IGenerator {
 		/*
 		 * The following code can cause exceptions with bad script. no meaning to
 		 * register the script in prepare until we can make the prepare call work
-		 *
-		 *
+		 * 
+		 * 
 		 * final String sScriptContent = cmRunTime.getScript( ); if ( sScriptContent !=
 		 * null ) { sh.register( sScriptContent ); }
-		 *
+		 * 
 		 * // Call the onPrepare script event function. // not supported yet /
 		 * ScriptHandler.callFunction( sh, ScriptHandler.ON_PREPARE, cmRunTime,
 		 * rtc.getScriptContext( ) );
@@ -662,25 +661,24 @@ public final class Generator implements IGenerator {
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
-	 *
+	 * 
 	 * @param ids       A display server using which the chart may be built.
 	 * @param cmRunTime The runtime chart model (bound to a dataset).
 	 * @param scParent  A parent script handler that may be attached to the existing
 	 *                  chart model script handler.
 	 * @param bo        The bounds associated with the chart being built.
 	 * @param rtc       Encapsulates the runtime environment for the build process.
-	 *
+	 * 
 	 * @return An instance of a generated chart state that encapsulates built chart
 	 *         information that may be subsequently rendered.
-	 *
+	 * 
 	 * @throws ChartException
-	 *
+	 * 
 	 * @deprecated use
 	 *             {@link #build(IDisplayServer, Chart, Bounds, IExternalContext, RunTimeContext)}
 	 *             instead.
 	 */
-	@Deprecated
-	public GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Scriptable scParent, Bounds bo,
+	public final GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Scriptable scParent, Bounds bo,
 			RunTimeContext rtc) throws ChartException {
 		return build(ids, cmRunTime, scParent, bo, rtc, null);
 	}
@@ -688,7 +686,7 @@ public final class Generator implements IGenerator {
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
-	 *
+	 * 
 	 * @param ids               A display server using which the chart may be built.
 	 * @param cmRunTime         The runtime chart model (bound to a dataset).
 	 * @param scParent          A parent script handler that may be attached to the
@@ -700,15 +698,14 @@ public final class Generator implements IGenerator {
 	 *                          implicit processor will be used.
 	 * @return An instance of a generated chart state that encapsulates built chart
 	 *         information that may be subsequently rendered.
-	 *
+	 * 
 	 * @throws ChartException
-	 *
+	 * 
 	 * @deprecated use
 	 *             {@link #build(IDisplayServer, Chart, Bounds, IExternalContext, RunTimeContext, IStyleProcessor)}
 	 *             instead.
 	 */
-	@Deprecated
-	public GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Scriptable scParent, Bounds bo,
+	public final GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Scriptable scParent, Bounds bo,
 			RunTimeContext rtc, IStyleProcessor externalProcessor) throws ChartException {
 		final Scriptable scriptContext = scParent;
 
@@ -716,12 +713,10 @@ public final class Generator implements IGenerator {
 
 			private static final long serialVersionUID = 1L;
 
-			@Override
 			public Object getObject() {
 				return null;
 			}
 
-			@Override
 			public Scriptable getScriptable() {
 				return scriptContext;
 			}
@@ -732,18 +727,18 @@ public final class Generator implements IGenerator {
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
-	 *
+	 * 
 	 * @param ids       A display server using which the chart may be built.
 	 * @param cmRunTime The runtime chart model (bound to a dataset).
 	 * @param bo        The bounds associated with the chart being built.
 	 * @param rtc       Encapsulates the runtime environment for the build process.
 	 * @return An instance of a generated chart state that encapsulates built chart
 	 *         information that may be subsequently rendered.
-	 *
+	 * 
 	 * @throws ChartException
 	 * @since 2.2
 	 */
-	public GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Bounds bo, RunTimeContext rtc)
+	public final GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Bounds bo, RunTimeContext rtc)
 			throws ChartException {
 		return build(ids, cmRunTime, bo, null, rtc, null);
 	}
@@ -751,7 +746,7 @@ public final class Generator implements IGenerator {
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
-	 *
+	 * 
 	 * @param ids             A display server using which the chart may be built.
 	 * @param cmRunTime       The runtime chart model (bound to a dataset).
 	 * @param externalContext An external context object.
@@ -760,19 +755,18 @@ public final class Generator implements IGenerator {
 	 *                        process.
 	 * @return An instance of a generated chart state that encapsulates built chart
 	 *         information that may be subsequently rendered.
-	 *
+	 * 
 	 * @throws ChartException
 	 */
-	@Override
-	public GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Bounds bo, IExternalContext externalContext,
-			RunTimeContext rtc) throws ChartException {
+	public final GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Bounds bo,
+			IExternalContext externalContext, RunTimeContext rtc) throws ChartException {
 		return build(ids, cmRunTime, bo, externalContext, rtc, null);
 	}
 
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
-	 *
+	 * 
 	 * @param ids               A display server using which the chart may be built.
 	 * @param cmRunTime         The run time chart model (bound to a dataset).
 	 * @param externalContext   An external context object.
@@ -783,12 +777,12 @@ public final class Generator implements IGenerator {
 	 *                          implicit processor will be used.
 	 * @return An instance of a generated chart state that encapsulates built chart
 	 *         information that may be subsequently rendered.
-	 *
+	 * 
 	 * @throws ChartException
 	 */
-	@Override
-	public GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Bounds bo, IExternalContext externalContext,
-			RunTimeContext rtc, IStyleProcessor externalProcessor) throws ChartException {
+	public final GeneratedChartState build(IDisplayServer ids, Chart cmRunTime, Bounds bo,
+			IExternalContext externalContext, RunTimeContext rtc, IStyleProcessor externalProcessor)
+			throws ChartException {
 		if (ids == null || cmRunTime == null || bo == null) {
 			throw new ChartException(ChartEnginePlugin.ID, ChartException.GENERATION, "exception.illegal.null.value", //$NON-NLS-1$
 					Messages.getResourceBundle());
@@ -889,7 +883,7 @@ public final class Generator implements IGenerator {
 		}
 
 		// OBTAIN THE RENDERERS
-		final LinkedHashMap<Series, LegendItemRenderingHints> lhmRenderers = new LinkedHashMap<>();
+		final LinkedHashMap<Series, LegendItemRenderingHints> lhmRenderers = new LinkedHashMap<Series, LegendItemRenderingHints>();
 		BaseRenderer[] brna = null;
 		try {
 			brna = BaseRenderer.instances(cmRunTime, rtc, oComputations);
@@ -970,13 +964,12 @@ public final class Generator implements IGenerator {
 	 * or the dataset for any series has changed. However, if sizing attribute
 	 * changes occur that affects the relative position of the various chart
 	 * subcomponents, a re-build is required.
-	 *
+	 * 
 	 * @param gcs A previously built chart encapsulated in a transient structure.
-	 *
+	 * 
 	 * @throws ChartException
 	 */
-	@Override
-	public void refresh(GeneratedChartState gcs) throws ChartException {
+	public final void refresh(GeneratedChartState gcs) throws ChartException {
 		Chart cm = gcs.getChartModel();
 
 		ScriptHandler.callFunction(gcs.getRunTimeContext().getScriptHandler(), ScriptHandler.BEFORE_COMPUTATIONS, cm,
@@ -1004,15 +997,14 @@ public final class Generator implements IGenerator {
 	/**
 	 * Draws a previously built chart using the specified device renderer into a
 	 * target output device.
-	 *
+	 * 
 	 * @param idr A device renderer that determines the target context on which the
 	 *            chart will be rendered.
 	 * @param gcs A previously built chart that needs to be rendered.
-	 *
+	 * 
 	 * @throws ChartException
 	 */
-	@Override
-	public void render(IDeviceRenderer idr, GeneratedChartState gcs) throws ChartException {
+	public final void render(IDeviceRenderer idr, GeneratedChartState gcs) throws ChartException {
 		final Chart cm = gcs.getChartModel();
 		final int scale = idr.getDisplayServer().getDpiResolution() / 72;
 		if (scale != 1) {
@@ -1092,7 +1084,7 @@ public final class Generator implements IGenerator {
 	/**
 	 * Internally updates a legend position by altering the legend block hierarchy
 	 * as needed.
-	 *
+	 * 
 	 * @param boContainer The internal bounds of the client area contained within
 	 *                    the plot.
 	 * @param lg          An instance of the legend for which the position is being
@@ -1101,10 +1093,10 @@ public final class Generator implements IGenerator {
 	 *                    the chart.
 	 * @param cm          An instance of the chart model for which the legend
 	 *                    position is updated.
-	 *
+	 * 
 	 * @throws ChartException
 	 */
-	private static void updateLegendInside(Bounds boContainer, Legend lg, IDisplayServer ids, Chart cm,
+	private static final void updateLegendInside(Bounds boContainer, Legend lg, IDisplayServer ids, Chart cm,
 			RunTimeContext rtc) throws ChartException {
 		final double dScale = ids.getDpiResolution() / 72d;
 
@@ -1187,7 +1179,7 @@ public final class Generator implements IGenerator {
 
 	private static List<String> getRowExpressions(ChartWithoutAxes cwoa, IActionEvaluator iae,
 			boolean needChangeValueExpr) throws ChartException {
-		final List<String> alExpressions = new ArrayList<>(4);
+		final List<String> alExpressions = new ArrayList<String>(4);
 		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions();
 		if (elSD.size() != 1) {
 			throw new ChartException(ChartEnginePlugin.ID, ChartException.DATA_BINDING,
@@ -1313,7 +1305,7 @@ public final class Generator implements IGenerator {
 
 	private static List<String> getRowExpressions(ChartWithAxes cwa, IActionEvaluator iae, boolean needChangeValueExpr)
 			throws ChartException {
-		final List<String> alExpressions = new ArrayList<>(4);
+		final List<String> alExpressions = new ArrayList<String>(4);
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes()[0];
 		EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions();
 		if (elSD.size() != 1) {

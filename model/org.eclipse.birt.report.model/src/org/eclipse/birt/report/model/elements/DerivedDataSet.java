@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDerivedExtendableEleme
 
 /**
  * Class for derived data set.
- *
+ * 
  */
 
 public class DerivedDataSet extends SimpleDataSet implements IDerivedDataSetModel, IDerivedExtendableElementModel {
@@ -47,7 +47,7 @@ public class DerivedDataSet extends SimpleDataSet implements IDerivedDataSetMode
 
 	/**
 	 * Constructs this data set by name.
-	 *
+	 * 
 	 * @param name of the data set.
 	 */
 
@@ -57,45 +57,42 @@ public class DerivedDataSet extends SimpleDataSet implements IDerivedDataSetMode
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitDerivedDataSet(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	@Override
 	public String getElementName() {
 		return ReportDesignConstants.DERIVED_DATA_SET_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
 
-	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 *
+	 * 
 	 * @param module the report design of the derived data set
-	 *
+	 * 
 	 * @return an API handle for this element
 	 */
 
@@ -108,40 +105,36 @@ public class DerivedDataSet extends SimpleDataSet implements IDerivedDataSetMode
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt
 	 * .report.model.core.Module)
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module) {
 		return Collections.emptyList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
 	 * (java.lang.String)
 	 */
 
-	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (EXTENSION_ID_PROP.equals(propName)) {
+		if (EXTENSION_ID_PROP.equals(propName))
 			return extensionID;
-		}
 
 		return super.getIntrinsicProperty(propName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty
 	 * (java.lang.String, java.lang.Object)
 	 */
 
-	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
 		if (EXTENSION_ID_PROP.equals(propName)) {
 			extensionID = (String) value;

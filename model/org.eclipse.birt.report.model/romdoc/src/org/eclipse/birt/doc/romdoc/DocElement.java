@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,11 +39,10 @@ public class DocElement extends DocComposite {
 			// Workaround because getLocalProperties( ) returns all properties.
 
 			if (propDefn.definedBy() == elementDefn) {
-				if (propDefn.getTypeCode() == IPropertyType.SCRIPT_TYPE) {
+				if (propDefn.getTypeCode() == IPropertyType.SCRIPT_TYPE)
 					methods.add(new DocMethod(propDefn));
-				} else {
+				else
 					properties.add(new DocProperty(propDefn));
-				}
 			}
 		}
 		Collections.sort(properties, new DocComparator());
@@ -78,9 +77,8 @@ public class DocElement extends DocComposite {
 	}
 
 	public String getExtends() {
-		if (getElementDefn().getExtends() != null) {
+		if (getElementDefn().getExtends() != null)
 			return makeElementLink(getElementDefn().getExtends(), "elements");//$NON-NLS-1$
-		}
 		return "None";
 	}
 
@@ -120,16 +118,14 @@ public class DocElement extends DocComposite {
 
 	public String getStyle() {
 		String style = getElementDefn().getSelector();
-		if (style == null) {
+		if (style == null)
 			return "None";
-		}
 		String[] styles = style.split(",");
 
-		StringBuilder link = new StringBuilder();
+		StringBuffer link = new StringBuffer();
 		for (int i = 0; i < styles.length; i++) {
-			if (i > 0) {
+			if (i > 0)
 				link.append(", ");
-			}
 			link.append("<a href=\"../styles.html#");
 			link.append(styles[i]);
 			link.append("\">");
@@ -198,9 +194,8 @@ public class DocElement extends DocComposite {
 	}
 
 	public String getXmlElement() {
-		if (getElementDefn().isAbstract()) {
+		if (getElementDefn().isAbstract())
 			return "None";
-		}
 		return getElementDefn().getXmlName();
 	}
 
@@ -220,9 +215,8 @@ public class DocElement extends DocComposite {
 		Iterator iter = methods.iterator();
 		while (iter.hasNext()) {
 			DocMethod method = (DocMethod) iter.next();
-			if (method.getName().equals(name)) {
+			if (method.getName().equals(name))
 				return method;
-			}
 		}
 		return null;
 	}
@@ -231,14 +225,12 @@ public class DocElement extends DocComposite {
 		Iterator iter = slots.iterator();
 		while (iter.hasNext()) {
 			DocSlot slot = (DocSlot) iter.next();
-			if (slot.getName().equals(name)) {
+			if (slot.getName().equals(name))
 				return slot;
-			}
 		}
 		return null;
 	}
 
-	@Override
 	public boolean isElement() {
 		return true;
 	}

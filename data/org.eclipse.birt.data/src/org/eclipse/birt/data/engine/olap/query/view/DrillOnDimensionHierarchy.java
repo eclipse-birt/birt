@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,19 +26,18 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 public class DrillOnDimensionHierarchy {
 
-	private Map<DimLevel, List<IEdgeDrillFilter>> drillOnLevelsMap = new HashMap<>();
+	private Map<DimLevel, List<IEdgeDrillFilter>> drillOnLevelsMap = new HashMap<DimLevel, List<IEdgeDrillFilter>>();
 	private IEdgeDrillFilter[] drill;
-	private List<List<IEdgeDrillFilter>> sortedDrillFilter = new ArrayList<>();
+	private List<List<IEdgeDrillFilter>> sortedDrillFilter = new ArrayList<List<IEdgeDrillFilter>>();
 
 	public DrillOnDimensionHierarchy(IDimensionDefinition dimension, IEdgeDrillFilter[] drill) {
-		if (dimension == null || drill.length == 0) {
+		if (dimension == null || drill.length == 0)
 			return;
-		}
 
 		this.drill = drill;
 		for (int i = 0; i < dimension.getHierarchy().get(0).getLevels().size(); i++) {
 			ILevelDefinition level = dimension.getHierarchy().get(0).getLevels().get(i);
-			List<IEdgeDrillFilter> drillList = new ArrayList<>();
+			List<IEdgeDrillFilter> drillList = new ArrayList<IEdgeDrillFilter>();
 			for (int j = 0; j < drill.length; j++) {
 				if (drill[j].getTargetLevelName().equals(level.getName())) {
 					drillList.add(drill[j]);

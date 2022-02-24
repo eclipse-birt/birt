@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +53,6 @@ public class PreviewServerPreferencePage extends PreferencePage implements IWork
 
 	protected Text textServerPort;
 
-	@Override
 	protected Control createContents(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.PREFERENCE_BIRT_PREVIEW_SERVER_ID);
 		Font font = parent.getFont();
@@ -222,7 +221,6 @@ public class PreviewServerPreferencePage extends PreferencePage implements IWork
 
 		label.addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				boldFont.dispose();
 			}
@@ -253,9 +251,8 @@ public class PreviewServerPreferencePage extends PreferencePage implements IWork
 		return mainComposite;
 	}
 
-	@Override
 	public void init(IWorkbench workbench) {
-
+		;
 	}
 
 	/**
@@ -267,7 +264,6 @@ public class PreviewServerPreferencePage extends PreferencePage implements IWork
 	 * <code>super.performDefaults</code>.
 	 * </p>
 	 */
-	@Override
 	protected void performDefaults() {
 		Preferences pref = ViewerPlugin.getDefault().getPluginPreferences();
 
@@ -281,7 +277,6 @@ public class PreviewServerPreferencePage extends PreferencePage implements IWork
 	/**
 	 * @see IPreferencePage
 	 */
-	@Override
 	public boolean performOk() {
 		Preferences pref = ViewerPlugin.getDefault().getPluginPreferences();
 

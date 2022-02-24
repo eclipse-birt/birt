@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -127,7 +127,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
 
 	static {
-		registeredDevices = new ArrayList<>();
+		registeredDevices = new ArrayList<String>();
 		try {
 			String[][] formats = PluginSettings.instance().getRegisteredOutputFormats();
 			for (int i = 0; i < formats.length; i++) {
@@ -140,29 +140,24 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	protected static IDataRowExpressionEvaluator EMPTY_CHART_EVALUATOR = new IDataRowExpressionEvaluator() {
 
-		@Override
 		public void close() {
 
 		}
 
-		@Override
 		public Object evaluate(String expression) {
 			return null;
 		}
 
-		@Override
 		@SuppressWarnings("deprecation")
 		public Object evaluateGlobal(String expression) {
 			return null;
 		}
 
-		@Override
 		public boolean first() {
 			// No row
 			return false;
 		}
 
-		@Override
 		public boolean next() {
 			return false;
 		}
@@ -196,11 +191,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
 	 * setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	@Override
 	public void setModelObject(ExtendedItemHandle eih) {
 		super.setModelObject(eih);
 
@@ -219,7 +213,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			if (cm != null) {
 				try {
 					cm = cm.copyInstance();
-				} catch (ConcurrentModificationException | NullPointerException e) {
+				} catch (ConcurrentModificationException e) {
+					// Once concurrent exception is thrown, try again.
+					cm = cm.copyInstance();
+				} catch (NullPointerException e) {
 					// Once NPE is thrown in concurrent case, try again.
 					cm = cm.copyInstance();
 				}
@@ -278,12 +275,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#setLocale
 	 * (java.util.Locale)
 	 */
-	@Override
 	@SuppressWarnings("deprecation")
 	public final void setLocale(Locale lcl) {
 		if (rtc == null) {
@@ -294,11 +290,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
 	 * setOutputFormat(java.lang.String)
 	 */
-	@Override
 	public void setOutputFormat(String sOutputFormat) {
 		super.setOutputFormat(sOutputFormat);
 		if (sOutputFormat.equalsIgnoreCase("HTML")) //$NON-NLS-1$
@@ -317,21 +312,22 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			} else {
 				sExtension = getFirstSupportedFormat();
 			}
-		} else if (isOutputRendererSupported(outputChartFormat)) {
-			sExtension = outputChartFormat;
 		} else {
-			sExtension = getFirstSupportedFormat();
+			if (isOutputRendererSupported(outputChartFormat)) {
+				sExtension = outputChartFormat;
+			} else {
+				sExtension = getFirstSupportedFormat();
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#deserialize
 	 * (java.io.InputStream)
 	 */
-	@Override
 	public void deserialize(InputStream is) {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(is) {
@@ -342,7 +338,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				// "org.eclipse.birt.chart.script", which causes the stored
 				// instances of
 				// ChartScriptContext can't be de-serialized.
-				@Override
 				protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
 					if ("org.eclipse.birt.chart.internal.script.ChartScriptContext".equals(desc.getName())) //$NON-NLS-1$
 					{
@@ -404,11 +399,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
 	 * getOutputType()
 	 */
-	@Override
 	public int getOutputType() {
 		if (outputType == -1) {
 			if ("SVG".equals(sExtension) || "SWF".equals(sExtension)) //$NON-NLS-1$ //$NON-NLS-2$
@@ -423,11 +417,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
 	 * getImageMIMEType()
 	 */
-	@Override
 	public String getImageMIMEType() {
 		if (idr == null) {
 			return null;
@@ -438,22 +431,20 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.engine.extension.IReportItemPresentation#
 	 * getOutputContent()
 	 */
-	@Override
 	public Object getOutputContent() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#finish()
 	 */
-	@Override
 	public void finish() {
 		// CLOSE THE TEMP STREAM PROVIDED TO THE CALLER
 		try {
@@ -580,7 +571,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			} catch (OLAPException e) {
 				// Skip shared scale, still running
 				logger.log(e);
-			} catch (BirtException | EvaluatorException e) {
+			} catch (BirtException e) {
+				// If chart doesn't use sub cube query, shared scale is not
+				// required. No need to get min/max
+			} catch (EvaluatorException e) {
 				// If chart doesn't use sub cube query, shared scale is not
 				// required. No need to get min/max
 			}
@@ -590,11 +584,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getSize
 	 * ()
 	 */
-	@Override
 	public Size getSize() {
 		// Use actual bounds to set size
 		if (boundsRuntime != null) {
@@ -625,10 +618,12 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			// case skip gracefully)
 			if (isNoDataException(birtException)) {
 				bNotEmpty = false;
-			} else if (!ChartReportItemUtil.validateCubeResultSetBinding(modelHandle, cm)) {
-				validCubeResultSet = false;
 			} else {
-				throw birtException;
+				if (!ChartReportItemUtil.validateCubeResultSetBinding(modelHandle, cm)) {
+					validCubeResultSet = false;
+				} else {
+					throw birtException;
+				}
 			}
 		}
 
@@ -638,12 +633,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets
 	 * (org.eclipse.birt.report.engine.extension.IRowSet[])
 	 */
-	@Override
 	public Object onRowSets(IBaseResultSet[] baseResultSet) throws BirtException {
 		if (cm == null) {
 			return null;
@@ -803,7 +797,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/**
 	 * Check there is some data to display in the chart.
-	 *
+	 * 
 	 * @param baseResultSet
 	 * @return null if nothing to render
 	 */
@@ -887,9 +881,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			return fis;
 		} else if (getOutputType() == OUTPUT_AS_IMAGE_WITH_MAP) {
 			return new Object[] { fis, imageMap };
-		} else {
+		} else
 			throw new IllegalArgumentException();
-		}
 	}
 
 	private void renderToImageFile(GeneratedChartState gcs) throws ChartException {
@@ -919,7 +912,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/**
 	 * Returns the HTML <area> contents of image hotspots.
-	 *
+	 * 
 	 * @return
 	 */
 	protected String getImageMap() throws ChartException {
@@ -932,7 +925,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			ex = ex.getCause();
 		}
 
-		if ((ex instanceof ChartException && ((ChartException) ex).getType() == ChartException.ZERO_DATASET) || (ex instanceof ChartException && ((ChartException) ex).getType() == ChartException.ALL_NULL_DATASET)) {
+		if (ex instanceof ChartException && ((ChartException) ex).getType() == ChartException.ZERO_DATASET) {
+			// if the Data set has zero lines, just
+			// returns null gracefully.
+			return true;
+		}
+
+		if (ex instanceof ChartException && ((ChartException) ex).getType() == ChartException.ALL_NULL_DATASET) {
 			// if the Data set contains all null values, just
 			// returns null gracefully and render nothing.
 			return true;
@@ -1037,7 +1036,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/**
 	 * Gets render dpi which is used to locate and size in report.
-	 *
+	 * 
 	 * @return render dpi
 	 */
 	protected int getRenderDpi() {
@@ -1071,7 +1070,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/**
 	 * Indicates whether shared scale can be updated.
-	 *
+	 * 
 	 * @return
 	 */
 	protected boolean canUpdateScale() {
@@ -1080,7 +1079,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/**
 	 * Outputs the content when result set is null.
-	 *
+	 * 
 	 * @return the content to represent null result set
 	 */
 	protected Object outputNullResultSet() {
@@ -1091,7 +1090,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.extension.ReportItemPresentationBase#
 	 * isCacheable()
 	 */

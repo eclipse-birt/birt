@@ -1,21 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 ,2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.olap.cursor;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,13 +45,15 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class CursorModelTest extends BaseTestCase {
 	private Scriptable scope;
@@ -88,7 +87,7 @@ public class CursorModelTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 * @throws IOException
@@ -153,7 +152,7 @@ public class CursorModelTest extends BaseTestCase {
 
 	/**
 	 * without row edge
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
@@ -204,7 +203,7 @@ public class CursorModelTest extends BaseTestCase {
 
 	/**
 	 * without column edge
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
@@ -248,7 +247,7 @@ public class CursorModelTest extends BaseTestCase {
 
 	/**
 	 * test populate data along dimension cursor
-	 *
+	 * 
 	 * @throws DataException
 	 * @throws OLAPException
 	 */
@@ -311,7 +310,7 @@ public class CursorModelTest extends BaseTestCase {
 
 	/**
 	 *
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
@@ -369,7 +368,7 @@ public class CursorModelTest extends BaseTestCase {
 
 	/**
 	 * Test aggregation on measure with arguments
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
@@ -419,7 +418,7 @@ public class CursorModelTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
@@ -470,7 +469,7 @@ public class CursorModelTest extends BaseTestCase {
 
 	/**
 	 * without measure
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -530,7 +529,7 @@ public class CursorModelTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
@@ -603,7 +602,7 @@ public class CursorModelTest extends BaseTestCase {
 
 	/**
 	 * with measure filter
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
@@ -669,7 +668,7 @@ public class CursorModelTest extends BaseTestCase {
 
 	/**
 	 * with appContext's fetch limit
-	 *
+	 * 
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
@@ -838,7 +837,7 @@ public class CursorModelTest extends BaseTestCase {
 
 	/**
 	 * without one row/column edge
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test

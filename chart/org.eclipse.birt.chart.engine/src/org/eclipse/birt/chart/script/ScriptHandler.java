@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -44,7 +44,7 @@ import org.eclipse.birt.chart.util.SecurityUtil;
  * This class forms the basis of script handling in the charting library. It
  * creates a default scope and/or subclasses from a predefined scope. It also
  * provides convenience methods for execution of functions defined in the scope.
- *
+ * 
  * @see IChartEventHandler
  */
 public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandler> {
@@ -54,22 +54,18 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String START_GENERATION = "startGeneration"; //$NON-NLS-1$
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String FINISH_GENERATION = "finishGeneration"; //$NON-NLS-1$
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String BEFORE_LAYOUT = "beforeLayout"; //$NON-NLS-1$
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String AFTER_LAYOUT = "afterLayout"; //$NON-NLS-1$
 
 	public static final String BEFORE_COMPUTATIONS = "beforeComputations"; //$NON-NLS-1$
@@ -78,32 +74,26 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String START_RENDERING = "startRendering"; //$NON-NLS-1$
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String FINISH_RENDERING = "finishRendering"; //$NON-NLS-1$
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String START_COMPUTE_SERIES = "startComputeSeries"; //$NON-NLS-1$
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String FINISH_COMPUTE_SERIES = "finishComputeSeries"; //$NON-NLS-1$
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String BEFORE_DRAW_ELEMENT = "beforeDrawElement"; //$NON-NLS-1$
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String AFTER_DRAW_ELEMENT = "afterDrawElement"; //$NON-NLS-1$
 
 	// not supported yet
@@ -115,13 +105,11 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String BEFORE_DRAW_LEGEND_ENTRY = "beforeDrawLegendEntry"; //$NON-NLS-1$
 
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
-	@Deprecated
 	public static final String AFTER_DRAW_LEGEND_ENTRY = "afterDrawLegendEntry"; //$NON-NLS-1$
 
 	public static final String BEFORE_DRAW_LEGEND_ITEM = "beforeDrawLegendItem"; //$NON-NLS-1$
@@ -234,7 +222,6 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 * @deprecated Not used anymore. This is kept for backward compatibility only.
 	 * @return An instance of the chart model used at design time
 	 */
-	@Deprecated
 	public Object jsFunction_getDesignTimeModel() {
 		return cmDesignTime;
 	}
@@ -244,7 +231,6 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 *             for backward compatibility only.
 	 * @return An instance of the chart model used at run time
 	 */
-	@Deprecated
 	public Object jsFunction_getRunTimeModel() {
 		return cmRunTime;
 	}
@@ -254,7 +240,6 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 * @return An instance of the run time model coupled with a computations and
 	 *         series filled with datasets
 	 */
-	@Deprecated
 	public Object jsFunction_getGeneratedChartState() {
 		return gcs;
 	}
@@ -264,8 +249,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 *             backward compatibility only.
 	 * @return The locale associated with the generation request
 	 */
-	@Deprecated
-	public Object jsFunction_getLocale() {
+	public final Object jsFunction_getLocale() {
 		return lcl;
 	}
 
@@ -274,8 +258,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 * @param eo An EMF generated model object to be cloned
 	 * @return A cloned instance of the specified EMF generated model object
 	 */
-	@Deprecated
-	public Object jsFunction_clone(Object eo) {
+	public final Object jsFunction_clone(Object eo) {
 		if (eo instanceof IChartObject) {
 			return ((IChartObject) eo).copyInstance();
 		} else {
@@ -287,8 +270,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 * @deprecated Not used anymore. This is kept for backward compatibility only.
 	 * @param cm
 	 */
-	@Deprecated
-	public void setDesignTimeModel(Chart cmDesignTime) {
+	public final void setDesignTimeModel(Chart cmDesignTime) {
 		this.cmDesignTime = cmDesignTime;
 	}
 
@@ -297,8 +279,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 *             model now. This is kept for backward compatibility only.
 	 * @param cm
 	 */
-	@Deprecated
-	public void setRunTimeModel(Chart cmRunTime) {
+	public final void setRunTimeModel(Chart cmRunTime) {
 		this.cmRunTime = cmRunTime;
 	}
 
@@ -306,8 +287,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 * @deprecated Not used anymore. This is kept for backward compatibility only.
 	 * @param gcs
 	 */
-	@Deprecated
-	public void setGeneratedChartState(GeneratedChartState gcs) {
+	public final void setGeneratedChartState(GeneratedChartState gcs) {
 		this.gcs = gcs;
 	}
 
@@ -315,7 +295,6 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 * @param functionName
 	 * @param arguments
 	 */
-	@Override
 	protected boolean callRegularJavaFunction(String functionName, Object[] arguments) {
 		boolean called = false;
 		// use regular interface call instead of reflection to gain performance.
@@ -446,7 +425,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.script.AbstractScriptHandler#getLogger()
 	 */
 	@Override
@@ -456,7 +435,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.script.AbstractScriptHandler#getEventHandlerClass()
 	 */
@@ -467,7 +446,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.chart.script.AbstractScriptHandler#getJavaFunctionMap()
 	 */
 	@Override

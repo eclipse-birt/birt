@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 
 /**
- *
+ * 
  */
 
 public class ImportLibraryDialog extends BaseDialog {
@@ -57,7 +57,6 @@ public class ImportLibraryDialog extends BaseDialog {
 		this.namespace = namespace;
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		Label label = new Label(composite, SWT.NONE);
@@ -70,7 +69,6 @@ public class ImportLibraryDialog extends BaseDialog {
 		namespaceEditor.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		namespaceEditor.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				namespace = UIUtil.convertToModelString(namespaceEditor.getText(), true);
 				boolean canFinish = false;
@@ -99,13 +97,11 @@ public class ImportLibraryDialog extends BaseDialog {
 		return composite;
 	}
 
-	@Override
 	protected boolean initDialog() {
 		namespaceEditor.setText(UIUtil.convertToGUIString(namespace));
 		return true;
 	}
 
-	@Override
 	protected void okPressed() {
 		setResult(namespace);
 		super.okPressed();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,13 +42,12 @@ import junit.framework.TestCase;
  * <td>12</td>
  * </tr>
  * </table>
- *
+ * 
  */
 public class TreeFragmentTest extends TestCase {
 
 	Tree tree;
 
-	@Override
 	public void setUp() {
 		createTree();
 	}
@@ -123,7 +122,6 @@ class Tree {
 			node.parent = this;
 		}
 
-		@Override
 		public String toString() {
 			if (parent == null) {
 				return String.valueOf(offset);
@@ -147,7 +145,7 @@ class Tree {
 	Node root;
 
 	Long[] getEdges(Node node) {
-		LinkedList<Node> nodes = new LinkedList<>();
+		LinkedList<Node> nodes = new LinkedList<Node>();
 		while (node != null) {
 			nodes.addFirst(node);
 			node = node.parent;
@@ -223,7 +221,6 @@ class TreeFragment {
 		fragment.build();
 	}
 
-	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		Fragment frag = fragment.getFragment(tree.root.offset);

@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -38,7 +38,7 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 /**
  * StyleManager is a cache of POI CellStyles to enable POI CellStyles to be
  * reused based upon their BIRT styles.
- *
+ * 
  * @author Jim Talbut
  *
  */
@@ -46,7 +46,7 @@ public class StyleManager {
 
 	/**
 	 * StylePair maintains the relationship between a BIRT style and a POI style.
-	 *
+	 * 
 	 * @author Jim Talbut
 	 *
 	 */
@@ -62,7 +62,7 @@ public class StyleManager {
 
 	private Workbook workbook;
 	private FontManager fm;
-	private List<StylePair> styles = new ArrayList<>();
+	private List<StylePair> styles = new ArrayList<StylePair>();
 	private StyleManagerUtils smu;
 	private CSSEngine cssEngine;
 	// private Logger log;
@@ -108,7 +108,7 @@ public class StyleManager {
 	 * understood by POI are concerned. <br/>
 	 * Every attribute tested in this method must be used in the construction of the
 	 * CellStyle in createStyle.
-	 *
+	 * 
 	 * @param style1 The first BIRT style to be compared.
 	 * @param style2 The second BIRT style to be compared.
 	 * @return true if style1 and style2 would produce identical CellStyles if
@@ -129,14 +129,23 @@ public class StyleManager {
 				return false;
 			}
 		}
-		
+		if (!StyleManagerUtils.objectsEqual(style1.getProperty(BirtStyle.TEXT_ROTATION),
+				style2.getProperty(BirtStyle.TEXT_ROTATION))) {
+			// System.out.println( "Differ on " + i + " because " + value1 + " != " + value2
+			// );
+			return false;
+		}
 
 		// Number format
-		// Font
-		if (!StyleManagerUtils.objectsEqual(style1.getProperty(BirtStyle.TEXT_ROTATION),
-				style2.getProperty(BirtStyle.TEXT_ROTATION)) || !StyleManagerUtils.dataFormatsEquivalent(
+		if (!StyleManagerUtils.dataFormatsEquivalent(
 				(DataFormatValue) style1.getProperty(StyleConstants.STYLE_DATA_FORMAT),
-				(DataFormatValue) style2.getProperty(StyleConstants.STYLE_DATA_FORMAT)) || !FontManager.fontsEquivalent(style1, style2)) {
+				(DataFormatValue) style2.getProperty(StyleConstants.STYLE_DATA_FORMAT))) {
+			// System.out.println( "Differ on DataFormat" );
+			return false;
+		}
+
+		// Font
+		if (!FontManager.fontsEquivalent(style1, style2)) {
 			// System.out.println( "Differ on font" );
 			return false;
 		}
@@ -145,7 +154,7 @@ public class StyleManager {
 
 	/**
 	 * Create a new POI CellStyle based upon a BIRT style.
-	 *
+	 * 
 	 * @param birtStyle The BIRT style to base the CellStyle upon.
 	 * @return The CellStyle whose attributes are described by the BIRT style.
 	 */
@@ -232,7 +241,7 @@ public class StyleManager {
 	/**
 	 * Given a POI CellStyle, add border definitions to it and obtain a CellStyle
 	 * (from the cache or newly created) based upon that.
-	 *
+	 * 
 	 * @param source             The POI CellStyle to form the base style.
 	 * @param borderStyleBottom  The BIRT style of the bottom border.
 	 * @param borderWidthBottom  The BIRT with of the bottom border.
@@ -283,7 +292,7 @@ public class StyleManager {
 	/**
 	 * Return a POI style created by combining a POI style with a BIRT style, where
 	 * the BIRT style overrides the values in the POI style.
-	 *
+	 * 
 	 * @param source         The POI style that represents the base style.
 	 * @param birtExtraStyle The BIRT style to overlay on top of the POI style.
 	 * @return A POI style representing the combination of source and

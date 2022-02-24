@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,7 +64,7 @@ public class SpinnerTable extends Composite {
 
 	/**
 	 * sets the calendar
-	 *
+	 * 
 	 * @param calendar
 	 */
 	public void setCalendar(Calendar calendar) {
@@ -107,7 +107,7 @@ public class SpinnerTable extends Composite {
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style
-	 *
+	 * 
 	 * @param composite
 	 * @param style
 	 */
@@ -118,7 +118,7 @@ public class SpinnerTable extends Composite {
 	/**
 	 * Constructs a new instance of this class given its parent , a style and a
 	 * calendar
-	 *
+	 * 
 	 * @param composite
 	 * @param style
 	 * @param calendar
@@ -137,7 +137,6 @@ public class SpinnerTable extends Composite {
 			// when the TableEditor is over a cell, select the corresponding
 			// row in
 			// the table
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 
 				TableItem row = cursor.getRow();
@@ -205,7 +204,7 @@ public class SpinnerTable extends Composite {
 	 * Adds the listener to the collection of listeners who will be notified when
 	 * the year value change, by sending it one of the messages defined in the
 	 * IPropertyChangeListener interface.
-	 *
+	 * 
 	 * @param listener
 	 */
 	public void addPropertyChangeListener(IPropertyChangeListener listener) {
@@ -216,7 +215,7 @@ public class SpinnerTable extends Composite {
 	/**
 	 * Removes the listener from the collection of listeners who will be notified
 	 * when the year value change
-	 *
+	 * 
 	 * @param listener
 	 */
 	public void removePropertyChangeListener(IPropertyChangeListener listener) {
@@ -225,17 +224,16 @@ public class SpinnerTable extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.swt.widgets.Widget#checkWidget()
 	 */
-	@Override
 	protected void checkWidget() {
 
 	}
 
 	/**
 	 * Fire the event when the year value change
-	 *
+	 * 
 	 * @param e
 	 */
 	public void firePropertyListener(PropertyChangeEvent e) {
@@ -260,7 +258,7 @@ public class SpinnerTable extends Composite {
 
 	/**
 	 * Gets the day value
-	 *
+	 * 
 	 * @return day value
 	 */
 	public int getDay() {
@@ -275,12 +273,10 @@ class TimeTable extends Table {
 		super(composite, style);
 	}
 
-	@Override
 	protected void checkWidget() {
 
 	}
 
-	@Override
 	protected void checkSubclass() {
 
 	}
@@ -292,12 +288,10 @@ class TimeTableItem extends TableItem {
 		super(parent, style);
 	}
 
-	@Override
 	protected void checkWidget() {
 
 	}
 
-	@Override
 	protected void checkSubclass() {
 
 	}
@@ -309,12 +303,10 @@ class TimeTableColumn extends TableColumn {
 		super(parent, style);
 	}
 
-	@Override
 	protected void checkWidget() {
 
 	}
 
-	@Override
 	protected void checkSubclass() {
 
 	}
@@ -326,12 +318,10 @@ class TimeTableCursor extends TableCursor {
 		super(parent, style);
 	}
 
-	@Override
 	protected void checkWidget() {
 
 	}
 
-	@Override
 	protected void checkSubclass() {
 
 	}

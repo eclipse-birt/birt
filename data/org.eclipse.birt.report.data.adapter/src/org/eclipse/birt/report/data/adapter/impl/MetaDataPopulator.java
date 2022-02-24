@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ public class MetaDataPopulator {
 	 * populate all output columns in viewer display. The output columns is
 	 * retrieved from oda dataset handles's RESULT_SET_PROP and
 	 * COMPUTED_COLUMNS_PROP.
-	 *
+	 * 
 	 * @throws BirtException
 	 */
 	public static IResultMetaData retrieveResultMetaData(DataSetHandle dataSetHandle) throws BirtException {
@@ -87,12 +87,10 @@ public class MetaDataPopulator {
 				columnDef = new ResultSetColumnDefinition(resultSetColumn.getColumnName());
 				columnDef.setDataTypeName(resultSetColumn.getDataType());
 				columnDef.setDataType(DataAdapterUtil.adaptModelDataType(resultSetColumn.getDataType()));
-				if (resultSetColumn.getPosition() != null) {
+				if (resultSetColumn.getPosition() != null)
 					columnDef.setColumnPosition(resultSetColumn.getPosition().intValue());
-				}
-				if (resultSetColumn.getNativeDataType() != null) {
+				if (resultSetColumn.getNativeDataType() != null)
 					columnDef.setNativeDataType(resultSetColumn.getNativeDataType().intValue());
-				}
 
 				ColumnHintHandle columnHint = findColumnHint(dataSetHandle, resultSetColumn.getColumnName());
 				if (columnHint != null) {
@@ -118,9 +116,8 @@ public class MetaDataPopulator {
 
 					String columnName = computedColumn.getName();
 					if (removeDuplicated) {
-						if (uniqueColumnNameSet.contains(columnName)) {
+						if (uniqueColumnNameSet.contains(columnName))
 							continue;
-						}
 					}
 					String uniqueColumnName = getUniqueName(orgColumnNameSet, uniqueColumnNameSet, columnName,
 							i + count);
@@ -151,7 +148,7 @@ public class MetaDataPopulator {
 
 	/**
 	 * find column hint according to the columnName
-	 *
+	 * 
 	 * @param columnName
 	 * @return
 	 */
@@ -161,9 +158,8 @@ public class MetaDataPopulator {
 		if (columnHintIter != null) {
 			while (columnHintIter.hasNext()) {
 				ColumnHintHandle modelColumnHint = (ColumnHintHandle) columnHintIter.next();
-				if (modelColumnHint.getColumnName().equals(columnName)) {
+				if (modelColumnHint.getColumnName().equals(columnName))
 					return modelColumnHint;
-				}
 			}
 		}
 		return null;
@@ -172,19 +168,18 @@ public class MetaDataPopulator {
 	/**
 	 * Whether need to use resultHint, which stands for resultSetHint, columnHint or
 	 * both
-	 *
+	 * 
 	 * @param dataSetHandle
 	 * @return
 	 * @throws BirtException
 	 */
 	public static boolean needsUseResultHint(DataSetHandle dataSetHandle, IResultMetaData metaData)
 			throws BirtException {
-		boolean hasResultSetHint;
+		boolean hasResultSetHint = false;
 		boolean hasColumnHint = false;
 		PropertyHandle handle = dataSetHandle.getPropertyHandle(DataSetHandle.COLUMN_HINTS_PROP);
-		if (handle != null) {
+		if (handle != null)
 			hasColumnHint = handle.iterator().hasNext();
-		}
 
 		hasResultSetHint = populateResultsetHint(dataSetHandle, metaData);
 		if (!hasResultSetHint) {
@@ -194,7 +189,7 @@ public class MetaDataPopulator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSetHandle
 	 * @param metaData
 	 * @param columnCount
@@ -223,16 +218,15 @@ public class MetaDataPopulator {
 			if (!uniqueColumnName.equals(columnName)) {
 				updateModelColumn(dataSetHandle, uniqueColumnName, i + 1);
 
-				if (!hasResultSetHint) {
+				if (hasResultSetHint != true)
 					hasResultSetHint = true;
-				}
 			}
 		}
 		return hasResultSetHint;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param orgColumnNameSet
 	 * @param newColumnNameSet
 	 * @param columnName
@@ -244,11 +238,10 @@ public class MetaDataPopulator {
 		String newColumnName;
 		if (columnName == null || columnName.trim().length() == 0 || newColumnNameSet.contains(columnName)) {
 			// name conflict or no name,give this column a unique name
-			if (columnName == null || columnName.trim().length() == 0) {
+			if (columnName == null || columnName.trim().length() == 0)
 				newColumnName = UNNAME_PREFIX + RENAME_SEPARATOR + String.valueOf(index + 1);
-			} else {
+			else
 				newColumnName = columnName + RENAME_SEPARATOR + String.valueOf(index + 1);
-			}
 
 			int i = 1;
 			while (orgColumnNameSet.contains(newColumnName) || newColumnNameSet.contains(newColumnName)) {
@@ -263,38 +256,36 @@ public class MetaDataPopulator {
 
 	/**
 	 * whether need to use result hint
-	 *
+	 * 
 	 * @param dataSetHandle
 	 * @return
 	 */
 	private static boolean checkHandleType(DataSetHandle dataSetHandle) {
-		if (dataSetHandle instanceof ScriptDataSetHandle) {
+		if (dataSetHandle instanceof ScriptDataSetHandle)
 			return true;
-		} else if (dataSetHandle instanceof JointDataSetHandle) {
+		else if (dataSetHandle instanceof JointDataSetHandle) {
 			Iterator iter = ((JointDataSetHandle) dataSetHandle).dataSetsIterator();
 			while (iter.hasNext()) {
 				DataSetHandle dsHandle = (DataSetHandle) iter.next();
-				if (dsHandle instanceof ScriptDataSetHandle) {
+				if (dsHandle != null && dsHandle instanceof ScriptDataSetHandle) {
 					return true;
 				} else if (dsHandle instanceof JointDataSetHandle) {
-					if (checkHandleType(dsHandle)) {
+					if (checkHandleType(dsHandle))
 						return true;
-					}
 				}
 			}
 		} else if (dataSetHandle instanceof DerivedDataSetHandle) {
 			List handleList = ((DerivedDataSetHandle) dataSetHandle).getInputDataSets();
 			for (int i = 0; i < handleList.size(); i++) {
-				if (checkHandleType((DataSetHandle) handleList.get(i))) {
+				if (checkHandleType((DataSetHandle) handleList.get(i)))
 					return true;
-				}
 			}
 		}
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param ds
 	 * @param uniqueColumnName
 	 * @param index
@@ -302,9 +293,8 @@ public class MetaDataPopulator {
 	 */
 	private static void updateModelColumn(DataSetHandle ds, String uniqueColumnName, int index) throws BirtException {
 		PropertyHandle resultSetColumns = ds.getPropertyHandle(DataSetHandle.RESULT_SET_PROP);
-		if (resultSetColumns == null) {
+		if (resultSetColumns == null)
 			return;
-		}
 
 		// update result set columns
 		Iterator iterator = resultSetColumns.iterator();
@@ -322,7 +312,7 @@ public class MetaDataPopulator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param ds
 	 * @param uniqueColumnName
 	 * @param index
@@ -331,9 +321,8 @@ public class MetaDataPopulator {
 	private static void updateComputedColumn(DataSetHandle ds, String uniqueColumnName, String originalName)
 			throws BirtException {
 		PropertyHandle computedColumn = ds.getPropertyHandle(DataSetHandle.COMPUTED_COLUMNS_PROP);
-		if (computedColumn == null) {
+		if (computedColumn == null)
 			return;
-		}
 
 		// update result set columns
 		Iterator iterator = computedColumn.iterator();

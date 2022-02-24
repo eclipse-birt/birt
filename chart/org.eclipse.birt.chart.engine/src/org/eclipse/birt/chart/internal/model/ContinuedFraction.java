@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 public class ContinuedFraction {
 
 	private double decimal = 0;
-	private List<Long> integerList = new ArrayList<>();
+	private List<Long> integerList = new ArrayList<Long>();
 
 	public ContinuedFraction(double decimal) {
 		// Correct double precision error here
@@ -41,9 +41,8 @@ public class ContinuedFraction {
 		Fraction previousFraction = null;
 		for (int i = 0; i < lastIndex; i++) {
 			Fraction fraction = getFraction(i, new Fraction((integerList.get(i)).intValue(), 1));
-			if (fraction.getDenominatorDigits() > maxDigitsForDenominator) {
+			if (fraction.getDenominatorDigits() > maxDigitsForDenominator)
 				return previousFraction;
-			}
 			previousFraction = fraction;
 		}
 		return previousFraction;
@@ -73,7 +72,7 @@ public class ContinuedFraction {
 		long oldDividend = 0;
 		do {
 			quotient = start / dividend;
-			integerList.add(quotient);
+			integerList.add(Long.valueOf(quotient));
 			oldDividend = dividend;
 			dividend = start % dividend;
 			start = oldDividend;
@@ -83,7 +82,7 @@ public class ContinuedFraction {
 
 	@Override
 	public String toString() {
-		StringBuilder s = new StringBuilder();
+		StringBuffer s = new StringBuffer();
 		for (long l : integerList) {
 			s.append(l).append(',');
 		}

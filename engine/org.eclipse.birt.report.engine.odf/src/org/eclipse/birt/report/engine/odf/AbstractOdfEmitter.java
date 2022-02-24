@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -83,7 +83,6 @@ public abstract class AbstractOdfEmitter extends ContentEmitterAdapter implement
 		contentVisitor = new ContentEmitterVisitor(this);
 	}
 
-	@Override
 	public void initialize(IEmitterServices service) throws EngineException {
 		this.service = service;
 
@@ -121,7 +120,7 @@ public abstract class AbstractOdfEmitter extends ContentEmitterAdapter implement
 		super.start(report);
 		Object dpi = report.getReportContext().getRenderOption().getOption(IRenderOption.RENDER_DPI);
 		int renderDpi = 0;
-		if (dpi instanceof Integer) {
+		if (dpi != null && dpi instanceof Integer) {
 			renderDpi = ((Integer) dpi).intValue();
 		}
 		int reportDpi = PropertyUtil.getRenderDpi(report, renderDpi);
@@ -129,7 +128,6 @@ public abstract class AbstractOdfEmitter extends ContentEmitterAdapter implement
 		this.reportContent = report;
 	}
 
-	@Override
 	public void end(IReportContent report) throws BirtException {
 		save();
 	}
@@ -213,7 +211,7 @@ public abstract class AbstractOdfEmitter extends ContentEmitterAdapter implement
 
 	/**
 	 * Replace the background image URI with an embedded image entry URI
-	 *
+	 * 
 	 * @param style
 	 */
 	protected void processBackgroundImageStyle(StyleEntry style) {
@@ -266,7 +264,7 @@ public abstract class AbstractOdfEmitter extends ContentEmitterAdapter implement
 	}
 
 	static {
-		Set<Integer> nonInherityStyles = new HashSet<>();
+		Set<Integer> nonInherityStyles = new HashSet<Integer>();
 
 		nonInherityStyles.add(IStyle.STYLE_BORDER_BOTTOM_COLOR);
 		nonInherityStyles.add(IStyle.STYLE_BORDER_BOTTOM_STYLE);

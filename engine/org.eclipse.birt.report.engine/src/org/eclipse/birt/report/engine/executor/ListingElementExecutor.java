@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -77,7 +77,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor implement
 		return MAX_PAGE_BREAK_INTERVAL;
 	}
 
-	@Override
 	protected void initializeContent(ReportElementDesign design, IContent content) {
 		super.initializeContent(design, content);
 		pageBreakInterval = ((ListingDesign) design).getPageBreakInterval();
@@ -130,7 +129,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor implement
 	 * <li>create the footer.
 	 * <li>call the onFinish event.
 	 */
-	@Override
 	public void close() throws BirtException {
 		if (pageBreakInterval != -1) {
 			context.removePageBreakListener(this);
@@ -179,7 +177,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor implement
 		return false;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		if (currentElement < totalElements) {
 			return true;
@@ -222,7 +219,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor implement
 		return false;
 	}
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		if (hasNextChild()) {
 			assert (currentElement < totalElements);
@@ -304,7 +300,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor implement
 
 	}
 
-	@Override
 	public void onPageBreak(boolean isHorizontalPageBreak, boolean isSizeOverflowPageBreak) {
 		// FIXME refactor
 		if (!isHorizontalPageBreak) {

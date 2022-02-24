@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements IBaseDat
 	private final String beforeOpenMethodID, beforeCloseMethodID, afterOpenMethodID, afterCloseMethodID,
 			onFetchMethodID, className;
 
-	private Map<IDataSetInstanceHandle, Scriptable> scopeCache = new HashMap<>();
+	private Map<IDataSetInstanceHandle, Scriptable> scopeCache = new HashMap<IDataSetInstanceHandle, Scriptable>();
 
 	public DataSetScriptExecutor(DataSetHandle dataSetHandle, ExecutionContext context) throws BirtException {
 		super(context);
@@ -86,77 +86,65 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements IBaseDat
 		}
 	}
 
-	@Override
 	public void handleBeforeOpen(IDataSetInstanceHandle dataSet) {
 		initEventHandler();
-		if (reportContext == null) {
+		if (reportContext == null)
 			return;
-		}
 		try {
 			if (!this.useBeforeOpenEventHandler) {
 				Scriptable scope = getScriptScope(dataSet);
 				ScriptStatus status = handleJS(scope, dataSet.getName(), BEFORE_OPEN, dataSetHandle.getBeforeOpen(),
 						beforeOpenMethodID);
-				if (status.didRun()) {
+				if (status.didRun())
 					return;
-				}
 			}
-			if (eventHandler != null) {
+			if (eventHandler != null)
 				eventHandler.beforeOpen(new DataSetInstance(dataSet), reportContext);
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
-	@Override
 	public void handleBeforeClose(IDataSetInstanceHandle dataSet) {
 		initEventHandler();
-		if (reportContext == null) {
+		if (reportContext == null)
 			return;
-		}
 		try {
 			if (!this.useBeforeCloseEventHandler) {
 				Scriptable scope = getScriptScope(dataSet);
 				ScriptStatus status = handleJS(scope, dataSet.getName(), BEFORE_CLOSE, dataSetHandle.getBeforeClose(),
 						beforeCloseMethodID);
-				if (status.didRun()) {
+				if (status.didRun())
 					return;
-				}
 			}
-			if (eventHandler != null) {
+			if (eventHandler != null)
 				eventHandler.beforeClose(new DataSetInstance(dataSet), reportContext);
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
-	@Override
 	public void handleAfterOpen(IDataSetInstanceHandle dataSet) {
 		initEventHandler();
-		if (reportContext == null) {
+		if (reportContext == null)
 			return;
-		}
 		try {
 			if (!this.useAfterOpenEventHandler) {
 				Scriptable scope = getScriptScope(dataSet);
 				ScriptStatus status = handleJS(scope, dataSet.getName(), AFTER_OPEN, dataSetHandle.getAfterOpen(),
 						afterOpenMethodID);
-				if (status.didRun()) {
+				if (status.didRun())
 					return;
-				}
 			}
-			if (eventHandler != null) {
+			if (eventHandler != null)
 				eventHandler.afterOpen(new DataSetInstance(dataSet), reportContext);
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSet
 	 * @return
 	 * @throws DataException
@@ -176,53 +164,44 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements IBaseDat
 		return scope;
 	}
 
-	@Override
 	public void handleAfterClose(IDataSetInstanceHandle dataSet) {
 		initEventHandler();
-		if (reportContext == null) {
+		if (reportContext == null)
 			return;
-		}
 		try {
 			if (!this.useAfterCloseEventHandler) {
 				Scriptable scope = getScriptScope(dataSet);
 				ScriptStatus status = handleJS(scope, dataSet.getName(), AFTER_CLOSE, dataSetHandle.getAfterClose(),
 						afterCloseMethodID);
-				if (status.didRun()) {
+				if (status.didRun())
 					return;
-				}
 			}
-			if (eventHandler != null) {
+			if (eventHandler != null)
 				eventHandler.afterClose(reportContext);
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
-	@Override
 	public void handleOnFetch(IDataSetInstanceHandle dataSet, IDataRow row) {
 		initEventHandler();
-		if (reportContext == null) {
+		if (reportContext == null)
 			return;
-		}
 		try {
 			if (!this.useOnFetchEventHandler) {
 				Scriptable scope = getScriptScope(dataSet);
 				ScriptStatus status = handleJS(scope, dataSet.getName(), ON_FETCH, dataSetHandle.getOnFetch(),
 						onFetchMethodID);
-				if (status.didRun()) {
+				if (status.didRun())
 					return;
-				}
 			}
-			if (eventHandler != null) {
+			if (eventHandler != null)
 				eventHandler.onFetch(new DataSetInstance(dataSet), new DataSetRow(row), reportContext);
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
-	@Override
 	protected ScriptStatus handleJS(Scriptable scope, String name, String method, String script, String id) {
 		return handleJS(scope, DATA_SET, name, method, script, id);
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
  * Represents the extension element definition based on Model extension point.
  * This class only used for those extension definition from third-party, not the
  * Model-defined standard elements.
- *
+ * 
  * <h3>Property Visibility</h3> All extension element definition support
  * property visibility, which defines to something like read-only, or hide. This
  * is used to help UI display the property value or the entire property. When
@@ -40,15 +40,13 @@ public abstract class ExtensionElementDefn extends ElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#build()
 	 */
 
-	@Override
 	protected void build() throws MetaDataException {
-		if (isBuilt) {
+		if (isBuilt)
 			return;
-		}
 
 		buildDefn();
 
@@ -86,7 +84,7 @@ public abstract class ExtensionElementDefn extends ElementDefn {
 	/**
 	 * Checks whether the property has the mask defined by the peer extension given
 	 * the property name.
-	 *
+	 * 
 	 * @param propName the property name to check
 	 * @return true if the style masks defined by peer extension of the item is
 	 *         found, otherwise false
@@ -100,7 +98,7 @@ public abstract class ExtensionElementDefn extends ElementDefn {
 
 	/**
 	 * Gets the extension point of this extension element.
-	 *
+	 * 
 	 * @return the extension point of this extension element
 	 */
 

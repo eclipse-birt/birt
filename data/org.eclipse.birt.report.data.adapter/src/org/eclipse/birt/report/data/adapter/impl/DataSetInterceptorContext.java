@@ -23,19 +23,16 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptorContext;
 
 public class DataSetInterceptorContext implements IDataSetInterceptorContext {
-	Map<String, DataRequestSession> sessionMap = new HashMap<>();
+	Map<String, DataRequestSession> sessionMap = new HashMap<String, DataRequestSession>();
 
-	@Override
 	public DataRequestSession getRequestSession(String dataSource) {
 		return sessionMap.get(dataSource);
 	}
 
-	@Override
 	public void registDataRequestSession(String dataSource, DataRequestSession session) {
 		sessionMap.put(dataSource, session);
 	}
 
-	@Override
 	public void close() {
 		if (sessionMap.size() > 0) {
 			for (DataRequestSession session : sessionMap.values()) {

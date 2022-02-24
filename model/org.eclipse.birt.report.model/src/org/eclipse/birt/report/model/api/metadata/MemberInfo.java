@@ -1,18 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.model.api.metadata;
+
+import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 
 /**
  * Represents the definition of class member. The class member defines the
@@ -34,14 +36,13 @@ public class MemberInfo implements IMemberInfo {
 		memberInfo = new org.eclipse.birt.report.model.metadata.MemberInfo();
 	}
 
-	@Override
 	public String getDataType() {
 		return memberInfo.getDataType();
 	}
 
 	/**
 	 * Sets the script data type of this member.
-	 *
+	 * 
 	 * @param type the script data type to set
 	 */
 
@@ -51,7 +52,7 @@ public class MemberInfo implements IMemberInfo {
 
 	/**
 	 * Sets whether this member is static.
-	 *
+	 * 
 	 * @param isStatic the flag set
 	 */
 
@@ -61,30 +62,28 @@ public class MemberInfo implements IMemberInfo {
 
 	/**
 	 * Returns whether this member is static.
-	 *
+	 * 
 	 * @return <code>true</code> if this member is true.
 	 */
 
-	@Override
 	public boolean isStatic() {
 		return memberInfo.isStatic();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName ()
 	 */
 
-	@Override
 	public String getToolTip() {
 		return toolTip;
 	}
 
 	/**
 	 * Sets the display string for the tool tip of this method.
-	 *
+	 * 
 	 * @param toolTip the user-visible, localized display name for the tool tip of
 	 *                this method.
 	 */
@@ -95,30 +94,28 @@ public class MemberInfo implements IMemberInfo {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey ()
 	 */
-	@Override
 	public String getToolTipKey() {
 		return memberInfo.getToolTipKey();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName ()
 	 */
 
-	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
 	/**
 	 * Sets the display name.
-	 *
+	 * 
 	 * @param displayName the display value
 	 */
 
@@ -128,13 +125,12 @@ public class MemberInfo implements IMemberInfo {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey
 	 * ()
 	 */
 
-	@Override
 	public String getDisplayNameKey() {
 		String retValue = memberInfo.getDisplayNameKey();
 		return retValue != null ? retValue : ""; //$NON-NLS-1$
@@ -142,18 +138,17 @@ public class MemberInfo implements IMemberInfo {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
-	@Override
 	public String getName() {
 		return memberInfo.getName();
 	}
 
 	/**
 	 * Sets the resource key for display name.
-	 *
+	 * 
 	 * @param displayNameKey the resource key to set
 	 */
 
@@ -163,7 +158,7 @@ public class MemberInfo implements IMemberInfo {
 
 	/**
 	 * Sets the definition name.
-	 *
+	 * 
 	 * @param name the name to set
 	 */
 
@@ -173,7 +168,7 @@ public class MemberInfo implements IMemberInfo {
 
 	/**
 	 * Sets the resource key for tool tip.
-	 *
+	 * 
 	 * @param toolTipKey the resource key to set
 	 */
 
@@ -183,10 +178,9 @@ public class MemberInfo implements IMemberInfo {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IMemberInfo#getClassType()
 	 */
-	@Override
 	public IClassInfo getClassType() {
 		return ((org.eclipse.birt.report.model.metadata.MemberInfo) memberInfo).getClassType();
 	}

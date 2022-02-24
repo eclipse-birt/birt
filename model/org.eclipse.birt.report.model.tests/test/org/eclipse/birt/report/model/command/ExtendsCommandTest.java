@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,103 +48,103 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * The unit test code for ExtendsCommand. The following is the case summary.
  * <p>
- *
+ * 
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testSetExtendsName()}</td>
  * <td>The name of parent element is null</td>
  * <td>Extends value is null.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>The name of parent element is ""</td>
  * <td>Extends value is null.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Normal case with API call and undo/redo.</td>
  * <td>Pass the test case.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testSetExtendsExceptions()}</td>
  * <td>Parent element does not exist in the name space.</td>
  * <td>Throws an exception with <code>ExtendsException.NOT_FOUND</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Parent element is not the right type.</td>
  * <td>Throws an exception with <code>ExtendsException.WRONG_TYPE</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Self extends.</td>
  * <td>Throws an exception with <code>ExtendsException.SELF_EXTEND</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>The element is non-extendable.</td>
  * <td>Throws an exception with <code>ExtendsException.CANT_EXTEND</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testCirclarExtends()}</td>
  * <td>Circlar extends with 2 or 3 elements.</td>
  * <td>Throws an exception with <code>ExtendsException.CIRCULAR</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testSetExtendsElement()}</td>
  * <td>Parent is null</td>
  * <td>Extends value is <code>null</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>The name of parent element is null.</td>
  * <td>Extends value is <code>null</code>.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Normal cases with API call and undo/redo.</td>
  * <td>Test case was passed.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testSendNotifications()}</td>
  * <td>Extends Event notified in DIRECT</td>
  * <td>Design Elements must be notified with DeliveryPath: DIRECT.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Extends Event notified in DESCENDENT</td>
  * <td>Derived Elements must be notified with DeliveryPath: DESCENDENT.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Extends Event notified in STYLE_CLIENT</td>
  * <td>Referred Elements must be notified with DeliveryPath: STYLE_CLIENT.</td>
  * </tr>
- *
+ * 
  * </table>
- *
+ * 
  * <p>
- *
- *
- *
+ * 
+ * 
+ * 
  */
 
 public class ExtendsCommandTest extends BaseTestCase {
@@ -163,7 +163,6 @@ public class ExtendsCommandTest extends BaseTestCase {
 	 * @see BaseTestCase#setUp()
 	 */
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -181,14 +180,14 @@ public class ExtendsCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for <code>ExtendsCommand#setExtendsName(String)</code>.
-	 *
+	 * 
 	 * Test case:
 	 * <ul>
 	 * <li>ExtendsName is <code>null</code>
 	 * <li>ExtendsName is ""
 	 * <li>Normal case with API call and undo/redo.
 	 * </ul>
-	 *
+	 * 
 	 * @throws ExtendsException
 	 */
 
@@ -242,7 +241,7 @@ public class ExtendsCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for <code>ExtendsCommand#setExtendsName(String)</code>.
-	 *
+	 * 
 	 * <p>
 	 * Test case:
 	 * <ul>
@@ -251,7 +250,7 @@ public class ExtendsCommandTest extends BaseTestCase {
 	 * <li>Self extends.
 	 * <li>The design element does not have the 'extends' property.
 	 * </ul>
-	 *
+	 * 
 	 */
 
 	public void testSetExtendsExceptions() {
@@ -303,11 +302,11 @@ public class ExtendsCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for circlar extends.
-	 *
+	 * 
 	 * <p>
-	 *
+	 * 
 	 * Test case: Circlar extends with 2 or 3 elements.
-	 *
+	 * 
 	 */
 
 	public void testCirclarExtends() {
@@ -344,13 +343,13 @@ public class ExtendsCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for setExtendsElement(DesignElement).
-	 *
+	 * 
 	 * <p>
-	 *
+	 * 
 	 * <code>setExtendsElement(DesignElement)</code> actually makes a call to
 	 * <code>setExtendsName(String)</code>. Hence, ExtendsException issue is not
 	 * tested in this method.
-	 *
+	 * 
 	 * <p>
 	 * Test case:
 	 * <ul>
@@ -358,7 +357,7 @@ public class ExtendsCommandTest extends BaseTestCase {
 	 * <li>The parent name is null.
 	 * <li>Normal case with API call and redo/undo.
 	 * </ul>
-	 *
+	 * 
 	 * @throws ExtendsException
 	 * @see #testSetExtendsExceptions()
 	 */
@@ -433,7 +432,7 @@ public class ExtendsCommandTest extends BaseTestCase {
 
 	/**
 	 * Test localize element.
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws IOException
 	 * @throws SemanticException
@@ -546,14 +545,14 @@ public class ExtendsCommandTest extends BaseTestCase {
 	 * <p>
 	 * A special case is used to test the notification mechanism. Please see source
 	 * codes for details.
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>ExtendsEvent</code> with <code>NotifcationEvent.DIRECT</code>
 	 * notification.
 	 * <li><code>ExtendsEvent</code> with <code>NotifcationEvent.DESCENDENT</code>
 	 * notification.
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 
@@ -624,12 +623,11 @@ public class ExtendsCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			ExtendsEvent event = (ExtendsEvent) ev;
 

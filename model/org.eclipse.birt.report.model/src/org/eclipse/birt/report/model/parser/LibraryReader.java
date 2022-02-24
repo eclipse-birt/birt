@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ public final class LibraryReader extends ModuleReader {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 */
 
 	private LibraryReader() {
@@ -52,7 +52,7 @@ public final class LibraryReader extends ModuleReader {
 
 	/**
 	 * Gets the only instance of the library reader.
-	 *
+	 * 
 	 * @return the only instance of the library reader
 	 */
 
@@ -64,14 +64,14 @@ public final class LibraryReader extends ModuleReader {
 	 * Parses an XML library file given an input stream. Creates and returns the
 	 * internal representation of the library. This method is used to open library
 	 * file which is included in one library or report.
-	 *
+	 * 
 	 * @param session     the session of the library
 	 * @param host        the host module, which includes the library to open.
 	 * @param fileName    the library file that the input stream is associated to.
 	 * @param namespace   the namespace of the library to open.
 	 * @param inputStream the input stream that reads the library file
 	 * @param options     the options set for this module
-	 *
+	 * 
 	 * @return the internal representation of the library
 	 * @throws DesignFileException if the library file is not found or has syntax
 	 *                             error. The syntax errors include that input
@@ -92,7 +92,7 @@ public final class LibraryReader extends ModuleReader {
 	 * Parses an XML library file given an input stream. Creates and returns the
 	 * internal representation of the library. This method is used to open library
 	 * file which is included in one library or report.
-	 *
+	 * 
 	 * @param session     the session of the library
 	 * @param host        the host module, which includes the library to open.
 	 * @param url         the url of the library file.
@@ -118,7 +118,7 @@ public final class LibraryReader extends ModuleReader {
 	/**
 	 * Parses an XML library file given an input stream. Creates and returns the
 	 * internal representation of the library.
-	 *
+	 * 
 	 * @param session     the session of the library
 	 * @param fileName    the library file that the input stream is associated to.
 	 * @param inputStream the input stream that reads the library file
@@ -140,7 +140,7 @@ public final class LibraryReader extends ModuleReader {
 	/**
 	 * Parses an XML library file given an input stream. Creates and returns the
 	 * internal representation of the library
-	 *
+	 * 
 	 * @param session     the session of the library
 	 * @param systemId    the uri path for the library file
 	 * @param inputStream the input stream that reads the library file
@@ -160,7 +160,7 @@ public final class LibraryReader extends ModuleReader {
 	/**
 	 * Parses an XML library file given a file name. Creates and returns the
 	 * internal representation of the library
-	 *
+	 * 
 	 * @param session  the session of the report
 	 * @param fileName the library file to parse
 	 * @param options  the options set for this module

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.ui.part.PageBookView;
 
 /**
  * LibraryExplorerView display all library files in BIRT resource folder.
- *
+ * 
  */
 public class LibraryExplorerView extends PageBookView {
 
@@ -58,11 +58,10 @@ public class LibraryExplorerView extends PageBookView {
 
 	/**
 	 * Creates and returns the default page for this view.
-	 *
+	 * 
 	 * @param book the pagebook control
 	 * @return the default page
 	 */
-	@Override
 	protected IPage createDefaultPage(PageBook book) {
 		MessagePage page = new MessagePage();
 		initPage(page);
@@ -71,13 +70,11 @@ public class LibraryExplorerView extends PageBookView {
 		return page;
 	}
 
-	@Override
 	protected PageRec getPageRec(IWorkbenchPart part) {
 		PageRec rec = super.getPageRec(part);
 		if (treeViewPage != null && !treeViewPage.isDisposed()) {
-			if (prefs != null) {
+			if (prefs != null)
 				prefs.removePreferenceChangeListener(treeViewPage);
-			}
 			prefs = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault(),
 					UIUtil.getCurrentProject());
 			prefs.addPreferenceChangeListener(treeViewPage);
@@ -94,12 +91,11 @@ public class LibraryExplorerView extends PageBookView {
 	 * Creates a new page in the pagebook for a particular part. This page will be
 	 * made visible whenever the part is active, and will be destroyed with a call
 	 * to <code>doDestroyPage</code>.
-	 *
+	 * 
 	 * @param part the input part
 	 * @return the record describing a new page for this view
 	 * @see #doDestroyPage
 	 */
-	@Override
 	protected PageRec doCreatePage(IWorkbenchPart part) {
 		// // if ( part instanceof AbstractMultiPageEditor )
 		// // {
@@ -119,14 +115,12 @@ public class LibraryExplorerView extends PageBookView {
 			treeViewPage = new LibraryExplorerTreeViewPage();
 			initPage(treeViewPage);
 			treeViewPage.createControl(getPageBook());
-			if (prefs != null) {
+			if (prefs != null)
 				prefs.removePreferenceChangeListener(treeViewPage);
-			}
 			prefs = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault(),
 					UIUtil.getCurrentProject());
-			if (prefs != null) {
+			if (prefs != null)
 				prefs.addPreferenceChangeListener(treeViewPage);
-			}
 		}
 		return new PageRec(part, treeViewPage);
 	}
@@ -161,12 +155,11 @@ public class LibraryExplorerView extends PageBookView {
 	/**
 	 * Destroys a page in the pagebook for a particular part. This page was returned
 	 * as a result from <code>doCreatePage</code>.
-	 *
+	 * 
 	 * @param part       the input part
 	 * @param pageRecord a page record for the part
 	 * @see #doCreatePage
 	 */
-	@Override
 	protected void doDestroyPage(IWorkbenchPart part, PageRec pageRecord) {
 		if (treeViewPage != null && prefs != null) {
 			prefs.removePreferenceChangeListener(treeViewPage);
@@ -190,10 +183,9 @@ public class LibraryExplorerView extends PageBookView {
 	 * Implementors of this method should return an active, important part in the
 	 * workbench or <code>null</code> if none found.
 	 * </p>
-	 *
+	 * 
 	 * @return the active important part, or <code>null</code> if none
 	 */
-	@Override
 	protected IWorkbenchPart getBootstrapPart() {
 		IWorkbenchPage page = getSite().getPage();
 		if (page != null) {
@@ -204,42 +196,37 @@ public class LibraryExplorerView extends PageBookView {
 
 	/**
 	 * Returns whether the given part should be added to this view.
-	 *
+	 * 
 	 * @param part the input part
 	 * @return <code>true</code> if the part is relevant, and <code>false</code>
 	 *         otherwise
 	 */
-	@Override
 	protected boolean isImportant(IWorkbenchPart part) {
 		return (part instanceof IEditorPart);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class key) {
-		if (key == IContributedContentsView.class) {
+		if (key == IContributedContentsView.class)
 			return new IContributedContentsView() {
 
-				@Override
 				public IWorkbenchPart getContributingPart() {
 					return getCurrentContributingPart();
 				}
 			};
-		}
 		return super.getAdapter(key);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.PageBookView#partBroughtToTop(org.eclipse.ui.
 	 * IWorkbenchPart)
 	 */
-	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
 		super.partBroughtToTop(part);
 		partActivated(part);

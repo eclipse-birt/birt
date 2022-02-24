@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,14 +46,14 @@ public interface IChartDataSheet {
 
 	/**
 	 * Sets chart model.
-	 *
+	 * 
 	 * @param cm chart model
 	 */
 	void setChartModel(Chart cm);
 
 	/**
 	 * Sets chart context.
-	 *
+	 * 
 	 * @param context chart context
 	 */
 	void setContext(IWizardContext context);
@@ -61,7 +61,7 @@ public interface IChartDataSheet {
 	/**
 	 * Creates the customized UI to maintain left, right and bottom parts in data
 	 * sheet.
-	 *
+	 * 
 	 * @param task data sheet task
 	 * @return customized UI
 	 */
@@ -69,7 +69,7 @@ public interface IChartDataSheet {
 
 	/**
 	 * Creates data selector to select data set and etc.
-	 *
+	 * 
 	 * @param parent parent composite
 	 * @return new composite
 	 */
@@ -78,7 +78,7 @@ public interface IChartDataSheet {
 	/**
 	 * Creates the UI which could be used as drag-and-drop source during data
 	 * binding.
-	 *
+	 * 
 	 * @param parent parent composite
 	 * @return new composite
 	 */
@@ -86,7 +86,7 @@ public interface IChartDataSheet {
 
 	/**
 	 * Creates the UI which includes buttons to trigger some actions.
-	 *
+	 * 
 	 * @param parent parent composite
 	 * @return new composite
 	 */
@@ -98,10 +98,10 @@ public interface IChartDataSheet {
 	 * listener is notified by sending it the <code>handleEvent()</code> message.
 	 * The event type is one of the event constants defined in class
 	 * <code>SWT</code>.
-	 *
+	 * 
 	 * @param listener the listener which should be notified when the event occurs
-	 *
-	 *
+	 * 
+	 * 
 	 * @see Listener
 	 * @see #removeListener(Listener)
 	 * @see #notifyListeners(Event)
@@ -112,11 +112,11 @@ public interface IChartDataSheet {
 	 * Removes the listener from the collection of listeners who will be notified
 	 * when an event of the given type occurs. The event type is one of the event
 	 * constants defined in class <code>SWT</code>.
-	 *
+	 * 
 	 * @param listener the listener which should no longer be notified when the
 	 *                 event occurs
-	 *
-	 *
+	 * 
+	 * 
 	 * @see Listener
 	 * @see #addListener(Listener)
 	 * @see #notifyListeners(Event)
@@ -128,10 +128,10 @@ public interface IChartDataSheet {
 	 * one such event has occurred by invoking their <code>handleEvent()</code>
 	 * method. The event type is one of the event constants defined in class
 	 * <code>SWT</code>.
-	 *
+	 * 
 	 * @param event the event data
-	 *
-	 *
+	 * 
+	 * 
 	 * @see #addListener(Listener)
 	 * @see #removeListener(Listener)
 	 */

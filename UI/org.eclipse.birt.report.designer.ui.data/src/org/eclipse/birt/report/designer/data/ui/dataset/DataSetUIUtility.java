@@ -15,7 +15,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * This is a general utility file serving for the data set pages in design time.
- *
+ * 
  * @author xwu
  *
  */
@@ -23,7 +23,7 @@ public class DataSetUIUtility {
 
 	/**
 	 * Get the default analysis type according to the data type.
-	 *
+	 * 
 	 * @param dataType
 	 * @return
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.w3c.dom.Node;
 /**
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
- *
+ * 
  */
 public class HTMLProcessor {
 
@@ -42,7 +42,7 @@ public class HTMLProcessor {
 	private static Logger logger = Logger.getLogger(HTMLProcessor.class.getName());
 
 	/** the possible values for property SIZE of HTML element FONT */
-	private static String[] FONT_SIZE = { "7.5pt", //$NON-NLS-1$
+	private static String[] FONT_SIZE = new String[] { "7.5pt", //$NON-NLS-1$
 			"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
 			"7.5pt", "7.5pt", //$NON-NLS-1$//$NON-NLS-2$
 			"7.5pt", "10pt", //$NON-NLS-1$ //$NON-NLS-2$
@@ -71,7 +71,7 @@ public class HTMLProcessor {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param context the execution context
 	 */
 	public HTMLProcessor(ReportDesignHandle design, Map context) {
@@ -93,7 +93,7 @@ public class HTMLProcessor {
 	 * Parses the style attribute of the element node and converts the deprecated
 	 * element node in HTML 4.0, and calls it on its children element nodes
 	 * recursively
-	 *
+	 * 
 	 * @param ele  the element node in the DOM tree
 	 * @param text the text content object
 	 */
@@ -105,7 +105,7 @@ public class HTMLProcessor {
 			if (null != inlineStyle && !"".equals(inlineStyle)) //$NON-NLS-1$
 			{
 
-				ArrayList<String> bracketed = new ArrayList<>();
+				ArrayList<String> bracketed = new ArrayList<String>();
 				// replace all bracketed content to avoid : and ; in the bracket.
 				Matcher matcher = IN_BRACKET_PATTERN.matcher(inlineStyle);
 				while (matcher.find()) {
@@ -257,7 +257,7 @@ public class HTMLProcessor {
 	/**
 	 * Replaces the previous element with the new tag name in the same position and
 	 * return it
-	 *
+	 * 
 	 * @param oldEle the replaced element
 	 * @param tag    the tag name of the new HTML element
 	 * @return the new HTML element
@@ -283,7 +283,7 @@ public class HTMLProcessor {
 	/**
 	 * Adds the attribute name and value to the style if attribute value is not null
 	 * and a zero-length string and the added attribute is not in the style.
-	 *
+	 * 
 	 * @param style     the style attribute for HTML element
 	 * @param attrName  the added attribute name
 	 * @param attrValue the added attribute value

@@ -19,7 +19,7 @@ import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 
 /**
- *
+ * 
  */
 
 public class DataSetIndexFactory {

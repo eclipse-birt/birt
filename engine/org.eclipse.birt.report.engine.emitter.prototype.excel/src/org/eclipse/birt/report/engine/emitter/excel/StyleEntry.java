@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,6 @@ public class StyleEntry implements StyleConstant {
 		return props[id];
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -62,26 +61,25 @@ public class StyleEntry implements StyleConstant {
 				if (!props[i].equals(tar.getProperty(i))) {
 					return false;
 				}
-			} else if (props[i] != tar.getProperty(i)) {
-				return false;
+			} else {
+				if (props[i] != tar.getProperty(i)) {
+					return false;
+				}
 			}
 		}
 
 		return true;
 	}
 
-	@Override
 	public int hashCode() {
 		return hashCode;
 	}
 
 	public static boolean isNull(Object value) {
-		if (value == null) {
+		if (value == null)
 			return true;
-		}
-		if (value instanceof String) {
+		if (value instanceof String)
 			return StyleConstant.NULL.equalsIgnoreCase((String) value);
-		}
 		return false;
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -27,13 +27,11 @@ public class FolderArchiveTest extends TestCase {
 	static final String ARCHIVE_NAME = "./utest/test.archive.folder/";
 	static final String STREAM_NAME = "/teststream";
 
-	@Override
 	@Before
 	public void setUp() {
 		ArchiveUtil.deleteAllFiles(new File(ARCHIVE_NAME));
 	}
 
-	@Override
 	@After
 	public void tearDown() {
 		ArchiveUtil.deleteAllFiles(new File(ARCHIVE_NAME));
@@ -43,7 +41,7 @@ public class FolderArchiveTest extends TestCase {
 	 * reader and writer read/write interactivily. After writing, the writer should
 	 * flush the data into disk. before reading, the reader should refersh the data
 	 * from the disk. check to see if the data read out is same with what we saved.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -78,7 +76,7 @@ public class FolderArchiveTest extends TestCase {
 	/**
 	 * writer writes the data into disk. then reader reads them out. check the data
 	 * to see if they are the same.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -105,7 +103,7 @@ public class FolderArchiveTest extends TestCase {
 	/**
 	 * open a reader twice once before the writer's close and the other after the
 	 * writer's close. test to see if the two readers return the same data.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -161,7 +159,7 @@ public class FolderArchiveTest extends TestCase {
 
 	/**
 	 * open an none exits folder. it should be failed and no folder is created.
-	 *
+	 * 
 	 */
 	@Test
 	public void testOpenNoneExistFolder() {
@@ -274,7 +272,6 @@ public class FolderArchiveTest extends TestCase {
 			}
 		}
 
-		@Override
 		public void run() {
 			while (true) {
 				synchronized (command) {
@@ -342,9 +339,8 @@ public class FolderArchiveTest extends TestCase {
 				reader.close();
 				reader = null;
 			}
-		}
+		};
 
-		@Override
 		public void run() {
 			while (true) {
 				synchronized (command) {

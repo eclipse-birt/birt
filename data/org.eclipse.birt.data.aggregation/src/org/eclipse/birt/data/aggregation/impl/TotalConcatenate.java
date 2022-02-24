@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -38,44 +38,40 @@ public class TotalConcatenate extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	@Override
 	public String getName() {
 		return IBuildInAggregation.TOTAL_CONCATENATE_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	@Override
 	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	@Override
 	public int getDataType() {
 		return DataType.STRING_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn
 	 * ()
 	 */
-	@Override
 	public IParameterDefn[] getParameterDefn() {
-		IParameterDefn paramDefn[] = {
+		IParameterDefn paramDefn[] = new IParameterDefn[] {
 				new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME, false, true,
 						SupportedDataTypes.ANY, Messages.getString("TotalConcatenate.paramDescription.expression")),
 				new ParameterDefn(Constants.SEPARATOR_NAME, Constants.SEPARATOR_DISPLAY_NAME, true, false,
@@ -90,29 +86,26 @@ public class TotalConcatenate extends AggrFunction {
 		return paramDefn;
 	}
 
-	@Override
 	public Accumulator newAccumulator() {
 		return new MyAccumulator();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription ()
 	 */
-	@Override
 	public String getDescription() {
 		return Messages.getString("TotalConcatenate.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName ()
 	 */
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("TotalConcatenate.displayName"); //$NON-NLS-1$
 	}
@@ -129,7 +122,6 @@ public class TotalConcatenate extends AggrFunction {
 
 		final private static int DEFAULT_MAX_LENGTH = 1024;
 
-		@Override
 		public void start() {
 			super.start();
 			values = null;
@@ -140,11 +132,10 @@ public class TotalConcatenate extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang
 		 * .Object[])
 		 */
-		@Override
 		public void onRow(Object[] args) throws DataException {
 			assert (args != null && args.length >= 1);
 
@@ -165,16 +156,15 @@ public class TotalConcatenate extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @seeorg.eclipse.birt.data.engine.aggregation.SummaryAccumulator#
 		 * getSummaryValue()
 		 */
-		@Override
 		public Object getSummaryValue() {
 			if (values == null) {
 				return null;
 			}
-			StringBuilder buffer = new StringBuilder();
+			StringBuffer buffer = new StringBuffer();
 			Iterator<String> valueIterator = values.iterator();
 			while (valueIterator.hasNext()) {
 				String currentValue = valueIterator.next();
@@ -195,7 +185,7 @@ public class TotalConcatenate extends AggrFunction {
 
 		/**
 		 * Set the separator of the concatenated string
-		 *
+		 * 
 		 * @param source
 		 * @throws BirtException
 		 */
@@ -210,7 +200,7 @@ public class TotalConcatenate extends AggrFunction {
 		/**
 		 * Set the max length of the concatenated string by calculating the string
 		 * character number
-		 *
+		 * 
 		 * @param source
 		 * @throws DataException
 		 */
@@ -220,9 +210,8 @@ public class TotalConcatenate extends AggrFunction {
 					maxLength = DEFAULT_MAX_LENGTH;
 				} else {
 					int value = DataTypeUtil.toInteger(source);
-					if (value == 0) {
+					if (value == 0)
 						maxLength = DEFAULT_MAX_LENGTH;
-					}
 					if (value < 0) {
 						throw new DataException(Messages.getString("aggregation.InvalidParameterValue"),
 								new Object[] { getParameterDefn()[2].getDisplayName(), getDisplayName(), value });
@@ -236,7 +225,7 @@ public class TotalConcatenate extends AggrFunction {
 
 		/**
 		 * Decide whether should show all values whatever some strings are the same
-		 *
+		 * 
 		 * @param source
 		 * @throws BirtException
 		 */
@@ -249,7 +238,7 @@ public class TotalConcatenate extends AggrFunction {
 					showAllValues = DataTypeUtil.toBoolean(source);
 				} catch (Exception ex) {
 					throw new DataException(Messages.getString("aggregation.InvalidParameterValue"), new Object[] {
-							getParameterDefn()[3].getDisplayName().replace("&", ""), getDisplayName(), source });
+							getParameterDefn()[3].getDisplayName().replaceAll("&", ""), getDisplayName(), source });
 				}
 			} else if (!(source instanceof Boolean)) {
 				throw new DataException(Messages.getString("aggregation.InvalidParameterType") + getName());
@@ -258,11 +247,11 @@ public class TotalConcatenate extends AggrFunction {
 			}
 			if (showAllValues)// add each row's value to an ArrayList
 			{
-				values = new ArrayList<>();
+				values = new ArrayList<String>();
 			} else
 			// add each row's value to a LinkedHashSet
 			{
-				values = new LinkedHashSet<>();
+				values = new LinkedHashSet<String>();
 			}
 
 		}

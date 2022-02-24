@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * 
  */
 
 public class IOUtil {
@@ -87,7 +87,6 @@ public class IOUtil {
 
 class IntegerRandomWriter implements IObjectWriter {
 
-	@Override
 	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
 		try {
 			file.writeInt(((Integer) obj).intValue());
@@ -99,7 +98,6 @@ class IntegerRandomWriter implements IObjectWriter {
 
 class BlobRandomWriter implements IObjectWriter {
 
-	@Override
 	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
 		try {
 			byte[] bytesValue = (byte[]) obj;
@@ -112,7 +110,6 @@ class BlobRandomWriter implements IObjectWriter {
 
 class BytesRandomWriter implements IObjectWriter {
 
-	@Override
 	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
 		try {
 			file.writeBytes((Bytes) obj);
@@ -125,7 +122,6 @@ class BytesRandomWriter implements IObjectWriter {
 class BooleanRandomWriter implements IObjectWriter {
 	private static Logger logger = Logger.getLogger(BooleanRandomWriter.class.getName());
 
-	@Override
 	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
 		try {
 			file.writeBoolean(((Boolean) obj).booleanValue());
@@ -138,7 +134,6 @@ class BooleanRandomWriter implements IObjectWriter {
 class DoubleRandomWriter implements IObjectWriter {
 	private static Logger logger = Logger.getLogger(DoubleRandomWriter.class.getName());
 
-	@Override
 	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
 		try {
 			file.writeDouble(((Double) obj).doubleValue());
@@ -151,7 +146,6 @@ class DoubleRandomWriter implements IObjectWriter {
 class StringRandomWriter implements IObjectWriter {
 	private static Logger logger = Logger.getLogger(StringRandomWriter.class.getName());
 
-	@Override
 	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
 		try {
 			file.writeUTF((String) obj);
@@ -164,7 +158,6 @@ class StringRandomWriter implements IObjectWriter {
 class DateRandomWriter implements IObjectWriter {
 	private static Logger logger = Logger.getLogger(DateRandomWriter.class.getName());
 
-	@Override
 	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
 		try {
 			file.writeDate((Date) obj);
@@ -177,7 +170,6 @@ class DateRandomWriter implements IObjectWriter {
 class BigDecimalRandomWriter implements IObjectWriter {
 	private static Logger logger = Logger.getLogger(BigDecimalRandomWriter.class.getName());
 
-	@Override
 	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
 		try {
 			if (obj instanceof BigDecimal) {
@@ -194,7 +186,6 @@ class BigDecimalRandomWriter implements IObjectWriter {
 class ObjectRandomWriter implements IObjectWriter {
 	private static Logger logger = Logger.getLogger(BigDecimalRandomWriter.class.getName());
 
-	@Override
 	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
 		try {
 			file.writeObject(obj);
@@ -206,7 +197,6 @@ class ObjectRandomWriter implements IObjectWriter {
 
 class IntegerRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		return Integer.valueOf(file.readInt());
 	}
@@ -214,7 +204,6 @@ class IntegerRandomReader implements IObjectReader {
 
 class BlobRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		return file.readBytes().bytesValue();
 	}
@@ -222,7 +211,6 @@ class BlobRandomReader implements IObjectReader {
 
 class BytesRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		return file.readBytes();
 	}
@@ -230,7 +218,6 @@ class BytesRandomReader implements IObjectReader {
 
 class BooleanRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		return Boolean.valueOf(file.readBoolean());
 	}
@@ -238,7 +225,6 @@ class BooleanRandomReader implements IObjectReader {
 
 class DoubleRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		return new Double(file.readDouble());
 	}
@@ -246,7 +232,6 @@ class DoubleRandomReader implements IObjectReader {
 
 class StringRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		return file.readUTF();
 	}
@@ -254,7 +239,6 @@ class StringRandomReader implements IObjectReader {
 
 class DateTimeRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		return file.readDate();
 	}
@@ -262,38 +246,32 @@ class DateTimeRandomReader implements IObjectReader {
 
 class DateRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		Date date = file.readDate();
-		if (date == null) {
+		if (date == null)
 			return null;
-		}
 		return new java.sql.Date(date.getTime());
 	}
 }
 
 class TimeRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		Date time = file.readDate();
-		if (time == null) {
+		if (time == null)
 			return null;
-		}
 		return new java.sql.Time(time.getTime());
 	}
 }
 
 class BigDecimalRandomReader implements IObjectReader {
 
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		return file.readBigDecimal();
 	}
 }
 
 class ObjectRandomReader implements IObjectReader {
-	@Override
 	public Object read(BufferedRandomAccessFile file) throws IOException {
 		return file.readObject();
 	}

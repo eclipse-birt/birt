@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,14 +29,14 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * Static CRUD HighlightRule method.
- *
+ * 
  */
 
 public class HighlightRuleMethodUtil {
 
 	/**
 	 * Adds hidelight rule.
-	 *
+	 * 
 	 * @param handle
 	 * @param rule
 	 */
@@ -52,7 +52,7 @@ public class HighlightRuleMethodUtil {
 
 	/**
 	 * Gets all highlightRules.
-	 *
+	 * 
 	 * @param handle
 	 * @return
 	 */
@@ -74,7 +74,7 @@ public class HighlightRuleMethodUtil {
 
 	/**
 	 * Removes highlight rule.
-	 *
+	 * 
 	 * @param handle
 	 * @param rule
 	 * @throws ScriptException
@@ -91,7 +91,7 @@ public class HighlightRuleMethodUtil {
 
 	/**
 	 * Removes all highlight rules.
-	 *
+	 * 
 	 * @param handle
 	 * @throws ScriptException
 	 */

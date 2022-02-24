@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,6 @@ public class FixedLayoutPageHintWriter extends PageHintWriterV4 implements IPage
 		super(writer);
 	}
 
-	@Override
 	protected void init(IDocArchiveWriter writer) throws IOException {
 		this.writer = writer;
 		try {
@@ -49,7 +48,6 @@ public class FixedLayoutPageHintWriter extends PageHintWriterV4 implements IPage
 		}
 	}
 
-	@Override
 	protected void writePageHint(DataOutputStream out, IPageHint hint) throws IOException {
 		IOUtil.writeLong(out, hint.getPageNumber());
 		IOUtil.writeString(out, hint.getMasterPage());
@@ -62,7 +60,7 @@ public class FixedLayoutPageHintWriter extends PageHintWriterV4 implements IPage
 
 		int hintSize = hint.getUnresolvedRowCount();
 		IOUtil.writeInt(out, hintSize);
-
+		;
 		for (int i = 0; i < hintSize; i++) {
 			UnresolvedRowHint rowHint = hint.getUnresolvedRowHint(i);
 			rowHint.writeObject(out);
@@ -80,7 +78,6 @@ public class FixedLayoutPageHintWriter extends PageHintWriterV4 implements IPage
 		writePageVariables(out, variables);
 	}
 
-	@Override
 	protected void writeInstanceIndex(DataOutputStream out, InstanceIndex[] indexes) throws IOException {
 		if (indexes == null) {
 			IOUtil.writeInt(out, 0);

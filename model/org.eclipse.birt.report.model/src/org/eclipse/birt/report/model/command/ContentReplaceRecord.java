@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -78,12 +78,12 @@ public class ContentReplaceRecord extends SimpleRecord {
 	/**
 	 * Constructs the record with container element, slot id, old element, and new
 	 * element.
-	 *
+	 * 
 	 * @param module        the module in which this record executes
 	 * @param containerInfo The container information.
 	 * @param oldElement    the old element to be replaced
 	 * @param newElement    the new element to replace
-	 *
+	 * 
 	 */
 
 	public ContentReplaceRecord(Module module, ContainerContext containerInfo, DesignElement oldElement,
@@ -105,11 +105,10 @@ public class ContentReplaceRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	@Override
 	protected void perform(boolean undo) {
 		if (undo) {
 			replace(newElement, oldElement);
@@ -121,70 +120,64 @@ public class ContentReplaceRecord extends SimpleRecord {
 	/**
 	 * Does the replacement between the old element and new element. Delete old one
 	 * and its id, add the new one and its id.
-	 *
+	 * 
 	 * @param oldElement the old element to delete
 	 * @param newElement the old element to insert
 	 */
 
 	private void replace(DesignElement oldElement, DesignElement newElement) {
 		// remove old one
-		if (oldElement.getRoot() != null) {
+		if (oldElement.getRoot() != null)
 			module.manageId(oldElement, false);
-		}
 		focus.remove(module, oldElement);
 
 		// add new one
 		focus.add(module, newElement, posn);
-		if (newElement.getRoot() != null) {
+		if (newElement.getRoot() != null)
 			module.manageId(newElement, true);
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	@Override
 	public DesignElement getTarget() {
 		return focus.getElement();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	@Override
 	public NotificationEvent getEvent() {
 		return null;
 	}
 
 	/**
 	 * Indicate whether the given <code>content</code> is a CSS-selecter.
-	 *
+	 * 
 	 * @param content a given design element
 	 * @return <code>true</code> if it is a predefined style.
 	 */
 
 	private boolean isSelector(DesignElement content) {
-		if (!(content instanceof StyleElement)) {
+		if (!(content instanceof StyleElement))
 			return false;
-		}
 
 		return MetaDataDictionary.getInstance().getPredefinedStyle(content.getName()) != null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.validators.core.IValidatorProvider#
 	 * getValidators()
 	 */
 
-	@Override
 	public List<ValidationNode> getValidators() {
 		List<ValidationNode> list = ValidationExecutor.getValidationNodes(focus.getElement(),
 				focus.getTriggerSetForContainerDefn(), false);
@@ -206,13 +199,14 @@ public class ContentReplaceRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	@Override
 	protected List<RecordTask> getPostTasks() {
-		List<RecordTask> retValue = new ArrayList<>(super.getPostTasks());
+		List<RecordTask> retValue = new ArrayList<RecordTask>();
+		retValue.addAll(super.getPostTasks());
+
 		DesignElement container = focus.getElement();
 		if (container instanceof TableItem || container instanceof TableGroup || container instanceof TableRow) {
 
@@ -222,7 +216,7 @@ public class ContentReplaceRecord extends SimpleRecord {
 			}
 		}
 
-		NotificationEvent event;
+		NotificationEvent event = null;
 
 		// send the event to the container, the container is the "target"
 		// element
@@ -235,11 +229,12 @@ public class ContentReplaceRecord extends SimpleRecord {
 		// event to the content.
 
 		if (state != UNDONE_STATE) {
-			if (isSelector(newElement)) {
+			if (isSelector(newElement))
+
 				retValue.add(new NotificationRecordTask(newElement, event, container.getRoot()));
-			}
-		} else if (isSelector(oldElement)) {
-			retValue.add(new NotificationRecordTask(oldElement, event, container.getRoot()));
+		} else {
+			if (isSelector(oldElement))
+				retValue.add(new NotificationRecordTask(oldElement, event, container.getRoot()));
 		}
 
 		return retValue;
@@ -248,7 +243,7 @@ public class ContentReplaceRecord extends SimpleRecord {
 	/**
 	 * Gets the event sent to the container after the record executes. Subclasses
 	 * can override this method to manage the event sent to the container.
-	 *
+	 * 
 	 * @return the event sent to the container after the record executes
 	 */
 
@@ -258,15 +253,13 @@ public class ContentReplaceRecord extends SimpleRecord {
 		// send the content replace event to the container, the container is the
 		// "target" element
 
-		if (state != UNDONE_STATE) {
+		if (state != UNDONE_STATE)
 			event = new ContentReplaceEvent(focus, oldElement, newElement);
-		} else {
+		else
 			event = new ContentReplaceEvent(focus, newElement, oldElement);
-		}
 
-		if (state == DONE_STATE) {
+		if (state == DONE_STATE)
 			event.setSender(sender);
-		}
 
 		return event;
 	}

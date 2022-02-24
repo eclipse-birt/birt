@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -92,7 +92,7 @@ public class BrowserManager {
 
 	/**
 	 * Obtains singleton instance.
-	 *
+	 * 
 	 * @return browser manager instance
 	 */
 	synchronized public static BrowserManager getInstance() {
@@ -232,7 +232,7 @@ public class BrowserManager {
 
 	/**
 	 * Obtains browsers descriptors.
-	 *
+	 * 
 	 * @return array of browser descriptors
 	 */
 	public BrowserDescriptor[] getBrowserDescriptors() {
@@ -241,7 +241,7 @@ public class BrowserManager {
 
 	/**
 	 * Gets the current browser id.
-	 *
+	 * 
 	 * @return current browser id
 	 */
 	public String getCurrentBrowserID() {
@@ -254,7 +254,7 @@ public class BrowserManager {
 
 	/**
 	 * Get the current internal browser id.
-	 *
+	 * 
 	 * @return current internal browser id
 	 */
 	public String getCurrentInternalBrowserID() {
@@ -266,7 +266,7 @@ public class BrowserManager {
 
 	/**
 	 * Gets the deafult browser id.
-	 *
+	 * 
 	 * @return default browser id
 	 */
 	public String getDefaultBrowserID() {
@@ -279,7 +279,7 @@ public class BrowserManager {
 
 	/**
 	 * Set current browser id.
-	 *
+	 * 
 	 * @param currentAdapterID Id of the current browser
 	 */
 	public void setCurrentBrowserID(String currentAdapterID) {
@@ -294,7 +294,7 @@ public class BrowserManager {
 
 	/**
 	 * Set default browser id.
-	 *
+	 * 
 	 * @param defaultAdapterID Id of default browser
 	 */
 	private void setDefaultBrowserID(String defaultAdapterID) {
@@ -309,7 +309,7 @@ public class BrowserManager {
 
 	/**
 	 * Creates web browser.
-	 *
+	 * 
 	 * @param external using external browser or not
 	 * @return browser instance
 	 */
@@ -322,7 +322,7 @@ public class BrowserManager {
 
 	/**
 	 * Creates web browser.
-	 *
+	 * 
 	 * @return browser instance
 	 */
 	public IBrowser createBrowser() {
@@ -331,7 +331,7 @@ public class BrowserManager {
 
 	/**
 	 * Creates web browser adapter.
-	 *
+	 * 
 	 * @param external using external browser or not
 	 * @return browser instance
 	 */
@@ -362,7 +362,7 @@ public class BrowserManager {
 
 	/**
 	 * Is embedded browser present.
-	 *
+	 * 
 	 * @return embedded browser present or not
 	 */
 	public boolean isEmbeddedBrowserPresent() {
@@ -371,7 +371,7 @@ public class BrowserManager {
 
 	/**
 	 * Set always using external browser.
-	 *
+	 * 
 	 * @param alwaysExternal always using external browser
 	 */
 	public void setAlwaysUseExternal(boolean alwaysExternal) {

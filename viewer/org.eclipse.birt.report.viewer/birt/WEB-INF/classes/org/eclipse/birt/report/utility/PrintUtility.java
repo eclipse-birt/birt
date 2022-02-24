@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -45,7 +45,7 @@ import org.eclipse.birt.report.exception.ViewerException;
 
 /**
  * Utilities for Print Report Service
- *
+ * 
  */
 public class PrintUtility {
 
@@ -81,28 +81,25 @@ public class PrintUtility {
 
 	/**
 	 * Execuate Print Job
-	 *
+	 * 
 	 * @param inputStream
 	 * @param printer
 	 * @throws ViewerException
 	 */
 	public static void execPrint(InputStream inputStream, Printer printer) throws RemoteException {
-		if (inputStream == null || printer == null) {
+		if (inputStream == null || printer == null)
 			return;
-		}
 
 		// Create print request attribute set
 		PrintRequestAttributeSet pas = new HashPrintRequestAttributeSet();
 
 		// Copies
-		if (printer.isCopiesSupported()) {
+		if (printer.isCopiesSupported())
 			pas.add(new Copies(printer.getCopies()));
-		}
 
 		// Collate
-		if (printer.isCollateSupported()) {
+		if (printer.isCollateSupported())
 			pas.add(printer.isCollate() ? SheetCollate.COLLATED : SheetCollate.UNCOLLATED);
-		}
 
 		// Duplex
 		if (printer.isDuplexSupported()) {
@@ -138,9 +135,8 @@ public class PrintUtility {
 		// Media
 		if (printer.isMediaSupported() && printer.getMediaSize() != null) {
 			MediaSizeName mediaSizeName = (MediaSizeName) printer.getMediaSizeNames().get(printer.getMediaSize());
-			if (mediaSizeName != null) {
+			if (mediaSizeName != null)
 				pas.add(mediaSizeName);
-			}
 		}
 
 		try {
@@ -160,7 +156,7 @@ public class PrintUtility {
 
 	/**
 	 * Get printer settings from http request
-	 *
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -185,30 +181,25 @@ public class PrintUtility {
 
 		if (printer != null) {
 			String copies = ParameterAccessor.getParameter(request, PARAM_PRINTER_COPIES);
-			if (copies != null) {
+			if (copies != null)
 				printer.setCopies(Integer.parseInt(copies));
-			}
 
 			String collate = ParameterAccessor.getParameter(request, PARAM_PRINTER_COLLATE);
-			if (collate != null) {
-				printer.setCollate(Boolean.parseBoolean(collate));
-			}
+			if (collate != null)
+				printer.setCollate(Boolean.valueOf(collate).booleanValue());
 
 			String duplex = ParameterAccessor.getParameter(request, PARAM_PRINTER_DUPLEX);
-			if (duplex != null) {
+			if (duplex != null)
 				printer.setDuplex(Integer.parseInt(duplex));
-			}
 
 			String mode = ParameterAccessor.getParameter(request, PARAM_PRINTER_MODE);
-			if (mode != null) {
+			if (mode != null)
 				printer.setMode(Integer.parseInt(mode));
-			}
 
 			String mediaSize = ParameterAccessor.getParameter(request, PARAM_PRINTER_MEDIASIZE);
 			mediaSize = ParameterAccessor.htmlDecode(mediaSize);
-			if (mediaSize != null) {
+			if (mediaSize != null)
 				printer.setMediaSize(mediaSize);
-			}
 		}
 
 		return printer;
@@ -216,7 +207,7 @@ public class PrintUtility {
 
 	/**
 	 * Find all the printer resources on the server
-	 *
+	 * 
 	 * @return
 	 */
 	public static List findPrinters() {
@@ -237,23 +228,21 @@ public class PrintUtility {
 
 	/**
 	 * Create Printer bean object from print service
-	 *
+	 * 
 	 * @param service
 	 * @return
 	 */
 	public static Printer createPrinter(PrintService service) {
-		if (service == null) {
+		if (service == null)
 			return null;
-		}
 
 		Printer printer = new Printer();
 		printer.setName(service.getName());
 
 		// Model attribute
 		PrintServiceAttribute attr = service.getAttribute(PrinterMakeAndModel.class);
-		if (attr != null) {
+		if (attr != null)
 			printer.setModel(attr.toString());
-		}
 
 		// Status attribute
 		attr = service.getAttribute(PrinterIsAcceptingJobs.class);
@@ -265,9 +254,8 @@ public class PrintUtility {
 
 		// Info attribute
 		attr = service.getAttribute(PrinterInfo.class);
-		if (attr != null) {
+		if (attr != null)
 			printer.setInfo(attr.toString());
-		}
 
 		// Copies attribute
 		printer.setCopiesSupported(service.isAttributeCategorySupported(Copies.class));
@@ -276,10 +264,9 @@ public class PrintUtility {
 		if (copiesObj != null) {
 			copies = Integer.parseInt(copiesObj.toString());
 		}
-		if (copies <= 0) {
+		if (copies <= 0)
 			copies = 1;
-		}
-
+		;
 		printer.setCopies(copies);
 
 		// Collate attribute
@@ -287,15 +274,13 @@ public class PrintUtility {
 		printer.setCollateSupported(collateSupported);
 		if (collateSupported) {
 			SheetCollate collate = (SheetCollate) service.getDefaultAttributeValue(SheetCollate.class);
-			if (collate == null) {
+			if (collate == null)
 				collate = SheetCollate.UNCOLLATED;
-			}
 
-			if (collate == SheetCollate.COLLATED) {
+			if (collate == SheetCollate.COLLATED)
 				printer.setCollate(true);
-			} else {
+			else
 				printer.setCollate(false);
-			}
 		}
 
 		// Mode attribute
@@ -303,15 +288,13 @@ public class PrintUtility {
 		printer.setModeSupported(modeSupported);
 		if (modeSupported) {
 			Chromaticity chromaticity = (Chromaticity) service.getDefaultAttributeValue(Chromaticity.class);
-			if (chromaticity == null) {
+			if (chromaticity == null)
 				chromaticity = Chromaticity.MONOCHROME;
-			}
 
-			if (chromaticity == Chromaticity.MONOCHROME) {
+			if (chromaticity == Chromaticity.MONOCHROME)
 				printer.setMode(Printer.MODE_MONOCHROME);
-			} else {
+			else
 				printer.setMode(Printer.MODE_COLOR);
-			}
 		}
 
 		// Duplex attribute
@@ -319,17 +302,15 @@ public class PrintUtility {
 		printer.setDuplexSupported(duplexSupported);
 		if (duplexSupported) {
 			Sides sides = (Sides) service.getDefaultAttributeValue(Sides.class);
-			if (sides == null) {
+			if (sides == null)
 				sides = Sides.ONE_SIDED;
-			}
 
-			if (sides == Sides.ONE_SIDED) {
+			if (sides == Sides.ONE_SIDED)
 				printer.setDuplex(Printer.DUPLEX_SIMPLEX);
-			} else if (sides == Sides.TUMBLE) {
+			else if (sides == Sides.TUMBLE)
 				printer.setDuplex(Printer.DUPLEX_VERTICAL);
-			} else {
+			else
 				printer.setDuplex(Printer.DUPLEX_HORIZONTAL);
-			}
 		}
 
 		// Media attribute
@@ -337,21 +318,19 @@ public class PrintUtility {
 		printer.setMediaSupported(mediaSupported);
 		if (mediaSupported) {
 			Object obj = service.getSupportedAttributeValues(Media.class, null, null);
-			if (obj instanceof Media[]) {
+			if (obj != null && obj instanceof Media[]) {
 				Media[] medias = (Media[]) obj;
 
 				for (int j = 0; j < medias.length; j++) {
-					if (medias[j] instanceof MediaSizeName) {
+					if (medias[j] instanceof MediaSizeName)
 						printer.addMediaSizeName(medias[j].toString(), medias[j]);
-					}
 				}
 			}
 
 			Media media = (Media) service.getDefaultAttributeValue(Media.class);
 			if (media != null) {
-				if (media instanceof MediaSizeName) {
+				if (media instanceof MediaSizeName)
 					printer.setMediaSize(media.toString());
-				}
 			}
 		}
 
@@ -362,16 +341,15 @@ public class PrintUtility {
 
 	/**
 	 * Handle back slash issue for printer name
-	 *
+	 * 
 	 * @param str
 	 * @return
 	 */
 	public static String handleSlash(String str) {
-		if (str == null) {
+		if (str == null)
 			return null;
-		}
 
-		StringBuilder buf = new StringBuilder();
+		StringBuffer buf = new StringBuffer();
 		for (int i = 0; i < str.length(); i++) {
 			if (str.charAt(i) == '\\') {
 				buf.append('\\');

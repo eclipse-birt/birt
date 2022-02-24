@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,13 +43,12 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.ExtensionLoader#loadExtension(org.
 	 * eclipse.birt.core.framework.IExtension)
 	 */
 
-	@Override
 	protected void loadExtension(IExtension extension) {
 		IConfigurationElement[] configElements = extension.getConfigurationElements();
 
@@ -69,19 +68,17 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader {
 
 		/**
 		 * Loads the extension.
-		 *
+		 * 
 		 * @param elementTag the element tag
 		 */
 
-		@Override
 		public void loadElement(IConfigurationElement elementTag) {
 			String extensionName = elementTag.getAttribute(EXTENSION_NAME_ATTRIB);
 			String className = elementTag.getAttribute(CLASS_ATTRIB);
 
 			if (!checkRequiredAttribute(EXTENSION_NAME_ATTRIB, extensionName)
-					|| !checkRequiredAttribute(CLASS_ATTRIB, className)) {
+					|| !checkRequiredAttribute(CLASS_ATTRIB, className))
 				return;
-			}
 
 			boolean isDefault = getBooleanAttrib(elementTag, IS_DEFAULT_ATTRIB, false);
 			try {
@@ -93,12 +90,11 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader {
 				// set default
 				if (isDefault) {
 					String defaultEncryption = dd.getDefaultEncryptionHelperID();
-					if (SimpleEncryptionHelper.ENCRYPTION_ID.equals(defaultEncryption)) {
+					if (SimpleEncryptionHelper.ENCRYPTION_ID.equals(defaultEncryption))
 						dd.setDefaultEncryptionHelper(extensionName);
-					} else {
+					else
 						handleError(new ExtensionException(new String[] { extensionName, defaultEncryption },
 								ExtensionException.DESIGN_EXCEPTION_DEFAULT_ENCRYPTION_EXIST));
-					}
 
 				}
 			} catch (FrameworkException e) {

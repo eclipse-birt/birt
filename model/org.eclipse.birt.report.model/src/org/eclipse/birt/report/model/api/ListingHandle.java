@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
  * <li>The on-finish script called after the last row is read from the data set
  * for this element, but before the footer band is created.
  * </ul>
- *
+ * 
  * @see org.eclipse.birt.report.model.elements.ListingElement
  * @see SlotHandle
  */
@@ -46,7 +46,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 	 * Constructs a listing handle with the given design and the element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -58,7 +58,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 	/**
 	 * Returns the header slot. The header slot represents subsections that print at
 	 * the start of the listing.
-	 *
+	 * 
 	 * @return a handle to the header slot
 	 */
 
@@ -69,7 +69,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 	/**
 	 * Returns the footer slot. The footer slot represents subsections that print at
 	 * the end of the listing.
-	 *
+	 * 
 	 * @return a handle to the footer slot
 	 */
 
@@ -80,7 +80,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 	/**
 	 * Returns the detail slot. The detail slot represents subsections that print
 	 * for each row in the data set.
-	 *
+	 * 
 	 * @return a handle to the detail slot
 	 */
 
@@ -92,7 +92,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 	 * Returns the group slot. The group slot represents the grouping levels within
 	 * the report. Groups appear with the most general first, the most detailed
 	 * last.
-	 *
+	 * 
 	 * @return a handle to the group slot
 	 */
 
@@ -104,7 +104,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 	 * Returns the iterator for sort list defined on a table or list. The element in
 	 * the iterator is the corresponding <code>StructureHandle</code> that deal with
 	 * a <code>SortKey</code> in the list.
-	 *
+	 * 
 	 * @return the iterator for <code>SortKey</code> structure list defined on a
 	 *         table or list.
 	 */
@@ -119,7 +119,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 	 * Returns the iterator for filter list defined on a table or list. The element
 	 * in the iterator is the corresponding <code>StructureHandle</code> that deal
 	 * with a <code>FilterCond</code> in the list.
-	 *
+	 * 
 	 * @return the iterator for <code>FilterCond</code> structure list defined on a
 	 *         table or list.
 	 */
@@ -133,7 +133,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 
 	/**
 	 * Returns the page break interval value
-	 *
+	 * 
 	 * @return the page break interval value
 	 */
 
@@ -143,7 +143,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 
 	/**
 	 * Sets the page break interval value
-	 *
+	 * 
 	 * @param pageBreakInterval the page break interval
 	 * @throws SemanticException if the parameter is not a valid integer
 	 */
@@ -154,7 +154,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 
 	/**
 	 * Tests whether to repeat the headings at the top of each page.
-	 *
+	 * 
 	 * @return <code>true</code> if repeat the headings, otherwise
 	 *         <code>false</code>.
 	 */
@@ -165,7 +165,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 
 	/**
 	 * Sets whether to repeat the headings at the top of each page.
-	 *
+	 * 
 	 * @param value <code>true</code> if repeat the headings, otherwise
 	 *              <code>false</code>.
 	 * @throws SemanticException if the property is locked.
@@ -178,7 +178,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 	/**
 	 * Determines whether the result set of this element will be sorted by the group
 	 * keys.
-	 *
+	 * 
 	 * @return true if sorted by the groups, otherwise false
 	 */
 	public boolean isSortByGroups() {
@@ -187,7 +187,7 @@ public abstract class ListingHandle extends ReportItemHandle implements IListing
 
 	/**
 	 * Sets whether the result set of this element will be sorted by the group keys.
-	 *
+	 * 
 	 * @param isSortByGroups true if sorted by the groups, otherwise false
 	 * @throws SemanticException if the property is locked
 	 */

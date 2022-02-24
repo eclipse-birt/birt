@@ -1,24 +1,24 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
 package org.eclipse.birt.report.tests.model.api;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * TestCases for Table of Content.
@@ -26,16 +26,16 @@ import junit.framework.TestSuite;
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- *
+ * 
  * <tr>
  * <td>{@link #testTocProperty()}</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testGetAllToc()}</td>
  * </tr>
  * </table>
- *
+ * 
  */
 public class TocSupportTest extends BaseTestCase {
 	String fileName = "TocSupportTest.xml";
@@ -51,7 +51,6 @@ public class TocSupportTest extends BaseTestCase {
 		return new TestSuite(TocSupportTest.class);
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -61,14 +60,13 @@ public class TocSupportTest extends BaseTestCase {
 
 	}
 
-	@Override
 	public void tearDown() {
 		removeResource();
 	}
 
 	/**
 	 * Test set/getTocExpression
-	 *
+	 * 
 	 * @throws Exception @SuppressWarnings("deprecation")
 	 */
 
@@ -84,7 +82,7 @@ public class TocSupportTest extends BaseTestCase {
 
 	/**
 	 * Test getAllTocs
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testGetAllToc() throws Exception {

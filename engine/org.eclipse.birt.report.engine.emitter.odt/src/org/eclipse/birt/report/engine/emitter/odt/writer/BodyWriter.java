@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Inetsoft Technology Corp.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Inetsoft Technology Corp  - initial API and implementation
@@ -54,7 +54,6 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 		writer.open(out, encoding);
 	}
 
-	@Override
 	public void start(boolean rtl) {
 		this.rtl = rtl;
 		writer.openTag("office:body");
@@ -62,11 +61,10 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param height image height, unit = pt
 	 * @param width  image width, unit = pt
 	 */
-	@Override
 	public void drawImage(String imageUrl, double height, double width, HyperlinkInfo hyper, StyleEntry style,
 			StyleEntry pStyle, InlineFlag inlineFlag, String altText, String bookmark, TocInfo tocInfo) {
 		if (inlineFlag == InlineFlag.BLOCK || inlineFlag == InlineFlag.FIRST_INLINE) {
@@ -89,7 +87,6 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 		}
 	}
 
-	@Override
 	public void writeContent(int type, String txt, StyleEntry style, StyleEntry inlineStyle, String fontFamily,
 			HyperlinkInfo info, InlineFlag inlineFlag, TextFlag flag, int paragraphWidth, boolean runIsRtl,
 			List<String> bookmark, List<TocInfo> tocs) {
@@ -100,25 +97,21 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 			if (inlineFlag == InlineFlag.FIRST_INLINE && flag == TextFlag.START) {
 				startParagraph(style, isInline, paragraphWidth, bookmark, tocs);
 			}
-			if (inlineStyle != null) {
+			if (inlineStyle != null)
 				writeTextInRun(type, txt, inlineStyle, fontFamily, info, isInline, paragraphWidth, runIsRtl);
-			} else {
+			else
 				writeTextInRun(type, txt, style, fontFamily, info, isInline, paragraphWidth, runIsRtl);
-			}
 		}
 	}
 
-	@Override
 	public void startPage() {
 		// writer.openTag( "text:section");
 	}
 
-	@Override
 	public void endPage() {
 		// writer.closeTag( "text:section");
 	}
 
-	@Override
 	public void end() {
 		writer.closeTag("office:text");
 		writer.closeTag("office:body");
@@ -129,7 +122,6 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 		}
 	}
 
-	@Override
 	public void writeTOC(TocInfo tocInfo) {
 		if (tocInfo == null || "".equals(tocInfo.tocValue)) {
 			return;
@@ -146,7 +138,6 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 		writer.closeTag("text:toc-mark");
 	}
 
-	@Override
 	public void writeForeign(IForeignContent foreignContent) {
 	}
 
@@ -167,7 +158,7 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 
 	/**
 	 * Write bookmark markers, then clear the list.
-	 *
+	 * 
 	 * @param bookmarks
 	 */
 	private void writeBookmarks(List<String> bookmarks) {
@@ -179,12 +170,10 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 		}
 	}
 
-	@Override
 	public void endParagraph() {
 		writer.closeTag("text:p");
 	}
 
-	@Override
 	public void writeCaption(String txt, StyleEntry style) {
 		writer.openTag("text:p");
 		if (style != null) {
@@ -241,11 +230,9 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 		closeHyperlink(info);
 	}
 
-	@Override
 	public void drawDiagonalLine(DiagonalLineInfo diagonalLineInfo) {
-		if (diagonalLineInfo.getDiagonalNumber() <= 0 && diagonalLineInfo.getAntiDiagonalNumber() <= 0) {
+		if (diagonalLineInfo.getDiagonalNumber() <= 0 && diagonalLineInfo.getAntiDiagonalNumber() <= 0)
 			return;
-		}
 		writer.openTag("text:p");
 		writer.attribute("text:style-name", StyleConstant.HIDDEN_STYLE_NAME);
 		// TODO: diagonal line
@@ -268,7 +255,6 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 	/**
 	 * Writes a paragraph dedicated to bookmarks and toc markers.
 	 */
-	@Override
 	public void writeMarkersParagraph(List<String> bookmarks, List<TocInfo> tableTocs) {
 		if (!bookmarks.isEmpty() || !tableTocs.isEmpty()) {
 			writer.openTag("text:p");
@@ -281,7 +267,6 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 		}
 	}
 
-	@Override
 	public void writeTableToc(List<TocInfo> tableTocs) {
 		if (!tableTocs.isEmpty()) {
 			writeTocs(tableTocs);
@@ -291,7 +276,7 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 
 	/**
 	 * Writes the table tocs then clear it.
-	 *
+	 * 
 	 * @param tableTocs
 	 */
 	private void writeTocs(List<TocInfo> tableTocs) {
@@ -303,7 +288,6 @@ public class BodyWriter extends AbstractOdfWriter implements IOdtWriter {
 		}
 	}
 
-	@Override
 	protected void closeHyperlink(HyperlinkInfo info, String baseType) {
 		if ((info == null) || (info.getType() == HyperlinkInfo.DRILL)) {
 			return;

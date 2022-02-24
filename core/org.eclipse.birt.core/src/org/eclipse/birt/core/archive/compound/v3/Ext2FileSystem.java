@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,11 +34,11 @@ import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
- *
+ * 
  * SuperBlock structure:
- *
- *
- *
+ * 
+ * 
+ * 
  */
 public class Ext2FileSystem {
 
@@ -53,7 +53,7 @@ public class Ext2FileSystem {
 	/**
 	 * properties saved in the file header
 	 */
-	private final HashMap<String, String> properties = new HashMap<>();
+	private final HashMap<String, String> properties = new HashMap<String, String>();
 	private boolean propertyDirty = true;
 
 	protected final FileCacheManager cacheManager = new FileCacheManager();
@@ -71,11 +71,11 @@ public class Ext2FileSystem {
 	/**
 	 * opened streams
 	 */
-	private final HashSet<Ext2File> openedFiles = new HashSet<>();
+	private final HashSet<Ext2File> openedFiles = new HashSet<Ext2File>();
 
 	/**
 	 * mode
-	 *
+	 * 
 	 * @param filePath
 	 * @param mode     defines the archive open mode: "r": read mode "rw": read
 	 *                 write mode, if the file exist, create a empty one. "rw+":
@@ -206,7 +206,7 @@ public class Ext2FileSystem {
 
 	private void closeFiles() throws IOException {
 		if (openedFiles != null) {
-			ArrayList<Ext2File> files = new ArrayList<>(openedFiles);
+			ArrayList<Ext2File> files = new ArrayList<Ext2File>(openedFiles);
 			for (Ext2File file : files) {
 				if (file != null) {
 					file.close();
@@ -308,7 +308,7 @@ public class Ext2FileSystem {
 		}
 		// check if there are any opened stream links with the name,
 		if (!openedFiles.isEmpty()) {
-			ArrayList<Ext2File> removedFiles = new ArrayList<>();
+			ArrayList<Ext2File> removedFiles = new ArrayList<Ext2File>();
 			for (Ext2File file : openedFiles) {
 				if (name.equals(file.getName())) {
 					removedFiles.add(file);
@@ -538,7 +538,6 @@ public class Ext2FileSystem {
 
 	static class Ext2FileSystemCacheListener implements CacheListener {
 
-		@Override
 		public void onCacheRelease(Cacheable cache) {
 			Ext2Block block = (Ext2Block) cache;
 			try {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,7 +64,6 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor {
 		this.rowIndex = rowIndex;
 	}
 
-	@Override
 	public void close() {
 		super.close();
 
@@ -155,7 +154,11 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor {
 	}
 
 	protected boolean isMeasureSubTotalNeedStart(ColumnEvent ev) {
-		if (measureDetailStarted || measureSubTotalStarted || ev.type != ColumnEvent.COLUMN_TOTAL_CHANGE || checkMeasureVerticalSpanOverlapped(ev)) {
+		if (measureDetailStarted || measureSubTotalStarted || ev.type != ColumnEvent.COLUMN_TOTAL_CHANGE) {
+			return false;
+		}
+
+		if (checkMeasureVerticalSpanOverlapped(ev)) {
 			return false;
 		}
 
@@ -164,7 +167,11 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor {
 
 	protected boolean isMeasureDetailNeedStart(ColumnEvent ev) {
 		if (measureDetailStarted
-				|| (ev.type != ColumnEvent.MEASURE_CHANGE && ev.type != ColumnEvent.COLUMN_EDGE_CHANGE) || checkMeasureVerticalSpanOverlapped(ev)) {
+				|| (ev.type != ColumnEvent.MEASURE_CHANGE && ev.type != ColumnEvent.COLUMN_EDGE_CHANGE)) {
+			return false;
+		}
+
+		if (checkMeasureVerticalSpanOverlapped(ev)) {
 			return false;
 		}
 
@@ -232,7 +239,6 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor {
 
 	abstract protected void advance();
 
-	@Override
 	public IReportItemExecutor getNextChild() {
 		IReportItemExecutor childExecutor = nextExecutor;
 
@@ -243,7 +249,6 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor {
 		return childExecutor;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		if (isFirst) {
 			isFirst = false;

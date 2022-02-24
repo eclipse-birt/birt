@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -89,7 +89,6 @@ public class WizardBaseDialog extends TitleAreaDialog
 		this.imgShell = imgTitle;
 	}
 
-	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
@@ -121,7 +120,6 @@ public class WizardBaseDialog extends TitleAreaDialog
 		}
 	}
 
-	@Override
 	protected void initializeBounds() {
 		// Set shell properties
 		getShell().setText(wizardTitle);
@@ -161,13 +159,11 @@ public class WizardBaseDialog extends TitleAreaDialog
 		super.initializeBounds();
 	}
 
-	@Override
 	public void create() {
 		configureTaskContext(tmpTaskArray, tmpTopTaskId);
 		super.create();
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		// create the top level composite for the dialog area
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -225,7 +221,6 @@ public class WizardBaseDialog extends TitleAreaDialog
 		}
 	}
 
-	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.BACK_ID, Messages.getString("WizardBase.Back"), //$NON-NLS-1$
 				false);
@@ -257,7 +252,6 @@ public class WizardBaseDialog extends TitleAreaDialog
 		}
 	}
 
-	@Override
 	protected void buttonPressed(int buttonId) {
 		if (IDialogConstants.FINISH_ID == buttonId) {
 			okPressed();
@@ -327,7 +321,6 @@ public class WizardBaseDialog extends TitleAreaDialog
 		}
 	}
 
-	@Override
 	protected void okPressed() {
 		final String[] saMessages = this.wizardBase.validate();
 		if (saMessages != null && saMessages.length > 0) {
@@ -345,7 +338,7 @@ public class WizardBaseDialog extends TitleAreaDialog
 
 	/**
 	 * Sets the minimum size of the wizard
-	 *
+	 * 
 	 * @param iWidth  width minimum
 	 * @param iHeight height minimum
 	 */
@@ -376,7 +369,7 @@ public class WizardBaseDialog extends TitleAreaDialog
 
 	/**
 	 * Attaches the popup window.
-	 *
+	 * 
 	 * @param sPopupTitle '&' will be removed for accelerator key, if the popup
 	 *                    title is from the control text.
 	 */
@@ -400,12 +393,16 @@ public class WizardBaseDialog extends TitleAreaDialog
 
 	/**
 	 * Packs the wizard to display enough size
-	 *
+	 * 
 	 */
 	public void packWizard() {
+		if (!this.wizardBase.packNeeded) {
+			return;
+		}
+
 		// Execute custom pack method, if it is success, no need to do
 		// default pack.
-		if (!this.wizardBase.packNeeded || this.wizardBase.applyCustomPack()) {
+		if (this.wizardBase.applyCustomPack()) {
 			return;
 		}
 
@@ -434,13 +431,11 @@ public class WizardBaseDialog extends TitleAreaDialog
 		return cmpTaskContainer;
 	}
 
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource() instanceof CTabFolder) {
 			String taskId = (String) e.item.getData();
@@ -461,24 +456,22 @@ public class WizardBaseDialog extends TitleAreaDialog
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
-	@Override
 	public void controlMoved(ControlEvent e) {
 		setPopupLocation();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
-	@Override
 	public void controlResized(ControlEvent e) {
 		setPopupLocation();
 	}
@@ -498,22 +491,18 @@ public class WizardBaseDialog extends TitleAreaDialog
 		}
 	}
 
-	@Override
 	public void widgetDisposed(DisposeEvent e) {
 		this.wizardBase.dispose();
 	}
 
-	@Override
 	public void addPageChangedListener(IPageChangedListener listener) {
 		pageChangedListeners.add(listener);
 	}
 
-	@Override
 	public Object getSelectedPage() {
 		return this.wizardBase.getCurrentTask();
 	}
 
-	@Override
 	public void removePageChangedListener(IPageChangedListener listener) {
 		pageChangedListeners.remove(listener);
 	}
@@ -521,11 +510,11 @@ public class WizardBaseDialog extends TitleAreaDialog
 	/**
 	 * Notifies any selection changed listeners that the selected page has changed.
 	 * Only listeners registered at the time this method is called are notified.
-	 *
+	 * 
 	 * @param event a selection changed event
-	 *
+	 * 
 	 * @see IPageChangedListener#pageChanged
-	 *
+	 * 
 	 * @since 2.1
 	 */
 	void firePageChanged(final PageChangedEvent event) {
@@ -534,7 +523,6 @@ public class WizardBaseDialog extends TitleAreaDialog
 			final IPageChangedListener l = (IPageChangedListener) listeners[i];
 			SafeRunnable.run(new SafeRunnable() {
 
-				@Override
 				public void run() {
 					l.pageChanged(event);
 				}

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -36,7 +36,7 @@ public class TextEditPart extends LabelEditPart {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param model
 	 */
 	public TextEditPart(Object model) {
@@ -46,7 +46,6 @@ public class TextEditPart extends LabelEditPart {
 	/**
 	 * Perform direct edit.
 	 */
-	@Override
 	public void performDirectEdit() {
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 		stack.startTrans(TEXT_TRANS_MSG);
@@ -67,10 +66,9 @@ public class TextEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	@Override
 	protected IFigure createFigure() {
 		TextFigure text = new TextFigure();
 		return text;
@@ -78,11 +76,10 @@ public class TextEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
-	@Override
 	public void refreshFigure() {
 		super.refreshFigure();
 
@@ -91,30 +88,30 @@ public class TextEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#getText()
 	 */
-	@Override
 	protected String getText() {
 		TextItemHandle handle = (TextItemHandle) getModel();
 		String text = handle.getDisplayContent();
 		if (text == null || text.length() == 0) {
 			text = FIGURE_DEFAULT_TEXT;
-		} else if (text.length() > TRUNCATE_LENGTH
-				&& DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equals(handle.getContentType())) {
-			text = text.substring(0, TRUNCATE_LENGTH - 2) + ELLIPSIS;
+		} else {
+			if (text.length() > TRUNCATE_LENGTH
+					&& DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equals(handle.getContentType())) {
+				text = text.substring(0, TRUNCATE_LENGTH - 2) + ELLIPSIS;
+			}
 		}
 		return text;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#hasText()
 	 */
-	@Override
 	protected boolean hasText() {
 		if (StringUtil.isBlank(((TextItemHandle) getModel()).getDisplayContent())) {
 			return false;

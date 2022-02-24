@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -76,7 +76,7 @@ public class QueryResultSet implements IQueryResultSet {
 	private String queryResultsID;
 
 	/**
-	 *
+	 * 
 	 */
 	protected static Logger logger = Logger.getLogger(QueryResultSet.class.getName());
 
@@ -157,22 +157,18 @@ public class QueryResultSet implements IQueryResultSet {
 		return 0;
 	}
 
-	@Override
 	public IBaseQueryResults getQueryResults() {
 		return queryResults;
 	}
 
-	@Override
 	public IResultIterator getResultIterator() {
 		return rs;
 	}
 
-	@Override
 	public long getRowIndex() {
 		return rowId;
 	}
 
-	@Override
 	public boolean next() throws BirtException {
 		boolean flag;
 		flag = rs == null ? false : rs.next();
@@ -194,7 +190,6 @@ public class QueryResultSet implements IQueryResultSet {
 		}
 	}
 
-	@Override
 	public boolean skipTo(long rowIndex) throws BirtException {
 		if (rs == null) {
 			return false;
@@ -222,7 +217,6 @@ public class QueryResultSet implements IQueryResultSet {
 		}
 	}
 
-	@Override
 	public String getGroupId(int groupLevel) {
 		return String.valueOf(groupLevel) + "." + getRowId(groupLevel); //$NON-NLS-1$
 	}
@@ -247,7 +241,6 @@ public class QueryResultSet implements IQueryResultSet {
 		return baseRSetID;
 	}
 
-	@Override
 	public void close() {
 		// FIXME: use try-catch for each close.
 		// remove the data set from the data set list
@@ -269,7 +262,6 @@ public class QueryResultSet implements IQueryResultSet {
 		}
 	}
 
-	@Override
 	public Object evaluate(String expr) throws BirtException {
 		if (expr == null) {
 			return null;
@@ -287,7 +279,6 @@ public class QueryResultSet implements IQueryResultSet {
 		return result;
 	}
 
-	@Override
 	public Object evaluate(String language, String expr) throws BirtException {
 		if (expr == null) {
 			return null;
@@ -305,7 +296,6 @@ public class QueryResultSet implements IQueryResultSet {
 		return result;
 	}
 
-	@Override
 	public Object evaluate(IBaseExpression expr) throws BirtException {
 		IBaseResultSet oldRSet = context.getResultSet();
 		if (oldRSet != this) {
@@ -326,92 +316,74 @@ public class QueryResultSet implements IQueryResultSet {
 		return result;
 	}
 
-	@Override
 	public DataSetID getID() {
 		return id;
 	}
 
-	@Override
 	public IBaseResultSet getParent() {
 		return parent;
 	}
 
-	@Override
 	public String getRawID() throws BirtException {
 		// getRowId() returns rawId, while getRowIndex() return the row index.
 		return String.valueOf(rs.getRowId());
 	}
 
-	@Override
 	public int getType() {
 		return QUERY_RESULTSET;
 	}
 
-	@Override
 	public Object getValue(String column) throws BirtException {
 		return rs.getValue(column);
 	}
 
-	@Override
 	public int getEndingGroupLevel() throws BirtException {
 		return rs.getEndingGroupLevel();
 	}
 
-	@Override
 	public int getStartingGroupLevel() throws BirtException {
 		return rs.getStartingGroupLevel();
 	}
 
-	@Override
 	public Boolean getBoolean(String name) throws BirtException {
 		return rs.getBoolean(name);
 	}
 
-	@Override
 	public Integer getInteger(String name) throws BirtException {
 		return rs.getInteger(name);
 	}
 
-	@Override
 	public Double getDouble(String name) throws BirtException {
 		return rs.getDouble(name);
 	}
 
-	@Override
 	public String getString(String name) throws BirtException {
 		return rs.getString(name);
 	}
 
-	@Override
 	public BigDecimal getBigDecimal(String name) throws BirtException {
 		return rs.getBigDecimal(name);
 	}
 
-	@Override
 	public Date getDate(String name) throws BirtException {
 		return rs.getDate(name);
 	}
 
-	@Override
 	public Blob getBlob(String name) throws BirtException {
 		return rs.getBlob(name);
 	}
 
-	@Override
 	public byte[] getBytes(String name) throws BirtException {
 		return rs.getBytes(name);
 	}
 
-	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
-		if (null == rs) {
+		if (null == rs)
 			return emptyResultMetaData;
-		} else {
+		else
 			return rs.getResultMetaData();
-		}
 	}
 
-	@Override
 	public boolean isEmpty() throws BirtException {
 		if (rs == null) {
 			return true;
@@ -419,7 +391,6 @@ public class QueryResultSet implements IQueryResultSet {
 		return rs.isEmpty();
 	}
 
-	@Override
 	public boolean isFirst() throws BirtException {
 		if (rs == null) {
 			return false;
@@ -427,7 +398,6 @@ public class QueryResultSet implements IQueryResultSet {
 		return rs.isFirst();
 	}
 
-	@Override
 	public boolean isBeforeFirst() throws BirtException {
 		if (rs == null) {
 			return false;
@@ -443,22 +413,20 @@ public class QueryResultSet implements IQueryResultSet {
 
 		/**
 		 * Returns the number of columns in a detail row of the result set.
-		 *
+		 * 
 		 * @return the number of columns in a detail row.
 		 */
-		@Override
 		public int getColumnCount() {
 			return 0;
 		}
 
 		/**
 		 * Returns the column name at the specified index.
-		 *
+		 * 
 		 * @param index The projected column index.
 		 * @return The name of the specified column.
 		 * @throws BirtException if given index is invalid.
 		 */
-		@Override
 		public String getColumnName(int index) throws BirtException {
 			return null;
 		}
@@ -467,60 +435,55 @@ public class QueryResultSet implements IQueryResultSet {
 		 * Returns the column alias at the specified index. An alias is given to a
 		 * column as a programmatic convenience. A column can be referred using a name
 		 * or an alias interchangeably.
-		 *
+		 * 
 		 * @param index The projected column index.
 		 * @return The alias of the specified column. Null if none is defined.
 		 * @throws BirtException if given index is invalid.
 		 */
-		@Override
 		public String getColumnAlias(int index) throws BirtException {
 			return null;
 		}
 
 		/**
 		 * Returns the data type of the column at the specified index.
-		 *
+		 * 
 		 * @param index The projected column index.
 		 * @return The data type of the specified column, as an integer defined in
 		 *         org.eclipse.birt.data.engine.api.DataType.
 		 * @throws BirtException if given index is invalid.
 		 */
-		@Override
 		public int getColumnType(int index) throws BirtException {
 			return 0;
 		}
 
 		/**
 		 * Returns the Data Engine data type name of the column at the specified index.
-		 *
+		 * 
 		 * @param index The projected column index.
 		 * @return The Data Engine data type name of the specified column.
 		 * @throws BirtException if given index is invalid.
 		 */
-		@Override
 		public String getColumnTypeName(int index) throws BirtException {
 			return null;
 		}
 
 		/**
 		 * Returns the data provider specific data type name of the specified column.
-		 *
+		 * 
 		 * @return the data type name as defined by the data provider.
 		 * @throws BirtException if given index is invalid.
 		 */
-		@Override
 		public String getColumnNativeTypeName(int index) throws BirtException {
 			return null;
 		}
 
 		/**
 		 * Gets the label or display name of the column at the specified index.
-		 *
+		 * 
 		 * @param index The projected column index.
 		 * @return The label of the specified column.
 		 * @throws BirtException if given index is invalid.
 		 */
-		@Override
 		public String getColumnLabel(int index) throws BirtException {
 			return null;
 		}
@@ -530,12 +493,11 @@ public class QueryResultSet implements IQueryResultSet {
 		 * column. A computed column is one that is not retrieved from the underlying
 		 * data provider. Only those computed columns declared explicitly in a data set
 		 * design are considered as "computed" columns.
-		 *
+		 * 
 		 * @param index The projected column index.
 		 * @return true if the given column is a computed column; false otherwise.
 		 * @throws BirtException if given index is invalid.
 		 */
-		@Override
 		public boolean isComputedColumn(int index) throws BirtException {
 			return false;
 		}

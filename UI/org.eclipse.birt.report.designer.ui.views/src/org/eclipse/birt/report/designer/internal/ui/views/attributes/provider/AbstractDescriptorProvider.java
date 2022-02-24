@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -19,7 +19,6 @@ public abstract class AbstractDescriptorProvider implements IDescriptorProvider 
 
 	private boolean canReset = false;
 
-	@Override
 	public boolean canReset() {
 		return canReset;
 	}
@@ -28,11 +27,9 @@ public abstract class AbstractDescriptorProvider implements IDescriptorProvider 
 		this.canReset = canReset;
 	}
 
-	@Override
 	public void reset() throws SemanticException {
-		if (canReset()) {
+		if (canReset())
 			save(null);
-		}
 	}
 
 }

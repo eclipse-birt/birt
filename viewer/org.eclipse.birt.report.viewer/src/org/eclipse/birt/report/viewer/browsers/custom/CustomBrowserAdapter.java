@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -34,28 +34,25 @@ public class CustomBrowserAdapter implements IBrowser {
 	/**
 	 * Close browser.
 	 */
-	@Override
 	public void close() {
 		// Do nothing
 	}
 
 	/**
 	 * Is browser supports close operation.
-	 *
+	 * 
 	 * @return browser supports close operation or not
 	 */
-	@Override
 	public boolean isCloseSupported() {
 		return false;
 	}
 
 	/**
 	 * Display arbitary url.
-	 *
+	 * 
 	 * @param url
 	 * @exception Exception
 	 */
-	@Override
 	public void displayURL(String url) throws Exception {
 		String path = ViewerPlugin.getDefault().getPluginPreferences()
 				.getString(CustomBrowserAdapter.CUSTOM_BROWSER_PATH_KEY);
@@ -86,49 +83,45 @@ public class CustomBrowserAdapter implements IBrowser {
 
 	/**
 	 * Is setting browser window location supported.
-	 *
+	 * 
 	 * @return support setting browser window location or not
 	 */
-	@Override
 	public boolean isSetLocationSupported() {
 		return false;
 	}
 
 	/**
 	 * Is setting browser window size supported.
-	 *
+	 * 
 	 * @return support setting browser window size or not
 	 */
-	@Override
 	public boolean isSetSizeSupported() {
 		return false;
 	}
 
 	/**
 	 * Set browser window location.
-	 *
+	 * 
 	 * @param x X coordinate of browser window's top-left cornor
 	 * @param y Y coordinate of browser window's top-left cornor
 	 */
-	@Override
 	public void setLocation(int x, int y) {
 		// Do nothing
 	}
 
 	/**
 	 * Set browser window size.
-	 *
+	 * 
 	 * @param width  browser window width
 	 * @param height browser window height
 	 */
-	@Override
 	public void setSize(int width, int height) {
 		// Do nothing
 	}
 
 	/**
 	 * Creates the final command to launch.
-	 *
+	 * 
 	 * @param path
 	 * @param url
 	 * @return String[]

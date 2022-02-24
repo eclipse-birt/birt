@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,9 +31,8 @@ public class ListScriptExecutor extends ScriptExecutor {
 		try {
 			IList list = new List(listHandle);
 			IListEventHandler eh = getEventHandler(listHandle, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPrepare(list, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -46,13 +45,11 @@ public class ListScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IListInstance list = new ListInstance(content, context, RunningState.CREATE);
-			if (handleScript(list, listDesign.getOnCreate(), context).didRun()) {
+			if (handleScript(list, listDesign.getOnCreate(), context).didRun())
 				return;
-			}
 			IListEventHandler eh = getEventHandler(listDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onCreate(list, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, listDesign.getHandle());
 		}
@@ -65,13 +62,11 @@ public class ListScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IListInstance list = new ListInstance(content, context, RunningState.RENDER);
-			if (handleScript(list, listDesign.getOnRender(), context).didRun()) {
+			if (handleScript(list, listDesign.getOnRender(), context).didRun())
 				return;
-			}
 			IListEventHandler eh = getEventHandler(listDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onRender(list, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, listDesign.getHandle());
 		}
@@ -84,13 +79,11 @@ public class ListScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IListInstance list = new ListInstance(content, context, RunningState.PAGEBREAK);
-			if (handleScript(list, listDesign.getOnPageBreak(), context).didRun()) {
+			if (handleScript(list, listDesign.getOnPageBreak(), context).didRun())
 				return;
-			}
 			IListEventHandler eh = getEventHandler(listDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPageBreak(list, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, listDesign.getHandle());
 		}

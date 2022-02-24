@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2007 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -52,7 +52,7 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 
 	/**
 	 * Creates a new script's document provider with the specified saveable part.
-	 *
+	 * 
 	 * @param part the saveable part.
 	 */
 	public ScriptDocumentProvider(ISaveablePart part) {
@@ -69,18 +69,17 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.DocumentProvider#
 	 * createAnnotationModel(java.lang.Object)
 	 */
-	@Override
 	protected IAnnotationModel createAnnotationModel(Object element) throws CoreException {
 		return new DebugResourceMarkerAnnotationModel(ResourcesPlugin.getWorkspace().getRoot());
 	}
 
 	/**
 	 * Gets the id.
-	 *
+	 * 
 	 * @return
 	 */
 	public String getId() {
@@ -89,7 +88,7 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 
 	/**
 	 * Sets the id.
-	 *
+	 * 
 	 * @param id
 	 */
 	public void setId(String id) {
@@ -98,7 +97,7 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 
 	/**
 	 * Update the script to refesh the break point.
-	 *
+	 * 
 	 * @param annotationModel
 	 */
 	public void update(IAnnotationModel annotationModel) {
@@ -117,7 +116,7 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 	public class DebugResourceMarkerAnnotationModel extends ResourceMarkerAnnotationModel {
 		private boolean patch = false;
 
-		private Map<MarkerAnnotation, Position> markMap = new HashMap<>();
+		private Map<MarkerAnnotation, Position> markMap = new HashMap<MarkerAnnotation, Position>();
 		private boolean change = false;
 
 		public DebugResourceMarkerAnnotationModel(IResource resource) {
@@ -133,7 +132,10 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 					// System.out.println(a.getType( ));
 					IMarker mark = a.getMarker();
 					try {
-						if (mark == null || !getId().equals(mark.getAttribute(SUBNAME)) || !(ScriptDocumentProvider.MARK_TYPE.equals(a.getMarker().getType()))) {
+						if (mark == null || !getId().equals(mark.getAttribute(SUBNAME))) {
+							continue;
+						}
+						if (!(ScriptDocumentProvider.MARK_TYPE.equals(a.getMarker().getType()))) {
 							continue;
 						}
 					} catch (CoreException e1) {
@@ -150,7 +152,6 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 			change = true;
 		}
 
-		@Override
 		protected boolean isAcceptable(IMarker marker) {
 			boolean bool = super.isAcceptable(marker);
 			try {
@@ -161,18 +162,16 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 			}
 		}
 
-		@Override
 		protected void disconnected() {
 			super.disconnected();
 		}
 
-		@Override
 		protected void connected() {
 			super.connected();
 		}
 
 		/**
-		 *
+		 * 
 		 */
 		public void resetReportMarkers() {
 			if (!change) {
@@ -186,14 +185,17 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 			resetMarkers();
 			patch = false;
 
-			List<MarkerAnnotation> markList = new ArrayList<>();
+			List<MarkerAnnotation> markList = new ArrayList<MarkerAnnotation>();
 			for (Iterator e = getAnnotationIterator(true); e.hasNext();) {
 				Object o = e.next();
 				if (o instanceof MarkerAnnotation) {
 					MarkerAnnotation a = (MarkerAnnotation) o;
 
 					try {
-						if (a.getMarker() == null || !getId().equals(a.getMarker().getAttribute(SUBNAME)) || !ScriptDocumentProvider.MARK_TYPE.equals(a.getMarker().getType())) {
+						if (a.getMarker() == null || !getId().equals(a.getMarker().getAttribute(SUBNAME))) {
+							continue;
+						}
+						if (!ScriptDocumentProvider.MARK_TYPE.equals(a.getMarker().getType())) {
 							continue;
 						}
 					} catch (CoreException e1) {
@@ -239,14 +241,16 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 			return p;
 		}
 
-		@Override
 		protected void addAnnotation(Annotation annotation, Position position, boolean fireModelChanged)
 				throws BadLocationException {
 			if (annotation instanceof MarkerAnnotation) {
 				IMarker marker = ((MarkerAnnotation) annotation).getMarker();
 				if (marker != null) {
 					try {
-						if (!getId().equals(marker.getAttribute(SUBNAME)) || !(ScriptDocumentProvider.MARK_TYPE.equals(marker.getType()))) {
+						if (!getId().equals(marker.getAttribute(SUBNAME))) {
+							return;
+						}
+						if (!(ScriptDocumentProvider.MARK_TYPE.equals(marker.getType()))) {
 							return;
 						}
 
@@ -271,7 +275,7 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 
 	/**
 	 * Gets the file name.
-	 *
+	 * 
 	 * @return
 	 */
 	public String getFileName() {
@@ -280,7 +284,7 @@ public class ScriptDocumentProvider extends JSDocumentProvider {
 
 	/**
 	 * Set the file name.
-	 *
+	 * 
 	 * @param fileName
 	 */
 	public void setFileName(String fileName) {

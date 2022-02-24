@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.odi.IQuery;
 
 /**
- *
+ * 
  */
 
 public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery implements IPreparedQuery {
@@ -40,10 +40,9 @@ public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery implements IPr
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.PreparedOdaDSQuery#newExecutor()
 	 */
-	@Override
 	protected QueryExecutor newExecutor() throws DataException {
 		IIncreCacheDataSetDesign icDataSetDesign = (IIncreCacheDataSetDesign) dataSetDesign;
 		String cacheDir = CacheUtil.createIncrementalTempDir(dataEngine.getSession(), icDataSetDesign);
@@ -52,7 +51,7 @@ public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery implements IPr
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public class IncreCacheDSQueryExecutor extends OdaDSQueryExecutor {
 
@@ -64,11 +63,10 @@ public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery implements IPr
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.impl.PreparedOdaDSQuery.OdaDSQueryExecutor#
 		 * createOdiQuery()
 		 */
-		@Override
 		protected IQuery createOdiQuery() throws DataException {
 			OdaDataSetRuntime extDataSet = (OdaDataSetRuntime) dataSet;
 			assert extDataSet != null;

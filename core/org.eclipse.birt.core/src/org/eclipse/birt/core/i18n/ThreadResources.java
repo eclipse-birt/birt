@@ -11,19 +11,17 @@
 
 package org.eclipse.birt.core.i18n;
 
+import com.ibm.icu.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
-import com.ibm.icu.text.MessageFormat;
 import com.ibm.icu.util.ULocale;
+import java.util.Map;
 
 /**
  * Provides access to a resource bundle associated with this thread. The
  * application calls <code>setThreadLocale</code> to set the locale for the
  * thread, then calls the <code>getMessage</code> methods.
- *
+ * 
  * @see ResourceHandle
  */
 
@@ -44,7 +42,7 @@ public class ThreadResources {
 	/**
 	 * Set the locale of current user-thread. This method should be called before
 	 * access to any localized message. Call with null to clear the thread locale.
-	 *
+	 * 
 	 * @param locale Locale of the current thread.
 	 */
 
@@ -68,14 +66,13 @@ public class ThreadResources {
 	 * @deprecated since 2.1
 	 * @return
 	 */
-	@Deprecated
 	public static void setLocale(Locale locale) {
 		setLocale(ULocale.forLocale(locale));
 	}
 
 	/**
 	 * Get the locale of current user-thread.
-	 *
+	 * 
 	 * @return Locale of the current thread.
 	 */
 	public static ULocale getULocale() {
@@ -88,7 +85,6 @@ public class ThreadResources {
 	 * @deprecated since 2.1
 	 * @return
 	 */
-	@Deprecated
 	public static Locale getLocale() {
 		return getULocale().toLocale();
 	}
@@ -97,7 +93,7 @@ public class ThreadResources {
 	 * Get a message given the message key. An assertion will be raised if the
 	 * message key does not exist in the resource bundle. The locale must have
 	 * previously been set for this thread.
-	 *
+	 * 
 	 * @param key the message key
 	 * @return the localized message for that key and the locale set in the
 	 *         constructor. Returns the key itself if the message was not found.
@@ -115,7 +111,7 @@ public class ThreadResources {
 	 * Get a message that has placeholders. An assertion will be raised if the
 	 * message key does not exist in the resource bundle. The locale must have
 	 * previously been set for this thread.
-	 *
+	 * 
 	 * @param key       the message key
 	 * @param arguments the set of arguments to be plugged into the message
 	 * @return the localized message for that key and the locale set in the

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,6 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 	public ILabelProvider getDataSetLabelProvider() {
 		return new LabelProvider() {
 
-			@Override
 			public String getText(Object element) {
 				BindingInfo info = (BindingInfo) element;
 				String datasetName = info.getBindingValue();
@@ -75,7 +74,6 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 
 	public static class ContentProvider implements IStructuredContentProvider {
 
-		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof List) {
 				return ((List) inputElement).toArray();
@@ -85,11 +83,9 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 			return new Object[0];
 		}
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
@@ -98,13 +94,14 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 		return new ContentProvider();
 	}
 
-	@Override
 	public String getDisplayName() {
 		return null;
 	}
 
 	protected List getAvailableDataBindingReferenceList(ReportItemHandle element) {
-		List bindingRef = new ArrayList(element.getAvailableDataSetBindingReferenceList());
+		List bindingRef = new ArrayList();
+		bindingRef.addAll(element.getAvailableDataSetBindingReferenceList());
+
 		if (ExtendedDataModelUIAdapterHelper.getInstance().getAdapter() != null) {
 			List temp = (ExtendedDataModelUIAdapterHelper.getInstance().getAdapter()
 					.getAvailableBindingReferenceList(element));
@@ -114,19 +111,17 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 		return bindingRef;
 	}
 
-	private Map<String, ReportItemHandle> referMap = new HashMap<>();
+	private Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>();
 	private String NullReportItemChoice = NONE;
 
-	@Override
 	public Object load() {
 		referMap.clear();
 		ReportItemHandle element = getReportItemHandle();
 		boolean isDataSet = false;
-
+		;
 		int type = element.getDataBindingType();
-		if (type == ReportItemHandle.DATABINDING_TYPE_NONE) {
+		if (type == ReportItemHandle.DATABINDING_TYPE_NONE)
 			type = DEUtil.getBindingHolder(element).getDataBindingType();
-		}
 		List referenceList = getAvailableDataBindingReferenceList(element);
 		references = new String[referenceList.size() + 1];
 		references[0] = NONE;
@@ -174,11 +169,10 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 			break;
 		case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF:
 			ReportItemHandle reference = element.getDataBindingReference();
-			if (reference == null) {
+			if (reference == null)
 				value = NullReportItemChoice;
-			} else {
+			else
 				value = reference.getQualifiedName();
-			}
 			break;
 		default: {
 			value = NullDatasetChoice.bindingValue;
@@ -189,7 +183,6 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 		return info;
 	}
 
-	@Override
 	public void save(Object saveValue) throws SemanticException {
 		if (saveValue instanceof BindingInfo) {
 			BindingInfo info = (BindingInfo) saveValue;
@@ -202,9 +195,8 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 					info = null;
 				}
 				int ret = 0;
-				if (!NullDatasetChoice.equals(info)) {
+				if (!NullDatasetChoice.equals(info))
 					ret = 4;
-				}
 				if ((!NullDatasetChoice.equals(oldValue)
 						|| getReportItemHandle().getColumnBindings().iterator().hasNext())
 						&& !(info != null && info.equals(oldValue))) {
@@ -293,7 +285,7 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 	}
 
 	public List<BindingInfo> getVisibleDataSetHandles(ModuleHandle handle) {
-		ArrayList<BindingInfo> list = new ArrayList<>();
+		ArrayList<BindingInfo> list = new ArrayList<BindingInfo>();
 		for (Iterator iterator = handle.getVisibleDataSets().iterator(); iterator.hasNext();) {
 			DataSetHandle dataSetHandle = (DataSetHandle) iterator.next();
 			BindingInfo info = new BindingInfo(ReportItemHandle.DATABINDING_TYPE_DATA, dataSetHandle.getQualifiedName(),
@@ -320,7 +312,6 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 		return newList;
 	}
 
-	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
@@ -382,7 +373,6 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 			this.isReadOnly = isReadOnly;
 		}
 
-		@Override
 		public boolean equals(Object obj) {
 			if (!(obj instanceof BindingInfo)) {
 				return false;
@@ -392,19 +382,23 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 						|| (this.bindingValue != null && !this.bindingValue.equals(info.bindingValue))) {
 					return false;
 				}
-				if ((this.bindingType != info.bindingType) || (this.isDataSet != info.isDataSet) || (this.isReadOnly != info.isReadOnly)) {
+				if (this.bindingType != info.bindingType) {
+					return false;
+				}
+				if (this.isDataSet != info.isDataSet) {
+					return false;
+				}
+				if (this.isReadOnly != info.isReadOnly) {
 					return false;
 				}
 				return true;
 			}
 		}
 
-		@Override
 		public int hashCode() {
 			int code = 13;
-			if (this.bindingValue != null) {
+			if (this.bindingValue != null)
 				code += this.bindingValue.hashCode() * 7;
-			}
 			code += this.bindingType * 5;
 			code += Boolean.valueOf(this.isDataSet()).hashCode() * 3;
 			code += Boolean.valueOf(this.isReadOnly()).hashCode() * 11;
@@ -499,13 +493,12 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 										"BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet")); //$NON-NLS-1$
 				selector.setDataSet(info.getBindingValue(), info.isDataSet());
 				Iterator bindings = getReportItemHandle().getColumnBindings().iterator();
-				List<String> columnNames = new ArrayList<>();
+				List<String> columnNames = new ArrayList<String>();
 				while (bindings.hasNext()) {
 					columnNames.add(((ComputedColumnHandle) bindings.next()).getName());
 				}
-				if (!columnNames.isEmpty()) {
+				if (!columnNames.isEmpty())
 					selector.setColumns(columnNames.toArray(new String[0]));
-				}
 				if (selector.open() == Dialog.OK) {
 					clearBinding(getReportItemHandle().getColumnBindings(),
 							(Object[]) ((Object[]) selector.getResult())[2]);
@@ -572,7 +565,7 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider {
 
 	/**
 	 * Gets the DE CommandStack instance
-	 *
+	 * 
 	 * @return CommandStack instance
 	 */
 	protected CommandStack getActionStack() {

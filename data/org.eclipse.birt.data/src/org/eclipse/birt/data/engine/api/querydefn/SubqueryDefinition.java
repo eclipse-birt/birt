@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -30,14 +30,13 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 	/**
 	 * Constructs a SubqueryDefn. A name must be provided that uniquely identifies
 	 * the subquery within the report query that contains it.
-	 *
+	 * 
 	 * This constructor is deprecated for all the sub query definition should be
 	 * assigned a parent query.
-	 *
+	 * 
 	 * @deprecated
 	 * @param name
 	 */
-	@Deprecated
 	public SubqueryDefinition(String name) {
 		super(null);
 		this.name = name;
@@ -48,7 +47,7 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 	 * Constructs a SubqueryDefn. A name must be provided that uniquely identifies
 	 * the subquery within the report query that contains it. The outer query
 	 * (parent) can be another query, or a sub query.
-	 *
+	 * 
 	 * @param name
 	 */
 	public SubqueryDefinition(String name, IBaseQueryDefinition parent) {
@@ -60,7 +59,6 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 	/*
 	 * @see org.eclipse.birt.data.engine.api.ISubqueryDefinition#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -68,7 +66,6 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 	/*
 	 * @see org.eclipse.birt.data.engine.api.ISubqueryDefinition#onGroup()
 	 */
-	@Override
 	public boolean applyOnGroup() {
 		return this.onGroup;
 	}
@@ -76,18 +73,16 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 	/**
 	 * Set the flag of whether this subquery is applied to the group or only one row
 	 * of parent query.
-	 *
+	 * 
 	 * @param onGroup
 	 */
 	public void setApplyOnGroupFlag(boolean onGroup) {
 		this.onGroup = onGroup;
 	}
 
-	@Override
 	public boolean cacheQueryResults() {
-		if (parentQuery != null) {
+		if (parentQuery != null)
 			return parentQuery.cacheQueryResults();
-		}
 		return super.cacheQueryResults();
 	}
 }

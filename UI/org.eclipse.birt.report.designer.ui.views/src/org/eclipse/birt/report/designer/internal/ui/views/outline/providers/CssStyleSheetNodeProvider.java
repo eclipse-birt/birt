@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,25 +39,23 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
 /**
- *
+ * 
  */
 
 public class CssStyleSheetNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
-	 *
+	 * 
 	 * @param object the object
 	 * @param menu   the menu
 	 */
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		menu.add(new EditUseCssStyleAction(object));
 		menu.add(new ReloadCssStyleAction(object));
 		super.createContextMenu(sourceViewer, object, menu);
 	}
 
-	@Override
 	public String getNodeDisplayName(Object model) {
 		String fileName = ((CssStyleSheetHandle) model).getFileName();
 		if (fileName != null) {
@@ -72,18 +70,18 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.views.INodeProvider#getChildren(java
 	 * .lang.Object)
 	 */
-	@Override
 	public Object[] getChildren(Object model) {
 		if (model instanceof CssStyleSheetHandle) {
 			CssStyleSheetHandle cssStyleHandle = (CssStyleSheetHandle) model;
 
 			List availableStyles = null;
 			if (cssStyleHandle.getContainerHandle() instanceof ReportItemThemeHandle) {
-				availableStyles = new ArrayList(Arrays.asList(getPredefinedStyleNames(
+				availableStyles = new ArrayList();
+				availableStyles.addAll(Arrays.asList(getPredefinedStyleNames(
 						((ReportItemThemeHandle) cssStyleHandle.getContainerHandle()).getType())));
 			}
 
@@ -91,9 +89,8 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider {
 			for (Iterator iter = cssStyleHandle.getStyleIterator(); iter.hasNext();) {
 				SharedStyleHandle styleHandle = (SharedStyleHandle) iter.next();
 				if (cssStyleHandle.getContainerHandle() instanceof ReportItemThemeHandle) {
-					if (availableStyles.contains(styleHandle.getName())) {
+					if (availableStyles.contains(styleHandle.getName()))
 						childrenList.add(styleHandle);
-					}
 				} else {
 					childrenList.add(styleHandle);
 				}
@@ -108,13 +105,12 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the icon image for the given model.
-	 *
+	 * 
 	 * @param model the model of the node
-	 *
+	 * 
 	 * @return Returns the icon name for the model,or null if no proper one
 	 *         available for the given model
 	 */
-	@Override
 	public Image getNodeIcon(Object model) {
 		Image icon = null;
 
@@ -127,11 +123,10 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeTooltip(java.lang.Object)
 	 */
-	@Override
 	public String getNodeTooltip(Object model) {
 		if (model instanceof CssStyleSheetHandle) {
 			CssStyleSheetHandle cssStyleSheetHandle = (CssStyleSheetHandle) model;
@@ -151,11 +146,10 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
 	 * #performEdit(org.eclipse.birt.model.api.ElementDetailHandle)
 	 */
-	@Override
 	protected boolean performEdit(ElementDetailHandle handle) {
 		EditUseCssStyleAction action = new EditUseCssStyleAction(handle);
 		if (!action.isEnabled()) {

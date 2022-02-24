@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,6 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/GetParameterDefinitionTaskTest.rptdesign";
 //	static final String REPORT_DESIGN = "GetParameterDefinitionTaskTest.rptdesign";
 
-	@Override
 	public void setUp() throws Exception {
 		String reportDesign = REPORT_DESIGN_RESOURCE;
 		initialize(reportDesign);
@@ -46,7 +45,6 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 		gpdTask = engine.createGetParameterDefinitionTask(runnable);
 	}
 
-	@Override
 	public void tearDown() {
 		// shut down the engine.
 		destroy();
@@ -71,12 +69,13 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 	 * <li>DateTime</li>
 	 */
 	public void testGetDefaultValue() {
-		String[] paramDefnArray = { "paramString", "paramBoolean", "paramList", "paramListDynamic", "paramComboSort",
-				"paramDispFormatNum", "paramDispFormatDateTime" };
-		String[] goldenString = { "defaultStringValue", "false", "2", "0", "item2", "123", "08/10/2006 10:32:58 AM" };
+		String[] paramDefnArray = new String[] { "paramString", "paramBoolean", "paramList", "paramListDynamic",
+				"paramComboSort", "paramDispFormatNum", "paramDispFormatDateTime" };
+		String[] goldenString = new String[] { "defaultStringValue", "false", "2", "0", "item2", "123",
+				"08/10/2006 10:32:58 AM" };
 		assertTrue(paramDefnArray.length == goldenString.length);
 		for (int size = paramDefnArray.length, index = 0; index < size; index++) {
-			String resultString;
+			String resultString = null;
 			scalarParam = (IScalarParameterDefn) gpdTask.getParameterDefn(paramDefnArray[index]);
 			resultString = scalarParam.getDefaultValue();
 			assertTrue(resultString != null);
@@ -88,8 +87,8 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 	 * API test on IScalarParameterDefn.isValueConcealed( ) method
 	 */
 	public void testIsValueConcealed() {
-		String[] paramDefnArray = { "paramConceal", "paramString" };
-		boolean[] goldenResult = { true, false };
+		String[] paramDefnArray = new String[] { "paramConceal", "paramString" };
+		boolean[] goldenResult = new boolean[] { true, false };
 		assertTrue(paramDefnArray.length == goldenResult.length);
 		for (int size = paramDefnArray.length, index = 0; index < size; index++) {
 			scalarParam = (IScalarParameterDefn) gpdTask.getParameterDefn(paramDefnArray[index]);
@@ -159,8 +158,8 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 	 * API test on IScalarParameterDefn.getDisplayFormat( ) method
 	 */
 	public void testGetDisplayFormat() {
-		String[] paramArray = { "paramDispFormatString", "paramDispFormatDateTime", "paramDispFormatNum" };
-		String[] goldenResult = { "(@@)", "Short Date", "Scientific" };
+		String[] paramArray = new String[] { "paramDispFormatString", "paramDispFormatDateTime", "paramDispFormatNum" };
+		String[] goldenResult = new String[] { "(@@)", "Short Date", "Scientific" };
 		assertTrue(paramArray.length == goldenResult.length);
 
 		for (int size = paramArray.length, index = 0; index < size; index++) {
@@ -173,9 +172,10 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 	 * API test on IScalarParameterDefn.getControlType( ) method
 	 */
 	public void testGetControlType() {
-		String[] paramArray = { "paramString", "paramBoolean", "paramList", "paramComboSort", "paramRadio" };
-		int[] results = { IScalarParameterDefn.TEXT_BOX, IScalarParameterDefn.CHECK_BOX, IScalarParameterDefn.LIST_BOX,
-				IScalarParameterDefn.LIST_BOX, IScalarParameterDefn.RADIO_BUTTON };
+		String[] paramArray = new String[] { "paramString", "paramBoolean", "paramList", "paramComboSort",
+				"paramRadio" };
+		int[] results = new int[] { IScalarParameterDefn.TEXT_BOX, IScalarParameterDefn.CHECK_BOX,
+				IScalarParameterDefn.LIST_BOX, IScalarParameterDefn.LIST_BOX, IScalarParameterDefn.RADIO_BUTTON };
 		assertTrue(paramArray.length == results.length);
 		for (int size = paramArray.length, index = 0; index < size; index++) {
 			scalarParam = (IScalarParameterDefn) gpdTask.getParameterDefn(paramArray[index]);
@@ -196,7 +196,7 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 	 */
 	public void testGetSelectionList() {
 		final int LIST_SIZE = 3;
-		String[] goldenResult = { "1", "2", "3" };
+		String[] goldenResult = new String[] { "1", "2", "3" };
 		scalarParam = (IScalarParameterDefn) gpdTask.getParameterDefn("paramList");
 		assertEquals(LIST_SIZE, ((ScalarParameterDefn) scalarParam).getSelectionList().size());
 		assertEquals(scalarParam.getDefaultValue(), "2");
@@ -233,9 +233,9 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 	 * API test on IScalarParameterDefn.getParameterType( ) method
 	 */
 	public void testGetDataType() {
-		String[] paramArray = { "paramBoolean", "paramDatetimeFormat", "paramDispFormatNum", "paramFloat",
+		String[] paramArray = new String[] { "paramBoolean", "paramDatetimeFormat", "paramDispFormatNum", "paramFloat",
 				"paramInteger", "paramString" };
-		int[] results = { IScalarParameterDefn.TYPE_BOOLEAN, IScalarParameterDefn.TYPE_DATE_TIME,
+		int[] results = new int[] { IScalarParameterDefn.TYPE_BOOLEAN, IScalarParameterDefn.TYPE_DATE_TIME,
 				IScalarParameterDefn.TYPE_DECIMAL, IScalarParameterDefn.TYPE_FLOAT, IScalarParameterDefn.TYPE_INTEGER,
 				IScalarParameterDefn.TYPE_STRING };
 
@@ -290,8 +290,8 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 		 * 2 of them <li>IParameterDefnBase.PARAMETER_GROUP
 		 * <li>IParameterDefnBase.SCALAR_PARAMETER
 		 */
-		String[] paramNames = { "paramString", "paramGroup" };
-		String[] goldenTypeNames = { "scalar", "group" };
+		String[] paramNames = new String[] { "paramString", "paramGroup" };
+		String[] goldenTypeNames = new String[] { "scalar", "group" };
 		assertTrue(paramNames.length == goldenTypeNames.length);
 		for (int index = 0, size = paramNames.length; index < size; index++) {
 			IParameterDefnBase base = gpdTask.getParameterDefn(paramNames[index]);
@@ -306,7 +306,7 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 		parentToChildren.put("Singapore", new Object[] { new Integer(1621), new Integer(1612), null });
 		parentToChildren.put("Hong Kong", new Object[] { new Integer(1621) });
 
-		String[] parent = { "Singapore", "Hong Kong" };
+		String[] parent = new String[] { "Singapore", "Hong Kong" };
 		checkTree("DistinctFixedOrder", parent, parentToChildren);
 		checkTree("MultiDataSetDistinctFixedOrder", parent, parentToChildren);
 
@@ -340,11 +340,10 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 		Iterator iterator = children.iterator();
 		for (int i = 0; i < expectedChildren.length; i++) {
 			ICascadingParameterSelectionChoice choice = (ICascadingParameterSelectionChoice) iterator.next();
-			if (expectedChildren[i] != null) {
+			if (expectedChildren[i] != null)
 				assertEquals(expectedChildren[i], choice.getValue());
-			} else {
+			else
 				assertNull(choice.getValue());
-			}
 		}
 	}
 }

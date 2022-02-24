@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -101,7 +101,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getChildren() <em>Children</em>}'
 	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getChildren()
 	 * @generated
 	 * @ordered
@@ -111,7 +111,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getBounds() <em>Bounds</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getBounds()
 	 * @generated
 	 * @ordered
@@ -121,7 +121,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The default value of the '{@link #getAnchor() <em>Anchor</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getAnchor()
 	 * @generated
 	 * @ordered
@@ -131,7 +131,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getAnchor() <em>Anchor</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getAnchor()
 	 * @generated
 	 * @ordered
@@ -141,7 +141,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * This is true if the Anchor attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -150,7 +150,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The default value of the '{@link #getStretch() <em>Stretch</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getStretch()
 	 * @generated
 	 * @ordered
@@ -160,7 +160,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getStretch() <em>Stretch</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getStretch()
 	 * @generated
 	 * @ordered
@@ -170,7 +170,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * This is true if the Stretch attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -179,7 +179,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getInsets() <em>Insets</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getInsets()
 	 * @generated
 	 * @ordered
@@ -189,7 +189,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The default value of the '{@link #getRow() <em>Row</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRow()
 	 * @generated
 	 * @ordered
@@ -199,7 +199,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getRow() <em>Row</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRow()
 	 * @generated
 	 * @ordered
@@ -209,7 +209,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * This is true if the Row attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -218,7 +218,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The default value of the '{@link #getColumn() <em>Column</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getColumn()
 	 * @generated
 	 * @ordered
@@ -228,7 +228,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getColumn() <em>Column</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getColumn()
 	 * @generated
 	 * @ordered
@@ -238,7 +238,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * This is true if the Column attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -247,7 +247,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The default value of the '{@link #getRowspan() <em>Rowspan</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRowspan()
 	 * @generated
 	 * @ordered
@@ -257,7 +257,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getRowspan() <em>Rowspan</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getRowspan()
 	 * @generated
 	 * @ordered
@@ -267,7 +267,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * This is true if the Rowspan attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -276,7 +276,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The default value of the '{@link #getColumnspan() <em>Columnspan</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getColumnspan()
 	 * @generated
 	 * @ordered
@@ -286,7 +286,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getColumnspan() <em>Columnspan</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getColumnspan()
 	 * @generated
 	 * @ordered
@@ -296,7 +296,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * This is true if the Columnspan attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -305,7 +305,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getMinSize() <em>Min Size</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getMinSize()
 	 * @generated
 	 * @ordered
@@ -315,7 +315,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getOutline()
 	 * @generated
 	 * @ordered
@@ -325,7 +325,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getBackground() <em>Background</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getBackground()
 	 * @generated
 	 * @ordered
@@ -335,7 +335,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -345,7 +345,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -355,7 +355,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * This is true if the Visible attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -364,7 +364,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}'
 	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getTriggers()
 	 * @generated
 	 * @ordered
@@ -374,7 +374,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The default value of the '{@link #getWidthHint() <em>Width Hint</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getWidthHint()
 	 * @generated
 	 * @ordered
@@ -384,7 +384,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getWidthHint() <em>Width Hint</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getWidthHint()
 	 * @generated
 	 * @ordered
@@ -394,7 +394,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * This is true if the Width Hint attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -403,7 +403,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The default value of the '{@link #getHeightHint() <em>Height Hint</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getHeightHint()
 	 * @generated
 	 * @ordered
@@ -413,7 +413,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getHeightHint() <em>Height Hint</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getHeightHint()
 	 * @generated
 	 * @ordered
@@ -423,7 +423,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * This is true if the Height Hint attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -432,7 +432,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * The cached value of the '{@link #getCursor() <em>Cursor</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getCursor()
 	 * @generated
 	 * @ordered
@@ -441,7 +441,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected BlockImpl() {
@@ -450,7 +450,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -460,30 +460,28 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<Block> getChildren() {
 		if (children == null) {
-			children = new EObjectContainmentEList<>(Block.class, this, LayoutPackage.BLOCK__CHILDREN);
+			children = new EObjectContainmentEList<Block>(Block.class, this, LayoutPackage.BLOCK__CHILDREN);
 		}
 		return children;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Bounds getBounds() {
 		return bounds;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetBounds(Bounds newBounds, NotificationChain msgs) {
@@ -492,162 +490,143 @@ public class BlockImpl extends EObjectImpl implements Block {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__BOUNDS,
 					oldBounds, newBounds);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setBounds(Bounds newBounds) {
 		if (newBounds != bounds) {
 			NotificationChain msgs = null;
-			if (bounds != null) {
+			if (bounds != null)
 				msgs = ((InternalEObject) bounds).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__BOUNDS, null, msgs);
-			}
-			if (newBounds != null) {
+			if (newBounds != null)
 				msgs = ((InternalEObject) newBounds).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__BOUNDS, null, msgs);
-			}
 			msgs = basicSetBounds(newBounds, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__BOUNDS, newBounds, newBounds));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Anchor getAnchor() {
 		return anchor;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setAnchor(Anchor newAnchor) {
 		Anchor oldAnchor = anchor;
 		anchor = newAnchor == null ? ANCHOR_EDEFAULT : newAnchor;
 		boolean oldAnchorESet = anchorESet;
 		anchorESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__ANCHOR, oldAnchor, anchor,
 					!oldAnchorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetAnchor() {
 		Anchor oldAnchor = anchor;
 		boolean oldAnchorESet = anchorESet;
 		anchor = ANCHOR_EDEFAULT;
 		anchorESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__ANCHOR, oldAnchor,
 					ANCHOR_EDEFAULT, oldAnchorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetAnchor() {
 		return anchorESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Stretch getStretch() {
 		return stretch;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setStretch(Stretch newStretch) {
 		Stretch oldStretch = stretch;
 		stretch = newStretch == null ? STRETCH_EDEFAULT : newStretch;
 		boolean oldStretchESet = stretchESet;
 		stretchESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__STRETCH, oldStretch, stretch,
 					!oldStretchESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetStretch() {
 		Stretch oldStretch = stretch;
 		boolean oldStretchESet = stretchESet;
 		stretch = STRETCH_EDEFAULT;
 		stretchESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__STRETCH, oldStretch,
 					STRETCH_EDEFAULT, oldStretchESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetStretch() {
 		return stretchESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Insets getInsets() {
 		return insets;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetInsets(Insets newInsets, NotificationChain msgs) {
@@ -656,269 +635,238 @@ public class BlockImpl extends EObjectImpl implements Block {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__INSETS,
 					oldInsets, newInsets);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setInsets(Insets newInsets) {
 		if (newInsets != insets) {
 			NotificationChain msgs = null;
-			if (insets != null) {
+			if (insets != null)
 				msgs = ((InternalEObject) insets).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__INSETS, null, msgs);
-			}
-			if (newInsets != null) {
+			if (newInsets != null)
 				msgs = ((InternalEObject) newInsets).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__INSETS, null, msgs);
-			}
 			msgs = basicSetInsets(newInsets, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__INSETS, newInsets, newInsets));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getRow() {
 		return row;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setRow(int newRow) {
 		int oldRow = row;
 		row = newRow;
 		boolean oldRowESet = rowESet;
 		rowESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__ROW, oldRow, row, !oldRowESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetRow() {
 		int oldRow = row;
 		boolean oldRowESet = rowESet;
 		row = ROW_EDEFAULT;
 		rowESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__ROW, oldRow, ROW_EDEFAULT,
 					oldRowESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetRow() {
 		return rowESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getColumn() {
 		return column;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setColumn(int newColumn) {
 		int oldColumn = column;
 		column = newColumn;
 		boolean oldColumnESet = columnESet;
 		columnESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__COLUMN, oldColumn, column,
 					!oldColumnESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetColumn() {
 		int oldColumn = column;
 		boolean oldColumnESet = columnESet;
 		column = COLUMN_EDEFAULT;
 		columnESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__COLUMN, oldColumn,
 					COLUMN_EDEFAULT, oldColumnESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetColumn() {
 		return columnESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getRowspan() {
 		return rowspan;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setRowspan(int newRowspan) {
 		int oldRowspan = rowspan;
 		rowspan = newRowspan;
 		boolean oldRowspanESet = rowspanESet;
 		rowspanESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__ROWSPAN, oldRowspan, rowspan,
 					!oldRowspanESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetRowspan() {
 		int oldRowspan = rowspan;
 		boolean oldRowspanESet = rowspanESet;
 		rowspan = ROWSPAN_EDEFAULT;
 		rowspanESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__ROWSPAN, oldRowspan,
 					ROWSPAN_EDEFAULT, oldRowspanESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetRowspan() {
 		return rowspanESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getColumnspan() {
 		return columnspan;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setColumnspan(int newColumnspan) {
 		int oldColumnspan = columnspan;
 		columnspan = newColumnspan;
 		boolean oldColumnspanESet = columnspanESet;
 		columnspanESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__COLUMNSPAN, oldColumnspan,
 					columnspan, !oldColumnspanESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetColumnspan() {
 		int oldColumnspan = columnspan;
 		boolean oldColumnspanESet = columnspanESet;
 		columnspan = COLUMNSPAN_EDEFAULT;
 		columnspanESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__COLUMNSPAN, oldColumnspan,
 					COLUMNSPAN_EDEFAULT, oldColumnspanESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetColumnspan() {
 		return columnspanESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Size getMinSize() {
 		return minSize;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMinSize(Size newMinSize, NotificationChain msgs) {
@@ -927,55 +875,48 @@ public class BlockImpl extends EObjectImpl implements Block {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.BLOCK__MIN_SIZE, oldMinSize, newMinSize);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setMinSize(Size newMinSize) {
 		if (newMinSize != minSize) {
 			NotificationChain msgs = null;
-			if (minSize != null) {
+			if (minSize != null)
 				msgs = ((InternalEObject) minSize).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__MIN_SIZE, null, msgs);
-			}
-			if (newMinSize != null) {
+			if (newMinSize != null)
 				msgs = ((InternalEObject) newMinSize).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__MIN_SIZE, null, msgs);
-			}
 			msgs = basicSetMinSize(newMinSize, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__MIN_SIZE, newMinSize,
 					newMinSize));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public LineAttributes getOutline() {
 		return outline;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetOutline(LineAttributes newOutline, NotificationChain msgs) {
@@ -984,55 +925,48 @@ public class BlockImpl extends EObjectImpl implements Block {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__OUTLINE,
 					oldOutline, newOutline);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setOutline(LineAttributes newOutline) {
 		if (newOutline != outline) {
 			NotificationChain msgs = null;
-			if (outline != null) {
+			if (outline != null)
 				msgs = ((InternalEObject) outline).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__OUTLINE, null, msgs);
-			}
-			if (newOutline != null) {
+			if (newOutline != null)
 				msgs = ((InternalEObject) newOutline).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__OUTLINE, null, msgs);
-			}
 			msgs = basicSetOutline(newOutline, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__OUTLINE, newOutline,
 					newOutline));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Fill getBackground() {
 		return background;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetBackground(Fill newBackground, NotificationChain msgs) {
@@ -1041,230 +975,204 @@ public class BlockImpl extends EObjectImpl implements Block {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.BLOCK__BACKGROUND, oldBackground, newBackground);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setBackground(Fill newBackground) {
 		if (newBackground != background) {
 			NotificationChain msgs = null;
-			if (background != null) {
+			if (background != null)
 				msgs = ((InternalEObject) background).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__BACKGROUND, null, msgs);
-			}
-			if (newBackground != null) {
+			if (newBackground != null)
 				msgs = ((InternalEObject) newBackground).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__BACKGROUND, null, msgs);
-			}
 			msgs = basicSetBackground(newBackground, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__BACKGROUND, newBackground,
 					newBackground));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isVisible() {
 		return visible;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setVisible(boolean newVisible) {
 		boolean oldVisible = visible;
 		visible = newVisible;
 		boolean oldVisibleESet = visibleESet;
 		visibleESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__VISIBLE, oldVisible, visible,
 					!oldVisibleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetVisible() {
 		boolean oldVisible = visible;
 		boolean oldVisibleESet = visibleESet;
 		visible = VISIBLE_EDEFAULT;
 		visibleESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__VISIBLE, oldVisible,
 					VISIBLE_EDEFAULT, oldVisibleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetVisible() {
 		return visibleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public EList<Trigger> getTriggers() {
 		if (triggers == null) {
-			triggers = new EObjectContainmentEList<>(Trigger.class, this, LayoutPackage.BLOCK__TRIGGERS);
+			triggers = new EObjectContainmentEList<Trigger>(Trigger.class, this, LayoutPackage.BLOCK__TRIGGERS);
 		}
 		return triggers;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public double getWidthHint() {
 		return widthHint;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setWidthHint(double newWidthHint) {
 		double oldWidthHint = widthHint;
 		widthHint = newWidthHint;
 		boolean oldWidthHintESet = widthHintESet;
 		widthHintESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__WIDTH_HINT, oldWidthHint,
 					widthHint, !oldWidthHintESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetWidthHint() {
 		double oldWidthHint = widthHint;
 		boolean oldWidthHintESet = widthHintESet;
 		widthHint = WIDTH_HINT_EDEFAULT;
 		widthHintESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__WIDTH_HINT, oldWidthHint,
 					WIDTH_HINT_EDEFAULT, oldWidthHintESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetWidthHint() {
 		return widthHintESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public double getHeightHint() {
 		return heightHint;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setHeightHint(double newHeightHint) {
 		double oldHeightHint = heightHint;
 		heightHint = newHeightHint;
 		boolean oldHeightHintESet = heightHintESet;
 		heightHintESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__HEIGHT_HINT, oldHeightHint,
 					heightHint, !oldHeightHintESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void unsetHeightHint() {
 		double oldHeightHint = heightHint;
 		boolean oldHeightHintESet = heightHintESet;
 		heightHint = HEIGHT_HINT_EDEFAULT;
 		heightHintESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__HEIGHT_HINT, oldHeightHint,
 					HEIGHT_HINT_EDEFAULT, oldHeightHintESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public boolean isSetHeightHint() {
 		return heightHintESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public Cursor getCursor() {
 		return cursor;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetCursor(Cursor newCursor, NotificationChain msgs) {
@@ -1273,44 +1181,38 @@ public class BlockImpl extends EObjectImpl implements Block {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__CURSOR,
 					oldCursor, newCursor);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public void setCursor(Cursor newCursor) {
 		if (newCursor != cursor) {
 			NotificationChain msgs = null;
-			if (cursor != null) {
+			if (cursor != null)
 				msgs = ((InternalEObject) cursor).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__CURSOR, null, msgs);
-			}
-			if (newCursor != null) {
+			if (newCursor != null)
 				msgs = ((InternalEObject) newCursor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__CURSOR, null, msgs);
-			}
 			msgs = basicSetCursor(newCursor, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__CURSOR, newCursor, newCursor));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1338,7 +1240,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1384,7 +1286,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -1450,7 +1352,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1513,7 +1415,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1559,92 +1461,81 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (anchor: "); //$NON-NLS-1$
-		if (anchorESet) {
+		if (anchorESet)
 			result.append(anchor);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", stretch: "); //$NON-NLS-1$
-		if (stretchESet) {
+		if (stretchESet)
 			result.append(stretch);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", row: "); //$NON-NLS-1$
-		if (rowESet) {
+		if (rowESet)
 			result.append(row);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", column: "); //$NON-NLS-1$
-		if (columnESet) {
+		if (columnESet)
 			result.append(column);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", rowspan: "); //$NON-NLS-1$
-		if (rowspanESet) {
+		if (rowspanESet)
 			result.append(rowspan);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", columnspan: "); //$NON-NLS-1$
-		if (columnspanESet) {
+		if (columnspanESet)
 			result.append(columnspan);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", visible: "); //$NON-NLS-1$
-		if (visibleESet) {
+		if (visibleESet)
 			result.append(visible);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", widthHint: "); //$NON-NLS-1$
-		if (widthHintESet) {
+		if (widthHintESet)
 			result.append(widthHint);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", heightHint: "); //$NON-NLS-1$
-		if (heightHintESet) {
+		if (heightHintESet)
 			result.append(heightHint);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @param bRecursive
 	 * @return
 	 */
-	@Override
 	public final Enumeration<Block> children(boolean bRecursive) {
-		Vector<Block> v = new Vector<>();
+		Vector<Block> v = new Vector<Block>();
 		collectChildren(v, bRecursive);
 		return v.elements();
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @param v
 	 * @param bRecursive
 	 */
@@ -1658,93 +1549,85 @@ public class BlockImpl extends EObjectImpl implements Block {
 		}
 	}
 
-	@Override
 	public Size getPreferredSize(IDisplayServer xs, Chart cm, RunTimeContext rtc) throws ChartException {
 		return new SizeImpl(100, 100);
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public boolean isPlot() {
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public boolean isLegend() {
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public boolean isText() {
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public boolean isCustom() {
 		return true;
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public boolean isTitle() {
 		return false;
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @param bl
 	 */
-	@Override
 	public final void add(Block bl) {
 		getChildren().add(bl);
 	}
 
 	/**
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @param bl
 	 */
-	@Override
 	public final void remove(Block bl) {
 		getChildren().remove(bl);
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Block' instance
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @return
 	 */
 	public static Block create() {
@@ -1755,7 +1638,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * Resets all member variables within this object recursively
-	 *
+	 * 
 	 * Note: Manually written
 	 */
 	protected void initialize() {
@@ -1782,9 +1665,9 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * A convenience method to create an initialized 'Block' instance
-	 *
+	 * 
 	 * Note: Manually written
-	 *
+	 * 
 	 * @return
 	 */
 	public static Block createDefault() {
@@ -1795,7 +1678,7 @@ public class BlockImpl extends EObjectImpl implements Block {
 
 	/**
 	 * Resets all member variables within this object recursively
-	 *
+	 * 
 	 * Note: Manually written
 	 */
 	protected void initDefault() {
@@ -1818,7 +1701,6 @@ public class BlockImpl extends EObjectImpl implements Block {
 	/**
 	 * @generated
 	 */
-	@Override
 	public Block copyInstance() {
 		BlockImpl dest = new BlockImpl();
 		dest.set(this);

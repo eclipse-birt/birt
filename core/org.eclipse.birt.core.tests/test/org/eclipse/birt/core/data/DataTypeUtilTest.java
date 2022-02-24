@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,7 +67,6 @@ public class DataTypeUtilTest extends TestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@Override
 	@Before
 	public void setUp() throws Exception {
 
@@ -143,8 +142,8 @@ public class DataTypeUtilTest extends TestCase {
 		testObjectDecimal = new Object[] { new Double(Double.NaN), new Double(Double.POSITIVE_INFINITY),
 				new Double(Double.NEGATIVE_INFINITY), new Double(Double.MAX_VALUE), new Double(Double.MIN_VALUE) };
 		// Behavior change, will return null rather than throwing exception
-		resultObjectDecimal = new Object[] { null, null, null, new BigDecimal(Double.toString(Double.MAX_VALUE)),
-				new BigDecimal(Double.toString(Double.MIN_VALUE)) };
+		resultObjectDecimal = new Object[] { null, null, null, new BigDecimal(new Double(Double.MAX_VALUE).toString()),
+				new BigDecimal(new Double(Double.MIN_VALUE).toString()) };
 
 		// for test of toDouble
 		testObjectDouble = new Object[] { new Float(1), };
@@ -154,7 +153,6 @@ public class DataTypeUtilTest extends TestCase {
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	@Override
 	@After
 	public void tearDown() throws Exception {
 		testObject = null;
@@ -166,14 +164,12 @@ public class DataTypeUtilTest extends TestCase {
 		for (int i = 0; i < testObject.length; i++) {
 			try {
 				result = DataTypeUtil.toInteger(testObject[i]);
-				if (resultInteger[i] instanceof Exception) {
+				if (resultInteger[i] instanceof Exception)
 					fail("Should throw Exception.");
-				}
 				assertEquals(result, resultInteger[i]);
 			} catch (BirtException e) {
-				if (!(resultInteger[i] instanceof Exception)) {
+				if (!(resultInteger[i] instanceof Exception))
 					fail("Should not throw Exception.");
-				}
 			}
 		}
 		assertEquals(new Integer(1), DataTypeUtil.toInteger("1.8", ULocale.US));
@@ -200,27 +196,23 @@ public class DataTypeUtilTest extends TestCase {
 		for (int i = 0; i < testObject.length; i++) {
 			try {
 				result = DataTypeUtil.toBigDecimal(testObject[i]);
-				if (resultBigDecimal[i] instanceof Exception) {
+				if (resultBigDecimal[i] instanceof Exception)
 					fail("Should throw Exception.");
-				}
 				assertEquals(result, resultBigDecimal[i]);
 			} catch (BirtException e) {
-				if (!(resultBigDecimal[i] instanceof Exception)) {
+				if (!(resultBigDecimal[i] instanceof Exception))
 					fail("Should not throw Exception.");
-				}
 			}
 		}
 		for (int i = 0; i < testObjectDecimal.length; i++) {
 			try {
 				result = DataTypeUtil.toBigDecimal(testObjectDecimal[i]);
-				if (resultObjectDecimal[i] instanceof Exception) {
+				if (resultObjectDecimal[i] instanceof Exception)
 					fail("Should throw Exception.");
-				}
 				assertEquals(result, resultObjectDecimal[i]);
 			} catch (BirtException e) {
-				if (!(resultObjectDecimal[i] instanceof Exception)) {
+				if (!(resultObjectDecimal[i] instanceof Exception))
 					fail("Should not throw Exception.");
-				}
 			} catch (Exception e) {
 				fail("Should throw BirtException.");
 			}
@@ -234,14 +226,12 @@ public class DataTypeUtilTest extends TestCase {
 			System.out.println(i);
 			try {
 				result = DataTypeUtil.toBoolean(testObject[i]);
-				if (resultBoolean[i] instanceof Exception) {
+				if (resultBoolean[i] instanceof Exception)
 					fail("Should throw Exception.");
-				}
 				assertEquals(result, resultBoolean[i]);
 			} catch (BirtException dteEx) {
-				if (!(resultBoolean[i] instanceof Exception)) {
+				if (!(resultBoolean[i] instanceof Exception))
 					fail("Should not throw Exception.");
-				}
 			}
 		}
 
@@ -370,15 +360,13 @@ public class DataTypeUtilTest extends TestCase {
 		for (int i = 0; i < testObject.length; i++) {
 			try {
 				result = DataTypeUtil.toDate(testObject[i]);
-				if (resultDate[i] instanceof Exception) {
+				if (resultDate[i] instanceof Exception)
 					fail("Should throw Exception.");
-				}
 				assertEquals(result, resultDate[i]);
 
 			} catch (BirtException e) {
-				if (!(resultDate[i] instanceof Exception)) {
+				if (!(resultDate[i] instanceof Exception))
 					fail("Should not throw Exception.");
-				}
 			}
 
 		}
@@ -569,27 +557,23 @@ public class DataTypeUtilTest extends TestCase {
 		for (int i = 0; i < testObject.length; i++) {
 			try {
 				result = DataTypeUtil.toDouble(testObject[i]);
-				if (resultDouble[i] instanceof Exception) {
+				if (resultDouble[i] instanceof Exception)
 					fail("Should throw exception for " + i + "th object");
-				}
 				assertEquals(result, resultDouble[i]);
 			} catch (BirtException e) {
-				if (!(resultDouble[i] instanceof Exception)) {
+				if (!(resultDouble[i] instanceof Exception))
 					fail("Should not throw exception for " + i + "th object");
-				}
 			}
 		}
 		for (int i = 0; i < testObjectDouble.length; i++) {
 			try {
 				result = DataTypeUtil.toDouble(testObjectDouble[i]);
-				if (resultObjectDouble[i] instanceof Exception) {
+				if (resultObjectDouble[i] instanceof Exception)
 					fail("Should throw exception for " + i + "th object");
-				}
 				assertEquals(result, resultObjectDouble[i]);
 			} catch (BirtException e) {
-				if (!(resultObjectDouble[i] instanceof Exception)) {
+				if (!(resultObjectDouble[i] instanceof Exception))
 					fail("Should not throw exception for " + i + "th object");
-				}
 			} catch (Exception e) {
 				fail("Should throw BirtException.");
 			}
@@ -634,9 +618,8 @@ public class DataTypeUtilTest extends TestCase {
 		for (int i = 0; i < testObject.length; i++) {
 			try {
 				result = DataTypeUtil.toString(testObject[i]);
-				if (resultString[i] instanceof Exception) {
+				if (resultString[i] instanceof Exception)
 					fail("Should throw Exception.");
-				}
 				if (testObject[i] instanceof Double) {
 					result = DataTypeUtil.toDouble(result).toString();
 				} else if (testObject[i] instanceof Integer || testObject[i] instanceof BigDecimal) {
@@ -647,9 +630,8 @@ public class DataTypeUtilTest extends TestCase {
 				Object expected = resultString[i];
 				assertEquals(expected, result);
 			} catch (BirtException e) {
-				if (!(resultString[i] instanceof Exception)) {
+				if (!(resultString[i] instanceof Exception))
 					fail("Should not throw Exception.");
-				}
 			}
 		}
 	}
@@ -663,24 +645,21 @@ public class DataTypeUtilTest extends TestCase {
 		for (int i = 0; i < testObject.length; i++) {
 			try {
 				result = DataTypeUtil.toLocaleNeutralString(testObject[i]);
-				if (resultLocaleNeutralString[i] instanceof Exception) {
+				if (resultLocaleNeutralString[i] instanceof Exception)
 					fail("Should throw Exception.");
-				}
 				if (testObject[i] instanceof Double) {
 					result = DataTypeUtil.toDouble(result).toString();
 				} else if (testObject[i] instanceof Integer || testObject[i] instanceof BigDecimal) {
 					result = DataTypeUtil.toInteger(result).toString();
 				}
 
-				if (i == 9) {
+				if (i == 9)
 					assertEquals(result.replaceFirst("[+-]\\d{4}", ""), resultLocaleNeutralString[i]);
-				} else {
+				else
 					assertEquals(result, resultLocaleNeutralString[i]);
-				}
 			} catch (BirtException e) {
-				if (!(resultLocaleNeutralString[i] instanceof Exception)) {
+				if (!(resultLocaleNeutralString[i] instanceof Exception))
 					fail("Should not throw Exception.");
-				}
 			}
 		}
 	}
@@ -852,7 +831,6 @@ public class DataTypeUtilTest extends TestCase {
 		 *
 		 * @see org.mozilla.javascript.Wrapper#unwrap()
 		 */
-		@Override
 		public Object unwrap() {
 			return "I am an unwrapped object";
 		}
@@ -863,7 +841,6 @@ public class DataTypeUtilTest extends TestCase {
 		 * @see org.mozilla.javascript.Scriptable#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public Object get(String name, Scriptable start) {
 			return "I am an unwrapped object";
 		}
@@ -873,7 +850,6 @@ public class DataTypeUtilTest extends TestCase {
 		 *
 		 * @see org.mozilla.javascript.Scriptable#getClassName()
 		 */
-		@Override
 		public String getClassName() {
 			return "WrappedObject";
 		}
@@ -884,7 +860,6 @@ public class DataTypeUtilTest extends TestCase {
 		 * @see org.mozilla.javascript.Scriptable#has(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public boolean has(String name, Scriptable start) {
 			return true;
 		}
@@ -895,7 +870,6 @@ public class DataTypeUtilTest extends TestCase {
 		 * @see org.mozilla.javascript.Scriptable#put(java.lang.String,
 		 * org.mozilla.javascript.Scriptable, java.lang.Object)
 		 */
-		@Override
 		public void put(String name, Scriptable start, Object value) {
 			// do nothing
 		}

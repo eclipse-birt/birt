@@ -1,16 +1,16 @@
 /*
  *************************************************************************
  * Copyright (c) 2008, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
@@ -42,12 +42,11 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog implements IContent
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog#
 	 * createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Control createDialogArea(Composite parent) {
 		setParentShell(parent.getShell());
 
@@ -61,42 +60,38 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog implements IContent
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog#
 	 * createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		// override base class dialog to not create additional buttons
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog#
 	 * buttonPressed(int)
 	 */
-	@Override
 	protected void buttonPressed(int buttonId) {
 		// override base class dialog to no-op since no additional buttons were created
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb.
 	 * SQLBuilderDialog#setInput(org.eclipse.datatools.sqltools.sqlbuilder.input.
 	 * ISQLBuilderEditorInput)
 	 */
-	@Override
 	public boolean setInput(ISQLBuilderEditorInput editorInput) {
 		try {
 			boolean isInputLoaded = super.setInput(editorInput);
-			if (isInputLoaded) {
+			if (isInputLoaded)
 				setDbDefinitionInSqlSourceFormat(getSQLBuilder().getDomainModel());
-			}
 			return isInputLoaded;
 		} catch (RuntimeException ex) {
 			// TODO logging
@@ -106,13 +101,11 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog implements IContent
 	}
 
 	private void setDbDefinitionInSqlSourceFormat(SQLDomainModel sqm) {
-		if (sqm == null) {
+		if (sqm == null)
 			return; // nothing to set
-		}
 		DatabaseDefinition dbDefn = sqm.getDatabaseDefinition();
-		if (dbDefn == null) {
+		if (dbDefn == null)
 			return; // nothing to set
-		}
 
 		// replace the query's SQLQuerySourceFormat with custom one
 		CustomQuerySourceFormat extendedSourceFormat = new CustomQuerySourceFormat(sqm.getSqlSourceFormat(), dbDefn);
@@ -134,9 +127,8 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog implements IContent
 
 	private SQLBuilderDesignState getSQLBuilderState(String sqbInputName) {
 		SQLBuilder sqlBuilder = getSQLBuilder();
-		if (sqlBuilder == null) {
+		if (sqlBuilder == null)
 			return null; // no SQLBuilder to get state from
-		}
 
 		// Create a SQBDesignerState from the SQLBuilder in this dialog area
 		return new SQLBuilderDesignState(sqbInputName, sqlBuilder);
@@ -148,9 +140,8 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog implements IContent
 	}
 
 	private void refreshSQLQueryStatement() {
-		if (!isDirty()) {
+		if (!isDirty())
 			return; // no need to refresh
-		}
 
 		// interim workaround for Bugzilla 229229;
 		// force re-parse to get an updated QueryStatement
@@ -167,7 +158,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog implements IContent
 
 	/**
 	 * Marks the dialog to have a changed state.
-	 *
+	 * 
 	 * @param dirty
 	 */
 	public void setDirty(boolean dirty) {
@@ -176,32 +167,29 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog implements IContent
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog#
 	 * isDirty()
 	 */
-	@Override
 	public boolean isDirty() {
 		return getSQLBuilder().isDirty();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.datatools.sqltools.sqlbuilder.IContentChangeListener#
 	 * notifyContentChange()
 	 */
-	@Override
 	public void notifyContentChange() {
 		updateDirtyStatus();
 	}
 
 	private void updateDirtyStatus() {
 		Shell dialogShell = getParentShell();
-		if (dialogShell == null || dialogShell.getText() == null) {
+		if (dialogShell == null || dialogShell.getText() == null)
 			return;
-		}
 
 		String currentTitle = dialogShell.getText();
 		if (isDirty()) {
@@ -215,12 +203,11 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog implements IContent
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog#
 	 * close()
 	 */
-	@Override
 	public boolean close() {
 		getSQLBuilder().removeContentChangeListener(this);
 		return super.close();

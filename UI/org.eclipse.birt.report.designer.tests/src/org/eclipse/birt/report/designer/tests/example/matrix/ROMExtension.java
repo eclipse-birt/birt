@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public class ROMExtension extends ReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IElementFactory#getIcon()
 	 */
 
@@ -57,20 +57,19 @@ public class ROMExtension extends ReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.model.extension.IElementFactory#newElement(org.eclipse.birt.
 	 * model.api.ReportDesignHandle)
 	 */
 
-	@Override
 	public IReportItem newReportItem(DesignElementHandle item) {
 		return new ExtendedElement(this, item);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementFactory#getName()
 	 */
 
@@ -80,7 +79,7 @@ public class ROMExtension extends ReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementFactory#getDisplayName()
 	 */
 
@@ -92,7 +91,7 @@ public class ROMExtension extends ReportItemFactory {
 
 	/**
 	 * Returns the localized message.
-	 *
+	 * 
 	 * @param key the resource key
 	 * @return the localized message
 	 */
@@ -103,11 +102,10 @@ public class ROMExtension extends ReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()
 	 */
 
-	@Override
 	public IMessages getMessages() {
 		return messages;
 	}

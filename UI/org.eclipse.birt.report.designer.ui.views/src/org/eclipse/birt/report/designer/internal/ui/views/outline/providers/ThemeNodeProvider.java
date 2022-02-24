@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -39,7 +39,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with theme node
- *
+ * 
  */
 public class ThemeNodeProvider extends DefaultNodeProvider {
 
@@ -47,11 +47,10 @@ public class ThemeNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
-	 *
+	 * 
 	 * @param object the object
 	 * @param menu   the menu
 	 */
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		if (canContain(object)) {
 			InsertAction newStyleAction = new InsertAction(object,
@@ -77,12 +76,10 @@ public class ThemeNodeProvider extends DefaultNodeProvider {
 		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new UseCssStyleAction(object));
 	}
 
-	@Override
 	public String getNodeDisplayName(Object model) {
 		return ((ThemeHandle) model).getDisplayLabel();
 	}
 
-	@Override
 	protected DesignElementHandle createElement(ElementDetailHandle slotHandle, String type) throws Exception {
 		ThemeHandle theme = (ThemeHandle) slotHandle.getElementHandle();
 		DesignElementFactory factory = DesignElementFactory
@@ -100,11 +97,10 @@ public class ThemeNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.views.INodeProvider#getChildren(java
 	 * .lang.Object)
 	 */
-	@Override
 	public Object[] getChildren(Object model) {
 
 		if (model instanceof ThemeHandle) {

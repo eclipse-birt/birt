@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -25,20 +25,20 @@ public class Point {
 
 	/**
 	 * The X coordinate of this <code>Location</code>.
-	 *
+	 * 
 	 */
 	public double x;
 
 	/**
 	 * The Y coordinate of this <code>Location</code>.
-	 *
+	 * 
 	 */
 	public double y;
 
 	/**
 	 * Constructs and initializes a <code>Location</code> with coordinates
 	 * (0,&nbsp;0).
-	 *
+	 * 
 	 */
 	public Point() {
 	}
@@ -51,10 +51,10 @@ public class Point {
 	/**
 	 * Constructs and initializes a <code>Location</code> with the specified
 	 * coordinates.
-	 *
+	 * 
 	 * @param x,&nbsp;y the coordinates to which to set the newly constructed
 	 *                  <code>Location</code>
-	 *
+	 * 
 	 */
 	public Point(double x, double y) {
 		this.x = x;
@@ -64,9 +64,9 @@ public class Point {
 	/**
 	 * Returns the X coordinate of this <code>Location</code> in <code>double</code>
 	 * precision.
-	 *
+	 * 
 	 * @return the X coordinate of this <code>Location</code>.
-	 *
+	 * 
 	 */
 	public double getX() {
 		return x;
@@ -75,9 +75,9 @@ public class Point {
 	/**
 	 * Returns the Y coordinate of this <code>Location</code> in <code>double</code>
 	 * precision.
-	 *
+	 * 
 	 * @return the Y coordinate of this <code>Location</code>.
-	 *
+	 * 
 	 */
 	public double getY() {
 		return y;
@@ -86,9 +86,9 @@ public class Point {
 	/**
 	 * Sets the location of this <code>Location</code> to the specified
 	 * <code>double</code> coordinates.
-	 *
+	 * 
 	 * @param x,&nbsp;y the coordinates to which to set this <code>Location</code>
-	 *
+	 * 
 	 */
 	public void setLocation(double x, double y) {
 		this.x = x;
@@ -98,11 +98,10 @@ public class Point {
 	/**
 	 * Returns a <code>String</code> that represents the value of this
 	 * <code>Location</code>.
-	 *
+	 * 
 	 * @return a string representation of this <code>Location</code>.
-	 *
+	 * 
 	 */
-	@Override
 	public String toString() {
 		return "Location[" + x + ", " + y + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}

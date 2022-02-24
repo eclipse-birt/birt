@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -78,7 +78,7 @@ import com.ibm.icu.util.ULocale;
 public class SVGInteractiveRenderer {
 
 	private Map<Series, List<String>> labelPrimitives = SecurityUtil.newHashtable();
-	private List<String> scripts = new Vector<>();
+	private List<String> scripts = new Vector<String>();
 	/**
 	 * Element that represents the hot spot layer
 	 */
@@ -88,7 +88,7 @@ public class SVGInteractiveRenderer {
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.svg/trace"); //$NON-NLS-1$
 	SVGGraphics2D svg_g2d;
 	private IDeviceRenderer device;
-	private List<CacheEvent> cacheEvents = new ArrayList<>();
+	private List<CacheEvent> cacheEvents = new ArrayList<CacheEvent>();
 
 	private String defaultCursor = "cursor:pointer"; //$NON-NLS-1$
 
@@ -96,7 +96,7 @@ public class SVGInteractiveRenderer {
 	 * Indicates if onload method of data points has been added. This map is used
 	 * for saving states of multiple series and data points.
 	 */
-	private Map<Object, Boolean> mapOnloadAdded = new HashMap<>();
+	private Map<Object, Boolean> mapOnloadAdded = new HashMap<Object, Boolean>();
 
 	private int iFirstDataPointIndex = -1;
 
@@ -116,7 +116,7 @@ public class SVGInteractiveRenderer {
 	 * Groups the svg drawing instructions that represents this primitive events.
 	 * Each group is assigned an id that identifies the source object of the
 	 * primitive event
-	 *
+	 * 
 	 * @param pre      primitive render event
 	 * @param drawText TODO
 	 */
@@ -161,7 +161,7 @@ public class SVGInteractiveRenderer {
 					String id = Integer.toString(pre.hashCode());
 					List<String> components = labelPrimitives.get(seDT);
 					if (components == null) {
-						components = new ArrayList<>();
+						components = new ArrayList<String>();
 						labelPrimitives.put(seDT, components);
 					}
 
@@ -185,7 +185,7 @@ public class SVGInteractiveRenderer {
 					String id = Integer.toString(pre.hashCode());
 					List<String> components = componentPrimitives.get(seDT);
 					if (components == null) {
-						components = new ArrayList<>();
+						components = new ArrayList<String>();
 						componentPrimitives.put(seDT, components);
 					}
 
@@ -224,7 +224,7 @@ public class SVGInteractiveRenderer {
 					String id = Integer.toString(pre.hashCode());
 					List<String> components = componentPrimitives.get(designObject);
 					if (components == null) {
-						components = new ArrayList<>();
+						components = new ArrayList<String>();
 						componentPrimitives.put(designObject, components);
 					}
 
@@ -251,7 +251,7 @@ public class SVGInteractiveRenderer {
 
 	/**
 	 * UnGroups the svg drawing instructions that represents this primitive events.
-	 *
+	 * 
 	 * @param pre      primitive render event
 	 * @param drawText TODO
 	 */
@@ -273,13 +273,15 @@ public class SVGInteractiveRenderer {
 					svg_g2d.setDeferStrokColor(null);
 					svg_g2d.popParent();
 				}
-			} else // check to see if this is the title block
-			if ((getElementFromSource(sourceObject, StructureType.TITLE) != null)
-					|| (getElementFromSource(sourceObject, StructureType.AXIS) != null)
-					|| (getElementFromSource(sourceObject, StructureType.CHART_BLOCK) != null)
-					|| (getElementFromSource(sourceObject, StructureType.PLOT) != null)) {
-				svg_g2d.setDeferStrokColor(null);
-				svg_g2d.popParent();
+			} else {
+				// check to see if this is the title block
+				if ((getElementFromSource(sourceObject, StructureType.TITLE) != null)
+						|| (getElementFromSource(sourceObject, StructureType.AXIS) != null)
+						|| (getElementFromSource(sourceObject, StructureType.CHART_BLOCK) != null)
+						|| (getElementFromSource(sourceObject, StructureType.PLOT) != null)) {
+					svg_g2d.setDeferStrokColor(null);
+					svg_g2d.popParent();
+				}
 			}
 
 		}
@@ -288,7 +290,7 @@ public class SVGInteractiveRenderer {
 	/**
 	 * Helper function that will determine if the source object is a series
 	 * component of the chart.
-	 *
+	 * 
 	 * @param src StructureSource that is stored in the primitive render event.
 	 * @return true if the object or its parent is a series component.
 	 */
@@ -302,22 +304,20 @@ public class SVGInteractiveRenderer {
 				if (wss.getParent().getType() == type) {
 					return wss.getParent().getSource();
 				}
-				if (wss.getParent() instanceof WrappedStructureSource) {
+				if (wss.getParent() instanceof WrappedStructureSource)
 					wss = (WrappedStructureSource) wss.getParent();
-				} else {
+				else
 					wss = null;
-				}
 			}
-		} else if (src.getType() == type) {
+		} else if (src.getType() == type)
 			return src.getSource();
-		}
 		return null;
 	}
 
 	/**
 	 * Locates a category design-time series corresponding to a given cloned
 	 * run-time series.
-	 *
+	 * 
 	 * @param seDT runtime Series
 	 * @return category Series
 	 */
@@ -521,9 +521,8 @@ public class SVGInteractiveRenderer {
 					multipleTypes = true;
 					break;
 				}
-				if (multipleTypes) {
+				if (multipleTypes)
 					break;
-				}
 			}
 			if (multipleTypes) {
 				callbackFunction.append(getJSCodeFunctionSuffix(src));
@@ -574,15 +573,16 @@ public class SVGInteractiveRenderer {
 
 			if (scriptEvent.equals("onmouseover")) {//$NON-NLS-1$
 				elm.setAttribute("onmouseout", "TM.remove()"); //$NON-NLS-1$ //$NON-NLS-2$
-				if (componentId != null) {
+				if (componentId != null)
 					elm.setAttribute("onmousemove", "TM.show(evt," + componentId + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				} else {
+				else
 					elm.setAttribute("onmousemove", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
-				}
-			} else if (componentId != null) {
-				elm.setAttribute(scriptEvent, wrapJS(bDblClick, "TM.toggleToolTip(evt," + componentId + ")")); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
-				elm.setAttribute(scriptEvent, wrapJS(bDblClick, "TM.toggleToolTip(evt)")); //$NON-NLS-1$
+				if (componentId != null) {
+					elm.setAttribute(scriptEvent, wrapJS(bDblClick, "TM.toggleToolTip(evt," + componentId + ")")); //$NON-NLS-1$ //$NON-NLS-2$
+				} else {
+					elm.setAttribute(scriptEvent, wrapJS(bDblClick, "TM.toggleToolTip(evt)")); //$NON-NLS-1$
+				}
 			}
 		}
 	}
@@ -688,7 +688,7 @@ public class SVGInteractiveRenderer {
 
 	/**
 	 * Returns the callback content of multiple actions.
-	 *
+	 * 
 	 * @param actions
 	 * @return
 	 */
@@ -752,7 +752,7 @@ public class SVGInteractiveRenderer {
 
 	/**
 	 * Set SVG attributes for multiple URL values.
-	 *
+	 * 
 	 * @param muv
 	 * @param elm
 	 * @param src
@@ -811,7 +811,7 @@ public class SVGInteractiveRenderer {
 
 	/**
 	 * Set SVG attributes for URL value.
-	 *
+	 * 
 	 * @param urlValue
 	 * @param elm
 	 * @param src
@@ -859,7 +859,7 @@ public class SVGInteractiveRenderer {
 
 	/**
 	 * Set tooltip for URLRedirect action event.
-	 *
+	 * 
 	 * @param elm
 	 * @param src
 	 * @param urlValue
@@ -872,7 +872,7 @@ public class SVGInteractiveRenderer {
 
 	/**
 	 * Set tooltip for URLRedirect action event.
-	 *
+	 * 
 	 * @param elm
 	 * @param src
 	 * @param urlValue
@@ -891,18 +891,17 @@ public class SVGInteractiveRenderer {
 			}
 
 			elm.setAttribute("onmouseout", "TM.remove()"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (componentId != null) {
+			if (componentId != null)
 				elm.setAttribute("onmousemove", "TM.show(evt," + componentId + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			} else {
+			else
 				elm.setAttribute("onmousemove", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
 
 		}
 	}
 
 	/**
 	 * Locates a design-time series corresponding to a given cloned run-time series.
-	 *
+	 * 
 	 * @param seRT
 	 * @return
 	 */
@@ -1132,7 +1131,7 @@ public class SVGInteractiveRenderer {
 			// series
 			if (isColoredByCategories()) {
 				seDT = findCategorySeries(seRT);
-				StringBuilder sb = new StringBuilder();
+				StringBuffer sb = new StringBuffer();
 				sb.append(seDT.hashCode());
 				sb.append("index"); //$NON-NLS-1$
 				// Bugzilla#192240 always use the first index to concatenate
@@ -1405,9 +1404,8 @@ public class SVGInteractiveRenderer {
 		if (iter != null) {
 			while (iter.hasNext()) {
 				sb.append("'").append(iter.next()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-				if (iter.hasNext()) {
+				if (iter.hasNext())
 					sb.append(","); //$NON-NLS-1$
-				}
 			}
 		}
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,7 +36,7 @@ public class ReportParameter implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this ReportParameter.
-	 *
+	 * 
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -45,7 +45,7 @@ public class ReportParameter implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this ReportParameter.
-	 *
+	 * 
 	 * @param name
 	 */
 	public void setName(java.lang.String name) {
@@ -54,7 +54,7 @@ public class ReportParameter implements java.io.Serializable {
 
 	/**
 	 * Gets the promptString value for this ReportParameter.
-	 *
+	 * 
 	 * @return promptString
 	 */
 	public java.lang.String getPromptString() {
@@ -63,7 +63,7 @@ public class ReportParameter implements java.io.Serializable {
 
 	/**
 	 * Sets the promptString value for this ReportParameter.
-	 *
+	 * 
 	 * @param promptString
 	 */
 	public void setPromptString(java.lang.String promptString) {
@@ -72,7 +72,7 @@ public class ReportParameter implements java.io.Serializable {
 
 	/**
 	 * Gets the defaultValue value for this ReportParameter.
-	 *
+	 * 
 	 * @return defaultValue
 	 */
 	public java.lang.String getDefaultValue() {
@@ -81,7 +81,7 @@ public class ReportParameter implements java.io.Serializable {
 
 	/**
 	 * Sets the defaultValue value for this ReportParameter.
-	 *
+	 * 
 	 * @param defaultValue
 	 */
 	public void setDefaultValue(java.lang.String defaultValue) {
@@ -90,18 +90,14 @@ public class ReportParameter implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ReportParameter)) {
+		if (!(obj instanceof ReportParameter))
 			return false;
-		}
 		ReportParameter other = (ReportParameter) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -120,7 +116,6 @@ public class ReportParameter implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

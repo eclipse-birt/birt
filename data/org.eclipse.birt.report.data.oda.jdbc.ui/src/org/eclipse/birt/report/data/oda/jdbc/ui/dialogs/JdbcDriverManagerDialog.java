@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (C) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -121,7 +121,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param parentShell
 	 */
 	public JdbcDriverManagerDialog(Shell parentShell) {
@@ -134,10 +134,9 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.window.Window#create()
 	 */
-	@Override
 	public void create() {
 		super.create();
 
@@ -149,12 +148,11 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		tabFolder = new TabFolder(composite, SWT.TOP);
@@ -164,7 +162,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		addTabPages(tabFolder);
 		tabFolder.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetSelected(SelectionEvent event) {
 				int index = tabFolder.getSelectionIndex();
 				if (index == 1) {
@@ -172,7 +169,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 				}
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -187,7 +183,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/**
 	 * Add jarPage and driverPage
-	 *
+	 * 
 	 * @param tabFolder parent Composite
 	 */
 	private void addTabPages(TabFolder tabFolder) {
@@ -212,7 +208,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/**
 	 * add Jar Page to the Dialog
-	 *
+	 * 
 	 * @param tabFolder
 	 */
 	private void addJarPage(TabFolder tabFolder) {
@@ -245,13 +241,11 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		column1.addSelectionListener(new SelectionListener() {
 			private boolean asc = false;
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sortJar(1, asc);
 				asc = !asc;
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -263,13 +257,11 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		column2.addSelectionListener(new SelectionListener() {
 			private boolean asc = false;
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sortJar(2, asc);
 				asc = !asc;
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -278,7 +270,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		jarViewer = new TableViewer(table);
 		jarViewer.setContentProvider(new IStructuredContentProvider() {
 
-			@Override
 			public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof Map) {
 					return ((Map) inputElement).entrySet().toArray();
@@ -287,11 +278,9 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 				return new Object[0];
 			}
 
-			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 
-			@Override
 			public void dispose() {
 			}
 		});
@@ -300,7 +289,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 		jarViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateJarButtons();
 			}
@@ -330,7 +318,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		addButton.setLayoutData(data);
 		addButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addJars();
 			}
@@ -343,7 +330,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		restoreButton.setLayoutData(data);
 		restoreButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				restoreJars();
 			}
@@ -356,7 +342,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		deleteButton.setLayoutData(data);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				deleteJars();
 			}
@@ -369,7 +354,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/**
 	 * Add Driver Page to the Dialog
-	 *
+	 * 
 	 * @param tabFolder tab Composite
 	 */
 	private void addDriverPage(TabFolder tabFolder) {
@@ -402,13 +387,11 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		column1.addSelectionListener(new SelectionListener() {
 			private boolean asc = false;
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sortDriver(1, asc);
 				asc = !asc;
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -420,13 +403,11 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		column2.addSelectionListener(new SelectionListener() {
 			private boolean asc = false;
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sortDriver(2, asc);
 				asc = !asc;
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -438,13 +419,11 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		column3.addSelectionListener(new SelectionListener() {
 			private boolean asc = false;
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sortDriver(3, asc);
 				asc = !asc;
 			}
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -453,7 +432,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		driverViewer = new TableViewer(table);
 		driverViewer.setContentProvider(new IStructuredContentProvider() {
 
-			@Override
 			public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof Map) {
 					return ((Map) inputElement).entrySet().toArray();
@@ -461,11 +439,9 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 				return new Object[0];
 			}
 
-			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 
-			@Override
 			public void dispose() {
 			}
 		});
@@ -474,14 +450,12 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 		driverViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateDriverButtons();
 			}
 		});
 		driverViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				editDriver();
 			}
@@ -502,7 +476,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		editButton.setLayoutData(data);
 		editButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editDriver();
 			}
@@ -546,7 +519,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 			File[] jars = jarPath.listFiles(new FileFilter() {
 				Map deletedJars = Utility.getPreferenceStoredMap(JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY);
 
-				@Override
 				public boolean accept(File pathname) {
 					if (pathname.exists() && pathname.isFile() && (!deletedJars.containsKey(pathname.getName()))
 							&& (pathname.getName().endsWith(".jar") || pathname.getName().endsWith(".zip"))) //$NON-NLS-1$
@@ -558,9 +530,8 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 				}
 			});
 
-			for (int i = 0; i < jars.length; i++) {
+			for (int i = 0; i < jars.length; i++)
 				jarMap.put(jars[i].getName(), new JarFile(jars[i].getName(), jars[i].getAbsolutePath(), "", false));
-			}
 
 		}
 
@@ -571,7 +542,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/**
 	 * Carry out sort operation against certain driver column
-	 *
+	 * 
 	 * @param columnIndex the column based on which the sort operation would be
 	 *                    carried out
 	 * @param asc         the sort direction
@@ -582,24 +553,21 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 			/*
 			 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 			 */
-			@Override
 			public int compare(Object o1, Object o2) {
 				String source = (String) o1;
 				String target = (String) o2;
 				int result = 0;
-				if (columnIndex == 1) {
+				if (columnIndex == 1)
 					result = this.compareStr(getDriverClassName(source), getDriverClassName(target));
-				} else if (columnIndex == 2) {
+				else if (columnIndex == 2)
 					result = this.compareStr(getDisplayName(source), getDisplayName(target));
-				} else if (columnIndex == 3) {
+				else if (columnIndex == 3)
 					result = this.compareStr(getUrlTemplate(source), getUrlTemplate(target));
-				}
 
-				if (!asc) {
+				if (!asc)
 					return result;
-				} else {
+				else
 					return result *= -1;
-				}
 			}
 
 			/**
@@ -631,21 +599,20 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 */
 	private String getDriverClassName(String source) {
 		int index = source.lastIndexOf("=");
-		if (index != -1 && driverMap.containsKey(source.substring(0, index))) {
+		if (index != -1 && driverMap.containsKey(source.substring(0, index)))
 			return source.substring(0, index);
-		} else {
+		else
 			return source;
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 */
@@ -655,7 +622,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 */
@@ -666,7 +633,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/**
 	 * Carry out sort operation against certain jar column
-	 *
+	 * 
 	 * @param columnIndex the column based on which the sort operation would be
 	 *                    carried out
 	 * @param asc         the sort direction
@@ -677,22 +644,19 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 			/*
 			 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 			 */
-			@Override
 			public int compare(Object o1, Object o2) {
 				String source = (String) o1;
 				String target = (String) o2;
 				int result = 0;
-				if (columnIndex == 1) {
+				if (columnIndex == 1)
 					result = this.compareStr(getFileName(source), getFileName(target));
-				} else if (columnIndex == 2) {
+				else if (columnIndex == 2)
 					result = this.compareStr(getFilePath(source), getFilePath(target));
-				}
 
-				if (!asc) {
+				if (!asc)
 					return result;
-				} else {
+				else
 					return result *= -1;
-				}
 			}
 
 			/**
@@ -709,21 +673,20 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 */
 	private String getFileName(String source) {
 		int index = source.lastIndexOf("=");
-		if (index != -1 && jarMap.containsKey(source.substring(0, index))) {
+		if (index != -1 && jarMap.containsKey(source.substring(0, index)))
 			return source.substring(0, index);
-		} else {
+		else
 			return source;
-		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 */
@@ -795,9 +758,8 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 	 * update driverMap at runtime
 	 */
 	private void updateDriverMapRuntime() {
-		if (jarsToBeCopiedRuntime.equals(jarsToBeDeletedRuntime)) {
+		if (jarsToBeCopiedRuntime.equals(jarsToBeDeletedRuntime))
 			return;
-		}
 
 		// add drivers in to be copied Jars
 		List fileList = new ArrayList();
@@ -840,7 +802,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param driverList
 	 */
 	private void updateDriverMap(List driverList) {
@@ -1115,7 +1077,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/**
 	 * check if reset preferences is needed
-	 *
+	 * 
 	 * @return
 	 */
 	public static boolean needResetPreferences() {
@@ -1124,7 +1086,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/**
 	 * reset DriverChanged Status back to false
-	 *
+	 * 
 	 */
 	public static void resetDriverChangedStatus() {
 		driverChanged = false;
@@ -1132,10 +1094,9 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
 	 */
-	@Override
 	protected void cancelPressed() {
 		super.cancelPressed();
 		JdbcToolKit.discardAddedInDrivers();
@@ -1143,10 +1104,9 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		if (!jarChanged && jarsToBeCopied.size() == 0 && jarsToBeDeleted.size() == 0
 				&& jarsToBeCopiedRuntime.size() == 0 && jarsToBeDeletedRuntime.size() == 0) {
@@ -1240,7 +1200,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 		/**
 		 * The constructor.
-		 *
+		 * 
 		 * @param parentShell
 		 */
 		public EditJdbcDriverDialog(Shell parentShell) {
@@ -1249,10 +1209,9 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.window.Window#create()
 		 */
-		@Override
 		public void create() {
 			super.create();
 
@@ -1264,12 +1223,11 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 		 * Composite)
 		 */
-		@Override
 		protected Control createDialogArea(Composite parent) {
 			Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -1294,7 +1252,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 			displayNameText.setText(displayName);
 			displayNameText.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					displayName = displayNameText.getText();
 				}
@@ -1308,7 +1265,6 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 			templateText.setText(template);
 			templateText.addModifyListener(new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					template = templateText.getText();
 				}
@@ -1318,7 +1274,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param name
 		 */
 		void setDriverClassName(String name) {
@@ -1330,7 +1286,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param name
 		 */
 		void setDisplayName(String name) {
@@ -1342,7 +1298,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param name
 		 */
 		void setUrlTemplate(String name) {
@@ -1354,7 +1310,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		}
 
 		/**
-		 *
+		 * 
 		 * @return
 		 */
 		String getDisplayName() {
@@ -1362,7 +1318,7 @@ public class JdbcDriverManagerDialog extends TrayDialog {
 		}
 
 		/**
-		 *
+		 * 
 		 * @return
 		 */
 		String getUrlTemplate() {

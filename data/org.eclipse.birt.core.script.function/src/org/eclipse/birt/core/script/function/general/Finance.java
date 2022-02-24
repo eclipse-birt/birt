@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 /**
  * Defines a set of static methods that support a number of widely-used
  * financial functions.
- *
+ * 
  */
 public class Finance {
 	private static final String DDB = "ddb";
@@ -49,16 +49,14 @@ public class Finance {
 	}
 
 	private static double getDouble(Object o) throws BirtException {
-		if (o == null) {
+		if (o == null)
 			return Double.NaN;
-		}
 		return DataTypeUtil.toDouble(o);
 	}
 
 	private static int getInteger(Object o) throws BirtException {
-		if (o == null) {
+		if (o == null)
 			return 0;
-		}
 		return DataTypeUtil.toInteger(o);
 	}
 
@@ -70,16 +68,16 @@ public class Finance {
 	 *                depreciated (sometimes called the useful life of the asset).
 	 * @param period  the period for which you want to calculate the depreciation.
 	 *                Period must use the same units as life.
-	 *
+	 * 
 	 * @return the depreciation of an asset for a given , single period using the
 	 *         double-declning balance method Remarks
-	 *
+	 * 
 	 *         The double-declining balance method computes depreciation at an
 	 *         accelerated rate. Depreciation is highest in the first period and
 	 *         decreases in successive periods. DDB uses the following formula to
 	 *         calculate depreciation for a period: ((cost-salvage) - total
 	 *         depreciation from prior periods) * (factor/life)
-	 *
+	 * 
 	 *         Change factor if you do not want to use the double-declining balance
 	 *         method. Use the VDB function if you want to switch to the
 	 *         straight-line depreciation method when depreciation is greater than
@@ -109,12 +107,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 4) {
+			if (arguments == null || arguments.length != 4)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.ddb()");
-			}
 			return ddb(getDouble(arguments[0]), getDouble(arguments[1]), getDouble(arguments[2]),
 					getInteger(arguments[3]));
 		}
@@ -136,12 +132,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 3) {
+			if (arguments == null || arguments.length != 3)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.sln()");
-			}
 			return sln(getDouble(arguments[0]), getDouble(arguments[1]), getDouble(arguments[2]));
 		}
 	}
@@ -155,10 +149,10 @@ public class Finance {
 	 * @param period  the period and must use the same units as life.
 	 * @return sum-of-years'-digits deprciation of an asset for a specified period
 	 *         Remark
-	 *
+	 * 
 	 *         SYD is calculated as follows:
 	 *         SYD=(cost-salvage)*(life-per+1)*2/(life*(life+1))
-	 *
+	 * 
 	 */
 	static double syd(double cost, double salvage, double life, int period) throws IllegalArgumentException {
 		return (cost - salvage) * (life - period + 1) * 2 / (life * (life + 1));
@@ -168,12 +162,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 4) {
+			if (arguments == null || arguments.length != 4)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.syd()");
-			}
 			return syd(getDouble(arguments[0]), getDouble(arguments[1]), getDouble(arguments[2]),
 					getInteger(arguments[3]));
 		}
@@ -194,7 +186,7 @@ public class Finance {
 	 * @return the future value of an annuity based on periodic , constant
 	 *         payments,and on an unvarying interest rate Make sure that you are
 	 *         consistent about the units you use for specifying rate and nper.
-	 *
+	 * 
 	 *         Remarks Make sure that you are consistent about the units you use for
 	 *         specifying rate and nper. If you make monthly payments on a four-year
 	 *         loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for
@@ -202,8 +194,8 @@ public class Finance {
 	 *         and 4 for nper. For all the arguments, cash you pay out, such as
 	 *         deposits to savings, is represented by negative numbers; cash you
 	 *         receive, such as dividend checks, is represented by positive numbers.
-	 *
-	 *
+	 * 
+	 * 
 	 */
 	static double fv(double rate, int nPer, double pmt, double pv, int due) throws IllegalArgumentException {
 
@@ -227,9 +219,8 @@ public class Finance {
 			throw (new IllegalArgumentException("There exists illegal parameter" + due));
 		}
 
-		for (int i = start; i <= end; i++) {
+		for (int i = start; i <= end; i++)
 			fv += Math.pow((1 + rate), i);
-		}
 
 		fv = fv * pmt;
 
@@ -243,12 +234,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 5) {
+			if (arguments == null || arguments.length != 5)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.fv()");
-			}
 			return fv(getDouble(arguments[0]), getInteger(arguments[1]), getDouble(arguments[2]),
 					getDouble(arguments[3]), getInteger(arguments[4]));
 		}
@@ -264,7 +253,7 @@ public class Finance {
 	 *             omitted, it is assumed to be 0.
 	 * @return the payment for an annuity, based on periodic , constant payments,
 	 *         and on an unvarying interest rate.
-	 *
+	 * 
 	 *         The payment returned by PMT includes principal and interest but no
 	 *         taxes, reserve payments, or fees sometimes associated with loans.
 	 *         Make sure that you are consistent about the units you use for
@@ -272,7 +261,7 @@ public class Finance {
 	 *         loan at an annual interest rate of 12 percent, use 12%/12 for rate
 	 *         and 4*12 for nper. If you make annual payments on the same loan, use
 	 *         12 percent for rate and 4 for nper.
-	 *
+	 * 
 	 */
 	static double pmt(double rate, int nper, double pv, double fv, int due) throws IllegalArgumentException {
 		double pmt;
@@ -298,12 +287,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 5) {
+			if (arguments == null || arguments.length != 5)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.pmt()");
-			}
 			return pmt(getDouble(arguments[0]), getInteger(arguments[1]), getDouble(arguments[2]),
 					getDouble(arguments[3]), getInteger(arguments[4]));
 		}
@@ -324,7 +311,7 @@ public class Finance {
 	 *             (the future value of a loan, for example, is 0).
 	 * @return the interest payment for a given period of an annuity, based on
 	 *         periodic , constant payments, and on an unvarying interest rate
-	 *
+	 * 
 	 *         Remarks Make sure that you are consistent about the units you use for
 	 *         specifying rate and nper. If you make monthly payments on a four-year
 	 *         loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for
@@ -345,9 +332,8 @@ public class Finance {
 		principal = Math.abs(pv);
 
 		for (int curper = 1; curper <= per; curper++) {
-			if (curper != 1 || due == 0) {
+			if (curper != 1 || due == 0)
 				ipmt = rate * principal;
-			}
 			ppmt = pmt - ipmt;
 			principal = principal - ppmt;
 		}
@@ -360,12 +346,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 6) {
+			if (arguments == null || arguments.length != 6)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.ipmt()");
-			}
 			return ipmt(getDouble(arguments[0]), getInteger(arguments[1]), getInteger(arguments[2]),
 					getDouble(arguments[3]), getDouble(arguments[4]), getInteger(arguments[5]));
 		}
@@ -386,13 +370,13 @@ public class Finance {
 	 *             (the future value of a loan, for example, is 0).
 	 * @return the principal payment for a given period of an annuity, based on
 	 *         periodic, constant payments, and on an unvarying interest rate
-	 *
+	 * 
 	 *         Remark Make sure that you are consistent about the units you use for
 	 *         specifying rate and nper. If you make monthly payments on a four-year
 	 *         loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for
 	 *         nper. If you make annual payments on the same loan, use 12% for rate
 	 *         and 4 for nper.
-	 *
+	 * 
 	 */
 	static double ppmt(double rate, int per, int nPer, double pv, double fv, int due) throws IllegalArgumentException {
 		double pmt;
@@ -418,12 +402,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 6) {
+			if (arguments == null || arguments.length != 6)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.ppmt()");
-			}
 			return ppmt(getDouble(arguments[0]), getInteger(arguments[1]), getInteger(arguments[2]),
 					getDouble(arguments[3]), getDouble(arguments[4]), getInteger(arguments[5]));
 		}
@@ -431,7 +413,7 @@ public class Finance {
 
 	/**
 	 * *
-	 *
+	 * 
 	 * @param rate the interest rate per period.
 	 * @param pv   the present value, or the lump-sum amount that a series of future
 	 *             payments is worth right now. If pv is omitted, it is assumed to
@@ -467,12 +449,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 5) {
+			if (arguments == null || arguments.length != 5)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.nper()");
-			}
 			return nper(getDouble(arguments[0]), getDouble(arguments[1]), getDouble(arguments[2]),
 					getDouble(arguments[3]), getInteger(arguments[4]));
 		}
@@ -494,7 +474,7 @@ public class Finance {
 	 *             formula for nper.
 	 * @return the present value of an annuity based on periodic, constant payments
 	 *         to be paid in the future,and on an unvarying interest rate
-	 *
+	 * 
 	 *         Remarks Make sure that you are consistent about the units you use for
 	 *         specifying rate and nper. If you make monthly payments on a four-year
 	 *         loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for
@@ -525,12 +505,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 5) {
+			if (arguments == null || arguments.length != 5)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.pv()");
-			}
 			return pv(getDouble(arguments[0]), getInteger(arguments[1]), getDouble(arguments[2]),
 					getDouble(arguments[3]), getInteger(arguments[4]));
 		}
@@ -580,11 +558,10 @@ public class Finance {
 			found = true;
 			return (rate);
 		}
-		if (diff1 * diff2 < 0) {
+		if (diff1 * diff2 < 0)
 			incr /= 10;
-		} else {
+		else
 			rate += incr;
-		}
 		return (solvePmt(nPer, true_pmt, loanamt, fv, due, rate, incr, ++attempt, found));
 	}
 
@@ -608,15 +585,15 @@ public class Finance {
 	 *              different values for guess. RATE usually converges if guess is
 	 *              between 0 and 1.
 	 * @return the interest rate per period for an annuity
-	 *
+	 * 
 	 *         Remark
-	 *
+	 * 
 	 *         Make sure that you are consistent about the units you use for
 	 *         specifying guess and nper. If you make monthly payments on a
 	 *         four-year loan at 12 percent annual interest, use 12%/12 for guess
 	 *         and 4*12 for nper. If you make annual payments on the same loan, use
 	 *         12% for guess and 4 for nper.
-	 *
+	 * 
 	 */
 	static double rate(int nPer, double pmt, double pv, double fv, int due, double guess)
 			throws IllegalArgumentException {
@@ -647,9 +624,8 @@ public class Finance {
 			incr = .1;
 			tmp = curr_guess;
 			result = solvePmt(nPer, pmt, pv, fv, due, tmp, incr, 0, found);
-			if (result != -1) {
+			if (result != -1)
 				return result;
-			}
 
 			curr_guess = curr_guess / 2;
 		}
@@ -661,9 +637,8 @@ public class Finance {
 			tmp = curr_guess;
 
 			result = solvePmt(nPer, pmt, pv, fv, due, tmp, incr, 0, found);
-			if (result != -1) {
+			if (result != -1)
 				return result;
-			}
 
 			curr_guess = curr_guess * 2;
 		}
@@ -675,9 +650,8 @@ public class Finance {
 			tmp = curr_guess;
 
 			result = solvePmt(nPer, pmt, pv, fv, due, tmp, incr, 0, found);
-			if (result != -1) {
+			if (result != -1)
 				return result;
-			}
 
 			curr_guess = curr_guess / 2;
 		}
@@ -689,9 +663,8 @@ public class Finance {
 			tmp = curr_guess;
 
 			result = solvePmt(nPer, pmt, pv, fv, due, tmp, incr, 0, found);
-			if (result != -1) {
+			if (result != -1)
 				return result;
-			}
 
 			curr_guess = curr_guess * 2;
 		}
@@ -704,12 +677,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 6) {
+			if (arguments == null || arguments.length != 6)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.rate()");
-			}
 			return rate(getInteger(arguments[0]), getDouble(arguments[1]), getDouble(arguments[2]),
 					getDouble(arguments[3]), getInteger(arguments[4]), getDouble(arguments[5]));
 		}
@@ -737,12 +708,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || (arguments.length != 2 && arguments.length != 3)) {
+			if (arguments == null || (arguments.length != 2 && arguments.length != 3))
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.percent()");
-			}
 			return percent(getDouble(arguments[0]), getDouble(arguments[1]),
 					arguments.length == 3 ? getDouble(arguments[2]) : 0);
 		}
@@ -756,9 +725,9 @@ public class Finance {
 	 * @param rate  the rate of discount over the length of one period.
 	 * @return the net present value of a varying series of periodic cash flows,
 	 *         both positive and negative, at a given interest rate
-	 *
+	 * 
 	 *         Remarks
-	 *
+	 * 
 	 *         The NPV investment begins one period before the date of the value1
 	 *         cash flow and ends with the last cash flow in the list. The NPV
 	 *         calculation is based on future cash flows. If your first cash flow
@@ -766,8 +735,8 @@ public class Finance {
 	 *         added to the NPV result, not included in the values arguments. For
 	 *         more information, see the examples below. If n the number of cash
 	 *         flows in the list of values, the formula for NPV is:
-	 *
-	 *
+	 * 
+	 * 
 	 *         NPV is similar to the PV function (present value). The primary
 	 *         difference between PV and NPV is that PV allows cash flows to begin
 	 *         either at the end or at the beginning of the period. Unlike the
@@ -796,12 +765,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 2) {
+			if (arguments == null || arguments.length != 2)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.npv()");
-			}
 			if (arguments[1] instanceof Object[]) {
 				Object[] array = (Object[]) arguments[1];
 				double[] arg = new double[array.length];
@@ -854,14 +821,12 @@ public class Finance {
 		// *inc),npv1);
 
 		npv2 = npv(intrate, cash);
-		if (Math.abs(npv1 - npv2) <= tolerance) {
+		if (Math.abs(npv1 - npv2) <= tolerance)
 			return (intrate + inc);
-		}
-		if (npv2 * npv1 < 0) {
+		if (npv2 * npv1 < 0)
 			inc /= 10;
-		} else {
+		else
 			intrate += inc;
-		}
 		return (calcIrr(cash, intrate, inc, ++attempt));
 	}
 
@@ -869,22 +834,22 @@ public class Finance {
 	 * @param cash    specifies the name of an existing array of Doubles
 	 *                representing cash flow values
 	 * @param intrate is a number that you guess is close to the result of IRR.
-	 *
+	 * 
 	 * @return This function takes the initial guess and scales it up and down to
 	 *         see if a solution IRR can be found. It also checks for 'more than 1
 	 *         sign change' type of errors.
-	 *
+	 * 
 	 *         Remarks
-	 *
+	 * 
 	 *         IRR is closely related to NPV, the net present value function. The
 	 *         rate of return calculated by IRR is the interest rate corresponding
 	 *         to a 0 (zero) net present value. The following formula demonstrates
 	 *         how NPV and IRR are related
-	 *
+	 * 
 	 */
 	static double irr(double[] cash, double intrate) throws IllegalArgumentException {
 		boolean arg1Positive = true; // Is the first element of array > 0?
-		long arsize;
+		long arsize = 0;
 		double curr_rate;
 		double incr;
 		double result;
@@ -924,10 +889,8 @@ public class Finance {
 		for (i--; i > 0; i--) { // Scale the guess down and try again.
 			incr = .1;
 			tmp = curr_rate;
-			result = calcIrr(cash, tmp, incr, 0);
-			if (result < 0 && (result != -1)) {
+			if ((result = calcIrr(cash, tmp, incr, 0)) < 0 && (result != -1))
 				return result;
-			}
 
 			curr_rate = curr_rate / 2;
 		}
@@ -937,10 +900,8 @@ public class Finance {
 		for (i--; i > 0; i--) { // Scale the guess up and try again.
 			incr = .1;
 			tmp = curr_rate;
-			result = calcIrr(cash, tmp, incr, 0);
-			if (result >= 0) {
+			if ((result = calcIrr(cash, tmp, incr, 0)) >= 0)
 				return result;
-			}
 
 			curr_rate = curr_rate * 2;
 		}
@@ -949,10 +910,8 @@ public class Finance {
 		for (i--; i > 0; i--) { // Scale the guess down and try again.
 			incr = -.1;
 			tmp = curr_rate;
-			result = calcIrr(cash, tmp, incr, 0);
-			if (result < 0 && (result != -1)) {
+			if ((result = calcIrr(cash, tmp, incr, 0)) < 0 && (result != -1))
 				return result;
-			}
 
 			curr_rate = curr_rate / 2;
 		}
@@ -962,10 +921,8 @@ public class Finance {
 		for (i--; i > 0; i--) { // Scale the guess up and try again.
 			incr = -.1;
 			tmp = curr_rate;
-			result = calcIrr(cash, tmp, incr, 0);
-			if (result >= 0) {
+			if ((result = calcIrr(cash, tmp, incr, 0)) >= 0)
 				return result;
-			}
 
 			curr_rate = curr_rate * 2;
 		}
@@ -976,12 +933,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 2) {
+			if (arguments == null || arguments.length != 2)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.irr()");
-			}
 			if (arguments[0] instanceof Object[]) {
 				Object[] array = (Object[]) arguments[0];
 				double[] arg = new double[array.length];
@@ -1036,16 +991,16 @@ public class Finance {
 	 *              them.
 	 * @return the modified internal rate of return for a series of periodic cash
 	 *         flows (payments and receipts) in an existing array
-	 *
+	 * 
 	 *         Remarks
-	 *
+	 * 
 	 *         MIRR uses the order of values to interpret the order of cash flows.
 	 *         Be sure to enter your payment and income values in the sequence you
 	 *         want and with the correct signs (positive values for cash received,
 	 *         negative values for cash paid). If n is the number of cash flows in
 	 *         values, frate is the finance_rate, and rrate is the reinvest_rate.
-	 *
-	 *
+	 * 
+	 * 
 	 */
 	static double mirr(double[] arptr, double frate, double rrate) throws IllegalArgumentException {
 		if (arptr == null) {
@@ -1076,12 +1031,10 @@ public class Finance {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 2 && arguments.length != 3) {
+			if (arguments == null || arguments.length != 2 && arguments.length != 3)
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "Finance.mirr()");
-			}
 			if (arguments[0] instanceof Object[]) {
 				Object[] array = (Object[]) arguments[0];
 				double[] arg = new double[array.length];
@@ -1102,35 +1055,34 @@ public class Finance {
 	}
 
 	static IScriptFunctionExecutor getExecutor(String functionName) throws BirtException {
-		if (DDB.equals(functionName)) {
+		if (DDB.equals(functionName))
 			return new DdbScriptFunctionExecutor();
-		} else if (SLN.equals(functionName)) {
+		else if (SLN.equals(functionName))
 			return new SlnScriptFunctionExecutor();
-		} else if (SYD.equals(functionName)) {
+		else if (SYD.equals(functionName))
 			return new SydScriptFunctionExecutor();
-		} else if (FV.equals(functionName)) {
+		else if (FV.equals(functionName))
 			return new FvScriptFunctionExecutor();
-		} else if (PMT.equals(functionName)) {
+		else if (PMT.equals(functionName))
 			return new PmtScriptFunctionExecutor();
-		} else if (IPMT.equals(functionName)) {
+		else if (IPMT.equals(functionName))
 			return new IpmtScriptFunctionExecutor();
-		} else if (PPMT.equals(functionName)) {
+		else if (PPMT.equals(functionName))
 			return new PpmtScriptFunctionExecutor();
-		} else if (NPER.equals(functionName)) {
+		else if (NPER.equals(functionName))
 			return new NperScriptFunctionExecutor();
-		} else if (PV.equals(functionName)) {
+		else if (PV.equals(functionName))
 			return new PvScriptFunctionExecutor();
-		} else if (RATE.equals(functionName)) {
+		else if (RATE.equals(functionName))
 			return new RateScriptFunctionExecutor();
-		} else if (PERCENT.equals(functionName)) {
+		else if (PERCENT.equals(functionName))
 			return new PercentScriptFunctionExecutor();
-		} else if (NPV.equals(functionName)) {
+		else if (NPV.equals(functionName))
 			return new NpvScriptFunctionExecutor();
-		} else if (IRR.equals(functionName)) {
+		else if (IRR.equals(functionName))
 			return new IrrScriptFunctionExecutor();
-		} else if (MIRR.equals(functionName)) {
+		else if (MIRR.equals(functionName))
 			return new MirrScriptFunctionExecutor();
-		}
 
 		throw new BirtException("org.eclipse.birt.core.script.function.general", null,
 				Messages.getString("invalid.function.name") + "Finance." + functionName);

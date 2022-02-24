@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,6 +66,8 @@ import com.lowagie.text.FontFactoryImp;
 import com.lowagie.text.pdf.BaseFont;
 
 public class PostscriptWriter {
+
+	private static final String AUTO_PAPER_TRAY_STRING = "<</ManualFeed false /MediaPosition 41 /TraySwitch true>>setpagedevice";
 
 	/** This is a possible value of a base 14 type 1 font */
 	public static final String COURIER = BaseFont.COURIER;
@@ -157,13 +159,13 @@ public class PostscriptWriter {
 
 	private float pageWidth = 0f;
 
-	private static Set<String> intrinsicFonts = new HashSet<>();
+	private static Set<String> intrinsicFonts = new HashSet<String>();
 
 	private int imageIndex = 0;
 
 	private Map<String, String> cachedImageSource;
 
-	private Stack<Graphic> graphics = new Stack<>();
+	private Stack<Graphic> graphics = new Stack<Graphic>();
 
 	private final static String[] stringCommands = { "drawSStr", "drawStr", "drawSBStr", "drawBStr", "drawSIStr",
 			"drawIStr", "drawSBIStr", "drawBIStr" };
@@ -196,13 +198,13 @@ public class PostscriptWriter {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param out   Output stream for PostScript output.
 	 * @param title title of the postscript document.
 	 */
 	public PostscriptWriter(OutputStream o, String title) {
 		this.out = new PrintStream(o);
-		this.cachedImageSource = new HashMap<>();
+		this.cachedImageSource = new HashMap<String, String>();
 		emitProlog(title);
 	}
 
@@ -221,7 +223,7 @@ public class PostscriptWriter {
 
 	/**
 	 * Draws a image.
-	 *
+	 * 
 	 * @param imageStream the source input stream of the image.
 	 * @param x           the x position.
 	 * @param y           the y position.
@@ -237,7 +239,7 @@ public class PostscriptWriter {
 
 	/**
 	 * Draws a image with specified image data, position, size and background color.
-	 *
+	 * 
 	 * @param image   the source image data.
 	 * @param x       the x position.
 	 * @param y       the y position.
@@ -397,7 +399,7 @@ public class PostscriptWriter {
 	 * <td>Repeat on x and y orientation.</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @param x         the x coordinate of the rectangle area.
 	 * @param y         the y coordinate of the rectangle area.
 	 * @param width     the width of the rectangle area.
@@ -453,9 +455,9 @@ public class PostscriptWriter {
 	/**
 	 * Draws a line from (startX, startY) to (endX, endY) with specified line width,
 	 * color and line style.
-	 *
+	 * 
 	 * Line style can be "dotted", "dash", and "double".
-	 *
+	 * 
 	 * @param startX    the x coordinate of start point.
 	 * @param startY    the y coordinate of start point.
 	 * @param endX      the x coordinate of end point.
@@ -465,8 +467,12 @@ public class PostscriptWriter {
 	 * @param lineStyle the line style.
 	 */
 	public void drawLine(float startX, float startY, float endX, float endY, float width, Color color, int lineStyle) {
+		if (null == color || 0f == width || lineStyle == BorderInfo.BORDER_STYLE_NONE) // $NON-NLS-1$
+		{
+			return;
+		}
 		// double is not supported.
-		if (null == color || 0f == width || lineStyle == BorderInfo.BORDER_STYLE_NONE || (lineStyle == BorderInfo.BORDER_STYLE_DOUBLE)) // $NON-NLS-1$
+		if (lineStyle == BorderInfo.BORDER_STYLE_DOUBLE) // $NON-NLS-1$
 		{
 			return;
 		}
@@ -497,7 +503,7 @@ public class PostscriptWriter {
 		graphics.push(new Graphic());
 	}
 
-	private Map<File, ITrueTypeWriter> trueTypeFontWriters = new HashMap<>();
+	private Map<File, ITrueTypeWriter> trueTypeFontWriters = new HashMap<File, ITrueTypeWriter>();
 
 	private String orientation;
 
@@ -507,7 +513,7 @@ public class PostscriptWriter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#drawString(
 	 * java.lang.String, int, int,
 	 * org.eclipse.birt.report.engine.layout.pdf.font.FontInfo, float, float,
@@ -539,13 +545,11 @@ public class PostscriptWriter {
 		}
 		outputColor(color);
 		out.print(x + " " + y + " ");
-		if (hasSpace) {
+		if (hasSpace)
 			out.print(wordSpacing + " " + letterSpacing + " ");
-		}
 		out.print(text + " ");
-		if (needSimulateBold) {
+		if (needSimulateBold)
 			out.print(offset + " ");
-		}
 		String command = getCommand(hasSpace, needSimulateBold, needSimulateItalic);
 		out.println(command);
 	}
@@ -582,11 +586,10 @@ public class PostscriptWriter {
 
 	/**
 	 * Disposes of this graphics context once it is no longer referenced.
-	 *
+	 * 
 	 * @see #dispose
 	 */
 
-	@Override
 	public void finalize() {
 		dispose();
 	}
@@ -640,8 +643,12 @@ public class PostscriptWriter {
 		String currentFont = graphic.font;
 
 		// If fontSize is changed, set font.
+		if (fontSize != currentFontSize) {
+			return true;
+		}
+
 		// If font name is changed, set font.
-		if ((fontSize != currentFontSize) || (currentFont == null && fontName != null)) {
+		if (currentFont == null && fontName != null) {
 			return true;
 		}
 		if (currentFont != null && !currentFont.equals(fontName)) {
@@ -690,7 +697,9 @@ public class PostscriptWriter {
 				String displayName = trueTypeWriter.getDisplayName();
 				setFont(displayName, fontSize);
 				return trueTypeWriter.toHexString(text);
-			} catch (IOException | DocumentException de) {
+			} catch (IOException ioe) {
+				log.log(Level.WARNING, "apply font: " + fontName);
+			} catch (DocumentException de) {
 				log.log(Level.WARNING, "apply font: " + fontName);
 			}
 			return null;
@@ -705,7 +714,7 @@ public class PostscriptWriter {
 
 	/**
 	 * Escape the characters "(", ")", and "\" in a postscript string by "\".
-	 *
+	 * 
 	 * @param source
 	 * @return
 	 */
@@ -741,7 +750,9 @@ public class PostscriptWriter {
 			Properties trueTypeFonts = (Properties) getField(FontFactoryImp.class, "trueTypeFonts", fontImpl);
 			String fontPath = trueTypeFonts.getProperty(fontName.toLowerCase());
 			return fontPath;
-		} catch (IllegalAccessException | NoSuchFieldException e) {
+		} catch (IllegalAccessException e) {
+			log.log(Level.WARNING, "font path: " + fontName);
+		} catch (NoSuchFieldException e) {
 			log.log(Level.WARNING, "font path: " + fontName);
 		}
 		return null;
@@ -752,7 +763,6 @@ public class PostscriptWriter {
 		try {
 			Object field = (Object) AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
 
-				@Override
 				public Object run() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
 					Field fldTrueTypeFonts = fontFactoryClass.getDeclaredField(fieldName);// $NON-SEC-3
 					fldTrueTypeFonts.setAccessible(true);// $NON-SEC-2
@@ -781,7 +791,7 @@ public class PostscriptWriter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#translate(int,
 	 * int)
 	 */
@@ -799,7 +809,7 @@ public class PostscriptWriter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.postscript.IWriter#startRenderer()
 	 */
@@ -936,7 +946,7 @@ public class PostscriptWriter {
 			}
 			if (split != -1) {
 				int xResolution = new Integer(resolution.substring(0, split).trim());
-				int yResolution = new Integer(resolution.substring(split + 1).trim());
+				int yResolution = new Integer(resolution.substring(split + 1, resolution.length()).trim());
 				if (xResolution > 0 && yResolution > 0) {
 					out.println("%%BeginFeature: *Resolution " + xResolution + "x" + yResolution + "dpi");
 					out.println(" << /HWResolution [" + xResolution + " " + yResolution + "]");
@@ -966,9 +976,8 @@ public class PostscriptWriter {
 	}
 
 	private int[] getPaperSize(String paperSize) {
-		if (paperSize == null || paperSize.trim().length() == 0) {
+		if (paperSize == null || paperSize.trim().length() == 0)
 			return null;
-		}
 		int width = 595;
 		int height = 842;
 		if ("Letter".equalsIgnoreCase(paperSize)) {
@@ -1008,7 +1017,7 @@ public class PostscriptWriter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.postscript.IWriter#startPage(float ,
 	 * float)
@@ -1055,7 +1064,7 @@ public class PostscriptWriter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#endPage()
 	 */
 	public void endPage() {
@@ -1069,7 +1078,7 @@ public class PostscriptWriter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#stopRenderer()
 	 */
 	public void stopRenderer() throws IOException {
@@ -1109,7 +1118,6 @@ public class PostscriptWriter {
 			this.imageSource = imageSource;
 		}
 
-		@Override
 		public int getRGB(int x, int y) {
 			return imageSource[y * width + x];
 		}
@@ -1134,6 +1142,11 @@ public class PostscriptWriter {
 
 		public Graphic() {
 
+		}
+
+		public Graphic(String font, float fontSize) {
+			this.font = font;
+			this.fontSize = fontSize;
 		}
 	}
 }

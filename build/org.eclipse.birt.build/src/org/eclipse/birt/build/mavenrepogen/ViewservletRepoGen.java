@@ -1,13 +1,13 @@
 /*******************************************************************************
  * Copyright (c) 2012 Innovent Solutions, Inc.
- *
- * Unless otherwise indicated, all Content made available
- * by Innovent Solutions, Inc  is provided to you under the terms and
- * conditions of the Eclipse Public License Version 2.0 ("EPL"). A copy
- * of the EPL is provided with this Content and is also available at
- * http://www.eclipse.org/legal/epl-2.0.html. For purposes of the EPL,
+ * 
+ * Unless otherwise indicated, all Content made available 
+ * by Innovent Solutions, Inc  is provided to you under the terms and 
+ * conditions of the Eclipse Public License Version 2.0 ("EPL"). A copy 
+ * of the EPL is provided with this Content and is also available at 
+ * http://www.eclipse.org/legal/epl-2.0.html. For purposes of the EPL, 
  * "Program" will mean the Content.
- *
+ * 
  * Contributors:
  *   Steve Schafer
  *******************************************************************************/
@@ -69,9 +69,8 @@ public class ViewservletRepoGen {
 		repoDir = new File(repoParentDir, "repository-viewservlets");
 		repoDir.mkdir();
 		groupDir = new File(repoDir, groupId);
-		if (clean) {
+		if (clean)
 			deepDelete(groupDir);
-		}
 		groupDir.mkdir();
 		if (snapshot) {
 			globalSnapshotBuildFile = new File(groupDir, "buildSnapshot.xml");
@@ -100,7 +99,7 @@ public class ViewservletRepoGen {
 
 		this.rootFileName = rootFileName;
 
-		externalDependencies = new HashMap<>();
+		externalDependencies = new HashMap<String, ExternalDependency>();
 		readExternalDependency();
 		System.out.println(externalDependencies.size() + " external dependencies found.");
 
@@ -113,26 +112,25 @@ public class ViewservletRepoGen {
 
 	public static void main(final String[] args) throws IOException {
 		final String propsFileName;
-		if (args.length >= 1) {
+		if (args.length >= 1)
 			propsFileName = args[0];
-		} else {
+		else
 			propsFileName = "./repoGen.properties";
-		}
 		String passphrase = null;
-		if (args.length >= 2) {
+		if (args.length >= 2)
 			passphrase = args[1];
-		}
 		final Properties properties = new Properties();
 		final FileReader fr = new FileReader(propsFileName);
-		try (fr) {
+		try {
 			properties.load(fr);
+		} finally {
+			fr.close();
 		}
 		final String libDirName = properties.getProperty("viewservletsDir");
 		final String repoDirName = properties.getProperty("repoDir");
 		final String groupId = properties.getProperty("groupId");
-		if (passphrase == null) {
+		if (passphrase == null)
 			passphrase = properties.getProperty("passphrase");
-		}
 		final boolean clean = "true".equalsIgnoreCase(properties.getProperty("clean"));
 		final boolean genSnapshot = "true".equalsIgnoreCase(properties.getProperty("snapshot"));
 		final boolean genRelease = "true".equalsIgnoreCase(properties.getProperty("release"));
@@ -210,9 +208,8 @@ public class ViewservletRepoGen {
 	}
 
 	private PrintWriter createGlobalScriptFileWriter(final File file) throws IOException {
-		if (file == null) {
+		if (file == null)
 			return null;
-		}
 		final PrintWriter writer = new PrintWriter(new FileWriter(file));
 		writer.println("# Execute all the builds.");
 		// TODO parameterize these
@@ -258,9 +255,8 @@ public class ViewservletRepoGen {
 	}
 
 	private PrintWriter createGlobalBuildFileWriter(final File file, final String string) throws IOException {
-		if (file == null) {
+		if (file == null)
 			return null;
-		}
 		final PrintWriter writer = new PrintWriter(new FileWriter(file));
 		writer.print("<project name=\"");
 		writer.print(groupId);
@@ -274,9 +270,8 @@ public class ViewservletRepoGen {
 	}
 
 	private PrintWriter createTemplatePomWriter(final File file, final boolean snapshot) throws IOException {
-		if (file == null) {
+		if (file == null)
 			return null;
-		}
 		final PrintWriter writer = new PrintWriter(new FileWriter(file));
 		writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		writer.println("<project");
@@ -304,9 +299,10 @@ public class ViewservletRepoGen {
 	}
 
 	private FileInfo getFileInfo(final File file) throws IOException {
-		if (file.isDirectory() || !file.getAbsolutePath().toLowerCase().endsWith(".jar")) {
+		if (file.isDirectory())
 			return null;
-		}
+		if (!file.getAbsolutePath().toLowerCase().endsWith(".jar"))
+			return null;
 		System.out.println(file);
 		final Manifest manifest = getManifest(file);
 		String artifactId;
@@ -314,18 +310,16 @@ public class ViewservletRepoGen {
 		if (manifest == null) {
 			artifactId = file.getName();
 			final int indexOfDot = artifactId.lastIndexOf(".");
-			if (indexOfDot >= 0) {
+			if (indexOfDot >= 0)
 				artifactId = artifactId.substring(0, indexOfDot);
-			}
 			version = "1";
 		} else {
 			final Attributes mainAttributes = manifest.getMainAttributes();
 			artifactId = mainAttributes.getValue("Bundle-SymbolicName");
 			if (artifactId != null) {
 				final int indexofsemicolon = artifactId.indexOf(";");
-				if (indexofsemicolon >= 0) {
+				if (indexofsemicolon >= 0)
 					artifactId = artifactId.substring(0, indexofsemicolon);
-				}
 				version = trimVersion(mainAttributes.getValue("Bundle-Version"));
 			} else {
 				artifactId = mainAttributes.getValue("Specification-Title");
@@ -334,9 +328,8 @@ public class ViewservletRepoGen {
 				} else {
 					artifactId = file.getName();
 					final int indexOfDot = artifactId.lastIndexOf(".");
-					if (indexOfDot >= 0) {
+					if (indexOfDot >= 0)
 						artifactId = artifactId.substring(0, indexOfDot);
-					}
 					version = "1";
 				}
 			}
@@ -348,9 +341,10 @@ public class ViewservletRepoGen {
 			final PrintWriter globalScriptFileWriter, final PrintWriter templatePomFileWriter,
 			final List<FileInfo> dependsOn, final Collection<ExternalDependency> externalDependencies)
 			throws IOException {
-		if ((globalBuildFileWriter == null) || (templatePomFileWriter == null)) {
+		if (globalBuildFileWriter == null)
 			return;
-		}
+		if (templatePomFileWriter == null)
+			return;
 		final File projectDir = new File(groupDir, fileInfo.getArtifactId());
 		projectDir.mkdir();
 		final File versionDir = new File(projectDir, fileInfo.getVersion(snapshot));
@@ -421,16 +415,17 @@ public class ViewservletRepoGen {
 
 	private Manifest getManifest(final File file) throws IOException {
 		final ZipInputStream zis = new ZipInputStream(new FileInputStream(file));
-		try (zis) {
+		try {
 			ZipEntry entry = zis.getNextEntry();
 			while (entry != null) {
 				// read the manifest to determine the name and version number
 				// System.out.println(entry.getName() + " " + entry.isDirectory());
-				if ("META-INF/MANIFEST.MF".equals(entry.getName())) {
+				if ("META-INF/MANIFEST.MF".equals(entry.getName()))
 					return new Manifest(zis);
-				}
 				entry = zis.getNextEntry();
 			}
+		} finally {
+			zis.close();
 		}
 		return null;
 	}
@@ -440,7 +435,7 @@ public class ViewservletRepoGen {
 			throws IOException {
 		final String artifactName = fileInfo.getFile().getName();
 		final PrintWriter pw = new PrintWriter(new FileWriter(pomFile));
-		try (pw) {
+		try {
 			pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			pw.print("<project");
 			pw.print(" xsi:schemaLocation=\"");
@@ -517,13 +512,15 @@ public class ViewservletRepoGen {
 				pw.println("  </dependencies>");
 			}
 			pw.println("</project>");
+		} finally {
+			pw.close();
 		}
 	}
 
 	private void createAntFile(final File antFile, final File pomFile, final String artifactId, final File jarFile,
 			final boolean snapshot, final File sourceFile, final File javadocFile) throws IOException {
 		final PrintWriter pw = new PrintWriter(new FileWriter(antFile));
-		try (pw) {
+		try {
 			pw.print("<project name=\"");
 			pw.print(artifactId);
 			pw.print("\" default=\"");
@@ -599,6 +596,8 @@ public class ViewservletRepoGen {
 				pw.println(" </target>");
 			}
 			pw.println("</project>");
+		} finally {
+			pw.close();
 		}
 	}
 
@@ -654,36 +653,35 @@ public class ViewservletRepoGen {
 	}
 
 	private void deepDelete(final File file) {
-		if ((file == null) || !file.exists()) {
+		if (file == null)
 			return;
-		}
-		if (file.isDirectory()) {
+		if (!file.exists())
+			return;
+		if (file.isDirectory())
 			deepDelete(file.listFiles());
-		}
 		file.delete();
 	}
 
 	private void deepDelete(final File[] files) {
-		for (final File file : files) {
+		for (final File file : files)
 			deepDelete(file);
-		}
 	}
 
 	private void readExternalDependency() throws IOException {
 
 		File file = new File(externalFileName);
 
-		if (!file.exists() || file.isDirectory()) {
+		if (!file.exists() || file.isDirectory())
 			throw new FileNotFoundException();
-		}
 
 		BufferedReader br = new BufferedReader(new FileReader(file));
-		String temp;
+		String temp = null;
 		temp = br.readLine();
 
 		while (temp != null) {
 			if (temp.startsWith("#") || temp.trim().equals("")) {
 				temp = br.readLine();
+				continue;
 			} else {
 				String exValue[] = temp.split(",");
 				addExternalDependency(exValue[0].trim(), exValue[1].trim(), exValue[2].trim(), exValue[3].trim());
@@ -695,9 +693,8 @@ public class ViewservletRepoGen {
 	}
 
 	private String trimVersion(final String version) {
-		if (version == null) {
+		if (version == null)
 			return "1";
-		}
 		/*
 		 * final String[] parts = version.split("\\."); final StringBuilder sb = new
 		 * StringBuilder(); String sep = ""; for (int i = 0; i < parts.length && i < 3;
@@ -710,7 +707,7 @@ public class ViewservletRepoGen {
 	private void copy(final File sourceFile, final File destinationFile) throws IOException {
 		destinationFile.createNewFile();
 		final FileInputStream fis = new FileInputStream(sourceFile);
-		try (fis) {
+		try {
 			final FileOutputStream fos = new FileOutputStream(destinationFile);
 			try {
 				final byte[] buffer = new byte[0x4000];
@@ -722,6 +719,8 @@ public class ViewservletRepoGen {
 			} finally {
 				fos.close();
 			}
+		} finally {
+			fis.close();
 		}
 	}
 }

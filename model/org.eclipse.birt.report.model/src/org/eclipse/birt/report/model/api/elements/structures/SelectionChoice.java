@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.core.Structure;
 
 /**
  * This class is a structure for selection-list in ScalarParameter item.
- *
+ * 
  */
 
 public class SelectionChoice extends Structure {
@@ -75,34 +75,29 @@ public class SelectionChoice extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	@Override
 	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.
 	 * String)
 	 */
 
-	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (VALUE_MEMBER.equals(propName)) {
+		if (VALUE_MEMBER.equals(propName))
 			return value;
-		}
-		if (LABEL_MEMBER.equals(propName)) {
+		if (LABEL_MEMBER.equals(propName))
 			return label;
-		}
-		if (LABEL_RESOURCE_KEY_MEMBER.equals(propName)) {
+		if (LABEL_RESOURCE_KEY_MEMBER.equals(propName))
 			return labelResourceKey;
-		}
 
 		assert false;
 		return null;
@@ -110,29 +105,27 @@ public class SelectionChoice extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
 
-	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (VALUE_MEMBER.equals(propName)) {
+		if (VALUE_MEMBER.equals(propName))
 			this.value = (String) value;
-		} else if (LABEL_MEMBER.equals(propName)) {
+		else if (LABEL_MEMBER.equals(propName))
 			label = (String) value;
-		} else if (LABEL_RESOURCE_KEY_MEMBER.equals(propName)) {
+		else if (LABEL_RESOURCE_KEY_MEMBER.equals(propName))
 			labelResourceKey = (String) value;
-		} else {
+		else
 			assert false;
-		}
 
 	}
 
 	/**
 	 * Returns the value of this choice.
-	 *
+	 * 
 	 * @return the value of this choice
 	 */
 
@@ -142,7 +135,7 @@ public class SelectionChoice extends Structure {
 
 	/**
 	 * Sets the value.
-	 *
+	 * 
 	 * @param value the value to set
 	 */
 
@@ -152,7 +145,7 @@ public class SelectionChoice extends Structure {
 
 	/**
 	 * Returns the label of the choice.
-	 *
+	 * 
 	 * @return the label of the choice
 	 */
 
@@ -162,7 +155,7 @@ public class SelectionChoice extends Structure {
 
 	/**
 	 * Sets the label.
-	 *
+	 * 
 	 * @param label the label to set
 	 */
 
@@ -172,7 +165,7 @@ public class SelectionChoice extends Structure {
 
 	/**
 	 * Returns the resource key for the label of the choice.
-	 *
+	 * 
 	 * @return the resource key for the label
 	 */
 
@@ -182,7 +175,7 @@ public class SelectionChoice extends Structure {
 
 	/**
 	 * Sets the resource key of label.
-	 *
+	 * 
 	 * @param labelResourceKey the resource key of label to set
 	 */
 
@@ -192,12 +185,11 @@ public class SelectionChoice extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
 	 * model.api.SimpleValueHandle, int)
 	 */
-	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new SelectionChoiceHandle(valueHandle, index);
 	}

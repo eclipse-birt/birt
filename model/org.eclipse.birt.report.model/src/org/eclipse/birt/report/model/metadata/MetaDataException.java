@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -458,7 +458,7 @@ public class MetaDataException extends ModelException {
 
 	/**
 	 * Constructs an exception given parameters and its error code.
-	 *
+	 * 
 	 * @param params  string arrays that will be placed into the error message.
 	 * @param errCode exception error code that identify the error.
 	 */
@@ -470,7 +470,7 @@ public class MetaDataException extends ModelException {
 	/**
 	 * Constructs an exception given parameters, its error code and nested
 	 * exception.
-	 *
+	 * 
 	 * @param params  string arrays that will be placed into the error message.
 	 * @param errCode exception error code that identify the error.
 	 * @param cause   the nested exception
@@ -493,7 +493,7 @@ public class MetaDataException extends ModelException {
 
 	/**
 	 * Constructs an exception given the error code.
-	 *
+	 * 
 	 * @param errCode exception error code
 	 */
 
@@ -503,7 +503,7 @@ public class MetaDataException extends ModelException {
 
 	/**
 	 * Loads the resource string that describes the error messages.
-	 *
+	 * 
 	 * @param fileName file name of the resource file.
 	 * @return <code>Properties</code> that has load the resource file. Return
 	 *         <code>null</code> if error in loading the file.
@@ -526,19 +526,17 @@ public class MetaDataException extends ModelException {
 	/**
 	 * Gets the content message for this exception. The return message will contain
 	 * the information of the error code and the detailed error message.
-	 *
+	 * 
 	 * @return error message for this exception
 	 */
 
-	@Override
 	public String getMessage() {
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 
 		String SEPARATOR = " "; //$NON-NLS-1$
 
-		if (message != null) {
+		if (message != null)
 			sb.append("Message:").append(message).append(SEPARATOR); //$NON-NLS-1$
-		}
 
 		sb.append("Error code:").append(sResourceKey).append(SEPARATOR); //$NON-NLS-1$
 
@@ -547,10 +545,9 @@ public class MetaDataException extends ModelException {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	@Override
 	public String getLocalizedMessage() {
 		return getMessage();
 	}

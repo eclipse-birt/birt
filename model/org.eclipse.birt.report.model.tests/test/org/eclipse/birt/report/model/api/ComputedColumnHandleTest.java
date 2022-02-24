@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,14 +30,14 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * API test cases for ComputedColumnHandle.
- *
+ * 
  */
 
 public class ComputedColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * To test add/remove methods on aggregateOn and argument lists.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -92,7 +92,7 @@ public class ComputedColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * To test add arguments on the ComputedColumn structure.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -144,7 +144,7 @@ public class ComputedColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * For bug 200645, skip choice check in ComputedColumn structure.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -174,7 +174,7 @@ public class ComputedColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests dataType property for column binding
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testDataTypeInComputedColumn() throws Exception {
@@ -220,7 +220,7 @@ public class ComputedColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the new feature of TimePeriod. TED 41378.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testTimePeriod() throws Exception {

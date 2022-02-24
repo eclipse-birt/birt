@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.impl;
@@ -110,7 +110,6 @@ public class ModelAdapter implements IModelAdapter {
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptDataSource(org.eclipse.birt.report.model.api.DataSourceHandle)
 	 */
-	@Override
 	public BaseDataSourceDesign adaptDataSource(DataSourceHandle handle) throws BirtException {
 		if (handle instanceof OdaDataSourceHandle) {
 			// If an external top level scope is available (i.e., our
@@ -135,7 +134,6 @@ public class ModelAdapter implements IModelAdapter {
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
 	 */
-	@Override
 	public BaseDataSetDesign adaptDataSet(DataSetHandle handle) throws BirtException {
 		BaseDataSetDesign design = null;
 		if (handle instanceof OdaDataSetHandle) {
@@ -149,21 +147,17 @@ public class ModelAdapter implements IModelAdapter {
 					context.getDataEngineContext());
 		}
 
-		if (handle instanceof ScriptDataSetHandle) {
+		if (handle instanceof ScriptDataSetHandle)
 			design = new ScriptDataSetAdapter((ScriptDataSetHandle) handle, this);
-		}
 
-		if (handle instanceof JointDataSetHandle) {
+		if (handle instanceof JointDataSetHandle)
 			design = new JointDataSetAdapter((JointDataSetHandle) handle, this);
-		}
 
 		if (design != null) {
-			if (handle.getACLExpression() != null) {
+			if (handle.getACLExpression() != null)
 				design.setDataSetACL(this.adaptExpression((Expression) handle.getACLExpression().getValue()));
-			}
-			if (handle.getRowACLExpression() != null) {
+			if (handle.getRowACLExpression() != null)
 				design.setRowACL(this.adaptExpression((Expression) handle.getRowACLExpression().getValue()));
-			}
 
 			Iterator columnHintIterator = handle.columnHintsIterator();
 			while (columnHintIterator.hasNext()) {
@@ -188,7 +182,6 @@ public class ModelAdapter implements IModelAdapter {
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptConditionalExpression(java.lang.String,
 	 *      java.lang.String, java.lang.String, java.lang.String)
 	 */
-	@Override
 	public ConditionalExpression adaptConditionalExpression(String mainExpr, String operator, String operand1,
 			String operand2) {
 		return new ConditionAdapter(mainExpr, operator, operand1, operand2);
@@ -198,11 +191,9 @@ public class ModelAdapter implements IModelAdapter {
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptExpression(java.lang.String,
 	 *      java.lang.String)
 	 */
-	@Override
 	public ScriptExpression adaptExpression(Expression expr, String dataType) {
-		if (expr == null || expr.getStringExpression() == null) {
+		if (expr == null || expr.getStringExpression() == null)
 			return null;
-		}
 		ScriptExpression jsExpr = new ExpressionAdapter(expr, dataType);
 		if (ExpressionType.CONSTANT.equals(expr.getType())) {
 			jsExpr = new ScriptExpression(expr.getStringExpression());
@@ -223,7 +214,6 @@ public class ModelAdapter implements IModelAdapter {
 	 * @throws AdapterException
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptFilter(org.eclipse.birt.report.model.api.FilterConditionHandle)
 	 */
-	@Override
 	public FilterDefinition adaptFilter(FilterConditionHandle modelFilter) {
 		try {
 			return new FilterAdapter(this, modelFilter);
@@ -246,7 +236,6 @@ public class ModelAdapter implements IModelAdapter {
 	 * @throws AdapterException
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptGroup(org.eclipse.birt.report.model.api.GroupHandle)
 	 */
-	@Override
 	public GroupDefinition adaptGroup(GroupHandle groupHandle) {
 		try {
 			return new GroupAdapter(this, groupHandle);
@@ -260,7 +249,6 @@ public class ModelAdapter implements IModelAdapter {
 	 * @throws AdapterException
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptSort(org.eclipse.birt.report.model.api.SortKeyHandle)
 	 */
-	@Override
 	public SortDefinition adaptSort(SortKeyHandle sortHandle) {
 		try {
 			return new SortAdapter(this, sortHandle);
@@ -275,7 +263,6 @@ public class ModelAdapter implements IModelAdapter {
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptSort(java.lang.String,
 	 *      java.lang.String)
 	 */
-	@Override
 	public SortDefinition adaptSort(Expression expr, String direction) {
 		try {
 			return new SortAdapter(this, expr, direction);
@@ -288,7 +275,6 @@ public class ModelAdapter implements IModelAdapter {
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptParameter(org.eclipse.birt.report.model.api.DataSetParameterHandle)
 	 */
-	@Override
 	public ParameterDefinition adaptParameter(DataSetParameterHandle paramHandle) {
 		return new ParameterAdapter(paramHandle);
 	}
@@ -297,7 +283,6 @@ public class ModelAdapter implements IModelAdapter {
 	 * @throws AdapterException
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptInputParamBinding(org.eclipse.birt.report.model.api.ParamBindingHandle)
 	 */
-	@Override
 	public InputParameterBinding adaptInputParamBinding(ParamBindingHandle modelHandle) {
 		try {
 			return new InputParamBindingAdapter(this, modelHandle);
@@ -310,7 +295,6 @@ public class ModelAdapter implements IModelAdapter {
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#ColumnAdaptor(org.eclipse.birt.report.model.api.ResultSetColumnHandle)
 	 */
-	@Override
 	public ColumnDefinition ColumnAdaptor(ResultSetColumnHandle modelColumn) {
 		return new ColumnAdapter(modelColumn);
 	}
@@ -319,22 +303,19 @@ public class ModelAdapter implements IModelAdapter {
 	 * @throws AdapterException
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptComputedColumn(org.eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
-	@Override
 	public ComputedColumn adaptComputedColumn(ComputedColumnHandle modelHandle) throws AdapterException {
 		return new ComputedColumnAdapter(this, modelHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptBinding(org.
 	 * eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
-	@Override
 	public IBinding adaptBinding(ComputedColumnHandle handle) throws AdapterException {
-		if (handle == null) {
+		if (handle == null)
 			return null;
-		}
 		Binding result = new Binding(handle.getName());
 		try {
 
@@ -376,11 +357,10 @@ public class ModelAdapter implements IModelAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptBinding(org.
 	 * eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
-	@Override
 	public IBinding adaptBinding(ComputedColumnHandle handle, ExpressionLocation el) throws AdapterException {
 		if (el.equals(ExpressionLocation.TABLE)) {
 			return this.adaptBinding(handle);
@@ -438,9 +418,8 @@ public class ModelAdapter implements IModelAdapter {
 	}
 
 	public ITimeFunction adaptTimeFunction(ComputedColumnHandle handle) throws DataException, BirtException {
-		if (handle.getCalculationType() == null || handle.getCalculationType().trim().length() == 0) {
+		if (handle.getCalculationType() == null || handle.getCalculationType().trim().length() == 0)
 			return null;
-		}
 		TimeFunction timeFunction = new TimeFunction();
 		Object referenceDate = null;
 		if (DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY.equals(handle.getReferenceDateType())) {
@@ -581,7 +560,7 @@ public class ModelAdapter implements IModelAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param periodHandle
 	 * @return
 	 * @throws BirtException
@@ -684,12 +663,12 @@ public class ModelAdapter implements IModelAdapter {
 			n = "0";
 		}
 		try {
-			num = Integer.parseInt(n);
+			num = Integer.valueOf(n);
 		} catch (Exception e) {
 			ScriptExpression scriptExpression = null;
 			if (expression instanceof Expression) {
 				scriptExpression = this.adaptExpression((Expression) expression);
-
+				;
 			} else {
 				scriptExpression = adaptExpression(n, DesignChoiceConstants.PARAM_TYPE_ANY);
 			}
@@ -708,16 +687,15 @@ public class ModelAdapter implements IModelAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param handle
 	 * @param result
 	 * @throws AdapterException
 	 */
 	private void populateAggregateOns(IBinding result, ComputedColumnHandle handle) throws AdapterException {
 		List aggrOns = handle.getAggregateOnList();
-		if (aggrOns == null) {
+		if (aggrOns == null)
 			return;
-		}
 		for (int i = 0; i < aggrOns.size(); i++) {
 			try {
 				result.addAggregateOn(aggrOns.get(i).toString());
@@ -728,7 +706,7 @@ public class ModelAdapter implements IModelAdapter {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param binding
 	 * @param modelCmptdColumn
 	 * @throws AdapterException
@@ -741,12 +719,11 @@ public class ModelAdapter implements IModelAdapter {
 			try {
 				Expression expr = (Expression) arg.getExpressionProperty(AggregationArgument.VALUE_MEMBER).getValue();
 				ScriptExpression scriptExpression = this.adaptExpression(expr);
-				if (expr != null && !ExpressionType.JAVASCRIPT.equals(expr.getType()) && scriptExpression == null) {
+				if (expr != null && !ExpressionType.JAVASCRIPT.equals(expr.getType()) && scriptExpression == null)
 					throw new AdapterException(Message.formatMessage(ResourceConstants.INVALID_BINDING_EXPRESSION,
 							new Object[] { expr.getStringExpression() }));
-				} else {
+				else
 					binding.addArgument(scriptExpression);
-				}
 			} catch (DataException e) {
 				throw new AdapterException(e.getLocalizedMessage(), e);
 			}
@@ -754,39 +731,31 @@ public class ModelAdapter implements IModelAdapter {
 
 	}
 
-	@Override
 	public ConditionalExpression adaptConditionalExpression(Expression mainExpr, String operator, Expression operand1,
 			Expression operand2) {
 		return new ConditionAdapter(this.adaptExpression(mainExpr), operator, this.adaptExpression(operand1),
 				this.adaptExpression(operand2));
 	}
 
-	@Override
 	public ScriptExpression adaptExpression(Expression expr) {
 		return adaptExpression(expr, IModelAdapter.ExpressionLocation.TABLE);
 	}
 
-	@Override
 	public ScriptExpression adaptExpression(String jsExpr, String dataType) {
-		if (jsExpr == null) {
+		if (jsExpr == null)
 			return null;
-		}
 		return new ExpressionAdapter(jsExpr, dataType);
 	}
 
-	@Override
 	public ScriptExpression adaptJSExpression(String jsExpr, String dataType) {
-		if (jsExpr == null) {
+		if (jsExpr == null)
 			return null;
-		}
 		return new ExpressionAdapter(jsExpr, dataType);
 	}
 
-	@Override
 	public ScriptExpression adaptExpression(Expression expr, ExpressionLocation el) {
-		if (expr == null) {
+		if (expr == null)
 			return null;
-		}
 
 		ScriptExpression jsExpr = null;
 		if (ExpressionType.CONSTANT.equals(expr.getType())) {
@@ -797,9 +766,8 @@ public class ModelAdapter implements IModelAdapter {
 		} else if (!ExpressionType.JAVASCRIPT.equals(expr.getType())) {
 			return null;
 		} else {
-			if (expr.getStringExpression() == null) {
+			if (expr.getStringExpression() == null)
 				return null;
-			}
 			jsExpr = new ExpressionAdapter(expr, el);
 		}
 

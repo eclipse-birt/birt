@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 /**
- *
+ * 
  */
 
 public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent {
@@ -67,7 +67,6 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent 
 		return new DataDefinitionSelector(axisIndex, seriesDefns, wizardContext, sTitle, selectDataUI);
 	}
 
-	@Override
 	public Composite createArea(Composite parent) {
 		Label topAngle = new Label(parent, SWT.NONE);
 		{
@@ -125,14 +124,12 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent 
 		return cmpLeft;
 	}
 
-	@Override
 	public void selectArea(boolean selected, Object data) {
 		for (int i = 0; i < selectors.length; i++) {
 			selectors[i].selectArea(selected, data);
 		}
 	}
 
-	@Override
 	public void dispose() {
 		for (int i = 0; i < selectors.length; i++) {
 			selectors[i].dispose();

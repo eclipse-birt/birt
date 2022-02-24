@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2007 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -68,7 +68,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/**
 	 * Constructs a script editor with the specified parent.
-	 *
+	 * 
 	 * @param parent the parent editor.
 	 */
 	public ScriptEditor(IEditorPart parent) {
@@ -78,7 +78,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 	/**
 	 * Constructs a script editor with the specified parent and the specified
 	 * script.
-	 *
+	 * 
 	 * @param parent the parent editor.
 	 * @param script the script to edit
 	 */
@@ -92,12 +92,11 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.ui.texteditor.StatusTextEditor#createPartControl(org.eclipse.swt.
 	 * widgets.Composite)
 	 */
-	@Override
 	public void createPartControl(Composite parent) {
 		if (input != null) {
 			setInput(input);
@@ -109,12 +108,11 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.ui.texteditor.AbstractTextEditor#editorContextMenuAboutToShow(org
 	 * .eclipse.jface.action.IMenuManager)
 	 */
-	@Override
 	protected void editorContextMenuAboutToShow(IMenuManager menu) {
 		menu.add(new Separator(ITextEditorActionConstants.GROUP_UNDO));
 		menu.add(new Separator(ITextEditorActionConstants.GROUP_COPY));
@@ -135,18 +133,17 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#
 	 * isEditorInputIncludedInContextMenu()
 	 */
-	@Override
 	protected boolean isEditorInputIncludedInContextMenu() {
 		return false;
 	}
 
 	/**
 	 * Creates an editor input with the specified script.
-	 *
+	 * 
 	 * @param script the script to edit.
 	 * @return an editor input with the specified script.
 	 */
@@ -156,10 +153,9 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#getSite()
 	 */
-	@Override
 	public IWorkbenchPartSite getSite() {
 		IWorkbenchPartSite site = super.getSite();
 
@@ -171,10 +167,9 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createActions()
 	 */
-	@Override
 	protected void createActions() {
 		super.createActions();
 
@@ -188,11 +183,10 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#setAction(java.lang.String,
 	 * org.eclipse.jface.action.IAction)
 	 */
-	@Override
 	public void setAction(String actionID, IAction action) {
 		super.setAction(actionID, action);
 
@@ -206,12 +200,11 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#
 	 * getActionRegistry()
 	 */
-	@Override
 	public ActionRegistry getActionRegistry() {
 		if (actionRegistry == null) {
 			actionRegistry = new ActionRegistry();
@@ -221,24 +214,22 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#
 	 * getViewer()
 	 */
-	@Override
 	public ISourceViewer getViewer() {
 		return getSourceViewer();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#
 	 * getScript()
 	 */
-	@Override
 	public String getScript() {
 		IDocumentProvider provider = getDocumentProvider();
 		String script = ""; //$NON-NLS-1$
@@ -255,12 +246,11 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#
 	 * setScript(java.lang.String)
 	 */
-	@Override
 	public void setScript(String script) {
 		try {
 			IDocumentProvider provider = getDocumentProvider();
@@ -289,21 +279,20 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#
 	 * getContext()
 	 */
-	@Override
 	public JSSyntaxContext getContext() {
 		return context;
 	}
 
 	/**
 	 * Creates a new line number ruler column that is appropriately initialized.
-	 *
+	 * 
 	 * @param annotationModel
-	 *
+	 * 
 	 * @return the created line number column
 	 */
 	private IVerticalRulerColumn createLineNumberRulerColumn() {
@@ -315,7 +304,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/**
 	 * Creates a new line number ruler column that is appropriately initialized.
-	 *
+	 * 
 	 * @return the created line number column
 	 */
 	private CompositeRuler createCompositeRuler() {
@@ -327,10 +316,9 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/**
 	 * Creates the vertical ruler to be used by this editor.
-	 *
+	 * 
 	 * @return the vertical ruler
 	 */
-	@Override
 	protected IVerticalRuler createVerticalRuler() {
 		CompositeRuler ruler = createCompositeRuler();
 
@@ -340,7 +328,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor {
 
 	/**
 	 * Returns the parent editor.
-	 *
+	 * 
 	 * @return the parent editor.
 	 */
 	protected IEditorPart getParent() {

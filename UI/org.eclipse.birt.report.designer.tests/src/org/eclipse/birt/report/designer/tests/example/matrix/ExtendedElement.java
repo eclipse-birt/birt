@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -95,7 +95,7 @@ public class ExtendedElement extends ReportItem {
 
 	/**
 	 * Constructs an element.
-	 *
+	 * 
 	 * @param extDefn
 	 * @param designHandle
 	 */
@@ -178,15 +178,14 @@ public class ExtendedElement extends ReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.model.extension.IExtendedElement#serialize(java.lang.String)
 	 */
-	@Override
 	public ByteArrayOutputStream serialize(String propName) {
 		if (TEST3_PROP.equalsIgnoreCase(propName)) {
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			StringBuilder sb = new StringBuilder();
+			StringBuffer sb = new StringBuffer();
 
 			if (TYPE_PIE.equalsIgnoreCase(type)) {
 				sb.append(TYPE_RPOP + "=" + TYPE_PIE); //$NON-NLS-1$
@@ -224,20 +223,18 @@ public class ExtendedElement extends ReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElement#deserialize(java.lang.
 	 * String, java.io.ByteArrayInputStream)
 	 */
-	@Override
 	public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException {
 		if (TEST3_PROP.equalsIgnoreCase(propName)) {
 			assert data != null;
 
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			int b;
-			while ((b = data.read()) > -1) {
+			while ((b = data.read()) > -1)
 				out.write(b);
-			}
 
 			String allValue = out.toString();
 			if (allValue == null || allValue.length() == 0) {
@@ -252,23 +249,22 @@ public class ExtendedElement extends ReportItem {
 				String name = string.substring(0, string.indexOf('=')); // $NON-NLS-1$
 				String value = string.substring(string.indexOf('=') + 1); // $NON-NLS-1$
 
-				if (TYPE_RPOP.equalsIgnoreCase(name)) {
+				if (TYPE_RPOP.equalsIgnoreCase(name))
 					type = value;
-				} else if (RADIUS_RPOP.equalsIgnoreCase(name)) {
+				else if (RADIUS_RPOP.equalsIgnoreCase(name))
 					radius = Integer.parseInt(value);
-				} else if (WIDTH_RPOP.equalsIgnoreCase(name)) {
+				else if (WIDTH_RPOP.equalsIgnoreCase(name))
 					width = Integer.parseInt(value);
-				} else if (HEIGHT_RPOP.equalsIgnoreCase(name)) {
+				else if (HEIGHT_RPOP.equalsIgnoreCase(name))
 					height = Integer.parseInt(value);
-				} else if (X_SCALE_RPOP.equalsIgnoreCase(name)) {
+				else if (X_SCALE_RPOP.equalsIgnoreCase(name))
 					xScale = Integer.parseInt(value);
-				} else if (Y_SCALE_RPOP.equalsIgnoreCase(name)) {
+				else if (Y_SCALE_RPOP.equalsIgnoreCase(name))
 					yScale = Integer.parseInt(value);
-				} else if (COMPANY_RPOP.equalsIgnoreCase(name)) {
+				else if (COMPANY_RPOP.equalsIgnoreCase(name))
 					company = value;
-				} else if (LINE_STYLE_PROP.equalsIgnoreCase(name)) {
+				else if (LINE_STYLE_PROP.equalsIgnoreCase(name))
 					lineStyle = value;
-				}
 			}
 			refreshNeeded = true;
 
@@ -277,11 +273,10 @@ public class ExtendedElement extends ReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang.
 	 * String)
 	 */
-	@Override
 	public Object getProperty(String propName) {
 		if (TEST1_PROP.equalsIgnoreCase(propName)) {
 			return test1;
@@ -320,12 +315,11 @@ public class ExtendedElement extends ReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.model.extension.IExtendedElement#checkProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
-	@Override
 	public void checkProperty(String propName, Object value) throws ExtendedElementException {
 		CHECK_PROPERTY_TAG = propName;
 
@@ -336,19 +330,17 @@ public class ExtendedElement extends ReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#setProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
-	@Override
 	public void setProperty(String propName, Object value) {
 		execute(this.getElementCommand(propName, value));
 	}
 
 	public void doSetProperty(String propName, Object value) {
-		if (value == null) {
+		if (value == null)
 			return;
-		}
 
 		if (TEST1_PROP.equalsIgnoreCase(propName)) {
 			test1 = value.toString();
@@ -392,17 +384,16 @@ public class ExtendedElement extends ReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#copy()
 	 */
-	@Override
 	public IReportItem copy() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.model.extension.IExtendedElement#getElementCommand(java.lang
 	 * .String, java.lang.Object)
@@ -417,26 +408,23 @@ public class ExtendedElement extends ReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#getPropertyDefinitions()
 	 */
-	@Override
 	public IPropertyDefinition[] getPropertyDefinitions() {
-		if (TYPE_PIE.equalsIgnoreCase(type)) {
+		if (TYPE_PIE.equalsIgnoreCase(type))
 			return piePropertyList;
-		}
 
 		return barPropertyList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#refreshPropertyDefinition()
 	 */
-	@Override
 	public boolean refreshPropertyDefinition() {
 		if (refreshNeeded) {
 			refreshNeeded = false;
@@ -446,19 +434,16 @@ public class ExtendedElement extends ReportItem {
 		return false;
 	}
 
-	@Override
 	public IPropertyDefinition[] getMethods() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public IPropertyDefinition getScriptPropertyDefinition() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public List validate() {
 		// TODO Auto-generated method stub
 		return null;

@@ -73,7 +73,7 @@ public class OpenFileAction extends Action implements IWorkbenchWindowActionDele
 
 		if (filterExtensions.length == SUPPORT_COUNT) {
 			Object[] adapters = ElementAdapterManager.getAdapters(this, IExtensionFile.class);
-			List<String> tempList = new ArrayList<>();
+			List<String> tempList = new ArrayList<String>();
 			for (int i = 0; i < filterExtensions.length; i++) {
 				tempList.add(filterExtensions[i]);
 			}
@@ -91,7 +91,6 @@ public class OpenFileAction extends Action implements IWorkbenchWindowActionDele
 	/*
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
 	 */
-	@Override
 	public void dispose() {
 		fWindow = null;
 	}
@@ -100,7 +99,6 @@ public class OpenFileAction extends Action implements IWorkbenchWindowActionDele
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
 	 * IWorkbenchWindow)
 	 */
-	@Override
 	public void init(IWorkbenchWindow window) {
 		if (window == null) {
 			throw new IllegalArgumentException();
@@ -111,7 +109,6 @@ public class OpenFileAction extends Action implements IWorkbenchWindowActionDele
 	/*
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	@Override
 	public void run(IAction action) {
 		run();
 	}
@@ -121,14 +118,12 @@ public class OpenFileAction extends Action implements IWorkbenchWindowActionDele
 	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.
 	 * IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 	}
 
 	/*
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	@Override
 	public void run() {
 		FileDialog dialog = new FileDialog(fWindow.getShell(), SWT.OPEN | SWT.MULTI);
 		dialog.setText(DesignerWorkbenchMessages.Dialog_openFile);
@@ -141,7 +136,7 @@ public class OpenFileAction extends Action implements IWorkbenchWindowActionDele
 			String fFilterPath = dialog.getFilterPath();
 
 			int numberOfFilesNotFound = 0;
-			StringBuilder notFound = new StringBuilder();
+			StringBuffer notFound = new StringBuffer();
 			for (int i = 0; i < names.length; i++) {
 				File file = new File(fFilterPath + File.separator + names[i]);
 				if (file.exists()) {
@@ -154,9 +149,8 @@ public class OpenFileAction extends Action implements IWorkbenchWindowActionDele
 						ExceptionUtil.handle(e);
 					}
 				} else {
-					if (++numberOfFilesNotFound > 1) {
+					if (++numberOfFilesNotFound > 1)
 						notFound.append('\n');
-					}
 					notFound.append(file.getName());
 				}
 			}

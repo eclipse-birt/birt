@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,12 +24,12 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Marker Type</b></em>', and utility methods for working with them. <!--
  * end-user-doc --> <!-- begin-model-doc -->
- *
+ * 
  * This type represents the possible values for markers supported for Line
  * Series.
- *
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarkerType()
  * @model
  * @generated
@@ -42,7 +42,7 @@ public enum MarkerType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #CROSSHAIR
 	 * @generated
 	 * @ordered
@@ -55,7 +55,7 @@ public enum MarkerType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #TRIANGLE
 	 * @generated
 	 * @ordered
@@ -68,7 +68,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #BOX
 	 * @generated
 	 * @ordered
@@ -81,7 +81,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #CIRCLE
 	 * @generated
 	 * @ordered
@@ -90,7 +90,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Icon</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #ICON
 	 * @generated
 	 * @ordered
@@ -99,7 +99,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Nabla</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #NABLA
 	 * @generated
 	 * @ordered
@@ -108,7 +108,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Diamond</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #DIAMOND
 	 * @generated
 	 * @ordered
@@ -117,7 +117,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Four Diamonds</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #FOUR_DIAMONDS
 	 * @generated
 	 * @ordered
@@ -126,7 +126,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Ellipse</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #ELLIPSE
 	 * @generated
 	 * @ordered
@@ -135,7 +135,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Semi Circle</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #SEMI_CIRCLE
 	 * @generated
 	 * @ordered
@@ -144,7 +144,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Hexagon</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #HEXAGON
 	 * @generated
 	 * @ordered
@@ -153,7 +153,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Rectangle</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #RECTANGLE
 	 * @generated
 	 * @ordered
@@ -162,7 +162,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Star</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #STAR
 	 * @generated
 	 * @ordered
@@ -171,7 +171,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Column</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #COLUMN
 	 * @generated
 	 * @ordered
@@ -180,7 +180,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Cross</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #CROSS
 	 * @generated
 	 * @ordered
@@ -190,7 +190,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Crosshair</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #CROSSHAIR_LITERAL
 	 * @model name="Crosshair"
 	 * @generated
@@ -201,7 +201,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Triangle</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #TRIANGLE_LITERAL
 	 * @model name="Triangle"
 	 * @generated
@@ -212,7 +212,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Box</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #BOX_LITERAL
 	 * @model name="Box"
 	 * @generated
@@ -223,7 +223,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * The '<em><b>Circle</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #CIRCLE_LITERAL
 	 * @model name="Circle"
 	 * @generated
@@ -238,7 +238,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #ICON_LITERAL
 	 * @model name="Icon"
 	 * @generated
@@ -253,7 +253,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #NABLA_LITERAL
 	 * @model name="Nabla"
 	 * @generated
@@ -268,7 +268,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #DIAMOND_LITERAL
 	 * @model name="Diamond"
 	 * @generated
@@ -283,7 +283,7 @@ public enum MarkerType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #FOUR_DIAMONDS_LITERAL
 	 * @model name="FourDiamonds" literal="Four_Diamonds"
 	 * @generated
@@ -298,7 +298,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #ELLIPSE_LITERAL
 	 * @model name="Ellipse"
 	 * @generated
@@ -313,7 +313,7 @@ public enum MarkerType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #SEMI_CIRCLE_LITERAL
 	 * @model name="SemiCircle" literal="Semi_Circle"
 	 * @generated
@@ -328,7 +328,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #HEXAGON_LITERAL
 	 * @model name="Hexagon"
 	 * @generated
@@ -343,7 +343,7 @@ public enum MarkerType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #RECTANGLE_LITERAL
 	 * @model name="Rectangle"
 	 * @generated
@@ -358,7 +358,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #STAR_LITERAL
 	 * @model name="Star"
 	 * @generated
@@ -373,7 +373,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #COLUMN_LITERAL
 	 * @model name="Column"
 	 * @generated
@@ -388,7 +388,7 @@ public enum MarkerType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #CROSS_LITERAL
 	 * @model name="Cross"
 	 * @generated
@@ -399,17 +399,18 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Marker Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	private static final MarkerType[] VALUES_ARRAY = { CROSSHAIR_LITERAL, TRIANGLE_LITERAL, BOX_LITERAL, CIRCLE_LITERAL,
-			ICON_LITERAL, NABLA_LITERAL, DIAMOND_LITERAL, FOUR_DIAMONDS_LITERAL, ELLIPSE_LITERAL, SEMI_CIRCLE_LITERAL,
-			HEXAGON_LITERAL, RECTANGLE_LITERAL, STAR_LITERAL, COLUMN_LITERAL, CROSS_LITERAL, };
+	private static final MarkerType[] VALUES_ARRAY = new MarkerType[] { CROSSHAIR_LITERAL, TRIANGLE_LITERAL,
+			BOX_LITERAL, CIRCLE_LITERAL, ICON_LITERAL, NABLA_LITERAL, DIAMOND_LITERAL, FOUR_DIAMONDS_LITERAL,
+			ELLIPSE_LITERAL, SEMI_CIRCLE_LITERAL, HEXAGON_LITERAL, RECTANGLE_LITERAL, STAR_LITERAL, COLUMN_LITERAL,
+			CROSS_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Marker Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static final List<MarkerType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -417,7 +418,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified literal
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static MarkerType get(String literal) {
@@ -433,7 +434,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static MarkerType getByName(String name) {
@@ -449,7 +450,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified integer
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static MarkerType get(int value) {
@@ -490,21 +491,21 @@ public enum MarkerType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String literal;
@@ -512,10 +513,10 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	MarkerType(int value, String name, String literal) {
+	private MarkerType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -523,30 +524,27 @@ public enum MarkerType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -554,7 +552,7 @@ public enum MarkerType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

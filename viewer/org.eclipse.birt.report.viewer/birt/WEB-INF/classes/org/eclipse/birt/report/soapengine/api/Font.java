@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -57,7 +57,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the family value for this Font.
-	 *
+	 * 
 	 * @return family
 	 */
 	public java.lang.String getFamily() {
@@ -66,7 +66,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the family value for this Font.
-	 *
+	 * 
 	 * @param family
 	 */
 	public void setFamily(java.lang.String family) {
@@ -75,7 +75,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the style value for this Font.
-	 *
+	 * 
 	 * @return style
 	 */
 	public java.lang.String getStyle() {
@@ -84,7 +84,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the style value for this Font.
-	 *
+	 * 
 	 * @param style
 	 */
 	public void setStyle(java.lang.String style) {
@@ -93,7 +93,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the size value for this Font.
-	 *
+	 * 
 	 * @return size
 	 */
 	public java.lang.Integer getSize() {
@@ -102,7 +102,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the size value for this Font.
-	 *
+	 * 
 	 * @param size
 	 */
 	public void setSize(java.lang.Integer size) {
@@ -111,7 +111,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the effect value for this Font.
-	 *
+	 * 
 	 * @return effect
 	 */
 	public java.lang.String getEffect() {
@@ -120,7 +120,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the effect value for this Font.
-	 *
+	 * 
 	 * @param effect
 	 */
 	public void setEffect(java.lang.String effect) {
@@ -129,7 +129,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the _super value for this Font.
-	 *
+	 * 
 	 * @return _super
 	 */
 	public java.lang.String get_super() {
@@ -138,7 +138,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the _super value for this Font.
-	 *
+	 * 
 	 * @param _super
 	 */
 	public void set_super(java.lang.String _super) {
@@ -147,7 +147,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the weight value for this Font.
-	 *
+	 * 
 	 * @return weight
 	 */
 	public java.lang.String getWeight() {
@@ -156,7 +156,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the weight value for this Font.
-	 *
+	 * 
 	 * @param weight
 	 */
 	public void setWeight(java.lang.String weight) {
@@ -165,7 +165,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the color value for this Font.
-	 *
+	 * 
 	 * @return color
 	 */
 	public java.lang.String getColor() {
@@ -174,7 +174,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the color value for this Font.
-	 *
+	 * 
 	 * @param color
 	 */
 	public void setColor(java.lang.String color) {
@@ -183,7 +183,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the backgroundColor value for this Font.
-	 *
+	 * 
 	 * @return backgroundColor
 	 */
 	public java.lang.String getBackgroundColor() {
@@ -192,7 +192,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the backgroundColor value for this Font.
-	 *
+	 * 
 	 * @param backgroundColor
 	 */
 	public void setBackgroundColor(java.lang.String backgroundColor) {
@@ -201,7 +201,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the bold value for this Font.
-	 *
+	 * 
 	 * @return bold
 	 */
 	public java.lang.Boolean getBold() {
@@ -210,7 +210,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the bold value for this Font.
-	 *
+	 * 
 	 * @param bold
 	 */
 	public void setBold(java.lang.Boolean bold) {
@@ -219,7 +219,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the italic value for this Font.
-	 *
+	 * 
 	 * @return italic
 	 */
 	public java.lang.Boolean getItalic() {
@@ -228,7 +228,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the italic value for this Font.
-	 *
+	 * 
 	 * @param italic
 	 */
 	public void setItalic(java.lang.Boolean italic) {
@@ -237,7 +237,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the underline value for this Font.
-	 *
+	 * 
 	 * @return underline
 	 */
 	public java.lang.Boolean getUnderline() {
@@ -246,7 +246,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the underline value for this Font.
-	 *
+	 * 
 	 * @param underline
 	 */
 	public void setUnderline(java.lang.Boolean underline) {
@@ -255,7 +255,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Gets the lineThrough value for this Font.
-	 *
+	 * 
 	 * @return lineThrough
 	 */
 	public java.lang.Boolean getLineThrough() {
@@ -264,7 +264,7 @@ public class Font implements java.io.Serializable {
 
 	/**
 	 * Sets the lineThrough value for this Font.
-	 *
+	 * 
 	 * @param lineThrough
 	 */
 	public void setLineThrough(java.lang.Boolean lineThrough) {
@@ -273,18 +273,14 @@ public class Font implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Font)) {
+		if (!(obj instanceof Font))
 			return false;
-		}
 		Font other = (Font) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -321,7 +317,6 @@ public class Font implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

@@ -29,7 +29,6 @@ public class MockExtractionResults implements IExtractionResults {
 		iterator = new MockDataIterator(columnNames, data, this);
 	}
 
-	@Override
 	public void close() {
 		closed = true;
 		iterator.close();
@@ -41,12 +40,10 @@ public class MockExtractionResults implements IExtractionResults {
 		}
 	}
 
-	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		return metaData;
 	}
 
-	@Override
 	public IDataIterator nextResultIterator() throws BirtException {
 		assertOpened();
 		return iterator;

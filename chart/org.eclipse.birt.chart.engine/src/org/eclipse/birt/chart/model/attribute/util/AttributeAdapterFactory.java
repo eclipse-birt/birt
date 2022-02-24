@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -15,46 +15,33 @@
 package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.Map;
+import org.eclipse.birt.chart.model.attribute.*;
 
-import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
-import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
-import org.eclipse.birt.chart.model.attribute.MultiURLValues;
-import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Palette;
-import org.eclipse.birt.chart.model.attribute.PatternImage;
-import org.eclipse.birt.chart.model.attribute.Rotation3D;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.Size;
-import org.eclipse.birt.chart.model.attribute.StringFormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -69,7 +56,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> The <b>Adapter Factory </b> for the model. It
  * provides an adapter <code>createXXX</code> method for each class of the
  * model. <!-- end-user-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage
  * @generated
  */
@@ -77,7 +64,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * The cached model package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected static AttributePackage modelPackage;
@@ -85,7 +72,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * Creates an instance of the adapter factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public AttributeAdapterFactory() {
@@ -99,7 +86,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This implementation returns <code>true</code> if the
 	 * object is either the model's package or is an instance object of the model.
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
@@ -117,10 +104,10 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The switch the delegates to the <code>createXXX</code> methods. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	protected AttributeSwitch<Adapter> modelSwitch = new AttributeSwitch<>() {
+	protected AttributeSwitch<Adapter> modelSwitch = new AttributeSwitch<Adapter>() {
 
 		@Override
 		public Adapter caseAccessibilityValue(AccessibilityValue object) {
@@ -351,7 +338,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * Creates an adapter for the <code>target</code>. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param target the object to adapt.
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
@@ -368,7 +355,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * implementation returns null so that we can easily ignore cases; it's useful
 	 * to ignore a case when inheritance will catch all the cases anyway. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.AccessibilityValue
 	 * @generated
@@ -383,7 +370,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Value</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.ActionValue
 	 * @generated
@@ -398,7 +385,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Angle3D
 	 * @generated
@@ -413,7 +400,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Origin</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.AxisOrigin
 	 * @generated
@@ -428,7 +415,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Bounds
 	 * @generated
@@ -443,7 +430,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Value</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.CallBackValue
 	 * @generated
@@ -458,7 +445,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Definition</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.ColorDefinition
 	 * @generated
@@ -473,7 +460,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Cursor
 	 * @generated
@@ -488,7 +475,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Point</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.DataPoint
 	 * @generated
@@ -503,7 +490,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Point Component</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.DataPointComponent
 	 * @generated
@@ -518,7 +505,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Format Specifier</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.DateFormatSpecifier
 	 * @generated
@@ -533,7 +520,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Image</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.EmbeddedImage
 	 * @generated
@@ -548,7 +535,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * implementation returns null so that we can easily ignore cases; it's useful
 	 * to ignore a case when inheritance will catch all the cases anyway. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see java.util.Map.Entry
 	 * @generated
@@ -563,7 +550,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Property</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.ExtendedProperty
 	 * @generated
@@ -578,7 +565,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Fill
 	 * @generated
@@ -593,7 +580,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Definition</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.FontDefinition
 	 * @generated
@@ -608,7 +595,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Specifier</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.FormatSpecifier
 	 * @generated
@@ -624,7 +611,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * default implementation returns null so that we can easily ignore cases; it's
 	 * useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier
 	 * @generated
@@ -639,7 +626,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Gradient
 	 * @generated
@@ -654,7 +641,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Image
 	 * @generated
@@ -669,7 +656,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Insets
 	 * @generated
@@ -684,7 +671,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * <em>Interactivity</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Interactivity
 	 * @generated
@@ -700,7 +687,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * implementation returns null so that we can easily ignore cases; it's useful
 	 * to ignore a case when inheritance will catch all the cases anyway. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier
 	 * @generated
@@ -716,7 +703,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * implementation returns null so that we can easily ignore cases; it's useful
 	 * to ignore a case when inheritance will catch all the cases anyway. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier
 	 * @generated
@@ -731,7 +718,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Attributes</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.LineAttributes
 	 * @generated
@@ -746,7 +733,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Location
 	 * @generated
@@ -761,7 +748,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * D</em>}'. <!-- begin-user-doc --> This default implementation returns null so
 	 * that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Location3D
 	 * @generated
@@ -776,7 +763,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Marker
 	 * @generated
@@ -791,7 +778,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Fill</em>}'. <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.MultipleFill
 	 * @generated
@@ -806,7 +793,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Values</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.MultiURLValues
 	 * @generated
@@ -822,7 +809,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * implementation returns null so that we can easily ignore cases; it's useful
 	 * to ignore a case when inheritance will catch all the cases anyway. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier
 	 * @generated
@@ -837,7 +824,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Palette
 	 * @generated
@@ -852,7 +839,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Image</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.PatternImage
 	 * @generated
@@ -867,7 +854,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * D</em>}'. <!-- begin-user-doc --> This default implementation returns null so
 	 * that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Rotation3D
 	 * @generated
@@ -882,7 +869,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Value</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.ScriptValue
 	 * @generated
@@ -897,7 +884,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Value</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.SeriesValue
 	 * @generated
@@ -912,7 +899,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Size
 	 * @generated
@@ -928,7 +915,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * implementation returns null so that we can easily ignore cases; it's useful
 	 * to ignore a case when inheritance will catch all the cases anyway. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.StringFormatSpecifier
 	 * @generated
@@ -943,7 +930,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Style
 	 * @generated
@@ -958,7 +945,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.StyleMap
 	 * @generated
@@ -973,7 +960,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This default implementation returns null so that we can
 	 * easily ignore cases; it's useful to ignore a case when inheritance will catch
 	 * all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.Text
 	 * @generated
@@ -988,7 +975,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Alignment</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.TextAlignment
 	 * @generated
@@ -1003,7 +990,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * Value</em>}'. <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.TooltipValue
 	 * @generated
@@ -1018,7 +1005,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.attribute.URLValue
 	 * @generated
@@ -1030,7 +1017,7 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * Creates a new adapter for the default case. <!-- begin-user-doc --> This
 	 * default implementation returns null. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the new adapter.
 	 * @generated
 	 */

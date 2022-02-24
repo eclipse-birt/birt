@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -78,7 +78,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 	/**
 	 * Returns the binding cube if the element or its container has cube binding or
 	 * the reference to the cube
-	 *
+	 * 
 	 * @param element element handle
 	 * @return the binding cube or null
 	 * @since 2.3
@@ -106,7 +106,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Gets all measure handles in the cube.
-	 *
+	 * 
 	 * @param cube cube handle
 	 * @return all measure handles or empty list if no measure. The element in list
 	 *         is <code>MeasureHandle</code>
@@ -115,7 +115,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 	@SuppressWarnings("unchecked")
 	public static List<MeasureHandle> getAllMeasures(CubeHandle cube) {
 		if (cube.getContentCount(ICubeModel.MEASURE_GROUPS_PROP) > 0) {
-			List<MeasureHandle> measures = new ArrayList<>();
+			List<MeasureHandle> measures = new ArrayList<MeasureHandle>();
 			Iterator<?> measureGroups = cube.getContents(ICubeModel.MEASURE_GROUPS_PROP).iterator();
 			while (measureGroups.hasNext()) {
 				MeasureGroupHandle measureGroup = (MeasureGroupHandle) measureGroups.next();
@@ -128,7 +128,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Gets all level handles in the cube.
-	 *
+	 * 
 	 * @param cube cube handle
 	 * @return all level handles or empty list if no level. The element in list is
 	 *         <code>LevelHandle</code>
@@ -137,7 +137,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 	@SuppressWarnings("unchecked")
 	public static List<LevelHandle> getAllLevels(CubeHandle cube) {
 		if (cube.getContentCount(ICubeModel.DIMENSIONS_PROP) > 0) {
-			List<LevelHandle> levels = new ArrayList<>();
+			List<LevelHandle> levels = new ArrayList<LevelHandle>();
 			Iterator<DimensionHandle> dimensions = cube.getContents(ICubeModel.DIMENSIONS_PROP).iterator();
 			while (dimensions.hasNext()) {
 				DimensionHandle dimensionHandle = dimensions.next();
@@ -155,7 +155,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Returns dimension number of cube.
-	 *
+	 * 
 	 * @param cube
 	 * @return dimension count
 	 * @since 2.3
@@ -170,13 +170,13 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Gets all innermost level expressions from cross tab.
-	 *
+	 * 
 	 * @param xtab cross tab
 	 * @return Levels list, each element is String
 	 * @since 2.3
 	 */
 	public static List<String> getAllLevelsBindingName(CrosstabReportItemHandle xtab) {
-		List<String> levels = new ArrayList<>();
+		List<String> levels = new ArrayList<String>();
 
 		// Add column levels
 		Object content = getFirstContent(getInnermostLevelCell(xtab, ICrosstabConstants.COLUMN_AXIS_TYPE));
@@ -196,13 +196,13 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Returns dimension binding name list
-	 *
+	 * 
 	 * @param columnBindings all bindings
 	 * @return binding name list
 	 */
 	public static List<String> getAllLevelsBindingName(Iterator<ComputedColumnHandle> columnBindings) {
 		ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
-		List<String> bindings = new ArrayList<>();
+		List<String> bindings = new ArrayList<String>();
 		while (columnBindings.hasNext()) {
 			ComputedColumnHandle cc = columnBindings.next();
 			ChartReportItemUtil.loadExpression(exprCodec, cc);
@@ -216,13 +216,13 @@ public class ChartCubeUtil extends ChartItemUtil {
 	/**
 	 * Returns any binding names excluding dimension binding. That means the list
 	 * includes measure bindings or computed columns
-	 *
+	 * 
 	 * @param columnBindings all bindings
 	 * @return binding name list
 	 */
 	public static List<String> getAllMeasuresBindingName(Iterator<ComputedColumnHandle> columnBindings) {
 		ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
-		List<String> bindings = new ArrayList<>();
+		List<String> bindings = new ArrayList<String>();
 		while (columnBindings.hasNext()) {
 			ComputedColumnHandle cc = columnBindings.next();
 			ChartReportItemUtil.loadExpression(exprCodec, cc);
@@ -260,7 +260,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Gets the level by index of all levels
-	 *
+	 * 
 	 * @param xtab
 	 * @param axisType
 	 * @param levelIndex index of all levels in xtab
@@ -299,7 +299,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Gets the count of all levels in the xtab
-	 *
+	 * 
 	 * @param xtab
 	 * @param axisType
 	 * @return level count of all levels of all dimensions in xtab
@@ -325,7 +325,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Gets the cell in cross tab which contains the chart
-	 *
+	 * 
 	 * @param chartHandle the handle with chart
 	 * @return the cell which contains the chart or null
 	 * @throws BirtException
@@ -345,7 +345,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Gets the cell in cross tab which contains the chart
-	 *
+	 * 
 	 * @param chartHandle the handle with chart
 	 * @return the cell which contains the chart or null
 	 * @throws BirtException
@@ -373,7 +373,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Creates the dimension expression according to level
-	 *
+	 * 
 	 * @param level level handle
 	 * @return the dimension expression or null
 	 * @since 2.3
@@ -393,7 +393,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Creates the dimension expression according to level attribute
-	 *
+	 * 
 	 * @param level         level handle
 	 * @param attributeName level attribute name
 	 * @return the dimension expression or null
@@ -413,7 +413,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Creates the measure expression according to measure
-	 *
+	 * 
 	 * @param measure measure handle
 	 * @return the measure expression or null
 	 * @since 2.3
@@ -511,7 +511,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Checks current chart is in cross tab's measure cell.
-	 *
+	 * 
 	 * @param chartHandle the handle holding chart
 	 * @return true means within cross tab, false means not
 	 * @since 2.3
@@ -543,7 +543,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Updates runtime model to render chart plot only.
-	 *
+	 * 
 	 * @param cm   chart model
 	 * @param bRtL indicates if in right-to-left context
 	 * @return the modified chart model
@@ -588,7 +588,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Updates runtime model to render chart axis only.
-	 *
+	 * 
 	 * @param cm   chart model
 	 * @param bRtL indicates if in right-to-left context
 	 * @return the modified chart model
@@ -644,7 +644,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Generates the name of binding which references to xtab's measure.
-	 *
+	 * 
 	 * @param cell                measure cell or total cell
 	 * @param expressionIndicator measure expression indicator
 	 */
@@ -665,9 +665,8 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 		String name = ""; //$NON-NLS-1$
 		String temp = measureView.getCubeMeasureName();
-		if (temp != null && temp.length() > 0) {
+		if (temp != null && temp.length() > 0)
 			name = name + temp;
-		}
 
 		if (aggregationOnRow != null && aggregationOnRow.length() > 0) {
 			if (name.length() > 0) {
@@ -746,13 +745,13 @@ public class ChartCubeUtil extends ChartItemUtil {
 	/**
 	 * Returns bindings names whose dimension expressions equal with specified
 	 * expression.
-	 *
+	 * 
 	 * @param dimExpr
 	 * @param values
 	 * @return binding name list
 	 */
 	public static List<String> getRelatedBindingNames(String dimExpr, Collection<ComputedColumnHandle> values) {
-		List<String> bindingNames = new ArrayList<>(1);
+		List<String> bindingNames = new ArrayList<String>(1);
 		for (Iterator<ComputedColumnHandle> iter = values.iterator(); iter.hasNext();) {
 			ComputedColumnHandle cch = iter.next();
 			if (dimExpr.equals(cch.getExpression())) {
@@ -765,14 +764,14 @@ public class ChartCubeUtil extends ChartItemUtil {
 	/**
 	 * Returns bindings names whose dimension expressions equal with specified
 	 * expression.
-	 *
+	 * 
 	 * @param dimExpr
 	 * @param values
 	 * @return binding name list
 	 */
 	public static List<String> findDimensionBindingNames(String dimName, String levelName,
 			Collection<ComputedColumnHandle> bindings) {
-		List<String> bindingNames = new ArrayList<>(1);
+		List<String> bindingNames = new ArrayList<String>(1);
 		ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
 		for (ComputedColumnHandle cch : bindings) {
 			ChartReportItemUtil.loadExpression(exprCodec, cch);
@@ -787,7 +786,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 	/**
 	 * Returns the first binding whose dimension expressions equal with specified
 	 * expression.
-	 *
+	 * 
 	 * @param dimExpr
 	 * @param values
 	 * @return binding name list
@@ -806,7 +805,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Finds the reference chart from plot chart or axis chart.
-	 *
+	 * 
 	 * @param chartHandle
 	 * @return reference chart handle or null
 	 */
@@ -841,7 +840,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Updates XTab for Axis chart sync
-	 *
+	 * 
 	 * @param cell
 	 * @param hostChartHandle
 	 * @param bTransOld
@@ -911,22 +910,24 @@ public class ChartCubeUtil extends ChartItemUtil {
 			if (!ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL.equals(xtab.getMeasureDirection())) {
 				xtab.setMeasureDirection(ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL);
 			}
-		} else if (!ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals(xtab.getMeasureDirection())) {
-			xtab.setMeasureDirection(ICrosstabConstants.MEASURE_DIRECTION_VERTICAL);
+		} else {
+			if (!ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals(xtab.getMeasureDirection())) {
+				xtab.setMeasureDirection(ICrosstabConstants.MEASURE_DIRECTION_VERTICAL);
+			}
 		}
 	}
 
 	/**
 	 * Finds the plot/axis chart handle in other measures. If only one measure,
 	 * return empty list.
-	 *
+	 * 
 	 * @param cell
 	 * @param bPlotChart true returns plot chart, false returns axis true
 	 * @return list contains plot chart handle
 	 */
 	public static List<ExtendedItemHandle> findChartInOtherMeasures(AggregationCellHandle cell, boolean bPlotChart) {
 		if (cell.getCrosstab().getMeasureCount() > 1) {
-			List<ExtendedItemHandle> list = new ArrayList<>();
+			List<ExtendedItemHandle> list = new ArrayList<ExtendedItemHandle>();
 			for (int i = 0; i < cell.getCrosstab().getMeasureCount(); i++) {
 				MeasureViewHandle mv = cell.getCrosstab().getMeasure(i);
 				if (mv == cell.getContainer()) {
@@ -957,7 +958,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Removes Axis chart in Xtab.
-	 *
+	 * 
 	 * @param cell
 	 * @param bTransposed
 	 * @param bCleanSpan  indicates if column and row span need to clean
@@ -1014,13 +1015,13 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Adds Axis chart in XTab
-	 *
+	 * 
 	 * @param cell
 	 * @param cwa
 	 * @param chartHandle
 	 * @param bNewTotalJustAdded the flag indicates if grand total is just added
 	 * @throws BirtException
-	 *
+	 * 
 	 */
 	public static boolean addAxisChartInXTab(AggregationCellHandle cell, ChartWithAxes cwa,
 			ExtendedItemHandle hostChartHandle, boolean bNewTotalJustAdded) throws BirtException {
@@ -1100,7 +1101,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Updates cells that contains axis chart
-	 *
+	 * 
 	 * @param cell cell that contains axis chart
 	 * @param cwa  chart model
 	 * @return if cell is updated completely
@@ -1154,7 +1155,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Deletes all data item in specified grand total.
-	 *
+	 * 
 	 * @param xtab
 	 * @param bTransposed
 	 * @throws SemanticException
@@ -1173,7 +1174,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 
 	/**
 	 * Updates Axis chart in Xtab by replacing date item with axis chart.
-	 *
+	 * 
 	 * @param cell
 	 * @param cwa
 	 * @param hostChartHandle
@@ -1269,7 +1270,7 @@ public class ChartCubeUtil extends ChartItemUtil {
 	/**
 	 * Check if current column bindings contain one dimension and one measure at
 	 * least.
-	 *
+	 * 
 	 * @param columnBindings
 	 * @return check result
 	 */

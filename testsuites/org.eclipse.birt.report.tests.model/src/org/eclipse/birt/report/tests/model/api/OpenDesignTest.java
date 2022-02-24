@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -16,11 +16,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.tests.model.BaseTestCase;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
  * TestCases for open different kinds of report design.
@@ -28,44 +28,44 @@ import junit.framework.TestSuite;
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- *
+ * 
  * <tr>
  * <td>{@link #testOpendesign1()}</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testOpendesign2()}</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testOpendesign3()}</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testOpendesign4()}</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testOpendesign5()}</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testOpendesign6()}</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testOpendesign7()}</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testOpendesign8()}</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testOpendesign9()}</td>
  * </tr>
  * </table>
- *
+ * 
  */
 public class OpenDesignTest extends BaseTestCase {
 	String fileName = "BlankReport.xml"; //$NON-NLS-1$
@@ -83,21 +83,19 @@ public class OpenDesignTest extends BaseTestCase {
 		return new TestSuite(OpenDesignTest.class);
 	}
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyInputToFile(INPUT_FOLDER + "/" + fileName);
 	}
 
-	@Override
 	public void tearDown() {
 		removeResource();
 	}
 
 	/**
 	 * Open a design with absolute path string filename and inputstream
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testOpendesign1() throws Exception {
@@ -113,7 +111,7 @@ public class OpenDesignTest extends BaseTestCase {
 
 	/**
 	 * Open a design with relative path string filename and inputstream
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testOpendesign2() throws Exception {
@@ -128,7 +126,7 @@ public class OpenDesignTest extends BaseTestCase {
 
 	/**
 	 * Open a design with URI and inputstream
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testOpendesign3() throws Exception {
@@ -143,7 +141,7 @@ public class OpenDesignTest extends BaseTestCase {
 
 	/**
 	 * Open a no-existing design with absolute path string filename and inputstream
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testOpendesign4() throws Exception {
@@ -164,7 +162,7 @@ public class OpenDesignTest extends BaseTestCase {
 
 	/**
 	 * Open a no-existing design with relative path string filename and inputstream
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testOpendesign5() throws Exception {
@@ -186,7 +184,7 @@ public class OpenDesignTest extends BaseTestCase {
 
 	/**
 	 * Open a no-existing design with URI and inputstream
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testOpendesign6() throws Exception {
@@ -207,7 +205,7 @@ public class OpenDesignTest extends BaseTestCase {
 
 	/**
 	 * Open a design with absolute path folder and inputstream
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testOpendesign7() throws Exception {
@@ -223,7 +221,7 @@ public class OpenDesignTest extends BaseTestCase {
 
 	/**
 	 * Open a design with URI folder and inputstream
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testOpendesign8() throws Exception {
@@ -239,7 +237,7 @@ public class OpenDesignTest extends BaseTestCase {
 
 	/**
 	 * Open a design with relative path folder and inputstream
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testOpendesign9() throws Exception {

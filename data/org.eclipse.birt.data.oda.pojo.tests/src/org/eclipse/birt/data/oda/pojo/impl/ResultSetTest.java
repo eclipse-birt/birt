@@ -1,22 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.oda.pojo.impl;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -26,6 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.birt.data.oda.pojo.api.Constants;
+import org.eclipse.birt.data.oda.pojo.impl.ResultSet;
 import org.eclipse.birt.data.oda.pojo.input.pojos.Course;
 import org.eclipse.birt.data.oda.pojo.input.pojos.CustomTeacherDataSet;
 import org.eclipse.birt.data.oda.pojo.input.pojos.Student;
@@ -44,22 +41,24 @@ import org.eclipse.birt.data.oda.pojo.util.PojoQueryWriter;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- *
+ * 
  */
 
 public class ResultSetTest {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
 	@SuppressWarnings("unchecked")
@@ -390,21 +389,17 @@ public class ResultSetTest {
 	@SuppressWarnings("nls")
 	private String getAbsolutePath() {
 		java.security.ProtectionDomain pd = TeacherDataSet.class.getProtectionDomain();
-		if (pd == null) {
+		if (pd == null)
 			return null;
-		}
 		java.security.CodeSource cs = pd.getCodeSource();
-		if (cs == null) {
+		if (cs == null)
 			return null;
-		}
 		java.net.URL url = cs.getLocation();
-		if (url == null) {
+		if (url == null)
 			return null;
-		}
 		java.io.File f = new File(url.getFile());
-		if (f == null) {
+		if (f == null)
 			return null;
-		}
 		String result = f.getAbsolutePath();
 
 		// when run in "JUnit Plugin Test" point to "bin" dir

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,13 +41,12 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#populate(java.lang.Object,
 	 * org.eclipse.birt.chart.model.data.DataSet)
 	 */
-	@Override
-	public DataSet populate(Object oResultSetDef, DataSet ds) throws ChartException {
+	public final DataSet populate(Object oResultSetDef, DataSet ds) throws ChartException {
 		if (oResultSetDef instanceof IResultSetDataSet) {
 			final IResultSetDataSet rsds = (IResultSetDataSet) oResultSetDef;
 			final long lRowCount = rsds.getSize();
@@ -109,13 +108,12 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt
 	 * .chart.model.data.DataSet)
 	 */
-	@Override
-	public Object getMinimum(DataSet ds) throws ChartException {
+	public final Object getMinimum(DataSet ds) throws ChartException {
 		DataSetIterator dsi = null;
 		try {
 			dsi = new DataSetIterator(ds);
@@ -161,8 +159,10 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter {
 							continue;
 						}
 						bnMin = ((java.math.BigDecimal) bnMin).min((java.math.BigDecimal) da[j]);
-					} else if (dMin > da[j].doubleValue()) {
-						dMin = da[j].doubleValue();
+					} else {
+						if (dMin > da[j].doubleValue()) {
+							dMin = da[j].doubleValue();
+						}
 					}
 				}
 			}
@@ -172,13 +172,12 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt
 	 * .chart.model.data.DataSet)
 	 */
-	@Override
-	public Object getMaximum(DataSet ds) throws ChartException {
+	public final Object getMaximum(DataSet ds) throws ChartException {
 		DataSetIterator dsi = null;
 		try {
 			dsi = new DataSetIterator(ds);
@@ -224,8 +223,10 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter {
 							continue;
 						}
 						bnMax = ((java.math.BigDecimal) bnMax).max((java.math.BigDecimal) da[j]);
-					} else if (dMax < da[j].doubleValue()) {
-						dMax = da[j].doubleValue();
+					} else {
+						if (dMax < da[j].doubleValue()) {
+							dMax = da[j].doubleValue();
+						}
 					}
 				}
 			}
@@ -241,15 +242,14 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter {
 	 * negative component of the data element. DataElements should be separated by
 	 * commas (,). Components within the data element are separated by a space and
 	 * their sequence is not important.
-	 *
+	 * 
 	 * @return DataSet populated by the entries in the String or null if the String
 	 *         is null.
 	 * @throws ChartException if there is any problem parsing the String passed in.
 	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#fromString(java.lang.String,
 	 *      org.eclipse.birt.chart.model.data.DataSet)
 	 */
-	@Override
-	public DataSet fromString(String sDataSetRepresentation, DataSet ds) throws ChartException {
+	public final DataSet fromString(String sDataSetRepresentation, DataSet ds) throws ChartException {
 		// Do NOT create a DataSet if the content string is null
 		if (sDataSetRepresentation == null) {
 			return ds;
@@ -262,7 +262,7 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter {
 		StringTokenizer strTokComponents = null;
 		String strDataElement = null;
 		String strComponent = null;
-		List<DifferenceEntry> vData = new ArrayList<>();
+		List<DifferenceEntry> vData = new ArrayList<DifferenceEntry>();
 		while (strTokDataElement.hasMoreTokens()) {
 			strDataElement = strTokDataElement.nextToken().trim();
 
@@ -296,24 +296,22 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.DataSetProcessor#getExpectedStringFormat()
 	 */
-	@Override
 	public String getExpectedStringFormat() {
 		return Messages.getString("info.difference.sample.format", //$NON-NLS-1$
 				getULocale());
 	}
 
-	@Override
 	public String toString(Object[] columnData) throws ChartException {
 		if (columnData == null || columnData.length == 0) {
 			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET,
 					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
 					Messages.getResourceBundle(getULocale()));
 		}
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < columnData.length; i++) {
 			if (columnData[i] == null) {
 				throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET,

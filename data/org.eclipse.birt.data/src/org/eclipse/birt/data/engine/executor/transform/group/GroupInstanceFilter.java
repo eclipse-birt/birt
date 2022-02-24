@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +55,7 @@ class GroupInstanceFilter {
 
 	/**
 	 * Do group filtering job.
-	 *
+	 * 
 	 * @param cx
 	 * @param stopSign
 	 * @throws DataException
@@ -86,16 +86,15 @@ class GroupInstanceFilter {
 	/**
 	 * Populate the Group filter expression list and its corresponding group level
 	 * list that being used in IExpressionProcessor.calculate() method.
-	 *
+	 * 
 	 * @return
 	 */
 	private void populateGroupFilteringExpressions(List expressionList, List groupLevels) {
 		for (int i = 0; i < this.populator.getQuery().getGrouping().length; i++) {
 			List groupFilters = this.populator.getQuery().getGrouping()[i].getFilters();
 			String name = this.populator.getQuery().getGrouping()[i].getName();
-			if (groupFilters == null) {
+			if (groupFilters == null)
 				continue;
-			}
 			for (int j = 0; j < groupFilters.size(); j++) {
 				if (((IFilterDefinition) groupFilters.get(j)).updateAggregation()) {
 					IBaseExpression expr = ((IFilterDefinition) groupFilters.get(j)).getExpression();
@@ -110,7 +109,7 @@ class GroupInstanceFilter {
 	/**
 	 * Populate the "accept" fields in GroupBoundaryInfos. If one GroupBoundaryInfo
 	 * would be filtered out then the "accept" field is set to false else ture.
-	 *
+	 * 
 	 * @param cx
 	 * @param groupBoundaryInfos
 	 * @throws DataException
@@ -120,9 +119,8 @@ class GroupInstanceFilter {
 		for (int i = 1; i <= this.populator.getQuery().getGrouping().length; i++) {
 			// The sorts of certain group
 			List filters = this.populator.getQuery().getGrouping()[i - 1].getFilters();
-			if (filters == null || filters.size() == 0) {
+			if (filters == null || filters.size() == 0)
 				continue;
-			}
 
 			// Return to first record.
 			this.populator.getResultIterator().first(0);
@@ -175,9 +173,8 @@ class GroupInstanceFilter {
 						GroupBoundaryInfo.getCreator());
 				for (int n = 0; n < groupBoundaryInfos[i - 1].size(); n++) {
 					if ((((GroupBoundaryInfo) groupBoundaryInfos[i - 2].get(k))
-							.isInBoundary(((GroupBoundaryInfo) groupBoundaryInfos[i - 1].get(n))))) {
+							.isInBoundary(((GroupBoundaryInfo) groupBoundaryInfos[i - 1].get(n)))))
 						currentGroupArray.add(groupBoundaryInfos[i - 1].get(n));
-					}
 				}
 				makeAGroupFilteringMultiPass(cx, i, groupedFilters, currentGroupArray, passedGroups);
 				passedGroups += currentGroupArray.size();
@@ -189,7 +186,7 @@ class GroupInstanceFilter {
 
 	/**
 	 * Dealing with filters that needs multi-pass.
-	 *
+	 * 
 	 * @param cx
 	 * @param groupLevel
 	 * @param groupedFilters
@@ -234,7 +231,7 @@ class GroupInstanceFilter {
 
 	/**
 	 * Add filter infos to a group of GroupBoundaryInfo instances.
-	 *
+	 * 
 	 * @param cx
 	 * @param currentGroupArray
 	 * @param filters
@@ -254,16 +251,15 @@ class GroupInstanceFilter {
 			}
 
 			boolean accept = evaluateFilters(cx, filters);
-			if (setUpValue) {
+			if (setUpValue)
 				currentGBI.setAccepted(currentGBI.isAccpted() && accept);
-			}
 			this.populator.getResultIterator().next();
 		}
 	}
 
 	/**
 	 * Evaluate the value of a series of filters
-	 *
+	 * 
 	 * @param cx
 	 * @param groupFilters
 	 * @return
@@ -274,7 +270,7 @@ class GroupInstanceFilter {
 			Object result = evaluteFilterExpression(cx, (IFilterDefinition) (groupFilters.get(j)));
 
 			try {
-				if (!DataTypeUtil.toBoolean(result).booleanValue()) {
+				if (DataTypeUtil.toBoolean(result).booleanValue() == false) {
 					return false;
 				}
 			} catch (BirtException e) {
@@ -288,7 +284,7 @@ class GroupInstanceFilter {
 
 	/**
 	 * Evaluate a filter expression.
-	 *
+	 * 
 	 * @param cx
 	 * @param filter
 	 * @return
@@ -304,11 +300,10 @@ class GroupInstanceFilter {
 
 		if (result == null) {
 			Object info = null;
-			if (expr instanceof IScriptExpression) {
+			if (expr instanceof IScriptExpression)
 				info = ((IScriptExpression) expr).getText();
-			} else {
+			else
 				info = expr;
-			}
 			throw new DataException(ResourceConstants.INVALID_EXPRESSION_IN_FILTER, info);
 		}
 		return result;

@@ -4,13 +4,16 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.chart.tests.script;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.eclipse.birt.chart.tests.script.component.AxisTest;
 import org.eclipse.birt.chart.tests.script.component.CategoryTest;
@@ -26,9 +29,6 @@ import org.eclipse.birt.chart.tests.script.series.BarSeriesTest;
 import org.eclipse.birt.chart.tests.script.series.PieSeriesTest;
 import org.eclipse.birt.chart.tests.script.series.SeriesTypeTest;
 import org.eclipse.birt.chart.tests.script.series.StackableSeriesTest;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 public class SimpleAPITest {
 

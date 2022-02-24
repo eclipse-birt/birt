@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -80,12 +80,11 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop
 	 * (org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
-	@Override
 	public boolean onBroughtToTop(IReportEditorPage prePage) {
 		if (getEditorInput() != prePage.getEditorInput()) {
 			setInput(prePage.getEditorInput());
@@ -104,7 +103,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 		}
 
 		boolean ret = refresh();
-		if (!ret && isMissingParameter()) {
+		if (ret == false && isMissingParameter()) {
 			// if miss parameter yet, can't preview report and scroll to
 			// the previous page.
 			editor.setActivePage(prePage.getId());
@@ -113,11 +112,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 		return ret;
 	}
 
-	@Override
 	protected boolean refresh() {
-		if (isPreviewing) {
+		if (isPreviewing)
 			return false;
-		}
 		isPreviewing = true;
 
 		ModuleHandle model = getModel();
@@ -183,31 +180,28 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
-	@Override
 	public Control getPartControl() {
 		return control;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
-	@Override
 	public String getId() {
 		return ID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 		Control[] children = parent.getChildren();
@@ -216,48 +210,43 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale
 	 * (int)
 	 */
-	@Override
 	public void markPageStale(int type) {
 		staleType = type;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType ()
 	 */
-	@Override
 	public int getStaleType() {
 		return staleType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
-	@Override
 	public boolean isDirty() {
 		return false;
 	}
 
-	@Override
 	protected IReportProvider getProvider() {
 		return (IReportProvider) editor.getAdapter(IReportProvider.class);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(ActionRegistry.class)) {
 			return new ActionRegistry();
@@ -267,11 +256,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
 	 * .editor.FormEditor)
 	 */
-	@Override
 	public void initialize(FormEditor editor) {
 		this.editor = editor;
 
@@ -279,50 +267,45 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
-	@Override
 	public FormEditor getEditor() {
 		return editor;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
-	@Override
 	public IManagedForm getManagedForm() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
-	@Override
 	public void setActive(boolean active) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
-	@Override
 	public boolean isActive() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
-	@Override
 	public boolean canLeaveThePage() {
 		handleLeaveThePage();
 		return true;
@@ -330,70 +313,63 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
-	@Override
 	public int getIndex() {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
-	@Override
 	public void setIndex(int index) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
-	@Override
 	public boolean isEditor() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
-	@Override
 	public boolean selectReveal(Object object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
-	@Override
 	public void setInput(IEditorInput input) {
 		super.setInput(input);
-		if (parameterDialog != null) {
+		if (parameterDialog != null)
 			parameterDialog.setUri(getFileUri());
-		}
 	}
 
 	/**
 	 * Get parameter values from config file.
-	 *
+	 * 
 	 * @return Map
 	 */
 	private Map<String, ?> getConfigVars() {
-		Map<String, Object> configVars = new HashMap<>();
+		Map<String, Object> configVars = new HashMap<String, Object>();
 
 		// get design config file name
 		String configFileName = getConfigFileName(this.getFileUri());
-		if (configFileName == null) {
+		if (configFileName == null)
 			return configVars;
-		}
 
 		ReportDesignHandle handle = null;
 
@@ -427,14 +403,12 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 										+ PROP_TYPE + "_"; //$NON-NLS-1$
 								ConfigVariable typeVar = handle.findConfigVariable(typeVarName);
 								String dataType = null;
-								if (typeVar != null) {
+								if (typeVar != null)
 									dataType = typeVar.getValue();
-								}
 
 								// if null or data type changed, skip it
-								if (dataType == null || !dataType.equalsIgnoreCase(parameter.getDataType())) {
+								if (dataType == null || !dataType.equalsIgnoreCase(parameter.getDataType()))
 									continue;
-								}
 
 								// find cached parameter value expression
 								String exprVarName = varName + "_" //$NON-NLS-1$
@@ -442,21 +416,17 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 								ConfigVariable exprVar = handle.findConfigVariable(exprVarName);
 								String expr = parameter.getValueExpr();
 								String cachedExpr = null;
-								if (exprVar != null) {
+								if (exprVar != null)
 									cachedExpr = exprVar.getValue();
-								}
 
-								if (cachedExpr == null) {
+								if (cachedExpr == null)
 									cachedExpr = ""; //$NON-NLS-1$
-								}
-								if (expr == null) {
+								if (expr == null)
 									expr = ""; //$NON-NLS-1$
-								}
 
 								// if value expression changed,skip it
-								if (!cachedExpr.equals(expr)) {
+								if (!cachedExpr.equals(expr))
 									continue;
-								}
 							}
 
 							if (paramName != null && paramName.length() > 0) {
@@ -499,7 +469,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/**
 	 * Delete the last "_" part
-	 *
+	 * 
 	 * @param name
 	 * @return String
 	 */
@@ -510,7 +480,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/**
 	 * if parameter existed in config file, return the correct parameter name
-	 *
+	 * 
 	 * @param configVarName
 	 * @return String
 	 */
@@ -551,14 +521,13 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/**
 	 * Find parameter by name
-	 *
+	 * 
 	 * @param paramName
 	 * @return ScalarParameterHandle
 	 */
 	private ScalarParameterHandle findParameter(String paramName) {
-		if (paramName == null) {
+		if (paramName == null)
 			return null;
-		}
 
 		ScalarParameterHandle parameter = null;
 		List parameters = null;
@@ -608,7 +577,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/**
 	 * If miss parameter.
-	 *
+	 * 
 	 * @return boolean
 	 */
 	protected boolean isMissingParameter() {
@@ -650,20 +619,26 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 						List values = (List) valueObj;
 						for (int j = 0; j < values.size(); j++) {
 							Object value = values.get(j);
-							if ((value == null) || (DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase(parameter.getDataType())
-									&& ((String) value).length() <= 0)) {
+							if (value == null) {
+								missingParameter = true;
+								break;
+							}
+
+							if (DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase(parameter.getDataType())
+									&& ((String) value).length() <= 0) {
 								missingParameter = true;
 								break;
 							}
 						}
 
-						if (missingParameter) {
+						if (missingParameter)
+							break;
+					} else {
+						if (DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase(parameter.getDataType())
+								&& ((String) valueObj).length() <= 0) {
+							missingParameter = true;
 							break;
 						}
-					} else if (DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase(parameter.getDataType())
-							&& ((String) valueObj).length() <= 0) {
-						missingParameter = true;
-						break;
 					}
 				}
 			}
@@ -674,15 +649,14 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/**
 	 * Parse config file name from report design filename.
-	 *
+	 * 
 	 * @param reportDesignName String
 	 * @return String
 	 */
 
 	private String getConfigFileName(String reportDesignName) {
-		if (reportDesignName == null) {
+		if (reportDesignName == null)
 			return null;
-		}
 
 		String[] result = reportDesignName.split("\\."); //$NON-NLS-1$
 		String extensionName = result[result.length - 1];
@@ -694,10 +668,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
 	 */
-	@Override
 	protected void firePropertyChange(int type) {
 		if (type == PROP_DIRTY) {
 			editor.editorDirtyStateChanged();
@@ -706,7 +679,6 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 		}
 	}
 
-	@Override
 	protected void finalize() throws Throwable {
 		if (Policy.TRACING_PAGE_CLOSE) {
 			System.out.println("Report preview page finalized"); //$NON-NLS-1$
@@ -716,12 +688,11 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvan
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.IAdvanceReportEditorPage
 	 * #isSensitivePartChange()
 	 */
-	@Override
 	public boolean isSensitivePartChange() {
 		return false;
 	}

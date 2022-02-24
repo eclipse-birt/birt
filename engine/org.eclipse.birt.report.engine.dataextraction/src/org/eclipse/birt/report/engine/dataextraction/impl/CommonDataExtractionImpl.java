@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,6 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase {
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initialize(org.eclipse.birt.report.engine.api.script.IReportContext,
 	 *      org.eclipse.birt.report.engine.api.IDataExtractionOption)
 	 */
-	@Override
 	public void initialize(IReportContext context, IDataExtractionOption options) throws BirtException {
 		this.context = context;
 		this.options = options;
@@ -76,12 +75,12 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase {
 	/**
 	 * Initializes the common options based on the data extraction option. If the
 	 * passed option doesn't contain common options, use default values.
-	 *
+	 * 
 	 * @param context
 	 * @param options options
 	 */
 	private void initCommonOptions(IReportContext context, IDataExtractionOption options) {
-		String dateFormat;
+		String dateFormat = null;
 		ICommonDataExtractionOption commonOptions;
 		if (options instanceof ICommonDataExtractionOption) {
 			commonOptions = (ICommonDataExtractionOption) options;
@@ -124,7 +123,7 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase {
 
 	/**
 	 * Returns the report context with which this instance has been initialized.
-	 *
+	 * 
 	 * @return report context instance
 	 */
 	public IReportContext getReportContext() {
@@ -134,7 +133,7 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase {
 	/**
 	 * Returns the data extraction options with which this instance has been
 	 * initialized
-	 *
+	 * 
 	 * @return instance of IDataExtractionOption
 	 */
 	public IDataExtractionOption getOptions() {
@@ -144,7 +143,6 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase {
 	/**
 	 * Must be implemented by subclass.
 	 */
-	@Override
 	public void output(IExtractionResults results) throws BirtException {
 		throw new BirtException(PLUGIN_ID, Messages.getString("exception.dataextraction.missing_implementation"), null); //$NON-NLS-1$
 	}
@@ -224,16 +222,15 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase {
 
 	/**
 	 * Must be implemented by subclass.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#release()
 	 */
-	@Override
 	public void release() {
 	}
 
 	/**
 	 * Creates a localized date formatter.
-	 *
+	 * 
 	 * @param pattern date format string or null for default
 	 */
 	protected DateFormatter createDateFormatter(String pattern, ULocale locale, TimeZone timeZone) {
@@ -244,9 +241,9 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase {
 	 * Returns the string value by object, according the the isLocaleNeutral option
 	 * and the user specified formats(date format, number format, string format), if
 	 * available.
-	 *
+	 * 
 	 * @param dataIterator
-	 *
+	 * 
 	 * @param columnNames
 	 * @param index
 	 * @return string representation of the object

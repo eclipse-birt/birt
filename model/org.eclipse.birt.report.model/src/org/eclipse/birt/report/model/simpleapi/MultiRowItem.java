@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 /**
  * Implements of multi row item for extension elements.
- *
+ * 
  */
 public class MultiRowItem extends ReportItem implements IMultiRowItem {
 
@@ -43,7 +43,7 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param item
 	 */
 
@@ -62,11 +62,9 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem {
 		}
 	}
 
-	@Override
 	public IFilterCondition[] getFilterConditions() {
-		if (filterPropName == null) {
+		if (filterPropName == null)
 			return null;
-		}
 
 		PropertyHandle propHandle = handle.getPropertyHandle(filterPropName);
 		Iterator iterator = propHandle.iterator();
@@ -84,11 +82,9 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem {
 		return (IFilterCondition[]) rList.toArray(new IFilterCondition[count]);
 	}
 
-	@Override
 	public ISortCondition[] getSortConditions() {
-		if (sortPropName == null) {
+		if (sortPropName == null)
 			return null;
-		}
 
 		PropertyHandle propHandle = handle.getPropertyHandle(sortPropName);
 		Iterator iterator = propHandle.iterator();
@@ -108,17 +104,15 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem {
 
 	/**
 	 * Add FilterCondition
-	 *
+	 * 
 	 * @param condition
 	 * @throws SemanticException
 	 */
 
-	@Override
 	public void addFilterCondition(IFilterCondition condition) throws SemanticException {
 
-		if (filterPropName == null || condition == null) {
+		if (filterPropName == null || condition == null)
 			return;
-		}
 		PropertyHandle propHandle = handle.getPropertyHandle(filterPropName);
 
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
@@ -136,16 +130,14 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem {
 
 	/**
 	 * Add SortCondition
-	 *
+	 * 
 	 * @param condition
 	 * @throws SemanticException
 	 */
 
-	@Override
 	public void addSortCondition(ISortCondition condition) throws SemanticException {
-		if (sortPropName == null || condition == null) {
+		if (sortPropName == null || condition == null)
 			return;
-		}
 		PropertyHandle propHandle = handle.getPropertyHandle(sortPropName);
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
@@ -160,11 +152,9 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem {
 		cmdStack.commit();
 	}
 
-	@Override
 	public void removeFilterCondition(IFilterCondition condition) throws SemanticException {
-		if (filterPropName == null) {
+		if (filterPropName == null)
 			return;
-		}
 
 		PropertyHandle propHandle = handle.getPropertyHandle(filterPropName);
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
@@ -180,11 +170,9 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem {
 		cmdStack.commit();
 	}
 
-	@Override
 	public void removeFilterConditions() throws SemanticException {
-		if (filterPropName == null) {
+		if (filterPropName == null)
 			return;
-		}
 
 		PropertyHandle propHandle = handle.getPropertyHandle(filterPropName);
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
@@ -200,11 +188,9 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem {
 		cmdStack.commit();
 	}
 
-	@Override
 	public void removeSortCondition(ISortCondition condition) throws SemanticException {
-		if (sortPropName == null) {
+		if (sortPropName == null)
 			return;
-		}
 
 		PropertyHandle propHandle = handle.getPropertyHandle(sortPropName);
 
@@ -221,11 +207,9 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem {
 		cmdStack.commit();
 	}
 
-	@Override
 	public void removeSortConditions() throws SemanticException {
-		if (sortPropName == null) {
+		if (sortPropName == null)
 			return;
-		}
 
 		PropertyHandle propHandle = handle.getPropertyHandle(sortPropName);
 

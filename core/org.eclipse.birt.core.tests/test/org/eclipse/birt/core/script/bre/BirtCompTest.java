@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.mozilla.javascript.Scriptable;
 import junit.framework.TestCase;
 
 /**
- *
+ * 
  */
 public class BirtCompTest extends TestCase {
 	private Context cx;
@@ -32,10 +32,9 @@ public class BirtCompTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
 	@Before
 	public void setUp() throws Exception {
 		/*
@@ -62,17 +61,16 @@ public class BirtCompTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	@Override
 	@After
 	public void tearDown() {
 		Context.exit();
 	}
 
 	/**
-	 *
+	 * 
 	 *
 	 */
 	@Test
@@ -119,7 +117,7 @@ public class BirtCompTest extends TestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 *
 	 */
 	@Test
@@ -134,12 +132,12 @@ public class BirtCompTest extends TestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 *
 	 */
 	@Test
 	public void testCompare() {
-		Object[][] tests = {
+		Object[][] tests = new Object[][] {
 				// Equal to
 				{ "BirtComp.equalTo(100,100);", true }, { "BirtComp.equalTo(null,null)", true },
 				{ "BirtComp.equalTo(\"ABC\",\"ABC\")", true },
@@ -189,12 +187,12 @@ public class BirtCompTest extends TestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 *
 	 */
 	@Test
 	public void testMatch() {
-		String[] script = {
+		String[] script = new String[] {
 				// Equal to
 				"BirtComp.match(\"x 99:02:03\",\".*[0-9]*:[0-9]*:[0-9]*\");",
 				"BirtComp.match(\"x 99::03\",\".*[0-9]*:[0-9]*:[0-9]*\");",
@@ -205,7 +203,7 @@ public class BirtCompTest extends TestCase {
 
 		};
 
-		boolean[] result = { true, true, true, true, true, false };
+		boolean[] result = new boolean[] { true, true, true, true, true, false };
 
 		for (int i = 0; i < script.length; i++) {
 			assertTrue(((Boolean) cx.evaluateString(scope, script[i], "inline", 1, null)).booleanValue() == result[i]);
@@ -213,12 +211,12 @@ public class BirtCompTest extends TestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 *
 	 */
 	@Test
 	public void testLike() {
-		String[] script = {
+		String[] script = new String[] {
 				// Equal to
 				"BirtComp.like(\"x 99:02:03\",\"%:0_:03\");", "BirtComp.like(\"x 99::003\",\"%9_::__3\");",
 				"BirtComp.like(\"x 99:02:03\",\"%99:02_03\");", "BirtComp.like(\"x 99:02:03\",\"x 99%0_\");",
@@ -233,8 +231,8 @@ public class BirtCompTest extends TestCase {
 
 		};
 
-		boolean[] result = { true, true, true, true, true, false, false, false, true, false, true, false, true, true,
-				false, true, true };
+		boolean[] result = new boolean[] { true, true, true, true, true, false, false, false, true, false, true, false,
+				true, true, false, true, true };
 
 		for (int i = 0; i < script.length; i++) {
 			assertEquals(result[i], ((Boolean) cx.evaluateString(scope, script[i], "inline", 1, null)).booleanValue());
@@ -243,12 +241,12 @@ public class BirtCompTest extends TestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 *
 	 */
 	@Test
 	public void testNotLike() {
-		String[] script = {
+		String[] script = new String[] {
 				// Equal to
 				"BirtComp.notLike(\"x 99:02:03\",\"%:0_:03\");", "BirtComp.notLike(\"x 99::003\",\"%9_::__3\");",
 				"BirtComp.notLike(\"x 99:02:03\",\"%99:02_03\");", "BirtComp.notLike(\"x 99:02:03\",\"x 99%0_\");",
@@ -260,7 +258,8 @@ public class BirtCompTest extends TestCase {
 				"BirtComp.notLike(\"x 99%:02_03\",\"\\\\\\\\%\\\\%:02\\\\_03\");",
 				"BirtComp.notLike(\"x \\\\99%:02_03\",\"_ \\\\\\\\99\\\\%:02\\\\_03\");" };
 
-		boolean[] result = { false, false, false, false, false, true, true, true, false, true, false, true, false };
+		boolean[] result = new boolean[] { false, false, false, false, false, true, true, true, false, true, false,
+				true, false };
 
 		for (int i = 0; i < script.length; i++) {
 			assertEquals(result[i], ((Boolean) cx.evaluateString(scope, script[i], "inline", 1, null)).booleanValue());
@@ -269,18 +268,18 @@ public class BirtCompTest extends TestCase {
 
 	/**
 	 * Test BirtComp.compareString function
-	 *
+	 * 
 	 */
 	@Test
 	public void testCompareString() {
-		String[] script = { "BirtComp.compareString(null,null)", "BirtComp.compareString(null,\"abc\")",
+		String[] script = new String[] { "BirtComp.compareString(null,null)", "BirtComp.compareString(null,\"abc\")",
 				"BirtComp.compareString(\"abc\",null);", "BirtComp.compareString(\"ABC\",\"ABC\")",
 				"BirtComp.compareString(\"abc\",\"ABC\")", "BirtComp.compareString(\"ABC\",\"DEF\")",
 				"BirtComp.compareString(\"abc\",\"ABC\",true)", "BirtComp.compareString(\"abc \",\"ABC\",true)",
 				"BirtComp.compareString(\"abc \",\"ABC\",true,true)",
 				"BirtComp.compareString(\"abc \",\"ABC\",false,true)", };
 
-		boolean[] result = { true, false, false, true, false, false, true, false, true, false };
+		boolean[] result = new boolean[] { true, false, false, true, false, false, true, false, true, false };
 
 		for (int i = 0; i < script.length; i++) {
 			assertTrue((Boolean) cx.evaluateString(scope, script[i], "inline", 1, null) == result[i]);

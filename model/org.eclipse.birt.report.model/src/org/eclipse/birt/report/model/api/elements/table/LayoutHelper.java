@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ public final class LayoutHelper {
 	/**
 	 * Resolves the layout to specified rows. This is for rows in Table Header,
 	 * Table Footer, Detail and Group Footer.
-	 *
+	 * 
 	 * @param mappingSlot the slot information
 	 * @param row         the table row to resolve
 	 * @param module      the report module
@@ -44,9 +44,8 @@ public final class LayoutHelper {
 
 	private static void applyLayoutOnRow(LayoutSlot mappingSlot, TableRow row, Module module) {
 		List<DesignElement> cells = row.getContentsSlot();
-		if (cells.size() == 0) {
+		if (cells.size() == 0)
 			return;
-		}
 
 		// gets the current row, dropping effects has been taken.
 
@@ -57,11 +56,10 @@ public final class LayoutHelper {
 			int colSpan = cell.getColSpan(module);
 			int definedColumn = cell.getColumn(module);
 
-			if (definedColumn != 0) {
+			if (definedColumn != 0)
 				startCol = definedColumn;
-			} else {
+			else
 				startCol = findFillInPosition(mappingRow, startCol, colSpan);
-			}
 
 			mappingSlot.addCell(startCol, cell.getRowSpan(module), colSpan, cell, false);
 
@@ -72,7 +70,7 @@ public final class LayoutHelper {
 	/**
 	 * Finds the space for the given cell information: the column position and the
 	 * column span.
-	 *
+	 * 
 	 * @param row      the row information.
 	 * @param startPos 1-based the position where to start the search
 	 * @param colSpan  the column span of the cell
@@ -86,11 +84,10 @@ public final class LayoutHelper {
 
 		for (int i = startPos - 1, interval = 0; i < row.getColumnCount(); i++) {
 			LayoutCell cell = row.getLayoutCell(i);
-			if (!cell.isUsed()) {
+			if (!cell.isUsed())
 				interval++;
-			} else {
+			else
 				interval = 0;
-			}
 
 			// to the first interval space between neighboring cells. Like
 			// the behavior in HTML, do not wait until the enough space.
@@ -112,11 +109,10 @@ public final class LayoutHelper {
 
 			for (int i = row.getColumnCount() - 1; i >= startPos - 1; i--) {
 				LayoutCell cell = row.getLayoutCell(i);
-				if (!cell.isUsed()) {
+				if (!cell.isUsed())
 					startCol--;
-				} else {
+				else
 					break;
-				}
 			}
 		}
 
@@ -127,7 +123,7 @@ public final class LayoutHelper {
 	 * Resolves the layout for the given table element. This methods resolves
 	 * "colSpan", "rowSpan" and "dropping" properties of cells in the table. If
 	 * there is any error, records and proceed as much as possible.
-	 *
+	 * 
 	 * @param module the report module.
 	 * @param table  the table element
 	 * @return the table that holds the layout structure after resolving
@@ -177,7 +173,7 @@ public final class LayoutHelper {
 
 	/**
 	 * Resolve the layout of Table Detail slot.
-	 *
+	 * 
 	 * @param mappingSlot the slot information
 	 * @param slot        the detail slot
 	 * @param module      the report module

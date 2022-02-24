@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Menu;
 /**
  * Text menu manager contains 'undo,redo,cut,copy,paste,select all' menuItem. It
  * displays on textVeiwer.
- *
+ * 
  */
 class TextMenuManager {
 
@@ -40,7 +40,7 @@ class TextMenuManager {
 
 	/**
 	 * Constructor to specify the textMenuManager for a text viewer.
-	 *
+	 * 
 	 * @param viewer
 	 */
 	TextMenuManager(TextViewer viewer) {
@@ -66,7 +66,6 @@ class TextMenuManager {
 
 		manager.addMenuListener(new IMenuListener() {
 
-			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				Enumeration elements = htActions.elements();
 				while (elements.hasMoreElements()) {
@@ -78,7 +77,7 @@ class TextMenuManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param control
 	 * @return
 	 */
@@ -87,7 +86,7 @@ class TextMenuManager {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param id
 	 * @param viewer
 	 * @param name
@@ -105,7 +104,7 @@ class TextMenuManager {
 
 	/**
 	 * SQL editor action set
-	 *
+	 * 
 	 */
 	static class SQLEditorAction extends Action {
 
@@ -119,17 +118,16 @@ class TextMenuManager {
 		}
 
 		/*
-		 *
+		 * 
 		 * @see org.eclipse.jface.action.IAction#run()
 		 */
-		@Override
 		public void run() {
 			viewer.doOperation(operationCode);
 		}
 
 		/**
 		 * update the operation
-		 *
+		 * 
 		 */
 		public void update() {
 			setEnabled(viewer.canDoOperation(operationCode));

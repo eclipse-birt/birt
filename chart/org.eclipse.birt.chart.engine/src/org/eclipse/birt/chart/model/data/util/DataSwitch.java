@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -16,19 +16,15 @@ package org.eclipse.birt.chart.model.data.util;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.data.*;
+
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
-import org.eclipse.birt.chart.model.data.BigNumberDataElement;
-import org.eclipse.birt.chart.model.data.BubbleDataSet;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
-import org.eclipse.birt.chart.model.data.DifferenceDataSet;
-import org.eclipse.birt.chart.model.data.GanttDataSet;
-import org.eclipse.birt.chart.model.data.MultipleActions;
-import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
@@ -50,7 +46,7 @@ import org.eclipse.emf.ecore.EObject;
  * with the actual class of the object and proceeding up the inheritance
  * hierarchy until a non-null result is returned, which is the result of the
  * switch. <!-- end-user-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.data.DataPackage
  * @generated
  */
@@ -58,7 +54,7 @@ public class DataSwitch<T> {
 
 	/**
 	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected static DataPackage modelPackage;
@@ -66,7 +62,7 @@ public class DataSwitch<T> {
 	/**
 	 * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public DataSwitch() {
@@ -79,7 +75,7 @@ public class DataSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -91,7 +87,7 @@ public class DataSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -108,7 +104,7 @@ public class DataSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -117,221 +113,186 @@ public class DataSwitch<T> {
 		case DataPackage.ACTION: {
 			Action action = (Action) theEObject;
 			T result = caseAction(action);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.BASE_SAMPLE_DATA: {
 			BaseSampleData baseSampleData = (BaseSampleData) theEObject;
 			T result = caseBaseSampleData(baseSampleData);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.BIG_NUMBER_DATA_ELEMENT: {
 			BigNumberDataElement bigNumberDataElement = (BigNumberDataElement) theEObject;
 			T result = caseBigNumberDataElement(bigNumberDataElement);
-			if (result == null) {
+			if (result == null)
 				result = caseDataElement(bigNumberDataElement);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.BUBBLE_DATA_SET: {
 			BubbleDataSet bubbleDataSet = (BubbleDataSet) theEObject;
 			T result = caseBubbleDataSet(bubbleDataSet);
-			if (result == null) {
+			if (result == null)
 				result = caseDataSet(bubbleDataSet);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.DATA_ELEMENT: {
 			DataElement dataElement = (DataElement) theEObject;
 			T result = caseDataElement(dataElement);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.DATA_SET: {
 			DataSet dataSet = (DataSet) theEObject;
 			T result = caseDataSet(dataSet);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.DATE_TIME_DATA_ELEMENT: {
 			DateTimeDataElement dateTimeDataElement = (DateTimeDataElement) theEObject;
 			T result = caseDateTimeDataElement(dateTimeDataElement);
-			if (result == null) {
+			if (result == null)
 				result = caseDataElement(dateTimeDataElement);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.DATE_TIME_DATA_SET: {
 			DateTimeDataSet dateTimeDataSet = (DateTimeDataSet) theEObject;
 			T result = caseDateTimeDataSet(dateTimeDataSet);
-			if (result == null) {
+			if (result == null)
 				result = caseDataSet(dateTimeDataSet);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.DIFFERENCE_DATA_SET: {
 			DifferenceDataSet differenceDataSet = (DifferenceDataSet) theEObject;
 			T result = caseDifferenceDataSet(differenceDataSet);
-			if (result == null) {
+			if (result == null)
 				result = caseDataSet(differenceDataSet);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.GANTT_DATA_SET: {
 			GanttDataSet ganttDataSet = (GanttDataSet) theEObject;
 			T result = caseGanttDataSet(ganttDataSet);
-			if (result == null) {
+			if (result == null)
 				result = caseDataSet(ganttDataSet);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.MULTIPLE_ACTIONS: {
 			MultipleActions multipleActions = (MultipleActions) theEObject;
 			T result = caseMultipleActions(multipleActions);
-			if (result == null) {
+			if (result == null)
 				result = caseAction(multipleActions);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.NULL_DATA_SET: {
 			NullDataSet nullDataSet = (NullDataSet) theEObject;
 			T result = caseNullDataSet(nullDataSet);
-			if (result == null) {
+			if (result == null)
 				result = caseDataSet(nullDataSet);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.NUMBER_DATA_ELEMENT: {
 			NumberDataElement numberDataElement = (NumberDataElement) theEObject;
 			T result = caseNumberDataElement(numberDataElement);
-			if (result == null) {
+			if (result == null)
 				result = caseDataElement(numberDataElement);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.NUMBER_DATA_SET: {
 			NumberDataSet numberDataSet = (NumberDataSet) theEObject;
 			T result = caseNumberDataSet(numberDataSet);
-			if (result == null) {
+			if (result == null)
 				result = caseDataSet(numberDataSet);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.ORTHOGONAL_SAMPLE_DATA: {
 			OrthogonalSampleData orthogonalSampleData = (OrthogonalSampleData) theEObject;
 			T result = caseOrthogonalSampleData(orthogonalSampleData);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.QUERY: {
 			Query query = (Query) theEObject;
 			T result = caseQuery(query);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.RULE: {
 			Rule rule = (Rule) theEObject;
 			T result = caseRule(rule);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.SAMPLE_DATA: {
 			SampleData sampleData = (SampleData) theEObject;
 			T result = caseSampleData(sampleData);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.SERIES_DEFINITION: {
 			SeriesDefinition seriesDefinition = (SeriesDefinition) theEObject;
 			T result = caseSeriesDefinition(seriesDefinition);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.SERIES_GROUPING: {
 			SeriesGrouping seriesGrouping = (SeriesGrouping) theEObject;
 			T result = caseSeriesGrouping(seriesGrouping);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.STOCK_DATA_SET: {
 			StockDataSet stockDataSet = (StockDataSet) theEObject;
 			T result = caseStockDataSet(stockDataSet);
-			if (result == null) {
+			if (result == null)
 				result = caseDataSet(stockDataSet);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.TEXT_DATA_SET: {
 			TextDataSet textDataSet = (TextDataSet) theEObject;
 			T result = caseTextDataSet(textDataSet);
-			if (result == null) {
+			if (result == null)
 				result = caseDataSet(textDataSet);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case DataPackage.TRIGGER: {
 			Trigger trigger = (Trigger) theEObject;
 			T result = caseTrigger(trigger);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		default:
@@ -343,7 +304,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Action</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Action</em>'.
@@ -358,7 +319,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Base
 	 * Sample Data</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Base
 	 *         Sample Data</em>'.
@@ -374,7 +335,7 @@ public class DataSwitch<T> {
 	 * Number Data Element</em>'. <!-- begin-user-doc --> This implementation
 	 * returns null; returning a non-null result will terminate the switch. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Big
 	 *         Number Data Element</em>'.
@@ -389,7 +350,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Bubble
 	 * Data Set</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Bubble
 	 *         Data Set</em>'.
@@ -404,7 +365,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Element</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Element</em>'.
@@ -419,7 +380,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Set</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Set</em>'.
@@ -435,7 +396,7 @@ public class DataSwitch<T> {
 	 * Time Data Element</em>'. <!-- begin-user-doc --> This implementation returns
 	 * null; returning a non-null result will terminate the switch. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Date
 	 *         Time Data Element</em>'.
@@ -451,7 +412,7 @@ public class DataSwitch<T> {
 	 * Time Data Set</em>'. <!-- begin-user-doc --> This implementation returns
 	 * null; returning a non-null result will terminate the switch. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Date
 	 *         Time Data Set</em>'.
@@ -467,7 +428,7 @@ public class DataSwitch<T> {
 	 * '<em>Difference Data Set</em>'. <!-- begin-user-doc --> This implementation
 	 * returns null; returning a non-null result will terminate the switch. <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Difference Data Set</em>'.
@@ -482,7 +443,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Gantt
 	 * Data Set</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Gantt
 	 *         Data Set</em>'.
@@ -497,7 +458,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Multiple
 	 * Actions</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Multiple
 	 *         Actions</em>'.
@@ -512,7 +473,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '<em>Null
 	 * Data Set</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Null
 	 *         Data Set</em>'.
@@ -527,7 +488,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Number
 	 * Data Element</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Number
 	 *         Data Element</em>'.
@@ -542,7 +503,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Number
 	 * Data Set</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Number
 	 *         Data Set</em>'.
@@ -558,7 +519,7 @@ public class DataSwitch<T> {
 	 * '<em>Orthogonal Sample Data</em>'. <!-- begin-user-doc --> This
 	 * implementation returns null; returning a non-null result will terminate the
 	 * switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of
 	 *         '<em>Orthogonal Sample Data</em>'.
@@ -573,7 +534,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Query</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Query</em>'.
@@ -588,7 +549,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Rule</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Rule</em>'.
@@ -603,7 +564,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Sample
 	 * Data</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Sample
 	 *         Data</em>'.
@@ -618,7 +579,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Series
 	 * Definition</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Series
 	 *         Definition</em>'.
@@ -633,7 +594,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Series
 	 * Grouping</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Series
 	 *         Grouping</em>'.
@@ -648,7 +609,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Stock
 	 * Data Set</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Stock
 	 *         Data Set</em>'.
@@ -663,7 +624,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Text
 	 * Data Set</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Text
 	 *         Data Set</em>'.
@@ -678,7 +639,7 @@ public class DataSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Trigger</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Trigger</em>'.
@@ -694,7 +655,7 @@ public class DataSwitch<T> {
 	 * '<em>EObject</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>EObject</em>'.

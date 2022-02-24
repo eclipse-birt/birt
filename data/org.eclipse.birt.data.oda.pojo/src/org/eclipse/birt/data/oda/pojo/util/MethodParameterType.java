@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 public class MethodParameterType {
 
-	private static MethodParameterType[] builtinTypes = {
+	private static MethodParameterType[] builtinTypes = new MethodParameterType[] {
 			new MethodParameterType(Constants.PARAM_TYPE_boolean, Boolean.TYPE, Constants.ODA_TYPE_Boolean),
 			new MethodParameterType(Constants.PARAM_TYPE_byte, Byte.TYPE, Constants.ODA_TYPE_Integer),
 			new MethodParameterType(Constants.PARAM_TYPE_char, Character.TYPE, Constants.ODA_TYPE_Integer),
@@ -53,8 +53,8 @@ public class MethodParameterType {
 			new MethodParameterType(Constants.PARAM_TYPE_Date, Date.class, Constants.ODA_TYPE_Date), };
 
 	@SuppressWarnings("unchecked")
-	private static Map<Class, MethodParameterType> classInstanceMap = new HashMap<>();
-	private static Map<String, MethodParameterType> nameInstanceMap = new HashMap<>();
+	private static Map<Class, MethodParameterType> classInstanceMap = new HashMap<Class, MethodParameterType>();
+	private static Map<String, MethodParameterType> nameInstanceMap = new HashMap<String, MethodParameterType>();
 	static {
 		for (MethodParameterType pt : builtinTypes) {
 			classInstanceMap.put(pt.getJavaType(), pt);

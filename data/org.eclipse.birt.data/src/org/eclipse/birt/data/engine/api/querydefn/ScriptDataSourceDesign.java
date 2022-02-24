@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -30,7 +30,7 @@ public class ScriptDataSourceDesign extends BaseDataSourceDesign implements IScr
 
 	/**
 	 * Constructs a script data source with specified name
-	 *
+	 * 
 	 * @param name
 	 */
 	public ScriptDataSourceDesign(String name) {
@@ -40,7 +40,6 @@ public class ScriptDataSourceDesign extends BaseDataSourceDesign implements IScr
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IScriptDataSourceDesign#getOpenScript()
 	 */
-	@Override
 	public String getOpenScript() {
 		return openScript;
 	}
@@ -56,7 +55,6 @@ public class ScriptDataSourceDesign extends BaseDataSourceDesign implements IScr
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IScriptDataSourceDesign#getCloseScript()
 	 */
-	@Override
 	public String getCloseScript() {
 		return closeScript;
 	}

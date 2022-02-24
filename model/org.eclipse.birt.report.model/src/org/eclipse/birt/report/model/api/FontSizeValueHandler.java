@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ final class FontSizeValueHandler extends CSSLengthValueHandler {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 * @param dimensionHandle
 	 */
 
@@ -40,7 +40,7 @@ final class FontSizeValueHandler extends CSSLengthValueHandler {
 
 	/**
 	 * Converts one font size constant to dimension value.
-	 *
+	 * 
 	 * @param fontSizeConstant the font size constant to convert, relative or
 	 *                         absolute.
 	 * @return the converted dimension value. Return <code>null</code> if the given
@@ -60,7 +60,7 @@ final class FontSizeValueHandler extends CSSLengthValueHandler {
 	/**
 	 * Tries to get an absolute font size constant. This method works only when the
 	 * value is relative font size constant, otherwise, return null.
-	 *
+	 * 
 	 * @return the absolute font size dimension value if possible
 	 */
 
@@ -74,14 +74,12 @@ final class FontSizeValueHandler extends CSSLengthValueHandler {
 		DesignElementHandle e = dimensionHandle.getElementHandle();
 		while (e != null) {
 			DimensionHandle fontSizeHandle = e.getDimensionProperty(IStyleModel.FONT_SIZE_PROP);
-			if (fontSizeHandle == null) {
+			if (fontSizeHandle == null)
 				break;
-			}
 
 			Object value = fontSizeHandle.getValue();
-			if (value instanceof DimensionValue) {
+			if (value instanceof DimensionValue)
 				return (DimensionValue) value;
-			}
 
 			String fontSizeConstant = (String) value;
 
@@ -98,9 +96,8 @@ final class FontSizeValueHandler extends CSSLengthValueHandler {
 
 		if (!absoluteConstantFound) {
 			Object defaultValue = dimensionHandle.getDefn().getDefault();
-			if (defaultValue instanceof DimensionValue) {
+			if (defaultValue instanceof DimensionValue)
 				return (DimensionValue) defaultValue;
-			}
 
 			stack.push(defaultValue);
 		}
@@ -134,7 +131,7 @@ final class FontSizeValueHandler extends CSSLengthValueHandler {
 	 * <li><code>FONT_SIZE_X_LARGE</code>
 	 * <li><code>FONT_SIZE_XX_LARGE</code>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * For example,
 	 * <p>
@@ -144,7 +141,7 @@ final class FontSizeValueHandler extends CSSLengthValueHandler {
 	 * <li>The absolute base font size constant is "XX_SMALL", and the relative one
 	 * "SMALLER" is converted to "XX_SMALL".
 	 * </ul>
-	 *
+	 * 
 	 * @param relativeConstant the relative constant to convert
 	 * @param baseConstant     the base constant on which this conversion is based
 	 * @return the absolute font size constant
@@ -154,15 +151,13 @@ final class FontSizeValueHandler extends CSSLengthValueHandler {
 		for (int i = 0; i < ABSOLUTE_FONT_SIZE_CONSTANTS.length; i++) {
 			if (ABSOLUTE_FONT_SIZE_CONSTANTS[i].equals(baseConstant)) {
 				if (DesignChoiceConstants.FONT_SIZE_LARGER.equals(relativeConstant)) {
-					if (i == ABSOLUTE_FONT_SIZE_CONSTANTS.length - 1) {
+					if (i == ABSOLUTE_FONT_SIZE_CONSTANTS.length - 1)
 						return ABSOLUTE_FONT_SIZE_CONSTANTS[i];
-					}
 
 					return ABSOLUTE_FONT_SIZE_CONSTANTS[i + 1];
 				} else if (DesignChoiceConstants.FONT_SIZE_SMALLER.equals(relativeConstant)) {
-					if (i == 0) {
+					if (i == 0)
 						return ABSOLUTE_FONT_SIZE_CONSTANTS[i];
-					}
 
 					return ABSOLUTE_FONT_SIZE_CONSTANTS[i - 1];
 				}
@@ -175,9 +170,9 @@ final class FontSizeValueHandler extends CSSLengthValueHandler {
 
 	/**
 	 * Gets the absolute dimension value of font size with the given relative value.
-	 *
+	 * 
 	 * @param relativeDimensionValue the relative dimension value
-	 *
+	 * 
 	 * @return the absolute dimension value
 	 */
 

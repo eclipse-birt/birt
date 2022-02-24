@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,6 +16,8 @@ package org.eclipse.birt.chart.tests.script;
 
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import org.eclipse.birt.chart.script.api.IChart;
 import org.eclipse.birt.chart.script.api.IChartWithAxes;
 import org.eclipse.birt.chart.script.api.IChartWithoutAxes;
@@ -23,10 +25,8 @@ import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 
-import junit.framework.TestCase;
-
 /**
- *
+ * 
  */
 
 public abstract class BaseChartTestCase extends TestCase {
@@ -42,7 +42,6 @@ public abstract class BaseChartTestCase extends TestCase {
 	protected static final String CHART_NAME_PIE = "Stock";//$NON-NLS-1$
 	protected static final String CHART_NAME_GROUPING = "Grouping";//$NON-NLS-1$
 
-	@Override
 	protected void setUp() throws Exception {
 		DesignEngine engine = new DesignEngine(new DesignConfig());
 		URL url = BaseChartTestCase.class.getResource(REPORT_PATH);

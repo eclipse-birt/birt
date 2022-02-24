@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,17 +23,17 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 /**
  * This class contains the relation description between dimension and its
  * belonging edge, and some shared information in dimension and edge traverse.
- *
+ * 
  * The relation[axisIndex] is an Vector of EdgeInfo objects at the specified
  * axis index. axisIndex is a 0-based index. Example: Dim Country City Product
  * 0: CHINA BEIJING P1 1: CHINA BEIJING P2 2: CHINA BEIJING P3 3: CHINA SHANGHAI
  * P1 4: CHINA SHANGHAI P2 5: CHINA SHANGHAI P3 6: USA CHICAGO P1 7: USA NEW
  * YORK P1 8: USA NEW YORK P2
- *
+ * 
  * edgeInfo: (start, end) Country City Product
  * ============================================ 0: -1,0 0,0 0,0 1: -1,2 0,3 0,1
  * 2: 1,6 0,2 3: 1,7 1,3 4: 1,4 5: 1,5 6: 2,6 7: 3,7 8: 3,8
- *
+ * 
  * If this edge has mirrored level, the non-mirrored level will be only
  * populated its edgeInfo Example: Product level has been mirrored edgeInfo:
  * (start, end) Country City Product
@@ -41,7 +41,7 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
  * 0,3 2: 1,6 3: 1,7 The product level's value will be sorted according to its
  * basic sort definition. But in case of aggregation sort, we should try to keep
  * its original sort result.
- *
+ * 
  */
 class EdgeDimensionRelation {
 	List[] currentRelation;
@@ -103,13 +103,11 @@ class EdgeDimensionRelation {
 				if (!newSection) {
 					for (int level = breakLevel; level < customDimSize; level++) {
 						EdgeInfo edge = new EdgeInfo();
-						if (currValue[level] == null) {
+						if (currValue[level] == null)
 							edge.isNull = 0;
-						}
 
-						if (level != 0) {
+						if (level != 0)
 							edge.parent = section.getRelation()[level - 1].size() - 1;
-						}
 						if (level == section.getRelation().length - 1) {
 							edge.firstChild = rowId;
 						} else {
@@ -134,7 +132,7 @@ class EdgeDimensionRelation {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param currValue
 	 * @param preValue
 	 * @param rowId
@@ -159,7 +157,7 @@ class EdgeDimensionRelation {
 			}
 
 			// determines whether next row is in current group
-			if (!isEqualObject(currObjectValue, prevObjectValue)) {
+			if (isEqualObject(currObjectValue, prevObjectValue) == false) {
 				break;
 			}
 
@@ -168,7 +166,7 @@ class EdgeDimensionRelation {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param position
 	 */
 	public void synchronizedWithPage(int position) {
@@ -182,7 +180,7 @@ class EdgeDimensionRelation {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param preValue
 	 * @param currentValue
 	 * @return

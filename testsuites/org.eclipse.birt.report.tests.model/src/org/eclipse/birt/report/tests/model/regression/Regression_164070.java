@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -48,7 +48,7 @@ public class Regression_164070 extends BaseTestCase {
 	 * <li>Set/Get widows/orphans properties on text
 	 * <li>Set/Get widows/orphans properties on data
 	 * <li>Set/Get widows/orphans properties on dynamic text
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void test_regression_164070() throws SemanticException {

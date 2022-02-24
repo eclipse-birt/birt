@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,6 @@ public class MemoryDataSetCacheObject implements IDataSetCacheObject {
 		return this.getCachedResult().size();
 	}
 
-	@Override
 	public IResultClass getResultClass() {
 		return this.rs;
 	}
@@ -61,22 +60,18 @@ public class MemoryDataSetCacheObject implements IDataSetCacheObject {
 	}
 
 	public void populateResult(IResultObject ro) {
-		if (ro != null) {
+		if (ro != null)
 			this.getCachedResult().add(ro);
-		}
 	}
 
-	@Override
 	public boolean isCachedDataReusable(int requiredCapability) {
 		assert requiredCapability > 0;
 
-		if (this.getSize() == 0) {
+		if (this.getSize() == 0)
 			return false;
-		}
 
-		if (isAllRowsAlreadyCached()) {
+		if (isAllRowsAlreadyCached())
 			return true;
-		}
 
 		return cacheCapability >= requiredCapability;
 	}
@@ -85,12 +80,10 @@ public class MemoryDataSetCacheObject implements IDataSetCacheObject {
 		return this.getSize() < this.cacheCapability;
 	}
 
-	@Override
 	public boolean needUpdateCache(int requiredCapability) {
 		return !isCachedDataReusable(requiredCapability);
 	}
 
-	@Override
 	public void release() {
 		// nothing to do
 	}

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -102,11 +102,11 @@ public class ChartReportItemImpl extends ReportItem
 
 	private Object oDesignerRepresentation = null;
 
-	private static final List<IChoiceDefinition> liLegendPositions = new LinkedList<>();
+	private static final List<IChoiceDefinition> liLegendPositions = new LinkedList<IChoiceDefinition>();
 
-	private static final List<IChoiceDefinition> liLegendAnchors = new LinkedList<>();
+	private static final List<IChoiceDefinition> liLegendAnchors = new LinkedList<IChoiceDefinition>();
 
-	private static final List<IChoiceDefinition> liChartDimensions = new LinkedList<>();
+	private static final List<IChoiceDefinition> liChartDimensions = new LinkedList<IChoiceDefinition>();
 
 	protected transient ExtendedItemHandle handle = null;
 
@@ -149,7 +149,7 @@ public class ChartReportItemImpl extends ReportItem
 			icd = new ChartChoiceDefinitionImpl("choice.chart.dimension." + sLowercaseName, sName, null); //$NON-NLS-1$
 			liChartDimensions.add(icd);
 		}
-	}
+	};
 
 	/**
 	 * The constructor.
@@ -162,7 +162,6 @@ public class ChartReportItemImpl extends ReportItem
 	/**
 	 * Set the chart directly (no command)
 	 */
-	@Override
 	public void setModel(Chart chart) {
 		this.cm = chart;
 	}
@@ -184,7 +183,6 @@ public class ChartReportItemImpl extends ReportItem
 	/**
 	 * Sets the design element handle.
 	 */
-	@Override
 	public void setHandle(ExtendedItemHandle handle) {
 		if (this.handle != handle) {
 			this.handle = handle;
@@ -205,7 +203,6 @@ public class ChartReportItemImpl extends ReportItem
 		this.handle.getModuleHandle().getCommandStack().execute(command);
 	}
 
-	@Override
 	public void executeSetModelCommand(ExtendedItemHandle eih, Chart oldChart, Chart newChart) {
 		if (handle == null) {
 			return;
@@ -228,11 +225,10 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#serialize(java.lang.String)
 	 */
-	@Override
 	public ByteArrayOutputStream serialize(String propName) {
 		if (propName != null && propName.equalsIgnoreCase(ChartReportItemUtil.PROPERTY_XMLPRESENTATION)) {
 			if (!ChartCubeUtil.isAxisChart(handle)) {
@@ -251,11 +247,10 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElement#deserialize(java.lang.
 	 * String, java.io.ByteArrayInputStream)
 	 */
-	@Override
 	public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException {
 		if (propName != null && propName.equalsIgnoreCase(
 				org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants.PROPERTY_XMLPRESENTATION)) {
@@ -296,7 +291,7 @@ public class ChartReportItemImpl extends ReportItem
 
 	/**
 	 * Adjust number format specifier for old version number.
-	 *
+	 * 
 	 * @param reportVer the version number of report.
 	 */
 	private void adjustNumberFormat(String reportVer) {
@@ -374,7 +369,7 @@ public class ChartReportItemImpl extends ReportItem
 
 	/**
 	 * Compare version number, the format of version number should be X.X.X style.
-	 *
+	 * 
 	 * @param va version number 1.
 	 * @param vb version number 2.
 	 * @return
@@ -385,11 +380,10 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#
 	 * getScriptPropertyDefinition()
 	 */
-	@Override
 	public IPropertyDefinition getScriptPropertyDefinition() {
 		if (cm == null) {
 			logger.log(ILogger.WARNING, Messages.getString("ChartReportItemImpl.log.RequestForScriptPropertyDefn")); //$NON-NLS-1$
@@ -402,11 +396,10 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#getPropertyDefinitions()
 	 */
-	@Override
 	public IPropertyDefinition[] getPropertyDefinitions() {
 		if (cm == null) {
 			return null;
@@ -442,14 +435,12 @@ public class ChartReportItemImpl extends ReportItem
 		};
 	}
 
-	@Override
 	public IMethodInfo[] getMethods(String scriptName) {
 		if (scriptName != null && scriptName.equals(ChartReportItemUtil.PROPERTY_ONRENDER)) {
 			ScriptClassInfo info = new ScriptClassInfo(IChartEventHandler.class);
 			List<IMethodInfo> list = info.getMethods();
 			Collections.sort(list, new Comparator<IMethodInfo>() {
 
-				@Override
 				public int compare(IMethodInfo arg0, IMethodInfo arg1) {
 					String name0 = arg0.getName();
 					String name1 = arg1.getName();
@@ -467,18 +458,16 @@ public class ChartReportItemImpl extends ReportItem
 
 			return list.toArray(new IMethodInfo[list.size()]);
 
-		} else {
+		} else
 			return null;
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElement#getProperty(java.lang.
 	 * String)
 	 */
-	@Override
 	public final Object getProperty(String propName) {
 		if (cm == null) {
 			// Try to get host chart as model
@@ -532,12 +521,11 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#checkProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
-	@Override
 	public void checkProperty(String propName, Object value) throws ExtendedElementException {
 		logger.log(ILogger.INFORMATION,
 				Messages.getString("ChartReportItemImpl.log.checkProperty", new Object[] { propName, value })); //$NON-NLS-1$
@@ -545,11 +533,10 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElement#setProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
-	@Override
 	public void setProperty(String propName, Object value) {
 		logger.log(ILogger.INFORMATION,
 				Messages.getString("ChartReportItemImpl.log.setProperty", new Object[] { propName, value })); //$NON-NLS-1$
@@ -590,9 +577,8 @@ public class ChartReportItemImpl extends ReportItem
 	}
 
 	protected void checkScriptSyntax(String string) throws RhinoException {
-		if (string == null) {
+		if (string == null)
 			return;
-		}
 
 		if (!isJavaClassName(string)) {
 			try {
@@ -610,13 +596,12 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElement#validate()
 	 */
-	@Override
 	public List<SemanticException> validate() {
 		logger.log(ILogger.INFORMATION, Messages.getString("ChartReportItemImpl.log.validate")); //$NON-NLS-1$
-		List<SemanticException> list = new ArrayList<>();
+		List<SemanticException> list = new ArrayList<SemanticException>();
 		// Ignore the validation for templates
 		DesignElementHandle container = handle.getContainer();
 		do {
@@ -713,10 +698,9 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElement#copy()
 	 */
-	@Override
 	public final IReportItem copy() {
 		final ChartReportItemImpl crii = (ChartReportItemImpl) ChartReportItemUtil.instanceChartReportItem(handle);
 		crii.bCopied = true;
@@ -735,7 +719,10 @@ public class ChartReportItemImpl extends ReportItem
 					// Must copy model here to generate runtime data later
 					try {
 						crii.cm = cm.copyInstance();
-					} catch (ConcurrentModificationException | NullPointerException e) {
+					} catch (ConcurrentModificationException e) {
+						// Once concurrent exception is thrown, try again.
+						crii.cm = cm.copyInstance();
+					} catch (NullPointerException e) {
 						// Once NPE is thrown in concurrent case, try again.
 						crii.cm = cm.copyInstance();
 					}
@@ -747,22 +734,20 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#refreshPropertyDefinition()
 	 */
-	@Override
 	public boolean refreshPropertyDefinition() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * getRowExpressions()
 	 */
-	@Override
 	public List<String> getRowExpressions() {
 		try {
 			// Bugzilla#283253 Do not replace raw expressions with evaluator
@@ -776,17 +761,15 @@ public class ChartReportItemImpl extends ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * updateRowExpressions(java.util.Map)
 	 */
-	@Override
 	@SuppressWarnings("rawtypes")
 	public void updateRowExpressions(Map newExpressions) {
 		CompatibleExpressionUpdater.update(cm, newExpressions);
 	}
 
-	@Override
 	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement() {
 		try {
 			if (cm instanceof ChartWithAxes) {
@@ -804,14 +787,13 @@ public class ChartReportItemImpl extends ReportItem
 
 	/**
 	 * Returns if current report item is just copied
-	 *
+	 * 
 	 * @since 2.3
 	 */
 	public boolean isCopied() {
 		return this.bCopied;
 	}
 
-	@Override
 	public URL findResource(String fileName) {
 		if (handle != null) {
 			return handle.getModule().findResource(fileName, 0);
@@ -819,7 +801,6 @@ public class ChartReportItemImpl extends ReportItem
 		return null;
 	}
 
-	@Override
 	public String externalizedMessage(String sKey, String sDefaultValue, ULocale locale) {
 		return ChartItemUtil.externalizedMessage(handle, sKey, sDefaultValue, locale);
 	}
@@ -838,7 +819,7 @@ public class ChartReportItemImpl extends ReportItem
 	/**
 	 * Since model does not differentiate Layout-RTL and Text-RTL, but chart does.
 	 * Currently we always retrieve the Layout-RTL from container.
-	 *
+	 * 
 	 * @return RTL or not
 	 */
 	public boolean isLayoutDirectionRTL() {
@@ -850,7 +831,7 @@ public class ChartReportItemImpl extends ReportItem
 
 	/**
 	 * Returns the current serializer.
-	 *
+	 * 
 	 * @return serializer
 	 */
 	public Serializer getSerializer() {
@@ -867,7 +848,8 @@ public class ChartReportItemImpl extends ReportItem
 		}
 
 		// Get all query definitions from chart model
-		List<Query> queries = new ArrayList<>(ChartUtil.getBaseSeriesDefinitions(cm).get(0).getDesignTimeSeries().getDataDefinition());
+		List<Query> queries = new ArrayList<Query>();
+		queries.addAll(ChartUtil.getBaseSeriesDefinitions(cm).get(0).getDesignTimeSeries().getDataDefinition());
 		for (SeriesDefinition vsd : ChartUtil.getAllOrthogonalSeriesDefinitions(cm)) {
 			queries.addAll(vsd.getDesignTimeSeries().getDataDefinition());
 			queries.add(vsd.getQuery());
@@ -875,7 +857,7 @@ public class ChartReportItemImpl extends ReportItem
 
 		// Get all binding names from query definition
 		ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
-		Set<String> bindingNames = new HashSet<>();
+		Set<String> bindingNames = new HashSet<String>();
 		for (Query query : queries) {
 			if (query.isDefined()) {
 				bindingNames.addAll(exprCodec.getBindingNames(query.getDefinition()));
@@ -883,7 +865,7 @@ public class ChartReportItemImpl extends ReportItem
 		}
 
 		// Compare the binding names
-		List<ComputedColumnHandle> availableBindings = new ArrayList<>();
+		List<ComputedColumnHandle> availableBindings = new ArrayList<ComputedColumnHandle>();
 		while (allBindings.hasNext()) {
 			ComputedColumnHandle binding = allBindings.next();
 			if (bindingNames.contains(binding.getName())) {

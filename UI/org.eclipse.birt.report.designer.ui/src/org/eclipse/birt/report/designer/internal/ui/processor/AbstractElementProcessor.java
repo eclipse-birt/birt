@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ public abstract class AbstractElementProcessor implements IElementProcessor {
 
 	/**
 	 * Gets the type of the element to process
-	 *
+	 * 
 	 * @return Returns the type of the element to process
 	 */
 	public String getElementType() {
@@ -45,7 +45,7 @@ public abstract class AbstractElementProcessor implements IElementProcessor {
 
 	/**
 	 * Gets the element factory to create elements
-	 *
+	 * 
 	 * @return Returns the element factory of the current report design.
 	 */
 
@@ -55,7 +55,7 @@ public abstract class AbstractElementProcessor implements IElementProcessor {
 
 	/**
 	 * Gets the new name for the new element from the extended data
-	 *
+	 * 
 	 * @param extendedData the extended data for creation
 	 * @return Returns the new name for the new element
 	 */
@@ -71,12 +71,11 @@ public abstract class AbstractElementProcessor implements IElementProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#
 	 * getCreateTransactionLabel()
 	 */
-	@Override
 	public String getCreateTransactionLabel() {
 		return MessageFormat.format("Create {0}", new Object[] { //$NON-NLS-1$
 				elementType });
@@ -84,12 +83,11 @@ public abstract class AbstractElementProcessor implements IElementProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#
 	 * getEditeTransactionLabel()
 	 */
-	@Override
 	public String getEditeTransactionLabel(DesignElementHandle handle) {
 		return MessageFormat.format("Edit {0}", new Object[] { //$NON-NLS-1$
 				DEUtil.getDisplayLabel(handle) });

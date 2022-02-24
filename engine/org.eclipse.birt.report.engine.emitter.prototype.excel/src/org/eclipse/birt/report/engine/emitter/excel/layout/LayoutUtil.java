@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,7 +36,7 @@ public class LayoutUtil {
 
 	public static ColumnsInfo createTable(IListContent list, int width, int dpi) {
 		width = getElementWidth(list, width, dpi);
-		int[] column = { width };
+		int[] column = new int[] { width };
 		return new ColumnsInfo(column);
 	}
 
@@ -46,12 +46,12 @@ public class LayoutUtil {
 		if (value != null) {
 			width = getElementWidth(value, width, dpi);
 		}
-		int[] column = { width };
+		int[] column = new int[] { width };
 		return new ColumnsInfo(column);
 	}
 
 	public static ColumnsInfo createImage(int width) {
-		int[] column = { width };
+		int[] column = new int[] { width };
 		return new ColumnsInfo(column);
 	}
 
@@ -60,7 +60,7 @@ public class LayoutUtil {
 			return createImage(width);
 		}
 
-		int[] column = { (parentWidth - width) / 2, width, (parentWidth - width) / 2 };
+		int[] column = new int[] { (parentWidth - width) / 2, width, (parentWidth - width) / 2 };
 		return new ColumnsInfo(column);
 	}
 

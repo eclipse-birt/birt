@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,25 +36,22 @@ import org.eclipse.swt.graphics.Image;
 public class ScriptTreeNodeProvider implements INodeProvider {
 
 	private static final String SCRIPS_NODE_NAME = Messages.getString("Scripts.Node.DisplayName"); //$NON-NLS-1$
-	private static final Object[] EMPTY = {};
+	private static final Object[] EMPTY = new Object[0];
 	private static final String EMPTY_STR = ""; //$NON-NLS-1$
 
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		if (object instanceof IMenuListener) {
 			((IMenuListener) object).menuAboutToShow(menu);
 		}
 	}
 
-	@Override
 	public Object[] getChildren(Object object) {
-		if (object instanceof IScriptTreeNode) {
+		if (object != null && object instanceof IScriptTreeNode) {
 			return ((IScriptTreeNode) object).getChildren();
 		}
 		return EMPTY;
 	}
 
-	@Override
 	public String getNodeDisplayName(Object model) {
 		if (model instanceof ScriptsNode) {
 			return SCRIPS_NODE_NAME;
@@ -68,7 +65,6 @@ public class ScriptTreeNodeProvider implements INodeProvider {
 		return EMPTY_STR;
 	}
 
-	@Override
 	public Image getNodeIcon(Object model) {
 		if (model instanceof ScriptsNode) {
 			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_SCRIPTS_NODE);
@@ -81,7 +77,6 @@ public class ScriptTreeNodeProvider implements INodeProvider {
 		return null;
 	}
 
-	@Override
 	public String getNodeTooltip(Object model) {
 		if (model instanceof IScriptTreeNode) {
 			// return ( (ITreeNode) model ).getText( );
@@ -90,7 +85,6 @@ public class ScriptTreeNodeProvider implements INodeProvider {
 		return EMPTY_STR;
 	}
 
-	@Override
 	public Object getParent(Object model) {
 		if (model instanceof IScriptTreeNode) {
 			return ((IScriptTreeNode) model).getParent();
@@ -98,18 +92,15 @@ public class ScriptTreeNodeProvider implements INodeProvider {
 		return null;
 	}
 
-	@Override
 	public boolean hasChildren(Object object) {
 		return getChildren(object).length > 0;
 	}
 
-	@Override
 	public boolean performRequest(Object model, Request request) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public boolean isReadOnly(Object model) {
 		// TODO Auto-generated method stub
 		return false;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.ir;
 
 /**
  * Image Item test
- *
+ * 
  */
 public class ImageItemTest extends ReportItemTestCase {
 
@@ -27,9 +27,9 @@ public class ImageItemTest extends ReportItemTestCase {
 
 	/**
 	 * Test get/setAction methods
-	 *
+	 * 
 	 * set the action
-	 *
+	 * 
 	 * then get it to test if they work correctly
 	 */
 	public void testAction() {
@@ -46,9 +46,9 @@ public class ImageItemTest extends ReportItemTestCase {
 
 	/**
 	 * Test get/setAltText methods
-	 *
+	 * 
 	 * set the texts
-	 *
+	 * 
 	 * then get them to test if they work correctly
 	 */
 	public void testAltText() {
@@ -68,9 +68,9 @@ public class ImageItemTest extends ReportItemTestCase {
 
 	/**
 	 * Test setImageExpression and getImageFormat methods
-	 *
+	 * 
 	 * set the image by a expression
-	 *
+	 * 
 	 * then get the expression and check the source type to test if they work
 	 * correctly
 	 */
@@ -89,9 +89,9 @@ public class ImageItemTest extends ReportItemTestCase {
 
 	/**
 	 * Test get/setImageName methods
-	 *
+	 * 
 	 * set the image by a filename
-	 *
+	 * 
 	 * then get the name and check the source type to test if they work correctly
 	 */
 	public void testName() {
@@ -109,9 +109,9 @@ public class ImageItemTest extends ReportItemTestCase {
 
 	/**
 	 * Test get/setImageUri methods
-	 *
+	 * 
 	 * set the image by a URI address
-	 *
+	 * 
 	 * then get the address and check the source type to test if they work correctly
 	 */
 	public void testUri() {

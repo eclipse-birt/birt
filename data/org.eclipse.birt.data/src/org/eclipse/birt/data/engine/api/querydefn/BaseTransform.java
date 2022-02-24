@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -56,10 +56,9 @@ abstract public class BaseTransform implements IBaseTransform {
 	/**
 	 * Returns the filters defined in this transform, as an ordered list of
 	 * <code>IFilterDefintion</code> objects.
-	 *
+	 * 
 	 * @return the filters. null if no filter is defined.
 	 */
-	@Override
 	public List getFilters() {
 		return filters;
 	}
@@ -75,18 +74,17 @@ abstract public class BaseTransform implements IBaseTransform {
 	 * Returns an unordered collection of subqueries that are alternative views of
 	 * the result set for this transform. Objects are of type
 	 * <code>SubqueryDefinition</code>.
-	 *
+	 * 
 	 * @return the subqueries for this transform
 	 */
 
-	@Override
 	public Collection getSubqueries() {
 		return subqueries;
 	}
 
 	/**
 	 * Add a subquery to the list
-	 *
+	 * 
 	 * @param subquery one subquery to add to the subquery set
 	 */
 	public void addSubquery(SubqueryDefinition subquery) {
@@ -96,11 +94,10 @@ abstract public class BaseTransform implements IBaseTransform {
 	/**
 	 * Returns the sort criteria as an ordered list of <code>SortDefinition</code>
 	 * objects.
-	 *
+	 * 
 	 * @return the sort criteria
 	 */
 
-	@Override
 	public List getSorts() {
 		return sorts;
 	}

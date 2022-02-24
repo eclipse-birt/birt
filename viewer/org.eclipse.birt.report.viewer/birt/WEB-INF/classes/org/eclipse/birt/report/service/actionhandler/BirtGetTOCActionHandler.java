@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -33,7 +33,7 @@ public class BirtGetTOCActionHandler extends AbstractGetTOCActionHandler {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param context
 	 * @param operation
 	 * @param response
@@ -44,30 +44,27 @@ public class BirtGetTOCActionHandler extends AbstractGetTOCActionHandler {
 
 	/**
 	 * Get Report Service Object
-	 *
+	 * 
 	 * @return IViewerReportService
 	 */
-	@Override
 	protected IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}
 
 	/**
 	 * Implement to get document file path
-	 *
+	 * 
 	 * @return String
 	 */
-	@Override
 	protected String __getReportDocument() {
 		return __bean.getReportDocumentName();
 	}
 
 	/**
 	 * Implement to check if document file exists
-	 *
+	 * 
 	 * @throws RemoteException
 	 */
-	@Override
 	protected void __checkDocumentExists() throws RemoteException {
 		File file = new File(__docName);
 		if (!file.exists()) {

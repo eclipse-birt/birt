@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -34,7 +34,7 @@ public class Binding implements java.io.Serializable {
 
 	/**
 	 * Gets the rptElementId value for this Binding.
-	 *
+	 * 
 	 * @return rptElementId
 	 */
 	public long getRptElementId() {
@@ -43,7 +43,7 @@ public class Binding implements java.io.Serializable {
 
 	/**
 	 * Sets the rptElementId value for this Binding.
-	 *
+	 * 
 	 * @param rptElementId
 	 */
 	public void setRptElementId(long rptElementId) {
@@ -52,7 +52,7 @@ public class Binding implements java.io.Serializable {
 
 	/**
 	 * Gets the dataSetId value for this Binding.
-	 *
+	 * 
 	 * @return dataSetId
 	 */
 	public long getDataSetId() {
@@ -61,7 +61,7 @@ public class Binding implements java.io.Serializable {
 
 	/**
 	 * Sets the dataSetId value for this Binding.
-	 *
+	 * 
 	 * @param dataSetId
 	 */
 	public void setDataSetId(long dataSetId) {
@@ -70,18 +70,14 @@ public class Binding implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Binding)) {
+		if (!(obj instanceof Binding))
 			return false;
-		}
 		Binding other = (Binding) obj;
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -94,7 +90,6 @@ public class Binding implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
-	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 	 * Constructs the handle for a report element with the given design and element.
 	 * The application generally does not create handles directly. Instead, it uses
 	 * one of the navigation methods available on other element handles.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -65,32 +65,30 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 		// do not cache property handles if it is runtime.
 		ModuleOption options = module.getOptions();
-		if (options != null && !options.useSemanticCheck()) {
+		if (options != null && !options.useSemanticCheck())
 			return;
-		}
 
 		cachePropertyHandles();
 	}
 
 	// Implementation of an abstract method in the base class.
 
-	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/**
 	 * Returns property masks on this element. This method follows these rules:
-	 *
+	 * 
 	 * <ul>
 	 * <li>If any property mask exists on this element, returns property mask list
 	 * of itself.
 	 * <li>If no property masks on this element, returns property mask list of its
 	 * parent.
 	 * </ul>
-	 *
+	 * 
 	 * @return the iterator of property mask structure list
-	 *
+	 * 
 	 * @see #getPropertyMask(String)
 	 */
 
@@ -103,7 +101,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 	/**
 	 * Returns the mask of the specified property given its internal name. This
 	 * method follows these rules:
-	 *
+	 * 
 	 * <ul>
 	 * <li>If the mask of a specified property is defined on this element, returns
 	 * the mask value.
@@ -111,31 +109,30 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 	 * returns the mask value inherited from its ancestor.
 	 * <li><code>null</code> is returned if no mask value defined on this property.
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * The optional mask values are defined in <code>DesignChoiceConstants.</code>
 	 * and they are
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>PROPERTYMASK_TYPE_CHANGE</code>
 	 * <li><code>PROPERTYMASK_TYPE_LOCK</code>
 	 * <li><code>PROPERTYMASK_TYPE_HIDE</code>
 	 * </ul>
-	 *
-	 *
+	 * 
+	 * 
 	 * @param propName the name of the property to get. Can be a system-defined or
 	 *                 user-defined property name.
-	 *
+	 * 
 	 * @return the property mask, or null if the mask is not set.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public String getPropertyMask(String propName) {
 		ElementPropertyDefn prop = getElement().getPropertyDefn(propName);
-		if (prop == null) {
+		if (prop == null)
 			return null;
-		}
 
 		return getElement().getPropertyMask(module, propName);
 	}
@@ -143,31 +140,30 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 	/**
 	 * Sets the mask of the specified property. The mask values are defined in
 	 * <code>DesignChoiceConstants</code> and they are:
-	 *
+	 * 
 	 * <ul>
 	 * <li><code>PROPERTYMASK_TYPE_CHANGE</code>
 	 * <li><code>PROPERTYMASK_TYPE_LOCK</code>
 	 * <li><code>PROPERTYMASK_TYPE_HIDE</code>
 	 * </ul>
-	 *
+	 * 
 	 * <p>
 	 * Note it is not allowed to set the mask on <code>PROPERTY_MASKS_PROP</code>.
 	 * This method does nothing for this situation.
-	 *
+	 * 
 	 * @param propName  the property name to get. Can be a system-defined or
 	 *                  user-defined property name.
-	 *
+	 * 
 	 * @param maskValue the mask value
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
-	 *
+	 * 
 	 * @throws SemanticException if the maskValue is not one of the above.
 	 */
 
 	public void setPropertyMask(String propName, String maskValue) throws SemanticException {
-		if (IDesignElementModel.PROPERTY_MASKS_PROP.equalsIgnoreCase(propName)) {
+		if (IDesignElementModel.PROPERTY_MASKS_PROP.equalsIgnoreCase(propName))
 			return;
-		}
 
 		ElementPropertyDefn maskProp = getElement().getPropertyDefn(IDesignElementModel.PROPERTY_MASKS_PROP);
 		if (maskProp == null) {
@@ -175,9 +171,8 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 		}
 
 		ElementPropertyDefn prop = getElement().getPropertyDefn(propName);
-		if (prop == null) {
+		if (prop == null)
 			return;
-		}
 
 		ArrayList masks = (ArrayList) getElement().getLocalProperty(getModule(),
 				IDesignElementModel.PROPERTY_MASKS_PROP);
@@ -233,7 +228,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 	/**
 	 * Sets the resource key of the display name.
-	 *
+	 * 
 	 * @param displayNameKey the resource key of the display name
 	 * @throws SemanticException if the display name resource-key property is locked
 	 *                           or not defined on this element.
@@ -245,7 +240,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 	/**
 	 * Gets the resource key of the display name.
-	 *
+	 * 
 	 * @return the resource key of the display name
 	 */
 
@@ -255,7 +250,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 	/**
 	 * Sets the display name.
-	 *
+	 * 
 	 * @param displayName the display name
 	 * @throws SemanticException if the display name property is locked or not
 	 *                           defined on this element.
@@ -267,7 +262,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 	/**
 	 * Gets the display name.
-	 *
+	 * 
 	 * @return the display name
 	 */
 
@@ -277,7 +272,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 	/**
 	 * Sets the custom XML.
-	 *
+	 * 
 	 * @param customXml the custom XML to set
 	 * @throws SemanticException if the custom XML is locked or not defined on this
 	 *                           element.
@@ -289,7 +284,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 	/**
 	 * Gets the custom XML.
-	 *
+	 * 
 	 * @return the custom XML
 	 */
 
@@ -299,7 +294,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 	/**
 	 * Sets the comments of the report element.
-	 *
+	 * 
 	 * @param theComments the comments to set
 	 * @throws SemanticException if the comments property is locked or not defined
 	 *                           on this element.
@@ -311,7 +306,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 	/**
 	 * Gets the comments of the report element.
-	 *
+	 * 
 	 * @return the comments of the report element
 	 */
 
@@ -325,9 +320,8 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 
 	void duplicateExtendedElement() {
 		DesignElementHandle extendedElementHandle = getExtends();
-		if (extendedElementHandle == null) {
+		if (extendedElementHandle == null)
 			return;
-		}
 
 		try {
 			DesignElement cloned;
@@ -344,14 +338,13 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 	 * Checks whether the compound element is valid if the element has no extends
 	 * property value or if the current element is compound elements and extends
 	 * value is unresovled.
-	 *
+	 * 
 	 * @return <code>true</code> if the compound element is valid. Otherwise
 	 *         <code>false</code>.
-	 *
+	 * 
 	 * @deprecated
 	 */
 
-	@Deprecated
 	public boolean isValidReferenceForCompoundElement() {
 		return ModelUtil.isValidReferenceForCompoundElement(getModule(), element);
 	}
@@ -360,7 +353,7 @@ public abstract class ReportElementHandle extends DesignElementHandle {
 	 * Checks whether the compound element is valid. If a table/grid has no
 	 * rows/columns, it is invalid. If the table has overlapped areas, it is
 	 * invalid.
-	 *
+	 * 
 	 * @return <code>true</code> if the compound element is valid. Otherwise
 	 *         <code>false</code>.
 	 */

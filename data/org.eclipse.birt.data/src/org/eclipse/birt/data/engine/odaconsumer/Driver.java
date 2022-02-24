@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -65,13 +65,12 @@ class Driver {
 
 	/**
 	 * Returns the manifest of a DTP ODA driver, or that of a BIRT ODA driver.
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	ExtensionManifest getDriverExtensionConfig() throws DataException {
-		if (m_driverConfig != null) {
+		if (m_driverConfig != null)
 			return m_driverConfig;
-		}
 
 		// do lazy initialization;
 		// find the driver extension config and initializes member variables
@@ -84,9 +83,8 @@ class Driver {
 	// gets the consumer manager helper for this driver
 	IDriver getDriverHelper() throws DataException {
 		// shared driver helper has no sharable appContext
-		if (m_driverHelper == null) {
+		if (m_driverHelper == null)
 			m_driverHelper = createNewDriverHelper(null);
-		}
 		return m_driverHelper;
 	}
 
@@ -131,21 +129,18 @@ class Driver {
 
 		ManifestExplorer explorer = ManifestExplorer.getInstance();
 		try {
-			if (useDtpExtPoint) {
+			if (useDtpExtPoint)
 				return explorer.getExtensionManifest(dataSourceDriverId);
-			}
 
 			// no longer supports BIRT ODA extension point
-			if (throwsIfNotFound) { // not found
+			if (throwsIfNotFound) // not found
 				throw new IllegalArgumentException(dataSourceDriverId);
-			}
 			return null;
 		} catch (Exception ex) {
 			// dataSourceDriverId is not found as a DTP ODA driver
 			if (useDtpExtPoint && ex instanceof IllegalArgumentException) {
-				if (!throwsIfNotFound) {
+				if (!throwsIfNotFound)
 					return null; // not an error
-				}
 			}
 
 			// throws a DataException for driver configuration problem

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -27,7 +27,7 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * abstract area which is the default implementation of <code>IArea</code>
- *
+ * 
  */
 public abstract class AbstractArea implements IArea {
 
@@ -101,7 +101,6 @@ public abstract class AbstractArea implements IArea {
 
 	}
 
-	@Override
 	public String getBookmark() {
 		return bookmark;
 	}
@@ -110,7 +109,6 @@ public abstract class AbstractArea implements IArea {
 		this.bookmark = bookmark;
 	}
 
-	@Override
 	public IHyperlinkAction getAction() {
 		return action;
 	}
@@ -133,7 +131,6 @@ public abstract class AbstractArea implements IArea {
 		this.scale = scale;
 	}
 
-	@Override
 	public float getScale() {
 		return this.scale;
 	}
@@ -141,7 +138,6 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * get X position of this area
 	 */
-	@Override
 	public int getX() {
 		return x;
 	}
@@ -149,7 +145,6 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * get Y position of this area
 	 */
-	@Override
 	public int getY() {
 		return y;
 	}
@@ -174,7 +169,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * set width of this area
-	 *
+	 * 
 	 * @param width
 	 */
 	public void setWidth(int width) {
@@ -184,7 +179,6 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * set width of this area
 	 */
-	@Override
 	public int getWidth() {
 		return width;
 	}
@@ -192,14 +186,13 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * get height of this area
 	 */
-	@Override
 	public int getHeight() {
 		return height;
 	}
 
 	/**
 	 * set height of this area
-	 *
+	 * 
 	 * @param height
 	 */
 	public void setHeight(int height) {
@@ -216,7 +209,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * Sets the baseLine
-	 *
+	 * 
 	 * @param baseLine
 	 */
 	public void setBaseLine(int baseLine) {
@@ -225,7 +218,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * Gets the baseline
-	 *
+	 * 
 	 * @return the baseline
 	 */
 	public int getBaseLine() {

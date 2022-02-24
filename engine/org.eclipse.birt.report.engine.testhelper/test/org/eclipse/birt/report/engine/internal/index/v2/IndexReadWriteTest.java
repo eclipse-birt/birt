@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,11 +14,11 @@
 
 package org.eclipse.birt.report.engine.internal.index.v2;
 
+import junit.framework.TestCase;
+
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
-
-import junit.framework.TestCase;
 
 public class IndexReadWriteTest extends TestCase {
 
@@ -32,7 +32,7 @@ public class IndexReadWriteTest extends TestCase {
 			IndexWriter writer = new IndexWriter(new ArchiveWriter(af), ENTRY_NAME);
 			try {
 				for (int i = 0; i < entryCount; i++) {
-					writer.add(String.valueOf(i), i);
+					writer.add(String.valueOf(i), Long.valueOf(i));
 				}
 			} finally {
 				writer.close();
@@ -64,7 +64,7 @@ public class IndexReadWriteTest extends TestCase {
 			IndexWriter writer = new IndexWriter(new ArchiveWriter(af), ENTRY_NAME);
 			try {
 				for (int i = 0; i < entryCount; i++) {
-					writer.add(String.valueOf(i), i);
+					writer.add(String.valueOf(i), Long.valueOf(i));
 				}
 			} finally {
 				writer.close();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,22 +23,22 @@ public interface ISubCubeQueryDefinition extends IBaseCubeQueryDefinition {
 	/**
 	 * @return the starting level on row edge
 	 */
-	String getStartingLevelOnRow();
+	public String getStartingLevelOnRow();
 
 	/**
 	 * @return the starting level on column edge
 	 */
-	String getStartingLevelOnColumn();
+	public String getStartingLevelOnColumn();
 
 	/**
-	 *
+	 * 
 	 * @param level
 	 */
-	void setStartingLevelOnColumn(String level);
+	public void setStartingLevelOnColumn(String level);
 
 	/**
-	 *
+	 * 
 	 * @param level
 	 */
-	void setStartingLevelOnRow(String level);
+	public void setStartingLevelOnRow(String level);
 }

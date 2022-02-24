@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -95,7 +95,7 @@ public class ArchiveUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param root     use unix path separator
 	 * @param relative use unix path separator
 	 * @return
@@ -118,23 +118,23 @@ public class ArchiveUtil {
 
 	/**
 	 * split strings by the character.
-	 *
+	 * 
 	 * It implements javascript's behavior as always return count(splitChar)+1
-	 *
+	 * 
 	 * for example, split char is '/':
-	 *
+	 * 
 	 * <dl>
 	 * <li>'/' => ['', '']</li>
 	 * <li>'/abc/' => ['', 'abc', '']</li>
 	 * <li>'abc' => 'abc'</li>
 	 * </dl>
-	 *
+	 * 
 	 * @param value
 	 * @param splitChar
 	 * @return
 	 */
 	public static String[] split(String value, char splitChar) {
-		ArrayList<String> result = new ArrayList<>();
+		ArrayList<String> result = new ArrayList<String>();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < value.length(); i++) {
 			char ch = value.charAt(i);
@@ -151,9 +151,9 @@ public class ArchiveUtil {
 
 	/**
 	 * escape entry name to a valid file path
-	 *
+	 * 
 	 * duplicate '/' will be removed
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -184,9 +184,9 @@ public class ArchiveUtil {
 
 	/**
 	 * encode entry name to a valid file name
-	 *
+	 * 
 	 * entry name is not null, not empty, doesn't contain '/'.
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -206,13 +206,13 @@ public class ArchiveUtil {
 			// unexpectedly by encoding . to %2E
 			if (path.contains(".")) //$NON-NLS-1$
 			{
-				path = path.replace(".", "%2E"); //$NON-NLS-1$ //$NON-NLS-2$
+				path = path.replaceAll("\\.", "%2E"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			// handle case /abc*/ where the File Object will remove "*"
 			// unexpectedly by encoding * to %2A
 			if (path.contains("*")) //$NON-NLS-1$
 			{
-				path = path.replace("*", "%2A"); //$NON-NLS-1$ //$NON-NLS-2$
+				path = path.replaceAll("\\*", "%2A"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			return path;
 		} catch (UnsupportedEncodingException ex) {
@@ -222,7 +222,7 @@ public class ArchiveUtil {
 
 	/**
 	 * escape entry name to a valid file name
-	 *
+	 * 
 	 * @param filePath , a relative file path, start with "/"
 	 * @return entry name
 	 */
@@ -252,7 +252,7 @@ public class ArchiveUtil {
 
 	/**
 	 * decode file name to entry name.
-	 *
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -275,7 +275,7 @@ public class ArchiveUtil {
 
 	/**
 	 * convert a folder to entry name.
-	 *
+	 * 
 	 * @param rootPath   - the absolute path of the root folder. The path is
 	 *                   seperated by system's File seperator.
 	 * @param fullString - the absolute path of the stream. The path is seperated by
@@ -317,16 +317,15 @@ public class ArchiveUtil {
 	 * @return the path that is in Unix format.
 	 */
 	private static String toUnixPath(String path) {
-		if (path == null) {
+		if (path == null)
 			return null;
-		}
 		return path.replace('\\', '/');
 	}
 
 	/**
 	 * Generate a unique file or folder name which is in the same folder as the
 	 * originalName
-	 *
+	 * 
 	 * @param originalName - the original Name. For example, it could be the name of
 	 *                     the file archive
 	 * @return a unique file or folder name which is in the same folder as the
@@ -336,7 +335,7 @@ public class ArchiveUtil {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss"); //$NON-NLS-1$
 		String dateTimeString = df.format(new Date());
 
-		StringBuilder folderName = new StringBuilder(originalName);
+		StringBuffer folderName = new StringBuffer(originalName);
 		folderName.append('_');
 		folderName.append(dateTimeString);
 
@@ -355,20 +354,19 @@ public class ArchiveUtil {
 	 * If the parent folder of the file doesn't exsit, create the parent folder.
 	 */
 	public static void createParentFolder(File fd) {
-		if (fd != null && fd.getParentFile() != null && !fd.getParentFile().exists()) {
+		if (fd != null && fd.getParentFile() != null && fd.getParentFile().exists() == false) {
 			fd.getParentFile().mkdirs();
 		}
 	}
 
 	/**
 	 * Recursively delete all the files and folders under dirOrFile
-	 *
+	 * 
 	 * @param dirOrFile - the File object which could be either a folder or a file.
 	 */
 	public static void deleteAllFiles(File dirOrFile) {
-		if (!dirOrFile.exists()) {
+		if (!dirOrFile.exists())
 			return;
-		}
 
 		if (dirOrFile.isFile()) {
 			dirOrFile.delete();
@@ -377,9 +375,8 @@ public class ArchiveUtil {
 		{
 			if ((dirOrFile.listFiles() != null) && (dirOrFile.listFiles().length > 0)) {
 				File[] fileList = dirOrFile.listFiles();
-				for (int i = 0; i < fileList.length; i++) {
+				for (int i = 0; i < fileList.length; i++)
 					deleteAllFiles(fileList[i]);
-				}
 			}
 
 			// Directory can only be deleted when it is empty.
@@ -395,6 +392,8 @@ public class ArchiveUtil {
 		try {
 			zipFiles(zipOutput, files, tempFolderPath);
 			zipOutput.close();
+		} catch (FileNotFoundException e) {
+			logger.log(Level.WARNING, e.getMessage());
 		} catch (IOException e) {
 			logger.log(Level.WARNING, e.getMessage());
 		}
@@ -406,9 +405,8 @@ public class ArchiveUtil {
 	 */
 	private static void zipFiles(ZipOutputStream zipOut, File[] files, String tempFolderPath)
 			throws FileNotFoundException, IOException {
-		if (files == null) {
+		if (files == null)
 			return;
-		}
 
 		for (int i = 0; i < files.length; i++) {
 			File file = files[i];
@@ -419,7 +417,7 @@ public class ArchiveUtil {
 			} else { // if file is a file, create a new ZipEntry and write out the
 						// file.
 				BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-				try (in) {
+				try {
 					String relativePath = getEntryName(tempFolderPath, file.getPath());
 					ZipEntry entry = new ZipEntry(relativePath);
 					try {
@@ -434,6 +432,8 @@ public class ArchiveUtil {
 					} finally {
 						zipOut.closeEntry();
 					}
+				} finally {
+					in.close();
 				}
 			}
 		} // end of for ( int i = 0; i < files.length; i++ )
@@ -454,7 +454,9 @@ public class ArchiveUtil {
 					File dir = new File(dirName);
 					dir.mkdirs();
 				} else {
-					try (InputStream in = zipFile.getInputStream(entry)) {
+					InputStream in = null;
+					try {
+						in = zipFile.getInputStream(entry);
 						File file = new File(getFullPath(tempFolderPath, entry.getName()));
 
 						File dir = new File(file.getParent());
@@ -474,11 +476,17 @@ public class ArchiveUtil {
 						} finally {
 							out.close();
 						}
+					} finally {
+						if (in != null) {
+							in.close();
+						}
 					}
 				}
 			}
 			zipFile.close();
 
+		} catch (ZipException e) {
+			logger.log(Level.WARNING, e.getMessage());
 		} catch (IOException e) {
 			logger.log(Level.WARNING, e.getMessage());
 		}
@@ -520,13 +528,15 @@ public class ArchiveUtil {
 		for (int i = 0; i < streamList.size(); i++) {
 			String streamPath = streamList.get(i);
 			RAInputStream in = reader.getStream(streamPath);
-			try (in) {
+			try {
 				RAOutputStream out = writer.createRandomAccessStream(streamPath);
 				try {
 					copyStream(in, out);
 				} finally {
 					out.close();
 				}
+			} finally {
+				in.close();
 			}
 		}
 	}
@@ -546,8 +556,8 @@ public class ArchiveUtil {
 		// Build a map of src to target paths. The special value '1' stands for identity
 		// mapping
 
-		Map<String, String> normalizedStreamMappings = new HashMap<>();
-		List<String> overridenStreams = new ArrayList<>();
+		Map<String, String> normalizedStreamMappings = new HashMap<String, String>();
+		List<String> overridenStreams = new ArrayList<String>();
 
 		String srcStreamPath = null;
 		String targetStreamPath = null;
@@ -577,13 +587,15 @@ public class ArchiveUtil {
 				targetStreamPath = srcStreamPath;
 			}
 			RAInputStream in = reader.getStream(srcStreamPath);
-			try (in) {
+			try {
 				RAOutputStream out = writer.createRandomAccessStream(targetStreamPath);
 				try {
 					copyStream(in, out);
 				} finally {
 					out.close();
 				}
+			} finally {
+				in.close();
 			}
 		}
 	}
@@ -683,7 +695,7 @@ public class ArchiveUtil {
 	 * The Lookup map is a hash map. The key is the relative path of the stram. The
 	 * entry contains two long number. The first long is the start postion. The
 	 * second long is the length of the stream. <br>
-	 *
+	 * 
 	 * @param tempFolder
 	 * @param fileArchiveName - the file archive name
 	 * @return Whether the compound file was created successfully.
@@ -720,7 +732,7 @@ public class ArchiveUtil {
 	 * The Lookup map is a hash map. The key is the relative path of the stram. The
 	 * entry contains two long number. The first long is the start postion. The
 	 * second long is the length of the stream. <br>
-	 *
+	 * 
 	 * @param tempFolder
 	 * @param fileArchiveName - the file archive name
 	 * @return Whether the compound file was created successfully.
@@ -762,7 +774,7 @@ public class ArchiveUtil {
 	/**
 	 * files which should be ignored in list stream
 	 */
-	static final String[] SKIP_FILES = { META_DATA_FILE_NAME, READER_COUNT_FILE_NAME };
+	static final String[] SKIP_FILES = new String[] { META_DATA_FILE_NAME, READER_COUNT_FILE_NAME };
 
 	static boolean needSkip(String file) {
 		for (int i = 0; i < SKIP_FILES.length; i++) {
@@ -776,16 +788,15 @@ public class ArchiveUtil {
 	/**
 	 * Get all the files under the specified folder (including all the files under
 	 * sub-folders)
-	 *
+	 * 
 	 * @param dir      - the folder to look into
 	 * @param fileList - the fileList to be returned
 	 */
 	public static void listAllFiles(File dir, ArrayList<? super File> fileList) {
 		if (dir.exists() && dir.isDirectory()) {
 			File[] files = dir.listFiles();
-			if (files == null) {
+			if (files == null)
 				return;
-			}
 
 			for (int i = 0; i < files.length; i++) {
 				File file = files[i];
@@ -811,7 +822,7 @@ public class ArchiveUtil {
 	/**
 	 * Assemble four bytes to an int value, make sure that the passed bytes length
 	 * is larger than 4.
-	 *
+	 * 
 	 * @param bytes
 	 * @return int value of bytes
 	 */
@@ -829,7 +840,7 @@ public class ArchiveUtil {
 	/**
 	 * Assemble eight bytes to an long value, make sure that the passed bytes length
 	 * larger than 8.
-	 *
+	 * 
 	 * @param bytes
 	 * @return int value of bytes
 	 */

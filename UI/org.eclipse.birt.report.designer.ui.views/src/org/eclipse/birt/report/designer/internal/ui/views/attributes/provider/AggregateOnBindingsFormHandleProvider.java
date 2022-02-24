@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -62,11 +62,9 @@ public class AggregateOnBindingsFormHandleProvider extends DataSetColumnBindings
 		return false;
 	}
 
-	@Override
 	public boolean doEditItem(int pos) {
-		if (pos == -1) {
+		if (pos == -1)
 			return false;
-		}
 		ComputedColumnHandle bindingHandle = null;
 		pos = getOriginalIndex(pos);
 		if (pos > -1) {
@@ -75,18 +73,15 @@ public class AggregateOnBindingsFormHandleProvider extends DataSetColumnBindings
 						.getAt(pos);
 			}
 		}
-		if (bindingHandle == null) {
+		if (bindingHandle == null)
 			return false;
-		}
 
 		boolean isResultSetColumn = false;
 		String resultSetName = null;
-		if (getBindingObject() instanceof DataItemHandle) {
+		if (getBindingObject() instanceof DataItemHandle)
 			resultSetName = ((DataItemHandle) getBindingObject()).getResultSetColumn();
-		}
-		if (resultSetName != null && bindingHandle.getName().equals(resultSetName)) {
+		if (resultSetName != null && bindingHandle.getName().equals(resultSetName))
 			isResultSetColumn = true;
-		}
 
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog(false);
 		dialog.setInput((ReportItemHandle) getBindingObject(), bindingHandle);

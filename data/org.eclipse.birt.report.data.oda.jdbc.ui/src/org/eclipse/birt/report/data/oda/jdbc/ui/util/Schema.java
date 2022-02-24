@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import java.util.Iterator;
 /**
  * This object represents a schema in the data base It contains methods to
  * retrieve the tables from the data base
- *
+ * 
  * @version $Revision: 1.4 $ $Date: 2007/02/01 10:58:57 $
  */
 
@@ -39,7 +39,7 @@ public class Schema implements Serializable {
 	private long timeout; // milliseconds;
 
 	/**
-	 *
+	 *  
 	 */
 	Schema(ConnectionMetaData metaData, long timeout) {
 		super();
@@ -124,10 +124,9 @@ public class Schema implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-	@Override
 	protected void finalize() throws Throwable {
 		tables.clear();
 		super.finalize();

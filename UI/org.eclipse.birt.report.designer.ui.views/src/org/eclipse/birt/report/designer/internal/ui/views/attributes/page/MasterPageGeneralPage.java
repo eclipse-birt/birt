@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,6 @@ public class MasterPageGeneralPage extends GeneralPage {
 	private ComplexUnitSection widthSection;
 	private ComboSection orientationSection;
 
-	@Override
 	protected void buildContent() {
 		container.setLayout(WidgetUtil.createGridLayout(6, 15));
 
@@ -113,7 +112,6 @@ public class MasterPageGeneralPage extends GeneralPage {
 		typeProvider = new ComboPropertyDescriptorProvider(MasterPageHandle.TYPE_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT) {
 
-			@Override
 			public void save(Object value) throws SemanticException {
 				if (DesignChoiceConstants.PAGE_SIZE_CUSTOM.equals(getSaveValue(value))) {
 					CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -156,30 +154,29 @@ public class MasterPageGeneralPage extends GeneralPage {
 		 * WidgetUtil.buildGridControl( container, propertiesMap,
 		 * ReportDesignConstants.MASTER_PAGE_ELEMENT, MasterPageHandle.ORIENTATION_PROP,
 		 * 1, false );
-		 *
+		 * 
 		 * Label separator = new Label( container, SWT.SEPARATOR | SWT.HORIZONTAL );
 		 * GridData data = new GridData( ); data.horizontalSpan = 5;
 		 * data.grabExcessHorizontalSpace = false; data.horizontalAlignment =
 		 * GridData.FILL; separator.setLayoutData( data );
-		 *
+		 * 
 		 * WidgetUtil.buildGridControl( container, propertiesMap,
 		 * ReportDesignConstants.MASTER_PAGE_ELEMENT, MasterPageHandle.TYPE_PROP, 1,
 		 * false ); pageSizeDescriptor = (IPropertyDescriptor) propertiesMap.get(
 		 * MasterPageHandle.TYPE_PROP );
-		 *
+		 * 
 		 * WidgetUtil.createGridPlaceholder( container, 3, false );
-		 *
+		 * 
 		 * widthPane = (Composite) WidgetUtil.buildGridControl( container,
 		 * propertiesMap, ReportDesignConstants.MASTER_PAGE_ELEMENT,
 		 * MasterPageHandle.WIDTH_PROP, 1, false );
-		 *
+		 * 
 		 * heightPane = (Composite) WidgetUtil.buildGridControl( container,
 		 * propertiesMap, ReportDesignConstants.MASTER_PAGE_ELEMENT,
 		 * MasterPageHandle.HEIGHT_PROP, 1, false );
 		 */
 	}
 
-	@Override
 	public void refresh() {
 		super.refresh();
 		resetCustomStyle();
@@ -204,7 +201,6 @@ public class MasterPageGeneralPage extends GeneralPage {
 		}
 	}
 
-	@Override
 	public void postElementEvent() {
 		super.postElementEvent();
 		resetCustomStyle();

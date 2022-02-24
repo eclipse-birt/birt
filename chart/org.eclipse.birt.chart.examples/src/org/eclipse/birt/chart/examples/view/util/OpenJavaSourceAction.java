@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -69,7 +69,6 @@ public class OpenJavaSourceAction extends Action {
 		setDescription(Messages.getDescription("OpenJavaSourceAction.Text.Description")); //$NON-NLS-1$
 	}
 
-	@Override
 	public void run() {
 		String fileName = ChartExamples.getClassName();
 		if (fileName != null) {
@@ -111,9 +110,8 @@ public class OpenJavaSourceAction extends Action {
 
 	private IEditorInput createEditorInput(final IFileStore fileStore) {
 		IFile workspaceFile = getWorkspaceFile(fileStore);
-		if (workspaceFile != null) {
+		if (workspaceFile != null)
 			return new FileEditorInput(workspaceFile);
-		}
 		IEditorInput iei = null;
 		try {
 			Class.forName("org.eclipse.ui.ide.FileStoreEditorInput"); //$NON-NLS-1$
@@ -122,62 +120,50 @@ public class OpenJavaSourceAction extends Action {
 			// RCP
 			return new IEPInput() {
 
-				@Override
 				public boolean exists() {
 					return fileStore.fetchInfo().exists();
 				}
 
-				@Override
 				public ImageDescriptor getImageDescriptor() {
 					return null;
 				}
 
-				@Override
 				public String getName() {
 					return fileStore.getName();
 				}
 
-				@Override
 				public IPersistableElement getPersistable() {
 					return null;
 				}
 
-				@Override
 				public String getToolTipText() {
 					return fileStore.toString();
 				}
 
-				@Override
 				public Object getAdapter(Class adapter) {
-					if (IWorkbenchAdapter.class.equals(adapter)) {
+					if (IWorkbenchAdapter.class.equals(adapter))
 						return new IWorkbenchAdapter() {
 
-							@Override
 							public Object[] getChildren(Object o) {
 								return null;
 							}
 
-							@Override
 							public ImageDescriptor getImageDescriptor(Object object) {
 								return null;
 							}
 
-							@Override
 							public String getLabel(Object o) {
 								return ((FileStoreEditorInput) o).getName();
 							}
 
-							@Override
 							public Object getParent(Object o) {
 								return null;
 							}
 
 						};
-					}
 					return Platform.getAdapterManager().getAdapter(this, adapter);
 				}
 
-				@Override
 				public IPath getPath() {
 					return new Path(fileStore.toURI().getPath());
 				}
@@ -199,16 +185,14 @@ public class OpenJavaSourceAction extends Action {
 	}
 
 	private IFile[] filterNonExistentFiles(IFile[] files) {
-		if (files == null) {
+		if (files == null)
 			return null;
-		}
 
 		int length = files.length;
 		ArrayList existentFiles = new ArrayList(length);
 		for (int i = 0; i < length; i++) {
-			if (files[i].exists()) {
+			if (files[i].exists())
 				existentFiles.add(files[i]);
-			}
 		}
 		return (IFile[]) existentFiles.toArray(new IFile[existentFiles.size()]);
 	}
@@ -232,9 +216,8 @@ public class OpenJavaSourceAction extends Action {
 	}
 
 	private IContentType getContentType(IFileStore fileStore) {
-		if (fileStore == null) {
+		if (fileStore == null)
 			return null;
-		}
 
 		InputStream stream = null;
 		try {
@@ -245,15 +228,14 @@ public class OpenJavaSourceAction extends Action {
 			return null;
 		} catch (CoreException ce) {
 			// Do not log FileNotFoundException (no access)
-			if (!(ce.getStatus().getException() instanceof FileNotFoundException)) {
+			if (!(ce.getStatus().getException() instanceof FileNotFoundException))
+
 				ce.printStackTrace();
-			}
 			return null;
 		} finally {
 			try {
-				if (stream != null) {
+				if (stream != null)
 					stream.close();
-				}
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}

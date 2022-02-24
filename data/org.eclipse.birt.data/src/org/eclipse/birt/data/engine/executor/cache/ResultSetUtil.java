@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,14 +43,14 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
- *
+ * 
  */
 public class ResultSetUtil {
 	// ----------------------service for result object save and load--------------
 
 	/**
 	 * Write the result object value if it is used in column binding map
-	 *
+	 * 
 	 * @param dos
 	 * @param resultObject
 	 * @param nameSet
@@ -66,9 +66,8 @@ public class ResultSetUtil {
 	public static int writeResultObject(DataOutputStream dos, IResultObject resultObject, int count, Set nameSet,
 			Map<String, StringTable> stringTableMap, Map<String, IIndexSerializer> index, int rowIndex, int version,
 			boolean saveRowId) throws DataException, IOException {
-		if (resultObject.getResultClass() == null) {
+		if (resultObject.getResultClass() == null)
 			return 0;
-		}
 
 		ByteArrayOutputStream tempBaos = new ByteArrayOutputStream();
 		BufferedOutputStream tempBos = new BufferedOutputStream(tempBaos);
@@ -103,18 +102,19 @@ public class ResultSetUtil {
 				}
 
 				StringTable table = null;
-				if (stringTableMap != null) {
+				if (stringTableMap != null)
 					table = stringTableMap.get(resultObject.getResultClass().getFieldName(i));
-				}
 				if (table != null) {
 					int stringIndex = table.getIndex((String) resultObject.getFieldValue(i));
 //					IOUtil.writeObject( tempDos, stringIndex );
 					IOUtil.writeInt(tempDos, stringIndex);
-				} else if (version > VersionManager.VERSION_3_7_2_1) {
-					ResultObjectUtil.writeObject(tempDos, resultObject.getFieldValue(i),
-							resultObject.getResultClass().getFieldValueClass(i), version);
 				} else {
-					IOUtil.writeObject(tempDos, resultObject.getFieldValue(i));
+					if (version > VersionManager.VERSION_3_7_2_1) {
+						ResultObjectUtil.writeObject(tempDos, resultObject.getFieldValue(i),
+								resultObject.getResultClass().getFieldValueClass(i), version);
+					} else {
+						IOUtil.writeObject(tempDos, resultObject.getFieldValue(i));
+					}
 				}
 			}
 		}
@@ -173,11 +173,13 @@ public class ResultSetUtil {
 							obs[i] = IOUtil.readObject(dis, DataEngineSession.getCurrentClassLoader());
 						}
 					}
-				} else if (version > VersionManager.VERSION_3_7_2_1) {
-					obs[i] = ResultObjectUtil.readObject(dis, typeClazz, DataEngineSession.getCurrentClassLoader(),
-							version);
 				} else {
-					obs[i] = IOUtil.readObject(dis, DataEngineSession.getCurrentClassLoader());
+					if (version > VersionManager.VERSION_3_7_2_1) {
+						obs[i] = ResultObjectUtil.readObject(dis, typeClazz, DataEngineSession.getCurrentClassLoader(),
+								version);
+					} else {
+						obs[i] = IOUtil.readObject(dis, DataEngineSession.getCurrentClassLoader());
+					}
 				}
 			}
 			ResultObject resultObject = new ResultObject(rsMeta, obs);
@@ -200,7 +202,7 @@ public class ResultSetUtil {
 
 	/**
 	 * Get result set column name collection from column binding map
-	 *
+	 * 
 	 * @param cacheRequestMap
 	 * @return
 	 * @throws DataException
@@ -222,10 +224,9 @@ public class ResultSetUtil {
 							dataSetColumnList.addAll(ExpressionCompilerUtil.extractDataSetColumnExpression(
 									((IPushedDownExpression) binding.getExpression()).getOriginalExpression()));
 						}
-					} else {
+					} else
 						dataSetColumnList = ExpressionCompilerUtil
 								.extractDataSetColumnExpression(getArgumentExpression(binding));
-					}
 				}
 				if (dataSetColumnList != null) {
 					resultSetNameSet.addAll(dataSetColumnList);

@@ -4,20 +4,23 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.chart.tests.engine;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.eclipse.birt.chart.tests.engine.aggregate.AverageTest;
 import org.eclipse.birt.chart.tests.engine.aggregate.SumTest;
 import org.eclipse.birt.chart.tests.engine.computation.BoundingBoxTest;
-import org.eclipse.birt.chart.tests.engine.computation.MonthDateFormatTest;
 import org.eclipse.birt.chart.tests.engine.computation.RectangleTest;
 import org.eclipse.birt.chart.tests.engine.computation.ScaleContextTest;
+import org.eclipse.birt.chart.tests.engine.computation.MonthDateFormatTest;
 import org.eclipse.birt.chart.tests.engine.computation.ValueFormatterTest;
 import org.eclipse.birt.chart.tests.engine.computation.VectorTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.DataSetProcessorImplTest;
@@ -37,9 +40,6 @@ import org.eclipse.birt.chart.tests.engine.util.FractionTest;
 import org.eclipse.birt.chart.tests.engine.util.LiteralHelperTest;
 import org.eclipse.birt.chart.tests.engine.util.NameSetTest;
 import org.eclipse.birt.chart.tests.engine.util.TriggerSupportMatrixTest;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 public class EngineTest {
 

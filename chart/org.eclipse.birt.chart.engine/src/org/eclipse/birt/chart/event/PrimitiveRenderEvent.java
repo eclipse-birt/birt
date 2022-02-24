@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -62,7 +62,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements Compara
 	/**
 	 * Creates a Primitive Render Event from a source object. The source can be of
 	 * any type. Inside the chart engine, it is a StructureSource object
-	 *
+	 * 
 	 * @param oSource The Source Object
 	 * @see StructureSource
 	 */
@@ -73,7 +73,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements Compara
 	/**
 	 * Returns the mimimum bounds required to contain the rendering area for current
 	 * event.
-	 *
+	 * 
 	 * @return
 	 * @throws ChartException if not implemented by concrete class
 	 */
@@ -86,7 +86,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements Compara
 	/**
 	 * @return A copy of this primitive rendering instruction implemented by
 	 *         subclasses
-	 *
+	 * 
 	 * @throws ChartException
 	 */
 	public PrimitiveRenderEvent copy() throws ChartException {
@@ -96,7 +96,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements Compara
 
 	/**
 	 * Compare two bounds in transposed way.
-	 *
+	 * 
 	 * @param bo1
 	 * @param bo2
 	 * @return
@@ -135,7 +135,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements Compara
 
 	/**
 	 * Compare two bounds regularly.
-	 *
+	 * 
 	 * @param bo1
 	 * @param bo2
 	 * @return
@@ -175,7 +175,6 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements Compara
 	/**
 	 * Compares two primitives in terms of Z-order rendering
 	 */
-	@Override
 	public int compareTo(Object o) {
 		PrimitiveRenderEvent pre = null;
 		if (o instanceof IRenderInstruction) {
@@ -204,7 +203,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements Compara
 
 	/**
 	 * Causes this instruction to 'draw' itself on the device renderer
-	 *
+	 * 
 	 * @param idr
 	 * @throws ChartException
 	 */
@@ -216,7 +215,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements Compara
 
 	/**
 	 * Causes this instruction to 'fill' itself on the device renderer
-	 *
+	 * 
 	 * @param idr
 	 * @throws ChartException
 	 */
@@ -228,7 +227,7 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements Compara
 
 	/**
 	 * Sets the depth of current event.
-	 *
+	 * 
 	 * @param dDepth
 	 */
 	public final void setDepth(double dDepth) {

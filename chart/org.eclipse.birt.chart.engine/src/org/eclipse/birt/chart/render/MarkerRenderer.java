@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -88,7 +88,7 @@ public final class MarkerRenderer {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param _render
 	 * @param _oSource
 	 * @param _lo
@@ -142,11 +142,11 @@ public final class MarkerRenderer {
 
 	/**
 	 * Render the marker with given renderer.
-	 *
+	 * 
 	 * @param ipr
 	 * @throws ChartException
 	 */
-	public void draw(IPrimitiveRenderer ipr) throws ChartException {
+	public final void draw(IPrimitiveRenderer ipr) throws ChartException {
 		switch (m.getType().getValue()) {
 		case MarkerType.CROSSHAIR:
 			drawCrosshair(ipr);

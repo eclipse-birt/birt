@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,9 +31,8 @@ public class AutoTextScriptExecutor extends ScriptExecutor {
 		try {
 			IAutoText cell = new AutoText(autoTextHandle);
 			IAutoTextEventHandler eh = getEventHandler(autoTextHandle, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPrepare(cell, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -50,13 +49,11 @@ public class AutoTextScriptExecutor extends ScriptExecutor {
 				return;
 			}
 			IAutoTextInstance autoText = new AutoTextInstance(content, context, RunningState.CREATE);
-			if (handleScript(autoText, autoTextItemDesign.getOnCreate(), context).didRun()) {
+			if (handleScript(autoText, autoTextItemDesign.getOnCreate(), context).didRun())
 				return;
-			}
 			IAutoTextEventHandler eh = getEventHandler(autoTextItemDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onCreate(autoText, context.getReportContext());
-			}
 
 		} catch (Exception e) {
 			addException(context, e, autoTextItemDesign.getHandle());
@@ -75,13 +72,11 @@ public class AutoTextScriptExecutor extends ScriptExecutor {
 		try {
 			// fromGrid doesn't matter here since row data is null
 			IAutoTextInstance autoText = new AutoTextInstance(content, context, RunningState.RENDER);
-			if (handleScript(autoText, autoTextDesign.getOnRender(), context).didRun()) {
+			if (handleScript(autoText, autoTextDesign.getOnRender(), context).didRun())
 				return;
-			}
 			IAutoTextEventHandler eh = getEventHandler(autoTextDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onRender(autoText, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, autoTextDesign.getHandle());
 		}
@@ -99,13 +94,11 @@ public class AutoTextScriptExecutor extends ScriptExecutor {
 			}
 			// fromGrid doesn't matter here since row data is null
 			IAutoTextInstance autoText = new AutoTextInstance(content, context, RunningState.PAGEBREAK);
-			if (handleScript(autoText, autoTextDesign.getOnPageBreak(), context).didRun()) {
+			if (handleScript(autoText, autoTextDesign.getOnPageBreak(), context).didRun())
 				return;
-			}
 			IAutoTextEventHandler eh = getEventHandler(autoTextDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPageBreak(autoText, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, autoTextDesign.getHandle());
 		}

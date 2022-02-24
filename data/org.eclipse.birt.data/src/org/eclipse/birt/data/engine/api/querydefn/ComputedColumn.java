@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -49,7 +49,7 @@ public class ComputedColumn implements IComputedColumn {
 
 	/**
 	 * Constructs a new computed column with specified name and expression
-	 *
+	 * 
 	 * @param name     Name of computed column
 	 * @param expr     Expression of computed column
 	 * @param dataType data Type of computed column
@@ -89,60 +89,54 @@ public class ComputedColumn implements IComputedColumn {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IComputedColumn#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IComputedColumn#getExpression()
 	 */
-	@Override
 	public IBaseExpression getExpression() {
 		return expr;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IComputedColumn#getDataType()
 	 */
-	@Override
 	public int getDataType() {
 		return this.dataType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IComputedColumn#getAggregateFunction()
 	 */
-	@Override
 	public String getAggregateFunction() {
 		return this.aggrFuntion;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IComputedColumn#getAggregateArgument()
 	 */
-	@Override
 	public List getAggregateArgument() {
 		return this.argument;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IComputedColumn#getAggregateFilter()
 	 */
-	@Override
 	public IScriptExpression getAggregateFilter() {
 		return this.filter;
 	}

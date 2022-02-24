@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -88,7 +88,7 @@ class DiskCacheResultSet {
 
 	/**
 	 * This function must be called after goal file is generated.
-	 *
+	 * 
 	 * @return RowData
 	 * @throws IOException,  file reader exception
 	 * @throws DataException
@@ -99,7 +99,7 @@ class DiskCacheResultSet {
 
 	/**
 	 * Set the file reader to the start of the goal file
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	public void reset() throws DataException {
@@ -108,7 +108,7 @@ class DiskCacheResultSet {
 
 	/**
 	 * Close result set
-	 *
+	 * 
 	 * @throws DataException
 	 */
 	public void close() throws DataException {

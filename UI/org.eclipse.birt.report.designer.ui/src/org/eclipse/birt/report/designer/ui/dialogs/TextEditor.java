@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -224,10 +224,10 @@ public class TextEditor extends BaseDialog {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * Creates a new text editor under the given parent shell with the given title
 	 * to edit the given text
-	 *
+	 * 
 	 * @param parentShell the parent shell contains this pop-up dialog
 	 * @param title       the title of dialog
 	 * @param handle      the handle of the text element
@@ -248,11 +248,10 @@ public class TextEditor extends BaseDialog {
 	 * The <code>TextEditorDialog</code> overrides this framework method to create
 	 * and return a new <code>Composite</code> with an empty tab folder.
 	 * </p>
-	 *
+	 * 
 	 * @param parent the parent composite to contain the dialog area
 	 * @return the dialog area control
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -281,7 +280,7 @@ public class TextEditor extends BaseDialog {
 
 	/**
 	 * Creates the toolBar and toolItems, type choicer.
-	 *
+	 * 
 	 * @param composite composite to contain toolBar
 	 */
 	private void createToolBar(Composite composite) {
@@ -303,7 +302,6 @@ public class TextEditor extends BaseDialog {
 		copy.setToolTipText(TOOL_TIP_TEXT_COPY);
 		copy.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				textEditor.copy();
 			}
@@ -314,7 +312,6 @@ public class TextEditor extends BaseDialog {
 		cut.setToolTipText(TOOL_TIP_TEXT_CUT);
 		cut.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				textEditor.cut();
 			}
@@ -325,7 +322,6 @@ public class TextEditor extends BaseDialog {
 		paste.setToolTipText(TOOL_TIP_TEXT_PASTE);
 		paste.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				textEditor.paste();
 			}
@@ -336,7 +332,6 @@ public class TextEditor extends BaseDialog {
 		delete.setToolTipText(TOOL_TIP_TEXT_DELETE);
 		delete.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (textEditor.getSelectionCount() > 0) {
 					textEditor.insert(""); //$NON-NLS-1$
@@ -349,7 +344,6 @@ public class TextEditor extends BaseDialog {
 		undo.setToolTipText(TOOL_TIP_TEXT_UNDO);
 		undo.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				textViewer.doOperation(ITextOperationTarget.UNDO);
 			}
@@ -360,7 +354,6 @@ public class TextEditor extends BaseDialog {
 		redo.setToolTipText(TOOL_TIP_TEXT_REDO);
 		redo.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				textViewer.doOperation(ITextOperationTarget.REDO);
 			}
@@ -371,7 +364,6 @@ public class TextEditor extends BaseDialog {
 		fx.setToolTipText(TOOL_TIP_TEXT_FX);
 		fx.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editDynamicTextDirectly();
 			}
@@ -400,7 +392,6 @@ public class TextEditor extends BaseDialog {
 
 		textTypeChoicer.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				final int index = textTypeChoicer.getSelectionIndex();
 				formatChoicer.setEnabled(index != PLAIN_INDEX);
@@ -436,7 +427,6 @@ public class TextEditor extends BaseDialog {
 
 		textTypeChoicer.addKeyListener(new KeyAdapter() {
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.character == ' ') {
 					textEditor.setFocus();
@@ -463,7 +453,7 @@ public class TextEditor extends BaseDialog {
 
 	/**
 	 * Creates formatChoicer and formatBar
-	 *
+	 * 
 	 * @param composite composite to contain formatBar
 	 */
 	private void createFormatBar(Composite composite) {
@@ -525,13 +515,11 @@ public class TextEditor extends BaseDialog {
 
 			private BidiSegmentListener listener = new BidiSegmentListener() {
 
-				@Override
 				public void lineGetSegments(BidiSegmentEvent event) {
 					event.segments = UIUtil.getExpressionBidiSegments(event.lineText);
 				}
 			};
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				final int index = formatChoicer.getSelectionIndex();
 
@@ -545,18 +533,16 @@ public class TextEditor extends BaseDialog {
 				createFormatTags(index, formatTagsBar);
 				// textEditor.setFocus( );
 
-				if (index == 4) {
+				if (index == 4)
 					textViewer.getTextWidget().addBidiSegmentListener(listener);
-				} else {
+				else
 					textViewer.getTextWidget().removeBidiSegmentListener(listener);
-				}
 				textViewer.getTextWidget().redraw();
 			}
 		});
 
 		formatChoicer.addKeyListener(new KeyAdapter() {
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.character == ' ') {
 					textEditor.setFocus();
@@ -567,7 +553,7 @@ public class TextEditor extends BaseDialog {
 
 	/**
 	 * Creates the text area for edit operation.
-	 *
+	 * 
 	 * @param parent The composite of the text area.
 	 */
 	private void createTextArea(Composite parent) {
@@ -590,7 +576,6 @@ public class TextEditor extends BaseDialog {
 
 		textEditor.addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 				if (isUndoKeyPress(e)) {
 					textViewer.doOperation(ITextOperationTarget.UNDO);
@@ -599,7 +584,6 @@ public class TextEditor extends BaseDialog {
 				}
 			}
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 				// do nothing
 			}
@@ -616,7 +600,6 @@ public class TextEditor extends BaseDialog {
 
 		textEditor.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				resetOkButtonStatus(true);
 			}
@@ -656,7 +639,6 @@ public class TextEditor extends BaseDialog {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 
-			@Override
 			public void menuAboutToShow(IMenuManager menuManager) {
 				menuManager.add(new Separator(ITextEditorActionConstants.GROUP_UNDO));
 				menuManager.add(new Separator(ITextEditorActionConstants.GROUP_COPY));
@@ -690,12 +672,10 @@ public class TextEditor extends BaseDialog {
 
 				IAction action = new Action(ACTION_TEXT_FORMAT_HTML) {
 
-					@Override
 					public boolean isEnabled() {
 						return textTypeChoicer.getSelectionIndex() != PLAIN_INDEX;
 					}
 
-					@Override
 					public void run() {
 						String result = " format=\"HTML\""; //$NON-NLS-1$
 						textEditor.insert(result);
@@ -706,12 +686,10 @@ public class TextEditor extends BaseDialog {
 
 				action = new Action(ACTION_TEXT_FORMAT_NUMBER) {
 
-					@Override
 					public boolean isEnabled() {
 						return textTypeChoicer.getSelectionIndex() != PLAIN_INDEX;
 					}
 
-					@Override
 					public void run() {
 						insertFormat(FormatBuilder.NUMBER);
 					}
@@ -721,12 +699,10 @@ public class TextEditor extends BaseDialog {
 
 				action = new Action(ACTION_TEXT_FORMAT_STRING) {
 
-					@Override
 					public boolean isEnabled() {
 						return textTypeChoicer.getSelectionIndex() != PLAIN_INDEX;
 					}
 
-					@Override
 					public void run() {
 						insertFormat(FormatBuilder.STRING);
 					}
@@ -736,12 +712,10 @@ public class TextEditor extends BaseDialog {
 
 				action = new Action(ACTION_TEXT_FORMAT_DATE_TIME) {
 
-					@Override
 					public boolean isEnabled() {
 						return textTypeChoicer.getSelectionIndex() != PLAIN_INDEX;
 					}
 
-					@Override
 					public void run() {
 						insertFormat(FormatBuilder.DATETIME);
 					}
@@ -751,12 +725,10 @@ public class TextEditor extends BaseDialog {
 
 				action = new Action(ACTION_TEXT_EDIT_DYNAMIC_TEXT) {
 
-					@Override
 					public boolean isEnabled() {
 						return textTypeChoicer.getSelectionIndex() != PLAIN_INDEX;
 					}
 
-					@Override
 					public void run() {
 						editDynamicTextDirectly();
 					}
@@ -768,12 +740,10 @@ public class TextEditor extends BaseDialog {
 
 				action = new Action(ACTION_BIDI_DIRECTION) {
 
-					@Override
 					public boolean isEnabled() {
 						return true;
 					}
 
-					@Override
 					public void run() {
 						textEditor.setOrientation(this.isChecked() ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT);
 					}
@@ -804,22 +774,19 @@ public class TextEditor extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.ui.texteditor.IUpdate#update()
 		 */
-		@Override
 		public void update() {
-			if (sourceViewer != null) {
+			if (sourceViewer != null)
 				setEnabled(sourceViewer.canDoOperation(operationCode));
-			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.jface.action.IAction#run()
 		 */
-		@Override
 		public void run() {
 			sourceViewer.doOperation(operationCode);
 		}
@@ -888,7 +855,7 @@ public class TextEditor extends BaseDialog {
 
 	/**
 	 * Creates format tags according to the selection of the formatChoicer.
-	 *
+	 * 
 	 * @param index   index of the formatChoicer that is selected
 	 * @param toolBar the toolbar that contains these tags
 	 */
@@ -1058,7 +1025,6 @@ public class TextEditor extends BaseDialog {
 			value.setToolTipText(TOOL_TIP_VALUE_OF);
 			value.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					ExpressionBuilder expressionBuilder = new ExpressionBuilder(""); //$NON-NLS-1$
 
@@ -1115,11 +1081,10 @@ public class TextEditor extends BaseDialog {
 			});
 			new Label(formatParent, SWT.NONE).setText(">"); //$NON-NLS-1$
 
-			final boolean[] flag = { false };
+			final boolean[] flag = new boolean[] { false };
 
 			combo.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					if (!flag[0]) {
 						handleFormatSelectionEvent(combo);
@@ -1129,7 +1094,6 @@ public class TextEditor extends BaseDialog {
 
 			combo.addKeyListener(new KeyListener() {
 
-				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.character == ' ') {
 						handleFormatSelectionEvent(combo);
@@ -1138,7 +1102,6 @@ public class TextEditor extends BaseDialog {
 					flag[0] = false;
 				}
 
-				@Override
 				public void keyPressed(KeyEvent e) {
 					flag[0] = true;
 				}
@@ -1182,7 +1145,7 @@ public class TextEditor extends BaseDialog {
 		// the tool tip text of the display tag.
 		private String toolTip;
 		// attributes list the tag takes, if any.
-		private List<String> attributes = new ArrayList<>();
+		private List<String> attributes = new ArrayList<String>();
 
 		public HTMLTag(String name, boolean isPair) {
 			this.name = name;
@@ -1228,7 +1191,7 @@ public class TextEditor extends BaseDialog {
 
 	/**
 	 * Creates tool item given a HTMLTag to display information in the tool bar.
-	 *
+	 * 
 	 * @param parent Container tool bar.
 	 * @param tag    The given HTMLTag contain information of the tag to display.
 	 */
@@ -1238,7 +1201,6 @@ public class TextEditor extends BaseDialog {
 		tagItem.setToolTipText(tag.getToolTip());
 		tagItem.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String frontTag = tag.getName();
 				String backTag = tag.getName().replaceFirst("<", "</"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1247,7 +1209,7 @@ public class TextEditor extends BaseDialog {
 				// following the front tag.
 				if (!tag.getAttributes().isEmpty()) {
 					// String text = " "; //$NON-NLS-1$
-					StringBuilder buffer = new StringBuilder();
+					StringBuffer buffer = new StringBuffer();
 					for (Iterator<String> iter = tag.getAttributes().iterator(); iter.hasNext();) {
 						// text = text + iter.next( ) + "=\"\" "; //$NON-NLS-1$
 						buffer.append(" " + iter.next() + "=\"\"");//$NON-NLS-1$ //$NON-NLS-2$
@@ -1291,10 +1253,9 @@ public class TextEditor extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		String result = textEditor.getText();
 		try {
@@ -1322,7 +1283,6 @@ public class TextEditor extends BaseDialog {
 	/**
 	 * @see org.eclipse.jface.window.Window#close()
 	 */
-	@Override
 	public boolean close() {
 		ReportPlugin.getDefault().getPreferenceStore().setValue(TEXT_EDIT_LAST_STAGE,
 				formatChoicer.getSelectionIndex());
@@ -1367,7 +1327,7 @@ public class TextEditor extends BaseDialog {
 	/**
 	 * Updates SWT style based on the orientation of the
 	 * <code>TextItemHandle</code>.
-	 *
+	 * 
 	 * @param style
 	 * @return A new style
 	 * @author bidi_hcg
@@ -1380,7 +1340,7 @@ public class TextEditor extends BaseDialog {
 
 	/**
 	 * Sets Bidi orientation on the text editor.
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 	private void applyOrientation() {
@@ -1401,24 +1361,20 @@ public class TextEditor extends BaseDialog {
 		}
 	}
 
-	@Override
 	protected boolean needRememberLastSize() {
 		return true;
 	}
 
 	protected void resetOkButtonStatus(Boolean enabled) {
 		Button okButton = getButton(OK);
-		if (okButton != null && okButton.isEnabled() != enabled) {
+		if (okButton != null && okButton.isEnabled() != enabled)
 			okButton.setEnabled(enabled);
-		}
 	}
 
-	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
-		if (isEditModal()) {
+		if (isEditModal())
 			resetOkButtonStatus(false);
-		}
 	}
 
 	private boolean isEditModel = false;

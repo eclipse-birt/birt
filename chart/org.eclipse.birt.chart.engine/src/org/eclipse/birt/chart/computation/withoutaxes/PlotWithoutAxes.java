@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -47,7 +47,7 @@ import org.eclipse.emf.common.util.EList;
  * This class is capable of computing the content of a chart (without axes)
  * based on preferred sizes, text rotation, fit ability, scaling, etc and
  * prepares it for rendering.
- *
+ * 
  * WARNING: This is an internal class and subject to change
  */
 public final class PlotWithoutAxes extends PlotComputation {
@@ -58,7 +58,7 @@ public final class PlotWithoutAxes extends PlotComputation {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param xs
 	 * @param cwoa
 	 * @param rtc
@@ -67,8 +67,7 @@ public final class PlotWithoutAxes extends PlotComputation {
 		super(xs, rtc, cwoa);
 	}
 
-	@Override
-	public void compute(Bounds bo) {
+	public final void compute(Bounds bo) {
 		// bo.adjustDueToInsets(cwoa.getPlot().getInsets()); // INSETS DEFINED
 		// IN POINTS: ALREADY COMPENSATED IN GENERATOR!
 		boPlotBackground = goFactory.scaleBounds(bo, dPointToPixel); // CONVERSION
@@ -77,7 +76,7 @@ public final class PlotWithoutAxes extends PlotComputation {
 		// final Series[] sea = cwoa.getRunTimeSeries();
 
 		EList<SeriesDefinition> el = getModel().getSeriesDefinitions();
-		ArrayList<Series> al = new ArrayList<>();
+		ArrayList<Series> al = new ArrayList<Series>();
 		((ChartWithoutAxesImpl) getModel()).recursivelyGetSeries(el, al, 0, 0);
 		final Series[] sea = al.toArray(new Series[al.size()]);
 
@@ -111,29 +110,27 @@ public final class PlotWithoutAxes extends PlotComputation {
 		return colums;
 	}
 
-	public Size getCellSize() {
+	public final Size getCellSize() {
 		return szCell;
 	}
 
-	public Coordinates getCellCoordinates(int iCell) {
+	public final Coordinates getCellCoordinates(int iCell) {
 		return new Coordinates(iCell % iColumns, iCell / iColumns);
 	}
 
-	public int getColumnCount() {
+	public final int getColumnCount() {
 		return iColumns;
 	}
 
-	public int getRowCount() {
+	public final int getRowCount() {
 		return iRows;
 	}
 
-	@Override
-	public ChartWithoutAxes getModel() {
+	public final ChartWithoutAxes getModel() {
 		return (ChartWithoutAxes) cm;
 	}
 
-	@Override
-	public SeriesRenderingHints getSeriesRenderingHints(SeriesDefinition sdOrthogonal, Series seOrthogonal)
+	public final SeriesRenderingHints getSeriesRenderingHints(SeriesDefinition sdOrthogonal, Series seOrthogonal)
 			throws ChartException, IllegalArgumentException {
 		if (seOrthogonal == null || seOrthogonal.getClass() == SeriesImpl.class) {
 			// EMPTY PLOT RENDERING TECHNIQUE

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates that type of the parameters in a cascading parameter group should
  * be "dynamic".
- *
+ * 
  */
 
 public class CascadingParameterTypeValidator extends AbstractElementValidator {
@@ -44,7 +44,7 @@ public class CascadingParameterTypeValidator extends AbstractElementValidator {
 
 	/**
 	 * Returns the instance of this validator.
-	 *
+	 * 
 	 * @return the instance of this validator.
 	 */
 
@@ -54,21 +54,20 @@ public class CascadingParameterTypeValidator extends AbstractElementValidator {
 
 	/**
 	 * Validates whether the type of the parameter is valid.
-	 *
+	 * 
 	 * @param module  the module
 	 * @param element the parameter to
-	 *
+	 * 
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
 		if (!(element instanceof ScalarParameter)) {
 			return Collections.emptyList();
 		}
 
-		List<SemanticException> list = new ArrayList<>();
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
 		// Cascading parameter should be typed "dynamic"
 

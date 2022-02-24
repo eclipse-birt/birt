@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -104,8 +104,8 @@ public abstract class BaseBorder extends AbstractBorder {
 	protected int i_left_style, i_left_width = 1;
 	protected int i_right_style, i_right_width = 1;
 
-	private static final HashMap<String, Integer> styleMap = new HashMap<>();
-	private static final HashMap<String, Integer> widthMap = new HashMap<>();
+	private static final HashMap<String, Integer> styleMap = new HashMap<String, Integer>();
+	private static final HashMap<String, Integer> widthMap = new HashMap<String, Integer>();
 
 	private static final double EPS = 1.0E-10;
 
@@ -127,7 +127,7 @@ public abstract class BaseBorder extends AbstractBorder {
 		widthMap.put(DesignChoiceConstants.LINE_WIDTH_THICK, Integer.valueOf(3));
 	}
 
-	private static final HashMap<String, Integer> commonCacheWidthMap = new HashMap<>();
+	private static final HashMap<String, Integer> commonCacheWidthMap = new HashMap<String, Integer>();
 
 	/**
 	 * Clean up the width cache.
@@ -139,7 +139,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Since the insets now include border and padding, use this to get the true and
 	 * non-revised border insets.
-	 *
+	 * 
 	 * @return border insets.
 	 */
 	public abstract Insets getTrueBorderInsets();
@@ -147,21 +147,21 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Since the insets now include border and padding, use this to get the border
 	 * insets. This value may be revised according to specified element.
-	 *
+	 * 
 	 * @return border insets.
 	 */
 	public abstract Insets getBorderInsets();
 
 	/**
 	 * Sets the insets for padding.
-	 *
+	 * 
 	 * @param in
 	 */
 	public abstract void setPaddingInsets(Insets in);
 
 	/**
 	 * Returns the border style.
-	 *
+	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -178,7 +178,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Returns the border width as pixel.
-	 *
+	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -226,7 +226,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border style directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getLeftBorderStyle() {
@@ -235,7 +235,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border style directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getRightBorderStyle() {
@@ -244,7 +244,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border style directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getTopBorderStyle() {
@@ -253,7 +253,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border style directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getBottomBorderStyle() {
@@ -262,7 +262,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border width directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getLeftBorderWidth() {
@@ -271,7 +271,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border width directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getRightBorderWidth() {
@@ -280,7 +280,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border width directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getTopBorderWidth() {
@@ -289,7 +289,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border width directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getBottomBorderWidth() {
@@ -298,7 +298,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border color directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getLeftBorderColor() {
@@ -308,7 +308,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border color directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getRightBorderColor() {
@@ -318,7 +318,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border color directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getTopBorderColor() {
@@ -328,7 +328,7 @@ public abstract class BaseBorder extends AbstractBorder {
 
 	/**
 	 * Convenient method to return the specified border color directly.
-	 *
+	 * 
 	 * @return
 	 */
 	public int getBottomBorderColor() {

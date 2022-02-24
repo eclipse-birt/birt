@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,9 +31,8 @@ public class ListGroupScriptExecutor extends ScriptExecutor {
 		try {
 			IListGroup group = new ListGroup(groupHandle);
 			IListGroupEventHandler eh = getEventHandler(groupHandle, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPrepare(group, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -46,13 +45,11 @@ public class ListGroupScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			ReportElementInstance list = new ReportElementInstance(content, context, RunningState.CREATE);
-			if (handleScript(list, listGroupDesign.getOnCreate(), context).didRun()) {
+			if (handleScript(list, listGroupDesign.getOnCreate(), context).didRun())
 				return;
-			}
 			IListGroupEventHandler eh = getEventHandler(listGroupDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onCreate(list, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, listGroupDesign.getHandle());
 		}
@@ -65,13 +62,11 @@ public class ListGroupScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			ReportElementInstance list = new ReportElementInstance(content, context, RunningState.RENDER);
-			if (handleScript(list, listGroupDesign.getOnRender(), context).didRun()) {
+			if (handleScript(list, listGroupDesign.getOnRender(), context).didRun())
 				return;
-			}
 			IListGroupEventHandler eh = getEventHandler(listGroupDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onRender(list, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, listGroupDesign.getHandle());
 		}
@@ -84,13 +79,11 @@ public class ListGroupScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			ReportElementInstance list = new ReportElementInstance(content, context, RunningState.PAGEBREAK);
-			if (handleScript(list, listGroupDesign.getOnPageBreak(), context).didRun()) {
+			if (handleScript(list, listGroupDesign.getOnPageBreak(), context).didRun())
 				return;
-			}
 			IListGroupEventHandler eh = getEventHandler(listGroupDesign, context);
-			if (eh != null) {
+			if (eh != null)
 				eh.onPageBreak(list, context.getReportContext());
-			}
 		} catch (Exception e) {
 			addException(context, e, listGroupDesign.getHandle());
 		}

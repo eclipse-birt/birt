@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 /**
  * Converts values between a report scalar parameter and ODA Design Session
  * Request.
- *
+ * 
  */
 
 class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter {
@@ -44,7 +44,7 @@ class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 * @param setHandle
 	 * @param setDesign
 	 */
@@ -56,7 +56,7 @@ class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter {
 
 	/**
 	 * Updates ODA values with the given BIRT values.
-	 *
+	 * 
 	 * @param paramDefn
 	 * @param defaultType
 	 * @param dynamicParamHandle
@@ -69,7 +69,7 @@ class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter {
 
 	/**
 	 * Updates BIRT dynamic filter parameter with the given ODA dynamic filter.
-	 *
+	 * 
 	 * @param filterConditionHandle
 	 * @param dynamicFilter
 	 * @param dynamicFilterParamHandle

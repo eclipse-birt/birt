@@ -1,15 +1,15 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
+ * 
  *
- *
- * Contributors:
+ * Contributors: 
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.impl.query;
@@ -39,7 +39,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.NamedObject;
 
 /**
- *
+ * 
  */
 
 public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefinition {
@@ -52,12 +52,12 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 	private int breakHierarchyOption = 0;
 	private String ID;
 
-	private Set<IBaseLinkDefinition> links = new HashSet<>();
+	private Set<IBaseLinkDefinition> links = new HashSet<IBaseLinkDefinition>();
 
 	/**
 	 * Constructor. The name of CubeQueryDefinition must equal to the name of cube
 	 * being queried.
-	 *
+	 * 
 	 * @param name
 	 */
 	public CubeQueryDefinition(String name) {
@@ -68,18 +68,17 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 		this.sortList = new ArrayList();
 		this.computedMeasureList = new ArrayList();
 		this.derivedMeasureList = new ArrayList();
-		this.cubeOperations = new ArrayList<>();
+		this.cubeOperations = new ArrayList<ICubeOperation>();
 		this.cacheQueryResults = false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#addBinding(
 	 * org.eclipse.birt.data.engine.api.IBinding)
 	 */
-	@Override
 	public void addBinding(IBinding binding) {
 		if (needReconstructure(binding)) {
 			binding = constructNewBinding(binding);
@@ -88,7 +87,7 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 	}
 
 	/**
-	 *
+	 * 
 	 * @param binding
 	 * @return
 	 */
@@ -96,9 +95,8 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 		try {
 			if (binding.getAggrFunction() != null && binding.getExpression() == null) {
 				IAggrFunction aggrFunction = AggregationManager.getInstance().getAggregation(binding.getAggrFunction());
-				if (aggrFunction == null) {
+				if (aggrFunction == null)
 					return false;
-				}
 				IParameterDefn[] parameterDefn = aggrFunction.getParameterDefn();
 				if (parameterDefn != null && parameterDefn.length > 0 && parameterDefn[0].isDataField()) {
 					return true;
@@ -114,7 +112,7 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 	 * Before new aggregation extension point is introduced, The binding expression
 	 * is serve as first argument of aggregation. This function is used to construct
 	 * a old version binding.
-	 *
+	 * 
 	 * @param binding
 	 * @return
 	 */
@@ -150,36 +148,33 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#addFilter(
 	 * org.eclipse.birt.data.engine.api.IFilterDefinition)
 	 */
-	@Override
 	public void addFilter(IFilterDefinition filterDefn) {
 		this.filterList.add(filterDefn);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#addSort(org.
 	 * eclipse.birt.data.engine.api.ISortDefinition)
 	 */
-	@Override
 	public void addSort(ISortDefinition sortDefn) {
 		this.sortList.add(sortDefn);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#createEdge(
 	 * int)
 	 */
-	@Override
 	public IEdgeDefinition createEdge(int type) {
 		if (type == ICubeQueryDefinition.COLUMN_EDGE) {
 			columnEdge = new EdgeDefinition("COLUMN_EDGE");
@@ -197,11 +192,10 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * createMeasure(java.lang.String)
 	 */
-	@Override
 	public IMeasureDefinition createMeasure(String name) {
 		IMeasureDefinition measureDfn = new MeasureDefinition(name);
 		measureList.add(measureDfn);
@@ -210,12 +204,11 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#getBindings(
 	 * )
 	 */
-	@Override
 	public List getBindings() {
 		// The best API should be designed as returning IBinding[]
 		// Here, return an unmodifiable list to avoid the internal bindingList being
@@ -225,11 +218,10 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#getEdge(int)
 	 */
-	@Override
 	public IEdgeDefinition getEdge(int type) {
 		if (type == ICubeQueryDefinition.COLUMN_EDGE) {
 			return this.columnEdge;
@@ -243,77 +235,70 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#getFilters()
 	 */
-	@Override
 	public List getFilters() {
 		return this.filterList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#getMeasures(
 	 * )
 	 */
-	@Override
 	public List getMeasures() {
 		return this.measureList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#getMeasures(
 	 * )
 	 */
-	@Override
 	public List getDerivedMeasures() {
 		return this.derivedMeasureList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#getSorts()
 	 */
-	@Override
 	public List getSorts() {
 		return this.sortList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * getQueryResultsID()
 	 */
-	@Override
 	public String getQueryResultsID() {
 		return this.queryResultsID;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param queryResultsID
 	 */
-	@Override
 	public void setQueryResultsID(String queryResultsID) {
 		this.queryResultsID = queryResultsID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * cacheQueryResults()
 	 */
-	@Override
 	public boolean cacheQueryResults() {
 		return this.cacheQueryResults;
 	}
@@ -322,7 +307,6 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * setCacheQueryResults(boolean)
 	 */
-	@Override
 	public void setCacheQueryResults(boolean cacheQueryResults) {
 		this.cacheQueryResults = cacheQueryResults;
 	}
@@ -331,7 +315,6 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * getFilterOption()
 	 */
-	@Override
 	public int getFilterOption() {
 		return breakHierarchyOption;
 	}
@@ -340,19 +323,17 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * setFilterOption(int)
 	 */
-	@Override
 	public void setFilterOption(int breakHierarchyOption) {
 		this.breakHierarchyOption = breakHierarchyOption;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * createComputedMeasure(java.lang.String, int,
 	 * org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
-	@Override
 	public IComputedMeasureDefinition createComputedMeasure(String measureName, int type, IBaseExpression expr)
 			throws DataException {
 		ComputedMeasureDefinition cmd = new ComputedMeasureDefinition(measureName, type, expr);
@@ -362,12 +343,11 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * createCalculatedMeasure(java.lang.String, int,
 	 * org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
-	@Override
 	public IDerivedMeasureDefinition createDerivedMeasure(String measureName, int type, IBaseExpression expr)
 			throws DataException {
 		DerivedMeasureDefinition dmd = new DerivedMeasureDefinition(measureName, type, expr);
@@ -377,16 +357,14 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * getComputedMeasures()
 	 */
-	@Override
 	public List getComputedMeasures() {
 		return this.computedMeasureList;
 	}
 
-	@Override
 	public void addCubeOperation(ICubeOperation cubeOperation) {
 		if (cubeOperation == null) {
 			throw new NullPointerException("cubeOperation is null");
@@ -394,39 +372,34 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 		cubeOperations.add(cubeOperation);
 	}
 
-	@Override
 	public ICubeOperation[] getCubeOperations() {
 		return cubeOperations.toArray(new ICubeOperation[0]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * needAccessFactTable()
 	 */
-	@Override
 	public boolean needAccessFactTable() {
 		return needAccessFactTable;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * setNeedAccessFactTable(boolean)
 	 */
-	@Override
 	public void setNeedAccessFactTable(boolean needAccessFactTable) {
 		this.needAccessFactTable = needAccessFactTable;
 	}
 
-	@Override
 	public String getID() {
 		return this.ID;
 	}
 
-	@Override
 	public void setID(String ID) {
 		this.ID = ID;
 	}
@@ -434,7 +407,6 @@ public class CubeQueryDefinition extends NamedObject implements ICubeQueryDefini
 	/**
 	 * Clone itself
 	 */
-	@Override
 	public ICubeQueryDefinition clone() {
 		CubeQueryDefinition cloned = new CubeQueryDefinition(this.getName());
 		cloneFields(cloned);

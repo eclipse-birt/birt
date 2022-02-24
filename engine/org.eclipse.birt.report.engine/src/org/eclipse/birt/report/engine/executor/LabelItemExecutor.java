@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,13 +22,13 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 
 /**
  * the labelItem excutor
- *
+ * 
  */
 public class LabelItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param context the excutor context
 	 * @param visitor the report executor visitor
 	 */
@@ -45,10 +45,9 @@ public class LabelItemExecutor extends QueryItemExecutor {
 	 * <li>execute the onCreate if necessary
 	 * <li>call emitter to start the label
 	 * <li>popup the label.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
-	@Override
 	public IContent execute() {
 		LabelItemDesign labelDesign = (LabelItemDesign) getDesign();
 		ILabelContent labelContent = report.createLabelContent();
@@ -73,7 +72,6 @@ public class LabelItemExecutor extends QueryItemExecutor {
 		return labelContent;
 	}
 
-	@Override
 	public void close() throws BirtException {
 		finishTOCEntry();
 		closeQuery();

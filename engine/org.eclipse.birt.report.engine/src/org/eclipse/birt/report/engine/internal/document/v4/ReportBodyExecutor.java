@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -70,7 +70,6 @@ public class ReportBodyExecutor extends ContainerExecutor {
 		initializeReportlet();
 	}
 
-	@Override
 	public void close() {
 
 		if (reportlet != null) {
@@ -85,7 +84,6 @@ public class ReportBodyExecutor extends ContainerExecutor {
 		super.close();
 	}
 
-	@Override
 	public IBaseResultSet[] getQueryResults() {
 		if (reportlet != null) {
 			return reportlet.getQueryResults();
@@ -93,7 +91,6 @@ public class ReportBodyExecutor extends ContainerExecutor {
 		return super.getQueryResults();
 	}
 
-	@Override
 	public IContent execute() {
 		if (reportlet != null) {
 			try {
@@ -105,12 +102,10 @@ public class ReportBodyExecutor extends ContainerExecutor {
 		return content;
 	}
 
-	@Override
 	protected InstanceID getInstanceID() {
 		return null;
 	}
 
-	@Override
 	protected ReportItemExecutor doCreateExecutor(long offset) throws Exception {
 		if (reportlet != null) {
 			return reportlet.createExecutor(offset);
@@ -124,7 +119,6 @@ public class ReportBodyExecutor extends ContainerExecutor {
 		return null;
 	}
 
-	@Override
 	protected void doSkipToExecutor(InstanceID id, long offset) throws Exception {
 		if (reportlet != null) {
 			reportlet.skipToExecutor(id, offset);
@@ -142,7 +136,6 @@ public class ReportBodyExecutor extends ContainerExecutor {
 		nextItem = itemCount;
 	}
 
-	@Override
 	protected void doExecute() throws Exception {
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Creates a editable combo field editor.
-	 *
+	 * 
 	 * @param name                the name of the preference this field editor works
 	 *                            on
 	 * @param labelText           the label text of the field editor
@@ -65,7 +65,7 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Checks whether given <code>String[][]</code> is of "type"
 	 * <code>String[][2]</code>.
-	 *
+	 * 
 	 * @return <code>true</code> if it is ok, and <code>false</code> otherwise
 	 */
 	private boolean checkArray(String[][] table) {
@@ -84,7 +84,6 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#getNumberOfControls()
 	 */
-	@Override
 	public int getNumberOfControls() {
 		return 2;
 	}
@@ -92,7 +91,6 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#adjustForNumColumns(int)
 	 */
-	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		Control control = getLabelControl();
 		if (control != null) {
@@ -105,7 +103,6 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#doFillIntoGrid(Composite, int)
 	 */
-	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		Control control = getLabelControl(parent);
 		GridData gd = new GridData();
@@ -120,7 +117,6 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#doLoad()
 	 */
-	@Override
 	protected void doLoad() {
 		updateComboForValue(getPreferenceStore().getString(getPreferenceName()), true);
 	}
@@ -128,21 +124,18 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#doLoadDefault()
 	 */
-	@Override
 	protected void doLoadDefault() {
 		fCombo.removeModifyListener(modifyListener);
 		updateComboForValue(getPreferenceStore().getDefaultString(getPreferenceName()), false);
 
 		if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-			if (store.hasLocalValue(getPreferenceName())) {
+			if (store.hasLocalValue(getPreferenceName()))
 				markDirty(true);
-			} else {
+			else
 				markDirty(false);
-			}
-		} else {
+		} else
 			markDirty(true);
-		}
 
 		fCombo.addModifyListener(modifyListener);
 	}
@@ -151,11 +144,10 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 	 * Sets the name in the combo widget to match the specified value.
 	 */
 	protected void updateComboForValue(String value, boolean setOldValue) {
-		if (setOldValue) {
+		if (setOldValue)
 			setOldValue(value);
-		} else {
+		else
 			setDefaultValue(value);
-		}
 		for (int i = 0; i < fEntryNamesAndValues.length; i++) {
 			if ((fEntryNamesAndValues[i][1] != null && fEntryNamesAndValues[i][1].equals(value))
 					|| (fEntryNamesAndValues[i][1] == null && value == null)) {
@@ -169,16 +161,15 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 		} else {
 			fCombo.setText(value);
 		}
-		if (setOldValue) {
+		if (setOldValue)
 			setOldValue(getStringValue());
-		} else {
+		else
 			setDefaultValue(getStringValue());
-		}
 	}
 
 	/**
 	 * Lazily creates and returns the Combo control.
-	 *
+	 * 
 	 * @param parent The parent composite to contain the field editor
 	 * @return Combo The combo box of the field editor
 	 */
@@ -192,7 +183,6 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 			fCombo.setFont(parent.getFont());
 			fCombo.addSelectionListener(new SelectionAdapter() {
 
-				@Override
 				public void widgetSelected(SelectionEvent evt) {
 					valueChanged(VALUE);
 				}
@@ -201,7 +191,6 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 
 			modifyListener = new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					valueChanged(VALUE);
 				}
@@ -226,11 +215,10 @@ public class EditableComboFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
 	 * #getValue()
 	 */
-	@Override
 	protected String getStringValue() {
 		if (fCombo != null) {
 			return getValueForName(fCombo.getText());

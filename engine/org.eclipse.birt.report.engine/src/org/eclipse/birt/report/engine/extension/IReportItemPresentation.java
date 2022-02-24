@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
  * Represents the extended item presentation time extension.
- *
+ * 
  * The calling sequence in presentation engine might work as follows:
  * <p>
  * <li>Design engine creates a new instance of the extended item.
@@ -43,128 +43,119 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 public interface IReportItemPresentation {
 
-	int OUTPUT_NONE = 0;
-	int OUTPUT_AS_IMAGE = 1; // Only this format is supported for
-								// now
-	int OUTPUT_AS_TEXT = 2;
-	int OUTPUT_AS_HTML_TEXT = 3;
-	int OUTPUT_AS_DRAWING = 4;
-	int OUTPUT_AS_CUSTOM = 5;
-	int OUTPUT_AS_IMAGE_WITH_MAP = 6;
-	int OUTPUT_AS_UNKNOWN = 7;
+	public static int OUTPUT_NONE = 0;
+	public static int OUTPUT_AS_IMAGE = 1; // Only this format is supported for
+											// now
+	public static int OUTPUT_AS_TEXT = 2;
+	public static int OUTPUT_AS_HTML_TEXT = 3;
+	public static int OUTPUT_AS_DRAWING = 4;
+	public static int OUTPUT_AS_CUSTOM = 5;
+	public static int OUTPUT_AS_IMAGE_WITH_MAP = 6;
+	public static int OUTPUT_AS_UNKNOWN = 7;
 
 	/**
 	 * @since BIRT 2.3
 	 * @param info Presentation info of report item
 	 */
-	void init(IReportItemPresentationInfo info);
+	public abstract void init(IReportItemPresentationInfo info);
 
 	/**
 	 * passes a handle to the extended report item model to the extension
-	 *
+	 * 
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead
 	 * @param modelHandle a handle to the extended item model object
 	 */
-	@Deprecated
-	void setModelObject(ExtendedItemHandle modelHandle);
+	public abstract void setModelObject(ExtendedItemHandle modelHandle);
 
 	/**
 	 * passes the class loader used to load user defined classes.
-	 *
+	 * 
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param loader class loader used to load the classes
 	 */
-	@Deprecated
-	void setApplicationClassLoader(ClassLoader loader);
+	public abstract void setApplicationClassLoader(ClassLoader loader);
 
 	/**
 	 * pass the script context to the report item.
-	 *
+	 * 
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param context report context used by java-based script
 	 */
-	@Deprecated
-	void setScriptContext(IReportContext context);
+	public abstract void setScriptContext(IReportContext context);
 
 	/**
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
-	 *
+	 * 
 	 *             pass the prepared query definition to extended item
 	 *             implementation, so that it can access data.
 	 */
-	@Deprecated
-	void setReportQueries(IDataQueryDefinition[] queries);
+	public void setReportQueries(IDataQueryDefinition[] queries);
 
 	/**
 	 * passes the locale used in the presentation.
-	 *
+	 * 
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param locale locale
 	 */
-	@Deprecated
-	void setLocale(Locale locale);
+	public void setLocale(Locale locale);
 
 	/**
 	 * passes the dpi (dot per inch) from the rendering environment to the
 	 * extension. Mostly used for printing.
-	 *
+	 * 
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param dpi the dpi of the rendering environment
 	 */
-	@Deprecated
-	void setResolution(int dpi);
+	public abstract void setResolution(int dpi);
 
 	/**
 	 * sets the output format, i.e., HTML, PDF, etc.
-	 *
+	 * 
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param outputFormat the output format, i.e., html, pdf, etc.
 	 */
-	@Deprecated
-	void setOutputFormat(String outputFormat);
+	public abstract void setOutputFormat(String outputFormat);
 
 	/**
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param ah the HTML action handler used to create a URL based on an action
 	 */
-	@Deprecated
-	void setActionHandler(IHTMLActionHandler ah);
+	public abstract void setActionHandler(IHTMLActionHandler ah);
 
 	/**
 	 * @return the image MIME type (e.g. "image/svg+xml")
 	 */
-	String getImageMIMEType();
+	public abstract String getImageMIMEType();
 
 	/**
 	 * sets the image formats that are supported for this output format. Formats are
 	 * separated by semi-colon. For example, the argument could be JPG;PNG;BMP;SVG
-	 *
+	 * 
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param supportedImageFormats the image formats that the presentation engine
 	 *                              could support.
 	 */
-	@Deprecated
-	void setSupportedImageFormats(String supportedImageFormats);
+	public abstract void setSupportedImageFormats(String supportedImageFormats);
 
 	/**
 	 * deserializes generation time state information about the extended item
-	 *
+	 * 
 	 * @param istream the input stream to deserialize generation time state from
 	 */
-	void deserialize(InputStream istream);
+	public void deserialize(InputStream istream);
 
 	/**
 	 * returns the output type, which could be IMAGE, TEXT, HTML TEXT, DRAWING, etc.
 	 * For now, only Image is supported.
-	 *
+	 * 
 	 * @param mimeType an out parameter that returns the MIME type of the output
 	 * @return output type, for now OUTPUT_AS_IMAGE only
 	 */
-	int getOutputType();
+	public int getOutputType();
 
 	/**
 	 * processes the extended item in report presentation environment.
-	 *
+	 * 
 	 * @deprecated since BIRT 2.3
 	 * @param rowSets rowSets an array of row sets that is passed to the extension
 	 * @return the returned value could be different depending on the type of the
@@ -173,12 +164,11 @@ public interface IReportItemPresentation {
 	 * @throws BirtException throws exception when there is a problem processing the
 	 *                       extended item
 	 */
-	@Deprecated
-	Object onRowSets(IRowSet[] rowSets) throws BirtException;
+	public abstract Object onRowSets(IRowSet[] rowSets) throws BirtException;
 
 	/**
 	 * Process the extended item. It is called in render time.
-	 *
+	 * 
 	 * @param results results is an array of query results which is passed to the
 	 *                extended item. The extended item could retrieve data from
 	 *                those results.
@@ -187,7 +177,7 @@ public interface IReportItemPresentation {
 	 * @throws BirtException Throws exception when there is a problem processing the
 	 *                       extended item
 	 */
-	Object onRowSets(IBaseResultSet[] results) throws BirtException;
+	public abstract Object onRowSets(IBaseResultSet[] results) throws BirtException;
 
 	/**
 	 * Get the size of the extended item. The size is a Dimension object. The width
@@ -195,42 +185,40 @@ public interface IReportItemPresentation {
 	 * not be a relative size such as 150% or 1.2em. Notice that an extended item
 	 * can obtain its design-time size information by querying DE. This function is
 	 * needed because the actual size may not be the same as the design-time size.
-	 *
+	 * 
 	 * @return the size of the extended item. Return null if the size does not
 	 *         matter or can not be determined.
 	 */
-	Size getSize();
+	public Size getSize();
 
 	/**
 	 * Performs clean up work
 	 */
-	void finish();
+	public void finish();
 
 	/**
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead. Set dynamic
 	 *             style.
 	 */
-	@Deprecated
-	void setDynamicStyle(IStyle style);
+	public void setDynamicStyle(IStyle style);
 
 	/**
 	 * Set the content which is transformed from extended item. Extended item can
 	 * process some properties itself, such as bookmark, style etc.
-	 *
+	 * 
 	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param content content which is transformed from extended item.
 	 */
-	@Deprecated
-	void setExtendedItemContent(IContent content);
+	public void setExtendedItemContent(IContent content);
 
-	IReportItemPresentationInfo getPresentationConfig();
+	public IReportItemPresentationInfo getPresentationConfig();
 
 	/**
 	 * Check if can support cache in current situation. For example, the chart image
 	 * is can't cached when export to some format and some property of chart is
 	 * changed(e.g. by script), such as height, width etc.
-	 *
+	 * 
 	 * @return true if can support cache, otherwise false
 	 */
-	boolean isCacheable();
+	public boolean isCacheable();
 }

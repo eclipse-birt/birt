@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,17 +18,17 @@ import java.util.Collection;
 
 public interface ITreeNode {
 
-	String getNodeId();
+	public String getNodeId();
 
-	Collection<ITreeNode> getChildren();
+	public Collection<ITreeNode> getChildren();
 
-	boolean isGroup();
+	public boolean isGroup();
 
-	String getHiddenFormats();
+	public String getHiddenFormats();
 
-	Object getTOCValue();
+	public Object getTOCValue();
 
-	long getElementId();
+	public long getElementId();
 
-	String getBookmark();
+	public String getBookmark();
 }

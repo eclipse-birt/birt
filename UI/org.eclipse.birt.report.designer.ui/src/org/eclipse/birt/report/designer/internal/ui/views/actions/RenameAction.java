@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,9 +59,9 @@ public class RenameAction extends AbstractViewerAction {
 
 	/**
 	 * Create a new rename action under the specific viewer
-	 *
+	 * 
 	 * @param sourceViewer the source viewer
-	 *
+	 * 
 	 */
 	public RenameAction(TreeViewer sourceViewer) {
 		this(sourceViewer, TEXT);
@@ -69,7 +69,7 @@ public class RenameAction extends AbstractViewerAction {
 
 	/**
 	 * Create a new rename action under the specific viewer with the given text
-	 *
+	 * 
 	 * @param sourceViewer the source viewer
 	 * @param text         the text of the action
 	 */
@@ -83,10 +83,9 @@ public class RenameAction extends AbstractViewerAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.IAction#isEnabled()
 	 */
-	@Override
 	public boolean isEnabled() {
 		if (getSelectedObjects().size() != 1) {// multiple selection or no selection
 			return false;
@@ -117,10 +116,9 @@ public class RenameAction extends AbstractViewerAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println(
@@ -173,13 +171,14 @@ public class RenameAction extends AbstractViewerAction {
 			if (!rename(selectedItem.getData(), newName)) {
 				// failed to rename, do again
 				doRename();
+				return;
 			}
 		}
 	}
 
 	/**
 	 * Perform renaming
-	 *
+	 * 
 	 * @param handle  the handle of the element to rename
 	 * @param newName the newName to set
 	 * @return Returns true if perform successfully,or false if failed

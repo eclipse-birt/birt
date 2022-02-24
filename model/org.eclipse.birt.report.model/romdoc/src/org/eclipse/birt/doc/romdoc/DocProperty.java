@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,9 +32,8 @@ public class DocProperty extends DocObject {
 	public DocProperty(PropertyDefn propDefn) {
 		defn = propDefn;
 		IChoiceSet choiceSet = defn.getChoices();
-		if (choiceSet == null) {
+		if (choiceSet == null)
 			return;
-		}
 		choices = new ArrayList();
 		IChoice set[] = choiceSet.getChoices();
 		for (int i = 0; i < set.length; i++) {
@@ -42,7 +41,6 @@ public class DocProperty extends DocObject {
 		}
 	}
 
-	@Override
 	public String getName() {
 		return defn.getName();
 	}
@@ -58,21 +56,18 @@ public class DocProperty extends DocObject {
 		} else if (defn.getTypeCode() == IPropertyType.CHOICE_TYPE) {
 			type = makeTypeLink(defn.getType(), "element") + //$NON-NLS-1$
 					" (" + defn.getChoices().getName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-		} else {
+		} else
 			type = makeTypeLink(defn.getType(), "element"); //$NON-NLS-1$
-		}
-		if (defn.isList()) {
+		if (defn.isList())
 			type = "List of " + type + "s"; //$NON-NLS-1$//$NON-NLS-2$
-		}
 		return type;
 	}
 
 	public String getSince() {
 		// Style is special
 
-		if (defn.getName().equals("style")) { // $NON-NLS-1$
+		if (defn.getName().equals("style")) //$NON-NLS-1$
 			return "1.0"; //$NON-NLS-1$
-		}
 
 		return defn.getSince();
 	}
@@ -92,13 +87,11 @@ public class DocProperty extends DocObject {
 
 	public String getDefaultValue() {
 		String note = getNote("Default value"); //$NON-NLS-1$
-		if (note != null) {
+		if (note != null)
 			return note;
-		}
 		Object value = defn.getDefault();
-		if (value != null) {
+		if (value != null)
 			return value.toString();
-		}
 		return "None"; //$NON-NLS-1$
 	}
 
@@ -115,46 +108,39 @@ public class DocProperty extends DocObject {
 	}
 
 	public String getVisibility(DocElement element) {
-		if (element.getElementDefn().isPropertyReadOnly(defn.getName())) {
+		if (element.getElementDefn().isPropertyReadOnly(defn.getName()))
 			return "Read-only"; //$NON-NLS-1$
-		}
-		if (element.getElementDefn().isPropertyVisible(defn.getName())) {
+		if (element.getElementDefn().isPropertyVisible(defn.getName()))
 			return "Visible"; //$NON-NLS-1$
-		}
 		return "Hidden"; //$NON-NLS-1$
 	}
 
 	public String getGroup() {
 		String group = ((ElementPropertyDefn) defn).getGroupName();
-		if (group == null) {
+		if (group == null)
 			return "Top"; //$NON-NLS-1$
-		}
 		return group;
 	}
 
 	public void addNote(String key, String note) {
-		if (notes == null) {
+		if (notes == null)
 			notes = new HashMap();
-		}
 		notes.put(key.toLowerCase(), note);
 	}
 
 	public String getNote(String key) {
-		if (notes == null) {
+		if (notes == null)
 			return null;
-		}
 		return (String) notes.get(key.toLowerCase());
 	}
 
 	public DocChoice findChoice(String name) {
-		if (choices == null) {
+		if (choices == null)
 			return null;
-		}
 		for (int i = 0; i < choices.size(); i++) {
 			DocChoice choice = (DocChoice) choices.get(i);
-			if (choice.getName().equals(name)) {
+			if (choice.getName().equals(name))
 				return choice;
-			}
 		}
 		return null;
 	}
@@ -172,9 +158,8 @@ public class DocProperty extends DocObject {
 	}
 
 	public String getReturnType() {
-		if (defn.getReturnType() == null) {
+		if (defn.getReturnType() == null)
 			return "None";
-		}
 		return defn.getReturnType();
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -72,10 +72,9 @@ class DataSetParametersUpdater {
 		this.setHandle = setHandle;
 
 		Iterator<OdaDataSetParameterHandle> tmpParams = setHandle.parametersIterator();
-		setDefinedParams = new ArrayList<>();
-		while (tmpParams.hasNext()) {
+		setDefinedParams = new ArrayList<OdaDataSetParameterHandle>();
+		while (tmpParams.hasNext())
 			setDefinedParams.add(tmpParams.next());
-		}
 
 		dataSourceId = setDesign.getOdaExtensionDataSourceId();
 		dataSetId = setDesign.getOdaExtensionDataSetId();
@@ -85,18 +84,16 @@ class DataSetParametersUpdater {
 	}
 
 	private List<OdaDataSetParameterHandle> buildUpdateParams(List<OdaDataSetParameter> updateParams) {
-		if (updateParams == null) {
+		if (updateParams == null)
 			return Collections.emptyList();
-		}
 
-		List<OdaDataSetParameterHandle> retList = new ArrayList<>();
+		List<OdaDataSetParameterHandle> retList = new ArrayList<OdaDataSetParameterHandle>();
 		for (int i = 0; i < updateParams.size(); i++) {
 			OdaDataSetParameter param = updateParams.get(i);
 			for (int j = 0; j < setDefinedParams.size(); j++) {
 				OdaDataSetParameterHandle paramHandle = setDefinedParams.get(j);
-				if (paramHandle.getStructure() == param && !retList.contains(paramHandle)) {
+				if (paramHandle.getStructure() == param && !retList.contains(paramHandle))
 					retList.add(paramHandle);
-				}
 
 			}
 		}
@@ -104,17 +101,15 @@ class DataSetParametersUpdater {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 
 	public void processDataSetParameters(DataSetParameters params) throws SemanticException {
-		if (params == null) {
+		if (params == null)
 			return;
-		}
 
-		if (newParams == null) {
-			newParams = new ArrayList<>();
-		}
+		if (newParams == null)
+			newParams = new ArrayList<OdaDataSetParameter>();
 
 		List<ParameterDefinition> tmpParams = params.getParameterDefinitions();
 
@@ -126,15 +121,15 @@ class DataSetParametersUpdater {
 
 			DataElementAttributes dataAttrs = paramDefn.getAttributes();
 
-			foundParam = findDataSetParameterByName(dataAttrs.getName(), dataAttrs.getPosition(),
-					dataAttrs.getNativeDataTypeCode(), toUpdateParams.iterator());
+			foundParam = findDataSetParameterByName(dataAttrs.getName(), Integer.valueOf(dataAttrs.getPosition()),
+					Integer.valueOf(dataAttrs.getNativeDataTypeCode()), toUpdateParams.iterator());
 
 			// if foundParam == null, could be two cases: 1. no need to update;
 			// 2. this is a new ODA parameter
 
 			if (foundParam == null) {
-				oldSetParam = findDataSetParameterByName(dataAttrs.getName(), dataAttrs.getPosition(),
-						dataAttrs.getNativeDataTypeCode(), setDefinedParams.iterator());
+				oldSetParam = findDataSetParameterByName(dataAttrs.getName(), Integer.valueOf(dataAttrs.getPosition()),
+						Integer.valueOf(dataAttrs.getNativeDataTypeCode()), setDefinedParams.iterator());
 			}
 
 			if (foundParam == null) {
@@ -170,7 +165,7 @@ class DataSetParametersUpdater {
 
 	/**
 	 * Returns the matched data set parameter by given name and position.
-	 *
+	 * 
 	 * @param dataSetParamName the data set parameter name
 	 * @param position         the position
 	 * @param params           the iterator of data set parameters
@@ -179,9 +174,8 @@ class DataSetParametersUpdater {
 
 	private OdaDataSetParameterHandle findDataSetParameterByName(String dataSetParamName, Integer position,
 			Integer nativeDataType, Iterator params) {
-		if (position == null) {
+		if (position == null)
 			return null;
-		}
 
 		while (params.hasNext()) {
 			OdaDataSetParameterHandle param = (OdaDataSetParameterHandle) params.next();
@@ -193,9 +187,8 @@ class DataSetParametersUpdater {
 
 			// case 1: if the native name is not blank, just use it.
 
-			if (!StringUtil.isBlank(tmpNativeName) && tmpNativeName.equals(dataSetParamName)) {
+			if (!StringUtil.isBlank(tmpNativeName) && tmpNativeName.equals(dataSetParamName))
 				return param;
-			}
 
 			// case 2: if the native name is blank, match native data type and
 			// position

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import java.util.Collection;
 
 /**
  * Row used in GridItem and TableItem.
- *
+ * 
  * @see GridItemDesign
  * @see TableItemDesign
  */
@@ -29,7 +29,7 @@ public class RowDesign extends ReportItemDesign {
 	/**
 	 * cells in this row.
 	 */
-	protected ArrayList<CellDesign> cells = new ArrayList<>();
+	protected ArrayList<CellDesign> cells = new ArrayList<CellDesign>();
 
 	// TODO: this field should be removed
 	protected boolean isStartOfGroup = false;
@@ -56,7 +56,7 @@ public class RowDesign extends ReportItemDesign {
 
 	/**
 	 * get cell count
-	 *
+	 * 
 	 * @return cell count
 	 */
 	public int getCellCount() {
@@ -65,7 +65,7 @@ public class RowDesign extends ReportItemDesign {
 
 	/**
 	 * get Cell
-	 *
+	 * 
 	 * @param index cell index
 	 * @return cell
 	 */
@@ -75,7 +75,7 @@ public class RowDesign extends ReportItemDesign {
 
 	/**
 	 * append cell into the row.
-	 *
+	 * 
 	 * @param cell cell to be added.
 	 */
 	public void addCell(CellDesign cell) {
@@ -95,12 +95,11 @@ public class RowDesign extends ReportItemDesign {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.
 	 * report.engine.ir.IReportItemVisitor)
 	 */
-	@Override
 	public Object accept(IReportItemVisitor visitor, Object value) {
 		return visitor.visitRow(this, value);
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -20,11 +20,11 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  */
 
 public interface IReportItem extends IReportElement {
-	ScriptConstants constants = new ScriptConstants();
+	static ScriptConstants constants = new ScriptConstants();
 
 	/**
 	 * Gets the item's x (horizontal) position.
-	 *
+	 * 
 	 * @return The item's x position.
 	 */
 
@@ -32,7 +32,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Gets the item's y (vertical) position.
-	 *
+	 * 
 	 * @return The item's y position.
 	 */
 
@@ -43,7 +43,7 @@ public interface IReportItem extends IReportElement {
 	 * such as "10" or "10pt". If no suffix is provided, then the units are assumed
 	 * to be in the design's default units. Call this method to set a string typed
 	 * in by the user.
-	 *
+	 * 
 	 * @param dimension dimension string with optional unit suffix.
 	 * @throws SemanticException if the string is not valid
 	 */
@@ -54,7 +54,7 @@ public interface IReportItem extends IReportElement {
 	 * Sets the item's x position to a value in default units. The default unit may
 	 * be defined by the property in BIRT or the application unit defined in the
 	 * design session.
-	 *
+	 * 
 	 * @param dimension the new value in application units.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -66,7 +66,7 @@ public interface IReportItem extends IReportElement {
 	 * such as "10" or "10pt". If no suffix is provided, then the units are assumed
 	 * to be in the design's default units. Call this method to set a string typed
 	 * in by the user.
-	 *
+	 * 
 	 * @param dimension dimension string with optional unit suffix.
 	 * @throws SemanticException if the string is not valid
 	 */
@@ -77,7 +77,7 @@ public interface IReportItem extends IReportElement {
 	 * Sets the item's y position to a value in default units. The default unit may
 	 * be defined by the property in BIRT or the application unit defined in the
 	 * design session.
-	 *
+	 * 
 	 * @param dimension the new value in application units.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -89,7 +89,7 @@ public interface IReportItem extends IReportElement {
 	 * such as "10" or "10pt". If no suffix is provided, then the units are assumed
 	 * to be in the design's default units. Call this method to set a string typed
 	 * in by the user.
-	 *
+	 * 
 	 * @param dimension dimension string with optional unit suffix.
 	 * @throws SemanticException if the string is not valid
 	 */
@@ -100,7 +100,7 @@ public interface IReportItem extends IReportElement {
 	 * Sets the item's height to a value in default units. The default unit may be
 	 * defined by the property in BIRT or the application unit defined in the design
 	 * session.
-	 *
+	 * 
 	 * @param dimension the new value in application units.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -112,7 +112,7 @@ public interface IReportItem extends IReportElement {
 	 * as "10" or "10pt". If no suffix is provided, then the units are assumed to be
 	 * in the design's default units. Call this method to set a string typed in by
 	 * the user.
-	 *
+	 * 
 	 * @param dimension dimension string with optional unit suffix.
 	 * @throws SemanticException if the string is not valid
 	 */
@@ -123,7 +123,7 @@ public interface IReportItem extends IReportElement {
 	 * Sets the item's width to a value in default units. The default unit may be
 	 * defined by the property in BIRT or the application unit defined in the design
 	 * session.
-	 *
+	 * 
 	 * @param dimension the new value in application units.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -132,7 +132,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Gets a the item's width.
-	 *
+	 * 
 	 * @return a the item's width.
 	 */
 
@@ -140,7 +140,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Gets the item's height.
-	 *
+	 * 
 	 * @return the item's height.
 	 */
 	String getHeight();
@@ -148,7 +148,7 @@ public interface IReportItem extends IReportElement {
 	/**
 	 * Returns the bookmark of the report item. The bookmark value is evaluated as
 	 * an expression.
-	 *
+	 * 
 	 * @return the book mark as a string
 	 */
 
@@ -158,9 +158,9 @@ public interface IReportItem extends IReportElement {
 	 * Sets the bookmark of the report item. The bookmark value is evaluated as an
 	 * expression. If you want the bookmark to be the string "bookmark", you need to
 	 * use setBookmark("\"bookmark\"");
-	 *
+	 * 
 	 * If bookmark is a JavaScript variable, use setBookmark("bookmark");
-	 *
+	 * 
 	 * @param value the bookmark expression
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -171,10 +171,10 @@ public interface IReportItem extends IReportElement {
 	 * Sets a table of contents entry for this item. The TOC property defines an
 	 * expression that returns a string that is to appear in the Table of Contents
 	 * for this item or its container.
-	 *
+	 * 
 	 * @param expression the expression that returns a string
 	 * @throws SemanticException if the TOC property is locked by the property mask.
-	 *
+	 * 
 	 * @see #getTocExpression()
 	 */
 
@@ -182,7 +182,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Returns the expression evalueated as a table of contents entry for this item.
-	 *
+	 * 
 	 * @return the expression evaluated as a table of contents entry for this item
 	 * @see #setTocExpression(String)
 	 */
@@ -191,7 +191,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Returns array of all column bindings
-	 *
+	 * 
 	 * @return all column bindings
 	 */
 
@@ -199,7 +199,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Returns column binding.
-	 *
+	 * 
 	 * @param bindingName
 	 * @return column binding expression.
 	 */
@@ -207,7 +207,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Removes special column binding
-	 *
+	 * 
 	 * @param bindingName
 	 * @throws SemanticException
 	 */
@@ -215,14 +215,14 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Removes all column bindings
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	void removeDataBindings() throws SemanticException;
 
 	/**
 	 * Add ComputedColumn.name , expression of IDataBinding are required.
-	 *
+	 * 
 	 * @param binding
 	 * @throws SemanticException
 	 */
@@ -231,7 +231,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Gets all high light rules.
-	 *
+	 * 
 	 * @return all high light rules
 	 */
 
@@ -239,7 +239,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Adds high light rule.
-	 *
+	 * 
 	 * @param rule
 	 * @throws SemanticException
 	 */
@@ -248,7 +248,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Removes all high light rules.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -256,7 +256,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Removes high light rule.
-	 *
+	 * 
 	 * @param rule
 	 * @throws SemanticException
 	 */
@@ -265,7 +265,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Removes all hide rules that matches formatType.
-	 *
+	 * 
 	 * @param rule
 	 * @exception SemanticException
 	 */
@@ -274,7 +274,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Removes all hide rules
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
@@ -282,7 +282,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Returns array of hide rule expression
-	 *
+	 * 
 	 * @return array of hide rule expression
 	 */
 
@@ -290,7 +290,7 @@ public interface IReportItem extends IReportElement {
 
 	/**
 	 * Add HideRule
-	 *
+	 * 
 	 * @param rule
 	 * @throws SemanticException
 	 */
@@ -300,13 +300,13 @@ public interface IReportItem extends IReportElement {
 	/**
 	 * Sets the view to be used. If the given element is not in the multiple view,
 	 * it will be added and set as the active view.
-	 *
+	 * 
 	 * @param viewElement the view element, must not be <code>this</code>. Can be
 	 *                    <code>null</code>.
-	 *
+	 * 
 	 * @throws SemanticException if the given element resides in the other elements.
 	 */
 
-	void setCurrentView(IDesignElement viewElement) throws SemanticException;
+	public void setCurrentView(IDesignElement viewElement) throws SemanticException;
 
 }

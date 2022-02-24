@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,25 +47,21 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		this.emitter = emitter;
 	}
 
-	@Override
 	public Object visit(IContent content, Object value) throws BirtException {
 		return content.accept(this, value);
 	}
 
-	@Override
 	public Object visitContent(IContent content, Object value) throws BirtException {
 		emitter.startContent(content);
 		return value;
 	}
 
-	@Override
 	public Object visitPage(IPageContent page, Object value) throws BirtException {
 		// emitter.startPage( page );
 		// emitter.endPage( page );
 		return value;
 	}
 
-	@Override
 	public Object visitContainer(IContainerContent container, Object value) throws BirtException {
 		emitter.startContainer(container);
 		visitChildren(container, value);
@@ -73,7 +69,6 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return value;
 	}
 
-	@Override
 	public Object visitTable(ITableContent table, Object value) throws BirtException {
 		emitter.startTable(table);
 		visitChildren(table, value);
@@ -81,7 +76,6 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return value;
 	}
 
-	@Override
 	public Object visitTableBand(ITableBandContent tableBand, Object value) throws BirtException {
 		emitter.startTableBand(tableBand);
 		visitChildren(tableBand, value);
@@ -89,7 +83,6 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return value;
 	}
 
-	@Override
 	public Object visitRow(IRowContent row, Object value) throws BirtException {
 		emitter.startRow(row);
 		visitChildren(row, value);
@@ -97,7 +90,6 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return value;
 	}
 
-	@Override
 	public Object visitCell(ICellContent cell, Object value) throws BirtException {
 		emitter.startCell(cell);
 		visitChildren(cell, value);
@@ -105,37 +97,31 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return value;
 	}
 
-	@Override
 	public Object visitText(ITextContent text, Object value) throws BirtException {
 		emitter.startText(text);
 		return value;
 	}
 
-	@Override
 	public Object visitLabel(ILabelContent label, Object value) throws BirtException {
 		emitter.startLabel(label);
 		return value;
 	}
 
-	@Override
 	public Object visitAutoText(IAutoTextContent autoText, Object value) throws BirtException {
 		emitter.startAutoText(autoText);
 		return value;
 	}
 
-	@Override
 	public Object visitData(IDataContent data, Object value) throws BirtException {
 		emitter.startData(data);
 		return value;
 	}
 
-	@Override
 	public Object visitImage(IImageContent image, Object value) throws BirtException {
 		emitter.startImage(image);
 		return value;
 	}
 
-	@Override
 	public Object visitForeign(IForeignContent foreign, Object value) throws BirtException {
 		emitter.startForeign(foreign);
 		return value;
@@ -157,7 +143,6 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return value;
 	}
 
-	@Override
 	public Object visitList(IListContent list, Object value) throws BirtException {
 		emitter.startList(list);
 		visitChildren(list, value);
@@ -165,7 +150,6 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return value;
 	}
 
-	@Override
 	public Object visitListBand(IListBandContent listBand, Object value) throws BirtException {
 		emitter.startListBand(listBand);
 		visitChildren(listBand, value);
@@ -173,7 +157,6 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return value;
 	}
 
-	@Override
 	public Object visitGroup(IGroupContent group, Object value) throws BirtException {
 		emitter.startGroup(group);
 		visitChildren(group, value);
@@ -181,7 +164,6 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return null;
 	}
 
-	@Override
 	public Object visitListGroup(IListGroupContent group, Object value) throws BirtException {
 		emitter.startListGroup(group);
 		visitChildren(group, value);
@@ -189,7 +171,6 @@ public class ContentEmitterVisitor implements IContentVisitor {
 		return null;
 	}
 
-	@Override
 	public Object visitTableGroup(ITableGroupContent group, Object value) throws BirtException {
 		emitter.startTableGroup(group);
 		visitChildren(group, value);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,7 +15,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 /**
- *
+ * 
  */
 
 import java.util.ArrayList;
@@ -89,11 +89,10 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		 * as true. Currently this variable is only used for getting distinct column
 		 * values from a existed result set.
 		 */
-		if (this.queryDefn.getBindings().size() > 0) {
+		if (this.queryDefn.getBindings().size() > 0)
 			hasBinding = true;
-		} else {
+		else
 			hasBinding = false;
-		}
 
 		this.engine = dataEngine;
 		prepareQuery();
@@ -104,7 +103,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 
 	/**
 	 * Prepare the column bindings.
-	 *
+	 * 
 	 * @param queryDefn
 	 * @throws DataException
 	 */
@@ -112,7 +111,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 
 	/**
 	 * @throws BirtException
-	 *
+	 * 
 	 */
 	protected void newPreDataEnige() throws BirtException {
 		DataEngineContext parentContext = engine.getContext();
@@ -133,7 +132,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param queryDefinition
 	 * @param subQueryName
 	 * @return
@@ -163,10 +162,11 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 				return;
 			}
 		}
+		return;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultBindingList
 	 * @param bindingCollection
 	 * @throws DataException
@@ -188,16 +188,15 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 							exist = true;
 						}
 					}
-					if (!exist) {
+					if (!exist)
 						resultBindingList.add(binding);
-					}
 				}
 			}
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param subqueryDefinitions
 	 * @param subQueryName
 	 * @return
@@ -216,14 +215,14 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 				return;
 			}
 		}
+		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()
 	 */
-	@Override
 	protected QueryExecutor newExecutor() {
 		return new IVQuerySourceExecutor(engine.getSession().getSharedScope());
 	}
@@ -231,27 +230,25 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 	/**
 	 * Dummy implementation.
 	 */
-	@Override
 	public Collection getParameterMetaData() throws BirtException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#produceQueryResults
 	 * (org.eclipse.birt.data.engine.api.IBaseQueryResults,
 	 * org.mozilla.javascript.Scriptable)
 	 */
-	@Override
 	protected IQueryResults produceQueryResults(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		QueryResults queryResults = preparedQuery.doPrepare(outerResults, scope, newExecutor(), this);
 		return queryResults;
 	}
 
 	/**
-	 *
+	 * 
 	 *
 	 */
 	protected class IVQuerySourceExecutor extends QueryExecutor {
@@ -276,7 +273,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		 * @seeorg.eclipse.birt.data.engine.impl.PreparedQuery.Executor#
 		 * createOdiDataSource()
 		 */
-		@Override
 		protected IDataSource createOdiDataSource() throws DataException {
 			return NewInstanceHelper.newDataSource();
 		}
@@ -284,7 +280,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#findDataSource()
 		 */
-		@Override
 		protected DataSourceRuntime findDataSource() throws DataException {
 			return NewInstanceHelper.newDataSourceRuntime(queryScope);
 		}
@@ -293,14 +288,12 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		 * @seeorg.eclipse.birt.data.engine.impl.PreparedQuery.Executor#
 		 * newDataSetRuntime()
 		 */
-		@Override
 		protected DataSetRuntime newDataSetRuntime() throws DataException {
 			dsRuntime = new DataSetRuntime(NewInstanceHelper.newIVDataSetDesign(), this, this.getSession());
 
 			return dsRuntime;
 		}
 
-		@Override
 		protected String getDataSetName() {
 			return queryDefn.getDataSetName();
 		}
@@ -308,7 +301,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#getResultMetaData()
 		 */
-		@Override
 		public IResultMetaData getResultMetaData() throws DataException {
 			return new ResultMetaData(getResultClass());
 		}
@@ -317,14 +309,13 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery
 		 * ()
 		 */
-		@Override
 		protected IQuery createOdiQuery() throws DataException {
 			query = new IVQuerySourceQuery(getResultClass());
 			return query;
 		}
 
 		/**
-		 *
+		 * 
 		 * @return
 		 * @throws DataException
 		 */
@@ -333,7 +324,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 			IQueryDefinition queryDefinition = queryResults.getPreparedQuery().getReportQueryDefn();
 
 			if (queryDefn.getSourceQuery() instanceof SubqueryLocator) {
-				ArrayList<IBinding> bindingList = new ArrayList<>();
+				ArrayList<IBinding> bindingList = new ArrayList<IBinding>();
 				getSubQueryBindings(queryDefinition, ((SubqueryLocator) queryDefn.getSourceQuery()).getName(),
 						bindingList);
 				addQueryBindings(bindingList, queryDefinition.getBindings());
@@ -359,18 +350,16 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 						throw DataException.wrap(e1);
 					}
 					resultClass = createResultClass(bindings, temporaryComputedColumns);
-				} else {
+				} else
 					resultClass = createResultClass(bindings, temporaryComputedColumns);
-				}
-			} else {
+			} else
 				resultClass = createResultClass(bindings, temporaryComputedColumns);
-			}
 
 			return resultClass;
 		}
 
 		/**
-		 *
+		 * 
 		 * @param exprMetaInfo
 		 * @param temporaryComputedColumns
 		 * @return
@@ -379,10 +368,10 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		private IResultClass createResultClass(IBinding[] bindings, List temporaryComputedColumns)
 				throws DataException {
 			ResultFieldMetadata rfm = null;
-			ArrayList<ResultFieldMetadata> projectedColumns = new ArrayList<>();
+			ArrayList<ResultFieldMetadata> projectedColumns = new ArrayList<ResultFieldMetadata>();
 			if (bindings != null) {
 				for (int i = 0; i < bindings.length; i++) {
-					Class result;
+					Class result = null;
 					result = DataType.getClass(bindings[i].getDataType());
 					if (result == null) {
 						result = String.class;
@@ -407,7 +396,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery
 		 * ()
 		 */
-		@Override
 		protected IResultIterator executeOdiQuery(IEventHandler eventHandler) throws DataException {
 
 			IResultIterator resultIterator;
@@ -430,7 +418,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		}
 
 		/**
-		 *
+		 * 
 		 * @param subqueryLocator
 		 * @param sourceResultIterator
 		 * @return
@@ -446,18 +434,17 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 			}
 			if (subqueryLocator.getRowId() <= -1 && resultIterator.isEmpty()) {
 				return resultIterator.getSecondaryIterator(subqueryLocator.getName(), queryScope);
-			} else {
+			} else
 				resultIterator.moveTo(subqueryLocator.getRowId());
-			}
 			return resultIterator.getSecondaryIterator(subqueryLocator.getName(), queryScope);
 		}
 
 	}
 
 	/**
-	 *
+	 * 
 	 * @author Administrator
-	 *
+	 * 
 	 */
 	static class IVQuerySourcePopulator implements IDataSetPopulator {
 
@@ -480,9 +467,8 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 		}
 
 		/**
-		 *
+		 * 
 		 */
-		@Override
 		public IResultObject next() throws DataException {
 			try {
 				if (!apiResultIterator.next()) {
@@ -509,7 +495,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public class IVQuerySourceQuery extends BaseQuery {
 
@@ -518,7 +504,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 
 		/**
 		 * Constructor
-		 *
+		 * 
 		 * @param resultClass
 		 */
 		public IVQuerySourceQuery(IResultClass resultClass) {
@@ -527,19 +513,17 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
 		 */
-		@Override
 		public void close() {
-			if (preDataEngine != null) {
+			if (preDataEngine != null)
 				preDataEngine.shutdown();
-			}
 		}
 
 		/**
 		 * Return the result class of this joint data set.
-		 *
+		 * 
 		 * @return
 		 */
 		public IResultClass getResultClass() {

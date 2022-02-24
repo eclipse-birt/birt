@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Parser of the joint data set element.
- *
+ * 
  */
 
 public class JointDataSetState extends ReportElementState {
@@ -42,7 +42,7 @@ public class JointDataSetState extends ReportElementState {
 	/**
 	 * Constructs the joint data set state with design parser handler, container
 	 * element and container slot of the data source.
-	 *
+	 * 
 	 * @param handler the design file parser handler
 	 */
 
@@ -53,42 +53,38 @@ public class JointDataSetState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		initElement(attrs, true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	@Override
 	public void end() throws SAXException {
 		if (handler.versionNumber < VersionUtil.VERSION_3_2_2) {
 			List dataSetColumns = (List) element.getLocalProperty(handler.module, IDataSetModel.RESULT_SET_PROP);
 			Object dataSetHints = element.getLocalProperty(handler.module, IDataSetModel.RESULT_SET_HINTS_PROP);
-			if (dataSetHints == null && dataSetColumns != null) {
+			if (dataSetHints == null && dataSetColumns != null)
 				element.setProperty(IDataSetModel.RESULT_SET_HINTS_PROP, ModelUtil
 						.copyValue(element.getPropertyDefn(IDataSetModel.RESULT_SET_HINTS_PROP), dataSetColumns));
-			}
 		}
 		super.end();
 	}

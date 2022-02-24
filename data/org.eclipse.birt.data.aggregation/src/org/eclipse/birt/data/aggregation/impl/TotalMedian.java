@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.aggregation.impl;
@@ -30,47 +30,43 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- *
+ * 
  * Implements the built-in Total.median aggregation
  */
 public class TotalMedian extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	@Override
 	public String getName() {
 		return IBuildInAggregation.TOTAL_MEDIAN_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	@Override
 	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	@Override
 	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
-	@Override
 	public IParameterDefn[] getParameterDefn() {
 		return new IParameterDefn[] { new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME,
 				false, true, SupportedDataTypes.CALCULATABLE, "")//$NON-NLS-1$
@@ -79,10 +75,9 @@ public class TotalMedian extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	@Override
 	public Accumulator newAccumulator() {
 		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
@@ -96,7 +91,6 @@ public class TotalMedian extends AggrFunction {
 			super(calc);
 		}
 
-		@Override
 		public void start() {
 			super.start();
 			list = new ArrayList();
@@ -105,12 +99,11 @@ public class TotalMedian extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[]
 		 * )
 		 */
-		@Override
 		public void onRow(Object[] args) throws DataException {
 			assert (args.length > 0);
 			if (args[0] != null) {
@@ -118,7 +111,6 @@ public class TotalMedian extends AggrFunction {
 			}
 		}
 
-		@Override
 		public void finish() throws DataException {
 			int size = list.size();
 			if (size > 0) {
@@ -140,11 +132,10 @@ public class TotalMedian extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
 		 */
-		@Override
 		public Object getSummaryValue() {
 			return ret;
 		}
@@ -153,22 +144,20 @@ public class TotalMedian extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	@Override
 	public String getDescription() {
 		return Messages.getString("TotalMedian.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("TotalMedian.displayName"); //$NON-NLS-1$
 	}

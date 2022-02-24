@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +51,6 @@ public class CTextCellEditor extends CellEditor {
 
 		cell.addFocusListener(new FocusAdapter() {
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				if (!handleSelection) {
 					CTextCellEditor.this.focusLost();
@@ -66,10 +65,9 @@ public class CTextCellEditor extends CellEditor {
 		text = new Text(composite, getStyle());
 		text.setBackground(bg);
 		text.setFont(cell.getFont());
-
+		;
 		text.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				if (!handleSelection) {
 					handleSelection = true;
@@ -81,7 +79,6 @@ public class CTextCellEditor extends CellEditor {
 		text.addKeyListener(new KeyAdapter() {
 
 			// hook key pressed - see PR 14201
-			@Override
 			public void keyPressed(KeyEvent e) {
 				keyReleaseOccured(e);
 
@@ -97,7 +94,6 @@ public class CTextCellEditor extends CellEditor {
 		});
 		text.addTraverseListener(new TraverseListener() {
 
-			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
@@ -110,7 +106,6 @@ public class CTextCellEditor extends CellEditor {
 		// may have occurred
 		text.addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseUp(MouseEvent e) {
 				checkSelection();
 				checkDeleteable();
@@ -119,7 +114,6 @@ public class CTextCellEditor extends CellEditor {
 		});
 		text.addFocusListener(new FocusAdapter() {
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				if (!handleSelection) {
 					CTextCellEditor.this.focusLost();
@@ -137,9 +131,8 @@ public class CTextCellEditor extends CellEditor {
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
 	protected void updateContents(Object value) {
-		if (this.text == null) {
+		if (this.text == null)
 			return;
-		}
 
 		String text = "";//$NON-NLS-1$
 		if (value != null) {
@@ -162,7 +155,6 @@ public class CTextCellEditor extends CellEditor {
 	/*
 	 * (non-Javadoc) Method declared on CellEditor.
 	 */
-	@Override
 	protected Control createControl(Composite parent) {
 
 		Font font = parent.getFont();
@@ -207,7 +199,7 @@ public class CTextCellEditor extends CellEditor {
 	 * Creates a new text string cell editor with no control The cell editor value
 	 * is the string itself, which is initially the empty string. Initially, the
 	 * cell editor has no cell validator.
-	 *
+	 * 
 	 * @since 2.1
 	 */
 	public CTextCellEditor() {
@@ -218,7 +210,7 @@ public class CTextCellEditor extends CellEditor {
 	 * Creates a new text string cell editor parented under the given control. The
 	 * cell editor value is the string itself, which is initially the empty string.
 	 * Initially, the cell editor has no cell validator.
-	 *
+	 * 
 	 * @param parent the parent control
 	 */
 	public CTextCellEditor(Composite parent) {
@@ -229,7 +221,7 @@ public class CTextCellEditor extends CellEditor {
 	 * Creates a new text string cell editor parented under the given control. The
 	 * cell editor value is the string itself, which is initially the empty string.
 	 * Initially, the cell editor has no cell validator.
-	 *
+	 * 
 	 * @param parent the parent control
 	 * @param style  the style bits
 	 * @since 2.1
@@ -278,10 +270,9 @@ public class CTextCellEditor extends CellEditor {
 	/**
 	 * The <code>TextCellEditor</code> implementation of this
 	 * <code>CellEditor</code> framework method returns the text string.
-	 *
+	 * 
 	 * @return the text string
 	 */
-	@Override
 	protected Object doGetValue() {
 		if (text.getText().length() > 0) {
 			return text.getText();
@@ -294,7 +285,6 @@ public class CTextCellEditor extends CellEditor {
 	/*
 	 * (non-Javadoc) Method declared on CellEditor.
 	 */
-	@Override
 	protected void doSetFocus() {
 		if (text != null) {
 			text.selectAll();
@@ -309,10 +299,9 @@ public class CTextCellEditor extends CellEditor {
 	 * The <code>TextCellEditor</code> implementation of this
 	 * <code>CellEditor</code> framework method accepts a text string (type
 	 * <code>String</code>).
-	 *
+	 * 
 	 * @param value a text string (type <code>String</code>)
 	 */
-	@Override
 	protected void doSetValue(Object value) {
 		Assert.isTrue(text != null && (value == null || value instanceof String));
 		text.removeModifyListener(getModifyListener());
@@ -331,7 +320,7 @@ public class CTextCellEditor extends CellEditor {
 	 * and then reports a change via <code>fireEditorValueChanged</code>. Subclasses
 	 * should call this method at appropriate times. Subclasses may extend or
 	 * reimplement.
-	 *
+	 * 
 	 * @param e the SWT modify event
 	 */
 	protected void editOccured(ModifyEvent e) {
@@ -353,7 +342,6 @@ public class CTextCellEditor extends CellEditor {
 	/**
 	 * Since a text editor field is scrollable we don't set a minimumSize.
 	 */
-	@Override
 	public LayoutData getLayoutData() {
 		return new LayoutData();
 	}
@@ -365,7 +353,6 @@ public class CTextCellEditor extends CellEditor {
 		if (modifyListener == null) {
 			modifyListener = new ModifyListener() {
 
-				@Override
 				public void modifyText(ModifyEvent e) {
 					editOccured(e);
 				}
@@ -377,9 +364,9 @@ public class CTextCellEditor extends CellEditor {
 	/**
 	 * Handles a default selection event from the text control by applying the
 	 * editor value and deactivating this cell editor.
-	 *
+	 * 
 	 * @param event the selection event
-	 *
+	 * 
 	 * @since 3.0
 	 */
 	protected void handleDefaultSelection(SelectionEvent event) {
@@ -393,7 +380,6 @@ public class CTextCellEditor extends CellEditor {
 	 * <code>CellEditor</code> method returns <code>true</code> if the current
 	 * selection is not empty.
 	 */
-	@Override
 	public boolean isCopyEnabled() {
 		if (text == null || text.isDisposed()) {
 			return false;
@@ -406,7 +392,6 @@ public class CTextCellEditor extends CellEditor {
 	 * <code>CellEditor</code> method returns <code>true</code> if the current
 	 * selection is not empty.
 	 */
-	@Override
 	public boolean isCutEnabled() {
 		if (text == null || text.isDisposed()) {
 			return false;
@@ -419,7 +404,6 @@ public class CTextCellEditor extends CellEditor {
 	 * <code>CellEditor</code> method returns <code>true</code> if there is a
 	 * selection or if the caret is not positioned at the end of the text.
 	 */
-	@Override
 	public boolean isDeleteEnabled() {
 		if (text == null || text.isDisposed()) {
 			return false;
@@ -431,7 +415,6 @@ public class CTextCellEditor extends CellEditor {
 	 * The <code>TextCellEditor</code> implementation of this
 	 * <code>CellEditor</code> method always returns <code>true</code>.
 	 */
-	@Override
 	public boolean isPasteEnabled() {
 		if (text == null || text.isDisposed()) {
 			return false;
@@ -441,7 +424,7 @@ public class CTextCellEditor extends CellEditor {
 
 	/**
 	 * Check if save all is enabled
-	 *
+	 * 
 	 * @return true if it is
 	 */
 	public boolean isSaveAllEnabled() {
@@ -460,11 +443,10 @@ public class CTextCellEditor extends CellEditor {
 	 * <p>
 	 * Subclasses may override
 	 * </p>
-	 *
+	 * 
 	 * @return <code>true</code> if select all is possible, <code>false</code>
 	 *         otherwise
 	 */
-	@Override
 	public boolean isSelectAllEnabled() {
 		if (text == null || text.isDisposed()) {
 			return false;
@@ -480,10 +462,9 @@ public class CTextCellEditor extends CellEditor {
 	 * <code>handleDefaultSelection</code>. An exception is made for Ctrl+Enter for
 	 * multi-line texts, since a default selection event is not sent in this case.
 	 * </p>
-	 *
+	 * 
 	 * @param keyEvent the key event
 	 */
-	@Override
 	protected void keyReleaseOccured(KeyEvent keyEvent) {
 		if (keyEvent.character == '\r') { // Return key
 											// Enter is handled in handleDefaultSelection.
@@ -509,7 +490,6 @@ public class CTextCellEditor extends CellEditor {
 	 * The <code>TextCellEditor</code> implementation of this
 	 * <code>CellEditor</code> method copies the current selection to the clipboard.
 	 */
-	@Override
 	public void performCopy() {
 		text.copy();
 	}
@@ -518,7 +498,6 @@ public class CTextCellEditor extends CellEditor {
 	 * The <code>TextCellEditor</code> implementation of this
 	 * <code>CellEditor</code> method cuts the current selection to the clipboard.
 	 */
-	@Override
 	public void performCut() {
 		text.cut();
 		checkSelection();
@@ -531,7 +510,6 @@ public class CTextCellEditor extends CellEditor {
 	 * <code>CellEditor</code> method deletes the current selection or, if there is
 	 * no selection, the character next character from the current position.
 	 */
-	@Override
 	public void performDelete() {
 		if (text.getSelectionCount() > 0) {
 			// remove the contents of the current selection
@@ -554,7 +532,6 @@ public class CTextCellEditor extends CellEditor {
 	 * <code>CellEditor</code> method pastes the the clipboard contents over the
 	 * current selection.
 	 */
-	@Override
 	public void performPaste() {
 		text.paste();
 		checkSelection();
@@ -566,7 +543,6 @@ public class CTextCellEditor extends CellEditor {
 	 * The <code>TextCellEditor</code> implementation of this
 	 * <code>CellEditor</code> method selects all of the current text.
 	 */
-	@Override
 	public void performSelectAll() {
 		text.selectAll();
 		checkSelection();

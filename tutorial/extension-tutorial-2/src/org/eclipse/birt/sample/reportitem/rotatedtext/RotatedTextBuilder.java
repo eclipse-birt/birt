@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.Text;
  */
 public class RotatedTextBuilder extends ReportItemBuilderUI {
 
-	@Override
 	public int open(ExtendedItemHandle handle) {
 		try {
 			IReportItem item = handle.getReportItem();
@@ -78,7 +77,6 @@ class RotatedTextEditor extends TrayDialog {
 		this.textItem = textItem;
 	}
 
-	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 
@@ -95,7 +93,6 @@ class RotatedTextEditor extends TrayDialog {
 		txtText.setLayoutData(gd);
 	}
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(3, false);
@@ -146,7 +143,6 @@ class RotatedTextEditor extends TrayDialog {
 		lbAngle.setText(String.valueOf(textItem.getRotationAngle()));
 	}
 
-	@Override
 	protected void okPressed() {
 
 		try {
@@ -169,7 +165,6 @@ class RotatedTextEditor2 extends RotatedTextEditor {
 		super(shell, textItem);
 	}
 
-	@Override
 	protected void createTextArea(Composite parent) {
 		Label lb = new Label(parent, SWT.None);
 		lb.setText("Text Content:"); //$NON-NLS-1$
@@ -184,7 +179,6 @@ class RotatedTextEditor2 extends RotatedTextEditor {
 
 		btnExp.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent event) {
 				openExpression(txtText);
 			}

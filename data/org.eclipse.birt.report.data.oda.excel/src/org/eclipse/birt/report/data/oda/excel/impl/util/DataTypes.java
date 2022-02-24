@@ -41,22 +41,22 @@ public final class DataTypes {
 	 * @throws OdaException If the given data type name is invalid
 	 */
 	public static int getTypeCode(String typeName) throws OdaException {
-		if (typeName == null || typeName.trim().length() == 0 || typeName.equals(STRING_LITERAL)) {
+		if (typeName == null || typeName.trim().length() == 0)
+			return STRING; // default data type
+
+		if (typeName.equals(STRING_LITERAL))
 			return STRING;
-		}
 
 		String preparedTypeName = typeName.trim().toUpperCase();
 
-		if (preparedTypeName.equals(NULL_LITERAL)) {
+		if (preparedTypeName.equals(NULL_LITERAL))
 			return NULL;
-		}
 
 		// get the data type definition from my plugin manifest for all other
 		// types
 		DataTypeMapping typeMapping = getManifest().getDataSetType(null).getDataTypeMapping(preparedTypeName);
-		if (typeMapping != null) {
+		if (typeMapping != null)
 			return typeMapping.getNativeTypeCode();
-		}
 
 		throw new OdaException(Messages.getString("dataTypes_TYPE_NAME_INVALID") + typeName); //$NON-NLS-1$
 	}
@@ -71,9 +71,8 @@ public final class DataTypes {
 	public static boolean isValidType(String typeName) {
 		String preparedTypeName = typeName.trim().toUpperCase();
 
-		if (preparedTypeName.equals(NULL_LITERAL)) {
+		if (preparedTypeName.equals(NULL_LITERAL))
 			return true;
-		}
 
 		// check the data type definition in my plugin manifest for all other
 		// types
@@ -90,16 +89,15 @@ public final class DataTypes {
 	/**
 	 * Returns the native data type name of the specified code, as defined in this
 	 * data source extension's manifest.
-	 *
+	 * 
 	 * @param nativeTypeCode the native data type code
 	 * @return corresponding native data type name
 	 * @throws OdaException if lookup fails
 	 */
 	public static String getNativeDataTypeName(int nativeDataTypeCode) throws OdaException {
 		DataTypeMapping typeMapping = getManifest().getDataSetType(null).getDataTypeMapping(nativeDataTypeCode);
-		if (typeMapping != null) {
+		if (typeMapping != null)
 			return typeMapping.getNativeType();
-		}
 		return "Non-defined";
 	}
 

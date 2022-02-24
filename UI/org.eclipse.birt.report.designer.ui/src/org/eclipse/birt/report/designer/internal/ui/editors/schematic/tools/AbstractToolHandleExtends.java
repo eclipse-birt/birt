@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.gef.requests.CreateRequest;
 
 /**
  * Abstrct creation tool extension.
- *
+ * 
  */
 public abstract class AbstractToolHandleExtends {
 
@@ -34,10 +34,9 @@ public abstract class AbstractToolHandleExtends {
 
 	/**
 	 * Process after creation
-	 *
+	 * 
 	 * @deprecated tentative solution for bugzilla#145284, will be refactored later.
 	 */
-	@Deprecated
 	public boolean postHandleCreation() {
 		// doing nothing by default
 		return true;
@@ -72,7 +71,7 @@ public abstract class AbstractToolHandleExtends {
 
 	/**
 	 * Set target edit part.
-	 *
+	 * 
 	 * @param part
 	 */
 	public void setTargetEditPart(EditPart part) {
@@ -88,7 +87,7 @@ public abstract class AbstractToolHandleExtends {
 
 	/**
 	 * Set model.
-	 *
+	 * 
 	 * @param obj
 	 */
 	protected void setModel(Object obj) {

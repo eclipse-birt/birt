@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class LabelCellEditor extends TextCellEditor {
 	 * Creates a new text string cell editor with no control The cell editor value
 	 * is the string itself, which is initially the empty string. Initially, the
 	 * cell editor has no cell validator.
-	 *
+	 * 
 	 */
 	public LabelCellEditor() {
 		super();
@@ -42,7 +42,7 @@ public class LabelCellEditor extends TextCellEditor {
 	 * Creates a new text string cell editor parented under the given control. The
 	 * cell editor value is the string itself, which is initially the empty string.
 	 * Initially, the cell editor has no cell validator.
-	 *
+	 * 
 	 * @param parent the parent control
 	 */
 	public LabelCellEditor(Composite parent) {
@@ -53,7 +53,7 @@ public class LabelCellEditor extends TextCellEditor {
 	 * Creates a new text string cell editor parented under the given control. The
 	 * cell editor value is the string itself, which is initially the empty string.
 	 * Initially, the cell editor has no cell validator.
-	 *
+	 * 
 	 * @param parent the parent control
 	 * @param style  the style bits
 	 */
@@ -69,10 +69,9 @@ public class LabelCellEditor extends TextCellEditor {
 	 * <code>handleDefaultSelection</code>. An exception is made for Ctrl+Enter for
 	 * multi-line texts, since a default selection event is not sent in this case.
 	 * </p>
-	 *
+	 * 
 	 * @param keyEvent the key event
 	 */
-	@Override
 	protected void keyReleaseOccured(KeyEvent keyEvent) {
 		if (keyEvent.character == '\r') { // Return key
 											// Enter is handled in handleDefaultSelection.

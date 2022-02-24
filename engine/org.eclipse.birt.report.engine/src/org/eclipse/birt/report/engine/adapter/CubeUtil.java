@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,13 +34,13 @@ public class CubeUtil {
 	/**
 	 * Get the position id of a CubeCursor. The position id is decided by the
 	 * combination of edge cursors.
-	 *
+	 * 
 	 * @param cursor
 	 * @return
 	 * @throws OLAPException
 	 */
 	public static String getPositionID(CubeCursor cursor) throws OLAPException {
-		StringBuilder result = new StringBuilder();
+		StringBuffer result = new StringBuffer();
 		List ordinateEdge = getAllEdges(cursor);
 		boolean isLeftTop = true;
 		for (int i = 0; i < ordinateEdge.size(); i++) {
@@ -66,7 +66,7 @@ public class CubeUtil {
 
 	/**
 	 * Get all EdgeCursor of a CubeCursor.
-	 *
+	 * 
 	 * @param cursor
 	 * @return
 	 * @throws OLAPException
@@ -83,16 +83,15 @@ public class CubeUtil {
 	/**
 	 * Set cube cursor to a given position. A cube cursor's position is decided by
 	 * its edge cursors.
-	 *
+	 * 
 	 * @param cursor
 	 * @param position
 	 * @throws OLAPException
 	 * @throws EngineException
 	 */
 	public static void positionCursor(CubeCursor cursor, String position) throws OLAPException, EngineException {
-		if (position == null || position.trim().length() == 0) {
+		if (position == null || position.trim().length() == 0)
 			return;
-		}
 		if (position.startsWith("::")) {
 			position = position.substring(2);
 		}
@@ -100,7 +99,7 @@ public class CubeUtil {
 		List edges = getAllEdges(cursor);
 
 		for (int i = 0; i < edges.size(); i++) {
-			((EdgeCursor) edges.get(i)).setPosition(Long.parseLong(positions[i]));
+			((EdgeCursor) edges.get(i)).setPosition(new Long(positions[i]).longValue());
 		}
 	}
 }

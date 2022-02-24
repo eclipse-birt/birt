@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -61,7 +62,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- *
+ * 
  */
 
 public class CrosstabSubTotalDialog extends BaseDialog {
@@ -85,9 +86,8 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 	protected String[] getAllLevelNames(CrosstabReportItemHandle crosstab) {
 		List list = new ArrayList();
 		CrosstabViewHandle crosstabView = crosstab.getCrosstabView(axis);
-		if (crosstabView == null) {
+		if (crosstabView == null)
 			return new String[0];
-		}
 		int dimCount = crosstabView.getDimensionCount();
 		for (int i = 0; i < dimCount; i++) {
 			DimensionViewHandle dimensionView = crosstabView.getDimension(i);
@@ -127,7 +127,11 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 
 	protected boolean isConditionOK() {
 		LevelViewHandle level = getLevelFromName(levelCombo.getText());
-		if (level == null || level == lastLevelView || (dataFieldCombo.getText().length() <= 0)) {
+		if (level == null || level == lastLevelView) {
+			return false;
+		}
+
+		if (dataFieldCombo.getText().length() <= 0) {
 			return false;
 		}
 
@@ -162,7 +166,7 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getElements(java.lang.Object)
 	 */
@@ -196,7 +200,7 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 
 	/**
 	 * Refreshes the OK button state.
-	 *
+	 * 
 	 */
 	protected void updateButtons() {
 		getOkButton().setEnabled(isConditionOK());
@@ -204,15 +208,12 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 
 	protected SelectionListener updateButtonListener = new SelectionListener() {
 
-		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 		}
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
-			if (e.widget == levelCombo) {
+			if (e.widget == levelCombo)
 				updateMeasures();
-			}
 			updateButtons();
 		}
 
@@ -252,13 +253,17 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 						}
 					}
 				}
-			} else if (getLevel() != null) {
-				List aggMeasures = getLevel().getAggregationMeasures();
-				for (int k = 0; k < aggMeasures.size(); k++) {
-					MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get(k);
-					if (measureViewHandle == measure) {
-						flag = false;
-						break;
+			}
+			// TODO:New
+			else {
+				if (getLevel() != null) {
+					List aggMeasures = getLevel().getAggregationMeasures();
+					for (int k = 0; k < aggMeasures.size(); k++) {
+						MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get(k);
+						if (measureViewHandle == measure) {
+							flag = false;
+							break;
+						}
 					}
 				}
 			}
@@ -272,11 +277,10 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 		measureNames.toArray(items);
 		String measure = dataFieldCombo.getText();
 		dataFieldCombo.setItems(items);
-		if (measure != null && measureNames.contains(measure)) {
+		if (measure != null && measureNames.contains(measure))
 			dataFieldCombo.setText(measure);
-		} else if (items.length > 0) {
+		else if (items.length > 0)
 			dataFieldCombo.select(0);
-		}
 	}
 
 	protected CrosstabSubTotalDialog(Shell parentShell, String title) {
@@ -291,11 +295,10 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	protected Control createContents(Composite parent) {
 		GridData gdata;
 		GridLayout glayout;
@@ -352,7 +355,7 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 				measureCount--;
 			}
 		}
-		List<String> levelList = new ArrayList<>();
+		List<String> levelList = new ArrayList<String>();
 		for (int i = 0; i < levels.length; i++) {
 			LevelViewHandle level = getLevelFromName(levels[i]);
 			if (level == null) {
@@ -416,7 +419,7 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 //		dataFieldCombo.getParent( ).layout( );
 
 		updateButtons();
-	}
+	};
 
 	protected void createSubTotalContent(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
@@ -463,7 +466,6 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 
 		titleArea.addPaintListener(new PaintListener() {
 
-			@Override
 			public void paintControl(PaintEvent e) {
 				e.gc.setForeground(titleArea.getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW));
 				Rectangle bounds = titleArea.getClientArea();
@@ -481,17 +483,35 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 		return titleArea;
 	}
 
+	private String[] getFunctionDisplayNames() {
+		IChoice[] choices = getFunctions();
+		if (choices == null)
+			return new String[0];
+
+		String[] displayNames = new String[choices.length];
+		for (int i = 0; i < choices.length; i++) {
+			displayNames[i] = choices[i].getDisplayName();
+		}
+		return displayNames;
+
+	}
+
 	private String[] getFunctionNames() {
 		IChoice[] choices = getFunctions();
-		if (choices == null) {
+		if (choices == null)
 			return new String[0];
-		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
 			displayNames[i] = choices[i].getName();
 		}
 		return displayNames;
+	}
+
+	private String getFunctionDisplayName(String name) {
+		return ChoiceSetFactory.getDisplayNameFromChoiceSet(name,
+				DEUtil.getMetaDataDictionary().getElement(ReportDesignConstants.MEASURE_ELEMENT)
+						.getProperty(IMeasureModel.FUNCTION_PROP).getAllowedChoices());
 	}
 
 	private IChoice[] getFunctions() {
@@ -503,7 +523,6 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	@Override
 	protected void okPressed() {
 		CommandStack stack = getActionStack();
 
@@ -523,9 +542,8 @@ public class CrosstabSubTotalDialog extends BaseDialog {
 				getLevel().removeSubTotal();
 
 				CrosstabCellHandle cellHandle = getLevel().addSubTotal(measureList, functionList);
-				if (cellHandle != null) {
+				if (cellHandle != null)
 					CrosstabUIHelper.createSubTotalLabel(getLevel(), cellHandle);
-				}
 				stack.commit();
 			} catch (SemanticException e) {
 				stack.rollback();

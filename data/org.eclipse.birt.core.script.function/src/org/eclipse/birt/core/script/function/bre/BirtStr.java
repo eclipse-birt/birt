@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,32 +31,31 @@ class BirtStr implements IScriptFunctionExecutor {
 	private IScriptFunctionExecutor executor;
 
 	BirtStr(String functionName) throws BirtException {
-		if ("left".equals(functionName)) {
+		if ("left".equals(functionName))
 			this.executor = new Function_Left();
-		} else if ("right".equals(functionName)) {
+		else if ("right".equals(functionName))
 			this.executor = new Function_Right();
-		} else if ("concat".equals(functionName)) {
+		else if ("concat".equals(functionName))
 			this.executor = new Function_Concat();
-		} else if ("toUpper".equals(functionName)) {
+		else if ("toUpper".equals(functionName))
 			this.executor = new Function_ToUpper();
-		} else if ("toLower".equals(functionName)) {
+		else if ("toLower".equals(functionName))
 			this.executor = new Function_ToLower();
-		} else if ("trim".equals(functionName)) {
+		else if ("trim".equals(functionName))
 			this.executor = new Function_Trim();
-		} else if ("trimLeft".equals(functionName)) {
+		else if ("trimLeft".equals(functionName))
 			this.executor = new Function_TrimLeft();
-		} else if ("trimRight".equals(functionName)) {
+		else if ("trimRight".equals(functionName))
 			this.executor = new Function_TrimRight();
-		} else if ("indexOf".equals(functionName)) {
+		else if ("indexOf".equals(functionName))
 			this.executor = new Function_IndexOf();
-		} else if ("search".equals(functionName)) {
+		else if ("search".equals(functionName))
 			this.executor = new Function_Search();
-		} else if ("charLength".equals(functionName)) {
+		else if ("charLength".equals(functionName))
 			this.executor = new Function_CharLength();
-		} else {
+		else
 			throw new BirtException("org.eclipse.birt.core.script.function.bre", null,
 					Messages.getString("invalid.function.name") + "BirtStr." + functionName);
-		}
 	}
 
 	private static class Function_Left implements IScriptFunctionExecutor {
@@ -67,32 +66,28 @@ class BirtStr implements IScriptFunctionExecutor {
 		 * Returns the first n characters of the string str. If n is 0, an empty string
 		 * is returned. If n is greater than the length of str, the entire string is
 		 * returned.
-		 *
+		 * 
 		 * @param str
 		 * @param n
 		 * @return
 		 */
 		private String left(String str, int n) {
-			if (n < 0) {
+			if (n < 0)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.BirtStr.left.invalidArgument", new Object[] { n }));
-			}
-			if (str == null) {
+			if (str == null)
 				return null;
-			}
-			if (n == 0) {
+			if (n == 0)
 				return "";
-			}
-			if (n >= str.length()) {
+			if (n >= str.length())
 				return str;
-			} else {
+			else
 				return str.substring(0, n);
-			}
 		}
 
 		/**
 		 * Returns the first characters of the string str.
-		 *
+		 * 
 		 * @param str
 		 * @return
 		 */
@@ -100,17 +95,14 @@ class BirtStr implements IScriptFunctionExecutor {
 			return left(str, 1);
 		}
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
 
-			if (args.length > maxArgumentNum) {
+			if (args.length > maxArgumentNum)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.incorrect.number.function.variableArgument",
 								new Object[] { maxArgumentNum, args.length }));
-			}
 
 			if (args.length == 1) {
 				return left(toJavaString(args[0]));
@@ -128,32 +120,28 @@ class BirtStr implements IScriptFunctionExecutor {
 		 * Returns the last n characters of the string str. If n is 0, an empty string
 		 * is returned. If n is greater than the length of str, the entire string is
 		 * returned.
-		 *
+		 * 
 		 * @param str
 		 * @param n
 		 * @return
 		 */
 		public String right(String str, int n) {
-			if (n < 0) {
+			if (n < 0)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.BirtStr.right.invalidArgument", new Object[] { n }));
-			}
-			if (str == null) {
+			if (str == null)
 				return null;
-			}
-			if (n == 0) {
+			if (n == 0)
 				return "";
-			}
-			if (n >= str.length()) {
+			if (n >= str.length())
 				return str;
-			} else {
-				return str.substring(str.length() - n);
-			}
+			else
+				return str.substring(str.length() - n, str.length());
 		}
 
 		/**
 		 * Returns the last characters of the string str.
-		 *
+		 * 
 		 * @param str
 		 * @return
 		 */
@@ -161,17 +149,14 @@ class BirtStr implements IScriptFunctionExecutor {
 			return right(str, 1);
 		}
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
 
-			if (args.length > maxArgumentNum) {
+			if (args.length > maxArgumentNum)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.incorrect.number.function.variableArgument",
 								new Object[] { maxArgumentNum, args.length }));
-			}
 
 			if (args.length == 1) {
 				return right(toJavaString(args[0]));
@@ -185,13 +170,11 @@ class BirtStr implements IScriptFunctionExecutor {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
 
-			StringBuilder buf = new StringBuilder();
+			StringBuffer buf = new StringBuffer();
 
 			for (int i = 0; i < args.length; i++) {
 				buf.append(args[i]);
@@ -204,16 +187,13 @@ class BirtStr implements IScriptFunctionExecutor {
 		private static final long serialVersionUID = 1L;
 		private static final int fixedArgumentNum = 1;
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
-			if (args.length != fixedArgumentNum) {
+			if (args.length != fixedArgumentNum)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.incorrect.number.function.fixedArgument",
 								new Object[] { fixedArgumentNum, args.length }));
-			}
 
 			if (args[0] instanceof Object[]) {
 				Object[] objArray = (Object[]) args[0];
@@ -226,9 +206,8 @@ class BirtStr implements IScriptFunctionExecutor {
 				}
 				return strArray;
 			} else {
-				if (args[0] instanceof Integer) {
+				if (args[0] instanceof Integer)
 					return args[0];
-				}
 
 				String value = toJavaString(args[0]);
 				if (value != null) {
@@ -244,16 +223,13 @@ class BirtStr implements IScriptFunctionExecutor {
 		private static final long serialVersionUID = 1L;
 		private static final int fixedArgumentNum = 1;
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
-			if (args.length != fixedArgumentNum) {
+			if (args.length != fixedArgumentNum)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.incorrect.number.function.fixedArgument",
 								new Object[] { fixedArgumentNum, args.length }));
-			}
 
 			if (args[0] instanceof Object[]) {
 				Object[] objArray = (Object[]) args[0];
@@ -283,29 +259,26 @@ class BirtStr implements IScriptFunctionExecutor {
 		/**
 		 * Removes all leading and trailing blank characters (space, TAB etc.). Also,
 		 * all consecutive blank characters are consolidated into one.
-		 *
+		 * 
 		 * @param str
 		 * @return
 		 */
 		private String trim(String str) {
-			if (str == null) {
+			if (str == null)
 				return null;
-			} else {
+			else {
 				String trimStr = str.trim();
 				return trimStr.replaceAll("\\s+", " ");
 			}
 		}
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
-			if (args.length != fixedArgumentNum) {
+			if (args.length != fixedArgumentNum)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.incorrect.number.function.fixedArgument",
 								new Object[] { fixedArgumentNum, args.length }));
-			}
 
 			return trim(toJavaString(args[0]));
 		}
@@ -319,33 +292,30 @@ class BirtStr implements IScriptFunctionExecutor {
 		/**
 		 * Removes all leading blanks. Trailing blanks and blanks between words are not
 		 * removed.
-		 *
+		 * 
 		 * @param str
 		 * @return
 		 */
 		private String trimLeft(String str) {
-			if (str == null) {
+			if (str == null)
 				return null;
-			} else {
+			else {
 				byte[] value = str.getBytes();
 				int st = 0;
 				while ((st < str.length()) && (value[st] <= ' ')) {
 					st++;
 				}
-				return (st > 0) ? str.substring(st) : str;
+				return (st > 0) ? str.substring(st, str.length()) : str;
 			}
 		}
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
-			if (args.length != fixedArgumentNum) {
+			if (args.length != fixedArgumentNum)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.incorrect.number.function.fixedArgument",
 								new Object[] { fixedArgumentNum, args.length }));
-			}
 
 			return trimLeft(toJavaString(args[0]));
 		}
@@ -359,14 +329,14 @@ class BirtStr implements IScriptFunctionExecutor {
 		/**
 		 * Removes all trailing blanks. Leading blanks and blanks between words are not
 		 * removed.
-		 *
+		 * 
 		 * @param str
 		 * @return
 		 */
 		private String trimRight(String str) {
-			if (str == null) {
+			if (str == null)
 				return null;
-			} else {
+			else {
 				byte[] value = str.getBytes();
 				int end = str.length();
 				while ((end > 0) && (value[end - 1] <= ' ')) {
@@ -376,16 +346,13 @@ class BirtStr implements IScriptFunctionExecutor {
 			}
 		}
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
-			if (args.length != fixedArgumentNum) {
+			if (args.length != fixedArgumentNum)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.incorrect.number.function.fixedArgument",
 								new Object[] { fixedArgumentNum, args.length }));
-			}
 
 			return trimRight(toJavaString(args[0]));
 		}
@@ -404,20 +371,19 @@ class BirtStr implements IScriptFunctionExecutor {
 		 * Searches for find_text in str and returns the index of first occurrence of
 		 * pattern. Search starts at position start. All index values are 0-based.If
 		 * start is omitted, a value of 0 is assumed. String search is case sensitive.
-		 *
+		 * 
 		 * @param find_text
 		 * @param str
 		 * @param start
 		 * @return
 		 */
 		private int indexOf(String find_text, String str, int start) {
-			if (start < 0) {
+			if (start < 0)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.BirtStr.indexOf.invalidArgument", new Object[] { start }));
-			}
-			if (find_text == null || str == null || str.indexOf(find_text) < 0) {
+			if (find_text == null || str == null || str.indexOf(find_text) < 0)
 				return -1;
-			} else {
+			else {
 				return str.indexOf(find_text, start);
 			}
 		}
@@ -426,7 +392,7 @@ class BirtStr implements IScriptFunctionExecutor {
 		 * Searches for find_text in str and returns the index of first occurrence of
 		 * pattern. Search starts at position 0. All index values are 0-based. If no
 		 * matched string found, return -1 String search is case sensitive.
-		 *
+		 * 
 		 * @param find_text
 		 * @param str
 		 * @return
@@ -435,15 +401,12 @@ class BirtStr implements IScriptFunctionExecutor {
 			return indexOf(find_text, str, 0);
 		}
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
-			if (args.length > 3 || args.length < 2) {
+			if (args.length > 3 || args.length < 2)
 				throw new IllegalArgumentException(Messages.getFormattedString("error.argument.number.outofValidRange",
 						new Object[] { minArgumentNum, maxArgumentNum, args.length }));
-			}
 
 			if (args.length == 3) {
 				return new Integer(
@@ -467,27 +430,25 @@ class BirtStr implements IScriptFunctionExecutor {
 		 * case-insensitive (2) pattern string can contain wildcard characters: *
 		 * matches any sequence of characters (including empty); ? matches any single
 		 * character.
-		 *
+		 * 
 		 * @param pattern
 		 * @param str
 		 * @param start
 		 * @return
 		 */
 		private int search(String pattern, String str, int start) {
-			if (start < 0) {
+			if (start < 0)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.BirtStr.indexOf.invalidArgument", new Object[] { start }));
-			}
-			if (pattern == null || str == null) {
+			if (pattern == null || str == null)
 				return -1;
-			} else {
+			else {
 				String subStr = str.substring(start);
 
 				Pattern p = Pattern.compile(toPatternString(pattern), Pattern.CASE_INSENSITIVE);
 				Matcher matcher = p.matcher(subStr);
-				if (matcher.find()) {
+				if (matcher.find())
 					return matcher.start() + start;
-				}
 
 				return -1;
 			}
@@ -495,7 +456,7 @@ class BirtStr implements IScriptFunctionExecutor {
 
 		/**
 		 * Transfers the user-input string to the Pattern regular expression
-		 *
+		 * 
 		 * @param regex
 		 * @return
 		 */
@@ -520,11 +481,13 @@ class BirtStr implements IScriptFunctionExecutor {
 					pattern = handlePreservedString(preserveFlag, pattern);
 					preserveFlag = false;
 					pattern += ".";
-				} else if (preserveFlag) {
-					pattern += c;
 				} else {
-					pattern = pattern + "\\Q" + c;
-					preserveFlag = true;
+					if (preserveFlag) {
+						pattern += c;
+					} else {
+						pattern = pattern + "\\Q" + c;
+						preserveFlag = true;
+					}
 				}
 			}
 			if (preserveFlag) {
@@ -545,7 +508,7 @@ class BirtStr implements IScriptFunctionExecutor {
 		 * case-insensitive (2) pattern string can contain wildcard characters: *
 		 * matches any sequence of characters (including empty); ? matches any single
 		 * character.
-		 *
+		 * 
 		 * @param pattern
 		 * @param str
 		 * @return
@@ -554,15 +517,12 @@ class BirtStr implements IScriptFunctionExecutor {
 			return search(pattern, str, 0);
 		}
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
-			if (args.length > 3 || args.length < 2) {
+			if (args.length > 3 || args.length < 2)
 				throw new IllegalArgumentException(Messages.getFormattedString("error.argument.number.outofValidRange",
 						new Object[] { minArgumentNum, maxArgumentNum, args.length }));
-			}
 
 			if (args.length == 3) {
 				return new Integer(search(toJavaString(args[0]), toJavaString(args[1]), ((Number) args[2]).intValue()));
@@ -579,41 +539,36 @@ class BirtStr implements IScriptFunctionExecutor {
 
 		/**
 		 * Returns the number of characters in string.
-		 *
+		 * 
 		 * @param str
 		 * @return
 		 */
 		private int charLength(String str) {
-			if (str == null) {
+			if (str == null)
 				return 0;
-			} else {
+			else
 				return str.length();
-			}
 		}
 
-		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
-			if (args == null) {
+			if (args == null)
 				throw new IllegalArgumentException(Messages.getString("error.arguement.cannot.empty"));
-			}
-			if (args.length != fixedArgumentNum) {
+			if (args.length != fixedArgumentNum)
 				throw new IllegalArgumentException(
 						Messages.getFormattedString("error.incorrect.number.function.fixedArgument",
 								new Object[] { fixedArgumentNum, args.length }));
-			}
 
 			return Integer.valueOf(charLength(toJavaString(args[0])));
 		}
 	}
 
-	@Override
 	public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
 		return this.executor.execute(arguments, context);
 	}
 
 	/**
 	 * convert any javascript object to java string.
-	 *
+	 * 
 	 * @param arg
 	 * @return
 	 */

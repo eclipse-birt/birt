@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -184,16 +184,14 @@ public class RenderTask extends EngineTask implements IRenderTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render(long)
 	 */
-	@Override
 	public void render(long pageNumber) throws EngineException {
 		setPageNumber(pageNumber);
 		render();
 	}
 
-	@Override
 	public void close() {
 		designLoaded = false;
 		unloadRenderExtensions();
@@ -211,13 +209,11 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		super.close();
 	}
 
-	@Override
 	public void render(String pageRange) throws EngineException {
 		setPageRange(pageRange);
 		render();
 	}
 
-	@Override
 	public void render(InstanceID iid) throws EngineException {
 		setInstanceID(iid);
 		render();
@@ -225,10 +221,9 @@ public class RenderTask extends EngineTask implements IRenderTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render()
 	 */
-	@Override
 	public void render() throws EngineException {
 		if (progressMonitor != null) {
 			progressMonitor.onProgress(IProgressMonitor.START_TASK, TASK_RENDER);
@@ -282,7 +277,6 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		}
 	}
 
-	@Override
 	public long getPageCount() throws EngineException {
 		if (runningStatus != STATUS_SUCCEEDED) {
 			throw new EngineException(MessageConstants.RENDERTASK_NOT_FINISHED_ERROR);
@@ -292,10 +286,9 @@ public class RenderTask extends EngineTask implements IRenderTask {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render()
 	 */
-	@Override
 	public void setPageNumber(long pageNumber) throws EngineException {
 		long totalVisiblePageCount = getTotalPage();
 		if (pageNumber <= 0 || pageNumber > totalVisiblePageCount) {
@@ -304,12 +297,10 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		innerRender = new PageRangeRender(new long[] { pageNumber, pageNumber });
 	}
 
-	@Override
 	public void setInstanceID(String iid) throws EngineException {
 		setInstanceID(InstanceID.parse(iid));
 	}
 
-	@Override
 	public void setInstanceID(InstanceID iid) throws EngineException {
 		long offset = reportDocument.getInstanceOffset(iid);
 		if (offset == -1) {
@@ -319,7 +310,6 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		innerRender = new ReportletRender(offset);
 	}
 
-	@Override
 	public void setReportlet(String bookmark) throws EngineException {
 		if (bookmark != null) {
 			bookmark = bookmark.trim();
@@ -332,14 +322,12 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		innerRender = new ReportletRender(offset);
 	}
 
-	@Override
 	public void setPageRange(String pageRange) throws EngineException {
 		long totalVisiblePageCount = RenderTask.this.getTotalPage();
 		List list = PageSequenceParse.parsePageSequence(pageRange, totalVisiblePageCount);
 		innerRender = new PageRangeRender(list);
 	}
 
-	@Override
 	public void setBookmark(String bookmark) throws EngineException {
 		long pageNumber = getPageNumber(bookmark);
 		if (pageNumber <= 0) {
@@ -348,7 +336,6 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		innerRender = new PageRangeRender(new long[] { pageNumber, pageNumber });
 	}
 
-	@Override
 	public void cancel() {
 		super.cancel();
 		if (layoutEngine != null) {
@@ -369,12 +356,12 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		protected ArrayList<long[]> pageSequences;
 
 		public PageRangeRender(long[] arrayRange) {
-			this.pageSequences = new ArrayList<>();
+			this.pageSequences = new ArrayList<long[]>();
 			pageSequences.add(arrayRange);
 		}
 
 		public PageRangeRender(List<long[]> pageRange) {
-			this.pageSequences = new ArrayList<>(pageRange);
+			this.pageSequences = new ArrayList<long[]>(pageRange);
 		}
 
 		/**
@@ -389,7 +376,7 @@ public class RenderTask extends EngineTask implements IRenderTask {
 				 * format 2. element is set display to none
 				 */
 				Object repaginateForPDF = renderOptions.getOption(IPDFRenderOption.REPAGINATE_FOR_PDF);
-				if (repaginateForPDF instanceof Boolean) {
+				if (repaginateForPDF != null && repaginateForPDF instanceof Boolean) {
 					if (((Boolean) repaginateForPDF).booleanValue()) {
 						RenderTask.this.PDFRenderPageByPage = false;
 					}
@@ -451,7 +438,7 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		protected void supportHtmlPagination() {
 			if (ExtensionManager.PAPER_SIZE_PAGINATION.equals(pagination)) {
 				Object htmlPaginationObj = renderOptions.getOption(IHTMLRenderOption.HTML_PAGINATION);
-				if (htmlPaginationObj instanceof Boolean) {
+				if (htmlPaginationObj != null && htmlPaginationObj instanceof Boolean) {
 					boolean htmlPagination = ((Boolean) htmlPaginationObj).booleanValue();
 					if (htmlPagination) {
 						if (renderOptions.getOption(IPDFRenderOption.FIT_TO_PAGE) == null) {
@@ -463,7 +450,6 @@ public class RenderTask extends EngineTask implements IRenderTask {
 			}
 		}
 
-		@Override
 		public void render() throws Exception {
 			// start the render
 			setupRenderOption();
@@ -600,7 +586,6 @@ public class RenderTask extends EngineTask implements IRenderTask {
 			this.offset = offset;
 		}
 
-		@Override
 		public void render() throws Exception {
 			// start the render
 			setupRenderOption();
@@ -655,43 +640,36 @@ public class RenderTask extends EngineTask implements IRenderTask {
 			this.reportExecutor = reportExecutor;
 		}
 
-		@Override
 		public void close() throws BirtException {
 			executor.close();
 
 		}
 
-		@Override
 		public IReportItemExecutor createPageExecutor(long pageNumber, MasterPageDesign pageDesign)
 				throws BirtException {
 			return reportExecutor.createPageExecutor(pageNumber, pageDesign);
 		}
 
-		@Override
 		public IReportContent execute() throws BirtException {
 			// FIXME: create the report content only once.
 			return reportExecutor.execute();
 		}
 
-		@Override
 		public IReportItemExecutor getNextChild() throws BirtException {
 			return executor.getNextChild();
 		}
 
-		@Override
 		public boolean hasNextChild() throws BirtException {
 			return executor.hasNextChild();
 		}
 
 	}
 
-	@Override
 	public long getPageNumber(String bookmark) throws EngineException {
 		int physicalPageNumber = (int) executionContext.getReportDocument().getPageNumber(bookmark);
 		return getLogicalPageNumber(physicalPageNumber);
 	}
 
-	@Override
 	public ITOCTree getTOCTree() throws EngineException {
 		loadDocument();
 		IReportDocument document = executionContext.getReportDocument();
@@ -742,7 +720,6 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		return tocTree;
 	}
 
-	@Override
 	public long getTotalPage() throws EngineException {
 		LogicalPageSequence visiblePages = loadVisiblePages();
 		if (visiblePages != null) {
@@ -751,13 +728,11 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		return reportDocument.getPageCount();
 	}
 
-	@Override
 	public HashMap getParameterValues() {
 		loadDocument();
 		return (HashMap) executionContext.getParameterValues();
 	}
 
-	@Override
 	public Object getParameterDisplayText(String name) {
 		loadDocument();
 		return executionContext.getParameterDisplayText(name);
@@ -779,7 +754,7 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		LogicalPageSequence visiblePages = loadVisiblePages();
 		if (visiblePages != null) {
 			long[][] pages = visiblePages.getPhysicalPageNumbers(logicalPages.toArray(new long[logicalPages.size()][]));
-			ArrayList<long[]> physicalPages = new ArrayList<>(pages.length);
+			ArrayList<long[]> physicalPages = new ArrayList<long[]>(pages.length);
 			for (int i = 0; i < pages.length; i++) {
 				physicalPages.add(pages[i]);
 			}
@@ -794,10 +769,10 @@ public class RenderTask extends EngineTask implements IRenderTask {
 	LogicalPageSequence logicalPageSequence;
 
 	private ArrayList<IRenderExtension> loadRenderExtensions() throws EngineException {
-		if (!renderExtensionLoaded) {
+		if (renderExtensionLoaded == false) {
 			String[] extensions = executionContext.getEngineExtensions();
 			if (extensions != null) {
-				renderExtensions = new ArrayList<>();
+				renderExtensions = new ArrayList<IRenderExtension>();
 				EngineExtensionManager manager = executionContext.getEngineExtensionManager();
 
 				for (String extName : extensions) {
@@ -822,10 +797,10 @@ public class RenderTask extends EngineTask implements IRenderTask {
 	}
 
 	private LogicalPageSequence loadVisiblePages() throws EngineException {
-		if (!visiblePageLoaded) {
+		if (visiblePageLoaded == false) {
 			ArrayList<IRenderExtension> renderExtensions = loadRenderExtensions();
 			if (renderExtensions != null) {
-				ArrayList<long[][]> pages = new ArrayList<>();
+				ArrayList<long[][]> pages = new ArrayList<long[][]>();
 				for (IRenderExtension renderExtension : renderExtensions) {
 					long[][] visiblePages = renderExtension.getVisiblePages();
 					if (visiblePages != null) {
@@ -851,7 +826,7 @@ public class RenderTask extends EngineTask implements IRenderTask {
 		// prepare the extension executor
 		ArrayList<IRenderExtension> renderExtensions = loadRenderExtensions();
 		if (renderExtensions != null) {
-			ArrayList<IContentProcessor> processors = new ArrayList<>();
+			ArrayList<IContentProcessor> processors = new ArrayList<IContentProcessor>();
 			for (IRenderExtension extension : renderExtensions) {
 				IContentProcessor processor = extension.getRenderProcessor();
 				if (processor != null) {
@@ -873,7 +848,6 @@ public class RenderTask extends EngineTask implements IRenderTask {
 			this.context = context;
 		}
 
-		@Override
 		public void onPage(long pageNumber, Object context) {
 			if (pageHandler != null) {
 				long totalPage = reportDocument.getPageCount();

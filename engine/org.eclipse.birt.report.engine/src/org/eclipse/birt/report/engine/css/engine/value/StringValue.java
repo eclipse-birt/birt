@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +18,7 @@ import org.w3c.dom.DOMException;
 
 /**
  * This class represents string values.
- *
+ * 
  */
 public class StringValue extends Value {
 	/**
@@ -42,17 +42,15 @@ public class StringValue extends Value {
 	/**
 	 * The type of the value.
 	 */
-	@Override
 	public short getPrimitiveType() {
 		return unitType;
 	}
 
 	/**
 	 * Indicates whether some other object is "equal to" this one.
-	 *
+	 * 
 	 * @param obj the reference object with which to compare.
 	 */
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -66,8 +64,10 @@ public class StringValue extends Value {
 		}
 		if (value != null) {
 			return value.equals(v.value);
-		} else if (v.value == null) {
-			return true;
+		} else {
+			if (v.value == null) {
+				return true;
+			}
 		}
 		return false;
 
@@ -76,18 +76,16 @@ public class StringValue extends Value {
 	/**
 	 * A string representation of the current value.
 	 */
-	@Override
 	public String getCssText() {
 		return value;
 	}
 
 	/**
 	 * This method is used to get the string value.
-	 *
+	 * 
 	 * @exception DOMException INVALID_ACCESS_ERR: Raised if the value doesn't
 	 *                         contain a string value.
 	 */
-	@Override
 	public String getStringValue() throws DOMException {
 		return value;
 	}
@@ -95,7 +93,6 @@ public class StringValue extends Value {
 	/**
 	 * Returns a printable representation of this value.
 	 */
-	@Override
 	public String toString() {
 		return value;
 	}

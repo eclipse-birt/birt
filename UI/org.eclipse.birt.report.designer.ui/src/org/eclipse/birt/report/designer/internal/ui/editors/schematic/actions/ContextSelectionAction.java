@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,17 +67,16 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	@Override
 	protected boolean calculateEnabled() {
 		return false;
 	}
 
 	/**
 	 * Gets table edit part.
-	 *
+	 * 
 	 * @return the table edit part
 	 */
 	protected TableEditPart getTableEditPart() {
@@ -118,7 +117,7 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/**
 	 * Gets list edit part.
-	 *
+	 * 
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
@@ -141,7 +140,7 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/**
 	 * Gets list group.
-	 *
+	 * 
 	 * @return The current selected list group part, null if no list group is
 	 *         selected.
 	 */
@@ -161,7 +160,7 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/**
 	 * Gets the current selected table group object.
-	 *
+	 * 
 	 * @return the selected table group object
 	 */
 	protected Object getTableGroup() {
@@ -199,7 +198,7 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/**
 	 * Gets the current selected column objects.
-	 *
+	 * 
 	 * @return The current column objects
 	 */
 	protected List getColumnHandles() {
@@ -221,7 +220,7 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/**
 	 * Gets the current selected row objects.
-	 *
+	 * 
 	 * @return The current selected row objects.
 	 */
 
@@ -266,7 +265,7 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/**
 	 * Gets row number given the row handle.
-	 *
+	 * 
 	 * @return The row number of the selected row object.
 	 */
 	public int getRowNumber(Object rowHandle) {
@@ -297,7 +296,7 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/**
 	 * Gets column number given the column handle.
-	 *
+	 * 
 	 * @return the column number
 	 */
 	public int getColumnNumber(Object columnHandle) {
@@ -306,7 +305,7 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/**
 	 * Gets models of selected elements
-	 *
+	 * 
 	 * @return
 	 */
 	protected List getElementHandles() {
@@ -315,7 +314,7 @@ public class ContextSelectionAction extends SelectionAction {
 
 	/**
 	 * Gets the activity stack of the report
-	 *
+	 * 
 	 * @return returns the stack
 	 */
 	protected CommandStack getActiveCommandStack() {

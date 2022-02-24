@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2003, 2014 IBM Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Actuate Corporation - Change the code to fit BIRT requirements
@@ -73,7 +73,7 @@ import org.eclipse.swt.widgets.Listener;
  * ruler} properties are set on the given viewer, and the value of the
  * {@link org.eclipse.gef.rulers.RulerProvider#PROPERTY_RULER_VISIBILITY
  * visibility} property.
- *
+ * 
  */
 public class EditorRulerComposite extends Composite {
 
@@ -96,7 +96,6 @@ public class EditorRulerComposite extends Composite {
 
 	private ZoomListener zoomListener = new ZoomListener() {
 
-		@Override
 		public void zoomChanged(double newZoomValue) {
 			layout(true);
 			// processProvider();
@@ -105,7 +104,6 @@ public class EditorRulerComposite extends Composite {
 
 	private Runnable runnable = new Runnable() {
 
-		@Override
 		public void run() {
 			layout(false);
 		}
@@ -113,7 +111,6 @@ public class EditorRulerComposite extends Composite {
 
 	private org.eclipse.birt.report.model.api.core.Listener designListener = new org.eclipse.birt.report.model.api.core.Listener() {
 
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			switch (ev.getEventType()) {
 			case NotificationEvent.PROPERTY_EVENT: {
@@ -151,7 +148,7 @@ public class EditorRulerComposite extends Composite {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param parent a widget which will be the parent of the new instance (cannot
 	 *               be null)
 	 * @param style  the style of widget to construct
@@ -161,7 +158,6 @@ public class EditorRulerComposite extends Composite {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				disposeResources();
 			}
@@ -218,9 +214,8 @@ public class EditorRulerComposite extends Composite {
 			diagramViewer.setProperty(RulerProvider.PROPERTY_VERTICAL_RULER, null);
 		}
 		getZoomManager().removeZoomListener(zoomListener);
-		if (font != null) {
+		if (font != null)
 			font.dispose();
-		}
 		if (getReportDesignHandle() != null) {
 			getReportDesignHandle().removeListener(designListener);
 		}
@@ -231,14 +226,13 @@ public class EditorRulerComposite extends Composite {
 	}
 
 	private void disposeRulerViewer(GraphicalViewer viewer) {
-		if (viewer == null) {
+		if (viewer == null)
 			return;
-			/*
-			 * There's a tie from the editor's range model to the RulerViewport (via a
-			 * listener) to the RulerRootEditPart to the RulerViewer. Break this tie so that
-			 * the viewer doesn't leak and can be garbage collected.
-			 */
-		}
+		/*
+		 * There's a tie from the editor's range model to the RulerViewport (via a
+		 * listener) to the RulerRootEditPart to the RulerViewer. Break this tie so that
+		 * the viewer doesn't leak and can be garbage collected.
+		 */
 
 		RangeModel rModel = new DefaultRangeModel();
 		Viewport port = ((FigureCanvas) viewer.getControl()).getViewport();
@@ -251,9 +245,8 @@ public class EditorRulerComposite extends Composite {
 	private void doLayout() {
 		if (left == null && top == null) {
 			Rectangle area = getClientArea();
-			if (!editor.getBounds().equals(area)) {
+			if (!editor.getBounds().equals(area))
 				editor.setBounds(area);
-			}
 			return;
 		}
 
@@ -265,27 +258,23 @@ public class EditorRulerComposite extends Composite {
 
 		Point size = getSize();
 		Point editorSize = new Point(size.x - (leftWidth + rightWidth), size.y - (topHeight + bottomHeight));
-		if (!editor.getSize().equals(editorSize)) {
+		if (!editor.getSize().equals(editorSize))
 			editor.setSize(editorSize);
-		}
 		Point editorLocation = new Point(leftWidth, topHeight);
-		if (!editor.getLocation().equals(editorLocation)) {
+		if (!editor.getLocation().equals(editorLocation))
 			editor.setLocation(editorLocation);
-		}
 
 		PrecisionRectangle dim = new PrecisionRectangle(getLayoutSize());
 		dim.performScale(getZoom());
 		if (left != null) {
 			Rectangle leftBounds = new Rectangle(0, topHeight - 1, leftWidth, dim.height + dim.y);
-			if (!left.getControl().getBounds().equals(leftBounds)) {
+			if (!left.getControl().getBounds().equals(leftBounds))
 				left.getControl().setBounds(leftBounds);
-			}
 		}
 		if (top != null) {
 			Rectangle topBounds = new Rectangle(leftWidth - 1, 0, dim.width + dim.x, topHeight);
-			if (!top.getControl().getBounds().equals(topBounds)) {
+			if (!top.getControl().getBounds().equals(topBounds))
 				top.getControl().setBounds(topBounds);
-			}
 		}
 	}
 
@@ -297,7 +286,7 @@ public class EditorRulerComposite extends Composite {
 
 	/**
 	 * Sets the ruler unit.
-	 *
+	 * 
 	 * @param unit
 	 */
 	public void setUnit(int unit) {
@@ -319,7 +308,7 @@ public class EditorRulerComposite extends Composite {
 
 	/**
 	 * Sets the ruler margin.
-	 *
+	 * 
 	 * @param direction
 	 */
 	public void setMargin(int direction) {
@@ -377,7 +366,7 @@ public class EditorRulerComposite extends Composite {
 
 	/**
 	 * Returns the zoom manager for current viewer.
-	 *
+	 * 
 	 * @return
 	 */
 	public ZoomManager getZoomManager() {
@@ -403,7 +392,6 @@ public class EditorRulerComposite extends Composite {
 	/**
 	 * @see org.eclipse.swt.widgets.Composite#layout(boolean)
 	 */
-	@Override
 	public void layout(boolean change) {
 		if (!layingOut && !isDisposed()) {
 			checkWidget();
@@ -428,7 +416,7 @@ public class EditorRulerComposite extends Composite {
 	 * RulerProvider.PROPERTY_VERTICAL_RULER) as a property on the given viewer. It
 	 * can be done after this method is invoked.
 	 * RulerProvider.PROPERTY_RULER_VISIBILITY can be used to show/hide the rulers.
-	 *
+	 * 
 	 * @param primaryViewer The graphical viewer for which the rulers have to be
 	 *                      created
 	 */
@@ -448,7 +436,6 @@ public class EditorRulerComposite extends Composite {
 		// is resized
 		layoutListener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				// @TODO: If you use Display.asyncExec(runnable) here,
 				// some flashing
@@ -466,7 +453,6 @@ public class EditorRulerComposite extends Composite {
 
 		propertyListener = new PropertyChangeListener() {
 
-			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				String property = evt.getPropertyName();
 
@@ -505,17 +491,15 @@ public class EditorRulerComposite extends Composite {
 					DragGuideInfo info = (DragGuideInfo) diagramViewer
 							.getProperty(DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE);
 					changeGuide(info);
-				} else if (RulerProvider.PROPERTY_RULER_VISIBILITY.equals(property)) {
+				} else if (RulerProvider.PROPERTY_RULER_VISIBILITY.equals(property))
 					setRulerVisibility(((Boolean) diagramViewer.getProperty(RulerProvider.PROPERTY_RULER_VISIBILITY))
 							.booleanValue());
-				}
 			}
 		};
 		diagramViewer.addPropertyChangeListener(propertyListener);
 		Boolean rulerVisibility = (Boolean) diagramViewer.getProperty(RulerProvider.PROPERTY_RULER_VISIBILITY);
-		if (rulerVisibility != null) {
+		if (rulerVisibility != null)
 			setRulerVisibility(rulerVisibility.booleanValue());
-		}
 		setRuler((RulerProvider) diagramViewer.getProperty(RulerProvider.PROPERTY_HORIZONTAL_RULER),
 				PositionConstants.NORTH);
 		setRuler((RulerProvider) diagramViewer.getProperty(RulerProvider.PROPERTY_VERTICAL_RULER),
@@ -586,11 +570,10 @@ public class EditorRulerComposite extends Composite {
 
 	private void setRuler(RulerProvider provider, int orientation) {
 		Object ruler = null;
-		if (isRulerVisible && provider != null) {
+		if (isRulerVisible && provider != null)
 			// provider.getRuler() might return null (at least the API does not
 			// prevent that)
 			ruler = provider.getRuler();
-		}
 
 		if (ruler == null) {
 			// Ruler is not visible or is not present
@@ -614,15 +597,13 @@ public class EditorRulerComposite extends Composite {
 
 	private void setRulerContainer(GraphicalViewer container, int orientation) {
 		if (orientation == PositionConstants.NORTH) {
-			if (top == container) {
+			if (top == container)
 				return;
-			}
 			disposeRulerViewer(top);
 			top = container;
 		} else if (orientation == PositionConstants.WEST) {
-			if (left == container) {
+			if (left == container)
 				return;
-			}
 			disposeRulerViewer(left);
 			left = container;
 		}
@@ -630,7 +611,7 @@ public class EditorRulerComposite extends Composite {
 
 	/**
 	 * Returns the actual layout size.
-	 *
+	 * 
 	 * @return
 	 */
 	public org.eclipse.draw2d.geometry.Rectangle getLayoutSize() {
@@ -647,7 +628,7 @@ public class EditorRulerComposite extends Composite {
 
 	/**
 	 * Get the current master page size.
-	 *
+	 * 
 	 * @param handle The handle of master page.
 	 * @return The current master page size.
 	 */
@@ -765,7 +746,7 @@ public class EditorRulerComposite extends Composite {
 
 		/**
 		 * Constructor
-		 *
+		 * 
 		 * @param isHorizontal whether or not the ruler being bordered is horizontal or
 		 *                     not
 		 */
@@ -776,7 +757,6 @@ public class EditorRulerComposite extends Composite {
 		/**
 		 * @see org.eclipse.draw2d.Border#getInsets(org.eclipse.draw2d.IFigure)
 		 */
-		@Override
 		public Insets getInsets(IFigure figure) {
 			return horizontal ? H_INSETS : V_INSETS;
 		}
@@ -785,7 +765,6 @@ public class EditorRulerComposite extends Composite {
 		 * @see org.eclipse.draw2d.Border#paint(org.eclipse.draw2d.IFigure,
 		 *      org.eclipse.draw2d.Graphics, org.eclipse.draw2d.geometry.Insets)
 		 */
-		@Override
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
 			graphics.setForegroundColor(ColorConstants.buttonDarker);
 			if (horizontal) {
@@ -800,7 +779,7 @@ public class EditorRulerComposite extends Composite {
 
 	/**
 	 * Custom graphical viewer intended to be used for rulers.
-	 *
+	 * 
 	 */
 	private static class RulerViewer extends ScrollingGraphicalViewer {
 
@@ -814,11 +793,9 @@ public class EditorRulerComposite extends Composite {
 		/**
 		 * @see org.eclipse.gef.EditPartViewer#appendSelection(org.eclipse.gef.EditPart)
 		 */
-		@Override
 		public void appendSelection(EditPart editpart) {
-			if (editpart instanceof RootEditPart) {
+			if (editpart instanceof RootEditPart)
 				editpart = ((RootEditPart) editpart).getContents();
-			}
 			setFocus(editpart);
 			super.appendSelection(editpart);
 		}
@@ -826,7 +803,6 @@ public class EditorRulerComposite extends Composite {
 		/**
 		 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#init()
 		 */
-		@Override
 		protected void init() {
 			setContextMenu(new EditorRulerContextMenuProvider(this));
 			setKeyHandler(new RulerKeyHandler(this));
@@ -835,20 +811,17 @@ public class EditorRulerComposite extends Composite {
 		/**
 		 * Requests to reveal a ruler are ignored since that causes undesired scrolling
 		 * to the origin of the ruler
-		 *
+		 * 
 		 * @see org.eclipse.gef.EditPartViewer#reveal(org.eclipse.gef.EditPart)
 		 */
-		@Override
 		public void reveal(EditPart part) {
-			if (part != getContents()) {
+			if (part != getContents())
 				super.reveal(part);
-			}
 		}
 
 		/**
 		 * @see org.eclipse.gef.EditPartViewer#setContents(org.eclipse.gef.EditPart)
 		 */
-		@Override
 		public void setContents(EditPart editpart) {
 			super.setContents(editpart);
 			setFocus(getContents());
@@ -856,7 +829,7 @@ public class EditorRulerComposite extends Composite {
 
 		/**
 		 * Custom KeyHandler intended to be used with a RulerViewer
-		 *
+		 * 
 		 * @author Pratik Shah
 		 * @since 3.0
 		 */
@@ -864,7 +837,7 @@ public class EditorRulerComposite extends Composite {
 
 			/**
 			 * Constructor
-			 *
+			 * 
 			 * @param viewer The viewer for which this handler processes keyboard input
 			 */
 			public RulerKeyHandler(GraphicalViewer viewer) {
@@ -874,7 +847,6 @@ public class EditorRulerComposite extends Composite {
 			/**
 			 * @see org.eclipse.gef.KeyHandler#keyPressed(org.eclipse.swt.events.KeyEvent)
 			 */
-			@Override
 			public boolean keyPressed(KeyEvent event) {
 				if (event.keyCode == SWT.DEL) {
 					// If a guide has focus, delete it
@@ -890,9 +862,8 @@ public class EditorRulerComposite extends Composite {
 					// ALT + UP_ARROW pressed
 					// If a guide has focus, give focus to the ruler
 					EditPart parent = getFocusEditPart().getParent();
-					if (parent instanceof EditorRulerEditPart) {
+					if (parent instanceof EditorRulerEditPart)
 						navigateTo(getFocusEditPart().getParent(), event);
-					}
 					return true;
 				}
 				return super.keyPressed(event);

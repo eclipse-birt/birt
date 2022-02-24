@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,11 +33,11 @@ import org.eclipse.emf.ecore.EReference;
  * <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc --> <!-- begin-model-doc -->
- *
+ * 
  * Schema file for the model.oda.model package.
- *
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * @see org.eclipse.birt.report.model.adapter.oda.model.ModelFactory
  * @model kind="package"
  * @generated
@@ -45,21 +45,21 @@ import org.eclipse.emf.ecore.EReference;
 public interface ModelPackage extends EPackage {
 	/**
 	 * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	String eNAME = "model";
 
 	/**
 	 * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	String eNS_URI = "http://www.eclipse.org/birt/report/model/adapter/odaModel";
 
 	/**
 	 * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	String eNS_PREFIX = "model";
@@ -67,7 +67,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The singleton instance of the package. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	ModelPackage eINSTANCE = org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl.init();
@@ -77,7 +77,7 @@ public interface ModelPackage extends EPackage {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl
 	 * <em>Data Set Parameter</em>}' class. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDataSetParameter()
 	 * @generated
@@ -87,7 +87,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Parameter Definition</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -96,7 +96,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Dynamic List</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -105,7 +105,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Data Set Parameter</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -116,7 +116,7 @@ public interface ModelPackage extends EPackage {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParametersImpl
 	 * <em>Data Set Parameters</em>}' class. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParametersImpl
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDataSetParameters()
 	 * @generated
@@ -126,7 +126,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Parameter</b></em>' containment reference
 	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -135,7 +135,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Data Set Parameters</em>'
 	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -145,7 +145,7 @@ public interface ModelPackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl
 	 * <em>Design Values</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDesignValues()
 	 * @generated
@@ -155,7 +155,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Version</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -164,7 +164,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Data Set Parameters</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -173,7 +173,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Data Set Parameters1</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -182,7 +182,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Result Sets</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -191,7 +191,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Design Values</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -201,7 +201,7 @@ public interface ModelPackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl
 	 * <em>Document Root</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDocumentRoot()
 	 * @generated
@@ -211,7 +211,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Mixed</b></em>' attribute list. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -220,7 +220,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>XMLNS Prefix Map</b></em>' map. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -229,7 +229,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>XSI Schema Location</b></em>' map. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -238,7 +238,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Data Set Parameter</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -247,7 +247,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Data Set Parameters</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -256,7 +256,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Design Values</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -265,7 +265,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Dynamic List</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -274,7 +274,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Document Root</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -284,7 +284,7 @@ public interface ModelPackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl
 	 * <em>Dynamic List</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDynamicList()
 	 * @generated
@@ -294,7 +294,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Data Set Name</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -303,7 +303,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Enabled</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -312,7 +312,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Label Column</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -321,7 +321,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Value Column</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -330,7 +330,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Dynamic List</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -340,7 +340,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter
 	 * <em>Data Set Parameter</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for class '<em>Data Set Parameter</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter
 	 * @generated
@@ -352,7 +352,7 @@ public interface ModelPackage extends EPackage {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getParameterDefinition
 	 * <em>Parameter Definition</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference '<em>Parameter
 	 *         Definition</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getParameterDefinition()
@@ -365,7 +365,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getDynamicList
 	 * <em>Dynamic List</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference '<em>Dynamic
 	 *         List</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getDynamicList()
@@ -378,7 +378,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters
 	 * <em>Data Set Parameters</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for class '<em>Data Set Parameters</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters
 	 * @generated
@@ -389,7 +389,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the containment reference list
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters#getParameter
 	 * <em>Parameter</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference list
 	 *         '<em>Parameter</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters#getParameters()
@@ -402,7 +402,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues
 	 * <em>Design Values</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for class '<em>Design Values</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DesignValues
 	 * @generated
@@ -413,7 +413,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getVersion
 	 * <em>Version</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the attribute '<em>Version</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getVersion()
 	 * @see #getDesignValues()
@@ -425,7 +425,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getDataSetParameters
 	 * <em>Data Set Parameters</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference '<em>Data Set
 	 *         Parameters</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getDataSetParameters()
@@ -438,7 +438,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getResultSets
 	 * <em>Result Sets</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference '<em>Result Sets</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getResultSets()
 	 * @see #getDesignValues()
@@ -451,7 +451,7 @@ public interface ModelPackage extends EPackage {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getDataSetParameters1
 	 * <em>Data Set Parameters1</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference '<em>Data Set
 	 *         Parameters1</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getDataSetParameters1()
@@ -464,7 +464,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot
 	 * <em>Document Root</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for class '<em>Document Root</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot
 	 * @generated
@@ -475,7 +475,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the attribute list
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getMixed
 	 * <em>Mixed</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the attribute list '<em>Mixed</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getMixed()
 	 * @see #getDocumentRoot()
@@ -487,7 +487,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the map
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getXMLNSPrefixMap
 	 * <em>XMLNS Prefix Map</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the map '<em>XMLNS Prefix Map</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getXMLNSPrefixMap()
 	 * @see #getDocumentRoot()
@@ -499,7 +499,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the map
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getXSISchemaLocation
 	 * <em>XSI Schema Location</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the map '<em>XSI Schema Location</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getXSISchemaLocation()
 	 * @see #getDocumentRoot()
@@ -511,7 +511,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDataSetParameter
 	 * <em>Data Set Parameter</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference '<em>Data Set
 	 *         Parameter</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDataSetParameter()
@@ -524,7 +524,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDataSetParameters
 	 * <em>Data Set Parameters</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference '<em>Data Set
 	 *         Parameters</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDataSetParameters()
@@ -537,7 +537,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDesignValues
 	 * <em>Design Values</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference '<em>Design
 	 *         Values</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDesignValues()
@@ -550,7 +550,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDynamicList
 	 * <em>Dynamic List</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the containment reference '<em>Dynamic
 	 *         List</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot#getDynamicList()
@@ -563,7 +563,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList
 	 * <em>Dynamic List</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for class '<em>Dynamic List</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DynamicList
 	 * @generated
@@ -574,7 +574,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getDataSetName
 	 * <em>Data Set Name</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the attribute '<em>Data Set Name</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getDataSetName()
 	 * @see #getDynamicList()
@@ -586,7 +586,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled
 	 * <em>Enabled</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the attribute '<em>Enabled</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled()
 	 * @see #getDynamicList()
@@ -598,7 +598,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getLabelColumn
 	 * <em>Label Column</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the attribute '<em>Label Column</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getLabelColumn()
 	 * @see #getDynamicList()
@@ -610,7 +610,7 @@ public interface ModelPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getValueColumn
 	 * <em>Value Column</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the meta object for the attribute '<em>Value Column</em>'.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getValueColumn()
 	 * @see #getDynamicList()
@@ -621,7 +621,7 @@ public interface ModelPackage extends EPackage {
 	/**
 	 * Returns the factory that creates the instances of the model. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
@@ -636,7 +636,7 @@ public interface ModelPackage extends EPackage {
 	 * <li>and each data type</li>
 	 * </ul>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	interface Literals {
@@ -645,7 +645,7 @@ public interface ModelPackage extends EPackage {
 		 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl
 		 * <em>Data Set Parameter</em>}' class. <!-- begin-user-doc --> <!--
 		 * end-user-doc -->
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDataSetParameter()
 		 * @generated
@@ -655,7 +655,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Parameter Definition</b></em>'
 		 * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DATA_SET_PARAMETER__PARAMETER_DEFINITION = eINSTANCE.getDataSetParameter_ParameterDefinition();
@@ -663,7 +663,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Dynamic List</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DATA_SET_PARAMETER__DYNAMIC_LIST = eINSTANCE.getDataSetParameter_DynamicList();
@@ -673,7 +673,7 @@ public interface ModelPackage extends EPackage {
 		 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParametersImpl
 		 * <em>Data Set Parameters</em>}' class. <!-- begin-user-doc --> <!--
 		 * end-user-doc -->
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParametersImpl
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDataSetParameters()
 		 * @generated
@@ -683,7 +683,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Parameter</b></em>' containment
 		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DATA_SET_PARAMETERS__PARAMETER = eINSTANCE.getDataSetParameters_Parameter();
@@ -692,7 +692,7 @@ public interface ModelPackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl
 		 * <em>Design Values</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDesignValues()
 		 * @generated
@@ -702,7 +702,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Version</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EAttribute DESIGN_VALUES__VERSION = eINSTANCE.getDesignValues_Version();
@@ -710,7 +710,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Data Set Parameters</b></em>'
 		 * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DESIGN_VALUES__DATA_SET_PARAMETERS = eINSTANCE.getDesignValues_DataSetParameters();
@@ -718,7 +718,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Result Sets</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DESIGN_VALUES__RESULT_SETS = eINSTANCE.getDesignValues_ResultSets();
@@ -726,7 +726,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Data Set Parameters1</b></em>'
 		 * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DESIGN_VALUES__DATA_SET_PARAMETERS1 = eINSTANCE.getDesignValues_DataSetParameters1();
@@ -735,7 +735,7 @@ public interface ModelPackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl
 		 * <em>Document Root</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDocumentRoot()
 		 * @generated
@@ -745,7 +745,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Mixed</b></em>' attribute list
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EAttribute DOCUMENT_ROOT__MIXED = eINSTANCE.getDocumentRoot_Mixed();
@@ -753,7 +753,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getDocumentRoot_XMLNSPrefixMap();
@@ -761,7 +761,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
@@ -769,7 +769,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Data Set Parameter</b></em>'
 		 * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DOCUMENT_ROOT__DATA_SET_PARAMETER = eINSTANCE.getDocumentRoot_DataSetParameter();
@@ -777,7 +777,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Data Set Parameters</b></em>'
 		 * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DOCUMENT_ROOT__DATA_SET_PARAMETERS = eINSTANCE.getDocumentRoot_DataSetParameters();
@@ -785,7 +785,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Design Values</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DOCUMENT_ROOT__DESIGN_VALUES = eINSTANCE.getDocumentRoot_DesignValues();
@@ -793,7 +793,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Dynamic List</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EReference DOCUMENT_ROOT__DYNAMIC_LIST = eINSTANCE.getDocumentRoot_DynamicList();
@@ -802,7 +802,7 @@ public interface ModelPackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl
 		 * <em>Dynamic List</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl
 		 * @see org.eclipse.birt.report.model.adapter.oda.model.impl.ModelPackageImpl#getDynamicList()
 		 * @generated
@@ -812,7 +812,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Data Set Name</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EAttribute DYNAMIC_LIST__DATA_SET_NAME = eINSTANCE.getDynamicList_DataSetName();
@@ -820,7 +820,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Enabled</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EAttribute DYNAMIC_LIST__ENABLED = eINSTANCE.getDynamicList_Enabled();
@@ -828,7 +828,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Label Column</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EAttribute DYNAMIC_LIST__LABEL_COLUMN = eINSTANCE.getDynamicList_LabelColumn();
@@ -836,7 +836,7 @@ public interface ModelPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Value Column</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * 
 		 * @generated
 		 */
 		EAttribute DYNAMIC_LIST__VALUE_COLUMN = eINSTANCE.getDynamicList_ValueColumn();

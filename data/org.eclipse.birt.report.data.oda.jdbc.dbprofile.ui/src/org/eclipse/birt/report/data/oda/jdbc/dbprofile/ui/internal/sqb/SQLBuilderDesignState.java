@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 
@@ -42,7 +42,7 @@ public class SQLBuilderDesignState {
 	/**
 	 * Creates a SQB designer state based on the state of the specified SQLBuilder
 	 * and data set design.
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param sqlBuilder
 	 */
@@ -53,14 +53,13 @@ public class SQLBuilderDesignState {
 
 	/**
 	 * Creates a SQB designer state from a previously saved ODA DesignerState.
-	 *
+	 * 
 	 * @param odaDesignerState
 	 * @throws OdaException
 	 */
 	SQLBuilderDesignState(final DesignerState odaDesignerState) throws OdaException {
-		if (odaDesignerState == null || odaDesignerState.getStateContent() == null) {
+		if (odaDesignerState == null || odaDesignerState.getStateContent() == null)
 			throw new NullPointerException("SQLBuilderDesignState( DesignerState )"); //$NON-NLS-1$
-		}
 
 		// check the version compatibility of designerState
 		m_version = odaDesignerState.getVersion();
@@ -72,9 +71,8 @@ public class SQLBuilderDesignState {
 
 		// get the designer state content
 		String designStateValue = odaDesignerState.getStateContent().getStateContentAsString();
-		if (designStateValue == null) {
+		if (designStateValue == null)
 			return; // no state content
-		}
 
 		IMemento memento = SQLBuilderEditorInputUtil.readMementoFromString(designStateValue);
 
@@ -85,7 +83,7 @@ public class SQLBuilderDesignState {
 	 * Create a SQLBuilderStorageEditorInput and save the SQLStatement,
 	 * ConnectionInfo OmitSchemaInfo InputUsageOptions and WindowStateInfo from the
 	 * specified SQLBuilder.
-	 *
+	 * 
 	 * @param sqbInputName name of the created input instance
 	 * @param sqlBuilder
 	 * @return
@@ -122,22 +120,19 @@ public class SQLBuilderDesignState {
 	}
 
 	String getVersion() {
-		if (m_version == null) {
+		if (m_version == null)
 			return SQB_STATE_CURRENT_VERSION;
-		}
 		return m_version;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
 	public String toString() {
-		if (m_sqbInput == null) {
+		if (m_sqbInput == null)
 			return EMPTY_STRING;
-		}
 
 		// Save the state to a XMLMemento
 		XMLMemento memento = DesignStateMemento.saveState(this);

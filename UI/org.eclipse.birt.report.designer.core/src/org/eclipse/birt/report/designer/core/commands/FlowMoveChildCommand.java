@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,8 +34,8 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * This command moves a child inside a SlotHandle
- *
- *
+ * 
+ * 
  */
 
 public class FlowMoveChildCommand extends Command {
@@ -53,7 +53,7 @@ public class FlowMoveChildCommand extends Command {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param container
 	 * @param model
 	 * @param model2
@@ -69,7 +69,6 @@ public class FlowMoveChildCommand extends Command {
 	 * executable.
 	 */
 
-	@Override
 	public void execute() {
 		if (DesignerConstants.TRACING_COMMANDS) {
 			System.out.println("FlowMoveChildCommand >> Starts ... "); //$NON-NLS-1$
@@ -115,7 +114,7 @@ public class FlowMoveChildCommand extends Command {
 //				pos = DEUtil.findInsertPosition( containerHandle,
 //						(DesignElementHandle) after,
 //						slotID );
-//			}else
+//			}else 
 			if (container instanceof SlotHandle) {
 				containerHandle = ((SlotHandle) container).getElementHandle();
 				slotID = ((SlotHandle) container).getSlotID();
@@ -179,7 +178,7 @@ public class FlowMoveChildCommand extends Command {
 	}
 
 	private int computePosForPropertyHandleInIMixedHandle(DesignElementHandle containerHandle, String contentString) {
-		if (after instanceof CubeHandle) {
+		if (after != null && after instanceof CubeHandle) {
 			return 0;
 		} else {
 			return DEUtil.findInsertPosition(containerHandle, (DesignElementHandle) after, contentString);

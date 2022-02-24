@@ -30,7 +30,7 @@ public class ResultSetMetaDataHelper {
 	String[] originalColumnNames;
 	String[] columnLabels;
 
-	private Map<String, Integer> columnNameIndexMap = new HashMap<>();
+	private Map<String, Integer> columnNameIndexMap = new HashMap<String, Integer>();
 
 	/**
 	 * Constructor
@@ -41,9 +41,8 @@ public class ResultSetMetaDataHelper {
 	 * @throws OdaException
 	 */
 	public ResultSetMetaDataHelper(String[] colNames, String[] colTypes, String[] colLabels) throws OdaException {
-		if (colNames == null) {
+		if (colNames == null)
 			throw new OdaException(Messages.getString("common_ARGUMENT_CANNOT_BE_NULL")); //$NON-NLS-1$
-		}
 
 		this.columnNames = colNames;
 		this.columnTypes = colTypes;
@@ -70,7 +69,7 @@ public class ResultSetMetaDataHelper {
 
 	private void initMap() {
 		for (int i = 0; i < columnNames.length; i++) {
-			columnNameIndexMap.put(columnNames[i], i);
+			columnNameIndexMap.put(columnNames[i], Integer.valueOf(i));
 		}
 	}
 

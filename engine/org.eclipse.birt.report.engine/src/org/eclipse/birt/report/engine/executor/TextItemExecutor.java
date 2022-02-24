@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,13 +29,13 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
- *
+ * 
  */
 public class TextItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param context the executor context
 	 * @param visitor the report executor visitor
 	 */
@@ -54,10 +54,9 @@ public class TextItemExecutor extends QueryItemExecutor {
 	 * <li>pass it to emitter
 	 * <li>close the query
 	 * <li>pop up.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
-	@Override
 	public IContent execute() {
 		TextItemDesign textDesign = (TextItemDesign) getDesign();
 		String textType = textDesign.getTextType();
@@ -71,7 +70,6 @@ public class TextItemExecutor extends QueryItemExecutor {
 		}
 	}
 
-	@Override
 	public void close() throws BirtException {
 		finishTOCEntry();
 		closeQuery();
@@ -80,7 +78,7 @@ public class TextItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * execute the html text.
-	 *
+	 * 
 	 * @param design
 	 * @param emitter
 	 */
@@ -102,7 +100,7 @@ public class TextItemExecutor extends QueryItemExecutor {
 
 		HashMap<String, Expression> exprs = textDesign.getExpressions();
 		if (exprs != null && !exprs.isEmpty()) {
-			HashMap<String, Object> results = new HashMap<>();
+			HashMap<String, Object> results = new HashMap<String, Object>();
 			for (Map.Entry<String, Expression> entry : exprs.entrySet()) {
 				Expression expr = entry.getValue();
 				Object value = evaluate(expr);
@@ -129,7 +127,7 @@ public class TextItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * execute the plain text.
-	 *
+	 * 
 	 * @param design
 	 * @param emitter
 	 */

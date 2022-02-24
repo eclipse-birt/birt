@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -33,7 +33,6 @@ public class BlockStackingLayout extends ContainerLayout {
 		isInline = false;
 	}
 
-	@Override
 	protected void initialize() throws BirtException {
 		currentContext = new ContainerContext();
 		contextList.add(currentContext);
@@ -57,9 +56,11 @@ public class BlockStackingLayout extends ContainerLayout {
 
 	}
 
-	@Override
 	protected void closeLayout(ContainerContext currentContext, int index, boolean finished) throws BirtException {
-		if ((currentContext.root == null) || (!finished && currentContext.root.getChildrenCount() == 0)) {
+		if (currentContext.root == null) {
+			return;
+		}
+		if (!finished && currentContext.root.getChildrenCount() == 0) {
 			return;
 		}
 		IStyle areaStyle = currentContext.root.getStyle();
@@ -95,12 +96,10 @@ public class BlockStackingLayout extends ContainerLayout {
 		}
 	}
 
-	@Override
 	protected void createRoot() {
 		currentContext.root = (ContainerArea) AreaFactory.createBlockContainer(content);
 	}
 
-	@Override
 	public int getLineHeight() {
 		if (content != null) {
 			IStyle contentStyle = content.getComputedStyle();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006, 2007, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -86,19 +86,19 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 	private static final int ASCII_SORT_STRENGTH = -1;
 
 	static {
-		STRENGTH_MAP = new HashMap<>();
+		STRENGTH_MAP = new HashMap<String, Integer>();
 		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.ASCII"), //$NON-NLS-1$
-				ASCII_SORT_STRENGTH);
+				Integer.valueOf(ASCII_SORT_STRENGTH));
 		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.PRIMARY"), //$NON-NLS-1$
-				Collator.PRIMARY);
+				Integer.valueOf(Collator.PRIMARY));
 		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.SECONDARY"), //$NON-NLS-1$
-				Collator.SECONDARY);
+				Integer.valueOf(Collator.SECONDARY));
 		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.TERTIARY"), //$NON-NLS-1$
-				Collator.TERTIARY);
+				Integer.valueOf(Collator.TERTIARY));
 		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.QUATENARY"), //$NON-NLS-1$
-				Collator.QUATERNARY);
+				Integer.valueOf(Collator.QUATERNARY));
 		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.IDENTICAL"), //$NON-NLS-1$
-				Collator.IDENTICAL);
+				Integer.valueOf(Collator.IDENTICAL));
 	}
 
 	protected ChartWizardContext wizardContext;
@@ -152,11 +152,10 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	protected Control createContents(Composite parent) {
 		Control c = super.createContents(parent);
 		// Pack shell for dynamic creating aggregate parameters widgets.
@@ -166,12 +165,11 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.DIALOG_GROUP_AND_SORT);
 		getShell().setText(Messages.getString("GroupSortingDialog.Label.GroupAndSorting")); //$NON-NLS-1$
@@ -206,7 +204,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/**
 	 * Create composite of group area.
-	 *
+	 * 
 	 * @param cmpBasic
 	 */
 	protected void createGroupArea(Composite cmpBasic) {
@@ -220,7 +218,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/**
 	 * Create runtime instance of <code>SeriesGroupingComposite</code>.
-	 *
+	 * 
 	 * @param parent
 	 * @since 2.3
 	 */
@@ -242,7 +240,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/**
 	 * Create composite of sort area.
-	 *
+	 * 
 	 * @param cmpBasic
 	 */
 	public void createSortArea(Composite parent) {
@@ -275,7 +273,6 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 		cmbSortExpr.addListener(SWT.Selection, this);
 		cmbSortExpr.addFocusListener(new FocusAdapter() {
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				updateSortKey();
 			}
@@ -287,7 +284,6 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 					wizardContext.getExtendedItem(), IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
 					new Listener() {
 
-						@Override
 						public void handleEvent(Event event) {
 							if (event.data instanceof String[]) {
 								handleBuilderAction((String[]) event.data);
@@ -374,7 +370,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 		diableSortKeySelectionStateBySortDirection();
 
 		// populate sort locale combo.
-		List<String> localeNames = new ArrayList<>();
+		List<String> localeNames = new ArrayList<String>();
 		localeNames.add(AUTO);
 		localeNames.addAll(ChartUIUtil.LOCALE_TABLE.keySet());
 		cmbSortLocale.setItems(localeNames.toArray(new String[] {}));
@@ -395,10 +391,9 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 		}
 
 		// Populate sort strength combo.
-		List<String> strengthNames = new ArrayList<>(STRENGTH_MAP.keySet());
+		List<String> strengthNames = new ArrayList<String>(STRENGTH_MAP.keySet());
 		Collections.sort(strengthNames, new Comparator<String>() {
 
-			@Override
 			public int compare(String o1, String o2) {
 				return STRENGTH_MAP.get(o1) - STRENGTH_MAP.get(o2);
 			}
@@ -486,11 +481,10 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	@Override
 	public void handleEvent(Event event) {
 		if (event.type == SWT.Selection) {
 			if (event.widget == cmbSorting) {
@@ -526,7 +520,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/**
 	 * Set state of SortKey components.
-	 *
+	 * 
 	 * @param enabled
 	 * @since BIRT 2.3
 	 */
@@ -544,7 +538,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/**
 	 * Disable SortKey selection state by check sort direction.
-	 *
+	 * 
 	 * @since BIRT 2.3
 	 */
 	protected void diableSortKeySelectionStateBySortDirection() {
@@ -555,7 +549,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/**
 	 * Initialize SortKey object of chart model if it doesn't exist.
-	 *
+	 * 
 	 * @since BIRT 2.3
 	 */
 	protected void initSortKey() {
@@ -567,7 +561,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 	/**
 	 * Check if Y grouping is enabled and current is using cube, only category
 	 * expression is allowed as category sort key.
-	 *
+	 * 
 	 * @return
 	 * @since BIRT 2.3
 	 */
@@ -598,7 +592,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/**
 	 * check if Y grouping is set.
-	 *
+	 * 
 	 * @return
 	 * @since BIRT 2.3
 	 */
@@ -608,12 +602,12 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/**
 	 * Get expressions of base series.
-	 *
+	 * 
 	 * @return
 	 * @since BIRT 2.3
 	 */
 	protected Set<String> getBaseSeriesExpression() {
-		Set<String> exprList = new LinkedHashSet<>();
+		Set<String> exprList = new LinkedHashSet<String>();
 		Chart chart = wizardContext.getModel();
 		if (chart instanceof ChartWithAxes) {
 			// Add the expression of base series.
@@ -646,12 +640,12 @@ public class GroupSortingDialog extends TrayDialog implements Listener {
 
 	/**
 	 * Get the expressions of value series.
-	 *
+	 * 
 	 * @return
 	 * @since BIRT 2.3
 	 */
 	protected Set<String> getValueSeriesExpressions() {
-		Set<String> exprList = new LinkedHashSet<>();
+		Set<String> exprList = new LinkedHashSet<String>();
 		Chart chart = wizardContext.getModel();
 		if (chart instanceof ChartWithAxes) {
 			ChartWithAxes cwa = (ChartWithAxes) chart;

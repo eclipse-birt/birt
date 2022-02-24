@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -39,8 +39,7 @@ public class Borders2ReportTest extends ReportRunner {
 	 * for the chosen cell. I don't know how to tell which takes precedence, but the
 	 * following works for the tests I've carried out.
 	 */
-	public static void assertBorder(Sheet sheet, int row, int col, BorderStyle bottom, BorderStyle left,
-			BorderStyle right, BorderStyle top) {
+	public static void assertBorder(Sheet sheet, int row, int col, BorderStyle bottom, BorderStyle left, BorderStyle right, BorderStyle top) {
 
 		Row curRow = sheet.getRow(row);
 		Row prevRow = (row > 0) ? sheet.getRow(row - 1) : null;
@@ -92,12 +91,10 @@ public class Borders2ReportTest extends ReportRunner {
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals(4, firstNullRow(sheet));
 
-			assertBorder(sheet, 1, 2, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */,
-					BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */,
+			assertBorder(sheet, 1, 2, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */,
 					BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */);
 
-			assertBorder(sheet, 1, 4, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */,
-					BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */,
+			assertBorder(sheet, 1, 4, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */, BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */,
 					BorderStyle.MEDIUM /* CellStyle.BORDER_MEDIUM */);
 
 		} finally {

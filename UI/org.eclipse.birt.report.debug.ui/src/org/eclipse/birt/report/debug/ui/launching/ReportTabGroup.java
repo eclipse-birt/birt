@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,10 +27,9 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * Class for report Debug tab group
- *
+ * 
  * @deprecated
  */
-@Deprecated
 public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup {
 
 	public ReportTabGroup() {
@@ -38,12 +37,11 @@ public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.debug.ui.ILaunchConfigurationTabGroup#createTabs(org.eclipse.
 	 * debug.ui.ILaunchConfigurationDialog, java.lang.String)
 	 */
-	@Override
 	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
 		ILaunchConfigurationTab tabs[] = (ILaunchConfigurationTab[]) null;
 		tabs = (new ILaunchConfigurationTab[] { new ReportAdvancedLauncherTab(), new PluginsTab(false) });
@@ -53,7 +51,6 @@ public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup {
 	/**
 	 * @see org.eclipse.debug.ui.ILaunchConfigurationTabGroup#setDefaults(org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)
 	 */
-	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		super.setDefaults(configuration);
 	}
@@ -61,13 +58,11 @@ public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup {
 	/**
 	 * @see org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup#initializeFrom(ILaunchConfiguration)
 	 */
-	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		final ILaunchConfiguration config = configuration;
 		final ILaunchConfigurationTab[] tabs = getTabs();
 		BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
 
-			@Override
 			public void run() {
 				try {
 					String id = config.getAttribute(IJavaLaunchConfigurationConstants.ATTR_SOURCE_PATH_PROVIDER,

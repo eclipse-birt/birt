@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 * @param model the model of preference page.
 	 */
 	public PageBreakPreferencePage(Object model) {
@@ -45,12 +45,11 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage
 	 * #createFieldEditors()
 	 */
-	@Override
 	protected void createFieldEditors() {
 		// super.createFieldEditors( );
 
@@ -135,7 +134,6 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage {
 		return new String[0][2];
 	}
 
-	@Override
 	protected String[] getPreferenceNames() {
 		return new String[] { StyleHandle.WIDOWS_PROP, StyleHandle.ORPHANS_PROP, StyleHandle.PAGE_BREAK_BEFORE_PROP,
 				StyleHandle.PAGE_BREAK_AFTER_PROP, };

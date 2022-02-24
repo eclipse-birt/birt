@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,12 +41,12 @@ class OdaFilterExprHelperImpl {
 	/**
 	 * BIRT predefined filter expression id.
 	 */
-	public static Set<String> birtPredefinedFilterConstants = new HashSet<>();
+	public static Set<String> birtPredefinedFilterConstants = new HashSet<String>();
 
 	/**
 	 * The list contains the BIRT predefined filter definitions.
 	 */
-	protected static List<IFilterExprDefinition> birtFilterExprDefList = new ArrayList<>();
+	protected static List<IFilterExprDefinition> birtFilterExprDefList = new ArrayList<IFilterExprDefinition>();
 
 	/**
 	 * The flag to initialize the birt predefined filter operators.

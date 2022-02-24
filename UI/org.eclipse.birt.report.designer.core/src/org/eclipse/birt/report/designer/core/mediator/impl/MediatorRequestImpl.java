@@ -21,7 +21,7 @@ import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorState;
 
 /**
- *
+ * 
  */
 
 public class MediatorRequestImpl implements IMediatorRequest {
@@ -40,27 +40,22 @@ public class MediatorRequestImpl implements IMediatorRequest {
 		}
 	}
 
-	@Override
 	public String getType() {
 		return type;
 	}
 
-	@Override
 	public Object getData() {
 		return data;
 	}
 
-	@Override
 	public Object getSource() {
 		return source;
 	}
 
-	@Override
 	public boolean isSticky() {
 		return false;
 	}
 
-	@Override
 	public Map<?, ?> getExtras() {
 		return extras;
 	}

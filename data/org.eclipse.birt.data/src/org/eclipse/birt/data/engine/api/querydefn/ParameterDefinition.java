@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -78,7 +78,6 @@ public class ParameterDefinition implements IParameterDefinition {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -92,10 +91,9 @@ public class ParameterDefinition implements IParameterDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getNativeName()
 	 */
-	@Override
 	public String getNativeName() {
 		return nativeName;
 	}
@@ -111,7 +109,6 @@ public class ParameterDefinition implements IParameterDefinition {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getPosition()
 	 */
-	@Override
 	public int getPosition() {
 		return posn;
 	}
@@ -126,7 +123,6 @@ public class ParameterDefinition implements IParameterDefinition {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getType()
 	 */
-	@Override
 	public int getType() {
 		return type;
 	}
@@ -140,10 +136,9 @@ public class ParameterDefinition implements IParameterDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getNativeType()
 	 */
-	@Override
 	public int getNativeType() {
 		return nativeDataType;
 	}
@@ -158,14 +153,13 @@ public class ParameterDefinition implements IParameterDefinition {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isInputMode()
 	 */
-	@Override
 	public boolean isInputMode() {
 		return isInputMode;
 	}
 
 	/**
 	 * Sets the input mode of the parameter.
-	 *
+	 * 
 	 * @param isInput true if the parameter is of input mode, false otherwise.
 	 */
 	public void setInputMode(boolean isInput) {
@@ -175,14 +169,13 @@ public class ParameterDefinition implements IParameterDefinition {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isOutputMode()
 	 */
-	@Override
 	public boolean isOutputMode() {
 		return isOutputMode;
 	}
 
 	/**
 	 * Sets the output mode of the parameter.
-	 *
+	 * 
 	 * @param isOutput true if the parameter is of output mode, false otherwise.
 	 */
 	public void setOutputMode(boolean isOutput) {
@@ -192,7 +185,6 @@ public class ParameterDefinition implements IParameterDefinition {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isInputOptional()
 	 */
-	@Override
 	public boolean isInputOptional() {
 		return isInputMode() ? isInputOptional : true;
 	}
@@ -200,20 +192,18 @@ public class ParameterDefinition implements IParameterDefinition {
 	/**
 	 * Sets whether the parameter's input value is optional. Applies to the
 	 * parameter only if it is of input mode.
-	 *
+	 * 
 	 * @param isOptional true if the parameter input value is optional, false
 	 *                   otherwise.
 	 */
 	public void setInputOptional(boolean isOptional) {
-		if (isInputMode()) {
+		if (isInputMode())
 			isInputOptional = isOptional;
-		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getDefaultInputValue()
 	 */
-	@Override
 	public String getDefaultInputValue() {
 		return isInputMode() ? defaultInputValue : null;
 	}
@@ -221,26 +211,24 @@ public class ParameterDefinition implements IParameterDefinition {
 	/**
 	 * Sets the parameter's default input value. Applies to the parameter only if it
 	 * is of input mode.
-	 *
+	 * 
 	 * @param defaultValue Default input value.
 	 */
 	public void setDefaultInputValue(String defaultValue) {
-		if (isInputMode()) {
+		if (isInputMode())
 			defaultInputValue = defaultValue;
-		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isNullable()
 	 */
-	@Override
 	public boolean isNullable() {
 		return isNullable;
 	}
 
 	/**
 	 * Sets whether the parameter's value can be null.
-	 *
+	 * 
 	 * @param isNullable true if the parameter value can be null, false otherwise.
 	 */
 	public void setNullable(boolean isNullable) {

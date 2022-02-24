@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 
-	protected Set<String> boundColumnNames = new HashSet<>();
+	protected Set<String> boundColumnNames = new HashSet<String>();
 
 	protected DesignElement element;
 
@@ -67,18 +67,16 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seeorg.eclipse.birt.report.model.writer.BoundColumnsMgr#
 	 * handleBoundsForParamBinding
 	 * (org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.Module, java.lang.String)
 	 */
 
-	@Override
 	protected void handleBoundsForParamBinding(DesignElement element, Module module, String propValue) {
-		if (propValue == null) {
+		if (propValue == null)
 			return;
-		}
 
 		List<IColumnBinding> newExprs = null;
 
@@ -99,18 +97,16 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.writer.BoundColumnsMgr#handleBoundsForValue
 	 * (org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.Module, java.lang.String)
 	 */
 
-	@Override
 	protected void handleBoundsForValue(DesignElement element, Module module, String propValue) {
-		if (propValue == null) {
+		if (propValue == null)
 			return;
-		}
 
 		List newExprs = null;
 
@@ -120,26 +116,24 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 			newExprs = null;
 		}
 
-		if (newExprs != null) {
+		if (newExprs != null)
 			for (int i = 0; i < newExprs.size(); i++) {
 				IColumnBinding column = (IColumnBinding) newExprs.get(i);
 				boundColumnNames.add(column.getResultSetColumnName());
 			}
-		}
 	}
 
 	/**
 	 * Removes unused bound columns from the given element.
-	 *
+	 * 
 	 * @param elementHandle the element
 	 * @throws SemanticException if bound column property is locked.
 	 */
 
 	public static void removedUnusedBoundColumns(DesignElementHandle elementHandle) throws SemanticException {
 		if (elementHandle == null
-				|| !(elementHandle instanceof ReportItemHandle || elementHandle instanceof ScalarParameterHandle)) {
+				|| !(elementHandle instanceof ReportItemHandle || elementHandle instanceof ScalarParameterHandle))
 			return;
-		}
 
 		UnusedBoundColumnsMgr mgr = new UnusedBoundColumnsMgr(elementHandle);
 
@@ -158,32 +152,29 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 
 	/**
 	 * Removed unused bound columns from the element.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 
 	void removeUnusedColumns() throws SemanticException {
 		String propName = null;
 
-		if (element instanceof ReportItem) {
+		if (element instanceof ReportItem)
 			propName = IReportItemModel.BOUND_DATA_COLUMNS_PROP;
-		} else if (element instanceof ScalarParameter) {
+		else if (element instanceof ScalarParameter)
 			propName = IScalarParameterModel.BOUND_DATA_COLUMNS_PROP;
-		} else {
+		else
 			return;
-		}
 
 		List currentList = (List) element.getLocalProperty(module, propName);
-		if (currentList == null || currentList.isEmpty()) {
+		if (currentList == null || currentList.isEmpty())
 			return;
-		}
 
-		List<ComputedColumn> unusedList = new ArrayList<>();
+		List<ComputedColumn> unusedList = new ArrayList<ComputedColumn>();
 		for (int i = 0; i < currentList.size(); i++) {
 			ComputedColumn column = (ComputedColumn) currentList.get(i);
-			if (!boundColumnNames.contains(column.getName())) {
+			if (!boundColumnNames.contains(column.getName()))
 				unusedList.add(column);
-			}
 		}
 
 		PropertyHandle propHandle = element.getHandle(module).getPropertyHandle(propName);
@@ -203,14 +194,13 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.writer.BoundColumnsMgr#dealData(org.eclipse
 	 * .birt.report.model.elements.DataItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
-	@Override
 	public void dealData(DataItem element, Module module) {
 		super.dealData(element, module);
 
@@ -218,22 +208,20 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 		// are the value of resultSetColumn.
 
 		String value = (String) element.getLocalProperty(module, IDataItemModel.RESULT_SET_COLUMN_PROP);
-		if (value == null) {
+		if (value == null)
 			return;
-		}
 
 		boundColumnNames.add(value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealReportItem(org
 	 * .eclipse.birt.report.model.elements.ReportItem,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
-	@Override
 	protected void dealReportItem(ReportItem element, Module module) {
 		super.dealReportItem(element, module);
 
@@ -247,9 +235,8 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 
 				List<AggregationArgument> args = (List<AggregationArgument>) paramValue.getLocalProperty(module,
 						ComputedColumn.ARGUMENTS_MEMBER);
-				if (args == null) {
+				if (args == null)
 					continue;
-				}
 
 				for (int j = 0; j < args.size(); j++) {
 					AggregationArgument arg = args.get(j);
@@ -262,13 +249,12 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealScalarParameter
 	 * (org.eclipse.birt.report.model.elements.ScalarParameter,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
-	@Override
 	protected void dealScalarParameter(ScalarParameter element, Module module) {
 		super.dealScalarParameter(element, module);
 
@@ -280,9 +266,8 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 
 				List<AggregationArgument> args = (List<AggregationArgument>) paramValue.getLocalProperty(module,
 						ComputedColumn.ARGUMENTS_MEMBER);
-				if (args == null) {
+				if (args == null)
 					continue;
-				}
 
 				for (int j = 0; j < args.size(); j++) {
 					AggregationArgument arg = args.get(j);

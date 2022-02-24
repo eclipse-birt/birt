@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -78,9 +78,8 @@ public class Regression_117648 extends BaseTestCase {
 		GroupPropertyHandle userPropHandle = null;
 		while (propIter.hasNext()) {
 			GroupPropertyHandle handle = (GroupPropertyHandle) propIter.next();
-			if ("prop1".equals(handle.getPropertyDefn().getName())) { //$NON-NLS-1$
+			if ("prop1".equals(handle.getPropertyDefn().getName())) //$NON-NLS-1$
 				;
-			}
 			userPropHandle = handle;
 		}
 

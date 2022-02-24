@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- *
+ * 
  */
 
 public class CopyFormatAction extends ContextSelectionAction {
@@ -40,20 +40,17 @@ public class CopyFormatAction extends ContextSelectionAction {
 		}
 
 		public DesignElementHandle getElement() {
-			if (element != null && element.getContainer() != null) {
+			if (element != null && element.getContainer() != null)
 				return element;
-			}
 			return null;
 		}
 
 		public void dispose() {
-			if (this.element != null) {
+			if (this.element != null)
 				this.element.removeListener(this);
-			}
 			this.element = null;
 		}
 
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			this.element = null;
 		}
@@ -80,7 +77,6 @@ public class CopyFormatAction extends ContextSelectionAction {
 		instanceCount++;
 	}
 
-	@Override
 	public boolean calculateEnabled() {
 		if (getSelectedObjects().size() == 1) {
 			Object object = getSelectedObjects().get(0);
@@ -91,32 +87,26 @@ public class CopyFormatAction extends ContextSelectionAction {
 		return false;
 	}
 
-	@Override
 	public void run() {
 		Object object = getSelectedObjects().get(0);
 		if (object instanceof ReportElementEditPart) {
-			if (elementFormat != null) {
+			if (elementFormat != null)
 				elementFormat.dispose();
-			}
-			if (publicElementFormat != null) {
+			if (publicElementFormat != null)
 				publicElementFormat.dispose();
-			}
 			elementFormat = new ElementFormatWrapper((DesignElementHandle) ((ReportElementEditPart) object).getModel());
 			publicElementFormat = elementFormat;
 		}
 	}
 
-	@Override
 	public void dispose() {
 		super.dispose();
 		if (!isDisposed) {
-			if (elementFormat != null) {
+			if (elementFormat != null)
 				elementFormat.dispose();
-			}
 			if (instanceCount > 0) {
-				if (instanceCount == 1 && publicElementFormat != null) {
+				if (instanceCount == 1 && publicElementFormat != null)
 					publicElementFormat.dispose();
-				}
 				instanceCount--;
 			}
 			isDisposed = true;

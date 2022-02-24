@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  */
 
 public class Teacher extends WithIdAndName {
@@ -25,8 +25,8 @@ public class Teacher extends WithIdAndName {
 	public int age;
 	private Dean dean;
 
-	private List<Student> students = new ArrayList<>();
-	private List<Course> courses = new ArrayList<>();
+	private List<Student> students = new ArrayList<Student>();
+	private List<Course> courses = new ArrayList<Course>();
 
 	public Teacher(int id, String name) {
 		super(id, name);
@@ -72,7 +72,7 @@ public class Teacher extends WithIdAndName {
 	}
 
 	public List<TeacherStudent> getTeacherStudentCompound() {
-		List<TeacherStudent> result = new ArrayList<>();
+		List<TeacherStudent> result = new ArrayList<TeacherStudent>();
 		if (students.size() == 0) {
 			result.add(new TeacherStudent(this, null));
 			return result;
@@ -84,7 +84,7 @@ public class Teacher extends WithIdAndName {
 	}
 
 	public List<TeacherStudentCourse> getTeacherStudentCourseCompound() {
-		List<TeacherStudentCourse> result = new ArrayList<>();
+		List<TeacherStudentCourse> result = new ArrayList<TeacherStudentCourse>();
 		if (students.size() == 0) {
 			result.add(new TeacherStudentCourse(this, null, null));
 			return result;
@@ -111,7 +111,7 @@ public class Teacher extends WithIdAndName {
 
 	@SuppressWarnings("nls")
 	public Student[] getStudents(int age, boolean sex, String stateCode) {
-		List<Student> result = new ArrayList<>();
+		List<Student> result = new ArrayList<Student>();
 		Student s;
 		for (int i = 0; i < 10; i++) {
 			s = new Student(i + 1, this.getName() + "_s" + (i + 1));

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,13 +27,13 @@ import org.mozilla.javascript.Scriptable;
 
 /**
  * MultiLine Item Executor
- *
+ * 
  */
 public class DynamicTextItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * constructor
-	 *
+	 * 
 	 * @param context the executor context
 	 * @param visitor the report executor visitor
 	 */
@@ -42,13 +42,13 @@ public class DynamicTextItemExecutor extends QueryItemExecutor {
 	}
 
 	/**
-	 *
+	 * 
 	 * execute the multiline text.
-	 *
+	 * 
 	 * multiline text have two expressions define the value and type. If the value
 	 * type is HTML, the value returns string in HTML. If the value type is
 	 * PLAIN_TEXT, the value returns string in plain text.
-	 *
+	 * 
 	 * the handling process is:
 	 * <li>create forign object
 	 * <li>push it into the context
@@ -62,11 +62,10 @@ public class DynamicTextItemExecutor extends QueryItemExecutor {
 	 * <li>pass it to emitter
 	 * <li>close the data set
 	 * <li>pop the context.
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#excute(org.eclipse.birt.report.engine.ir.ReportItemDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IReportEmitter)
 	 */
-	@Override
 	public IContent execute() {
 		DynamicTextItemDesign textDesign = (DynamicTextItemDesign) getDesign();
 
@@ -130,7 +129,6 @@ public class DynamicTextItemExecutor extends QueryItemExecutor {
 		return IOUtil.getTypeIndex(obValue) != -1;
 	}
 
-	@Override
 	public void close() throws BirtException {
 		finishTOCEntry();
 		closeQuery();

@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
@@ -42,7 +42,7 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign {
 
 	/**
 	 * Creates adaptor based on Model OdaDataSourceHandle.
-	 *
+	 * 
 	 * @param source           model handle
 	 * @param propBindingScope Javascript scope in which to evaluate property
 	 *                         bindings. If null, property bindings are not

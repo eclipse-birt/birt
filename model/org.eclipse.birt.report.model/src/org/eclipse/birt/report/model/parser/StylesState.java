@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -32,12 +32,20 @@ import org.xml.sax.SAXException;
  */
 public class StylesState extends SlotState {
 
+	// ( c >= 0 && c <= 29 ) || ( c >= 31 && c <= 47 )
+	// ( c >= 58 && c <= 64 )
+	// ( c >= 91 && c <= 96 )
+	// ( c >= 123 && c <= 199 ) )
+	private static final String STYLE_NAME_FORBIDDEN_PATTERN = "[\\x00-\\x1D]|[\\x1F-\\x2F]|[\\x3A-\\x40]|[\\x5B-\\x60]|[\\x7B-\\xC7]"; //$NON-NLS-1$
 	private static final String STYLE_NAME_START = "([a-z]|[^\0-\177]|((\\[0-9a-f]{1,6}[ \n\r\t\f]?)|\\[ -~\200-\4177777]))"; //$NON-NLS-1$
 	public static final Pattern styleNameStartPattern = Pattern.compile(STYLE_NAME_START, Pattern.CASE_INSENSITIVE);
 
+	private static final String MIDDLE_LINE = "-"; //$NON-NLS-1$
+	private static final String REPLACE_LETTER = "s"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 	 * (java.lang.String)
 	 */
@@ -48,26 +56,23 @@ public class StylesState extends SlotState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 	 * (java.lang.String)
 	 */
 
-	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
-		if (ParserSchemaConstants.STYLE_TAG == tagValue) {
+		if (ParserSchemaConstants.STYLE_TAG == tagValue)
 			return new StyleState(handler, container, slotID);
-		}
 		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
-	@Override
 	public void end() throws SAXException {
 		// if version < 3.2.19, do some compatibilities about style name; from
 		// 3.2.19, all style name is case-insensitive
@@ -82,7 +87,7 @@ public class StylesState extends SlotState {
 	 * Checks the name of the styles in the list. If some style has the duplicate
 	 * name except the different cases, this method will rename it to have different
 	 * name even ignoring the cases.
-	 *
+	 * 
 	 * @param styles
 	 */
 	private void checkStyleName(List<DesignElement> styles) {
@@ -119,28 +124,26 @@ public class StylesState extends SlotState {
 
 					// rename the style and then add to the name space
 					style.setName(name);
-					if (ns != null && !ns.contains(name.toLowerCase())) {
+					if (ns != null && !ns.contains(name.toLowerCase()))
 						ns.insert(style);
-					}
 					// do the cache
-					if (!styleMap.containsKey(name.toLowerCase())) {
+					if (!styleMap.containsKey(name.toLowerCase()))
 						styleMap.put(name.toLowerCase(), style);
-					}
 					// remove the old name
-					if (styleMap.get(styleName.toLowerCase()) == style) {
+					if (styleMap.get(styleName.toLowerCase()) == style)
 						styleMap.remove(styleName.toLowerCase());
-					}
 
 					// set-up the oldName/newName map(rename relationship) to
 					// help the resolve the style for report items
 					Map<String, String> nameMaps = (Map<String, String>) handler.tempValue.get(container);
 					if (nameMaps == null) {
-						nameMaps = new HashMap<>();
+						nameMaps = new HashMap<String, String>();
 						handler.tempValue.put(container, nameMaps);
 					}
 					nameMaps.put(oldName, name);
-				} else if (ns != null && !ns.contains(lowerCaseName)) {
-					ns.insert(style);
+				} else {
+					if (ns != null && !ns.contains(lowerCaseName))
+						ns.insert(style);
 				}
 			}
 		}
@@ -152,19 +155,18 @@ public class StylesState extends SlotState {
 	 * element and value is the first element that has the with the name for the
 	 * key. If two elements have the same name except the different cases, we will
 	 * store the first element in the map and ignore others.
-	 *
+	 * 
 	 * @param styles
 	 * @return
 	 */
 	private Map<String, DesignElement> buildNameMap(List<DesignElement> styles) {
-		Map<String, DesignElement> styleMap = new HashMap<>();
+		Map<String, DesignElement> styleMap = new HashMap<String, DesignElement>();
 		for (int i = 0; i < styles.size(); i++) {
 			DesignElement style = styles.get(i);
 			String styleName = style.getName();
 			String lowerName = styleName.toLowerCase();
-			if (!styleMap.containsKey(lowerName)) {
+			if (!styleMap.containsKey(lowerName))
 				styleMap.put(lowerName, style);
-			}
 		}
 
 		return styleMap;

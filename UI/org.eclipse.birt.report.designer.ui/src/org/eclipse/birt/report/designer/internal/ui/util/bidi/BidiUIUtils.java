@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Widget;
 
 /**
  * Bidi API used by design GUI.
- *
+ * 
  * @author bidi_hcg
  *
  */
@@ -37,6 +37,8 @@ public class BidiUIUtils {
 	public static final char LRE = '\u202a';
 	public static final char RLE = '\u202b';
 	public static final char PDF = '\u202c';
+
+	private final static String QUERYTEXT = "queryText"; //$NON-NLS-1$
 
 	private static int OS_STYLE_INDEX = 0;
 	private static int WS_EX_LAYOUTRTL = 0;
@@ -57,9 +59,8 @@ public class BidiUIUtils {
 	}
 
 	private void init() {
-		if (isInitialized) {
+		if (isInitialized)
 			return;
-		}
 
 		isInitialized = true;
 
@@ -96,22 +97,31 @@ public class BidiUIUtils {
 			osWinClass = null;
 			// Don't need handle the exception
 			// ExceptionHandler.handle( e, true );
-		} catch (NoSuchMethodException | SecurityException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+		} catch (NoSuchMethodException e) {
+			osWinClass = null;
+			ExceptionHandler.handle(e, true);
+		} catch (SecurityException e) {
+			osWinClass = null;
+			ExceptionHandler.handle(e, true);
+		} catch (NoSuchFieldException e) {
+			osWinClass = null;
+			ExceptionHandler.handle(e, true);
+		} catch (IllegalArgumentException e) {
+			osWinClass = null;
+			ExceptionHandler.handle(e, true);
+		} catch (IllegalAccessException e) {
 			osWinClass = null;
 			ExceptionHandler.handle(e, true);
 		}
 	}
 
 	public void applyOrientation(Control control, boolean mirrored) {
-		if (control == null) {
+		if (control == null)
 			return;
-		}
-		if (!isInitialized) {
+		if (!isInitialized)
 			init();
-		}
-		if (osWinClass == null) {
+		if (osWinClass == null)
 			return;
-		}
 
 		int swtStyle = control.getStyle() & ~(SWT.RIGHT_TO_LEFT | SWT.LEFT_TO_RIGHT | SWT.MIRRORED);
 		try {
@@ -133,7 +143,13 @@ public class BidiUIUtils {
 			}
 			INVALIDATE_RECT.invoke(null,
 					new Object[] { Integer.valueOf(getControHandle(control)), null, Boolean.TRUE });
-		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+		} catch (SecurityException e) {
+			ExceptionHandler.handle(e, true);
+		} catch (IllegalArgumentException e) {
+			ExceptionHandler.handle(e, true);
+		} catch (IllegalAccessException e) {
+			ExceptionHandler.handle(e, true);
+		} catch (InvocationTargetException e) {
 			ExceptionHandler.handle(e, true);
 		}
 
@@ -159,7 +175,9 @@ public class BidiUIUtils {
 		if (HANDLE != null) {
 			try {
 				return HANDLE.getInt(control);
-			} catch (IllegalArgumentException | IllegalAccessException e) {
+			} catch (IllegalArgumentException e) {
+				// do notjing now
+			} catch (IllegalAccessException e) {
 				// do notjing now
 			}
 		}
@@ -169,19 +187,17 @@ public class BidiUIUtils {
 	/**
 	 * Provides a TextLayout that can be used for Bidi purposes. This TextLayout
 	 * should not be disposed by clients.
-	 *
+	 * 
 	 * @return an SWT TextLayout instance
 	 */
 	public synchronized TextLayout getTextLayout(int orientation) {
-		if (layout == null || layout.isDisposed()) {
+		if (layout == null || layout.isDisposed())
 			layout = new TextLayout(Display.getDefault());
-		}
 
 		layout.setOrientation(orientation);
 		return layout;
 	}
 
-	@Override
 	protected void finalize() throws Throwable {
 		System.out.println("layout finalized"); //$NON-NLS-1$
 		if (layout != null && !layout.isDisposed()) {

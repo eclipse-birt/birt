@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -83,9 +83,9 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -100,17 +100,17 @@ public class InsertInLayoutUtil {
 	/**
 	 * Rule interface for defining insertion rule
 	 */
-	interface InsertInLayoutRule {
+	abstract static interface InsertInLayoutRule {
 
-		boolean canInsert();
+		public boolean canInsert();
 
-		Object getInsertPosition();
+		public Object getInsertPosition();
 
-		void insert(Object object) throws SemanticException;
+		public void insert(Object object) throws SemanticException;
 	}
 
 	/**
-	 *
+	 * 
 	 * Rule for inserting label after inserting data set column
 	 */
 	static class LabelAddRule implements InsertInLayoutRule {
@@ -125,18 +125,16 @@ public class InsertInLayoutUtil {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 		 * InsertInLayoutAction.InsertInLayoutRule#canInsert()
 		 */
-		@Override
 		public boolean canInsert() {
 			if (container instanceof SlotHandle) {
 				container = ((SlotHandle) container).getElementHandle();
 			}
-			if (!(container instanceof CellHandle)) {
+			if (!(container instanceof CellHandle))
 				return false;
-			}
 
 			CellHandle cell = (CellHandle) container;
 
@@ -144,8 +142,10 @@ public class InsertInLayoutUtil {
 			boolean canInsert = false;
 			if (cell.getContainer().getContainer() instanceof TableGroupHandle) {
 				canInsert = true;
-			} else if (cell.getContainer().getContainerSlotHandle().getSlotID() == TableHandle.DETAIL_SLOT) {
-				canInsert = true;
+			} else {
+				if (cell.getContainer().getContainerSlotHandle().getSlotID() == TableHandle.DETAIL_SLOT) {
+					canInsert = true;
+				}
 			}
 
 			// Validates column count and gets the target
@@ -170,18 +170,16 @@ public class InsertInLayoutUtil {
 		/**
 		 * Returns new Label insert position in form of <code>CellHandle</code>
 		 */
-		@Override
 		public Object getInsertPosition() {
 			return newTarget;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
 		 * .InsertInLayoutRule#insert()
 		 */
-		@Override
 		public void insert(Object object) throws SemanticException {
 			Assert.isTrue(object instanceof DesignElementHandle);
 			newTarget.addElement((DesignElementHandle) object, CellHandle.CONTENT_SLOT);
@@ -189,7 +187,7 @@ public class InsertInLayoutUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * Rule for inserting multiple data into table, and populating adjacent cells
 	 */
 	static class MultiItemsExpandRule implements InsertInLayoutRule {
@@ -205,21 +203,19 @@ public class InsertInLayoutUtil {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 		 * InsertInLayoutAction.InsertInLayoutRule#canInsert()
 		 */
-		@Override
 		public boolean canInsert() {
 			return items != null && items.length > 1 && target != null
 					&& (target instanceof DesignElementHandle || target instanceof ListBandProxy);
 		}
 
 		/**
-		 *
+		 * 
 		 * Returns multiple insert positions in form of array
 		 */
-		@Override
 		public Object getInsertPosition() {
 			Object[] positions = new Object[items.length];
 
@@ -273,11 +269,10 @@ public class InsertInLayoutUtil {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
 		 * .InsertInLayoutRule#insert()
 		 */
-		@Override
 		public void insert(Object object) throws SemanticException {
 			// TODO Auto-generated method stub
 
@@ -285,7 +280,7 @@ public class InsertInLayoutUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * Rule for setting key when inserting data set column to group handle
 	 */
 	static class GroupKeySetRule implements InsertInLayoutRule {
@@ -305,11 +300,10 @@ public class InsertInLayoutUtil {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
 		 * .InsertInLayoutRule#canInsert()
 		 */
-		@Override
 		public boolean canInsert() {
 			return getGroupContainer(container) != null && getGroupHandle(container).getKeyExpr() == null
 					&& (getGroupContainer(container).getDataSet() == getDataSet(dataSetColumn)
@@ -318,29 +312,27 @@ public class InsertInLayoutUtil {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
 		 * .InsertInLayoutRule#getInsertPosition()
 		 */
-		@Override
 		public Object getInsertPosition() {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
 		 * .InsertInLayoutRule#insert(java.lang.Object)
 		 */
-		@Override
 		public void insert(Object object) throws SemanticException {
 			Assert.isTrue(object instanceof ResultSetColumnHandle);
 			Assert.isTrue(object == dataSetColumn || object == null);
 
 			ReportItemHandle groupContainer = getGroupContainer(container);
 
-			DataSetHandle dataSetHandle;
+			DataSetHandle dataSetHandle = null;
 
 			dataSetHandle = groupContainer.getDataSet();
 
@@ -388,15 +380,14 @@ public class InsertInLayoutUtil {
 
 	static protected ReportItemHandle getGroupContainer(Object target) {
 		GroupHandle group = getGroupHandle(target);
-		if (group != null && group.getContainer() instanceof ReportItemHandle) {
+		if (group != null && group.getContainer() instanceof ReportItemHandle)
 			return (ReportItemHandle) group.getContainer();
-		}
 		return null;
 	}
 
 	/**
 	 * Creates a object to insert.
-	 *
+	 * 
 	 * @param insertObj    object insert to layout
 	 * @param target       insert target, like cell or ListBandProxy
 	 * @param targetParent insert target's non-dummy container, like table or list
@@ -434,7 +425,7 @@ public class InsertInLayoutUtil {
 	 * <p>
 	 * Must make sure operation legal before execution.
 	 * </p>
-	 *
+	 * 
 	 * @param insertObj object insert to layout
 	 * @param editPart  target EditPart
 	 * @return new object in layout
@@ -448,7 +439,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Creates multiple objects
-	 *
+	 * 
 	 * @param array        multiple creation source
 	 * @param target
 	 * @param targetParent
@@ -494,9 +485,8 @@ public class InsertInLayoutUtil {
 		// hardcode
 		// parameter's type datatime is not equals data's.
 		String paramType = model.getDataType();
-		if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(paramType)) {
+		if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(paramType))
 			paramType = DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
-		}
 
 		if (DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.endsWith(model.getParamType())) {
 			bindingColumn.setDataType(DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT);
@@ -585,7 +575,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Inserts dataset column into the target. Add label or group key if possible
-	 *
+	 * 
 	 * @param model        column item
 	 * @param target       insert target like cell or ListBandProxy
 	 * @param targetParent target container like table or list
@@ -618,9 +608,8 @@ public class InsertInLayoutUtil {
 					ExpressionUtility.setBindingColumnExpression(model, bindingColumn);
 					bindingColumn.setDisplayName(UIUtil.getColumnDisplayName(model));
 					String displayKey = UIUtil.getColumnDisplayNameKey(model);
-					if (displayKey != null) {
+					if (displayKey != null)
 						bindingColumn.setDisplayNameID(displayKey);
-					}
 					tableHandle.addColumnBinding(bindingColumn, false);
 					dataHandle.setResultSetColumn(model.getColumnName());
 
@@ -690,9 +679,8 @@ public class InsertInLayoutUtil {
 								GroupHandle group = (GroupHandle) o;
 								// if ( group.getName( ).equals( str ) )
 								if (group.getName().equals(temp.getColumnName())
-										|| group.getName().equals(temp.getAlias())) {
+										|| group.getName().equals(temp.getAlias()))
 									hasGroup = true;
-								}
 							}
 							if (!hasGroup) {
 								ComputedColumn bindingColumn = StructureFactory.newComputedColumn(tableHandle,
@@ -701,9 +689,8 @@ public class InsertInLayoutUtil {
 								ExpressionUtility.setBindingColumnExpression(model, bindingColumn);
 								bindingColumn.setDisplayName(UIUtil.getColumnDisplayName(model));
 								String displayKey = UIUtil.getColumnDisplayNameKey(model);
-								if (displayKey != null) {
+								if (displayKey != null)
 									bindingColumn.setDisplayNameID(displayKey);
-								}
 								tableHandle.addColumnBinding(bindingColumn, false);
 								dataHandle.setResultSetColumn(model.getColumnName());
 
@@ -713,9 +700,8 @@ public class InsertInLayoutUtil {
 								ExpressionUtility.setBindingColumnExpression(newResultColumn, bindingColumn);
 								bindingColumn.setDisplayName(UIUtil.getColumnDisplayName(newResultColumn));
 								displayKey = UIUtil.getColumnDisplayNameKey(newResultColumn);
-								if (displayKey != null) {
+								if (displayKey != null)
 									bindingColumn.setDisplayNameID(displayKey);
-								}
 								tableHandle.addColumnBinding(bindingColumn, false);
 								int index = -1;
 								if (target instanceof CellHandle) {
@@ -1034,18 +1020,16 @@ public class InsertInLayoutUtil {
 			ExpressionUtility.setBindingColumnExpression(model, bindingColumn);
 			bindingColumn.setDisplayName(UIUtil.getColumnDisplayName(model));
 			String displayKey = UIUtil.getColumnDisplayNameKey(model);
-			if (displayKey != null) {
+			if (displayKey != null)
 				bindingColumn.setDisplayNameID(displayKey);
-			}
 			if (target instanceof DesignElementHandle) {
 				if (ExpressionUtil.hasAggregation(bindingColumn.getExpression())) {
 					String groupType = DEUtil.getGroupControlType((DesignElementHandle) target);
-					if (groupType.equals(DEUtil.TYPE_GROUP_GROUP)) {
+					if (groupType.equals(DEUtil.TYPE_GROUP_GROUP))
 						bindingColumn.setAggregateOn(
 								((GroupHandle) DEUtil.getGroups((DesignElementHandle) target).get(0)).getName());
-					} else if (groupType.equals(DEUtil.TYPE_GROUP_LISTING)) {
+					else if (groupType.equals(DEUtil.TYPE_GROUP_LISTING))
 						bindingColumn.setAggregateOn(null);
-					}
 				}
 			}
 			dataHandle.addColumnBinding(bindingColumn, false);
@@ -1091,13 +1075,25 @@ public class InsertInLayoutUtil {
 		return dataHandle;
 	}
 
+	private static void createBindingColumn(ResultSetColumnHandle model, TableHandle tableHandle)
+			throws SemanticException {
+		ComputedColumn bindingColumn = StructureFactory.newComputedColumn(tableHandle, model.getColumnName());
+		bindingColumn.setDataType(model.getDataType());
+		ExpressionUtility.setBindingColumnExpression(model, bindingColumn);
+		bindingColumn.setDisplayName(UIUtil.getColumnDisplayName(model));
+		String displayKey = UIUtil.getColumnDisplayNameKey(model);
+		if (displayKey != null)
+			bindingColumn.setDisplayNameID(displayKey);
+		tableHandle.addColumnBinding(bindingColumn, false);
+	}
+
 	private static String getComputedColumnName(ReportItemHandle tableHandle, MeasureHandle model, GroupHandle group) {
 		return model.getName() + (group == null ? "_All" : "_" + group.getName());
 	}
 
 	/**
 	 * Inserts measure into the target. Add label or group key if possible
-	 *
+	 * 
 	 * @param model        column item
 	 * @param target       insert target like cell or ListBandProxy
 	 * @param targetParent target container like table or list
@@ -1130,9 +1126,8 @@ public class InsertInLayoutUtil {
 
 		bindingColumn.setDisplayName(model.getDisplayName());
 		String displayKey = model.getDisplayNameKey();
-		if (displayKey != null) {
+		if (displayKey != null)
 			bindingColumn.setDisplayNameID(displayKey);
-		}
 
 		bindingColumn.setAggregateOn(group == null ? "All" : group.getName());
 
@@ -1195,7 +1190,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * create a ComputedColumn object
-	 *
+	 * 
 	 * @param target        where data item will be inserted.
 	 * @param bindingHolder where the ComputedColumn will be inserted.
 	 * @param model         column item
@@ -1209,18 +1204,16 @@ public class InsertInLayoutUtil {
 		ExpressionUtility.setBindingColumnExpression(model, bindingColumn);
 		bindingColumn.setDisplayName(UIUtil.getColumnDisplayName(model));
 		String displayKey = UIUtil.getColumnDisplayNameKey(model);
-		if (displayKey != null) {
+		if (displayKey != null)
 			bindingColumn.setDisplayNameID(displayKey);
-		}
 		if (target instanceof DesignElementHandle) {
 			if (ExpressionUtil.hasAggregation(bindingColumn.getExpression())) {
 				String groupType = DEUtil.getGroupControlType((DesignElementHandle) target);
-				if (groupType.equals(DEUtil.TYPE_GROUP_GROUP)) {
+				if (groupType.equals(DEUtil.TYPE_GROUP_GROUP))
 					bindingColumn.setAggregateOn(
 							((GroupHandle) DEUtil.getGroups((DesignElementHandle) target).get(0)).getName());
-				} else if (groupType.equals(DEUtil.TYPE_GROUP_LISTING)) {
+				else if (groupType.equals(DEUtil.TYPE_GROUP_LISTING))
 					bindingColumn.setAggregateOn(null);
-				}
 			}
 		}
 		return bindingColumn;
@@ -1247,7 +1240,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Inserts invalid column string into the target. Add label if possible
-	 *
+	 * 
 	 * @param expression invalid column or other expression
 	 * @param target     insert target like cell or ListBandProxy
 	 * @return to be inserted data item
@@ -1307,7 +1300,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Validates object can be inserted to layout. Support the multiple.
-	 *
+	 * 
 	 * @param insertObj  single inserted object or multi-objects
 	 * @param targetPart
 	 * @return if can be inserted to layout
@@ -1318,7 +1311,10 @@ public class InsertInLayoutUtil {
 		}
 		if (insertObj instanceof Object[]) {
 			Object[] array = (Object[]) insertObj;
-			if (!checkSameDataSetInMultiColumns(array) || !checkContainContainMulitItem(array, targetPart.getModel())) {
+			if (!checkSameDataSetInMultiColumns(array)) {
+				return false;
+			}
+			if (!checkContainContainMulitItem(array, targetPart.getModel())) {
 				return false;
 			}
 			for (int i = 0; i < array.length; i++) {
@@ -1400,15 +1396,14 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Checks if all the DataSetColumn has the same DataSet.
-	 *
+	 * 
 	 * @param array all elements
 	 * @return false if not same; true if every column has the same DataSet or the
 	 *         element is not an instance of DataSetColumn
 	 */
 	protected static boolean checkSameDataSetInMultiColumns(Object[] array) {
-		if (array == null) {
+		if (array == null)
 			return false;
-		}
 		Object dataSet = null;
 		for (int i = 0; i < array.length; i++) {
 			if (array[i] instanceof ResultSetColumnHandle) {
@@ -1419,8 +1414,10 @@ public class InsertInLayoutUtil {
 
 				if (dataSet == null) {
 					dataSet = currDataSet;
-				} else if (dataSet != currDataSet) {
-					return false;
+				} else {
+					if (dataSet != currDataSet) {
+						return false;
+					}
 				}
 			}
 		}
@@ -1429,7 +1426,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Validates container of drop target from data set in data view
-	 *
+	 * 
 	 * @param dropPart
 	 * @return validate result
 	 */
@@ -1445,7 +1442,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Validates container of drop target from data set column in data view
-	 *
+	 * 
 	 * @param dropPart
 	 * @return validate result
 	 */
@@ -1475,7 +1472,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Validates container of drop target from scalar parameter in data view
-	 *
+	 * 
 	 * @param dropPart
 	 * @return validate result
 	 */
@@ -1491,7 +1488,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Validates drop target from data set in data view.
-	 *
+	 * 
 	 * @return validate result
 	 */
 	protected static boolean handleValidateDataSet(EditPart target) {
@@ -1509,7 +1506,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Validates drop target from data set column in data view.
-	 *
+	 * 
 	 * @return validate result
 	 */
 	protected static boolean handleValidateDataSetColumn(ResultSetColumnHandle insertObj, EditPart target) {
@@ -1576,10 +1573,12 @@ public class InsertInLayoutUtil {
 								// }
 								// return false;
 								return true;
-							} else if (cellHandle.getContainer().getContainer() == findGroup) {
-								return true;
 							} else {
-								return false;
+								if (cellHandle.getContainer().getContainer() == findGroup) {
+									return true;
+								} else {
+									return false;
+								}
 							}
 						} else if (type != null && !type.equals("")) //$NON-NLS-1$
 						{
@@ -1613,9 +1612,11 @@ public class InsertInLayoutUtil {
 						&& (bindingHolder == null || !bindingHolder.getColumnBindings().iterator().hasNext())
 						|| getDataSet(insertObj).equals(dataSet)) {
 					return true;
-				} else if (ExtendedDataModelUIAdapterHelper.isBoundToExtendedData(bindingRoot)) {
-					return getAdapter() != null && getAdapter().getBoundExtendedData(bindingRoot)
-							.equals(getAdapter().resolveExtendedData(getDataSet(insertObj)));
+				} else {
+					if (ExtendedDataModelUIAdapterHelper.isBoundToExtendedData(bindingRoot)) {
+						return getAdapter() != null && getAdapter().getBoundExtendedData(bindingRoot)
+								.equals(getAdapter().resolveExtendedData(getDataSet(insertObj)));
+					}
 				}
 			}
 		}
@@ -1626,9 +1627,8 @@ public class InsertInLayoutUtil {
 		SlotHandle slotHandle = tableHandle.getGroups();
 		for (Object o : slotHandle.getContents()) {
 			GroupHandle group = (GroupHandle) o;
-			if (group.getName().equals(groupName)) {
+			if (group.getName().equals(groupName))
 				return true;
-			}
 		}
 
 		return true;
@@ -1646,7 +1646,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Validates drop target from scalar parameter in data view.
-	 *
+	 * 
 	 * @return validate result
 	 */
 	protected static boolean handleValidateParameter(EditPart target) {
@@ -1656,7 +1656,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Validates drag source from data view to layout. Support the multiple.
-	 *
+	 * 
 	 * @return validate result
 	 */
 	public static boolean handleValidateInsert(Object insertObj) {
@@ -1666,9 +1666,8 @@ public class InsertInLayoutUtil {
 				return false;
 			}
 			for (int i = 0; i < array.length; i++) {
-				if (!handleValidateInsert(array[i])) {
+				if (!handleValidateInsert(array[i]))
 					return false;
-				}
 			}
 			return true;
 		} else if (insertObj instanceof IStructuredSelection) {
@@ -1735,9 +1734,8 @@ public class InsertInLayoutUtil {
 						ExpressionUtility.setBindingColumnExpression(columns[j], bindingColumn);
 						bindingColumn.setDisplayName(UIUtil.getColumnDisplayName(list, columns[j]));
 						String displayKey = UIUtil.getColumnDisplayNameKey(list, columns[j]);
-						if (displayKey != null) {
+						if (displayKey != null)
 							bindingColumn.setDisplayNameID(displayKey);
-						}
 						tableHandle.addColumnBinding(bindingColumn, false);
 
 						ActionHandle actionHandle = UIUtil.getColumnAction(list, columns[j]);
@@ -1883,7 +1881,7 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Sets initial width to new object
-	 *
+	 * 
 	 * @param object new object
 	 */
 	public static void setInitWidth(Object object) {
@@ -1927,14 +1925,13 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Converts edit part selection into model selection.
-	 *
+	 * 
 	 * @param selection edit part
 	 * @return model, return Collections.EMPTY_LIST if selection is null or empty.
 	 */
 	public static IStructuredSelection editPart2Model(ISelection selection) {
-		if (selection == null || !(selection instanceof IStructuredSelection)) {
+		if (selection == null || !(selection instanceof IStructuredSelection))
 			return new StructuredSelection(Collections.EMPTY_LIST);
-		}
 		List list = ((IStructuredSelection) selection).toList();
 		List resultList = new ArrayList();
 		for (int i = 0; i < list.size(); i++) {
@@ -1952,14 +1949,13 @@ public class InsertInLayoutUtil {
 
 	/**
 	 * Converts edit part selection into model selection.
-	 *
+	 * 
 	 * @param selection edit part
 	 * @return model, return Collections.EMPTY_LIST if selection is null or empty.
 	 */
 	public static IStructuredSelection editPart2Model(List selection) {
-		if (selection == null || (selection.size() == 0)) {
+		if (selection == null || (selection.size() == 0))
 			return new StructuredSelection(Collections.EMPTY_LIST);
-		}
 		List list = selection;
 		List resultList = new ArrayList();
 		for (int i = 0; i < list.size(); i++) {
@@ -1989,6 +1985,18 @@ public class InsertInLayoutUtil {
 			dataSet = getAdapter().getDataSet(column);
 		} else {
 			dataSet = (DataSetHandle) column.getElementHandle();
+		}
+
+		return dataSet;
+	}
+
+	private static DataSetHandle getDataSet(MeasureHandle column) {
+		DataSetHandle dataSet;
+
+		if (getAdapter() != null && getAdapter().getDataSet(column) != null) {
+			dataSet = getAdapter().getDataSet(column);
+		} else {
+			dataSet = (DataSetHandle) column.getContainer().getContainer();
 		}
 
 		return dataSet;

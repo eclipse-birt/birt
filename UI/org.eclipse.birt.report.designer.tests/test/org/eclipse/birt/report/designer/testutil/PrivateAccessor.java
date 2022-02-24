@@ -62,9 +62,9 @@ import java.lang.reflect.Method;
 /**
  * Utility class to bypass the Java modifiers security and access protected and
  * private fields and methods.
- *
+ * 
  * <h4>Note</h4>
- *
+ * 
  * When specifying parameter types, use <code>int.class</>,
  * <code>double.class</>, <code>short.class</>, <code>long.class</>,
  * <code>float.class</> and <code>char.class</> for primitive types.
@@ -90,10 +90,10 @@ public class PrivateAccessor {
 	 * Returns the value of the field on the specified object. The name parameter is
 	 * a <code>String</code> specifying the simple name of the desired field.
 	 * <p>
-	 *
+	 * 
 	 * The object is first searched for any matching field. If no matching field is
 	 * found, the superclasses are recursively searched.
-	 *
+	 * 
 	 * @exception NoSuchFieldException if a field with the specified name is not
 	 *                                 found.
 	 */
@@ -110,7 +110,7 @@ public class PrivateAccessor {
 				/*
 				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
-
+				;
 			}
 		}
 		throw new NoSuchFieldException("Could get value for field " + object.getClass().getName() + "." + name);
@@ -120,10 +120,10 @@ public class PrivateAccessor {
 	 * Returns the value of the field on the specified class. The name parameter is
 	 * a <code>String</code> specifying the simple name of the desired field.
 	 * <p>
-	 *
+	 * 
 	 * The class is first searched for any matching field. If no matching field is
 	 * found, the superclasses are recursively searched.
-	 *
+	 * 
 	 * @exception NoSuchFieldException if a field with the specified name is not
 	 *                                 found.
 	 */
@@ -141,7 +141,7 @@ public class PrivateAccessor {
 				/*
 				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
-
+				;
 			}
 			base = base.getSuperclass();
 		}
@@ -153,10 +153,10 @@ public class PrivateAccessor {
 	 * to the specified new value. The new value is automatically unwrapped if the
 	 * underlying field has a primitive type.
 	 * <p>
-	 *
+	 * 
 	 * The object is first searched for any matching field. If no matching field is
 	 * found, the superclasses are recursively searched.
-	 *
+	 * 
 	 * @exception NoSuchFieldException if a field with the specified name is not
 	 *                                 found.
 	 */
@@ -174,7 +174,7 @@ public class PrivateAccessor {
 				/*
 				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
-
+				;
 			}
 		}
 		throw new NoSuchFieldException("Could set value for field " + object.getClass().getName() + "." + name);
@@ -185,10 +185,10 @@ public class PrivateAccessor {
 	 * to the specified new value. The new value is automatically unwrapped if the
 	 * underlying field has a primitive type.
 	 * <p>
-	 *
+	 * 
 	 * The class is first searched for any matching field. If no matching field is
 	 * found, the superclasses are recursively searched.
-	 *
+	 * 
 	 * @exception NoSuchFieldException if a field with the specified name is not
 	 *                                 found.
 	 */
@@ -207,7 +207,7 @@ public class PrivateAccessor {
 				/*
 				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
-
+				;
 			}
 			base = base.getSuperclass();
 		}
@@ -222,10 +222,10 @@ public class PrivateAccessor {
 	 * returned by the method is automatically wrapped in an object if it has a
 	 * primitive type.
 	 * <p>
-	 *
+	 * 
 	 * The object is first searched for any matching method. If no matching method
 	 * is found, the superclasses are recursively searched.
-	 *
+	 * 
 	 * @exception NoSuchMethodException if a matching method is not found or if the
 	 *                                  name is " <init>"or " <clinit>".
 	 */
@@ -249,7 +249,7 @@ public class PrivateAccessor {
 				/*
 				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
-
+				;
 			}
 			cls = cls.getSuperclass();
 		}
@@ -264,10 +264,10 @@ public class PrivateAccessor {
 	 * returned by the method is automatically wrapped in an object if it has a
 	 * primitive type.
 	 * <p>
-	 *
+	 * 
 	 * The class is first searched for any matching method. If no matching class is
 	 * found, the superclasses are recursively searched.
-	 *
+	 * 
 	 * @exception NoSuchMethodException if a matching method is not found or if the
 	 *                                  name is " <init>"or " <clinit>".
 	 */
@@ -291,7 +291,7 @@ public class PrivateAccessor {
 				/*
 				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
-
+				;
 			}
 			base = base.getSuperclass();
 		}
@@ -301,7 +301,7 @@ public class PrivateAccessor {
 	/**
 	 * Invoke the constructor with no parameters to construct an new instance of the
 	 * given class
-	 *
+	 * 
 	 * @param cls the Class object
 	 * @throws Exception
 	 */
@@ -312,7 +312,7 @@ public class PrivateAccessor {
 	/**
 	 * Invoke the constructor with specified parameters to construct an new instance
 	 * of the given class
-	 *
+	 * 
 	 * @param cls   the Class object
 	 * @param types the types of the parameters
 	 * @param args  the values of the parameters

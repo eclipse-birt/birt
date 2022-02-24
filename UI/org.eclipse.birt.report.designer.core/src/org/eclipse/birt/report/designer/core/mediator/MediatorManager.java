@@ -27,11 +27,10 @@ public final class MediatorManager {
 
 	private static volatile MediatorManager manager;
 
-	private Map<IMediatorTarget, IMediator> mediatorMap = new WeakHashMap<>();
+	private Map<IMediatorTarget, IMediator> mediatorMap = new WeakHashMap<IMediatorTarget, IMediator>();
 
 	private ITargetDisposeListener listener = new ITargetDisposeListener() {
 
-		@Override
 		public void dispose(IMediatorTarget target) {
 			removeMediator(target);
 		}
@@ -56,7 +55,7 @@ public final class MediatorManager {
 	 * Returns the mediator for given target, if the mediator does not exist and
 	 * "force" is True, registers and returns a new one automatically, otherwise,
 	 * returns null.
-	 *
+	 * 
 	 * @param target
 	 * @param force
 	 * @return
@@ -79,7 +78,7 @@ public final class MediatorManager {
 
 	/**
 	 * Removes the mediator for the given target if exists.
-	 *
+	 * 
 	 * @param target
 	 */
 	public void removeMediator(IMediatorTarget target) {
@@ -96,7 +95,7 @@ public final class MediatorManager {
 
 	/**
 	 * Reassociates the mediator of the old target to the new target, if it exists.
-	 *
+	 * 
 	 * @param oldTarget
 	 * @param newTarget
 	 */

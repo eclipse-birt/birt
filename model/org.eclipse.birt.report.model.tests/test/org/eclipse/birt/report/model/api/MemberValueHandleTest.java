@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Tests for content element like memberValue that can have multiple levels.
- *
+ * 
  */
 
 public class MemberValueHandleTest extends BaseTestCase {
@@ -30,7 +30,7 @@ public class MemberValueHandleTest extends BaseTestCase {
 
 	/**
 	 * MemberValueHandle.add should not throw exception.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -62,16 +62,16 @@ public class MemberValueHandleTest extends BaseTestCase {
 
 	/**
 	 * When cube1 extends another cube2. Get access control from cube1.
-	 *
+	 * 
 	 * <ul>
 	 * <li>set permission
 	 * <li>add role
 	 * <li>remove role
 	 * </ul>
-	 *
+	 * 
 	 * will copies value access controls from the level of cube2 first. Then change
 	 * the corresponding value. Undo is also tested.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -40,10 +40,9 @@ public class BirtEngineServlet extends BaseReportEngineServlet {
 
 	/**
 	 * Local initialization.
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	protected void __init(ServletConfig config) {
 		BirtReportServiceFactory.init(new BirtViewerReportService(config.getServletContext()));
 
@@ -56,13 +55,12 @@ public class BirtEngineServlet extends BaseReportEngineServlet {
 
 	/**
 	 * Init context.
-	 *
+	 * 
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception BirtException
 	 * @return IContext
 	 */
-	@Override
 	protected IContext __getContext(HttpServletRequest request, HttpServletResponse response) throws BirtException {
 		BirtReportServiceFactory.getReportService().setContext(getServletContext(), null);
 		return new BirtContext(request, response);
@@ -70,12 +68,11 @@ public class BirtEngineServlet extends BaseReportEngineServlet {
 
 	/**
 	 * Local authentication.
-	 *
+	 * 
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @return
 	 */
-	@Override
 	protected boolean __authenticate(HttpServletRequest request, HttpServletResponse response) {
 		return true;
 	}
@@ -83,7 +80,6 @@ public class BirtEngineServlet extends BaseReportEngineServlet {
 	/**
 	 * Local do get.
 	 */
-	@Override
 	protected void __doGet(IContext context) throws ServletException, IOException, BirtException {
 		ViewerAttributeBean bean = (ViewerAttributeBean) context.getBean();
 		assert bean != null;
@@ -102,14 +98,13 @@ public class BirtEngineServlet extends BaseReportEngineServlet {
 
 	/**
 	 * Process exception for non soap request.
-	 *
+	 * 
 	 * @param request   incoming http request
 	 * @param response  http response
 	 * @param exception
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	@Override
 	protected void __handleNonSoapException(HttpServletRequest request, HttpServletResponse response,
 			Exception exception) throws ServletException, IOException {
 		exception.printStackTrace();

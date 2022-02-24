@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -62,7 +62,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 
 	protected PreviewLabel previewLabel;
 
-	@Override
 	public Control createControl(Composite parent) {
 
 		content = new Composite(parent, SWT.NONE);
@@ -95,7 +94,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		fAddButton.setLayoutData(data);
 		fAddButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleAddSelectedEvent();
 			}
@@ -110,7 +108,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		fDeleteButton.setLayoutData(data);
 		fDeleteButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleDeleteSelectedEvent();
 			}
@@ -125,7 +122,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		fMoveUpButton.setLayoutData(data);
 		fMoveUpButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleMoveUpSelectedEvent();
 			}
@@ -140,7 +136,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		fMoveDownButton.setLayoutData(data);
 		fMoveDownButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleMoveDownSelectedEvent();
 			}
@@ -155,7 +150,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		fDuplicateButton.setLayoutData(data);
 		fDuplicateButton.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleDuplicateButtonSelectedEvent();
 			}
@@ -164,9 +158,8 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		FormWidgetFactory.getInstance().createLabel(content, isFormStyle()).setText(provider.getText(7)); // $NON-NLS-1$
 
 		int style = SWT.FULL_SELECTION;
-		if (!isFormStyle()) {
+		if (!isFormStyle())
 			style |= SWT.BORDER;
-		}
 		Table table = FormWidgetFactory.getInstance().createTable(content, style);
 		TableColumn column = new TableColumn(table, SWT.LEFT);
 		column.setText(provider.getText(8));
@@ -182,7 +175,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 
 		fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateButtons();
 				refreshTableItemView();
@@ -191,7 +183,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 
 		fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				handleEditEvent();
 			}
@@ -199,7 +190,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 
 		fTableViewer.getTable().addKeyListener(new KeyAdapter() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					handleDeleteSelectedEvent();
@@ -209,9 +199,8 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		});
 
 		style = SWT.BORDER;
-		if (isFormStyle()) {
+		if (isFormStyle())
 			style = SWT.NONE;
-		}
 		previewLabel = new PreviewLabel(content, style);
 		previewLabel.setText(provider.getText(9)); // $NON-NLS-1$
 		GridData gd = new GridData(GridData.FILL_VERTICAL);
@@ -234,12 +223,12 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 				fTableViewer.getTable().select(itemCount - 1);
 				fTableViewer.getTable().setFocus();
 			}
+			;
 			updateButtons();
 			refreshTableItemView();
 		}
 	}
 
-	@Override
 	public Control getControl() {
 		return content;
 	}
@@ -308,14 +297,14 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 			fTableViewer.getTable().select(itemCount - 1);
 			fTableViewer.getTable().setFocus();
 		}
+		;
 		updateButtons();
 		refreshTableItemView();
 	}
 
 	protected void updateButtons() {
-		if (fTableViewer.getTable().isDisposed()) {
+		if (fTableViewer.getTable().isDisposed())
 			return;
-		}
 
 		fDeleteButton.setEnabled(fTableViewer.getTable().getSelectionIndex() >= 0
 				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount());
@@ -331,9 +320,8 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 	}
 
 	protected void refreshTableItemView() {
-		if (fTableViewer.getTable().isDisposed()) {
+		if (fTableViewer.getTable().isDisposed())
 			return;
-		}
 
 		for (int i = 0; i < fTableViewer.getTable().getItemCount(); i++) {
 			TableItem ti = fTableViewer.getTable().getItem(i);
@@ -366,7 +354,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		}
 	}
 
-	@Override
 	public void load() {
 		if (DEUtil.getInputSize(input) != 1) {
 			enableUI(false);
@@ -375,16 +362,14 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		enableUI(true);
 		fTableViewer.setInput(DEUtil.getInputElements(input));
 		refreshTableItemView();
-
+		;
 	}
 
-	@Override
 	public void save(Object obj) throws SemanticException {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void setInput(Object input) {
 		this.input = input;
 		getDescriptorProvider().setInput(input);
@@ -396,12 +381,10 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 
 	private Button fDuplicateButton;
 
-	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		super.setDescriptorProvider(provider);
-		if (provider instanceof PreviewPropertyDescriptorProvider) {
+		if (provider instanceof PreviewPropertyDescriptorProvider)
 			this.provider = (PreviewPropertyDescriptorProvider) provider;
-		}
 	}
 
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
@@ -422,23 +405,19 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		content.setVisible(isVisible);
 	}
 
-	@Override
 	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 
 	}
 
-	@Override
 	public void clear() {
 
 	}
 
-	@Override
 	public boolean isOverdued() {
 		return fTableViewer == null || fTableViewer.getContentProvider() == null || fTableViewer.getControl() == null
 				|| fTableViewer.getControl().isDisposed();
 	}
 
-	@Override
 	public void postElementEvent() {
 		if (fTableViewer == null || fTableViewer.getContentProvider() == null) {
 			return;
@@ -449,7 +428,6 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFa
 		}
 	}
 
-	@Override
 	public Object getAdapter(Class adapter) {
 		return null;
 	}

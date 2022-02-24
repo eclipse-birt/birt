@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public abstract class StyleRuleHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of style rule.
-	 *
+	 * 
 	 * @param valueHandle the value handle for style rule list of one property
 	 * @param index       the position of this style rule in the list
 	 */
@@ -66,7 +66,7 @@ public abstract class StyleRuleHandle extends StructureHandle {
 	 * <li>MAP_OPERATOR_LIKE
 	 * <li>MAP_OPERATOR_ANY
 	 * </ul>
-	 *
+	 * 
 	 * @return the operator
 	 */
 
@@ -94,7 +94,7 @@ public abstract class StyleRuleHandle extends StructureHandle {
 	 * <li>MAP_OPERATOR_LIKE
 	 * <li>MAP_OPERATOR_ANY
 	 * </ul>
-	 *
+	 * 
 	 * @param operator the operator to set
 	 * @throws SemanticException if operator is not in the choice list.
 	 */
@@ -130,15 +130,14 @@ public abstract class StyleRuleHandle extends StructureHandle {
 
 	/**
 	 * Returns the value 1.
-	 *
+	 * 
 	 * @return the value 1
 	 */
 
 	public String getValue1() {
 		List valueList = getValue1List();
-		if (valueList == null || valueList.isEmpty()) {
+		if (valueList == null || valueList.isEmpty())
 			return null;
-		}
 
 		return (String) valueList.get(0);
 	}
@@ -147,18 +146,16 @@ public abstract class StyleRuleHandle extends StructureHandle {
 	 * Gets the value1 expression list. For most map operator, there is only one
 	 * expression in the returned list. However, map operator 'in' may contain more
 	 * than one expression.
-	 *
+	 * 
 	 * @return the value1 expression list.
-	 *
+	 * 
 	 * @deprecated {@link #getValue1ExpressionList()}
 	 */
 
-	@Deprecated
 	public List getValue1List() {
 		List<Expression> valueList = (List<Expression>) getProperty(StyleRule.VALUE1_MEMBER);
-		if (valueList == null || valueList.isEmpty()) {
+		if (valueList == null || valueList.isEmpty())
 			return Collections.EMPTY_LIST;
-		}
 		return Collections.unmodifiableList(ModelUtil.getExpressionCompatibleList(valueList));
 	}
 
@@ -166,7 +163,7 @@ public abstract class StyleRuleHandle extends StructureHandle {
 	 * Gets the value1 expression list. For most map operator, there is only one
 	 * expression in the returned list. However, map operator 'in' may contain more
 	 * than one expression.
-	 *
+	 * 
 	 * @return the value1 expression list handle
 	 */
 
@@ -177,7 +174,7 @@ public abstract class StyleRuleHandle extends StructureHandle {
 
 	/**
 	 * Sets the value 1.
-	 *
+	 * 
 	 * @param value1 the value 1 to set
 	 */
 
@@ -187,7 +184,7 @@ public abstract class StyleRuleHandle extends StructureHandle {
 
 	/**
 	 * Sets the value 1 expression list.
-	 *
+	 * 
 	 * @param value1List the value 1 expression list to set
 	 * @throws SemanticException if the instance in the list is not valid
 	 */
@@ -198,7 +195,7 @@ public abstract class StyleRuleHandle extends StructureHandle {
 
 	/**
 	 * Returns the value 2.
-	 *
+	 * 
 	 * @return the value 2
 	 */
 
@@ -208,7 +205,7 @@ public abstract class StyleRuleHandle extends StructureHandle {
 
 	/**
 	 * Sets the value 2.
-	 *
+	 * 
 	 * @param value2 the value 2 to set
 	 */
 

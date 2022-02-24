@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -194,15 +194,15 @@ public final class DialRenderer {
 		dSafeSpacing *= dScale;
 	}
 
-	double getValue() {
+	final double getValue() {
 		return dValue;
 	}
 
-	boolean isInverseScale() {
+	final boolean isInverseScale() {
 		return ds.getDial().isInverseScale();
 	}
 
-	double getDialRadius() {
+	final double getDialRadius() {
 		if (ds.getDial().isSetRadius()) {
 			return Math.max(ds.getDial().getRadius() * dScale, 0);
 		}
@@ -210,19 +210,19 @@ public final class DialRenderer {
 		return 0;
 	}
 
-	Scale getDialScale() {
+	final Scale getDialScale() {
 		return ds.getDial().getScale();
 	}
 
-	double getDialStartAngle() {
+	final double getDialStartAngle() {
 		return ds.getDial().isSetStartAngle() ? ds.getDial().getStartAngle() : 0;
 	}
 
-	double getDialStopAngle() {
+	final double getDialStopAngle() {
 		return ds.getDial().isSetStopAngle() ? ds.getDial().getStopAngle() : 180;
 	}
 
-	AutoScale getAutoScale(double startAngle, double stopAngle, Scale sc, Bounds bo, BigDecimal divisor)
+	final AutoScale getAutoScale(double startAngle, double stopAngle, Scale sc, Bounds bo, BigDecimal divisor)
 			throws ChartException {
 		Bounds boCA = goFactory.copyOf(bo);
 		boCA.adjust(insCA);
@@ -276,11 +276,11 @@ public final class DialRenderer {
 				Math.min(dialBounds.getWidth() / 2d, dialBounds.getHeight() / 2d), divisor);
 	}
 
-	AutoScale getAutoScale(double startAngle, double stopAngle, Scale sc, Bounds bo) throws ChartException {
+	final AutoScale getAutoScale(double startAngle, double stopAngle, Scale sc, Bounds bo) throws ChartException {
 		return getAutoScale(startAngle, stopAngle, sc, bo, null);
 	}
 
-	double getDialExtraSpacing(AutoScale sc) throws ChartException {
+	final double getDialExtraSpacing(AutoScale sc) throws ChartException {
 		double ex = 0;
 
 		if (ds.getDial().getMajorGrid().getTickAttributes().isVisible()) {
@@ -310,31 +310,31 @@ public final class DialRenderer {
 		return ex;
 	}
 
-	void updateRadius(double radius) {
+	final void updateRadius(double radius) {
 		this.dRadius = radius;
 	}
 
-	void updateStartAngle(double angle) {
+	final void updateStartAngle(double angle) {
 		this.dStartAngle = angle;
 	}
 
-	void updateStopAngle(double angle) {
+	final void updateStopAngle(double angle) {
 		this.dStopAngle = angle;
 	}
 
-	void updateInverseScale(boolean inverseScale) {
+	final void updateInverseScale(boolean inverseScale) {
 		this.inverseScale = inverseScale;
 	}
 
-	void updateScale(Scale sc) {
+	final void updateScale(Scale sc) {
 		this.sc = sc;
 	}
 
-	void updateAutoScale(AutoScale asc) {
+	final void updateAutoScale(AutoScale asc) {
 		this.asc = asc;
 	}
 
-	void updateExtraSpacing(double spacing) {
+	final void updateExtraSpacing(double spacing) {
 		this.dExtraSpacing = spacing;
 	}
 
@@ -343,7 +343,7 @@ public final class DialRenderer {
 	 * @param bo
 	 * @throws ChartException
 	 */
-	public void render(IDeviceRenderer idr, Bounds bo) throws ChartException {
+	public final void render(IDeviceRenderer idr, Bounds bo) throws ChartException {
 		dc = dial.getDeferredCache();
 
 		Bounds boCA = goFactory.copyOf(bo);
@@ -965,12 +965,12 @@ public final class DialRenderer {
 	private AutoScale computeScale(Label lb, DataSetIterator dsi, double dValue, double dStart, double dEnd,
 			Scale scModel, FormatSpecifier fs, RunTimeContext rtc, double fullRadius, BigDecimal divisor)
 			throws ChartException {
-		AutoScale sc;
+		AutoScale sc = null;
 		AutoScale scCloned = null;
 		final DataElement oMinimum = scModel.getMin();
 		final DataElement oMaximum = scModel.getMax();
 		final Double oStep = scModel.isSetStep() ? new Double(scModel.getStep()) : null;
-		final Integer oStepNumber = scModel.isSetStepNumber() ? scModel.getStepNumber() : null;
+		final Integer oStepNumber = scModel.isSetStepNumber() ? Integer.valueOf(scModel.getStepNumber()) : null;
 
 		final double[] minMax = getMinMaxValue();
 		final double dMinValue = minMax[0], dMaxValue = minMax[1];
@@ -1066,9 +1066,8 @@ public final class DialRenderer {
 				}
 				bZoomSuccess = sc.zoomOut();
 			}
-			if (!bZoomSuccess) {
+			if (!bZoomSuccess)
 				break;
-			}
 
 			sc.updateAxisMinMax(oMinValue, oMaxValue);
 			sc.computeTicks(xs, lb, IConstants.ABOVE, IConstants.HORIZONTAL, dStart, dEnd, false, null);
@@ -1091,10 +1090,10 @@ public final class DialRenderer {
 	/**
 	 * Checks all labels for any overlap for a given axis' scale, SPECIFICALLY ONLY
 	 * used for meter scale(numeric,linear).
-	 *
+	 * 
 	 * @param la
 	 * @param iLabelLocation
-	 *
+	 * 
 	 * @return
 	 */
 	private boolean checkFit(AutoScale sc, IDisplayServer xs, Label la, int iLabelLocation, double fullRadius)

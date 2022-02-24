@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *
+ *  
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -63,7 +63,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 		/*
 		 * original implemenetation doesn't support nest query in Xtab. Add a new API to
 		 * return parent XTAB but keep current API unchanged.
-		 *
+		 * 
 		 * TODO: need merge those two API as a single one.
 		 */
 		this.parentDataQuery = parent;
@@ -78,18 +78,17 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	 * <code>GroupDefinition</code> objects. Groups are organizations within the
 	 * data that support aggregation, filtering and sorting. Reports use groups to
 	 * trigger level breaks.
-	 *
+	 * 
 	 * @return the list of groups. If no group is defined, null is returned.
 	 */
 
-	@Override
 	public List getGroups() {
 		return groups;
 	}
 
 	/**
 	 * Appends a group definition to the group list.
-	 *
+	 * 
 	 * @param group Group definition to add
 	 */
 	public void addGroup(GroupDefinition group) {
@@ -99,10 +98,9 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	/**
 	 * Indicates if the report will use the detail rows. Allows the data transform
 	 * engine to optimize the query if the details are not used.
-	 *
+	 * 
 	 * @return true if the detail rows are used, false if not used
 	 */
-	@Override
 	public boolean usesDetails() {
 		return hasDetail;
 	}
@@ -118,7 +116,6 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	 * Returns the parent query. The parent query is the outer query which encloses
 	 * this query
 	 */
-	@Override
 	public IBaseQueryDefinition getParentQuery() {
 		return parentQuery;
 	}
@@ -126,7 +123,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	/**
 	 * Returns the parent query. The parent query is the outer query which encloses
 	 * this query.
-	 *
+	 * 
 	 * if the parent is XTAB query, it will return null. Call getParentDataQuery
 	 * instead for this case.
 	 */
@@ -137,11 +134,10 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	/**
 	 * Gets the maximum number of detail rows that can be retrieved by this report
 	 * query
-	 *
+	 * 
 	 * @return Maximum number of rows. If 0, there is no limit on how many rows this
 	 *         query can retrieve.
 	 */
-	@Override
 	public int getMaxRows() {
 		return maxRowCount;
 	}
@@ -149,16 +145,15 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	/**
 	 * Sets the maximum number of detail rows that can be retrieved by this report
 	 * query
-	 *
+	 * 
 	 */
-	@Override
 	public void setMaxRows(int maxRows) {
 		maxRowCount = maxRows;
 	}
 
 	/**
 	 * Sets the starting row that will be retrieved by this query
-	 *
+	 * 
 	 * @param startingRow
 	 */
 	public void setStartingRow(int startingRow) {
@@ -167,17 +162,16 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#getStartingRow()
 	 */
-	@Override
 	public int getStartingRow() {
 		return this.startingRow;
 	}
 
 	/**
 	 * Sets the distinct value flag.
-	 *
+	 * 
 	 * @return
 	 */
 	public void setDistinctValue(boolean distinctValue) {
@@ -186,10 +180,9 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#isDistinct()
 	 */
-	@Override
 	public boolean getDistinctValue() {
 		return this.distinctValue;
 	}
@@ -199,25 +192,22 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	 * @param expression
 	 * @deprecated
 	 */
-	@Deprecated
 	public void addResultSetExpression(String name, IBaseExpression expression) {
 		Binding binding = new Binding(name);
 		binding.setExpression(expression);
-		if (expression != null) {
+		if (expression != null)
 			binding.setDataType(expression.getDataType());
-		}
 		this.bindingMap.put(name, binding);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IBaseQueryDefinition#addBinding(java.lang.
 	 * String, org.eclipse.birt.data.engine.api.IBinding)
 	 */
-	@Override
 	public void addBinding(IBinding binding) throws DataException {
 		// TODO remove me
 		// Temp solution for backward compatibility util Model make the changes.
@@ -234,10 +224,9 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#getBindings()
 	 */
-	@Override
 	public Map getBindings() {
 		for (Iterator it = this.resultExprsMap.keySet().iterator(); it.hasNext();) {
 			String key = it.next().toString();
@@ -255,17 +244,15 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IBaseTransform#getResultSetExpressions()
 	 */
-	@Override
 	public Map getResultSetExpressions() {
 		return this.resultExprsMap;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#needCache()
 	 */
-	@Override
 	public boolean cacheQueryResults() {
 		return cacheQueryResults;
 	}
@@ -279,7 +266,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 
 	/**
 	 * Set the query execution hints.
-	 *
+	 * 
 	 * @param hints
 	 */
 	public void setQueryExecutionHints(IQueryExecutionHints hints) {
@@ -288,32 +275,29 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IBaseQueryDefinition#getQueryExecutionHints(
 	 * )
 	 */
-	@Override
 	public IQueryExecutionHints getQueryExecutionHints() {
 		return this.queryExecutionHints;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.INamedObject#setName(java.lang.String)
 	 */
-	@Override
 	public void setName(String name) {
 		this.name = name;
 

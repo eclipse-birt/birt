@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,15 +46,14 @@ class MergeTempFileUtil {
 		this.resultObjectUtil = resultObjectUtil;
 
 		File tempDir = new File(tempDirStr);
-		if (!FileSecurity.fileExist(tempDir)) {
+		if (FileSecurity.fileExist(tempDir) == false)
 			FileSecurity.fileMakeDirs(tempDir);
-		}
 	}
 
 	/**
 	 * Get temp file for external sorting, template file is automatic generated
 	 * according to passed result row index value.
-	 *
+	 * 
 	 * @param index
 	 * @return temp file
 	 * @throws IOException
@@ -66,7 +65,7 @@ class MergeTempFileUtil {
 
 	/**
 	 * Start new merge level.
-	 *
+	 * 
 	 */
 	void newMergeLevel() {
 		curLevel++;
@@ -75,13 +74,12 @@ class MergeTempFileUtil {
 
 	/**
 	 * Delete the temperary dir.
-	 *
+	 * 
 	 */
 	void clearTempDir() {
 		File tempDir = new File(tempDirStr);
-		if (FileSecurity.fileExist(tempDir)) {
+		if (FileSecurity.fileExist(tempDir))
 			FileSecurity.fileDelete(tempDir);
-		}
 	}
 
 }

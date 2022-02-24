@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,10 +30,10 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 public class EngineExtensionManager {
 
 	ExecutionContext context;
-	HashMap<String, IRenderExtension> renderExtensions = new HashMap<>();
-	HashMap<String, IGenerateExtension> generateExtensions = new HashMap<>();
-	HashMap<String, IDocumentExtension> documentExtensions = new HashMap<>();
-	HashMap<String, IDataExtension> dataExtensions = new HashMap<>();
+	HashMap<String, IRenderExtension> renderExtensions = new HashMap<String, IRenderExtension>();
+	HashMap<String, IGenerateExtension> generateExtensions = new HashMap<String, IGenerateExtension>();
+	HashMap<String, IDocumentExtension> documentExtensions = new HashMap<String, IDocumentExtension>();
+	HashMap<String, IDataExtension> dataExtensions = new HashMap<String, IDataExtension>();
 
 	public EngineExtensionManager(ExecutionContext context) {
 		this.context = context;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -77,7 +77,7 @@ public class ParameterUtil {
 	 * Resolve parameter bindings and return a Collection of ParameterHints, which
 	 * merged information obtained from query parameter binding and the data set
 	 * parameter definition
-	 *
+	 * 
 	 */
 	public Collection resolveDataSetParameters(boolean evaluateValue) throws DataException {
 		List paramDefns = this.dsRT.getParameters();
@@ -145,15 +145,14 @@ public class ParameterUtil {
 
 	/**
 	 * Resolve a list of parameter bindings and update the hints
-	 *
+	 * 
 	 * @param cx JS context to evaluate binding. If null, binding does not need to
 	 *           be evaluated
 	 */
 	private void resolveParameterBindings(Collection bindings, ParameterHint[] paramHints, boolean[] bindingResolved,
 			Context cx) throws DataException {
-		if (bindings == null) {
+		if (bindings == null)
 			return;
-		}
 
 		Iterator it = bindings.iterator();
 		while (it.hasNext()) {
@@ -163,7 +162,7 @@ public class ParameterUtil {
 
 	/**
 	 * Resolve a parameter binding and update the hints
-	 *
+	 * 
 	 * @param cx JS context to evaluate binding. If null, binding does not need to
 	 *           be evaluated
 	 */
@@ -175,12 +174,11 @@ public class ParameterUtil {
 		if (i < 0) {
 			// A binding exists but the data set has no definition for the
 			// bound parameter, log an error and ignore the param
-			if (logger != null) {
+			if (logger != null)
 				logger.warning("Ignored binding defined for non-exising data set parameter: " //$NON-NLS-1$
 						+ "name=" //$NON-NLS-1$
 						+ binding.getName() + ", position=" //$NON-NLS-1$
 						+ binding.getPosition());
-			}
 		}
 
 		// Do not set binding value if the parameter has already been resolved
@@ -226,11 +224,11 @@ public class ParameterUtil {
 		for (int i = 0; i < hints.length; i++) {
 			ParameterHint paramHint = hints[i];
 			if (position <= 0) {
-				if (paramHint.getName().equalsIgnoreCase(name)) {
+				if (paramHint.getName().equalsIgnoreCase(name))
 					return i;
-				}
-			} else if (paramHint.getPosition() == position) {
-				return i;
+			} else {
+				if (paramHint.getPosition() == position)
+					return i;
 			}
 		}
 		return -1;
@@ -257,21 +255,19 @@ public class ParameterUtil {
 				ScriptContext evalContext = this.outerScope == null ? context : context.newContext(this.outerScope);
 				// for java script, need to set its compiled handle
 				if (iParamBind.getExpr().getHandle() == null
-						&& !(BaseExpression.constantId.equals(iParamBind.getExpr().getScriptId()))) {
+						&& !(BaseExpression.constantId.equals(iParamBind.getExpr().getScriptId())))
 					iParamBind.getExpr().setHandle(evalContext.compile("javascript", null, 0,
 							((IScriptExpression) iParamBind.getExpr()).getText()));
-				}
 				evaluateResult = ScriptEvalUtil.evalExpr(iParamBind.getExpr(), evalContext, ScriptExpression.defaultID,
 						0);
 			}
 		} catch (BirtException e) {
 			// do not expect a exception here.
 			DataException dataEx = new DataException(ResourceConstants.UNEXPECTED_ERROR, e);
-			if (logger != null) {
+			if (logger != null)
 				logger.logp(Level.FINE, PreparedOdaDSQuery.class.getName(), "getMergedParameters", //$NON-NLS-1$
 						"Error occurs in IQueryResults.getResultIterator()", //$NON-NLS-1$
 						e);
-			}
 			throw dataEx;
 		}
 		// TODO throw DataException
@@ -295,16 +291,15 @@ public class ParameterUtil {
 
 	/**
 	 * Create a parameter hint based on Parameter definition and value
-	 *
+	 * 
 	 * @param paramDefn
 	 * @param evaValue
 	 */
 	private ParameterHint createParameterHint(IParameterDefinition paramDefn, Object paramValue) throws DataException {
 		ParameterHint parameterHint = new ParameterHint(paramDefn.getName(), paramDefn.isInputMode(),
 				paramDefn.isOutputMode());
-		if (paramDefn.getPosition() > 0) {
+		if (paramDefn.getPosition() > 0)
 			parameterHint.setPosition(paramDefn.getPosition());
-		}
 
 		parameterHint.setNativeName(paramDefn.getNativeName());
 
@@ -312,20 +307,18 @@ public class ParameterUtil {
 
 		parameterHint.setNativeDataType(paramDefn.getNativeType());
 		parameterHint.setIsInputOptional(paramDefn.isInputOptional());
-		if (parameterHint.isInputMode()) {
+		if (parameterHint.isInputMode())
 			parameterHint.setDefaultInputValue(paramValue);
-		}
 		parameterHint.setIsNullable(paramDefn.isNullable());
 		// ParameterHint does not support AnyType
 		// the real type for AnyType is determined by the real parameter value
 		if (dataTypeClass != AnyType.class) {
-			if (dataTypeClass == Blob.class) {
+			if (dataTypeClass == Blob.class)
 				parameterHint.setDataType(IBlob.class);
-			} else if (dataTypeClass == Clob.class) {
+			else if (dataTypeClass == Clob.class)
 				parameterHint.setDataType(IClob.class);
-			} else {
+			else
 				parameterHint.setDataType(dataTypeClass);
-			}
 		}
 		return parameterHint;
 	}

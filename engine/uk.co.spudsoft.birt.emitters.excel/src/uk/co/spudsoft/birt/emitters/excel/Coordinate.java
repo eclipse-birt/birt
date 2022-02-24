@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -14,8 +14,6 @@
  ************************************************************************************/
 
 package uk.co.spudsoft.birt.emitters.excel;
-
-import java.util.Objects;
 
 public class Coordinate {
 
@@ -46,24 +44,26 @@ public class Coordinate {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(row, col);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + row;
+		result = prime * result + col;
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if ((obj == null) || (getClass() != obj.getClass())) {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		Coordinate other = (Coordinate) obj;
-		if (row != other.row) {
+		if (row != other.row)
 			return false;
-		}
-		if (col != other.col) {
+		if (col != other.col)
 			return false;
-		}
 		return true;
 	}
 

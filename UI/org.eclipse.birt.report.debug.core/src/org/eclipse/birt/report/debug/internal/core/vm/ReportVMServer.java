@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -154,7 +154,6 @@ public class ReportVMServer implements VMConstants, VMListener {
 	private void startRequestDispatch() {
 		requestDispatchThread = new Thread(new Runnable() {
 
-			@Override
 			public void run() {
 				logger.info(Messages.getString("ReportVMServer.EnterRequestDispatching")); //$NON-NLS-1$
 
@@ -334,7 +333,7 @@ public class ReportVMServer implements VMConstants, VMListener {
 				return new RMValue(((Long) oid).longValue(), val.getValueString(), val.getTypeName(),
 						wrapMember ? wrapMembers(val) : null);
 			} else {
-				Long vid = ++counter;
+				Long vid = Long.valueOf(++counter);
 				id2val.put(vid, val);
 				val2id.put(val, vid);
 
@@ -378,7 +377,6 @@ public class ReportVMServer implements VMConstants, VMListener {
 		return NO_CHILD;
 	}
 
-	@Override
 	public void handleEvent(int eventCode, VMContextData context) {
 		if (isShutdown) {
 			return;

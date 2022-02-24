@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Spinner;
 
 /**
  * Dialog to choose the table/grid row/column number when create a table/grid.
- *
+ * 
  */
 public class TableOptionDialog extends BaseDialog {
 
@@ -106,7 +106,7 @@ public class TableOptionDialog extends BaseDialog {
 
 	/**
 	 * The constructor.
-	 *
+	 * 
 	 * @param parentShell
 	 */
 	public TableOptionDialog(Shell parentShell, boolean insertTable) {
@@ -146,13 +146,12 @@ public class TableOptionDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
 
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		loadPreference();
 
@@ -211,11 +210,9 @@ public class TableOptionDialog extends BaseDialog {
 			autoChk.setLayoutData(gdata);
 			autoChk.addSelectionListener(new SelectionListener() {
 
-				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 
-				@Override
 				public void widgetSelected(SelectionEvent e) {
 					rowEditor.setEnabled(!autoChk.getSelection());
 				}
@@ -244,10 +241,9 @@ public class TableOptionDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		rowCount = rowEditor.getSelection();
 		columnCount = columnEditor.getSelection();
@@ -267,9 +263,8 @@ public class TableOptionDialog extends BaseDialog {
 				setResult(new Object[] { Integer.valueOf(rowCount), Integer.valueOf(columnCount),
 						autoChk.getSelection(), dataSetCombo.getItem(dataSetCombo.getSelectionIndex()) });
 			}
-		} else {
+		} else
 			setResult(new Object[] { Integer.valueOf(rowCount), Integer.valueOf(columnCount) });
-		}
 
 		if (chkbox.getSelection()) {
 			savePreference();

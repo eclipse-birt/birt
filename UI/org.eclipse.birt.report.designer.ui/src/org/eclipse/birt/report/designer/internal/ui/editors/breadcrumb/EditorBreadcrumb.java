@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,11 +37,11 @@ import org.eclipse.ui.actions.ActionGroup;
 /**
  * The editor breadcrumb shows the parent chain of the active editor item inside
  * a {@link BreadcrumbViewer}.
- *
+ * 
  * <p>
  * Clients must implement the abstract methods.
  * </p>
- *
+ * 
  * @since 2.6.2
  */
 public abstract class EditorBreadcrumb implements IBreadcrumb {
@@ -69,7 +69,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 	/**
 	 * The editor inside which this breadcrumb is shown.
-	 *
+	 * 
 	 * @param editor the editor
 	 */
 	public EditorBreadcrumb(GraphicalEditorWithFlyoutPalette editor) {
@@ -78,14 +78,14 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 	/**
 	 * The active element of the editor.
-	 *
+	 * 
 	 * @return the active element of the editor, or <b>null</b> if none
 	 */
 	protected abstract Object getCurrentInput();
 
 	/**
 	 * Create and configure the viewer used to display the parent chain.
-	 *
+	 * 
 	 * @param parent the parent composite
 	 * @return the viewer
 	 */
@@ -93,7 +93,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 	/**
 	 * Reveal the given element in the editor if possible.
-	 *
+	 * 
 	 * @param element the element to reveal
 	 * @return true if the element could be revealed
 	 */
@@ -101,7 +101,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 	/**
 	 * Open the element in a new editor if possible.
-	 *
+	 * 
 	 * @param element the element to open
 	 * @return true if the element could be opened
 	 */
@@ -111,7 +111,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	 * Create an action group for the context menu shown for the selection of the
 	 * given selection provider or <code>null</code> if no context menu should be
 	 * shown.
-	 *
+	 * 
 	 * @param selectionProvider the provider of the context selection
 	 * @return action group to use to fill the context menu or <code>null</code>
 	 */
@@ -129,7 +129,6 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	 */
 	protected abstract void deactivateBreadcrumb();
 
-	@Override
 	public ISelectionProvider getSelectionProvider() {
 		return fBreadcrumbViewer;
 	}
@@ -138,16 +137,16 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.IBreadcrumb#setInput(java.lang
 	 * .Object)
 	 */
-	@Override
 	public void setInput(Object element) {
-		if (element == null) {
+		if (element == null)
 			return;
-		}
 
 		Object input = fBreadcrumbViewer.getInput();
-		if (input == element || element.equals(input) || fBreadcrumbViewer.isDropDownOpen()) {
+		if (input == element || element.equals(input))
 			return;
-		}
+
+		if (fBreadcrumbViewer.isDropDownOpen())
+			return;
 
 		fBreadcrumbViewer.setInput(element);
 	}
@@ -155,18 +154,15 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.IBreadcrumb#setFocus()
 	 */
-	@Override
 	public void activate() {
-		if (fBreadcrumbViewer.getSelection().isEmpty()) {
+		if (fBreadcrumbViewer.getSelection().isEmpty())
 			fBreadcrumbViewer.setSelection(new StructuredSelection(fBreadcrumbViewer.getInput()));
 //		fBreadcrumbViewer.setFocus( );
-		}
 	}
 
 	/*
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.breadcrumb.IBreadcrumb#isActive()
 	 */
-	@Override
 	public boolean isActive() {
 		return fIsActive;
 	}
@@ -175,7 +171,6 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.IBreadcrumb#createContent(org.
 	 * eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public Control createContent(Composite parent) {
 		Assert.isTrue(fComposite == null, "Content must only be created once."); //$NON-NLS-1$
 
@@ -231,7 +226,6 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 		fBreadcrumbViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				doOpen(event.getSelection());
 			}
@@ -239,7 +233,6 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 		fBreadcrumbViewer.addOpenListener(new IOpenListener() {
 
-			@Override
 			public void open(OpenEvent event) {
 				doRevealOrOpen(event.getSelection());
 			}
@@ -247,7 +240,6 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 		fBreadcrumbViewer.addMenuDetectListener(new MenuDetectListener() {
 
-			@Override
 			public void menuDetected(MenuDetectEvent event) {
 				ISelectionProvider selectionProvider;
 				if (fBreadcrumbViewer.isDropDownOpen()) {
@@ -260,15 +252,13 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 					menuManager = new MenuManager();
 
 					Object element = selectionProvider.getSelection();
-					if (selectionProvider.getSelection() instanceof StructuredSelection) {
+					if (selectionProvider.getSelection() instanceof StructuredSelection)
 						element = ((StructuredSelection) selectionProvider.getSelection()).getFirstElement();
-					}
 
 					createContextMenu(element, menuManager);
 
-					if (menuManager.isEmpty()) {
+					if (menuManager.isEmpty())
 						return;
-					}
 
 					getEditor().getEditorSite().registerContextMenu(menuManager, selectionProvider, false);
 				}
@@ -277,9 +267,8 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 				menu.setLocation(event.x + 10, event.y + 10);
 				menu.setVisible(true);
 				while (!menu.isDisposed() && menu.isVisible()) {
-					if (!menu.getDisplay().readAndDispatch()) {
+					if (!menu.getDisplay().readAndDispatch())
 						menu.getDisplay().sleep();
-					}
 				}
 
 			}
@@ -318,7 +307,6 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.IEditorViewPart#dispose()
 	 */
-	@Override
 	public void dispose() {
 //		if ( fPropertyChangeListener != null )
 //		{
@@ -344,7 +332,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	/**
 	 * Either reveal the selection in the editor or open the selection in a new
 	 * editor. If both fail open the child pop up of the selected element.
-	 *
+	 * 
 	 * @param selection the selection to open
 	 */
 	private void doRevealOrOpen(ISelection selection) {
@@ -358,27 +346,23 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	}
 
 	private boolean doOpen(ISelection selection) {
-		if (!(selection instanceof StructuredSelection)) {
+		if (!(selection instanceof StructuredSelection))
 			return false;
-		}
 
 		StructuredSelection structuredSelection = (StructuredSelection) selection;
-		if (structuredSelection.isEmpty()) {
+		if (structuredSelection.isEmpty())
 			return false;
-		}
 
 		return open(structuredSelection.getFirstElement());
 	}
 
 	private boolean doReveal(ISelection selection) {
-		if (!(selection instanceof StructuredSelection)) {
+		if (!(selection instanceof StructuredSelection))
 			return false;
-		}
 
 		StructuredSelection structuredSelection = (StructuredSelection) selection;
-		if (structuredSelection.isEmpty()) {
+		if (structuredSelection.isEmpty())
 			return false;
-		}
 
 		return reveal(structuredSelection.getFirstElement());
 
@@ -460,7 +444,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	/**
 	 * Tells whether the given event was issued inside the breadcrumb viewer's
 	 * control.
-	 *
+	 * 
 	 * @param event the event to inspect
 	 * @return <code>true</code> if event was generated by a breadcrumb child
 	 */
@@ -493,14 +477,14 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 	/**
 	 * Sets the text editor for which this breadcrumb is.
-	 *
+	 * 
 	 * @param editor the editor to be used
 	 */
 	protected void setEditor(GraphicalEditorWithFlyoutPalette editor) {
 		fEditor = editor;
 
-		if (fEditor == null) {
-		}
+		if (fEditor == null)
+			return;
 
 //		fPartListener = new IPartListener( ) {
 //
@@ -543,7 +527,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 	/**
 	 * This breadcrumb's text editor.
-	 *
+	 * 
 	 * @return the text editor
 	 */
 	protected GraphicalEditorWithFlyoutPalette getEditor() {

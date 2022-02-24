@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ package org.eclipse.birt.core.framework;
  * <p>
  * Clients may implement this interface.
  * </p>
- *
+ * 
  * @see IConfigurationElement#createExecutableExtension(String)
  */
 public interface IExecutableExtension {
@@ -42,11 +42,11 @@ public interface IExecutableExtension {
 	 * <p>
 	 * Regular executable extensions specify their Java implementation class name as
 	 * an attribute of the configuration element for the extension. For example
-	 *
+	 * 
 	 * <pre>
 	 *     &lt;action run="com.example.BaseAction"/&gt;
 	 * </pre>
-	 *
+	 * 
 	 * In the above example, this method would be called with a reference to the
 	 * <code>&lt;action&gt;</code> element (first argument), and <code>"run"</code>
 	 * as the name of the attribute that defined this executable extension (second
@@ -67,7 +67,7 @@ public interface IExecutableExtension {
 	 * any adapter data in string form. For example, if the extension point
 	 * specifies an attribute <code>"run"</code> to contain the name of the
 	 * extension implementation, an adapter can be configured as
-	 *
+	 * 
 	 * <pre>
 	 *     &lt;action run="com.example.ExternalAdapter:./cmds/util.exe -opt 3"/&gt;
 	 * </pre>
@@ -77,7 +77,7 @@ public interface IExecutableExtension {
 	 * child element of the original configuration element, and specifying the
 	 * adapter data in the form of xml markup. Using this form, the example above
 	 * would become
-	 *
+	 * 
 	 * <pre>
 	 *     &lt;action&gt;
 	 *         &lt;<it>run</it> class="com.xyz.ExternalAdapter"&gt;
@@ -122,6 +122,6 @@ public interface IExecutableExtension {
 	 *                               processing
 	 * @see IConfigurationElement#createExecutableExtension(String)
 	 */
-	void setInitializationData(IConfigurationElement config, String propertyName, Object data)
+	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
 			throws FrameworkException;
 }

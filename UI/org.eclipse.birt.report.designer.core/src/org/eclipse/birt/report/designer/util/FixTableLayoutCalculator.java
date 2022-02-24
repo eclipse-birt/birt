@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
  * Implment Fix layout algorithm of table column width. The class assume the
  * table width and column width are setted to fix size, eg. fix number or fix
  * percentage.
- *
+ * 
  */
 
 public class FixTableLayoutCalculator implements ITableLayoutCalculator {
@@ -42,10 +42,9 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 	private int minAmt;
 
 	/**
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.util.ITableLayoutCalculator#getColWidth()
 	 */
-	@Override
 	public float[] getFloatColWidth() {
 		if (definedWidthValues.length > 0) {
 			colNum = definedWidthValues.length;
@@ -58,7 +57,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 
 	/**
 	 * Set predefined column widths.
-	 *
+	 * 
 	 * @param widthValues
 	 */
 	public void setDefinedColWidth(String[] widthValues) {
@@ -66,7 +65,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.util.ITableLayoutCalculator#getRowHeight()
 	 */
 	public float[] getRowHeight() {
@@ -76,7 +75,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 
 	/**
 	 * Set width of table.
-	 *
+	 * 
 	 * @param width
 	 */
 	public void setTableWidth(float width) {
@@ -98,7 +97,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 	}
 
 	/**
-	 *
+	 *  
 	 */
 	private void adjustWidth() {
 		float amt = 0;
@@ -155,10 +154,11 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 				}
 			}
 		}
+		return;
 	}
 
 	/**
-	 *
+	 *  
 	 */
 	private void calPercentAndNullColWidth() throws NumberFormatException {
 		for (int i = 0; i < definedWidthValues.length; i++) {
@@ -199,7 +199,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 	}
 
 	/**
-	 *
+	 *  
 	 */
 	private void getFixNumColWidth() {
 		float fixWidthAmt = 0;
@@ -232,7 +232,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 
 	/**
 	 * Set the minimum size of column
-	 *
+	 * 
 	 * @param minSize
 	 */
 	public void setColMinSize(float minSize) {
@@ -240,10 +240,9 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.util.ITableLayoutCalculator#getIntColWidth()
 	 */
-	@Override
 	public int[] getIntColWidth() throws NumberFormatException {
 
 		float[] width = null;
@@ -285,7 +284,6 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 	/**
 	 * @see org.eclipse.birt.report.designer.util.ITableLayoutCalculator#getFloatRowHeight()
 	 */
-	@Override
 	public float[] getFloatRowHeight() {
 		// TODO Auto-generated method stub
 		return null;
@@ -294,7 +292,6 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator {
 	/**
 	 * @see org.eclipse.birt.report.designer.util.ITableLayoutCalculator#getIntRowHeight()
 	 */
-	@Override
 	public float[] getIntRowHeight() {
 		// TODO Auto-generated method stub
 		return null;

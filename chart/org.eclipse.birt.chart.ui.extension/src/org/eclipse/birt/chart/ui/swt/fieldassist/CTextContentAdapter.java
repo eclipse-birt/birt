@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,14 +26,14 @@ import org.eclipse.swt.widgets.Text;
  * The class extends {@link org.eclipse.jface.fieldassist.TextContentAdapter},
  * and supports to notify content change to listeners when set/insert action
  * happens.
- *
+ * 
  * @since 2.5
  */
 
 public class CTextContentAdapter extends TextContentAdapter {
 
 	/** The listeners list. */
-	private List<IContentChangeListener> listeners = new ArrayList<>(2);
+	private List<IContentChangeListener> listeners = new ArrayList<IContentChangeListener>(2);
 
 	/**
 	 * Constructor.
@@ -44,11 +44,10 @@ public class CTextContentAdapter extends TextContentAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.fieldassist.TextContentAdapter#setControlContents(org
 	 * .eclipse.swt.widgets.Control, java.lang.String, int)
 	 */
-	@Override
 	public void setControlContents(Control control, String text, int cursorPosition) {
 		String oldValue = ((Text) control).getText();
 		((Text) control).setText(text);
@@ -58,12 +57,11 @@ public class CTextContentAdapter extends TextContentAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.jface.fieldassist.IControlContentAdapter#insertControlContents
 	 * (org.eclipse.swt.widgets.Control, java.lang.String, int)
 	 */
-	@Override
 	public void insertControlContents(Control control, String text, int cursorPosition) {
 		String oldValue = ((Text) control).getText();
 		Point selection = ((Text) control).getSelection();
@@ -78,7 +76,7 @@ public class CTextContentAdapter extends TextContentAdapter {
 
 	/**
 	 * Add content change listeners.
-	 *
+	 * 
 	 * @param listener
 	 */
 	public void addContentChangeListener(IContentChangeListener listener) {
@@ -89,7 +87,7 @@ public class CTextContentAdapter extends TextContentAdapter {
 
 	/**
 	 * Remove content change listener.
-	 *
+	 * 
 	 * @param listener
 	 */
 	public void removeContentChangeListener(IContentChangeListener listener) {
@@ -98,7 +96,7 @@ public class CTextContentAdapter extends TextContentAdapter {
 
 	/**
 	 * Notify content is changed to all listeners.
-	 *
+	 * 
 	 * @param control  the control whose content is changed.
 	 * @param newValue the new content.
 	 * @param oldValue the old content.

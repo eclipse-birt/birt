@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005, 2006 IBM Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -80,12 +80,12 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	protected Stroke stroke;
 	protected Color background;
 	protected Element currentElement;
-	protected Stack<Element> parentStack = new Stack<>();
+	protected Stack<Element> parentStack = new Stack<Element>();
 	protected Element currentParent;
 	protected FontRenderContext fontRenderContext;
 	protected AffineTransform transforms;
-	protected List<SVGGradientPaint> paints = new ArrayList<>();
-	protected Set<TexturePaint> textures = new HashSet<>();
+	protected List<SVGGradientPaint> paints = new ArrayList<SVGGradientPaint>();
+	protected Set<TexturePaint> textures = new HashSet<TexturePaint>();
 	protected Element definitions;
 	protected Element styles;
 	protected Element codeScript;
@@ -141,12 +141,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	public Element popParent() {
 		Element popElement = null;
-		if (!parentStack.isEmpty()) {
+		if (!parentStack.isEmpty())
 			popElement = parentStack.pop();
-		}
-		if (!parentStack.isEmpty()) {
+		if (!parentStack.isEmpty())
 			currentParent = parentStack.peek();
-		}
 		return popElement;
 	}
 
@@ -156,10 +154,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#draw(java.awt.Shape)
 	 */
-	@Override
 	public void draw(Shape shape) {
 		currentElement = createGeneralPath(shape);
 		appendChild(currentElement);
@@ -168,11 +165,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#drawImage(java.awt.Image,
 	 * java.awt.geom.AffineTransform, java.awt.image.ImageObserver)
 	 */
-	@Override
 	public boolean drawImage(Image arg0, AffineTransform arg1, ImageObserver arg2) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.drawImage.image"))); //$NON-NLS-1$
 		return false;
@@ -180,11 +176,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#drawImage(java.awt.image.BufferedImage,
 	 * java.awt.image.BufferedImageOp, int, int)
 	 */
-	@Override
 	public void drawImage(BufferedImage arg0, BufferedImageOp arg1, int arg2, int arg3) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.drawImage.buffer"))); //$NON-NLS-1$
 
@@ -192,22 +187,20 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#drawRenderedImage(java.awt.image.RenderedImage,
 	 * java.awt.geom.AffineTransform)
 	 */
-	@Override
 	public void drawRenderedImage(RenderedImage arg0, AffineTransform arg1) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.drawRenderImage.RenderImage"))); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seejava.awt.Graphics2D#drawRenderableImage(java.awt.image.renderable.
 	 * RenderableImage, java.awt.geom.AffineTransform)
 	 */
-	@Override
 	public void drawRenderableImage(RenderableImage arg0, AffineTransform arg1) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.drawRenderableImage.RenderableImage"))); //$NON-NLS-1$
 
@@ -222,53 +215,48 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawString(java.lang.String, int, int)
 	 */
-	@Override
 	public void drawString(String arg0, int arg1, int arg2) {
 		drawString(arg0, Integer.toString(arg1), Integer.toString(arg2));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#drawString(java.lang.String, float, float)
 	 */
-	@Override
 	public void drawString(String arg0, float arg1, float arg2) {
 		drawString(arg0, toString(arg1), toString(arg2));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawString(java.text.AttributedCharacterIterator, int,
 	 * int)
 	 */
-	@Override
 	public void drawString(AttributedCharacterIterator arg0, int arg1, int arg2) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.drawString.AttributeInt"))); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#drawString(java.text.AttributedCharacterIterator,
 	 * float, float)
 	 */
-	@Override
 	public void drawString(AttributedCharacterIterator arg0, float arg1, float arg2) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.drawString.AttributeFloat"))); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#drawGlyphVector(java.awt.font.GlyphVector, float,
 	 * float)
 	 */
-	@Override
 	public void drawGlyphVector(GlyphVector glyph, float x, float y) {
 		translate(x, y);
 		Element currentElement = dom.createElement("g");//$NON-NLS-1$
@@ -282,14 +270,12 @@ public class SVGGraphics2D extends ChartGraphics2D {
 			transElement.appendChild(glyphElem);
 		}
 		// should add clipping to the group element that is not transformed
-		if (clip != null) {
+		if (clip != null)
 			currentElement.setAttribute("clip-path", "url(#clip" + clip.hashCode() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		appendChild(currentElement);
 		translate(-x, -y);
 	}
 
-	@Override
 	public void fill(Shape shape, boolean defered) {
 		Element tempDeferred = null;
 		if (!defered) {
@@ -306,10 +292,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#fill(java.awt.Shape)
 	 */
-	@Override
 	public void fill(Shape shape) {
 		currentElement = createGeneralPath(shape);
 		appendChild(currentElement);
@@ -318,10 +303,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#hit(java.awt.Rectangle, java.awt.Shape, boolean)
 	 */
-	@Override
 	public boolean hit(Rectangle arg0, Shape arg1, boolean arg2) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.hit.Rectangle"))); //$NON-NLS-1$
 		return false;
@@ -329,10 +313,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#getDeviceConfiguration()
 	 */
-	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.getDeviceConfig"))); //$NON-NLS-1$
 		return null;
@@ -340,85 +323,76 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#setComposite(java.awt.Composite)
 	 */
-	@Override
 	public void setComposite(Composite arg0) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.setComposite"))); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#setRenderingHint(java.awt.RenderingHints.Key,
 	 * java.lang.Object)
 	 */
-	@Override
 	public void setRenderingHint(Key arg0, Object arg1) {
 		renderingHints.put(arg0, arg1);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#getRenderingHint(java.awt.RenderingHints.Key)
 	 */
-	@Override
 	public Object getRenderingHint(Key arg0) {
 		return renderingHints.get(arg0);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#setRenderingHints(java.util.Map)
 	 */
-	@Override
 	public void setRenderingHints(Map arg0) {
 		renderingHints = new RenderingHints(arg0);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#addRenderingHints(java.util.Map)
 	 */
-	@Override
 	public void addRenderingHints(Map arg0) {
 		renderingHints.add(new RenderingHints(arg0));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#getRenderingHints()
 	 */
-	@Override
 	public RenderingHints getRenderingHints() {
 		return renderingHints;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#translate(int, int)
 	 */
-	@Override
 	public void translate(int arg0, int arg1) {
 		String transform = currentElement.getAttribute("transform"); //$NON-NLS-1$
-		if (transform == null) {
+		if (transform == null)
 			transform = ""; //$NON-NLS-1$
-		}
 		currentElement.setAttribute("transform", transform + " translate(" + arg0 + " " + arg1 + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#translate(double, double)
 	 */
-	@Override
 	public void translate(double arg0, double arg1) {
 		transforms.translate(arg0, arg1);
 
@@ -426,90 +400,81 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#rotate(double)
 	 */
-	@Override
 	public void rotate(double arg0) {
 		transforms.rotate(arg0);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#rotate(double, double, double)
 	 */
-	@Override
 	public void rotate(double arg0, double arg1, double arg2) {
 		transforms.rotate(arg0, arg1, arg2);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#scale(double, double)
 	 */
-	@Override
 	public void scale(double arg0, double arg1) {
 		transforms.scale(arg0, arg1);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#shear(double, double)
 	 */
-	@Override
 	public void shear(double arg0, double arg1) {
 		transforms.shear(arg0, arg1);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#transform(java.awt.geom.AffineTransform)
 	 */
-	@Override
 	public void transform(AffineTransform arg0) {
 		transforms.concatenate((AffineTransform) arg0.clone());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#setTransform(java.awt.geom.AffineTransform)
 	 */
-	@Override
 	public void setTransform(AffineTransform transform) {
 		this.transforms = transform;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#getTransform()
 	 */
-	@Override
 	public AffineTransform getTransform() {
 		return transforms;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#getPaint()
 	 */
-	@Override
 	public Paint getPaint() {
 		return paint;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#getComposite()
 	 */
-	@Override
 	public Composite getComposite() {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.getComposite"))); //$NON-NLS-1$
 		return null;
@@ -517,54 +482,48 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#clip(java.awt.Shape)
 	 */
-	@Override
 	public void clip(Shape shape) {
 		setClip(shape);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics2D#getFontRenderContext()
 	 */
-	@Override
 	public FontRenderContext getFontRenderContext() {
 		return fontRenderContext;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#create()
 	 */
-	@Override
 	public Graphics create() {
 		return new SVGGraphics2D(dom);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#setPaintMode()
 	 */
-	@Override
 	public void setPaintMode() {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.setPaintMode"))); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#setXORMode(java.awt.Color)
 	 */
-	@Override
 	public void setXORMode(Color xorColor) {
-		if ((color == null) || (xorColor == null)) {
+		if ((color == null) || (xorColor == null))
 			return;
-		}
 
 		int newColor = ((xorColor.getRed() << 16) + (xorColor.getGreen() << 8) + xorColor.getBlue())
 				^ ((color.getRed() << 16) + (color.getGreen() << 8) + color.getBlue());
@@ -576,10 +535,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#getFontMetrics(java.awt.Font)
 	 */
-	@Override
 	public FontMetrics getFontMetrics(Font arg0) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.getFontMetrics.Font"))); //$NON-NLS-1$
 		return null;
@@ -587,20 +545,18 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#getClipBounds()
 	 */
-	@Override
 	public Rectangle getClipBounds() {
 		return clip.getBounds();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#clipRect(int, int, int, int)
 	 */
-	@Override
 	public void clipRect(int arg0, int arg1, int arg2, int arg3) {
 		Rectangle2D.Double rect = new Rectangle2D.Double(arg0, arg1, arg2, arg3);
 		setClip(rect);
@@ -608,10 +564,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#setClip(int, int, int, int)
 	 */
-	@Override
 	public void setClip(int arg0, int arg1, int arg2, int arg3) {
 		Rectangle2D.Double rect = new Rectangle2D.Double(arg0, arg1, arg2, arg3);
 		setClip(rect);
@@ -619,20 +574,18 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#copyArea(int, int, int, int, int, int)
 	 */
-	@Override
 	public void copyArea(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.CopyArea.Int"))); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawLine(int, int, int, int)
 	 */
-	@Override
 	public void drawLine(int arg0, int arg1, int arg2, int arg3) {
 		drawLine((double) arg0, (double) arg1, (double) arg2, (double) arg3);
 
@@ -646,10 +599,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawRect(int, int, int, int)
 	 */
-	@Override
 	public void drawRect(int arg0, int arg1, int arg2, int arg3) {
 		drawRect((double) arg0, (double) arg1, (double) arg2, (double) arg3);
 	}
@@ -662,10 +614,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#fillRect(int, int, int, int)
 	 */
-	@Override
 	public void fillRect(int arg0, int arg1, int arg2, int arg3) {
 		fillRect((double) arg0, (double) arg1, (double) arg2, (double) arg3);
 	}
@@ -678,20 +629,18 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#clearRect(int, int, int, int)
 	 */
-	@Override
 	public void clearRect(int arg0, int arg1, int arg2, int arg3) {
 		logger.log(new Exception(Messages.getString("SVGGraphics2D.clearRect.Int"))); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawRoundRect(int, int, int, int, int, int)
 	 */
-	@Override
 	public void drawRoundRect(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
 		currentElement = createRoundRect(arg0, arg1, arg2, arg3, arg4, arg5);
 		appendChild(currentElement);
@@ -700,10 +649,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#fillRoundRect(int, int, int, int, int, int)
 	 */
-	@Override
 	public void fillRoundRect(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
 		currentElement = createRoundRect(arg0, arg1, arg2, arg3, arg4, arg5);
 		appendChild(currentElement);
@@ -712,10 +660,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawOval(int, int, int, int)
 	 */
-	@Override
 	public void drawOval(int arg0, int arg1, int arg2, int arg3) {
 		drawOval((double) arg0, (double) arg1, (double) arg2, (double) arg3);
 
@@ -729,10 +676,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#fillOval(int, int, int, int)
 	 */
-	@Override
 	public void fillOval(int arg0, int arg1, int arg2, int arg3) {
 		fillOval((double) arg0, (double) arg1, (double) arg2, (double) arg3);
 
@@ -746,10 +692,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawArc(int, int, int, int, int, int)
 	 */
-	@Override
 	public void drawArc(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
 		drawArc((double) arg0, (double) arg1, (double) arg2, (double) arg3, (double) arg4, (double) arg5);
 	}
@@ -766,7 +711,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Adds stroke color and style information to the element passed in.
-	 *
+	 * 
 	 * @param currentElement the element to add style information to.
 	 * @param isClipped      boolean that determines whether to defer the clipping
 	 *                       of the element
@@ -781,25 +726,22 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		}
 
 		String style = element.getAttribute("style"); //$NON-NLS-1$
-		if (style == null) {
+		if (style == null)
 			style = ""; //$NON-NLS-1$
-		}
 		if (color != null) {
 			style += "stroke:" + serializeToString(color) + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if ((stroke != null) && (stroke instanceof BasicStroke)) {
 			BasicStroke bs = (BasicStroke) stroke;
-			if (bs.getLineWidth() > 0) {
+			if (bs.getLineWidth() > 0)
 				style += "stroke-width:" + bs.getLineWidth() + ";"; //$NON-NLS-1$ //$NON-NLS-2$
-			}
 			if (bs.getDashArray() != null) {
-				StringBuilder dashArrayStr = new StringBuilder();
+				StringBuffer dashArrayStr = new StringBuffer();
 				for (int x = 0; x < bs.getDashArray().length; x++) {
 					dashArrayStr.append(" ").append(bs.getDashArray()[x]); //$NON-NLS-1$
 				}
-				if (!(dashArrayStr.toString().equals(""))) { // $NON-NLS-1$
+				if (!(dashArrayStr.toString().equals(""))) //$NON-NLS-1$
 					style += "stroke-dasharray:" + dashArrayStr + ";"; //$NON-NLS-1$ //$NON-NLS-2$
-				}
 			}
 			style += "stroke-miterlimit:" + bs.getMiterLimit() + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 			switch (bs.getLineJoin()) {
@@ -821,15 +763,12 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 		}
 		element.setAttribute("style", style); //$NON-NLS-1$
-		if (styleClass != null) {
+		if (styleClass != null)
 			element.setAttribute("class", styleClass); //$NON-NLS-1$
-		}
-		if (id != null) {
+		if (id != null)
 			element.setAttribute("id", id); //$NON-NLS-1$
-		}
-		if ((clip != null) && (!deferClipped)) {
+		if ((clip != null) && (!deferClipped))
 			element.setAttribute("clip-path", "url(#clip" + clip.hashCode() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 
 	}
 
@@ -839,21 +778,20 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Adds no fill color and style information to the element passed in.
-	 *
+	 * 
 	 * @param currentElement the element to add style information to.
 	 */
 	protected void setNoFillColor(Element currentElement) {
 		// should set the fill color to none on the currentElement
 		String style = currentElement.getAttribute("style"); //$NON-NLS-1$
-		if (style == null) {
+		if (style == null)
 			style = ""; //$NON-NLS-1$
-		}
 		currentElement.setAttribute("style", style + "fill:none;"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * Adds fill color and style information to the element passed in.
-	 *
+	 * 
 	 * @param currentElement the element to add style information to.
 	 * @param isClipped      boolean that determines whether to defer the clipping
 	 *                       of the element
@@ -865,17 +803,14 @@ public class SVGGraphics2D extends ChartGraphics2D {
 			element = deferStrokColor;
 		}
 		String style = element.getAttribute("style"); //$NON-NLS-1$
-		if (style == null) {
+		if (style == null)
 			style = ""; //$NON-NLS-1$
-		}
 		if (paint == null) {
-			if (color == null) {
+			if (color == null)
 				return;
-			}
 			String alpha = alphaToString(color);
-			if (alpha != null) {
+			if (alpha != null)
 				style += "fill-opacity:" + alpha + ";"; //$NON-NLS-1$ //$NON-NLS-2$
-			}
 			element.setAttribute("style", style + "fill:" + serializeToString(color) + ";stroke:none;"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		} else if (paint instanceof SVGGradientPaint) {
 			element.setAttribute("style", //$NON-NLS-1$
@@ -885,15 +820,12 @@ public class SVGGraphics2D extends ChartGraphics2D {
 					style + "fill:url(#" + getTextureId((TexturePaint) paint) + ");stroke:none;fill-opacity:1.0"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		if (styleClass != null) {
+		if (styleClass != null)
 			element.setAttribute("class", styleClass); //$NON-NLS-1$
-		}
-		if (id != null) {
+		if (id != null)
 			element.setAttribute("id", id); //$NON-NLS-1$
-		}
-		if ((clip != null) && (!deferClipped)) {
+		if ((clip != null) && (!deferClipped))
 			element.setAttribute("clip-path", "url(#clip" + clip.hashCode() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 
 	}
 
@@ -906,17 +838,14 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	protected String serializeToString(Color color) {
 
 		String r = Integer.toHexString(color.getRed());
-		if (color.getRed() <= 0xF) {
+		if (color.getRed() <= 0xF)
 			r = "0" + r; //$NON-NLS-1$
-		}
 		String g = Integer.toHexString(color.getGreen());
-		if (color.getGreen() <= 0xF) {
+		if (color.getGreen() <= 0xF)
 			g = "0" + g; //$NON-NLS-1$
-		}
 		String b = Integer.toHexString(color.getBlue());
-		if (color.getBlue() <= 0xF) {
+		if (color.getBlue() <= 0xF)
 			b = "0" + b; //$NON-NLS-1$
-		}
 
 		String ret = "#" + r + g + b; //$NON-NLS-1$
 		return ret;
@@ -932,10 +861,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#fillArc(int, int, int, int, int, int)
 	 */
-	@Override
 	public void fillArc(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
 		fillArc((double) arg0, (double) arg1, (double) arg2, (double) arg3, (double) arg4, (double) arg5);
 	}
@@ -948,10 +876,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawPolyline(int[], int[], int)
 	 */
-	@Override
 	public void drawPolyline(int[] arg0, int[] arg1, int arg2) {
 		currentElement = createPolyline(arg0, arg1, arg2);
 		appendChild(currentElement);
@@ -960,10 +887,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawPolygon(int[], int[], int)
 	 */
-	@Override
 	public void drawPolygon(int[] arg0, int[] arg1, int arg2) {
 		currentElement = createPolygon(arg0, arg1, arg2);
 		appendChild(currentElement);
@@ -972,10 +898,9 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#fillPolygon(int[], int[], int)
 	 */
-	@Override
 	public void fillPolygon(int[] arg0, int[] arg1, int arg2) {
 		currentElement = createPolygon(arg0, arg1, arg2);
 		appendChild(currentElement);
@@ -984,11 +909,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int,
 	 * java.awt.image.ImageObserver)
 	 */
-	@Override
 	public boolean drawImage(Image arg0, int arg1, int arg2, ImageObserver arg3) {
 		SVGImage image = (SVGImage) arg0;
 
@@ -998,9 +922,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		currentElement.setAttribute("y", toString(arg2)); //$NON-NLS-1$
 		currentElement.setAttribute("width", Integer.toString(arg0.getWidth(arg3))); //$NON-NLS-1$
 		currentElement.setAttribute("height", Integer.toString(arg0.getHeight(arg3))); //$NON-NLS-1$
-		if (clip != null) {
+		if (clip != null)
 			currentElement.setAttribute("clip-path", "url(#clip" + clip.hashCode() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 
 		appendChild(currentElement);
 
@@ -1009,11 +932,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int, int, int,
 	 * java.awt.image.ImageObserver)
 	 */
-	@Override
 	public boolean drawImage(Image arg0, int arg1, int arg2, int arg3, int arg4, ImageObserver arg5) {
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement("image"); //$NON-NLS-1$
@@ -1022,9 +944,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		currentElement.setAttribute("y", toString(arg2)); //$NON-NLS-1$
 		currentElement.setAttribute("width", toString(arg3)); //$NON-NLS-1$
 		currentElement.setAttribute("height", toString(arg4)); //$NON-NLS-1$
-		if (clip != null) {
+		if (clip != null)
 			currentElement.setAttribute("clip-path", "url(#clip" + clip.hashCode() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		appendChild(currentElement);
 
 		return true;
@@ -1032,11 +953,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int, java.awt.Color,
 	 * java.awt.image.ImageObserver)
 	 */
-	@Override
 	public boolean drawImage(Image arg0, int arg1, int arg2, Color arg3, ImageObserver arg4) {
 		SVGImage image = (SVGImage) arg0;
 		image.getUrl();
@@ -1046,9 +966,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		currentElement.setAttribute("width", Integer.toString(arg0.getWidth(arg4))); //$NON-NLS-1$
 		currentElement.setAttribute("height", Integer.toString(arg0.getHeight(arg4))); //$NON-NLS-1$
 		currentElement.setAttribute("fill", serializeToString(arg3)); //$NON-NLS-1$
-		if (clip != null) {
+		if (clip != null)
 			currentElement.setAttribute("clip-path", "url(#clip" + clip.hashCode() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		appendChild(currentElement);
 
 		return true;
@@ -1056,11 +975,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int, int, int,
 	 * java.awt.Color, java.awt.image.ImageObserver)
 	 */
-	@Override
 	public boolean drawImage(Image arg0, int arg1, int arg2, int arg3, int arg4, Color arg5, ImageObserver arg6) {
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement("image"); //$NON-NLS-1$
@@ -1070,9 +988,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		currentElement.setAttribute("width", toString(arg3)); //$NON-NLS-1$
 		currentElement.setAttribute("height", toString(arg4)); //$NON-NLS-1$
 		currentElement.setAttribute("fill", serializeToString(arg5)); //$NON-NLS-1$
-		if (clip != null) {
+		if (clip != null)
 			currentElement.setAttribute("clip-path", "url(#clip" + clip.hashCode() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		appendChild(currentElement);
 
 		return true;
@@ -1080,11 +997,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int, int, int, int,
 	 * int, int, int, java.awt.image.ImageObserver)
 	 */
-	@Override
 	public boolean drawImage(Image arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
 			ImageObserver arg9) {
 		SVGImage image = (SVGImage) arg0;
@@ -1094,9 +1010,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		currentElement.setAttribute("y", toString(arg2)); //$NON-NLS-1$
 		currentElement.setAttribute("width", toString(arg3)); //$NON-NLS-1$
 		currentElement.setAttribute("height", toString(arg4)); //$NON-NLS-1$
-		if (clip != null) {
+		if (clip != null)
 			currentElement.setAttribute("clip-path", "url(#clip" + clip.hashCode() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		appendChild(currentElement);
 
 		return true;
@@ -1104,11 +1019,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int, int, int, int,
 	 * int, int, int, java.awt.Color, java.awt.image.ImageObserver)
 	 */
-	@Override
 	public boolean drawImage(Image arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8,
 			Color arg9, ImageObserver arg10) {
 		SVGImage image = (SVGImage) arg0;
@@ -1119,9 +1033,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		currentElement.setAttribute("width", toString(arg3)); //$NON-NLS-1$
 		currentElement.setAttribute("height", toString(arg4)); //$NON-NLS-1$
 		currentElement.setAttribute("fill", serializeToString(arg9)); //$NON-NLS-1$
-		if (clip != null) {
+		if (clip != null)
 			currentElement.setAttribute("clip-path", "url(#clip" + clip.hashCode() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		appendChild(currentElement);
 
 		return true;
@@ -1143,7 +1056,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.awt.Graphics#dispose()
 	 */
 	@Override
@@ -1155,7 +1068,6 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	/**
 	 * @return Returns the background.
 	 */
-	@Override
 	public Color getBackground() {
 		return background;
 	}
@@ -1163,7 +1075,6 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	/**
 	 * @param backgroundColor The backgroundColor to set.
 	 */
-	@Override
 	public void setBackground(Color background) {
 		this.background = background;
 	}
@@ -1171,7 +1082,6 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	/**
 	 * @return Returns the clip.
 	 */
-	@Override
 	public Shape getClip() {
 		return clip;
 	}
@@ -1179,7 +1089,6 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	/**
 	 * @param clip The clip to set.
 	 */
-	@Override
 	public void setClip(Shape clip) {
 		this.clip = clip;
 		if (clip != null) {
@@ -1194,7 +1103,6 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	/**
 	 * @return Returns the color.
 	 */
-	@Override
 	public Color getColor() {
 		return color;
 	}
@@ -1202,7 +1110,6 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	/**
 	 * @param color The color to set.
 	 */
-	@Override
 	public void setColor(Color color) {
 		this.color = color;
 		this.paint = null;
@@ -1211,7 +1118,6 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	/**
 	 * @return Returns the font.
 	 */
-	@Override
 	public Font getFont() {
 		return font;
 	}
@@ -1219,7 +1125,6 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	/**
 	 * @param font The font to set.
 	 */
-	@Override
 	public void setFont(Font font) {
 		this.font = font;
 	}
@@ -1227,7 +1132,6 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	/**
 	 * @return Returns the stroke.
 	 */
-	@Override
 	public Stroke getStroke() {
 		return stroke;
 	}
@@ -1306,9 +1210,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 				}
 			}
 			this.paint = tp;
-		} else {
+		} else
 			this.paint = paint;
-		}
 	}
 
 	/***************************************************************************
@@ -1316,19 +1219,17 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	 **************************************************************************/
 	protected Element createGradientPaint(SVGGradientPaint paint, boolean highlight) {
 		Element elem = dom.createElement("linearGradient"); //$NON-NLS-1$
-		if (highlight) {
+		if (highlight)
 			elem.setAttribute("id", paint.getId() + "h"); //$NON-NLS-1$ //$NON-NLS-2$
-		} else {
+		else
 			elem.setAttribute("id", paint.getId()); //$NON-NLS-1$
-		}
 		elem.setAttribute("x1", toString(paint.getPoint1().getX())); //$NON-NLS-1$
 		elem.setAttribute("y1", toString(paint.getPoint1().getY())); //$NON-NLS-1$
 		elem.setAttribute("x2", toString(paint.getPoint2().getX())); //$NON-NLS-1$
 		elem.setAttribute("y2", toString(paint.getPoint2().getY())); //$NON-NLS-1$
 		elem.setAttribute("gradientUnits", "userSpaceOnUse"); //$NON-NLS-1$ //$NON-NLS-2$
-		if (paint.isCyclic()) {
+		if (paint.isCyclic())
 			elem.setAttribute("spreadMethod", "repeat"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
 		Element startColor = dom.createElement("stop"); //$NON-NLS-1$
 		startColor.setAttribute("offset", "0%"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (highlight) {
@@ -1338,21 +1239,18 @@ public class SVGGraphics2D extends ChartGraphics2D {
 			startColor.setAttribute("stop-color", serializeToString(paint.getColor1())); //$NON-NLS-1$
 		}
 		String alpha = alphaToString(paint.getColor1());
-		if (alpha != null) {
+		if (alpha != null)
 			startColor.setAttribute("stop-opacity", alpha); //$NON-NLS-1$
-		}
 		elem.appendChild(startColor);
 		Element endColor = dom.createElement("stop"); //$NON-NLS-1$
 		endColor.setAttribute("offset", "100%"); //$NON-NLS-1$ //$NON-NLS-2$
-		if (highlight) {
+		if (highlight)
 			endColor.setAttribute("stop-color", serializeHighlightToString(paint.getColor2())); //$NON-NLS-1$
-		} else {
+		else
 			endColor.setAttribute("stop-color", serializeToString(paint.getColor2())); //$NON-NLS-1$
-		}
 		alpha = alphaToString(paint.getColor2());
-		if (alpha != null) {
+		if (alpha != null)
 			endColor.setAttribute("stop-opacity", alpha); //$NON-NLS-1$
-		}
 
 		elem.appendChild(endColor);
 		return elem;
@@ -1364,11 +1262,10 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	protected Element createTexturePaint(TexturePaint paint, String imgId, boolean highlight) {
 		Element elem = dom.createElement("pattern"); //$NON-NLS-1$
-		if (highlight) {
+		if (highlight)
 			elem.setAttribute("id", getTextureId(paint) + "h"); //$NON-NLS-1$ //$NON-NLS-2$
-		} else {
+		else
 			elem.setAttribute("id", getTextureId(paint)); //$NON-NLS-1$
-		}
 
 		BufferedImage img = paint.getImage();
 		int width = img.getWidth();
@@ -1393,17 +1290,14 @@ public class SVGGraphics2D extends ChartGraphics2D {
 			int blue = (cd.getBlue() + 255) / 2;
 
 			String r = Integer.toHexString(red);
-			if (red <= 0xF) {
+			if (red <= 0xF)
 				r = "0" + r; //$NON-NLS-1$
-			}
 			String g = Integer.toHexString(green);
-			if (green <= 0xF) {
+			if (green <= 0xF)
 				g = "0" + g; //$NON-NLS-1$
-			}
 			String b = Integer.toHexString(blue);
-			if (blue <= 0xF) {
+			if (blue <= 0xF)
 				b = "0" + b; //$NON-NLS-1$
-			}
 
 			return "#" + r + g + b; //$NON-NLS-1$
 		}
@@ -1422,7 +1316,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	protected Element createShape(Shape shape) {
 		PathIterator pathIter = shape.getPathIterator(null);
-		StringBuilder pathStr = new StringBuilder();
+		StringBuffer pathStr = new StringBuffer();
 		while (!pathIter.isDone()) {
 			float[] points = new float[6];
 			int TYPE = pathIter.currentSegment(points);
@@ -1496,15 +1390,13 @@ public class SVGGraphics2D extends ChartGraphics2D {
 			textDecorator = "underline"; //$NON-NLS-1$
 		}
 		if (attributes.get(TextAttribute.STRIKETHROUGH) == TextAttribute.STRIKETHROUGH_ON) {
-			if (textDecorator == null) {
+			if (textDecorator == null)
 				textDecorator = "line-through"; //$NON-NLS-1$
-			} else {
+			else
 				textDecorator += ",line-through"; //$NON-NLS-1$
-			}
 		}
-		if (textDecorator != null) {
+		if (textDecorator != null)
 			elem.setAttribute("text-decoration", textDecorator); //$NON-NLS-1$
-		}
 
 		// for now just preserve space for text elements Bug 182159
 		elem.setAttribute("xml:space", "preserve"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1521,19 +1413,18 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		// and can support current text character, it will correct display.
 		elem.setAttribute("font-family", getFont().getName()); //$NON-NLS-1$
 		elem.setAttribute("font-size", Integer.toString(getFont().getSize())); //$NON-NLS-1$
-		StringBuilder style = new StringBuilder().append(getRenderingStyle(RenderingHints.KEY_TEXT_ANTIALIASING));
+		String style = getRenderingStyle(RenderingHints.KEY_TEXT_ANTIALIASING);
 		if (color != null) {
 			String alpha = alphaToString(color);
-			if (alpha != null) {
-				style.append("fill-opacity:").append(alpha).append(";"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			style.append("fill:").append(serializeToString(color)).append(";"); //$NON-NLS-1$ //$NON-NLS-2$
+			if (alpha != null)
+				style += "fill-opacity:" + alpha + ";"; //$NON-NLS-1$ //$NON-NLS-2$
+			style += "fill:" + serializeToString(color) + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if (bRtl) {
-			style.append(sStyleBidi);
+			style += sStyleBidi;
 
 		}
-		elem.setAttribute("style", style.toString()); //$NON-NLS-1$
+		elem.setAttribute("style", style); //$NON-NLS-1$
 		if (transforms.getType() != AffineTransform.TYPE_IDENTITY) {
 			double[] matrix = new double[6];
 			transforms.getMatrix(matrix);
@@ -1550,15 +1441,13 @@ public class SVGGraphics2D extends ChartGraphics2D {
 				// Adobe SVG viewer 3 bug. Rotated text with optimizelegibility
 				// disappears. Replace
 				// with optimizespeed for rotated text.
-				if (transforms.getType() != AffineTransform.TYPE_IDENTITY) {
+				if (transforms.getType() != AffineTransform.TYPE_IDENTITY)
 					return "text-rendering:optimizeSpeed;";//$NON-NLS-1$
-				} else {
+				else
 					return "text-rendering:optimizeLegibility;";//$NON-NLS-1$
-				}
-			} else {
+			} else
 				// SVG always turns on antialias
 				return ""; //$NON-NLS-1$
-			}
 		}
 		return "";//$NON-NLS-1$
 	}
@@ -1608,8 +1497,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	public Element createPolyline(int[] arg0, int[] arg1, int arg2) {
 		Element elem = createElement("polyline"); //$NON-NLS-1$
-		StringBuilder pointsStr = new StringBuilder();
-
+		StringBuffer pointsStr = new StringBuffer();
+		;
 		for (int x = 0; x < arg2; x++) {
 			pointsStr.append(arg0[x]).append(",").append(arg1[x]).append(" "); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -1619,8 +1508,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	public Element createPolygon(int[] arg0, int[] arg1, int arg2) {
 		Element elem = createElement("polygon"); //$NON-NLS-1$
-		StringBuilder pointsStr = new StringBuilder();
-
+		StringBuffer pointsStr = new StringBuffer();
+		;
 		for (int x = 0; x < arg2; x++) {
 			pointsStr.append(arg0[x]).append(",").append(arg1[x]).append(" "); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -1630,8 +1519,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	public Element createPolygon(double[] arg0, double[] arg1, int arg2) {
 		Element elem = createElement("polygon"); //$NON-NLS-1$
-		StringBuilder pointsStr = new StringBuilder();
-
+		StringBuffer pointsStr = new StringBuffer();
+		;
 		for (int x = 0; x < arg2; x++) {
 			pointsStr.append(arg0[x]).append(",").append(arg1[x]).append(" "); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -1642,9 +1531,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 	protected void initializeScriptStyles() {
 		codeScript = dom.createElement("script"); //$NON-NLS-1$
 
-		if (scriptable) {
+		if (scriptable)
 			appendChild(codeScript);
-		}
 		styles = dom.createElement("style"); //$NON-NLS-1$
 		styles.setAttribute("type", "text/css"); //$NON-NLS-1$ //$NON-NLS-2$
 		appendChild(styles);
@@ -1653,9 +1541,8 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	protected Element createElement(String id) {
 		Element elem = dom.createElement(id);
-		if (this.primitiveId != null) {
+		if (this.primitiveId != null)
 			elem.setAttribute("id", primitiveId); //$NON-NLS-1$
-		}
 		if (transforms.getType() != AffineTransform.TYPE_IDENTITY) {
 			double[] matrix = new double[6];
 			transforms.getMatrix(matrix);
@@ -1701,7 +1588,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Inlines the script code in the generated svg output
-	 *
+	 * 
 	 * @param script the code that will be inlined in the generated svg output
 	 */
 	public void addScript(String script) {
@@ -1710,16 +1597,15 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Adds a script reference in the generated svg output.
-	 *
+	 * 
 	 * @param ref the script reference that will be added to the generated svg
 	 *            output.
 	 */
 	public void addScriptRef(String ref) {
 		Element rootElem = dom.getDocumentElement();
 		Element scriptElem = dom.createElement("script"); //$NON-NLS-1$
-		if (scriptable) {
+		if (scriptable)
 			rootElem.appendChild(scriptElem);
-		}
 		scriptElem.setAttribute("language", "JavaScript"); //$NON-NLS-1$ //$NON-NLS-2$
 		scriptElem.setAttribute("xlink:href", ref); //$NON-NLS-1$
 	}
@@ -1734,7 +1620,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Defer setting the stroke and color on an SVG element.
-	 *
+	 * 
 	 * @return the state of the flag that ignores setting the stroke style and color
 	 *         on a svg element.
 	 */
@@ -1744,7 +1630,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Defer setting the stroke and color on an SVG element.
-	 *
+	 * 
 	 * @param deferStrokColor set to true if the stroke style and color should be
 	 *                        ignored when drawing the svg element.
 	 */
@@ -1754,7 +1640,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Returns the current id that is used to identify a svg drawing primitive
-	 *
+	 * 
 	 * @return id
 	 */
 	public String getPrimitiveId() {
@@ -1763,7 +1649,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Sets the current primitive id
-	 *
+	 * 
 	 * @param primitiveId
 	 */
 	public void setPrimitiveId(String primitiveId) {
@@ -1772,7 +1658,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Returns whether the generated output should contain javascript code.
-	 *
+	 * 
 	 * @return true if the generated output should contain javascript code, false
 	 *         otherwise
 	 */
@@ -1782,7 +1668,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 
 	/**
 	 * Sets the flag to determine if the output should contain javascript code
-	 *
+	 * 
 	 * @param scriptable
 	 */
 	public void setScriptable(boolean scriptable) {
@@ -1817,7 +1703,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		if (length > v.length) {
 			length = v.length;
 		}
-		StringBuilder buffer = new StringBuilder(toString(v[0]));
+		StringBuffer buffer = new StringBuffer(toString(v[0]));
 		for (int i = 1; i < length; i++) {
 			buffer.append(separator);
 			buffer.append(toString(v[i]));
@@ -1835,7 +1721,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 		if (length > v.length) {
 			length = v.length;
 		}
-		StringBuilder buffer = new StringBuilder(toString(v[0]));
+		StringBuffer buffer = new StringBuffer(toString(v[0]));
 		for (int i = 1; i < length; i++) {
 			buffer.append(separator);
 			buffer.append(toString(v[i]));

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -109,16 +109,14 @@ public class ScriptExecutor {
 			throws BirtException {
 		if (expr != null) {
 			try {
-				if (scope != null) {
+				if (scope != null)
 					context.newScope(scope);
-				}
-				Object result;
+				Object result = null;
 				result = context.evaluate(expr);
 				return new ScriptStatus(true, result);
 			} finally {
-				if (scope != null) {
+				if (scope != null)
 					context.exitScope();
-				}
 			}
 		}
 		return ScriptStatus.NO_RUN;
@@ -139,7 +137,10 @@ public class ScriptExecutor {
 	}
 
 	public static boolean needOnPageBreak(ReportItemDesign design, ExecutionContext context) {
-		if ((design == null) || (design instanceof ExtendedItemDesign)) {
+		if (design == null) {
+			return false;
+		}
+		if (design instanceof ExtendedItemDesign) {
 			return false;
 		}
 		if (design.getOnPageBreak() != null) {
@@ -194,9 +195,8 @@ public class ScriptExecutor {
 				new Object[] { handle.getEventHandlerClass(), requiredInterface.getName() }, e);
 
 		log.log(Level.WARNING, e.getMessage(), e);
-		if (context == null) {
+		if (context == null)
 			return;
-		}
 
 		context.addException(handle, ex);
 	}
@@ -207,24 +207,22 @@ public class ScriptExecutor {
 
 	protected static void addException(ExecutionContext context, Exception e, DesignElementHandle handle) {
 		EngineException eex = null;
-		if (e instanceof EngineException) {
+		if (e instanceof EngineException)
 			eex = (EngineException) e;
-		} else if (e instanceof BirtException) {
+		else if (e instanceof BirtException) {
 			eex = new EngineException((BirtException) e);
 		} else {
 			eex = new EngineException(MessageConstants.UNHANDLED_SCRIPT_ERROR, e);
 		}
 
 		log.log(Level.WARNING, eex.getMessage(), eex);
-		if (context == null) {
+		if (context == null)
 			return;
-		}
 
-		if (handle == null) {
+		if (handle == null)
 			context.addException(eex);
-		} else {
+		else
 			context.addException(handle, eex);
-		}
 	}
 
 	protected static class ScriptStatus {
@@ -334,7 +332,6 @@ public class ScriptExecutor {
 					TableGroupEventAdapter.class);
 		}
 
-		@Override
 		public Object visitReportItem(ReportItemDesign item, Object value) {
 			return false;
 		}

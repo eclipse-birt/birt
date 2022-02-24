@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -94,7 +94,7 @@ public class PDFPageLMTest extends PDFLayoutTest {
 		 */
 
 		List pages = getPages(true, true);
-		float[] scales = { 0.75f, 0.75f, 0.75f, 0.24f };
+		float[] scales = new float[] { 0.75f, 0.75f, 0.75f, 0.24f };
 		assertTrue(pages.size() == scales.length);
 		for (int i = 0; i < pages.size(); i++) {
 			PageArea page = (PageArea) pages.get(i);
@@ -105,7 +105,7 @@ public class PDFPageLMTest extends PDFLayoutTest {
 
 	/**
 	 * Tests page break interval works in PDF.
-	 *
+	 * 
 	 * @throws EngineException
 	 */
 	public void testPageBreakInterval() throws EngineException {
@@ -123,11 +123,11 @@ public class PDFPageLMTest extends PDFLayoutTest {
 	/**
 	 * Tests page break interval count is reset when page is broken by other page
 	 * break events.
-	 *
+	 * 
 	 * In this case, a page break interval 3 is set on table, while the page break
 	 * set on table group will broken page every 2 records. So the page break
 	 * interval takes no effect.
-	 *
+	 * 
 	 * @throws EngineException
 	 */
 	public void testPageBreakInterval2() throws EngineException {

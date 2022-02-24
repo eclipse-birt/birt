@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +51,6 @@ public class EditStyleAction extends DynamicItemAction {
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
-	@Override
 	public boolean isEnabled() {
 		if (handle.canEdit()) {
 			return true;
@@ -63,10 +62,9 @@ public class EditStyleAction extends DynamicItemAction {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	@Override
 	public void run() {
 
 		CommandUtils.setVariable(ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME, handle);
@@ -75,6 +73,7 @@ public class EditStyleAction extends DynamicItemAction {
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
+		;
 
 	}
 }

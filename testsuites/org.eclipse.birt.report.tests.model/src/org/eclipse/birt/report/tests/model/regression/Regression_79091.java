@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -59,14 +59,12 @@ public class Regression_79091 extends BaseTestCase {
 	 * @throws SemanticException
 	 */
 
-	@Override
 	public void setUp() throws Exception {
 		removeResource();
 		copyResource_INPUT(INPUT, INPUT);
 
 	}
 
-	@Override
 	public void tearDown() {
 		removeResource();
 	}
@@ -100,11 +98,12 @@ public class Regression_79091 extends BaseTestCase {
 
 	private static class TestListener implements Listener {
 
+		DesignElementHandle focus = null;
 		NotificationEvent ev = null;
 		static int count = 0;
 
-		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
+			this.focus = focus;
 			this.ev = ev;
 			count++;
 		}

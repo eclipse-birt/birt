@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,15 +41,15 @@ public class ReportPageReader extends AbstractReportReader {
 
 	/**
 	 * does the output should keep the pagination.
-	 *
+	 * 
 	 * For some emitter, it will has its own pagination, so the report page reader
 	 * only read out the page content and merge the contente together. The emitter
 	 * will re-paginate the content again. Such as output PDF using HTML paginhints.
-	 *
+	 * 
 	 * Some emitter in the otherside, will use the same pagination with the page
 	 * hint. For those emitter, the output will include the master pages. such as
 	 * output HTML with the HTML emitter.
-	 *
+	 * 
 	 * @param context      context used to read the report.
 	 * @param pages        page list
 	 * @param keepPaginate should the output keep pagianted.
@@ -65,7 +65,6 @@ public class ReportPageReader extends AbstractReportReader {
 		}
 	}
 
-	@Override
 	public void close() {
 		if (bodyExecutor != null) {
 			bodyExecutor.close();
@@ -151,11 +150,10 @@ public class ReportPageReader extends AbstractReportReader {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.internal.executor.doc.ReportReader#
 	 * getNextChild()
 	 */
-	@Override
 	public IReportItemExecutor getNextChild() {
 		if (hasNextChild()) {
 			try {
@@ -173,7 +171,6 @@ public class ReportPageReader extends AbstractReportReader {
 		return null;
 	}
 
-	@Override
 	public boolean hasNextChild() {
 		if (paged) {
 			return pageIter.hasNext();

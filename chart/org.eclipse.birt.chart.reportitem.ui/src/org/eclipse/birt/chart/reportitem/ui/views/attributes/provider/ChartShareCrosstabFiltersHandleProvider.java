@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,18 +26,17 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
  * The class is used for chart sharing bindings/fitlers with crosstab.
- *
+ * 
  * @since 2.3
  */
 public class ChartShareCrosstabFiltersHandleProvider extends CrosstabFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
-	@Override
 	public Object[] getElements(Object inputElement) {
 
 		if (inputElement instanceof List) {
@@ -73,22 +72,20 @@ public class ChartShareCrosstabFiltersHandleProvider extends CrosstabFilterHandl
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * AbstractFormHandleProvider#isEditable()
 	 */
-	@Override
 	public boolean isEditable() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.
 	 * CrosstabFilterHandleProvider#getConcreteFilterProvider()
 	 */
-	@Override
 	public IFormProvider getConcreteFilterProvider() {
 		if (input == null) {
 			return this;

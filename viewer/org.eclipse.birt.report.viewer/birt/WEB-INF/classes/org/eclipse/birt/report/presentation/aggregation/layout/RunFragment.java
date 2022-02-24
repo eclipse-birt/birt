@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -38,7 +38,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 /**
  * Root fragment for web viewer 'run' pattern.
  * <p>
- *
+ * 
  * @see BaseFragment
  */
 public class RunFragment extends FramesetFragment {
@@ -46,7 +46,6 @@ public class RunFragment extends FramesetFragment {
 	/**
 	 * Override build method.
 	 */
-	@Override
 	protected void build() {
 		addChild(new ReportDialogFragment());
 		addChild(new DocumentFragment());
@@ -54,11 +53,10 @@ public class RunFragment extends FramesetFragment {
 
 	/**
 	 * Check if use html format
-	 *
+	 * 
 	 * @param request
 	 * @return
 	 */
-	@Override
 	protected boolean __checkHTMLFormat(HttpServletRequest request) {
 		BaseAttributeBean bean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
 		assert bean != null;
@@ -74,13 +72,12 @@ public class RunFragment extends FramesetFragment {
 
 	/**
 	 * Handle image operate.
-	 *
+	 * 
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);

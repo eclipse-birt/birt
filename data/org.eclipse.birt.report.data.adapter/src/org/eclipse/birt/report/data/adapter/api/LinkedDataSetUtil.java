@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -42,9 +42,8 @@ public class LinkedDataSetUtil {
 				} catch (Exception e) {
 					return false;
 				}
-				if (result != null) {
+				if (result != null)
 					return true;
-				}
 			}
 		}
 		return false;
@@ -62,14 +61,14 @@ public class LinkedDataSetUtil {
 					for (Method method : methods) {
 						if (method.getName().equals(GET_MEASURES_METHOD)) {
 							result = method.invoke(result);
-							if (result instanceof List<?>) {
+							if (result != null && result instanceof List<?>) {
 								List<?> list = (List<?>) result;
 								for (Object object : list) {
 									Method[] objectMethods = object.getClass().getMethods();
 									for (Method objectMethod : objectMethods) {
 										if (objectMethod.getName().equals(GET_NAME_METHOD)) {
 											result = objectMethod.invoke(object);
-											if (result instanceof String) {
+											if (result != null && result instanceof String) {
 												if (result.toString().equals(cubeMeasure.getName())) {
 													return true;
 												}
@@ -87,9 +86,8 @@ public class LinkedDataSetUtil {
 	}
 
 	public static boolean isAggregationBinding(ComputedColumnHandle computed, ReportItemHandle handle) {
-		if (computed.getAggregateFunction() != null) {
+		if (computed.getAggregateFunction() != null)
 			return true;
-		}
 		try {
 			Iterator iter = handle.columnBindingsIterator();
 			Set aggregationBinding = new HashSet();
@@ -97,12 +95,12 @@ public class LinkedDataSetUtil {
 			DataSetHandle dataSet = handle.getDataSet();
 			if (dataSet != null) {
 				iter = dataSet.computedColumnsIterator();
-				if (iter != null) {
+				if (iter != null)
 					populateAggregationBindingNames(aggregationBinding, iter);
-				}
 			}
 
-			List referedColumn = new ArrayList(ExpressionUtil.extractColumnExpressions(computed.getExpression(),
+			List referedColumn = new ArrayList();
+			referedColumn.addAll(ExpressionUtil.extractColumnExpressions(computed.getExpression(),
 					ExpressionUtil.DATASET_ROW_INDICATOR));
 			referedColumn.addAll(
 					ExpressionUtil.extractColumnExpressions(computed.getExpression(), ExpressionUtil.ROW_INDICATOR));
@@ -121,13 +119,12 @@ public class LinkedDataSetUtil {
 		while (iter.hasNext()) {
 			ComputedColumnHandle computedHandle = (ComputedColumnHandle) iter.next();
 			if (computedHandle.getAggregateFunction() != null) {
-				String columnName;
+				String columnName = null;
 				columnName = ExpressionUtil.getColumnName(computedHandle.getExpression());
 				if (columnName == null) {
 					columnName = ExpressionUtil.getColumnBindingName(computedHandle.getExpression());
-					if (columnName != null) {
+					if (columnName != null)
 						aggregationBinding.add(columnName);
-					}
 				} else {
 					aggregationBinding.add(columnName);
 				}

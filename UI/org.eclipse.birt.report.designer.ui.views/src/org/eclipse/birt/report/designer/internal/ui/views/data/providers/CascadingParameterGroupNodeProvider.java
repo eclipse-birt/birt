@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,6 @@ public class CascadingParameterGroupNodeProvider extends DefaultNodeProvider {
 		super();
 	}
 
-	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		super.createContextMenu(sourceViewer, object, menu);
 
@@ -47,7 +46,6 @@ public class CascadingParameterGroupNodeProvider extends DefaultNodeProvider {
 
 	}
 
-	@Override
 	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP;
 //		if ( !DEUtil.isLinkedElement( (DesignElementHandle)model ) )
@@ -59,17 +57,14 @@ public class CascadingParameterGroupNodeProvider extends DefaultNodeProvider {
 //		}
 	}
 
-	@Override
 	protected DesignElementHandle createElement(String type) throws Exception {
 		return null;
 	}
 
-	@Override
 	public Object[] getChildren(Object model) {
 		return getChildrenBySlotHandle(((CascadingParameterGroupHandle) model).getParameters());
 	}
 
-	@Override
 	protected boolean performEdit(ReportElementHandle handle) {
 		CascadingParametersDialog dialog = new CascadingParametersDialog(
 				PlatformUI.getWorkbench().getDisplay().getActiveShell(),

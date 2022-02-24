@@ -29,9 +29,9 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 
 /**
  * page hint reader
- *
+ * 
  * It can support multiple versions.
- *
+ * 
  */
 public class RunStatusReader {
 
@@ -94,7 +94,7 @@ public class RunStatusReader {
 		DataInputStream in = new DataInputStream(runStatusStream);
 		int errorSize = IOUtil.readInt(in);
 		if (errorSize > 0) {
-			errors = new ArrayList<>();
+			errors = new ArrayList<String>();
 			for (int i = 0; i < errorSize; i++) {
 				errors.add(IOUtil.readString(in));
 			}

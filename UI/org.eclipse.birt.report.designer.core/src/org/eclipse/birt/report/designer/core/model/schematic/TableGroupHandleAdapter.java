@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 /**
  * Adapter class to extend TableHandleAdapter. Deals with the table group in the
  * table.
- *
+ * 
  */
 
 public class TableGroupHandleAdapter extends DesignElementHandleAdapter {
@@ -40,7 +40,7 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param table TableHandle
 	 * @param mark  Helper mark
 	 */
@@ -50,7 +50,7 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Get table group handle
-	 *
+	 * 
 	 * @return TableGroupHandle
 	 */
 	protected TableGroupHandle getTableGroupHandle() {
@@ -59,7 +59,7 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Check if the slot handle contains specified id.
-	 *
+	 * 
 	 * @param slotId
 	 */
 	public boolean hasSlotHandleRow(int slotId) {
@@ -69,7 +69,7 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Insert Row into slot handle
-	 *
+	 * 
 	 * @param slotId slot id to insert
 	 * @throws ContentException
 	 * @throws NameException
@@ -84,7 +84,7 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Delete Row into slot handle
-	 *
+	 * 
 	 * @param slotId slot id to delete
 	 * @throws ContentException
 	 * @throws NameException
@@ -97,13 +97,13 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Delete rows in rowsolt
-	 *
+	 * 
 	 * @param rowSlot the SoltHanle to delete
 	 * @throws ContentException
 	 * @throws NameException
 	 */
 	private void deleteRows(SlotHandle rowSlot) throws SemanticException {
-		int[] rows = {};
+		int[] rows = new int[0];
 		Iterator itor = rowSlot.iterator();
 		while (itor.hasNext()) {
 			Object obj = itor.next();
@@ -120,7 +120,7 @@ public class TableGroupHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Get Table handle adapter
-	 *
+	 * 
 	 * @return TableHandleAdapter
 	 */
 	protected TableHandleAdapter getTableHandleAdapter() {

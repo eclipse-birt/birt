@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.birt.report.engine.EngineCase;
 
 /**
- *
+ * 
  */
 
 public class EngineTaskCancelTest extends EngineCase {
@@ -30,13 +30,11 @@ public class EngineTaskCancelTest extends EngineCase {
 	static final String ERROR_MESSAGE = "cancel error message";
 	static final String SCRIPT_CANCEL = "org/eclipse/birt/report/engine/api/ScriptCancel.xml";
 
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
 	}
 
-	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
@@ -88,17 +86,14 @@ public class EngineTaskCancelTest extends EngineCase {
 
 		public boolean status = false;
 
-		@Override
 		public void initialize() {
 		}
 
-		@Override
 		public void showStatus(String s) {
 			status = true;
 			assertTrue(s != null && s.length() > 0);
 		}
 
-		@Override
 		public void finish() {
 		}
 
@@ -112,7 +107,6 @@ public class EngineTaskCancelTest extends EngineCase {
 			this.task = task;
 		}
 
-		@Override
 		public void onPage(int pageNumber, boolean checkpoint, IReportDocumentInfo doc) {
 			if (pageNumber == 2) {
 				task.cancel();

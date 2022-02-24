@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,7 +62,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The class defines basic functions for creating base query.
- *
+ * 
  * @since BIRT 2.3
  */
 public abstract class AbstractChartBaseQueryGenerator {
@@ -74,7 +74,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 	protected Chart fChartModel;
 
 	/** The set stores created binding names. */
-	protected Set<String> fNameSet = new HashSet<>();
+	protected Set<String> fNameSet = new HashSet<String>();
 
 	/**
 	 * This attribute indicates whether new binding will be created for complex
@@ -90,7 +90,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Constructor of the class.
-	 *
+	 * 
 	 * @param chart
 	 * @param handle
 	 */
@@ -99,7 +99,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param handle
 	 * @param cm
 	 * @param bCreateBindingForExpression indicates if query definition should
@@ -120,7 +120,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Create base query definition.
-	 *
+	 * 
 	 * @param parent
 	 * @throws ChartException
 	 */
@@ -128,7 +128,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Create base query definition.
-	 *
+	 * 
 	 * @param columns
 	 * @throws ChartException
 	 */
@@ -136,7 +136,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Add aggregate bindings of value series for grouping case.
-	 *
+	 * 
 	 * @param query
 	 * @param seriesDefinitions
 	 * @param innerMostGroupDef
@@ -270,7 +270,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Generate a unique binding name.
-	 *
+	 * 
 	 * @param expr
 	 * @return
 	 */
@@ -289,7 +289,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 	/**
 	 * Generates extra bindings for grouping and complex expressions. In addition,
 	 * add them into query definition.
-	 *
+	 * 
 	 * @param query
 	 * @throws ChartException
 	 */
@@ -437,6 +437,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 			if (baseExpr.equals(getValidSortExpr(categorySD))) {
 				// sortExpr = baseExpr;
 				sd.setExpression(categoryGroupDefinition.getKeyExpression());
+				return;
 			} else {
 				String[] nameNewExprArray = valueExprMap.get(baseSortExpr);
 				if (nameNewExprArray != null && nameNewExprArray.length == 2) {
@@ -444,6 +445,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 					exprCodec.decode(sortExpr);
 					sd.setExpression(ChartReportItemUtil.adaptExpression(exprCodec, modelAdapter, false));
+					return;
 				} else {
 					sortExpr = baseSortExpr;
 
@@ -516,7 +518,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 			innerMostGroupDef = (GroupDefinition) query.getGroups().get(query.getGroups().size() - 1);
 		}
 
-		Map<String, String[]> valueExprMap = new HashMap<>();
+		Map<String, String[]> valueExprMap = new HashMap<String, String[]>();
 		// Add aggregates.
 		if (fChartModel instanceof ChartWithAxes) {
 			for (int i = 0; i < orthAxisArray.length; i++) {
@@ -627,7 +629,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Create Y grouping definition.
-	 *
+	 * 
 	 * @param orthSD
 	 * @return
 	 */
@@ -674,7 +676,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Create base grouping definition.
-	 *
+	 * 
 	 * @param baseSD
 	 * @return
 	 */
@@ -716,7 +718,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Get aggregation function string of sort key related with value series.
-	 *
+	 * 
 	 * @param sortKey
 	 * @param baseSD
 	 * @param orthAxisArray
@@ -770,7 +772,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Get valid sort expression from series definition.
-	 *
+	 * 
 	 * @param sd
 	 * @return
 	 */
@@ -804,7 +806,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 	/**
 	 * Set binding expression due to aggregation, some aggregation can't set
 	 * expression, like Count.
-	 *
+	 * 
 	 * @param binding         binding object.
 	 * @param expression      specified expression.
 	 * @param chartAggFunName aggregation function name of chart.

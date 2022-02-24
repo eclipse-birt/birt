@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,24 +41,24 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 
 /**
- *
+ * 
  * Utility class to get some useful objects from designer.ui. For future work to
  * break away data.ui from designer.ui
  */
 public class Utility {
 	/**
 	 * get image descriptor
-	 *
+	 * 
 	 * @param imageDescriptor
 	 * @return
 	 */
@@ -68,7 +68,7 @@ public class Utility {
 
 	/**
 	 * get report module handle
-	 *
+	 * 
 	 * @return
 	 */
 	public static ModuleHandle getReportModuleHandle() {
@@ -77,7 +77,7 @@ public class Utility {
 
 	/**
 	 * get command stack
-	 *
+	 * 
 	 * @return
 	 */
 	public static CommandStack getCommandStack() {
@@ -86,7 +86,7 @@ public class Utility {
 
 	/**
 	 * get unique data set name
-	 *
+	 * 
 	 * @param baseName
 	 * @return
 	 */
@@ -102,7 +102,7 @@ public class Utility {
 
 	/**
 	 * get unique data source name
-	 *
+	 * 
 	 * @param baseName
 	 * @return
 	 */
@@ -118,7 +118,7 @@ public class Utility {
 
 	/**
 	 * check whether the data source name exist
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -128,7 +128,7 @@ public class Utility {
 
 	/**
 	 * check whether the data set name exist
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -138,7 +138,7 @@ public class Utility {
 
 	/**
 	 * get visible data source list
-	 *
+	 * 
 	 * @return
 	 */
 	public static List getVisibleDataSources() {
@@ -147,7 +147,7 @@ public class Utility {
 
 	/**
 	 * get all available report parameter list
-	 *
+	 * 
 	 * @return
 	 */
 	public static List getAllParameters() {
@@ -156,39 +156,35 @@ public class Utility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
 	public static ScalarParameterHandle getScalarParameter(String name) {
-		if (name == null) {
+		if (name == null)
 			return null;
-		}
 		List parameterList = getAllParameters();
 		Object parameterObject = null;
 		for (int i = 0; i < parameterList.size(); i++) {
 			parameterObject = parameterList.get(i);
 			if (parameterObject instanceof ScalarParameterHandle) {
-				if (name.equals(((ScalarParameterHandle) parameterObject).getQualifiedName())) {
+				if (name.equals(((ScalarParameterHandle) parameterObject).getQualifiedName()))
 					return (ScalarParameterHandle) parameterObject;
-				}
 			}
 		}
 		return null;
 	}
 
 	public static DynamicFilterParameterHandle getDynamicFilterParameter(String name) {
-		if (name == null) {
+		if (name == null)
 			return null;
-		}
 		List parameterList = getAllParameters();
 		Object parameterObject = null;
 		for (int i = 0; i < parameterList.size(); i++) {
 			parameterObject = parameterList.get(i);
 			if (parameterObject instanceof DynamicFilterParameterHandle) {
-				if (name.equals(((DynamicFilterParameterHandle) parameterObject).getQualifiedName())) {
+				if (name.equals(((DynamicFilterParameterHandle) parameterObject).getQualifiedName()))
 					return (DynamicFilterParameterHandle) parameterObject;
-				}
 			}
 		}
 		return null;
@@ -196,7 +192,7 @@ public class Utility {
 
 	/**
 	 * get all data source list
-	 *
+	 * 
 	 * @return
 	 */
 	public static List getDataSources() {
@@ -205,7 +201,7 @@ public class Utility {
 
 	/**
 	 * get visible data set list
-	 *
+	 * 
 	 * @return
 	 */
 	public static List getVisibleDataSets() {
@@ -214,7 +210,7 @@ public class Utility {
 
 	/**
 	 * find the dataSet according to the given name
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -224,7 +220,7 @@ public class Utility {
 
 	/**
 	 * get design element factory
-	 *
+	 * 
 	 * @return
 	 */
 	public static DesignElementFactory getDesignElementFactory() {
@@ -235,7 +231,7 @@ public class Utility {
 
 	/**
 	 * new oda data set handle
-	 *
+	 * 
 	 * @param name
 	 * @param type
 	 * @return
@@ -246,7 +242,7 @@ public class Utility {
 
 	/**
 	 * new joint data set handle
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -256,7 +252,7 @@ public class Utility {
 
 	/**
 	 * new script data set handle
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -266,7 +262,7 @@ public class Utility {
 
 	/**
 	 * new oda data source handle
-	 *
+	 * 
 	 * @param name
 	 * @param type
 	 * @return
@@ -277,7 +273,7 @@ public class Utility {
 
 	/**
 	 * new script data source handle
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -298,7 +294,7 @@ public class Utility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param obj
 	 * @param propertyName
 	 * @return
@@ -322,7 +318,7 @@ public class Utility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param obj
 	 * @param propertyName
 	 * @param value
@@ -343,7 +339,7 @@ public class Utility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -352,7 +348,7 @@ public class Utility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
@@ -370,7 +366,7 @@ public class Utility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param obj
 	 * @param propertyName
 	 * @return
@@ -388,7 +384,7 @@ public class Utility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param obj
 	 * @return
 	 * @throws IntrospectionException
@@ -400,7 +396,7 @@ public class Utility {
 
 	/**
 	 * Convert the give string to GUI style, which cannot be null
-	 *
+	 * 
 	 * @param string the string to convert
 	 * @return the string, or an empty string for null
 	 */
@@ -413,7 +409,7 @@ public class Utility {
 
 	/**
 	 * Convert the give string to Model style
-	 *
+	 * 
 	 * @param string the string to convert
 	 * @param trim   specify if the string needs to be trimmed
 	 * @return the string, or null for an empty string
@@ -433,7 +429,7 @@ public class Utility {
 
 	/**
 	 * Creates a new grid layout without margins by default
-	 *
+	 * 
 	 * @return the layout created
 	 */
 	public static GridLayout createGridLayoutWithoutMargin() {
@@ -456,7 +452,7 @@ public class Utility {
 
 	/**
 	 * Create a row expression base on a binding column name.
-	 *
+	 * 
 	 * @param columnName the column name
 	 * @return the expression, or null if the column name is blank.
 	 */
@@ -465,12 +461,12 @@ public class Utility {
 		if (StringUtil.isBlank(columnName)) {
 			return null;
 		}
-		return ExpressionUtil.createJSRowExpression(columnName);// $NON-NLS-1$
+		return ExpressionUtil.createJSRowExpression(columnName);// $NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * Escapes \ and " following standard of Javascript
-	 *
+	 * 
 	 * @param str
 	 * @return new string after escape special character
 	 */
@@ -486,7 +482,7 @@ public class Utility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param control
 	 * @param contextId
 	 */
@@ -495,7 +491,7 @@ public class Utility {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param e
 	 */
 	public static void log(Exception e) {

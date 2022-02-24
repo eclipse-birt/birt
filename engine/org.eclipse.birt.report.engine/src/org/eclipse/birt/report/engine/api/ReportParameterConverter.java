@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation and others.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -48,7 +48,7 @@ public class ReportParameterConverter {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param format
 	 * @param uLocale
 	 */
@@ -58,7 +58,7 @@ public class ReportParameterConverter {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param format
 	 * @param uLocale
 	 * @param timeZone
@@ -73,7 +73,7 @@ public class ReportParameterConverter {
 
 	/**
 	 * Get string formatter.
-	 *
+	 * 
 	 * @return StringFormatter object
 	 */
 	private StringFormatter getStringFormatter() {
@@ -88,7 +88,7 @@ public class ReportParameterConverter {
 
 	/**
 	 * Get number formatter.
-	 *
+	 * 
 	 * @return NumberFormatter object
 	 */
 	private NumberFormatter getNumberFormatter() {
@@ -103,7 +103,7 @@ public class ReportParameterConverter {
 
 	/**
 	 * Get date formatter.
-	 *
+	 * 
 	 * @return DateFormatter object
 	 */
 	private DateFormatter getDateFormatter() {
@@ -118,7 +118,7 @@ public class ReportParameterConverter {
 
 	/**
 	 * Convert report parameter value object into string.
-	 *
+	 * 
 	 * @param reportParameterObj report parameter value object.
 	 * @return parameter value in string.
 	 */
@@ -174,7 +174,7 @@ public class ReportParameterConverter {
 	/**
 	 * Convert report parameter from string into object. Need to be pointed out is
 	 * it return a Double object when the value type is Float.
-	 *
+	 * 
 	 * @param reportParameterValue report parameter value in string.
 	 * @param parameterValueType   report parameter type.
 	 * @return parameter value object.
@@ -333,7 +333,7 @@ public class ReportParameterConverter {
 
 	/**
 	 * Parse the input string to an object.
-	 *
+	 * 
 	 * @param reportParameterValue input string to parse
 	 * @return an object
 	 */

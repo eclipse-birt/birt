@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -102,7 +102,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
-	private static String[] actions = { Messages.getString("ExpressionValueCellEditor.selectValueAction"), //$NON-NLS-1$
+	private static String[] actions = new String[] { Messages.getString("ExpressionValueCellEditor.selectValueAction"), //$NON-NLS-1$
 			Messages.getString("ExpressionValueCellEditor.buildExpressionAction"), //$NON-NLS-1$
 	};
 
@@ -114,9 +114,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 	/**
 	 * Constant, represents empty String array.
 	 */
-	protected static final String[] EMPTY = {};
+	protected static final String[] EMPTY = new String[0];
 
-	protected static final String[] EMPTY_ARRAY = {};
+	protected static final String[] EMPTY_ARRAY = new String[] {};
 
 	protected static Logger logger = Logger.getLogger(FilterConditionBuilder.class.getName());
 	/**
@@ -137,7 +137,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns how many value fields this operator needs.
-	 *
+	 * 
 	 * @param operatorValue
 	 */
 	public static int determineValueVisible(String operatorValue) {
@@ -168,7 +168,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns the index for given operator value in the operator list.
-	 *
+	 * 
 	 * @param value
 	 */
 	protected static int getIndexForOperatorValue(String value) {
@@ -183,7 +183,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns the operator display name by its value.
-	 *
+	 * 
 	 * @param value
 	 */
 	public static String getNameForOperator(String value) {
@@ -198,7 +198,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns the operator value by its display name.
-	 *
+	 * 
 	 * @param name
 	 */
 	public static String getValueForOperator(String name) {
@@ -243,7 +243,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected ValueCombo.ISelection expValueAction = new ValueCombo.ISelection() {
 
-		@Override
 		public String doSelection(String input) {
 			String retValue = null;
 
@@ -265,12 +264,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected MultiValueCombo.ISelection mAddExpValueAction = new MultiValueCombo.ISelection() {
 
-		@Override
 		public void doAfterSelection(MultiValueCombo combo) {
 			mAddSelValueAction.doAfterSelection(combo);
 		}
 
-		@Override
 		public String[] doSelection(String input) {
 			String[] retValue = null;
 
@@ -293,7 +290,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected MultiValueCombo.ISelection mAddSelValueAction = new MultiValueCombo.ISelection() {
 
-		@Override
 		public void doAfterSelection(MultiValueCombo combo) {
 			addBtn.setEnabled(false);
 
@@ -317,7 +313,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 			}
 		}
 
-		@Override
 		public String[] doSelection(String input) {
 
 			String[] retValue = null;
@@ -327,13 +322,15 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 				DataSetHandle dataSet;
 				if (dataSetHandle != null) {
 					dataSet = dataSetHandle;
-				} else if (designHandle instanceof TabularCubeHandle) {
-					dataSet = ((TabularCubeHandle) designHandle).getDataSet();
 				} else {
-					dataSet = ((TabularHierarchyHandle) designHandle).getDataSet();
-					if (dataSet == null && ((TabularHierarchyHandle) designHandle).getLevelCount() > 0) {
-						dataSet = ((TabularCubeHandle) ((TabularHierarchyHandle) designHandle).getContainer()
-								.getContainer()).getDataSet();
+					if (designHandle instanceof TabularCubeHandle)
+						dataSet = ((TabularCubeHandle) designHandle).getDataSet();
+					else {
+						dataSet = ((TabularHierarchyHandle) designHandle).getDataSet();
+						if (dataSet == null && ((TabularHierarchyHandle) designHandle).getLevelCount() > 0) {
+							dataSet = ((TabularCubeHandle) ((TabularHierarchyHandle) designHandle).getContainer()
+									.getContainer()).getDataSet();
+						}
 					}
 				}
 				try {
@@ -383,9 +380,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 					}
 				}
 
-				if (bindingName == null && expression.getText().trim().length() > 0) {
+				if (bindingName == null && expression.getText().trim().length() > 0)
 					bindingName = expression.getText().trim();
-				}
 
 				if (bindingName != null) {
 					try {
@@ -423,7 +419,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected SelectionListener operatorSelection = new SelectionAdapter() {
 
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			operatorChange();
 		}
@@ -435,7 +430,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected ValueCombo.ISelection selectValueAction = new ValueCombo.ISelection() {
 
-		@Override
 		public String doSelection(String input) {
 			String retValue = null;
 
@@ -445,10 +439,12 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 				DataSetHandle dataSet = null;
 				if (dataSetHandle != null) {
 					dataSet = dataSetHandle;
-				} else if (designHandle instanceof TabularCubeHandle) {
-					dataSet = ((TabularCubeHandle) designHandle).getDataSet();
 				} else {
-					dataSet = ((TabularHierarchyHandle) designHandle).getDataSet();
+					if (designHandle instanceof TabularCubeHandle) {
+						dataSet = ((TabularCubeHandle) designHandle).getDataSet();
+					} else {
+						dataSet = ((TabularHierarchyHandle) designHandle).getDataSet();
+					}
 				}
 				try {
 					List selectValueList = dataSetHandle != null
@@ -487,9 +483,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 					}
 				}
 
-				if (bindingName == null && expression.getText().trim().length() > 0) {
+				if (bindingName == null && expression.getText().trim().length() > 0)
 					bindingName = expression.getText().trim();
-				}
 
 				if (bindingName != null) {
 					try {
@@ -528,11 +523,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected IStructuredContentProvider tableContentProvider = new IStructuredContentProvider() {
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement == null) {
 				return new Object[0];
@@ -542,27 +535,22 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 			return null;
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	};
 
 	protected ITableLabelProvider tableLableProvier = new ITableLabelProvider() {
 
-		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
-		@Override
 		public void dispose() {
 		}
 
-		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
-		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 0) {
 				if (element instanceof Expression) {
@@ -573,12 +561,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 			return ""; //$NON-NLS-1$
 		}
 
-		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 	};
@@ -637,7 +623,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 			return;
 		}
 		boolean enabled = (tableViewer.getSelection() == null) ? false : true;
-		if (enabled && tableViewer.getSelection() instanceof StructuredSelection) {
+		if (enabled == true && tableViewer.getSelection() instanceof StructuredSelection) {
 			StructuredSelection selection = (StructuredSelection) tableViewer.getSelection();
 			if (selection.toList().size() <= 0) {
 				enabled = false;
@@ -699,7 +685,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		expressionValue1.setLayoutData(expgd);
 		expressionValue1.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
@@ -726,7 +711,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		expressionValue2.setLayoutData(expgd);
 		expressionValue2.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
@@ -747,19 +731,17 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 			operatorChange();
 		}
 		condition.getParent().layout(true, true);
-		if (getButtonBar() != null) {
+		if (getButtonBar() != null)
 			condition.getShell().pack();
-		}
 		return 1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.INSERT_EDIT_FILTER_CONDITION_DIALOG_ID);
 
@@ -822,7 +804,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		expression.setVisibleItemCount(30);
 		expression.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter(expression);
 				if (converter != null) {
@@ -830,9 +811,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 						String newValue = expression.getItem(expression.getSelectionIndex());
 						String value = ExpressionUtility.getFilterExpression(
 								dataSetHandle != null ? dataSetHandle : designHandle, newValue, converter);
-						if (value != null) {
+						if (value != null)
 							newValue = value;
-						}
 						expression.setText(newValue);
 					}
 				}
@@ -845,7 +825,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		}
 		expression.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
@@ -853,7 +832,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 		Listener listener = new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				updateButtons();
 			}
@@ -948,7 +926,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 		addBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String value = addExpressionValue.getText().trim();
 				if (valueList.indexOf(value) < 0) {
@@ -976,9 +953,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		table.setLinesVisible(true);
 		TableColumn column;
 		int i;
-		String[] columNames = { Messages.getString("FilterConditionBuilder.list.item1"), //$NON-NLS-1$
+		String[] columNames = new String[] { Messages.getString("FilterConditionBuilder.list.item1"), //$NON-NLS-1$
 		};
-		int[] columLength = { 288 };
+		int[] columLength = new int[] { 288 };
 		for (i = 0; i < columNames.length; i++) {
 			column = new TableColumn(table, SWT.NONE, i);
 			column.setText(columNames[i]);
@@ -986,7 +963,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		}
 		table.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkEditDelButtonStatus();
 			}
@@ -994,7 +970,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 		table.addKeyListener(new KeyListener() {
 
-			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					delTableValue();
@@ -1002,14 +977,12 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 			}
 
-			@Override
 			public void keyReleased(KeyEvent e) {
 			}
 
 		});
 		table.addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				editTableValue();
 			}
@@ -1038,7 +1011,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		editBtn.setLayoutData(gd);
 		editBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editTableValue();
 			}
@@ -1051,7 +1023,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		setButtonLayoutData(delBtn);
 		delBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				delTableValue();
 			}
@@ -1068,7 +1039,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		delAllBtn.setLayoutData(gd);
 		delAllBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int count = valueList.size();
 				if (count > 0) {
@@ -1084,7 +1054,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 		addExpressionValue.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				checkAddButtonStatus();
 				updateButtons();
@@ -1101,9 +1070,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		addExpressionValue.addSelectionListener(1, mAddExpValueAction);
 
 		parent.getParent().layout(true, true);
-		if (getButtonBar() != null) {
+		if (getButtonBar() != null)
 			parent.getShell().pack();
-		}
 		return 1;
 
 	}
@@ -1178,12 +1146,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 	protected void enableInput(boolean val) {
 		operator.setEnabled(val);
 		if (valueVisible != 3) {
-			if (expressionValue1 != null) {
+			if (expressionValue1 != null)
 				expressionValue1.setEnabled(val);
-			}
-			if (expressionValue2 != null) {
+			if (expressionValue2 != null)
 				expressionValue2.setEnabled(val);
-			}
 			if (andLable != null) {
 				andLable.setEnabled(val);
 			}
@@ -1205,9 +1171,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 			return ((ComputedColumnHandle) obj).getName();
 		} else if (obj instanceof ResultSetColumnHandle) {
 			return ((ResultSetColumnHandle) obj).getColumnName();
-		} else {
+		} else
 			return ""; //$NON-NLS-1$
-		}
 	}
 
 	protected String[] getDataSetColumns() {
@@ -1226,17 +1191,18 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		if (handle instanceof DataSetHandle) {
 			tempDataset = (DataSetHandle) handle;
 		} else if (handle instanceof TabularCubeHandle || handle instanceof TabularHierarchyHandle) {
-			if (handle instanceof TabularCubeHandle) {
+			if (handle instanceof TabularCubeHandle)
 				tempDataset = ((TabularCubeHandle) handle).getDataSet();
-			} else {
+			else {
 				tempDataset = ((TabularHierarchyHandle) handle).getDataSet();
 				if (tempDataset == null && ((TabularHierarchyHandle) handle).getLevelCount() > 0) {
 					tempDataset = ((TabularCubeHandle) ((TabularHierarchyHandle) handle).getContainer().getContainer())
 							.getDataSet();
 				}
 			}
-		} else if (DEUtil.getBindingRoot(handle) != null) {
-			tempDataset = DEUtil.getBindingRoot(handle).getDataSet();
+		} else {
+			if (DEUtil.getBindingRoot(handle) != null)
+				tempDataset = DEUtil.getBindingRoot(handle).getDataSet();
 		}
 
 		return tempDataset;
@@ -1259,7 +1225,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 					provider = new ExpressionProvider(designHandle);
 					((ExpressionProvider) provider).addFilter(new ExpressionFilter() {
 
-						@Override
 						public boolean select(Object parentElement, Object element) {
 							if (ExpressionFilter.CATEGORY.equals(parentElement)
 									&& ExpressionProvider.DATASETS.equals(element)) {
@@ -1334,7 +1299,11 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 	 * Gets if the condition is available.
 	 */
 	protected boolean isConditionOK() {
-		if ((expression == null) || !isExpressionOK()) {
+		if (expression == null) {
+			return false;
+		}
+
+		if (!isExpressionOK()) {
 			return false;
 		}
 
@@ -1345,7 +1314,11 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 	 * Gets if the expression field is not empty.
 	 */
 	protected boolean isExpressionOK() {
-		if ((expression == null) || expression.getText() == null || expression.getText().length() == 0) {
+		if (expression == null) {
+			return false;
+		}
+
+		if (expression.getText() == null || expression.getText().length() == 0) {
 			return false;
 		}
 
@@ -1354,10 +1327,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
 	protected void okPressed() {
 		try {
 			if (filterCondition == null) {
@@ -1385,9 +1357,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 				// set test expression for new map rule
 				ExpressionButtonUtil.saveExpressionButtonControl(expression, filter, FilterCondition.EXPR_MEMBER);
 
-				if (showUpdateAggregationButton && updateAggrButton != null) {
+				if (showUpdateAggregationButton && updateAggrButton != null)
 					filter.setUpdateAggregation(updateAggrButton.getSelection());
-				}
 
 				if (dataSetHandle != null) {
 					PropertyHandle propertyHandle = dataSetHandle.getPropertyHandle(ListingHandle.FILTER_PROP);
@@ -1418,9 +1389,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 				}
 				ExpressionButtonUtil.saveExpressionButtonControl(expression, filterCondition,
 						FilterCondition.EXPR_MEMBER);
-				if (showUpdateAggregationButton && updateAggrButton != null) {
+				if (showUpdateAggregationButton && updateAggrButton != null)
 					filterCondition.setUpdateAggregation(updateAggrButton.getSelection());
-				}
 			}
 		} catch (Exception e) {
 			ExceptionUtil.handle(e);
@@ -1429,7 +1399,6 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		super.okPressed();
 	}
 
-	@Override
 	public int open() {
 		if (getShell() == null) {
 			// create the window
@@ -1506,7 +1475,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public void setBindingParams(ParamBindingHandle[] params) {
 		this.bindingParams = params;
@@ -1522,11 +1491,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 			}
 		} else if (handle instanceof TabularCubeHandle || handle instanceof TabularHierarchyHandle) {
 			try {
-				if (dataset != null) {
+				if (dataset != null)
 					columnList = DataUtil.getColumnList(dataset);
-				} else {
+				else
 					columnList = Collections.EMPTY_LIST;
-				}
 			} catch (SemanticException e) {
 				ExceptionHandler.handle(e);
 			}
@@ -1585,7 +1553,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Sets the model input.
-	 *
+	 * 
 	 * @param sortKey
 	 */
 	public void setInput(Object inputHandle) {
@@ -1657,7 +1625,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 		} else if (valueVisible == 2) {
 			expressionValue1.setVisible(true);
 			expressionValue2.setVisible(true);
-
+			;
 			andLable.setVisible(true);
 			andLable.setEnabled(true);
 		} else if (valueVisible == 3) {
@@ -1672,9 +1640,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Refreshes the OK button state.
-	 *
+	 * 
 	 */
-	@Override
 	protected void updateButtons() {
 		enableInput(isExpressionOK());
 		if (getButton(IDialogConstants.OK_ID) != null) {

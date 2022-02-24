@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements ICrosstabReportItemConstants {
 
 	/**
-	 *
+	 * 
 	 * @param focus
 	 */
 	public CrosstabReportItemTask(CrosstabReportItemHandle focus) {
@@ -61,7 +61,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * the measure direction, it will automatically decide if need process other
 	 * measures even if it's not in the given list to resovle crosstab model
 	 * consistency.
-	 *
+	 * 
 	 * @param axisType
 	 * @param measureList
 	 * @param functionList
@@ -70,9 +70,8 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 */
 	public CrosstabCellHandle addGrandTotal(int axisType, List<MeasureViewHandle> measureList,
 			List<String> functionList) throws SemanticException {
-		if (crosstab == null || !CrosstabModelUtil.isValidAxisType(axisType)) {
+		if (crosstab == null || !CrosstabModelUtil.isValidAxisType(axisType))
 			return null;
-		}
 
 		CommandStack stack = crosstab.getCommandStack();
 		stack.startTrans(Messages.getString("CrosstabReportItemTask.msg.add.grandtotal")); //$NON-NLS-1$
@@ -102,7 +101,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * nothing. The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 *
+	 * 
 	 * @param axisType
 	 * @throws SemanticException
 	 */
@@ -119,7 +118,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * do nothing. The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 *
+	 * 
 	 * @param axisType
 	 * @param measureIndex
 	 * @throws SemanticException
@@ -136,33 +135,30 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * Gets the measure view list that has defined aggregations for the row/column
 	 * grand total in the crosstab. Each item in the list is an instance of
 	 * <code>MeasureViewHandle</code>.
-	 *
+	 * 
 	 * @param crosstab
 	 * @param axisType
 	 * @return
 	 */
 	public List<MeasureViewHandle> getAggregationMeasures(int axisType) {
 		// if crosstab is null or has no grand total, then return empty
-		if (crosstab == null || crosstab.getGrandTotal(axisType) == null) {
+		if (crosstab == null || crosstab.getGrandTotal(axisType) == null)
 			return Collections.emptyList();
-		}
 
-		List<MeasureViewHandle> measures = new ArrayList<>();
+		List<MeasureViewHandle> measures = new ArrayList<MeasureViewHandle>();
 		for (int i = 0; i < crosstab.getMeasureCount(); i++) {
 			MeasureViewHandle measureView = crosstab.getMeasure(i);
-			if (measures.contains(measureView)) {
+			if (measures.contains(measureView))
 				continue;
-			}
-			if (CrosstabModelUtil.isAggregationOn(measureView, null, axisType)) {
+			if (CrosstabModelUtil.isAggregationOn(measureView, null, axisType))
 				measures.add(measureView);
-			}
 		}
 		return measures;
 	}
 
 	/**
 	 * Gets the aggregation function for the row/column grand total in the crosstab.
-	 *
+	 * 
 	 * @param crosstab
 	 * @param axisType
 	 * @param measureView
@@ -171,18 +167,16 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	public String getAggregationFunction(int axisType, MeasureViewHandle measureView) {
 		// if crosstab is null or not define any grand total, then return null
 		if (crosstab == null || crosstab.getGrandTotal(axisType) == null || measureView == null
-				|| crosstab != measureView.getCrosstab()) {
+				|| crosstab != measureView.getCrosstab())
 			return null;
-		}
 
 		for (int j = 0; j < measureView.getAggregationCount(); j++) {
 			AggregationCellHandle cell = measureView.getAggregationCell(j);
 			if ((axisType == COLUMN_AXIS_TYPE && cell.getAggregationOnColumn() == null)
 					|| (axisType == ROW_AXIS_TYPE && cell.getAggregationOnRow() == null)) {
 				String function = CrosstabModelUtil.getAggregationFunction(crosstab, cell);
-				if (function != null) {
+				if (function != null)
 					return function;
-				}
 			}
 		}
 		return null;
@@ -190,7 +184,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 
 	/**
 	 * Sets the aggregation function for the row/column grand total in the crosstab.
-	 *
+	 * 
 	 * @param crosstab
 	 * @param axisType
 	 * @param measureView
@@ -201,9 +195,8 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 			throws SemanticException {
 		// if crosstab is null or not define any grand total, then return null
 		if (crosstab == null || crosstab.getGrandTotal(axisType) == null || measureView == null
-				|| crosstab != measureView.getCrosstab()) {
+				|| crosstab != measureView.getCrosstab())
 			return;
-		}
 
 		CommandStack stack = crosstab.getCommandStack();
 		stack.startTrans(Messages.getString("CrosstabReportItemTask.msg.set.aggregate.function")); //$NON-NLS-1$
@@ -231,7 +224,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * subtotal and grandtotal info in both area after the swapping, while
 	 * <code>pivotDimension</code> may remove the grandtotal or recreate some cells
 	 * during the processing.
-	 *
+	 * 
 	 * @throws SemanticException
 	 */
 	public void pivotCrosstab() throws SemanticException {
@@ -421,7 +414,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
 	 * integer.
-	 *
+	 * 
 	 * @param name           name of the dimension view to move
 	 * @param targetAxisType row/column axis type of the move target
 	 * @param targetIndex    the position index of the move target
@@ -443,7 +436,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
 	 * integer.
-	 *
+	 * 
 	 * @param extendedItem   the dimension view extended item to move
 	 * @param targetAxisType row/column axis type of the move target
 	 * @param targetIndex    the position index of the move target
@@ -454,17 +447,16 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 		assert dimensionView != null;
 
 		// record existing subtotal aggregation info from source dimension
-		Map<String, List<String>> functionListMap = new HashMap<>();
-		Map<String, List<MeasureViewHandle>> measureListMap = new HashMap<>();
+		Map<String, List<String>> functionListMap = new HashMap<String, List<String>>();
+		Map<String, List<MeasureViewHandle>> measureListMap = new HashMap<String, List<MeasureViewHandle>>();
 		for (int i = 0; i < dimensionView.getLevelCount(); i++) {
 			LevelViewHandle levelView = dimensionView.getLevel(i);
 			String name = levelView.getCubeLevelName();
-			if (name == null) {
+			if (name == null)
 				continue;
-			}
 
 			List measureList = levelView.getAggregationMeasures();
-			List<String> functionList = new ArrayList<>();
+			List<String> functionList = new ArrayList<String>();
 			for (int j = 0; j < measureList.size(); j++) {
 				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get(j);
 				String function = levelView.getAggregationFunction(measureView);
@@ -482,7 +474,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 		// to keep the grandtotal, but when remove dimension on source view, it
 		// could be removed
 		List<MeasureViewHandle> grandMeasureList = getAggregationMeasures(targetAxisType);
-		List<String> grandFunctionList = new ArrayList<>();
+		List<String> grandFunctionList = new ArrayList<String>();
 		for (int j = 0; j < grandMeasureList.size(); j++) {
 			MeasureViewHandle measureView = grandMeasureList.get(j);
 			String function = getAggregationFunction(targetAxisType, measureView);
@@ -510,8 +502,8 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 				targetCrosstabView = crosstab.addCrosstabView(targetAxisType);
 			}
 
-			List<MeasureViewHandle> transferMeasureList = new ArrayList<>();
-			List<String> transferFunctionList = new ArrayList<>();
+			List<MeasureViewHandle> transferMeasureList = new ArrayList<MeasureViewHandle>();
+			List<String> transferFunctionList = new ArrayList<String>();
 
 			// check if target view is empty and no grandtotal defined, then
 			// remove dummy grandtotal from original view
@@ -627,7 +619,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
 	 * integer.
-	 *
+	 * 
 	 * @param srcAxisType    the source row/column axis type
 	 * @param srcIndex       the source position index
 	 * @param targetAxisType row/column axis type of the move target
@@ -651,7 +643,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. The index is 0-based
 	 * integer.
-	 *
+	 * 
 	 * @param dimensionHandle the OLAP dimension handle to use
 	 * @param axisType        row/column axis type
 	 * @param index           insert position, a 0-based integer
@@ -698,7 +690,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	/**
 	 * Removes a dimension view that refers a cube dimension name with the given
 	 * name from the design tree.
-	 *
+	 * 
 	 * @param name name of the dimension view to remove
 	 * @throws SemanticException
 	 */
@@ -718,7 +710,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
 	 * integer.
-	 *
+	 * 
 	 * @param axisType row/column axis type
 	 * @param index    the position index of the dimension to remove, 0-based
 	 *                 integer

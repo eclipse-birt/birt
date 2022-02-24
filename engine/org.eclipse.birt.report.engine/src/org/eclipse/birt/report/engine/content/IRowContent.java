@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,26 +16,26 @@ package org.eclipse.birt.report.engine.content;
 
 /**
  * Provides the interfaces for the Row AbstractContent
- *
- *
+ * 
+ * 
  */
 public interface IRowContent extends IContainerContent {
-	int getRowID();
+	public int getRowID();
 
-	void setRowID(int rowID);
+	public void setRowID(int rowID);
 
-	ITableContent getTable();
+	public ITableContent getTable();
 
-	String getGroupId();
+	public String getGroupId();
 
-	void setGroupId(String groupId);
+	public void setGroupId(String groupId);
 
-	IGroupContent getGroup();
+	public IGroupContent getGroup();
 
-	IBandContent getBand();
+	public IBandContent getBand();
 
-	void setRepeatable(boolean repeatable);
+	public void setRepeatable(boolean repeatable);
 
-	boolean isRepeatable();
+	public boolean isRepeatable();
 
 }

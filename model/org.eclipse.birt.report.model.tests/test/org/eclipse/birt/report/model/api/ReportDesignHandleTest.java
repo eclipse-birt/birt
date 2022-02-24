@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,76 +60,75 @@ import org.eclipse.birt.report.model.util.ReportDesignSerializer;
 import com.ibm.icu.util.ULocale;
 
 /**
- *
+ * 
  * Tests cases for ReportDesignHandle.
  * <p>
- *
+ * 
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- *
+ * 
  * <tr>
  * <td>{@link #testConfigVars()}</td>
  * <td>Tests to read, remove, replace ConfigVars.</td>
  * <td>Operations are finished correctly and the output file matches the golden
  * file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testReportDesignOtherMethods()}</td>
  * <td>Tests to get element and design handle.</td>
  * <td>Returns the design and design handle correctly.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td></td>
  * <td>Tests to get numbers of errors and warnings.</td>
  * <td>Returns numbers of errors and warnings correctly.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testReportDesignProperties()}</td>
  * <td>Tests to get and set properties like base and default units.</td>
  * <td>Values are set correctly and the output file matches the golden
  * file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testReportDesignSlots()}</td>
  * <td>Tests to get different kinds of slots like body, components, etc.</td>
  * <td>Information of slots matches with the input design file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testIteratorMethods()}</td>
  * <td>Tests to get iterators.</td>
  * <td>Information of iterators matches with the input design file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>{@link #testTranslations()}</td>
  * <td>Tests to get translations.</td>
  * <td>Information of translations matches with the input design file.</td>
  * </tr>
- *
+ * 
  * <tr>
  * <td>Test add / drop css style sheet
  * </tr>
- *
+ * 
  * </table>
- *
- *
+ * 
+ * 
  */
 public class ReportDesignHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("ReportDesignHandleTest.xml"); //$NON-NLS-1$
@@ -137,7 +136,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests cases for reading and setting ConfigVars.
-	 *
+	 * 
 	 * @throws Exception if any exception
 	 */
 
@@ -211,7 +210,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests css style sheet.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -293,7 +292,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests rename included css style sheet.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testRenameCss() throws Exception {
@@ -365,7 +364,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests cases for methods on ReportDesignHandle.
-	 *
+	 * 
 	 */
 
 	public void testReportDesignOtherMethods() {
@@ -390,7 +389,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests cases for methods on slots.
-	 *
+	 * 
 	 */
 
 	public void testReportDesignSlots() {
@@ -431,7 +430,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests cases for reading and setting properties of report design.
-	 *
+	 * 
 	 * @throws Exception if any exception.
 	 */
 
@@ -480,9 +479,9 @@ public class ReportDesignHandleTest extends BaseTestCase {
 	 * Test case for rename method. Give a free-form element, check the name of all
 	 * of elements within its slot. if the name is duplicate with the current name
 	 * space
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 	public void testRename() throws Exception {
 
@@ -501,11 +500,11 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Test rename( Object , DesignElementHandle ) method Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>style in theme
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -544,11 +543,11 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Test rename( Object , DesignElementHandle ) method Test cases:
-	 *
+	 * 
 	 * <ul>
 	 * <li>level in hierarchy
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -637,9 +636,9 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests iterator methods of a report design.
-	 *
+	 * 
 	 * @throws Exception
-	 *
+	 * 
 	 */
 
 	public void testIteratorMethods() throws Exception {
@@ -654,7 +653,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the save state of a report design after several undo and redo.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -694,7 +693,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Execute an command and undo it, the state should be clean.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -715,7 +714,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testEmbeddedImage() throws Exception {
@@ -752,7 +751,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests attribute and dispose listeners in module.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -781,13 +780,13 @@ public class ReportDesignHandleTest extends BaseTestCase {
 	/**
 	 * Tests the function to find the resource with the given file name. Test cases
 	 * are:
-	 *
+	 * 
 	 * <ul>
 	 * <li>Uses the file path to find the relative resource.</li>
 	 * <li>Uses network protocol to find the relative resource.</li>
 	 * <li>Uses the file protcol to find the relative resource</li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -885,14 +884,14 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests <code>setFileName</code> function. Cases are
-	 *
+	 * 
 	 * <ul>
 	 * <li>setFileName with HTTP protocol</li>
 	 * <li>setFileName with HTTP protocol and Chinese character.</li>
 	 * <li>setFileName with unix file schema.</li>
 	 * <li>setFileName with windows file schema.</li>
 	 * </ul>
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -946,7 +945,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the copy-rename-add methods about the embedded images.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -969,7 +968,6 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 		private String status = null;
 
-		@Override
 		public void fileNameChanged(ModuleHandle targetElement, AttributeEvent ev) {
 			status = targetElement.getFileName();
 		}
@@ -985,12 +983,11 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed
 		 * (org.eclipse.birt.report.model.api.ModuleHandle,
 		 * org.eclipse.birt.report.model.api.core.DisposeEvent)
 		 */
-		@Override
 		public void moduleDisposed(ModuleHandle targetElement, DisposeEvent ev) {
 			status = "disposed"; //$NON-NLS-1$
 
@@ -1008,13 +1005,12 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed
 		 * (org.eclipse.birt.report.model.api.ModuleHandle,
 		 * org.eclipse.birt.report.model.api.core.DisposeEvent)
 		 */
 
-		@Override
 		public void moduleDisposed(ModuleHandle targetElement, DisposeEvent ev) {
 			targetElement.removeDisposeListener(this);
 			status++;
@@ -1031,8 +1027,8 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * @throws DesignFileException
-	 *
-	 *
+	 * 
+	 * 
 	 */
 
 	public void testCascadingParameters() throws DesignFileException {
@@ -1056,7 +1052,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 	/**
 	 * Test cases: Test the getAllBookmarks method on the ModuleHandle which returns
 	 * all the bookmarks defined in the report design.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -1082,7 +1078,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 	 * called, there should be one master page created for the report. The
 	 * properties values given by the argument should be set to the report deisgn
 	 * element. All thos operation should not go into command stack.
-	 *
+	 * 
 	 * @throws SemanticException
 	 * @throws IOException
 	 */
@@ -1117,26 +1113,25 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Does the equal assert only when the platform is windows.
-	 *
+	 * 
 	 * @param expected
 	 * @param actual
 	 */
 
 	private void assertEqualsOnWindows(String expected, String actual) {
-		if (isWindowsPlatform()) {
+		if (isWindowsPlatform())
 			assertEquals(expected, actual);
-		}
 	}
 
 	/**
 	 * Tests the getReportItemsBasedonTempalates method.
-	 *
+	 * 
 	 * This method is supposed to return report items which holds a template
 	 * definition, that is, report item in body slot and page slot. Notice, nested
 	 * template items is excluded.
-	 *
+	 * 
 	 * @throws DesignFileException
-	 *
+	 * 
 	 */
 	public void testGetReportItemsBasedonTempalates() throws DesignFileException {
 		openDesign("ReportDesignHandleTest3.xml"); //$NON-NLS-1$
@@ -1156,7 +1151,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 	/**
 	 * if the message file with the current locale existed, the defult one will not
 	 * be allocated.
-	 *
+	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -1184,7 +1179,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests getStyle , findStyle method
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -1206,7 +1201,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the method to get the version number of the report design.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -1220,7 +1215,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the method to get the included script file of the libraries.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -1235,7 +1230,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests methods for include scripts values.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -1275,7 +1270,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 	/**
 	 * Copy a design as it is. That is, not to flatten any property that may extends
 	 * to the library.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -1291,7 +1286,7 @@ public class ReportDesignHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests copy report design which contains template parameter definition.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testCopyTemplateParameterDefinition() throws Exception {

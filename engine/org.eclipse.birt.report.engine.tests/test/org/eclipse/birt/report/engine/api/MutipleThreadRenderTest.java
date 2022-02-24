@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -25,7 +25,6 @@ public class MutipleThreadRenderTest extends EngineCase {
 	final static String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/mutiple-thread-render.rptdesign";
 	final static String REPORT_DESIGN = "./utest/report.rptdesign";
 
-	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeFile(REPORT_DOCUMENT);
@@ -34,7 +33,6 @@ public class MutipleThreadRenderTest extends EngineCase {
 		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
 	}
 
-	@Override
 	public void tearDown() throws Exception {
 		removeFile(REPORT_DOCUMENT);
 		removeFile(REPORT_DESIGN);
@@ -75,7 +73,6 @@ public class MutipleThreadRenderTest extends EngineCase {
 			super(monitor);
 		}
 
-		@Override
 		public void doRun() throws Exception {
 			System.out.println("start run document");
 			IReportRunnable report = engine.openReportDesign(REPORT_DESIGN);
@@ -96,7 +93,6 @@ public class MutipleThreadRenderTest extends EngineCase {
 			super(monitor);
 		}
 
-		@Override
 		public void doRun() throws Exception {
 			IReportDocument document = null;
 
@@ -129,7 +125,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 							task.close();
 						}
 					}
-					if (!document.isComplete()) {
+					if (document.isComplete() == false) {
 						sleep(1000);
 						document.refresh();
 					} else {
@@ -150,7 +146,6 @@ public class MutipleThreadRenderTest extends EngineCase {
 			super(monitor);
 		}
 
-		@Override
 		public void doRun() throws Exception {
 			IReportDocument document = null;
 			try {
@@ -182,7 +177,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 							task.close();
 						}
 					}
-					if (!document.isComplete()) {
+					if (document.isComplete() == false) {
 						sleep(1000);
 						document.refresh();
 					} else {
@@ -203,7 +198,6 @@ public class MutipleThreadRenderTest extends EngineCase {
 			super(monitor);
 		}
 
-		@Override
 		public void doRun() throws Exception {
 			IReportDocument document = null;
 			try {
@@ -216,7 +210,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 					}
 				}
 
-				while (!document.isComplete()) {
+				while (document.isComplete() == false) {
 					sleep(1000);
 					document.refresh();
 				}
@@ -244,7 +238,6 @@ public class MutipleThreadRenderTest extends EngineCase {
 			super(monitor);
 		}
 
-		@Override
 		public void doRun() throws Exception {
 			IReportDocument document = null;
 			try {
@@ -257,7 +250,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 					}
 				}
 
-				while (!document.isComplete()) {
+				while (document.isComplete() == false) {
 					sleep(1000);
 					document.refresh();
 				}
@@ -326,7 +319,6 @@ public class MutipleThreadRenderTest extends EngineCase {
 			runningThread++;
 		}
 
-		@Override
 		public void run() {
 			try {
 				long pageCount = document.getPageCount();

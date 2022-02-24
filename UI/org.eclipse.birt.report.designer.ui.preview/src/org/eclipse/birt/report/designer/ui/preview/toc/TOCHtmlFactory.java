@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -28,7 +28,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Gets TOC html value.
-	 *
+	 * 
 	 * @param document
 	 * @param locale
 	 * @return toc html value.
@@ -49,7 +49,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Gets toc html value.
-	 *
+	 * 
 	 * @param document
 	 * @return toc html value.
 	 */
@@ -61,7 +61,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Gets toc script html value.
-	 *
+	 * 
 	 * @return toc script html value.
 	 */
 
@@ -69,7 +69,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Gets toc style html value.
-	 *
+	 * 
 	 * @return toc style html value
 	 */
 
@@ -77,7 +77,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Build TOC structure tree to TOC html.
-	 *
+	 * 
 	 * @param node
 	 * @return toc html.
 	 */
@@ -85,7 +85,7 @@ public abstract class TOCHtmlFactory {
 	private String buildTOCHtml(TOCNode node, int level) {
 		assert node != null;
 
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		buffer.append("<tr><td "); //$NON-NLS-1$
 
 		String id = node.getNodeID();
@@ -157,13 +157,13 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Prints blank value.
-	 *
+	 * 
 	 * @param level
 	 * @return blank value.
 	 */
 
 	private String printBlank(int level) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < level; ++i) {
 			buffer.append("&nbsp;"); //$NON-NLS-1$
 		}

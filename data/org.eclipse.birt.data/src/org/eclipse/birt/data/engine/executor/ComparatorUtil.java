@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor;
 
@@ -32,7 +32,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 
 /**
- *
+ * 
  */
 
 public class ComparatorUtil {
@@ -43,17 +43,16 @@ public class ComparatorUtil {
 
 	/**
 	 * Only for non-collection object
-	 *
+	 * 
 	 * @param ob1
 	 * @param ob2
 	 * @return
 	 */
 	public static boolean isEqualObject(Object ob1, Object ob2) {
-		if (ob1 == ob2) {
+		if (ob1 == ob2)
 			return true;
-		} else if (ob1 == null || ob2 == null) {
+		else if (ob1 == null || ob2 == null)
 			return false;
-		}
 
 		return ob1.equals(ob2);
 	}
@@ -77,17 +76,17 @@ public class ComparatorUtil {
 			return true;
 		} else if (map1 == null || map2 == null) {
 			if (map1 == null) {
-				if (map2.size() != 0) {
+				if (map2.size() != 0)
 					return false;
-				} else {
+				else
 					return true;
-				}
-			} else if (map1.size() != 0) {
-				return false;
 			} else {
-				return true;
+				if (map1.size() != 0)
+					return false;
+				else
+					return true;
 			}
-		} else if (map1.size() != map2.size()) {
+		} else if (map1.keySet().size() != map2.keySet().size()) {
 			return false;
 		}
 
@@ -98,9 +97,8 @@ public class ComparatorUtil {
 			Object value1 = ob.getValue();
 			Object value2 = map2.get(ob.getKey());
 
-			if (!isEqualObject(value1, value2)) {
+			if (isEqualObject(value1, value2) == false)
 				return false;
-			}
 		}
 
 		return true;
@@ -116,22 +114,21 @@ public class ComparatorUtil {
 			return B_TRUE;
 		} else if (col1 == null || col2 == null) {
 			if (col1 == null) {
-				if (col2.size() == 0) {
+				if (col2.size() == 0)
 					return B_TRUE;
-				} else {
+				else
 					return B_FALSE;
-				}
 			} else {
-				if (col1.size() == 0) {
+				if (col1.size() == 0)
 					return B_TRUE;
-				} else {
+				else
 					return B_FALSE;
-				}
 			}
-		} else if (col1.size() == col2.size()) {
-			return B_UNKNOWN;
 		} else {
-			return B_FALSE;
+			if (col1.size() == col2.size())
+				return B_UNKNOWN;
+			else
+				return B_FALSE;
 		}
 	}
 
@@ -160,17 +157,16 @@ public class ComparatorUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param be
 	 * @param be2
 	 * @return
 	 */
 	public static boolean isEqualExpression(IBaseExpression be, IBaseExpression be2) {
-		if (be == be2) {
+		if (be == be2)
 			return true;
-		} else if (be == null || be2 == null) {
+		else if (be == null || be2 == null)
 			return false;
-		}
 
 		if (be instanceof IScriptExpression && be2 instanceof IScriptExpression) {
 			IScriptExpression se = (IScriptExpression) be;
@@ -197,34 +193,30 @@ public class ComparatorUtil {
 	 * @return
 	 */
 	public static boolean isEqualExpression2(IScriptExpression se, IBaseExpression se2) {
-		if (se == se2) {
+		if (se == se2)
 			return true;
-		} else if (se == null || se2 == null) {
+		else if (se == null || se2 == null)
 			return false;
-		}
 		return se.getDataType() == se2.getDataType()
 				&& isEqualString(((IScriptExpression) se).getText(), ((IScriptExpression) se2).getText());
 	}
 
 	/**
-	 *
+	 * 
 	 * @param operands
 	 * @param operands2
 	 * @return
 	 */
 	public static boolean isEqualExpressionArray(Collection op1, Collection op2) {
-		if (op1 == op2) {
+		if (op1 == op2)
 			return true;
-		}
 		Object[] operands1 = op1.toArray();
 		Object[] operands2 = op2.toArray();
-		if (operands1.length != operands2.length) {
+		if (operands1.length != operands2.length)
 			return false;
-		}
 		for (int i = 0; i < operands1.length; i++) {
-			if (!isEqualExpression((IBaseExpression) operands1[i], (IBaseExpression) operands2[i])) {
+			if (!isEqualExpression((IBaseExpression) operands1[i], (IBaseExpression) operands2[i]))
 				return false;
-			}
 		}
 		return true;
 	}
@@ -232,34 +224,31 @@ public class ComparatorUtil {
 	/**
 	 * Very special for computed column, temp computed column can not be counted as
 	 * the real computed column
-	 *
+	 * 
 	 * @param computedCol1
 	 * @param computedCol2
 	 * @return
 	 */
 	public static boolean isEqualComputedColumns(List computedCol1, List computedCol2) {
-		if (computedCol1 == computedCol2) {
+		if (computedCol1 == computedCol2)
 			return true;
-		}
 
 		List newComputedCol1 = getRealComputedColumn(computedCol1);
 		List newComputedCol2 = getRealComputedColumn(computedCol2);
 
 		int basicCol = isEqualBasicCol(newComputedCol1, newComputedCol2);
-		if (basicCol == B_TRUE) {
+		if (basicCol == B_TRUE)
 			return true;
-		} else if (basicCol == B_FALSE) {
+		else if (basicCol == B_FALSE)
 			return false;
-		}
 
 		Iterator it = newComputedCol1.iterator();
 		Iterator it2 = newComputedCol2.iterator();
 		while (it.hasNext()) {
 			IComputedColumn cc = (IComputedColumn) it.next();
 			IComputedColumn cc2 = (IComputedColumn) it2.next();
-			if (!isEqualComputedCol(cc, cc2)) {
+			if (isEqualComputedCol(cc, cc2) == false)
 				return false;
-			}
 		}
 
 		return true;
@@ -270,20 +259,18 @@ public class ComparatorUtil {
 	 * @return
 	 */
 	public static List<IComputedColumn> getRealComputedColumn(List computedCols) {
-		if (computedCols == null) {
+		if (computedCols == null)
 			return null;
-		}
 
-		List<IComputedColumn> list = new ArrayList<>();
+		List<IComputedColumn> list = new ArrayList<IComputedColumn>();
 		for (int i = 0; i < computedCols.size(); i++) {
 			IComputedColumn cc = (IComputedColumn) computedCols.get(i);
 			if (cc.getName().matches("\\Q_{$TEMP_GROUP_\\E\\d*\\Q$}_\\E")
 					|| cc.getName().matches("\\Q_{$TEMP_SORT_\\E\\d*\\Q$}_\\E")
-					|| cc.getName().matches("\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E")) {
+					|| cc.getName().matches("\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E"))
 				continue;
-			} else {
+			else
 				list.add(cc);
-			}
 		}
 
 		return list;
@@ -305,25 +292,22 @@ public class ComparatorUtil {
 	 * @return
 	 */
 	public static boolean isEqualParameters(List params1, List params2) {
-		if (params1 == params2) {
+		if (params1 == params2)
 			return true;
-		}
 
 		int basicCol = isEqualBasicCol(params1, params2);
-		if (basicCol == B_TRUE) {
+		if (basicCol == B_TRUE)
 			return true;
-		} else if (basicCol == B_FALSE) {
+		else if (basicCol == B_FALSE)
 			return false;
-		}
 
 		Iterator it = params1.iterator();
 		Iterator it2 = params2.iterator();
 		while (it.hasNext()) {
 			IParameterDefinition pd = (IParameterDefinition) it.next();
 			IParameterDefinition pd2 = (IParameterDefinition) it2.next();
-			if (!isEqualParameter(pd, pd2)) {
+			if (isEqualParameter(pd, pd2) == false)
 				return false;
-			}
 		}
 
 		return true;
@@ -348,30 +332,27 @@ public class ComparatorUtil {
 	 * @return
 	 */
 	public static boolean isEqualParameterHints(Collection paramsBinding1, Collection paramsBinding2) {
-		if (paramsBinding1 == paramsBinding2) {
+		if (paramsBinding1 == paramsBinding2)
 			return true;
-		}
 
 		int basicCol = isEqualBasicCol(paramsBinding1, paramsBinding2);
-		if (basicCol == B_TRUE) {
+		if (basicCol == B_TRUE)
 			return true;
-		} else if (basicCol == B_FALSE) {
+		else if (basicCol == B_FALSE)
 			return false;
-		}
 
 		Iterator it = paramsBinding1.iterator();
 		Iterator it2 = paramsBinding2.iterator();
 		while (it.hasNext()) {
-			if (!isEqualParamterOjbect(it.next(), it2.next())) {
+			if (isEqualParamterOjbect(it.next(), it2.next()) == false)
 				return false;
-			}
 		}
 
 		return true;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param param1
 	 * @param param2
 	 * @return
@@ -387,7 +368,7 @@ public class ComparatorUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param param1
 	 * @param param2
 	 * @return
@@ -410,31 +391,28 @@ public class ComparatorUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param resultHints1
 	 * @param resultHints2
 	 * @return
 	 */
 	public static boolean isEqualResultHints(List resultHints1, List resultHints2) {
-		if (resultHints1 == resultHints2) {
+		if (resultHints1 == resultHints2)
 			return true;
-		}
 
 		int basicCol = isEqualBasicCol(resultHints1, resultHints2);
-		if (basicCol == B_TRUE) {
+		if (basicCol == B_TRUE)
 			return true;
-		} else if (basicCol == B_FALSE) {
+		else if (basicCol == B_FALSE)
 			return false;
-		}
 
 		Iterator it = resultHints1.iterator();
 		Iterator it2 = resultHints2.iterator();
 		while (it.hasNext()) {
 			IColumnDefinition cd = (IColumnDefinition) it.next();
 			IColumnDefinition cd2 = (IColumnDefinition) it2.next();
-			if (!isEqualColumnDefn(cd, cd2)) {
+			if (isEqualColumnDefn(cd, cd2) == false)
 				return false;
-			}
 		}
 
 		return true;
@@ -446,11 +424,10 @@ public class ComparatorUtil {
 	 * @return
 	 */
 	public static boolean isEqualColumnDefn(IColumnDefinition cd, IColumnDefinition cd2) {
-		if (cd == cd2) {
+		if (cd == cd2)
 			return true;
-		} else if (cd == null || cd2 == null) {
+		else if (cd == null || cd2 == null)
 			return false;
-		}
 
 		return cd.getColumnPosition() == cd2.getColumnPosition() && cd.getDataType() == cd2.getDataType()
 				&& cd.getNativeDataType() == cd2.getNativeDataType() && cd.getExportHint() == cd2.getExportHint()
@@ -462,21 +439,19 @@ public class ComparatorUtil {
 
 	/**
 	 * compare joint condition
-	 *
+	 * 
 	 * @param joinConditions1
 	 * @param joinConditions2
 	 * @return
 	 */
 	public static boolean isEqualJointCondition(List joinConditions1, List joinConditions2) {
-		if (joinConditions1 == joinConditions2) {
+		if (joinConditions1 == joinConditions2)
 			return true;
-		}
 		int basicCol = isEqualBasicCol(joinConditions1, joinConditions2);
-		if (basicCol == B_TRUE) {
+		if (basicCol == B_TRUE)
 			return true;
-		} else if (basicCol == B_FALSE) {
+		else if (basicCol == B_FALSE)
 			return false;
-		}
 
 		Iterator it = joinConditions1.iterator();
 		Iterator it2 = joinConditions2.iterator();
@@ -484,26 +459,24 @@ public class ComparatorUtil {
 		while (it.hasNext() || it2.hasNext()) {
 			IJoinCondition cc = (IJoinCondition) it.next();
 			IJoinCondition cc2 = (IJoinCondition) it2.next();
-			if (!isEqualJointConditionItem(cc, cc2)) {
+			if (isEqualJointConditionItem(cc, cc2) == false)
 				return false;
-			}
 		}
 		return true;
 	}
 
 	/**
 	 * compare
-	 *
+	 * 
 	 * @param cc1
 	 * @param cc2
 	 * @return
 	 */
 	public static boolean isEqualJointConditionItem(IJoinCondition cc1, IJoinCondition cc2) {
-		if (cc1 == cc2) {
+		if (cc1 == cc2)
 			return true;
-		} else if (cc1 == null || cc2 == null) {
+		else if (cc1 == null || cc2 == null)
 			return false;
-		}
 
 		return isEqualExpression2(cc1.getLeftExpression(), cc2.getLeftExpression())
 				&& isEqualExpression2(cc1.getRightExpression(), cc2.getRightExpression())

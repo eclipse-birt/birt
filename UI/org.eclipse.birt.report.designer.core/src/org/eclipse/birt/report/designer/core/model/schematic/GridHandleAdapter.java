@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,14 +30,14 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * Adapter class to adapt model handle. This adapter provides convenience.
  * methods to GUI requirement GridHandleAdapter responds to model GridHandle
- *
+ * 
  */
 
 public class GridHandleAdapter extends TableHandleAdapter {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param table
 	 * @param mark
 	 */
@@ -48,10 +48,9 @@ public class GridHandleAdapter extends TableHandleAdapter {
 	/**
 	 * Gets the Children iterator. This children relationship is determined by GUI
 	 * requirement. This is not the model children relationship.
-	 *
+	 * 
 	 * @return Children iterator
 	 */
-	@Override
 	public List getChildren() {
 		List children = new ArrayList();
 
@@ -66,10 +65,9 @@ public class GridHandleAdapter extends TableHandleAdapter {
 
 	/**
 	 * Gets the all columns list
-	 *
+	 * 
 	 * @return
 	 */
-	@Override
 	public List getColumns() {
 		return getGridHandle().getColumns().getContents();
 	}
@@ -80,10 +78,9 @@ public class GridHandleAdapter extends TableHandleAdapter {
 
 	/**
 	 * Gets all rows list.
-	 *
+	 * 
 	 * @return The rows list.
 	 */
-	@Override
 	protected void buildRowInfo() {
 		insertRowInfo(getGridHandle().getRows(), TableHandleAdapter.RowUIInfomation.GRID_ROW,
 				TableHandleAdapter.RowUIInfomation.GRID_ROW);
@@ -91,12 +88,11 @@ public class GridHandleAdapter extends TableHandleAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter#
 	 * canMerge(java.util.List)
 	 */
-	@Override
 	public boolean canMerge(List list) {
 		return list != null && list.size() > 1;
 	}
@@ -104,14 +100,13 @@ public class GridHandleAdapter extends TableHandleAdapter {
 	/**
 	 * return false for Grid Item for grid doesn't have slot
 	 */
-	@Override
 	public boolean hasSlotHandleRow(int id) {
 		return false;
 	}
 
 	/**
 	 * Returns the defined height in model in Pixel.
-	 *
+	 * 
 	 * @return
 	 */
 	public String getDefinedHeight() {
@@ -138,7 +133,6 @@ public class GridHandleAdapter extends TableHandleAdapter {
 		}
 	}
 
-	@Override
 	public boolean isSupportHeight() {
 		return true;
 	}

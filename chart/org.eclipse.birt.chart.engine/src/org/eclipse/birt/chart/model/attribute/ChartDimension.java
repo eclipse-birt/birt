@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,12 +24,12 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Chart Dimension</b></em>', and utility methods for working with them.
  * <!-- end-user-doc --> <!-- begin-model-doc -->
- *
+ * 
  * This type defines the allowed values for Chart dimensions. Any new Chart
  * dimension type needs to be added here to be supported.
- *
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getChartDimension()
  * @model
  * @generated
@@ -42,7 +42,7 @@ public enum ChartDimension implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #TWO_DIMENSIONAL
 	 * @generated
 	 * @ordered
@@ -56,7 +56,7 @@ public enum ChartDimension implements Enumerator {
 	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #TWO_DIMENSIONAL_WITH_DEPTH
 	 * @generated
 	 * @ordered
@@ -70,7 +70,7 @@ public enum ChartDimension implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #THREE_DIMENSIONAL
 	 * @generated
 	 * @ordered
@@ -80,7 +80,7 @@ public enum ChartDimension implements Enumerator {
 	/**
 	 * The '<em><b>Two Dimensional</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #TWO_DIMENSIONAL_LITERAL
 	 * @model name="Two_Dimensional"
 	 * @generated
@@ -91,7 +91,7 @@ public enum ChartDimension implements Enumerator {
 	/**
 	 * The '<em><b>Two Dimensional With Depth</b></em>' literal value. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #TWO_DIMENSIONAL_WITH_DEPTH_LITERAL
 	 * @model name="Two_Dimensional_With_Depth"
 	 * @generated
@@ -102,7 +102,7 @@ public enum ChartDimension implements Enumerator {
 	/**
 	 * The '<em><b>Three Dimensional</b></em>' literal value. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #THREE_DIMENSIONAL_LITERAL
 	 * @model name="Three_Dimensional"
 	 * @generated
@@ -113,16 +113,16 @@ public enum ChartDimension implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Chart Dimension</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	private static final ChartDimension[] VALUES_ARRAY = { TWO_DIMENSIONAL_LITERAL, TWO_DIMENSIONAL_WITH_DEPTH_LITERAL,
-			THREE_DIMENSIONAL_LITERAL, };
+	private static final ChartDimension[] VALUES_ARRAY = new ChartDimension[] { TWO_DIMENSIONAL_LITERAL,
+			TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, THREE_DIMENSIONAL_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Chart Dimension</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static final List<ChartDimension> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -130,7 +130,7 @@ public enum ChartDimension implements Enumerator {
 	/**
 	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static ChartDimension get(String literal) {
@@ -146,7 +146,7 @@ public enum ChartDimension implements Enumerator {
 	/**
 	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static ChartDimension getByName(String name) {
@@ -162,7 +162,7 @@ public enum ChartDimension implements Enumerator {
 	/**
 	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public static ChartDimension get(int value) {
@@ -179,21 +179,21 @@ public enum ChartDimension implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private final String literal;
@@ -201,10 +201,10 @@ public enum ChartDimension implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	ChartDimension(int value, String name, String literal) {
+	private ChartDimension(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -212,30 +212,27 @@ public enum ChartDimension implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
-	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -243,7 +240,7 @@ public enum ChartDimension implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 /**
- *
+ * 
  */
 
 public class AggrSortDefinition implements ITargetSort {
@@ -34,7 +34,7 @@ public class AggrSortDefinition implements ITargetSort {
 	private static Logger logger = Logger.getLogger(AggrSortDefinition.class.getName());
 
 	/**
-	 *
+	 * 
 	 * @param aggrLevels
 	 * @param aggrName
 	 * @param axisQualifierLevel
@@ -67,18 +67,16 @@ public class AggrSortDefinition implements ITargetSort {
 	private void checkAxisAgrument(DimLevel[] axisLevels, Object[] axisValues) throws DataException {
 		if (axisLevels != null && axisValues != null && axisLevels.length == axisValues.length) {
 			for (int i = 0; i < axisLevels.length; i++) {
-				if (axisLevels[i] == null) {
+				if (axisLevels[i] == null)
 					throw new DataException(ResourceConstants.AXIS_LEVEL_CANNOT_BE_NULL);
-				}
-				if (axisValues[i] == null) {
+				if (axisValues[i] == null)
 					throw new DataException(ResourceConstants.AXIS_VALUE_CANNOT_BE_NULL, axisLevels[i].getLevelName());
-				}
 			}
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public DimLevel[] getAggrLevels() {
@@ -86,7 +84,7 @@ public class AggrSortDefinition implements ITargetSort {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public String getAggrName() {
@@ -94,7 +92,7 @@ public class AggrSortDefinition implements ITargetSort {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public DimLevel[] getAxisQualifierLevel() {
@@ -102,7 +100,7 @@ public class AggrSortDefinition implements ITargetSort {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public Object[] getAxisQualifierValue() {
@@ -111,24 +109,22 @@ public class AggrSortDefinition implements ITargetSort {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort#
 	 * getTargetLevel()
 	 */
-	@Override
 	public DimLevel getTargetLevel() {
 		return this.targetLevel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort#
 	 * getDirection()
 	 */
-	@Override
 	public int getSortDirection() {
 		return this.direction;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,10 +30,9 @@ public abstract class ForeignTextInstance extends ReportItemInstance implements 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.engine.script.IForeignTextInstance#getText()
 	 */
-	@Override
 	public String getText() {
 		IForeignContent fc = (IForeignContent) content;
 		String type = fc.getRawType();
@@ -59,12 +58,11 @@ public abstract class ForeignTextInstance extends ReportItemInstance implements 
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.engine.script.IForeignTextInstance#setText(java.lang.
 	 * String)
 	 */
-	@Override
 	public void setText(String value) {
 		IForeignContent foreignContent = (IForeignContent) content;
 		if (foreignContent.getRawType().equals(IForeignContent.TEMPLATE_TYPE)) {

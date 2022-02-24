@@ -36,7 +36,7 @@ public class ChartCombo extends Composite implements SelectionListener {
 
 	protected Combo cmbItems;
 
-	protected Vector<SelectionListener> vListeners = new Vector<>();
+	protected Vector<SelectionListener> vListeners = new Vector<SelectionListener>();
 
 	protected String[] data;
 
@@ -148,7 +148,6 @@ public class ChartCombo extends Composite implements SelectionListener {
 		return data[cmbItems.getSelectionIndex()];
 	}
 
-	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		cmbItems.setEnabled(enabled);
@@ -169,7 +168,6 @@ public class ChartCombo extends Composite implements SelectionListener {
 		if (eventType == SWT.Selection) {
 			addSelectionListener(new SelectionListener() {
 
-				@Override
 				public void widgetSelected(SelectionEvent event) {
 					Event e = new Event();
 					e.detail = event.detail;
@@ -188,7 +186,6 @@ public class ChartCombo extends Composite implements SelectionListener {
 					listener.handleEvent(e);
 				}
 
-				@Override
 				public void widgetDefaultSelected(SelectionEvent evt) {
 					// TODO Auto-generated method stub
 
@@ -198,13 +195,11 @@ public class ChartCombo extends Composite implements SelectionListener {
 		super.addListener(eventType, listener);
 	}
 
-	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void widgetSelected(SelectionEvent event) {
 		if (event.widget == cmbItems) {
 			Event e = new Event();

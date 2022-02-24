@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,7 +70,7 @@ public class OdiAdapter {
 
 	/**
 	 * Construction
-	 *
+	 * 
 	 * @param odaResultSet
 	 */
 	public OdiAdapter(ResultSet odaResultSet, IResultClass resultClass) {
@@ -83,9 +83,8 @@ public class OdiAdapter {
 				if ((resultClass.getFieldMetaData(i).getDriverProvidedDataType() == null)
 						|| (resultClass.getFieldMetaData(i).getDataType() != resultClass.getFieldMetaData(i)
 								.getDriverProvidedDataType())) {
-					if (columnIndexListForTypeConvert == null) {
+					if (columnIndexListForTypeConvert == null)
 						columnIndexListForTypeConvert = new HashSet();
-					}
 					columnIndexListForTypeConvert.add(Integer.valueOf(i));
 				}
 			} catch (DataException e) {
@@ -95,7 +94,7 @@ public class OdiAdapter {
 
 	/**
 	 * Construction
-	 *
+	 * 
 	 * @param datasetCacheResultSet
 	 */
 	public OdiAdapter(DataSetToCache datasetToCache) {
@@ -110,7 +109,7 @@ public class OdiAdapter {
 
 	/**
 	 * Construction
-	 *
+	 * 
 	 * @param customDataSet
 	 */
 	public OdiAdapter(ICustomDataSet customDataSet) {
@@ -120,7 +119,7 @@ public class OdiAdapter {
 
 	/**
 	 * Construction
-	 *
+	 * 
 	 * @param customDataSet
 	 */
 	OdiAdapter(ResultSetCache resultSetCache) {
@@ -130,7 +129,7 @@ public class OdiAdapter {
 
 	/**
 	 * Construction
-	 *
+	 * 
 	 * @param customDataSet
 	 */
 	public OdiAdapter(IResultIterator resultSetCache) {
@@ -140,7 +139,7 @@ public class OdiAdapter {
 
 	/**
 	 * Construction
-	 *
+	 * 
 	 * @param roReader
 	 */
 	OdiAdapter(ResultObjectReader roReader) {
@@ -150,7 +149,7 @@ public class OdiAdapter {
 
 	/**
 	 * Construction
-	 *
+	 * 
 	 */
 	public OdiAdapter(IDataSetPopulator populator) {
 		assert populator != null;
@@ -158,12 +157,10 @@ public class OdiAdapter {
 	}
 
 	private IResultObject getConvertedResultObject(IResultObject resultObject) throws DataException {
-		if (resultObject == null) {
+		if (resultObject == null)
 			return null;
-		}
-		if (columnIndexListForTypeConvert == null) {
+		if (columnIndexListForTypeConvert == null)
 			return resultObject;
-		}
 		Object[] obj = new Object[resultClass.getFieldCount()];
 		for (int i = 1; i <= resultClass.getFieldCount(); i++) {
 			if (columnIndexListForTypeConvert.contains(i)) {
@@ -184,7 +181,7 @@ public class OdiAdapter {
 	/**
 	 * Fetch data from Oda or Odi. After the fetch is done, the cursor must stay at
 	 * the row which is fetched.
-	 *
+	 * 
 	 * @param stopSign
 	 * @return
 	 * @throws DataException
@@ -199,11 +196,10 @@ public class OdiAdapter {
 		} else if (customDataSet != null) {
 			return customDataSet.fetch();
 		} else if (resultIterator != null) {
-			if (!riStarted) {
+			if (!riStarted)
 				riStarted = true;
-			} else {
+			else
 				this.resultIterator.next();
-			}
 
 			return this.resultIterator.getCurrentResult();
 		} else if (roReader != null) {

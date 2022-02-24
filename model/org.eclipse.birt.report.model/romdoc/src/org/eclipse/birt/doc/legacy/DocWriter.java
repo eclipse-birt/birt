@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,17 +52,15 @@ public class DocWriter {
 	}
 
 	public String getDir() {
-		if (element.type == SpecElement.ELEMENT) {
+		if (element.type == SpecElement.ELEMENT)
 			return "elements";
-		}
 		return "structs";
 	}
 
 	public void write(SpecElement el) throws DocException, IOException {
 		element = el;
-		if (element.name == null || element.name.length() == 0) {
+		if (element.name == null || element.name.length() == 0)
 			throw new DocException("Missing file name"); //$NON-NLS-1$
-		}
 		String fileName = "docs/" + getDir() + "/" + element.name + ".html";
 		writer = new PrintStream(new FileOutputStream(fileName));
 		writeHeader();
@@ -79,27 +77,24 @@ public class DocWriter {
 	}
 
 	private void write(PrintStream out, String s) {
-		if (isBlank(s)) {
+		if (isBlank(s))
 			return;
-		}
 		if (s.indexOf('\n') == 0) {
 			out.print(s);
 			return;
 		}
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
-			if (c == '\n') {
+			if (c == '\n')
 				out.println("");
-			} else {
+			else
 				out.print(c);
-			}
 		}
 	}
 
 	private void writeln(String s) throws IOException {
-		if (isBlank(s)) {
+		if (isBlank(s))
 			return;
-		}
 
 		write(s);
 		writer.println("");
@@ -110,9 +105,8 @@ public class DocWriter {
 	}
 
 	private void writePara(String s) throws IOException {
-		if (isBlank(s)) {
+		if (isBlank(s))
 			return;
-		}
 		write("<p>");
 		write(s);
 		writeln("</p>\n");
@@ -125,9 +119,8 @@ public class DocWriter {
 		// Display name is encoded as the title.
 
 		String title = element.displayName;
-		if (isBlank(element.displayName)) {
+		if (isBlank(element.displayName))
 			title = element.name;
-		}
 		write(title);
 		writeln("</title>");
 		writeln("<link rel=\"stylesheet\" href=\"../style/style.css\" type=\"text/css\"/>");
@@ -172,17 +165,15 @@ public class DocWriter {
 	}
 
 	public void writeIssues(String issues) throws IOException {
-		if (issues == null) {
+		if (issues == null)
 			return;
-		}
 		write("<h3>Issues</h3>\n");
 		write(issues);
 	}
 
 	private void writeInheritedProperties() throws IOException {
-		if (element.inheritedProperties.isEmpty()) {
+		if (element.inheritedProperties.isEmpty())
 			return;
-		}
 
 		writeln("\n<h3>Inherited Properties</h3>\n\n<dl>");
 		for (int i = 0; i < element.inheritedProperties.size(); i++) {
@@ -226,9 +217,8 @@ public class DocWriter {
 	}
 
 	private void writeChoices(SpecProperty prop) throws IOException {
-		if (prop.choices.isEmpty()) {
+		if (prop.choices.isEmpty())
 			return;
-		}
 		writeln("<h3>Choices</h3>\n<ul>");
 		Iterator iter = prop.choices.iterator();
 		while (iter.hasNext()) {
@@ -299,7 +289,7 @@ public class DocWriter {
 
 	static class DocException extends Exception {
 		/**
-		 *
+		 * 
 		 */
 		private static final long serialVersionUID = -1769976375996415539L;
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public abstract class ScriptDebugElement extends PlatformObject implements IDebu
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param target
 	 */
 	public ScriptDebugElement(ScriptDebugTarget target) {
@@ -42,40 +42,36 @@ public abstract class ScriptDebugElement extends PlatformObject implements IDebu
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.debug.core.model.IDebugElement#getDebugTarget()
 	 */
-	@Override
 	public IDebugTarget getDebugTarget() {
 		return target;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.debug.core.model.IDebugElement#getLaunch()
 	 */
-	@Override
 	public ILaunch getLaunch() {
 		return target.getLaunch();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.debug.core.model.IDebugElement#getModelIdentifier()
 	 */
-	@Override
 	public String getModelIdentifier() {
 		return IScriptConstants.SCRIPT_DEBUG_MODEL;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.core.runtime.PlatformObject#getAdapter(java.lang.Class)
 	 */
-	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == IDebugElement.class || adapter == ScriptDebugElement.class) {
 			return this;
@@ -87,7 +83,7 @@ public abstract class ScriptDebugElement extends PlatformObject implements IDebu
 
 	/**
 	 * Fires a debug event
-	 *
+	 * 
 	 * @param event the event to be fired
 	 */
 	protected void fireEvent(DebugEvent event) {
@@ -103,7 +99,7 @@ public abstract class ScriptDebugElement extends PlatformObject implements IDebu
 
 	/**
 	 * Fires a <code>RESUME</code> event for this element with the given detail.
-	 *
+	 * 
 	 * @param detail event detail code
 	 */
 	public void fireResumeEvent(int detail) {
@@ -112,7 +108,7 @@ public abstract class ScriptDebugElement extends PlatformObject implements IDebu
 
 	/**
 	 * Fires a <code>SUSPEND</code> event for this element with the given detail.
-	 *
+	 * 
 	 * @param detail event detail code
 	 */
 	public void fireSuspendEvent(int detail) {
@@ -128,7 +124,7 @@ public abstract class ScriptDebugElement extends PlatformObject implements IDebu
 
 	/**
 	 * Gets the displayname
-	 *
+	 * 
 	 * @return
 	 */
 	public abstract String getDisplayName();

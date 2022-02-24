@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,17 +46,15 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param model
 	 */
 	public FirstLevelHandleDataItemEditPart(Object model) {
 		super(model);
 	}
 
-	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy() {
-			@Override
 			protected org.eclipse.gef.commands.Command createDeleteCommand(GroupRequest deleteRequest) {
 				// Object model = ((EditPart) parts.get( i ) ).getModel( ) ;
 				Object parent = this.getHost().getParent().getModel();
@@ -79,12 +77,11 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * DataEditPart#createFigure()
 	 */
-	@Override
 	protected IFigure createFigure() {
 		FirstLevelHandleDataItemFigure label = new FirstLevelHandleDataItemFigure();
 		label.setLayoutManager(new StackLayout());
@@ -93,13 +90,12 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshBackgroundColor(org.eclipse.birt.report.model.
 	 * api.DesignElementHandle)
 	 */
-	@Override
 	protected void refreshBackgroundColor(DesignElementHandle handle) {
 		super.refreshBackgroundColor(handle);
 //		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
@@ -113,21 +109,19 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
-	@Override
 	public DragTracker getDragTracker(Request req) {
 		DragEditPartsTracker track = new ReportElementDragTracker(this) {
 
 			/*
 			 * (non-Javadoc)
-			 *
+			 * 
 			 * @see org.eclipse.gef.tools.SelectEditPartTracker#handleButtonDown(int)
 			 */
-			@Override
 			protected boolean handleButtonDown(int button) {
 				if (getCurrentViewer() instanceof DeferredGraphicalViewer) {
 					((DeferredGraphicalViewer) getCurrentViewer()).initStepDat();
@@ -157,7 +151,7 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart {
 
 	/**
 	 * The point if in the triangle.
-	 *
+	 * 
 	 * @param pt
 	 * @return
 	 */

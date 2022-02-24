@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -76,16 +76,15 @@ public class DTPUtil {
 	}
 
 	public static synchronized DTPUtil getInstance() {
-		if (instance == null) {
+		if (instance == null)
 			instance = new DTPUtil();
-		}
 
 		return instance;
 	}
 
 	/**
 	 * update DataSourceHandle
-	 *
+	 * 
 	 * @param response
 	 * @param dataSourceHandle
 	 */
@@ -93,9 +92,8 @@ public class DTPUtil {
 			OdaDataSourceHandle dataSourceHandle) {
 		initDesignSessionFields(response);
 		if (isSessionOk()) {
-			if (new EcoreUtil.EqualityHelper().equals(requestDesign, response.getDataSourceDesign())) {
+			if (new EcoreUtil.EqualityHelper().equals(requestDesign, response.getDataSourceDesign()))
 				return;
-			}
 			try {
 				updateROMDesignerState(dataSourceHandle);
 				modelOdaAdapter.updateDataSourceHandle(response.getDataSourceDesign(), dataSourceHandle);
@@ -107,7 +105,7 @@ public class DTPUtil {
 
 	/**
 	 * update DataSetHandle
-	 *
+	 * 
 	 * @param response
 	 * @param dataSetHandle
 	 * @param isSourceChanged
@@ -118,9 +116,8 @@ public class DTPUtil {
 
 		initDesignSessionFields(response);
 		if (isSessionOk()) {
-			if (new EcoreUtil.EqualityHelper().equals(requestDesign, response.getDataSetDesign())) {
+			if (new EcoreUtil.EqualityHelper().equals(requestDesign, response.getDataSetDesign()))
 				return;
-			}
 
 			try {
 				modelOdaAdapter.updateDataSetHandle(dataSetHandle, designSession);
@@ -132,7 +129,7 @@ public class DTPUtil {
 
 	/**
 	 * update DataSetHandle
-	 *
+	 * 
 	 * @param response
 	 * @param dataSetHandle
 	 * @param isSourceChanged
@@ -143,9 +140,8 @@ public class DTPUtil {
 		if (isSessionOk()) {
 			EcoreUtil.EqualityHelper equalityHelper = new EcoreUtil.EqualityHelper();
 			if (equalityHelper.equals(response.getDataSetDesign(), requestDesign)
-					&& equalityHelper.equals(response.getDesignerState(), this.designerState)) {
+					&& equalityHelper.equals(response.getDesignerState(), this.designerState))
 				return;
-			}
 			try {
 				DataSetDesign design = response.getDataSetDesign();
 
@@ -164,7 +160,7 @@ public class DTPUtil {
 				}
 
 				if (ReportPlugin.getDefault().getPluginPreferences()
-						.getBoolean(DateSetPreferencePage.PROMPT_ENABLE)) {
+						.getBoolean(DateSetPreferencePage.PROMPT_ENABLE) == true) {
 					IAmbiguousOption ambiguousOption = modelOdaAdapter.getAmbiguousOption(design, dataSetHandle);
 					if (ambiguousOption != null && !ambiguousOption.getAmbiguousParameters().isEmpty()) {
 						PromptParameterDialog dialog = new PromptParameterDialog(
@@ -196,20 +192,20 @@ public class DTPUtil {
 				ExceptionHandler.handle(e);
 			}
 		}
+		return;
 	}
 
 	private void refreshCachedMetaData(OdaDataSetHandle dataSetHandle) throws SemanticException {
 		if (dataSetHandle.getCachedMetaDataHandle() != null
-				&& dataSetHandle.getCachedMetaDataHandle().getResultSet() != null) {
+				&& dataSetHandle.getCachedMetaDataHandle().getResultSet() != null)
 			dataSetHandle.getCachedMetaDataHandle().getResultSet().clearValue();
-		}
 
 		DataSetUIUtil.updateColumnCache(dataSetHandle);
 	}
 
 	/**
 	 * create OdaDataSourceHandle
-	 *
+	 * 
 	 * @param response
 	 * @param parentHandle
 	 * @return
@@ -238,7 +234,7 @@ public class DTPUtil {
 
 	/**
 	 * create OdaDataSetHandle
-	 *
+	 * 
 	 * @param response
 	 * @param parentHandle
 	 * @return
@@ -263,7 +259,7 @@ public class DTPUtil {
 
 	/**
 	 * create DesignSessionRequest
-	 *
+	 * 
 	 * @param dataSourceHandle
 	 * @return
 	 * @throws URISyntaxException
@@ -277,16 +273,15 @@ public class DTPUtil {
 				.createDesignSessionRequest(dataSourceDesign);
 
 		designerState = modelOdaAdapter.newOdaDesignerState(dataSourceHandle);
-		if (designerState != null) {
+		if (designerState != null)
 			designSessionRequest.setDesignerState(designerState);
-		}
 
 		return designSessionRequest;
 	}
 
 	/**
 	 * Adds supplemental attributes to complete the specified data source design.
-	 *
+	 * 
 	 * @param dataSourceDesign
 	 * @throws URISyntaxException
 	 */
@@ -297,7 +292,7 @@ public class DTPUtil {
 
 	/**
 	 * Applies the ResourceIdentifiers instance to the specified DataSourceDesign
-	 *
+	 * 
 	 * @param dataSourceDesign
 	 * @throws URISyntaxException
 	 * @throws MalformedURLException
@@ -312,9 +307,8 @@ public class DTPUtil {
 
 	private void applyEffectiveDataSourceId(DataSourceDesign dataSourceDesign) {
 		String odaExtensionId = dataSourceDesign != null ? dataSourceDesign.getOdaExtensionId() : null;
-		if (odaExtensionId == null) {
+		if (odaExtensionId == null)
 			return; // insufficent info to get seffective data source id
-		}
 
 		String effectiveExtensionId;
 		try {
@@ -326,14 +320,13 @@ public class DTPUtil {
 			return;
 		}
 
-		if (!odaExtensionId.equalsIgnoreCase(effectiveExtensionId)) {
+		if (!odaExtensionId.equalsIgnoreCase(effectiveExtensionId))
 			dataSourceDesign.setEffectiveOdaExtensionId(effectiveExtensionId);
-		}
 	}
 
 	/**
 	 * Gets the BIRT resource path
-	 *
+	 * 
 	 * @return
 	 * @throws URISyntaxException
 	 */
@@ -350,7 +343,7 @@ public class DTPUtil {
 
 	/**
 	 * Gets the report design file path
-	 *
+	 * 
 	 * @return
 	 */
 	public URI getBIRTResourcePath() {
@@ -411,7 +404,6 @@ public class DTPUtil {
 		} else {
 			display.syncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					project[0] = UIUtil.getCurrentProject();
 				}
@@ -422,7 +414,7 @@ public class DTPUtil {
 
 	/**
 	 * Create a DesignSessionRequest with the specified dataSetHandle
-	 *
+	 * 
 	 * @param dataSetHandle
 	 * @return
 	 */
@@ -433,7 +425,7 @@ public class DTPUtil {
 	/**
 	 * Create a DesignSessionRequest with the specified dataSetDesign and
 	 * designerState.
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param designerState
 	 * @return
@@ -449,7 +441,7 @@ public class DTPUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param dataSetDesign
 	 * @param handle
 	 */
@@ -462,7 +454,7 @@ public class DTPUtil {
 
 	/**
 	 * assign values to the fields of current session
-	 *
+	 * 
 	 * @param response
 	 * @throws OdaException
 	 */
@@ -473,7 +465,7 @@ public class DTPUtil {
 
 	/**
 	 * check the status of current session
-	 *
+	 * 
 	 * @throws OdaException
 	 */
 	private boolean isSessionOk() {
@@ -489,20 +481,18 @@ public class DTPUtil {
 
 	/**
 	 * update ROMDesignerState
-	 *
+	 * 
 	 * @param obj
 	 * @throws SemanticException
 	 */
 	private void updateROMDesignerState(Object obj) throws SemanticException {
-		if (designerState == null || obj == null) {
+		if (designerState == null || obj == null)
 			return;
-		}
 
-		if (obj instanceof OdaDataSourceHandle) {
+		if (obj instanceof OdaDataSourceHandle)
 			modelOdaAdapter.updateROMDesignerState(designerState, (OdaDataSourceHandle) obj);
-		} else if (obj instanceof OdaDataSetHandle) {
+		else if (obj instanceof OdaDataSetHandle)
 			modelOdaAdapter.updateROMDesignerState(designerState, (OdaDataSetHandle) obj);
-		}
 	}
 
 	public IAmbiguousOption getAmbiguousOption(DataSetDesign design, OdaDataSetHandle handle) {

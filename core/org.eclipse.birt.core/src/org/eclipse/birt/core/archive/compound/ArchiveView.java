@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2009 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ public class ArchiveView implements IArchiveFile {
 	private boolean sharedArchive = false;
 	private IArchiveFile view = null;
 	private IArchiveFile archive = null;
-	private HashSet<ViewEntry> openedEntries = new HashSet<>();
+	private HashSet<ViewEntry> openedEntries = new HashSet<ViewEntry>();
 
 	public ArchiveView(IArchiveFile view, IArchiveFile archive, boolean sharedArchive) {
 		this.view = view;
@@ -48,7 +48,6 @@ public class ArchiveView implements IArchiveFile {
 		this.sharedArchive = true;
 	}
 
-	@Override
 	synchronized public void close() throws IOException {
 		try {
 			for (ViewEntry entry : openedEntries) {
@@ -66,7 +65,6 @@ public class ArchiveView implements IArchiveFile {
 		}
 	}
 
-	@Override
 	synchronized public boolean exists(String name) {
 		if (view.exists(name) || archive.exists(name)) {
 			return true;
@@ -74,7 +72,6 @@ public class ArchiveView implements IArchiveFile {
 		return false;
 	}
 
-	@Override
 	synchronized public ArchiveEntry openEntry(String name) throws IOException {
 		if (view.exists(name)) {
 			ArchiveEntry entry = view.openEntry(name);
@@ -87,7 +84,6 @@ public class ArchiveView implements IArchiveFile {
 		throw new FileNotFoundException(name);
 	}
 
-	@Override
 	synchronized public List<String> listEntries(String namePattern) {
 		List<String> viewList = view.listEntries(namePattern);
 		List<String> archiveList = archive.listEntries(namePattern);
@@ -96,12 +92,11 @@ public class ArchiveView implements IArchiveFile {
 			return viewList;
 		}
 
-		LinkedHashSet<String> entries = new LinkedHashSet<>(viewList);
+		LinkedHashSet<String> entries = new LinkedHashSet<String>(viewList);
 		entries.addAll(archiveList);
-		return new ArrayList<>(entries);
+		return new ArrayList<String>(entries);
 	}
 
-	@Override
 	public synchronized Object lockEntry(String entry) throws IOException {
 		if (view.exists(entry)) {
 			return view.lockEntry(entry);
@@ -112,19 +107,16 @@ public class ArchiveView implements IArchiveFile {
 		return view.lockEntry(entry);
 	}
 
-	@Override
 	public void refresh() throws IOException {
 		// archive.refresh( ); donot need to refresh archive, because archive in
 		// ONLY in r mode
 		view.refresh();
 	}
 
-	@Override
 	public String getSystemId() {
 		return view.getSystemId();
 	}
 
-	@Override
 	public String getDependId() {
 		return archive.getSystemId();
 	}
@@ -149,7 +141,6 @@ public class ArchiveView implements IArchiveFile {
 			view.openEntry(this);
 		}
 
-		@Override
 		public void close() throws IOException {
 			view.closeEntry(this);
 			doClose();
@@ -159,12 +150,10 @@ public class ArchiveView implements IArchiveFile {
 			super.close();
 		}
 
-		@Override
 		protected void setOutputStream(RAOutputStream output) {
 			this.output = output;
 		}
 
-		@Override
 		public void flush() throws IOException {
 			if (output != null) {
 				output.flush();
@@ -172,7 +161,6 @@ public class ArchiveView implements IArchiveFile {
 			entry.flush();
 		}
 
-		@Override
 		public void write(long pos, byte[] b, int off, int len) throws IOException {
 			ensureWritable();
 			entry.write(pos, b, off, len);
@@ -203,12 +191,10 @@ public class ArchiveView implements IArchiveFile {
 		}
 	}
 
-	@Override
 	public ArchiveEntry createEntry(String name) throws IOException {
 		return view.createEntry(name);
 	}
 
-	@Override
 	synchronized public void flush() throws IOException {
 		// first flush all the ext2 files
 		for (ViewEntry entry : openedEntries) {
@@ -217,32 +203,26 @@ public class ArchiveView implements IArchiveFile {
 		view.flush();
 	}
 
-	@Override
 	public void save() throws IOException {
 		view.save();
 	}
 
-	@Override
 	public String getName() {
 		return view.getName();
 	}
 
-	@Override
 	public long getUsedCache() {
 		return view.getUsedCache();
 	}
 
-	@Override
 	public boolean removeEntry(String name) throws IOException {
 		return view.removeEntry(name);
 	}
 
-	@Override
 	public void setCacheSize(long cacheSize) {
 		view.setCacheSize(cacheSize);
 	}
 
-	@Override
 	synchronized public void unlockEntry(Object locker) throws IOException {
 		try {
 			view.unlockEntry(locker);
@@ -259,7 +239,6 @@ public class ArchiveView implements IArchiveFile {
 		return this.view;
 	}
 
-	@Override
 	public long getLength() {
 		return view == null ? 0 : view.getLength();
 	}

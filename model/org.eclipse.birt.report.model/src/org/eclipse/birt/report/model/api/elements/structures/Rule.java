@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,16 +22,16 @@ import org.eclipse.birt.report.model.core.Structure;
 
 /**
  * This class represents one rule. Each rule has the following properties:
- *
+ * 
  * <p>
  * <dl>
  * <dt><strong>rule expression </strong></dt>
  * <dd>The expression to define the static value.</dd>
- *
+ * 
  * <dt><strong>display expression </strong></dt>
  * <dd>The expression to give the display value for this static value</dd>
  * </dl>
- *
+ * 
  */
 
 public class Rule extends Structure {
@@ -64,50 +64,44 @@ public class Rule extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	@Override
 	public String getStructName() {
 		return RULE_STRUCTURE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new RuleHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
-	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (RULE_EXPRE_MEMBER.equals(propName)) {
+		if (RULE_EXPRE_MEMBER.equals(propName))
 			return this.ruleExpre;
-		}
-		if (DISPLAY_EXPRE_MEMBER.equals(propName)) {
+		if (DISPLAY_EXPRE_MEMBER.equals(propName))
 			return this.displayExpre;
-		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
-	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
 		if (RULE_EXPRE_MEMBER.equals(propName)) {
 			ruleExpre = (Expression) value;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,7 +75,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 	private List<IGroupInstanceInfo> targetGroups;
 
 	/**
-	 *
+	 * 
 	 * @param tempDir
 	 * @param context
 	 * @param queryResultID
@@ -107,9 +107,8 @@ public class QueryResults implements IQueryResults, IQueryService {
 		assert tempDir != null;
 		assert context != null;
 		assert queryResultID != null;
-		if (subQueryName != null) {
+		if (subQueryName != null)
 			assert resultMetaData != null;
-		}
 		this.tempDir = tempDir;
 		this.context = context;
 		this.queryResultID = queryResultID;
@@ -122,7 +121,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	private IPreparedQuery populateDummyPreparedQuery() {
@@ -130,11 +129,10 @@ public class QueryResults implements IQueryResults, IQueryService {
 		try {
 			String rootQueryResultID = QueryResultIDUtil.get1PartID(queryResultID);
 			String parentQueryResultID = null;
-			if (rootQueryResultID != null) {
+			if (rootQueryResultID != null)
 				parentQueryResultID = QueryResultIDUtil.get2PartID(queryResultID);
-			} else {
+			else
 				rootQueryResultID = queryResultID;
-			}
 
 			if (this.subQueryName != null) {
 				rootQueryResultID = baseQueryResultID;
@@ -144,9 +142,8 @@ public class QueryResults implements IQueryResults, IQueryService {
 			RDLoad rdLoad = RDUtil.newLoad(tempDir, context, queryResultInfo);
 
 			IBaseQueryDefinition qd = rdLoad.loadQueryDefn(StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE);
-			if (qd instanceof IQueryDefinition) {
+			if (qd instanceof IQueryDefinition)
 				result = new DummyPreparedQuery((IQueryDefinition) qd, this);
-			}
 		} catch (DataException e) {
 		}
 		return result;
@@ -155,11 +152,9 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getPreparedQuery()
 	 */
-	@Override
 	public IPreparedQuery getPreparedQuery() {
-		if (this.dummyPreparedQuery == null) {
+		if (this.dummyPreparedQuery == null)
 			this.dummyPreparedQuery = this.populateDummyPreparedQuery();
-		}
 
 		return this.dummyPreparedQuery;
 	}
@@ -167,7 +162,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultMetaData()
 	 */
-	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		if (resultMetaData == null) {
 			this.resultMetaData = getRDLoad(subQueryName, queryResultID).loadResultMetaData();
@@ -178,7 +172,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 	/**
 	 * retrieve the binding meta data information.
-	 *
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
@@ -190,11 +184,10 @@ public class QueryResults implements IQueryResults, IQueryService {
 				ExprMetaInfo[] infos = new ExprMetaInfo[metaInfo.length - 1];
 
 				for (int i = 0, k = 0; i < infos.length; i++, k++) {
-					if (isInternalMetaInfo(metaInfo[k])) {
+					if (isInternalMetaInfo(metaInfo[k]))
 						i--;
-					} else {
+					else
 						infos[i] = metaInfo[k];
-					}
 				}
 				bindingMetaData = new BindingMetaData(infos);
 			} else {
@@ -206,7 +199,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 	/**
 	 * Checks whether the ExprMetaInfo is for the internal use
-	 *
+	 * 
 	 * @param exprMeta
 	 * @return
 	 */
@@ -217,7 +210,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultIterator()
 	 */
-	@Override
 	public IResultIterator getResultIterator() throws BirtException {
 		if (resultIterator == null) {
 			if (subQueryName == null) // not a sub query
@@ -227,33 +219,31 @@ public class QueryResults implements IQueryResults, IQueryService {
 				if (((IQueryDefinition) queryDefn).isSummaryQuery()) {
 					resultIterator = new ResultIterator2(tempDir, context, this, queryResultID,
 							queryDefn.getGroups().size(), true, queryDefn);
-				} else if (queryDefn.usesDetails() || queryDefn.cacheQueryResults()) {
-					if (this.targetGroups != null && this.targetGroups.size() > 0) {
+				} else if (queryDefn.usesDetails() == true || queryDefn.cacheQueryResults()) {
+					if (this.targetGroups != null && this.targetGroups.size() > 0)
 						resultIterator = new PLSEnabledResultIterator(this.targetGroups,
 								new ResultIterator(tempDir, context, this, queryResultID, queryDefn));
-					} else {
+					else
 						resultIterator = new ResultIterator(tempDir, context, this, queryResultID, queryDefn);
-					}
-				} else if (this.targetGroups != null && this.targetGroups.size() > 0) {
-					resultIterator = new PLSEnabledResultIterator(this.targetGroups, new ResultIterator2(tempDir,
-							context, this, queryResultID, queryDefn.getGroups().size(), false, queryDefn));
 				} else {
-					resultIterator = new ResultIterator2(tempDir, context, this, queryResultID,
-							queryDefn.getGroups().size(), false, queryDefn);
+					if (this.targetGroups != null && this.targetGroups.size() > 0)
+						resultIterator = new PLSEnabledResultIterator(this.targetGroups, new ResultIterator2(tempDir,
+								context, this, queryResultID, queryDefn.getGroups().size(), false, queryDefn));
+					else
+						resultIterator = new ResultIterator2(tempDir, context, this, queryResultID,
+								queryDefn.getGroups().size(), false, queryDefn);
 				}
 			} else {
 				ISubqueryDefinition subQuery = this.getRDLoad(null, this.baseQueryResultID)
 						.loadSubQueryDefn(StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE, subQueryName);
-				if (subQuery == null) {
+				if (subQuery == null)
 					throw new DataException(ResourceConstants.SUBQUERY_NOT_FOUND, subQueryName);
-				}
-				if (subQuery.usesDetails()) {
+				if (subQuery.usesDetails() == true) {
 					resultIterator = new ResultIterator(tempDir, context, this, queryResultID, subQueryName,
 							currParentIndex, subQuery);
-				} else {
+				} else
 					resultIterator = new ResultIterator2(tempDir, context, this, queryResultID, subQueryName,
 							currParentIndex, subQuery.getGroups().size(), subQuery);
-				}
 
 			}
 		}
@@ -267,9 +257,8 @@ public class QueryResults implements IQueryResults, IQueryService {
 	 */
 	public RDLoad getRDLoad(String subQueryName, String queryResultID) throws DataException {
 		String baseID = QueryResultIDUtil.get1PartID(queryResultID);
-		if (baseID == null) {
+		if (baseID == null)
 			baseID = queryResultID;
-		}
 		RDLoad rdLoad = RDUtil.newLoad(tempDir, context, new QueryResultInfo(baseID, subQueryName, currParentIndex));
 		return rdLoad;
 	}
@@ -277,22 +266,18 @@ public class QueryResults implements IQueryResults, IQueryService {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#close()
 	 */
-	@Override
 	public void close() throws BirtException {
-		if (resultIterator != null) {
+		if (resultIterator != null)
 			resultIterator.close();
-		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getName()
 	 */
-	@Override
 	public String getID() {
 		return this.queryResultID;
 	}
 
-	@Override
 	public void cancel() {
 		// TODO Auto-generated method stub
 
@@ -307,7 +292,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 		private IQueryResults results;
 
 		/**
-		 *
+		 * 
 		 * @param queryDefn
 		 * @param context
 		 */
@@ -318,48 +303,43 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.mozilla.
 		 * javascript.Scriptable)
 		 */
-		@Override
 		public IQueryResults execute(Scriptable queryScope) throws BirtException {
 			return this.results;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt.data
 		 * .engine.api.IQueryResults, org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public IQueryResults execute(IQueryResults outerResults, Scriptable queryScope) throws BirtException {
 			throw new UnsupportedOperationException();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
 		 */
-		@Override
 		public Collection getParameterMetaData() throws BirtException {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
 		 */
-		@Override
 		public IQueryDefinition getReportQueryDefn() {
 			return this.queryDefn;
 		}
 
-		@Override
 		public IQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 			throw new UnsupportedOperationException();
 		}
@@ -368,20 +348,18 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntime(int)
 	 */
-	@Override
 	public DataSetRuntime[] getDataSetRuntime(int nestedCount) {
 		return new DataSetRuntime[0];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getExecutorHelper()
 	 */
-	@Override
 	public IExecutorHelper getExecutorHelper() throws DataException {
 		if (this.executorHelper != null) {
 			return this.executorHelper;
@@ -401,10 +379,9 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getNestedLevel()
 	 */
-	@Override
 	public int getNestedLevel() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -412,10 +389,9 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getQueryScope()
 	 */
-	@Override
 	public Scriptable getQueryScope() {
 		// TODO Auto-generated method stub
 		return null;
@@ -423,10 +399,9 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		// TODO Auto-generated method stub
 		return false;
@@ -442,7 +417,7 @@ public class QueryResults implements IQueryResults, IQueryService {
 		private IBaseResultIterator currentIterator;
 
 		/**
-		 *
+		 * 
 		 * @param parentHelper
 		 * @param currentIterator
 		 */
@@ -453,19 +428,17 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
-		@Override
 		public Object get(String name, Scriptable scope) {
 			if (ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase(name)) {
 				if (this.parentHelper == null) {
 					throw Context.reportRuntimeError(
 							DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
-				} else {
+				} else
 					return this.parentHelper.getScriptable();
-				}
 			}
 			try {
 				return this.currentIterator.getValue(name);
@@ -474,7 +447,6 @@ public class QueryResults implements IQueryResults, IQueryService {
 			}
 		}
 
-		@Override
 		public String getClassName() {
 			return "DummyJSResultSetRow";
 		}
@@ -492,42 +464,34 @@ public class QueryResults implements IQueryResults, IQueryService {
 			this.metaInfo = metaInfo;
 		}
 
-		@Override
 		public String getColumnAlias(int index) throws BirtException {
 			return null;
 		}
 
-		@Override
 		public int getColumnCount() {
 			return metaInfo.length;
 		}
 
-		@Override
 		public String getColumnLabel(int index) throws BirtException {
 			return null;
 		}
 
-		@Override
 		public String getColumnName(int index) throws BirtException {
 			return metaInfo[index - 1].getName();
 		}
 
-		@Override
 		public String getColumnNativeTypeName(int index) throws BirtException {
 			return null;
 		}
 
-		@Override
 		public int getColumnType(int index) throws BirtException {
 			return metaInfo[index - 1].getDataType();
 		}
 
-		@Override
 		public String getColumnTypeName(int index) throws BirtException {
 			return DataType.getName(getColumnType(index));
 		}
 
-		@Override
 		public boolean isComputedColumn(int index) throws BirtException {
 			return false;
 		}
@@ -536,16 +500,14 @@ public class QueryResults implements IQueryResults, IQueryService {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IBaseQueryResults#setName(java.lang.String)
 	 */
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}

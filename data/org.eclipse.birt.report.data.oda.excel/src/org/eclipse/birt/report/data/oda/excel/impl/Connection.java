@@ -40,11 +40,9 @@ public class Connection implements IConnection {
 	 * org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties
 	 * )
 	 */
-	@Override
 	public void open(Properties connProperties) throws OdaException {
-		if (connProperties == null) {
+		if (connProperties == null)
 			throw new OdaException(Messages.getString("connection_CONNECTION_PROPERTIES_MISSING")); //$NON-NLS-1$
-		}
 
 		this.connProperties = connProperties;
 		validateURI();
@@ -68,7 +66,6 @@ public class Connection implements IConnection {
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java
 	 * .lang.Object)
 	 */
-	@Override
 	public void setAppContext(Object context) throws OdaException {
 		// do nothing; assumes no support for pass-through context
 		this.appContext = (Map) context;
@@ -77,7 +74,6 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */
-	@Override
 	public void close() throws OdaException {
 		isOpen = false;
 	}
@@ -85,7 +81,6 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
-	@Override
 	public boolean isOpen() throws OdaException {
 		return isOpen;
 	}
@@ -94,7 +89,6 @@ public class Connection implements IConnection {
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#getMetaData(java.lang
 	 * .String)
 	 */
-	@Override
 	public IDataSetMetaData getMetaData(String dataSetType) throws OdaException {
 		// assumes that this driver supports only one type of data set,
 		// ignores the specified dataSetType
@@ -105,13 +99,11 @@ public class Connection implements IConnection {
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#newQuery(java.lang
 	 * .String)
 	 */
-	@Override
 	public IQuery newQuery(String dataSetType) throws OdaException {
 		// assumes that this driver supports only one type of data set,
 		// ignores the specified dataSetType
-		if (!isOpen()) {
+		if (!isOpen())
 			throw new OdaException(Messages.getString("common_CONNECTION_HAS_NOT_OPEN")); //$NON-NLS-1$
-		}
 		ExcelFileQuery excelFileQuery = new ExcelFileQuery(connProperties);
 		excelFileQuery.setAppContext(appContext);
 		return excelFileQuery;
@@ -124,7 +116,6 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#getMaxQueries()
 	 */
-	@Override
 	public int getMaxQueries() throws OdaException {
 		return 0; // no limit
 	}
@@ -132,7 +123,6 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#commit()
 	 */
-	@Override
 	public void commit() throws OdaException {
 		// do nothing; assumes no transaction support needed
 	}
@@ -140,7 +130,6 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#rollback()
 	 */
-	@Override
 	public void rollback() throws OdaException {
 		// do nothing; assumes no transaction support needed
 	}
@@ -151,7 +140,6 @@ public class Connection implements IConnection {
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#setLocale(com.ibm.
 	 * icu.util.ULocale)
 	 */
-	@Override
 	public void setLocale(ULocale locale) throws OdaException {
 		// do nothing; assumes no locale support
 	}

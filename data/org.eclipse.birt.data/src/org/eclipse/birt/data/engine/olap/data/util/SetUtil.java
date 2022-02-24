@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.birt.data.engine.cache.Constants;
 public class SetUtil {
 	/**
 	 * Get intersection from stacks.
-	 *
+	 * 
 	 * @param stacks
 	 * @return
 	 * @throws IOException
@@ -36,7 +36,7 @@ public class SetUtil {
 
 	/**
 	 * Get intersection from stacks.
-	 *
+	 * 
 	 * @param stacks
 	 * @return
 	 * @throws IOException
@@ -54,7 +54,7 @@ public class SetUtil {
 		IDiskArray result = new BufferedPrimitiveDiskArray(bufferSize + 1);
 		Object[] tmpObjects = new Object[stacks.length];
 
-		Object currentObject;
+		Object currentObject = null;
 
 		for (i = 0; i < tmpObjects.length; i++) {
 			tmpObjects[i] = stacks[i].pop();
@@ -94,7 +94,7 @@ public class SetUtil {
 
 	/**
 	 * Get intersection from disk arrays.
-	 *
+	 * 
 	 * @param stacks
 	 * @return
 	 * @throws IOException
@@ -116,7 +116,7 @@ public class SetUtil {
 
 	/**
 	 * get the intersection from two disk arrays which have been sorted.
-	 *
+	 * 
 	 * @param array1
 	 * @param array2
 	 * @return
@@ -136,9 +136,8 @@ public class SetUtil {
 				j++;
 			} else if (ret < 0) {
 				i++;
-			} else {
+			} else
 				j++;
-			}
 		}
 		array1.close();
 		array2.close();
@@ -146,7 +145,7 @@ public class SetUtil {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param a
 	 * @param b
 	 * @param c
@@ -154,12 +153,10 @@ public class SetUtil {
 	 */
 	private static int min(int a, int b, int c) {
 		int min = a;
-		if (b < min) {
+		if (b < min)
 			min = b;
-		}
-		if (c < min) {
+		if (c < min)
 			min = c;
-		}
 		return min;
 	}
 }

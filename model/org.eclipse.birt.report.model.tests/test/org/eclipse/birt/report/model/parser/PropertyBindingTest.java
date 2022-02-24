@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ public class PropertyBindingTest extends BaseTestCase {
 
 	/**
 	 * Tests parser and properties.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -60,7 +60,7 @@ public class PropertyBindingTest extends BaseTestCase {
 	/**
 	 * Tests the parser for property binding both for normal openDesign and
 	 * design.clone() action.
-	 *
+	 * 
 	 * @param moduleHandle
 	 */
 
@@ -118,7 +118,7 @@ public class PropertyBindingTest extends BaseTestCase {
 
 	/**
 	 * Tests setPropertyBinding method and writer.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -203,7 +203,7 @@ public class PropertyBindingTest extends BaseTestCase {
 	/**
 	 * Tests the delete action and check whether the property bindings for the
 	 * deleted element are dropped too.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -225,7 +225,7 @@ public class PropertyBindingTest extends BaseTestCase {
 
 	/**
 	 * Tests the property bindings are still effective when the module is cloned.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 
@@ -249,7 +249,7 @@ public class PropertyBindingTest extends BaseTestCase {
 	/**
 	 * Tests get intrinsic value. If the expression type is javascript the value
 	 * will not be encrypted.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void testIntrinsicValue() throws Exception {

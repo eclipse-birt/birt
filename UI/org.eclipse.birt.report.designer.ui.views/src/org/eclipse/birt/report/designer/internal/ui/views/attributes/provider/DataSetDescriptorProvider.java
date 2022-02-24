@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
- *
+ * 
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,21 +33,18 @@ import org.eclipse.jface.window.Window;
 
 public class DataSetDescriptorProvider extends AbstractDescriptorProvider {
 
-	@Override
 	public String getDisplayName() {
 		return Messages.getString("Element.ReportItem.dataSet"); //$NON-NLS-1$
 	}
 
 	private static final String NONE = Messages.getString("BindingPage.None"); //$NON-NLS-1$
 
-	@Override
 	public Object load() {
 		String dataSetName;
 		if (getReportItemHandle().getDataSet() == null) {
 			dataSetName = NONE;
-		} else {
+		} else
 			dataSetName = getReportItemHandle().getDataSet().getQualifiedName();
-		}
 		if (StringUtil.isBlank(dataSetName)) {
 			dataSetName = NONE;
 		}
@@ -70,7 +67,6 @@ public class DataSetDescriptorProvider extends AbstractDescriptorProvider {
 		return true;
 	}
 
-	@Override
 	public void save(Object value) throws SemanticException {
 		if (value.equals(NONE)) {
 			value = null;
@@ -111,7 +107,6 @@ public class DataSetDescriptorProvider extends AbstractDescriptorProvider {
 
 	protected Object input;
 
-	@Override
 	public void setInput(Object input) {
 		this.input = input;
 
@@ -160,7 +155,7 @@ public class DataSetDescriptorProvider extends AbstractDescriptorProvider {
 
 	/**
 	 * Gets the DE CommandStack instance
-	 *
+	 * 
 	 * @return CommandStack instance
 	 */
 	private CommandStack getActionStack() {
