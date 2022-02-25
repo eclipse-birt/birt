@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,7 +70,7 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Constructs a new instance of font preference page.
-	 * 
+	 *
 	 * @param model the preference store( model ) for the following field editors.
 	 */
 	public FontPreferencePage(Object model) {
@@ -82,10 +82,11 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
+	@Override
 	protected void adjustGridLayout() {
 		super.adjustGridLayout();
 
@@ -104,7 +105,7 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Returns the model.
-	 * 
+	 *
 	 * @return
 	 */
 	public Object getModel() {
@@ -113,10 +114,11 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors ()
 	 */
+	@Override
 	protected void createFieldEditors() {
 		// super.createFieldEditors( );
 
@@ -127,10 +129,11 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.
 			 * AbstractFieldEditor#setPropValue(java.lang.String)
 			 */
+			@Override
 			protected void setPropValue(String newValue) {
 				// if ( UIUtil.needAddQuote(
 				// ReportDesignConstants.STYLE_ELEMENT,
@@ -148,10 +151,11 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.
 			 * EditableComboFieldEditor#updateComboForValue(java.lang.String)
 			 */
+			@Override
 			protected void updateComboForValue(String value, boolean setOldValue) {
 				super.updateComboForValue(DEUtil.removeQuote(value), setOldValue);
 			}
@@ -218,10 +222,11 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createContents
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		Control ct = super.createContents(parent);
 
@@ -232,10 +237,11 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#propertyChange
 	 * (org.eclipse.jface.util.PropertyChangeEvent)
 	 */
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		super.propertyChange(event);
 		updatePreview();
@@ -243,7 +249,7 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Updates sample text for preview according to the property change.
-	 * 
+	 *
 	 */
 	private void updatePreview() {
 		if (sample != null) {
@@ -261,7 +267,7 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 			// set default font size.
 			String fontSize = DesignChoiceConstants.FONT_SIZE_MEDIUM;
-			int sizeValue = Integer.valueOf((String) DesignerConstants.fontMap.get(fontSize)).intValue();
+			int sizeValue = Integer.parseInt((String) DesignerConstants.fontMap.get(fontSize));
 
 			if (size.inComboNamesList(size.getComboBoxControl(getFieldEditorParent()).getText())) {
 				fontSize = size.getBoxValueForName(size.getComboBoxControl(getFieldEditorParent()).getText());
@@ -270,7 +276,7 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 				} else if (DesignChoiceConstants.FONT_SIZE_SMALLER.equals(fontSize)) {
 					fontSize = DesignChoiceConstants.FONT_SIZE_SMALL;
 				}
-				sizeValue = Integer.valueOf((String) DesignerConstants.fontMap.get(fontSize)).intValue();
+				sizeValue = Integer.parseInt((String) DesignerConstants.fontMap.get(fontSize));
 			} else {
 				String text = size.getComboBoxControl(getFieldEditorParent()).getText();
 				String pre = size.getMeasureValueForName(size.getMeasureControl(getFieldEditorParent()).getText());
@@ -354,7 +360,7 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Gets choice array of the given property name ( key ).
-	 * 
+	 *
 	 * @param key The given property name.
 	 * @return String[][]: The choice array of the key, which contains he names
 	 *         (labels) and underlying values, will be arranged as: { {name1,
@@ -366,7 +372,7 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Gets choice array of the given property name ( key ).
-	 * 
+	 *
 	 * @param key The given property name.
 	 * @return String[][]: The choice array of the key, which contains he names
 	 *         (labels) and underlying values, will be arranged as: { {name1,
@@ -386,6 +392,7 @@ public class FontPreferencePage extends BaseStylePreferencePage {
 		return names;
 	}
 
+	@Override
 	protected String[] getPreferenceNames() {
 		return new String[] { StyleHandle.FONT_FAMILY_PROP, StyleHandle.COLOR_PROP, StyleHandle.FONT_SIZE_PROP,
 				StyleHandle.FONT_STYLE_PROP, StyleHandle.FONT_WEIGHT_PROP, StyleHandle.TEXT_UNDERLINE_PROP,

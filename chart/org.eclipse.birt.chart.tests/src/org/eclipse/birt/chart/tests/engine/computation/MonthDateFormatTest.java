@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ public class MonthDateFormatTest extends TestCase {
 		calendar.set(Calendar.MONTH, 5);
 		calendar.set(Calendar.DATE, 8);
 		Date date = calendar.getTime();
-		Hashtable<ULocale, String> locales = new Hashtable<ULocale, String>();
+		Hashtable<ULocale, String> locales = new Hashtable<>();
 		locales.put(ULocale.CANADA, "Jun. 2013"); //$NON-NLS-1$
 		locales.put(ULocale.CHINA, "2013年6月"); //$NON-NLS-1$
 		locales.put(ULocale.ENGLISH, "Jun 2013"); //$NON-NLS-1$

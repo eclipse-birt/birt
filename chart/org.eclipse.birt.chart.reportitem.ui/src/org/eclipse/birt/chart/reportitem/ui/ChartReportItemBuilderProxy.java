@@ -41,7 +41,7 @@ public class ChartReportItemBuilderProxy extends ReportItemBuilderUI implements 
 
 	/**
 	 * Open the chart with specified task
-	 * 
+	 *
 	 * @param taskId specified task to open
 	 */
 	public ChartReportItemBuilderProxy(String taskId) {
@@ -50,128 +50,140 @@ public class ChartReportItemBuilderProxy extends ReportItemBuilderUI implements 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI#open(org.
 	 * eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
+	@Override
 	public int open(final ExtendedItemHandle eih) {
 		return instance.open(eih);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.
 	 * String, java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public String invoke(String sExpression, Object context, String sTitle) {
 		return instance.invoke(sExpression, context, sTitle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.
 	 * String, java.lang.Object, java.lang.String, boolean)
 	 */
+	@Override
 	public String invoke(String sExpression, Object context, String sTitle, boolean isChartProvider) {
 		return instance.invoke(sExpression, context, sTitle, isChartProvider);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(int,
 	 * java.lang.String, java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public String invoke(int command, String value, Object context, String sTitle) throws ChartException {
 		return instance.invoke(command, value, context, sTitle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(org.
 	 * eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider.Command,
 	 * java.lang.Object[])
 	 */
+	@Override
 	public Object invoke(Command command, Object... inData) throws ChartException {
 		return instance.invoke(command, inData);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#
 	 * isInvokingSupported()
 	 */
+	@Override
 	public boolean isInvokingSupported() {
 		return instance.isInvokingSupported();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#validate(org.
 	 * eclipse.birt.chart.model.Chart, java.lang.Object)
 	 */
+	@Override
 	public String[] validate(Chart chartModel, Object oContext) {
 		return instance.validate(chartModel, oContext);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getRegisteredKeys
 	 * ()
 	 */
+	@Override
 	public List<String> getRegisteredKeys() {
 		return instance.getRegisteredKeys();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getValue(java.
 	 * lang.String)
 	 */
+	@Override
 	public String getValue(String sKey) {
 		return instance.getValue(sKey);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getConvertedValue
 	 * (double, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public double getConvertedValue(double dOriginalValue, String sFromUnits, String sToUnits) {
 		return instance.getConvertedValue(dOriginalValue, sFromUnits, sToUnits);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#
 	 * isEclipseModeSupported()
 	 */
+	@Override
 	public boolean isEclipseModeSupported() {
 		return instance.isEclipseModeSupported();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#
 	 * getFormatSpecifierHandler()
 	 */
+	@Override
 	public IFormatSpecifierHandler getFormatSpecifierHandler() {
 		return instance.getFormatSpecifierHandler();
 	}

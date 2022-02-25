@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,9 +31,10 @@ public class CSashFormData {
 	String getName() {
 		String string = getClass().getName();
 		int index = string.lastIndexOf('.');
-		if (index == -1)
+		if (index == -1) {
 			return string;
-		return string.substring(index + 1, string.length());
+		}
+		return string.substring(index + 1);
 	}
 
 	/**
@@ -42,6 +43,7 @@ public class CSashFormData {
 	 *
 	 * @return a string representation of the event
 	 */
+	@Override
 	public String toString() {
 		return getName() + " {weight=" + weight + "}"; //$NON-NLS-2$
 	}

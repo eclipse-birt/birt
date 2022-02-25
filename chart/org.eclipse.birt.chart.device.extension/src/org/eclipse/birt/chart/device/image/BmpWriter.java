@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -74,7 +74,7 @@ public class BmpWriter {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param img
 	 */
 	public BmpWriter(Image img) {
@@ -101,7 +101,7 @@ public class BmpWriter {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param pix
 	 * @param width
 	 * @param height
@@ -114,7 +114,7 @@ public class BmpWriter {
 
 	/**
 	 * Writes the image to given OutputStream.
-	 * 
+	 *
 	 * @param os
 	 * @throws IOException
 	 */
@@ -171,8 +171,9 @@ public class BmpWriter {
 
 	void writeRGBQuad(OutputStream os) throws IOException {
 		int[] rgbquad = processor.getTable();
-		if (rgbquad == null)
+		if (rgbquad == null) {
 			return;
+		}
 
 		ByteArray bamRgbQuad = new ByteArray(rgbquadbytes, false);
 		for (int i = 0; i < rgbcount; i++) {
@@ -310,19 +311,22 @@ public class BmpWriter {
 				splitRGB(pix[i]);
 
 				if (tree[rr] == null) {
-					if (overCount())
+					if (overCount()) {
 						break;
+					}
 					tree[rr] = new int[256][];
 					tree[rr][gg] = new int[256];
 					addRGB(true);
 				} else if (tree[rr][gg] == null) {
-					if (overCount())
+					if (overCount()) {
 						break;
+					}
 					tree[rr][gg] = new int[256];
 					addRGB(true);
 				} else if (tree[rr][gg][bb] < 0) {
-					if (overCount())
+					if (overCount()) {
 						break;
+					}
 					addRGB(false);
 				}
 			}
@@ -334,8 +338,9 @@ public class BmpWriter {
 		 */
 		boolean overCount() {
 			boolean over = count >= lim;
-			if (over)
+			if (over) {
 				count = -1;
+			}
 			return over;
 		}
 
@@ -354,8 +359,9 @@ public class BmpWriter {
 		 */
 		void addRGB(boolean init) {
 			if (init) {
-				for (int i = 0; i < 256; i++)
+				for (int i = 0; i < 256; i++) {
 					tree[rr][gg][i] = -1;
+				}
 			}
 			tree[rr][gg][bb] = count;
 			tbl[count] = rrggbb;
@@ -366,10 +372,11 @@ public class BmpWriter {
 		 * get color table (RGBQuad)
 		 */
 		int[] getTable() {
-			if (count > lim)
+			if (count > lim) {
 				return null;
-			else
+			} else {
 				return tbl;
+			}
 		}
 
 		/**

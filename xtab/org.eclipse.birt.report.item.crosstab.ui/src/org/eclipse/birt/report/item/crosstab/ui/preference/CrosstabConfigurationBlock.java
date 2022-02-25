@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,14 +52,16 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock {
 		Key[] keys = null;
 		if (fProject == null) {
 			keys = new Key[] { PREF_FILTER_LIMIT, PREF_AUTO_DEL_BINDINGS, PREF_CUBE_BUILDER_WARNING };
-		} else
+		} else {
 			keys = new Key[] { PREF_FILTER_LIMIT };
+		}
 		return keys;
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -114,12 +116,12 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock {
 			gd.horizontalSpan = 3;
 			promptGroup.setLayoutData(gd);
 
-			String[] enableDisableValues = new String[] { ENABLED, DISABLED };
+			String[] enableDisableValues = { ENABLED, DISABLED };
 
-			String[] RadioValues = new String[] { MessageDialogWithToggle.ALWAYS, MessageDialogWithToggle.NEVER,
+			String[] RadioValues = { MessageDialogWithToggle.ALWAYS, MessageDialogWithToggle.NEVER,
 					MessageDialogWithToggle.PROMPT };
 
-			String[] labels = new String[] { Messages.getString("CrosstabPreferencePage.autoDelBindings.Text"), //$NON-NLS-1$
+			String[] labels = { Messages.getString("CrosstabPreferencePage.autoDelBindings.Text"), //$NON-NLS-1$
 					Messages.getString("CrosstabPreferencePage.autoDelBindings.Text.Always"), //$NON-NLS-1$
 					Messages.getString("CrosstabPreferencePage.autoDelBindings.Text.Never"), //$NON-NLS-1$
 					Messages.getString("CrosstabPreferencePage.autoDelBindings.Text.Prompt"), //$NON-NLS-1$
@@ -134,6 +136,7 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock {
 		return pageContent;
 	}
 
+	@Override
 	protected void validateSettings(Key changedKey, String oldValue, String newValue) {
 		fContext.statusChanged(validatePositiveNumber(getValue(PREF_FILTER_LIMIT)));
 	}

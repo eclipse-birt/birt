@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
+ *
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -33,7 +33,7 @@ public class Issue76ExistingWorkbook extends ReportRunner {
 	@Test
 	public void testVariousOptions() throws BirtException, IOException {
 
-		InputStream inputStream = null;
+		InputStream inputStream;
 
 		inputStream = openFileStream("MannedSpaceMissions.xlsx");
 		try {

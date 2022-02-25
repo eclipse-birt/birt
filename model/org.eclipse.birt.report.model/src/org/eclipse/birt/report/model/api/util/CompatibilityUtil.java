@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,19 +32,19 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Provides the backward compatibility for the user. Now support:
- * 
+ *
  * <ul>
  * <li>Updated CachedMetaData.resultSet.
  * </ul>
- * 
+ *
  * <ul>
  * <li>Added DataSet.resultSet column.
  * </ul>
- * 
+ *
  * <p>
  * Backward compatibilty is different from other operations. It does not support
  * undo/redo and won't send out events.
- * 
+ *
  */
 
 public class CompatibilityUtil {
@@ -52,7 +52,7 @@ public class CompatibilityUtil {
 	/**
 	 * Updates CachedMetaData.resultSet property with the given data set and the
 	 * list of result set columns.
-	 * 
+	 *
 	 * @param setHandle     the data set
 	 * @param resultColumns a list containing result set columns. Each item in the
 	 *                      list is {@link ResultSetColumn}
@@ -62,11 +62,9 @@ public class CompatibilityUtil {
 
 	public static void updateResultSetinCachedMetaData(DataSetHandle setHandle, List resultColumns)
 			throws SemanticException {
-		if (setHandle == null)
+		if ((setHandle == null) || resultColumns == null || resultColumns.isEmpty()) {
 			return;
-
-		if (resultColumns == null || resultColumns.isEmpty())
-			return;
+		}
 
 		CachedMetaDataHandle originalMetaData = setHandle.getCachedMetaDataHandle();
 
@@ -93,18 +91,16 @@ public class CompatibilityUtil {
 	/**
 	 * Adds the given structures to the corresponding property values. For example,
 	 * adds result set columns to DataSet.resultSets.
-	 * 
+	 *
 	 * @param propHandle the property handle
 	 * @param structures the list containing structures
 	 * @throws SemanticException if any structure in the list has invalid values.
 	 */
 
 	public static void addStructures(PropertyHandle propHandle, List structures) throws SemanticException {
-		if (structures == null || structures.isEmpty())
+		if (structures == null || structures.isEmpty() || (propHandle == null)) {
 			return;
-
-		if (propHandle == null)
-			return;
+		}
 
 		DesignElementHandle elementHandle = propHandle.getElementHandle();
 
@@ -115,12 +111,14 @@ public class CompatibilityUtil {
 		List oldList = element.getListProperty(elementHandle.getModule(), propDefn.getName());
 		List newList = null;
 		if (!propHandle.isLocal()) {
-			if (oldList != null)
+			if (oldList != null) {
 				newList = (List) ModelUtil.copyValue(propDefn, oldList);
-			else
+			} else {
 				newList = new ArrayList();
-		} else
+			}
+		} else {
 			newList = oldList;
+		}
 
 		if (newList == null) {
 			newList = new ArrayList();
@@ -132,7 +130,7 @@ public class CompatibilityUtil {
 
 	/**
 	 * Adds ResultSetColumn without sending out event.
-	 * 
+	 *
 	 * @param dataSetHandle data set handle
 	 * @param columns       list contains OdaResultSetColumn
 	 * @throws SemanticException if any result set column in the list has invalid
@@ -140,8 +138,9 @@ public class CompatibilityUtil {
 	 */
 
 	public static void addResultSetColumn(DataSetHandle dataSetHandle, List columns) throws SemanticException {
-		if (dataSetHandle == null)
+		if (dataSetHandle == null) {
 			return;
+		}
 
 		addStructures(dataSetHandle.getPropertyHandle(IDataSetModel.RESULT_SET_PROP), columns);
 	}

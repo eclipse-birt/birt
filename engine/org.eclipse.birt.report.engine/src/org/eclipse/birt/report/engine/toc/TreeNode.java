@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,28 +65,35 @@ abstract public class TreeNode implements ITreeNode {
 		this.elementId = node.elementId;
 	}
 
+	@Override
 	abstract public Collection<ITreeNode> getChildren();
 
+	@Override
 	public String getNodeId() {
 		return nodeId;
 	}
 
+	@Override
 	public String getBookmark() {
 		return bookmark;
 	}
 
+	@Override
 	public boolean isGroup() {
 		return isGroup;
 	}
 
+	@Override
 	public String getHiddenFormats() {
 		return hiddenFormats;
 	}
 
+	@Override
 	public Object getTOCValue() {
 		return tocValue;
 	}
 
+	@Override
 	public long getElementId() {
 		return elementId;
 	}
@@ -125,7 +132,7 @@ abstract public class TreeNode implements ITreeNode {
 
 	/**
 	 * read the node out from an input stream.
-	 * 
+	 *
 	 * @param in     input stream to be read.
 	 * @param loader the class loader used to load the values
 	 * @throws IOException
@@ -164,7 +171,7 @@ abstract public class TreeNode implements ITreeNode {
 
 	/**
 	 * write the node out to an output stream.
-	 * 
+	 *
 	 * @param out the output stream used to save the node.
 	 * @throws IOException
 	 */

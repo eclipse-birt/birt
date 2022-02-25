@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.core.runtime.IAdaptable;
 
 /**
- * 
+ *
  */
 
 public class CrosstabPropertyHandleWrapper implements IAdaptable {
@@ -29,11 +29,13 @@ public class CrosstabPropertyHandleWrapper implements IAdaptable {
 	private PropertyHandle handle;
 	private String type;
 
+	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == LibraryHandleAdapter.class) {
 			DesignElementHandle element = handle.getElementHandle();
-			if (element instanceof ExtendedItemHandle)
+			if (element instanceof ExtendedItemHandle) {
 				return element;
+			}
 		}
 		return null;
 	}
@@ -57,17 +59,22 @@ public class CrosstabPropertyHandleWrapper implements IAdaptable {
 		return handle;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
-		if (obj == this)
+		if (obj == this) {
 			return true;
-		if (!(obj instanceof CrosstabPropertyHandleWrapper))
+		}
+		if (!(obj instanceof CrosstabPropertyHandleWrapper)) {
 			return false;
+		}
 		return ((CrosstabPropertyHandleWrapper) obj).getModel() == getModel();
 	}
 
+	@Override
 	public int hashCode() {
-		if (getModel() != null)
+		if (getModel() != null) {
 			return getModel().hashCode();
+		}
 		return super.hashCode();
 	}
 }

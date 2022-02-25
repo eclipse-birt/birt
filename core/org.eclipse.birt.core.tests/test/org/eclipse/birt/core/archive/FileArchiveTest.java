@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,12 +30,14 @@ public class FileArchiveTest extends TestCase {
 	static final String TEMP_FOLDER_NAME = "./utest/test.archive.tmpfolder";
 	static final String STREAM_NAME = "/teststream";
 
+	@Override
 	@Before
 	public void setUp() {
 		ArchiveUtil.deleteAllFiles(new File(ARCHIVE_NAME));
 		ArchiveUtil.deleteAllFiles(new File(TEMP_FOLDER_NAME));
 	}
 
+	@Override
 	@After
 	public void tearDown() {
 		ArchiveUtil.deleteAllFiles(new File(TEMP_FOLDER_NAME));
@@ -191,6 +193,7 @@ public class FileArchiveTest extends TestCase {
 			}
 		}
 
+		@Override
 		public void run() {
 			while (true) {
 				synchronized (command) {
@@ -258,8 +261,9 @@ public class FileArchiveTest extends TestCase {
 				reader.close();
 				reader = null;
 			}
-		};
+		}
 
+		@Override
 		public void run() {
 			while (true) {
 				synchronized (command) {

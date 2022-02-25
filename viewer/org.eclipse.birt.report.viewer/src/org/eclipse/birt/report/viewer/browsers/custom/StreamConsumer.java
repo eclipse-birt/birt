@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.viewer.ViewerPlugin;
 /**
  * Used to receive output / error output from browser processes The original
  * implementation is from HELP.
- * 
+ *
  * @version $
  */
 public class StreamConsumer extends Thread {
@@ -33,7 +33,7 @@ public class StreamConsumer extends Thread {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param inputStream output stream of browser process
 	 */
 	public StreamConsumer(InputStream inputStream) {
@@ -47,6 +47,7 @@ public class StreamConsumer extends Thread {
 	/**
 	 * Start the stream consumer thread.
 	 */
+	@Override
 	public void run() {
 		try {
 			String line;
@@ -65,7 +66,7 @@ public class StreamConsumer extends Thread {
 
 	/**
 	 * Get last line from browser process output stream.
-	 * 
+	 *
 	 * @return last line obtained or null
 	 */
 	public String getLastLine() {

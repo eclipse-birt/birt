@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -169,7 +169,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Overridden behavior for graphic element series that are plotted along axes
-	 * 
+	 *
 	 * @param bo
 	 */
 	@Override
@@ -326,10 +326,12 @@ public abstract class AxesRenderer extends BaseRenderer {
 	}
 
 	private final int compare(DataElement de1, DataElement de2) throws ChartException {
-		if (de1 == null && de2 == null)
+		if (de1 == null && de2 == null) {
 			return IConstants.EQUAL;
-		if (de1 == null || de2 == null)
+		}
+		if (de1 == null || de2 == null) {
 			return IConstants.SOME_NULL;
+		}
 		final Class<? extends DataElement> c1 = de1.getClass();
 		final Class<? extends DataElement> c2 = de2.getClass();
 		if (c1.equals(c2)) {
@@ -470,6 +472,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 			Arrays.sort(sa, new Comparator<double[]>() {
 
+				@Override
 				public int compare(double[] l1, double[] l2) {
 					if (l1[0] == l2[0]) {
 						return 0;
@@ -490,7 +493,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Renders the FittingCurve if defined for supported series.
-	 * 
+	 *
 	 * @param ipr
 	 * @param points
 	 * @param curve
@@ -659,7 +662,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param xa     xa must be sorted from smallest to largest.
 	 * @param ya
 	 * @param center
@@ -675,13 +678,11 @@ public abstract class AxesRenderer extends BaseRenderer {
 			rt = ya[0];
 		} else if (align == IConstants.RIGHT) {
 			rt = ya[ya.length - 1];
+		} else if (ya.length % 2 == 1) {
+			rt = ya[ya.length / 2];
 		} else {
-			if (ya.length % 2 == 1) {
-				rt = ya[ya.length / 2];
-			} else {
-				int x = ya.length / 2;
-				rt = (ya[x] + ya[x - 1]) / 2;
-			}
+			int x = ya.length / 2;
+			rt = (ya[x] + ya[x - 1]) / 2;
 		}
 
 		return above ? (rt - height - gap) : (rt + gap);
@@ -691,10 +692,10 @@ public abstract class AxesRenderer extends BaseRenderer {
 	 * Renders all marker ranges associated with all axes (base and orthogonal) in
 	 * the plot Marker ranges are drawn immediately (not rendered as deferred) at an
 	 * appropriate Z-order immediately after the plot background is drawn.
-	 * 
+	 *
 	 * @param oaxa             An array containing all axes
 	 * @param boPlotClientArea The bounds of the actual client area
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	private final void renderMarkerRanges(OneAxis[] oaxa, Bounds boPlotClientArea) throws ChartException {
@@ -712,7 +713,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 		final AbstractScriptHandler<?> sh = getRunTimeContext().getScriptHandler();
 		final boolean bTransposed = ((ChartWithAxes) getModel()).isTransposed();
 		final PlotWithAxes pwa = (PlotWithAxes) getComputations();
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		Bounds boText = goFactory.createBounds(0, 0, 0, 0);
 		Anchor anc = null;
 		Label la = null;
@@ -1062,7 +1063,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 				ipr.drawPolygon(pre);
 			}
 		} else if (pwa.getDimension() == IConstants.THREE_D) {
-			Location3D[] loa = null;
+			Location3D[] loa;
 
 			final Polygon3DRenderEvent pre = ((EventObjectCache) ipr).getEventObject(StructureSource.createPlot(p),
 					Polygon3DRenderEvent.class);
@@ -1507,8 +1508,9 @@ public abstract class AxesRenderer extends BaseRenderer {
 						// if ( j == da.size( ) - 1
 						// && insCA.getTop( ) < lia.getThickness( ) )
 						// continue;
-						if (j == da.size() - 1 && sc.isCategoryScale() && !sc.isTickBetweenCategories())
+						if (j == da.size() - 1 && sc.isCategoryScale() && !sc.isTickBetweenCategories()) {
 							continue;
+						}
 
 						x = da.getCoordinate(j);
 						lre = ((EventObjectCache) ipr).getEventObject(StructureSource.createPlot(p),
@@ -1529,8 +1531,9 @@ public abstract class AxesRenderer extends BaseRenderer {
 					// if ( j == da.size( ) - 1
 					// && insCA.getTop( ) < lia.getThickness( ) )
 					// continue;
-					if (j == da.size() - 1 && sc.isCategoryScale() && !sc.isTickBetweenCategories())
+					if (j == da.size() - 1 && sc.isCategoryScale() && !sc.isTickBetweenCategories()) {
 						continue;
+					}
 
 					x = da.getCoordinate(j);
 					if (pwa.getDimension() == IConstants.TWO_5_D) {
@@ -1555,8 +1558,9 @@ public abstract class AxesRenderer extends BaseRenderer {
 						// if ( j == da.size( ) - 1
 						// && insCA.getRight( ) < lia.getThickness( ) )
 						// continue;
-						if (j == da.size() - 1 && sc.isCategoryScale() && !sc.isTickBetweenCategories())
+						if (j == da.size() - 1 && sc.isCategoryScale() && !sc.isTickBetweenCategories()) {
 							continue;
+						}
 
 						y = (da.getCoordinate(j) - pwa.getSeriesThickness());
 						lre = ((EventObjectCache) ipr).getEventObject(StructureSource.createPlot(p),
@@ -1577,8 +1581,9 @@ public abstract class AxesRenderer extends BaseRenderer {
 					// if ( j == da.size( ) - 1
 					// && insCA.getRight( ) < lia.getThickness( ) )
 					// continue;
-					if (j == da.size() - 1 && sc.isCategoryScale() && !sc.isTickBetweenCategories())
+					if (j == da.size() - 1 && sc.isCategoryScale() && !sc.isTickBetweenCategories()) {
 						continue;
+					}
 
 					y = da.getCoordinate(j);
 					if (pwa.getDimension() == IConstants.TWO_5_D) {
@@ -1815,10 +1820,10 @@ public abstract class AxesRenderer extends BaseRenderer {
 	 * Renders all marker lines (and labels at requested positions) associated with
 	 * every axis in the plot Note that marker lines are drawn immediately (not
 	 * rendered as deferred) at the appropriate Z-order
-	 * 
+	 *
 	 * @param oaxa
 	 * @param boPlotClientArea
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	private final void renderMarkerLines() throws ChartException {
@@ -2038,51 +2043,47 @@ public abstract class AxesRenderer extends BaseRenderer {
 							boText.setLeft(loStart.getX() + (loEnd.getX() - loStart.getX() - boText.getWidth()) / 2);
 							boText.setTop(loStart.getY() + (loEnd.getY() - loStart.getY() - boText.getHeight()) / 2);
 						}
-					} else {
-						if (anc != null) {
-							switch (anc.getValue()) {
-							case Anchor.NORTH:
-							case Anchor.NORTH_EAST:
-							case Anchor.NORTH_WEST:
-								boText.setTop(loStart.getY());
-								break;
+					} else if (anc != null) {
+						switch (anc.getValue()) {
+						case Anchor.NORTH:
+						case Anchor.NORTH_EAST:
+						case Anchor.NORTH_WEST:
+							boText.setTop(loStart.getY());
+							break;
 
-							case Anchor.SOUTH:
-							case Anchor.SOUTH_EAST:
-							case Anchor.SOUTH_WEST:
-								boText.setTop(loEnd.getY() - boText.getHeight());
-								break;
+						case Anchor.SOUTH:
+						case Anchor.SOUTH_EAST:
+						case Anchor.SOUTH_WEST:
+							boText.setTop(loEnd.getY() - boText.getHeight());
+							break;
 
-							default:
-								boText.setTop(
-										loStart.getY() + (loEnd.getY() - loStart.getY() - boText.getHeight()) / 2);
-								break;
-							}
-
-							switch (anc.getValue()) {
-							case Anchor.NORTH_EAST:
-							case Anchor.SOUTH_EAST:
-							case Anchor.EAST:
-								boText.setLeft(loStart.getX());
-								break;
-
-							case Anchor.NORTH_WEST:
-							case Anchor.SOUTH_WEST:
-							case Anchor.WEST:
-								boText.setLeft(loEnd.getX() - boText.getWidth());
-								break;
-
-							default:
-								boText.setLeft(
-										loStart.getX() + (loEnd.getX() - loStart.getX() - boText.getWidth()) / 2);
-								break;
-							}
-						} else
-						// CENTER ANCHORED
-						{
-							boText.setLeft(loStart.getX() + (loEnd.getX() - loStart.getX() - boText.getWidth()) / 2);
+						default:
 							boText.setTop(loStart.getY() + (loEnd.getY() - loStart.getY() - boText.getHeight()) / 2);
+							break;
 						}
+
+						switch (anc.getValue()) {
+						case Anchor.NORTH_EAST:
+						case Anchor.SOUTH_EAST:
+						case Anchor.EAST:
+							boText.setLeft(loStart.getX());
+							break;
+
+						case Anchor.NORTH_WEST:
+						case Anchor.SOUTH_WEST:
+						case Anchor.WEST:
+							boText.setLeft(loEnd.getX() - boText.getWidth());
+							break;
+
+						default:
+							boText.setLeft(loStart.getX() + (loEnd.getX() - loStart.getX() - boText.getWidth()) / 2);
+							break;
+						}
+					} else
+					// CENTER ANCHORED
+					{
+						boText.setLeft(loStart.getX() + (loEnd.getX() - loStart.getX() - boText.getWidth()) / 2);
+						boText.setTop(loStart.getY() + (loEnd.getY() - loStart.getY() - boText.getHeight()) / 2);
 					}
 
 					// NOW THAT WE COMPUTED THE BOUNDS, RENDER THE ACTUAL TEXT
@@ -2149,12 +2150,12 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Renders the axis.
-	 * 
+	 *
 	 * @param ipr
 	 * @param pl
 	 * @param ax
 	 * @param iWhatToDraw
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	public final void renderEachAxis(IPrimitiveRenderer ipr, Plot pl, OneAxis ax, int iWhatToDraw)
@@ -2164,7 +2165,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#set(org.eclipse.birt.chart.model.
 	 * Chart, java.lang.Object, org.eclipse.birt.chart.model.component.Series,
@@ -2178,7 +2179,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Returns if its a 3D rendering.
-	 * 
+	 *
 	 */
 	public final boolean isDimension3D() {
 		return (getModel().getDimension() == ChartDimension.THREE_DIMENSIONAL_LITERAL);
@@ -2194,7 +2195,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Returns previous visible series index by given index.
-	 * 
+	 *
 	 * @param currentIndex
 	 * @return
 	 */
@@ -2278,7 +2279,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 	/**
 	 * To judge whether current series is the last runtime series in a series
 	 * definition or not .
-	 * 
+	 *
 	 * @return true current series is the last in series definition
 	 * @since 2.3
 	 */
@@ -2306,14 +2307,12 @@ public abstract class AxesRenderer extends BaseRenderer {
 						return true;
 					}
 				}
-			} else {
-				if (iDefinitionCount > 0) {
-					int iThisSeriesIndex = sd.getRunTimeSeries().indexOf(se);
-					int iSeriesCount = sd.getRunTimeSeries().size();
+			} else if (iDefinitionCount > 0) {
+				int iThisSeriesIndex = sd.getRunTimeSeries().indexOf(se);
+				int iSeriesCount = sd.getRunTimeSeries().size();
 
-					if (iSeriesCount > 0 && iThisSeriesIndex == iSeriesCount - 1) {
-						return true;
-					}
+				if (iSeriesCount > 0 && iThisSeriesIndex == iSeriesCount - 1) {
+					return true;
 				}
 			}
 		}
@@ -2324,6 +2323,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 	/**
 	 * Returns the 3D engine for this render.
 	 */
+	@Override
 	protected Engine3D get3DEngine() {
 		if (isDimension3D()) {
 			// delegate to 3d computations.
@@ -2336,6 +2336,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 	/**
 	 * Returns the panning offset for 3D engine.
 	 */
+	@Override
 	protected Location getPanningOffset() throws ChartException {
 		if (isDimension3D()) {
 			// delegate to 3d computations.
@@ -2347,7 +2348,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Gets current model Axis
-	 * 
+	 *
 	 * @return Returns the axis associated with current renderer.
 	 */
 	public final Axis getAxis() {
@@ -2356,7 +2357,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Gets current internal primary orthogonal OneAxis
-	 * 
+	 *
 	 * @return internal OneAxis
 	 */
 	protected final OneAxis getInternalOrthogonalAxis() {
@@ -2374,7 +2375,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Gets current internal base OneAxis
-	 * 
+	 *
 	 * @return internal OneAxis
 	 */
 	protected final OneAxis getInternalBaseAxis() {
@@ -2384,7 +2385,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Checks if current series can show outside values.
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean isShowOutside() {
@@ -2397,7 +2398,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 	 * Checks out-of-range of each data point. If outside data is visible, adjust
 	 * the coordinates; otherwise, clip the plot area. Note that coordinates array
 	 * may be modified.
-	 * 
+	 *
 	 * @param ipr         renderer
 	 * @param srh         SeriesRenderingHints
 	 * @param faX         X coordinates
@@ -2478,11 +2479,9 @@ public abstract class AxesRenderer extends BaseRenderer {
 						faY[i] = iXOutside == 1 ? boClientArea.getTop() + boClientArea.getHeight() - deltaValue
 								: boClientArea.getTop() + deltaValue;
 					}
-				} else {
-					if (!Double.isNaN(faX[i])) {
-						faX[i] = iXOutside == 1 ? boClientArea.getLeft() + deltaValue
-								: boClientArea.getLeft() + boClientArea.getWidth() - deltaValue;
-					}
+				} else if (!Double.isNaN(faX[i])) {
+					faX[i] = iXOutside == 1 ? boClientArea.getLeft() + deltaValue
+							: boClientArea.getLeft() + boClientArea.getWidth() - deltaValue;
 				}
 			}
 
@@ -2497,11 +2496,9 @@ public abstract class AxesRenderer extends BaseRenderer {
 						faX[i] = iYOutside == 1 ? boClientArea.getLeft() + deltaValue
 								: boClientArea.getLeft() + boClientArea.getWidth() - deltaValue;
 					}
-				} else {
-					if (!Double.isNaN(faY[i])) {
-						faY[i] = iYOutside == 1 ? boClientArea.getTop() + boClientArea.getHeight() - deltaValue
-								: boClientArea.getTop() + deltaValue;
-					}
+				} else if (!Double.isNaN(faY[i])) {
+					faY[i] = iYOutside == 1 ? boClientArea.getTop() + boClientArea.getHeight() - deltaValue
+							: boClientArea.getTop() + deltaValue;
 				}
 			}
 		}
@@ -2509,7 +2506,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Clips the renderer. Need to restore the clipping after the use.
-	 * 
+	 *
 	 * @param ipr
 	 * @param boClientArea
 	 */
@@ -2534,7 +2531,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Check if base axis's scale is set to 'Showoutside value'.
-	 * 
+	 *
 	 * @return <code>true</code> if base axis's scale is set to 'Showoutside value'.
 	 */
 	protected boolean baseIsShowOutside() {
@@ -2543,7 +2540,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Restores the clipping
-	 * 
+	 *
 	 * @param ipr
 	 * @throws ChartException
 	 */
@@ -2560,7 +2557,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Flushes render event of all Series before clipping
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	protected void flushClipping() throws ChartException {
@@ -2571,7 +2568,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/**
 	 * Checks data point entry by types
-	 * 
+	 *
 	 * @param scale AutoScale for min/max value
 	 * @param entry data point entry
 	 * @return int indicates if data point entry is in the range of plot area. 0
@@ -2602,7 +2599,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 	/**
 	 * Checks if the number data point entry is in the range of plot area. Default
 	 * result is 0, inside.
-	 * 
+	 *
 	 * @param entry data point entry
 	 * @param min   scale min
 	 * @param max   scale max
@@ -2625,7 +2622,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 	/**
 	 * Checks if the datetime data point entry is in the range of plot area. Default
 	 * result is 0, inside.
-	 * 
+	 *
 	 * @param entry data point entry
 	 * @param min   scale min
 	 * @param max   scale max
@@ -2651,7 +2648,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 	/**
 	 * Checks if the data point entry is in the range of plot area. Usually this
 	 * method is overridden for complex entry. Default result is 0, inside.
-	 * 
+	 *
 	 * @param entry data point entry
 	 * @param min   scale min
 	 * @param max   scale max
@@ -2704,7 +2701,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.render.BaseRenderer#isFirstVisibleSeries()
 	 */
 	@Override
@@ -2712,9 +2709,9 @@ public abstract class AxesRenderer extends BaseRenderer {
 		// The study layout for multiple Y axes, we just check if the series is
 		// first visible in current axes.
 		if (ChartUtil.hasMultipleYAxes(getModel()) && ((ChartWithAxes) getModel()).isStudyLayout()) {
-			List<SeriesDefinition> sdList = new ArrayList<SeriesDefinition>(ax.getSeriesDefinitions());
+			List<SeriesDefinition> sdList = new ArrayList<>(ax.getSeriesDefinitions());
 			Collections.sort(sdList, zOrderComparatorImpl);
-			List<Series> seList = new ArrayList<Series>();
+			List<Series> seList = new ArrayList<>();
 			for (SeriesDefinition sd : sdList) {
 				seList.addAll(sd.getRunTimeSeries());
 			}
@@ -2744,7 +2741,7 @@ public abstract class AxesRenderer extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.render.BaseRenderer#isLastVisibleSeries()
 	 */
 	@Override
@@ -2752,9 +2749,9 @@ public abstract class AxesRenderer extends BaseRenderer {
 		// The study layout for multiple Y axes, we just check if the series is
 		// last visible in current axes.
 		if (ChartUtil.hasMultipleYAxes(getModel()) && ((ChartWithAxes) getModel()).isStudyLayout()) {
-			List<SeriesDefinition> sdList = new ArrayList<SeriesDefinition>(ax.getSeriesDefinitions());
+			List<SeriesDefinition> sdList = new ArrayList<>(ax.getSeriesDefinitions());
 			Collections.sort(sdList, zOrderComparatorImpl);
-			List<Series> seList = new ArrayList<Series>();
+			List<Series> seList = new ArrayList<>();
 			for (SeriesDefinition sd : sdList) {
 				seList.addAll(sd.getRunTimeSeries());
 			}

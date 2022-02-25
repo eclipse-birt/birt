@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,14 +28,13 @@ import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.junit.After;
+import org.junit.Before;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 
-import org.junit.After;
-import org.junit.Before;
-
 /**
- * 
+ *
  */
 public abstract class RDTestCase extends APITestCase {
 	protected DataEngine myGenDataEngine;
@@ -156,10 +155,11 @@ public abstract class RDTestCase extends APITestCase {
 		switch (type) {
 		case DataEngineContext.MODE_GENERATION: {
 			try {
-				if (useFolder == true)
+				if (useFolder) {
 					archiveWriter = new FolderArchiveWriter(fileName);
-				else
+				} else {
 					archiveWriter = new FileArchiveWriter(fileName);
+				}
 				archiveWriter.initialize();
 			} catch (IOException e) {
 				throw new IllegalArgumentException(e.getMessage());
@@ -171,10 +171,11 @@ public abstract class RDTestCase extends APITestCase {
 		}
 		case DataEngineContext.MODE_PRESENTATION: {
 			try {
-				if (useFolder == true)
+				if (useFolder) {
 					archiveReader = new FolderArchiveReader(fileName, true);
-				else
+				} else {
 					archiveReader = new FileArchiveReader(fileName);
+				}
 				archiveReader.open();
 			} catch (IOException e) {
 				throw new IllegalArgumentException(e.getMessage());
@@ -186,16 +187,18 @@ public abstract class RDTestCase extends APITestCase {
 		}
 		case DataEngineContext.MODE_UPDATE: {
 			try {
-				if (useFolder == true)
+				if (useFolder) {
 					archiveReader = new FolderArchiveReader(fileName);
-				else
+				} else {
 					archiveReader = new FileArchiveReader(fileName);
+				}
 				archiveReader.open();
 
-				if (useFolder == true)
+				if (useFolder) {
 					archiveWriter = new FolderArchiveWriter(fileName2);
-				else
+				} else {
 					archiveWriter = new FileArchiveWriter(fileName2);
+				}
 
 				archiveWriter.initialize();
 			} catch (IOException e) {
@@ -215,26 +218,28 @@ public abstract class RDTestCase extends APITestCase {
 	 * @throws DataException
 	 */
 	protected void closeArchiveWriter() throws DataException {
-		if (archiveWriter != null)
+		if (archiveWriter != null) {
 			try {
 				archiveWriter.finish();
 				archiveWriter = null;
 			} catch (IOException e) {
 				throw new DataException("error", e);
 			}
+		}
 	}
 
 	/**
 	 * @throws DataException
 	 */
 	protected void closeArchiveReader() throws DataException {
-		if (archiveReader != null)
+		if (archiveReader != null) {
 			try {
 				archiveReader.close();
 				archiveReader = null;
 			} catch (Exception e) {
 				throw new DataException("error", e);
 			}
+		}
 	}
 
 }

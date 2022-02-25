@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -34,7 +34,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  */
 public class Regression_118590 extends BaseTestCase {
 	/**
-	 * 
+	 *
 	 */
 
 	public void test_regression_118590() {
@@ -45,14 +45,17 @@ public class Regression_118590 extends BaseTestCase {
 
 		choices[2] = new ExtensionChoice(new IChoiceDefinition() {
 
+			@Override
 			public String getDisplayNameID() {
 				return "extID"; //$NON-NLS-1$
 			}
 
+			@Override
 			public String getName() {
 				return "extName"; //$NON-NLS-1$
 			}
 
+			@Override
 			public Object getValue() {
 				return "extValue"; //$NON-NLS-1$
 			}

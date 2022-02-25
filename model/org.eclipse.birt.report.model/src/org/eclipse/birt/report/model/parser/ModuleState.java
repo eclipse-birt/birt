@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,14 +33,14 @@ import org.xml.sax.SAXException;
 public abstract class ModuleState extends DesignParseState {
 
 	/**
-	 * 
+	 *
 	 */
 
 	protected Module module = null;
 
 	/**
 	 * Constructs the module state with the module file parser handler.
-	 * 
+	 *
 	 * @param theHandler The module parser handler.
 	 */
 
@@ -51,21 +51,23 @@ public abstract class ModuleState extends DesignParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return module;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		String version = attrs.getValue(DesignSchemaConstants.VERSION_ATTRIB);
 		module.getVersionManager().setVersion(version);
@@ -76,12 +78,6 @@ public abstract class ModuleState extends DesignParseState {
 				handler.versionNumber = VersionUtil.parseVersion(version);
 				result = (DesignSchemaConstants.REPORT_VERSION_NUMBER < handler.versionNumber ? -1
 						: (DesignSchemaConstants.REPORT_VERSION_NUMBER == handler.versionNumber ? 0 : 1));
-			} catch (NumberFormatException ex) {
-				// The format of version string is invalid.
-
-				DesignParserException e = new DesignParserException(new String[] { version },
-						DesignParserException.DESIGN_EXCEPTION_INVALID_VERSION);
-				throw new XMLParserException(e);
 			} catch (IllegalArgumentException ex) {
 				// The format of version string is invalid.
 
@@ -103,8 +99,9 @@ public abstract class ModuleState extends DesignParseState {
 
 			}
 
-			if (result == 0)
+			if (result == 0) {
 				handler.isCurrentVersion = true;
+			}
 		}
 
 		initElementID(attrs, module);
@@ -115,28 +112,33 @@ public abstract class ModuleState extends DesignParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		if (handler.isReadOnlyModuleProperties) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.PROPERTY_TAG == tagValue)
+			if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
 				return new PropertyState(handler, getElement());
-			if (ParserSchemaConstants.EXPRESSION_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.EXPRESSION_TAG == tagValue) {
 				return new ExpressionState(handler, getElement());
-			if (ParserSchemaConstants.XML_PROPERTY_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.XML_PROPERTY_TAG == tagValue) {
 				return new XmlPropertyState(handler, getElement());
-			if (ParserSchemaConstants.METHOD_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.METHOD_TAG == tagValue) {
 				return new PropertyState(handler, getElement());
-			if (ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue)
+			}
+			if ((ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue) || (ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue)) {
 				return new TextPropertyState(handler, getElement());
-			if (ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue)
-				return new TextPropertyState(handler, getElement());
-			if (ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue) {
 				return new EncryptedPropertyState(handler, getElement());
+			}
 			return new AnyElementState(handler);
 		}
 		return super.startElement(tagName);
@@ -149,6 +151,7 @@ public abstract class ModuleState extends DesignParseState {
 
 	class InnerParseState extends AbstractParseState {
 
+		@Override
 		public XMLParserHandler getHandler() {
 			return handler;
 		}
@@ -162,7 +165,7 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
@@ -171,10 +174,12 @@ public abstract class ModuleState extends DesignParseState {
 			super(handler, container, slot);
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.SCRIPT_DATA_SOURCE_TAG == tagValue)
+			if (ParserSchemaConstants.SCRIPT_DATA_SOURCE_TAG == tagValue) {
 				return new ScriptDataSourceState(handler, slotID);
+			}
 			if (ParserSchemaConstants.ODA_DATA_SOURCE_TAG == tagValue
 					|| ParserSchemaConstants.EXTENDED_DATA_SOURCE_TAG == tagValue) {
 				return new OdaDataSourceState(handler, slotID);
@@ -182,8 +187,9 @@ public abstract class ModuleState extends DesignParseState {
 
 			AbstractParseState state = ParseStateFactory.getInstance().createDataSourceState(tagValue, handler,
 					handler.module, slotID);
-			if (state != null)
+			if (state != null) {
 				return state;
+			}
 			return super.startElement(tagName);
 		}
 	}
@@ -196,7 +202,7 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
@@ -207,30 +213,36 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.SCRIPT_DATA_SET_TAG == tagValue)
+			if (ParserSchemaConstants.SCRIPT_DATA_SET_TAG == tagValue) {
 				return new ScriptDataSetState(handler, handler.module, slotID);
+			}
 			if (ParserSchemaConstants.ODA_DATA_SET_TAG == tagValue
 					|| ParserSchemaConstants.EXTENDED_DATA_SET_TAG == tagValue) {
 				return new OdaDataSetState(handler, handler.module, slotID);
 			}
-			if (ParserSchemaConstants.TEMPLATE_DATA_SET_TAG == tagValue)
+			if (ParserSchemaConstants.TEMPLATE_DATA_SET_TAG == tagValue) {
 				return new TemplateDataSetState(handler, handler.module, slotID);
-			if (ParserSchemaConstants.JOINT_DATA_SET_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.JOINT_DATA_SET_TAG == tagValue) {
 				return new JointDataSetState(handler, handler.module, slotID);
-			if (ParserSchemaConstants.DERIVED_DATA_SET_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.DERIVED_DATA_SET_TAG == tagValue) {
 				return new DerivedDataSetState(handler, handler.module, slotID);
+			}
 
 			AbstractParseState state = ParseStateFactory.getInstance().createDataSetState(tagValue, handler,
 					handler.module, slotID);
-			if (state != null)
+			if (state != null) {
 				return state;
+			}
 			return super.startElement(tagName);
 		}
 	}
@@ -242,14 +254,16 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (DesignSchemaConstants.RESOURCE_TAG.equalsIgnoreCase(tagName))
+			if (DesignSchemaConstants.RESOURCE_TAG.equalsIgnoreCase(tagName)) {
 				return new ResourceState();
+			}
 
 			return super.startElement(tagName);
 		}
@@ -264,11 +278,12 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			key = attrs.getValue(DesignSchemaConstants.KEY_ATTRIB);
 
@@ -283,14 +298,16 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (DesignSchemaConstants.TRANSLATION_TAG.equalsIgnoreCase(tagName))
+			if (DesignSchemaConstants.TRANSLATION_TAG.equalsIgnoreCase(tagName)) {
 				return new TranslationState(key);
+			}
 
 			return super.startElement(tagName);
 		}
@@ -311,11 +328,12 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			locale = attrs.getValue(DesignSchemaConstants.LOCALE_ATTRIB);
 			locale = StringUtil.trimString(locale);
@@ -335,10 +353,11 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			module.addTranslation(new Translation(resourceKey, locale, text.toString()));
 			super.end();
@@ -353,7 +372,7 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
@@ -364,19 +383,23 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.GRAPHIC_MASTER_PAGE_TAG == tagValue)
+			if (ParserSchemaConstants.GRAPHIC_MASTER_PAGE_TAG == tagValue) {
 				return new GraphicMasterPageState(handler);
-			if (ParserSchemaConstants.SIMPLE_MASTER_PAGE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.SIMPLE_MASTER_PAGE_TAG == tagValue) {
 				return new SimpleMasterPageState(handler);
-			if (ParserSchemaConstants.PAGE_SEQUENCE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.PAGE_SEQUENCE_TAG == tagValue) {
 				return new AnyElementState(handler);
+			}
 			return super.startElement(tagName);
 		}
 	}
@@ -390,7 +413,7 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
@@ -401,47 +424,64 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
 
-			if (ParserSchemaConstants.BROWSER_CONTROL_TAG == tagValue)
+			if (ParserSchemaConstants.BROWSER_CONTROL_TAG == tagValue) {
 				return new AnyElementState(handler);
-			if (ParserSchemaConstants.FREE_FORM_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.FREE_FORM_TAG == tagValue) {
 				return new FreeFormState(handler, container, slotID);
-			if (ParserSchemaConstants.DATA_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.DATA_TAG == tagValue) {
 				return new DataItemState(handler, container, slotID);
-			if (ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue) {
 				return new ExtendedItemState(handler, container, slotID);
-			if (ParserSchemaConstants.GRID_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.GRID_TAG == tagValue) {
 				return new GridItemState(handler, container, slotID);
-			if (ParserSchemaConstants.IMAGE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.IMAGE_TAG == tagValue) {
 				return new ImageState(handler, container, slotID);
-			if (ParserSchemaConstants.INCLUDE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.INCLUDE_TAG == tagValue) {
 				return new AnyElementState(handler);
-			if (ParserSchemaConstants.LABEL_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.LABEL_TAG == tagValue) {
 				return new LabelState(handler, container, slotID);
-			if (ParserSchemaConstants.TEXT_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.TEXT_TAG == tagValue) {
 				return new TextItemState(handler, container, slotID);
-			if (ParserSchemaConstants.LINE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.LINE_TAG == tagValue) {
 				return new LineItemState(handler, container, slotID);
-			if (ParserSchemaConstants.LIST_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.LIST_TAG == tagValue) {
 				return new ListItemState(handler, container, slotID);
-			if (ParserSchemaConstants.RECTANGLE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.RECTANGLE_TAG == tagValue) {
 				return new RectangleState(handler, container, slotID);
-			if (ParserSchemaConstants.TABLE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.TABLE_TAG == tagValue) {
 				return new TableItemState(handler, container, slotID);
-			if (ParserSchemaConstants.TEXT_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.TEXT_TAG == tagValue) {
 				return new TextItemState(handler, container, slotID);
-			if (ParserSchemaConstants.TOC_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.TOC_TAG == tagValue) {
 				return new AnyElementState(handler);
+			}
 			if (ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue
-					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue)
+					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue) {
 				return new TextDataItemState(handler, container, slotID);
+			}
 			return super.startElement(tagName);
 		}
 	}
@@ -454,7 +494,7 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
@@ -465,23 +505,27 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(DesignSchemaConstants.TABULAR_CUBE_TAG))
+			if (tagName.equalsIgnoreCase(DesignSchemaConstants.TABULAR_CUBE_TAG)) {
 				return new TabularCubeState(handler, container, slotID);
+			}
 
-			if (tagName.equalsIgnoreCase(DesignSchemaConstants.ODA_CUBE_TAG))
+			if (tagName.equalsIgnoreCase(DesignSchemaConstants.ODA_CUBE_TAG)) {
 				return new OdaCubeState(handler, container, slotID);
+			}
 
 			int tagValue = tagName.toLowerCase().hashCode();
 			AbstractParseState state = ParseStateFactory.getInstance().createCubeState(tagValue, handler,
 					handler.module, slotID);
-			if (state != null)
+			if (state != null) {
 				return state;
+			}
 			return super.startElement(tagName);
 		}
 
@@ -496,7 +540,7 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
@@ -507,17 +551,20 @@ public abstract class ModuleState extends DesignParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.THEME_TAG == tagValue)
+			if (ParserSchemaConstants.THEME_TAG == tagValue) {
 				return new ThemeState(handler, container, slotID);
-			if (ParserSchemaConstants.REPORT_ITEM_THEME_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.REPORT_ITEM_THEME_TAG == tagValue) {
 				return new ReportItemThemeState(handler, container, slotID);
+			}
 
 			return super.startElement(tagName);
 		}

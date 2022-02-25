@@ -32,20 +32,22 @@ public class ResourceBundleProvider implements IResourceBundleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IResourceBundleProvider#
 	 * getResourceBundle(java.util.Locale)
 	 */
+	@Override
 	public ResourceBundle getResourceBundle(Locale locale) {
 		return ResourceBundle.getBundle(BASE_NAME, locale);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IResourceBundleProvider#
 	 * getResourceBundle(java.util.Locale)
 	 */
+	@Override
 	public UResourceBundle getResourceBundle(ULocale locale) {
 		return UResourceBundle.getBundleInstance(BASE_NAME, locale);
 	}

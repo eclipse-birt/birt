@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
+ *
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
  * usually cause row resizing (the emitter never allows an image to spread onto
  * multiple rows), but never cause column resizing.
  * </p>
- * 
+ *
  * @author Jim Talbut
  *
  */

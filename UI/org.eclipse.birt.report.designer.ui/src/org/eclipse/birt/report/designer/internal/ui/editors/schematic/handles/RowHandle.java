@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -62,9 +62,10 @@ public class RowHandle extends AbstractHandle implements IContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
+	@Override
 	protected DragTracker createDragTracker() {
 		return new RowTracker((TableEditPart) getOwner(), rowNumber, this);
 	}
@@ -72,7 +73,7 @@ public class RowHandle extends AbstractHandle implements IContainer {
 	/**
 	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using a
 	 * default {@link Locator}.
-	 * 
+	 *
 	 * @param owner The GraphicalEditPart to be moved by this handle.
 	 */
 	public RowHandle(TableEditPart owner, int number) {
@@ -82,7 +83,7 @@ public class RowHandle extends AbstractHandle implements IContainer {
 	/**
 	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using the
 	 * given <code>Locator</code>.
-	 * 
+	 *
 	 * @param owner The GraphicalEditPart to be moved by this handle.
 	 * @param loc   The Locator used to place the handle.
 	 */
@@ -95,9 +96,10 @@ public class RowHandle extends AbstractHandle implements IContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.IFigure#containsPoint(int, int)
 	 */
+	@Override
 	public boolean containsPoint(int x, int y) {
 
 		return getBounds().getCopy().shrink(2, 2).contains(x, y);
@@ -134,9 +136,10 @@ public class RowHandle extends AbstractHandle implements IContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	protected void paintFigure(Graphics graphics) {
 		if (isSelect()) {
 			graphics.setBackgroundColor(ReportColorConstants.SelctionFillColor);
@@ -153,8 +156,9 @@ public class RowHandle extends AbstractHandle implements IContainer {
 		graphics.setFont(font);
 
 		Image image = getImage();
-		if (image == null)
+		if (image == null) {
 			return;
+		}
 
 		graphics.setForegroundColor(ColorConstants.white);
 		graphics.setXORMode(true);
@@ -185,17 +189,18 @@ public class RowHandle extends AbstractHandle implements IContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * IContainer#contains(org.eclipse.draw2d.geometry.Point)
 	 */
+	@Override
 	public boolean contains(Point pt) {
 		return false;
 	}
 
 	/**
 	 * Get row number.
-	 * 
+	 *
 	 * @return row number
 	 */
 	public int getRowNumber() {
@@ -204,7 +209,7 @@ public class RowHandle extends AbstractHandle implements IContainer {
 
 	/**
 	 * Set row number.
-	 * 
+	 *
 	 * @param rowNumber row number.
 	 */
 	public void setRowNumber(int rowNumber) {
@@ -274,9 +279,10 @@ public class RowHandle extends AbstractHandle implements IContainer {
 
 	/**
 	 * Judges if the row is selected.
-	 * 
+	 *
 	 * @return true if selected, else false.
 	 */
+	@Override
 	public boolean isSelect() {
 		TableEditPart part = (TableEditPart) getOwner();
 		List list = part.getViewer().getSelectedEditParts();
@@ -292,9 +298,10 @@ public class RowHandle extends AbstractHandle implements IContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.handles.AbstractHandle#getOwner()
 	 */
+	@Override
 	public GraphicalEditPart getOwner() {
 		return super.getOwner();
 	}

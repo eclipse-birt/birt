@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
 /**
  * This class parses an extended data set. Note: this is temporary syntax, the
  * structure of a data set will be defined by a different team later.
- * 
+ *
  */
 
 public class OdaDataSetState extends SimpleDataSetState {
@@ -72,7 +72,7 @@ public class OdaDataSetState extends SimpleDataSetState {
 	/**
 	 * Constructs the data set state with the design parser handler, the container
 	 * element and the container slot of the data set.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -85,21 +85,23 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		parseODADataSetExtensionID(attrs, false);
 
@@ -108,10 +110,11 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
 		if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
@@ -123,8 +126,9 @@ public class OdaDataSetState extends SimpleDataSetState {
 		// if the extension id is OK, use normal procedure to parse the design
 		// file. Otherwise, use dummy state to parse.
 
-		if (isValidExtensionId)
+		if (isValidExtensionId) {
 			return super.startElement(tagName);
+		}
 
 		return ParseStateFactory.getInstance().createParseState(tagName, handler, element,
 				((OdaDummyProvider) provider).getContentTree());
@@ -132,7 +136,7 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 	/**
 	 * Parse the attribute of "extensionId" for extendable element.
-	 * 
+	 *
 	 * @param attrs                 the SAX attributes object
 	 * @param extensionNameRequired whether extension name is required
 	 */
@@ -141,24 +145,27 @@ public class OdaDataSetState extends SimpleDataSetState {
 		String extensionID = getAttrib(attrs, DesignSchemaConstants.EXTENSION_ID_ATTRIB);
 
 		if (StringUtil.isBlank(extensionID)) {
-			if (!extensionNameRequired)
+			if (!extensionNameRequired) {
 				return;
+			}
 
 			SemanticError e = new SemanticError(element, SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION);
 			RecoverableError.dealMissingInvalidExtension(handler, e);
 			return;
 		}
 		if (handler.versionNumber < VersionUtil.VERSION_3_0_0) {
-			if (OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase(extensionID))
+			if (OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase(extensionID)) {
 				extensionID = NEW_FLAT_FILE_ID;
+			}
 		}
 
 		setProperty(IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID);
 
 		provider = ((OdaDataSet) element).getProvider();
 
-		if (provider == null)
+		if (provider == null) {
 			return;
+		}
 
 		if (provider instanceof OdaDummyProvider) {
 			SemanticError e = new SemanticError(element, new String[] { extensionID },
@@ -178,10 +185,11 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.SimpleDataSetState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		super.end();
 
@@ -192,8 +200,9 @@ public class OdaDataSetState extends SimpleDataSetState {
 		doCompatibleRemoveResultSetHitProperty(tmpElement);
 
 		TemplateParameterDefinition refTemplateParam = tmpElement.getTemplateParameterElement(handler.getModule());
-		if (refTemplateParam == null)
+		if (refTemplateParam == null) {
 			return;
+		}
 
 		OdaDataSet refDefaultElement = (OdaDataSet) refTemplateParam.getDefaultElement();
 		doCompatibleDataSetProperty(refDefaultElement);
@@ -205,13 +214,14 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 	/**
 	 * Removes 'resultSet' property if version is earlier than 3.2.2.
-	 * 
+	 *
 	 * @param dataSet the data set element
 	 */
 
 	private void doCompatibleRemoveResultSetProperty(OdaDataSet dataSet) {
-		if (dataSet == null)
+		if (dataSet == null) {
 			return;
+		}
 
 		if (handler.versionNumber < VersionUtil.VERSION_3_2_2) {
 			dataSet.setProperty(IDataSetModel.RESULT_SET_PROP, null);
@@ -220,13 +230,14 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 	/**
 	 * Removes 'resultSetHit' property if version is between 3.2.2 and 3.2.6 .
-	 * 
+	 *
 	 * @param dataSet the data set element
 	 */
 
 	private void doCompatibleRemoveResultSetHitProperty(OdaDataSet dataSet) {
-		if (dataSet == null)
+		if (dataSet == null) {
 			return;
+		}
 
 		if ((handler.versionNumber >= VersionUtil.VERSION_3_2_2)
 				&& (handler.versionNumber < VersionUtil.VERSION_3_2_6)) {
@@ -236,20 +247,22 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 	/**
 	 * Copies the value from resultSet to resultSetHints.
-	 * 
+	 *
 	 * @param dataSet the data set element
 	 */
 
 	private void doCompatibleDataSetProperty(OdaDataSet dataSet) {
-		if (dataSet == null)
+		if (dataSet == null) {
 			return;
+		}
 
 		if (handler.versionNumber < VersionUtil.VERSION_3_2_2) {
 			List dataSetColumns = (List) dataSet.getLocalProperty(handler.module, IDataSetModel.RESULT_SET_PROP);
 			Object dataSetHints = dataSet.getLocalProperty(handler.module, IDataSetModel.RESULT_SET_HINTS_PROP);
-			if (dataSetHints == null && dataSetColumns != null)
+			if (dataSetHints == null && dataSetColumns != null) {
 				dataSet.setProperty(IDataSetModel.RESULT_SET_HINTS_PROP, ModelUtil
 						.copyValue(dataSet.getPropertyDefn(IDataSetModel.RESULT_SET_HINTS_PROP), dataSetColumns));
+			}
 		}
 	}
 
@@ -261,7 +274,7 @@ public class OdaDataSetState extends SimpleDataSetState {
 	 * <p>
 	 * The conversion is done from the file version 3.2.5. It is a part of automatic
 	 * conversion for BIRT 2.1.1.
-	 * 
+	 *
 	 * @param resultSets     the result sets
 	 * @param resultSetHints the result set hints
 	 */
@@ -286,8 +299,9 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 			OdaResultSetColumn currentColumn = null;
 
-			if (resultSets != null)
+			if (resultSets != null) {
 				currentColumn = findResultSet(resultSets, hint.getColumnName(), hint.getPosition());
+			}
 
 			if (currentColumn == null) {
 				currentColumn = convertResultSetColumnToOdaResultSetColumn(hint);
@@ -306,14 +320,17 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 				// already in the list, do not add again then.
 
-				if (currentColumn.getDataType() == null)
+				if (currentColumn.getDataType() == null) {
 					currentColumn.setDataType(hint.getDataType());
+				}
 
-				if (currentColumn.getNativeDataType() == null)
+				if (currentColumn.getNativeDataType() == null) {
 					currentColumn.setNativeDataType(hint.getNativeDataType());
+				}
 
-				if (currentColumn.getColumnName() == null)
+				if (currentColumn.getColumnName() == null) {
 					currentColumn.setColumnName(currentColumn.getNativeName());
+				}
 			}
 
 		}
@@ -321,7 +338,7 @@ public class OdaDataSetState extends SimpleDataSetState {
 
 	/**
 	 * Returns the result set column in the given position.
-	 * 
+	 *
 	 * @param pos the position
 	 * @return the matched result set column
 	 */
@@ -333,15 +350,16 @@ public class OdaDataSetState extends SimpleDataSetState {
 			// position is the first preference. column name is the second.
 
 			if ((pos != null && pos.equals(setColumn.getPosition()))
-					|| (columnName != null && columnName.equals(setColumn.getColumnName())))
+					|| (columnName != null && columnName.equals(setColumn.getColumnName()))) {
 				return setColumn;
+			}
 		}
 		return null;
 	}
 
 	/**
 	 * Returns a OdaResultSetColumn that maps from ResultSetColumn.
-	 * 
+	 *
 	 * @param oldColumn the result set column to convert
 	 * @return the new OdaResultSetColumn
 	 */

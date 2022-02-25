@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,7 +36,7 @@ public class DifferenceDataSetImpl extends DataSetImpl implements DifferenceData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected DifferenceDataSetImpl() {
@@ -45,7 +45,7 @@ public class DifferenceDataSetImpl extends DataSetImpl implements DifferenceData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -55,10 +55,10 @@ public class DifferenceDataSetImpl extends DataSetImpl implements DifferenceData
 
 	/**
 	 * A convenience method to create an initialized 'DifferenceDataSet' instance
-	 * 
+	 *
 	 * @param oValues The Collection (of DifferenceEntry) or DifferenceEntry[] of
 	 *                values associated with this dataset
-	 * 
+	 *
 	 * @return
 	 */
 	public static final DifferenceDataSet create(Object oValues) {
@@ -70,7 +70,7 @@ public class DifferenceDataSetImpl extends DataSetImpl implements DifferenceData
 
 	/**
 	 * This method performs any initialization of the instance when created
-	 * 
+	 *
 	 * Note: Manually written
 	 */
 	protected void initialize() {
@@ -79,6 +79,7 @@ public class DifferenceDataSetImpl extends DataSetImpl implements DifferenceData
 	/**
 	 * @generated
 	 */
+	@Override
 	public DifferenceDataSet copyInstance() {
 		DifferenceDataSetImpl dest = new DifferenceDataSetImpl();
 		dest.set(this);

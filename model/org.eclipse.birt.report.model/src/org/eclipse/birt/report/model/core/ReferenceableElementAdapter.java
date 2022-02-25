@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * The implementation of methods on <code>IReferencableElement</code>.
- * 
+ *
  */
 
 public class ReferenceableElementAdapter implements IReferencableElement, Cloneable {
@@ -35,7 +35,7 @@ public class ReferenceableElementAdapter implements IReferencableElement, Clonea
 	 * The list of cached clients.
 	 */
 
-	protected ArrayList<BackRef> clients = new ArrayList<BackRef>();
+	protected ArrayList<BackRef> clients = new ArrayList<>();
 
 	/**
 	 * The design element.
@@ -45,7 +45,7 @@ public class ReferenceableElementAdapter implements IReferencableElement, Clonea
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param element the element
 	 */
 
@@ -55,7 +55,7 @@ public class ReferenceableElementAdapter implements IReferencableElement, Clonea
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param element the styled element
 	 */
 
@@ -65,48 +65,52 @@ public class ReferenceableElementAdapter implements IReferencableElement, Clonea
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.IReferencableElement#doClone(org.eclipse
 	 * .birt.report.model.elements.strategy.CopyPolicy)
 	 */
 
+	@Override
 	public Object clone() throws CloneNotSupportedException {
 		ReferenceableElementAdapter adapter = (ReferenceableElementAdapter) super.clone();
 
-		adapter.clients = new ArrayList<BackRef>();
+		adapter.clients = new ArrayList<>();
 		return adapter;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#addClient(org
 	 * .eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
 
+	@Override
 	public void addClient(DesignElement client, String propName) {
 		clients.add(new BackRef(client, propName));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org
 	 * .eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public void dropClient(DesignElement client) {
 		dropClient(client, (String) null);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org
 	 * .eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
 
+	@Override
 	public void dropClient(DesignElement client, String propName) {
 
 		for (int i = 0; i < clients.size(); i++) {
@@ -121,27 +125,29 @@ public class ReferenceableElementAdapter implements IReferencableElement, Clonea
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#getClientList()
 	 */
 
+	@Override
 	public List<BackRef> getClientList() {
-		return new ArrayList<BackRef>(clients);
+		return new ArrayList<>(clients);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#hasReferences()
 	 */
 
+	@Override
 	public boolean hasReferences() {
 		return !clients.isEmpty();
 	}
 
 	/**
 	 * Broadcasts the event to clients.
-	 * 
+	 *
 	 * @param ev     the event to broadcast
 	 * @param module the module
 	 */
@@ -150,12 +156,13 @@ public class ReferenceableElementAdapter implements IReferencableElement, Clonea
 		for (int i = 0; i < clients.size(); i++) {
 			BackRef ref = clients.get(i);
 			DesignElement target = ref.getElement();
-			if (IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase(ref.getPropertyName()))
+			if (IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase(ref.getPropertyName())) {
 				ev.setDeliveryPath(NotificationEvent.EXTENDS_EVENT);
-			else if (IStyledElementModel.STYLE_PROP.equalsIgnoreCase(ref.getPropertyName()))
+			} else if (IStyledElementModel.STYLE_PROP.equalsIgnoreCase(ref.getPropertyName())) {
 				ev.setDeliveryPath(NotificationEvent.STYLE_CLIENT);
-			else
+			} else {
 				ev.setDeliveryPath(NotificationEvent.ELEMENT_CLIENT);
+			}
 
 			target.broadcast(ev, module);
 		}
@@ -163,15 +170,16 @@ public class ReferenceableElementAdapter implements IReferencableElement, Clonea
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.core.IReferencableElement#
 	 * updateClientReferences()
 	 */
 
+	@Override
 	public void updateClientReferences() {
 		// creates another list for the iterator
 
-		Iterator<BackRef> backRefIter = new ArrayList<BackRef>(clients).iterator();
+		Iterator<BackRef> backRefIter = new ArrayList<>(clients).iterator();
 
 		while (backRefIter.hasNext()) {
 			BackRef ref = backRefIter.next();
@@ -204,44 +212,48 @@ public class ReferenceableElementAdapter implements IReferencableElement, Clonea
 
 			// for the style, send out a event to let UI repaint the element.
 			// otherwise, try to resolve it.
-			if (IStyledElementModel.STYLE_PROP.equalsIgnoreCase(ref.getPropertyName()))
+			if (IStyledElementModel.STYLE_PROP.equalsIgnoreCase(ref.getPropertyName())) {
 				client.broadcast(new StyleEvent(client));
-			else
+			} else {
 				client.resolveElementReference(root, client.getPropertyDefn(ref.getPropertyName()));
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#clearClients()
 	 */
 
+	@Override
 	public void clearClients() {
-		clients = new ArrayList<BackRef>();
+		clients = new ArrayList<>();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#addClient(org
 	 * .eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.CachedMemberRef,
 	 * org.eclipse.birt.report.model.core.Structure)
 	 */
+	@Override
 	public void addClient(Structure struct, String memberName) {
 		clients.add(new BackRef(struct, memberName));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org
 	 * .eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.CachedMemberRef,
 	 * org.eclipse.birt.report.model.core.Structure)
 	 */
 
+	@Override
 	public void dropClient(Structure struct, String memberName) {
 		for (int i = 0; i < clients.size(); i++) {
 			BackRef ref = clients.get(i);

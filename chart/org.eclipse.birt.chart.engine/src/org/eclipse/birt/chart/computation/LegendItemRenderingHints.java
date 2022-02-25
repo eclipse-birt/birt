@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -27,7 +27,7 @@ public final class LegendItemRenderingHints {
 	private final BaseRenderer br;
 
 	/**
-	 * 
+	 *
 	 * @param _boLegendGraphic
 	 * @param _seModel
 	 */
@@ -37,18 +37,18 @@ public final class LegendItemRenderingHints {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public final BaseRenderer getRenderer() {
+	public BaseRenderer getRenderer() {
 		return br;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public final Bounds getLegendGraphicBounds() {
+	public Bounds getLegendGraphicBounds() {
 		return boLegendGraphic;
 	}
 }

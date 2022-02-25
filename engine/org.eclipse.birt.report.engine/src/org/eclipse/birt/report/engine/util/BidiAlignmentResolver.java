@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 IBM Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -21,12 +21,13 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * Provides convenience methods for text alignment resolution
- * 
+ *
  */
 public class BidiAlignmentResolver {
 	public static String getDefaultAlignment(boolean rtl) {
-		if (rtl)
+		if (rtl) {
 			return CSSConstants.CSS_RIGHT_VALUE;
+		}
 
 		return CSSConstants.CSS_LEFT_VALUE;
 	}

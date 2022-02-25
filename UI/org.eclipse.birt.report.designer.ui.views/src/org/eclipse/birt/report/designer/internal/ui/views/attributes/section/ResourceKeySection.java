@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -32,34 +32,40 @@ public class ResourceKeySection extends Section {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getResourceKeyControl(parent);
 		getGridPlaceholder(parent);
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) resource.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillResource;
+		}
 	}
 
 	protected ResourceKeyDescriptor getResourceKeyControl(Composite parent) {
 		if (resource == null) {
 			resource = DescriptorToolkit.createResourceKeyDescriptor(isFormStyle);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				resource.setDescriptorProvider(getProvider());
+			}
 			resource.createControl(parent);
 			resource.getControl().setLayoutData(new GridData());
 			resource.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					resource = null;
 				}
@@ -82,8 +88,9 @@ public class ResourceKeySection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (resource != null)
+		if (resource != null) {
 			resource.setDescriptorProvider(provider);
+		}
 	}
 
 	private int width = -1;
@@ -96,6 +103,7 @@ public class ResourceKeySection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		resource.setInput(input);
@@ -139,26 +147,36 @@ public class ResourceKeySection extends Section {
 		return null;
 	}
 
+	@Override
 	public void load() {
-		if (resource != null && !resource.getControl().isDisposed())
+		if (resource != null && !resource.getControl().isDisposed()) {
 			resource.load();
+		}
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (resource != null)
+		}
+		if (resource != null) {
 			resource.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (resource != null)
+		}
+		if (resource != null) {
 			resource.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,6 +46,7 @@ public class BirtDateTimeTest extends TestCase {
 	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		/*
@@ -75,6 +76,7 @@ public class BirtDateTimeTest extends TestCase {
 	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	@After
 	public void tearDown() {
 		Context.exit();
@@ -140,19 +142,18 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testWeek() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.week(new Date(2006, 0, 1) )",
-				"BirtDateTime.week(new Date(2006, 0, 3) )", "BirtDateTime.week(new Date(2006, 0, 7) )",
-				"BirtDateTime.week(new Date(2006, 0, 8) )", "BirtDateTime.week(new Date(2006, 0, 14))",
-				"BirtDateTime.week(\"1855-1-1\")", "BirtDateTime.week( new Date(1780, 0, 2))",
-				"BirtDateTime.week(new Date(1780, 0, 8))", "BirtDateTime.week(new Date(1780, 0, 9))",
-				"BirtDateTime.week(new Date(1780, 1, 9))", "BirtDateTime.week( new Date(1780, 2, 9))",
-				"BirtDateTime.week(new Date(1780, 3, 9, 11, 0, 0) )",
+		String[] scripts = { "BirtDateTime.week(new Date(2006, 0, 1) )", "BirtDateTime.week(new Date(2006, 0, 3) )",
+				"BirtDateTime.week(new Date(2006, 0, 7) )", "BirtDateTime.week(new Date(2006, 0, 8) )",
+				"BirtDateTime.week(new Date(2006, 0, 14))", "BirtDateTime.week(\"1855-1-1\")",
+				"BirtDateTime.week( new Date(1780, 0, 2))", "BirtDateTime.week(new Date(1780, 0, 8))",
+				"BirtDateTime.week(new Date(1780, 0, 9))", "BirtDateTime.week(new Date(1780, 1, 9))",
+				"BirtDateTime.week( new Date(1780, 2, 9))", "BirtDateTime.week(new Date(1780, 3, 9, 11, 0, 0) )",
 				"BirtDateTime.week(new Date(1780, 4, 9, 23, 0, 0) )" };
 
-		int[] values = new int[] { weekOfYear(2006, 0, 1), weekOfYear(2006, 0, 3), weekOfYear(2006, 0, 7),
-				weekOfYear(2006, 0, 8), weekOfYear(2006, 0, 14), weekOfYear(1855, 0, 1), weekOfYear(1780, 0, 2),
-				weekOfYear(1780, 0, 8), weekOfYear(1780, 0, 9), weekOfYear(1780, 1, 9), weekOfYear(1780, 2, 9),
-				weekOfYear(1780, 3, 9), weekOfYear(1780, 4, 9) };
+		int[] values = { weekOfYear(2006, 0, 1), weekOfYear(2006, 0, 3), weekOfYear(2006, 0, 7), weekOfYear(2006, 0, 8),
+				weekOfYear(2006, 0, 14), weekOfYear(1855, 0, 1), weekOfYear(1780, 0, 2), weekOfYear(1780, 0, 8),
+				weekOfYear(1780, 0, 9), weekOfYear(1780, 1, 9), weekOfYear(1780, 2, 9), weekOfYear(1780, 3, 9),
+				weekOfYear(1780, 4, 9) };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals("" + i, values[i],
@@ -192,13 +193,12 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDay() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.day(new Date(2006, 0, 1) )",
-				"BirtDateTime.day(new Date(2006, 0, 3) )", "BirtDateTime.day(new Date(1980, 0, 1, 0, 0, 10))",
-				"BirtDateTime.day(new Date(1980, 3, 9, 11, 0, 0) )",
+		String[] scripts = { "BirtDateTime.day(new Date(2006, 0, 1) )", "BirtDateTime.day(new Date(2006, 0, 3) )",
+				"BirtDateTime.day(new Date(1980, 0, 1, 0, 0, 10))", "BirtDateTime.day(new Date(1980, 3, 9, 11, 0, 0) )",
 				"BirtDateTime.day(new Date(1980, 4, 9, 23, 0, 0) )" };
 
-		int[] values = new int[] { dayOfMonth(2006, 0, 1), dayOfMonth(2006, 0, 3), dayOfMonth(1980, 0, 1),
-				dayOfMonth(1980, 3, 9), dayOfMonth(1980, 4, 9) };
+		int[] values = { dayOfMonth(2006, 0, 1), dayOfMonth(2006, 0, 3), dayOfMonth(1980, 0, 1), dayOfMonth(1980, 3, 9),
+				dayOfMonth(1980, 4, 9) };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals("" + i, values[i],
@@ -220,7 +220,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testWeekDayDate() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.weekDay(new Date(2006, 0, 1), 1 )",
+		String[] scripts = { "BirtDateTime.weekDay(new Date(2006, 0, 1), 1 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 3), 1 )", "BirtDateTime.weekDay(new Date(2006, 0, 7), 1 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 8), 1 )", "BirtDateTime.weekDay(new Date(1780, 0, 1, 0, 30))",
 				"BirtDateTime.weekDay(new Date(1780, 0, 2, 0, 30))",
@@ -241,8 +241,8 @@ public class BirtDateTimeTest extends TestCase {
 				"BirtDateTime.weekDay(new Date(1780, 0, 8, 0, 30), 3)",
 				"BirtDateTime.weekDay(new Date(1780, 0, 9, 0, 30), 3)" };
 
-		String[] values = new String[] { "1", "3", "7", "1", "7", "1", "7", "1", "7", "2", "6", "7", "6", "7", "6", "7",
-				"6", "1", "5", "6", "5", "6", "5", "6" };
+		String[] values = { "1", "3", "7", "1", "7", "1", "7", "1", "7", "2", "6", "7", "6", "7", "6", "7", "6", "1",
+				"5", "6", "5", "6", "5", "6" };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals("" + i, values[i], cx.evaluateString(scope, scripts[i], "inline", 1, null));
@@ -285,13 +285,13 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDiffYear() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(2007, 0, 15) )",
+		String[] scripts = { "BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(2007, 0, 15) )",
 				"BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(2007, 11, 15) )",
 				"BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(2007, 12, 15) )",
 				"BirtDateTime.diffYear(new Date(2007, 10, 15),new Date(2005, 0, 15) )",
 				"BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(1793, 0, 15) )" };
 
-		int[] values = new int[] { 2, 2, 3, -2, -212 };
+		int[] values = { 2, 2, 3, -2, -212 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(((Number) cx.evaluateString(scope, scripts[i], "inline", 1, null)).intValue(), values[i]);
@@ -304,13 +304,13 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDiffMonth() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.diffMonth(new Date(2005, 10, 15),new Date(2007, 0, 8) )",
+		String[] scripts = { "BirtDateTime.diffMonth(new Date(2005, 10, 15),new Date(2007, 0, 8) )",
 				"BirtDateTime.diffMonth(new Date(2005, 10, 15),new Date(2007, 11, 15) )",
 				"BirtDateTime.diffMonth(new Date(2005, 10, 15),new Date(2007, 12, 15) )",
 				"BirtDateTime.diffMonth(new Date(2007, 10, 15),new Date(2005, 0, 1) )",
 				"BirtDateTime.diffMonth(new Date(1910, 10, 15),new Date(1890, 0, 15) )" };
 
-		int[] values = new int[] { 14, 25, 26, -34, -250 };
+		int[] values = { 14, 25, 26, -34, -250 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(((Number) cx.evaluateString(scope, scripts[i], "inline", 1, null)).intValue(), values[i]);
@@ -323,13 +323,13 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDiffQuarter() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.diffQuarter(new Date(2005, 10, 15),new Date(2007, 0, 8) )",
+		String[] scripts = { "BirtDateTime.diffQuarter(new Date(2005, 10, 15),new Date(2007, 0, 8) )",
 				"BirtDateTime.diffQuarter(new Date(2005, 10, 15),new Date(2007, 11, 15) )",
 				"BirtDateTime.diffQuarter(new Date(2005, 10, 15),new Date(2007, 12, 15) )",
 				"BirtDateTime.diffQuarter(new Date(2007, 10, 15),new Date(2005, 0, 1) )",
 				"BirtDateTime.diffQuarter(new Date(1910, 10, 15),new Date(1890, 0, 15) )" };
 
-		int[] values = new int[] { 5, 8, 9, -11, -83 };
+		int[] values = { 5, 8, 9, -11, -83 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(((Number) cx.evaluateString(scope, scripts[i], "inline", 1, null)).intValue(), values[i]);
@@ -342,7 +342,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDiffWeek() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.diffWeek(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
+		String[] scripts = { "BirtDateTime.diffWeek(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
 				"BirtDateTime.diffWeek(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
 				"BirtDateTime.diffWeek(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
 				"BirtDateTime.diffWeek(new Date(2006, 0, 1),new Date(2006, 0, 7) )",
@@ -352,7 +352,7 @@ public class BirtDateTimeTest extends TestCase {
 				"BirtDateTime.diffWeek(new Date(1780, 0, 1, 0, 30),new Date(1780, 0, 8, 0, 30) )",
 				"BirtDateTime.diffWeek(new Date(1780, 0, 1, 0, 30),new Date(1780, 0, 9, 0, 30) )" };
 
-		int[] values = new int[] { -1, -1, 0, 0, 1, 0, 1, 1, 2 };
+		int[] values = { -1, -1, 0, 0, 1, 0, 1, 1, 2 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals("" + i, values[i],
@@ -387,7 +387,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDiffDay() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.diffDay(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
+		String[] scripts = { "BirtDateTime.diffDay(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
@@ -395,7 +395,7 @@ public class BirtDateTimeTest extends TestCase {
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 2, 8) )",
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2007, 2, 8) )", };
 
-		int[] values = new int[] { -2, -1, 2, 37, 65, 66, 431 };
+		int[] values = { -2, -1, 2, 37, 65, 66, 431 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(((Number) cx.evaluateString(scope, scripts[i], "inline", 1, null)).intValue(), values[i]);
@@ -408,7 +408,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDiffHour() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.diffHour(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
+		String[] scripts = { "BirtDateTime.diffHour(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
@@ -416,7 +416,7 @@ public class BirtDateTimeTest extends TestCase {
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 2, 8,22,0,0) )",
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2007, 2, 8) )" };
 
-		int[] values = new int[] { -2 * 24, -1 * 24, 2 * 24, 37 * 24, 65 * 24 + 11, 66 * 24 + 22, (66 + 365) * 24 };
+		int[] values = { -2 * 24, -1 * 24, 2 * 24, 37 * 24, 65 * 24 + 11, 66 * 24 + 22, (66 + 365) * 24 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(((Number) cx.evaluateString(scope, scripts[i], "inline", 1, null)).intValue(), values[i]);
@@ -429,7 +429,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDiffMinute() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.diffMinute(\"1930-1-8 12:1:1\",\"1930-1-8 12:2:58\" )",
+		String[] scripts = { "BirtDateTime.diffMinute(\"1930-1-8 12:1:1\",\"1930-1-8 12:2:58\" )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
@@ -437,8 +437,8 @@ public class BirtDateTimeTest extends TestCase {
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 2, 8,22,3,0) )",
 				"BirtDateTime.diffMinute(\"1993-1-1\",new Date(1994, 2, 8) )" };
 
-		int[] values = new int[] { 1, -1 * 24 * 60, 2 * 24 * 60, 37 * 24 * 60, (65 * 24 + 11) * 60 + 2,
-				(66 * 24 + 22) * 60 + 3, ((66 + 365) * 24) * 60 };
+		int[] values = { 1, -1 * 24 * 60, 2 * 24 * 60, 37 * 24 * 60, (65 * 24 + 11) * 60 + 2, (66 * 24 + 22) * 60 + 3,
+				((66 + 365) * 24) * 60 };
 
 		for (int i = 0; i < values.length; i++) {
 			System.out.println(i);
@@ -452,15 +452,13 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDiffSecond() throws BirtException {
-		String[] scripts = new String[] {
-				"BirtDateTime.diffSecond(new Date(1900, 0, 8,12,1,1),new Date(1900, 0, 8,12,2,58) )",
+		String[] scripts = { "BirtDateTime.diffSecond(new Date(1900, 0, 8,12,1,1),new Date(1900, 0, 8,12,2,58) )",
 				"BirtDateTime.diffSecond(new Date(1900, 0, 8,12,1,58),new Date(1900, 0, 8,12,2,1) )",
 				"BirtDateTime.diffSecond(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
 				"BirtDateTime.diffSecond(new Date(2006, 0, 1),new Date(2006, 2, 8,22,3,0) )",
 				"BirtDateTime.diffSecond(\"1993-1-1\",new Date(1994, 2, 8) )" };
 
-		int[] values = new int[] { 60 + 57, 3, 2 * 24 * 60 * 60, ((66 * 24 + 22) * 60 + 3) * 60,
-				(66 + 365) * 24 * 60 * 60 };
+		int[] values = { 60 + 57, 3, 2 * 24 * 60 * 60, ((66 * 24 + 22) * 60 + 3) * 60, (66 + 365) * 24 * 60 * 60 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(((Number) cx.evaluateString(scope, scripts[i], "inline", 1, null)).intValue(), values[i]);
@@ -474,7 +472,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testAddYear() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.addYear(new Date(2005, 10, 15),10 )",
+		String[] scripts = { "BirtDateTime.addYear(new Date(2005, 10, 15),10 )",
 				"BirtDateTime.addYear(new Date(1795, 10, 15),10 )", "BirtDateTime.addYear(\"1910-11-15\",10 )" };
 
 		Calendar c = Calendar.getInstance();
@@ -499,7 +497,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		c.clear();
 
-		Date[] values = new Date[] { d1, d2, d3 };
+		Date[] values = { d1, d2, d3 };
 
 		for (int i = 1; i < values.length; i++) {
 			assertEquals(cx.evaluateString(scope, scripts[i], "inline", 1, null), values[i]);
@@ -512,7 +510,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testAddMonth() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.addMonth(new Date(2005, 10, 15),10 )",
+		String[] scripts = { "BirtDateTime.addMonth(new Date(2005, 10, 15),10 )",
 				"BirtDateTime.addMonth(\"1995-1-15\",10 )", "BirtDateTime.addMonth(\"1940-2-15\",11 )" };
 
 		Calendar c = Calendar.getInstance();
@@ -537,7 +535,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		c.clear();
 
-		Date[] values = new Date[] { d1, d2, d3 };
+		Date[] values = { d1, d2, d3 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(cx.evaluateString(scope, scripts[i], "inline", 1, null), values[i]);
@@ -550,7 +548,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testAddQuarter() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.addQuarter(new Date(2005, 10, 15),2 )",
+		String[] scripts = { "BirtDateTime.addQuarter(new Date(2005, 10, 15),2 )",
 				"BirtDateTime.addQuarter(\"1995-1-15\",9 )", "BirtDateTime.addQuarter(\"1930-6-15\",11 )" };
 
 		Calendar c = Calendar.getInstance();
@@ -575,7 +573,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		c.clear();
 
-		Date[] values = new Date[] { d1, d2, d3 };
+		Date[] values = { d1, d2, d3 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(cx.evaluateString(scope, scripts[i], "inline", 1, null), values[i]);
@@ -589,7 +587,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testAddWeek() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.addWeek(new Date(2005, 10, 15),1 )",
+		String[] scripts = { "BirtDateTime.addWeek(new Date(2005, 10, 15),1 )",
 				"BirtDateTime.addWeek(new Date(2006, 9, 15),3 )", "BirtDateTime.addWeek(\"1995-11-15\",2 )" };
 
 		Calendar c = Calendar.getInstance();
@@ -614,7 +612,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		c.clear();
 
-		Date[] values = new Date[] { d1, d2, d3 };
+		Date[] values = { d1, d2, d3 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(cx.evaluateString(scope, scripts[i], "inline", 1, null), values[i]);
@@ -628,7 +626,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testAddDay() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.addDay(new Date(2005, 10, 15),7 )",
+		String[] scripts = { "BirtDateTime.addDay(new Date(2005, 10, 15),7 )",
 				"BirtDateTime.addDay(new Date(2006, 9, 15),21 )", "BirtDateTime.addDay(\"1995-11-15\",10 )" };
 
 		Calendar c = Calendar.getInstance();
@@ -653,7 +651,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		c.clear();
 
-		Date[] values = new Date[] { d1, d2, d3 };
+		Date[] values = { d1, d2, d3 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(cx.evaluateString(scope, scripts[i], "inline", 1, null), values[i]);
@@ -667,7 +665,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testAddHour() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.addHour(new Date(2005, 10, 15),7*24 )",
+		String[] scripts = { "BirtDateTime.addHour(new Date(2005, 10, 15),7*24 )",
 				"BirtDateTime.addHour(new Date(2006, 9, 15),21*24 )", "BirtDateTime.addHour(\"1995-11-15\",10 )",
 				"BirtDateTime.addHour(null,21*24 )" };
 
@@ -700,7 +698,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		c.clear();
 
-		Date[] values = new Date[] { d1, d2, d3, null };
+		Date[] values = { d1, d2, d3, null };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(cx.evaluateString(scope, scripts[i], "inline", 1, null), values[i]);
@@ -713,7 +711,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testAddMinute() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.addMinute(new Date(2005, 10, 15),7*24*60 )",
+		String[] scripts = { "BirtDateTime.addMinute(new Date(2005, 10, 15),7*24*60 )",
 				"BirtDateTime.addMinute(new Date(2006, 9, 15),21*24*60 )",
 				"BirtDateTime.addMinute(\"1995-11-15\",10*60+10 )" };
 
@@ -742,7 +740,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		c.clear();
 
-		Date[] values = new Date[] { d1, d2, d3 };
+		Date[] values = { d1, d2, d3 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(cx.evaluateString(scope, scripts[i], "inline", 1, null), values[i]);
@@ -755,7 +753,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testAddSecond() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.addSecond(new Date(2005, 10, 15),7*24*60*60 )",
+		String[] scripts = { "BirtDateTime.addSecond(new Date(2005, 10, 15),7*24*60*60 )",
 				"BirtDateTime.addSecond(new Date(2006, 9, 15),21*24*60*60 )",
 				"BirtDateTime.addSecond(\"1995-11-15\",(10*60+10)*60+9 )" };
 
@@ -784,7 +782,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		c.clear();
 
-		Date[] values = new Date[] { d1, d2, d3 };
+		Date[] values = { d1, d2, d3 };
 
 		for (int i = 0; i < values.length; i++) {
 			assertEquals(cx.evaluateString(scope, scripts[i], "inline", 1, null), values[i]);
@@ -797,7 +795,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFirstDayOfYear() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.firstDayOfYear(new Date(2005, 10, 15) )",
+		String[] scripts = { "BirtDateTime.firstDayOfYear(new Date(2005, 10, 15) )",
 				"BirtDateTime.firstDayOfYear(new Date(2006, 9, 15) )" };
 
 		Calendar c = Calendar.getInstance();
@@ -814,7 +812,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		Date d2 = new Date(c.getTimeInMillis());
 
-		Date[] values = new Date[] { d1, d2 };
+		Date[] values = { d1, d2 };
 
 		for (int i = 0; i < values.length; i++) {
 			System.out.println(cx.evaluateString(scope, scripts[i], "inline", 1, null));
@@ -828,7 +826,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFirstDayOfQuarter() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.firstDayOfQuarter(new Date(2005, 9, 15) )",
+		String[] scripts = { "BirtDateTime.firstDayOfQuarter(new Date(2005, 9, 15) )",
 				"BirtDateTime.firstDayOfQuarter(new Date(2006, 8, 15) )" };
 
 		Calendar c = Calendar.getInstance();
@@ -845,7 +843,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		Date d2 = new Date(c.getTimeInMillis());
 
-		Date[] values = new Date[] { d1, d2 };
+		Date[] values = { d1, d2 };
 
 		for (int i = 0; i < values.length; i++) {
 			System.out.println(cx.evaluateString(scope, scripts[i], "inline", 1, null));
@@ -860,7 +858,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFirstDayOfMonth() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.firstDayOfMonth(new Date(2005, 9, 15) )",
+		String[] scripts = { "BirtDateTime.firstDayOfMonth(new Date(2005, 9, 15) )",
 				"BirtDateTime.firstDayOfMonth(new Date(2006, 8, 15) )" };
 
 		Calendar c = Calendar.getInstance();
@@ -877,7 +875,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		Date d2 = new Date(c.getTimeInMillis());
 
-		Date[] values = new Date[] { d1, d2 };
+		Date[] values = { d1, d2 };
 
 		for (int i = 0; i < values.length; i++) {
 			System.out.println(cx.evaluateString(scope, scripts[i], "inline", 1, null));
@@ -892,7 +890,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFirstDayOfWeek() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.firstDayOfWeek(new Date(2011, 7, 25) )",
+		String[] scripts = { "BirtDateTime.firstDayOfWeek(new Date(2011, 7, 25) )",
 				"BirtDateTime.firstDayOfWeek(new Date(2011, 7, 15) )" };
 
 		// com.ibm.icu.util.Calendar c = com.ibm.icu.util.Calendar.getInstance(
@@ -915,7 +913,7 @@ public class BirtDateTimeTest extends TestCase {
 		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
 		Date d2 = c.getTime();
 
-		Date[] values = new Date[] { d1, d2 };
+		Date[] values = { d1, d2 };
 
 		for (int i = 0; i < values.length; i++) {
 			System.out.println(cx.evaluateString(scope, scripts[i], "inline", 1, null));
@@ -930,11 +928,11 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDayOfWeek() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.dayOfWeek(new Date(2015, 4, 1) )",
+		String[] scripts = { "BirtDateTime.dayOfWeek(new Date(2015, 4, 1) )",
 				"BirtDateTime.dayOfWeek(new Date(2015, 4, 2) )", "BirtDateTime.dayOfWeek(new Date(2015, 4, 3) )",
 				"BirtDateTime.dayOfWeek(new Date(2015, 4, 4) )", };
 
-		int[] values = new int[] { 6, 7, 1, 2 };
+		int[] values = { 6, 7, 1, 2 };
 
 		for (int i = 0; i < values.length; i++) {
 			Object result = cx.evaluateString(scope, scripts[i], "inline", 1, null);
@@ -948,12 +946,12 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testDayOfYear() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.dayOfYear(new Date(2012, 0, 1) )",
+		String[] scripts = { "BirtDateTime.dayOfYear(new Date(2012, 0, 1) )",
 				"BirtDateTime.dayOfYear(new Date(2012, 1, 29) )", "BirtDateTime.dayOfYear(new Date(2012, 11, 31) )",
 				"BirtDateTime.dayOfYear(new Date(2015, 0, 1) )", "BirtDateTime.dayOfYear(new Date(2015, 1, 28) )",
 				"BirtDateTime.dayOfYear(new Date(2015, 11, 31) )" };
 
-		int[] values = new int[] { 1, 60, 366, 1, 59, 365 };
+		int[] values = { 1, 60, 366, 1, 59, 365 };
 
 		for (int i = 0; i < values.length; i++) {
 			Object result = cx.evaluateString(scope, scripts[i], "inline", 1, null);
@@ -967,7 +965,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testWeekOfMonth() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.weekOfMonth(new Date(2015, 4, 1) )",
+		String[] scripts = { "BirtDateTime.weekOfMonth(new Date(2015, 4, 1) )",
 				"BirtDateTime.weekOfMonth(new Date(2015, 4, 2) )", "BirtDateTime.weekOfMonth(new Date(2015, 4, 3) )",
 				"BirtDateTime.weekOfMonth(new Date(2015, 4, 9) )", "BirtDateTime.weekOfMonth(new Date(2015, 4, 10) )",
 				"BirtDateTime.weekOfMonth(new Date(2015, 4, 16) )", "BirtDateTime.weekOfMonth(new Date(2015, 4, 17) )",
@@ -975,7 +973,7 @@ public class BirtDateTimeTest extends TestCase {
 				"BirtDateTime.weekOfMonth(new Date(2015, 4, 30) )",
 				"BirtDateTime.weekOfMonth(new Date(2015, 4, 31) )", };
 
-		int[] values = new int[] { weekOfMonth(2015, 4, 1), weekOfMonth(2015, 4, 2), weekOfMonth(2015, 4, 3),
+		int[] values = { weekOfMonth(2015, 4, 1), weekOfMonth(2015, 4, 2), weekOfMonth(2015, 4, 3),
 				weekOfMonth(2015, 4, 9), weekOfMonth(2015, 4, 10), weekOfMonth(2015, 4, 16), weekOfMonth(2015, 4, 17),
 				weekOfMonth(2015, 4, 23), weekOfMonth(2015, 4, 24), weekOfMonth(2015, 4, 30),
 				weekOfMonth(2015, 4, 31) };
@@ -999,15 +997,15 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFiscalYear() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.fiscalYear(new Date(2015, 6, 1), new Date(2012, 6, 1 ))", // leap
-																													// year
+		String[] scripts = { "BirtDateTime.fiscalYear(new Date(2015, 6, 1), new Date(2012, 6, 1 ))", // leap
+																										// year
 				"BirtDateTime.fiscalYear(new Date(2015, 6, 1), new Date(2015, 6, 1 ))", // non leap year
 				"BirtDateTime.fiscalYear(new Date(2015, 6, 12), new Date(2015, 9, 1 ))",
 				"BirtDateTime.fiscalYear(new Date(2015, 7, 12), new Date(2015, 7, 1 ))",
 				"BirtDateTime.fiscalYear(new Date(2015, 7, 12), new Date(2015, 0, 1 ))", // calendar year
 				"BirtDateTime.fiscalYear(new Date(2014, 5, 15))", "BirtDateTime.fiscalYear(new Date(2015, 6, 12))", };
 
-		int[] values = new int[] { 2016, 2016, 2015, 2016, 2015, 2014, 2016 };
+		int[] values = { 2016, 2016, 2015, 2016, 2015, 2014, 2016 };
 
 		for (int i = 0; i < values.length; i++) {
 			Object result = cx.evaluateString(scope, scripts[i], "inline", 1, null);
@@ -1021,14 +1019,14 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFiscalQuarter() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.fiscalQuarter(new Date(2015, 8, 15), new Date(2015, 6, 1 ))",
+		String[] scripts = { "BirtDateTime.fiscalQuarter(new Date(2015, 8, 15), new Date(2015, 6, 1 ))",
 				"BirtDateTime.fiscalQuarter(new Date(2015, 6, 12), new Date(2015, 7, 1 ))",
 				"BirtDateTime.fiscalQuarter(new Date(2015, 0, 11), new Date(2015, 9, 1 ))",
 				"BirtDateTime.fiscalQuarter(new Date(2015, 5, 15))",
 				"BirtDateTime.fiscalQuarter(new Date(2015, 6, 12))",
 				"BirtDateTime.fiscalQuarter(new Date(2015, 0, 11))", };
 
-		int[] values = new int[] { 1, 4, 2, 4, 1, 3 };
+		int[] values = { 1, 4, 2, 4, 1, 3 };
 
 		for (int i = 0; i < values.length; i++) {
 			Object result = cx.evaluateString(scope, scripts[i], "inline", 1, null);
@@ -1042,13 +1040,13 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFiscalMonth() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.fiscalMonth(new Date(2015, 8, 15), new Date(2015, 6, 1 ))",
+		String[] scripts = { "BirtDateTime.fiscalMonth(new Date(2015, 8, 15), new Date(2015, 6, 1 ))",
 				"BirtDateTime.fiscalMonth(new Date(2015, 6, 12), new Date(2015, 7, 1 ))",
 				"BirtDateTime.fiscalMonth(new Date(2015, 0, 11), new Date(2015, 9, 1 ))",
 				"BirtDateTime.fiscalMonth(new Date(2015, 5, 15))", "BirtDateTime.fiscalMonth(new Date(2015, 6, 12))",
 				"BirtDateTime.fiscalMonth(new Date(2015, 0, 11))", };
 
-		int[] values = new int[] { 3, 12, 4, 12, 1, 7 };
+		int[] values = { 3, 12, 4, 12, 1, 7 };
 
 		for (int i = 0; i < values.length; i++) {
 			Object result = cx.evaluateString(scope, scripts[i], "inline", 1, null);
@@ -1062,7 +1060,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFiscalWeek() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.fiscalWeek(new Date(2011, 6, 2), new Date(2015, 6, 1 ))",
+		String[] scripts = { "BirtDateTime.fiscalWeek(new Date(2011, 6, 2), new Date(2015, 6, 1 ))",
 				"BirtDateTime.fiscalWeek(new Date(2011, 6, 3), new Date(2015, 6, 1 ))", // week start with 7/3
 				"BirtDateTime.fiscalWeek(new Date(2011, 5, 30), new Date(2015, 6, 1 ))",
 				"BirtDateTime.fiscalWeek(new Date(2011, 5, 25), new Date(2015, 6, 1 ))",
@@ -1071,7 +1069,7 @@ public class BirtDateTimeTest extends TestCase {
 				"BirtDateTime.fiscalWeek(new Date(2015, 0, 7))", // default start week is 7/1
 				"BirtDateTime.fiscalWeek(new Date(2015, 1, 1))", "BirtDateTime.fiscalWeek(new Date(2015, 6, 1))", };
 
-		int[] values = new int[] { fiscalWeek(2011, 6, 2, 2015, 6, 1), fiscalWeek(2011, 6, 3, 2015, 6, 1),
+		int[] values = { fiscalWeek(2011, 6, 2, 2015, 6, 1), fiscalWeek(2011, 6, 3, 2015, 6, 1),
 				fiscalWeek(2011, 5, 30, 2015, 6, 1), fiscalWeek(2011, 5, 25, 2015, 6, 1),
 				fiscalWeek(2011, 11, 31, 2015, 6, 1), fiscalWeek(2012, 0, 1, 2015, 6, 1),
 				fiscalWeek(2015, 0, 7, 2015, 6, 1), fiscalWeek(2015, 1, 1, 2015, 6, 1),
@@ -1104,13 +1102,13 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFiscalDay() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.fiscalDay(new Date(2015, 6, 15), new Date(2015, 6, 1 ))",
+		String[] scripts = { "BirtDateTime.fiscalDay(new Date(2015, 6, 15), new Date(2015, 6, 1 ))",
 				"BirtDateTime.fiscalDay(new Date(2015, 6, 12), new Date(2015, 7, 1 ))",
 				"BirtDateTime.fiscalDay(new Date(2015, 9, 11), new Date(2015, 9, 1 ))",
 				"BirtDateTime.fiscalDay(new Date(2015, 0, 7))", "BirtDateTime.fiscalDay(new Date(2015, 1, 1))",
 				"BirtDateTime.fiscalDay(new Date(2015, 6, 1))", };
 
-		int[] values = new int[] { 15, 346, 11, 191, 216, 1 };
+		int[] values = { 15, 346, 11, 191, 216, 1 };
 
 		for (int i = 0; i < values.length; i++) {
 			Object result = cx.evaluateString(scope, scripts[i], "inline", 1, null);
@@ -1124,7 +1122,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFirstDayOfFiscalYear() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.firstDayOfFiscalYear(2015)",
+		String[] scripts = { "BirtDateTime.firstDayOfFiscalYear(2015)",
 				"BirtDateTime.firstDayOfFiscalYear(new Date(2015, 5, 15))",
 				"BirtDateTime.firstDayOfFiscalYear(2015, new Date(2014, 6, 1))",
 				"BirtDateTime.firstDayOfFiscalYear(new Date(2015, 6, 15), new Date(2015, 6, 1 ))",
@@ -1133,7 +1131,7 @@ public class BirtDateTimeTest extends TestCase {
 
 		Calendar c = Calendar.getInstance();
 		c.clear();
-		Date[] values = new Date[] { date(c, 2014, 6, 1), date(c, 2014, 6, 1), date(c, 2014, 6, 1), date(c, 2015, 6, 1),
+		Date[] values = { date(c, 2014, 6, 1), date(c, 2014, 6, 1), date(c, 2014, 6, 1), date(c, 2015, 6, 1),
 				date(c, 2014, 6, 1), date(c, 2014, 6, 1), };
 
 		for (int i = 0; i < values.length; i++) {
@@ -1148,7 +1146,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFirstDayOfFiscalMonth() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 5, 15))",
+		String[] scripts = { "BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 5, 15))",
 				"BirtDateTime.firstDayOfFiscalMonth(4.0)",
 				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 5, 15), new Date(2015, 0, 1))",
 				"BirtDateTime.firstDayOfFiscalMonth(2, new Date(2014, 6, 15))",
@@ -1160,9 +1158,9 @@ public class BirtDateTimeTest extends TestCase {
 
 		Calendar c = Calendar.getInstance();
 		c.clear();
-		Date[] values = new Date[] { date(c, 2015, 5, 1), date(c, CURRENT_YEAR, 9, 1), date(c, 2015, 5, 1),
-				date(c, 2014, 7, 15), date(c, 2015, 6, 10), date(c, 2015, 5, 10), date(c, 2013, 11, 10),
-				date(c, 2014, 0, 31), date(c, 2014, 8, 30), };
+		Date[] values = { date(c, 2015, 5, 1), date(c, CURRENT_YEAR, 9, 1), date(c, 2015, 5, 1), date(c, 2014, 7, 15),
+				date(c, 2015, 6, 10), date(c, 2015, 5, 10), date(c, 2013, 11, 10), date(c, 2014, 0, 31),
+				date(c, 2014, 8, 30), };
 
 		for (int i = 0; i < values.length; i++) {
 			Object result = cx.evaluateString(scope, scripts[i], "inline", 1, null);
@@ -1176,7 +1174,7 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFirstDayOfFiscalQuarter() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 5, 15))",
+		String[] scripts = { "BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 5, 15))",
 				"BirtDateTime.firstDayOfFiscalQuarter(2)",
 				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 5, 15), new Date(2015, 0, 1))",
 				"BirtDateTime.firstDayOfFiscalQuarter(3, new Date(2014, 6, 15))",
@@ -1187,9 +1185,8 @@ public class BirtDateTimeTest extends TestCase {
 
 		Calendar c = Calendar.getInstance();
 		c.clear();
-		Date[] values = new Date[] { date(c, 2015, 3, 1), date(c, CURRENT_YEAR, 9, 1), date(c, 2015, 3, 1),
-				date(c, 2015, 0, 15), date(c, 2015, 6, 10), date(c, 2015, 3, 10), date(c, 2013, 10, 10),
-				date(c, 2014, 8, 30), };
+		Date[] values = { date(c, 2015, 3, 1), date(c, CURRENT_YEAR, 9, 1), date(c, 2015, 3, 1), date(c, 2015, 0, 15),
+				date(c, 2015, 6, 10), date(c, 2015, 3, 10), date(c, 2013, 10, 10), date(c, 2014, 8, 30), };
 
 		for (int i = 0; i < values.length; i++) {
 			Object result = cx.evaluateString(scope, scripts[i], "inline", 1, null);
@@ -1203,14 +1200,14 @@ public class BirtDateTimeTest extends TestCase {
 	 */
 	@Test
 	public void testFirstDayOfFiscalWeek() throws BirtException {
-		String[] scripts = new String[] { "BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15))",
+		String[] scripts = { "BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15))",
 				"BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15), new Date(2015, 0, 1))",
 				"BirtDateTime.firstDayOfFiscalWeek(6, new Date(2015, 6, 15))",
 				"BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15), new Date(2015, 6, 10 ))", };
 
 		Calendar c = Calendar.getInstance();
 		c.clear();
-		Date[] values = new Date[] { firstDayOfWeek(c, 2015, 5, 15), firstDayOfWeek(c, 2015, 5, 15),
+		Date[] values = { firstDayOfWeek(c, 2015, 5, 15), firstDayOfWeek(c, 2015, 5, 15),
 				firstDayOfWeek(c, 2015, 7, 17), firstDayOfWeek(c, 2015, 5, 15), };
 
 		for (int i = 0; i < values.length; i++) {
@@ -1236,11 +1233,11 @@ public class BirtDateTimeTest extends TestCase {
 	public void testFiscalYearStartDate() {
 		String PROPERTY_FISCAL_YEAR_START_DATE = "FISCAL_YEAR_START_DATE";
 		System.setProperty(PROPERTY_FISCAL_YEAR_START_DATE, "2000-10-01");
-		String[] scripts = new String[] { "BirtDateTime.fiscalYear(new Date(2015, 6, 15))",
+		String[] scripts = { "BirtDateTime.fiscalYear(new Date(2015, 6, 15))",
 				"BirtDateTime.fiscalYear(new Date(2015, 8, 12))", "BirtDateTime.fiscalYear(new Date(2015, 9, 1))",
 				"BirtDateTime.fiscalYear(new Date(2015, 10, 12))", };
 
-		int[] values = new int[] { 2015, 2015, 2016, 2016 };
+		int[] values = { 2015, 2015, 2016, 2016 };
 
 		for (int i = 0; i < values.length; i++) {
 			Object result = cx.evaluateString(scope, scripts[i], "inline", 1, null);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class FixTableLayout extends TableLayout {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param part
 	 */
 	public FixTableLayout(ITableLayoutOwner part) {
@@ -89,6 +89,7 @@ public class FixTableLayout extends TableLayout {
 		if (containerWidth < 0) {
 			Display.getCurrent().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					getOwner().reLayout();
 				}
@@ -139,7 +140,7 @@ public class FixTableLayout extends TableLayout {
 
 		int forceCount = size;
 
-		List<RowData> noSettingList = new ArrayList<RowData>();
+		List<RowData> noSettingList = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
 			if (data.rowHeights[i].isForce) {
 				forceCount--;
@@ -198,7 +199,7 @@ public class FixTableLayout extends TableLayout {
 
 					argaWith = moreWith / forceCount;
 					others = moreWith % forceCount;
-					List<RowData> adjustList = new ArrayList<RowData>();
+					List<RowData> adjustList = new ArrayList<>();
 					for (int i = 0; i < size; i++) {
 						RowData rData = data.rowHeights[i];
 
@@ -219,10 +220,6 @@ public class FixTableLayout extends TableLayout {
 
 			}
 		}
-	}
-
-	private void getOtioseRow(List<RowData> rows, int forceCount, int width) {
-		// do nothing now
 	}
 
 	private int getDefinedHeight(String dw, int cw) {
@@ -258,10 +255,7 @@ public class FixTableLayout extends TableLayout {
 
 			int rowSpan = info.rowSpan;
 
-			if (rowSpan == 1) {
-				continue;
-			}
-			if (figure.getChildren().size() == 0) {
+			if ((rowSpan == 1) || (figure.getChildren().size() == 0)) {
 				continue;
 			}
 			list.add(figure);
@@ -313,7 +307,7 @@ public class FixTableLayout extends TableLayout {
 			int samMin = 0;
 			int trueSamMin = 0;
 
-			int[] adjustNumber = new int[0];
+			int[] adjustNumber = {};
 			for (int j = rowNumber; j < rowNumber + rowSpan; j++) {
 				TableLayoutData.RowData rowData = data.findRowData(j);
 				if (!hasAdjust.contains(Integer.valueOf(j))) {
@@ -463,17 +457,6 @@ public class FixTableLayout extends TableLayout {
 		}
 	}
 
-	private void debugColumn() {
-		System.out.println("//////////start//////////");
-		int containerWidth = getLayoutWidth();
-		System.out.println("container width===" + containerWidth);
-		int size = data.columnWidths.length;
-		for (int i = 0; i < size; i++) {
-			ColumnData cData = data.columnWidths[i];
-			System.out.println("column " + (i + 1) + "===" + cData.width);
-		}
-	}
-
 	private void caleColumnWidth() {
 		int size = data.columnWidths.length;
 
@@ -542,7 +525,7 @@ public class FixTableLayout extends TableLayout {
 		 * size, the default size is 100%,but is not force width If the force count is
 		 * 0, means all the column set width(include %). If force count is 0, and the
 		 * table don't set width,don't change anything.
-		 * 
+		 *
 		 */
 		if ((!getOwner().isForceWidth()) && forceCount == 0) {
 			return;
@@ -583,37 +566,30 @@ public class FixTableLayout extends TableLayout {
 						cData.width = cData.width + argaWith;
 					}
 				}
-			}
-			/*
-			 * If has other column don't set the column, the more width assign to the
-			 * columns(not set the width) average
-			 */
-			else {
-				if (moreWith < forceCount * ALLOW_COLOUMN_WIDTH) {
-					for (int i = 0; i < size; i++) {
-						ColumnData cData = data.columnWidths[i];
-						if (!cData.isForce) {
-							cData.width = ALLOW_COLOUMN_WIDTH;
-						}
+			} else if (moreWith < forceCount * ALLOW_COLOUMN_WIDTH) {
+				for (int i = 0; i < size; i++) {
+					ColumnData cData = data.columnWidths[i];
+					if (!cData.isForce) {
+						cData.width = ALLOW_COLOUMN_WIDTH;
 					}
-				} else {
-					argaWith = moreWith / forceCount;
-					others = moreWith % forceCount;
-					List<ColumnData> adjustList = new ArrayList<ColumnData>();
-					for (int i = 0; i < size; i++) {
-						ColumnData cData = data.columnWidths[i];
-						if (!cData.isForce) {
-							adjustList.add(cData);
-						}
+				}
+			} else {
+				argaWith = moreWith / forceCount;
+				others = moreWith % forceCount;
+				List<ColumnData> adjustList = new ArrayList<>();
+				for (int i = 0; i < size; i++) {
+					ColumnData cData = data.columnWidths[i];
+					if (!cData.isForce) {
+						adjustList.add(cData);
 					}
+				}
 
-					for (int i = 0; i < adjustList.size(); i++) {
-						ColumnData adjust = adjustList.get(i);
-						if (i <= others - 1) {
-							adjust.width = argaWith + 1;
-						} else {
-							adjust.width = argaWith;
-						}
+				for (int i = 0; i < adjustList.size(); i++) {
+					ColumnData adjust = adjustList.get(i);
+					if (i <= others - 1) {
+						adjust.width = argaWith + 1;
+					} else {
+						adjust.width = argaWith;
 					}
 				}
 			}

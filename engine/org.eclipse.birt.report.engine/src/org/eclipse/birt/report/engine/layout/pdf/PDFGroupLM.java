@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,6 +36,7 @@ public abstract class PDFGroupLM extends PDFBlockStackingLM implements IBlockSta
 		this.repeatCount = repeatCount;
 	}
 
+	@Override
 	protected boolean traverseChildren() throws BirtException {
 		repeatHeader();
 		boolean hasNextPage = super.traverseChildren();
@@ -48,6 +49,7 @@ public abstract class PDFGroupLM extends PDFBlockStackingLM implements IBlockSta
 
 	protected abstract void repeatHeader() throws BirtException;
 
+	@Override
 	protected boolean isRootEmpty() {
 		return !((root != null && root.getChildrenCount() > repeatCount) || isLast);
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -71,10 +71,12 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 
 	class HighlightLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			return provider.getColumnText(element, columnIndex);
 		}
@@ -83,13 +85,16 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 
 	class HighlightContentProvider implements IStructuredContentProvider {
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			return provider.getElements(inputElement);
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public void dispose() {
 		}
 
@@ -115,7 +120,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param model the model of preference page.
 	 */
 	public HighlightsPreferencePage(Object model) {
@@ -128,10 +133,11 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createContents
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		super.createFieldEditors();
 
@@ -169,6 +175,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 
 		fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateButtons();
 			}
@@ -176,6 +183,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 
 		fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				edit();
 			}
@@ -183,6 +191,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 
 		table.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				handleTableKeyPressEvent(e);
 			}
@@ -192,6 +201,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 
 			// Resize the columns by proportion when the parent control is
 			// resized.
+			@Override
 			public void controlResized(ControlEvent e) {
 				Rectangle area = innerParent.getClientArea();
 				Point preferredSize = table.computeSize(SWT.DEFAULT, SWT.DEFAULT);
@@ -229,6 +239,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 		fAddButton.setLayoutData(data);
 		fAddButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				add();
 			}
@@ -242,6 +253,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 		fEditButton.setLayoutData(data);
 		fEditButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				edit();
 			}
@@ -255,6 +267,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 		fDeleteButton.setLayoutData(data);
 		fDeleteButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				delete();
 			}
@@ -270,6 +283,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 		fMoveUpButton.setLayoutData(data);
 		fMoveUpButton.addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				moveUp();
 			}
@@ -284,6 +298,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 		fMoveDownButton.setLayoutData(data);
 		fMoveDownButton.addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				moveDown();
 			}
@@ -298,6 +313,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 		fDuplicateButton.setLayoutData(data);
 		fDuplicateButton.addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				duplicate();
 			}
@@ -502,10 +518,12 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage {
 		}
 	}
 
+	@Override
 	protected String[] getPreferenceNames() {
 		return new String[0];
 	}
 
+	@Override
 	public boolean hasLocaleProperties() {
 		PropertyHandle phandle = ((StyleHandle) model).getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
 		if (phandle.getListValue() != null && phandle.getListValue().size() > 0) {

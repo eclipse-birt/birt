@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Inetsoft Technology Corp.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Inetsoft Technology Corp  - initial API and implementation
@@ -32,13 +32,13 @@ public class WordUtil {
 
 	private static final String LINESTYLE_SINGLE = "single";
 
-	private static HashSet<Character> splitChar = new HashSet<Character>();
+	private static HashSet<Character> splitChar = new HashSet<>();
 
 	static {
 		splitChar.add(Character.valueOf(' '));
 		splitChar.add(Character.valueOf('\r'));
 		splitChar.add(Character.valueOf('\n'));
-	};
+	}
 
 	public static final double INCH_PT = 72;
 
@@ -50,8 +50,8 @@ public class WordUtil {
 	// spaces can not be included in a bookmark name,
 	// but the underscore character can be used to separate words
 	public static String validBookmarkName(String name) {
-		String bookmark = name.replaceAll(" ", "_");
-		bookmark = bookmark.replaceAll("\"", "_");
+		String bookmark = name.replace(' ', '_');
+		bookmark = bookmark.replace('"', '_');
 		return bookmark;
 	}
 
@@ -128,9 +128,9 @@ public class WordUtil {
 		char[] array = text.toCharArray();
 		for (int i = 0; i < array.length; i++) {
 			Character c = text.charAt(i);
-			if (splitChar.contains(c))
+			if (splitChar.contains(c)) {
 				capitalizeNextChar = true;
-			else if (capitalizeNextChar) {
+			} else if (capitalizeNextChar) {
 				array[i] = Character.toUpperCase(array[i]);
 				capitalizeNextChar = false;
 			}
@@ -208,10 +208,12 @@ public class WordUtil {
 			double pageWidth, double pageHeight) {
 		String actualHeight = height;
 		String actualWidth = width;
-		if (height == null || "auto".equalsIgnoreCase(height))
+		if (height == null || "auto".equalsIgnoreCase(height)) {
 			actualHeight = String.valueOf(pageHeight) + "pt";
-		if (width == null || "auto".equalsIgnoreCase(width))
+		}
+		if (width == null || "auto".equalsIgnoreCase(width)) {
 			actualWidth = String.valueOf(pageWidth) + "pt";
+		}
 		actualHeight = actualHeight.trim();
 		actualWidth = actualWidth.trim();
 
@@ -249,7 +251,7 @@ public class WordUtil {
 		String value = null;
 		try {
 			String percent = height.substring(0, height.length() - 1);
-			int percentValue = Integer.valueOf(percent).intValue();
+			int percentValue = Integer.parseInt(percent);
 			value = String.valueOf(pageHeight * percentValue / 100);
 		} catch (NumberFormatException e) {
 			value = height;

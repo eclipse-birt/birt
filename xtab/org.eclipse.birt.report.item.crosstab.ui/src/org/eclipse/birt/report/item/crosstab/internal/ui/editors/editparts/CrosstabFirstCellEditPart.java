@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Menu;
 
 /**
- * 
+ *
  */
 
 public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
@@ -53,11 +53,13 @@ public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
 		super(model);
 	}
 
+	@Override
 	protected IFigure createFigure() {
 		Figure figure = new FirstCellFigure();
 
 		contentPane = new Figure();
 		ReportFlowLayout rflayout = new ReportFlowLayout() {
+			@Override
 			public void layout(IFigure parent) {
 				super.layout(parent);
 			}
@@ -76,15 +78,17 @@ public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
 	 * CrosstabCellEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		super.refreshFigure();
 		setLayoutConstraint(this, controlFigure, controlFigure.getConstraint());
 	}
 
+	@Override
 	protected void setTextAliment(StyleHandle style) {
 		String hAlign = style.getTextAlign();
 		String vAlign = style.getVerticalAlign();
@@ -116,9 +120,10 @@ public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
 	 */
+	@Override
 	public IFigure getContentPane() {
 		return contentPane;
 	}
@@ -131,14 +136,16 @@ public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
 			super(owner, loc);
 		}
 
+		@Override
 		protected DragTracker createDragTracker() {
 			DragEditPartsTracker track = new DragEditPartsTracker(CrosstabFirstCellEditPart.this) {
 
 				/*
 				 * (non-Javadoc)
-				 * 
+				 *
 				 * @see org.eclipse.gef.tools.SelectEditPartTracker#handleButtonDown(int)
 				 */
+				@Override
 				protected boolean handleButtonDown(int button) {
 					if (getCurrentViewer() instanceof DeferredGraphicalViewer) {
 						((DeferredGraphicalViewer) getCurrentViewer()).initStepDat();
@@ -156,7 +163,7 @@ public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
 //								//MenuManager manager = new LevelCrosstabPopMenuProvider( getViewer( ) );
 //								manager.createContextMenu( getViewer( ).getControl( ) );
 //								Menu menu = manager.getMenu( );
-//								
+//
 //								menu.setVisible( true );
 //								return true;
 //							}
@@ -165,6 +172,7 @@ public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
 					return bool;
 				}
 
+				@Override
 				protected boolean handleButtonUp(int button) {
 					boolean bool = super.handleButtonUp(button);
 					// if ( ( button == 3 || button == 1 ) )
@@ -189,6 +197,7 @@ public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
 			return track;
 		}
 
+		@Override
 		public Insets getInsets() {
 			return new Insets(1, 1, 1, 1);
 		}
@@ -197,21 +206,25 @@ public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
 			return new Rectangle(0, 0, MIN_WIDTH, MIN_HEIGHT);
 		}
 
+		@Override
 		public Dimension getMinimumSize(int wHint, int hHint) {
 			return getConstraint().getSize();
 		}
 
+		@Override
 		public Dimension getPreferredSize(int wHint, int hHint) {
 			Rectangle rect = getConstraint();
 			int height = Math.max(hHint, rect.height);
 			return new Dimension(rect.width, height);
 		}
 
+		@Override
 		public void addNotify() {
 			// TODO Auto-generated method stub
 			super.addNotify();
 		}
 
+		@Override
 		protected void paintFigure(Graphics graphics) {
 			graphics.setBackgroundColor(ReportColorConstants.greyFillColor);
 			graphics.fillRectangle(getClientArea());
@@ -247,7 +260,7 @@ public class CrosstabFirstCellEditPart extends CrosstabCellEditPart {
 
 	/**
 	 * The point if in the triangle.
-	 * 
+	 *
 	 * @param pt
 	 * @return
 	 */

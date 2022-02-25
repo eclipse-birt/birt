@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -21,10 +21,11 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
  * @deprecated As of BIRT 2.1, replaced by
  *             {@link org.eclipse.datatools.connectivity.oda.design.ui
  *             org.eclipse.datatools.connectivity.oda.design.ui } .
- * 
+ *
  * @version $Revision: 1.2 $ $Date: 2006/03/30 04:36:07 $
  */
 
+@Deprecated
 public abstract class DefaultExtendedDataSetWizard extends AbstractDataSetWizard {
 
 	/**
@@ -36,7 +37,7 @@ public abstract class DefaultExtendedDataSetWizard extends AbstractDataSetWizard
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public DefaultExtendedDataSetWizard() {
 		super();
@@ -45,11 +46,12 @@ public abstract class DefaultExtendedDataSetWizard extends AbstractDataSetWizard
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.odadatasource.wizards.
 	 * AbstractDataSetWizard#createDataSet(org.eclipse.birt.model.api.
 	 * ReportDesignHandle)
 	 */
+	@Override
 	public DataSetHandle createDataSet(ModuleHandle handle) {
 		String dataSetType = getConfigurationElement().getAttribute("id"); //$NON-NLS-1$
 

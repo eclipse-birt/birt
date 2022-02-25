@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart;
@@ -51,17 +51,19 @@ public class ChartTestCase extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
 		// make the output directory.
 
 		String tempDir = System.getProperty("java.io.tmpdir");
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 
 		String outputPath = this.genOutputFolder();
 		outputPath = outputPath.replace('\\', '/');
@@ -81,7 +83,7 @@ public class ChartTestCase extends TestCase {
 
 	/**
 	 * Compares two byte arrays. Disallow <code>null</code> values.
-	 * 
+	 *
 	 * @param bytes1
 	 * @param bytes2
 	 * @return <code>true</code> if <code>bytes1</code> and <code>bytes2</code> have
@@ -103,7 +105,7 @@ public class ChartTestCase extends TestCase {
 
 	/**
 	 * Compare golden with output byte by byte.
-	 * 
+	 *
 	 * @param golden
 	 * @param output
 	 * @return
@@ -168,7 +170,7 @@ public class ChartTestCase extends TestCase {
 	/**
 	 * computeFiles method compares two input streams and returns whether the
 	 * contents of the input streams match.
-	 * 
+	 *
 	 * @param left  - inputstream of the first resource
 	 * @param right - inputstream of the second resource
 	 * @return true if the contents match; otherwise, false is returned.
@@ -177,8 +179,9 @@ public class ChartTestCase extends TestCase {
 	protected boolean compare(InputStream golden, InputStream output) throws Exception {
 		int goldenChar = -1;
 		while ((goldenChar = golden.read()) != -1) {
-			if (goldenChar != output.read())
+			if (goldenChar != output.read()) {
 				return false;
+			}
 		}
 
 		return true;
@@ -186,7 +189,7 @@ public class ChartTestCase extends TestCase {
 
 	/**
 	 * Locates the folder where the unit test java source file is saved.
-	 * 
+	 *
 	 * @return the path name where the test java source file locates.
 	 */
 
@@ -200,10 +203,12 @@ public class ChartTestCase extends TestCase {
 				URL url = source.getLocation();
 				pathBase = url.getPath();
 
-				if (pathBase.endsWith("bin/")) //$NON-NLS-1$
+				if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 4);
-				if (pathBase.endsWith("bin")) //$NON-NLS-1$
+				}
+				if (pathBase.endsWith("bin")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 3);
+				}
 			}
 		}
 
@@ -219,7 +224,7 @@ public class ChartTestCase extends TestCase {
 	/**
 	 * Locates the folder where the unit test java source file is saved, used in
 	 * standalone test case.
-	 * 
+	 *
 	 * @return the path name where the test java source file locates.
 	 */
 
@@ -234,7 +239,7 @@ public class ChartTestCase extends TestCase {
 
 	/**
 	 * Get the class name.
-	 * 
+	 *
 	 * @return the class name
 	 */
 	protected String getFullQualifiedClassName() {
@@ -248,13 +253,14 @@ public class ChartTestCase extends TestCase {
 
 	/**
 	 * Set the output path. And the path will set in java.io.tmpdir.
-	 * 
+	 *
 	 * @return the the output path
 	 */
 	public String tempFolder() {
 		String tempDir = System.getProperty("java.io.tmpdir");
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 		return tempDir;
 	}
 
@@ -303,7 +309,7 @@ public class ChartTestCase extends TestCase {
 
 	/**
 	 * Make a copy of a given file to the target file.
-	 * 
+	 *
 	 * @param src:    the file where to copy from
 	 * @param tgt:    the target file to copy to
 	 * @param folder: the folder that the copied file in.
@@ -368,7 +374,7 @@ public class ChartTestCase extends TestCase {
 
 	/**
 	 * Remove a given file or directory recursively.
-	 * 
+	 *
 	 * @param file
 	 */
 
@@ -405,11 +411,13 @@ public class ChartTestCase extends TestCase {
 			throw e;
 		} finally {
 			try {
-				if (bis != null)
+				if (bis != null) {
 					bis.close();
+				}
 
-				if (bos != null)
+				if (bos != null) {
 					bos.close();
+				}
 			} catch (IOException e) {
 				// ignore
 			}
@@ -423,7 +431,7 @@ public class ChartTestCase extends TestCase {
 
 		String outputFile = genOutputFolder() + File.separator + output;
 
-		Map<ImageCompParam, Integer> params = new HashMap<ImageCompParam, Integer>();
+		Map<ImageCompParam, Integer> params = new HashMap<>();
 		params.put(ImageCompParam.TOLERANCE, 4);
 
 		Image result = ImageUtil.compare(new File(goldenFile).getAbsolutePath(), new File(outputFile).getAbsolutePath(),

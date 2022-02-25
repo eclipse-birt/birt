@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,8 +68,8 @@ import org.eclipse.birt.report.model.util.ContentIterator;
  * <li>Presentation: how to render the extended item when rendering the report
  * to HTML, PDF or other formats.
  * </ul>
- * 
- * 
+ *
+ *
  */
 
 public class ExtendedItem extends ReportItem implements IExtendableElement, IExtendedItemModel, ISupportThemeElement {
@@ -108,7 +108,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/**
 	 * Constructs the extended item with an optional name.
-	 * 
+	 *
 	 * @param theName optional item name
 	 */
 
@@ -120,11 +120,12 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitExtendedItem(this);
 
@@ -132,30 +133,32 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.EXTENDED_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
+	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
+	 *
 	 * @param module the report design
-	 * 
+	 *
 	 * @return an API handle for this element.
 	 */
 
@@ -172,14 +175,16 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#hasLocalPropertyValues()
 	 */
 
+	@Override
 	public boolean hasLocalPropertyValues() {
-		if (super.hasLocalPropertyValues())
+		if (super.hasLocalPropertyValues()) {
 			return true;
+		}
 
 		return provider.hasLocalPropertyValues();
 	}
@@ -188,16 +193,18 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	 * Gets a property value given its definition. This version checks not only this
 	 * one object, but also the extended element this item has. That is, it gets the
 	 * "local" property value. The property name must also be valid for this object.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getLocalProperty(Module,
 	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
+	@Override
 	public Object getLocalProperty(Module module, ElementPropertyDefn prop) {
 		assert prop != null;
 
-		if (!prop.isExtended())
+		if (!prop.isExtended()) {
 			return super.getLocalProperty(module, prop);
+		}
 
 		return provider.getExtensionProperty(module, prop);
 	}
@@ -208,33 +215,37 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	 * this object. The property can be a system, user-defined property and a
 	 * property from the extended element of this item. The value is set locally. If
 	 * the value is null, then the property is "unset."
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#setProperty(org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
 	 *      java.lang.Object)
 	 */
 
+	@Override
 	public void setProperty(ElementPropertyDefn prop, Object value) {
 		assert prop != null;
 
-		if (!prop.isExtended())
+		if (!prop.isExtended()) {
 			super.setProperty(prop, value);
-		else
+		} else {
 			provider.setExtensionProperty(prop, value);
+		}
 	}
 
 	/**
 	 * Gets the property data for either a system-defined, user-defined property or
 	 * extension property from extended element of this item.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefn(java.lang.String)
 	 */
 
+	@Override
 	public ElementPropertyDefn getPropertyDefn(String propName) {
 		assert propName != null;
 
 		ElementPropertyDefn propDefn = super.getPropertyDefn(propName);
-		if (propDefn != null)
+		if (propDefn != null) {
 			return propDefn;
+		}
 
 		return (ElementPropertyDefn) provider.getPropertyDefn(propName);
 	}
@@ -245,22 +256,24 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	 * this element or its ancestors, any style properties that this element
 	 * supports and extension properties that the extended element of this item
 	 * supports.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefns()
 	 */
 
+	@Override
 	public List<IElementPropertyDefn> getPropertyDefns() {
 		return provider.getPropertyDefns();
 	}
 
 	/**
 	 * Gets the definition of the extension element.
-	 * 
+	 *
 	 * @return the definition of the extension element if found, or null if the
 	 *         extended item is not extensible or the extension element is not
 	 *         registered in BIRT
 	 */
 
+	@Override
 	public ExtensionElementDefn getExtDefn() {
 		return provider.getExtDefn();
 	}
@@ -273,7 +286,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	 * instance of peer for the item before the calling and then it is successfully
 	 * created. If the item has no extension peer for it or the peer instance has
 	 * been created before, then there is no operation.
-	 * 
+	 *
 	 * @param module the module the peer element has
 	 * @throws ExtendedElementException if the serialized model is invalid
 	 */
@@ -285,7 +298,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	/**
 	 * Returns the extensibility provider which provides the functionality of this
 	 * extensible element.
-	 * 
+	 *
 	 * @return the extensibility provider which provides the functionality of this
 	 *         extensible element.
 	 */
@@ -296,26 +309,30 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
 	 * (java.lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (EXTENSION_NAME_PROP.equals(propName))
+		if (EXTENSION_NAME_PROP.equals(propName)) {
 			return extensionName;
-		if (EXTENSION_VERSION_PROP.equals(propName))
+		}
+		if (EXTENSION_VERSION_PROP.equals(propName)) {
 			return extensionVersion;
+		}
 		return super.getIntrinsicProperty(propName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty
 	 * (java.lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
 		if (EXTENSION_NAME_PROP.equals(propName)) {
 			setExtensionName((String) value);
@@ -328,11 +345,12 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module) {
 		List<SemanticException> list = super.validate(module);
 
@@ -343,7 +361,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/**
 	 * Gets the effective extension element of this extended item.
-	 * 
+	 *
 	 * @return the effective extension element
 	 */
 
@@ -353,7 +371,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/**
 	 * Tests whether the property is a dynamic property of extended element or not.
-	 * 
+	 *
 	 * @param propName the property name to check
 	 * @return true if the property is one of the dynamic properties for extended
 	 *         element, otherwise false
@@ -366,7 +384,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	/**
 	 * Tests whether the property is just the model property for the extended
 	 * element, and its type is XML.
-	 * 
+	 *
 	 * @param propName the property name to check
 	 * @return true if the property is XML type and it is model property for
 	 *         extended element, otherwise false
@@ -379,7 +397,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	/**
 	 * returns the methods defined on this element and defined in the extension
 	 * model.
-	 * 
+	 *
 	 * @return the method list
 	 */
 	public List<IElementPropertyDefn> getMethods() {
@@ -388,7 +406,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/**
 	 * Returns the script property name of this extended item.
-	 * 
+	 *
 	 * @return the script property name
 	 */
 
@@ -400,7 +418,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	/**
 	 * Sets the extension name for this extended item. At the same time, initialize
 	 * the extension provider and slot.
-	 * 
+	 *
 	 * @param extension the extension name to set
 	 */
 
@@ -416,10 +434,11 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
+	@Override
 	public ContainerSlot getSlot(int slot) {
 		assert slot >= 0 && slot < cachedDefn.getSlotCount();
 		return slots[slot];
@@ -427,7 +446,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/**
 	 * Returns if this extended item has local property values on own model.
-	 * 
+	 *
 	 * @return <code>true</code> if this extended item has local property values on
 	 *         own model, <code>false</code> otherwise.
 	 */
@@ -439,7 +458,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	/**
 	 * Returns the predefined styles that are provided by the
 	 * ExtendedItem.reportItem.
-	 * 
+	 *
 	 * @param module the root of the extended item
 	 * @return a list containing predefined selectors in string
 	 */
@@ -453,71 +472,82 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 			}
 		} catch (ExtendedElementException e) {
 		}
-		if (reportItem == null)
+		if (reportItem == null) {
 			return Collections.emptyList();
+		}
 
 		return reportItem.getPredefinedStyles();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getLocalEncryptionID
 	 * (org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
+	@Override
 	public String getLocalEncryptionID(ElementPropertyDefn propDefn) {
-		if (propDefn == null || !propDefn.isEncryptable())
+		if (propDefn == null || !propDefn.isEncryptable()) {
 			return null;
-		if (!propDefn.isExtended())
+		}
+		if (!propDefn.isExtended()) {
 			return super.getLocalEncryptionID(propDefn);
+		}
 
 		return provider.getEncryptionHelperID(propDefn);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#setEncryptionHelper(
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn, java.lang.String)
 	 */
 
+	@Override
 	public void setEncryptionHelper(ElementPropertyDefn propDefn, String encryptionID) {
-		if (!propDefn.isExtended())
+		if (!propDefn.isExtended()) {
 			super.setEncryptionHelper(propDefn, encryptionID);
+		}
 
 		provider.setEncryptionHelper(propDefn, encryptionID);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#hasLocalValue(org.eclipse
 	 * .birt.report.model.metadata.ElementPropertyDefn)
 	 */
+	@Override
 	protected boolean hasLocalValue(ElementPropertyDefn propDefn) {
-		if (propDefn == null)
+		if (propDefn == null) {
 			return false;
-		if (!propDefn.isExtended())
+		}
+		if (!propDefn.isExtended()) {
 			return super.hasLocalValue(propDefn);
+		}
 		return provider.getExtensionProperty(getRoot(), propDefn) != null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.StyledElement#getFactoryProperty(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
+	@Override
 	public Object getFactoryProperty(Module module, ElementPropertyDefn prop) {
 		// this method has to be overridden since IReportItem.getProperty() may
 		// make calls to FactoryPropertyHandle. The idea is that if the
 		// useOwnSearch = true, do not delegate to IReportItem.getProperty().
 
-		if (!prop.enableContextSearch() || !prop.isStyleProperty())
+		if (!prop.enableContextSearch() || !prop.isStyleProperty()) {
 			return super.getFactoryProperty(module, prop);
+		}
 
 		// only the style property with enableContextSearch = true
 
@@ -527,7 +557,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/**
 	 * Checks the compatibilities for this extended item.
-	 * 
+	 *
 	 * @param module
 	 * @return the status infor for compatibility
 	 */
@@ -535,7 +565,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 		// check this element itself
 		StatusInfo status = doCheck(module);
-		List<SemanticException> errors = new ArrayList<SemanticException>();
+		List<SemanticException> errors = new ArrayList<>();
 		boolean hasCompatibilities = false;
 		if (status != null) {
 			errors.addAll(status.getErrors());
@@ -551,8 +581,9 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 					status = ((ExtendedItem) content).doCheck(module);
 					if (status != null) {
 						errors.addAll(status.getErrors());
-						if (!hasCompatibilities && status.hasCompatibilities())
+						if (!hasCompatibilities && status.hasCompatibilities()) {
 							hasCompatibilities = true;
+						}
 					}
 				}
 			}
@@ -562,8 +593,9 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 	}
 
 	private StatusInfo doCheck(Module module) {
-		if (!provider.needCheckCompatibility())
+		if (!provider.needCheckCompatibility()) {
 			return new StatusInfo(new ArrayList<SemanticException>(), false);
+		}
 		try {
 			initializeReportItem(module);
 		} catch (ExtendedElementException e) {
@@ -596,7 +628,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 		/**
 		 * Constructs the status information with the error list and hasCompatibilities
 		 * status.
-		 * 
+		 *
 		 * @param errors
 		 * @param hasCompatibilities
 		 */
@@ -606,7 +638,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public List<SemanticException> getErrors() {
@@ -614,7 +646,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public boolean hasCompatibilities() {
@@ -624,11 +656,12 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.ReferencableStyledElement#doClone(
 	 * org.eclipse.birt.report.model.elements.strategy.CopyPolicy)
 	 */
 
+	@Override
 	public Object doClone(CopyPolicy policy) throws CloneNotSupportedException {
 		// The parameter policy should be set as null to avoid the definition of
 		// the extended item property to be copied.
@@ -636,17 +669,19 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 		clonedElement.provider.copyFromWithElementType(provider, policy);
 
 		// To copy correctly, the additional operation should be done.
-		if (policy != null)
+		if (policy != null) {
 			policy.execute(this, clonedElement);
+		}
 		return clonedElement;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#baseClone()
 	 */
 
+	@Override
 	protected Object baseClone() throws CloneNotSupportedException {
 		ExtendedItem clonedElement = (ExtendedItem) super.baseClone();
 		clonedElement.provider = PeerExtensibilityProviderFactory.createProvider(clonedElement,
@@ -658,34 +693,39 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementSelector()
 	 */
+	@Override
 	public List<String> getElementSelectors() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		String selector = null;
 
 		// get extension element definition of the extended item.
 
 		ElementDefn elementDefn = getExtDefn();
-		if (elementDefn != null)
+		if (elementDefn != null) {
 			selector = elementDefn.getSelector();
+		}
 
-		if (selector != null)
+		if (selector != null) {
 			list.add(selector);
+		}
 
 		List tmpSelectors = getReportItemDefinedSelectors(getRoot());
 		for (int i = 0; i < tmpSelectors.size(); i++) {
 			Object styleObject = tmpSelectors.get(i);
 
-			if (styleObject instanceof IStyleDeclaration)
+			if (styleObject instanceof IStyleDeclaration) {
 				selector = ((IStyleDeclaration) styleObject).getName();
-			else
+			} else {
 				selector = (String) styleObject;
+			}
 
-			if (selector != null)
+			if (selector != null) {
 				list.add(selector);
+			}
 
 		}
 

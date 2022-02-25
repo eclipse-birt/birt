@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -55,11 +55,11 @@ import com.ibm.icu.util.ULocale;
  * Provides a framework for locating extension implementations either via the
  * BIRT plugin.xml paradigm or via extensions that are explicitly specified in
  * this singleton instance.
- * 
+ *
  * If the BIRT extension paradigm is to be used, ensure that the BIRT_HOME 'JVM
  * system variable' points to a valid folder containing all chart extensions
  * within a plugins/ subfolder.
- * 
+ *
  * If the BIRT extension paradigm is not to be used and the default classloader
  * is requested for loading extensions, ensure that the BIRT_HOME 'JVM system
  * variable' is undefined.
@@ -179,7 +179,7 @@ public final class PluginSettings {
 
 	/**
 	 * All available default aggregation names.
-	 * 
+	 *
 	 * @since 2.3
 	 *
 	 */
@@ -267,7 +267,7 @@ public final class PluginSettings {
 	/**
 	 * Returns a singleton instance of the plugin settings framework which uses the
 	 * default configuration.
-	 * 
+	 *
 	 * @return A singleton instance of the plugin settings framework
 	 */
 	public static PluginSettings instance() {
@@ -277,10 +277,10 @@ public final class PluginSettings {
 	/**
 	 * Returns a singleton instance of the plugin settings framework with specific
 	 * configuration.
-	 * 
+	 *
 	 * Initializes the OSGi Platform framework to load chart extension bundles
 	 * unless the STANDALONE flag was set in PlatformConfig property.
-	 * 
+	 *
 	 * @return A singleton instance of the plugin settings framework
 	 */
 	public static synchronized PluginSettings instance(PlatformConfig config) {
@@ -322,9 +322,7 @@ public final class PluginSettings {
 			}
 
 			JavaUtilLoggerImpl.initFileHandler(dir, loggingLevel);
-		} catch (SecurityException e) {
-			logger.log(e);
-		} catch (IOException e) {
+		} catch (SecurityException | IOException e) {
 			logger.log(e);
 		}
 
@@ -333,14 +331,14 @@ public final class PluginSettings {
 	/**
 	 * Retrieves the first instance of a data set processor registered as an
 	 * extension for a given series type.
-	 * 
+	 *
 	 * @param cSeries The Class instance associated with the given series type
-	 * 
+	 *
 	 * @return A newly created instance of a registered data set processor extension
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	public final IDataSetProcessor getDataSetProcessor(Class<?> cSeries) throws ChartException {
+	public IDataSetProcessor getDataSetProcessor(Class<?> cSeries) throws ChartException {
 		final String sFQClassName = cSeries.getName();
 		if (inEclipseEnv()) {
 			final Object oDSP = getPluginXmlObject("datasetprocessors", "datasetProcessor", "series", "processor", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -375,17 +373,17 @@ public final class PluginSettings {
 
 	/**
 	 * Returns extra chart model packages.
-	 * 
+	 *
 	 * @return map of chart extension package definition.
 	 * @throws ChartException
 	 * @since 2.6
 	 */
-	public final Map<String, Object> getExtChartModelPackages() throws ChartException {
+	public Map<String, Object> getExtChartModelPackages() throws ChartException {
 		if (chartModelPackagesMap != null) {
 			return chartModelPackagesMap;
 		}
 
-		chartModelPackagesMap = new LinkedHashMap<String, Object>();
+		chartModelPackagesMap = new LinkedHashMap<>();
 
 		if (!inEclipseEnv()) {
 			return chartModelPackagesMap;
@@ -426,15 +424,15 @@ public final class PluginSettings {
 	/**
 	 * Retrieves the first instance of a series renderer registered as an extension
 	 * for a given series type.
-	 * 
+	 *
 	 * @param cSeries The Class instance associated with the given series type
-	 * 
+	 *
 	 * @return A newly created (and initialized) instance of a registered series
 	 *         renderer
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	public final BaseRenderer getRenderer(Class<?> cSeries) throws ChartException {
+	public BaseRenderer getRenderer(Class<?> cSeries) throws ChartException {
 		final String sFQClassName = cSeries.getName();
 		if (inEclipseEnv()) {
 			final Object oSeriesRenderer = getPluginXmlObject("modelrenderers", "modelRenderer", "series", "renderer", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -470,16 +468,16 @@ public final class PluginSettings {
 	/**
 	 * Retrieves the first instance of a device renderer registered as an extension
 	 * for a given name
-	 * 
+	 *
 	 * @param sName The name of the device renderer. Values registered in the
 	 *              default distribution are dv.SWT, dv.SWING, dv.PNG, dv.JPEG,
 	 *              dv.BMP
-	 * 
+	 *
 	 * @return An newly initialized instance of the requested device renderer
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	public final IDeviceRenderer getDevice(String sName) throws ChartException {
+	public IDeviceRenderer getDevice(String sName) throws ChartException {
 		if (inEclipseEnv()) {
 			final Object oDeviceRenderer = getPluginXmlObject("devicerenderers", "deviceRenderer", "name", "device", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					sName);
@@ -521,15 +519,15 @@ public final class PluginSettings {
 	/**
 	 * Retrieves the first instance of a display server registered as an extension
 	 * for a given name
-	 * 
+	 *
 	 * @param sName The name of the display server. Values registered in the default
 	 *              distribution are ds.SWT, ds.SWING
-	 * 
+	 *
 	 * @return An newly initialized instance of the requested display server
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	public final IDisplayServer getDisplayServer(String sName) throws ChartException {
+	public IDisplayServer getDisplayServer(String sName) throws ChartException {
 		if (inEclipseEnv()) {
 			final Object oDisplayServer = getPluginXmlObject("displayservers", "displayserver", "name", "server", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					sName);
@@ -561,14 +559,14 @@ public final class PluginSettings {
 	/**
 	 * Retrieves the first instance of a device renderer registered as an extension
 	 * for a given name
-	 * 
+	 *
 	 * @param sName The name of the aggregate function.
-	 * 
+	 *
 	 * @return An newly initialized instance of the requested aggregate function.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	public final IAggregateFunction getAggregateFunction(String sName) throws ChartException {
+	public IAggregateFunction getAggregateFunction(String sName) throws ChartException {
 		if (inEclipseEnv()) {
 			final Object oAggregateFunction = getPluginXmlObject("aggregatefunctions", "aggregateFunction", "name", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					"function", //$NON-NLS-1$
@@ -601,15 +599,15 @@ public final class PluginSettings {
 	/**
 	 * Retrieves the first instance of a series renderer registered as an extension
 	 * for a given series type.
-	 * 
+	 *
 	 * @param cSeries The Class instance associated with the given series type
-	 * 
+	 *
 	 * @return A newly created (and initialized) instance of a registered series
 	 *         renderer
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	public final IDataPointDefinition getDataPointDefinition(Class<?> cSeries) throws ChartException {
+	public IDataPointDefinition getDataPointDefinition(Class<?> cSeries) throws ChartException {
 		final String sFQClassName = cSeries.getName();
 		if (inEclipseEnv()) {
 			final Object oDefinition = getPluginXmlObject("datapointdefinitions", "datapointDefinition", "series", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -645,13 +643,14 @@ public final class PluginSettings {
 
 	/**
 	 * Returns the localized display name of given Series Class.
-	 * 
+	 *
 	 * @param seriesClassName
 	 * @return display name of series.
 	 */
-	public final String getSeriesDisplayName(final String seriesClassName) {
+	public String getSeriesDisplayName(final String seriesClassName) {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
+			@Override
 			public String run() {
 				String sDisplayName = seriesClassName;
 				try {
@@ -661,15 +660,7 @@ public final class PluginSettings {
 					Method mDisplayName = seriesClass.getDeclaredMethod("getDisplayName", new Class[] {}); //$NON-NLS-1$
 					Object oName = mDisplayName.invoke(newSeries, new Object[] {});
 					sDisplayName = (String) oName;
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
+				} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
 				}
 				return sDisplayName;
@@ -680,11 +671,11 @@ public final class PluginSettings {
 	/**
 	 * Returns a list of all series registered via extension point implementations
 	 * (or simulated)
-	 * 
+	 *
 	 * @return A list of series registered via extension point implementations (or
 	 *         simulated)
 	 */
-	public final String[] getRegisteredSeries() throws ChartException {
+	public String[] getRegisteredSeries() throws ChartException {
 		if (inEclipseEnv()) {
 			String[][] sers = getPluginXmlStrings("modelrenderers", //$NON-NLS-1$
 					"modelRenderer", //$NON-NLS-1$
@@ -703,18 +694,18 @@ public final class PluginSettings {
 	/**
 	 * Returns a list of registered device renderer output formats and display
 	 * names.
-	 * 
+	 *
 	 * @return all registered output formats and display names
 	 * @throws ChartException
 	 */
-	public final String[][] getRegisteredOutputFormats() throws ChartException {
+	public String[][] getRegisteredOutputFormats() throws ChartException {
 		if (inEclipseEnv()) {
 			String[][] formats = getPluginXmlStrings("devicerenderers", //$NON-NLS-1$
 					"deviceRenderer", //$NON-NLS-1$
 					"format", //$NON-NLS-1$
 					"displayName"); //$NON-NLS-1$
 
-			ArrayList<String[]> al = new ArrayList<String[]>();
+			ArrayList<String[]> al = new ArrayList<>();
 			for (int i = 0; i < formats.length; i++) {
 				if (formats[i][0] != null && formats[i][0].length() > 0) {
 					al.add(formats[i]);
@@ -722,7 +713,7 @@ public final class PluginSettings {
 			}
 			return al.toArray(new String[0][0]);
 		} else {
-			ArrayList<String[]> al = new ArrayList<String[]>();
+			ArrayList<String[]> al = new ArrayList<>();
 			for (int i = 0; i < saDevices.length; i++) {
 				if (saDevices[i][2] != null && saDevices[i][2].length() > 0) {
 					al.add(new String[] { saDevices[i][2], saDevices[i][3] });
@@ -735,11 +726,11 @@ public final class PluginSettings {
 	/**
 	 * Returns a list of all aggregate function names registered via extension point
 	 * implementations (or simulated)
-	 * 
+	 *
 	 * @return A list of all aggregate function names registered via extension point
 	 *         implementations (or simulated)
 	 */
-	public final String[] getRegisteredAggregateFunctions() throws ChartException {
+	public String[] getRegisteredAggregateFunctions() throws ChartException {
 		if (inEclipseEnv()) {
 			String[][] aggs = getPluginXmlStrings("aggregatefunctions", //$NON-NLS-1$
 					"aggregateFunction", //$NON-NLS-1$
@@ -768,14 +759,14 @@ public final class PluginSettings {
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
-	public final String[] getRegisteredAggregateFunctions(int aggregateType) throws ChartException {
+	public String[] getRegisteredAggregateFunctions(int aggregateType) throws ChartException {
 		if (inEclipseEnv()) {
 			String[][] aggs = getPluginXmlStrings("aggregatefunctions", //$NON-NLS-1$
 					"aggregateFunction", //$NON-NLS-1$
 					"name", //$NON-NLS-1$
 					"function"); //$NON-NLS-1$
 
-			List<String> funcList = new ArrayList<String>();
+			List<String> funcList = new ArrayList<>();
 			for (int i = 0; i < aggs.length; i++) {
 				IAggregateFunction aFunc = getAggregateFunction(aggs[i][0]);
 				if (aFunc.getType() == aggregateType) {
@@ -801,11 +792,11 @@ public final class PluginSettings {
 	/**
 	 * Returns a list of all aggregate function display names registered via
 	 * extension point implementations (or simulated)
-	 * 
+	 *
 	 * @return A list of all aggregate function display names registered via
 	 *         extension point implementations (or simulated)
 	 */
-	public final String[] getRegisteredAggregateFunctionDisplayNames() throws ChartException {
+	public String[] getRegisteredAggregateFunctionDisplayNames() throws ChartException {
 		if (inEclipseEnv()) {
 			String[][] aggs = getPluginXmlStrings("aggregatefunctions", //$NON-NLS-1$
 					"aggregateFunction", //$NON-NLS-1$
@@ -834,14 +825,14 @@ public final class PluginSettings {
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
-	public final String[] getRegisteredAggregateFunctionDisplayNames(int aggregateType) throws ChartException {
+	public String[] getRegisteredAggregateFunctionDisplayNames(int aggregateType) throws ChartException {
 		if (inEclipseEnv()) {
 			String[][] aggs = getPluginXmlStrings("aggregatefunctions", //$NON-NLS-1$
 					"aggregateFunction", //$NON-NLS-1$
 					"name", //$NON-NLS-1$
 					"displayName"); //$NON-NLS-1$
 
-			List<String> funcList = new ArrayList<String>();
+			List<String> funcList = new ArrayList<>();
 			for (int i = 0; i < aggs.length; i++) {
 				IAggregateFunction aFunc = getAggregateFunction(aggs[i][0]);
 				if (aFunc.getType() == aggregateType) {
@@ -867,15 +858,15 @@ public final class PluginSettings {
 	/**
 	 * Attempts to internally create an instance of a given class using reflection
 	 * using the default constructor.
-	 * 
+	 *
 	 * @param sFQClassName The fully qualified class name for which a new instance
 	 *                     is being requested
-	 * 
+	 *
 	 * @return A new instance of the requested class
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	private static final Object newInstance(String sFQClassName) throws ChartException {
+	private static Object newInstance(String sFQClassName) throws ChartException {
 		try {
 			final Class<?> c = Class.forName(sFQClassName);
 			return SecurityUtil.newClassInstance(c);
@@ -888,17 +879,17 @@ public final class PluginSettings {
 	 * Attempts to walk through the schema tree as defined in an extension point
 	 * schema and instantiate the class associated with the value for a given
 	 * element name.
-	 * 
+	 *
 	 * @param sXsdListName
 	 * @param sXsdComplexName
 	 * @param sXsdElementName
 	 * @param sXsdElementValue
 	 * @param sLookupName
-	 * 
+	 *
 	 * @return An instance of the value class instantiated via the extension
 	 *         framework
 	 */
-	private static final Object getPluginXmlObject(String sXsdListName, String sXsdComplexName, String sXsdElementName,
+	private static Object getPluginXmlObject(String sXsdListName, String sXsdComplexName, String sXsdElementName,
 			String sXsdElementValue, String sLookupName) throws ChartException {
 		final IExtensionRegistry ier = Platform.getExtensionRegistry();
 		final IExtensionPoint iep = ier.getExtensionPoint(PLUGIN, sXsdListName);
@@ -930,7 +921,7 @@ public final class PluginSettings {
 	 * Attempts to walk through the schema tree as defined in an extension point
 	 * schema and retrieve the attribute value associated with the value for a given
 	 * element name.
-	 * 
+	 *
 	 * @param sXsdListName
 	 * @param sXsdComplexName
 	 * @param sXsdElementName
@@ -939,8 +930,8 @@ public final class PluginSettings {
 	 * @return XML attribute
 	 * @throws ChartException
 	 */
-	private static final String getPluginXmlAttribute(String sXsdListName, String sXsdComplexName,
-			String sXsdElementName, String sXsdElementValue, String sLookupName) throws ChartException {
+	private static String getPluginXmlAttribute(String sXsdListName, String sXsdComplexName, String sXsdElementName,
+			String sXsdElementValue, String sLookupName) throws ChartException {
 		final IExtensionRegistry ier = Platform.getExtensionRegistry();
 		final IExtensionPoint iep = ier.getExtensionPoint(PLUGIN, sXsdListName);
 		if (iep == null) {
@@ -967,17 +958,17 @@ public final class PluginSettings {
 	 * Attempts to walk through the schema tree as defined in an extension point
 	 * schema and instantiate the class associated with the value for a given
 	 * element name.
-	 * 
+	 *
 	 * @param sXsdListName
 	 * @param sXsdComplexName
 	 * @param sXsdElementName
 	 * @param sXsdElementValue
 	 * @param sLookupName
-	 * 
+	 *
 	 * @return An array of the text value via the extension framework
 	 */
-	private static final String[][] getPluginXmlStrings(String sXsdListName, String sXsdComplexName,
-			String sXsdElementName, String sXsdElementValue) throws ChartException {
+	private static String[][] getPluginXmlStrings(String sXsdListName, String sXsdComplexName, String sXsdElementName,
+			String sXsdElementValue) throws ChartException {
 		final IExtensionRegistry ier = Platform.getExtensionRegistry();
 		final IExtensionPoint iep = ier.getExtensionPoint(PLUGIN, sXsdListName);
 		if (iep == null) {
@@ -988,7 +979,7 @@ public final class PluginSettings {
 		final IExtension[] iea = iep.getExtensions();
 		IConfigurationElement[] icea;
 
-		List<String[]> lst = new ArrayList<String[]>();
+		List<String[]> lst = new ArrayList<>();
 
 		for (int i = 0; i < iea.length; i++) {
 			icea = iea[i].getConfigurationElements();
@@ -1006,7 +997,7 @@ public final class PluginSettings {
 	/**
 	 * Performs an internal check to test if the environment uses the extension
 	 * loading framework or hardcoded classes as defined
-	 * 
+	 *
 	 * @return 'true' if using the extension loading framework
 	 */
 	public boolean inEclipseEnv() {
@@ -1020,29 +1011,29 @@ public final class PluginSettings {
 	 * Registers an aggregate function implementation, the class should implement
 	 * the IAggregateFunction interface. The displayName will be the same as the
 	 * name.
-	 * 
+	 *
 	 * @param sName
 	 * @param sAggregateFunctionClass the full qualified class name of the
 	 *                                implementor.
-	 * 
+	 *
 	 * @see IAggregateFunction
 	 */
-	public final void registerAggregateFunction(String sName, String sAggregateFunctionClass) {
+	public void registerAggregateFunction(String sName, String sAggregateFunctionClass) {
 		registerAggregateFunction(sName, sName, sAggregateFunctionClass);
 	}
 
 	/**
 	 * Registers an aggregate function implementation, the class should implement
 	 * the IAggregateFunction interface.
-	 * 
+	 *
 	 * @param sName
 	 * @param sDisplayName
 	 * @param sAggregateFunctionClass the full qualified class name of the
 	 *                                implementor.
-	 * 
+	 *
 	 * @see IAggregateFunction
 	 */
-	synchronized public final void registerAggregateFunction(String sName, String sDisplayName,
+	synchronized public void registerAggregateFunction(String sName, String sDisplayName,
 			String sAggregateFunctionClass) {
 		String[][] newAggFuncs = new String[saBaseAggregateFunctions.length + 1][3];
 		for (int i = 0; i < saBaseAggregateFunctions.length; i++) {
@@ -1060,13 +1051,13 @@ public final class PluginSettings {
 	/**
 	 * Registers a device renderer implementation, this class should implement the
 	 * IDeviceRenderer interface.
-	 * 
+	 *
 	 * @param sName
 	 * @param sDeviceClass the full qualified class name of the implementor.
-	 * 
+	 *
 	 * @see IDeviceRenderer
 	 */
-	synchronized public final void registerDevice(String sName, String sDeviceClass) {
+	synchronized public void registerDevice(String sName, String sDeviceClass) {
 		String[][] newDevs = new String[saDevices.length + 1][4];
 		for (int i = 0; i < saDevices.length; i++) {
 			newDevs[i][0] = saDevices[i][0];
@@ -1082,12 +1073,12 @@ public final class PluginSettings {
 
 	/**
 	 * Registers an output format for given device renderer name.
-	 * 
+	 *
 	 * @param sDeviceName
 	 * @param sFormat
 	 * @param sDescription
 	 */
-	synchronized public final void registerOutputFormat(String sDeviceName, String sFormat, String sDescription) {
+	synchronized public void registerOutputFormat(String sDeviceName, String sFormat, String sDescription) {
 		for (int i = 0; i < saDevices.length; i++) {
 			if (saDevices[i][0].equals(sDeviceName)) {
 				if (sFormat != null && sFormat.length() > 0) {
@@ -1104,13 +1095,13 @@ public final class PluginSettings {
 	/**
 	 * Registers a display server implementation, this class should implement the
 	 * IDisplayServer interface.
-	 * 
+	 *
 	 * @param sName
 	 * @param sServerClass the full qualified class name of the implementor.
-	 * 
+	 *
 	 * @see IDisplayServer
 	 */
-	synchronized public final void registerDisplayServer(String sName, String sServerClass) {
+	synchronized public void registerDisplayServer(String sName, String sServerClass) {
 		String[][] newSvrs = new String[saDisplayServers.length + 1][2];
 		for (int i = 0; i < saDisplayServers.length; i++) {
 			newSvrs[i][0] = saDisplayServers[i][0];
@@ -1124,17 +1115,17 @@ public final class PluginSettings {
 
 	/**
 	 * Registers a new Series renderer implementation.
-	 * 
+	 *
 	 * @param sSeriesClass           the full qualified class name of which
 	 *                               implements the Series interface.
 	 * @param sDataSetProcessorClass the full qualified class name of which
 	 *                               implements the IDataSetProcessor interface.
 	 * @param sRendererClass         the full qualified class name of which
 	 *                               implements the ISeriesRenderer interface.
-	 * 
+	 *
 	 * @see ISeriesRenderer
 	 */
-	synchronized public final void registerSeriesRenderer(String sSeriesClass, String sDataSetProcessorClass,
+	synchronized public void registerSeriesRenderer(String sSeriesClass, String sDataSetProcessorClass,
 			String sRendererClass) {
 		String[] newSeries = new String[saSeries.length + 1];
 		String[] newDSPs = new String[saSeries.length + 1];

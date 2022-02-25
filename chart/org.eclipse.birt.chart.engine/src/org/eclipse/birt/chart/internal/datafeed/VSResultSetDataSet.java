@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.chart.computation.IConstants;
  * The class extends ResultSetDataSet and provides internal function to convert
  * data type of value from boolean to int, it is just used for the data
  * populating of value series.
- * 
+ *
  * @since 2.5.1
  */
 
@@ -30,7 +30,7 @@ class VSResultSetDataSet extends ResultSetDataSet {
 	/**
 	 * The constructor that creates an instance of a resultset subset by extracting
 	 * appropriate columns and a row range from a resultset
-	 * 
+	 *
 	 * @param liResultSet
 	 * @param iColumnIndex
 	 * @param lStartRow
@@ -42,7 +42,7 @@ class VSResultSetDataSet extends ResultSetDataSet {
 
 	/**
 	 * Creates the resultset using a given list.
-	 * 
+	 *
 	 * @param lst
 	 */
 	public VSResultSetDataSet(List<?> lst, int dataType) {
@@ -51,20 +51,23 @@ class VSResultSetDataSet extends ResultSetDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#getDataType()
 	 */
+	@Override
 	public int getDataType() {
 		if (listMode) {
-			if (listDataType == IConstants.BOOLEAN)
+			if (listDataType == IConstants.BOOLEAN) {
 				return IConstants.NUMERICAL;
+			}
 			return listDataType;
 		}
 
 		if (iaColumnIndexes.length >= 1) {
 			int type = rsw.getColumnDataType(iaColumnIndexes[0]);
-			if (type == IConstants.BOOLEAN)
+			if (type == IConstants.BOOLEAN) {
 				return IConstants.NUMERICAL;
+			}
 			return type;
 		}
 		return IConstants.UNDEFINED;
@@ -72,21 +75,24 @@ class VSResultSetDataSet extends ResultSetDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.internal.datafeed.ResultSetDataSet#getDataType(int)
 	 */
+	@Override
 	public int getDataType(int columnIndex) {
 		if (listMode) {
-			if (listDataType == IConstants.BOOLEAN)
+			if (listDataType == IConstants.BOOLEAN) {
 				return IConstants.NUMERICAL;
+			}
 			return listDataType;
 		}
 
 		if (columnIndex < iaColumnIndexes.length) {
 			int type = rsw.getColumnDataType(iaColumnIndexes[columnIndex]);
-			if (type == IConstants.BOOLEAN)
+			if (type == IConstants.BOOLEAN) {
 				return IConstants.NUMERICAL;
+			}
 			return type;
 		}
 		return IConstants.UNDEFINED;
@@ -94,9 +100,10 @@ class VSResultSetDataSet extends ResultSetDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#next()
 	 */
+	@Override
 	public Object[] next() {
 		lRow++;
 		if (lRow > lEndRow) {
@@ -129,9 +136,9 @@ class VSResultSetDataSet extends ResultSetDataSet {
 	 */
 	private Integer asInteger(Boolean o) {
 		if (o.booleanValue()) {
-			return Integer.valueOf(1);
+			return 1;
 		} else {
-			return Integer.valueOf(0);
+			return 0;
 		}
 	}
 }

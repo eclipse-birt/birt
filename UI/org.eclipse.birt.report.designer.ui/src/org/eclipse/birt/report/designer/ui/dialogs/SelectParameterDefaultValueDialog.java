@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Presents a list of values from dataset, allows user to select to define
  * default value for dynamic parameter
- * 
+ *
  */
 public class SelectParameterDefaultValueDialog extends BaseDialog {
 
@@ -67,7 +67,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 	private Object[] selectedItems = null;
 	private int[] selectedIndices = null;
 	private int sortDir = SWT.UP;
-	private java.util.List<Object> columnValueList = new ArrayList<Object>();
+	private java.util.List<Object> columnValueList = new ArrayList<>();
 	private final String nullValueDispaly = Messages.getString("SelectValueDialog.SelectValue.NullValue"); //$NON-NLS-1$
 	private int expectedColumnDataType;
 
@@ -86,11 +86,12 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -115,6 +116,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 
 		column.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sortDir = sortDir == SWT.UP ? SWT.DOWN : SWT.UP;
 				table.setSortDirection(sortDir);
@@ -124,6 +126,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 
 		table.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				if (table.getSelectionCount() > 0) {
 					okPressed();
@@ -133,6 +136,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				populateList();
 			}
@@ -145,9 +149,10 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		selectedIndices = table.getSelectionIndices();
 		if (columnValueList.get(selectedIndices[0]) == null) {
@@ -167,10 +172,12 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 	 */
 	private void populateList() {
 		try {
-			if (this.getShell() == null || this.getShell().isDisposed())
+			if (this.getShell() == null || this.getShell().isDisposed()) {
 				return;
-			if (this.getOkButton() != null && !this.getOkButton().isDisposed())
+			}
+			if (this.getOkButton() != null && !this.getOkButton().isDisposed()) {
 				getOkButton().setEnabled(false);
+			}
 
 			table.removeAll();
 			table.deselectAll();
@@ -225,6 +232,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 			this.sortDir = sortDir;
 		}
 
+		@Override
 		public int compare(Viewer viewer, Object e1, Object e2) {
 			if (sortDir == SWT.UP) {
 				if (e1 instanceof Integer) {
@@ -253,6 +261,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 
 	public static class ContentProvider implements IStructuredContentProvider {
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof List) {
 				return ((List) inputElement).toArray();
@@ -260,25 +269,30 @@ public class SelectParameterDefaultValueDialog extends BaseDialog {
 			return new Object[0];
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
 
 	public class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 0) {
-				if (element != null)
+				if (element != null) {
 					return getDataText(element);
-				else
+				} else {
 					return nullValueDispaly;
+				}
 			}
 			return null;
 		}
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}

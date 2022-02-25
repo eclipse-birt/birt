@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 
 	/**
 	 * Creates a crosstab extended item to use the given OLAP cube handle.
-	 * 
+	 *
 	 * @param module the module handle for extended item lying in
 	 * @param cube   the OLAP cube handle to apply
 	 * @return the crosstab extended item handle
@@ -45,8 +45,9 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 	 */
 	public static ExtendedItemHandle createCrosstabReportItem(ModuleHandle module, CubeHandle cube, String name)
 			throws SemanticException {
-		if (module == null)
+		if (module == null) {
 			return null;
+		}
 
 		ExtendedItemHandle extendedItem = module.getElementFactory().newExtendedItem(name, CROSSTAB_EXTENSION_NAME);
 
@@ -67,20 +68,21 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 
 	/**
 	 * Creates a crosstab view extended item.
-	 * 
+	 *
 	 * @param module
 	 * @return
 	 */
 	public static ExtendedItemHandle createCrosstabView(ModuleHandle module) {
-		if (module == null)
+		if (module == null) {
 			return null;
+		}
 		return module.getElementFactory().newExtendedItem(null, CROSSTAB_VIEW_EXTENSION_NAME);
 	}
 
 	/**
 	 * Creates a dimension view extended item to use the given OLAP dimension
 	 * handle.
-	 * 
+	 *
 	 * @param module    the module handle for extended item lying in
 	 * @param dimension the OLAP dimension handle to apply
 	 * @return the dimension view extended item handle
@@ -89,8 +91,9 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 	 */
 	public static ExtendedItemHandle createDimensionView(ModuleHandle module, DimensionHandle dimension)
 			throws SemanticException {
-		if (module == null)
+		if (module == null) {
 			return null;
+		}
 		ExtendedItemHandle extendedItem = module.getElementFactory().newExtendedItem(null,
 				DIMENSION_VIEW_EXTENSION_NAME);
 		if (extendedItem != null) {
@@ -101,7 +104,7 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 
 	/**
 	 * Creates a measure view extended item to use the given OLAP measure handle.
-	 * 
+	 *
 	 * @param module  the module handle for extended item lying in
 	 * @param measure the OLAP measure handle to apply
 	 * @return the measure view extended item handle
@@ -110,12 +113,14 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 	 */
 	public static ExtendedItemHandle createMeasureView(ModuleHandle module, MeasureHandle measure)
 			throws SemanticException {
-		if (module == null)
+		if (module == null) {
 			return null;
+		}
 		ExtendedItemHandle extendedItem = module.getElementFactory().newExtendedItem(null, MEASURE_VIEW_EXTENSION_NAME);
 
-		if (extendedItem == null)
+		if (extendedItem == null) {
 			return null;
+		}
 
 		// set cube measure reference
 		extendedItem.setProperty(IMeasureViewConstants.MEASURE_PROP, measure);
@@ -130,13 +135,15 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 
 	public static ExtendedItemHandle createComputedMeasureView(ModuleHandle module, String measureViewName)
 			throws SemanticException {
-		if (module == null)
+		if (module == null) {
 			return null;
+		}
 		ExtendedItemHandle extendedItem = module.getElementFactory().newExtendedItem(measureViewName,
 				COMPUTED_MEASURE_VIEW_EXTENSION_NAME);
 
-		if (extendedItem == null)
+		if (extendedItem == null) {
 			return null;
+		}
 
 		// prepare detail cell
 		ExtendedItemHandle cellHandle = createAggregationCell(module);
@@ -149,7 +156,7 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 
 	/**
 	 * Creates a level view extended item to use the given OLAP level handle.
-	 * 
+	 *
 	 * @param module the module handle for extended item lying in
 	 * @param level  the OLAP level handle to apply
 	 * @return the level view extended item handle
@@ -157,12 +164,14 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 	 *                           view
 	 */
 	public static ExtendedItemHandle createLevelView(ModuleHandle module, LevelHandle level) throws SemanticException {
-		if (module == null)
+		if (module == null) {
 			return null;
+		}
 		ExtendedItemHandle extendedItem = module.getElementFactory().newExtendedItem(null, LEVEL_VIEW_EXTENSION_NAME);
 
-		if (extendedItem == null)
+		if (extendedItem == null) {
 			return null;
+		}
 
 		// set cube level reference
 		extendedItem.setProperty(ILevelViewConstants.LEVEL_PROP, level);
@@ -177,25 +186,27 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants {
 
 	/**
 	 * Creates a general crosstab cell.
-	 * 
+	 *
 	 * @param module
 	 * @return the general crosstab cell extended item handle
 	 */
 	public static ExtendedItemHandle createCrosstabCell(ModuleHandle module) {
-		if (module == null)
+		if (module == null) {
 			return null;
+		}
 		return module.getElementFactory().newExtendedItem(null, CROSSTAB_CELL_EXTENSION_NAME);
 	}
 
 	/**
 	 * Creates an aggregation cell.
-	 * 
+	 *
 	 * @param module
 	 * @return the aggregation cell extended item handle
 	 */
 	public static ExtendedItemHandle createAggregationCell(ModuleHandle module) {
-		if (module == null)
+		if (module == null) {
 			return null;
+		}
 		return module.getElementFactory().newExtendedItem(null, AGGREGATION_CELL_EXTENSION_NAME);
 	}
 

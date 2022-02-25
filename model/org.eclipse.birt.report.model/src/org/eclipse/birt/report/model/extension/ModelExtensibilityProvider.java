@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public abstract class ModelExtensibilityProvider extends ExtensibilityProvider {
 
 	/**
 	 * Constructs this provider with the element to extend, and extension name.
-	 * 
+	 *
 	 * @param element       the element to extend
 	 * @param extensionName the extension name
 	 */
@@ -50,13 +50,15 @@ public abstract class ModelExtensibilityProvider extends ExtensibilityProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
 	 */
 
+	@Override
 	public final ExtensionElementDefn getExtDefn() {
-		if (extensionName == null)
+		if (extensionName == null) {
 			return null;
+		}
 
 		return cachedExtDefn;
 	}
@@ -64,17 +66,19 @@ public abstract class ModelExtensibilityProvider extends ExtensibilityProvider {
 	/**
 	 * Checks whether the extendable element this provider supports can extends from
 	 * the given parent element.
-	 * 
+	 *
 	 * @param parent the parent element to check
 	 * @throws ExtendsException if the extendable element this provide supports can
 	 *                          not extends from the given parent element.
 	 */
 
+	@Override
 	public void checkExtends(DesignElement parent) throws ExtendsException {
 		String parentExt = (String) parent.getProperty(null, IExtendedItemModel.EXTENSION_NAME_PROP);
 
 		assert extensionName != null;
-		if (!extensionName.equalsIgnoreCase(parentExt))
+		if (!extensionName.equalsIgnoreCase(parentExt)) {
 			throw new WrongTypeException(element, parent, WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE);
+		}
 	}
 }

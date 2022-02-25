@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ public class Level implements ILevel {
 	private static Logger logger = Logger.getLogger(Level.class.getName());
 
 	/**
-	 * 
+	 *
 	 * @param documentManager
 	 * @param levelDef
 	 * @param keyDataType
@@ -71,10 +71,11 @@ public class Level implements ILevel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.ILevel#getKeyDataType(java.lang.String)
 	 */
+	@Override
 	public int getKeyDataType(String keyName) {
 		for (int i = 0; i < getKeyColNames().length; i++) {
 			if (getKeyColNames()[i].equals(keyName)) {
@@ -86,27 +87,30 @@ public class Level implements ILevel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.ILevel#getName()
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.ILevel#size()
 	 */
+	@Override
 	public int size() {
 		return getSize();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		Level other = (Level) o;
 		return this.name.equals(other.name);
@@ -115,26 +119,29 @@ public class Level implements ILevel {
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		return this.name.hashCode();
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void close() throws IOException {
-		if (diskIndex != null)
+		if (diskIndex != null) {
 			diskIndex.close();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.ILevel#getAttributeDataType(java.lang.
 	 * String)
 	 */
+	@Override
 	public int getAttributeDataType(String attributeName) {
 		for (int i = 0; i < getAttributeColNames().length; i++) {
 			if (getAttributeColNames()[i].equals(attributeName)) {
@@ -146,18 +153,20 @@ public class Level implements ILevel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.ILevel#getAttributeNames()
 	 */
+	@Override
 	public String[] getAttributeNames() {
 		return getAttributeColNames();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.ILevel#getKeyName()
 	 */
+	@Override
 	public String[] getKeyNames() {
 		return getKeyColNames();
 	}
@@ -267,9 +276,10 @@ public class Level implements ILevel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ILevel#getLeveType()
 	 */
+	@Override
 	public String getLeveType() {
 		return levelType;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,9 +33,10 @@ public class CrossTabViewNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the children element of the given model using visitor.
-	 * 
+	 *
 	 * @param model the model
 	 */
+	@Override
 	public Object[] getChildren(Object model) {
 		ExtendedItemHandle handle = (ExtendedItemHandle) model;
 		try {
@@ -60,16 +61,18 @@ public class CrossTabViewNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu
-	 * 
+	 *
 	 * @param sourceViewer the source viewer
 	 * @param object       the object
 	 * @param menu         the menu
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// do nothing
 
 	}
 
+	@Override
 	public Image getNodeIcon(Object model) {
 		ExtendedItemHandle handle = (ExtendedItemHandle) model;
 
@@ -86,6 +89,7 @@ public class CrossTabViewNodeProvider extends DefaultNodeProvider {
 		return super.getNodeIcon(model);
 	}
 
+	@Override
 	public String getNodeDisplayName(Object model) {
 		ExtendedItemHandle handle = (ExtendedItemHandle) model;
 		try {
@@ -101,10 +105,12 @@ public class CrossTabViewNodeProvider extends DefaultNodeProvider {
 		return super.getNodeDisplayName(model);
 	}
 
+	@Override
 	public boolean hasChildren(Object model) {
 		return getChildren(model).length != 0;
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		ExtendedItemHandle handle = (ExtendedItemHandle) model;
 		try {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 /**
  * Expression Utility to provide useful methods to handle with expressions.
- * 
+ *
  */
 
 public class ChartExpressionUtil {
@@ -42,7 +42,7 @@ public class ChartExpressionUtil {
 
 	/**
 	 * Checks if the expression references a binding name
-	 * 
+	 *
 	 * @param indicator    indicator like row or data
 	 * @param expr         expression
 	 * @param hasOperation indicates if operation can be allowed in expression
@@ -67,7 +67,7 @@ public class ChartExpressionUtil {
 
 	/**
 	 * Returns the binding name
-	 * 
+	 *
 	 * @param indicator    indicator like row or data
 	 * @param expr         expression
 	 * @param hasOperation indicates if operation can be allowed in expression
@@ -104,20 +104,20 @@ public class ChartExpressionUtil {
 	/**
 	 * Gets the binding name list in complex expression like data["year"]+"
 	 * Q"+data["quarter"]
-	 * 
+	 *
 	 * @param indicator indicator like row or data
 	 * @param expr      expression
 	 * @return binding name list or empty list
 	 */
 	protected static List<String> getBindingNameList(String indicator, String expr) {
-		List<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<>();
 		fillBindingNameCollection(names, indicator, expr);
 		return names;
 	}
 
 	/**
 	 * Return the binding name of row["binding"]
-	 * 
+	 *
 	 * @param expr         expression
 	 * @param hasOperation indicates if operation can be allowed in expression
 	 */
@@ -127,7 +127,7 @@ public class ChartExpressionUtil {
 
 	/**
 	 * Return the binding name of data["binding"]
-	 * 
+	 *
 	 * @param expr         expression
 	 * @param hasOperation indicates if operation can be allowed in expression
 	 */
@@ -137,7 +137,7 @@ public class ChartExpressionUtil {
 
 	/**
 	 * Checks if the expression references a row binding name
-	 * 
+	 *
 	 * @param expr         expression
 	 * @param hasOperation indicates if operation can be allowed in expression
 	 */
@@ -147,7 +147,7 @@ public class ChartExpressionUtil {
 
 	/**
 	 * Checks if the expression references a data binding name
-	 * 
+	 *
 	 * @param expr         expression
 	 * @param hasOperation indicates if operation can be allowed in expression
 	 */
@@ -158,7 +158,7 @@ public class ChartExpressionUtil {
 	/**
 	 * Gets the cube binding name list in complex expression like data["year"]+"
 	 * Q"+data["quarter"]
-	 * 
+	 *
 	 * @param expr expression
 	 * @return binding name list or empty list
 	 */
@@ -167,14 +167,14 @@ public class ChartExpressionUtil {
 	}
 
 	private static Set<String> getRowBindingNameSet(String expr) {
-		Set<String> names = new HashSet<String>();
+		Set<String> names = new HashSet<>();
 		fillBindingNameCollection(names, ExpressionUtil.ROW_INDICATOR, expr);
 		return names;
 	}
 
 	/**
 	 * Check if specified expression is a measure expression.
-	 * 
+	 *
 	 * @param expression
 	 * @since 2.3
 	 */
@@ -189,7 +189,7 @@ public class ChartExpressionUtil {
 	/**
 	 * This method is to get the measure name that referenced by a measure reference
 	 * expression.
-	 * 
+	 *
 	 * @param expr
 	 * @return measure name
 	 * @since 2.3
@@ -207,7 +207,7 @@ public class ChartExpressionUtil {
 
 	/**
 	 * Check if specified expression is a dimension expression.
-	 * 
+	 *
 	 * @param expression
 	 * @since 2.3
 	 */
@@ -222,9 +222,9 @@ public class ChartExpressionUtil {
 	/**
 	 * This method is used to get the level name that reference by a level reference
 	 * expression of following format: dimension["dimensionName"]["levelName"].
-	 * 
+	 *
 	 * String[0] dimensionName; String[1] levelName;
-	 * 
+	 *
 	 * @param expr
 	 * @return String[]
 	 * @since 2.3
@@ -247,7 +247,7 @@ public class ChartExpressionUtil {
 	/**
 	 * Checks if the expression contains string. e.g.
 	 * data["year"]+"Q"+data["quarter"]
-	 * 
+	 *
 	 * @param expression
 	 * @return true if contains
 	 */
@@ -301,14 +301,14 @@ public class ChartExpressionUtil {
 	 * The method escapes '"','\n',EOF,'\r' and so on from specified
 	 * expression/script expression, it returns an expression that can be used as
 	 * binding name.
-	 * 
+	 *
 	 * @param expression
 	 * @return escaped string
 	 * @since 2.5.1
 	 */
 	public static String escapeSpecialCharacters(String expression) {
-		return expression.replaceAll("\\\\\"", "") //$NON-NLS-1$ //$NON-NLS-2$
-				.replaceAll("\"", "")//$NON-NLS-1$ //$NON-NLS-2$
+		return expression.replace("\\\"", "") //$NON-NLS-1$ //$NON-NLS-2$
+				.replace("\"", "")//$NON-NLS-1$ //$NON-NLS-2$
 				.replaceAll("\\n", "")//$NON-NLS-1$ //$NON-NLS-2$
 				.replaceAll(new String(new char[] { (char) -1 }), "")//$NON-NLS-1$
 				.replaceAll("\\r", "");//$NON-NLS-1$ //$NON-NLS-2$
@@ -316,7 +316,7 @@ public class ChartExpressionUtil {
 
 	/**
 	 * Creates a JS binding expression with the given name.
-	 * 
+	 *
 	 * @param bindingName
 	 * @param isCube
 	 * @return The binding expression.
@@ -377,7 +377,7 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Returns if expression type is constant.
-		 * 
+		 *
 		 * @return true means constant
 		 */
 		public boolean isConstant() {
@@ -386,9 +386,9 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Converts to the javascript type expression
-		 * 
+		 *
 		 * @param isRow true means row, false means cube
-		 * 
+		 *
 		 * @return javascript expression
 		 */
 		public String convertJSExpression(boolean isRow) {
@@ -397,7 +397,7 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Returns the copied instance.
-		 * 
+		 *
 		 * @return copied instance
 		 */
 		public ExpressionCodec copy() {
@@ -465,7 +465,7 @@ public class ChartExpressionUtil {
 		 * Returns a full binding name for cube or row expression, no matter if
 		 * expression is complex or simple. If expression is complex, will create a new
 		 * binding name with special characters escaped.
-		 * 
+		 *
 		 * @return binding name
 		 */
 		public String getFullBindingName() {
@@ -488,7 +488,7 @@ public class ChartExpressionUtil {
 		 * Returns a full binding name for cube or row expression, no matter if
 		 * expression is complex or simple. If expression is complex, will create a new
 		 * binding name with special characters escaped.
-		 * 
+		 *
 		 * @param expr expression
 		 * @return binding name
 		 */
@@ -500,7 +500,7 @@ public class ChartExpressionUtil {
 		/**
 		 * Makes the codec's instance to represent a binding expression with the given
 		 * binding name.
-		 * 
+		 *
 		 * @param bindingName
 		 * @param isCube
 		 * @param type
@@ -513,7 +513,7 @@ public class ChartExpressionUtil {
 		/**
 		 * Makes the codec's instance to represent a binding expression with the given
 		 * binding name.
-		 * 
+		 *
 		 * @param bindingName
 		 * @param isCube
 		 */
@@ -523,7 +523,7 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Checks if current expression is a binding expression.
-		 * 
+		 *
 		 * @param hasOperation true means complex expression allowed
 		 * @return if current expression is a binding expression
 		 */
@@ -536,7 +536,7 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Checks if current expression is a binding expression.
-		 * 
+		 *
 		 * @param expr         expression
 		 * @param hasOperation true means complex expression allowed
 		 * @return if current expression is a binding expression
@@ -548,19 +548,18 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Returns a collection of all binding names contained by the expression.
-		 * 
+		 *
 		 * @return A collection of all binding names contained by the expression.
 		 */
 		public Collection<String> getBindingNames() {
-			Set<String> set = new HashSet<String>();
-			set.addAll(getRowBindingNameSet());
+			Set<String> set = new HashSet<>(getRowBindingNameSet());
 			set.addAll(getCubeBindingNameList());
 			return set;
 		}
 
 		/**
 		 * Returns a collection of all binding names contained by the expression.
-		 * 
+		 *
 		 * @param expr
 		 * @return A collection of all binding names contained by the expression.
 		 */
@@ -572,7 +571,7 @@ public class ChartExpressionUtil {
 		/**
 		 * If the whole expression is a single binding name, returns the name, returns
 		 * null otherwise.
-		 * 
+		 *
 		 * @return If the whole expression is a single binding name, returns the name,
 		 *         returns null otherwise.
 		 */
@@ -587,7 +586,7 @@ public class ChartExpressionUtil {
 		/**
 		 * If the whole expression is a single binding name, returns the name, returns
 		 * null otherwise.
-		 * 
+		 *
 		 * @param expr
 		 * @return If the whole expression is a single binding name, returns the name,
 		 *         returns null otherwise.
@@ -599,7 +598,7 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Check if specified expression is a dimension expression.
-		 * 
+		 *
 		 */
 		public boolean isDimensionExpresion() {
 			return ChartExpressionUtil.isDimensionExpresion(sExpr);
@@ -607,7 +606,7 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Check if specified expression is a dimension expression.
-		 * 
+		 *
 		 * @param expr
 		 */
 		public boolean isDimensionExpresion(String expr) {
@@ -617,7 +616,7 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Check if specified expression is a measure expression.
-		 * 
+		 *
 		 */
 		public boolean isMeasureExpresion() {
 			return ChartExpressionUtil.isMeasureExpresion(sExpr);
@@ -625,7 +624,7 @@ public class ChartExpressionUtil {
 
 		/**
 		 * Check if specified expression is a measure expression.
-		 * 
+		 *
 		 * @param expr
 		 */
 		public boolean isMeasureExpresion(String expr) {
@@ -636,9 +635,9 @@ public class ChartExpressionUtil {
 		/**
 		 * This method is used to get the level name that reference by a level reference
 		 * expression of following format: dimension["dimensionName"]["levelName"].
-		 * 
+		 *
 		 * String[0] dimensionName; String[1] levelName;
-		 * 
+		 *
 		 * @return String[]
 		 */
 		public String[] getLevelNames() {
@@ -648,9 +647,9 @@ public class ChartExpressionUtil {
 		/**
 		 * This method is used to get the level name that reference by a level reference
 		 * expression of following format: dimension["dimensionName"]["levelName"].
-		 * 
+		 *
 		 * String[0] dimensionName; String[1] levelName;
-		 * 
+		 *
 		 * @param expr
 		 * @return String[]
 		 */
@@ -662,7 +661,7 @@ public class ChartExpressionUtil {
 		/**
 		 * This method is to get the measure name that referenced by a measure reference
 		 * expression.
-		 * 
+		 *
 		 * @return measure name
 		 */
 		public String getMeasureName() {
@@ -672,7 +671,7 @@ public class ChartExpressionUtil {
 		/**
 		 * This method is to get the measure name that referenced by a measure reference
 		 * expression.
-		 * 
+		 *
 		 * @param expr
 		 * @return measure name
 		 */

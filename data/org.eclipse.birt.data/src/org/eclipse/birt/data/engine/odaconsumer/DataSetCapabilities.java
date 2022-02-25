@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -47,7 +47,7 @@ public class DataSetCapabilities extends ExceptionHandler {
 	/**
 	 * Returns the mode supported by this data set for dynamic sorting
 	 * functionality.
-	 * 
+	 *
 	 * @return the dynamic sorting mode supported by the data set.
 	 */
 	public int getSortMode() {
@@ -57,7 +57,7 @@ public class DataSetCapabilities extends ExceptionHandler {
 	/**
 	 * Returns whether a <code>Statement</code> can simultaneously get multiple
 	 * result sets.
-	 * 
+	 *
 	 * @return true if a <code>Statement</code> can get multiple result sets
 	 *         simultaneously; false otherwise.
 	 * @throws DataException if data source error occurs.
@@ -79,7 +79,7 @@ public class DataSetCapabilities extends ExceptionHandler {
 	/**
 	 * Returns whether a <code>Statement</code> can support getting multiple result
 	 * sets.
-	 * 
+	 *
 	 * @return true if a <code>Statement</code> can support getting multiple result
 	 *         sets; false otherwise.
 	 * @throws DataException if data source error occurs.
@@ -99,7 +99,7 @@ public class DataSetCapabilities extends ExceptionHandler {
 
 	/**
 	 * Returns whether a <code>Statement</code> can support named result sets.
-	 * 
+	 *
 	 * @return true if a <code>Statement</code> can support named result sets; false
 	 *         otherwise.
 	 * @throws DataException if data source error occurs.
@@ -119,7 +119,7 @@ public class DataSetCapabilities extends ExceptionHandler {
 
 	/**
 	 * Returns whether a <code>Statement</code> can support named parameters.
-	 * 
+	 *
 	 * @return true if a <code>Statement</code> can support named parameters; false
 	 *         otherwise.
 	 * @throws DataException if data source error occurs.
@@ -139,7 +139,7 @@ public class DataSetCapabilities extends ExceptionHandler {
 
 	/**
 	 * Returns whether a <code>Statement</code> can support input parameters.
-	 * 
+	 *
 	 * @return true if a <code>Statement</code> can support input parameters; false
 	 *         otherwise.
 	 * @throws DataException if data source error occurs.
@@ -159,7 +159,7 @@ public class DataSetCapabilities extends ExceptionHandler {
 
 	/**
 	 * Returns whether a <code>Statement</code> can support output parameters.
-	 * 
+	 *
 	 * @return true if a <code>Statement</code> can support output parameters; false
 	 *         otherwise.
 	 * @throws DataException if data source error occurs.

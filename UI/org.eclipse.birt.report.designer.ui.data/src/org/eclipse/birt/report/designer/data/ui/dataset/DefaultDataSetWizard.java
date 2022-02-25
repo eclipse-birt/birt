@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -32,7 +32,7 @@ import org.eclipse.swt.SWTException;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision$ $Date$
  */
 
@@ -48,7 +48,7 @@ public class DefaultDataSetWizard extends Wizard {
 	private DataSetHandle dataSetHandle;
 
 	/**
-	 *  
+	 *
 	 */
 	public DefaultDataSetWizard() {
 		this(null, true);
@@ -68,12 +68,14 @@ public class DefaultDataSetWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
+	@Override
 	public boolean performFinish() {
-		if (!canFinish())
+		if (!canFinish()) {
 			return false;
+		}
 
 		if (useTransaction) {
 			// Start the transaction
@@ -96,8 +98,9 @@ public class DefaultDataSetWizard extends Wizard {
 			} catch (Exception e) {
 				if (e instanceof SWTException) {
 					SWTException swtException = (SWTException) e;
-					if (swtException.code == SWT.ERROR_WIDGET_DISPOSED)
+					if (swtException.code == SWT.ERROR_WIDGET_DISPOSED) {
 						Utility.log(e);
+					}
 				}
 
 				Throwable cause = e.getCause();
@@ -125,7 +128,7 @@ public class DefaultDataSetWizard extends Wizard {
 
 	/**
 	 * Add DataSetHandle to SlotHandle
-	 * 
+	 *
 	 * @param dataSetHandle
 	 * @throws ContentException
 	 * @throws NameException
@@ -139,6 +142,7 @@ public class DefaultDataSetWizard extends Wizard {
 		}
 	}
 
+	@Override
 	public boolean canFinish() {
 		dataSetPage.setPageFocus();
 		return dataSetPage.canFinish() && columnDefPage.isPageComplete();

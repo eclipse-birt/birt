@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,31 +36,38 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 public class ChartReportItemFactoryBase implements IChartReportItemFactory {
 
+	@Override
 	public IActionRenderer createActionRenderer(DesignElementHandle eih, IHTMLActionHandler handler,
 			IDataRowExpressionEvaluator evaluator, IReportContext context) {
 		return new BIRTActionRenderer(eih, handler, evaluator, context);
 	}
 
+	@Override
 	public IReportItemPresentation createReportItemPresentation(IReportItemPresentationInfo info) {
 		return new ChartReportItemPresentationImpl();
 	}
 
+	@Override
 	public Serializer createSerializer(ExtendedItemHandle eih) {
 		return SerializerImpl.instance();
 	}
 
+	@Override
 	public ChartCubeQueryHelper createCubeQueryHelper(ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter) {
 		return new ChartCubeQueryHelper(handle, cm, modelAdapter);
 	}
 
+	@Override
 	public IGroupedDataRowExpressionEvaluator createCubeEvaluator(Chart cm, ICubeResultSet set) {
 		return new BIRTCubeResultSetEvaluator(set);
 	}
 
+	@Override
 	public IChartReportItem createChartReportItem(ExtendedItemHandle eih) {
 		return new ChartReportItemImpl(eih);
 	}
 
+	@Override
 	public ChartBaseQueryHelper createQueryHelper(ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter) {
 		return new ChartBaseQueryHelper(handle, cm, modelAdapter);
 	}

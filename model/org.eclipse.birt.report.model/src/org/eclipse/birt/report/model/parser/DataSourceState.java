@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.elements.DataSource;
 
 /**
  * This class parses the data source element.
- * 
+ *
  */
 
 public abstract class DataSourceState extends ReportElementState {
@@ -26,7 +26,7 @@ public abstract class DataSourceState extends ReportElementState {
 	/**
 	 * Constructs the data source state with the design parser handler, the
 	 * container element and the container slot of the data source.
-	 * 
+	 *
 	 * @param handler the design file parser handler
 	 */
 
@@ -36,10 +36,11 @@ public abstract class DataSourceState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -20,11 +20,10 @@
 package org.eclipse.birt.report.soapengine.endpoint;
 
 public interface BirtViewerAPI extends javax.xml.rpc.Service {
-	public java.lang.String getBirtSoapPortAddress();
+	java.lang.String getBirtSoapPortAddress();
 
-	public org.eclipse.birt.report.soapengine.endpoint.BirtSoapPort getBirtSoapPort()
-			throws javax.xml.rpc.ServiceException;
+	org.eclipse.birt.report.soapengine.endpoint.BirtSoapPort getBirtSoapPort() throws javax.xml.rpc.ServiceException;
 
-	public org.eclipse.birt.report.soapengine.endpoint.BirtSoapPort getBirtSoapPort(java.net.URL portAddress)
+	org.eclipse.birt.report.soapengine.endpoint.BirtSoapPort getBirtSoapPort(java.net.URL portAddress)
 			throws javax.xml.rpc.ServiceException;
 }

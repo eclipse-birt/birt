@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.IStyledElement;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableBandContent;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
@@ -132,7 +131,7 @@ public class LayoutUtil {
 
 	/**
 	 * if the content is hidden
-	 * 
+	 *
 	 * @return
 	 */
 	static private boolean isHiddenByVisibility(IStyle style, String format, boolean hiddenMask) {
@@ -142,10 +141,8 @@ public class LayoutUtil {
 				if (contains(formats, BIRTConstants.BIRT_ALL_VALUE)) {
 					return true;
 				}
-			} else {
-				if (contains(formats, format)) {
-					return true;
-				}
+			} else if (contains(formats, format)) {
+				return true;
 			}
 		}
 		return false;
@@ -158,11 +155,9 @@ public class LayoutUtil {
 				if (contains(columnFormats, BIRTConstants.BIRT_ALL_VALUE)) {
 					return true;
 				}
-			} else {
-				if (contains(columnFormats, EngineIRConstants.FORMAT_TYPE_VIEWER)
-						|| contains(columnFormats, BIRTConstants.BIRT_ALL_VALUE) || contains(columnFormats, format)) {
-					return true;
-				}
+			} else if (contains(columnFormats, EngineIRConstants.FORMAT_TYPE_VIEWER)
+					|| contains(columnFormats, BIRTConstants.BIRT_ALL_VALUE) || contains(columnFormats, format)) {
+				return true;
 			}
 		}
 		return false;
@@ -234,13 +229,13 @@ public class LayoutUtil {
 			int type = band.getBandType();
 			if (type == IBandContent.BAND_HEADER) {
 				IContent pp = (IContent) band.getParent();
-				if (pp != null && pp instanceof ITableContent) {
+				if (pp instanceof ITableContent) {
 					ITableContent table = (ITableContent) band.getParent();
 					return table.isHeaderRepeat();
 				}
 			} else if (type == IBandContent.BAND_GROUP_HEADER) {
 				IContent pp = (IContent) band.getParent();
-				if (pp != null && pp instanceof IGroupContent) {
+				if (pp instanceof IGroupContent) {
 					IGroupContent group = (IGroupContent) band.getParent();
 					return group.isHeaderRepeat();
 				}

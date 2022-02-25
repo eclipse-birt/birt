@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,8 +63,9 @@ public class ArchiveFile implements IArchiveFile {
 	}
 
 	public ArchiveFile(String systemId, String fileName, String mode) throws IOException {
-		if (fileName == null || fileName.length() == 0)
+		if (fileName == null || fileName.length() == 0) {
 			throw new IOException(CoreMessages.getString(ResourceConstants.FILE_NAME_IS_NULL));
+		}
 
 		File fd = new File(fileName);
 		// make sure the file name is an absolute path
@@ -156,34 +157,38 @@ public class ArchiveFile implements IArchiveFile {
 
 	/**
 	 * get the archive name.
-	 * 
+	 *
 	 * the archive name is the file name used to create the archive instance.
-	 * 
+	 *
 	 * @return archive name.
 	 */
+	@Override
 	public String getName() {
 		return archiveName;
 	}
 
+	@Override
 	public String getDependId() {
 		return af.getDependId();
 	}
 
+	@Override
 	public String getSystemId() {
 		return systemId;
 	}
 
 	/**
 	 * close the archive.
-	 * 
+	 *
 	 * all changed data will be flushed into disk if the file is opened for write.
-	 * 
+	 *
 	 * the file will be removed if it is opend as transient.
-	 * 
+	 *
 	 * after close, the instance can't be used any more.
-	 * 
+	 *
 	 * @throws IOException
 	 */
+	@Override
 	public void close() throws IOException {
 		if (isArchiveFileAvailable(af)) {
 			af.close();
@@ -198,12 +203,14 @@ public class ArchiveFile implements IArchiveFile {
 		}
 	}
 
+	@Override
 	public void setCacheSize(long cacheSize) {
 		if (isArchiveFileAvailable(af)) {
 			af.setCacheSize(cacheSize);
 		}
 	}
 
+	@Override
 	public long getUsedCache() {
 		if (isArchiveFileAvailable(af)) {
 			return af.getUsedCache();
@@ -250,9 +257,10 @@ public class ArchiveFile implements IArchiveFile {
 	/**
 	 * save the file. If the file is transient file, after saving, it will be
 	 * converts to normal file.
-	 * 
+	 *
 	 * @throws IOException
 	 */
+	@Override
 	public void save() throws IOException {
 		if (isArchiveFileAvailable(af)) {
 			af.save();
@@ -276,6 +284,7 @@ public class ArchiveFile implements IArchiveFile {
 		}
 	}
 
+	@Override
 	synchronized public void flush() throws IOException {
 		if (isArchiveFileAvailable(af)) {
 			af.flush();
@@ -284,6 +293,7 @@ public class ArchiveFile implements IArchiveFile {
 		}
 	}
 
+	@Override
 	synchronized public void refresh() throws IOException {
 		if (isArchiveFileAvailable(af)) {
 			af.refresh();
@@ -292,6 +302,7 @@ public class ArchiveFile implements IArchiveFile {
 		}
 	}
 
+	@Override
 	synchronized public boolean exists(String name) {
 		if (isArchiveFileAvailable(af)) {
 			return af.exists(name);
@@ -299,6 +310,7 @@ public class ArchiveFile implements IArchiveFile {
 		return false;
 	}
 
+	@Override
 	synchronized public ArchiveEntry openEntry(String name) throws IOException {
 		if (isArchiveFileAvailable(af)) {
 			return af.openEntry(name);
@@ -307,6 +319,7 @@ public class ArchiveFile implements IArchiveFile {
 		}
 	}
 
+	@Override
 	synchronized public List<String> listEntries(String namePattern) {
 		if (isArchiveFileAvailable(af)) {
 			return af.listEntries(namePattern);
@@ -315,6 +328,7 @@ public class ArchiveFile implements IArchiveFile {
 		}
 	}
 
+	@Override
 	synchronized public ArchiveEntry createEntry(String name) throws IOException {
 		if (isArchiveFileAvailable(af)) {
 			return af.createEntry(name);
@@ -323,6 +337,7 @@ public class ArchiveFile implements IArchiveFile {
 		}
 	}
 
+	@Override
 	synchronized public boolean removeEntry(String name) throws IOException {
 		if (isArchiveFileAvailable(af)) {
 			return af.removeEntry(name);
@@ -331,10 +346,12 @@ public class ArchiveFile implements IArchiveFile {
 		}
 	}
 
+	@Override
 	public Object lockEntry(String name) throws IOException {
 		return af.lockEntry(name);
 	}
 
+	@Override
 	public void unlockEntry(Object locker) throws IOException {
 		if (isArchiveFileAvailable(af)) {
 			af.unlockEntry(locker);
@@ -343,13 +360,14 @@ public class ArchiveFile implements IArchiveFile {
 		}
 	}
 
+	@Override
 	public long getLength() {
 		return af.getLength();
 	}
 
 	/**
 	 * upgrade the archive file to the latest version
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	private void upgradeArchiveV1() throws IOException {
@@ -381,7 +399,7 @@ public class ArchiveFile implements IArchiveFile {
 
 	/**
 	 * upgrade systemId when open/append the current file
-	 * 
+	 *
 	 * @param file
 	 */
 	private void upgradeSystemId(IArchiveFile file) {
@@ -417,7 +435,7 @@ public class ArchiveFile implements IArchiveFile {
 
 	private void zip(String src, String tgt) throws IOException {
 		FileInputStream fi = new FileInputStream(src);
-		try {
+		try (fi) {
 			FileOutputStream fo = new FileOutputStream(tgt);
 			try {
 				GZIPOutputStream gzip = new GZIPOutputStream(fo);
@@ -431,14 +449,12 @@ public class ArchiveFile implements IArchiveFile {
 			} finally {
 				fo.close();
 			}
-		} finally {
-			fi.close();
 		}
 	}
 
 	protected void unzip(String src, String tgt) throws IOException {
 		FileInputStream fi = new FileInputStream(src);
-		try {
+		try (fi) {
 			FileOutputStream fo = new FileOutputStream(tgt);
 			try {
 				GZIPInputStream gzip = new GZIPInputStream(fi);
@@ -452,8 +468,6 @@ public class ArchiveFile implements IArchiveFile {
 			} finally {
 				fo.close();
 			}
-		} finally {
-			fi.close();
 		}
 	}
 
@@ -462,7 +476,7 @@ public class ArchiveFile implements IArchiveFile {
 	 * be maintained by caller to clean up. If not set, default temporary file
 	 * folder will be used as defined by JDK. See javadoc in
 	 * {@link File#createTempFile(String, String, File)}
-	 * 
+	 *
 	 * @param folderPath folder path
 	 */
 	public static void setTempFileFolder(String folderPath) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,6 +39,7 @@ public abstract class GeneralPage extends GeneralFontPage {
 	private SeperatorSection seperatorSection;
 	private FormTextSection noteSection;
 
+	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
 		container.setLayout(WidgetUtil.createGridLayout(6, 15));
@@ -71,6 +72,7 @@ public abstract class GeneralPage extends GeneralFontPage {
 		layoutSections();
 	}
 
+	@Override
 	public void refresh() {
 		if (input instanceof List && DEUtil.getMultiSelectionHandle((List) input).isExtendedElements()) {
 
@@ -83,8 +85,9 @@ public abstract class GeneralPage extends GeneralFontPage {
 				FontData fData = font.getFontData()[0];
 				fData.setHeight(fData.getHeight() - 1);
 				noteSection.getTextControl().setFont(FontManager.getFont(fData));
-			} else
+			} else {
 				noteSection.setHidden(true);
+			}
 
 			seperatorSection.setHidden(false);
 			librarySection.load();
@@ -107,7 +110,7 @@ public abstract class GeneralPage extends GeneralFontPage {
 
 	/**
 	 * Builds UI content of this page.
-	 * 
+	 *
 	 * @param content parent composite.
 	 */
 	protected abstract void buildContent();

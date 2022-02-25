@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ public class MetricUtility {
 
 	/**
 	 * Transforms the inch to pixel
-	 * 
+	 *
 	 * @param x the x
 	 * @param y the y
 	 * @return a new point
@@ -50,7 +50,7 @@ public class MetricUtility {
 
 	/**
 	 * Transforms the inch to pixel
-	 * 
+	 *
 	 * @param x
 	 * @return pixel value
 	 */
@@ -60,7 +60,7 @@ public class MetricUtility {
 
 	/**
 	 * Transforms the pixel to inch
-	 * 
+	 *
 	 * @param x
 	 * @return pixel value
 	 */
@@ -70,7 +70,7 @@ public class MetricUtility {
 
 	/**
 	 * Update dimension according to pixel size and unit
-	 * 
+	 *
 	 * @param dim       dimension to update
 	 * @param pixelSize pixel size
 	 * @throws SemanticException
@@ -82,7 +82,7 @@ public class MetricUtility {
 	/**
 	 * Update dimension according to the pixel size and keep the existing unit. If
 	 * unit is not set, use default unit.
-	 * 
+	 *
 	 * @param dim        dimension to update
 	 * @param pixelSize  pixel size
 	 * @param targetUnit

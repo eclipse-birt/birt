@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -91,7 +91,7 @@ public abstract class PartContainer implements IPartContainer {
 		Hyperlink hyperlink = new Hyperlink(url, type);
 		Integer hyperlinkId = null;
 		if (hyperlinks == null) {
-			hyperlinks = new HashMap<PartContainer.Hyperlink, Integer>(8);
+			hyperlinks = new HashMap<>(8);
 		} else {
 			hyperlinkId = hyperlinks.get(hyperlink);
 			if (hyperlinkId != null) {
@@ -125,7 +125,7 @@ public abstract class PartContainer implements IPartContainer {
 
 	void addPart(IPart part) {
 		if (parts == null) {
-			parts = new HashMap<String, IPart>(8);
+			parts = new HashMap<>(8);
 		}
 		parts.put(part.getRelativeUri(), part);
 	}

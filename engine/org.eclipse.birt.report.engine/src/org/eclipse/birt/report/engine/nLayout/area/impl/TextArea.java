@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -76,6 +76,7 @@ public class TextArea extends AbstractArea implements ITextArea {
 		this.offset = area.offset;
 	}
 
+	@Override
 	public int getBaseLine() {
 		if (style != null) {
 			return style.getFontInfo().getBaseline();
@@ -161,16 +162,18 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return style;
 	}
 
+	@Override
 	public String getLogicalOrderText() {
 		return calculateText();
 	}
 
 	/**
 	 * Gets the text in visual order.
-	 * 
+	 *
 	 * @param text the original text.
 	 * @return the text in visual order.
 	 */
+	@Override
 	public String getText() {
 		if (cachedText == null) {
 			if ((runLevel & 1) == 0) {
@@ -198,10 +201,12 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return runLevel;
 	}
 
+	@Override
 	public TextStyle getTextStyle() {
 		return style;
 	}
 
+	@Override
 	public void accept(IAreaVisitor visitor) {
 		visitor.visitText(this);
 	}
@@ -215,6 +220,7 @@ public class TextArea extends AbstractArea implements ITextArea {
 		}
 	}
 
+	@Override
 	public TextArea cloneArea() {
 		return new TextArea(this);
 	}
@@ -227,6 +233,7 @@ public class TextArea extends AbstractArea implements ITextArea {
 		this.whiteSpaceNumber = whiteSpaceNumber;
 	}
 
+	@Override
 	public boolean needClip() {
 		return needClip;
 	}

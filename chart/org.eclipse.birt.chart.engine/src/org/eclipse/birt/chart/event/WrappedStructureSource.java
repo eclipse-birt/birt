@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param source
 	 */
 	public WrappedStructureSource(Object source) {
@@ -42,7 +42,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param source
 	 */
 	public WrappedStructureSource(Object source, StructureType type) {
@@ -51,7 +51,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parent
 	 * @param source
 	 */
@@ -63,7 +63,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentSource
 	 * @param parentType
 	 * @param source
@@ -77,7 +77,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * Returns the parent object.
-	 * 
+	 *
 	 * @return
 	 */
 	public StructureSource getParent() {
@@ -86,7 +86,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * Creates a WrappedStructure Source for type Legend Title with a Legend parent.
-	 * 
+	 *
 	 * @param lg
 	 * @param title
 	 * @return
@@ -97,7 +97,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * Creates a WrappedStructure Source for type Legend Entry with a Legend parent.
-	 * 
+	 *
 	 * @param lg
 	 * @param title
 	 * @return
@@ -108,7 +108,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * Creates a WrappedStructure Source for type Axis Title with an Axis parent.
-	 * 
+	 *
 	 * @param ax
 	 * @param title
 	 * @return
@@ -119,7 +119,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * Creates a WrappedStructure Source for type Axis Label with an Axis parent.
-	 * 
+	 *
 	 * @param ax
 	 * @param title
 	 * @return
@@ -131,7 +131,7 @@ public class WrappedStructureSource extends StructureSource {
 	/**
 	 * Creates a WrappedStructure Source for type Series DataPoint with a Series
 	 * parent.
-	 * 
+	 *
 	 * @param se
 	 * @param dph
 	 * @return
@@ -143,7 +143,7 @@ public class WrappedStructureSource extends StructureSource {
 	/**
 	 * Creates a WrappedStructure Source for type Series Element with a Series
 	 * parent.
-	 * 
+	 *
 	 * @param se
 	 * @param dph
 	 * @return
@@ -154,7 +154,7 @@ public class WrappedStructureSource extends StructureSource {
 
 	/**
 	 * Creates a WrappedStructure Source for type Series Title with a Series parent.
-	 * 
+	 *
 	 * @param se
 	 * @param title
 	 * @return
@@ -166,7 +166,7 @@ public class WrappedStructureSource extends StructureSource {
 	/**
 	 * Creates a WrappedStructure Source for type Series Marker with a Series
 	 * parent.
-	 * 
+	 *
 	 * @param se
 	 * @param dph
 	 * @return
@@ -178,7 +178,7 @@ public class WrappedStructureSource extends StructureSource {
 	/**
 	 * Creates a WrappedStructure Source for type Series FittingCurve with a Series
 	 * parent.
-	 * 
+	 *
 	 * @param se
 	 * @param dph
 	 * @return

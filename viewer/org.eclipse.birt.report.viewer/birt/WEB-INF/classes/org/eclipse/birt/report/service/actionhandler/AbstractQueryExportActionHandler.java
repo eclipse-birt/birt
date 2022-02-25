@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -14,8 +14,8 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.util.List;
-import org.apache.axis.AxisFault;
 
+import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -50,21 +50,21 @@ public abstract class AbstractQueryExportActionHandler extends AbstractBaseActio
 
 	/**
 	 * Abstract method to handle update response object.
-	 * 
+	 *
 	 * @param resultSets
 	 */
 	protected abstract void handleUpdate(ResultSets resultSets);
 
 	/**
 	 * Check if document file exists.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	abstract protected void __checkDocumentExists() throws Exception;
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 * @param response
@@ -75,9 +75,10 @@ public abstract class AbstractQueryExportActionHandler extends AbstractBaseActio
 
 	/**
 	 * Action handler entry point.
-	 * 
+	 *
 	 * @throws Exception
 	 */
+	@Override
 	protected void __execute() throws Exception {
 		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean();
 		__docName = attrBean.getReportDocumentName();
@@ -89,10 +90,11 @@ public abstract class AbstractQueryExportActionHandler extends AbstractBaseActio
 		InputOptions options = new InputOptions();
 		options.setOption(InputOptions.OPT_REQUEST, context.getRequest());
 
-		if (instanceID.equals("Document")) //$NON-NLS-1$
+		if (instanceID.equals("Document")) { //$NON-NLS-1$
 			exportedResultSets = getReportService().getResultSetsMetadata(__docName, options);
-		else
+		} else { // $NON-NLS-1$
 			exportedResultSets = getReportService().getResultSetsMetadata(__docName, instanceID, options);
+		}
 
 		if (exportedResultSets == null) {
 			// No result sets available
@@ -110,7 +112,7 @@ public abstract class AbstractQueryExportActionHandler extends AbstractBaseActio
 
 	/**
 	 * Prepare returned result set.
-	 * 
+	 *
 	 * @param exportedResultSets
 	 * @return ResultSet[]
 	 */
@@ -125,7 +127,7 @@ public abstract class AbstractQueryExportActionHandler extends AbstractBaseActio
 			for (int j = 0; j < columns.size(); j++) {
 				ExportedColumn col = (ExportedColumn) columns.get(j);
 				colArray[j] = new Column(ParameterAccessor.htmlEncode(col.getName()), col.getLabel(),
-						Boolean.valueOf(col.getVisibility()));
+						col.getVisibility());
 			}
 			rsArray[i] = new ResultSet(rs.getQueryName(), colArray);
 		}

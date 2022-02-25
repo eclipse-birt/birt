@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -61,9 +61,9 @@ public class CopyAction extends AbstractViewAction {
 
 	/**
 	 * Create a new copy action with given selection and default text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
-	 * 
+	 *
 	 */
 	public CopyAction(Object selectedObject) {
 		this(selectedObject, DEFAULT_TEXT);
@@ -71,7 +71,7 @@ public class CopyAction extends AbstractViewAction {
 
 	/**
 	 * Create a new copy action with given selection and text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
 	 * @param text           the text of the action
 	 */
@@ -88,6 +88,7 @@ public class CopyAction extends AbstractViewAction {
 	 * the steps needed to carry out this action. The default implementation of this
 	 * method in <code>Action</code> does nothing.
 	 */
+	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Copy action >> Copy " + getSelection()); //$NON-NLS-1$
@@ -104,12 +105,14 @@ public class CopyAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
-		if (canCopy(getSelection()))
+		if (canCopy(getSelection())) {
 			return super.isEnabled();
+		}
 		return false;
 	}
 
@@ -135,20 +138,19 @@ public class CopyAction extends AbstractViewAction {
 				} else if (parent instanceof GridHandle) {
 					bool = ((GridHandle) parent).canCopyColumn(columnNumber);
 				}
-				if (bool && array.length == 1) {
-					return true;
-				}
-				if (bool && array[1] instanceof CellHandle) {
+				if ((bool && array.length == 1) || (bool && array[1] instanceof CellHandle)) {
 					return true;
 				}
 				return false;
 			}
 
 			for (int i = 0; i < array.length; i++) {
-				if (DNDUtil.checkContainerExists(array[i], array))
+				if (DNDUtil.checkContainerExists(array[i], array)) {
 					continue;
-				if (!canCopy(array[i]))
+				}
+				if (!canCopy(array[i])) {
 					return false;
+				}
 			}
 			return true;
 		}

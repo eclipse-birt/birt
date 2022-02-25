@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -136,7 +136,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	/**
 	 * Test initializeReportItem method. when element has virtual parent, also can
 	 * be initialized.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testVirtualExtension() throws Exception {
@@ -200,7 +200,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParser() throws Exception {
@@ -258,7 +258,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the writer for peer extension slot.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWriter() throws Exception {
@@ -288,7 +288,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the property search with support of extension slot.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testPropertySearch() throws Exception {
@@ -329,7 +329,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the content commands.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCommand() throws Exception {
@@ -382,7 +382,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParserErrorRecover() throws Exception {
@@ -410,7 +410,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	/**
 	 * Tests an extension has 'extensionName' property even if it does not extend
 	 * from 'ExtendedItem'.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExtensionNameProp() throws Exception {
@@ -426,7 +426,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testActionHandleInExtension() throws Exception {
@@ -450,7 +450,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the error handler of extension loader.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExtensionLoaderErrorHandler() throws Exception {
@@ -466,7 +466,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests extension allowed units.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExtensionAllowedUnits() throws Exception {
@@ -505,7 +505,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests IReportItem :: getPredefinedStyles about the property search.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testPredefinedStyles() throws Exception {
@@ -575,7 +575,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	/**
 	 * When changes the style defined in IReportItem.getPredefinedStyles, the style
 	 * event will be sent to the specified element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -601,7 +601,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	/**
 	 * Test getLocalProperty in ExtendedItem. If a extension property is element
 	 * reference type and is not resolved, we will try to resolve it everty time.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testResolveForExtensionProperty() throws Exception {
@@ -624,7 +624,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Test client reference in extended item.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -645,7 +645,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests IReportItem :: getFunctions.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -681,7 +681,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests newElementFrom and writer for extended item with element properties.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testElementProperty() throws Exception {
@@ -783,7 +783,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the compatibility framework for extended items.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParserCompatibility() throws Exception {
@@ -864,7 +864,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests extension style definition.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -882,14 +882,14 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests useOwnSearch cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>No local value, uses container values. tests getFactoryProperty(),
 	 * getProperty() and ReportItem.getProperty().
 	 * <li>Has local value. tests getFactoryProperty(), getProperty() and
 	 * ReportItem.getProperty().
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -925,7 +925,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the property of the extension item which locates in the multiviews.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -941,7 +941,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * The nexted testing box should also be validated.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -951,12 +951,13 @@ public class PeerExtensionTest extends BaseTestCase {
 		designHandle.checkReport();
 
 		List<?> errors = design.getAllExceptions();
-		List<ExtendedElementException> extendedErrors = new ArrayList<ExtendedElementException>();
+		List<ExtendedElementException> extendedErrors = new ArrayList<>();
 
 		for (int i = 0; i < errors.size(); i++) {
 			SemanticException error = (SemanticException) errors.get(i);
-			if (!(error instanceof ExtendedElementException))
+			if (!(error instanceof ExtendedElementException)) {
 				continue;
+			}
 
 			extendedErrors.add((ExtendedElementException) error);
 		}
@@ -969,7 +970,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the cases for user-properties in ExtendedItem.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testUserProperty() throws Exception {
@@ -1000,7 +1001,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	/**
 	 * Tests multiple level inheritance for the overridden property. Used
 	 * "TestingTable" and "TestingTable1" as examples.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1021,7 +1022,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	/**
 	 * Tests the case that we set up the structure context for the extended
 	 * structure type property when clone the extended element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCloneWithExtendedStructureProp() throws Exception {
@@ -1039,7 +1040,7 @@ public class PeerExtensionTest extends BaseTestCase {
 	/**
 	 * Tests the case that we set up the structure context for the extended
 	 * structure type property when clone the extended element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1068,7 +1069,7 @@ public class PeerExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests element reference type list property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1094,8 +1095,9 @@ public class PeerExtensionTest extends BaseTestCase {
 		propHandle.addItem("NonexistElement"); //$NON-NLS-1$
 
 		assertEquals(4, propHandle.getItems().size());
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			assertEquals(tables[i], propHandle.getItems().get(i));
+		}
 		assertNull(propHandle.getItems().get(3));
 	}
 
@@ -1105,15 +1107,16 @@ public class PeerExtensionTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.api.core.Listener#elementChanged(org
 		 * .eclipse.birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
 		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
-			if (ev instanceof StyleEvent)
+			if (ev instanceof StyleEvent) {
 				eventCount++;
+			}
 		}
 
 		/**

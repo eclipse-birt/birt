@@ -3,14 +3,13 @@
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-2.0.html
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
@@ -18,7 +17,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Driver;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -63,7 +61,7 @@ public class JdbcToolKit {
 
 	/**
 	 * Found drivers in the Jar file List
-	 * 
+	 *
 	 * @param file
 	 * @return a List of JDBCDriverInformation
 	 */
@@ -79,8 +77,9 @@ public class JdbcToolKit {
 						break;
 					}
 				}
-				if (!duplicated)
+				if (!duplicated) {
 					fileList.add(failToLoadFile);
+				}
 			}
 		}
 		List driverInfos = getJDBCDriverInfoList(fileList);
@@ -93,15 +92,16 @@ public class JdbcToolKit {
 	 * Returns a List jdbc Drivers. The Drivers are searched from predefined
 	 * directories in the DTE plug-in. Currently it is expected that the jdbc
 	 * drivers are in the "drivers" directory of the DTE oda.jdbc plug-in.
-	 * 
+	 *
 	 * @param driverName
 	 * @return
 	 */
 	public synchronized static List getJdbcDriversFromODADir(String driverName) {
 		if (jdbcDriverInfos != null) {
 			// remove the forged driver if exists
-			if (!driverNameMap.containsValue(jdbcDriverInfos.get(0)))
+			if (!driverNameMap.containsValue(jdbcDriverInfos.get(0))) {
 				jdbcDriverInfos.remove(0);
+			}
 
 			if (JdbcDriverManagerDialog.needResetPreferences()) {
 				resetPreferences();
@@ -156,7 +156,7 @@ public class JdbcToolKit {
 
 	/**
 	 * Read user setting from the preference store and update
-	 * 
+	 *
 	 */
 	private static void resetPreferences() {
 		Map preferenceMap = Utility.getPreferenceStoredMap(JdbcPlugin.DRIVER_MAP_PREFERENCE_KEY);
@@ -177,61 +177,9 @@ public class JdbcToolKit {
 		}
 	}
 
-	private static List getJDBCDriverInfoListFromODADir(List fileList) {
-		List driverList = new ArrayList();
-		List allJars = new ArrayList();
-		allJars.addAll(fileList);
-		allJars.addAll(Arrays.asList(JarFile.getDriverLocation().listFiles(new FileFilter() {
-
-			public boolean accept(File fileName) {
-				if (fileName.isFile() && (fileName.getName().toLowerCase().endsWith(".jar")
-						|| fileName.getName().toLowerCase().endsWith(".zip"))) {
-					return true;
-				}
-				return false;
-			}
-		})));
-
-		if (allJars == null || allJars.size() == 0)
-			return driverList;
-
-		URLClassLoader urlClassLoader = createClassLoader(allJars.toArray());
-		for (int i = 0; i < fileList.size(); i++) {
-			String[] resourceNames = getAllResouceNames((File) fileList.get(i));
-			List subDriverList = new ArrayList();
-			for (int j = 0; j < resourceNames.length; j++) {
-				String resourceName = resourceNames[j];
-				if (resourceName.endsWith(".class")) //$NON-NLS-1$
-				{
-					resourceName = modifyResourceName(resourceName);
-
-					Class aClass = loadClass(urlClassLoader, resourceName);
-
-					// Do not add it, if it is a Abstract class
-					if (isImplementedDriver(aClass)) {
-						JDBCDriverInformation info = JDBCDriverInformation.newInstance(aClass);
-						if (info != null) {
-							driverList.add(info);
-							subDriverList.add(info);
-						}
-					}
-				}
-			}
-			if (subDriverList.isEmpty()) {
-				if (!failLoadFileList.contains(fileList.get(i)))
-					failLoadFileList.add(fileList.get(i));
-			} else {
-				if (failLoadFileList.contains(fileList.get(i)))
-					failLoadFileList.remove(fileList.get(i));
-			}
-			file2Drivers.put(((File) fileList.get(i)).getName(), subDriverList);
-		}
-		return driverList;
-	}
-
 	/**
 	 * Get a List of JDBCDriverInformations loaded from the given fileList
-	 * 
+	 *
 	 * @param fileList       the File List
 	 * @param urlClassLoader
 	 * @return List of JDBCDriverInformation
@@ -262,11 +210,11 @@ public class JdbcToolKit {
 				}
 			}
 			if (subDriverList.isEmpty()) {
-				if (!failLoadFileList.contains(fileList.get(i)))
+				if (!failLoadFileList.contains(fileList.get(i))) {
 					failLoadFileList.add(fileList.get(i));
-			} else {
-				if (failLoadFileList.contains(fileList.get(i)))
-					failLoadFileList.remove(fileList.get(i));
+				}
+			} else if (failLoadFileList.contains(fileList.get(i))) {
+				failLoadFileList.remove(fileList.get(i));
 			}
 			file2Drivers.put(((File) fileList.get(i)).getName(), subDriverList);
 		}
@@ -275,19 +223,20 @@ public class JdbcToolKit {
 
 	/**
 	 * add new found driver(s) to runtime driver list
-	 * 
+	 *
 	 * @param fileList
 	 */
 	public static List addToDriverList(List fileList) {
-		if (fileList != null && fileList.size() != 0)
+		if (fileList != null && fileList.size() != 0) {
 			return getJdbcDriverFromFile(fileList);
+		}
 
 		return null;
 	}
 
 	/**
 	 * remove driver(s) from runtime driver list
-	 * 
+	 *
 	 * @param fileList
 	 */
 	public static List removeFromDriverList(List fileList) {
@@ -297,21 +246,23 @@ public class JdbcToolKit {
 
 			List driverNames = (List) file2Drivers.get(fileName);
 			for (int j = 0; j < jdbcDriverInfos.size(); j++) {
-				for (int k = 0; k < driverNames.size(); k++)
+				for (int k = 0; k < driverNames.size(); k++) {
 					if (((JDBCDriverInformation) jdbcDriverInfos.get(j)).getDriverClassName()
 							.equals(((JDBCDriverInformation) driverNames.get(k)).getDriverClassName())) {
 						removedDrivers.add(jdbcDriverInfos.get(j));
 						jdbcDriverInfos.remove(j);
 					}
+				}
 			}
-			if (failLoadFileList.contains(fileList.get(i)))
+			if (failLoadFileList.contains(fileList.get(i))) {
 				failLoadFileList.remove(fileList.get(i));
+			}
 		}
 		return removedDrivers;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public static List getDriverList() {
@@ -324,25 +275,26 @@ public class JdbcToolKit {
 
 	/**
 	 * modify resourceName,prepare for loadClass()
-	 * 
+	 *
 	 * @param resourceName
 	 * @return
 	 */
 	private static String modifyResourceName(String resourceName) {
-		resourceName = (resourceName.replaceAll("/", ".")).substring(0, resourceName.length() - 6);
+		resourceName = (resourceName.replace('/', '.')).substring(0, resourceName.length() - 6);
 		return resourceName;
 	}
 
 	/**
 	 * Gets a list of JDBCDriverInformation according to the given jar list.
-	 * 
+	 *
 	 * @param jars
 	 * @return
 	 */
 	public static List getDriverByJar(List jars) {
 		List drivers = null;
-		if (jars == null || jars.size() == 0)
+		if (jars == null || jars.size() == 0) {
 			return drivers;
+		}
 
 		List jarList = new ArrayList(jars.size());
 		for (int i = 0; i < jars.size(); i++) {
@@ -354,7 +306,7 @@ public class JdbcToolKit {
 
 	/**
 	 * Discards the temporary add-in drivers list
-	 * 
+	 *
 	 */
 	public static void discardAddedInDrivers() {
 		for (int i = 0; i < tempAddedInDriverInfos.size(); i++) {
@@ -369,8 +321,9 @@ public class JdbcToolKit {
 	 */
 	private static void addDriversFromFiles() {
 		List jdbcDriverFiles = JdbcDriverConfigUtil.getDriverFiles();
-		if (jdbcDriverFiles == null || jdbcDriverFiles.size() == 0)
+		if (jdbcDriverFiles == null || jdbcDriverFiles.size() == 0) {
 			return;
+		}
 
 		List driverList = getJDBCDriverInfoList(jdbcDriverFiles);
 		jdbcDriverInfos.addAll(driverList);
@@ -382,7 +335,7 @@ public class JdbcToolKit {
 
 	/**
 	 * Create URLClassLoader based on the given jdbcDriverFiles array
-	 * 
+	 *
 	 * @param jdbcDriverFiles
 	 * @return
 	 */
@@ -404,7 +357,7 @@ public class JdbcToolKit {
 
 	/**
 	 * Load a Class using the given ClassLoader
-	 * 
+	 *
 	 * @param urlClassLoader
 	 * @param resourceName
 	 * @return
@@ -421,7 +374,7 @@ public class JdbcToolKit {
 
 	/**
 	 * Check whether the given class implemented <tt>java.sql.Driver</tt>
-	 * 
+	 *
 	 * @param aClass the class to be checked
 	 * @return <tt>true</tt> if <tt>aClass</tt> implemented
 	 *         <tt>java.sql.Driver</tt>,else <tt>false</tt>;
@@ -432,7 +385,7 @@ public class JdbcToolKit {
 
 	/**
 	 * Get all resources included in a jar file
-	 * 
+	 *
 	 * @param jarFile
 	 * @return
 	 */
@@ -459,7 +412,7 @@ public class JdbcToolKit {
 
 	/**
 	 * Determine aClass implements java.sql.Driver interface
-	 * 
+	 *
 	 * @param aClass
 	 * @return
 	 */

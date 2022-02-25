@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -40,6 +40,7 @@ public class SortDefinition implements ISortDefinition {
 	 * Returns the name of the column to sort on. Either the KeyColumn or KeyExpr
 	 * can be used to define the sort key.
 	 */
+	@Override
 	public String getColumn() {
 		return keyColumn;
 	}
@@ -47,6 +48,7 @@ public class SortDefinition implements ISortDefinition {
 	/**
 	 * Returns the JavaScript expression that defines the group key. <br>
 	 */
+	@Override
 	public IScriptExpression getExpression() {
 		return keyExpr;
 	}
@@ -74,10 +76,11 @@ public class SortDefinition implements ISortDefinition {
 
 	/**
 	 * Returns the sort direction.
-	 * 
+	 *
 	 * @return the sort direction: one of SORT_ASC or SORT_DESC
 	 */
 
+	@Override
 	public int getSortDirection() {
 		return direction;
 	}
@@ -91,30 +94,34 @@ public class SortDefinition implements ISortDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.ISortDefinition#getSortStrength()
 	 */
+	@Override
 	public int getSortStrength() {
 		return this.strength;
 	}
 
 	/**
 	 * Set the collator sort strength of the destine sort.
-	 * 
+	 *
 	 * @param strength
 	 */
+	@Override
 	public void setSortStrength(int strength) {
 		this.strength = strength;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param locale
 	 */
+	@Override
 	public void setSortLocale(ULocale locale) {
 		this.locale = locale;
 	}
 
+	@Override
 	public ULocale getSortLocale() {
 		return this.locale;
 	}

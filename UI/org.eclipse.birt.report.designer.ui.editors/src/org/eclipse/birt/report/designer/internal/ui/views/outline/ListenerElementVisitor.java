@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Applies visitor to the report element and the children element
- * 
+ *
  */
 
 public class ListenerElementVisitor extends DesignVisitor {
@@ -38,7 +38,7 @@ public class ListenerElementVisitor extends DesignVisitor {
 
 	/**
 	 * constructor. Sets the listener and design
-	 * 
+	 *
 	 * @param listener the listener value to be set
 	 */
 
@@ -59,11 +59,12 @@ public class ListenerElementVisitor extends DesignVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.model.api.DesignVisitor#visitDesignElement(org.eclipse.birt.
 	 * model.api.DesignElementHandle)
 	 */
+	@Override
 	public void visitDesignElement(DesignElementHandle obj) {
 		if (install) {
 			obj.addListener(listener);
@@ -82,11 +83,12 @@ public class ListenerElementVisitor extends DesignVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.DesignVisitor#visitReportDesign(org.eclipse
 	 * .birt.report.model.api.ReportDesignHandle)
 	 */
+	@Override
 	protected void visitModule(ModuleHandle obj) {
 		if (listener instanceof IValidationListener) {
 			IValidationListener vl = (IValidationListener) listener;

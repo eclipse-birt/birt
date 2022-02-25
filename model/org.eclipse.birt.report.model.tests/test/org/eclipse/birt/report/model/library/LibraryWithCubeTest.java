@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,13 +28,14 @@ public class LibraryWithCubeTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Tests load cube extended from library.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -47,7 +48,7 @@ public class LibraryWithCubeTest extends BaseTestCase {
 
 	/**
 	 * Tests write extended cube.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void writeExtendedCube() throws Exception {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2014 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,7 @@ import com.lowagie.text.Font;
 
 /**
  * This class is used use to generate PPTX shapes.
- * 
+ *
  */
 public class PPTXCanvas {
 
@@ -79,7 +79,7 @@ public class PPTXCanvas {
 	 * @param width
 	 * @param color
 	 * @param lineStyle
-	 * 
+	 *
 	 *                  pre: all are set in EMU units
 	 */
 	public void drawLine(int startX, int startY, int endX, int endY, int width, Color color, int lineStyle) {
@@ -153,7 +153,7 @@ public class PPTXCanvas {
 	/**
 	 * Word have extra limitation on text in run: a. it must following xml format.
 	 * b. no ]]> so , we need replace all &, <,> in the text
-	 * 
+	 *
 	 * @param text
 	 */
 	void writeText(String text) {
@@ -262,14 +262,18 @@ public class PPTXCanvas {
 		writer.closeTag("a:blip");
 		if (crop != null) {
 			writer.openTag("a:srcRect");
-			if (crop.top != 0)
+			if (crop.top != 0) {
 				writer.attribute("t", crop.top);
-			if (crop.left != 0)
+			}
+			if (crop.left != 0) {
 				writer.attribute("l", crop.left);
-			if (crop.right != 0)
+			}
+			if (crop.right != 0) {
 				writer.attribute("r", crop.right);
-			if (crop.bottom != 0)
+			}
+			if (crop.bottom != 0) {
 				writer.attribute("b", crop.bottom);
+			}
 			writer.closeTag("a:srcRect");
 		}
 		if (stretch) {
@@ -326,10 +330,7 @@ public class PPTXCanvas {
 
 	public void drawBackgroundImage(int x, int y, int width, int height, int imageWidth, int imageHeight, int repeat,
 			String imageURI, byte[] imageData, int offsetX, int offsetY) {
-		if (imageURI == null || imageURI.length() == 0) {
-			return;
-		}
-		if (imageData == null || imageData.length == 0) {
+		if (imageURI == null || imageURI.length() == 0 || imageData == null || imageData.length == 0) {
 			return;
 		}
 		try {
@@ -363,20 +364,6 @@ public class PPTXCanvas {
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
 		}
-	}
-
-	private float getImageRange(float maxRange, float offset, float imageSize) {
-		float result = imageSize;
-		if (offset < 0) {
-			result = Math.max(0, imageSize + offset);
-		} else if (offset + imageSize > maxRange) {
-			result = Math.max(0, maxRange - offset);
-		}
-		return result;
-	}
-
-	private boolean isOutOfRange(float maxRange, float offset, float imageSize) {
-		return offset <= 0 - imageSize || offset >= maxRange;
 	}
 
 	private void fillRectangleWithImage(ImagePart imageInfo, int x, int y, int width, int height, int offsetX,
@@ -584,10 +571,6 @@ public class PPTXCanvas {
 		return presentation;
 	}
 
-	private String getSlideUri(int slideIndex) {
-		return "slides/slide" + slideIndex + ".xml";
-	}
-
 	private int nextShapeId() // change to public
 	{
 		return presentation.getNextShapeId();
@@ -604,7 +587,7 @@ public class PPTXCanvas {
 				textStyle.isLinethrough(), link);
 	}
 
-	private Stack<ClipArea> clipStack = new Stack<ClipArea>();
+	private Stack<ClipArea> clipStack = new Stack<>();
 
 	private class ClipArea {
 

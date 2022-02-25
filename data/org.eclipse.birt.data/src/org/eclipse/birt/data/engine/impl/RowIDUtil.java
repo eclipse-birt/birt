@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,14 +28,15 @@ public class RowIDUtil {
 	private int rowIDPos;
 
 	/**
-	 * 
+	 *
 	 * @param ri
 	 * @return
 	 * @throws DataException
 	 */
 	public int getMode(IResultIterator ri) throws DataException {
-		if (mode == -1)
+		if (mode == -1) {
 			init(ri);
+		}
 		return mode;
 	}
 
@@ -46,8 +47,8 @@ public class RowIDUtil {
 	 *//*
 		 * public int getRowID( IResultIterator ri, int currIndex ) throws DataException
 		 * {
-		 * 
-		 * 
+		 *
+		 *
 		 * if ( mode == MODE_NORMAL ) { return currIndex; } else { IResultObject ob =
 		 * ri.getCurrentResult( ); if ( ob == null ) return -1; else return ( (Integer)
 		 * ob.getFieldValue( rowIDPos ) ).intValue( ); } }
@@ -66,7 +67,7 @@ public class RowIDUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getRowIdPos() {

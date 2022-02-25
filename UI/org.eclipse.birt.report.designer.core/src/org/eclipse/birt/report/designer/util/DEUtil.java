@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -107,7 +107,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
@@ -130,9 +129,9 @@ public class DEUtil {
 	 */
 	public static final String ELEMENT_LABELCONTENT_PROPERTY = "labelContent"; //$NON-NLS-1$
 
-	private static HashMap<String, String> propertiesMap = new HashMap<String, String>();
+	private static HashMap<String, String> propertiesMap = new HashMap<>();
 
-	private static ArrayList<IElementDefn> notSupportList = new ArrayList<IElementDefn>();
+	private static ArrayList<IElementDefn> notSupportList = new ArrayList<>();
 
 	private static int defaultFontSite = -1;
 
@@ -149,7 +148,7 @@ public class DEUtil {
 	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss"; //$NON-NLS-1$
 	public static final String DEFAULT_LIBRARY = "/ThemesReportItems31.rptlibrary"; //$NON-NLS-1$
-	private static List<String> paletteElementList = new ArrayList<String>();
+	private static List<String> paletteElementList = new ArrayList<>();
 
 	/**
 	 * The class info of total
@@ -182,18 +181,18 @@ public class DEUtil {
 
 	/**
 	 * Gets the support list of the given parent element and the slotID.
-	 * 
+	 *
 	 * Note: this method returns all supported elements including invisible ones
 	 * from UI. To get supported UI element list, check
 	 * {@link UIUtil#getUIElementSupportList()}
-	 * 
+	 *
 	 * @param parent the parent element
 	 * @param slotId the slotID
 	 * @return the element list that is supported with the given parent element and
 	 *         in the given slotID
 	 */
 	public static List<IElementDefn> getElementSupportList(DesignElementHandle parent, int slotId) {
-		List<IElementDefn> list = new ArrayList<IElementDefn>();
+		List<IElementDefn> list = new ArrayList<>();
 		ISlotDefn slotDefn = parent.getDefn().getSlot(slotId);
 		if (slotDefn != null) {
 			list.addAll(slotDefn.getContentExtendedElements());
@@ -201,8 +200,8 @@ public class DEUtil {
 		}
 
 		// Append to validate the type according to the context
-		List<IElementDefn> availableList = new ArrayList<IElementDefn>();
-		List<IElementDefn> extendedList = new ArrayList<IElementDefn>();
+		List<IElementDefn> availableList = new ArrayList<>();
+		List<IElementDefn> extendedList = new ArrayList<>();
 		for (IElementDefn elementDefn : list) {
 			if (parent.canContain(slotId, elementDefn.getName())) {
 				if (elementDefn.isExtendedElement()) {
@@ -214,12 +213,14 @@ public class DEUtil {
 		}
 		Collections.sort(availableList, new Comparator<IElementDefn>() {
 
+			@Override
 			public int compare(IElementDefn o1, IElementDefn o2) {
 				return paletteElementList.indexOf(o1.getName()) - paletteElementList.indexOf(o2.getName());
 			}
 		});
 		Collections.sort(extendedList, new Comparator<IElementDefn>() {
 
+			@Override
 			public int compare(IElementDefn o1, IElementDefn o2) {
 				return Collator.getInstance().compare(o1.getName(), o2.getName());
 			}
@@ -230,11 +231,11 @@ public class DEUtil {
 
 	/**
 	 * Get the containable element type list of give slot handle.
-	 * 
+	 *
 	 * Note: this method returns all supported elements including invisible ones
 	 * from UI. To get supported UI element list, check
 	 * {@link UIUtil#getUIElementSupportList()}
-	 * 
+	 *
 	 * @param slotHandle
 	 */
 	public static List<IElementDefn> getElementSupportList(SlotHandle slotHandle) {
@@ -244,13 +245,14 @@ public class DEUtil {
 	/**
 	 * Gets the support list of the given parent element. The slotID is decided by
 	 * the parent element.
-	 * 
+	 *
 	 * @param parent the parent element
 	 * @return the the support list of the element
-	 * 
+	 *
 	 * @deprecated use {@link #getElementSupportList(DesignElementHandle, int)} or
 	 *             {@link #getElementSupportList(SlotHandle)}
 	 */
+	@Deprecated
 	public static List<IElementDefn> getElementSupportList(DesignElementHandle parent) {
 		int slotID = -1;
 		if (parent instanceof MasterPageHandle) {
@@ -261,16 +263,16 @@ public class DEUtil {
 
 	/**
 	 * Gets the support list of the given property handle.
-	 * 
+	 *
 	 * Note: this method returns all supported elements including invisible ones
 	 * from UI. To get supported UI element list, check
 	 * {@link UIUtil#getUIElementSupportList()}
-	 * 
+	 *
 	 * @param propertyHandle
 	 * @return
 	 */
 	public static List<IElementDefn> getElementSupportList(PropertyHandle propertyHandle) {
-		List<IElementDefn> list = new ArrayList<IElementDefn>();
+		List<IElementDefn> list = new ArrayList<>();
 		IPropertyDefn propertyDefn = propertyHandle.getPropertyDefn();
 		if (propertyDefn != null) {
 			list.addAll(propertyDefn.getAllowedElements(true));
@@ -278,8 +280,8 @@ public class DEUtil {
 		}
 
 		// Append to validate the type according to the context
-		List<IElementDefn> availableList = new ArrayList<IElementDefn>();
-		List<IElementDefn> extendedList = new ArrayList<IElementDefn>();
+		List<IElementDefn> availableList = new ArrayList<>();
+		List<IElementDefn> extendedList = new ArrayList<>();
 		for (IElementDefn elementDefn : list) {
 			if (propertyHandle.canContain(elementDefn.getName())) {
 				if (elementDefn.isExtendedElement()) {
@@ -291,12 +293,14 @@ public class DEUtil {
 		}
 		Collections.sort(availableList, new Comparator<IElementDefn>() {
 
+			@Override
 			public int compare(IElementDefn o1, IElementDefn o2) {
 				return paletteElementList.indexOf(o1.getName()) - paletteElementList.indexOf(o2.getName());
 			}
 		});
 		Collections.sort(extendedList, new Comparator<IElementDefn>() {
 
+			@Override
 			public int compare(IElementDefn o1, IElementDefn o2) {
 				return Collator.getInstance().compare(o1.getName(), o2.getName());
 			}
@@ -308,7 +312,7 @@ public class DEUtil {
 	/**
 	 * Find the position of the element. If the element is null, the position is
 	 * last
-	 * 
+	 *
 	 * @param parent
 	 * @param element
 	 * @return position
@@ -327,7 +331,7 @@ public class DEUtil {
 	/**
 	 * Find the position of the element. If the element is null, the position is
 	 * last
-	 * 
+	 *
 	 * @param parent
 	 * @param element
 	 * @param content
@@ -349,7 +353,7 @@ public class DEUtil {
 	/**
 	 * Finds the position of the child element in the parent element with the given
 	 * slotID
-	 * 
+	 *
 	 * @param parent the parent element
 	 * @param slotID the slotID
 	 * @param child  the child element
@@ -365,7 +369,7 @@ public class DEUtil {
 	/**
 	 * Gets the element name. The object is a long string that separated with the
 	 * separator "."
-	 * 
+	 *
 	 * @param obj the object
 	 * @return the name behind the last separator "."
 	 */
@@ -379,9 +383,9 @@ public class DEUtil {
 
 	/**
 	 * Gets the definition for the element with the specified name
-	 * 
+	 *
 	 * @param elementName the name of the element
-	 * 
+	 *
 	 * @return Returns the definition, or null if the element is not defined.
 	 */
 	public static IElementDefn getElementDefn(String elementName) {
@@ -394,7 +398,7 @@ public class DEUtil {
 
 	/**
 	 * Get display label of report element
-	 * 
+	 *
 	 * @param obj
 	 */
 	public static String getDisplayLabel(Object obj) {
@@ -403,7 +407,7 @@ public class DEUtil {
 
 	/**
 	 * Get display label of report element
-	 * 
+	 *
 	 * @param obj
 	 */
 	public static String getDisplayLabel(Object obj, boolean includeElementName) {
@@ -431,7 +435,7 @@ public class DEUtil {
 
 	/**
 	 * Gets the master page count.
-	 * 
+	 *
 	 * @return the count of master page
 	 */
 	public static int getMasterPageAccount() {
@@ -450,7 +454,7 @@ public class DEUtil {
 
 	/**
 	 * Gets the default content property name.
-	 * 
+	 *
 	 * @param parent
 	 * @return
 	 */
@@ -467,7 +471,7 @@ public class DEUtil {
 
 	/**
 	 * Get default slot id of give container element
-	 * 
+	 *
 	 * @param parent
 	 * @return slot id, -1 if not found
 	 */
@@ -497,7 +501,7 @@ public class DEUtil {
 
 	/**
 	 * Get the slot id of child
-	 * 
+	 *
 	 * @param parent
 	 * @param child
 	 * @return slot ID
@@ -515,7 +519,7 @@ public class DEUtil {
 	/**
 	 * Get the slot id of child If the slot id was not found, returns the default
 	 * slot id
-	 * 
+	 *
 	 * @param parent
 	 * @param child
 	 * @return slot id
@@ -537,7 +541,7 @@ public class DEUtil {
 	/**
 	 * Get the slot id of child If the slot id was not found, returns the default
 	 * slot id
-	 * 
+	 *
 	 * @param parent
 	 * @param child
 	 * @return slot id
@@ -559,7 +563,7 @@ public class DEUtil {
 	/**
 	 * Find the position of the element. If the element is null, the position is
 	 * last
-	 * 
+	 *
 	 * @param parent
 	 * @param element
 	 * @return position
@@ -578,7 +582,7 @@ public class DEUtil {
 
 	/**
 	 * Map GUI defined property key to DE defined property key
-	 * 
+	 *
 	 * @param key
 	 * @return DE defined property key
 	 */
@@ -591,7 +595,7 @@ public class DEUtil {
 
 	/**
 	 * Transform other units to pixel.
-	 * 
+	 *
 	 * @param handle DimensionHandle of model to keep the measure and units.
 	 * @return The pixel value.
 	 */
@@ -601,7 +605,7 @@ public class DEUtil {
 
 	/**
 	 * Transform other units to pixel.
-	 * 
+	 *
 	 * @param object   model to keep the measure and units.
 	 * @param fontSize the parent font size.
 	 * @return The pixel value.
@@ -666,7 +670,7 @@ public class DEUtil {
 
 	/**
 	 * Transform other units to target unit.
-	 * 
+	 *
 	 * @param handle
 	 * @param targetUnit
 	 * @return
@@ -682,7 +686,7 @@ public class DEUtil {
 
 	/**
 	 * Checks if the value can be converted to a valid Integer.
-	 * 
+	 *
 	 * @param val
 	 * @return true if the value can be converted to a valid Integer, else false.
 	 */
@@ -699,7 +703,7 @@ public class DEUtil {
 	/**
 	 * Checks if the value is a valid number, including any integer and float,
 	 * double.
-	 * 
+	 *
 	 * @param val
 	 */
 	public static boolean isValidNumber(String val) {
@@ -715,7 +719,7 @@ public class DEUtil {
 	/**
 	 * Try to split the given value to String[2]. The result format is as follows:
 	 * [number][other]. If either part can not be determined, it will leave null.
-	 * 
+	 *
 	 * @param value given string value
 	 * @return [number][other]
 	 */
@@ -726,7 +730,7 @@ public class DEUtil {
 			for (int i = value.length(); i > 0; i--) {
 				if (isValidNumber(value.substring(0, i))) {
 					spt[0] = value.substring(0, i);
-					spt[1] = value.substring(i, value.length());
+					spt[1] = value.substring(i);
 
 					break;
 				}
@@ -742,7 +746,7 @@ public class DEUtil {
 
 	/**
 	 * If given value if null, return an empty string, or return itself.
-	 * 
+	 *
 	 * @param value a String value.
 	 * @return non-null value.
 	 */
@@ -753,7 +757,7 @@ public class DEUtil {
 	/**
 	 * Converts the RGB object value to a String, the String format is "r,g,b", no
 	 * quotation marks.
-	 * 
+	 *
 	 * @param rgb RGB value.
 	 * @return String value.
 	 */
@@ -768,7 +772,7 @@ public class DEUtil {
 	/**
 	 * Converts the String value to an RGB object value, the String format is
 	 * "r,g,b", no quotation marks.
-	 * 
+	 *
 	 * @param val String value.
 	 * @return RGB value.
 	 */
@@ -803,7 +807,7 @@ public class DEUtil {
 	/**
 	 * Converts an Integer value to an RGB object value, the Integer format is
 	 * xRRGGBB.
-	 * 
+	 *
 	 * @param rgbValue Integer value.
 	 * @return RGB value.
 	 */
@@ -818,7 +822,7 @@ public class DEUtil {
 	/**
 	 * Converts an RGB object value to an Integer value, the Integer format is
 	 * xRRGGBB.
-	 * 
+	 *
 	 * @param rgb RGB value.
 	 * @return Integer value.
 	 */
@@ -832,7 +836,7 @@ public class DEUtil {
 
 	/**
 	 * Gets the list of data sets which can be used for the specified element
-	 * 
+	 *
 	 * @param handle the handle of the element
 	 * @return Returns the list of data sets which can be used for this element
 	 */
@@ -857,7 +861,7 @@ public class DEUtil {
 
 	/**
 	 * Gets the list of data sets which can be used for the specified element
-	 * 
+	 *
 	 * @param handle the handle of the element
 	 * @return Returns the list of data sets which can be used for this element
 	 *         excluding itself
@@ -877,7 +881,7 @@ public class DEUtil {
 
 	/**
 	 * Get definition of model property.
-	 * 
+	 *
 	 * @param elementName
 	 * @param propertyName
 	 */
@@ -891,7 +895,7 @@ public class DEUtil {
 
 	/**
 	 * Gets the proper expression for the given model
-	 * 
+	 *
 	 * @param model the given model
 	 * @return Returns the proper expression for the given model, or null if no
 	 *         proper one exists
@@ -968,7 +972,7 @@ public class DEUtil {
 
 	/**
 	 * Returns the integer font size for string value.
-	 * 
+	 *
 	 * @param fontSize
 	 * @return
 	 */
@@ -999,7 +1003,7 @@ public class DEUtil {
 	/**
 	 * Get the handle's font size 's string value. if the font size is relative,
 	 * calculate the actual size according to its parent.
-	 * 
+	 *
 	 * @param handle The style handle to work with the style properties of this
 	 *               element.
 	 * @return The font size string value.
@@ -1121,7 +1125,7 @@ public class DEUtil {
 	/**
 	 * Get the handle's font size int value. if the font size is relative, calculate
 	 * the actual size according to its parent.
-	 * 
+	 *
 	 * @param handle The style handle to work with the style properties of this
 	 *               element.
 	 * @return The font size int value
@@ -1238,7 +1242,7 @@ public class DEUtil {
 	/**
 	 * Since "&" in menu text has special meaning, we must escape it before
 	 * displaying.
-	 * 
+	 *
 	 * @param src Source text.
 	 * @return Escaped text.
 	 */
@@ -1253,9 +1257,9 @@ public class DEUtil {
 	/**
 	 * Returns all font names for current system, the name list is sorted in
 	 * alphabetical order.
-	 * 
+	 *
 	 * NOTES: Java 1.4 only support true type fonts.
-	 * 
+	 *
 	 * @return font names.
 	 */
 	public static String[] getSystemFontNames() {
@@ -1269,7 +1273,7 @@ public class DEUtil {
 	/**
 	 * Returns all font names for current system. NOTES: Java 1.4 only support true
 	 * type fonts.
-	 * 
+	 *
 	 * @param comparator Sort comparator.
 	 * @return font names.
 	 */
@@ -1277,7 +1281,7 @@ public class DEUtil {
 		if (scalable_system_fonts == null) {
 			FontData[] fontDatas = Display.getCurrent().getFontList(null, true);
 
-			scalable_system_fonts = new ArrayList<String>();
+			scalable_system_fonts = new ArrayList<>();
 
 			for (FontData fd : fontDatas) {
 				scalable_system_fonts.add(fd.getName());
@@ -1287,7 +1291,7 @@ public class DEUtil {
 		if (non_scalable_system_fonts == null) {
 			FontData[] fontDatas = Display.getCurrent().getFontList(null, false);
 
-			non_scalable_system_fonts = new ArrayList<String>();
+			non_scalable_system_fonts = new ArrayList<>();
 
 			for (FontData fd : fontDatas) {
 				non_scalable_system_fonts.add(fd.getName());
@@ -1309,7 +1313,7 @@ public class DEUtil {
 
 	/**
 	 * Gets the tool used to process multil-selection.
-	 * 
+	 *
 	 * @param modelList DE model list.
 	 * @return The tool used to process multil-selection.
 	 */
@@ -1321,7 +1325,7 @@ public class DEUtil {
 
 	/**
 	 * Escapes \ and " following standard of Javascript
-	 * 
+	 *
 	 * @param str
 	 * @return new string after escape special character
 	 */
@@ -1352,7 +1356,7 @@ public class DEUtil {
 			int quotient = decPlaces / 10;
 			int remainder = decPlaces % 10;
 
-			StringBuffer s = new StringBuffer(100);
+			StringBuilder s = new StringBuilder(100);
 			for (int i = 0; i < quotient; i++) {
 				s.append(defaultDecs);
 			}
@@ -1378,7 +1382,7 @@ public class DEUtil {
 
 	/**
 	 * Get styles
-	 * 
+	 *
 	 * @return Alphabetically sortted styles list.
 	 */
 	public static Iterator getStyles() {
@@ -1391,7 +1395,7 @@ public class DEUtil {
 
 	/**
 	 * Get styles
-	 * 
+	 *
 	 * @param comparator
 	 * @return return styles list sortted with given comparator.
 	 */
@@ -1448,7 +1452,7 @@ public class DEUtil {
 
 	/**
 	 * Get styles
-	 * 
+	 *
 	 * @return Alphabetically sortted styles list.
 	 */
 	public static Iterator getLocalStyles() {
@@ -1457,7 +1461,7 @@ public class DEUtil {
 
 	/**
 	 * Get styles
-	 * 
+	 *
 	 * @param comparator
 	 * @return return styles list sortted with given comparator.
 	 */
@@ -1486,7 +1490,7 @@ public class DEUtil {
 
 	/**
 	 * Get styles
-	 * 
+	 *
 	 * @return Alphabetically sortted styles list.
 	 */
 	public static Iterator getStyles(AbstractThemeHandle theme) {
@@ -1495,7 +1499,7 @@ public class DEUtil {
 
 	/**
 	 * Get styles
-	 * 
+	 *
 	 * @param comparator
 	 * @return return styles list sortted with given comparator.
 	 */
@@ -1528,16 +1532,13 @@ public class DEUtil {
 
 	/**
 	 * Checks if two strings have same value.
-	 * 
+	 *
 	 * @param str1
 	 * @param str2
 	 * @return
 	 */
 	public static boolean isSameString(String str1, String str2) {
-		if (str1 == null && str2 == null) {
-			return true;
-		}
-		if (str1 != null && str1.equals(str2)) {
+		if ((str1 == null && str2 == null) || (str1 != null && str1.equals(str2))) {
 			return true;
 		}
 		return false;
@@ -1545,7 +1546,7 @@ public class DEUtil {
 
 	/**
 	 * Create a row expression base on a binding column name.
-	 * 
+	 *
 	 * @param columnName the column name
 	 * @return the expression, or null if the column name is blank.
 	 */
@@ -1565,7 +1566,7 @@ public class DEUtil {
 
 	/**
 	 * Create a row expression base on a result set column name.
-	 * 
+	 *
 	 * @param columnName the column name
 	 * @return the expression, or null if the column name is blank.
 	 */
@@ -1578,12 +1579,12 @@ public class DEUtil {
 
 	/**
 	 * Relativizes the path against this base path.
-	 * 
+	 *
 	 * @param basePath the base path
 	 * @param path     the path to convert
 	 * @return The relative path based on the base path if it is possible, or the
 	 *         original path
-	 * 
+	 *
 	 */
 	public static String getRelativedPath(String basePath, String path) {
 		File baseFile = new File(basePath);
@@ -1595,7 +1596,7 @@ public class DEUtil {
 
 	/**
 	 * Returns the handle of the action of the given element.
-	 * 
+	 *
 	 * @param element the element handle
 	 * @return the handle of the action, or null if the element is not a proper type
 	 */
@@ -1617,12 +1618,12 @@ public class DEUtil {
 
 	/**
 	 * Sets the handle of the action of the given element.
-	 * 
+	 *
 	 * @param element the element handle to set
 	 * @param action  the action
-	 * 
+	 *
 	 * @return the handle of the action, or null if the element is not a proper type
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public static ActionHandle setAction(ReportElementHandle element, Action action) throws SemanticException {
@@ -1656,6 +1657,7 @@ public class DEUtil {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
 	public static List getDataSets() {
 		return SessionHandleAdapter.getInstance().getReportDesignHandle().getVisibleDataSets();
 	}
@@ -1678,7 +1680,7 @@ public class DEUtil {
 
 	/**
 	 * Generates GroupElementHandle for given model list.
-	 * 
+	 *
 	 * @param modelList
 	 * @return
 	 */
@@ -1694,7 +1696,7 @@ public class DEUtil {
 
 	/**
 	 * Checks if the library is included.
-	 * 
+	 *
 	 * @param handle
 	 * @return
 	 */
@@ -1704,7 +1706,7 @@ public class DEUtil {
 
 	/**
 	 * Get classes with default comparator
-	 * 
+	 *
 	 * @return List of classes
 	 */
 	public static List getClasses() {
@@ -1714,7 +1716,7 @@ public class DEUtil {
 
 	/**
 	 * Get classes with specified comparator
-	 * 
+	 *
 	 * @param comp the coparator
 	 * @return List of classes
 	 */
@@ -1730,7 +1732,7 @@ public class DEUtil {
 	/**
 	 * Get methods with default comparator, the return list doesn't include
 	 * constructors
-	 * 
+	 *
 	 * @param classInfo
 	 * @return List of methods
 	 */
@@ -1740,7 +1742,7 @@ public class DEUtil {
 
 	/**
 	 * Get methods with specified comparator, the list doesn't include constructors
-	 * 
+	 *
 	 * @param classInfo
 	 * @param comp      The comparator
 	 * @return List of methods
@@ -1751,7 +1753,7 @@ public class DEUtil {
 
 	/**
 	 * Get methods with default comparator constructors
-	 * 
+	 *
 	 * @param classInfo
 	 * @return List of methods
 	 */
@@ -1761,7 +1763,7 @@ public class DEUtil {
 
 	/**
 	 * Get methods with default comparator
-	 * 
+	 *
 	 * @param classInfo
 	 * @return List of methods
 	 */
@@ -1784,7 +1786,7 @@ public class DEUtil {
 
 	/**
 	 * Get members with default comparator
-	 * 
+	 *
 	 * @param classInfo
 	 * @return List of members
 	 */
@@ -1794,7 +1796,7 @@ public class DEUtil {
 
 	/**
 	 * Get members with specified comparator
-	 * 
+	 *
 	 * @param classInfo
 	 * @param comp      The comparator
 	 * @return List of methods
@@ -1808,19 +1810,21 @@ public class DEUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * Return DesignElementHandle avaliable method's argument type name.
-	 * 
+	 *
 	 * @param handle     DesignElementHandle.
 	 * @param methodName
 	 * @param argIdex    starts from 0.
 	 * @return
 	 */
 	public static String getMethodArgumentType(DesignElementHandle handle, String methodName, int argIndex) {
-		if (handle instanceof DataSetHandle)
+		if (handle instanceof DataSetHandle) {
 			return ReportDesignConstants.DATA_SET_ELEMENT;
-		if (handle instanceof DataSourceHandle)
+		}
+		if (handle instanceof DataSourceHandle) {
 			return ReportDesignConstants.DATA_SOURCE_ELEMENT;
+		}
 
 		List methods = handle.getDefn().getLocalMethods();
 		for (Iterator iter = methods.iterator(); iter.hasNext();) {
@@ -1846,7 +1850,7 @@ public class DEUtil {
 
 	/**
 	 * Get a DesignElementHandle's method's all arguments.
-	 * 
+	 *
 	 * @param handle
 	 * @param methodName
 	 * @return Arguments list, each value is an IArgumentInfo object.
@@ -1878,6 +1882,7 @@ public class DEUtil {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
 	public static List getDataSources() {
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 		if (moduleHandle != null) {
@@ -1890,7 +1895,7 @@ public class DEUtil {
 
 	/**
 	 * Returns all available column bindings for the given element
-	 * 
+	 *
 	 * @param handle the handle of the element
 	 * @return the list of all column bindings available.The list order is from the
 	 *         top to the given element
@@ -1901,7 +1906,7 @@ public class DEUtil {
 
 	/**
 	 * Returns all available column bindings for the given element.
-	 * 
+	 *
 	 * @param handle      the handle of the element
 	 * @param includeSelf true if includes the element itself, or false only
 	 *                    includes bindings in the containers
@@ -1923,7 +1928,7 @@ public class DEUtil {
 
 	/**
 	 * Returns all visible column bindings in the holder scope for the given element
-	 * 
+	 *
 	 * @param handle the handle of the element
 	 * @return the list of all visible column bindings.The list order is from the
 	 *         top to the given element
@@ -1934,7 +1939,7 @@ public class DEUtil {
 
 	/**
 	 * Returns all visible column bindings for the given element
-	 * 
+	 *
 	 * @param handle the handle of the element
 	 * @return the list of all visible column bindings.The list order is from the
 	 *         top to the given element
@@ -1964,7 +1969,7 @@ public class DEUtil {
 
 	/**
 	 * Returns the element handle which can save binding columns the given element
-	 * 
+	 *
 	 * @param handle the handle of the element which needs binding columns
 	 * @return the holder for the element,or itself if no holder available
 	 */
@@ -1973,10 +1978,9 @@ public class DEUtil {
 	}
 
 	public static ReportItemHandle getBindingHolder(DesignElementHandle handle, boolean skipSelf) {
-		if (skipSelf)
+		if (skipSelf || (handle instanceof ContentElementHandle)) {
 			return getBindingHolder(handle.getContainer());
-		if (handle instanceof ContentElementHandle)
-			return getBindingHolder(handle.getContainer());
+		}
 
 		if (handle instanceof ReportElementHandle) {
 			/*
@@ -2006,10 +2010,9 @@ public class DEUtil {
 	}
 
 	public static ReportItemHandle getBindingRoot(DesignElementHandle handle, boolean skipSelf) {
-		if (skipSelf)
+		if (skipSelf || (handle instanceof ContentElementHandle)) {
 			return getBindingRoot(handle.getContainer());
-		if (handle instanceof ContentElementHandle)
-			return getBindingRoot(handle.getContainer());
+		}
 
 		if (handle instanceof ReportElementHandle) {
 			/*
@@ -2030,10 +2033,10 @@ public class DEUtil {
 
 	/**
 	 * Return the first DataSetHandle for a report item.
-	 * 
+	 *
 	 * If the report item has no DataSetHandle, search for it's container if
 	 * container is not a ListingHandle.
-	 * 
+	 *
 	 * @param handle the ReportItemHandle
 	 * @return Available DataSetHandle
 	 */
@@ -2063,20 +2066,22 @@ public class DEUtil {
 			ReportItemHandle item = (ReportItemHandle) handle;
 			if (item.getDataBindingReference() != null) {
 				return getFirstDataSource(item.getDataBindingReference(), false);
-			} else if (item.getCube() != null)
+			} else if (item.getCube() != null) {
 				return item.getCube();
-			else if (item.getDataSet() != null)
+			} else if (item.getDataSet() != null) {
 				return item.getDataSet();
+			}
 		}
-		if (handle.getContainer() != null && findContainer)
+		if (handle.getContainer() != null && findContainer) {
 			return getFirstDataSource(handle.getContainer(), findContainer);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
 	 * Get a container that is a ListingHandle that can hold dataset.
-	 * 
+	 *
 	 * @param container
 	 * @return
 	 */
@@ -2092,13 +2097,13 @@ public class DEUtil {
 
 	/**
 	 * Add a binding column on the given element
-	 * 
+	 *
 	 * @param handle  the handle of the elementIt should be a ReportItemHandle or a
 	 *                GroupHandle
 	 * @param column  the column to add
 	 * @param inForce true to add the column with duplicated expression,or false not
 	 *                to do
-	 * 
+	 *
 	 * @return the handle of the binding column,or null if failed
 	 */
 	public static ComputedColumnHandle addColumn(DesignElementHandle handle, ComputedColumn column, boolean inForce)
@@ -2109,7 +2114,7 @@ public class DEUtil {
 
 	/**
 	 * Returns the binding column iterator of the given element
-	 * 
+	 *
 	 * @param handle the handle of the element. It should be a ReportItemHandle or a
 	 *               GroupHandle,or an empty iterator will be returned.
 	 * @return the iterator of binding columns
@@ -2123,7 +2128,7 @@ public class DEUtil {
 
 	/**
 	 * Return the expression for the given binding column based on the given element
-	 * 
+	 *
 	 * @param baseElement the base element
 	 * @param column      the binding column
 	 * @return the expression for the column
@@ -2164,8 +2169,9 @@ public class DEUtil {
 	}
 
 	public static boolean isBindingCube(DesignElementHandle element) {
-		if (element == null)
+		if (element == null) {
 			return false;
+		}
 		if (element instanceof ReportItemHandle) {
 			if (((ReportItemHandle) element).getCube() != null) {
 				// check if this is a binding data model
@@ -2176,20 +2182,22 @@ public class DEUtil {
 			} else if (((ReportItemHandle) element)
 					.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF) {
 				return isBindingCube(((ReportItemHandle) element).getDataBindingReference());
-			} else if (((ReportItemHandle) element).getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_DATA)
+			} else if (((ReportItemHandle) element).getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_DATA) {
 				return false;
+			}
 		}
-		if (element.getContainer() != null)
+		if (element.getContainer() != null) {
 			return isBindingCube(element.getContainer());
+		}
 		return false;
 	}
 
 	/**
 	 * Returns the level between the holder and the given handle
-	 * 
+	 *
 	 * @param holder      the handle of the holder
 	 * @param baseElement the handle of the base element
-	 * 
+	 *
 	 * @return the level between the holder and the base element, or -1 if the
 	 *         element is not a children of the holder
 	 */
@@ -2198,24 +2206,19 @@ public class DEUtil {
 		for (DesignElementHandle elementHandle = baseElement; elementHandle
 				.getContainer() != null; elementHandle = getBindingHolder(elementHandle).getContainer(), level++) {
 			DesignElementHandle bindingHolder = getBindingHolder(elementHandle);
-			if (bindingHolder == holder) {
+			if ((bindingHolder == holder) || (holder instanceof GroupHandle && bindingHolder == holder.getContainer()) || (bindingHolder == null)) {
 				return level;
 			}
-			if (holder instanceof GroupHandle && bindingHolder == holder.getContainer()) {
-				return level;
-			}
-			if (bindingHolder == null)
-				return level;
 		}
 		return -1;
 	}
 
 	/**
 	 * Check if the given element is linked/extends from a library or not.
-	 * 
+	 *
 	 * @param handle the handle of the element to check
 	 * @return true if it is linked from a library ,or false if else;
-	 * 
+	 *
 	 */
 	public static boolean isLinkedElement(DesignElementHandle handle) {
 		if (handle != null && handle.getExtends() != null) {
@@ -2226,12 +2229,13 @@ public class DEUtil {
 
 	/**
 	 * Return the group list of the given element.
-	 * 
+	 *
 	 * @param handle the handle of the element.
 	 * @return the group list of the given element.
-	 * 
+	 *
 	 * @deprecated Use {@link UIUtil.getGroups()}
 	 */
+	@Deprecated
 	public static List getGroups(DesignElementHandle handle) {
 		List groupList = new ArrayList();
 		if (handle instanceof ListingHandle) {
@@ -2272,7 +2276,7 @@ public class DEUtil {
 
 	/**
 	 * Return the group container type of the given element handle.
-	 * 
+	 *
 	 * @param handle the handle of the element.
 	 * @return the group container type of the given element.
 	 */
@@ -2293,7 +2297,7 @@ public class DEUtil {
 
 	/**
 	 * Get the string enclosed with quote.
-	 * 
+	 *
 	 * @param string
 	 * @return
 	 */
@@ -2307,7 +2311,7 @@ public class DEUtil {
 
 	/**
 	 * Remove the quote if the string enclosed width quote .
-	 * 
+	 *
 	 * @param string
 	 * @return
 	 */
@@ -2322,7 +2326,7 @@ public class DEUtil {
 
 	/**
 	 * Gets the meta data dictionary of model
-	 * 
+	 *
 	 * @return the meta data dictionary
 	 */
 	public static IMetaDataDictionary getMetaDataDictionary() {
@@ -2381,22 +2385,26 @@ public class DEUtil {
 			return ((GroupElementHandle) input).getElements().get(0);
 		} else if (input instanceof List) {
 			return ((List) input).get(0);
-		} else
+		} else {
 			return input;
+		}
 	}
 
 	public static Object getInputFirstElement(Object input, boolean notSame) {
 		if (input instanceof GroupElementHandle) {
-			if (notSame && ((GroupElementHandle) input).isSameType())
+			if (notSame && ((GroupElementHandle) input).isSameType()) {
 				return null;
+			}
 			return ((GroupElementHandle) input).getElements().get(0);
 		} else if (input instanceof List) {
 			GroupElementHandle group = DEUtil.getGroupElementHandle((List) input);
-			if (notSame && group != null && group.isSameType())
+			if (notSame && group != null && group.isSameType()) {
 				return null;
+			}
 			return ((List) input).get(0);
-		} else
+		} else {
 			return input;
+		}
 	}
 
 	public static Object getInputElement(Object input, int index) {
@@ -2404,8 +2412,9 @@ public class DEUtil {
 			return ((GroupElementHandle) input).getElements().get(index);
 		} else if (input instanceof List) {
 			return ((List) input).get(index);
-		} else
+		} else {
 			return input;
+		}
 	}
 
 	public static List getInputElements(Object input) {
@@ -2413,8 +2422,9 @@ public class DEUtil {
 			return ((GroupElementHandle) input).getElements();
 		} else if (input instanceof List) {
 			return (List) input;
-		} else
+		} else {
 			return Collections.EMPTY_LIST;
+		}
 	}
 
 	/**
@@ -2426,8 +2436,9 @@ public class DEUtil {
 		List elementsList = DEUtil.getVisiableColumnBindingsList(input);
 		if (elementsList != null && elementsList.size() > 0) {
 			for (int i = 0; i < elementsList.size(); i++) {
-				if (((ComputedColumnHandle) elementsList.get(i)).getName().equals(bindingName))
+				if (((ComputedColumnHandle) elementsList.get(i)).getName().equals(bindingName)) {
 					return (ComputedColumnHandle) elementsList.get(i);
+				}
 			}
 		}
 		return null;
@@ -2435,44 +2446,47 @@ public class DEUtil {
 
 	public static boolean enableRowNum(Object parent) {
 		if (parent instanceof ReportItemHandle) {
-			if (((ReportItemHandle) parent).getDataBindingReference() != null)
+			if (((ReportItemHandle) parent).getDataBindingReference() != null) {
 				return enableRowNum(((ReportItemHandle) parent).getDataBindingReference());
-			else if (((ReportItemHandle) parent).getCube() != null)
+			} else if (((ReportItemHandle) parent).getCube() != null) {
 				return false;
-			else if (((ReportItemHandle) parent).getDataSet() != null)
+			} else if (((ReportItemHandle) parent).getDataSet() != null) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
 	 * Return the aggregate on display string
-	 * 
+	 *
 	 * @param element
 	 * @return
 	 */
 	public static String getAggregateOn(ComputedColumnHandle element) {
 		List aggregateOnList = element.getAggregateOnList();
 		// String value = ""; //$NON-NLS-1$
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		int i = 0;
 		for (Iterator iterator = aggregateOnList.iterator(); iterator.hasNext(); i++) {
-			if (i > 0)
+			if (i > 0) {
 				// value += ","; //$NON-NLS-1$
 				buffer.append(",");
+			}
 			// value += (String) iterator.next( );
 			buffer.append((String) iterator.next());
 		}
 		String value = buffer.toString();
-		if (value.equals("")) //$NON-NLS-1$
+		if (value.equals("")) { //$NON-NLS-1$
 			return null;
-		else
+		} else { // $NON-NLS-1$
 			return value;
+		}
 	}
 
 	/**
 	 * Gets the hirarchy name
-	 * 
+	 *
 	 * @param object
 	 * @return
 	 */
@@ -2514,12 +2528,13 @@ public class DEUtil {
 
 	/**
 	 * Test if the handle is from library.
-	 * 
+	 *
 	 * @param handle
 	 * @return
-	 * 
+	 *
 	 * @deprecated use {@link #isLinkedElement(DesignElementHandle)}
 	 */
+	@Deprecated
 	public static boolean isReferenceElement(DesignElementHandle handle) {
 		return isLinkedElement(handle);
 	}
@@ -2527,19 +2542,21 @@ public class DEUtil {
 	public static String getFilePathFormURL(URL url) throws Exception {
 		if (url != null) {
 			URL localURL = FileLocator.resolve(url);
-			if ("bundleresource".equals(url.getProtocol()))
+			if ("bundleresource".equals(url.getProtocol())) {
 				return localURL.getPath();
-			else if (localURL != null && "file".equals(localURL.getProtocol()))
+			} else if (localURL != null && "file".equals(localURL.getProtocol())) {
 				return localURL.toURI().getSchemeSpecificPart();
-			else
+			} else {
 				return null;
-		} else
+			}
+		} else {
 			return null;
+		}
 	}
 
 	/**
 	 * If the layout is fix.
-	 * 
+	 *
 	 * @param model
 	 * @return
 	 */
@@ -2558,7 +2575,7 @@ public class DEUtil {
 
 	/**
 	 * Gets the padding
-	 * 
+	 *
 	 * @param handle
 	 * @param retValue
 	 * @return
@@ -2621,7 +2638,7 @@ public class DEUtil {
 
 	/**
 	 * Sets the default theme
-	 * 
+	 *
 	 * @param elementHandle
 	 */
 	public static void setDefaultTheme(DesignElementHandle elementHandle) {

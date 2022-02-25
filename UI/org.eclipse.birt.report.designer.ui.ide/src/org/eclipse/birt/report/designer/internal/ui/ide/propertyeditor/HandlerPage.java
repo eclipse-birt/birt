@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,10 +36,11 @@ public class HandlerPage extends LibraryAttributePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * AttributePage#buildUI()
 	 */
+	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
 		container.setLayout(WidgetUtil.createGridLayout(5, 15));
@@ -49,17 +50,20 @@ public class HandlerPage extends LibraryAttributePage {
 		TextPropertyDescriptorProvider eventProvider = new TextPropertyDescriptorProvider(
 				ReportDesignHandle.EVENT_HANDLER_CLASS_PROP, ReportDesignConstants.REPORT_DESIGN_ELEMENT) {
 
+			@Override
 			public boolean isEditable() {
-				if (HandlerPage.this.isLibraryReadOnly())
+				if (HandlerPage.this.isLibraryReadOnly()) {
 					return false;
-				else
+				} else {
 					return super.isEditable();
+				}
 			}
 		};
 		TextAndButtonSection eventSection = new TextAndButtonSection(eventProvider.getDisplayName(), container, true);
 		eventSection.setProvider(eventProvider);
 		eventSection.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ClassFinder finder = new ClassFinder();
 				String className = null;

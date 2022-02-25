@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -16,6 +16,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -31,7 +32,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class FormatSpecifierDialog extends TrayDialog {
 
@@ -42,7 +43,7 @@ public class FormatSpecifierDialog extends TrayDialog {
 	private AxisType[] axisTypes = null;
 
 	/**
-	 * 
+	 *
 	 * @param shellParent     dialog shell
 	 * @param formatspecifier format model
 	 * @param sTitle          this argument is obsolete
@@ -56,7 +57,7 @@ public class FormatSpecifierDialog extends TrayDialog {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param shellParent     dialog shell
 	 * @param formatspecifier format model
 	 * @param sTitle          this argument is obsolete
@@ -68,7 +69,7 @@ public class FormatSpecifierDialog extends TrayDialog {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param shellParent     dialog shell
 	 * @param formatspecifier format model
 	 * @param sTitle          this argument is obsolete
@@ -86,10 +87,12 @@ public class FormatSpecifierDialog extends TrayDialog {
 		}
 	}
 
+	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.DIALOG_EDIT_FORMAT);
 		getShell().setText(Messages.getString("FormatSpecifierDialog.Title.EditFormat")); //$NON-NLS-1$
@@ -97,11 +100,12 @@ public class FormatSpecifierDialog extends TrayDialog {
 		return super.createContents(parent);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		if (axisTypes == null) {
 			editor = new FormatSpecifierComposite(parent, SWT.NONE, formatspecifier);
 		} else {
-			List<String> supportedList = new ArrayList<String>();
+			List<String> supportedList = new ArrayList<>();
 			for (int i = 0; i < axisTypes.length; i++) {
 				// If NOT exist, append it into supported types.
 				String type = getSupportedType(axisTypes[i]);
@@ -122,6 +126,7 @@ public class FormatSpecifierDialog extends TrayDialog {
 		return formatspecifier;
 	}
 
+	@Override
 	protected void okPressed() {
 		formatspecifier = editor.getFormatSpecifier();
 		super.okPressed();

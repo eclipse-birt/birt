@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -46,10 +46,12 @@ public class RootArea extends BlockContainerArea {
 		super(area);
 	}
 
+	@Override
 	public int getMaxAvaHeight() {
 		return context.getMaxBP();
 	}
 
+	@Override
 	public boolean autoPageBreak() throws BirtException {
 		int height = context.getMaxBP();
 		SplitResult result = split(height, false);
@@ -73,10 +75,12 @@ public class RootArea extends BlockContainerArea {
 		return true;
 	}
 
+	@Override
 	public RootArea cloneArea() {
 		return new RootArea(this);
 	}
 
+	@Override
 	public void initialize() throws BirtException {
 		IPageContent pageContent = (IPageContent) content;
 
@@ -103,15 +107,13 @@ public class RootArea extends BlockContainerArea {
 					pageContent = createPageContent(pageContent);
 				}
 			}
+		} else if (context.isAutoPageBreak()) {
+			context.setPageNumber(context.getPageNumber() + 1);
+			pageContent = createPageContent(pageContent);
 		} else {
-			if (context.isAutoPageBreak()) {
-				context.setPageNumber(context.getPageNumber() + 1);
-				pageContent = createPageContent(pageContent);
-			} else {
-				long number = pageContent.getPageNumber();
-				if (number > 0) {
-					context.setPageNumber(number);
-				}
+			long number = pageContent.getPageNumber();
+			if (number > 0) {
+				context.setPageNumber(number);
 			}
 		}
 
@@ -129,28 +131,25 @@ public class RootArea extends BlockContainerArea {
 	protected IPageContent createPageContent(IPageContent htmlPageContent) {
 		if (context.getPageNumber() == htmlPageContent.getPageNumber()) {
 			return htmlPageContent;
-		} else {
-			if (context.getEngineTaskType() == IEngineTask.TASK_RUNANDRENDER) {
+		} else if (context.getEngineTaskType() == IEngineTask.TASK_RUNANDRENDER) {
 
-				IPageContent pageContent = (IPageContent) cloneContent((IContent) htmlPageContent.getParent(),
-						htmlPageContent, context.getPageNumber(), context.getTotalPage());
-				pageContent.setPageNumber(context.getPageNumber());
-				return pageContent;
-			} else {
-				IPageContent pageContent = htmlPageContent;
-				try {
-					pageContent = ReportExecutorUtil.executeMasterPage(
-							context.getHtmlLayoutContext().getReportExecutor(), context.getPageNumber(),
-							(MasterPageDesign) pageContent.getGenerateBy());
-					HTMLLayoutContext htmlContext = context.getHtmlLayoutContext();
-					if (htmlContext != null && htmlContext.needLayoutPageContent()) {
-						htmlContext.getPageLM().layoutPageContent(pageContent);
-					}
-				} catch (BirtException e) {
-					logger.log(Level.WARNING, e.getMessage(), e);
+			IPageContent pageContent = (IPageContent) cloneContent((IContent) htmlPageContent.getParent(),
+					htmlPageContent, context.getPageNumber(), context.getTotalPage());
+			pageContent.setPageNumber(context.getPageNumber());
+			return pageContent;
+		} else {
+			IPageContent pageContent = htmlPageContent;
+			try {
+				pageContent = ReportExecutorUtil.executeMasterPage(context.getHtmlLayoutContext().getReportExecutor(),
+						context.getPageNumber(), (MasterPageDesign) pageContent.getGenerateBy());
+				HTMLLayoutContext htmlContext = context.getHtmlLayoutContext();
+				if (htmlContext != null && htmlContext.needLayoutPageContent()) {
+					htmlContext.getPageLM().layoutPageContent(pageContent);
 				}
-				return pageContent;
+			} catch (BirtException e) {
+				logger.log(Level.WARNING, e.getMessage(), e);
 			}
+			return pageContent;
 		}
 	}
 
@@ -168,10 +167,11 @@ public class RootArea extends BlockContainerArea {
 				} else {
 					String pattern = format.getNumberPattern();
 					String locale = format.getNumberLocale();
-					if (locale == null)
+					if (locale == null) {
 						nf = new NumberFormatter(pattern);
-					else
+					} else {
 						nf = new NumberFormatter(pattern, new ULocale(locale));
+					}
 				}
 				autoText.setText(nf.format(pageNumber));
 			}
@@ -186,6 +186,7 @@ public class RootArea extends BlockContainerArea {
 		return newContent;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		page.setBody(this);
 		page.close();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,7 @@ public class PublishLibraryWizard extends Wizard {
 	int type;
 
 	/**
-	 * 
+	 *
 	 */
 	public PublishLibraryWizard(LibraryHandle handle, String fileName, String folderName) {
 		setWindowTitle(windowTitle);
@@ -70,7 +70,7 @@ public class PublishLibraryWizard extends Wizard {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public PublishLibraryWizard(String folderName) {
 		setWindowTitle(addLibraryTitle);
@@ -82,9 +82,10 @@ public class PublishLibraryWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
+	@Override
 	public void addPages() {
 		page = new WizardLibrarySettingPage(type);
 
@@ -106,9 +107,10 @@ public class PublishLibraryWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
+	@Override
 	public boolean performFinish() {
 		// TODO Auto-generated method stub
 		fileName = page.getFileName();
@@ -121,9 +123,10 @@ public class PublishLibraryWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 	 */
+	@Override
 	public boolean canFinish() {
 		return page.canFinish();
 	}
@@ -163,7 +166,7 @@ public class PublishLibraryWizard extends Wizard {
 		int overwrite = Window.OK;
 		try {
 			if (targetFile.exists()) {
-				String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
+				String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
 						IDialogConstants.CANCEL_LABEL };
 				String question = Messages.getFormattedString("SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
 						new Object[] { targetFile.getAbsolutePath() });

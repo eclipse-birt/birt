@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -151,7 +151,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param pageName
 	 */
 	public SQLDataSetEditorPage(String pageName) {
@@ -209,6 +209,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		JdbcMetaDataProvider.createInstance(dataSetDesign, this.getHostResourceIdentifiers());
 
 		class TempThread extends Thread {
+			@Override
 			public void run() {
 				try {
 					JdbcMetaDataProvider.getInstance().reconnect();
@@ -248,6 +249,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createPageCustomControl(Composite parent) {
 		this.dataSetDesign = this.getInitializationDesign();
 
@@ -271,7 +273,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 	/**
 	 * create page control for sql edit page
-	 * 
+	 *
 	 * @param parent
 	 * @return
 	 */
@@ -310,7 +312,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 	/**
 	 * initial dataset control
-	 * 
+	 *
 	 */
 	private void initializeControl() {
 		if (this.dataSetDesign.getOdaExtensionDataSourceId() != null
@@ -325,7 +327,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 	/**
 	 * Creates the composite, for displaying the list of available db objects
-	 * 
+	 *
 	 * @param parent
 	 */
 	private Control createDBMetaDataSelectionComposite(Composite parent) {
@@ -338,6 +340,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 		sComposite.addControlListener(new ControlAdapter() {
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				computeSize();
 			}
@@ -404,6 +407,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 		availableDbObjectsTree.addMenuDetectListener(new MenuDetectListener() {
 
+			@Override
 			public void menuDetected(MenuDetectEvent e) {
 				if (availableDbObjectsTree.getSelectionCount() > 0) {
 					TreeItem item = availableDbObjectsTree.getSelection()[0];
@@ -418,6 +422,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 		availableDbObjectsTree.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				insertTreeItemText();
 			}
@@ -431,6 +436,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		insert.setText(JdbcPlugin.getResourceString("sqleditor.objectTree.menuItem.insert"));
 		insert.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				insertTreeItemText();
 			}
@@ -467,6 +473,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		filterLabel.setText(JdbcPlugin.getResourceString("tablepage.label.filter"));
 		filterLabel.addMouseTrackListener(new MouseTrackAdapter() {
 
+			@Override
 			public void mouseHover(MouseEvent event) {
 				filterLabel.setToolTipText(JdbcPlugin.getResourceString("tablepage.label.filter.tooltip"));
 			}
@@ -478,6 +485,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		searchTxt.setLayoutData(searchTxtData);
 		searchTxt.addMouseTrackListener(new MouseTrackAdapter() {
 
+			@Override
 			public void mouseHover(MouseEvent event) {
 				searchTxt.setToolTipText(JdbcPlugin.getResourceString("tablepage.label.filter.tooltip"));
 			}
@@ -507,9 +515,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		// Add listener to the find button
 		findButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						fc = populateFilterConfig();
 						// bidi_hcg: pass value of metadataBidiFormatStr
@@ -586,12 +596,13 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	/*
-	 * 
+	 *
 	 * @seeorg.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSetWizardPageCore
 	 * #collectDataSetDesign(org.eclipse.datatools.connectivity
 	 * .oda.design.DataSetDesign)
 	 */
+	@Override
 	protected DataSetDesign collectDataSetDesign(DataSetDesign design) {
 		// This method sometimes is called even if the whole page is ever not
 		// presented
@@ -610,7 +621,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param group
 	 */
 	private void setupIdentifierQuoteStringCheckBox(Group group) {
@@ -627,7 +638,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param group
 	 */
 	private void setupShowSystemTableCheckBox(Group group) {
@@ -651,7 +662,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param group
 	 */
 	private void setupIncludeSchemaCheckBox(Group group) {
@@ -665,7 +676,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param filterComboViewer
 	 */
 	private void setFilterComboContents(ComboViewer filterComboViewer, boolean supportsProcedure) {
@@ -674,13 +685,16 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		}
 		filterComboViewer.setContentProvider(new IStructuredContentProvider() {
 
+			@Override
 			public Object[] getElements(Object inputElement) {
 				return ((List) inputElement).toArray();
 			}
 
+			@Override
 			public void dispose() {
 			}
 
+			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 
@@ -688,6 +702,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 		filterComboViewer.setLabelProvider(new LabelProvider() {
 
+			@Override
 			public String getText(Object inputElement) {
 				TableType type = (TableType) inputElement;
 				return type.getDisplayName();
@@ -702,6 +717,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		filterComboViewer.getCombo().select(0);
 		filterComboViewer.getCombo().addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TableType type = getSelectedFilterType();
 				if (type == TableType.ALL || type == TableType.TABLE) {
@@ -716,7 +732,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	protected List<TableType> getTableTypes(boolean supportsProcedure) {
-		List<TableType> types = new ArrayList<TableType>();
+		List<TableType> types = new ArrayList<>();
 
 		// Populate the Types of Data bases objects which can be retrieved
 		types.add(TableType.ALL);
@@ -729,7 +745,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The Type of the object selected in the type combo
 	 */
 	private TableType getSelectedFilterType() {
@@ -741,7 +757,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi
 	// transformations (if required)
@@ -753,6 +769,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 			 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.
 			 * widgets.Event)
 			 */
+			@Override
 			public void handleEvent(final Event event) {
 				TreeItem item = (TreeItem) event.item;
 				BusyIndicator.showWhile(item.getDisplay(), new Runnable() {
@@ -760,6 +777,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 					/*
 					 * @see java.lang.Runnable#run()
 					 */
+					@Override
 					public void run() {
 						// bidi_hcg: pass value of metadataBidiFormatStr
 						listChildren(event, metadataBidiFormatStr);
@@ -804,6 +822,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 			private String textToInsert;
 
+			@Override
 			public void dragStart(DragSourceEvent event) {
 				event.doit = false;
 				this.textToInsert = getTextToInsert();
@@ -814,10 +833,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.dnd.DragSourceAdapter#dragSetData(org.eclipse
 			 * .swt.dnd.DragSourceEvent)
 			 */
+			@Override
 			public void dragSetData(DragSourceEvent event) {
 				if (TextTransfer.getInstance().isSupportedType(event.dataType)) {
 					event.data = textToInsert;
@@ -828,7 +848,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 	private String getTextToInsert() {
 		TreeItem[] selection = availableDbObjectsTree.getSelection();
-		StringBuffer data = new StringBuffer();
+		StringBuilder data = new StringBuilder();
 		if (selection != null && selection.length > 0) {
 			for (int i = 0; i < selection.length; i++) {
 				IDBNode dbNode = (IDBNode) selection[i].getData();
@@ -850,7 +870,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 	/**
 	 * Adds drop support to viewer.Must set viewer before execution.
-	 * 
+	 *
 	 */
 	private void addDropSupportToViewer() {
 		final StyledText text = viewer.getTextWidget();
@@ -858,37 +878,45 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		dropTarget.setTransfer(new Transfer[] { TextTransfer.getInstance() });
 		dropTarget.addDropListener(new DropTargetAdapter() {
 
+			@Override
 			public void dragEnter(DropTargetEvent event) {
 				text.setFocus();
-				if (event.detail == DND.DROP_DEFAULT)
+				if (event.detail == DND.DROP_DEFAULT) {
 					event.detail = DND.DROP_COPY;
-				if (event.detail != DND.DROP_COPY)
+				}
+				if (event.detail != DND.DROP_COPY) {
 					event.detail = DND.DROP_NONE;
+				}
 			}
 
+			@Override
 			public void dragOver(DropTargetEvent event) {
 				event.feedback = DND.FEEDBACK_SCROLL | DND.FEEDBACK_SELECT;
 			}
 
+			@Override
 			public void dragOperationChanged(DropTargetEvent event) {
 				dragEnter(event);
 			}
 
+			@Override
 			public void drop(DropTargetEvent event) {
-				if (event.data instanceof String && !event.data.equals(""))
+				if (event.data instanceof String && !event.data.equals("")) {
 					insertText((String) event.data);
+				}
 			}
 		});
 	}
 
 	/**
 	 * Insert a text string into the text area
-	 * 
+	 *
 	 * @param text
 	 */
 	private void insertText(String text) {
-		if (text == null)
+		if (text == null) {
 			return;
+		}
 
 		StyledText textWidget = viewer.getTextWidget();
 		int selectionStart = textWidget.getSelection().x;
@@ -899,7 +927,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 	/**
 	 * Creates the textual query editor
-	 * 
+	 *
 	 * @param parent
 	 */
 	private Control createTextualQueryComposite(Composite parent) {
@@ -934,6 +962,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 			 * @see org.eclipse.swt.custom.BidiSegmentListener#lineGetSegments
 			 * (org.eclipse.swt.custom.BidiSegmentEvent)
 			 */
+			@Override
 			public void lineGetSegments(BidiSegmentEvent event) {
 				event.segments = SQLUtility.getBidiLineSegments(event.lineText);
 			}
@@ -950,6 +979,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		// add support of additional accelerated key
 		viewer.getTextWidget().addKeyListener(new KeyListener() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if (isUndoKeyPress(e)) {
 					viewer.doOperation(ITextOperationTarget.UNDO);
@@ -968,6 +998,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'y') || (e.keyCode == 'Y'));
 			}
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 			}
 		});
@@ -975,7 +1006,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param viewer
 	 */
 	private final void attachMenus(SourceViewer viewer) {
@@ -986,11 +1017,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSetWizardPageCore
 	 * #refresh(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
+	@Override
 	protected void refresh(DataSetDesign dataSetDesign) {
 		this.dataSetDesign = dataSetDesign;
 		initializeControl();
@@ -999,6 +1031,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	/*
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		getControl().setFocus();
@@ -1007,24 +1040,26 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	/**
 	 * return the query text. If the query text is empty then return the pre-defined
 	 * pattern
-	 * 
+	 *
 	 * @return
 	 */
 	private String getQueryText() {
 		String queryText = dataSetDesign.getQueryText();
-		if (queryText != null && queryText.trim().length() > 0)
+		if (queryText != null && queryText.trim().length() > 0) {
 			return queryText;
+		}
 
 		return SQLUtility.getQueryPresetTextString(this.dataSetDesign.getOdaExtensionDataSetId());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #cleanup()
 	 */
+	@Override
 	protected void cleanup() {
 		JdbcMetaDataProvider.release();
 		if (odaConnectionProvider != null) {

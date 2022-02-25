@@ -16,33 +16,33 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * Test for Command.
  * <p>
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>input string only contains white-space</td>
  * <td>output is null</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>threshold or end of input string is white-space</td>
  * <td>output trim threshold and end white-space</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetActivityStack()}</td>
  * <td>get activity stack from command</td>
  * <td>equals to activity stack which get from DesignElement</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 public class CommandTest extends BaseTestCase {
 	Command command = null;
@@ -50,6 +50,7 @@ public class CommandTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 

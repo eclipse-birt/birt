@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,13 +44,13 @@ import org.eclipse.birt.report.model.validators.ValidationNode;
 
 /**
  * Moves a content element within its container.
- * 
+ *
  */
 
 public class MoveContentRecord extends SimpleRecord {
 
 	/**
-	 * 
+	 *
 	 */
 	protected Module module = null;
 
@@ -86,9 +86,9 @@ public class MoveContentRecord extends SimpleRecord {
 	/**
 	 * Constructor.The move action is done to move the position in the same
 	 * container context.
-	 * 
+	 *
 	 * @param theModule
-	 * 
+	 *
 	 * @param containerInfor the container information.
 	 * @param obj            the content element to move.
 	 * @param posn           the new position of the content element.
@@ -101,7 +101,7 @@ public class MoveContentRecord extends SimpleRecord {
 	/**
 	 * Constructs the move content record. The move action is done between diffrent
 	 * container context.
-	 * 
+	 *
 	 * @param theModule
 	 * @param from
 	 * @param to
@@ -137,31 +137,30 @@ public class MoveContentRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform()
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		if (this.from == this.to) {
 			int from = undo ? newPosn : oldPosn;
 			int to = undo ? oldPosn : newPosn;
 			this.from.move(module, from, to);
+		} else if (!undo) {
+			from.remove(module, content);
+			to.add(module, content, newPosn);
 		} else {
-			if (!undo) {
-				from.remove(module, content);
-				to.add(module, content, newPosn);
-			} else {
-				to.remove(module, content);
-				from.add(module, content, oldPosn);
-			}
+			to.remove(module, content);
+			from.add(module, content, oldPosn);
 		}
 
 		DesignElement fromElement = from.getElement();
 		DesignElement toElement = to.getElement();
-		if (fromElement == toElement)
+		if (fromElement == toElement) {
 			updateSharedDimension(module, fromElement);
-		else {
+		} else {
 			updateSharedDimension(module, fromElement);
 			updateSharedDimension(module, toElement);
 		}
@@ -169,42 +168,47 @@ public class MoveContentRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 	 * #getTarget()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
-		if (eventTarget != null)
+		if (eventTarget != null) {
 			return eventTarget.getElement();
+		}
 
 		return to.getElement();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 	 * #getEvent()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getValidators()
 	 */
 
+	@Override
 	public List<ValidationNode> getValidators() {
 		List<ValidationNode> list = ValidationExecutor.getValidationNodes(from.getElement(),
 				from.getTriggerSetForContainerDefn(), false);
-		if (to != from)
+		if (to != from) {
 			list.addAll(
 					ValidationExecutor.getValidationNodes(to.getElement(), to.getTriggerSetForContainerDefn(), false));
-		// Validate the content.
+			// Validate the content.
+		}
 
 		ElementDefn contentDefn = (ElementDefn) content.getDefn();
 		list.addAll(ValidationExecutor.getValidationNodes(content, contentDefn.getTriggerDefnSet(), false));
@@ -214,13 +218,14 @@ public class MoveContentRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
+	@Override
 	protected List<RecordTask> getPostTasks() {
 		if (from == to) {
-			List<RecordTask> retValue = new ArrayList<RecordTask>();
+			List<RecordTask> retValue = new ArrayList<>();
 			retValue.addAll(super.getPostTasks());
 			NotificationEvent event = null;
 
@@ -236,21 +241,21 @@ public class MoveContentRecord extends SimpleRecord {
 			// send event to cube dimension if the share dimension is changed
 			sendEventToSharedDimension(getTarget(), retValue, event);
 
-			if (!(content instanceof TableGroup || content instanceof TableRow || content instanceof Cell))
+			if (!(content instanceof TableGroup || content instanceof TableRow || content instanceof Cell)) {
 				return retValue;
+			}
 
 			ReportItem compoundElement = LayoutUtil.getCompoundContainer(from.getElement());
-			if (compoundElement == null)
+			if (compoundElement == null) {
 				return retValue;
+			}
 
 			retValue.add(new LayoutRecordTask(compoundElement.getRoot(), compoundElement));
 			return retValue;
 		}
 
 		// now the source and destination container context is different
-		List<RecordTask> retValue = new ArrayList<RecordTask>();
-		retValue.addAll(super.getPostTasks());
-
+		List<RecordTask> retValue = new ArrayList<>(super.getPostTasks());
 		// if the element works like properties, return property event
 		// instead of content event.
 		if (eventTarget != null) {
@@ -269,13 +274,15 @@ public class MoveContentRecord extends SimpleRecord {
 		// send the layout event
 		ReportItem fromLayout = getLayoutElement(from);
 		ReportItem toLayout = getLayoutElement(to);
-		if (fromLayout != null)
+		if (fromLayout != null) {
 			retValue.add(new LayoutRecordTask(module, fromLayout));
-		if (toLayout != null && toLayout != fromLayout)
+		}
+		if (toLayout != null && toLayout != fromLayout) {
 			retValue.add(new LayoutRecordTask(module, toLayout));
+		}
 
 		// Send the content changed event to the container.
-		NotificationEvent event = null;
+		NotificationEvent event;
 
 		// if do or redo, then send content remove to 'from', otherwise the
 		// reverse
@@ -286,20 +293,24 @@ public class MoveContentRecord extends SimpleRecord {
 		event = new ContentEvent(from, content, action);
 		// if undo, then the 'from' receive content add notification, therefore,
 		// the style selector should be this event
-		if (!isDo)
+		if (!isDo) {
 			styleSelectorEvent = event;
-		if (state == DONE_STATE)
+		}
+		if (state == DONE_STATE) {
 			event.setSender(sender);
+		}
 		retValue.add(new NotificationRecordTask(from.getElement(), event));
 		// if do or redo, send content add to 'from', otherwise the reverse
 		action = isDo ? ContentEvent.ADD : ContentEvent.REMOVE;
 		event = new ContentEvent(to, content, action);
 		// if do or redo, then the 'to' receive content add notification,
 		// therefore, the style selector should be this event
-		if (isDo)
+		if (isDo) {
 			styleSelectorEvent = event;
-		if (state == DONE_STATE)
+		}
+		if (state == DONE_STATE) {
 			event.setSender(sender);
+		}
 		retValue.add(new NotificationRecordTask(to.getElement(), event));
 
 		// If the content was added, then send an element added
@@ -314,32 +325,34 @@ public class MoveContentRecord extends SimpleRecord {
 
 	/**
 	 * Indicate whether the given <code>content</code> is a CSS-selecter.
-	 * 
+	 *
 	 * @param content a given design element
 	 * @return <code>true</code> if it is a predefined style.
 	 */
 
 	private boolean isSelector(DesignElement content) {
-		if (!(content instanceof StyleElement))
+		if (!(content instanceof StyleElement)) {
 			return false;
+		}
 
 		return MetaDataDictionary.getInstance().getPredefinedStyle(content.getName()) != null;
 	}
 
 	/**
 	 * Determines the record is done or undone.
-	 * 
+	 *
 	 * @return true if record is done or redone, otherwise false
 	 */
 	boolean isDo() {
-		if (state == DONE_STATE || state == REDONE_STATE)
+		if (state == DONE_STATE || state == REDONE_STATE) {
 			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * Gets the layout element that the focus will affect.
-	 * 
+	 *
 	 * @param focus
 	 * @return
 	 */

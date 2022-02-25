@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,18 +53,22 @@ public class ActionImpl implements IAction {
 		actionImpl = SimpleElementFactory.getInstance().createAction();
 	}
 
+	@Override
 	public String getURI() {
 		return actionImpl.getURI();
 	}
 
+	@Override
 	public String getTargetWindow() {
 		return actionImpl.getTargetWindow();
 	}
 
+	@Override
 	public String getLinkType() {
 		return actionImpl.getLinkType();
 	}
 
+	@Override
 	public void setLinkType(String type) throws ScriptException {
 		try {
 			actionImpl.setLinkType(type);
@@ -74,6 +78,7 @@ public class ActionImpl implements IAction {
 
 	}
 
+	@Override
 	public void setFormatType(String type) throws ScriptException {
 		try {
 			actionImpl.setFormatType(type);
@@ -83,10 +88,12 @@ public class ActionImpl implements IAction {
 
 	}
 
+	@Override
 	public String getFormatType() {
 		return actionImpl.getFormatType();
 	}
 
+	@Override
 	public void setTargetWindow(String window) throws ScriptException {
 		try {
 			actionImpl.setTargetWindow(window);
@@ -96,6 +103,7 @@ public class ActionImpl implements IAction {
 
 	}
 
+	@Override
 	public void setURI(String uri) throws ScriptException {
 		try {
 			actionImpl.setURI(uri);
@@ -104,10 +112,12 @@ public class ActionImpl implements IAction {
 		}
 	}
 
+	@Override
 	public String getReportName() {
 		return actionImpl.getReportName();
 	}
 
+	@Override
 	public void setReportName(String reportName) throws ScriptException {
 		try {
 			actionImpl.setReportName(reportName);
@@ -116,10 +126,12 @@ public class ActionImpl implements IAction {
 		}
 	}
 
+	@Override
 	public String getTargetBookmark() {
 		return actionImpl.getTargetBookmark();
 	}
 
+	@Override
 	public void setTargetBookmark(String bookmark) throws ScriptException {
 		try {
 			actionImpl.setTargetBookmark(bookmark);
@@ -128,6 +140,7 @@ public class ActionImpl implements IAction {
 		}
 	}
 
+	@Override
 	public IStructure getStructure() {
 		return actionImpl.getStructure();
 

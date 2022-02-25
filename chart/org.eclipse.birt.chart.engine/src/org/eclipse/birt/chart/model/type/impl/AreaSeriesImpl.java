@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -39,7 +39,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected AreaSeriesImpl() {
@@ -48,7 +48,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -58,11 +58,12 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.
 	 * chart.model.component.Series, int, org.eclipse.birt.chart.model.Chart)
 	 */
+	@Override
 	public void translateFrom(Series series, int iSeriesDefinitionIndex, Chart chart) {
 		super.translateFrom(series, iSeriesDefinitionIndex, chart);
 
@@ -74,7 +75,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return series instance with setting 'isSet' flag.
 	 */
 	public static Series create() {
@@ -85,9 +86,10 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
 	 */
+	@Override
 	protected void initialize() {
 		super.initialize();
 
@@ -99,7 +101,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return instance of ares series without setting 'isSet' flag.
 	 */
 	public static Series createDefault() {
@@ -110,9 +112,10 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
 	 */
+	@Override
 	protected void initDefault() {
 		super.initDefault();
 
@@ -128,9 +131,10 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("AreaSeriesImpl.displayName"); //$NON-NLS-1$
 	}
@@ -138,6 +142,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 	/**
 	 * @generated
 	 */
+	@Override
 	public AreaSeries copyInstance() {
 		AreaSeriesImpl dest = new AreaSeriesImpl();
 		dest.set(this);

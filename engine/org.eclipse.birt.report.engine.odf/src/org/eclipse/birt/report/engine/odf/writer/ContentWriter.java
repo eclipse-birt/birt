@@ -36,7 +36,7 @@ public class ContentWriter {
 
 	/**
 	 * Write the whole document
-	 * 
+	 *
 	 * @param styles     styles part
 	 * @param bodyStream body part
 	 * @throws IOException
@@ -95,7 +95,7 @@ public class ContentWriter {
 
 	/**
 	 * Write the automatic styles to the document.
-	 * 
+	 *
 	 * @param styles
 	 */
 	private void writeAutomaticStyles(Collection<StyleEntry> styles) {

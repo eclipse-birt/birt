@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -34,7 +34,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * the origional data set can be deleted without error message but error message
  * pops up when deleting copied data set.
- * 
+ *
  * <p>
  * <b>Expected result:</b>
  * <p>
@@ -50,6 +50,7 @@ public class Regression_102003 extends BaseTestCase {
 
 	private final static String INPUT = "regression_102003.xml"; //$NON-NLS-1$
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();

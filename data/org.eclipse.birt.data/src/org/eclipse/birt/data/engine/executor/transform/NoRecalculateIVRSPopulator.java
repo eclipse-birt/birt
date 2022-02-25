@@ -24,7 +24,7 @@ import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
- * 
+ *
  */
 
 public class NoRecalculateIVRSPopulator extends ResultSetPopulator {
@@ -35,6 +35,7 @@ public class NoRecalculateIVRSPopulator extends ResultSetPopulator {
 		this.getGroupProcessorManager().getGroupCalculationUtil().getGroupInformationUtil().setGroups(groups);
 	}
 
+	@Override
 	public void populateResultSet(OdiResultSetWrapper odaResultSet) throws DataException {
 		NoRecalculatePassManager.populateResultSet(this, odaResultSet, this.session);
 	}

@@ -38,7 +38,7 @@ public class ImageManager {
 	}
 
 	public ImageManager() {
-		this.images = new HashMap<String, ImagePart>();
+		this.images = new HashMap<>();
 	}
 
 	public boolean hasImage(String imageId) {
@@ -46,8 +46,9 @@ public class ImageManager {
 	}
 
 	public ImagePart getImagePart(IPart parent, String imageId, Image imageInfo) throws IOException {
-		if (imageId == null)
+		if (imageId == null) {
 			imageId = Integer.toString(imageCount++);
+		}
 		ImagePart imagePart = images.get(imageId);
 		if (imagePart == null) {
 			String format = imageInfo.getFormatName();

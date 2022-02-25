@@ -68,10 +68,12 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 
 	protected void placeComponents(int styles, boolean enabled, String label, String endLabel) {
 		int colNum = 1;
-		if (label != null)
+		if (label != null) {
 			colNum++;
-		if (endLabel != null)
+		}
+		if (endLabel != null) {
 			colNum++;
+		}
 		GridLayout gl = new GridLayout();
 		gl.numColumns = colNum;
 		gl.makeColumnsEqualWidth = false;
@@ -106,7 +108,7 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener(int,
 	 * org.eclipse.swt.widgets.Listener)
 	 */
@@ -123,9 +125,10 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
+	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		spinner.setEnabled(enabled);
@@ -137,10 +140,12 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 		}
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// Do nothing.
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent event) {
 		if (event.widget == spinner) {
 			ChartElementUtil.setEObjectAttribute(eParent, sProperty,
@@ -148,6 +153,7 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 		}
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget == spinner) {
 			event.widget = this;

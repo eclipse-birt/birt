@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.olap.data.util;
 import java.util.Comparator;
 
 /**
- * 
+ *
  */
 
 public class IndexKey implements IComparableStructure {
@@ -30,6 +30,7 @@ public class IndexKey implements IComparableStructure {
 
 	}
 
+	@Override
 	public Object[] getFieldValues() {
 		Object[][] objectArrays = new Object[3][];
 		objectArrays[0] = key;
@@ -45,17 +46,21 @@ public class IndexKey implements IComparableStructure {
 		return ObjectArrayUtil.convert(objectArrays);
 	}
 
+	@Override
 	public int compareTo(Object o) {
 		assert o instanceof IndexKey;
 		IndexKey target = (IndexKey) o;
 
 		for (int i = 0; i < getKey().length; i++) {
-			if (getKey()[i] == null && target.getKey()[i] != null)
+			if (getKey()[i] == null && target.getKey()[i] != null) {
 				return -1;
-			if (getKey()[i] == null && target.getKey()[i] == null)
+			}
+			if (getKey()[i] == null && target.getKey()[i] == null) {
 				return 0;
-			if (getKey()[i] != null && target.getKey()[i] == null)
+			}
+			if (getKey()[i] != null && target.getKey()[i] == null) {
 				return 1;
+			}
 			int result = 0;
 			if (getKey()[i] instanceof Comparable) {
 				result = ((Comparable) getKey()[i]).compareTo(target.getKey()[i]);
@@ -72,6 +77,7 @@ public class IndexKey implements IComparableStructure {
 	public static Comparator getKeyComparator() {
 		return new Comparator() {
 
+			@Override
 			public int compare(Object obj1, Object obj2) {
 				return ((IndexKey) obj1).compareTo(obj2);
 			}
@@ -81,14 +87,16 @@ public class IndexKey implements IComparableStructure {
 	public static Comparator getIndexComparator() {
 		return new Comparator() {
 
+			@Override
 			public int compare(Object obj1, Object obj2) {
 				int[] index1 = ((IndexKey) obj1).getDimensionPos();
 				int[] index2 = ((IndexKey) obj2).getDimensionPos();
 				for (int i = 0; i < Math.min(index1.length, index2.length); i++) {
-					if (index1[i] < index2[i])
+					if (index1[i] < index2[i]) {
 						return -1;
-					else if (index1[i] > index2[i])
+					} else if (index1[i] > index2[i]) {
 						return 1;
+					}
 				}
 				if (index1.length < index2.length) {
 					return -1;
@@ -151,6 +159,7 @@ public class IndexKey implements IComparableStructure {
 
 class IndexKeyObjectCreator implements IStructureCreator {
 
+	@Override
 	public IStructure createInstance(Object[] fields) {
 		Object[][] objectArrays = ObjectArrayUtil.convert(fields);
 		IndexKey obj = new IndexKey();

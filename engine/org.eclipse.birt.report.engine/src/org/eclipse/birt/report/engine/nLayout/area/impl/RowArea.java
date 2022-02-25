@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -93,10 +93,12 @@ public class RowArea extends ContainerArea {
 		return rowID;
 	}
 
+	@Override
 	public RowArea cloneArea() {
 		return new RowArea(this);
 	}
 
+	@Override
 	public RowArea deepClone() {
 		RowArea result = (RowArea) cloneArea();
 		Iterator iter = children.iterator();
@@ -117,6 +119,7 @@ public class RowArea extends ContainerArea {
 		return table;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		TableArea table = getTableArea();
 		table.addRow(this);
@@ -131,6 +134,7 @@ public class RowArea extends ContainerArea {
 		checkDisplayNone();
 	}
 
+	@Override
 	public void initialize() throws BirtException {
 		calculateSpecifiedHeight(content);
 		width = parent.getMaxAvaWidth();
@@ -150,6 +154,7 @@ public class RowArea extends ContainerArea {
 		return true;
 	}
 
+	@Override
 	public void update(AbstractArea area) throws BirtException {
 		CellArea cArea = (CellArea) area;
 		int columnID = cArea.getColumnID();
@@ -164,6 +169,7 @@ public class RowArea extends ContainerArea {
 		}
 	}
 
+	@Override
 	public void add(AbstractArea area) {
 		addChild(area);
 		CellArea cArea = (CellArea) area;
@@ -179,6 +185,7 @@ public class RowArea extends ContainerArea {
 		}
 	}
 
+	@Override
 	public void addChild(IArea area) {
 		children.add(area);
 		this.setCell((CellArea) area);
@@ -200,6 +207,7 @@ public class RowArea extends ContainerArea {
 		setCell(cell);
 	}
 
+	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
 		if (force) {
 			return _split(height, force);
@@ -367,6 +375,7 @@ public class RowArea extends ContainerArea {
 		}
 	}
 
+	@Override
 	public boolean isPageBreakInsideAvoid() {
 		if (getTableArea().isGridDesign()) {
 			return super.isPageBreakInsideAvoid();
@@ -387,6 +396,7 @@ public class RowArea extends ContainerArea {
 		}
 	}
 
+	@Override
 	public SplitResult splitLines(int lineCount) throws BirtException {
 		if (isPageBreakBeforeAvoid()) {
 			return SplitResult.BEFORE_AVOID_WITH_NULL;
@@ -394,6 +404,7 @@ public class RowArea extends ContainerArea {
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
+	@Override
 	public void updateChildrenPosition() throws BirtException {
 
 	}

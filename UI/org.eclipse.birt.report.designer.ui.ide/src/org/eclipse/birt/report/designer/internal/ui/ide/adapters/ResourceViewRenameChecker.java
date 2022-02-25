@@ -15,15 +15,17 @@
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
 import java.io.File;
+
 import org.eclipse.birt.report.designer.ui.ide.navigator.ResourceCloseManagement;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.IRenameChecker;
 
 /**
- * 
+ *
  */
 
 public class ResourceViewRenameChecker implements IRenameChecker {
 
+	@Override
 	public boolean renameCheck(File file) {
 		return ResourceCloseManagement.saveDirtyAndCloseOpenFile(file);
 	}

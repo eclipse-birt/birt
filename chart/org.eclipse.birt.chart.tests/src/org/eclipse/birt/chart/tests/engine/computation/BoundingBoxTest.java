@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,18 +14,21 @@
 
 package org.eclipse.birt.chart.tests.engine.computation;
 
-import junit.framework.TestCase;
 import org.eclipse.birt.chart.computation.BoundingBox;
+
+import junit.framework.TestCase;
 
 public class BoundingBoxTest extends TestCase {
 	BoundingBox box;
 
+	@Override
 	protected void setUp() throws Exception {
 		box = new BoundingBox(0, 0.0, 0.0, 3.0, 4.0, 0.0);
 		box.setLeft(2.0);
 		box.setTop(1.0);
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		box = null;
 	}

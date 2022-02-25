@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,7 @@ public class ExtendedEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart
 	 * #elementChanged(org.eclipse.birt.model.api.DesignElementHandle,
@@ -71,21 +71,24 @@ public class ExtendedEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy() {
 
+			@Override
 			public boolean understandsRequest(Request request) {
 				if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
-						|| RequestConstants.REQ_OPEN.equals(request.getType()))
+						|| RequestConstants.REQ_OPEN.equals(request.getType())) {
 					// !creation request already processed in createion
 					// tool
 					// || ReportRequest.CREATE_ELEMENT.equals(
 					// request.getType( ) ) )
 					return true;
+				}
 				return super.understandsRequest(request);
 			}
 		});
@@ -93,10 +96,11 @@ public class ExtendedEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		refreshBorder((DesignElementHandle) getModel(), new LineBorder());
 		getExtendedElementUI().updateFigure(getExtendedItemHandle(), getFigure());
@@ -135,13 +139,15 @@ public class ExtendedEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		return getExtendedElementUI().createFigure(getExtendedItemHandle());
 	}
 
+	@Override
 	public void performDirectEdit() {
 		ExtendedElementUIPoint point = ExtensionPointManager.getInstance()
 				.getExtendedElementPoint(((ExtendedItemHandle) getModel()).getExtensionName());
@@ -199,6 +205,7 @@ public class ExtendedEditPart extends ReportElementEditPart {
 		return bool.booleanValue();
 	}
 
+	@Override
 	public void deactivate() {
 		elementUI.disposeFigure(getExtendedItemHandle(), getFigure());
 		super.deactivate();

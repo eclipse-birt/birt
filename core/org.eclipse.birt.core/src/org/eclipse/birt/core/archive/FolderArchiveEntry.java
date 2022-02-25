@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -32,25 +32,30 @@ public class FolderArchiveEntry extends ArchiveEntry {
 
 	}
 
+	@Override
 	public long getLength() throws IOException {
 		return file.length();
 	}
 
+	@Override
 	public void setLength(long length) throws IOException {
 
 	}
 
+	@Override
 	public int read(long pos, byte[] b, int off, int len) throws IOException {
 		in.seek(pos);
 		return in.read(b, off, len);
 	}
 
+	@Override
 	public void write(long pos, byte[] b, int off, int len) throws IOException {
 		out.seek(pos);
 		out.write(b, off, len);
 		out.flush();
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (in != null) {
 			in.close();

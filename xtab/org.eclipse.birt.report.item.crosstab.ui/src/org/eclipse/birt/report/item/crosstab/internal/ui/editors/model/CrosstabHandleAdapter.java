@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2014 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -66,7 +66,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public CrosstabHandleAdapter(CrosstabReportItemHandle handle) {
@@ -75,7 +75,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/**
 	 * Creates the adapter factory for create the children.
-	 * 
+	 *
 	 * @return
 	 */
 	protected ICrosstabCellAdapterFactory createCrosstabCellAdapterFactory() {
@@ -84,10 +84,11 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.core.model.schematic.crosstab.
 	 * BaseCrosstabAdapter#getModelList()
 	 */
+	@Override
 	public List getModelList() {
 		init();
 		// there are four parts to create model
@@ -436,7 +437,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 				AggregationCellHandle cell = measureHandle.getAggregationCell(j);
 				LevelViewHandle levelViewHandle = cell.getLevelView(getWorkArea(ICrosstabConstants.COLUMN_AXIS_TYPE));
 
-				int measureCount = count;
+				int measureCount;
 
 				Integer temp;
 				List measuresHandles;
@@ -884,7 +885,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/**
 	 * return the previous LevelViewHandle
-	 * 
+	 *
 	 * @return
 	 */
 
@@ -908,13 +909,12 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/**
 	 * Use the old model add to model list, so the no new editpart create
-	 * 
+	 *
 	 * @param list
 	 * @param adapter
 	 */
 	private void addToModel(List list, BaseCrosstabAdapter adapter) {
 		if (list.contains(adapter)) {
-			return;
 		} else if (oldModelList.contains(adapter)) {
 			int index = oldModelList.indexOf(adapter);
 			BaseCrosstabAdapter copy = (BaseCrosstabAdapter) oldModelList.get(index);
@@ -933,6 +933,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 	 */
 	protected class DefaultCrocsstabCellAdapterFactory implements ICrosstabCellAdapterFactory {
 
+		@Override
 		public CrosstabCellAdapter createCrosstabCellAdapter(String type, CrosstabCellHandle handle, int rowNumber,
 				int rowSpan, int columnNumber, int columnSpan, boolean isConvert) {
 			CrosstabCellAdapter retValue = null;
@@ -1003,34 +1004,17 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return super.toString();
 	}
 
-	private void debug(String area, List list) {
-		System.out.println("///////////////////////////////////"); //$NON-NLS-1$
-		for (int i = 0; i < list.size(); i++) {
-			CrosstabCellAdapter adapter = (CrosstabCellAdapter) list.get(i);
-
-			String classNmae = adapter.getClass().getName();
-			int index = classNmae.lastIndexOf("."); //$NON-NLS-1$
-			classNmae = classNmae.substring(index + 1);
-			System.out.println("cell row==" //$NON-NLS-1$
-					+ adapter.getRowNumber() + " rowSpan==" //$NON-NLS-1$
-					+ adapter.getRowSpan() + " column==" //$NON-NLS-1$
-					+ adapter.getColumnNumber() + " columnSpan==" //$NON-NLS-1$
-					+ adapter.getColumnSpan() + "           " //$NON-NLS-1$
-					+ classNmae);
-		}
-		System.out.println("///////////////////////////////////"); //$NON-NLS-1$
-	}
-
 	/**
 	 * Gets the row count
-	 * 
+	 *
 	 * @return
 	 */
 	public int getRowCount() {
@@ -1051,7 +1035,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/**
 	 * Gets the column count
-	 * 
+	 *
 	 * @return
 	 */
 	public int getColumnCount() {
@@ -1072,10 +1056,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 	}
 
 	private int getAdjustNumber(int type) {
-		if (!isVertical() && type == ICrosstabConstants.COLUMN_AXIS_TYPE) {
-			return columnAndMeasureColumnNumber;
-		}
-		if (isVertical() && type == ICrosstabConstants.ROW_AXIS_TYPE) {
+		if ((!isVertical() && type == ICrosstabConstants.COLUMN_AXIS_TYPE) || (isVertical() && type == ICrosstabConstants.ROW_AXIS_TYPE)) {
 			return columnAndMeasureColumnNumber;
 		}
 		return -1;
@@ -1083,7 +1064,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/**
 	 * Gets the row height from the model.
-	 * 
+	 *
 	 * @param number
 	 * @return
 	 */
@@ -1160,7 +1141,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/**
 	 * Gets the column width from the model.
-	 * 
+	 *
 	 * @param number
 	 * @return
 	 */
@@ -1192,7 +1173,6 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 		try {
 			CrosstabCellHandle cell = CrosstabModelUtil.locateColumnWidthCell(getCrosstabReportItemHandle(), handle);
 			MetricUtility.updateDimension(cell.getWidth(), value);
-			return;
 		} catch (SemanticException e) {
 			// There are some issues when show as chart.So ignore the exception.
 			// ExceptionUtil.handle( e );
@@ -1225,7 +1205,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/**
 	 * Returns the defined width in model in Pixel.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getDefinedWidth() {
@@ -1264,6 +1244,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 	 */
 	private static class ModelComparator implements Comparator {
 
+		@Override
 		public int compare(Object o1, Object o2) {
 			CrosstabCellAdapter part1 = (CrosstabCellAdapter) o1;
 			CrosstabCellAdapter part2 = (CrosstabCellAdapter) o2;
@@ -1279,18 +1260,20 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		return getCrosstabItemHandle().hashCode();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == getCrosstabItemHandle()) {
 			return true;

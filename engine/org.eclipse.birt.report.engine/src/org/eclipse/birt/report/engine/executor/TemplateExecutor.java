@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ public class TemplateExecutor extends StyledItemExecutor {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param context the excutor context
 	 * @param visitor the report executor visitor
 	 */
@@ -39,9 +39,10 @@ public class TemplateExecutor extends StyledItemExecutor {
 	 * <li>intialize the content
 	 * <li>call emitter to start the text
 	 * <li>popup the text.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
+	@Override
 	public IContent execute() {
 		TemplateDesign templateDesign = (TemplateDesign) design;
 		IForeignContent textContent = report.createForeignContent();

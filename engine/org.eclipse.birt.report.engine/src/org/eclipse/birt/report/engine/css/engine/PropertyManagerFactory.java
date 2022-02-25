@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,20 +18,20 @@ public interface PropertyManagerFactory {
 	/**
 	 * Returns the number of properties.
 	 */
-	abstract public int getNumberOfProperties();
+	int getNumberOfProperties();
 
 	/**
 	 * Returns the property index, or -1.
 	 */
-	abstract public int getPropertyIndex(String name);
+	int getPropertyIndex(String name);
 
 	/**
 	 * Returns the ValueManagers.
 	 */
-	abstract public ValueManager getValueManager(int idx);
+	ValueManager getValueManager(int idx);
 
 	/**
 	 * Returns the name of the property at the given index.
 	 */
-	abstract public String getPropertyName(int idx);
+	String getPropertyName(int idx);
 }

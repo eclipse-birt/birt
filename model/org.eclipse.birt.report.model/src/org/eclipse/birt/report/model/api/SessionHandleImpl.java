@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * The default resource locator will search in the folder where the design file
  * is located.
- * 
+ *
  * @see org.eclipse.birt.report.model.util.ResourceLocatorImpl
  * @see org.eclipse.birt.report.model.core.DesignSession
  */
@@ -63,7 +63,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Sets resource path.
-	 * 
+	 *
 	 * @param resourcePath the resource path to set. It must be an absolute path
 	 *                     based on file system and must present a dictory.
 	 */
@@ -74,7 +74,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Gets resource path. {@link #setBirtResourcePath(String)}
-	 * 
+	 *
 	 * @return the resource path set in the session
 	 */
 
@@ -84,13 +84,14 @@ class SessionHandleImpl {
 
 	/**
 	 * Constructs a handle for the session with the given locale.
-	 * 
+	 *
 	 * @param locale the user's locale. If null, then the system locale is assumed.
-	 * 
+	 *
 	 * @deprecated to use ICU4J, this method is replaced by: SessionHandle(ULocale
 	 *             locale)
 	 */
 
+	@Deprecated
 	public SessionHandleImpl(Locale locale) {
 		ULocale uLocale = ULocale.forLocale(locale);
 		session = new DesignSession(uLocale);
@@ -98,7 +99,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Constructs a handle for the session with the given locale.
-	 * 
+	 *
 	 * @param locale the user's locale which is <code>ULocale</code>. If null, then
 	 *               the system locale is assumed.
 	 */
@@ -120,7 +121,7 @@ class SessionHandleImpl {
 	/**
 	 * Opens a module regardless of the module type(library or report design).
 	 * design.
-	 * 
+	 *
 	 * @param fileName name of the file to open.
 	 * @param is       stream to read the design
 	 * @return handle to the report design
@@ -136,7 +137,7 @@ class SessionHandleImpl {
 	/**
 	 * Opens a module regardless of the module type(library or report design).
 	 * design.
-	 * 
+	 *
 	 * @param fileName name of the file to open.
 	 * @param is       stream to read the design
 	 * @param options  the options set for this module
@@ -153,7 +154,7 @@ class SessionHandleImpl {
 	/**
 	 * Opens a module regardless of the module type(library or report design).
 	 * design.
-	 * 
+	 *
 	 * @param fileName name of the file to open.
 	 * @return handle to the report design
 	 * @throws DesignFileException If the file is not found, or the file contains
@@ -168,7 +169,7 @@ class SessionHandleImpl {
 	/**
 	 * Opens a module regardless of the module type(library or report design).
 	 * design.
-	 * 
+	 *
 	 * @param fileName name of the file to open.
 	 * @param options  the options set for this module
 	 * @return handle to the report design
@@ -183,13 +184,13 @@ class SessionHandleImpl {
 
 	/**
 	 * Opens a design with the given the file name.
-	 * 
+	 *
 	 * @param fileName name of the file to open. It may contain the
 	 *                 relative/absolute path information. This name must include
 	 *                 the file name with the filename extension.
-	 * 
+	 *
 	 * @return handle to the report design
-	 * 
+	 *
 	 * @throws DesignFileException if the file is not found, or the file contains
 	 *                             fatal errors.
 	 */
@@ -200,14 +201,14 @@ class SessionHandleImpl {
 
 	/**
 	 * Opens a design with the given the file name.
-	 * 
+	 *
 	 * @param fileName name of the file to open. It may contain the
 	 *                 relative/absolute path information. This name must include
 	 *                 the file name with the filename extension.
 	 * @param options  the options set for this module
-	 * 
+	 *
 	 * @return handle to the report design
-	 * 
+	 *
 	 * @throws DesignFileException if the file is not found, or the file contains
 	 *                             fatal errors.
 	 */
@@ -219,7 +220,7 @@ class SessionHandleImpl {
 	/**
 	 * Opens a design given a stream to the design and the the file name of the
 	 * design.
-	 * 
+	 *
 	 * @param fileName name of the file to open. If <code>null</code>, the design
 	 *                 will be treated as a new design, and will be saved to a
 	 *                 different file. If not <code>null</code>, it may contain the
@@ -238,7 +239,7 @@ class SessionHandleImpl {
 	/**
 	 * Opens a design given a stream to the design and the the file name of the
 	 * design.
-	 * 
+	 *
 	 * @param fileName name of the file to open. If <code>null</code>, the design
 	 *                 will be treated as a new design, and will be saved to a
 	 *                 different file. If not <code>null</code>, it may contain the
@@ -259,11 +260,11 @@ class SessionHandleImpl {
 	/**
 	 * Opens a design given a stream to the design and the the file name of the
 	 * design. *
-	 * 
+	 *
 	 * @param systemId the uri where to find the relative sources for the report.
 	 *                 This url is treated as an absolute directory.
 	 * @param is       the input stream to read the design
-	 * 
+	 *
 	 * @return handle to the report design
 	 * @throws DesignFileException If the file is not found, or the file contains
 	 *                             fatal errors.
@@ -276,12 +277,12 @@ class SessionHandleImpl {
 	/**
 	 * Opens a design given a stream to the design and the the file name of the
 	 * design. *
-	 * 
+	 *
 	 * @param systemId the uri where to find the relative sources for the report.
 	 *                 This url is treated as an absolute directory.
 	 * @param is       the input stream to read the design
 	 * @param options  the options set for this module
-	 * 
+	 *
 	 * @return handle to the report design
 	 * @throws DesignFileException If the file is not found, or the file contains
 	 *                             fatal errors.
@@ -294,11 +295,11 @@ class SessionHandleImpl {
 
 	/**
 	 * Opens a library with the given the file name.
-	 * 
+	 *
 	 * @param fileName name of the file to open. This name must include the file
 	 *                 name with the filename extension.
 	 * @return handle to the library
-	 * 
+	 *
 	 * @throws DesignFileException if the file is not found, or the file contains
 	 *                             fatal errors.
 	 */
@@ -309,12 +310,12 @@ class SessionHandleImpl {
 
 	/**
 	 * Opens a library with the given the file name.
-	 * 
+	 *
 	 * @param fileName name of the file to open. This name must include the file
 	 *                 name with the filename extension.
 	 * @param options  the options set for this module
 	 * @return handle to the library
-	 * 
+	 *
 	 * @throws DesignFileException if the file is not found, or the file contains
 	 *                             fatal errors.
 	 */
@@ -326,7 +327,7 @@ class SessionHandleImpl {
 	/**
 	 * Opens a library given a stream to the design and the the file name of the
 	 * design.
-	 * 
+	 *
 	 * @param fileName name of the file to open. If <code>null</code>, the library
 	 *                 will be treated as a new library, and will be saved to a
 	 *                 different file. If not <code>null</code>, it may contain the
@@ -345,7 +346,7 @@ class SessionHandleImpl {
 	/**
 	 * Opens a library given a stream to the design and the the file name of the
 	 * design.
-	 * 
+	 *
 	 * @param fileName name of the file to open. If <code>null</code>, the library
 	 *                 will be treated as a new library, and will be saved to a
 	 *                 different file. If not <code>null</code>, it may contain the
@@ -364,12 +365,12 @@ class SessionHandleImpl {
 
 	/**
 	 * Opens a library with the given the file name.
-	 * 
+	 *
 	 * @param systemId the uri where to find the relative sources for the library.
 	 *                 This url is treated as an absolute directory.
 	 * @param is       the input stream
 	 * @return handle to the library
-	 * 
+	 *
 	 * @throws DesignFileException if the file is not found, or the file contains
 	 *                             fatal errors.
 	 */
@@ -380,13 +381,13 @@ class SessionHandleImpl {
 
 	/**
 	 * Opens a library with the given the file name.
-	 * 
+	 *
 	 * @param systemId the uri where to find the relative sources for the library.
 	 *                 This url is treated as an absolute directory.
 	 * @param is       the input stream
 	 * @param options  the options set for this module
 	 * @return handle to the library
-	 * 
+	 *
 	 * @throws DesignFileException if the file is not found, or the file contains
 	 *                             fatal errors.
 	 */
@@ -397,7 +398,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Creates a new design based on a file name.
-	 * 
+	 *
 	 * @param fileName file name.
 	 * @return A handle to the report design.
 	 */
@@ -408,7 +409,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Creates a new design based on the file name and the module options.
-	 * 
+	 *
 	 * @param fileName
 	 * @param options
 	 * @return new report design handle.
@@ -419,7 +420,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Creates a new design based on a template file.
-	 * 
+	 *
 	 * @param templateDesignName The name of the template for the design.
 	 * @return A handle to the report design.
 	 * @throws DesignFileException If the file is not found, or the file contains
@@ -432,7 +433,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Creates a new design based a given template file name and input stream.
-	 * 
+	 *
 	 * @param templateDesignName The name of the template for the design.
 	 * @return A handle to the report design.
 	 * @throws DesignFileException If the file is not found, or the file contains
@@ -446,7 +447,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Creates a new library based on a template file.
-	 * 
+	 *
 	 * @param templateLibraryName The name of the template for the library.
 	 * @return A handle to the report library.
 	 * @throws DesignFileException If the file is not found, or the file contains
@@ -459,7 +460,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Creates a new empty design. This new design is not based on a template.
-	 * 
+	 *
 	 * @return the handle of the new report design.
 	 */
 
@@ -469,7 +470,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Creates a new empty library.
-	 * 
+	 *
 	 * @return the handle of the new library.
 	 */
 
@@ -479,7 +480,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Saves all designs and librariesthat need a save.
-	 * 
+	 *
 	 * @throws IOException if a save error occurs
 	 */
 
@@ -488,14 +489,15 @@ class SessionHandleImpl {
 		while (iter.hasNext()) {
 			Module module = iter.next();
 			ModuleHandle handle = (ModuleHandle) module.getHandle(module);
-			if (handle.needsSave())
+			if (handle.needsSave()) {
 				handle.save();
+			}
 		}
 	}
 
 	/**
 	 * Closes all open designs and libraires.
-	 * 
+	 *
 	 * @param save <code>true</code> if designs are to be saved before closing
 	 * @throws IOException if a save error occurs
 	 */
@@ -505,8 +507,9 @@ class SessionHandleImpl {
 		while (iter.hasNext()) {
 			Module module = iter.next();
 			ModuleHandle handle = (ModuleHandle) module.getHandle(module);
-			if (save && handle.needsSave())
+			if (save && handle.needsSave()) {
 				handle.save();
+			}
 			handle.close();
 		}
 	}
@@ -517,7 +520,7 @@ class SessionHandleImpl {
 	 * or different units. The application units are those used when getting and
 	 * setting dimension properties using double (float) values. The possible values
 	 * are defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>UNITS_IN</code></li>
 	 * <li><code>UNITS_CM</code></li>
@@ -527,10 +530,10 @@ class SessionHandleImpl {
 	 * <li><code>UNITS_PC
 	 * </code></li>
 	 * </ul>
-	 * 
+	 *
 	 * @param units the units to set for the session -- application
 	 * @throws PropertyValueException if <code>units</code> is not one of the above
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
 	 */
 
@@ -541,7 +544,7 @@ class SessionHandleImpl {
 	/**
 	 * Returns the current session (application) units. The return values are
 	 * defined in <code>DesignChoiceConstants</code> and is one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>UNITS_IN</code></li>
 	 * <li><code>UNITS_CM</code></li>
@@ -551,9 +554,9 @@ class SessionHandleImpl {
 	 * <li><code>UNITS_PC
 	 * </code></li>
 	 * </ul>
-	 * 
+	 *
 	 * @return the application units
-	 * 
+	 *
 	 * @see #setApplicationUnits
 	 */
 
@@ -576,12 +579,12 @@ class SessionHandleImpl {
 	 * <li><code>
 	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param rgbFormat the rgb color display preference to set.
-	 * 
+	 *
 	 * @throws PropertyValueException if <code>rgbFormat</code> is not one of the
 	 *                                above.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ColorPropertyType
 	 */
 
@@ -592,7 +595,7 @@ class SessionHandleImpl {
 	/**
 	 * Returns the current application rgb color display preference. The return is
 	 * one of the following constants defined in <code>ColorUtil</code>:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>INT_FORMAT</code>
 	 * <li><code>HTML_FORMAT</code>
@@ -602,9 +605,9 @@ class SessionHandleImpl {
 	 * <li><code>
 	 * CSS_RELATIVE_FORMAT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return application rgb color display preference
-	 * 
+	 *
 	 * @see #setColorFormat(int)
 	 */
 
@@ -614,7 +617,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Sets the specified default value of style property.
-	 * 
+	 *
 	 * @param propName style property name
 	 * @param value    default value to set
 	 * @throws PropertyValueException if value is invalid.
@@ -626,7 +629,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Gets the default value of the specified style property.
-	 * 
+	 *
 	 * @param propName style property name
 	 * @return The default value of this style property. If the default value is not
 	 *         set, return <code>null</code>.
@@ -638,7 +641,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Sets the resource locator for the specified file searching algorithm.
-	 * 
+	 *
 	 * @param locator the resource locator to be set.
 	 */
 
@@ -651,7 +654,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Returns the installed resource locator.
-	 * 
+	 *
 	 * @return the resource locator.
 	 */
 
@@ -661,18 +664,19 @@ class SessionHandleImpl {
 
 	/**
 	 * Returns the locale of the current session.
-	 * 
+	 *
 	 * @return the locale of the current session
 	 * @deprecated to use ICU4J, replaced by: public ULocale getLocale()
 	 */
 
+	@Deprecated
 	public Locale getLocale() {
 		return Locale.getDefault();
 	}
 
 	/**
 	 * Returns the locale of the current session.
-	 * 
+	 *
 	 * @return the locale of the current session, the return value is of
 	 *         <code>ULocale</code>.
 	 */
@@ -684,21 +688,22 @@ class SessionHandleImpl {
 	/**
 	 * Informs this session some resources is changed. Session will check all opened
 	 * mudules, all interfered modules will be informed of the changes.
-	 * 
+	 *
 	 * <p>
 	 * Current, only changes of library is supported.
-	 * 
+	 *
 	 * @param ev the resource change event to fire
 	 */
 
 	public void fireResourceChange(ResourceChangeEvent ev) {
-		if (ev.getEventType() == NotificationEvent.LIBRARY_CHANGE_EVENT)
+		if (ev.getEventType() == NotificationEvent.LIBRARY_CHANGE_EVENT) {
 			session.fireLibChange((LibraryChangeEvent) ev);
+		}
 	}
 
 	/**
 	 * Adds one resource change listener. The duplicate listener will not be added.
-	 * 
+	 *
 	 * @param listener the resource change listener to add
 	 */
 
@@ -709,11 +714,11 @@ class SessionHandleImpl {
 	/**
 	 * Removes one resource change listener. If the listener not registered, then
 	 * the request is silently ignored.
-	 * 
+	 *
 	 * @param listener the resource change listener to remove
 	 * @return <code>true</code> if <code>listener</code> is successfully removed.
 	 *         Otherwise <code>false</code>.
-	 * 
+	 *
 	 */
 
 	public boolean removeResourceChangeListener(IResourceChangeListener listener) {
@@ -722,7 +727,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Gets the design session of the handle.
-	 * 
+	 *
 	 * @return the design session of the handle
 	 */
 
@@ -732,7 +737,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Sets the resource folder for this session.
-	 * 
+	 *
 	 * @param resourceFolder the folder to set
 	 */
 
@@ -742,7 +747,7 @@ class SessionHandleImpl {
 
 	/**
 	 * Gets the resource folder set in this session.
-	 * 
+	 *
 	 * @return the resource folder set in this session
 	 */
 
@@ -752,15 +757,16 @@ class SessionHandleImpl {
 
 	/**
 	 * Gets default TOC Style.Heading 1 -> Heading 10.
-	 * 
+	 *
 	 * @param name style name
 	 * @return style handle which is read only.
 	 */
 
 	public StyleHandle getDefaultTOCStyle(String name) {
 		List<DesignElement> result = session.getDefaultTOCStyleValue();
-		if (result == null)
+		if (result == null) {
 			return null;
+		}
 		Iterator<DesignElement> iterator = result.iterator();
 		while (iterator.hasNext()) {
 			Style tmpStyle = (Style) iterator.next();
@@ -783,7 +789,7 @@ class SessionHandleImpl {
 	 * <li><code>FONT_SIZE_X_LARGE</code>
 	 * <li><code>FONT_SIZE_XX_LARGE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the instance of <code>IAbsoluteFontSizeValueProvider</code>
 	 */
 	public IAbsoluteFontSizeValueProvider getPredefinedFontSizeProvider() {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -60,6 +60,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public Location3D copyInstance() {
 		Location3DImpl dest = new Location3DImpl();
 		dest.x = getX();
@@ -121,7 +122,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 	/**
 	 * The default value of the '{@link #getZ() <em>Z</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getZ()
 	 * @generated
 	 * @ordered
@@ -131,7 +132,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 	/**
 	 * The cached value of the '{@link #getZ() <em>Z</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getZ()
 	 * @generated
 	 * @ordered
@@ -141,7 +142,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 	/**
 	 * This is true if the Z attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -151,7 +152,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected Location3DImpl() {
@@ -160,7 +161,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -170,54 +171,60 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getZ() {
 		return z;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setZ(double newZ) {
 		double oldZ = z;
 		z = newZ;
 		boolean oldZESet = zESet;
 		zESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LOCATION3_D__Z, oldZ, z, !oldZESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetZ() {
 		double oldZ = z;
 		boolean oldZESet = zESet;
 		z = Z_EDEFAULT;
 		zESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION3_D__Z, oldZ, Z_EDEFAULT,
 					oldZESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetZ() {
 		return zESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -231,7 +238,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -246,7 +253,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -261,7 +268,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -275,20 +282,22 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (z: "); //$NON-NLS-1$
-		if (zESet)
+		if (zESet) {
 			result.append(z);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
@@ -310,10 +319,11 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.attribute.Location3D#translate(double,
 	 * double, double)
 	 */
+	@Override
 	public void translate(double dTranslateX, double dTranslateY, double dTranslateZ) {
 		setX(getX() + dTranslateX);
 		setY(getY() + dTranslateY);
@@ -322,9 +332,10 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.attribute.Location#scale(double)
 	 */
+	@Override
 	public void scale(double dScale) {
 		setX(getX() * dScale);
 		setY(getY() * dScale);
@@ -333,10 +344,11 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.attribute.Location3D#set(double, double,
 	 * double)
 	 */
+	@Override
 	public void set(double dX, double dY, double dZ) {
 		setX(dX);
 		setY(dY);
@@ -346,6 +358,7 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 		}
 	}
 
+	@Override
 	public void linkToVector(Vector vector) {
 		this.vector = vector;
 	}

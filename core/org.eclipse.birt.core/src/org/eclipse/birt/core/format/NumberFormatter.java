@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,8 +28,8 @@ import java.util.logging.Logger;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
- * 
+ *
+ *
  * Defines a number formatting class. It does the following: 1. In constructor,
  * convert format string to Java format string. 2. Expose a format function,
  * which does the following: a. Format number using Java format string b. Do
@@ -70,12 +70,12 @@ public class NumberFormatter implements IFormatter {
 	/**
 	 * The default format of Double is Double.toString(); need to localize the
 	 * result of Double.toString() to get the final result.
-	 * 
+	 *
 	 * decimalSeparator is the localized decimal separator.
-	 * 
+	 *
 	 * currently the exponential character isnt exposed by JDK, so just leave it for
 	 * future
-	 * 
+	 *
 	 * @see definition of java.text.DecimalFormatSymbols#exponential
 	 */
 	protected char decimalSeparator;
@@ -105,7 +105,7 @@ public class NumberFormatter implements IFormatter {
 
 	/**
 	 * constructor with a format string as parameter
-	 * 
+	 *
 	 * @param format format string
 	 */
 	public NumberFormatter(String format) {
@@ -124,13 +124,14 @@ public class NumberFormatter implements IFormatter {
 	 * @deprecated since 2.1
 	 * @return
 	 */
+	@Deprecated
 	public NumberFormatter(Locale locale) {
 		this(ULocale.forLocale(locale));
 	}
 
 	/**
 	 * constructor that takes a format pattern and a locale
-	 * 
+	 *
 	 * @param pattern numeric format pattern
 	 * @param locale  locale used to format the number
 	 */
@@ -144,6 +145,7 @@ public class NumberFormatter implements IFormatter {
 	 * @deprecated since 2.1
 	 * @return
 	 */
+	@Deprecated
 	public NumberFormatter(String pattern, Locale locale) {
 		this(pattern, ULocale.forLocale(locale));
 	}
@@ -161,7 +163,7 @@ public class NumberFormatter implements IFormatter {
 
 	/**
 	 * initializes numeric format pattern
-	 * 
+	 *
 	 * @param patternStr ths string used for formatting numeric data
 	 */
 	public void applyPattern(String patternStr) {
@@ -205,16 +207,17 @@ public class NumberFormatter implements IFormatter {
 	}
 
 	private String processPatternAttributes(String pattern) {
-		if (pattern == null || pattern.length() <= 3) // pattern must have {?}
+		if (pattern == null || pattern.length() <= 3) { // pattern must have {?}
 			return pattern;
+		}
 
 		int length = pattern.length();
 		if (pattern.charAt(length - 1) == '}') {
 			// end up with '}'
 			int begin = pattern.lastIndexOf('{');
 			if (begin >= 0) {
-				ArrayList<String> names = new ArrayList<String>();
-				ArrayList<String> values = new ArrayList<String>();
+				ArrayList<String> names = new ArrayList<>();
+				ArrayList<String> values = new ArrayList<>();
 				String properties = pattern.substring(begin + 1, length - 1);
 				String[] attributes = properties.split(";");
 				boolean wellForm = true;
@@ -233,30 +236,32 @@ public class NumberFormatter implements IFormatter {
 					for (int index = 0; index < size; index++) {
 						if (DIGIT_SUBSTITUTION.equalsIgnoreCase(names.get(index).trim())) {
 							String value = values.get(index).trim();
-							digitSubstitution = Boolean.valueOf(value);
+							digitSubstitution = Boolean.parseBoolean(value);
 						}
 						if (ROUNDING_MODE.equalsIgnoreCase(names.get(index).trim())) {
 							String value = values.get(index).trim();
-							if (value.equalsIgnoreCase("HALF_EVEN"))
+							if (value.equalsIgnoreCase("HALF_EVEN")) {
 								roundingMode = RoundingMode.HALF_EVEN;
-							else if (value.equalsIgnoreCase("HALF_UP"))
+							} else if (value.equalsIgnoreCase("HALF_UP")) {
 								roundingMode = RoundingMode.HALF_UP;
-							else if (value.equalsIgnoreCase("HALF_DOWN"))
+							} else if (value.equalsIgnoreCase("HALF_DOWN")) {
 								roundingMode = RoundingMode.HALF_DOWN;
-							else if (value.equalsIgnoreCase("UP"))
+							} else if (value.equalsIgnoreCase("UP")) {
 								roundingMode = RoundingMode.UP;
-							else if (value.equalsIgnoreCase("DOWN"))
+							} else if (value.equalsIgnoreCase("DOWN")) {
 								roundingMode = RoundingMode.DOWN;
-							else if (value.equalsIgnoreCase("FLOOR"))
+							} else if (value.equalsIgnoreCase("FLOOR")) {
 								roundingMode = RoundingMode.FLOOR;
-							else if (value.equalsIgnoreCase("CEILING"))
+							} else if (value.equalsIgnoreCase("CEILING")) {
 								roundingMode = RoundingMode.CEILING;
-							else if (value.equalsIgnoreCase("UNNECESSARY"))
+							} else if (value.equalsIgnoreCase("UNNECESSARY")) {
 								roundingMode = RoundingMode.UNNECESSARY;
+							}
 						}
 					}
-					if (begin == 0)
+					if (begin == 0) {
 						return null;
+					}
 					return pattern.substring(0, begin);
 				}
 			}
@@ -278,7 +283,7 @@ public class NumberFormatter implements IFormatter {
 				return "Infinity";
 			}
 
-			if (hexFlag == true) {
+			if (hexFlag) {
 				return Long.toHexString(new Double(num).longValue());
 			}
 
@@ -310,13 +315,13 @@ public class NumberFormatter implements IFormatter {
 	 */
 	/**
 	 * formats a BigDecimal value into a string
-	 * 
+	 *
 	 * @param big decimal value
 	 * @return formatted string
 	 */
 	public String format(BigDecimal bigDecimal) {
 		try {
-			if (hexFlag == true) {
+			if (hexFlag) {
 				return Long.toHexString(bigDecimal.longValue());
 			}
 
@@ -337,7 +342,7 @@ public class NumberFormatter implements IFormatter {
 			if (Double.isNaN(number.doubleValue())) {
 				return "NaN";
 			}
-			if (hexFlag == true) {
+			if (hexFlag) {
 				return Long.toHexString(number.longValue());
 			}
 
@@ -359,12 +364,12 @@ public class NumberFormatter implements IFormatter {
 
 	/**
 	 * formats a long integer
-	 * 
+	 *
 	 * @param num the number to be formatted
 	 * @return the formatted string
 	 */
 	public String format(long num) {
-		if (hexFlag == true) {
+		if (hexFlag) {
 			return Long.toHexString(num);
 		}
 		return numberFormat.format(num);
@@ -413,7 +418,6 @@ public class NumberFormatter implements IFormatter {
 			String str = new String(data);
 
 			numberFormat = new DecimalFormat(str, new DecimalFormatSymbols(locale.toLocale()));
-			return;
 		}
 		}
 	}
@@ -497,7 +501,7 @@ public class NumberFormatter implements IFormatter {
 
 	/**
 	 * Returns whether decimal numbers are returned as BigDecimal instances.
-	 * 
+	 *
 	 * @return the parseBigDecimal
 	 */
 	public boolean isParseBigDecimal() {
@@ -506,7 +510,7 @@ public class NumberFormatter implements IFormatter {
 
 	/**
 	 * Sets whether decimal numbers must be returned as BigDecimal instances.
-	 * 
+	 *
 	 * @param parseBigDecimal the parseBigDecimal to set
 	 */
 	public void setParseBigDecimal(boolean parseBigDecimal) {
@@ -515,7 +519,7 @@ public class NumberFormatter implements IFormatter {
 
 	/**
 	 * Parses the input string into a formatted date type.
-	 * 
+	 *
 	 * @param number the input string to parse
 	 * @return the formatted date
 	 * @throws ParseException if the beginning of the specified string cannot be
@@ -530,8 +534,9 @@ public class NumberFormatter implements IFormatter {
 	}
 
 	BigDecimal roundValue(BigDecimal bd) {
-		if (roundingMode == RoundingMode.UNNECESSARY)
+		if (roundingMode == RoundingMode.UNNECESSARY) {
 			return bd;
+		}
 		if (roundPrecision >= 0) {
 			int scale = bd.scale();
 			try {
@@ -546,8 +551,9 @@ public class NumberFormatter implements IFormatter {
 	}
 
 	double roundValue(double value) {
-		if (roundingMode == RoundingMode.UNNECESSARY)
+		if (roundingMode == RoundingMode.UNNECESSARY) {
 			return value;
+		}
 		if (roundPrecision >= 0) {
 			BigDecimal bd = BigDecimal.valueOf(value);
 			int scale = bd.scale();
@@ -577,6 +583,7 @@ public class NumberFormatter implements IFormatter {
 		return precision;
 	}
 
+	@Override
 	public String formatValue(Object value) {
 		assert value instanceof Number;
 		return format((Number) value);

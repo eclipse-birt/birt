@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import com.ibm.icu.util.Calendar;
 
 /**
- * 
+ *
  */
 
 public class SecuredHierarchy extends Hierarchy {
@@ -44,6 +44,7 @@ public class SecuredHierarchy extends Hierarchy {
 		this.nullTime = calendar.getTimeInMillis();
 	}
 
+	@Override
 	protected Member[] populateLevelMembers() throws IOException {
 		Member[] levelMembers = new Member[levels.length];
 		for (int i = 0; i < levelMembers.length; i++) {
@@ -55,8 +56,9 @@ public class SecuredHierarchy extends Hierarchy {
 								.createNullValueReplacer(levelMembers[i].getKeyValues()[j]);
 					}
 				}
-				if (levelMembers[i].getAttributes() != null)
+				if (levelMembers[i].getAttributes() != null) {
 					Arrays.fill(levelMembers[i].getAttributes(), null);
+				}
 			}
 
 		}
@@ -65,7 +67,7 @@ public class SecuredHierarchy extends Hierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param fieldType
 	 * @return
 	 */

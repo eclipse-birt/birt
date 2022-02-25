@@ -30,6 +30,7 @@ public class OnCreateEvent extends ReportEvent implements IOnCreateEvent {
 		this.content = content;
 	}
 
+	@Override
 	public DesignElementHandle getHandle() {
 		return this.handle;
 	}
@@ -38,6 +39,7 @@ public class OnCreateEvent extends ReportEvent implements IOnCreateEvent {
 		this.handle = handle;
 	}
 
+	@Override
 	public IContent getContent() {
 		return this.content;
 	}
@@ -46,6 +48,7 @@ public class OnCreateEvent extends ReportEvent implements IOnCreateEvent {
 		this.content = content;
 	}
 
+	@Override
 	public IReportEventContext getContext() {
 		return this.context;
 	}

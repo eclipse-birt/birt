@@ -27,43 +27,43 @@ public interface IImageServiceProvider {
 
 	/**
 	 * get All available embedded image names in report
-	 * 
+	 *
 	 * @return list of image names
 	 */
-	public List<String> getEmbeddedImageName();
+	List<String> getEmbeddedImageName();
 
 	/**
 	 * save image to report
-	 * 
+	 *
 	 * @param fullPath
 	 * @param fileName
 	 * @return relative file name
 	 * @throws ChartException
 	 */
-	public String saveImage(String fullPath, String fileName) throws ChartException;
+	String saveImage(String fullPath, String fileName) throws ChartException;
 
 	/**
 	 * get embedded image by file name
-	 * 
+	 *
 	 * @param fileName
 	 * @return org.eclipse.swt.graphics.Image
 	 */
-	public org.eclipse.swt.graphics.Image getEmbeddedImage(String fileName);
+	org.eclipse.swt.graphics.Image getEmbeddedImage(String fileName);
 
 	/**
 	 * get resource image by file name
-	 * 
+	 *
 	 * @param fileName
 	 * @return org.eclipse.swt.graphics.Image
 	 * @throws ChartException
 	 */
-	public org.eclipse.swt.graphics.Image loadImage(String fileName) throws ChartException;
+	org.eclipse.swt.graphics.Image loadImage(String fileName) throws ChartException;
 
 	/**
 	 * get design time image absolute URL
-	 * 
+	 *
 	 * @param image
 	 * @return image URL
 	 */
-	public String getImageAbsoluteURL(Image image);
+	String getImageAbsoluteURL(Image image);
 }

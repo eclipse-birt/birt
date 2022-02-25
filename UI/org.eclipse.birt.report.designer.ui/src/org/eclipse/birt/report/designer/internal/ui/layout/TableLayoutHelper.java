@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ public class TableLayoutHelper {
 	/**
 	 * Calculate the table column width with given defined column widths and
 	 * calculator.
-	 * 
+	 *
 	 * @param columnWidths
 	 * @param containerWidth
 	 * @param calculator
@@ -49,18 +49,22 @@ public class TableLayoutHelper {
 
 		int[] width = refineColumnWidth(new TableLayoutDataProvider() {
 
+			@Override
 			public int getAvailableWidth() {
 				return containerWidth;
 			}
 
+			@Override
 			public int[] getHintColumnWidth() {
 				return hintWidth;
 			}
 
+			@Override
 			public int[] getMaxColumnWidth() {
 				return maxWidth;
 			}
 
+			@Override
 			public int[] getMinColumnWidth() {
 				return minWidth;
 			}
@@ -76,9 +80,9 @@ public class TableLayoutHelper {
 	/**
 	 * Refines the calculated column width by TableLayoutCalculator according to
 	 * given column data.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.util.ITableLayoutCalculator
-	 * 
+	 *
 	 * @param provider
 	 * @return
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,10 +27,10 @@ public class CompatibleIgnorePropertyState extends CompatiblePropertyState {
 	/**
 	 * Constructs a <code>CompatibleIgnorePropertyState</code> to parse an removed
 	 * property.
-	 * 
+	 *
 	 * @param theHandler the parser handle
 	 * @param element    the element that holds the obsolete property
-	 * 
+	 *
 	 */
 
 	public CompatibleIgnorePropertyState(ModuleParserHandler theHandler, DesignElement element) {
@@ -38,6 +38,7 @@ public class CompatibleIgnorePropertyState extends CompatiblePropertyState {
 
 	}
 
+	@Override
 	public void end() {
 	}
 }

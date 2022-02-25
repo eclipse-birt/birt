@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -33,14 +33,14 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 /**
  * The utility class for <code>LayoutTable</code>.
- * 
+ *
  */
 
 public class LayoutUtil {
 
 	/**
 	 * Calculates the row number in the table.
-	 * 
+	 *
 	 * @param table the layout table
 	 * @return the row number in the table
 	 */
@@ -74,7 +74,7 @@ public class LayoutUtil {
 
 	/**
 	 * Returns flattern slots of the layout table regardless GROUP/Table slots.
-	 * 
+	 *
 	 * @param table the layout table
 	 * @return a list containing flattern slots
 	 */
@@ -84,14 +84,16 @@ public class LayoutUtil {
 		list.add(table.getHeader());
 
 		LayoutGroupBand band = table.getGroupHeaders();
-		for (int i = 0; i < band.getGroupCount(); i++)
+		for (int i = 0; i < band.getGroupCount(); i++) {
 			list.add(band.getLayoutSlot(i));
+		}
 
 		list.add(table.getDetail());
 
 		band = table.getGroupFooters();
-		for (int i = 0; i < band.getGroupCount(); i++)
+		for (int i = 0; i < band.getGroupCount(); i++) {
 			list.add(band.getLayoutSlot(i));
+		}
 
 		list.add(table.getFooter());
 
@@ -100,15 +102,16 @@ public class LayoutUtil {
 
 	/**
 	 * Returns the layout slot in which the given <code>cell</code> resides.
-	 * 
+	 *
 	 * @param cell the cell element
 	 * @return the layout slot
 	 */
 
 	private static LayoutSlot getLayoutSlotOfCell(CellHandle cell) {
 		ReportItem compoundElement = getCompoundContainer(cell.getElement());
-		if (!(compoundElement instanceof TableItem))
+		if (!(compoundElement instanceof TableItem)) {
 			return null;
+		}
 
 		TableItem table = (TableItem) compoundElement;
 		LayoutTable layoutTable = table.getLayoutModel(cell.getModule());
@@ -119,9 +122,9 @@ public class LayoutUtil {
 		int groupLevel = 0;
 		int slotId = cell.getContainer().getContainerSlotHandle().getSlotID();
 
-		if (grandPa instanceof TableHandle)
+		if (grandPa instanceof TableHandle) {
 			layoutSlot = layoutTable.getLayoutSlot(slotId);
-		else {
+		} else {
 			groupLevel = ((TableGroup) grandPa.getElement()).getGroupLevel();
 			layoutSlot = layoutTable.getLayoutSlot(groupLevel, slotId);
 		}
@@ -131,7 +134,7 @@ public class LayoutUtil {
 
 	/**
 	 * Returns the effective column span of the given cell.
-	 * 
+	 *
 	 * @param cell the cell to find
 	 * @return the 1-based effective column span of the given cell. 0 means the cell
 	 *         is in the table element but it do not show in the layout.
@@ -142,21 +145,24 @@ public class LayoutUtil {
 
 		// if the cell is in the grid, do not call the layout for this method
 
-		if (layoutSlot == null)
+		if (layoutSlot == null) {
 			return cell.getColumnSpan();
+		}
 
 		int rowId = cell.getContainer().getContainerSlotHandle().findPosn(cell.getContainer());
 		LayoutRow layoutRow = layoutSlot.getLayoutRow(rowId);
 
 		int columnPosn = layoutRow.findCellColumnPos((Cell) cell.getElement());
-		if (columnPosn <= 0)
+		if (columnPosn <= 0) {
 			return 0;
+		}
 
 		int effectiveColumnSpan = 0;
 		for (int i = columnPosn - 1; i < layoutRow.getColumnCount(); i++) {
 			LayoutCell layoutCell = layoutRow.getLayoutCell(i);
-			if (layoutCell.getContent() != cell.getElement())
+			if (layoutCell.getContent() != cell.getElement()) {
 				break;
+			}
 
 			effectiveColumnSpan++;
 		}
@@ -166,7 +172,7 @@ public class LayoutUtil {
 
 	/**
 	 * Returns the effective row span of the given cell.
-	 * 
+	 *
 	 * @param cell the cell to find
 	 * @return the 1-based effective row span of the given cell. 0 means the cell is
 	 *         in the table element but it do not show in the layout.
@@ -177,8 +183,9 @@ public class LayoutUtil {
 
 		// if the cell is in the grid, do not call the layout for this method
 
-		if (layoutSlot == null)
+		if (layoutSlot == null) {
 			return cell.getColumnSpan();
+		}
 
 		int rowId = cell.getContainer().getContainerSlotHandle().findPosn(cell.getContainer());
 
@@ -187,8 +194,9 @@ public class LayoutUtil {
 		for (int i = rowId; i < layoutSlot.getRowCount(); i++) {
 			LayoutRow layoutRow = layoutSlot.getLayoutRow(i);
 			LayoutCell layoutCell = layoutRow.getLayoutCell(cell);
-			if (layoutCell == null)
+			if (layoutCell == null) {
 				break;
+			}
 
 			if (layoutCell.isEffectualDrop()) {
 				assert layoutCell.isCellStartPosition();
@@ -207,7 +215,7 @@ public class LayoutUtil {
 	 * <p>
 	 * If <code>TableRow</code> is in the <code>GridItem</code>, return
 	 * <code>null</code>.
-	 * 
+	 *
 	 * @param element the element where the search begins
 	 * @return a nearest <code>TableItem/GridItem</code> container
 	 */
@@ -221,8 +229,9 @@ public class LayoutUtil {
 		int maxLevel = 4;
 
 		for (int i = 0; i < maxLevel; i++) {
-			if (tmpElement == null || tmpElement instanceof TableItem || tmpElement instanceof GridItem)
+			if (tmpElement == null || tmpElement instanceof TableItem || tmpElement instanceof GridItem) {
 				return (ReportItem) tmpElement;
+			}
 
 			tmpElement = tmpElement.getContainer();
 		}
@@ -234,7 +243,7 @@ public class LayoutUtil {
 	 * Check all columns of table item/ grid item. If there is repeat value which
 	 * bigger than one in column slot, return false, else return true. for bugzilla
 	 * 191687
-	 * 
+	 *
 	 * @param module
 	 * @param element
 	 * @return
@@ -242,11 +251,11 @@ public class LayoutUtil {
 	private static boolean checkColumnRepeat(Module module, DesignElement element) {
 		assert element instanceof TableItem || element instanceof GridItem;
 		ContainerSlot slot = null;
-		if (element instanceof TableItem)
+		if (element instanceof TableItem) {
 			slot = ((TableItem) element).getSlot(TableItem.COLUMN_SLOT);
-		else if (element instanceof GridItem)
+		} else if (element instanceof GridItem) {
 			slot = ((GridItem) element).getSlot(GridItem.COLUMN_SLOT);
-		else {
+		} else {
 			assert false;
 			return false;
 		}
@@ -256,8 +265,9 @@ public class LayoutUtil {
 			TableColumn e = (TableColumn) iterator.next();
 
 			int repeat = e.getIntProperty(module, ITableColumnModel.REPEAT_PROP);
-			if (repeat > 1)
+			if (repeat > 1) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -269,7 +279,7 @@ public class LayoutUtil {
 	 * <li>column count bigger than zero.
 	 * <li>no repeat value bigger than one in column slot
 	 * </ul>
-	 * 
+	 *
 	 * @param grid   the table
 	 * @param module the root of the table
 	 * @return <code>true</code> if the table is valid. Otherwise
@@ -277,12 +287,10 @@ public class LayoutUtil {
 	 */
 	public static boolean isValidLayout(GridItem grid, Module module) {
 		int columnCount = grid.getColumnCount(module);
-		if (columnCount == 0)
-			return false;
-
 		// for bugzilla 191687
-		if (!checkColumnRepeat(module, grid))
+		if ((columnCount == 0) || !checkColumnRepeat(module, grid)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -294,7 +302,7 @@ public class LayoutUtil {
 	 * <li>column counts in rows are different.
 	 * <li>empty rows and columns.
 	 * </ul>
-	 * 
+	 *
 	 * @param table  the table
 	 * @param module the root of the table
 	 * @return <code>true</code> if the table is valid. Otherwise
@@ -307,12 +315,10 @@ public class LayoutUtil {
 
 		int columnCount = layout.getColumnCount();
 
-		if (columnCount == 0)
-			return false;
-
 		// for bugzilla 191687
-		if (!checkColumnRepeat(module, table))
+		if ((columnCount == 0) || !checkColumnRepeat(module, table)) {
 			return false;
+		}
 
 		// if there is overlapped area, it is valid for "drop".
 
@@ -321,11 +327,13 @@ public class LayoutUtil {
 			LayoutSlot slot = (LayoutSlot) slots.get(i);
 			for (int j = 0; j < slot.getRowCount(); j++) {
 				LayoutRow row = slot.getLayoutRow(j);
-				if (row == null)
+				if (row == null) {
 					continue;
+				}
 
-				if (row.getOccupiedColumnCount() != columnCount)
+				if (row.getOccupiedColumnCount() != columnCount) {
 					return false;
+				}
 			}
 		}
 		return true;

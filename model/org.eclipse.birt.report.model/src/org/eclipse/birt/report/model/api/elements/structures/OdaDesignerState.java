@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -79,7 +79,7 @@ public class OdaDesignerState extends Structure {
 
 	/**
 	 * Constructs the sort key with the key to sort and the direction.
-	 * 
+	 *
 	 * @param version
 	 * @param contentAsString
 	 * @param contentAsBlob
@@ -93,7 +93,7 @@ public class OdaDesignerState extends Structure {
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 */
 
 	public OdaDesignerState() {
@@ -101,29 +101,31 @@ public class OdaDesignerState extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (VERSION_MEMBER.equals(propName))
+		if (VERSION_MEMBER.equals(propName)) {
 			return version;
-		else if (CONTENT_AS_BLOB_MEMBER.equals(propName))
+		} else if (CONTENT_AS_BLOB_MEMBER.equals(propName)) {
 			return contentAsBlob;
-		else if (CONTENT_AS_STRING_MEMBER.equals(propName))
+		} else if (CONTENT_AS_STRING_MEMBER.equals(propName)) {
 			return contentAsString;
-		else {
+		} else {
 			assert false;
 			return null;
 		}
@@ -131,25 +133,27 @@ public class OdaDesignerState extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (VERSION_MEMBER.equals(propName))
+		if (VERSION_MEMBER.equals(propName)) {
 			version = (String) value;
-		else if (CONTENT_AS_BLOB_MEMBER.equals(propName))
+		} else if (CONTENT_AS_BLOB_MEMBER.equals(propName)) {
 			contentAsBlob = (String) value;
-		else if (CONTENT_AS_STRING_MEMBER.equals(propName))
+		} else if (CONTENT_AS_STRING_MEMBER.equals(propName)) {
 			contentAsString = (String) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/**
 	 * Returns the version of the designer state's data.
-	 * 
+	 *
 	 * @return the version of the designer state's data.
 	 */
 
@@ -159,7 +163,7 @@ public class OdaDesignerState extends Structure {
 
 	/**
 	 * Sets the version of the designer state's data.
-	 * 
+	 *
 	 * @param version the version of the designer state's data.
 	 */
 
@@ -169,13 +173,14 @@ public class OdaDesignerState extends Structure {
 
 	/**
 	 * Returns the content data as byte arrays.
-	 * 
+	 *
 	 * @return the content data as byte arrays.
 	 */
 
 	public byte[] getContentAsBlob() {
-		if (contentAsBlob == null)
+		if (contentAsBlob == null) {
 			return null;
+		}
 
 		try {
 			return contentAsBlob.getBytes(CHARSET);
@@ -187,7 +192,7 @@ public class OdaDesignerState extends Structure {
 
 	/**
 	 * Sets the content data as byte arrays.
-	 * 
+	 *
 	 * @param contentBlob the content data as byte arrays.
 	 */
 
@@ -199,13 +204,14 @@ public class OdaDesignerState extends Structure {
 				this.contentAsBlob = null;
 				assert false;
 			}
-		} else
+		} else {
 			this.contentAsBlob = null;
+		}
 	}
 
 	/**
 	 * Returns the content data as string.
-	 * 
+	 *
 	 * @return the content data as string.
 	 */
 
@@ -216,7 +222,7 @@ public class OdaDesignerState extends Structure {
 
 	/**
 	 * Sets the content data as string.
-	 * 
+	 *
 	 * @param contentString the content data as string.
 	 */
 
@@ -226,30 +232,32 @@ public class OdaDesignerState extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	/**
 	 * Return an <code>FormatValueHandle</code> to deal with the string format.
-	 * 
+	 *
 	 * @param valueHandle the property or member handle
 	 * @return the structure handle
-	 * 
+	 *
 	 */
 
+	@Override
 	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
 		return new OdaDesignerStateHandle(valueHandle.getElementHandle(), getContext());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 

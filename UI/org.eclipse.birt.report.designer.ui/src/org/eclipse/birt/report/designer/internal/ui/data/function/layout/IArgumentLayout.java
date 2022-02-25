@@ -24,16 +24,16 @@ public interface IArgumentLayout {
 //	The argument should be layouted inline with previous one, the label is after the value field.
 //
 //	0x12-
-//	the argument should be layouted inline with previous one, and with no label.	
-	public static final int ALIGN_BLOCK = 0x0;
-	public static final int ALIGN_INLINE = 0x10;
-	public static final int ALIGN_INLINE_BEFORE = 0x10;
-	public static final int LIGN_INLINEL_AFTER = 0x11;
-	public static final int ALIGN_INLINE_NONE = 0x12;
+//	the argument should be layouted inline with previous one, and with no label.
+	int ALIGN_BLOCK = 0x0;
+	int ALIGN_INLINE = 0x10;
+	int ALIGN_INLINE_BEFORE = 0x10;
+	int LIGN_INLINEL_AFTER = 0x11;
+	int ALIGN_INLINE_NONE = 0x12;
 
-	public int getLayoutHint();
+	int getLayoutHint();
 
-	public void setLayoutHint(int layoutHint);
+	void setLayoutHint(int layoutHint);
 
-	public String getName();
+	String getName();
 }

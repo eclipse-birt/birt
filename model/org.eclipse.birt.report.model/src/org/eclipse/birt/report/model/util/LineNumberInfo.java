@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,15 +46,16 @@ public class LineNumberInfo {
 
 	/**
 	 * Checks whether the given structure supports line number.
-	 * 
+	 *
 	 * @param struct the structure
 	 * @return true if it supports line number, otherwise false;
 	 */
 	public static boolean isLineNumberSuppoerted(IStructure struct) {
 		if (struct instanceof IncludedCssStyleSheet || struct instanceof IncludedLibrary
 				|| struct instanceof EmbeddedImage || struct instanceof ResultSetColumn
-				|| struct instanceof LevelAttribute)
+				|| struct instanceof LevelAttribute) {
 			return true;
+		}
 
 		return false;
 	}
@@ -112,7 +113,7 @@ public class LineNumberInfo {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param module
 	 */
 
@@ -128,10 +129,10 @@ public class LineNumberInfo {
 
 	/**
 	 * Puts the line number of the object.
-	 * 
+	 *
 	 * Note: currently, only support put line number of DesignElement,
 	 * EmbeddedImage, IncludeLibrary property and theme property.
-	 * 
+	 *
 	 * @param obj    the object
 	 * @param lineNo line number
 	 */
@@ -140,16 +141,16 @@ public class LineNumberInfo {
 		if (obj instanceof PropertyDefn) {
 			themeProp = lineNo == null ? 1 : lineNo.intValue();
 		} else if (obj instanceof DesignElement) {
-			if (obj instanceof VariableElement)
+			if (obj instanceof VariableElement) {
 				variablesMap.put(((VariableElement) obj).getName(), lineNo);
-			else
-				elementMap.put(Long.valueOf(((DesignElement) obj).getID()), lineNo);
+			} else {
+				elementMap.put(((DesignElement) obj).getID(), lineNo);
+			}
 		} else if (obj instanceof IStructure) {
 			putStructure((IStructure) obj, lineNo);
 		} else if (obj instanceof ContainerContext || obj instanceof PropertyHandle || obj instanceof SlotHandle) {
 			putXPathLineNo(obj, lineNo);
-		} else
-			return;
+		}
 	}
 
 	private void putXPathLineNo(Object obj, Integer lineNo) {
@@ -163,13 +164,14 @@ public class LineNumberInfo {
 
 	/**
 	 * Puts the line number for the given structure.
-	 * 
+	 *
 	 * @param struct the structure
 	 * @param lineNo the line number
 	 */
 	private void putStructure(IStructure struct, Integer lineNo) {
-		if (!isLineNumberSuppoerted(struct))
+		if (!isLineNumberSuppoerted(struct)) {
 			return;
+		}
 
 		if (struct instanceof IncludedLibrary) {
 			includeLibStructMap.put(((IncludedLibrary) struct).getNamespace(), lineNo);
@@ -187,10 +189,10 @@ public class LineNumberInfo {
 
 	/**
 	 * Gets the line number of object.
-	 * 
+	 *
 	 * Note: currently, only support get line number of DesignElement,
 	 * EmbeddedImage, IncludeLibrary property and theme property.
-	 * 
+	 *
 	 * @param obj object
 	 * @return line number
 	 */
@@ -204,13 +206,15 @@ public class LineNumberInfo {
 		} else if (obj instanceof Library && ((Library) obj).getHost() != null) {
 			return intValue(includeLibStructMap.get(((Library) obj).getNamespace()));
 		} else if (obj instanceof DesignElement) {
-			if (obj instanceof VariableElement)
+			if (obj instanceof VariableElement) {
 				return variablesMap.get(((VariableElement) obj).getName());
+			}
 			return getElementLineNo(((DesignElement) obj).getID());
 		} else if (obj instanceof StructureHandle) {
 			StructureHandle structHandle = (StructureHandle) obj;
-			if (isLineNumberSuppoerted(structHandle.getStructure()))
+			if (isLineNumberSuppoerted(structHandle.getStructure())) {
 				return getStructureLineNo(structHandle);
+			}
 		} else if (obj instanceof SlotHandle || obj instanceof PropertyHandle) {
 			return getXPathLineNo(obj);
 		}
@@ -220,7 +224,7 @@ public class LineNumberInfo {
 
 	/**
 	 * Gets the line number for the given structure.
-	 * 
+	 *
 	 * @param structHandle the handle of the structure
 	 * @return the line number
 	 */
@@ -238,7 +242,7 @@ public class LineNumberInfo {
 
 	/**
 	 * Returns the line number for the given object.
-	 * 
+	 *
 	 * @param obj the object
 	 * @return line number
 	 */
@@ -254,7 +258,7 @@ public class LineNumberInfo {
 
 	/**
 	 * This method is for a deprecated method.
-	 * 
+	 *
 	 * @param id the id
 	 * @return line number
 	 */
@@ -265,7 +269,7 @@ public class LineNumberInfo {
 
 	/**
 	 * Gets int value of an integer.
-	 * 
+	 *
 	 * @param obj Integer object
 	 * @return int value
 	 */
@@ -275,20 +279,8 @@ public class LineNumberInfo {
 	}
 
 	/**
-	 * Gets the key for the given column.
-	 * 
-	 * @param column the column
-	 * @return the key for the column
-	 */
-
-	private String getColumnKey(ResultSetColumn column) {
-		assert column.getElement() != null;
-		return column.getColumnName() + "@" + column.getElement().getName(); //$NON-NLS-1$
-	}
-
-	/**
 	 * Gets xpath for the given object.
-	 * 
+	 *
 	 * @param obj the object
 	 * @return the xpath for the object
 	 */
@@ -296,17 +288,19 @@ public class LineNumberInfo {
 		if (obj instanceof ContainerContext) {
 			ContainerContext context = (ContainerContext) obj;
 			DesignElementHandle handle = context.getElement().getHandle(module);
-			if (context.isROMSlot())
+			if (context.isROMSlot()) {
 				obj = handle.getSlot(context.getSlotID());
-			else
+			} else {
 				obj = handle.getPropertyHandle(context.getPropertyName());
+			}
 		}
 		if (obj instanceof Structure) {
 			Structure struct = (Structure) obj;
 			obj = new StructureHandle(struct.getElement().getHandle(module), struct.getContext());
 		}
-		if (obj instanceof PropertyHandle || obj instanceof StructureHandle || obj instanceof SlotHandle)
+		if (obj instanceof PropertyHandle || obj instanceof StructureHandle || obj instanceof SlotHandle) {
 			return XPathUtil.getXPath(obj);
+		}
 
 		return null;
 	}

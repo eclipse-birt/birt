@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -22,9 +22,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * 
+ *
  * A Command to set the Constraints for a TableNodeEditPart
- * 
+ *
  */
 public class SetConstraintCommand extends org.eclipse.gef.commands.Command {
 
@@ -36,12 +36,14 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public void execute() {
-		if (module == null || id == null)
+		if (module == null || id == null) {
 			return;
+		}
 
 		if (module instanceof ModuleHandle) {
 			ModuleHandle module = (ModuleHandle) this.module;
@@ -70,7 +72,7 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command {
 
 	/**
 	 * Sets the Location of the element
-	 * 
+	 *
 	 * @param p
 	 */
 	public void setLocation(Point p) {
@@ -79,7 +81,7 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command {
 
 	/**
 	 * Sets the Edit Part for this Event
-	 * 
+	 *
 	 * @param part The Editr Part to be Set
 	 */
 	public void setModuleHandle(Object module) {

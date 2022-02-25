@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +32,8 @@ public class CategorizedElementSorter<T> {
 	private List<T> contentList;
 
 	public CategorizedElementSorter() {
-		map = new TreeMap<String, List<T>>();
-		contentList = new ArrayList<T>();
+		map = new TreeMap<>();
+		contentList = new ArrayList<>();
 	}
 
 	public void addElement(String category, T data) {
@@ -43,7 +43,7 @@ public class CategorizedElementSorter<T> {
 			List<T> elements = map.get(category);
 
 			if (elements == null) {
-				elements = new ArrayList<T>();
+				elements = new ArrayList<>();
 				map.put(category, elements);
 			}
 
@@ -52,9 +52,7 @@ public class CategorizedElementSorter<T> {
 	}
 
 	public List<T> getSortedElements() {
-		List<T> list = new ArrayList<T>();
-
-		list.addAll(contentList);
+		List<T> list = new ArrayList<>(contentList);
 
 		for (Iterator<List<T>> itr = map.values().iterator(); itr.hasNext();) {
 			List<T> elements = itr.next();

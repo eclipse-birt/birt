@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,10 +48,11 @@ public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors ()
 	 */
+	@Override
 	protected void createFieldEditors() {
 		noDefaultButton();
 	}
@@ -64,10 +65,12 @@ public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage 
 
 	private Button defaultsButton;
 
+	@Override
 	protected void noDefaultButton() {
 		createDefaultButton = false;
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 
 		GridData gd;
@@ -121,23 +124,23 @@ public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage 
 			defaultsButton.setLayoutData(data);
 			defaultsButton.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					performDefaults();
 				}
 			});
 
 			applyDialogFont(buttonBar);
-		} else {
-			/*
-			 * Check if there are any other buttons on the button bar. If not, throw away
-			 * the button bar composite. Otherwise there is an unusually large button bar.
-			 */
-			if (buttonBar.getChildren().length < 1) {
-				buttonBar.dispose();
-			}
+		} else /*
+				 * Check if there are any other buttons on the button bar. If not, throw away
+				 * the button bar composite. Otherwise there is an unusually large button bar.
+				 */
+		if (buttonBar.getChildren().length < 1) {
+			buttonBar.dispose();
 		}
 	}
 
+	@Override
 	protected Point doComputeSize() {
 		if (descriptionLabel != null && body != null) {
 			Point bodySize = body.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
@@ -149,7 +152,7 @@ public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage 
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param style
 	 */
 	protected BaseStylePreferencePage(Object model) {
@@ -161,6 +164,7 @@ public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage 
 		setPreferenceStore(store);
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (getBuilder() != null) {
 			getBuilder().refreshPagesStatus();
@@ -169,9 +173,10 @@ public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		IPreferenceStore ps = getPreferenceStore();
 
@@ -188,6 +193,7 @@ public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage 
 		return rt;
 	}
 
+	@Override
 	protected Button getDefaultsButton() {
 		return defaultsButton;
 	}
@@ -202,10 +208,11 @@ public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage 
 		this.builder = builder;
 	}
 
+	@Override
 	public void setErrorMessage(String newMessage) {
-		if (builder != null)
+		if (builder != null) {
 			builder.setErrorMessage(newMessage);
-		else {
+		} else {
 			super.setErrorMessage(newMessage);
 			if (getContainer() != null) {
 				getContainer().updateMessage();
@@ -234,23 +241,23 @@ public abstract class BaseStylePreferencePage extends FieldEditorPreferencePage 
 					}
 				}
 			}
-		} else {
-			if (fields != null) {
-				for (int i = 0; i < fields.size(); i++) {
-					FieldEditor editor = (FieldEditor) fields.get(i);
-					if (editor instanceof AbstractFieldEditor) {
-						if (((AbstractFieldEditor) editor).hasLocaleValue())
-							return true;
+		} else if (fields != null) {
+			for (int i = 0; i < fields.size(); i++) {
+				FieldEditor editor = (FieldEditor) fields.get(i);
+				if (editor instanceof AbstractFieldEditor) {
+					if (((AbstractFieldEditor) editor).hasLocaleValue()) {
+						return true;
 					}
 				}
-				return false;
 			}
+			return false;
 		}
 		return hasLocaleProperty;
 	}
 
 	private List fields;
 
+	@Override
 	protected void addField(FieldEditor editor) {
 		if (fields == null) {
 			fields = new ArrayList();

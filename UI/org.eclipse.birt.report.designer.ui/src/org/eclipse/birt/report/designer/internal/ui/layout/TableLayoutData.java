@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 
 /**
  * The layout data for cells, rows and columns
- * 
+ *
  * @author Dazhen Gao
  * @version $Revision: #1 $ $Date: 2005/01/24 $
  */
@@ -29,7 +29,7 @@ public class TableLayoutData {
 
 	/**
 	 * Keeps the layout data for cells when initilized from model.
-	 * 
+	 *
 	 * @author Dazhen Gao
 	 * @version $Revision: #1 $ $Date: 2005/01/24 $
 	 */
@@ -48,7 +48,7 @@ public class TableLayoutData {
 
 	/**
 	 * Keeps the layout data for rows when initilized from model.
-	 * 
+	 *
 	 * @author Dazhen Gao
 	 * @version $Revision: #1 $ $Date: 2005/01/24 $
 	 */
@@ -75,7 +75,7 @@ public class TableLayoutData {
 
 	/**
 	 * Keeps the layout data for columns when initilized from model.
-	 * 
+	 *
 	 * @author Dazhen Gao
 	 * @version $Revision: #1 $ $Date: 2005/01/24 $
 	 */

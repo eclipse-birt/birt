@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,19 +30,22 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.gef.EditPart;
 
 /**
- * 
+ *
  */
 
 public class TableElementBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
+	@Override
 	public Object getParent(Object element) {
 		Object model = getRealModel(element);
-		if (model instanceof RowHandle || model instanceof ColumnHandle)
+		if (model instanceof RowHandle || model instanceof ColumnHandle) {
 			return getEditPartModel(model);
+		}
 
 		return super.getParent(element);
 	}
 
+	@Override
 	public Object[] getChildren(Object element) {
 		Object model = getRealModel(element);
 
@@ -51,15 +54,13 @@ public class TableElementBreadcrumbNodeProvider extends DefaultBreadcrumbNodePro
 		}
 		if (model instanceof TableHandle) {
 			TableHandleAdapter adapter = HandleAdapterFactory.getInstance().getTableHandleAdapter((TableHandle) model);
-			List list = new ArrayList();
-			list.addAll(adapter.getRows());
+			List list = new ArrayList(adapter.getRows());
 			list.addAll(adapter.getColumns());
 			return list.toArray();
 		}
 		if (model instanceof GridHandle) {
 			GridHandleAdapter adapter = HandleAdapterFactory.getInstance().getGridHandleAdapter((GridHandle) model);
-			List list = new ArrayList();
-			list.addAll(adapter.getRows());
+			List list = new ArrayList(adapter.getRows());
 			list.addAll(adapter.getColumns());
 			return list.toArray();
 		}
@@ -80,6 +81,7 @@ public class TableElementBreadcrumbNodeProvider extends DefaultBreadcrumbNodePro
 		return list.toArray();
 	}
 
+	@Override
 	public Object getRealModel(Object element) {
 		if (element instanceof EditPart) {
 			EditPart editpart = (EditPart) element;

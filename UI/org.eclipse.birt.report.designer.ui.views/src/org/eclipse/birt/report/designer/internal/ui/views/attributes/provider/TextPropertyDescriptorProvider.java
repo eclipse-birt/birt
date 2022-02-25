@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -29,6 +29,7 @@ public class TextPropertyDescriptorProvider extends PropertyDescriptorProvider i
 		super(property, element);
 	}
 
+	@Override
 	public Object load() {
 		String deValue = super.load().toString();
 		IChoice choice = null;
@@ -52,6 +53,7 @@ public class TextPropertyDescriptorProvider extends PropertyDescriptorProvider i
 		return deValue;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		if (ScalarParameterHandle.CONTROL_TYPE_PROP.equals(getProperty())
 				|| ScalarParameterHandle.DATA_TYPE_PROP.equals(getProperty())) {
@@ -60,6 +62,7 @@ public class TextPropertyDescriptorProvider extends PropertyDescriptorProvider i
 		super.save(value);
 	}
 
+	@Override
 	public boolean isEditable() {
 		if (ModuleHandle.CREATED_BY_PROP.equals(getProperty()) || DataSetHandle.DATA_SOURCE_PROP.equals(getProperty())
 				|| ScalarParameterHandle.CONTROL_TYPE_PROP.equals(getProperty())

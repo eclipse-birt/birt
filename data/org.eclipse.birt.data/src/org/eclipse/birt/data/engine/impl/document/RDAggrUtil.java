@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import org.eclipse.birt.data.engine.impl.document.stream.WrapperedRAInputStream;
 
 public class RDAggrUtil implements IRDAggrUtil {
 
-	private HashMap<String, RDAggrValueHolder> holders = new HashMap<String, RDAggrValueHolder>();
+	private HashMap<String, RDAggrValueHolder> holders = new HashMap<>();
 	private IBaseQueryDefinition qd;
 	private RAInputStream aggrIndexStream;
 	private DataInputStream valueStream;
@@ -81,55 +81,62 @@ public class RDAggrUtil implements IRDAggrUtil {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#contains(java.lang.
 	 * String)
 	 */
+	@Override
 	public boolean contains(String aggrName) {
 		return holders.containsKey(aggrName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#getGroupLevel(java.
 	 * lang.String)
 	 */
+	@Override
 	public int getGroupLevel(String aggrName) {
-		if (this.contains(aggrName))
+		if (this.contains(aggrName)) {
 			return this.holders.get(aggrName).getGroupLevel();
+		}
 		return -1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#isRunningAggr(java.
 	 * lang.String)
 	 */
+	@Override
 	public boolean isRunningAggr(String aggrName) {
-		if (this.contains(aggrName))
+		if (this.contains(aggrName)) {
 			return this.holders.get(aggrName).isRunningAggr();
+		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#getValue(java.lang.
 	 * String, int)
 	 */
+	@Override
 	public Object getValue(String aggrName, int groupInstanceIndex) throws DataException {
 		try {
 			if (this.contains(aggrName)) {
 				Object value = holders.get(aggrName).get(groupInstanceIndex);
 
-				if (value != null && value instanceof BirtException)
+				if (value instanceof BirtException) {
 					throw (BirtException) value;
+				}
 
 				if (qd != null && qd.getBindings().containsKey(aggrName)) {
 					IBinding b = (IBinding) qd.getBindings().get(aggrName);
@@ -144,16 +151,17 @@ public class RDAggrUtil implements IRDAggrUtil {
 		} catch (IOException e) {
 			throw new DataException(e.getLocalizedMessage(), e);
 		} catch (BirtException e) {
-			if (e instanceof DataException)
+			if (e instanceof DataException) {
 				throw new DataException(e.getErrorCode(), ((DataException) e).getArgument());
+			}
 			throw new DataException(e.getErrorCode(), e);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @author Administrator
-	 * 
+	 *
 	 */
 	private static class RDAggrValueHolder {
 
@@ -179,8 +187,9 @@ public class RDAggrUtil implements IRDAggrUtil {
 
 		private void populateRunningAggrInfo(DataInputStream valueStream) throws IOException, DataException {
 			String aggrName = IOUtil.readString(valueStream);
-			if (AggregationManager.getInstance().getAggregation(aggrName) == null)
+			if (AggregationManager.getInstance().getAggregation(aggrName) == null) {
 				throw new DataException(ResourceConstants.INVALID_AGGR, aggrName);
+			}
 			this.isRunningAggr = AggregationManager.getInstance().getAggregation(aggrName)
 					.getType() == IAggrFunction.RUNNING_AGGR;
 		}
@@ -198,11 +207,13 @@ public class RDAggrUtil implements IRDAggrUtil {
 		}
 
 		public Object get(int index) throws IOException {
-			if (index == groupInstanceIndex)
+			if (index == groupInstanceIndex) {
 				return currentValue;
+			}
 			// If try to go backward, simply return null;
-			if (index < groupInstanceIndex || index >= size)
+			if (index < groupInstanceIndex || index >= size) {
 				return null;
+			}
 			while (groupInstanceIndex < index) {
 				this.currentValue = IOUtil.readObject(valueStream, DataEngineSession.getCurrentClassLoader());
 				groupInstanceIndex++;
@@ -218,6 +229,7 @@ public class RDAggrUtil implements IRDAggrUtil {
 		}
 	}
 
+	@Override
 	public void close() throws DataException {
 		try {
 			if (!this.holders.isEmpty()) {

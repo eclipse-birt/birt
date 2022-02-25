@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.views.actions.ExtendElementAction;
-
 public interface IExtendElementActionFactory {
-	public ExtendElementAction getAction(Object selectedObject);
+	ExtendElementAction getAction(Object selectedObject);
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -76,6 +76,7 @@ public class DateSetPreferencePage extends PreferencePage implements IWorkbenchP
 	 * org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.
 	 * widgets.Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		Composite mainComposite = new Composite(parent, SWT.NONE);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
@@ -127,9 +128,11 @@ public class DateSetPreferencePage extends PreferencePage implements IWorkbenchP
 		maxDisplaySchemaEditor.setValidRange(0, MAX_MAX_ROW);
 
 		maxDisplaySchemaEditor.setPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(FieldEditor.IS_VALID))
+				if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 					setValid(maxDisplaySchemaEditor.isValid());
+				}
 			}
 		});
 
@@ -156,9 +159,11 @@ public class DateSetPreferencePage extends PreferencePage implements IWorkbenchP
 		maxDisplayTableEditor.setValidRange(0, MAX_MAX_ROW);
 
 		maxDisplayTableEditor.setPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(FieldEditor.IS_VALID))
+				if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 					setValid(maxDisplayTableEditor.isValid());
+				}
 			}
 		});
 
@@ -187,9 +192,11 @@ public class DateSetPreferencePage extends PreferencePage implements IWorkbenchP
 
 		timeOutLimitEditor.setPropertyChangeListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(FieldEditor.IS_VALID))
+				if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 					setValid(timeOutLimitEditor.isValid());
+				}
 			}
 		});
 
@@ -209,7 +216,7 @@ public class DateSetPreferencePage extends PreferencePage implements IWorkbenchP
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void initializeSchemaPrefetchConfig() {
@@ -224,7 +231,7 @@ public class DateSetPreferencePage extends PreferencePage implements IWorkbenchP
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void initializeEnableCodeAssistConfig() {
@@ -241,6 +248,7 @@ public class DateSetPreferencePage extends PreferencePage implements IWorkbenchP
 	/*
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
+	@Override
 	public void init(IWorkbench workbench) {
 		// Do nothing
 	}
@@ -248,6 +256,7 @@ public class DateSetPreferencePage extends PreferencePage implements IWorkbenchP
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
 	 */
+	@Override
 	protected void performDefaults() {
 		maxDisplaySchemaEditor.setStringValue(String.valueOf(DEFAULT_MAX_NUM_OF_SCHEMA));
 		maxDisplayTableEditor.setStringValue(String.valueOf(DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA));
@@ -260,6 +269,7 @@ public class DateSetPreferencePage extends PreferencePage implements IWorkbenchP
 	/*
 	 * @see org.eclipse.jface.preference.IPreferencePage#performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		JdbcPlugin.getDefault().getPluginPreferences().setValue(SCHEMAS_PREFETCH_CONFIG,
 				schemasPrefetchConfigCheckbox.getSelection() ? ENABLED : DISABLED);

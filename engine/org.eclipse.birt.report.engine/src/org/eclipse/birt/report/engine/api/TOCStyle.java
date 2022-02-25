@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007,2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 public class TOCStyle implements IScriptStyle, Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -88,8 +88,9 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	public static final String NUMBER_LOCALE = "number-locale";
 	public static final String STRING_LOCALE = "string-locale";
 
-	private HashMap<String, String> properties = new HashMap<String, String>();
+	private HashMap<String, String> properties = new HashMap<>();
 
+	@Override
 	public String getBackgroundAttachement() {
 		return (String) properties.get(BACKGROUND_ATTACHMENT);
 	}
@@ -97,6 +98,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the attachment type (either SCROLL or FIXED)
 	 */
+	@Override
 	public String getBackgroundAttachment() {
 		return (String) properties.get(BACKGROUND_ATTACHMENT);
 	}
@@ -104,6 +106,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the background color
 	 */
+	@Override
 	public String getBackgroundColor() {
 		return (String) properties.get(BACKGROUND_COLOR);
 	}
@@ -111,22 +114,25 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the background image URI
 	 */
+	@Override
 	public String getBackgroundImage() {
 		return (String) properties.get(BACKGROUND_IMAGE);
 	}
 
 	/**
 	 * Get the X (horizontal) position of the background image
-	 * 
+	 *
 	 */
+	@Override
 	public String getBackgroundPositionX() {
 		return (String) properties.get(BACKGROUND_POSITION_X);
 	}
 
 	/**
 	 * Get the Y (vertical) position of the background image
-	 * 
+	 *
 	 */
+	@Override
 	public String getBackgroundPositionY() {
 		return (String) properties.get(BACKGROUND_POSITION_Y);
 	}
@@ -135,6 +141,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
 	 * and NO_REPEAT)
 	 */
+	@Override
 	public String getBackgroundRepeat() {
 		return (String) properties.get(BACKGROUND_REPEAT);
 	}
@@ -142,6 +149,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the bottom border color
 	 */
+	@Override
 	public String getBorderBottomColor() {
 		return (String) properties.get(BORDER_BOTTOM_COLOR);
 	}
@@ -150,6 +158,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the bottom border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public String getBorderBottomStyle() {
 		return (String) properties.get(BORDER_BOTTOM_STYLE);
 	}
@@ -157,6 +166,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the bottom border width.
 	 */
+	@Override
 	public String getBorderBottomWidth() {
 		return (String) properties.get(BORDER_BOTTOM_WIDTH);
 	}
@@ -164,6 +174,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the left border color
 	 */
+	@Override
 	public String getBorderLeftColor() {
 		return (String) properties.get(BORDER_LEFT_COLOR);
 	}
@@ -172,6 +183,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the left border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public String getBorderLeftStyle() {
 		return (String) properties.get(BORDER_LEFT_STYLE);
 	}
@@ -179,6 +191,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the left border width.
 	 */
+	@Override
 	public String getBorderLeftWidth() {
 		return (String) properties.get(BORDER_LEFT_WIDTH);
 	}
@@ -186,6 +199,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the right border color
 	 */
+	@Override
 	public String getBorderRightColor() {
 		return (String) properties.get(BORDER_RIGHT_COLOR);
 	}
@@ -194,6 +208,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the right border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public String getBorderRightStyle() {
 		return (String) properties.get(BORDER_RIGHT_STYLE);
 	}
@@ -201,6 +216,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the right border width.
 	 */
+	@Override
 	public String getBorderRightWidth() {
 		return (String) properties.get(BORDER_RIGHT_WIDTH);
 	}
@@ -208,6 +224,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the top border color
 	 */
+	@Override
 	public String getBorderTopColor() {
 		return (String) properties.get(BORDER_TOP_COLOR);
 	}
@@ -216,6 +233,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the top border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public String getBorderTopStyle() {
 		return (String) properties.get(BORDER_TOP_STYLE);
 	}
@@ -223,6 +241,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the top border width.
 	 */
+	@Override
 	public String getBorderTopWidth() {
 		return (String) properties.get(BORDER_TOP_WIDTH);
 	}
@@ -230,6 +249,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Can this element shrink?
 	 */
+	@Override
 	public String getCanShrink() {
 		return (String) properties.get(CAN_SHRINK);
 	}
@@ -237,15 +257,17 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the font color
 	 */
+	@Override
 	public String getColor() {
 		return (String) properties.get(COLOR);
 	}
 
 	/**
 	 * Get the date format
-	 * 
+	 *
 	 * @return date format
 	 */
+	@Override
 	public String getDateFormat() {
 		return (String) properties.get(DATE_FORMAT);
 	}
@@ -257,46 +279,52 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the display type (valid types are BLOCK, INLINE and NONE)
 	 */
+	@Override
 	public String getDisplay() {
 		return (String) properties.get(DISPLAY);
 	}
 
 	/**
 	 * Get the font family
-	 * 
+	 *
 	 */
+	@Override
 	public String getFontFamily() {
 		return (String) properties.get(FONT_FAMILY);
 	}
 
 	/**
 	 * Get the font size
-	 * 
+	 *
 	 */
+	@Override
 	public String getFontSize() {
 		return (String) properties.get(FONT_SIZE);
 	}
 
 	/**
 	 * Get the font style
-	 * 
+	 *
 	 */
+	@Override
 	public String getFontStyle() {
 		return (String) properties.get(FONT_STYLE);
 	}
 
 	/**
 	 * Get the font variant
-	 * 
+	 *
 	 */
+	@Override
 	public String getFontVariant() {
 		return (String) properties.get(FONT_VARIANT);
 	}
 
 	/**
 	 * Get the font weight
-	 * 
+	 *
 	 */
+	@Override
 	public String getFontWeight() {
 		return (String) properties.get(FONT_WEIGHT);
 	}
@@ -304,6 +332,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the letter spacing
 	 */
+	@Override
 	public String getLetterSpacing() {
 		return (String) properties.get(LETTER_SPACING);
 	}
@@ -311,6 +340,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the line height
 	 */
+	@Override
 	public String getLineHeight() {
 		return (String) properties.get(LINE_HEIGHT);
 	}
@@ -318,6 +348,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the bottom margin
 	 */
+	@Override
 	public String getMarginBottom() {
 		return (String) properties.get(MARGIN_BOTTOM);
 	}
@@ -325,6 +356,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the left margin
 	 */
+	@Override
 	public String getMarginLeft() {
 		return (String) properties.get(MARGIN_LEFT);
 	}
@@ -332,6 +364,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the right margin
 	 */
+	@Override
 	public String getMarginRight() {
 		return (String) properties.get(MARGIN_RIGHT);
 	}
@@ -339,6 +372,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the top margin
 	 */
+	@Override
 	public String getMarginTop() {
 		return (String) properties.get(MARGIN_TOP);
 	}
@@ -346,15 +380,17 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the master page
 	 */
+	@Override
 	public String getMasterPage() {
 		return (String) properties.get(MASTER_PAGE);
 	}
 
 	/**
 	 * Get number format
-	 * 
+	 *
 	 * @return the number format
 	 */
+	@Override
 	public String getNumberFormat() {
 		return (String) properties.get(NUMBER_FORMAT);
 	}
@@ -362,6 +398,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the bottom padding.
 	 */
+	@Override
 	public String getPaddingBottom() {
 		return (String) properties.get(PADDING_BOTTOM);
 	}
@@ -369,6 +406,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the left padding.
 	 */
+	@Override
 	public String getPaddingLeft() {
 		return (String) properties.get(PADDING_LEFT);
 	}
@@ -376,6 +414,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the right padding.
 	 */
+	@Override
 	public String getPaddingRight() {
 		return (String) properties.get(PADDING_RIGHT);
 	}
@@ -383,6 +422,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the top padding.
 	 */
+	@Override
 	public String getPaddingTop() {
 		return (String) properties.get(PADDING_TOP);
 	}
@@ -390,6 +430,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the page break after.
 	 */
+	@Override
 	public String getPageBreakAfter() {
 		return (String) properties.get(PAGE_BREAK_AFTER);
 	}
@@ -397,6 +438,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the page break before.
 	 */
+	@Override
 	public String getPageBreakBefore() {
 		return (String) properties.get(PAGE_BREAK_BEFORE);
 	}
@@ -404,6 +446,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the page break inside.
 	 */
+	@Override
 	public String getPageBreakInside() {
 		return (String) properties.get(PAGE_BREAK_INSIDE);
 	}
@@ -411,15 +454,17 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Show if blank?
 	 */
+	@Override
 	public String getShowIfBlank() {
 		return (String) properties.get(SHOW_IF_BLANK);
 	}
 
 	/**
 	 * Get the string format
-	 * 
+	 *
 	 * @return the string format
 	 */
+	@Override
 	public String getStringFormat() {
 		return (String) properties.get(STRING_FORMAT);
 	}
@@ -428,6 +473,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
+	@Override
 	public String getTextAlign() {
 		return (String) properties.get(TEXT_ALIGN);
 	}
@@ -435,6 +481,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the text indent
 	 */
+	@Override
 	public String getTextIndent() {
 		return (String) properties.get(TEXT_INDENT);
 	}
@@ -442,6 +489,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the text line through
 	 */
+	@Override
 	public String getTextLineThrough() {
 		return (String) properties.get(TEXT_LINE_THROUGH);
 	}
@@ -449,6 +497,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the text overline
 	 */
+	@Override
 	public String getTextOverline() {
 		return (String) properties.get(TEXT_OVERLINE);
 	}
@@ -457,6 +506,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the text transform. Valid return values are NONE, CAPITALIZE, UPPERCASE
 	 * and LOWERCASE.
 	 */
+	@Override
 	public String getTextTransform() {
 		return (String) properties.get(TEXT_TRANSFORM);
 	}
@@ -464,6 +514,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the text underline
 	 */
+	@Override
 	public String getTextUnderline() {
 		return (String) properties.get(TEXT_UNDERLINE);
 	}
@@ -472,6 +523,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the vertical alignment. Valid return values are BASELINE, SUB, SUPER,
 	 * TOP, TEXT_TOP, MIDDLE, BOTTOM and TEXT_BOTTOM
 	 */
+	@Override
 	public String getVerticalAlign() {
 		return (String) properties.get(VERTICAL_ALIGN);
 	}
@@ -488,8 +540,9 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_EXCEL
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_WORD
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_POWERPOINT
-	 * 
+	 *
 	 */
+	@Override
 	public String getVisibleFormat() {
 		return (String) properties.get(VISIBLE_FORMAT);
 	}
@@ -497,6 +550,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the whitespace. Valid return values are NORMAL, PRE and NOWRAP
 	 */
+	@Override
 	public String getWhiteSpace() {
 		return (String) properties.get(WHITE_SPACE);
 	}
@@ -504,10 +558,12 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Get the word spacing
 	 */
+	@Override
 	public String getWordSpacing() {
 		return (String) properties.get(WORD_SPACING);
 	}
 
+	@Override
 	public void setBackgroundAttachement(String attachement) {
 		setProperty(BACKGROUND_ATTACHMENT, attachement);
 	}
@@ -515,6 +571,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the attachment type (either SCROLL or FIXED)
 	 */
+	@Override
 	public void setBackgroundAttachment(String attachment) {
 		setProperty(BACKGROUND_ATTACHMENT, attachment);
 	}
@@ -522,6 +579,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the background color
 	 */
+	@Override
 	public void setBackgroundColor(String color) {
 		setProperty(BACKGROUND_COLOR, color);
 	}
@@ -529,22 +587,25 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the background image URI
 	 */
+	@Override
 	public void setBackgroundImage(String imageURI) {
 		setProperty(BACKGROUND_IMAGE, imageURI);
 	}
 
 	/**
 	 * Set the X (horizontal) position of the background image
-	 * 
+	 *
 	 */
+	@Override
 	public void setBackgroundPositionX(String x) throws ScriptException {
 		setProperty(BACKGROUND_POSITION_X, x);
 	}
 
 	/**
 	 * Set the Y (vertical) position of the background image
-	 * 
+	 *
 	 */
+	@Override
 	public void setBackgroundPositionY(String y) throws ScriptException {
 		setProperty(BACKGROUND_POSITION_Y, y);
 	}
@@ -553,6 +614,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Set the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
 	 * and NO_REPEAT)
 	 */
+	@Override
 	public void setBackgroundRepeat(String repeat) {
 		setProperty(BACKGROUND_REPEAT, repeat);
 	}
@@ -560,6 +622,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the bottom border color
 	 */
+	@Override
 	public void setBorderBottomColor(String color) {
 		setProperty(BORDER_BOTTOM_COLOR, color);
 	}
@@ -568,6 +631,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Set the bottom border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public void setBorderBottomStyle(String borderstyle) {
 		setProperty(BORDER_BOTTOM_STYLE, borderstyle);
 	}
@@ -575,6 +639,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the bottom border width.
 	 */
+	@Override
 	public void setBorderBottomWidth(String width) {
 		setProperty(BORDER_BOTTOM_WIDTH, width);
 	}
@@ -582,6 +647,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the left border color
 	 */
+	@Override
 	public void setBorderLeftColor(String color) {
 		setProperty(BORDER_LEFT_COLOR, color);
 	}
@@ -590,6 +656,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Set the left border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public void setBorderLeftStyle(String borderstyle) {
 		setProperty(BORDER_LEFT_STYLE, borderstyle);
 	}
@@ -597,6 +664,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the left border width.
 	 */
+	@Override
 	public void setBorderLeftWidth(String width) {
 		setProperty(BORDER_LEFT_WIDTH, width);
 	}
@@ -604,6 +672,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the right border color
 	 */
+	@Override
 	public void setBorderRightColor(String color) {
 		setProperty(BORDER_RIGHT_COLOR, color);
 	}
@@ -612,6 +681,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the right border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public void setBorderRightStyle(String borderstyle) {
 		setProperty(BORDER_RIGHT_STYLE, borderstyle);
 	}
@@ -619,6 +689,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the right border width.
 	 */
+	@Override
 	public void setBorderRightWidth(String width) {
 		setProperty(BORDER_RIGHT_WIDTH, width);
 	}
@@ -626,6 +697,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the top border color
 	 */
+	@Override
 	public void setBorderTopColor(String color) {
 		setProperty(BORDER_TOP_COLOR, color);
 	}
@@ -634,6 +706,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Get the top border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public void setBorderTopStyle(String borderstyle) {
 		setProperty(BORDER_TOP_STYLE, borderstyle);
 	}
@@ -641,6 +714,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the top border width.
 	 */
+	@Override
 	public void setBorderTopWidth(String width) {
 		setProperty(BORDER_TOP_WIDTH, width);
 	}
@@ -648,6 +722,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Can this element shrink?
 	 */
+	@Override
 	public void setCanShrink(String canShrink) {
 		setProperty(CAN_SHRINK, canShrink);
 	}
@@ -655,15 +730,17 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the font color
 	 */
+	@Override
 	public void setColor(String color) {
 		setProperty(COLOR, color);
 	}
 
 	/**
 	 * Set the date format
-	 * 
+	 *
 	 * @param dateTimeFormat
 	 */
+	@Override
 	public void setDateFormat(String dateTimeFormat) {
 		setProperty(DATE_FORMAT, dateTimeFormat);
 	}
@@ -675,46 +752,52 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the display type (valid types are BLOCK, INLINE and NONE)
 	 */
+	@Override
 	public void setDisplay(String display) {
 		setProperty(DISPLAY, display);
 	}
 
 	/**
 	 * Set the font family
-	 * 
+	 *
 	 */
+	@Override
 	public void setFontFamily(String fontFamily) {
 		setProperty(FONT_FAMILY, fontFamily);
 	}
 
 	/**
 	 * Set the font size
-	 * 
+	 *
 	 */
+	@Override
 	public void setFontSize(String fontSize) {
 		setProperty(FONT_SIZE, fontSize);
 	}
 
 	/**
 	 * Set the font style
-	 * 
+	 *
 	 */
+	@Override
 	public void setFontStyle(String fontStyle) {
 		setProperty(FONT_STYLE, fontStyle);
 	}
 
 	/**
 	 * Set the font variant
-	 * 
+	 *
 	 */
+	@Override
 	public void setFontVariant(String fontVariant) {
 		setProperty(FONT_VARIANT, fontVariant);
 	}
 
 	/**
 	 * Set the font weight
-	 * 
+	 *
 	 */
+	@Override
 	public void setFontWeight(String fontWeight) {
 		setProperty(FONT_WEIGHT, fontWeight);
 	}
@@ -722,6 +805,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the letter spacing
 	 */
+	@Override
 	public void setLetterSpacing(String spacing) {
 		setProperty(LETTER_SPACING, spacing);
 	}
@@ -729,6 +813,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the line height
 	 */
+	@Override
 	public void setLineHeight(String lineHeight) {
 		setProperty(LINE_HEIGHT, lineHeight);
 	}
@@ -736,6 +821,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the bottom margin
 	 */
+	@Override
 	public void setMarginBottom(String margin) {
 		setProperty(MARGIN_BOTTOM, margin);
 	}
@@ -743,6 +829,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the left margin
 	 */
+	@Override
 	public void setMarginLeft(String margin) {
 		setProperty(MARGIN_LEFT, margin);
 	}
@@ -750,6 +837,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the right margin
 	 */
+	@Override
 	public void setMarginRight(String margin) {
 		setProperty(MARGIN_RIGHT, margin);
 	}
@@ -757,6 +845,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the top margin
 	 */
+	@Override
 	public void setMarginTop(String margin) {
 		setProperty(MARGIN_TOP, margin);
 	}
@@ -764,15 +853,17 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the master page
 	 */
+	@Override
 	public void setMasterPage(String masterPage) {
 		setProperty(MASTER_PAGE, masterPage);
 	}
 
 	/**
 	 * Set the number format
-	 * 
+	 *
 	 * @param numberFormat
 	 */
+	@Override
 	public void setNumberFormat(String numberFormat) {
 		setProperty(NUMBER_FORMAT, numberFormat);
 	}
@@ -780,6 +871,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the bottom padding.
 	 */
+	@Override
 	public void setPaddingBottom(String padding) {
 		setProperty(PADDING_BOTTOM, padding);
 	}
@@ -787,6 +879,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the left padding.
 	 */
+	@Override
 	public void setPaddingLeft(String padding) {
 		setProperty(PADDING_LEFT, padding);
 	}
@@ -794,6 +887,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the right padding.
 	 */
+	@Override
 	public void setPaddingRight(String padding) {
 		setProperty(PADDING_RIGHT, padding);
 	}
@@ -801,6 +895,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the top padding.
 	 */
+	@Override
 	public void setPaddingTop(String padding) {
 		setProperty(PADDING_TOP, padding);
 	}
@@ -808,6 +903,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the page break after
 	 */
+	@Override
 	public void setPageBreakAfter(String pageBreak) {
 		setProperty(PAGE_BREAK_AFTER, pageBreak);
 	}
@@ -815,6 +911,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the page break before
 	 */
+	@Override
 	public void setPageBreakBefore(String pageBreak) {
 		setProperty(PAGE_BREAK_BEFORE, pageBreak);
 	}
@@ -822,6 +919,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the page break inside
 	 */
+	@Override
 	public void setPageBreakInside(String pageBreak) {
 		setProperty(PAGE_BREAK_INSIDE, pageBreak);
 	}
@@ -829,15 +927,17 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set show if blank
 	 */
+	@Override
 	public void setShowIfBlank(String showIfBlank) {
 		setProperty(SHOW_IF_BLANK, showIfBlank);
 	}
 
 	/**
 	 * Set the string format
-	 * 
+	 *
 	 * @param stringFormat
 	 */
+	@Override
 	public void setStringFormat(String stringFormat) {
 		setProperty(STRING_FORMAT, stringFormat);
 	}
@@ -846,6 +946,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Set the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
+	@Override
 	public void setTextAlign(String align) {
 		setProperty(TEXT_ALIGN, align);
 	}
@@ -853,6 +954,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the text indent
 	 */
+	@Override
 	public void setTextIndent(String indent) {
 		setProperty(TEXT_INDENT, indent);
 	}
@@ -860,6 +962,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the text line through
 	 */
+	@Override
 	public void setTextLineThrough(String through) throws ScriptException {
 		setProperty(TEXT_LINE_THROUGH, through);
 	}
@@ -867,6 +970,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the text overline
 	 */
+	@Override
 	public void setTextOverline(String overline) throws ScriptException {
 		setProperty(TEXT_OVERLINE, overline);
 	}
@@ -875,6 +979,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Set the text transform. Valid transform values are NONE, CAPITALIZE,
 	 * UPPERCASE and LOWERCASE.
 	 */
+	@Override
 	public void setTextTransform(String transform) {
 		setProperty(TEXT_TRANSFORM, transform);
 	}
@@ -882,6 +987,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the text underline
 	 */
+	@Override
 	public void setTextUnderline(String underline) throws ScriptException {
 		setProperty(TEXT_UNDERLINE, underline);
 	}
@@ -890,13 +996,14 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Set the vertical alignment. Valid values are BASELINE, SUB, SUPER, TOP,
 	 * TEXT_TOP, MIDDLE, BOTTOM and TEXT_BOTTOM
 	 */
+	@Override
 	public void setVerticalAlign(String valign) {
 		setProperty(VERTICAL_ALIGN, valign);
 	}
 
 	/**
 	 * Set format to hide in. Should be one of
-	 * 
+	 *
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_ALL
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_VIEWER
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_EMAIL
@@ -907,9 +1014,10 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_EXCEL
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_WORD
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_POWERPOINT
-	 * 
+	 *
 	 * @param format
 	 */
+	@Override
 	public void setVisibleFormat(String format) {
 		setProperty(VISIBLE_FORMAT, format);
 	}
@@ -917,6 +1025,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the whitespace. Valid return values are NORMAL, PRE and NOWRAP
 	 */
+	@Override
 	public void setWhiteSpace(String whitespace) {
 		setProperty(WHITE_SPACE, whitespace);
 	}
@@ -924,30 +1033,37 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	/**
 	 * Set the word spacing
 	 */
+	@Override
 	public void setWordSpacing(String wordspacing) {
 		setProperty(WORD_SPACING, wordspacing);
 	}
 
+	@Override
 	public String getDateLocale() {
 		return (String) properties.get(DATE_LOCALE);
 	}
 
+	@Override
 	public void setDateLocale(String locale) {
 		setProperty(DATE_LOCALE, locale);
 	}
 
+	@Override
 	public String getNumberLocale() {
 		return (String) properties.get(NUMBER_LOCALE);
 	}
 
+	@Override
 	public void setNumberLocale(String locale) {
 		setProperty(NUMBER_LOCALE, locale);
 	}
 
+	@Override
 	public String getStringLocale() {
 		return (String) properties.get(STRING_LOCALE);
 	}
 
+	@Override
 	public void setStringLocale(String locale) {
 		setProperty(STRING_LOCALE, locale);
 	}
@@ -970,6 +1086,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 		return properties;
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		Iterator<Map.Entry<String, String>> iter = properties.entrySet().iterator();

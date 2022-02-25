@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,17 +53,18 @@ class ResultSetColumnChecker {
 
 	ResultSetColumnChecker(ColumnDefinition columnDefn, OdaResultSetColumnHandle columnHandle,
 			ColumnHintHandle columnHintHandle) {
-		if (columnDefn == null || columnHandle == null)
+		if (columnDefn == null || columnHandle == null) {
 			throw new IllegalArgumentException(
 					"The parameter definition and oda data set parameter handle can not be null!"); //$NON-NLS-1$
+		}
 		this.columnDefn = columnDefn;
 		this.columnHandle = columnHandle;
 		this.columnHintHandle = columnHintHandle;
-		this.ambiguousList = new ArrayList<IAmbiguousAttribute>();
+		this.ambiguousList = new ArrayList<>();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
 	List<IAmbiguousAttribute> process() {
@@ -81,8 +82,9 @@ class ResultSetColumnChecker {
 	private void processDataElementAttributes(DataElementAttributes dataAttrs) {
 		// check the native name
 
-		if (dataAttrs == null)
+		if (dataAttrs == null) {
 			return;
+		}
 
 		// compare the name with the native name in oda result set column
 		String newValue = dataAttrs.getName();
@@ -103,8 +105,9 @@ class ResultSetColumnChecker {
 	 * Checks column hints
 	 */
 	private void processColumnHint() {
-		if (columnHintHandle == null)
+		if (columnHintHandle == null) {
 			return;
+		}
 
 		DataElementAttributes dataAttrs = columnDefn.getAttributes();
 		if (dataAttrs != null) {
@@ -135,8 +138,9 @@ class ResultSetColumnChecker {
 			String oldColumnName = null;
 			if (axisAttrs.getRelatedColumns() != null) {
 				DataElementIdentifiers columns = axisAttrs.getRelatedColumns().getColumnIdentifiers();
-				if (columns != null && !columns.getIdentifiers().isEmpty())
+				if (columns != null && !columns.getIdentifiers().isEmpty()) {
 					oldColumnName = columns.getIdentifiers().get(0).getName();
+				}
 			}
 			checkProperty(ColumnHint.ANALYSIS_COLUMN_MEMBER, oldColumnName, columnHintHandle.getAnalysisColumn());
 		}
@@ -153,8 +157,9 @@ class ResultSetColumnChecker {
 				// format string in oda
 				FormatValue format = columnHintHandle.getValueFormat();
 				String pattern = null;
-				if (format != null)
+				if (format != null) {
 					pattern = format.getPattern();
+				}
 				checkProperty(ColumnHint.VALUE_FORMAT_MEMBER, formattingHints.getDisplayFormat(), pattern);
 
 				// not support display length now
@@ -178,7 +183,8 @@ class ResultSetColumnChecker {
 	}
 
 	private void checkProperty(String propertyName, Object oldValue, Object newValue) {
-		if (!CompareUtil.isEquals(String.valueOf(newValue), String.valueOf(oldValue)))
+		if (!CompareUtil.isEquals(String.valueOf(newValue), String.valueOf(oldValue))) {
 			ambiguousList.add(new AmbiguousAttribute(propertyName, oldValue, newValue, false));
+		}
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ public class StructureEqualsTest extends BaseTestCase {
 
 	/**
 	 * Tests the equals of single structure.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -71,7 +71,6 @@ public class StructureEqualsTest extends BaseTestCase {
 		ruleOnes.add(createHideRule(DesignChoiceConstants.FORMAT_TYPE_ALL, expr));
 		assertTrue(rules.equals(ruleOnes));
 		assertTrue(ruleOnes.equals(rules));
-		;
 
 		// contains two rules
 
@@ -99,7 +98,7 @@ public class StructureEqualsTest extends BaseTestCase {
 
 	/**
 	 * Creates a hide rule with the format and expression.
-	 * 
+	 *
 	 * @param format
 	 * @param expr
 	 * @return

@@ -1,21 +1,25 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
 package org.eclipse.birt.data.engine.impl;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.APITestCase;
@@ -32,13 +36,11 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.expression.AggregateExpression;
+import org.junit.Test;
 
 import com.ibm.icu.util.Calendar;
 
 import testutil.ConfigText;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test case for aggregate JSExpression
@@ -48,6 +50,7 @@ public class AggregationTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Impl.TestData2.TableName"),
 				ConfigText.getString("Impl.TestData2.TableSQL"),
@@ -127,7 +130,7 @@ public class AggregationTest extends APITestCase {
 		ScriptExpression e9 = new ScriptExpression("Total.movingAve( dataSetRow.PRICE, 3, dataSetRow.QUANTITY > 1)");
 		query.addResultSetExpression("e9", e9);
 
-		String[] exprs = new String[] { "e1", "e2", "e3", "e4", "e10", "e11", "e5", "e6", "e7", "e8", "e9" };
+		String[] exprs = { "e1", "e2", "e3", "e4", "e10", "e11", "e5", "e6", "e7", "e8", "e9" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -137,25 +140,25 @@ public class AggregationTest extends APITestCase {
 	/*
 	 * public void test2( ) throws Exception { QueryDefinition query =
 	 * newReportQuery( );
-	 * 
+	 *
 	 * ScriptExpression e0 = new ScriptExpression( "dataSetRow[0]" );
 	 * query.addResultSetExpression("e0", e0 );
-	 * 
+	 *
 	 * ScriptExpression e1 = new ScriptExpression( "Total.NewCount( )" );
 	 * query.addResultSetExpression("e1", e1 );
-	 * 
+	 *
 	 * // Add a filter to JSExpression ScriptExpression e2 = new ScriptExpression(
 	 * "Total.Count( dataSetRow.VOIDED != 0, \"OVERALL\" )" );
 	 * query.addResultSetExpression("e2", e2 );
-	 * 
+	 *
 	 * IResultIterator resultIt = executeQuery( query );
-	 * 
+	 *
 	 * resultIt.next( ); testPrintln( "row #" + evalAsString( "e0", resultIt ) +
 	 * ": " + evalAsString( "e1", resultIt ) + "  " + evalAsString( "e2", resultIt )
 	 * ); resultIt.skipToEnd( 0 ); testPrintln( "row #" + evalAsString( "e0",
 	 * resultIt ) + ": " + evalAsString( "e1", resultIt ) + "  " + evalAsString(
 	 * "e2", resultIt ) );
-	 * 
+	 *
 	 * checkOutputFile(); }
 	 */
 
@@ -188,7 +191,7 @@ public class AggregationTest extends APITestCase {
 //	public void testCancel1( ) throws Exception
 //	{
 //		QueryDefinition query = newReportQuery( );
-//		
+//
 //		Calendar c = Calendar.getInstance( );
 //		c.clear( );
 //		// 3 grouping levels: CITY, STORE, SALE_DATE(by month)
@@ -198,18 +201,18 @@ public class AggregationTest extends APITestCase {
 //
 //		GroupDefinition g2 = new GroupDefinition( "G2" );
 //		g2.setKeyExpression( "row.e2" );
-//		
+//
 //		query.addGroup( g2 );
 //
 //		GroupDefinition g3 = new GroupDefinition( "G3" );
 //		g3.setKeyExpression( "row.e3" );
 //		g3.setInterval( GroupDefinition.MONTH_INTERVAL );
 //		g3.setIntervalRange( 1 );
-//		
+//
 //		c.set( 2004, 9, 1 );
 //		g3.setIntervalStart( c.getTime( ) );
 //		query.addGroup( g3 );
-//		
+//
 //		SortDefinition sort = new SortDefinition( );
 //		sort.setExpression( "row.e3" );
 //		sort.setSortDirection( ISortDefinition.SORT_ASC );
@@ -220,7 +223,7 @@ public class AggregationTest extends APITestCase {
 //
 //		ScriptExpression e2 = new ScriptExpression( "dataSetRow.STORE" );
 //		query.addResultSetExpression("e2", e2 );
-//		
+//
 //		ScriptExpression e3 = new ScriptExpression( "dataSetRow.SALE_DATE" );
 //		query.addResultSetExpression("e3", e3 );
 //
@@ -264,7 +267,7 @@ public class AggregationTest extends APITestCase {
 //		assertFalse( resultIt.next() );
 //		assertEquals( null, resultIt.getValue( "e2" ));
 //	}
-//	
+//
 //	public void testCancel5( ) throws Exception
 //	{
 //		QueryDefinition query = newReportQuery( );
@@ -288,7 +291,7 @@ public class AggregationTest extends APITestCase {
 //		ScriptExpression e3 = new ScriptExpression( "Total.rank(dataSetRow.PRICE,true)" );
 //		e3.setGroupName("G1");
 //		query.addResultSetExpression("e3", e3 );
-//		
+//
 //		// wrong expression
 //		ScriptExpression e4 = new ScriptExpression( "Total.Sum(dataSetRow.PRICE,a,1)" );
 //		e4.setGroupName("G1");
@@ -335,7 +338,7 @@ public class AggregationTest extends APITestCase {
 //		ScriptExpression e3 = new ScriptExpression( "Total.rank(dataSetRow.PRICE,true)" );
 //		e3.setGroupName("G1");
 //		query.addResultSetExpression("e3", e3 );
-//		
+//
 //		// wrong expression
 //		ScriptExpression e4 = new ScriptExpression( "Total.Sum(dataSetRow.PRICE,a,1)" );
 //		e4.setGroupName("G1");
@@ -354,11 +357,11 @@ public class AggregationTest extends APITestCase {
 //		{
 //			assertTrue( e.getErrorCode( ) == ResourceConstants.WRAPPED_BIRT_EXCEPTION );
 //		}
-//		
+//
 ////		IResultIterator resultIt = executeQuery( query );
 ////
 ////		String[] exprs = new String[]{
-////				"e0", "e1", "e2", "e3", "e4", "e5" 
+////				"e0", "e1", "e2", "e3", "e4", "e5"
 ////		};
 ////
 ////		outputQueryResult( resultIt, exprs );
@@ -426,7 +429,7 @@ public class AggregationTest extends APITestCase {
 
 	/**
 	 * test sort on aggregation bindings add a aggregation binding, then sort it
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -466,7 +469,7 @@ public class AggregationTest extends APITestCase {
 		sort.setSortDirection(ISortDefinition.SORT_ASC);
 		query.addSort(sort);
 
-		String[] exprs = new String[] { "e1", "e2", "e3", "e4", "e10", "e11", "Rank" };
+		String[] exprs = { "e1", "e2", "e3", "e4", "e10", "e11", "Rank" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -474,7 +477,7 @@ public class AggregationTest extends APITestCase {
 
 	/**
 	 * test sort on aggregation bindings add tow aggregation bingdings, then sort it
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -529,7 +532,7 @@ public class AggregationTest extends APITestCase {
 		sort.setSortDirection(ISortDefinition.SORT_ASC);
 		query.addSort(sort);
 
-		String[] exprs = new String[] { "e1", "e2", "e3", "e4", "e10", "e11", "Rank", "Runningsum" };
+		String[] exprs = { "e1", "e2", "e3", "e4", "e10", "e11", "Rank", "Runningsum" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -538,7 +541,7 @@ public class AggregationTest extends APITestCase {
 	/**
 	 * test sort on aggregation bindings add a binding, which use aggregation
 	 * bindings.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -586,7 +589,7 @@ public class AggregationTest extends APITestCase {
 		sort.setSortDirection(ISortDefinition.SORT_ASC);
 		query.addSort(sort);
 
-		String[] exprs = new String[] { "e1", "e2", "e3", "e4", "e10", "e11", "sqrtSum" };
+		String[] exprs = { "e1", "e2", "e3", "e4", "e10", "e11", "sqrtSum" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -595,7 +598,7 @@ public class AggregationTest extends APITestCase {
 	/**
 	 * test sort on aggregation bindings add two bindings, one is aggregation,
 	 * another is not aggregation.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -653,7 +656,7 @@ public class AggregationTest extends APITestCase {
 		sort.setSortDirection(ISortDefinition.SORT_ASC);
 		query.addSort(sort);
 
-		String[] exprs = new String[] { "e1", "e2", "e3", "e4", "e10", "e11", "Rank", "sqrtSum" };
+		String[] exprs = { "e1", "e2", "e3", "e4", "e10", "e11", "Rank", "sqrtSum" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -661,7 +664,7 @@ public class AggregationTest extends APITestCase {
 
 	/**
 	 * test sort on aggregation bindings add a aggregation binding, add filter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -707,7 +710,7 @@ public class AggregationTest extends APITestCase {
 		FilterDefinition filterDefn = new FilterDefinition(filter);
 		query.addFilter(filterDefn);
 
-		String[] exprs = new String[] { "e1", "e2", "e3", "e4", "e10", "e11", "Rank" };
+		String[] exprs = { "e1", "e2", "e3", "e4", "e10", "e11", "Rank" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -717,7 +720,7 @@ public class AggregationTest extends APITestCase {
 	 * test sort on aggregation bindings add a computed column, the binding which
 	 * use bind with a aggregation. e,g, aggr is a aggregation, then define a
 	 * binding bind(aggr), then add a computed column sqrt(aggr),
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -763,7 +766,7 @@ public class AggregationTest extends APITestCase {
 		sort.setSortDirection(ISortDefinition.SORT_ASC);
 		query.addSort(sort);
 
-		String[] exprs = new String[] { "e1", "e2", "e3", "e4", "e10", "e11", "sqrtBind1" };
+		String[] exprs = { "e1", "e2", "e3", "e4", "e10", "e11", "sqrtBind1" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -837,7 +840,7 @@ public class AggregationTest extends APITestCase {
 
 	/**
 	 * Test sort on aggregation and filtering on a none-sort key column.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -876,7 +879,7 @@ public class AggregationTest extends APITestCase {
 				new ConditionalExpression("row[\"b5\"]", IConditionalExpression.OP_TOP_N, "3"));
 		query.addFilter(filter);
 
-		String[] cols = new String[] { "b1", "b2", "b3", "b4", "b5", "b6", "aggr1" };
+		String[] cols = { "b1", "b2", "b3", "b4", "b5", "b6", "aggr1" };
 
 		outputQueryResult(executeQuery(query), cols);
 		checkOutputFile();
@@ -892,9 +895,10 @@ class CancelDataEngineThread extends Thread {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Thread#run()
 	 */
+	@Override
 	public void run() {
 		while (true) {
 			try {

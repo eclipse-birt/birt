@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
 /**
  * This class is an implementation of IDataSetPopulator. It wrapped a
  * document.ResultIterator.
- * 
+ *
  * The wrapping is executed by following means: 1.For all the columns in
  * ResultIterator's enclosed DataSetResultSet (which represents the data from a
  * data set), the ResultClass provided by this class will include them. 2.For
@@ -57,7 +57,7 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param query
 	 * @param targetGroups
 	 * @param docIt
@@ -81,12 +81,14 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
+	@Override
 	public IResultObject next() throws DataException {
-		if (!this.populator.next())
+		if (!this.populator.next()) {
 			return null;
+		}
 		Object[] field = new Object[this.resultClass.getFieldCount()];
 		IResultObject curr = this.populator.getDocumentIterator().getExprResultSet().getDataSetResultSet()
 				.getResultObject();
@@ -113,7 +115,7 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator {
 
 	/**
 	 * Return the result class.
-	 * 
+	 *
 	 * @return
 	 */
 	public IResultClass getResultClass() {
@@ -121,7 +123,7 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param targetGroups
 	 * @param original
@@ -130,12 +132,12 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator {
 	 */
 	private IResultClass populateResultClass(IQueryDefinition query, List<IGroupInstanceInfo> targetGroups,
 			IResultClass original) throws BirtException {
-		List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>();
+		List<ResultFieldMetadata> list = new ArrayList<>();
 		for (int i = 1; i <= original.getFieldCount(); i++) {
 			list.add(original.getFieldMetaData(i));
 		}
 
-		this.originalBindingNames = new ArrayList<String>();
+		this.originalBindingNames = new ArrayList<>();
 		Iterator<IBinding> bindings = query.getBindings().values().iterator();
 		while (bindings.hasNext()) {
 			IBinding binding = bindings.next();

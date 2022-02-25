@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -97,11 +97,13 @@ public class TemplateExecutor implements TextTemplate.Visitor {
 		return value;
 	}
 
+	@Override
 	public Object visitText(TextTemplate.TextNode node, Object value) {
 		buffer.append(node.getContent());
 		return value;
 	}
 
+	@Override
 	public Object visitValue(TextTemplate.ValueNode node, Object value) {
 		String expression = node.getValue();
 		if (expression != null) {
@@ -128,6 +130,7 @@ public class TemplateExecutor implements TextTemplate.Visitor {
 		return value;
 	}
 
+	@Override
 	public Object visitExpressionValue(ExpressionValueNode node, Object value) {
 		String expression = node.getValue();
 		if (expression != null) {
@@ -178,9 +181,10 @@ public class TemplateExecutor implements TextTemplate.Visitor {
 	}
 
 	protected String encodeHtmlText(String text) {
-		return text.replaceAll("<", "&lt;");
+		return text.replace("<", "&lt;");
 	}
 
+	@Override
 	public Object visitImage(TextTemplate.ImageNode node, Object value) {
 		String imageName = null;
 		String imageExt = null;
@@ -234,6 +238,7 @@ public class TemplateExecutor implements TextTemplate.Visitor {
 		}
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
+			@Override
 			public String run() {
 				try {
 					File imageFile = File.createTempFile("img", ext, imageFolder);

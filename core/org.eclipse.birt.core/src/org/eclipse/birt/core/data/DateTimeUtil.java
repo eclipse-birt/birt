@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  */
 
 public class DateTimeUtil {
@@ -35,26 +35,28 @@ public class DateTimeUtil {
 
 	/**
 	 * 4-digit year number of date/time value d
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
 	public int year(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException("date value is null!");
+		}
 
 		return getCalendar(d).get(Calendar.YEAR);
 	}
 
 	/**
 	 * Quarter number (1 to 4) of date/time value d
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
 	public int quarter(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException("date value is null!");
+		}
 
 		int month = getCalendar(d).get(Calendar.MONTH);
 		switch (month) {
@@ -81,33 +83,35 @@ public class DateTimeUtil {
 
 	/**
 	 * Month of date/time value d. Return month number (1-12)
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
 	public int month(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException("date value is null!");
+		}
 
 		return getCalendar(d).get(Calendar.MONTH) + 1;
 	}
 
 	/**
 	 * Day the week. Return a number 1 (Sunday) to 7 (Saturday).
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
 	public String weekDay(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException("date value is null!");
+		}
 
 		return String.valueOf(getCalendar(d).get(Calendar.DAY_OF_WEEK));
 	}
 
 	/**
 	 * Return difference in number of years
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -124,7 +128,7 @@ public class DateTimeUtil {
 
 	/**
 	 * Return difference in number of months
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -142,7 +146,7 @@ public class DateTimeUtil {
 
 	/**
 	 * Return difference in number of quarters
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -160,7 +164,7 @@ public class DateTimeUtil {
 
 	/**
 	 * Return difference in number of weeks
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -170,7 +174,7 @@ public class DateTimeUtil {
 
 		Date baseDay = calendar.getTime();
 
-		int diffDay = 1 - Integer.valueOf(weekDay(baseDay)).intValue();
+		int diffDay = 1 - Integer.parseInt(weekDay(baseDay));
 
 		baseDay = addDay(baseDay, diffDay);
 
@@ -180,7 +184,7 @@ public class DateTimeUtil {
 
 	/**
 	 * Return difference in number of days
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -193,7 +197,7 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 
@@ -206,7 +210,7 @@ public class DateTimeUtil {
 
 	/**
 	 * Return difference in number of hours
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -219,7 +223,7 @@ public class DateTimeUtil {
 
 	/**
 	 * Return difference in number of minutes
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -233,7 +237,7 @@ public class DateTimeUtil {
 
 	/**
 	 * Return difference in number of seconds
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -244,17 +248,19 @@ public class DateTimeUtil {
 		}
 		long diff = d2.getTime() - d1.getTime();
 
-		if (timeZone.inDaylightTime(d1))
+		if (timeZone.inDaylightTime(d1)) {
 			diff -= timeZone.getDSTSavings();
-		if (timeZone.inDaylightTime(d2))
+		}
+		if (timeZone.inDaylightTime(d2)) {
 			diff += timeZone.getDSTSavings();
+		}
 
 		return (Long.valueOf(diff / 1000)).longValue();
 	}
 
 	/**
 	 * Add num days
-	 * 
+	 *
 	 * @param date
 	 * @param num
 	 * @return
@@ -268,13 +274,14 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
 	private Calendar getCalendar(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException("date value is null!");
+		}
 		Calendar c = Calendar.getInstance(locale);
 		if (d instanceof java.sql.Date) {
 			c.setTimeZone(TimeZone.getDefault());

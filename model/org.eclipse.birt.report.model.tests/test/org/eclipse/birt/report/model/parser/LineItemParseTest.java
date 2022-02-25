@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,27 +22,27 @@ import org.eclipse.birt.report.model.elements.LineItem;
 
 /**
  * The test case of LineItem parser and writer.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testParser()}</td>
  * <td>Test properties of LineItem after parsing design file</td>
  * <td>All properties are right</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Compare the written file with the golden file</td>
  * <td>Two files are same</td>
  * </tr>
  * </table>
- * 
+ *
  * @see LineItem
  */
 
@@ -55,6 +55,7 @@ public class LineItemParseTest extends ParserTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -63,7 +64,7 @@ public class LineItemParseTest extends ParserTestCase {
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of line.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -75,7 +76,7 @@ public class LineItemParseTest extends ParserTestCase {
 
 	/**
 	 * This test writes the design file and compare it with golden file.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWriter() throws Exception {
@@ -88,9 +89,9 @@ public class LineItemParseTest extends ParserTestCase {
 
 	/**
 	 * Gets the line handle.
-	 * 
+	 *
 	 * @return the handle of the line
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

@@ -22,9 +22,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  * BIRT RCP main application
- * 
+ *
  */
 public class DesignerApplication implements IApplication {
 
@@ -37,8 +37,9 @@ public class DesignerApplication implements IApplication {
 			// exit the application with an appropriate return code
 			return code == PlatformUI.RETURN_RESTART ? EXIT_RESTART : EXIT_OK;
 		} finally {
-			if (display != null)
+			if (display != null) {
 				display.dispose();
+			}
 		}
 	}
 

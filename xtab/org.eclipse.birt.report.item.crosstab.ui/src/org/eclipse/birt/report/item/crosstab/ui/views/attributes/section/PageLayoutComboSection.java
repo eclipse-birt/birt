@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class PageLayoutComboSection extends SimpleComboSection {
 
@@ -39,6 +39,7 @@ public class PageLayoutComboSection extends SimpleComboSection {
 		this.containerSection = section;
 	}
 
+	@Override
 	public void createSection() {
 		if (parent == null && containerSection != null) {
 			parent = containerSection.getContainerComposite();
@@ -46,15 +47,18 @@ public class PageLayoutComboSection extends SimpleComboSection {
 		super.createSection();
 	}
 
+	@Override
 	protected SimpleComboPropertyDescriptor getSimpleComboControl(Composite parent) {
 		if (simpleCombo == null) {
 			simpleCombo = new PageLayoutComboPropertyDescriptor(true);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				simpleCombo.setDescriptorProvider(getProvider());
+			}
 			simpleCombo.createControl(parent);
 			simpleCombo.getControl().setLayoutData(new GridData());
 			simpleCombo.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					simpleCombo = null;
 				}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,8 +34,8 @@ public class SubqueryResultMetaData implements IResultMetaData {
 	ArrayList<MetaData> metas;
 
 	public SubqueryResultMetaData(ISubqueryDefinition subquery, HashMap map) throws BirtException {
-		metas = new ArrayList<MetaData>();
-		HashSet<String> names = new HashSet<String>();
+		metas = new ArrayList<>();
+		HashSet<String> names = new HashSet<>();
 		IBaseQueryDefinition tmpQuery = subquery;
 		while (tmpQuery instanceof ISubqueryDefinition) {
 			ResultMetaData metaData = (ResultMetaData) map.get(tmpQuery);
@@ -44,8 +44,9 @@ public class SubqueryResultMetaData implements IResultMetaData {
 				String columnName = metaData.getColumnName(index);
 				if (!names.contains(columnName)) {
 					if (tmpQuery != subquery) {
-						if (columnIsAggregateOn(columnName, tmpQuery))
+						if (columnIsAggregateOn(columnName, tmpQuery)) {
 							continue;
+						}
 					}
 					MetaData meta = new MetaData();
 					meta.columnName = columnName;
@@ -67,8 +68,9 @@ public class SubqueryResultMetaData implements IResultMetaData {
 			String columnName = metaData.getColumnName(index);
 			if (!names.contains(columnName)) {
 				if (tmpQuery != subquery) {
-					if (columnIsAggregateOn(columnName, tmpQuery))
+					if (columnIsAggregateOn(columnName, tmpQuery)) {
 						continue;
+					}
 				}
 				MetaData meta = new MetaData();
 				meta.columnName = columnName;
@@ -95,8 +97,9 @@ public class SubqueryResultMetaData implements IResultMetaData {
 				} else {
 					IBaseExpression expr = binding.getExpression();
 					if (expr instanceof IScriptExpression) {
-						if (ExpressionUtil.hasAggregation(((IScriptExpression) expr).getText()))
+						if (ExpressionUtil.hasAggregation(((IScriptExpression) expr).getText())) {
 							result = true;
+						}
 					}
 				}
 			}
@@ -105,30 +108,37 @@ public class SubqueryResultMetaData implements IResultMetaData {
 		return result;
 	}
 
+	@Override
 	public String getColumnAlias(int index) throws BirtException {
 		return metas.get(index).columnAlias;
 	}
 
+	@Override
 	public int getColumnCount() {
 		return metas.size();
 	}
 
+	@Override
 	public String getColumnLabel(int index) throws BirtException {
 		return metas.get(index).columnLabel;
 	}
 
+	@Override
 	public String getColumnName(int index) throws BirtException {
 		return metas.get(index).columnName;
 	}
 
+	@Override
 	public int getColumnType(int index) throws BirtException {
 		return metas.get(index).columnType;
 	}
 
+	@Override
 	public String getColumnTypeName(int index) throws BirtException {
 		return metas.get(index).columnTypeName;
 	}
 
+	@Override
 	public boolean getAllowExport(int index) throws BirtException {
 		return true;
 	}

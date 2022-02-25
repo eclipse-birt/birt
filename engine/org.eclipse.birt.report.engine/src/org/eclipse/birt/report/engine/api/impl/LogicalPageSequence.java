@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,7 +68,7 @@ public class LogicalPageSequence {
 	}
 
 	public long[][] getPhysicalPageNumbers(long[][] logicalPages) {
-		List<long[]> physicalPages = new ArrayList<long[]>();
+		List<long[]> physicalPages = new ArrayList<>();
 		long logicalPageNumber = 0;
 		int j = 0;
 		for (int i = 0; i < visiblePages.length; i++) {
@@ -115,7 +115,7 @@ public class LogicalPageSequence {
 			return pages;
 		}
 
-		ArrayList<long[]> visiblePages = new ArrayList<long[]>();
+		ArrayList<long[]> visiblePages = new ArrayList<>();
 		for (int i = 0; i < pages.length; i++) {
 			long firstPage = pages[i][0];
 			long lastPage = pages[i][1];
@@ -129,7 +129,7 @@ public class LogicalPageSequence {
 	}
 
 	private long[][] mergeVisiblePages(long[][] pages1, long[][] pages2) {
-		ArrayList<long[]> pages = new ArrayList<long[]>();
+		ArrayList<long[]> pages = new ArrayList<>();
 		int i = 0;
 		int j = 0;
 		while (i < pages1.length) {
@@ -144,10 +144,8 @@ public class LogicalPageSequence {
 				long lastPage = Math.min(pages1[i][1], pages2[j][1]);
 				if (totalPhysicalPageCount == -1) {
 					pages.add(new long[] { firstPage, lastPage });
-				} else {
-					if (lastPage <= totalPhysicalPageCount) {
-						pages.add(new long[] { firstPage, lastPage });
-					}
+				} else if (lastPage <= totalPhysicalPageCount) {
+					pages.add(new long[] { firstPage, lastPage });
 				}
 
 				j++;

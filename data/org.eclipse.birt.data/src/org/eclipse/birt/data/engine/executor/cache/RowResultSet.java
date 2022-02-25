@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public class RowResultSet implements IRowResultSet {
 
 	/**
 	 * Construction
-	 * 
+	 *
 	 * @param query
 	 * @param odaResultSet
 	 * @param resultClass
@@ -69,8 +69,9 @@ public class RowResultSet implements IRowResultSet {
 		this.resultClass = smartCacheRequest.getResultClass();
 
 		this.maxRows = maxRow;
-		if (maxRows <= 0)
+		if (maxRows <= 0) {
 			maxRows = Integer.MAX_VALUE;
+		}
 
 		this.distinctValueFlag = smartCacheRequest.getDistinctValueFlag();
 	}
@@ -78,6 +79,7 @@ public class RowResultSet implements IRowResultSet {
 	/**
 	 * @return result meta data
 	 */
+	@Override
 	public IResultClass getMetaData() {
 		return resultClass;
 	}
@@ -85,11 +87,12 @@ public class RowResultSet implements IRowResultSet {
 	/**
 	 * Notice the return value of this function is IResultObject. The null value
 	 * indicates the cursor exceeds the end of result set.
-	 * 
+	 *
 	 * @param stopSign
 	 * @return next result data
 	 * @throws DataException
 	 */
+	@Override
 	public IResultObject next() throws DataException {
 		this.beforeNext();
 		IResultObject result = doNext();
@@ -98,16 +101,18 @@ public class RowResultSet implements IRowResultSet {
 	}
 
 	private IResultObject doNext() throws DataException {
-		if (finished)
+		if (finished) {
 			return null;
+		}
 		if (this.nextResultObject != null) {
 			this.lastResultObject = this.nextResultObject;
 			this.nextResultObject = null;
 			return this.lastResultObject;
 		}
 
-		if (currIndex >= maxRows)
+		if (currIndex >= maxRows) {
 			return null;
+		}
 
 		IResultObject odaObject = null;
 		while (true) {
@@ -116,10 +121,7 @@ public class RowResultSet implements IRowResultSet {
 				break;
 			} else {
 				actualIndex++;
-				if (!processFetchEvent(odaObject, actualIndex)) {
-					continue;
-				}
-				if (this.distinctValueFlag == true && isDuplicatedObject(odaObject)) {
+				if (!processFetchEvent(odaObject, actualIndex) || (this.distinctValueFlag && isDuplicatedObject(odaObject))) {
 					continue;
 				}
 				currIndex++;
@@ -137,7 +139,7 @@ public class RowResultSet implements IRowResultSet {
 	/**
 	 * Process onFetchEvent in such a time window that closely after data gotten
 	 * from data source and closely before data will be done grouping and sorting
-	 * 
+	 *
 	 * @param resultObject row object
 	 * @return boolean indicate whether passed resultObject is accepted or refused
 	 * @throws DataException
@@ -151,7 +153,7 @@ public class RowResultSet implements IRowResultSet {
 				int size = eventList.size();
 				for (int i = 0; i < size; i++) {
 					IResultObjectEvent onFetchEvent = (IResultObjectEvent) eventList.get(i);
-					if (onFetchEvent.process(resultObject, currentIndex) == false) {
+					if (!onFetchEvent.process(resultObject, currentIndex)) {
 						return false;
 					}
 				}
@@ -176,8 +178,9 @@ public class RowResultSet implements IRowResultSet {
 	 * @return
 	 */
 	private boolean isDuplicatedObject(IResultObject currRowObject) {
-		if (currRowObject.equals(lastResultObject))
+		if (currRowObject.equals(lastResultObject)) {
 			return true;
+		}
 
 		lastResultObject = currRowObject;
 		return false;
@@ -185,24 +188,28 @@ public class RowResultSet implements IRowResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#getIndex()
 	 */
+	@Override
 	public int getIndex() throws DataException {
-		if (this.nextResultObject != null)
+		if (this.nextResultObject != null) {
 			return this.currIndex - 2;
+		}
 		return this.currIndex - 1;
 	}
 
 	public IResultObject getNext() throws DataException {
-		if (finished)
+		if (finished) {
 			return null;
-		if (nextResultObject != null)
+		}
+		if (nextResultObject != null) {
 			return nextResultObject;
+		}
 		nextResultObject = this.next();
-		if (nextResultObject != null)
+		if (nextResultObject != null) {
 			return nextResultObject;
-		else {
+		} else {
 			finished = true;
 			return null;
 		}
@@ -210,7 +217,7 @@ public class RowResultSet implements IRowResultSet {
 
 	/**
 	 * Being called before next() function call.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	protected void beforeNext() throws DataException {
@@ -219,7 +226,7 @@ public class RowResultSet implements IRowResultSet {
 
 	/**
 	 * Being called after next() function call.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	protected void afterNext() throws DataException {

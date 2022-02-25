@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class DataBindingImpl implements IDataBinding {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param columnHandle
 	 */
 
@@ -42,7 +42,7 @@ public class DataBindingImpl implements IDataBinding {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param columnHandle
 	 */
 
@@ -52,7 +52,7 @@ public class DataBindingImpl implements IDataBinding {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param column
 	 */
 
@@ -64,22 +64,27 @@ public class DataBindingImpl implements IDataBinding {
 		dataBindingImpl = columnBindingImpl;
 	}
 
+	@Override
 	public String getAggregateOn() {
 		return dataBindingImpl.getAggregateOn();
 	}
 
+	@Override
 	public String getDataType() {
 		return dataBindingImpl.getDataType();
 	}
 
+	@Override
 	public String getExpression() {
 		return dataBindingImpl.getExpression();
 	}
 
+	@Override
 	public String getExpressionType() {
 		return dataBindingImpl.getExpressionType();
 	}
 
+	@Override
 	public void setExpressionType(String type) throws ScriptException {
 		try {
 			dataBindingImpl.setExpressionType(type);
@@ -88,10 +93,12 @@ public class DataBindingImpl implements IDataBinding {
 		}
 	}
 
+	@Override
 	public String getName() {
 		return dataBindingImpl.getName();
 	}
 
+	@Override
 	public void setAggregateOn(String on) throws ScriptException {
 		try {
 			dataBindingImpl.setAggregateOn(on);
@@ -101,6 +108,7 @@ public class DataBindingImpl implements IDataBinding {
 
 	}
 
+	@Override
 	public void setDataType(String dataType) throws ScriptException {
 		try {
 			dataBindingImpl.setDataType(dataType);
@@ -109,6 +117,7 @@ public class DataBindingImpl implements IDataBinding {
 		}
 	}
 
+	@Override
 	public void setExpression(String expression) throws ScriptException {
 
 		// expression is required.
@@ -121,6 +130,7 @@ public class DataBindingImpl implements IDataBinding {
 
 	}
 
+	@Override
 	public void setName(String name) throws ScriptException {
 		// name is required.
 
@@ -133,6 +143,7 @@ public class DataBindingImpl implements IDataBinding {
 
 	}
 
+	@Override
 	public IStructure getStructure() {
 		return dataBindingImpl.getStructure();
 	}

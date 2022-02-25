@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -79,10 +79,10 @@ public class AggregationExecutor {
 	private AggregationFunctionDefinition simpleFunc;
 	private boolean existReferenceDate = false;
 
-	private static String[] simpleFuncNames = new String[] { "SUM", "MAX", "MIN", "FIRST", "LAST" };
+	private static String[] simpleFuncNames = { "SUM", "MAX", "MIN", "FIRST", "LAST" };
 
 	/**
-	 * 
+	 *
 	 * @param dimensionResultIterators
 	 * @param factTableRowIterator
 	 * @param aggregations
@@ -114,13 +114,14 @@ public class AggregationExecutor {
 			this.timeFunctionCalculator[i] = new TimeFunctionCalculator(aggregations[i], paraColumns,
 					dataSet4Aggregation.getMetaInfo(), this.cubeDimensionReader,
 					this.memoryCacheSize / 5 / this.aggregationCalculators.length);
-			if (i == detailAggregationIndex)
+			if (i == detailAggregationIndex) {
 				this.aggregationCalculators[i] = new AggregationCalculator(aggregations[i], paraColumns,
 						dataSet4Aggregation.getMetaInfo(), cubeDimensionReader, this.memoryCacheSize / 10);
-			else
+			} else {
 				this.aggregationCalculators[i] = new AggregationCalculator(aggregations[i], paraColumns,
 						dataSet4Aggregation.getMetaInfo(), cubeDimensionReader,
 						this.memoryCacheSize / 5 / this.aggregationCalculators.length);
+			}
 		}
 		if (simpleFunc != null) {
 			measureIndexes4Merge = dataSet4Aggregation.getMetaInfo().getMeasureIndex(simpleFunc.getMeasureName());
@@ -139,8 +140,9 @@ public class AggregationExecutor {
 	private static boolean existReferenceDate(AggregationDefinition[] aggregations) throws DataException {
 		for (int i = 0; i < aggregations.length; i++) {
 			AggregationFunctionDefinition[] aggrFunc = aggregations[i].getAggregationFunctions();
-			if (aggrFunc == null)
+			if (aggrFunc == null) {
 				continue;
+			}
 			for (int j = 0; j < aggrFunc.length; j++) {
 				if ((aggrFunc[j].getTimeFunction() != null && aggrFunc[j].getTimeFunction().getReferenceDate() != null)
 						|| (aggrFunc[j].getTimeFunctionFilter() != null
@@ -168,14 +170,14 @@ public class AggregationExecutor {
 		AggregationFunctionDefinition func = null;
 		for (int i = 0; i < aggregations.length; i++) {
 			AggregationFunctionDefinition[] aggrFunc = aggregations[i].getAggregationFunctions();
-			if (aggrFunc == null)
+			if (aggrFunc == null) {
 				continue;
+			}
 			for (int j = 0; j < aggrFunc.length; j++) {
 				if (func == null && aggrFunc[j].getFilterEvalHelper() == null) {
 					func = aggrFunc[j];
-				} else {
-					if (func != null && !equal(func, aggrFunc[j]))
-						return null;
+				} else if (func != null && !equal(func, aggrFunc[j])) {
+					return null;
 				}
 			}
 		}
@@ -198,21 +200,18 @@ public class AggregationExecutor {
 			}
 
 			return func;
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	private static boolean equal(AggregationFunctionDefinition func1, AggregationFunctionDefinition func2) {
-		if (!ComparatorUtil.isEqualObject(func1.getFunctionName(), func2.getFunctionName()))
+		if (!ComparatorUtil.isEqualObject(func1.getFunctionName(), func2.getFunctionName()) || !ComparatorUtil.isEqualObject(func1.getMeasureName(), func2.getMeasureName()) || !ComparatorUtil.isEqualObject(func1.getParaCol(), func2.getParaCol()) || !ComparatorUtil.isEqualObject(func1.getParaValue(), func2.getParaValue())) {
 			return false;
-		if (!ComparatorUtil.isEqualObject(func1.getMeasureName(), func2.getMeasureName()))
+		}
+		if (func1.getFilterEvalHelper() != null || func2.getFilterEvalHelper() != null) {
 			return false;
-		if (!ComparatorUtil.isEqualObject(func1.getParaCol(), func2.getParaCol()))
-			return false;
-		if (!ComparatorUtil.isEqualObject(func1.getParaValue(), func2.getParaValue()))
-			return false;
-		if (func1.getFilterEvalHelper() != null || func2.getFilterEvalHelper() != null)
-			return false;
+		}
 		return true;
 	}
 
@@ -226,7 +225,7 @@ public class AggregationExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param stopSign
 	 * @return
 	 * @throws IOException
@@ -287,16 +286,15 @@ public class AggregationExecutor {
 	}
 
 	private void populateMissingAggrResultSetRows(IAggregationResultSet[] rs) throws IOException {
-		if (rs.length <= 2)
+		if ((rs.length <= 2) || rs[0].getAggregationDefinition().getAggregationFunctions() != null
+				|| rs[1].getAggregationDefinition().getAggregationFunctions() != null) {
 			return;
-		if (rs[0].getAggregationDefinition().getAggregationFunctions() != null
-				|| rs[1].getAggregationDefinition().getAggregationFunctions() != null)
-			return;
+		}
 
 		DimLevel[] edgeDimLevel1 = rs[0].getAllLevels();
 		DimLevel[] edgeDimLevel2 = rs[1].getAllLevels();
-		List<Member[]> edgeMember1 = new ArrayList<Member[]>();
-		List<Member[]> edgeMember2 = new ArrayList<Member[]>();
+		List<Member[]> edgeMember1 = new ArrayList<>();
+		List<Member[]> edgeMember2 = new ArrayList<>();
 
 		populateEdgeMember(edgeMember1, rs[0]);
 		populateEdgeMember(edgeMember2, rs[1]);
@@ -309,8 +307,9 @@ public class AggregationExecutor {
 			DimLevel[] dims = rs[i].getAllLevels();
 			if (dims.length <= (edgeDimLevel1.length + edgeDimLevel2.length)) {
 				int[] coverLength = getTargetDimLevelCoverageOnEdges(dims, edgeDimLevel1, edgeDimLevel2);
-				if (coverLength[0] == -1)
+				if (coverLength[0] == -1) {
 					continue;
+				}
 
 				List<Member[]> targetMemberList = null;
 				if (coverLength[0] == 1) {
@@ -351,8 +350,9 @@ public class AggregationExecutor {
 
 	private boolean isSameWithCurrentTargetMember(Member[] currentSeekMember, Member[] currentTargetMember) {
 		for (int i = 0; i < currentSeekMember.length; i++) {
-			if (!currentSeekMember[i].equals(currentTargetMember[i]))
+			if (!currentSeekMember[i].equals(currentTargetMember[i])) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -375,7 +375,7 @@ public class AggregationExecutor {
 
 	private List<Member[]> getTargetMemberList(List<Member[]> edgeMember1, List<Member[]> edgeMember2,
 			int[] coverLength) {
-		List<Member[]> targetMemberArray = new ArrayList<Member[]>();
+		List<Member[]> targetMemberArray = new ArrayList<>();
 
 		for (int a = 0; a < edgeMember1.size(); a++) {
 			for (int b = 0; b < edgeMember2.size(); b++) {
@@ -476,12 +476,13 @@ public class AggregationExecutor {
 			coverDimLevelLength[2] = j;
 			coverDimLevelLength[0] = 0;
 			return coverDimLevelLength;
-		} else
+		} else {
 			return coverDimLevelLength;
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param row
 	 * @param levelCount
 	 * @return
@@ -504,7 +505,7 @@ public class AggregationExecutor {
 //	}
 
 	/**
-	 * 
+	 *
 	 * @param aggregationIndex
 	 * @return
 	 */
@@ -518,7 +519,7 @@ public class AggregationExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggregationIndex
 	 * @return
 	 */
@@ -533,7 +534,7 @@ public class AggregationExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param stopSign
 	 * @throws IOException
 	 * @throws BirtException
@@ -563,8 +564,9 @@ public class AggregationExecutor {
 								diskSortedStackWrapper[i].diskSortedStack.push(aggregationRow[i]);
 							} else {
 								Row4Aggregation popRow = this.mergeRow4Aggregations[i].push(aggregationRow[i]);
-								if (popRow != null)
+								if (popRow != null) {
 									diskSortedStackWrapper[i].diskSortedStack.push(popRow);
+								}
 							}
 						}
 						aggregationRow[i] = createRow4Aggregation();
@@ -588,8 +590,9 @@ public class AggregationExecutor {
 					}
 				}
 				factRowCount++;
-				if (maxDataObjectRows > 0 && factRowCount > maxDataObjectRows)
+				if (maxDataObjectRows > 0 && factRowCount > maxDataObjectRows) {
 					throw new DataException(ResourceConstants.EXCEED_MAX_DATA_OBJECT_ROWS);
+				}
 			}
 			for (int i = 0; i < allSortedFactRows.size(); i++) {
 				if (aggregationRow[i] != null) {
@@ -597,8 +600,9 @@ public class AggregationExecutor {
 						diskSortedStackWrapper[i].diskSortedStack.push(aggregationRow[i]);
 					} else {
 						Row4Aggregation popRow = this.mergeRow4Aggregations[i].push(aggregationRow[i]);
-						if (popRow != null)
+						if (popRow != null) {
 							diskSortedStackWrapper[i].diskSortedStack.push(popRow);
+						}
 					}
 				}
 				if (!existReferenceDate) {
@@ -656,7 +660,7 @@ public class AggregationExecutor {
 	/**
 	 * @throws IOException
 	 * @throws DataException
-	 * 
+	 *
 	 *
 	 */
 	private void prepareSortedStacks() throws DataException, IOException {
@@ -672,10 +676,11 @@ public class AggregationExecutor {
 						&& aggregationCalculators[i].aggregation.getLevels().length > maxLevelCount)
 						|| (aggregationCalculators[i].aggregation.getLevels() == null && maxLevelCount == -1))) {
 					aggregationIndex = i;
-					if (aggregationCalculators[i].aggregation.getLevels() != null)
+					if (aggregationCalculators[i].aggregation.getLevels() != null) {
 						maxLevelCount = aggregationCalculators[i].aggregation.getLevels().length;
-					else
+					} else {
 						maxLevelCount = 0;
+					}
 					levelSortType = aggregationCalculators[i].aggregation.getSortTypes();
 				}
 			}
@@ -683,20 +688,17 @@ public class AggregationExecutor {
 				break;
 			}
 			if (memoryCacheSize != 0) {
-				if (levelSize == 0)
+				if (levelSize == 0) {
 					levelSize = getLevelSize(aggregationCalculators[aggregationIndex].aggregation.getLevels());
-				else {
-					if (aggregationCalculators[aggregationIndex].aggregation.getLevels() != null)
-						levelSize += SizeOfUtil
-								.getArraySize(aggregationCalculators[aggregationIndex].aggregation.getLevels().length);
+				} else if (aggregationCalculators[aggregationIndex].aggregation.getLevels() != null) {
+					levelSize += SizeOfUtil
+							.getArraySize(aggregationCalculators[aggregationIndex].aggregation.getLevels().length);
 				}
 
-				if (measureSize == 0)
+				if (measureSize == 0) {
 					measureSize = getMeasureSize();
-				else {
-					if (dataSet4Aggregation.getMetaInfo().getMeasureInfos() != null)
-						measureSize += SizeOfUtil
-								.getArraySize(dataSet4Aggregation.getMetaInfo().getMeasureInfos().length);
+				} else if (dataSet4Aggregation.getMetaInfo().getMeasureInfos() != null) {
+					measureSize += SizeOfUtil.getArraySize(dataSet4Aggregation.getMetaInfo().getMeasureInfos().length);
 				}
 			}
 
@@ -723,8 +725,9 @@ public class AggregationExecutor {
 			int rowSize = 16 + (4 + (levelSize + measureSize) - 1) / 8 * 8;
 			bufferSize = (int) (this.memoryCacheSize * 4 / 5 / rowSize);
 			if (!this.existReferenceDate) {
-				if (this.simpleFunc == null)
+				if (this.simpleFunc == null) {
 					bufferSize /= 5;
+				}
 			}
 			for (int i = 0; i < allSortedFactRows.size(); i++) {
 				DiskSortedStackWrapper diskSortedStackReader = (DiskSortedStackWrapper) allSortedFactRows.get(i);
@@ -739,8 +742,9 @@ public class AggregationExecutor {
 
 	private int getMeasureSize() throws IOException {
 		MeasureInfo[] measureInfo = dataSet4Aggregation.getMetaInfo().getMeasureInfos();
-		if (measureInfo == null || measureInfo.length == 0)
+		if (measureInfo == null || measureInfo.length == 0) {
 			return 0;
+		}
 		int[] dataType = new int[measureInfo.length];
 		for (int i = 0; i < measureInfo.length; i++) {
 			dataType[i] = measureInfo[i].getDataType();
@@ -755,12 +759,13 @@ public class AggregationExecutor {
 		int[] dataType = new int[dimLevel.length];
 		for (int i = 0; i < dimLevel.length; i++) {
 			DimColumn dimColumn = null;
-			if (dimLevel[i].getAttrName() == null)
+			if (dimLevel[i].getAttrName() == null) {
 				dimColumn = new DimColumn(dimLevel[i].getDimensionName(), dimLevel[i].getLevelName(),
 						dimLevel[i].getLevelName());
-			else
+			} else {
 				dimColumn = new DimColumn(dimLevel[i].getDimensionName(), dimLevel[i].getLevelName(),
 						dimLevel[i].getAttrName());
+			}
 
 			ColumnInfo columnInfo = (dataSet4Aggregation.getMetaInfo()).getColumnInfo(dimColumn);
 			dataType[i] = columnInfo.getDataType();
@@ -769,7 +774,7 @@ public class AggregationExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensionIndex1
 	 * @param dimensionIndex2
 	 * @return
@@ -790,8 +795,8 @@ public class AggregationExecutor {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private void getAggregationLevelIndex() throws DataException {
 		if (aggregationCalculators == null) {
@@ -851,7 +856,7 @@ public class AggregationExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void findColumnIndex() throws DataException {
@@ -882,7 +887,7 @@ public class AggregationExecutor {
 }
 
 /**
- * 
+ *
  * @author Administrator
  *
  */
@@ -891,7 +896,7 @@ class Row4AggregationComparator implements Comparator {
 	private int[] sortType = null;
 
 	/**
-	 * 
+	 *
 	 * @param sortType
 	 */
 	Row4AggregationComparator(int[] sortType) {
@@ -900,9 +905,10 @@ class Row4AggregationComparator implements Comparator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		Row4Aggregation row1 = (Row4Aggregation) o1;
 		Row4Aggregation row2 = (Row4Aggregation) o2;
@@ -917,12 +923,10 @@ class Row4AggregationComparator implements Comparator {
 				} else if (row1.getLevelMembers()[i].compareTo(row2.getLevelMembers()[i]) > 0) {
 					return 1;
 				}
-			} else {
-				if (row1.getLevelMembers()[i].compareTo(row2.getLevelMembers()[i]) < 0) {
-					return 1;
-				} else if (row1.getLevelMembers()[i].compareTo(row2.getLevelMembers()[i]) > 0) {
-					return -1;
-				}
+			} else if (row1.getLevelMembers()[i].compareTo(row2.getLevelMembers()[i]) < 0) {
+				return 1;
+			} else if (row1.getLevelMembers()[i].compareTo(row2.getLevelMembers()[i]) > 0) {
+				return -1;
 			}
 		}
 		return 0;
@@ -931,7 +935,7 @@ class Row4AggregationComparator implements Comparator {
 }
 
 /**
- * 
+ *
  * @author Administrator
  *
  */
@@ -942,7 +946,7 @@ class DiskSortedStackWrapper {
 	int[] levelIndex = null;
 
 	/**
-	 * 
+	 *
 	 * @param diskSortedStack
 	 * @param levelIndex
 	 */
@@ -956,7 +960,7 @@ class DiskSortedStackWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -966,7 +970,7 @@ class DiskSortedStackWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	Object getCurrentObject() {

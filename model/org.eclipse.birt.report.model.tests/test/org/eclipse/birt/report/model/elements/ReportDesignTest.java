@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,8 +16,6 @@ package org.eclipse.birt.report.model.elements;
 
 import java.net.URLDecoder;
 import java.util.List;
-
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -29,9 +27,11 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Unit test for class ReportDesign.
- * 
+ *
  * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: *
  * collapse" bordercolor="#111111" width="100%" id="AutoNumber3" height="50">
  * <tr>
@@ -39,29 +39,29 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td width="33%" height="16"><b>Test Case </b></td>
  * <td width="34%" height="16"><b>Expected Result </b></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testMakeUniqueName()}</td>
  * <td>name is required and set name is null</td>
  * <td>get displayLabel value,value is "New SQL Query Data Set"</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>name is required and set name isn't null ,but namespace contains this
  * name</td>
  * <td>value format is baseName + " " + ++index ,value is "firstDataSet 1"</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>name is required and set name isn't null ,but namespace doesn't contain
  * this name</td>
  * <td>original value "firstDataSet10"</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 public class ReportDesignTest extends BaseTestCase {
 
@@ -84,7 +84,7 @@ public class ReportDesignTest extends BaseTestCase {
 	 * <li>value format is baseName + " " + ++index ,value is "firstDataSet 1"</li>
 	 * <li>original value "firstDataSet10"</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws DesignFileException if there are errors in openDesign method
 	 */
 	public void testMakeUniqueName() throws DesignFileException {
@@ -114,7 +114,7 @@ public class ReportDesignTest extends BaseTestCase {
 
 	/**
 	 * Test the method 'isFileExist()'.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -135,7 +135,7 @@ public class ReportDesignTest extends BaseTestCase {
 
 	/**
 	 * Test method collectPropValues()
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCollectProperties() throws Exception {

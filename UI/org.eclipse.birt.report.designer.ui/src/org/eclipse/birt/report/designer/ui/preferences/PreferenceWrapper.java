@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,123 +48,152 @@ public class PreferenceWrapper extends EventManager implements IPreferences {
 		this.prefsStore = prefsStore;
 	}
 
+	@Override
 	public boolean getDefaultBoolean(String name) {
 		return prefsStore.getDefaultBoolean(name);
 	}
 
+	@Override
 	public double getDefaultDouble(String name) {
 		return prefsStore.getDefaultDouble(name);
 	}
 
+	@Override
 	public float getDefaultFloat(String name) {
 		return prefsStore.getDefaultFloat(name);
 	}
 
+	@Override
 	public int getDefaultInt(String name) {
 		return prefsStore.getDefaultInt(name);
 	}
 
+	@Override
 	public long getDefaultLong(String name) {
 		return prefsStore.getDefaultLong(name);
 	}
 
+	@Override
 	public String getDefaultString(String name) {
 		return prefsStore.getDefaultString(name);
 	}
 
+	@Override
 	public boolean getBoolean(String name) {
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
 			Preferences preference = prefs.getReportPreference(project);
-			if (preference != null && preference.contains(name))
+			if (preference != null && preference.contains(name)) {
 				return preference.getBoolean(name);
+			}
 		}
 		return prefsStore.getBoolean(name);
 	}
 
+	@Override
 	public double getDouble(String name) {
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
 			Preferences preference = prefs.getReportPreference(project);
-			if (preference != null && preference.contains(name))
+			if (preference != null && preference.contains(name)) {
 				return preference.getDouble(name);
+			}
 		}
 		return prefsStore.getDouble(name);
 	}
 
+	@Override
 	public float getFloat(String name) {
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
 			Preferences preference = prefs.getReportPreference(project);
-			if (preference != null && preference.contains(name))
+			if (preference != null && preference.contains(name)) {
 				return preference.getFloat(name);
+			}
 		}
 		return prefsStore.getFloat(name);
 	}
 
+	@Override
 	public int getInt(String name) {
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
 			Preferences preference = prefs.getReportPreference(project);
-			if (preference != null && preference.contains(name))
+			if (preference != null && preference.contains(name)) {
 				return preference.getInt(name);
+			}
 		}
 		return prefsStore.getInt(name);
 	}
 
+	@Override
 	public long getLong(String name) {
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
 			Preferences preference = prefs.getReportPreference(project);
-			if (preference != null && preference.contains(name))
+			if (preference != null && preference.contains(name)) {
 				return preference.getLong(name);
+			}
 		}
 		return prefsStore.getLong(name);
 	}
 
+	@Override
 	public String getString(String name) {
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
 			Preferences preference = prefs.getReportPreference(project);
-			if (preference != null && preference.contains(name))
+			if (preference != null && preference.contains(name)) {
 				return preference.getString(name);
+			}
 		}
 		return prefsStore.getString(name);
 	}
 
+	@Override
 	public boolean contains(String name) {
 		return prefsStore.contains(name);
 	}
 
+	@Override
 	public boolean isDefault(String name) {
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
 			return prefs.hasSpecialSettings(project, name);
-		} else
+		} else {
 			return prefsStore.isDefault(name);
+		}
 	}
 
+	@Override
 	public void putValue(String name, String value) {
 		prefsStore.putValue(name, value);
 	}
 
+	@Override
 	public void setDefault(String name, double value) {
 		prefsStore.setDefault(name, value);
 	}
 
+	@Override
 	public void setDefault(String name, float value) {
 		prefsStore.setDefault(name, value);
 	}
 
+	@Override
 	public void setDefault(String name, int value) {
 		prefsStore.setDefault(name, value);
 	}
 
+	@Override
 	public void setDefault(String name, long value) {
 		prefsStore.setDefault(name, value);
 	}
 
+	@Override
 	public void setDefault(String name, String defaultObject) {
 		prefsStore.setDefault(name, defaultObject);
 	}
 
+	@Override
 	public void setDefault(String name, boolean value) {
 		prefsStore.setDefault(name, value);
 	}
 
+	@Override
 	public void setToDefault(String name) {
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
 			Preferences preference = prefs.getReportPreference(project);
@@ -177,6 +206,7 @@ public class PreferenceWrapper extends EventManager implements IPreferences {
 		}
 	}
 
+	@Override
 	public void setValue(String name, double value) {
 		double oldValue = getDouble(name);
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
@@ -195,6 +225,7 @@ public class PreferenceWrapper extends EventManager implements IPreferences {
 		}
 	}
 
+	@Override
 	public void setValue(String name, float value) {
 		float oldValue = getFloat(name);
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
@@ -213,6 +244,7 @@ public class PreferenceWrapper extends EventManager implements IPreferences {
 		}
 	}
 
+	@Override
 	public void setValue(String name, int value) {
 		int oldValue = getInt(name);
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
@@ -231,6 +263,7 @@ public class PreferenceWrapper extends EventManager implements IPreferences {
 		}
 	}
 
+	@Override
 	public void setValue(String name, long value) {
 		long oldValue = getLong(name);
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
@@ -249,6 +282,7 @@ public class PreferenceWrapper extends EventManager implements IPreferences {
 		}
 	}
 
+	@Override
 	public void setValue(String name, String value) {
 		String oldValue = getString(name);
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
@@ -267,6 +301,7 @@ public class PreferenceWrapper extends EventManager implements IPreferences {
 		}
 	}
 
+	@Override
 	public void setValue(String name, boolean value) {
 		boolean oldValue = getBoolean(name);
 		if (this.preferenceType == SPECIAL_TYPE && project != null) {
@@ -285,22 +320,27 @@ public class PreferenceWrapper extends EventManager implements IPreferences {
 		}
 	}
 
+	@Override
 	public void save() throws IOException {
-		if (this.preferenceType == SPECIAL_TYPE && project != null)
+		if (this.preferenceType == SPECIAL_TYPE && project != null) {
 			prefs.saveReportPreference(project);
-		else if (prefsStore instanceof IPersistentPreferenceStore)
+		} else if (prefsStore instanceof IPersistentPreferenceStore) {
 			((IPersistentPreferenceStore) prefsStore).save();
+		}
 
 	}
 
+	@Override
 	public void addPreferenceChangeListener(IPreferenceChangeListener pcl) {
 		this.addListenerObject(pcl);
 	}
 
+	@Override
 	public void removePreferenceChangeListener(IPreferenceChangeListener pcl) {
 		this.removeListenerObject(pcl);
 	}
 
+	@Override
 	public void firePreferenceChangeEvent(String name, Object oldValue, Object newValue) {
 		final Object[] finalListeners = getListeners();
 		// Do we need to fire an event.
@@ -310,6 +350,7 @@ public class PreferenceWrapper extends EventManager implements IPreferences {
 				final IPreferenceChangeListener l = (IPreferenceChangeListener) finalListeners[i];
 				SafeRunnable.run(new SafeRunnable(JFaceResources.getString("PreferenceStore.changeError")) { //$NON-NLS-1$
 
+					@Override
 					public void run() {
 						l.preferenceChange(pe);
 					}

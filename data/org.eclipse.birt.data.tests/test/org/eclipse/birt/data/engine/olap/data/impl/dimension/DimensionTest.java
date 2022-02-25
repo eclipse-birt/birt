@@ -1,18 +1,21 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,26 +37,24 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- * 
+ *
  */
 
 public class DimensionTest {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	/*
 	 * @see TestCase#tearDown()
 	 */
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -128,7 +129,7 @@ public class DimensionTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -194,7 +195,7 @@ public class DimensionTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -233,12 +234,15 @@ public class DimensionTest {
 			IndexKey indexKey = realDimension.findFirst((Level) level[0],
 					new Object[] { ThreeLevelDataset.Level1Col[i] });
 			assertEquals(indexKey.getKey()[0], ThreeLevelDataset.Level1Col[i]);
-			if (i < 5)
+			if (i < 5) {
 				assertEquals(indexKey.getDimensionPos()[0], 0);
-			if (i >= 5 && i < 12)
+			}
+			if (i >= 5 && i < 12) {
 				assertEquals(indexKey.getDimensionPos()[0], 5);
-			if (i >= 12)
+			}
+			if (i >= 12) {
 				assertEquals(indexKey.getDimensionPos()[0], 12);
+			}
 
 			Member levelMember = realDimension.getRowByPosition(indexKey.getDimensionPos()[0]).getMembers()[0];
 			assertEquals(levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i]);
@@ -302,12 +306,15 @@ public class DimensionTest {
 			IndexKey indexKey = realDimension.findFirst((Level) level[0],
 					new Object[] { ThreeLevelDataset.Level1Col[i] });
 			assertEquals(indexKey.getKey()[0], ThreeLevelDataset.Level1Col[i]);
-			if (i < 5)
+			if (i < 5) {
 				assertEquals(indexKey.getDimensionPos()[0], 0);
-			if (i >= 5 && i < 12)
+			}
+			if (i >= 5 && i < 12) {
 				assertEquals(indexKey.getDimensionPos()[0], 5);
-			if (i >= 12)
+			}
+			if (i >= 12) {
 				assertEquals(indexKey.getDimensionPos()[0], 12);
+			}
 
 			Member levelMember = realDimension.getRowByPosition(indexKey.getDimensionPos()[0]).getMembers()[0];
 			assertEquals(levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i]);
@@ -342,7 +349,7 @@ public class DimensionTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -478,7 +485,7 @@ public class DimensionTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -567,7 +574,7 @@ public class DimensionTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -681,7 +688,7 @@ public class DimensionTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -762,7 +769,7 @@ public class DimensionTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -806,7 +813,7 @@ public class DimensionTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -852,7 +859,7 @@ public class DimensionTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -896,6 +903,7 @@ class OneLevelDataset implements IDatasetIterator {
 
 	static int[] ClassCol = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 17 };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -916,6 +924,7 @@ class OneLevelDataset implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("ID")) {
 			return 0;
@@ -929,6 +938,7 @@ class OneLevelDataset implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("ID")) {
 			return DataType.INTEGER_TYPE;
@@ -952,6 +962,7 @@ class OneLevelDataset implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return new Integer(IDCol[ptr]);
@@ -965,6 +976,7 @@ class OneLevelDataset implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= NameCol.length) {
@@ -989,6 +1001,7 @@ class ThreeLevelDataset implements IDatasetIterator {
 
 	static int[] Level3AttributeCol = { 111, 112, 113, 121, 122, 211, 212, 221, 222, 223, 231, 232, 311, 321 };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -1009,6 +1022,7 @@ class ThreeLevelDataset implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("level1")) {
 			return 0;
@@ -1022,6 +1036,7 @@ class ThreeLevelDataset implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("level1")) {
 			return DataType.STRING_TYPE;
@@ -1045,6 +1060,7 @@ class ThreeLevelDataset implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return Level1Col[ptr];
@@ -1058,6 +1074,7 @@ class ThreeLevelDataset implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= Level1Col.length) {
@@ -1084,6 +1101,7 @@ class FourLevelDataset implements IDatasetIterator {
 	static String[] Level4Col = { "1111", "1121", "1131", "1211", "1221", "2111", "2121", "2211", "2221", "2231",
 			"2311", "2321", "3111", "3211", "3212" };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -1104,6 +1122,7 @@ class FourLevelDataset implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("level1")) {
 			return 0;
@@ -1117,6 +1136,7 @@ class FourLevelDataset implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("level1")) {
 			return DataType.STRING_TYPE;
@@ -1140,6 +1160,7 @@ class FourLevelDataset implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return Level1Col[ptr];
@@ -1153,6 +1174,7 @@ class FourLevelDataset implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= Level1Col.length) {

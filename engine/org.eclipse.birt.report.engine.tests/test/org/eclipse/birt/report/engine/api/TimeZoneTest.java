@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,6 +29,7 @@ public class TimeZoneTest extends EngineCase {
 
 	static final String GOLDENSTRING = "Nov 1, 2007 9:38 AM";
 
+	@Override
 	public void setUp() {
 		removeFile(REPORT_DOCUMENT);
 		removeFile(REPORT_DESIGN);
@@ -37,6 +38,7 @@ public class TimeZoneTest extends EngineCase {
 		engine = createReportEngine();
 	}
 
+	@Override
 	public void tearDown() {
 		// shut down the engine.
 		engine.shutdown();
@@ -85,7 +87,7 @@ public class TimeZoneTest extends EngineCase {
 		try {
 			InputStream srcInputStream = new FileInputStream(new File(src));
 			assert (srcInputStream != null);
-			StringBuffer srcBuffer = new StringBuffer();
+			StringBuilder srcBuffer = new StringBuilder();
 			byte[] buffer = new byte[5120];
 			int readCount = -1;
 			while ((readCount = srcInputStream.read(buffer)) != -1) {

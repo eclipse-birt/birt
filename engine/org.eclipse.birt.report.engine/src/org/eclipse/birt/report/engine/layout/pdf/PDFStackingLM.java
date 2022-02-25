@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -56,42 +56,52 @@ public abstract class PDFStackingLM extends PDFAbstractLM implements IStackingLa
 		return this.maxAvaHeight;
 	}
 
+	@Override
 	public int getCurrentMaxContentWidth() {
 		return maxAvaWidth - currentIP;// FIXME
 	}
 
+	@Override
 	public int getCurrentMaxContentHeight() {
 		return maxAvaHeight - currentBP;
 	}
 
+	@Override
 	public int getCurrentIP() {
 		return this.currentIP;
 	}
 
+	@Override
 	public int getCurrentBP() {
 		return this.currentBP;
 	}
 
+	@Override
 	public void setCurrentBP(int bp) {
 		this.currentBP = bp;
 	}
 
+	@Override
 	public void setCurrentIP(int ip) {
 		this.currentIP = ip;
 	}
 
+	@Override
 	public int getOffsetX() {
 		return offsetX;
 	}
 
+	@Override
 	public void setOffsetX(int x) {
 		this.offsetX = x;
 	}
 
+	@Override
 	public int getOffsetY() {
 		return offsetY;
 	}
 
+	@Override
 	public void setOffsetY(int y) {
 		this.offsetY = y;
 	}
@@ -105,18 +115,17 @@ public abstract class PDFStackingLM extends PDFAbstractLM implements IStackingLa
 	public boolean isPageBreakAvoidInside() {
 		if (parent == null) {
 			return false;
+		} else if (parent.pageBreakAvoid) {
+			return true;
 		} else {
-			if (parent.pageBreakAvoid) {
-				return true;
-			} else {
-				return parent.isPageBreakAvoidInside();
-			}
+			return parent.isPageBreakAvoidInside();
 		}
 	}
 
+	@Override
 	protected boolean layoutChildren() throws BirtException {
 		initialize();
-		boolean hasNextPage = false;
+		boolean hasNextPage;
 		hasNextPage = traverseChildren();
 		if (!hasNextPage) {
 			isLast = true;
@@ -145,7 +154,7 @@ public abstract class PDFStackingLM extends PDFAbstractLM implements IStackingLa
 
 	/**
 	 * submit the current layout result
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean submitRoot() {
@@ -161,11 +170,9 @@ public abstract class PDFStackingLM extends PDFAbstractLM implements IStackingLa
 				isFirst = false;
 				root = null;
 			}
-		} else {
-			if (content != null) {
-				content.setExtension(IContent.LAYOUT_EXTENSION, root);
-				root = null;
-			}
+		} else if (content != null) {
+			content.setExtension(IContent.LAYOUT_EXTENSION, root);
+			root = null;
 		}
 		return success;
 	}
@@ -182,14 +189,14 @@ public abstract class PDFStackingLM extends PDFAbstractLM implements IStackingLa
 	 * <li>set OffsetX and OffsetY</li>
 	 * <li>set CurrentIP and CurrentBP</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	protected abstract void initialize() throws BirtException;
 
 	/**
 	 * end current area if it is the last area of content, add bottom box property
-	 * 
+	 *
 	 */
 	protected abstract void closeLayout();
 
@@ -202,13 +209,12 @@ public abstract class PDFStackingLM extends PDFAbstractLM implements IStackingLa
 		return 0;
 	}
 
+	@Override
 	public boolean isPageEmpty() {
 		if (!isRootEmpty()) {
 			return false;
-		} else {
-			if (parent != null) {
-				return parent.isPageEmpty();
-			}
+		} else if (parent != null) {
+			return parent.isPageEmpty();
 		}
 		return true;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2001, 2004 IBM Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
@@ -14,18 +14,18 @@
 package org.eclipse.birt.build;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.io.FileWriter;
 import java.util.Iterator;
+
 import org.dom4j.Document;
-import org.dom4j.io.SAXReader;
+import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
 import org.dom4j.dom.DOMElement;
-import org.dom4j.DocumentFactory;
-import org.dom4j.io.XMLWriter;
 import org.dom4j.io.OutputFormat;
-import java.lang.Integer;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 public class GenCaseResult {
 
@@ -204,15 +204,16 @@ public class GenCaseResult {
 						this.SameRpt = keyelement.getText();
 					} else if (keyName.equalsIgnoreCase("differ")) {
 						this.DiffRpt = keyelement.getText();
-					} else
+					} else {
 						continue;
+					}
 				}
 			}
 		}
 		int totalRpt;
 
-		totalRpt = Integer.valueOf(this.SameRpt.trim()).intValue();
-		totalRpt += Integer.valueOf(this.DiffRpt.trim()).intValue();
+		totalRpt = Integer.parseInt(this.SameRpt.trim());
+		totalRpt += Integer.parseInt(this.DiffRpt.trim());
 		this.TotalRpt = Integer.toString(totalRpt);
 
 		System.out.println("Engine Smoke Total:" + this.TotalRpt);
@@ -250,7 +251,7 @@ public class GenCaseResult {
 				DOMElement detailElement = new DOMElement("fail");
 				detailElement.setText(FailCase);
 
-				if ((FailCase != "N/A") && (Integer.valueOf(FailCase.trim()).intValue() > 0)) {
+				if ((FailCase != "N/A") && (Integer.parseInt(FailCase.trim()) > 0)) {
 					detailElement.setAttribute("color", CONSTANT_RED);
 					detailElement.setAttribute("boldStyle", CONSTANT_BOLD);
 				} else {
@@ -262,7 +263,7 @@ public class GenCaseResult {
 				/* Add Error Node Leaf */
 				detailElement = new DOMElement("error");
 				detailElement.setText(ErrorCase);
-				if ((FailCase != "N/A") && (Integer.valueOf(ErrorCase.trim()).intValue() > 0)) {
+				if ((FailCase != "N/A") && (Integer.parseInt(ErrorCase.trim()) > 0)) {
 					detailElement.setAttribute("color", CONSTANT_RED);
 					detailElement.setAttribute("boldStyle", CONSTANT_BOLD);
 				} else {
@@ -312,10 +313,11 @@ public class GenCaseResult {
 				index = reportType.indexOf("DTE");
 				if (index == -1) {
 					index = reportType.indexOf("Engine");
-					if (index == -1)
+					if (index == -1) {
 						return;
-					else
+					} else {
 						testElement.setAttribute("id", "Engine Smoke");
+					}
 				} else {
 					testElement.setAttribute("id", "DTE Smoke");
 				}
@@ -327,7 +329,7 @@ public class GenCaseResult {
 				DOMElement detailElement = new DOMElement("diff");
 				detailElement.setText(this.DiffRpt);
 
-				if (Integer.valueOf(this.DiffRpt.trim()).intValue() > 0) {
+				if (Integer.parseInt(this.DiffRpt.trim()) > 0) {
 					detailElement.setAttribute("color", CONSTANT_RED);
 					detailElement.setAttribute("boldStyle", CONSTANT_BOLD);
 				} else {

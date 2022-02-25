@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -46,7 +46,7 @@ public class FilterExpression implements java.io.Serializable {
 
 	/**
 	 * Gets the clause value for this FilterExpression.
-	 * 
+	 *
 	 * @return clause Represents Equality operator, i.e., '=='.
 	 */
 	public org.eclipse.birt.report.soapengine.api.FilterClause getClause() {
@@ -55,7 +55,7 @@ public class FilterExpression implements java.io.Serializable {
 
 	/**
 	 * Sets the clause value for this FilterExpression.
-	 * 
+	 *
 	 * @param clause Represents Equality operator, i.e., '=='.
 	 */
 	public void setClause(org.eclipse.birt.report.soapengine.api.FilterClause clause) {
@@ -64,7 +64,7 @@ public class FilterExpression implements java.io.Serializable {
 
 	/**
 	 * Gets the not value for this FilterExpression.
-	 * 
+	 *
 	 * @return not
 	 */
 	public org.eclipse.birt.report.soapengine.api.FilterExpression[] getNot() {
@@ -73,7 +73,7 @@ public class FilterExpression implements java.io.Serializable {
 
 	/**
 	 * Sets the not value for this FilterExpression.
-	 * 
+	 *
 	 * @param not
 	 */
 	public void setNot(org.eclipse.birt.report.soapengine.api.FilterExpression[] not) {
@@ -90,7 +90,7 @@ public class FilterExpression implements java.io.Serializable {
 
 	/**
 	 * Gets the or value for this FilterExpression.
-	 * 
+	 *
 	 * @return or
 	 */
 	public org.eclipse.birt.report.soapengine.api.FilterExpression[] getOr() {
@@ -99,7 +99,7 @@ public class FilterExpression implements java.io.Serializable {
 
 	/**
 	 * Sets the or value for this FilterExpression.
-	 * 
+	 *
 	 * @param or
 	 */
 	public void setOr(org.eclipse.birt.report.soapengine.api.FilterExpression[] or) {
@@ -116,7 +116,7 @@ public class FilterExpression implements java.io.Serializable {
 
 	/**
 	 * Gets the and value for this FilterExpression.
-	 * 
+	 *
 	 * @return and Optional AND clause which can again be nested with AND/OR clauses
 	 */
 	public org.eclipse.birt.report.soapengine.api.FilterExpression[] getAnd() {
@@ -125,7 +125,7 @@ public class FilterExpression implements java.io.Serializable {
 
 	/**
 	 * Sets the and value for this FilterExpression.
-	 * 
+	 *
 	 * @param and Optional AND clause which can again be nested with AND/OR clauses
 	 */
 	public void setAnd(org.eclipse.birt.report.soapengine.api.FilterExpression[] and) {
@@ -142,14 +142,18 @@ public class FilterExpression implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof FilterExpression))
+		if (!(obj instanceof FilterExpression)) {
 			return false;
+		}
 		FilterExpression other = (FilterExpression) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -170,6 +174,7 @@ public class FilterExpression implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -52,7 +52,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 	/**
 	 * The cached value of the '{@link #getDial() <em>Dial</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getDial()
 	 * @generated
 	 * @ordered
@@ -62,7 +62,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 	/**
 	 * The cached value of the '{@link #getNeedle() <em>Needle</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getNeedle()
 	 * @generated
 	 * @ordered
@@ -71,7 +71,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected DialSeriesImpl() {
@@ -80,7 +80,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -90,16 +90,17 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Dial getDial() {
 		return dial;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDial(Dial newDial, NotificationChain msgs) {
@@ -108,47 +109,54 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.DIAL_SERIES__DIAL, oldDial, newDial);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDial(Dial newDial) {
 		if (newDial != dial) {
 			NotificationChain msgs = null;
-			if (dial != null)
+			if (dial != null) {
 				msgs = ((InternalEObject) dial).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.DIAL_SERIES__DIAL, null, msgs);
-			if (newDial != null)
+			}
+			if (newDial != null) {
 				msgs = ((InternalEObject) newDial).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.DIAL_SERIES__DIAL, null, msgs);
+			}
 			msgs = basicSetDial(newDial, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.DIAL_SERIES__DIAL, newDial, newDial));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Needle getNeedle() {
 		return needle;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetNeedle(Needle newNeedle, NotificationChain msgs) {
@@ -157,39 +165,45 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.DIAL_SERIES__NEEDLE, oldNeedle, newNeedle);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setNeedle(Needle newNeedle) {
 		if (newNeedle != needle) {
 			NotificationChain msgs = null;
-			if (needle != null)
+			if (needle != null) {
 				msgs = ((InternalEObject) needle).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.DIAL_SERIES__NEEDLE, null, msgs);
-			if (newNeedle != null)
+			}
+			if (newNeedle != null) {
 				msgs = ((InternalEObject) newNeedle).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.DIAL_SERIES__NEEDLE, null, msgs);
+			}
 			msgs = basicSetNeedle(newNeedle, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.DIAL_SERIES__NEEDLE, newNeedle,
 					newNeedle));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -205,7 +219,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -221,7 +235,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -239,7 +253,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -257,7 +271,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -273,7 +287,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#create()
 	 */
 	public static final Series create() {
@@ -284,9 +298,10 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
 	 */
+	@Override
 	protected final void initialize() {
 		super.initialize();
 
@@ -298,7 +313,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#create()
 	 */
 	public static final Series createDefault() {
@@ -309,9 +324,10 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
 	 */
+	@Override
 	protected final void initDefault() {
 		super.initDefault();
 
@@ -327,9 +343,10 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("DialSeriesImpl.displayName"); //$NON-NLS-1$
 	}
@@ -337,6 +354,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries {
 	/**
 	 * @generated
 	 */
+	@Override
 	public DialSeries copyInstance() {
 		DialSeriesImpl dest = new DialSeriesImpl();
 		dest.set(this);

@@ -1,40 +1,34 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.document;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.eclipse.birt.data.engine.olap.data.document.BlockRandomAccessObject;
-import org.eclipse.birt.data.engine.olap.data.document.BufferedRandomDataAccessObject;
-import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
-import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
-import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
-import org.eclipse.birt.data.engine.olap.data.document.IObjectAllocTable;
-import org.eclipse.birt.data.engine.olap.data.document.SimpleRandomAccessObject;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedRandomAccessFile;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- * 
+ *
  */
 
 public class BufferedRandomAccessObjectTest {
@@ -44,7 +38,7 @@ public class BufferedRandomAccessObjectTest {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
@@ -286,18 +280,22 @@ public class BufferedRandomAccessObjectTest {
 class DocumentObjectAllocatedTable implements IObjectAllocTable {
 	int maxBlockNumber = 0;
 
+	@Override
 	public int allocateBlock(int blockNumber) throws IOException {
 		maxBlockNumber = Math.max(maxBlockNumber, blockNumber + 1);
 		return blockNumber + 1;
 	}
 
+	@Override
 	public int getNextBlock(int blockNumber) throws IOException {
-		if (blockNumber + 1 > maxBlockNumber)
+		if (blockNumber + 1 > maxBlockNumber) {
 			return 0;
-		else
+		} else {
 			return blockNumber + 1;
+		}
 	}
 
+	@Override
 	public void setObjectLength(String name, long length) throws IOException {
 
 	}

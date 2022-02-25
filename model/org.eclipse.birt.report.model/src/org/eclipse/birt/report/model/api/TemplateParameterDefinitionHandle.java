@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefin
  * definitio gives a definition of a template element. It can be referred by one
  * template report item or one template data set. The template parameter
  * definition has the following properties:
- * 
+ *
  * <ul>
  * <li>A required and unique name for this template parameter definition.
  * <li>A type for this template parameter definition. It is the the enumeration
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefin
  * Dataset.
  * <li>A static description message to display.
  * </ul>
- * 
+ *
  * The application generally does not create template parameter definition
  * handles directly. Instead, BIRT will create it when users replace an actual
  * report item or data set with a template element.
@@ -46,7 +46,7 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 	 * Constructs a handle for the given design and design element. The application
 	 * generally does not create handles directly. Instead, it uses one of the
 	 * navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -57,7 +57,7 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 
 	/**
 	 * Gets allowed type of the template parameter definition.
-	 * 
+	 *
 	 * @return the allowed type of the template parameter definition
 	 */
 
@@ -67,7 +67,7 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 
 	/**
 	 * Sets the allowed type of the template parameter definition.
-	 * 
+	 *
 	 * @param type the type to set
 	 * @throws SemanticException if the property is locked
 	 */
@@ -78,7 +78,7 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 
 	/**
 	 * Returns the static description for the template parameter definition.
-	 * 
+	 *
 	 * @return the static description to display
 	 */
 
@@ -90,7 +90,7 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 	 * Returns the localized description for the template parameter definition. If
 	 * the localized description for the description resource key is found, it will
 	 * be returned. Otherwise, the static description will be returned.
-	 * 
+	 *
 	 * @return the localized description for the template parameter definition
 	 */
 
@@ -103,7 +103,7 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 	 * Sets the description of the template parameter definition. Sets the static
 	 * description itself. If the template parameter definition is to be
 	 * externalized, then set the description ID separately.
-	 * 
+	 *
 	 * @param description the new description for the template parameter definition
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -115,7 +115,7 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 	/**
 	 * Returns the resource key of the static description of the template parameter
 	 * definition.
-	 * 
+	 *
 	 * @return the resource key of the static description
 	 */
 
@@ -126,9 +126,9 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 	/**
 	 * Sets the resource key of the static description of the template parameter
 	 * definition.
-	 * 
+	 *
 	 * @param resourceKey the resource key of the static description
-	 * 
+	 *
 	 * @throws SemanticException if the property is locked.
 	 */
 
@@ -138,20 +138,21 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 
 	/**
 	 * Gets the default element of this template parameter definition.
-	 * 
+	 *
 	 * @return the default element of this template parameter definition
 	 */
 
 	public DesignElementHandle getDefaultElement() {
 		DesignElement element = ((TemplateParameterDefinition) getElement()).getDefaultElement();
-		if (element == null)
+		if (element == null) {
 			return null;
+		}
 		return element.getHandle(module);
 	}
 
 	/**
 	 * Gets the default slot of this template parameter definition.
-	 * 
+	 *
 	 * @return the handle for the default slot of this template parameter definition
 	 */
 

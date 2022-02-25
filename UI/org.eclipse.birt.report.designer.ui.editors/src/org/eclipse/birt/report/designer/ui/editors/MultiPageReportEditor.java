@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -95,12 +95,12 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 /**
- * 
+ *
  * Base multipage editor for report editors. Clients can subclass this class to
  * create customize report editors. Report editor pages can contributed through
  * Extendtion Point
  * org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor.
- * 
+ *
  * @see IReportEditorPage
  */
 public class MultiPageReportEditor extends AbstractMultiPageEditor
@@ -121,7 +121,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	private boolean fIsHandlingActivation;
 
-	private long fModificationStamp = -1;;
+	private long fModificationStamp = -1;
 
 	protected IReportProvider reportProvider;
 
@@ -136,10 +136,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	private IWorkbenchPart fActivePart;
 	private boolean isClose = false;
 	// private IRelatedFileChangeResolve resolve;
-	private List<IRelatedFileChangeResolve> resolveList = new ArrayList<IRelatedFileChangeResolve>();
+	private List<IRelatedFileChangeResolve> resolveList = new ArrayList<>();
 	private IPreferences prefs;
 	IPreferenceChangeListener preferenceChangeListener = new IPreferenceChangeListener() {
 
+		@Override
 		public void preferenceChange(PreferenceChangeEvent event) {
 			if (event.getKey().equals(PreferenceChangeEvent.SPECIALTODEFAULT)
 					|| ReportPlugin.RESOURCE_PREFERENCE.equals(event.getKey())) {
@@ -156,29 +157,31 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	private IWindowListener windowListener = new IWindowListener() {
 
+		@Override
 		public void windowActivated(IWorkbenchWindow window) {
-			if (!(window == getEditorSite().getWorkbenchWindow())) {
-				return;
-			}
-			if (fActivePart != MultiPageReportEditor.this) {
+			if (!(window == getEditorSite().getWorkbenchWindow()) || (fActivePart != MultiPageReportEditor.this)) {
 				return;
 			}
 			window.getShell().getDisplay().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					confirmSave();
 				}
 			});
 		}
 
+		@Override
 		public void windowClosed(IWorkbenchWindow window) {
 
 		}
 
+		@Override
 		public void windowDeactivated(IWorkbenchWindow window) {
 
 		}
 
+		@Override
 		public void windowOpened(IWorkbenchWindow window) {
 
 		}
@@ -187,8 +190,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	protected void confirmSave() {
 
-		if (fIsHandlingActivation)
+		if (fIsHandlingActivation) {
 			return;
+		}
 		if (!isExistModelFile() && !isClose) {
 			// Thread.dumpStack( );
 			fIsHandlingActivation = true;
@@ -206,6 +210,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 					Display display = getSite().getShell().getDisplay();
 					display.asyncExec(new Runnable() {
 
+						@Override
 						public void run() {
 							closeEditor(false);
 						}
@@ -237,13 +242,15 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 			super(formEditor);
 		}
 
+		@Override
 		public ISelection getSelection() {
 			IEditorPart activeEditor = ((FormEditor) getMultiPageEditor()).getActivePageInstance();
 			// IEditorPart activeEditor = getActivePageInstance( );
 			if (activeEditor != null) {
 				ISelectionProvider selectionProvider = activeEditor.getSite().getSelectionProvider();
-				if (selectionProvider != null)
+				if (selectionProvider != null) {
 					return selectionProvider.getSelection();
+				}
 			}
 			return globalSelection;
 		}
@@ -251,12 +258,14 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		/*
 		 * (non-Javadoc) Method declared on <code> ISelectionProvider </code> .
 		 */
+		@Override
 		public void setSelection(ISelection selection) {
 			IEditorPart activeEditor = ((FormEditor) getMultiPageEditor()).getActivePageInstance();
 			if (activeEditor != null) {
 				ISelectionProvider selectionProvider = activeEditor.getSite().getSelectionProvider();
-				if (selectionProvider != null)
+				if (selectionProvider != null) {
 					selectionProvider.setSelection(selection);
+				}
 			} else {
 				this.globalSelection = selection;
 				fireSelectionChanged(new SelectionChangedEvent(this, globalSelection));
@@ -285,10 +294,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.FormEditor#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.init(site, input);
 
@@ -324,9 +334,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.FormEditor#addPages()
 	 */
+	@Override
 	protected void addPages() {
 		List formPageList = EditorContributorManager.getInstance()
 				.getEditorContributor(getEditorSite().getId()).formPageList;
@@ -380,7 +391,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/**
 	 * Add a IReportEditorPage to multipage editor.
-	 * 
+	 *
 	 * @param page
 	 * @param title
 	 * @return
@@ -403,7 +414,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/**
 	 * Remove report editor page.
-	 * 
+	 *
 	 * @param id the page id.
 	 */
 	public void removePage(String id) {
@@ -418,17 +429,19 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	 */
 	public void removeAllPages() {
 		for (int i = pages.toArray().length - 1; i >= 0; i--) {
-			if (pages.get(i) != null)
+			if (pages.get(i) != null) {
 				this.removePage(((IFormPage) pages.get(i)).getId());
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
+	@Override
 	public void doSave(IProgressMonitor monitor) {
 		boolean isReselect = false;
 		if (getModel() != null
@@ -447,6 +460,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		if (isReselect) {
 			Display.getCurrent().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					if (getActivePageInstance() instanceof GraphicalEditorWithFlyoutPalette) {
 						if (((GraphicalEditorWithFlyoutPalette) getActivePageInstance()).getGraphicalViewer() != null) {
@@ -469,9 +483,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
+	@Override
 	public void doSaveAs() {
 		getActivePageInstance().doSaveAs();
 		setInput(getActivePageInstance().getEditorInput());
@@ -490,9 +505,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
+	@Override
 	public boolean isSaveAsAllowed() {
 		if (getActivePageInstance() != null) {
 			return getActivePageInstance().isSaveAsAllowed();
@@ -521,9 +537,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class type) {
 		if (type == IReportProvider.class) {
 			if (reportProvider == null) {
@@ -585,11 +602,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	}
 
 	private void updateOutLineView(IFormPage activePageInstance) {
-		if (outlinePage == null) {
-			return;
-		}
-
-		if (reloadOutlinePage()) {
+		if ((outlinePage == null) || reloadOutlinePage()) {
 			return;
 		}
 		Object designOutLinePage = activePageInstance.getAdapter(IContentOutlinePage.class);
@@ -649,9 +662,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	/**
 	 * If new a outline page, should call updateOutLineView( getActivePageInstance(
 	 * ) ) method at first.
-	 * 
+	 *
 	 * @Since 3.7.2
-	 * 
+	 *
 	 */
 	public Object getOutlinePage() {
 		if (outlinePage == null || outlinePage.isDisposed()) {
@@ -684,6 +697,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		}
 	}
 
+	@Override
 	protected void pageChange(int newPageIndex) {
 		int oldPageIndex = getCurrentPage();
 
@@ -725,10 +739,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		updateAttributeView(getActivePageInstance());
 	}
 
+	@Override
 	public void setFocus() {
 		if (getActivePageInstance() != null && getActivePageInstance().getPartControl() != null
-				&& UIUtil.containsFocusControl(getActivePageInstance().getPartControl()))
+				&& UIUtil.containsFocusControl(getActivePageInstance().getPartControl())) {
 			return;
+		}
 		super.setFocus();
 		if (pages == null || getCurrentPage() < 0 || getCurrentPage() > pages.size() - 1) {
 			return;
@@ -780,9 +796,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.FormEditor#editorDirtyStateChanged()
 	 */
+	@Override
 	public void editorDirtyStateChanged() {
 		super.editorDirtyStateChanged();
 		markPageStale();
@@ -794,7 +811,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		IFormPage currentPage = getActivePageInstance();
 
 		if (!(currentPage instanceof IReportEditorPage)) {
-			return;
 		}
 
 		// if ( currentIndex != -1 )
@@ -817,7 +833,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/**
 	 * Get the current report ModuleHandle.
-	 * 
+	 *
 	 * @return
 	 */
 	public ModuleHandle getModel() {
@@ -830,10 +846,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
+	@Override
 	public void partActivated(IWorkbenchPart part) {
 		fActivePart = part;
 
@@ -921,6 +938,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 				final boolean tempDispatch = isDispatch;
 				Display.getCurrent().asyncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						IReportEditorPage curPage = (IReportEditorPage) getActivePageInstance();
 						if (needReload || needReset) {
@@ -1031,10 +1049,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart )
 	 */
+	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
 		if (part instanceof MultiPageReportEditor) {
 			MultiPageReportEditor topEditor = (MultiPageReportEditor) part;
@@ -1048,9 +1067,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
 	 */
+	@Override
 	public void partClosed(IWorkbenchPart part) {
 		if (part == this && getModel() != null) {
 			SessionHandleAdapter.getInstance().clear(getModel());
@@ -1062,26 +1082,28 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart )
 	 */
+	@Override
 	public void partDeactivated(IWorkbenchPart part) {
 		fActivePart = null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
 	 */
+	@Override
 	public void partOpened(IWorkbenchPart part) {
 
 	}
 
 	/**
 	 * Tell me, i am activated.
-	 * 
+	 *
 	 */
 	public void handleActivation() {
 		// if ( fIsHandlingActivation )
@@ -1101,7 +1123,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/**
 	 * check the input is modify by file system.
-	 * 
+	 *
 	 * @param input
 	 */
 	protected void sanityCheckState(IEditorInput input) {
@@ -1162,9 +1184,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.FormEditor#dispose()
 	 */
+	@Override
 	public void dispose() {
 		// dispose page
 		outlineBackup.dispose();
@@ -1215,6 +1238,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		super.dispose();
 	}
 
+	@Override
 	protected void finalize() throws Throwable {
 		if (Policy.TRACING_PAGE_CLOSE) {
 			System.out.println("Report multi page finalized"); //$NON-NLS-1$
@@ -1222,22 +1246,25 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		super.finalize();
 	}
 
+	@Override
 	public IEditorPart getEditorPart() {
 		return this;
 	}
 
+	@Override
 	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette
 	 * #performRequest(org.eclipse.birt.report.designer
 	 * .core.util.mediator.request.ReportRequest)
 	 */
+	@Override
 	public void performRequest(IMediatorRequest request) {
 		ReportRequest rqt = (ReportRequest) request;
 
@@ -1255,8 +1282,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 						handleOpenScriptPage(rqt);
 					}
 				}
-				// handleOpenScriptPage( request );
-				return;
 			}
 
 		}
@@ -1273,6 +1298,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 			Display.getCurrent().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					ReportRequest r = new ReportRequest();
 					r.setType(ReportRequest.SELECTION);
@@ -1293,6 +1319,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 			Display.getCurrent().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					ReportRequest r = new ReportRequest();
 					r.setType(ReportRequest.LOAD_MASTERPAGE);
@@ -1307,7 +1334,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	/**
 	 * Returns current page instance if the currently selected page index is not -1,
 	 * or <code>null</code> if it is.
-	 * 
+	 *
 	 * @return active page instance if selected, or <code>null</code> if no page is
 	 *         currently active.
 	 */
@@ -1316,8 +1343,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		int index = getCurrentPage();
 		if (index != -1) {
 			Object page = pages.get(index);
-			if (page instanceof IFormPage)
+			if (page instanceof IFormPage) {
 				return (IFormPage) page;
+			}
 		}
 		return null;
 	}
@@ -1344,11 +1372,13 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		// );
 	}
 
+	@Override
 	protected void setActivePage(int pageIndex) {
 		super.setActivePage(pageIndex);
 		// setFocus( );
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				setFocus();
 			}
@@ -1357,11 +1387,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener
 	 * #resourceChanged
 	 * (org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent)
 	 */
+	@Override
 	public void resourceChanged(IReportResourceChangeEvent event) {
 		if ((event.getType() == IReportResourceChangeEvent.ImageResourceChange)) {
 			refreshGraphicalEditor();
@@ -1408,7 +1439,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	/**
 	 * Check whether the resolveList already contains the same type of the new
 	 * IRelatedFileChangeResolve.
-	 * 
+	 *
 	 * @param find
 	 * @return
 	 */

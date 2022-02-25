@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2009, 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -32,11 +32,12 @@ public class DbProfilePropertyProvider implements IPropertyProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.consumer.services.IPropertyProvider#
 	 * getDataSourceProperties(java.util.Properties, java.lang.Object)
 	 */
+	@Override
 	public Properties getDataSourceProperties(Properties candidateProperties, Object appContext) throws OdaException {
 		// exporting data source properties to be saved in an external db profile
 		return PropertyAdapter.adaptToDbProfilePropertyNames(candidateProperties);

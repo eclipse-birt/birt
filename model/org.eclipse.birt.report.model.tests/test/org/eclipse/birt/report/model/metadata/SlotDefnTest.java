@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,6 +16,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.Iterator;
 import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -27,7 +28,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test case for <code>SlotDefn</code>.
- * 
+ *
  */
 public class SlotDefnTest extends BaseTestCase {
 
@@ -35,7 +36,7 @@ public class SlotDefnTest extends BaseTestCase {
 
 	/**
 	 * Test getters and setters.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -92,7 +93,7 @@ public class SlotDefnTest extends BaseTestCase {
 
 	/**
 	 * Tests building slot definition.
-	 * 
+	 *
 	 * @throws MetaDataException if any exception
 	 */
 
@@ -128,7 +129,7 @@ public class SlotDefnTest extends BaseTestCase {
 
 	/**
 	 * Tests getting semantic validators from Slot Definition.
-	 * 
+	 *
 	 * @throws MetaDataParserException if any exception
 	 */
 
@@ -144,8 +145,9 @@ public class SlotDefnTest extends BaseTestCase {
 		while (iter.hasNext()) {
 			SemanticTriggerDefn defn = (SemanticTriggerDefn) iter.next();
 
-			if (defn.getValidatorName().equals(name))
+			if (defn.getValidatorName().equals(name)) {
 				return true;
+			}
 		}
 
 		return false;

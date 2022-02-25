@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.eclipse.jface.dialogs.Dialog;
 /**
  * The filter provider is used for cube set, it works against setting filters in
  * property page.
- * 
+ *
  * @since 2.3
  */
 public class ChartCubeFilterHandleProvider extends ChartFilterProviderDelegate {
@@ -58,10 +58,11 @@ public class ChartCubeFilterHandleProvider extends ChartFilterProviderDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doAddItem(int)
 	 */
+	@Override
 	public boolean doAddItem(int pos) throws SemanticException {
 		// return modelAdapter.doAddItem( input.get( 0 ), pos );
 		Object item = getContentInput().get(0);
@@ -89,10 +90,11 @@ public class ChartCubeFilterHandleProvider extends ChartFilterProviderDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doEditItem(int)
 	 */
+	@Override
 	public boolean doEditItem(int pos) {
 
 		Object item = getContentInput().get(0);
@@ -131,10 +133,11 @@ public class ChartCubeFilterHandleProvider extends ChartFilterProviderDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * FilterHandleProvider#isEditable()
 	 */
+	@Override
 	public boolean isEditable() {
 		if (((ReportItemHandle) DEUtil.getInputFirstElement(getInput())).getCube() != null) {
 			return true;
@@ -145,10 +148,11 @@ public class ChartCubeFilterHandleProvider extends ChartFilterProviderDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.
 	 * CrosstabFilterHandleProvider#getConcreteFilterProvider()
 	 */
+	@Override
 	public IFormProvider getConcreteFilterProvider() {
 		if (input == null) {
 			return this;
@@ -159,11 +163,12 @@ public class ChartCubeFilterHandleProvider extends ChartFilterProviderDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * FilterHandleProvider#needRefreshed(org.eclipse.birt.report.model.api.activity
 	 * .NotificationEvent)
 	 */
+	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		if (event instanceof PropertyEvent) {
 			String propertyName = ((PropertyEvent) event).getPropertyName();

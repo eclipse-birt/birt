@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -29,12 +29,14 @@ public class ArchiveFileTest extends TestCase {
 	static final String TRANSIENT_ARCHIVE_FILE = ARCHIVE_FOLDER + "t_archive.rptdocument";
 	static final String TEMP_ARCHIVE_FOLDER = "./utest_temp/";
 
+	@Override
 	@Before
 	public void setUp() {
 		new File(ARCHIVE_FOLDER).mkdirs();
 		new File(TEMP_ARCHIVE_FOLDER).mkdirs();
 	}
 
+	@Override
 	@After
 	public void tearDown() {
 		new File(TRANSIENT_ARCHIVE_FILE).delete();

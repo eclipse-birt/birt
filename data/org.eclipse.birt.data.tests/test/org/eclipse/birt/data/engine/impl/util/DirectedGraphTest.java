@@ -1,32 +1,33 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.util;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class DirectedGraphTest {
 	@Test
 	public void testValidateCycle() {
 		///////////////////////////////////////////
-		GraphNode foundNode = null;
+		GraphNode foundNode;
 		DirectedGraph graph = new DirectedGraph(
 				toSet(new DirectedGraphEdge[] { createEdge("a", "b"), createEdge("a", "c"), }));
 		try {
@@ -182,7 +183,7 @@ public class DirectedGraphTest {
 	}
 
 	private Set<DirectedGraphEdge> toSet(DirectedGraphEdge[] src) {
-		return new HashSet<DirectedGraphEdge>(Arrays.asList(src));
+		return new HashSet<>(Arrays.asList(src));
 	}
 
 	private void validateFlattened(GraphNode[] nodes, DirectedGraph graph) throws Exception {

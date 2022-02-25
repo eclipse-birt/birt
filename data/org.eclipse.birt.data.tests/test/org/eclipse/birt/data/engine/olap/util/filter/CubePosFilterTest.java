@@ -1,35 +1,36 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.util.filter;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- * 
+ *
  */
 
 public class CubePosFilterTest {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Test
@@ -98,25 +99,30 @@ class SimpleDiskList implements IDiskArray {
 		}
 	}
 
+	@Override
 	public boolean add(Object o) throws IOException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void clear() throws IOException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void close() throws IOException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public Object get(int index) throws IOException {
 		return values[index];
 	}
 
+	@Override
 	public int size() {
 		return values.length;
 	}

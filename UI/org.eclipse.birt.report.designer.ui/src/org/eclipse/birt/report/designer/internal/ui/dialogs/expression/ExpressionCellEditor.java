@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 /**
- * 
+ *
  */
 
 public class ExpressionCellEditor extends CellEditor {
@@ -81,13 +81,12 @@ public class ExpressionCellEditor extends CellEditor {
 
 	private IExpressionCellEditorProvider provider;
 
-	private boolean allowConstant;
-
 	/**
 	 * Internal class for laying out the dialog.
 	 */
 	private class DialogCellLayout extends Layout {
 
+		@Override
 		public void layout(Composite editor, boolean force) {
 			Rectangle bounds = editor.getClientArea();
 			Point size = button.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
@@ -97,6 +96,7 @@ public class ExpressionCellEditor extends CellEditor {
 			button.setBounds(bounds.width - size.x, 0, size.x, bounds.height);
 		}
 
+		@Override
 		public Point computeSize(Composite editor, int wHint, int hHint, boolean force) {
 			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
 				return new Point(wHint, hHint);
@@ -118,7 +118,6 @@ public class ExpressionCellEditor extends CellEditor {
 
 	public ExpressionCellEditor(Composite parent, int style, boolean allowConstant) {
 		super(parent, style);
-		this.allowConstant = allowConstant;
 		setExpressionCellEditorProvider(new ExpressionCellEditorProvider(allowConstant));
 	}
 
@@ -132,12 +131,14 @@ public class ExpressionCellEditor extends CellEditor {
 		editor = new Text(cell, getStyle());
 		editor.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				keyReleaseOccured(e);
 			}
 		});
 		editor.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				fireApplyEditorValue();
 				deactivate();
@@ -145,6 +146,7 @@ public class ExpressionCellEditor extends CellEditor {
 		});
 		editor.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
@@ -155,10 +157,11 @@ public class ExpressionCellEditor extends CellEditor {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt
 			 * .events.FocusEvent)
 			 */
+			@Override
 			public void focusLost(FocusEvent e) {
 				ExpressionCellEditor.this.focusLost();
 			}
@@ -176,6 +179,7 @@ public class ExpressionCellEditor extends CellEditor {
 		if (modifyListener == null) {
 			modifyListener = new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					editOccured(e);
 				}
@@ -205,6 +209,7 @@ public class ExpressionCellEditor extends CellEditor {
 	/*
 	 * (non-Javadoc) Method declared on CellEditor.
 	 */
+	@Override
 	protected Control createControl(Composite parent) {
 
 		Font font = parent.getFont();
@@ -224,15 +229,18 @@ public class ExpressionCellEditor extends CellEditor {
 
 		button.addListener(SWT.MouseUp, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
-				if (!button.isEnabled() || e.button != 1)
+				if (!button.isEnabled() || e.button != 1) {
 					return;
+				}
 				showMenu();
 			}
 
 		});
 		button.addListener(SWT.KeyUp, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				if (e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.ARROW_UP) {
 					showMenu();
@@ -247,10 +255,11 @@ public class ExpressionCellEditor extends CellEditor {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt
 			 * .events.KeyEvent)
 			 */
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.character == '\u001b') { // Escape
 					fireCancelEditor();
@@ -267,12 +276,13 @@ public class ExpressionCellEditor extends CellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * Override in order to remove the button's focus listener if the celleditor is
 	 * deactivating.
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#deactivate()
 	 */
+	@Override
 	public void deactivate() {
 		if (button != null && !button.isDisposed()) {
 			button.removeFocusListener(getButtonFocusListener());
@@ -284,6 +294,7 @@ public class ExpressionCellEditor extends CellEditor {
 	/*
 	 * (non-Javadoc) Method declared on CellEditor.
 	 */
+	@Override
 	protected Object doGetValue() {
 		if (getExpression() == null || getExpression().trim().length() == 0) {
 			if (!isConstantExpression()) {
@@ -298,6 +309,7 @@ public class ExpressionCellEditor extends CellEditor {
 	 * (non-Javadoc) Method declared on CellEditor. The focus is set to the cell
 	 * editor's button.
 	 */
+	@Override
 	protected void doSetFocus() {
 		button.setFocus();
 
@@ -307,17 +319,19 @@ public class ExpressionCellEditor extends CellEditor {
 
 	/**
 	 * Return a listener for button focus.
-	 * 
+	 *
 	 * @return FocusListener
 	 */
 	private FocusListener getButtonFocusListener() {
 		if (buttonFocusListener == null) {
 			buttonFocusListener = new FocusListener() {
 
+				@Override
 				public void focusGained(FocusEvent e) {
 					// Do nothing
 				}
 
+				@Override
 				public void focusLost(FocusEvent e) {
 					ExpressionCellEditor.this.focusLost();
 				}
@@ -335,12 +349,14 @@ public class ExpressionCellEditor extends CellEditor {
 
 	private SelectionAdapter listener;
 
+	@Override
 	protected void focusLost() {
 		if (button != null && !button.isFocusControl() && Display.getCurrent().getCursorControl() != button) {
 			super.focusLost();
 		}
 	}
 
+	@Override
 	protected void doSetValue(Object value) {
 		if (editor != null) {
 			editor.removeModifyListener(getModifyListener());
@@ -398,6 +414,7 @@ public class ExpressionCellEditor extends CellEditor {
 
 			listener = new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					Widget widget = e.widget;
 					if (widget instanceof MenuItem) {
@@ -491,10 +508,11 @@ public class ExpressionCellEditor extends CellEditor {
 
 			for (int i = 0; i < menu.getItemCount(); i++) {
 				MenuItem item = menu.getItem(i);
-				if (item.getData().equals(getExpressionType()))
+				if (item.getData().equals(getExpressionType())) {
 					item.setSelection(true);
-				else
+				} else {
 					item.setSelection(false);
+				}
 			}
 			menu.setVisible(true);
 		}

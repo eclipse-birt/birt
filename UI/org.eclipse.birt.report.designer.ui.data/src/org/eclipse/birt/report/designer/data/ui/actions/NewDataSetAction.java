@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
@@ -84,9 +84,10 @@ public class NewDataSetAction extends Action implements UpdateAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.UpdateAction#update()
 	 */
+	@Override
 	public void update() {
 		setEnabled(SessionHandleAdapter.getInstance().getReportDesignHandle() != null);
 	}
@@ -94,6 +95,7 @@ public class NewDataSetAction extends Action implements UpdateAction {
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
+	@Override
 	public boolean isEnabled() {
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 		if (moduleHandle == null) {
@@ -104,9 +106,10 @@ public class NewDataSetAction extends Action implements UpdateAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 
 		if (!isEnabled()) {
@@ -140,7 +143,6 @@ public class NewDataSetAction extends Action implements UpdateAction {
 				if (dialog.open() == WizardDialog.CANCEL) {
 					notifyResult(false);
 					SessionHandleAdapter.getInstance().getCommandStack().rollback();
-					return;
 				} else {
 					createNewDataSet();
 				}
@@ -180,13 +182,11 @@ public class NewDataSetAction extends Action implements UpdateAction {
 	private boolean editDataSet(DataSetHandle ds) {
 		dataSetHandle = ds;
 
-		if (dataSetHandle == null)
-			return false;
 		// The last element was the One added
 		// DataSetHandle dataSetHandle = (DataSetHandle) newDataSets.get(
 		// newDataSets.size( ) - 1 );
 		// Edit the added DataSet if it is not a script data set.
-		if (dataSetHandle instanceof ScriptDataSetHandle) {
+		if ((dataSetHandle == null) || (dataSetHandle instanceof ScriptDataSetHandle)) {
 			return false;
 		}
 		DataSetEditor dialog = new AdvancedDataSetEditor(PlatformUI.getWorkbench().getDisplay().getActiveShell(),

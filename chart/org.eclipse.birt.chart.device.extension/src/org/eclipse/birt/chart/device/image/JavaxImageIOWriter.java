@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -66,14 +66,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl
 
 	/**
 	 * Returns the output format string for this writer.
-	 * 
+	 *
 	 * @return
 	 */
 	protected abstract String getFormat();
 
 	/**
 	 * Returns the output image type for this writer.
-	 * 
+	 *
 	 * @see java.awt.image.BufferedImage#TYPE_INT_RGB
 	 * @see java.awt.image.BufferedImage#TYPE_INT_ARGB
 	 * @see java.awt.image.BufferedImage#TYPE_INT_ARGB_PRE
@@ -87,14 +87,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl
 	 * @see java.awt.image.BufferedImage#TYPE_BYTE_INDEXED
 	 * @see java.awt.image.BufferedImage#TYPE_USHORT_565_RGB
 	 * @see java.awt.image.BufferedImage#TYPE_USHORT_555_RGB
-	 * 
+	 *
 	 * @return
 	 */
 	protected abstract int getImageType();
 
 	/**
 	 * Returns true if the image type supports transparency false otherwise
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean supportsTransparency() {
@@ -108,7 +108,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl
 
 	/**
 	 * Updates the writer's parameters.
-	 * 
+	 *
 	 * @param iwp
 	 */
 	protected void updateWriterParameters(ImageWriteParam iwp) {
@@ -117,9 +117,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getImageMap()
 	 */
+	@Override
 	public String getImageMap() {
 		return new ImageMapEmitter(getShapeActions(), _bAltEnabled, getULocale(), getDisplayServer().getDpiResolution())
 				.getImageMap();
@@ -128,7 +129,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl
 	/**
 	 * Returns if the given format type or MIME type is supported by the registered
 	 * JavaxImageIO writers.
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean isSupportedByJavaxImageIO() {
@@ -159,9 +160,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#before()
 	 */
+	@Override
 	public void before() throws ChartException {
 		super.before();
 
@@ -207,9 +209,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#after()
 	 */
+	@Override
 	public void after() throws ChartException {
 		super.after();
 
@@ -272,11 +275,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
 	 * java.lang.Object)
 	 */
+	@Override
 	public void setProperty(String sProperty, Object oValue) {
 		super.setProperty(sProperty, oValue);
 		if (sProperty.equals(IDeviceRenderer.EXPECTED_BOUNDS)) {
@@ -297,22 +301,24 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.imageio.event.IIOWriteWarningListener#warningOccurred(javax.imageio.
 	 * ImageWriter, int, java.lang.String)
 	 */
+	@Override
 	public void warningOccurred(ImageWriter source, int imageIndex, String warning) {
 		logger.log(ILogger.WARNING, warning);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IDeviceRenderer#presentException(java.lang.
 	 * Exception)
 	 */
+	@Override
 	public void presentException(Exception cexp) {
 		if (_bo == null) {
 			_bo = BoundsImpl.create(0, 0, 400, 300);

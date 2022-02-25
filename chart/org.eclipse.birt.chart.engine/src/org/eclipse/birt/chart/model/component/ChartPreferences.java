@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -23,9 +23,9 @@ import org.eclipse.emf.common.util.EList;
  * Preferences</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
+ *
  * This type defines the global chart preferences.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -42,6 +42,7 @@ import org.eclipse.emf.common.util.EList;
  * @model extendedMetaData="name='ChartPreferences' kind='elementOnly'"
  * @deprecated only reserved for compatibility
  */
+@Deprecated
 public interface ChartPreferences extends IChartObject {
 
 	/**
@@ -49,12 +50,12 @@ public interface ChartPreferences extends IChartObject {
 	 * The list contents are of type
 	 * {@link org.eclipse.birt.chart.model.component.Label}. <!-- begin-user-doc -->
 	 * <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * A collection of labels holding preferences for the various labels used in a
 	 * chart.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Labels</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getChartPreferences_Labels()
 	 * @model type="org.eclipse.birt.chart.model.component.Label" containment="true"
@@ -68,12 +69,12 @@ public interface ChartPreferences extends IChartObject {
 	 * The list contents are of type
 	 * {@link org.eclipse.birt.chart.model.layout.Block}. <!-- begin-user-doc -->
 	 * <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * A collection of blocks holding preferences for the different blocks used in a
 	 * chart.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Blocks</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getChartPreferences_Blocks()
 	 * @model type="org.eclipse.birt.chart.model.layout.Block" containment="true"
@@ -85,6 +86,7 @@ public interface ChartPreferences extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	ChartPreferences copyInstance();
 
 } // ChartPreferences

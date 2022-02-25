@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SortHint;
 
 /**
  * This class represents sort hint handle.
- * 
+ *
  */
 public class SortHintHandle extends StructureHandle {
 
@@ -34,7 +34,7 @@ public class SortHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the column name.
-	 * 
+	 *
 	 * @return the column name.
 	 */
 	public String getColumnName() {
@@ -43,10 +43,10 @@ public class SortHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the column Name.
-	 * 
+	 *
 	 * @param columnName the column name.
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 	public void setColumnName(String columnName) throws SemanticException {
 		setProperty(SortHint.COLUMN_NAME_MEMBER, columnName);
@@ -54,7 +54,7 @@ public class SortHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the index position of a result set column.
-	 * 
+	 *
 	 * @return the index position of a result set column.
 	 */
 	public int getPosition() {
@@ -63,7 +63,7 @@ public class SortHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the index position of a result set column.
-	 * 
+	 *
 	 * @param position the index position of a result set column.
 	 * @throws SemanticException
 	 */
@@ -80,7 +80,7 @@ public class SortHintHandle extends StructureHandle {
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
-	 * 
+	 *
 	 * @return the sort direction of this result set column.
 	 */
 	public String getDirection() {
@@ -96,7 +96,7 @@ public class SortHintHandle extends StructureHandle {
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
-	 * 
+	 *
 	 * @param direction the sort direction of this result set column.
 	 * @throws SemanticException
 	 */
@@ -114,7 +114,7 @@ public class SortHintHandle extends StructureHandle {
 	 * <li>NULL_VALUE_ORDERING_TYPE_NULLISFIRST
 	 * <li>NULL_VALUE_ORDERING_TYPE_NULLISLAST
 	 * </ul>
-	 * 
+	 *
 	 * @return the null value ordering.
 	 */
 	public String getNullValueOrdering() {
@@ -131,7 +131,7 @@ public class SortHintHandle extends StructureHandle {
 	 * <li>NULL_VALUE_ORDERING_TYPE_NULLISFIRST
 	 * <li>NULL_VALUE_ORDERING_TYPE_NULLISLAST
 	 * </ul>
-	 * 
+	 *
 	 * @param nullValueOrdering the null value ordering.
 	 * @throws SemanticException
 	 */
@@ -141,21 +141,22 @@ public class SortHintHandle extends StructureHandle {
 
 	/**
 	 * Indicates whether this sort key can be excluded at runtime.
-	 * 
+	 *
 	 * @return <true> if this sort key can be excluded at runtime, otherwise return
 	 *         <false>.
 	 */
 	public boolean isOptional() {
 		Boolean isOptional = (Boolean) getProperty(SortHint.IS_OPTIONAL_MEMBER);
-		if (isOptional == null)
+		if (isOptional == null) {
 			return false;
+		}
 		return isOptional.booleanValue();
 
 	}
 
 	/**
 	 * Sets the isOptional value.
-	 * 
+	 *
 	 * @param isOptional <true> if this sort key can be excluded at runtime,
 	 *                   otherwise return <false>.
 	 */

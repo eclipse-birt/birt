@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -81,9 +81,9 @@ public class ExceptionHandler {
 
 	/**
 	 * Handles the exception
-	 * 
+	 *
 	 * @param e the exception to be handled
-	 * 
+	 *
 	 */
 	public static void handle(Throwable e) {
 		handle(e, false);
@@ -91,9 +91,9 @@ public class ExceptionHandler {
 
 	/**
 	 * Handles the exception
-	 * 
+	 *
 	 * @param e the exception to be handled
-	 * 
+	 *
 	 */
 	public static void handle(Throwable e, boolean logOnly) {
 
@@ -137,11 +137,11 @@ public class ExceptionHandler {
 
 	/**
 	 * Handles the exception
-	 * 
+	 *
 	 * @param e           the exception to be handled
 	 * @param dialogTitle the title of the error dialog
 	 * @param message     the error message
-	 * 
+	 *
 	 */
 	public static void handle(Throwable e, String dialogTitle, String message) {
 		if (!(e instanceof BirtException)) {
@@ -213,7 +213,7 @@ public class ExceptionHandler {
 
 	/**
 	 * Opens a message box with given title and message in the specified style
-	 * 
+	 *
 	 * @param title   the title of the message box
 	 * @param message the message displayed in the message box
 	 * @param style   the style of the message box
@@ -228,7 +228,7 @@ public class ExceptionHandler {
 	/**
 	 * Opens an error message box with given title and message. It equals to call
 	 * openMessageBox(title,message,SWT.ICON_ERROR)
-	 * 
+	 *
 	 * @param title        the title of the message box
 	 * @param errorMessage the message displayed in the message box
 	 */

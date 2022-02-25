@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,14 +47,14 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 /**
  * This class adds, deletes and moves group elements. Group elements are treated
  * specially since data groups can be shared among report items.
- * 
+ *
  */
 
 public class GroupElementCommand extends ContentCommand {
 
 	/**
 	 * Constructs the content command with container element.
-	 * 
+	 *
 	 * @param module        the module
 	 * @param containerInfo the container information
 	 */
@@ -65,7 +65,7 @@ public class GroupElementCommand extends ContentCommand {
 
 	/**
 	 * Constructs the content command with container element.
-	 * 
+	 *
 	 * @param module        the module
 	 * @param containerInfo the container information
 	 * @param flag
@@ -77,7 +77,7 @@ public class GroupElementCommand extends ContentCommand {
 
 	/**
 	 * Constructs the content command with container element.
-	 * 
+	 *
 	 * @param module             the module
 	 * @param containerInfo      the container information
 	 * @param flag
@@ -90,7 +90,7 @@ public class GroupElementCommand extends ContentCommand {
 
 	/**
 	 * Sets name of group element.
-	 * 
+	 *
 	 * @param content group element.
 	 * @param stack   activity stack.
 	 * @param name    new group name.
@@ -118,7 +118,7 @@ public class GroupElementCommand extends ContentCommand {
 	 */
 
 	private static List<GroupElement> createNewGroupElement(ListingElement tmpElement, int groupCount) {
-		List<GroupElement> groupsToAdd = new ArrayList<GroupElement>();
+		List<GroupElement> groupsToAdd = new ArrayList<>();
 
 		for (int i = 0; i < groupCount; i++) {
 			groupsToAdd.add(createNewGroupElement(tmpElement));
@@ -140,7 +140,7 @@ public class GroupElementCommand extends ContentCommand {
 
 	/**
 	 * Sets name of group element.
-	 * 
+	 *
 	 * @param content group element.
 	 * @param stack   activity stack.
 	 * @param name    new group name.
@@ -171,24 +171,27 @@ public class GroupElementCommand extends ContentCommand {
 		// Ted 62466
 		List<Object> boundColumns = null;
 		Object boundColumnsObject = element.getLocalProperty(module, IReportItemModel.BOUND_DATA_COLUMNS_PROP);
-		if (boundColumnsObject == null)
+		if (boundColumnsObject == null) {
 			return;
-		if (boundColumnsObject instanceof List)
+		}
+		if (boundColumnsObject instanceof List) {
 			boundColumns = (List<Object>) boundColumnsObject;
-		else {
+		} else {
 			return;
 		}
 
-		if (boundColumns.isEmpty())
+		if (boundColumns.isEmpty()) {
 			return;
+		}
 
 		String groupName = (String) content.getProperty(module, IGroupElementModel.GROUP_NAME_PROP);
-		List<Integer> toCleared = new ArrayList<Integer>();
+		List<Integer> toCleared = new ArrayList<>();
 		for (int i = 0; i < boundColumns.size(); i++) {
 			ComputedColumn column = (ComputedColumn) boundColumns.get(i);
 			String aggregateGroup = column.getAggregateOn();
-			if (aggregateGroup != null && aggregateGroup.equals(groupName))
-				toCleared.add(Integer.valueOf(i));
+			if (aggregateGroup != null && aggregateGroup.equals(groupName)) {
+				toCleared.add(i);
+			}
 		}
 
 		StructPropertyDefn structPropDefn = (StructPropertyDefn) MetaDataDictionary.getInstance()
@@ -209,61 +212,68 @@ public class GroupElementCommand extends ContentCommand {
 		}
 	}
 
+	@Override
 	protected void checkBeforeAdd(DesignElement content) throws ContentException, NameException {
 		super.checkBeforeAdd(content);
 
 		if (!flag && element instanceof ListingElement && content instanceof GroupElement) {
 			ListingElement tmpContainer = (ListingElement) element;
-			if (tmpContainer.isDataBindingReferring(module))
+			if (tmpContainer.isDataBindingReferring(module)) {
 				throw ContentExceptionFactory.createContentException(focus, content,
 						ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN);
+			}
 		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.command.ContentCommand#checkBeforeMovePosition
 	 * (org.eclipse.birt.report.model.core.DesignElement, int)
 	 */
+	@Override
 	protected void checkBeforeMovePosition(DesignElement content, int newPosn) throws ContentException {
 		super.checkBeforeMovePosition(content, newPosn);
 
 		if (!flag && element instanceof ListingElement && content instanceof GroupElement) {
 			ListingElement tmpContainer = (ListingElement) element;
-			if (tmpContainer.isDataBindingReferring(module))
+			if (tmpContainer.isDataBindingReferring(module)) {
 				throw ContentExceptionFactory.createContentException(focus, content,
 						ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN);
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.command.ContentCommand#checkBeforeRemove
 	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	protected void checkBeforeRemove(DesignElement content) throws SemanticException {
 		super.checkBeforeRemove(content);
 
 		if (!flag && element instanceof ListingElement && content instanceof GroupElement) {
 			ListingElement tmpContainer = (ListingElement) element;
-			if (tmpContainer.isDataBindingReferring(module))
+			if (tmpContainer.isDataBindingReferring(module)) {
 				throw ContentExceptionFactory.createContentException(focus, content,
 						ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN);
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.command.ContentCommand#doAdd(int,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	protected void doAdd(int newPos, DesignElement content) throws ContentException, NameException {
 		ActivityStack stack = getActivityStack();
 
@@ -289,10 +299,7 @@ public class GroupElementCommand extends ContentCommand {
 			}
 
 			addDataGroups((ListingElement) element, ((GroupElement) content).getGroupLevel(), (GroupElement) content);
-		} catch (NameException e) {
-			stack.rollback();
-			throw e;
-		} catch (ContentException e) {
+		} catch (NameException | ContentException e) {
 			stack.rollback();
 			throw e;
 		}
@@ -302,14 +309,16 @@ public class GroupElementCommand extends ContentCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.command.ContentCommand#doDelectAction(org
 	 * .eclipse.birt.report.model.core.DesignElement, boolean)
 	 */
+	@Override
 	protected void doDelectAction(DesignElement content) throws SemanticException {
 		int groupIndex = -1;
-		if (content instanceof GroupElement)
+		if (content instanceof GroupElement) {
 			groupIndex = ((GroupElement) content).getGroupLevel() - 1;
+		}
 
 		super.doDelectAction(content);
 
@@ -322,11 +331,12 @@ public class GroupElementCommand extends ContentCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.command.ContentCommand#doMovePosition(org
 	 * .eclipse.birt.report.model.core.DesignElement, int)
 	 */
 
+	@Override
 	protected void doMovePosition(DesignElement content, int newPosn) throws ContentException {
 
 		int oldPosn = focus.indexOf(module, content);
@@ -361,17 +371,17 @@ public class GroupElementCommand extends ContentCommand {
 	 * Removes current group elements and adds new group elements when the data
 	 * binding reference is set between two listing elements.
 	 * <p>
-	 * 
+	 *
 	 * @param targetElement
 	 * @throws SemanticException
 	 */
 
 	public void setupSharedDataGroups(DesignElement targetElement) throws SemanticException {
-		if (!ModelUtil.isCompatibleDataBindingElements(element, targetElement))
+		if (!ModelUtil.isCompatibleDataBindingElements(element, targetElement)) {
 			return;
+		}
 
-		List<DesignElement> groupsToRemove = new ArrayList<DesignElement>();
-		groupsToRemove.addAll(((ListingElement) element).getGroups());
+		List<DesignElement> groupsToRemove = new ArrayList<>(((ListingElement) element).getGroups());
 		for (int i = 0; i < groupsToRemove.size(); i++) {
 			GroupElementCommand tmpCmd = new GroupElementCommand(module,
 					new ContainerContext(element, ListingElement.GROUP_SLOT), true, unresolveReference);
@@ -401,14 +411,15 @@ public class GroupElementCommand extends ContentCommand {
 	/**
 	 * Updates the data group slot when we changes the value of
 	 * <code>dataBindingRef</code>.
-	 * 
+	 *
 	 * @param oldValue
 	 * @param value
 	 * @throws SemanticException
 	 */
 	void updateBindingRef(ElementRefValue oldValue, ElementRefValue value) throws SemanticException {
-		if (!(element instanceof ListingElement))
+		if (!(element instanceof ListingElement)) {
 			return;
+		}
 		if (value != null && value.isResolved()) {
 			setupSharedDataGroups(value.getElement());
 		}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.xml.sax.XMLReader;
 class XMLParserPoolImpl implements XMLParserPool {
 
 	/**
-	 * 
+	 *
 	 */
 
 	private final static int SAXPARSER_DEFAULT_SIZE = 300;
@@ -59,26 +59,27 @@ class XMLParserPoolImpl implements XMLParserPool {
 	 * value is the parser.
 	 */
 
-	private final Map<Set<?>, List<SAXParser>> parserCache = new HashMap<Set<?>, List<SAXParser>>();
+	private final Map<Set<?>, List<SAXParser>> parserCache = new HashMap<>();
 
 	/**
 	 * Creates an instance that caches parsers and caches handlers as specified.
-	 * 
+	 *
 	 */
 	public XMLParserPoolImpl() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.XMLParserPool#get(java.util.Map)
 	 */
 
+	@Override
 	public SAXParser get(Map<String, ?> properties) throws ParserConfigurationException, SAXException {
 		Set<String> keys = null;
 		SAXParser parser = null;
 		if (properties != null) {
-			keys = new HashSet<String>(properties.keySet());
+			keys = new HashSet<>(properties.keySet());
 		}
 
 		synchronized (this) {
@@ -88,11 +89,13 @@ class XMLParserPoolImpl implements XMLParserPool {
 				if (size > 0) {
 					parser = list.remove(size - 1);
 				}
-			} else
+			} else {
 				parserCache.put(keys, new ArrayList<SAXParser>());
+			}
 		}
-		if (parser == null)
+		if (parser == null) {
 			parser = createParser(properties);
+		}
 
 		if (properties != null) {
 			for (Map.Entry<String, ?> entry : properties.entrySet()) {
@@ -105,18 +108,20 @@ class XMLParserPoolImpl implements XMLParserPool {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.XMLParserPool#release(javax.xml.parsers
 	 * .SAXParser, java.util.Map)
 	 */
 
+	@Override
 	public synchronized void release(SAXParser parser, Map<String, ?> properties) {
 		assert parser != null;
 
 		Set<String> keys = null;
-		if (properties != null)
+		if (properties != null) {
 			keys = properties.keySet();
+		}
 
 		try {
 			// release lexical handler

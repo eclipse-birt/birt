@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +51,7 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn {
 
 	/**
 	 * Sets the group name of this property definition.
-	 * 
+	 *
 	 * @param groupName the group name to set
 	 */
 
@@ -62,7 +62,7 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn {
 	/**
 	 * Constructs the property definition with <code>IMessages</code> for extension
 	 * property.
-	 * 
+	 *
 	 * @param messages the messages which can return localized message for resource
 	 *                 key and locale
 	 */
@@ -75,22 +75,25 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn {
 	 * Returns the localized group name, if non-empty string can be found with
 	 * resource key and <code> IMessages </code> . Otherwise, return <code> null
 	 * </code> .
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getGroupName()
 	 */
 
+	@Override
 	public String getGroupName() {
 		if (groupNameKey != null) {
 			if (messages != null) {
 				String displayName = messages.getMessage(groupNameKey, ThreadResources.getLocale());
-				if (!StringUtil.isBlank(displayName))
+				if (!StringUtil.isBlank(displayName)) {
 					return displayName;
+				}
 			}
 		}
 
-		if (groupDefauleDisplayName != null)
+		if (groupDefauleDisplayName != null) {
 			return groupDefauleDisplayName;
+		}
 
 		return groupName;
 	}
@@ -99,25 +102,28 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn {
 	 * Returns the localized display name, if non-empty string can be found with
 	 * resource key and <code> IMessages </code> . Otherwise, return name of this
 	 * property definition.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		if (displayNameID != null && messages != null) {
 			String displayName = messages.getMessage(displayNameID, ThreadResources.getLocale());
-			if (!StringUtil.isBlank(displayName))
+			if (!StringUtil.isBlank(displayName)) {
 				return displayName;
+			}
 		}
 
-		if (defaultDisplayName != null)
+		if (defaultDisplayName != null) {
 			return defaultDisplayName;
+		}
 
 		return getName();
 	}
 
 	/**
 	 * Sets the default display name.
-	 * 
+	 *
 	 * @param defaultDisplayName the default display name to set
 	 */
 
@@ -127,7 +133,7 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn {
 
 	/**
 	 * Sets the default display name for property group
-	 * 
+	 *
 	 * @param groupDefauleDisplayName the default display name for property group to
 	 *                                set
 	 */
@@ -138,9 +144,10 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getValueType()
 	 */
+	@Override
 	public int getValueType() {
 		return EXTENSION_PROPERTY;
 	}
@@ -148,7 +155,7 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn {
 	/**
 	 * Sets the flag indicating if the xml property value represents the
 	 * extesion-defined model.
-	 * 
+	 *
 	 * @param hasOwnModel <code>true</code> if the xml property value represents the
 	 *                    extesion-defined model.
 	 */
@@ -160,21 +167,23 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn {
 	/**
 	 * Returns <code>true</code> indicating if the xml property value represents the
 	 * extesion-defined model.
-	 * 
+	 *
 	 * @return <code>true</code> if the xml property value represents the
 	 *         extesion-defined model.
 	 */
 
+	@Override
 	public boolean hasOwnModel() {
 		return hasOwnModel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#build()
 	 */
 
+	@Override
 	public void build() throws MetaDataException {
 		super.buildDefn();
 

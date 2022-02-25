@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Scrollable;
 
 /**
- * 
+ *
  */
 
 public class CGridLayout extends Layout {
@@ -32,7 +32,7 @@ public class CGridLayout extends Layout {
 	 * numColumns specifies the number of cell columns in the layout. If numColumns
 	 * has a value less than 1, the layout will not set the size and position of any
 	 * controls.
-	 * 
+	 *
 	 * The default value is 1.
 	 */
 	public int numColumns = 1;
@@ -40,7 +40,7 @@ public class CGridLayout extends Layout {
 	/**
 	 * makeColumnsEqualWidth specifies whether all columns in the layout will be
 	 * forced to have the same width.
-	 * 
+	 *
 	 * The default value is false.
 	 */
 	public boolean makeColumnsEqualWidth = false;
@@ -48,7 +48,7 @@ public class CGridLayout extends Layout {
 	/**
 	 * marginWidth specifies the number of pixels of horizontal margin that will be
 	 * placed along the left and right edges of the layout.
-	 * 
+	 *
 	 * The default value is 5.
 	 */
 	public int marginWidth = 5;
@@ -56,7 +56,7 @@ public class CGridLayout extends Layout {
 	/**
 	 * marginHeight specifies the number of pixels of vertical margin that will be
 	 * placed along the top and bottom edges of the layout.
-	 * 
+	 *
 	 * The default value is 5.
 	 */
 	public int marginHeight = 5;
@@ -64,9 +64,9 @@ public class CGridLayout extends Layout {
 	/**
 	 * marginLeft specifies the number of pixels of horizontal margin that will be
 	 * placed along the left edge of the layout.
-	 * 
+	 *
 	 * The default value is 0.
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public int marginLeft = 0;
@@ -74,9 +74,9 @@ public class CGridLayout extends Layout {
 	/**
 	 * marginTop specifies the number of pixels of vertical margin that will be
 	 * placed along the top edge of the layout.
-	 * 
+	 *
 	 * The default value is 0.
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public int marginTop = 0;
@@ -84,9 +84,9 @@ public class CGridLayout extends Layout {
 	/**
 	 * marginRight specifies the number of pixels of horizontal margin that will be
 	 * placed along the right edge of the layout.
-	 * 
+	 *
 	 * The default value is 0.
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public int marginRight = 0;
@@ -94,9 +94,9 @@ public class CGridLayout extends Layout {
 	/**
 	 * marginBottom specifies the number of pixels of vertical margin that will be
 	 * placed along the bottom edge of the layout.
-	 * 
+	 *
 	 * The default value is 0.
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public int marginBottom = 0;
@@ -104,7 +104,7 @@ public class CGridLayout extends Layout {
 	/**
 	 * horizontalSpacing specifies the number of pixels between the right edge of
 	 * one cell and the left edge of its neighbouring cell to the right.
-	 * 
+	 *
 	 * The default value is 5.
 	 */
 	public int horizontalSpacing = 5;
@@ -112,7 +112,7 @@ public class CGridLayout extends Layout {
 	/**
 	 * verticalSpacing specifies the number of pixels between the bottom edge of one
 	 * cell and the top edge of its neighbouring cell underneath.
-	 * 
+	 *
 	 * The default value is 5.
 	 */
 	public int verticalSpacing = 5;
@@ -128,10 +128,10 @@ public class CGridLayout extends Layout {
 	 * whether or not the columns should be forced to have the same width. If
 	 * numColumns has a value less than 1, the layout will not set the size and
 	 * position of any controls.
-	 * 
+	 *
 	 * @param numColumns            the number of columns in the grid
 	 * @param makeColumnsEqualWidth whether or not the columns will have equal width
-	 * 
+	 *
 	 * @since 2.0
 	 */
 	public CGridLayout(int numColumns, boolean makeColumnsEqualWidth) {
@@ -139,15 +139,19 @@ public class CGridLayout extends Layout {
 		this.makeColumnsEqualWidth = makeColumnsEqualWidth;
 	}
 
+	@Override
 	protected Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) {
 		Point size = layout(composite, false, 0, 0, wHint, hHint, flushCache);
-		if (wHint != SWT.DEFAULT)
+		if (wHint != SWT.DEFAULT) {
 			size.x = wHint;
-		if (hHint != SWT.DEFAULT)
+		}
+		if (hHint != SWT.DEFAULT) {
 			size.y = hHint;
+		}
 		return size;
 	}
 
+	@Override
 	protected boolean flushCache(Control control) {
 		Object data = control.getLayoutData();
 		if (data != null) {
@@ -167,14 +171,16 @@ public class CGridLayout extends Layout {
 			int j = first ? column + hSpan - 1 : column - hSpan + 1;
 			if (0 <= i && i < rowCount) {
 				if (0 <= j && j < columnCount) {
-					if (control == grid[i][j])
+					if (control == grid[i][j]) {
 						return data;
+					}
 				}
 			}
 		}
 		return null;
 	}
 
+	@Override
 	protected void layout(Composite composite, boolean flushCache) {
 		Rectangle rect = composite.getClientArea();
 		layout(composite, true, rect.x, rect.y, rect.width, rect.height, flushCache);
@@ -199,10 +205,12 @@ public class CGridLayout extends Layout {
 		for (int i = 0; i < count; i++) {
 			Control child = children[i];
 			CGridData data = (CGridData) child.getLayoutData();
-			if (data == null)
+			if (data == null) {
 				child.setLayoutData(data = new CGridData());
-			if (flushCache)
+			}
+			if (flushCache) {
 				data.flushCache();
+			}
 			data.computeSize(child, data.widthHint, data.heightHint, flushCache);
 			if (data.grabExcessHorizontalSpace && data.minimumWidth > 0) {
 				if (data.cacheWidth < data.minimumWidth) {
@@ -267,8 +275,9 @@ public class CGridLayout extends Layout {
 					while (index < endCount && grid[row][index] == null) {
 						index++;
 					}
-					if (index == endCount)
+					if (index == endCount) {
 						break;
+					}
 					column = index;
 				}
 				if (column + hSpan >= columnCount) {
@@ -304,8 +313,9 @@ public class CGridLayout extends Layout {
 						int w = data.cacheWidth + data.horizontalIndent;
 						widths[j] = Math.max(widths[j], w);
 						if (data.grabExcessHorizontalSpace) {
-							if (!expandColumn[j])
+							if (!expandColumn[j]) {
 								expandCount++;
+							}
 							expandColumn[j] = true;
 						}
 						if (!data.grabExcessHorizontalSpace || data.minimumWidth != 0) {
@@ -326,8 +336,9 @@ public class CGridLayout extends Layout {
 						for (int k = 0; k < hSpan; k++) {
 							spanWidth += widths[j - k];
 							spanMinWidth += minWidths[j - k];
-							if (expandColumn[j - k])
+							if (expandColumn[j - k]) {
 								spanExpandCount++;
+							}
 						}
 						if (data.grabExcessHorizontalSpace && spanExpandCount == 0) {
 							expandCount++;
@@ -341,21 +352,21 @@ public class CGridLayout extends Layout {
 								for (int k = 0; k < hSpan; k++) {
 									widths[last = j - k] = Math.max(equalWidth, widths[j - k]);
 								}
-								if (last > -1)
+								if (last > -1) {
 									widths[last] += remainder;
+								}
+							} else if (spanExpandCount == 0) {
+								widths[j] += w;
 							} else {
-								if (spanExpandCount == 0) {
-									widths[j] += w;
-								} else {
-									int delta = w / spanExpandCount;
-									int remainder = w % spanExpandCount, last = -1;
-									for (int k = 0; k < hSpan; k++) {
-										if (expandColumn[j - k]) {
-											widths[last = j - k] += delta;
-										}
+								int delta = w / spanExpandCount;
+								int remainder = w % spanExpandCount, last = -1;
+								for (int k = 0; k < hSpan; k++) {
+									if (expandColumn[j - k]) {
+										widths[last = j - k] += delta;
 									}
-									if (last > -1)
-										widths[last] += remainder;
+								}
+								if (last > -1) {
+									widths[last] += remainder;
 								}
 							}
 						}
@@ -374,8 +385,9 @@ public class CGridLayout extends Layout {
 											minWidths[last = j - k] += delta;
 										}
 									}
-									if (last > -1)
+									if (last > -1) {
 										minWidths[last] += remainder;
+									}
 								}
 							}
 						}
@@ -396,61 +408,62 @@ public class CGridLayout extends Layout {
 				expandColumn[i] = expandCount > 0;
 				widths[i] = columnWidth;
 			}
-		} else {
-			if (width != SWT.DEFAULT && expandCount > 0) {
-				int totalWidth = 0;
-				for (int i = 0; i < columnCount; i++) {
-					totalWidth += widths[i];
-				}
-				int c = expandCount;
-				int delta = (availableWidth - totalWidth) / c;
-				int remainder = (availableWidth - totalWidth) % c;
-				int last = -1;
-				while (totalWidth != availableWidth) {
-					for (int j = 0; j < columnCount; j++) {
-						if (expandColumn[j]) {
-							if (widths[j] + delta > minWidths[j]) {
-								widths[last = j] = widths[j] + delta;
-							} else {
-								widths[j] = minWidths[j];
-								expandColumn[j] = false;
-								c--;
-							}
+		} else if (width != SWT.DEFAULT && expandCount > 0) {
+			int totalWidth = 0;
+			for (int i = 0; i < columnCount; i++) {
+				totalWidth += widths[i];
+			}
+			int c = expandCount;
+			int delta = (availableWidth - totalWidth) / c;
+			int remainder = (availableWidth - totalWidth) % c;
+			int last = -1;
+			while (totalWidth != availableWidth) {
+				for (int j = 0; j < columnCount; j++) {
+					if (expandColumn[j]) {
+						if (widths[j] + delta > minWidths[j]) {
+							widths[last = j] = widths[j] + delta;
+						} else {
+							widths[j] = minWidths[j];
+							expandColumn[j] = false;
+							c--;
 						}
 					}
-					if (last > -1)
-						widths[last] += remainder;
+				}
+				if (last > -1) {
+					widths[last] += remainder;
+				}
 
-					for (int j = 0; j < columnCount; j++) {
-						for (int i = 0; i < rowCount; i++) {
-							CGridData data = getData(grid, i, j, rowCount, columnCount, false);
-							if (data != null) {
-								int hSpan = Math.max(1, Math.min(data.horizontalSpan, columnCount));
-								if (hSpan > 1) {
-									if (!data.grabExcessHorizontalSpace || data.minimumWidth != 0) {
-										int spanWidth = 0, spanExpandCount = 0;
-										for (int k = 0; k < hSpan; k++) {
-											spanWidth += widths[j - k];
-											if (expandColumn[j - k])
-												spanExpandCount++;
+				for (int j = 0; j < columnCount; j++) {
+					for (int i = 0; i < rowCount; i++) {
+						CGridData data = getData(grid, i, j, rowCount, columnCount, false);
+						if (data != null) {
+							int hSpan = Math.max(1, Math.min(data.horizontalSpan, columnCount));
+							if (hSpan > 1) {
+								if (!data.grabExcessHorizontalSpace || data.minimumWidth != 0) {
+									int spanWidth = 0, spanExpandCount = 0;
+									for (int k = 0; k < hSpan; k++) {
+										spanWidth += widths[j - k];
+										if (expandColumn[j - k]) {
+											spanExpandCount++;
 										}
-										int w = !data.grabExcessHorizontalSpace || data.minimumWidth == SWT.DEFAULT
-												? data.cacheWidth
-												: data.minimumWidth;
-										w += data.horizontalIndent - spanWidth - (hSpan - 1) * horizontalSpacing;
-										if (w > 0) {
-											if (spanExpandCount == 0) {
-												widths[j] += w;
-											} else {
-												int delta2 = w / spanExpandCount;
-												int remainder2 = w % spanExpandCount, last2 = -1;
-												for (int k = 0; k < hSpan; k++) {
-													if (expandColumn[j - k]) {
-														widths[last2 = j - k] += delta2;
-													}
+									}
+									int w = !data.grabExcessHorizontalSpace || data.minimumWidth == SWT.DEFAULT
+											? data.cacheWidth
+											: data.minimumWidth;
+									w += data.horizontalIndent - spanWidth - (hSpan - 1) * horizontalSpacing;
+									if (w > 0) {
+										if (spanExpandCount == 0) {
+											widths[j] += w;
+										} else {
+											int delta2 = w / spanExpandCount;
+											int remainder2 = w % spanExpandCount, last2 = -1;
+											for (int k = 0; k < hSpan; k++) {
+												if (expandColumn[j - k]) {
+													widths[last2 = j - k] += delta2;
 												}
-												if (last2 > -1)
-													widths[last2] += remainder2;
+											}
+											if (last2 > -1) {
+												widths[last2] += remainder2;
 											}
 										}
 									}
@@ -458,16 +471,17 @@ public class CGridLayout extends Layout {
 							}
 						}
 					}
-					if (c == 0)
-						break;
-					totalWidth = 0;
-					for (int i = 0; i < columnCount; i++) {
-						totalWidth += widths[i];
-					}
-					delta = (availableWidth - totalWidth) / c;
-					remainder = (availableWidth - totalWidth) % c;
-					last = -1;
 				}
+				if (c == 0) {
+					break;
+				}
+				totalWidth = 0;
+				for (int i = 0; i < columnCount; i++) {
+					totalWidth += widths[i];
+				}
+				delta = (availableWidth - totalWidth) / c;
+				remainder = (availableWidth - totalWidth) % c;
+				last = -1;
 			}
 		}
 
@@ -502,8 +516,9 @@ public class CGridLayout extends Layout {
 								if (data.grabExcessVerticalSpace && data.minimumHeight > 0) {
 									data.cacheHeight = Math.max(data.cacheHeight, data.minimumHeight);
 								}
-								if (flush == null)
+								if (flush == null) {
 									flush = new CGridData[count];
+								}
 								flush[flushLength++] = data;
 							}
 						}
@@ -527,8 +542,9 @@ public class CGridLayout extends Layout {
 						int h = data.cacheHeight + data.verticalIndent;
 						heights[i] = Math.max(heights[i], h);
 						if (data.grabExcessVerticalSpace) {
-							if (!expandRow[i])
+							if (!expandRow[i]) {
 								expandCount++;
+							}
 							expandRow[i] = true;
 						}
 						if (!data.grabExcessVerticalSpace || data.minimumHeight != 0) {
@@ -549,8 +565,9 @@ public class CGridLayout extends Layout {
 						for (int k = 0; k < vSpan; k++) {
 							spanHeight += heights[i - k];
 							spanMinHeight += minHeights[i - k];
-							if (expandRow[i - k])
+							if (expandRow[i - k]) {
 								spanExpandCount++;
+							}
 						}
 						if (data.grabExcessVerticalSpace && spanExpandCount == 0) {
 							expandCount++;
@@ -568,8 +585,9 @@ public class CGridLayout extends Layout {
 										heights[last = i - k] += delta;
 									}
 								}
-								if (last > -1)
+								if (last > -1) {
 									heights[last] += remainder;
+								}
 							}
 						}
 						if (!data.grabExcessVerticalSpace || data.minimumHeight != 0) {
@@ -587,8 +605,9 @@ public class CGridLayout extends Layout {
 											minHeights[last = i - k] += delta;
 										}
 									}
-									if (last > -1)
+									if (last > -1) {
 										minHeights[last] += remainder;
+									}
 								}
 							}
 						}
@@ -617,8 +636,9 @@ public class CGridLayout extends Layout {
 						}
 					}
 				}
-				if (last > -1)
+				if (last > -1) {
 					heights[last] += remainder;
+				}
 
 				for (int i = 0; i < rowCount; i++) {
 					for (int j = 0; j < columnCount; j++) {
@@ -630,8 +650,9 @@ public class CGridLayout extends Layout {
 									int spanHeight = 0, spanExpandCount = 0;
 									for (int k = 0; k < vSpan; k++) {
 										spanHeight += heights[i - k];
-										if (expandRow[i - k])
+										if (expandRow[i - k]) {
 											spanExpandCount++;
+										}
 									}
 									int h = !data.grabExcessVerticalSpace || data.minimumHeight == SWT.DEFAULT
 											? data.cacheHeight
@@ -648,8 +669,9 @@ public class CGridLayout extends Layout {
 													heights[last2 = i - k] += delta2;
 												}
 											}
-											if (last2 > -1)
+											if (last2 > -1) {
 												heights[last2] += remainder2;
+											}
 										}
 									}
 								}
@@ -657,8 +679,9 @@ public class CGridLayout extends Layout {
 						}
 					}
 				}
-				if (c == 0)
+				if (c == 0) {
 					break;
+				}
 				totalHeight = 0;
 				for (int i = 0; i < rowCount; i++) {
 					totalHeight += heights[i];
@@ -752,39 +775,51 @@ public class CGridLayout extends Layout {
 	String getName() {
 		String string = getClass().getName();
 		int index = string.lastIndexOf('.');
-		if (index == -1)
+		if (index == -1) {
 			return string;
-		return string.substring(index + 1, string.length());
+		}
+		return string.substring(index + 1);
 	}
 
 	/**
 	 * Returns a string containing a concise, human-readable description of the
 	 * receiver.
-	 * 
+	 *
 	 * @return a string representation of the layout
 	 */
+	@Override
 	public String toString() {
 		String string = getName() + " {";
-		if (numColumns != 1)
+		if (numColumns != 1) {
 			string += "numColumns=" + numColumns + " ";
-		if (makeColumnsEqualWidth)
+		}
+		if (makeColumnsEqualWidth) {
 			string += "makeColumnsEqualWidth=" + makeColumnsEqualWidth + " ";
-		if (marginWidth != 0)
+		}
+		if (marginWidth != 0) {
 			string += "marginWidth=" + marginWidth + " ";
-		if (marginHeight != 0)
+		}
+		if (marginHeight != 0) {
 			string += "marginHeight=" + marginHeight + " ";
-		if (marginLeft != 0)
+		}
+		if (marginLeft != 0) {
 			string += "marginLeft=" + marginLeft + " ";
-		if (marginRight != 0)
+		}
+		if (marginRight != 0) {
 			string += "marginRight=" + marginRight + " ";
-		if (marginTop != 0)
+		}
+		if (marginTop != 0) {
 			string += "marginTop=" + marginTop + " ";
-		if (marginBottom != 0)
+		}
+		if (marginBottom != 0) {
 			string += "marginBottom=" + marginBottom + " ";
-		if (horizontalSpacing != 0)
+		}
+		if (horizontalSpacing != 0) {
 			string += "horizontalSpacing=" + horizontalSpacing + " ";
-		if (verticalSpacing != 0)
+		}
+		if (verticalSpacing != 0) {
 			string += "verticalSpacing=" + verticalSpacing + " ";
+		}
 		string = string.trim();
 		string += "}";
 		return string;

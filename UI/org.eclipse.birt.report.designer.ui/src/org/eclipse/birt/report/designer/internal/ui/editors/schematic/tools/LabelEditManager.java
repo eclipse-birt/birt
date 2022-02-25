@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.eclipse.ui.part.CellEditorActionHandler;
 
 /**
  * Manager for label editor.
- * 
+ *
  */
 public class LabelEditManager extends DirectEditManager {
 
@@ -56,7 +56,7 @@ public class LabelEditManager extends DirectEditManager {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param source
 	 * @param editorType
 	 * @param locator
@@ -80,6 +80,7 @@ public class LabelEditManager extends DirectEditManager {
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
 	 */
+	@Override
 	protected void bringDown() {
 		if (actionHandler != null) {
 			actionHandler.dispose();
@@ -94,8 +95,9 @@ public class LabelEditManager extends DirectEditManager {
 		Font disposeFont = scaledFont;
 		scaledFont = null;
 		super.bringDown();
-		if (disposeFont != null)
+		if (disposeFont != null) {
 			disposeFont.dispose();
+		}
 		if (getEditPart() instanceof PlaceHolderEditPart) {
 			((PlaceHolderEditPart) getEditPart()).perfrormLabelEdit(getChanged());
 		}
@@ -112,6 +114,7 @@ public class LabelEditManager extends DirectEditManager {
 		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redo);
 	}
 
+	@Override
 	protected void initCellEditor() {
 		Text text = (Text) getCellEditor().getControl();
 
@@ -157,10 +160,11 @@ public class LabelEditManager extends DirectEditManager {
 	 * Creates the cell editor on the given composite. The cell editor is created by
 	 * instantiating the cell editor type passed into this DirectEditManager's
 	 * constuctor.
-	 * 
+	 *
 	 * @param composite the composite to create the cell editor on
 	 * @return the newly created cell editor
 	 */
+	@Override
 	protected CellEditor createCellEditorOn(Composite composite) {
 		int style = this.applyBidiStyle(SWT.MULTI | SWT.WRAP); // bidi_hcg
 
@@ -169,6 +173,7 @@ public class LabelEditManager extends DirectEditManager {
 		final Control c = editor.getControl();
 		c.addMouseTrackListener(new MouseTrackAdapter() {
 
+			@Override
 			public void mouseEnter(MouseEvent e) {
 				c.setCursor(SharedCursors.IBEAM);
 			}
@@ -177,6 +182,7 @@ public class LabelEditManager extends DirectEditManager {
 		return editor;
 	}
 
+	@Override
 	protected void commit() {
 		setChanged(true);
 		super.commit();
@@ -202,14 +208,15 @@ public class LabelEditManager extends DirectEditManager {
 
 		String align = figure.getTextAlign();
 
-		if (IStyle.CSS_CENTER_VALUE.equals(align))
+		if (IStyle.CSS_CENTER_VALUE.equals(align)) {
 			style |= SWT.CENTER;
-		else if (IStyle.CSS_RIGHT_VALUE.equals(align))
+		} else if (IStyle.CSS_RIGHT_VALUE.equals(align)) {
 			style |= (rtl ? SWT.LEFT : SWT.RIGHT);
-		else if (IStyle.CSS_LEFT_VALUE.equals(align))
+		} else if (IStyle.CSS_LEFT_VALUE.equals(align)) {
 			style |= (rtl ? SWT.RIGHT : SWT.LEFT);
-		else
+		} else {
 			style |= SWT.LEFT;
+		}
 
 		return style;
 	}

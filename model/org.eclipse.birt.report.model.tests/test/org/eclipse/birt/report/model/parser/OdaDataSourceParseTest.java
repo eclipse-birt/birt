@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,34 +26,34 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * The test case of <code>ExtendedDataSource</code> parser and writer.
  * <code>DataSource</code> is also tested in this test case.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testParser()}</td>
  * <td>Test properties of ExtendedDataSource and DataSource after parsing design
  * file</td>
  * <td>All properties are right</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Set all properties and compare the written file with the golden file</td>
  * <td>Two files are same</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSemanticCheck()}</td>
  * <td>Nothing to test this moment</td>
  * <td>No error found</td>
  * </tr>
  * </table>
- * 
+ *
  * @see DataSource
  * @see OdaDataSource
  */
@@ -73,18 +73,18 @@ public class OdaDataSourceParseTest extends BaseTestCase {
 	/*
 	 * protected void setUp( ) throws Exception { // do not call super.setUp() since
 	 * we don't want to load extension.
-	 * 
+	 *
 	 * ThreadResources.setLocale( ULocale.ENGLISH ); MetaDataDictionary.reset( );
 	 * try { MetaDataReader.read( ReportDesign.class .getResourceAsStream(
 	 * ROM_DEF_NAME ) ); } catch ( MetaDataParserException e ) { assert false; }
-	 * 
+	 *
 	 * engine = new DesignEngine( new DesignConfig( ) ); createDesign( ); }
 	 */
 
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of line.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 	public void testParser() throws Exception {
@@ -118,9 +118,9 @@ public class OdaDataSourceParseTest extends BaseTestCase {
 	/**
 	 * This test sets properties, writes the design file and compares it with golden
 	 * file.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testWriter() throws Exception {
 		// Test ExtendedDataSource
@@ -163,9 +163,9 @@ public class OdaDataSourceParseTest extends BaseTestCase {
 
 	/**
 	 * Test semantic errors.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testSemanticCheck() throws Exception {
 		openDesign(semanticCheckFileName);
@@ -185,10 +185,11 @@ public class OdaDataSourceParseTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#teardown()
 	 */
 
+	@Override
 	protected void tearDown() throws Exception {
 		MetaDataDictionary.reset();
 

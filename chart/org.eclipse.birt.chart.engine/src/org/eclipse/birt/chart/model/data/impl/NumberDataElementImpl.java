@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -39,7 +39,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -49,7 +49,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -59,7 +59,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 	/**
 	 * This is true if the Value attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -67,7 +67,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected NumberDataElementImpl() {
@@ -76,7 +76,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -86,55 +86,61 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setValue(double newValue) {
 		double oldValue = value;
 		value = newValue;
 		boolean oldValueESet = valueESet;
 		valueESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.NUMBER_DATA_ELEMENT__VALUE, oldValue,
 					value, !oldValueESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetValue() {
 		double oldValue = value;
 		boolean oldValueESet = valueESet;
 		value = VALUE_EDEFAULT;
 		valueESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.NUMBER_DATA_ELEMENT__VALUE, oldValue,
 					VALUE_EDEFAULT, oldValueESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetValue() {
 		return valueESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -148,7 +154,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -163,7 +169,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -178,7 +184,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -195,22 +201,24 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(this.getClass().getInterfaces()[0].getSimpleName());
+		StringBuilder result = new StringBuilder(this.getClass().getInterfaces()[0].getSimpleName());
 		result.append(" (value: "); //$NON-NLS-1$
-		if (valueESet)
+		if (valueESet) {
 			result.append(value);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * A convenience method provided to return an initialized NumberDataElement
-	 * 
+	 *
 	 * @param dValue
 	 * @return
 	 */
@@ -223,6 +231,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 	/**
 	 * @generated
 	 */
+	@Override
 	public NumberDataElement copyInstance() {
 		NumberDataElementImpl dest = new NumberDataElementImpl();
 		dest.set(this);

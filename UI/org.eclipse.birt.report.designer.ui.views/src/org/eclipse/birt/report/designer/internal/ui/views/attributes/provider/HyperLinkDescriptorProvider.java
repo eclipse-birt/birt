@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,6 +33,7 @@ public class HyperLinkDescriptorProvider extends AbstractDescriptorProvider impl
 
 	private static final String LABEL_NONE = Messages.getString("HyperLinkPage.Label.None"); //$NON-NLS-1$
 
+	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return LABEL_LINK_TO;
@@ -40,6 +41,7 @@ public class HyperLinkDescriptorProvider extends AbstractDescriptorProvider impl
 
 	private Object oldValue;
 
+	@Override
 	public Object load() {
 		if (needRefresh) {
 			if (getActionHandle() != null) {
@@ -58,8 +60,9 @@ public class HyperLinkDescriptorProvider extends AbstractDescriptorProvider impl
 				}
 				if (previewString == null) {
 					oldValue = LABEL_NONE;
-				} else
+				} else {
 					oldValue = previewString;
+				}
 			} else {
 				oldValue = LABEL_NONE;
 			}
@@ -67,6 +70,7 @@ public class HyperLinkDescriptorProvider extends AbstractDescriptorProvider impl
 		return oldValue;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		// TODO Auto-generated method stub
 
@@ -74,6 +78,7 @@ public class HyperLinkDescriptorProvider extends AbstractDescriptorProvider impl
 
 	protected Object input;
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
@@ -117,14 +122,16 @@ public class HyperLinkDescriptorProvider extends AbstractDescriptorProvider impl
 		return DEUtil.getActionHandle((ReportItemHandle) DEUtil.getInputFirstElement(input));
 	}
 
+	@Override
 	public boolean isEditable() {
 		return false;
 	}
 
 	public boolean isEnable() {
-		if (DEUtil.getInputSize(input) != 1)
+		if (DEUtil.getInputSize(input) != 1) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 }

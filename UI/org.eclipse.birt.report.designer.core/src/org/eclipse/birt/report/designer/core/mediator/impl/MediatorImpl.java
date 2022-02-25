@@ -31,7 +31,7 @@ import org.eclipse.birt.report.designer.core.mediator.IMediatorStateConverter;
  */
 public class MediatorImpl implements IMediator {
 
-	private static final List<IMediatorColleague> globalListeners = new LinkedList<IMediatorColleague>();
+	private static final List<IMediatorColleague> globalListeners = new LinkedList<>();
 
 	public static void addGlobalColleague(IMediatorColleague colleague) {
 		if (!globalListeners.contains(colleague)) {
@@ -43,23 +43,26 @@ public class MediatorImpl implements IMediator {
 		globalListeners.remove(colleague);
 	}
 
-	private final List<IMediatorColleague> listeners = new ArrayList<IMediatorColleague>();
-	private List<MediatorStateImpl> stack = new ArrayList<MediatorStateImpl>();
+	private final List<IMediatorColleague> listeners = new ArrayList<>();
+	private List<MediatorStateImpl> stack = new ArrayList<>();
 	private int stackPointer = 0;
 	private MediatorStateImpl currentState = new MediatorStateImpl();
 	private boolean isDispatching = false;
 	private IMediatorStateConverter converter;
 
+	@Override
 	public void addColleague(IMediatorColleague colleague) {
 		if (!listeners.contains(colleague)) {
 			listeners.add(colleague);
 		}
 	}
 
+	@Override
 	public void removeColleague(IMediatorColleague colleague) {
 		listeners.remove(colleague);
 	}
 
+	@Override
 	public void notifyRequest(IMediatorRequest request) {
 		if (isDispatching) {
 			return;
@@ -90,10 +93,12 @@ public class MediatorImpl implements IMediator {
 		isDispatching = false;
 	}
 
+	@Override
 	public IMediatorState getState() {
 		return currentState;
 	}
 
+	@Override
 	public void pushState() {
 		try {
 			MediatorStateImpl s;
@@ -109,6 +114,7 @@ public class MediatorImpl implements IMediator {
 		}
 	}
 
+	@Override
 	public void popState() {
 		stackPointer--;
 		if (stackPointer != 0) {
@@ -119,6 +125,7 @@ public class MediatorImpl implements IMediator {
 		}
 	}
 
+	@Override
 	public void restoreState() {
 		restoreState(stack.get(stackPointer - 1));
 	}
@@ -150,6 +157,7 @@ public class MediatorImpl implements IMediator {
 		return new MediatorRequestImpl(state);
 	}
 
+	@Override
 	public void dispose() {
 		currentState = null;
 		listeners.clear();
@@ -157,10 +165,12 @@ public class MediatorImpl implements IMediator {
 		stack = null;
 	}
 
+	@Override
 	public void setStateConverter(IMediatorStateConverter converter) {
 		this.converter = converter;
 	}
 
+	@Override
 	public IMediatorStateConverter getStateConverter() {
 		return converter;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public class UserPropertyStructureState extends StructureState {
 
 	/**
 	 * Constructs the state of the structure which is user property.
-	 * 
+	 *
 	 * @param theHandler the design parser handler
 	 * @param element    the element holding this user property
 	 * @param theList    the list of user properties
@@ -65,32 +65,38 @@ public class UserPropertyStructureState extends StructureState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
 
-		if (ParserSchemaConstants.PROPERTY_TAG == tagValue)
+		if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
 			return new UserPropertyState(handler, element, propDefn, struct);
-		if (ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue) {
 			return new ChoiceStructureListState(handler, element, propDefn, struct);
-		if (ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue) {
 			return new TextPropertyState(handler, element, struct);
-		if (ParserSchemaConstants.EXPRESSION_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.EXPRESSION_TAG == tagValue) {
 			return new UserExpressionState(handler, element, propDefn, struct);
+		}
 
 		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.StructureState#parseAttrs(org.xml
 	 * .sax.Attributes)
 	 */
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		lineNumber = handler.getCurrentLineNo();
 
@@ -106,10 +112,11 @@ public class UserPropertyStructureState extends StructureState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		try {
 			((UserPropertyDefn) struct).checkUserPropertyDefn(handler.getModule(), element);
@@ -130,6 +137,7 @@ public class UserPropertyStructureState extends StructureState {
 
 	class InnerParseState extends AbstractParseState {
 
+		@Override
 		public XMLParserHandler getHandler() {
 			return handler;
 		}
@@ -146,7 +154,7 @@ public class UserPropertyStructureState extends StructureState {
 		 * Constructs the choice structure list state with the parser handler, element
 		 * that holds the user property definition, property definition of user
 		 * properties and the current handled user property definition.
-		 * 
+		 *
 		 * @param theHandler
 		 * @param element
 		 * @param propDefn
@@ -160,11 +168,12 @@ public class UserPropertyStructureState extends StructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			String name = attrs.getValue(DesignSchemaConstants.NAME_ATTRIB);
 			if (StringUtil.isBlank(name)) {
@@ -179,31 +188,33 @@ public class UserPropertyStructureState extends StructureState {
 						DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY);
 				RecoverableError.dealUndefinedProperty(handler, e);
 				valid = false;
-				return;
 			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.STRUCTURE_TAG == tagValue)
+			if (ParserSchemaConstants.STRUCTURE_TAG == tagValue) {
 				return new ChoiceStructureState(list);
+			}
 
 			return super.startElement(tagName);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			UserChoice[] choiceArray = new UserChoice[list.size()];
 			list.toArray(choiceArray);
@@ -232,7 +243,7 @@ public class UserPropertyStructureState extends StructureState {
 
 		/**
 		 * Constructor.
-		 * 
+		 *
 		 * @param theChoices
 		 */
 
@@ -242,27 +253,31 @@ public class UserPropertyStructureState extends StructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.PROPERTY_TAG == tagValue)
+			if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
 				return new ChoicePropertyState(choice);
+			}
 
-			if (ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue)
+			if (ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue) {
 				return new ChoiceTextPropertyState(choice);
+			}
 
 			return super.startElement(tagName);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
+		@Override
 		public void end() throws SAXException {
 			choices.add(choice);
 		}
@@ -285,26 +300,28 @@ public class UserPropertyStructureState extends StructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			choiceName = attrs.getValue(DesignSchemaConstants.NAME_ATTRIB);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
+		@Override
 		public void end() throws SAXException {
 			String value = text.toString();
 
-			if (Choice.NAME_PROP.equalsIgnoreCase(choiceName))
+			if (Choice.NAME_PROP.equalsIgnoreCase(choiceName)) {
 				choice.setName(value);
-			else if (UserChoice.VALUE_PROP.equalsIgnoreCase(choiceName)) {
+			} else if (UserChoice.VALUE_PROP.equalsIgnoreCase(choiceName)) {
 				UserPropertyDefn propDefn = (UserPropertyDefn) struct;
 				Object objValue = value;
 
@@ -318,8 +335,9 @@ public class UserPropertyStructureState extends StructureState {
 					}
 				}
 				choice.setValue(objValue);
-			} else
+			} else {
 				assert false;
+			}
 		}
 	}
 
@@ -340,11 +358,12 @@ public class UserPropertyStructureState extends StructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			displayNamePropName = attrs.getValue(DesignSchemaConstants.NAME_ATTRIB);
 			resourceKeyValue = attrs.getValue(DesignSchemaConstants.KEY_ATTRIB);
@@ -352,9 +371,10 @@ public class UserPropertyStructureState extends StructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
+		@Override
 		public void end() throws SAXException {
 			String value = text.toString();
 
@@ -379,10 +399,11 @@ public class UserPropertyStructureState extends StructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			String value = text.toString();
 
@@ -431,6 +452,7 @@ public class UserPropertyStructureState extends StructureState {
 			super(theHandler, element, propDefn, struct);
 		}
 
+		@Override
 		protected void doEnd(Object value) {
 			if (UserPropertyDefn.DEFAULT_MEMBER.equals(name)) {
 				if (((UserPropertyDefn) struct).allowExpression()) {

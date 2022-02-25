@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -60,12 +60,11 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * UI composite for Pie series attributes
- * 
+ *
  */
 public class PieSeriesAttributeComposite extends Composite implements Listener, SelectionListener, ModifyListener {
 
-	private final static String[] MINMUM_SLICE_ITEMS = new String[] {
-			Messages.getString("PieBottomAreaComponent.Label.Percentage"), //$NON-NLS-1$
+	private final static String[] MINMUM_SLICE_ITEMS = { Messages.getString("PieBottomAreaComponent.Label.Percentage"), //$NON-NLS-1$
 			Messages.getString("PieSeriesAttributeComposite.InnerRadiusType.Points") //$NON-NLS-1$
 	};
 
@@ -434,10 +433,11 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
 		if (event.widget.equals(fccSliceOutline)) {
@@ -471,10 +471,11 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(cmbLeaderLine)) {
 			String selectedLineStyle = cmbLeaderLine.getSelectedItemData();
@@ -520,14 +521,16 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
+	@Override
 	public void modifyText(ModifyEvent event) {
 		if (event.widget == txtInnerRadius) {
 			if (!TextEditorComposite.TEXT_RESET_MODEL.equals(event.data)) {

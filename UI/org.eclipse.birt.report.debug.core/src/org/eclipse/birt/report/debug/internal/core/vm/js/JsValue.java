@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.birt.report.debug.internal.core.vm.VMConstants;
 import org.eclipse.birt.report.debug.internal.core.vm.VMValue;
@@ -62,6 +63,7 @@ public class JsValue implements VMValue, VMConstants {
 		this.isPrimitive = isPrimitive;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof JsValue)) {
 			return false;
@@ -73,14 +75,8 @@ public class JsValue implements VMValue, VMConstants {
 			return false;
 		}
 
-		if (this.value == null) {
-			if (that.value != null) {
-				return false;
-			}
-		} else {
-			if (!this.value.equals(that.value)) {
-				return false;
-			}
+		if (!Objects.equals(this.value, that.value)) {
+			return false;
 		}
 
 		if (this.reservedValueType == null) {
@@ -91,6 +87,7 @@ public class JsValue implements VMValue, VMConstants {
 
 	}
 
+	@Override
 	public int hashCode() {
 		int hash = Boolean.valueOf(isPrimitive).hashCode();
 
@@ -104,9 +101,11 @@ public class JsValue implements VMValue, VMConstants {
 		return hash;
 	}
 
+	@Override
 	public VMVariable[] getMembers() {
 		return (VMVariable[]) Context.call(new ContextAction() {
 
+			@Override
 			public Object run(Context arg0) {
 				try {
 					return getMembersImpl(arg0);
@@ -211,13 +210,9 @@ public class JsValue implements VMValue, VMConstants {
 					fd = fds[i];
 					fd.setAccessible(true);
 
-					if (Modifier.isStatic(fd.getModifiers()) || names.containsKey(fd.getName())) {
-						continue;
-					}
-
 					// special fix for Java 5 LinkedHashMap.Entry hashCode()
 					// implementation error, which is fixed in 6 though.
-					if (obj instanceof LinkedHashMap && "header".equals(fd.getName())) //$NON-NLS-1$
+					if (Modifier.isStatic(fd.getModifiers()) || names.containsKey(fd.getName()) || (obj instanceof LinkedHashMap && "header".equals(fd.getName()))) //$NON-NLS-1$
 					{
 						continue;
 					}
@@ -288,6 +283,7 @@ public class JsValue implements VMValue, VMConstants {
 		return clz.getName();
 	}
 
+	@Override
 	public String getTypeName() {
 		if (reservedValueType != null) {
 			return reservedValueType;
@@ -306,6 +302,7 @@ public class JsValue implements VMValue, VMConstants {
 		return "null"; //$NON-NLS-1$
 	}
 
+	@Override
 	public String getValueString() {
 		Object valObj = value;
 
@@ -338,6 +335,7 @@ public class JsValue implements VMValue, VMConstants {
 		return convertPrimativeTypeName(valObj.getClass(), isPrimitive);
 	}
 
+	@Override
 	public String toString() {
 		return getTypeName() + ": " + getValueString(); //$NON-NLS-1$
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class IncludeListFooterAction extends SelectionAction {
 
 	/**
 	 * Constructs new instance.
-	 * 
+	 *
 	 * @param part current work bench part
 	 */
 	public IncludeListFooterAction(IWorkbenchPart part) {
@@ -49,9 +49,10 @@ public class IncludeListFooterAction extends SelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		return true;
 	}
@@ -59,6 +60,7 @@ public class IncludeListFooterAction extends SelectionAction {
 	/**
 	 * @see org.eclipse.gef.ui.actions.SelectionAction#update()
 	 */
+	@Override
 	public void update() {
 		super.update();
 		if (getListEditpart() != null) {
@@ -70,6 +72,7 @@ public class IncludeListFooterAction extends SelectionAction {
 	/**
 	 * Runs action.
 	 */
+	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Include list footer action >> Run ..."); //$NON-NLS-1$
@@ -79,12 +82,13 @@ public class IncludeListFooterAction extends SelectionAction {
 
 	/**
 	 * Gets list edit part.
-	 * 
+	 *
 	 * @return list edit part The current list edit part
 	 */
 	protected ListEditPart getListEditpart() {
-		if (getSelectedObjects() == null || getSelectedObjects().isEmpty())
+		if (getSelectedObjects() == null || getSelectedObjects().isEmpty()) {
 			return null;
+		}
 		List list = getSelectedObjects();
 		int size = list.size();
 		ListEditPart part = null;

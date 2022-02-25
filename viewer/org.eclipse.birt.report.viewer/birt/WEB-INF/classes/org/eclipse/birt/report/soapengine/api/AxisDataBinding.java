@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -35,7 +35,7 @@ public class AxisDataBinding implements java.io.Serializable {
 
 	/**
 	 * Gets the columnData value for this AxisDataBinding.
-	 * 
+	 *
 	 * @return columnData
 	 */
 	public org.eclipse.birt.report.soapengine.api.ColumnDefinition getColumnData() {
@@ -44,7 +44,7 @@ public class AxisDataBinding implements java.io.Serializable {
 
 	/**
 	 * Sets the columnData value for this AxisDataBinding.
-	 * 
+	 *
 	 * @param columnData
 	 */
 	public void setColumnData(org.eclipse.birt.report.soapengine.api.ColumnDefinition columnData) {
@@ -53,7 +53,7 @@ public class AxisDataBinding implements java.io.Serializable {
 
 	/**
 	 * Gets the sectionData value for this AxisDataBinding.
-	 * 
+	 *
 	 * @return sectionData
 	 */
 	public org.eclipse.birt.report.soapengine.api.SectionDefinition getSectionData() {
@@ -62,7 +62,7 @@ public class AxisDataBinding implements java.io.Serializable {
 
 	/**
 	 * Sets the sectionData value for this AxisDataBinding.
-	 * 
+	 *
 	 * @param sectionData
 	 */
 	public void setSectionData(org.eclipse.birt.report.soapengine.api.SectionDefinition sectionData) {
@@ -71,14 +71,18 @@ public class AxisDataBinding implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof AxisDataBinding))
+		if (!(obj instanceof AxisDataBinding)) {
 			return false;
+		}
 		AxisDataBinding other = (AxisDataBinding) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -95,6 +99,7 @@ public class AxisDataBinding implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

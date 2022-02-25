@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * 
+ *
  */
 
 public abstract class ValueSeriesImpl extends SeriesImpl implements IValueSeries {
@@ -65,22 +65,27 @@ public abstract class ValueSeriesImpl extends SeriesImpl implements IValueSeries
 		super(sd, cm);
 	}
 
+	@Override
 	public String getTitle() {
 		return (String) series.getSeriesIdentifier();
 	}
 
+	@Override
 	public boolean isVisible() {
 		return series.isVisible();
 	}
 
+	@Override
 	public void setTitle(String title) {
 		series.setSeriesIdentifier(title);
 	}
 
+	@Override
 	public void setVisible(boolean visible) {
 		series.setVisible(visible);
 	}
 
+	@Override
 	public IAction getAction() {
 		EList<Trigger> triggers = series.getTriggers();
 		Action chartAction = null;
@@ -98,54 +103,67 @@ public abstract class ValueSeriesImpl extends SeriesImpl implements IValueSeries
 				}
 				return new IAction() {
 
+					@Override
 					public String getFormatType() {
 						return action.getFormatType();
 					}
 
+					@Override
 					public String getLinkType() {
 						return action.getLinkType();
 					}
 
+					@Override
 					public String getReportName() {
 						return action.getReportName();
 					}
 
+					@Override
 					public String getTargetBookmark() {
 						return action.getTargetBookmark();
 					}
 
+					@Override
 					public String getTargetWindow() {
 						return action.getTargetWindow();
 					}
 
+					@Override
 					public String getURI() {
 						return action.getURI();
 					}
 
+					@Override
 					public void setFormatType(String type) throws SemanticException {
 						action.setFormatType(type);
 					}
 
+					@Override
 					public void setLinkType(String type) throws SemanticException {
 						action.setLinkType(type);
 					}
 
+					@Override
 					public void setReportName(String reportName) throws SemanticException {
 						action.setReportName(reportName);
 					}
 
+					@Override
 					public void setTargetBookmark(String bookmark) throws SemanticException {
 						action.setTargetBookmark(bookmark);
 					}
 
+					@Override
 					public void setTargetWindow(String window) throws SemanticException {
 						action.setTargetWindow(window);
 					}
 
+					@Override
 					public void setURI(String uri) throws SemanticException {
 						action.setURI(uri);
 					}
 
+					@Override
 					public IStructure getStructure() {
 						return action.getStructure();
 					}
@@ -170,6 +188,7 @@ public abstract class ValueSeriesImpl extends SeriesImpl implements IValueSeries
 		return grouping;
 	}
 
+	@Override
 	public String getAggregateExpr() {
 		String expr = ""; //$NON-NLS-1$
 		SeriesGrouping baseGrouping = getBaseGrouping();
@@ -184,6 +203,7 @@ public abstract class ValueSeriesImpl extends SeriesImpl implements IValueSeries
 		return expr;
 	}
 
+	@Override
 	public void setAggregateExpr(String aggregateExpr) {
 		SeriesGrouping baseGrouping = getBaseGrouping();
 		if (aggregateExpr == null) {
@@ -204,6 +224,7 @@ public abstract class ValueSeriesImpl extends SeriesImpl implements IValueSeries
 		return null;
 	}
 
+	@Override
 	public boolean isPercent() {
 		Axis axis = getAxis();
 		if (axis != null) {
@@ -212,6 +233,7 @@ public abstract class ValueSeriesImpl extends SeriesImpl implements IValueSeries
 		return false;
 	}
 
+	@Override
 	public void setPercent(boolean percent) {
 		Axis axis = getAxis();
 		if (axis != null) {

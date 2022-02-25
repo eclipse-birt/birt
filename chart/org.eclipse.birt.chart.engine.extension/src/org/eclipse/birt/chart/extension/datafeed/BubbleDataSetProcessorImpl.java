@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -51,7 +51,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt
 	 * .chart.model.data.DataSet)
@@ -123,10 +123,8 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 					CDateTime cValue = (CDateTime) oValue;
 					if (i == 0) {
 						cMax = cValue;
-					} else {
-						if (cValue.after(cMax)) {
-							cMax = cValue;
-						}
+					} else if (cValue.after(cMax)) {
+						cMax = cValue;
 					}
 				}
 			}
@@ -139,7 +137,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt
 	 * .chart.model.data.DataSet)
@@ -210,10 +208,8 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 					CDateTime cValue = (CDateTime) oValue;
 					if (i == 0) {
 						cMin = cValue;
-					} else {
-						if (cValue.before(cMin)) {
-							cMin = cValue;
-						}
+					} else if (cValue.before(cMin)) {
+						cMin = cValue;
 					}
 				}
 			}
@@ -226,7 +222,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.data.IDataSetProcessor#populate(java.lang.
 	 * Object, org.eclipse.birt.chart.model.data.DataSet)
 	 */
@@ -308,7 +304,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.DataSetProcessor#fromString(java.lang.String,
 	 * org.eclipse.birt.chart.model.data.DataSet)
@@ -327,8 +323,8 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 		StringTokenizer strTokComponents = null;
 		String strDataElement = null;
 		String strComponent = null;
-		Vector<BubbleEntry> vData = new Vector<BubbleEntry>();
-		int[] sizes = new int[] { 3, 5, 4, 6, 4 };
+		Vector<BubbleEntry> vData = new Vector<>();
+		int[] sizes = { 3, 5, 4, 6, 4 };
 		int i = 0;
 		while (strTokDataElement.hasMoreTokens()) {
 			strDataElement = strTokDataElement.nextToken().trim();
@@ -373,7 +369,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.DataSetProcessor#getExpectedStringFormat()
 	 */
@@ -384,7 +380,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.DataSetAdapter#toString(java.lang.Object[])
 	 */
@@ -395,7 +391,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
 					Messages.getResourceBundle(getULocale()));
 		}
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < columnData.length; i++) {
 			if (columnData[i] == null) {
 				throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET,
@@ -427,7 +423,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter {
 	 * computed with aggregation function. By default, all the indexes will be added
 	 * to the array. And this method should be overridden for some special chart
 	 * types, such as bubble, stock...
-	 * 
+	 *
 	 * @param series
 	 * @return index array
 	 */

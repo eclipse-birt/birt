@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -31,7 +31,7 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected NullDataSetImpl() {
@@ -40,7 +40,7 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -50,7 +50,7 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet {
 
 	/**
 	 * This method performs any initialization of the instance when created
-	 * 
+	 *
 	 * Note: Manually written
 	 */
 	protected void initialize() {
@@ -58,7 +58,7 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet {
 
 	/**
 	 * A convenience method to create an initialized 'NullDataSet' instance
-	 * 
+	 *
 	 * @param iRowCount represents the count of null in the dataset
 	 * @return
 	 */
@@ -72,6 +72,7 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet {
 	/**
 	 * @generated
 	 */
+	@Override
 	public NullDataSet copyInstance() {
 		NullDataSetImpl dest = new NullDataSetImpl();
 		dest.set(this);

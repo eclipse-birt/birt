@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,15 +38,18 @@ public class DataSet implements IDataSet {
 		dataSetImpl = dataSet;
 	}
 
+	@Override
 	public IDataSource getDataSource() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getQueryText() {
 		return dataSetImpl.getQueryText();
 	}
 
+	@Override
 	public void setQueryText(String query) throws ScriptException {
 		try {
 			dataSetImpl.setQueryText(query);
@@ -56,10 +59,12 @@ public class DataSet implements IDataSet {
 
 	}
 
+	@Override
 	public String getPrivateDriverProperty(String name) {
 		return dataSetImpl.getPrivateDriverProperty(name);
 	}
 
+	@Override
 	public void setPrivateDriverProperty(String name, String value) throws ScriptException {
 		try {
 			dataSetImpl.setPrivateDriverProperty(name, value);
@@ -70,12 +75,13 @@ public class DataSet implements IDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.IDataSet#getResultSetColumn
 	 * ()
 	 */
 
+	@Override
 	public List getCachedResultSetColumns() {
 		List values = dataSetImpl.getCachedResultSetColumns();
 		List rtnValues = new ArrayList();

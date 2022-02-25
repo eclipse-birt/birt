@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * 
+ *
  */
 
 public class ExportStyleDialog extends BaseDialog {
@@ -55,14 +55,17 @@ public class ExportStyleDialog extends BaseDialog {
 		}
 	}
 
+	@Override
 	protected boolean initDialog() {
-		if (themeCombo.getItemCount() == 0)
+		if (themeCombo.getItemCount() == 0) {
 			this.getOkButton().setEnabled(false);
-		else
+		} else {
 			themeCombo.select(0);
+		}
 		return super.initDialog();
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		GridLayout layout = new GridLayout(2, false);
@@ -83,9 +86,11 @@ public class ExportStyleDialog extends BaseDialog {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		themeCombo.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
-				if (themeCombo.getSelectionIndex() == -1)
+				if (themeCombo.getSelectionIndex() == -1) {
 					getOkButton().setEnabled(false);
+				}
 			}
 
 		});
@@ -94,6 +99,7 @@ public class ExportStyleDialog extends BaseDialog {
 		return composite;
 	}
 
+	@Override
 	protected void okPressed() {
 		ThemeHandle theme = (ThemeHandle) themeMap.get(themeCombo.getText());
 		boolean notExist = ElementExportUtil.canExport(style, theme, false);

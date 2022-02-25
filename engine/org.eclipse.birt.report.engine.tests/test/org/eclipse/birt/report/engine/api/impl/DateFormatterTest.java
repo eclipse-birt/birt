@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,6 +34,7 @@ public class DateFormatterTest extends EngineCase {
 	IReportDocument document;
 	IDataExtractionTask dataExTask;
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeFile(REPORT_DOCUMENT);
@@ -44,6 +45,7 @@ public class DateFormatterTest extends EngineCase {
 		dataExTask = engine.createDataExtractionTask(document);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		dataExTask.close();
 		document.close();
@@ -54,7 +56,7 @@ public class DateFormatterTest extends EngineCase {
 
 	public void testDateFormatterExtraction() throws Exception {
 		dataExTask.selectResultSet("ELEMENT_69");
-		String[] columnNames = new String[] { "CUSTOMERNUMBER", "CHECKNUMBER", "PAYMENTDATE", "now", "now" };
+		String[] columnNames = { "CUSTOMERNUMBER", "CHECKNUMBER", "PAYMENTDATE", "now", "now" };
 		dataExTask.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 		dataExTask.selectColumns(columnNames);
 		dataExTask.setLocale(ULocale.CHINESE);
@@ -64,7 +66,7 @@ public class DateFormatterTest extends EngineCase {
 		option.setLocale(Locale.ENGLISH);
 		option.setOutputFormat("csv");
 		option.setOutputStream(out);
-		Map<Object, String> formatters = new HashMap<Object, String>();
+		Map<Object, String> formatters = new HashMap<>();
 		formatters.put(1, "Fixed");
 		formatters.put(2, "<");
 		formatters.put(3, "yyyy-MM-dd");

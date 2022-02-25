@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -93,7 +93,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class ImageBuilder extends BaseDialog {
 
-	private static final String[] IMAGE_TYPES = new String[] { ".bmp", //$NON-NLS-1$
+	private static final String[] IMAGE_TYPES = { ".bmp", //$NON-NLS-1$
 			".jpg", //$NON-NLS-1$
 			".jpeg", //$NON-NLS-1$
 			".jpe", //$NON-NLS-1$
@@ -106,7 +106,7 @@ public class ImageBuilder extends BaseDialog {
 			".svg" //$NON-NLS-1$
 	};
 
-	private static final String[] IMAGE_FILEFILTERS = new String[] {
+	private static final String[] IMAGE_FILEFILTERS = {
 			"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
 	};
 
@@ -163,21 +163,21 @@ public class ImageBuilder extends BaseDialog {
 
 	private static final int BLOB_TYPE = 3;
 
-	private static final Map<Integer, String> descriptionMap = new HashMap<Integer, String>();
+	private static final Map<Integer, String> descriptionMap = new HashMap<>();
 
 	static {
-		descriptionMap.put(Integer.valueOf(URI_TYPE), Messages.getString("ImageBuilder.Description.URI")); //$NON-NLS-1$
-		descriptionMap.put(Integer.valueOf(FILE_TYPE), Messages.getString("ImageBuilder.Description.ResourceFile")); //$NON-NLS-1$
-		descriptionMap.put(Integer.valueOf(EMBEDDED_TYPE), Messages.getString("ImageBuilder.Description.Embedded")); //$NON-NLS-1$
-		descriptionMap.put(Integer.valueOf(BLOB_TYPE), Messages.getString("ImageBuilder.Description.Dynamic")); //$NON-NLS-1$
+		descriptionMap.put(URI_TYPE, Messages.getString("ImageBuilder.Description.URI")); //$NON-NLS-1$
+		descriptionMap.put(FILE_TYPE, Messages.getString("ImageBuilder.Description.ResourceFile")); //$NON-NLS-1$
+		descriptionMap.put(EMBEDDED_TYPE, Messages.getString("ImageBuilder.Description.Embedded")); //$NON-NLS-1$
+		descriptionMap.put(BLOB_TYPE, Messages.getString("ImageBuilder.Description.Dynamic")); //$NON-NLS-1$
 	}
 
-	private static final Map<Integer, String> uriEditorLabelMap = new HashMap<Integer, String>();
+	private static final Map<Integer, String> uriEditorLabelMap = new HashMap<>();
 
 	static {
-		uriEditorLabelMap.put(Integer.valueOf(URI_TYPE), Messages.getString("ImageBuilder.Label.EnterURI")); //$NON-NLS-1$
-		uriEditorLabelMap.put(Integer.valueOf(FILE_TYPE), Messages.getString("ImageBuilder.Label.EnterResourceFile")); //$NON-NLS-1$
-		uriEditorLabelMap.put(Integer.valueOf(BLOB_TYPE), Messages.getString("ImageBuilder.Label.EnterExpr")); //$NON-NLS-1$
+		uriEditorLabelMap.put(URI_TYPE, Messages.getString("ImageBuilder.Label.EnterURI")); //$NON-NLS-1$
+		uriEditorLabelMap.put(FILE_TYPE, Messages.getString("ImageBuilder.Label.EnterResourceFile")); //$NON-NLS-1$
+		uriEditorLabelMap.put(BLOB_TYPE, Messages.getString("ImageBuilder.Label.EnterExpr")); //$NON-NLS-1$
 	}
 
 	private int selectedType = -1;
@@ -188,7 +188,7 @@ public class ImageBuilder extends BaseDialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public ImageBuilder(Shell parentShell, String title) {
@@ -197,7 +197,7 @@ public class ImageBuilder extends BaseDialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public ImageBuilder(Shell parentShell, String title, java.util.List dataSetList) {
@@ -212,11 +212,12 @@ public class ImageBuilder extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		if (inputImage == null) {
 			inputImage = DesignElementFactory.getInstance(getModuleHandle()).newImage(null);
@@ -266,6 +267,7 @@ public class ImageBuilder extends BaseDialog {
 		uri.setText(TYPE_URI);
 		uri.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				switchTo(URI_TYPE);
 				modifyDialogContent();
@@ -276,6 +278,7 @@ public class ImageBuilder extends BaseDialog {
 		resource.setText(TYPE_RESOURCE_FILE);
 		resource.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				switchTo(FILE_TYPE);
 				modifyDialogContent();
@@ -286,6 +289,7 @@ public class ImageBuilder extends BaseDialog {
 		embedded.setText(TYPE_EMBEDDED_IMAGE);
 		embedded.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				switchTo(EMBEDDED_TYPE);
 				modifyDialogContent();
@@ -296,6 +300,7 @@ public class ImageBuilder extends BaseDialog {
 		dynamic.setText(TYPE_DYNAMIC_IMAGE);
 		dynamic.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				switchTo(BLOB_TYPE);
 				modifyDialogContent();
@@ -370,6 +375,7 @@ public class ImageBuilder extends BaseDialog {
 		uriEditor.setLayoutData(textGd);
 		uriEditor.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				modifyDialogContent();
 				updateButtons();
@@ -377,9 +383,11 @@ public class ImageBuilder extends BaseDialog {
 		});
 		uriEditor.addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusGained(FocusEvent e) {
 			}
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				previewTextEditor();
 			}
@@ -405,6 +413,7 @@ public class ImageBuilder extends BaseDialog {
 		embeddedImageList.setLayoutData(new GridData(GridData.FILL_BOTH));
 		embeddedImageList.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				preview();
 				modifyDialogContent();
@@ -438,6 +447,7 @@ public class ImageBuilder extends BaseDialog {
 	private void buildInputAreaButton(int type) {
 		Listener listener = new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				modifyDialogContent();
 				if (event.data instanceof String[]) {
@@ -457,6 +467,7 @@ public class ImageBuilder extends BaseDialog {
 			setOpenFileButtonImage(inputButton);
 			inputButton.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					openResourceBrowser();
 				}
@@ -471,6 +482,7 @@ public class ImageBuilder extends BaseDialog {
 			importButton.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_END));
 			importButton.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					FileDialog fileChooser = new FileDialog(getShell(), SWT.OPEN);
 					fileChooser.setText(Messages.getString("ImageBuilder.Chooser.Title")); //$NON-NLS-1$
@@ -486,7 +498,7 @@ public class ImageBuilder extends BaseDialog {
 									return;
 								}
 
-								if (checkExtensions(fileName) == false) {
+								if (!checkExtensions(fileName)) {
 									ExceptionHandler.openErrorMessageBox(
 											Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Title"), //$NON-NLS-1$
 											Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Message")); //$NON-NLS-1$
@@ -524,6 +536,7 @@ public class ImageBuilder extends BaseDialog {
 			// );
 			inputButton.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					openBidingDialog();
 				}
@@ -594,9 +607,10 @@ public class ImageBuilder extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		try {
 			switch (selectedType) {
@@ -694,7 +708,7 @@ public class ImageBuilder extends BaseDialog {
 
 	/**
 	 * Sets the model input.
-	 * 
+	 *
 	 * @param input
 	 */
 	public void setInput(Object input) {
@@ -708,6 +722,7 @@ public class ImageBuilder extends BaseDialog {
 
 	private boolean hasInitDialog = false;
 
+	@Override
 	protected boolean initDialog() {
 		if (DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals(inputImage.getSource())) {
 			embedded.setSelection(true);
@@ -744,7 +759,6 @@ public class ImageBuilder extends BaseDialog {
 		if (getURI() != null && selectedType == FILE_TYPE) {
 			setURIEditor();
 		}
-		;
 
 		if (selectedType == BLOB_TYPE) {
 			if (inputImage.getValueExpression() != null) {
@@ -774,8 +788,9 @@ public class ImageBuilder extends BaseDialog {
 			uriEditor.setData(ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT);
 		}
 		ExpressionButton button = (ExpressionButton) uriEditor.getData(ExpressionButtonUtil.EXPR_BUTTON);
-		if (button != null)
+		if (button != null) {
 			button.refresh();
+		}
 	}
 
 	private void initList() {
@@ -816,8 +831,9 @@ public class ImageBuilder extends BaseDialog {
 			break;
 		}
 		if (complete) {
-			if (!hasModified && isEditModal())
+			if (!hasModified && isEditModal()) {
 				complete = false;
+			}
 		}
 		getOkButton().setEnabled(complete);
 	}
@@ -829,10 +845,11 @@ public class ImageBuilder extends BaseDialog {
 		if (dialog.open() == Dialog.OK) {
 			String columnExpr;
 			Object obj = DEUtil.getFirstDataSource(handle);
-			if (obj != null && obj instanceof CubeHandle)
+			if (obj instanceof CubeHandle) {
 				columnExpr = DEUtil.getDataExpression((String) dialog.getResult());
-			else
+			} else {
 				columnExpr = DEUtil.getColumnExpression((String) dialog.getResult());
+			}
 			uriEditor.setText(columnExpr);
 			try {
 				inputImage.setValueExpression(uriEditor.getText().trim());
@@ -845,19 +862,6 @@ public class ImageBuilder extends BaseDialog {
 		 * do anything. The author hlin had left company now. Comments it. / / else { if
 		 * ( inputImage.getDataSet( ) == null ) { uriEditor.setText( "" ); } }
 		 */
-	}
-
-	private java.util.List unionDataSets() {
-		dataSetList = new ArrayList(inputDataSetList);
-		if (inputImage == null || inputImage.getDataSet() == null) {
-			return dataSetList;
-		}
-		int i = inputDataSetList.indexOf(inputImage.getDataSet());
-		if (i == -1) {
-			dataSetList.add(inputImage.getDataSet());
-		}
-
-		return dataSetList;
 	}
 
 	private boolean checkExtensions(String fileName) {
@@ -881,20 +885,23 @@ public class ImageBuilder extends BaseDialog {
 
 	protected void resetOkButtonStatus(boolean enabled) {
 		Button okButton = getButton(OK);
-		if (okButton != null && okButton.isEnabled() != enabled)
+		if (okButton != null && okButton.isEnabled() != enabled) {
 			okButton.setEnabled(enabled);
+		}
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
-		if (isEditModal())
+		if (isEditModal()) {
 			resetOkButtonStatus(false);
+		}
 	}
 
 	private boolean hasModified = false;
 
 	private void modifyDialogContent() {
-		if (hasInitDialog && isEditModal() && hasModified == false) {
+		if (hasInitDialog && isEditModal() && !hasModified) {
 			hasModified = true;
 			updateButtons();
 		}

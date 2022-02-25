@@ -19,6 +19,7 @@ import org.osgi.framework.BundleContext;
 
 public class PPTXEmitterPlugin extends BIRTPlugin {
 
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 	}

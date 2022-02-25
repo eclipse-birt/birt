@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -100,7 +100,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the element property value localization.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -114,7 +114,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the lib reference of embedded images.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -129,7 +129,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * Tests the indirect element references by inheritances during the
 	 * serialization.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -144,7 +144,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the serlization of template elements.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -159,7 +159,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * when serialize report design, the embedded image from library should be
 	 * copied locally.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testSerializeWithEmbeddedImage() throws Exception {
@@ -175,9 +175,9 @@ public class DocumentUtilTest extends BaseTestCase {
 	 * when there is a external resource file sets for this report, all report
 	 * properties use the external string value should be saved into the report file
 	 * after serialization. And the reource key should be set to null.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testSerializeExternalString() throws Exception {
 		openDesign("DocumnetUtilTest_ExternalResource.xml"); //$NON-NLS-1$
@@ -191,7 +191,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * For extended item, the extension name must be set first. So that, other
 	 * properties can be set properly.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -209,7 +209,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * Test the group name is changed or not based on bugzilla 199537.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -226,12 +226,12 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests
-	 * 
+	 *
 	 * <ul>
 	 * <li>serialize user property or not based on bugzilla 199751.
 	 * <li>for extension element, the user property value may be lost.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -260,7 +260,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * If two non-named element refers the same shared style, their names should not
 	 * be style names.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -275,7 +275,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * For cubes that contains elements in property values. Should no exception.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -289,7 +289,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests a design file that is serialized by the document util.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParserForSerializer() throws Exception {
@@ -300,7 +300,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * If two non-named element refers the same shared style, their names should not
 	 * be style names.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -337,7 +337,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	 * ReportDesignSerializer.localizePropertyValues(), the module should be
 	 * element.getRoot() instead of targetDesign. Otherwise, some elements cannot be
 	 * resolved. It could caused preview failure.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -351,7 +351,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * For content elements, they should be serialized.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -365,7 +365,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * For css styles, they must be visited and saved in the serialized design.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -394,7 +394,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * Tests a structure refers an element and this referred element is a container
 	 * element(Hierarchy element). Its children name is not global unique.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -408,7 +408,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	 * Tests property bindings defined in the library, and the data set uses the
 	 * binding. After the serialization, the output document should have the
 	 * property binding.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -422,7 +422,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * Tests the serialization when the design defines local translation table and
 	 * included libraries.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testLocalTranslationTable() throws Exception {
@@ -435,7 +435,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * Tests the serialization when the scriptLibs of library is flatten to the
 	 * report file and the report file does not contain the scriptLibs.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFlattenReportWithoutScriptLib() throws Exception {
@@ -448,7 +448,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * Tests the serialization when the scriptLibs of library is flatten to the
 	 * report file and the report file contain the scriptLibs.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFlattenReportWithScriptLib() throws Exception {
@@ -462,7 +462,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	 * when there are some external resource files set for the report and libraries,
 	 * the external resource file should be saved into the report file after
 	 * serialization.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFlattenReportWithIncludedResource() throws Exception {
@@ -486,7 +486,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	 * Tests the container information of the filter condition element in the
 	 * extended item is set correctly, when this element is copied from the library
 	 * to the design report.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFlattenReport() throws Exception {
@@ -505,7 +505,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * Tests the function to rename dimension/level names in the binding expression
 	 * and aggregation on lists.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -520,7 +520,7 @@ public class DocumentUtilTest extends BaseTestCase {
 	/**
 	 * Tests the function to rename dimension/level names in the binding expression
 	 * and aggregation on lists.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -534,7 +534,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests Flatten default pageBreakInterval property before new version.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFlattenPageBreakInterval() throws Exception {
@@ -556,7 +556,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests variable elements with the library.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -572,7 +572,7 @@ public class DocumentUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests to flatten a report with expressions contain new line.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExpressionWithNewLine() throws Exception {
@@ -588,7 +588,7 @@ public class DocumentUtilTest extends BaseTestCase {
 		openDesign("reportItemThemeFromLib.xml"); //$NON-NLS-1$
 		ReportDesignHandle newDesign = DocumentUtil.serialize(designHandle, new ByteArrayOutputStream());
 		List<DesignElementHandle> themes = newDesign.getSlot(IReportDesignModel.THEMES_SLOT).getContents();
-		HashSet<String> themeName = new HashSet<String>();
+		HashSet<String> themeName = new HashSet<>();
 		for (DesignElementHandle theme : themes) {
 			if (theme instanceof ReportItemThemeHandle) {
 				ReportItemThemeHandle reportItemTheme = (ReportItemThemeHandle) theme;

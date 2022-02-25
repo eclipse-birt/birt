@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,8 +52,8 @@ import org.eclipse.ui.part.Page;
 
 /**
  * Represents the data view page.
- * 
- * 
+ *
+ *
  */
 public abstract class DataViewPage extends Page implements IDataViewPage, ISelectionProvider, IMediatorColleague {
 
@@ -64,13 +64,15 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 
 	/**
 	 * Creates the SWT control for this page under the given parent control.
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		treeViewer = createTreeViewer(parent);
 		getTreeViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				treeSelect(event);
 			}
@@ -79,11 +81,13 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 
 		treeViewer.getTree().addListener(SWT.PaintItem, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				// Fix bug 192094
 				TreeItem item = (TreeItem) event.item;
-				if (item == null)
+				if (item == null) {
 					return;
+				}
 				INodeProvider provider = null;
 				if (item != null && item.getData() != null) {
 					provider = ProviderFactory.createProvider(item.getData());
@@ -107,8 +111,9 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 		initPage();
 
 		// suport the mediator
-		if (model != null)
+		if (model != null) {
 			SessionHandleAdapter.getInstance().getMediator(model).addColleague(this);
+		}
 	}
 
 	protected void initPage() {
@@ -116,10 +121,11 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
 	 */
+	@Override
 	public void init(IPageSite pageSite) {
 		super.init(pageSite);
 		pageSite.setSelectionProvider(this);
@@ -130,15 +136,18 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 	 * returns <code>null</code> if the tree viewer is null. Returns the tree
 	 * viewer's control if tree viewer is null
 	 */
+	@Override
 	public Control getControl() {
-		if (treeViewer == null)
+		if (treeViewer == null) {
 			return null;
+		}
 		return treeViewer.getControl();
 	}
 
 	/**
 	 * Sets the focus to the tree viewer's control
 	 */
+	@Override
 	public void setFocus() {
 		treeViewer.getControl().setFocus();
 	}
@@ -154,7 +163,7 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 
 	/**
 	 * Returns the tree viewer
-	 * 
+	 *
 	 * @return the tree viewer
 	 */
 	public TreeViewer getTreeViewer() {
@@ -163,7 +172,7 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 
 	/**
 	 * Selects the node
-	 * 
+	 *
 	 * @param event the selection changed event
 	 */
 	protected void treeSelect(SelectionChangedEvent event) {
@@ -172,7 +181,7 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 
 	/**
 	 * Fires a selection changed event.
-	 * 
+	 *
 	 * @param selection the new selection
 	 */
 	protected void fireSelectionChanged(ISelection selection) {
@@ -207,6 +216,7 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 			final ISelectionChangedListener l = (ISelectionChangedListener) listeners[i];
 			SafeRunner.run(new SafeRunnable() {
 
+				@Override
 				public void run() {
 					l.selectionChanged(event);
 				}
@@ -216,7 +226,7 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 
 	/**
 	 * Notifies that the selection has changed.
-	 * 
+	 *
 	 * @param event event object describing the change
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
@@ -226,18 +236,20 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 	/**
 	 * Adds a listener for selection changes in this selection provider. Has no
 	 * effect if an identical listener is already registered.
-	 * 
+	 *
 	 * @param listener a selection changed listener
 	 */
+	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.add(listener);
 	}
 
 	/**
 	 * Returns the current selection for this provider.
-	 * 
+	 *
 	 * @return the current selection
 	 */
+	@Override
 	public ISelection getSelection() {
 		if (getTreeViewer() == null) {
 			return StructuredSelection.EMPTY;
@@ -248,18 +260,20 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 	/**
 	 * Removes the given selection change listener from this selection provider. Has
 	 * no affect if an identical listener is not registered.
-	 * 
+	 *
 	 * @param listener a selection changed listener
 	 */
+	@Override
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.remove(listener);
 	}
 
 	/**
 	 * Sets the current selection for this selection provider.
-	 * 
+	 *
 	 * @param selection the new selection
 	 */
+	@Override
 	public void setSelection(ISelection selection) {
 		if (getTreeViewer() != null) {
 			getTreeViewer().setSelection(selection);
@@ -272,6 +286,7 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 	 * disposes of this page's control (if it has one and it has not already been
 	 * disposed).
 	 */
+	@Override
 	public void dispose() {
 		selectionChangedListeners.clear();
 		treeViewer = null;
@@ -290,17 +305,19 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 		super.dispose();
 	}
 
+	@Override
 	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
 	 * ( org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest )
 	 */
+	@Override
 	public void performRequest(final IMediatorRequest request) {
 		if (ReportRequest.SELECTION.equals(request.getType())) {
 			handleSelectionChange((ReportRequest) request);
@@ -308,6 +325,7 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 		if (ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
 			Display.getCurrent().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					if (getTreeViewer() != null) {
 						getTreeViewer().refresh();
@@ -320,14 +338,11 @@ public abstract class DataViewPage extends Page implements IDataViewPage, ISelec
 
 	/**
 	 * Handles the selection request
-	 * 
+	 *
 	 * @param request
 	 */
 	protected void handleSelectionChange(ReportRequest request) {
-		if (request.getSource() == this) {
-			return;
-		}
-		if (getTreeViewer() == null) {
+		if ((request.getSource() == this) || (getTreeViewer() == null)) {
 			return;
 		}
 		final List list = request.getSelectionModelList();

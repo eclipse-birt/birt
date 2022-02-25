@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,8 +50,8 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * <p>
  * Report design graphical editor. This editor is the main editor of JRP ERD.
  * </p>
- * 
- * 
+ *
+ *
  */
 public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 
@@ -69,10 +69,12 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 		this.parentEditorPart = parent;
 	}
 
+	@Override
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
 
+	@Override
 	public void performRequest(IMediatorRequest request) {
 		ReportRequest rq = (ReportRequest) request;
 
@@ -88,6 +90,7 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 		super.performRequest(request);
 	}
 
+	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		super.selectionChanged(part, selection);
 
@@ -97,6 +100,7 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 		}
 	}
 
+	@Override
 	protected void handleSelectionChange(ReportRequest request) {
 		List list = request.getSelectionModelList();
 		// should be change the reuqest.getSource() interface, recode the source
@@ -118,11 +122,12 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette #handleCreateElement(org.eclipse.birt.report
 	 * .designer.core.util.mediator.request.ReportRequest)
 	 */
+	@Override
 	protected void handleCreateElement(ReportRequest request) {
 		List list = request.getSelectionModelList();
 		// should be change the reuqest.getSource() interface, recode the source
@@ -154,6 +159,7 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 		return retValue;
 	}
 
+	@Override
 	protected TemplateTransferDropTargetListener createTemplateTransferDropTargetListener(EditPartViewer viewer) {
 		return new LibraryTemplateTransferDropTargetListener(viewer);
 	}
@@ -172,11 +178,12 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 	/**
 	 * Returns an object which is an instance of the given class associated with
 	 * this object. Returns <code>null</code> if no such object can be found.
-	 * 
+	 *
 	 * @param adapter the adapter class to look up
 	 * @return a object castable to the given class, or <code>null</code> if this
 	 *         object does not have an adapter for the given class
 	 */
+	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == IContentOutlinePage.class) {
 			// ( (NonGEFSynchronizerWithMutiPageEditor)
@@ -200,6 +207,7 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 		return super.getAdapter(adapter);
 	}
 
+	@Override
 	protected PaletteRoot getPaletteRoot() {
 		if (paletteRoot == null) {
 			paletteRoot = DesignerPaletteFactory.createPalette();
@@ -208,13 +216,14 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 
 	}
 
+	@Override
 	protected IEditorPart getMultiPageEditor() {
 		return parentEditorPart;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.
 	 * AbstractReportGraphicalEditorWithFlyoutPalette#getFileType()
 	 */
@@ -222,10 +231,12 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 		return SessionHandleAdapter.LIBRARYFILE;
 	}
 
+	@Override
 	protected EditPartFactory getEditPartFactory() {
 		return new LibraryGraphicalPartFactory();
 	}
 
+	@Override
 	protected ReportLayoutEditorBreadcrumb createBreadcrumb() {
 		ReportLayoutEditorBreadcrumb breadcrumb = new ReportLayoutEditorBreadcrumb(this);
 		breadcrumb.setBreadcrumbNodeProvider(new LibraryBreadcrumbNodeProvider());

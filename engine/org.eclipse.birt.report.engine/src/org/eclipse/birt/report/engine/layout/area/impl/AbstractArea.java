@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -29,7 +29,7 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * abstract area which is the default implementation of <code>IArea</code>
- * 
+ *
  */
 public abstract class AbstractArea implements IArea {
 
@@ -74,7 +74,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param content
 	 */
 	AbstractArea(IContent content) {
@@ -113,13 +113,14 @@ public abstract class AbstractArea implements IArea {
 		this.scale = scale;
 	}
 
+	@Override
 	public float getScale() {
 		return this.scale;
 	}
 
 	/**
 	 * set allocated position
-	 * 
+	 *
 	 * @param ax
 	 * @param ay
 	 */
@@ -135,7 +136,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * set allocated height
-	 * 
+	 *
 	 * @param aHeight
 	 */
 	public void setAllocatedHeight(int aHeight) {
@@ -149,7 +150,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * set allocated width
-	 * 
+	 *
 	 * @param aWidth
 	 */
 	public void setAllocatedWidth(int aWidth) {
@@ -192,7 +193,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * set allocated X position
-	 * 
+	 *
 	 * @return
 	 */
 	public int getAllocatedX() {
@@ -205,7 +206,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * set allocated Y position
-	 * 
+	 *
 	 * @return
 	 */
 	public int getAllocatedY() {
@@ -218,7 +219,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * get content width
-	 * 
+	 *
 	 * @return
 	 */
 	public int getContentWidth() {
@@ -242,7 +243,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * get content height
-	 * 
+	 *
 	 * @return
 	 */
 	public int getContentHeight() {
@@ -258,7 +259,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * get allocated width
-	 * 
+	 *
 	 * @return
 	 */
 	public int getAllocatedWidth() {
@@ -272,7 +273,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * get allocated height
-	 * 
+	 *
 	 * @return
 	 */
 	public int getAllocatedHeight() {
@@ -287,6 +288,7 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * get style of this area
 	 */
+	@Override
 	public IStyle getStyle() {
 		return new WrappedAreaStyle((AbstractStyle) style);
 	}
@@ -294,6 +296,7 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * get X position of this area
 	 */
+	@Override
 	public int getX() {
 		return x;
 	}
@@ -301,6 +304,7 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * get Y position of this area
 	 */
+	@Override
 	public int getY() {
 		return y;
 	}
@@ -312,7 +316,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * set width of this area
-	 * 
+	 *
 	 * @param width
 	 */
 	public void setWidth(int width) {
@@ -322,6 +326,7 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * set width of this area
 	 */
+	@Override
 	public int getWidth() {
 		return width;
 	}
@@ -329,13 +334,14 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * get height of this area
 	 */
+	@Override
 	public int getHeight() {
 		return height;
 	}
 
 	/**
 	 * set height of this area
-	 * 
+	 *
 	 * @param height
 	 */
 	public void setHeight(int height) {
@@ -344,7 +350,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * Sets the baseLine
-	 * 
+	 *
 	 * @param baseLine
 	 */
 	public void setBaseLine(int baseLine) {
@@ -353,7 +359,7 @@ public abstract class AbstractArea implements IArea {
 
 	/**
 	 * Gets the baseline
-	 * 
+	 *
 	 * @return the baseline
 	 */
 	public int getBaseLine() {
@@ -368,6 +374,7 @@ public abstract class AbstractArea implements IArea {
 	/**
 	 * get content object
 	 */
+	@Override
 	public IContent getContent() {
 		return content;
 	}
@@ -403,14 +410,17 @@ public abstract class AbstractArea implements IArea {
 			this.style = style;
 		}
 
+		@Override
 		public CSSValue getProperty(int index) {
 			return style.getProperty(index);
 		}
 
+		@Override
 		public boolean isEmpty() {
 			return style.isEmpty();
 		}
 
+		@Override
 		public void setProperty(int index, CSSValue value) {
 			style.setProperty(index, value);
 			AbstractArea.this.hasBoxProperty = true;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,10 +33,12 @@ public class BorderColorDescriptorProvider extends BorderDescriptorProvider {
 
 	private static final String LABEL_COLOR = Messages.getString("BordersPage.Label.Color"); //$NON-NLS-1$
 
+	@Override
 	public String getDisplayName() {
 		return LABEL_COLOR;
 	}
 
+	@Override
 	public Object load() {
 		String value = getLocalStringValue(StyleHandle.BORDER_LEFT_COLOR_PROP);
 		if (!"".equals(value)) //$NON-NLS-1$
@@ -74,33 +76,40 @@ public class BorderColorDescriptorProvider extends BorderDescriptorProvider {
 		indexText = index;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		this.indexText = value == null ? "" : value; //$NON-NLS-1$
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_TOP_STYLE_PROP)).booleanValue() == true) {
+		if (((Boolean) styleMap.get(StyleHandle.BORDER_TOP_STYLE_PROP)).booleanValue()) {
 			save(StyleHandle.BORDER_TOP_COLOR_PROP, value);
-		} else
+		} else {
 			save(StyleHandle.BORDER_TOP_COLOR_PROP, null);
+		}
 
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_BOTTOM_STYLE_PROP)).booleanValue() == true) {
+		if (((Boolean) styleMap.get(StyleHandle.BORDER_BOTTOM_STYLE_PROP)).booleanValue()) {
 			save(StyleHandle.BORDER_BOTTOM_COLOR_PROP, value);
-		} else
+		} else {
 			save(StyleHandle.BORDER_BOTTOM_COLOR_PROP, null);
+		}
 
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_LEFT_STYLE_PROP)).booleanValue() == true) {
+		if (((Boolean) styleMap.get(StyleHandle.BORDER_LEFT_STYLE_PROP)).booleanValue()) {
 			save(StyleHandle.BORDER_LEFT_COLOR_PROP, value);
-		} else
+		} else {
 			save(StyleHandle.BORDER_LEFT_COLOR_PROP, null);
+		}
 
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_RIGHT_STYLE_PROP)).booleanValue() == true) {
+		if (((Boolean) styleMap.get(StyleHandle.BORDER_RIGHT_STYLE_PROP)).booleanValue()) {
 			save(StyleHandle.BORDER_RIGHT_COLOR_PROP, value);
-		} else
+		} else {
 			save(StyleHandle.BORDER_RIGHT_COLOR_PROP, null);
+		}
 	}
 
+	@Override
 	public void handleModifyEvent() {
 		try {
-			if (indexText != null)
+			if (indexText != null) {
 				save(indexText);
+			}
 		} catch (Exception e) {
 		}
 	}

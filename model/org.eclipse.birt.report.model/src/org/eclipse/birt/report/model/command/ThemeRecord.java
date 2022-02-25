@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public class ThemeRecord extends SimpleRecord {
 
 	/**
 	 * Constructs the library record.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param newTheme the new theme
 	 */
@@ -72,10 +72,11 @@ public class ThemeRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		// if undo, must unresolve the current theme; if do/redo, must unresolve
 		// the previous theme
@@ -91,38 +92,38 @@ public class ThemeRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
 		return new ThemeEvent(element);
 	}
 
 	/**
 	 * Unresolves references of styles of a theme.
-	 * 
+	 *
 	 * @param theme the theme
 	 */
 
 	private void updateStyles(ElementRefValue theme) {
 		// if the old theme is empty of not resolved. Do not need to unresolve.
 
-		if (theme == null)
+		if ((theme == null) || !theme.isResolved()) {
 			return;
-
-		if (!theme.isResolved())
-			return;
+		}
 
 		AbstractTheme t = (AbstractTheme) theme.getElement();
 		List<StyleElement> styles = t.getAllStyles();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,32 +24,32 @@ public interface IAmbiguousAttribute {
 
 	/**
 	 * The ROM property names.
-	 * 
+	 *
 	 * @return
 	 */
 
-	public String getAttributeName();
+	String getAttributeName();
 
 	/**
 	 * The new values from ODA parameter definition.
-	 * 
+	 *
 	 * @return
 	 */
 
-	public Object getRevisedValue();
+	Object getRevisedValue();
 
 	/**
 	 * The previous value on the ROM data set parameter.
-	 * 
+	 *
 	 * @return
 	 */
 
-	public Object getPreviousValue();
+	Object getPreviousValue();
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public boolean isLinkedReportParameterAttribute();
+	boolean isLinkedReportParameterAttribute();
 
 }

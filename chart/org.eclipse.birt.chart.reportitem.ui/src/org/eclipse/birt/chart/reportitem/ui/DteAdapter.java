@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 /**
  * This class wraps functions of Data Engine to provide executing query for
  * chart live preview.
- * 
+ *
  * @since 2.5.2
  */
 
@@ -55,7 +55,7 @@ public class DteAdapter {
 
 	/**
 	 * Set related data set on specified session.
-	 * 
+	 *
 	 * @param handle              the handle which contains related data set.
 	 * @param session             data request session handle
 	 * @param keepDataSetFilter
@@ -102,8 +102,9 @@ public class DteAdapter {
 		}
 
 		if (!keepDataSetFilter) {
-			if (baseDS.getFilters() != null)
+			if (baseDS.getFilters() != null) {
 				baseDS.getFilters().clear();
+			}
 		}
 
 		if (disAllowAggregation) {
@@ -128,7 +129,7 @@ public class DteAdapter {
 
 	/**
 	 * Set row limit on session.
-	 * 
+	 *
 	 * @param session  data request session handle
 	 * @param rowLimit the rows which will be retrieved.
 	 * @param isCube   specified if current is cube case.
@@ -138,21 +139,21 @@ public class DteAdapter {
 
 		Map<String, Integer> appContext = session.getDataSessionContext().getAppContext();
 		if (appContext == null) {
-			appContext = new HashMap<String, Integer>();
+			appContext = new HashMap<>();
 		}
 
 		if (!isCube) {
-			appContext.put(DataEngine.DATA_SET_CACHE_ROW_LIMIT, Integer.valueOf(rowLimit));
+			appContext.put(DataEngine.DATA_SET_CACHE_ROW_LIMIT, rowLimit);
 		} else {
-			appContext.put(DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE, Integer.valueOf(rowLimit));
-			appContext.put(DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE, Integer.valueOf(rowLimit));
+			appContext.put(DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE, rowLimit);
+			appContext.put(DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE, rowLimit);
 		}
 		session.getDataSessionContext().setAppContext(appContext);
 	}
 
 	/**
 	 * Remove row limit from app context of session.
-	 * 
+	 *
 	 * @param session
 	 */
 	@SuppressWarnings("unchecked")
@@ -169,7 +170,7 @@ public class DteAdapter {
 
 	/**
 	 * Uses session to execute a query.
-	 * 
+	 *
 	 * @param session
 	 * @param queryDefn
 	 * @return query result.
@@ -183,7 +184,7 @@ public class DteAdapter {
 
 	/**
 	 * Uses session to execute a cube query.
-	 * 
+	 *
 	 * @param session
 	 * @param queryDefn
 	 * @return cube query results.
@@ -197,7 +198,7 @@ public class DteAdapter {
 
 	/**
 	 * Populates data context into session.
-	 * 
+	 *
 	 * @param handle
 	 * @param session
 	 * @throws BirtException
@@ -212,7 +213,7 @@ public class DteAdapter {
 
 	/**
 	 * Populates data context into session.
-	 * 
+	 *
 	 * @param handle
 	 * @param session
 	 * @throws BirtException
@@ -223,7 +224,7 @@ public class DteAdapter {
 
 	/**
 	 * Registers session.
-	 * 
+	 *
 	 * @param handle
 	 * @param session
 	 * @throws BirtException
@@ -238,7 +239,7 @@ public class DteAdapter {
 
 	/**
 	 * Unregister session.
-	 * 
+	 *
 	 * @param session
 	 * @throws BirtException
 	 */

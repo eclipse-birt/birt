@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2006 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
-
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -69,27 +68,31 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.
 	 * BundleContext)
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		if (isCleanTempfolder())
+		if (isCleanTempfolder()) {
 			deleteTempFile();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		if (isCleanTempfolder())
+		if (isCleanTempfolder()) {
 			deleteFile(new File(getTempFolder()));
+		}
 	}
 
 	private void deleteFile(final File dir) {
@@ -105,9 +108,9 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin {
 		File[] children = dir.listFiles();
 		if (children != null) {
 			for (int i = 0; i < children.length; i++) {
-				if (children[i].isDirectory())
+				if (children[i].isDirectory()) {
 					deleteFile(children[i]);
-				else {
+				} else {
 					children[i].delete();
 				}
 			}
@@ -118,6 +121,7 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin {
 	private void deleteTempFile() {
 		Job deleteJob = new Job("Delete temporary files") { //$NON-NLS-1$
 
+			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				deleteFile(new File(getTempFolder()));
 				return Status.OK_STATUS;
@@ -129,13 +133,14 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 * 
+	 *
 	 * @return the shared instance
 	 */
 	public static StaticHTMLPrviewPlugin getDefault() {
 		return plugin;
 	}
 
+	@Override
 	protected void initializeImageRegistry(ImageRegistry registry) {
 		registerImage(registry, IMG_NAV_FIRST, IMG_NAV_FIRST);
 		registerImage(registry, IMG_NAV_PRE, IMG_NAV_PRE);

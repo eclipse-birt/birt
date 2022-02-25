@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -131,10 +131,11 @@ public class LegacyLoader {
 			LegacySpecParser parser = new LegacySpecParser();
 			parser.parse(fileName, type);
 			SpecElement element = parser.getElement();
-			if (type == SpecElement.ELEMENT)
+			if (type == SpecElement.ELEMENT) {
 				elements.add(element);
-			else
+			} else {
 				structs.add(element);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -161,8 +162,9 @@ public class LegacyLoader {
 		parser.open(fileName);
 		for (;;) {
 			int token = parser.getToken();
-			if (token == HTMLParser.EOF)
+			if (token == HTMLParser.EOF) {
 				break;
+			}
 			switch (token) {
 			case HTMLParser.SPECIAL_ELEMENT:
 				System.out.print("Special Element: "); //$NON-NLS-1$

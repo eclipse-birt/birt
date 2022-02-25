@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,22 +22,23 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 
 /**
  * Test Parser.
- * 
+ *
  * test case to test the parser,especially the capability to parse the Style. To
  * get the content about Style from an external file and then compare the
  * expected result with the real result of some basic properties of DataSet. If
  * they are the same,that means the IR is correct, otherwise, there exists
  * errors in the parser
- * 
+ *
  */
 public class StyleDesignTest extends AbstractDesignTestCase {
+	@Override
 	public void setUp() throws Exception {
 		loadDesign("style.xml");
 	}
 
 	/**
 	 * test if the shared style is same.
-	 * 
+	 *
 	 * Two element use the same shared style, so those two elements should have same
 	 * style properties.
 	 */

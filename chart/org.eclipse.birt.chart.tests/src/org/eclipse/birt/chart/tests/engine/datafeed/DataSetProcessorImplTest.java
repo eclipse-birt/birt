@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -14,18 +14,18 @@
 
 package org.eclipse.birt.chart.tests.engine.datafeed;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 
+import junit.framework.TestCase;
+
 /**
  * Test fromString(), getMinimum(), getMaximum() and populate() in
  * DataSetProcessorImpl.java
- * 
+ *
  */
 public class DataSetProcessorImplTest extends TestCase {
 	NumberDataSet ds2 = NumberDataSetImpl.create(new double[] { 16.17, 24.21, -43.0 });

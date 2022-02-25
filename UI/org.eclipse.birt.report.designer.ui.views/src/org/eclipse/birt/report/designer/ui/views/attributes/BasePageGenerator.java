@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.swt.custom.CTabItem;
  * keys. The caller MUST ensure relevant proeprties are already available in the
  * Model. Otherwise, it should directly extend from
  * <code>AbstractPageGenerator</code> instead of this class.
- * 
+ *
  * @since 2.5
  */
 abstract public class BasePageGenerator extends AbstractPageGenerator {
@@ -44,7 +44,7 @@ abstract public class BasePageGenerator extends AbstractPageGenerator {
 	/**
 	 * Creats the page content for each tab. Note this doesn't include the default
 	 * cateogry-styled tab, which is handled separately.
-	 * 
+	 *
 	 * @param tabKey
 	 */
 	protected TabPage buildTabContent(String tabKey) {
@@ -82,7 +82,7 @@ abstract public class BasePageGenerator extends AbstractPageGenerator {
 
 	/**
 	 * Builds and initialize the content for each tab.
-	 * 
+	 *
 	 * @param item
 	 */
 	protected void buildItemContent(CTabItem item) {
@@ -105,11 +105,12 @@ abstract public class BasePageGenerator extends AbstractPageGenerator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.views.attributes.CategoryPageGenerator
 	 * #createTabItems(java.util.List)
 	 */
+	@Override
 	public void createTabItems(List input) {
 		super.createTabItems(input);
 		this.input = input;

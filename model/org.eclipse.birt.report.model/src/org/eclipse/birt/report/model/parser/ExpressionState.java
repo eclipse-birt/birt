@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +61,7 @@ class ExpressionState extends PropertyState {
 	private static final int GROUP_TOC_PROP = IGroupElementModel.TOC_PROP.toLowerCase().hashCode();
 
 	/**
-	 * 
+	 *
 	 * @param theHandler
 	 * @param element
 	 */
@@ -71,7 +71,7 @@ class ExpressionState extends PropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
 	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement element,
 	 * String propName, IStructure struct)
@@ -83,11 +83,12 @@ class ExpressionState extends PropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		super.parseAttrs(attrs);
 
@@ -96,11 +97,12 @@ class ExpressionState extends PropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
 	 * ()
 	 */
 
+	@Override
 	protected AbstractParseState generalJumpTo() {
 		int nameValue = name.toLowerCase().hashCode();
 		if ((element instanceof TextDataItem) && CONTENT_TYPE_EXPR == nameValue) {
@@ -109,18 +111,20 @@ class ExpressionState extends PropertyState {
 			state.setName(ITextDataItemModel.CONTENT_TYPE_PROP);
 			return state;
 		}
-		if (MAP_TEST_EXPR == nameValue)
+		if (MAP_TEST_EXPR == nameValue) {
 			return new CompatibleTestExpreState(handler, element, IStyleModel.MAP_RULES_PROP);
+		}
 		return super.generalJumpTo();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
 	 * versionConditionalJumpTo()
 	 */
 
+	@Override
 	protected AbstractParseState versionConditionalJumpTo() {
 		if (handler.versionNumber < VersionUtil.VERSION_3_2_10) {
 			if (element instanceof ReportItem) {
@@ -139,8 +143,9 @@ class ExpressionState extends PropertyState {
 			}
 		}
 		if (HIGHLIGHT_TEST_EXPR == nameValue) {
-			if (handler.isVersion(VersionUtil.VERSION_0) || handler.isVersion(VersionUtil.VERSION_1_0_0))
+			if (handler.isVersion(VersionUtil.VERSION_0) || handler.isVersion(VersionUtil.VERSION_1_0_0)) {
 				return new CompatibleTestExpreState(handler, element, IStyleModel.HIGHLIGHT_RULES_PROP);
+			}
 		}
 		if (element instanceof DataItem && VALUE_EXPR == nameValue && struct == null
 				&& handler.versionNumber < VersionUtil.VERSION_3_1_0) {
@@ -148,8 +153,9 @@ class ExpressionState extends PropertyState {
 			state.setName(IDataItemModel.RESULT_SET_COLUMN_PROP);
 			return state;
 		}
-		if (propDefn == null)
+		if (propDefn == null) {
 			propDefn = element.getPropertyDefn(name);
+		}
 
 		if (handler.versionNumber < VersionUtil.VERSION_3_2_1 && element instanceof ImageItem && struct == null
 				&& IMAGE_NAME_PROP == nameValue) {
@@ -184,10 +190,11 @@ class ExpressionState extends PropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 
@@ -197,10 +204,11 @@ class ExpressionState extends PropertyState {
 	/**
 	 * Constructs an expression object if necessary. THe condition is
 	 * context-related.
-	 * 
+	 *
 	 * @param value the string value
 	 */
 
+	@Override
 	protected void doEnd(Object value) {
 		Object toSet = value;
 
@@ -211,11 +219,13 @@ class ExpressionState extends PropertyState {
 		if (struct != null) {
 			StructureDefn structDefn = (StructureDefn) struct.getDefn();
 			tmpPropDefn = (StructPropertyDefn) structDefn.getMember(name);
-		} else
+		} else {
 			tmpPropDefn = element.getPropertyDefn(name);
+		}
 
-		if (tmpPropDefn != null && tmpPropDefn.allowExpression())
+		if (tmpPropDefn != null && tmpPropDefn.allowExpression()) {
 			toSet = new Expression(value, exprType);
+		}
 
 		super.doEnd(toSet);
 	}

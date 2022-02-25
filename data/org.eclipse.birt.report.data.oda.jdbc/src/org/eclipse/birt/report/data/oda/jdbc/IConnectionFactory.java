@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.oda.jdbc;
@@ -26,11 +26,11 @@ import java.util.Properties;
  * alternative to the java.sql.DriverManager facility.
  */
 public interface IConnectionFactory {
-	public static final String DRIVER_CLASSPATH = "OdaJDBCDriverClassPath";
+	String DRIVER_CLASSPATH = "OdaJDBCDriverClassPath";
 
-	public static final String PASS_IN_CONNECTION = "OdaJDBCDriverPassInConnection";
+	String PASS_IN_CONNECTION = "OdaJDBCDriverPassInConnection";
 
-	public static final String CLOSE_PASS_IN_CONNECTION = "OdaJDBCDriverPassInConnectionCloseAfterUse";
+	String CLOSE_PASS_IN_CONNECTION = "OdaJDBCDriverPassInConnectionCloseAfterUse";
 
 	/**
 	 * Establishes a connection to the given database URL.
@@ -43,7 +43,6 @@ public interface IConnectionFactory {
 	 * @return a Connection to the URL
 	 * @exception SQLException if a database access error occurs
 	 */
-	public Connection getConnection(String driverClass, String url, Properties connectionProperties)
-			throws SQLException;
+	Connection getConnection(String driverClass, String url, Properties connectionProperties) throws SQLException;
 
 }

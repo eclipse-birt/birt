@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -38,7 +38,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Helper class to create sampleDb selection page and property page
- * 
+ *
  */
 public class SampleDbSelectionPageHelper {
 	private WizardPage m_wizardPage;
@@ -93,13 +93,14 @@ public class SampleDbSelectionPageHelper {
 
 	/**
 	 * collect custom properties
-	 * 
+	 *
 	 * @param props
 	 * @return
 	 */
 	Properties collectCustomProperties(Properties props) {
-		if (props == null)
+		if (props == null) {
 			props = new Properties();
+		}
 
 		// set custom driver specific properties
 		props.setProperty(org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass, getDriverClass());
@@ -123,7 +124,7 @@ public class SampleDbSelectionPageHelper {
 
 	/**
 	 * get driver class
-	 * 
+	 *
 	 * @return
 	 */
 	private String getDriverClass() {
@@ -133,7 +134,7 @@ public class SampleDbSelectionPageHelper {
 
 	/**
 	 * get driver url
-	 * 
+	 *
 	 * @return
 	 */
 	private String getDriverUrl() {
@@ -143,45 +144,51 @@ public class SampleDbSelectionPageHelper {
 
 	/**
 	 * populate initial properties
-	 * 
+	 *
 	 * @param profileProps
 	 */
 	void initCustomControl(Properties profileProps) {
-		if (profileProps == null || profileProps.isEmpty())
+		if (profileProps == null || profileProps.isEmpty()) {
 			return; // nothing to initialize
+		}
 
 		String driverClass = profileProps
 				.getProperty(org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass);
-		if (driverClass == null)
+		if (driverClass == null) {
 			driverClass = EMPTY_STRING;
+		}
 		m_driverClass.setText(driverClass);
 
 		String driverUrl = profileProps.getProperty(org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAURL);
-		if (driverUrl == null)
+		if (driverUrl == null) {
 			driverUrl = EMPTY_STRING;
+		}
 		m_driverURL.setText(driverUrl);
 
 		String user = profileProps.getProperty(org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAUser);
-		if (user == null)
+		if (user == null) {
 			user = EMPTY_STRING;
+		}
 		m_sampleUser.setText(user);
 	}
 
 	/**
 	 * set message
-	 * 
+	 *
 	 * @param message
 	 */
 	private void setMessage(String message, int type) {
-		if (m_wizardPage != null)
+		if (m_wizardPage != null) {
 			m_wizardPage.setMessage(message, type);
-		else if (m_propertyPage != null)
+		} else if (m_propertyPage != null) {
 			m_propertyPage.setMessage(message, type);
+		}
 	}
 
 	private Control getControl() {
-		if (m_wizardPage != null)
+		if (m_wizardPage != null) {
 			return m_wizardPage.getControl();
+		}
 		assert (m_propertyPage != null);
 		return m_propertyPage.getControl();
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -49,7 +49,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the level value for this CellDefinition.
-	 * 
+	 *
 	 * @return level
 	 */
 	public int getLevel() {
@@ -58,7 +58,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the level value for this CellDefinition.
-	 * 
+	 *
 	 * @param level
 	 */
 	public void setLevel(int level) {
@@ -67,7 +67,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the isHeader value for this CellDefinition.
-	 * 
+	 *
 	 * @return isHeader
 	 */
 	public boolean isIsHeader() {
@@ -76,7 +76,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the isHeader value for this CellDefinition.
-	 * 
+	 *
 	 * @param isHeader
 	 */
 	public void setIsHeader(boolean isHeader) {
@@ -85,7 +85,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the rowIndex value for this CellDefinition.
-	 * 
+	 *
 	 * @return rowIndex
 	 */
 	public int getRowIndex() {
@@ -94,7 +94,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the rowIndex value for this CellDefinition.
-	 * 
+	 *
 	 * @param rowIndex
 	 */
 	public void setRowIndex(int rowIndex) {
@@ -103,7 +103,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the cellIndex value for this CellDefinition.
-	 * 
+	 *
 	 * @return cellIndex
 	 */
 	public int getCellIndex() {
@@ -112,7 +112,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the cellIndex value for this CellDefinition.
-	 * 
+	 *
 	 * @param cellIndex
 	 */
 	public void setCellIndex(int cellIndex) {
@@ -121,7 +121,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the font value for this CellDefinition.
-	 * 
+	 *
 	 * @return font
 	 */
 	public org.eclipse.birt.report.soapengine.api.Font getFont() {
@@ -130,7 +130,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the font value for this CellDefinition.
-	 * 
+	 *
 	 * @param font
 	 */
 	public void setFont(org.eclipse.birt.report.soapengine.api.Font font) {
@@ -139,7 +139,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the format value for this CellDefinition.
-	 * 
+	 *
 	 * @return format
 	 */
 	public org.eclipse.birt.report.soapengine.api.Format getFormat() {
@@ -148,7 +148,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the format value for this CellDefinition.
-	 * 
+	 *
 	 * @param format
 	 */
 	public void setFormat(org.eclipse.birt.report.soapengine.api.Format format) {
@@ -157,7 +157,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the properties value for this CellDefinition.
-	 * 
+	 *
 	 * @return properties
 	 */
 	public org.eclipse.birt.report.soapengine.api.ColumnProperties getProperties() {
@@ -166,7 +166,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the properties value for this CellDefinition.
-	 * 
+	 *
 	 * @param properties
 	 */
 	public void setProperties(org.eclipse.birt.report.soapengine.api.ColumnProperties properties) {
@@ -175,7 +175,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the alignment value for this CellDefinition.
-	 * 
+	 *
 	 * @return alignment
 	 */
 	public org.eclipse.birt.report.soapengine.api.Alignment getAlignment() {
@@ -184,7 +184,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the alignment value for this CellDefinition.
-	 * 
+	 *
 	 * @param alignment
 	 */
 	public void setAlignment(org.eclipse.birt.report.soapengine.api.Alignment alignment) {
@@ -193,14 +193,18 @@ public class CellDefinition implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof CellDefinition))
+		if (!(obj instanceof CellDefinition)) {
 			return false;
+		}
 		CellDefinition other = (CellDefinition) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -222,6 +226,7 @@ public class CellDefinition implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

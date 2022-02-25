@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -42,7 +42,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Gets the tableId value for this ChartDataBinding.
-	 * 
+	 *
 	 * @return tableId
 	 */
 	public java.lang.String getTableId() {
@@ -51,7 +51,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Sets the tableId value for this ChartDataBinding.
-	 * 
+	 *
 	 * @param tableId
 	 */
 	public void setTableId(java.lang.String tableId) {
@@ -60,7 +60,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Gets the section value for this ChartDataBinding.
-	 * 
+	 *
 	 * @return section
 	 */
 	public org.eclipse.birt.report.soapengine.api.SectionDefinition getSection() {
@@ -69,7 +69,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Sets the section value for this ChartDataBinding.
-	 * 
+	 *
 	 * @param section
 	 */
 	public void setSection(org.eclipse.birt.report.soapengine.api.SectionDefinition section) {
@@ -78,7 +78,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Gets the XAxis value for this ChartDataBinding.
-	 * 
+	 *
 	 * @return XAxis
 	 */
 	public org.eclipse.birt.report.soapengine.api.AxisDataBinding getXAxis() {
@@ -87,7 +87,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Sets the XAxis value for this ChartDataBinding.
-	 * 
+	 *
 	 * @param XAxis
 	 */
 	public void setXAxis(org.eclipse.birt.report.soapengine.api.AxisDataBinding XAxis) {
@@ -96,7 +96,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Gets the YAxis value for this ChartDataBinding.
-	 * 
+	 *
 	 * @return YAxis
 	 */
 	public org.eclipse.birt.report.soapengine.api.AxisDataBinding[] getYAxis() {
@@ -105,7 +105,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Sets the YAxis value for this ChartDataBinding.
-	 * 
+	 *
 	 * @param YAxis
 	 */
 	public void setYAxis(org.eclipse.birt.report.soapengine.api.AxisDataBinding[] YAxis) {
@@ -122,7 +122,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Gets the showXLabelsVertically value for this ChartDataBinding.
-	 * 
+	 *
 	 * @return showXLabelsVertically
 	 */
 	public int getShowXLabelsVertically() {
@@ -131,7 +131,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	/**
 	 * Sets the showXLabelsVertically value for this ChartDataBinding.
-	 * 
+	 *
 	 * @param showXLabelsVertically
 	 */
 	public void setShowXLabelsVertically(int showXLabelsVertically) {
@@ -140,14 +140,18 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ChartDataBinding))
+		if (!(obj instanceof ChartDataBinding)) {
 			return false;
+		}
 		ChartDataBinding other = (ChartDataBinding) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -169,6 +173,7 @@ public class ChartDataBinding implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

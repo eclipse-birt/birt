@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -46,7 +46,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Gets the font value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @return font
 	 */
 	public java.lang.String getFont() {
@@ -55,7 +55,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Sets the font value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @param font
 	 */
 	public void setFont(java.lang.String font) {
@@ -64,7 +64,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Gets the size value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @return size
 	 */
 	public java.lang.Double getSize() {
@@ -73,7 +73,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Sets the size value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @param size
 	 */
 	public void setSize(java.lang.Double size) {
@@ -82,7 +82,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Gets the color value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @return color
 	 */
 	public java.lang.String getColor() {
@@ -91,7 +91,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Sets the color value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @param color
 	 */
 	public void setColor(java.lang.String color) {
@@ -100,7 +100,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Gets the backgroundColor value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @return backgroundColor
 	 */
 	public java.lang.String getBackgroundColor() {
@@ -109,7 +109,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Sets the backgroundColor value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @param backgroundColor
 	 */
 	public void setBackgroundColor(java.lang.String backgroundColor) {
@@ -118,7 +118,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Gets the bold value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @return bold
 	 */
 	public java.lang.Boolean getBold() {
@@ -127,7 +127,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Sets the bold value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @param bold
 	 */
 	public void setBold(java.lang.Boolean bold) {
@@ -136,7 +136,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Gets the italic value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @return italic
 	 */
 	public java.lang.Boolean getItalic() {
@@ -145,7 +145,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Sets the italic value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @param italic
 	 */
 	public void setItalic(java.lang.Boolean italic) {
@@ -154,7 +154,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Gets the underline value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @return underline
 	 */
 	public java.lang.Boolean getUnderline() {
@@ -163,7 +163,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	/**
 	 * Sets the underline value for this FormatRuleEffect.
-	 * 
+	 *
 	 * @param underline
 	 */
 	public void setUnderline(java.lang.Boolean underline) {
@@ -172,14 +172,18 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof FormatRuleEffect))
+		if (!(obj instanceof FormatRuleEffect)) {
 			return false;
+		}
 		FormatRuleEffect other = (FormatRuleEffect) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -206,6 +210,7 @@ public class FormatRuleEffect implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

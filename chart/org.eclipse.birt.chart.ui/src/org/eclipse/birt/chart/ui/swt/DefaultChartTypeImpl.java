@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,47 +50,52 @@ public class DefaultChartTypeImpl implements IChartType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return ""; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getName()
 	 */
+	@Override
 	public String getName() {
 		return ""; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getImage()
 	 */
+	@Override
 	public Image getImage() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
 	 * java.lang.String, org.eclipse.birt.chart.model.attribute.Orientation)
 	 */
+	@Override
 	public Collection<IChartSubType> getChartSubtypes(String Dimension, Orientation orientation) {
-		return new Vector<IChartSubType>();
+		return new Vector<>();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse
 	 * .birt.chart.model.Chart, java.util.Hashtable)
 	 */
+	@Override
 	@SuppressWarnings("rawtypes")
 	public boolean canAdapt(Chart cModel, Hashtable htModelHints) {
 		return false;
@@ -98,74 +103,83 @@ public class DefaultChartTypeImpl implements IChartType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
 	 * .String, org.eclipse.birt.chart.model.attribute.Orientation,
 	 * java.lang.String, org.eclipse.birt.chart.model.Chart)
 	 */
+	@Override
 	public Chart getModel(String sType, Orientation Orientation, String Dimension, Chart currentChart) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions ()
 	 */
+	@Override
 	public String[] getSupportedDimensions() {
 		return new String[] { TWO_DIMENSION_TYPE };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
+	@Override
 	public String getDefaultDimension() {
 		return TWO_DIMENSION_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition ()
 	 */
+	@Override
 	public boolean supportsTransposition() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
 	 * (java.lang.String)
 	 */
+	@Override
 	public boolean supportsTransposition(String dimension) {
 		return supportsTransposition();
 	}
 
+	@Override
 	public Orientation getDefaultOrientation() {
 		return Orientation.VERTICAL_LITERAL;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getHelp()
 	 */
+	@Override
 	public IHelpContent getHelp() {
 		return new HelpContentImpl("{Title}", "{Description}"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Override
 	public ISelectDataComponent getBaseUI(Chart chart, ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
 			String sTitle) {
 		return new DefaultSelectDataComponent();
 	}
 
+	@Override
 	public boolean isDimensionSupported(String dimensionType, ChartWizardContext context, int nbOfAxes,
 			int nbOfSeries) {
 		boolean isSupported = false;
@@ -192,9 +206,10 @@ public class DefaultChartTypeImpl implements IChartType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
+	@Override
 	public Series getSeries() {
 		// TODO Auto-generated method stub
 		return getSeries(true);
@@ -202,7 +217,7 @@ public class DefaultChartTypeImpl implements IChartType {
 
 	/**
 	 * Make the series the same type as the other one
-	 * 
+	 *
 	 * @param series
 	 * @param seriesIndex
 	 * @param firtsSeries
@@ -232,7 +247,7 @@ public class DefaultChartTypeImpl implements IChartType {
 
 	/**
 	 * Converts sample data for chart types.
-	 * 
+	 *
 	 * @param currentSampleData
 	 * @param xAxisType
 	 * @param yAxisType
@@ -247,7 +262,7 @@ public class DefaultChartTypeImpl implements IChartType {
 
 		// Convert orthogonal sample data
 		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData();
-		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<OrthogonalSampleData>();
+		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<>();
 		for (int i = 0; i < osdList.size(); i++) {
 			OrthogonalSampleData osd = osdList.get(i);
 			osd.setDataSetRepresentation(
@@ -261,7 +276,7 @@ public class DefaultChartTypeImpl implements IChartType {
 
 	/**
 	 * Converts sample data for chart types.
-	 * 
+	 *
 	 * @param currentSampleData
 	 * @param xAxisType
 	 * @param yAxisTypes
@@ -286,7 +301,7 @@ public class DefaultChartTypeImpl implements IChartType {
 
 	private Vector<BaseSampleData> getConvertedBaseSampleDataRepresentation(EList<BaseSampleData> bsdList,
 			AxisType xAxisType) {
-		Vector<BaseSampleData> vNewBaseSampleData = new Vector<BaseSampleData>();
+		Vector<BaseSampleData> vNewBaseSampleData = new Vector<>();
 		for (int i = 0; i < bsdList.size(); i++) {
 			BaseSampleData bsd = bsdList.get(i);
 			bsd.setDataSetRepresentation(
@@ -298,7 +313,7 @@ public class DefaultChartTypeImpl implements IChartType {
 
 	private Vector<OrthogonalSampleData> getConvertedOrthogonalSampleDataRepresentation(
 			EList<OrthogonalSampleData> osdList, List<AxisType> axisTypes) {
-		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<OrthogonalSampleData>();
+		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<>();
 		for (int i = 0; i < axisTypes.size(); i++) {
 			OrthogonalSampleData osd = osdList.get(i);
 			osd.setDataSetRepresentation(ChartUIUtil.getConvertedSampleDataRepresentation(axisTypes.get(i),
@@ -308,21 +323,24 @@ public class DefaultChartTypeImpl implements IChartType {
 		return vNewOrthogonalSampleData;
 	}
 
+	@Override
 	public boolean canCombine() {
 		return false;
 	}
 
+	@Override
 	public String getDefaultTitle() {
 		return chartTitle;
 	}
 
+	@Override
 	public boolean canExpand() {
 		return false;
 	}
 
 	/**
 	 * Copies generic chart properties
-	 * 
+	 *
 	 * @param oldChart chart model as copy source
 	 * @param newChart chart model as copy target
 	 */
@@ -353,24 +371,27 @@ public class DefaultChartTypeImpl implements IChartType {
 		}
 	}
 
+	@Override
 	public String getValueDefinitionName() {
 		return Messages.getString("DefaultChartTypeImpl.Label.ValueDefinitionName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#isChartWithAxis()
 	 */
+	@Override
 	public boolean isChartWithAxes() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries(boolean)
 	 */
+	@Override
 	public Series getSeries(boolean needInitialing) {
 		return null;
 	}

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,9 +24,9 @@ import org.eclipse.emf.common.util.EList;
  * Grouping</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
+ *
  * This type holds all grouping-related information for a series.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -60,11 +60,11 @@ public interface SeriesGrouping extends IChartObject {
 	 * Returns the value of the '<em><b>Enabled</b></em>' attribute. <!--
 	 * begin-user-doc --> Gets whether or not grouping is enabled. <!-- end-user-doc
 	 * --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the interval of spanning.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Enabled</em>' attribute.
 	 * @see #isSetEnabled()
 	 * @see #unsetEnabled()
@@ -80,7 +80,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#isEnabled
 	 * <em>Enabled</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Enabled</em>' attribute.
 	 * @see #isSetEnabled()
 	 * @see #unsetEnabled()
@@ -93,7 +93,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#isEnabled
 	 * <em>Enabled</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetEnabled()
 	 * @see #isEnabled()
 	 * @see #setEnabled(boolean)
@@ -106,7 +106,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#isEnabled
 	 * <em>Enabled</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Enabled</em>' attribute is set.
 	 * @see #unsetEnabled()
 	 * @see #isEnabled()
@@ -118,11 +118,11 @@ public interface SeriesGrouping extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Grouping Unit</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the unit of grouping.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Grouping Unit</em>' attribute.
 	 * @see #setGroupingUnit(String)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping_GroupingUnit()
@@ -137,7 +137,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingUnit
 	 * <em>Grouping Unit</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Grouping Unit</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.GroupingUnitType
 	 * @see #isSetGroupingUnit()
@@ -152,7 +152,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingUnit
 	 * <em>Grouping Unit</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetGroupingUnit()
 	 * @see #getGroupingUnit()
 	 * @see #setGroupingUnit(GroupingUnitType)
@@ -165,7 +165,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingUnit
 	 * <em>Grouping Unit</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Grouping Unit</em>' attribute is set.
 	 * @see #unsetGroupingUnit()
 	 * @see #getGroupingUnit()
@@ -178,13 +178,13 @@ public interface SeriesGrouping extends IChartObject {
 	 * Returns the value of the '<em><b>Grouping Origin</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * A data element that specifies the starting point for grouping. This does not
 	 * apply to grouping of Text values. If undefined, grouping starts at the
 	 * minimum value.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Grouping Origin</em>' containment reference.
 	 * @see #setGroupingOrigin(DataElement)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping_GroupingOrigin()
@@ -198,7 +198,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingOrigin
 	 * <em>Grouping Origin</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Grouping Origin</em>' containment
 	 *              reference.
 	 * @see #getGroupingOrigin()
@@ -209,11 +209,11 @@ public interface SeriesGrouping extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Grouping Interval</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the interval of grouping.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Grouping Interval</em>' attribute.
 	 * @see #isSetGroupingInterval()
 	 * @see #unsetGroupingInterval()
@@ -230,7 +230,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval
 	 * <em>Grouping Interval</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Grouping Interval</em>' attribute.
 	 * @see #isSetGroupingInterval()
 	 * @see #unsetGroupingInterval()
@@ -244,7 +244,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval
 	 * <em>Grouping Interval</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetGroupingInterval()
 	 * @see #getGroupingInterval()
 	 * @see #setGroupingInterval(double)
@@ -257,7 +257,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval
 	 * <em>Grouping Interval</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Grouping Interval</em>' attribute is
 	 *         set.
 	 * @see #unsetGroupingInterval()
@@ -270,11 +270,11 @@ public interface SeriesGrouping extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Group Type</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the type of data to be grouped. (e.g. Text, Number, Date/Time etc.)
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Group Type</em>' attribute.
 	 * @see #setGroupType(String)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping_GroupType()
@@ -289,7 +289,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType
 	 * <em>Group Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Group Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.DataType
 	 * @see #isSetGroupType()
@@ -304,7 +304,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType
 	 * <em>Group Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetGroupType()
 	 * @see #getGroupType()
 	 * @see #setGroupType(DataType)
@@ -317,7 +317,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType
 	 * <em>Group Type</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Group Type</em>' attribute is set.
 	 * @see #unsetGroupType()
 	 * @see #getGroupType()
@@ -329,12 +329,12 @@ public interface SeriesGrouping extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Aggregate Expression</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the aggregate function to be applied on orthogonal values for each
 	 * grouped unit.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Aggregate Expression</em>' attribute.
 	 * @see #setAggregateExpression(String)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping_AggregateExpression()
@@ -349,7 +349,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression
 	 * <em>Aggregate Expression</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Aggregate Expression</em>' attribute.
 	 * @see #isSetAggregateExpression()
 	 * @see #unsetAggregateExpression()
@@ -363,7 +363,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression
 	 * <em>Aggregate Expression</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetAggregateExpression()
 	 * @see #getAggregateExpression()
 	 * @see #setAggregateExpression(String)
@@ -376,7 +376,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression
 	 * <em>Aggregate Expression</em>}' attribute is set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Aggregate Expression</em>' attribute is
 	 *         set.
 	 * @see #unsetAggregateExpression()
@@ -395,7 +395,7 @@ public interface SeriesGrouping extends IChartObject {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Aggregate Parameters</em>' attribute list.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping_AggregateParameters()
 	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
@@ -407,6 +407,7 @@ public interface SeriesGrouping extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	SeriesGrouping copyInstance();
 
 } // SeriesGrouping

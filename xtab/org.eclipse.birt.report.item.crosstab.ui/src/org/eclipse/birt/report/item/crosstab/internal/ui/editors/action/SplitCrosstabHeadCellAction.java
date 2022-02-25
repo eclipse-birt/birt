@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
- * 
+ *
  */
 
 public class SplitCrosstabHeadCellAction extends AbstractCrosstabAction {
@@ -56,15 +56,13 @@ public class SplitCrosstabHeadCellAction extends AbstractCrosstabAction {
 		transEnd();
 	}
 
+	@Override
 	public boolean isEnabled() {
 		if (cellHandle == null) {
 			return false;
 		}
 		CubeHandle cubeHandle = cellHandle.getCrosstab().getCube();
-		if (cubeHandle == null) {
-			return false;
-		}
-		if (DEUtil.isReferenceElement(cellHandle.getCrosstabHandle())) {
+		if ((cubeHandle == null) || DEUtil.isReferenceElement(cellHandle.getCrosstabHandle())) {
 			return false;
 		}
 

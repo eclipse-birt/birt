@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -56,6 +56,7 @@ public class ResourceFilterDialog extends BaseDialog {
 		this.filters = filters;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -107,23 +108,27 @@ public class ResourceFilterDialog extends BaseDialog {
 
 		table.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				StructuredSelection selection = ((StructuredSelection) viewer.getSelection());
 				Object obj = null;
 				if (selection != null && (obj = selection.getFirstElement()) != null) {
 					ResourceFilter filter = (ResourceFilter) obj;
-					if (filter.getDescription() != null)
+					if (filter.getDescription() != null) {
 						descriptionText.setText(filter.getDescription());
+					}
 				}
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				StructuredSelection selection = ((StructuredSelection) viewer.getSelection());
 				Object obj = null;
 				if (selection != null && (obj = selection.getFirstElement()) != null) {
 					ResourceFilter filter = (ResourceFilter) obj;
-					if (filter.getDescription() != null)
+					if (filter.getDescription() != null) {
 						descriptionText.setText(filter.getDescription());
+					}
 				}
 			}
 
@@ -133,6 +138,7 @@ public class ResourceFilterDialog extends BaseDialog {
 		viewer.setLabelProvider(provider);
 		viewer.addCheckStateListener(new ICheckStateListener() {
 
+			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
 
 				ResourceFilter filter = (ResourceFilter) event.getElement();
@@ -152,21 +158,26 @@ public class ResourceFilterDialog extends BaseDialog {
 	 */
 	private static class FilterProvider extends LabelProvider implements IStructuredContentProvider {
 
+		@Override
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof List)
+			if (inputElement instanceof List) {
 				return ((List) inputElement).toArray();
-			else
+			} else {
 				return new Object[0];
+			}
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public String getText(Object element) {
 			if (element instanceof ResourceFilter) {
 				return ((ResourceFilter) element).getDisplayName();
-			} else
+			} else {
 				return ""; //$NON-NLS-1$
+			}
 		}
 
 //		public String getToolTip( Object element )

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.mozilla.javascript.Scriptable;
  */
 public class DimensionFilterEvalHelper extends BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper {
 	/**
-	 * 
+	 *
 	 * @param outResults
 	 * @param parentScope
 	 * @param queryDefn
@@ -61,11 +61,12 @@ public class DimensionFilterEvalHelper extends BaseDimensionFilterEvalHelper imp
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IJsFilter#evaluateFilter(org.
 	 * eclipse.birt.data.engine.olap.util.filter.IResultRow)
 	 */
+	@Override
 	public boolean evaluateFilter(IResultRow resultRow) throws DataException {
 
 		super.setData(resultRow);

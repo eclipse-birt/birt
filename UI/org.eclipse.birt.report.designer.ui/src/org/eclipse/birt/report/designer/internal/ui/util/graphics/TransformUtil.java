@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,13 +22,13 @@ import org.eclipse.swt.graphics.Rectangle;
 
 /**
  * Utility class for transform operation.
- * 
+ *
  */
 public class TransformUtil {
 
 	/**
 	 * Returns the rectangle transformed from the given rectangle.
-	 * 
+	 *
 	 * @param af
 	 * @param rect
 	 * @return
@@ -47,7 +47,7 @@ public class TransformUtil {
 
 	/**
 	 * Returns the rectangle which is the inverse transform of the given rectangle.
-	 * 
+	 *
 	 * @param af
 	 * @param rect
 	 * @return
@@ -66,7 +66,7 @@ public class TransformUtil {
 
 	/**
 	 * Returns the point transformed from the given point.
-	 * 
+	 *
 	 * @param af
 	 * @param pt
 	 * @return
@@ -80,7 +80,7 @@ public class TransformUtil {
 
 	/**
 	 * Returns the point which is the inverse transform of the given point.
-	 * 
+	 *
 	 * @param af
 	 * @param pt
 	 * @return
@@ -99,7 +99,7 @@ public class TransformUtil {
 	/**
 	 * Redress the rectangle orientation, make it start with upper-left and positive
 	 * width and height.
-	 * 
+	 *
 	 * @param rect
 	 * @return result
 	 */

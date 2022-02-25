@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.CCombo;
 
 /**
- * 
+ *
  */
 public class CrosstabBindingComboPropertyDescriptorProvider extends PropertyDescriptorProvider {
 
@@ -64,12 +64,7 @@ public class CrosstabBindingComboPropertyDescriptorProvider extends PropertyDesc
 			items = UIUtil.getVisibleCubeHandles(handle.getModuleHandle());
 		}
 
-		Collections.sort(items, new Comparator<CubeHandle>() {
-
-			public int compare(CubeHandle o1, CubeHandle o2) {
-				return o1.getQualifiedName().compareTo(o2.getQualifiedName());
-			}
-		});
+		Collections.sort(items, Comparator.comparing(CubeHandle::getQualifiedName));
 
 		items.add(0, null);
 		return items;
@@ -93,6 +88,7 @@ public class CrosstabBindingComboPropertyDescriptorProvider extends PropertyDesc
 		return items;
 	}
 
+	@Override
 	public String getDisplayName() {
 		if (IReportItemModel.CUBE_PROP.equals(getProperty())) {
 			return Messages.getString("Element.ReportElement.Cube"); //$NON-NLS-1$
@@ -101,12 +97,14 @@ public class CrosstabBindingComboPropertyDescriptorProvider extends PropertyDesc
 		}
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		int ret = 0;
 		// If choose binding Cube as None
 		if (getCube() != null) {
-			if (getCube().equals(value))
+			if (getCube().equals(value)) {
 				return;
+			}
 			MessageDialog prefDialog = new MessageDialog(UIUtil.getDefaultShell(),
 					Messages.getString("CrosstabDataBinding.title.ChangeCube"), //$NON-NLS-1$
 					null, Messages.getString("CrosstabDataBinding.message.changeCube"), //$NON-NLS-1$
@@ -144,6 +142,7 @@ public class CrosstabBindingComboPropertyDescriptorProvider extends PropertyDesc
 		// super.save( value );
 	}
 
+	@Override
 	public Object load() {
 		return getCube();
 	}
@@ -162,14 +161,12 @@ public class CrosstabBindingComboPropertyDescriptorProvider extends PropertyDesc
 			if (value == null) {
 				getExtendedItemHandle().setCube(cubeHandle);
 				new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle(), null);
+			} else if (cubeHandle != value) {
+				getExtendedItemHandle().setCube(null);
+				new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle(), value.getQualifiedName());
 			} else {
-				if (cubeHandle != value) {
-					getExtendedItemHandle().setCube(null);
-					new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle(), value.getQualifiedName());
-				} else {
-					new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle(), null);
-					getExtendedItemHandle().setCube(cubeHandle);
-				}
+				new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle(), null);
+				getExtendedItemHandle().setCube(cubeHandle);
 			}
 			if (clearHistory) {
 				getExtendedItemHandle().getColumnBindings().clearValue();

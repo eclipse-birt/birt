@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,10 +38,12 @@ public class FontStylePropertyDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public Control getControl() {
 		return composite;
 	}
 
+	@Override
 	public Control createControl(Composite parent) {
 		composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -67,6 +69,7 @@ public class FontStylePropertyDescriptor extends PropertyDescriptor {
 			toggle.getControl().setLayoutData(new GridData());
 			toggle.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					Control control = toggle.getControl();
 					control = null;
@@ -89,6 +92,7 @@ public class FontStylePropertyDescriptor extends PropertyDescriptor {
 		fontAlign.getControl().setLayoutData(new GridData());
 		fontAlign.getControl().addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent event) {
 				Control control = fontAlign.getControl();
 				control = null;
@@ -100,20 +104,25 @@ public class FontStylePropertyDescriptor extends PropertyDescriptor {
 		return composite;
 	}
 
+	@Override
 	public void load() {
-		for (int i = 0; i < toggles.length; i++)
+		for (int i = 0; i < toggles.length; i++) {
 			toggles[i].load();
+		}
 		fontAlign.load();
 		composite.layout();
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
-		for (int i = 0; i < toggles.length; i++)
+		for (int i = 0; i < toggles.length; i++) {
 			toggles[i].setInput(input);
+		}
 		fontAlign.setInput(input);
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		// TODO Auto-generated method stub
 
@@ -133,23 +142,27 @@ public class FontStylePropertyDescriptor extends PropertyDescriptor {
 
 	public void setProviders(IDescriptorProvider[] providers) {
 		for (int i = 0; i < providers.length; i++) {
-			if (providers[i] instanceof IToggleDescriptorProvider)
+			if (providers[i] instanceof IToggleDescriptorProvider) {
 				toggleProviderList.add(providers[i]);
-			else if (providers[i] instanceof PropertyDescriptorProvider)
+			} else if (providers[i] instanceof PropertyDescriptorProvider) {
 				fontAlignProvider = (PropertyDescriptorProvider) providers[i];
+			}
 		}
 	}
 
 	public void setHidden(boolean isHidden) {
-		if (composite != null)
+		if (composite != null) {
 			WidgetUtil.setExcludeGridData(composite, isHidden);
+		}
 	}
 
 	public void setVisible(boolean isVisible) {
-		if (composite != null)
+		if (composite != null) {
 			composite.setVisible(isVisible);
+		}
 	}
 
+	@Override
 	public void reset() {
 		for (int i = 0; i < toggles.length; i++) {
 			try {

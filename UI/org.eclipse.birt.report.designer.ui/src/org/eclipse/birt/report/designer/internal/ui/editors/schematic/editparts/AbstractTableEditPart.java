@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 
 	/**
 	 * Constractor
-	 * 
+	 *
 	 * @param model
 	 */
 	public AbstractTableEditPart(Object model) {
@@ -58,34 +58,39 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 
 	/**
 	 * Returns the layer indicated by the key. Searches all layered panes.
-	 * 
+	 *
 	 * @see LayerManager#getLayer(Object)
 	 */
+	@Override
 	public IFigure getLayer(Object key) {
-		if (innerLayers == null)
+		if (innerLayers == null) {
 			return null;
+		}
 		IFigure layer = innerLayers.getLayer(key);
-		if (layer != null)
+		if (layer != null) {
 			return layer;
-		if (printableLayers == null)
+		}
+		if (printableLayers == null) {
 			return null;
+		}
 		return printableLayers.getLayer(key);
 	}
 
 	/**
 	 * this layer may be a un-useful layer.
-	 * 
+	 *
 	 * @return the layered pane containing all printable content
 	 */
 	protected LayeredPane getPrintableLayers() {
-		if (printableLayers == null)
+		if (printableLayers == null) {
 			printableLayers = createPrintableLayers();
+		}
 		return printableLayers;
 	}
 
 	/**
 	 * Creates a layered pane and the layers that should be printed.
-	 * 
+	 *
 	 * @see org.eclipse.gef.print.PrintGraphicalViewerOperation
 	 * @return a new LayeredPane containing the printable layers
 	 */
@@ -101,19 +106,21 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 
 	/**
 	 * The contents' Figure will be added to the PRIMARY_LAYER.
-	 * 
+	 *
 	 * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
 	 */
+	@Override
 	public IFigure getContentPane() {
 		return getLayer(PRIMARY_LAYER);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#
 	 * reLayout()
 	 */
+	@Override
 	public void reLayout() {
 		notifyModelChange();
 		getFigure().invalidateTree();
@@ -123,12 +130,13 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 
 	/**
 	 * Get the cell on give position.
-	 * 
+	 *
 	 * @param rowNumber
 	 * @param columnNumber
 	 */
 	public abstract AbstractCellEditPart getCell(int rowNumber, int columnNumber);
 
+	@Override
 	protected void contentChange(Map info) {
 		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE);
 		if (action instanceof Integer) {
@@ -145,6 +153,7 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 					removeGuideFeedBack();
 					Display.getCurrent().asyncExec(new Runnable() {
 
+						@Override
 						public void run() {
 							Object part = viewer.getEditPartRegistry().get(tempModel);
 							if (part != null) {
@@ -188,10 +197,11 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#
 	 * getFixAllowMinRowHight()
 	 */
+	@Override
 	public int getFixAllowMinRowHight() {
 		return FixTableLayout.ALLOW_ROW_HEIGHT;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.eclipse.birt.report.engine.internal.document.IReportContentReader;
 
 /**
  * read the content from the content stream.
- * 
+ *
  */
 class ReportContentReaderV1 implements IReportContentReader {
 
@@ -61,11 +61,13 @@ class ReportContentReaderV1 implements IReportContentReader {
 		this.loader = loader;
 	}
 
+	@Override
 	public void open(String name) throws IOException {
 		IDocArchiveReader reader = document.getArchive();
 		stream = reader.getStream(name);
 	}
 
+	@Override
 	public void close() {
 		if (stream != null) {
 			try {
@@ -144,6 +146,7 @@ class ReportContentReaderV1 implements IReportContentReader {
 		}
 	}
 
+	@Override
 	public IContent readContent() throws IOException {
 		stream.seek(offset);
 		int size = stream.readInt();
@@ -172,20 +175,22 @@ class ReportContentReaderV1 implements IReportContentReader {
 
 	/**
 	 * get the current offset.
-	 * 
+	 *
 	 * The current offset is changed by set of readContent.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public long getOffset() {
 		return offset;
 	}
 
 	/**
 	 * set the current offset. The offset must pints to a valid content.
-	 * 
+	 *
 	 * @param offset
 	 */
+	@Override
 	public void setOffset(long offset) {
 		this.offset = offset;
 	}

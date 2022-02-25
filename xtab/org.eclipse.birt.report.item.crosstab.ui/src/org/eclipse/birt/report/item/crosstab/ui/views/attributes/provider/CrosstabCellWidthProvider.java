@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,6 +28,7 @@ public class CrosstabCellWidthProvider extends UnitPropertyDescriptorProvider {
 		super(property, element);
 	}
 
+	@Override
 	public Object load() {
 		String text = null;
 		try {
@@ -39,15 +40,18 @@ public class CrosstabCellWidthProvider extends UnitPropertyDescriptorProvider {
 		} catch (Exception e) {
 			ExceptionUtil.handle(e);
 		}
-		if (text == null)
+		if (text == null) {
 			return ""; //$NON-NLS-1$
+		}
 		return text;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		DimensionValue dimensionValue = null;
-		if (value != null)
+		if (value != null) {
 			dimensionValue = DimensionValue.parse(value.toString());
+		}
 		try {
 			ExtendedItemHandle handle = (ExtendedItemHandle) DEUtil.getInputFirstElement(input);
 			if (handle.getReportItem() instanceof CrosstabCellHandle) {

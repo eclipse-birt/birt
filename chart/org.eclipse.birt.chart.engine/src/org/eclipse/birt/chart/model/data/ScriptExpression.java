@@ -45,7 +45,7 @@ public class ScriptExpression {
 
 	/*
 	 * Get expression type
-	 * 
+	 *
 	 * @return type the type of the expression.
 	 */
 	public String getType() {
@@ -54,7 +54,7 @@ public class ScriptExpression {
 
 	/*
 	 * Set expression type
-	 * 
+	 *
 	 * @param type the type of the expression.
 	 */
 	public void setType(String type) {
@@ -63,7 +63,7 @@ public class ScriptExpression {
 
 	/*
 	 * Get expression value
-	 * 
+	 *
 	 * @return value value of the expression.
 	 */
 	public String getValue() {
@@ -72,7 +72,7 @@ public class ScriptExpression {
 
 	/*
 	 * Set expression value
-	 * 
+	 *
 	 * @param value value of the expression.
 	 */
 	public void setValue(String value) {

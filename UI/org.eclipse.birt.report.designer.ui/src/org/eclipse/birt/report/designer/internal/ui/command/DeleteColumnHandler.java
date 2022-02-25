@@ -1,17 +1,17 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 /**
- * 
+ *
  */
 
 package org.eclipse.birt.report.designer.internal.ui.command;
@@ -35,6 +35,7 @@ import org.eclipse.gef.EditPartViewer;
  */
 public class DeleteColumnHandler extends SelectionHandler {
 
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		super.execute(event);
 
@@ -71,7 +72,7 @@ public class DeleteColumnHandler extends SelectionHandler {
 
 	/**
 	 * Gets the current selected column objects.
-	 * 
+	 *
 	 * @return The current column objects
 	 */
 	protected List getColumnHandles() {
@@ -93,7 +94,7 @@ public class DeleteColumnHandler extends SelectionHandler {
 
 	/**
 	 * Gets column number given the column handle.
-	 * 
+	 *
 	 * @return the column number
 	 */
 	public int getColumnNumber(Object columnHandle) {

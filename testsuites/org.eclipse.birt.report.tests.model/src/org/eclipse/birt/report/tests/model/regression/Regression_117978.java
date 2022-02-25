@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -33,7 +33,7 @@ import com.ibm.icu.util.ULocale;
  * Regression description:
  * </p>
  * Description: User properties and named expression can't be saved.
- * 
+ *
  * Steps to reproduce:
  * <ol>
  * <li>Set user properties and named expression in a report design.
@@ -55,7 +55,7 @@ public class Regression_117978 extends BaseTestCase {
 	 * @throws IOException
 	 * @throws DesignFileException
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 	public void test_regression_117978() throws IOException, DesignFileException, SemanticException {
 		DesignEngine engine = new DesignEngine(new DesignConfig());

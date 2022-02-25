@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -35,7 +35,7 @@ public class TableSections implements java.io.Serializable {
 
 	/**
 	 * Gets the section value for this TableSections.
-	 * 
+	 *
 	 * @return section
 	 */
 	public org.eclipse.birt.report.soapengine.api.S_Info[] getSection() {
@@ -44,7 +44,7 @@ public class TableSections implements java.io.Serializable {
 
 	/**
 	 * Sets the section value for this TableSections.
-	 * 
+	 *
 	 * @param section
 	 */
 	public void setSection(org.eclipse.birt.report.soapengine.api.S_Info[] section) {
@@ -61,14 +61,18 @@ public class TableSections implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof TableSections))
+		if (!(obj instanceof TableSections)) {
 			return false;
+		}
 		TableSections other = (TableSections) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -82,6 +86,7 @@ public class TableSections implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

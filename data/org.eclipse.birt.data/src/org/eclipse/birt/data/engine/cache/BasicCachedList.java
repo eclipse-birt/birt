@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,8 +60,8 @@ public class BasicCachedList implements List, ICloseListener {
 	protected ClassLoader loader;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public BasicCachedList(String tempDir, ClassLoader loader) {
 		this.cacheSize = Constants.LIST_BUFFER_SIZE;
@@ -76,10 +76,10 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/**
 	 * populate the name prefix of cached file
-	 * 
+	 *
 	 */
 	private void setFileNamePrefix() {
-		this.fileNamePrefix = "CachedList_" + Long.valueOf(System.nanoTime()).toString() + "_" + getID() + "_"
+		this.fileNamePrefix = "CachedList_" + Long.toString(System.nanoTime()) + "_" + getID() + "_"
 				+ Integer.toHexString(hashCode());
 	}
 
@@ -89,13 +89,14 @@ public class BasicCachedList implements List, ICloseListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param list
 	 */
 	public BasicCachedList(String tempDir, ClassLoader loader, List list) {
 		this(tempDir, loader);
-		if (list == null)
+		if (list == null) {
 			return;
+		}
 
 		for (int i = 0; i < list.size(); i++) {
 			this.add(list.get(i));
@@ -104,9 +105,10 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#add(java.lang.Object)
 	 */
+	@Override
 	public boolean add(Object o) {
 		if (this.currentCache.size() >= cacheSize) {
 			try {
@@ -135,9 +137,9 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/**
 	 * Save the current list in memory to disk.
-	 * 
+	 *
 	 * @throws DataException
-	 * 
+	 *
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -162,8 +164,9 @@ public class BasicCachedList implements List, ICloseListener {
 					"Exception happened when save data to disk in CachedList. Exception message: " + e.toString());
 		} catch (IOException e) {
 			try {
-				if (oos != null)
+				if (oos != null) {
 					oos.close();
+				}
 			} catch (IOException ie) {
 			}
 			logger.severe(
@@ -174,7 +177,7 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/**
 	 * Write a list to disk
-	 * 
+	 *
 	 * @param oos
 	 * @param list
 	 * @throws IOException
@@ -189,7 +192,7 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/**
 	 * Write a object to disk
-	 * 
+	 *
 	 * @param oos
 	 * @param object
 	 * @throws IOException
@@ -205,9 +208,10 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#get(int)
 	 */
+	@Override
 	public Object get(int index) {
 		RangeCheck(index);
 		if (index / cacheSize != this.currentCacheNo) {
@@ -229,9 +233,9 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/**
 	 * Load the data of currect no from disk.
-	 * 
+	 *
 	 * @throws DataException
-	 * 
+	 *
 	 */
 	private void loadFromDisk() throws DataException {
 		FileInputStream fis = null;
@@ -246,8 +250,9 @@ public class BasicCachedList implements List, ICloseListener {
 					"Exception happened when load data from disk in CachedList. Exception message: " + e.toString());
 		} catch (IOException e) {
 			try {
-				if (ois != null)
+				if (ois != null) {
 					ois.close();
+				}
 			} catch (IOException ie) {
 			}
 			logger.severe(
@@ -257,7 +262,7 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/**
 	 * Read a list from disk.
-	 * 
+	 *
 	 * @param dis
 	 * @param list
 	 * @return
@@ -274,7 +279,7 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/**
 	 * Read one object from disk.
-	 * 
+	 *
 	 * @param oos
 	 * @param object
 	 * @throws IOException
@@ -289,7 +294,7 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/**
 	 * Create a file for caching objects.
-	 * 
+	 *
 	 * @param cacheIndex
 	 * @return
 	 */
@@ -305,18 +310,20 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.executor.cache.ICachedList#size()
 	 */
+	@Override
 	public int size() {
 		return this.size;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#add(int, java.lang.Object)
 	 */
+	@Override
 	public void add(int index, Object element) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
@@ -325,9 +332,10 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#addAll(java.util.Collection)
 	 */
+	@Override
 	public boolean addAll(Collection c) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("addAll method in CacheList is not supported!");
@@ -335,9 +343,10 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#addAll(int, java.util.Collection)
 	 */
+	@Override
 	public boolean addAll(int index, Collection c) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("addAll method in CacheList is not supported!");
@@ -345,9 +354,10 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#clear()
 	 */
+	@Override
 	public void clear() {
 		clearTempDir();
 		this.currentCacheNo = 0;
@@ -358,9 +368,10 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#contains(java.lang.Object)
 	 */
+	@Override
 	public boolean contains(Object o) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("the contains( Object o ) method in CacheList is not supported!");
@@ -368,9 +379,10 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#containsAll(java.util.Collection)
 	 */
+	@Override
 	public boolean containsAll(Collection c) {
 		throw new UnsupportedOperationException(
 				"the containsAll( Collection c ) method in CacheList is not supported!");
@@ -378,99 +390,110 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#indexOf(java.lang.Object)
 	 */
+	@Override
 	public int indexOf(Object o) {
 		throw new UnsupportedOperationException("the indexOf( Object o ) method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#isEmpty()
 	 */
+	@Override
 	public boolean isEmpty() {
 		return this.size == 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#iterator()
 	 */
+	@Override
 	public Iterator iterator() {
 		throw new UnsupportedOperationException("the iterator( ) method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#lastIndexOf(java.lang.Object)
 	 */
+	@Override
 	public int lastIndexOf(Object o) {
 		throw new UnsupportedOperationException("the lastIndexOf( Object o ) method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#listIterator()
 	 */
+	@Override
 	public ListIterator listIterator() {
 		throw new UnsupportedOperationException("the listIterator( ) method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#listIterator(int)
 	 */
+	@Override
 	public ListIterator listIterator(int index) {
 		throw new UnsupportedOperationException("the listIterator( int index ) method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#remove(int)
 	 */
+	@Override
 	public Object remove(int index) {
 		throw new UnsupportedOperationException("the remove( int index ) method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#remove(java.lang.Object)
 	 */
+	@Override
 	public boolean remove(Object o) {
 		throw new UnsupportedOperationException("the remove( Object o ) method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#removeAll(java.util.Collection)
 	 */
+	@Override
 	public boolean removeAll(Collection c) {
 		throw new UnsupportedOperationException("the removeAll( Collection c ) method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#retainAll(java.util.Collection)
 	 */
+	@Override
 	public boolean retainAll(Collection c) {
 		throw new UnsupportedOperationException("the retainAll( Collection c ) method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#set(int, java.lang.Object)
 	 */
+	@Override
 	public Object set(int index, Object element) {
 		RangeCheck(index);
 		Object oldValue = get(index);
@@ -485,15 +508,17 @@ public class BasicCachedList implements List, ICloseListener {
 	 * ArrayIndexOutOfBoundsException if index is negative.
 	 */
 	private void RangeCheck(int index) {
-		if (index >= size)
+		if (index >= size) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#subList(int, int)
 	 */
+	@Override
 	public List subList(int fromIndex, int toIndex) {
 		throw new UnsupportedOperationException(
 				"the subList( int fromIndex, int toIndex ) method in CacheList is not supported!");
@@ -501,25 +526,27 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#toArray()
 	 */
+	@Override
 	public Object[] toArray() {
 		throw new UnsupportedOperationException("method in CacheList is not supported!");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.List#toArray(java.lang.Object[])
 	 */
+	@Override
 	public Object[] toArray(Object[] a) {
 		throw new UnsupportedOperationException("method in CacheList is not supported!");
 	}
 
 	/**
 	 * Delete the temporay directory;
-	 * 
+	 *
 	 */
 	public void clearTempDir() {
 		for (int i = 0; i < fileList.size(); i++) {
@@ -537,7 +564,7 @@ public class BasicCachedList implements List, ICloseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#finalize()
 	 */
 //	public void finalize( )
@@ -545,6 +572,7 @@ public class BasicCachedList implements List, ICloseListener {
 //		clearTempDir( );
 //	}
 
+	@Override
 	public void close() {
 		clearTempDir();
 	}

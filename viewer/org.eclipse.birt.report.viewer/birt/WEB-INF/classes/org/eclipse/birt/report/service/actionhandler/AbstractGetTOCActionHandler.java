@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -15,6 +15,7 @@ package org.eclipse.birt.report.service.actionhandler;
 
 import java.rmi.RemoteException;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.IBirtConstants;
@@ -57,21 +58,21 @@ public abstract class AbstractGetTOCActionHandler extends AbstractBaseActionHand
 
 	/**
 	 * Get document file path
-	 * 
+	 *
 	 * @return String
 	 */
 	abstract protected String __getReportDocument();
 
 	/**
 	 * Check if document file exists.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	abstract protected void __checkDocumentExists() throws Exception;
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 * @param response
@@ -82,10 +83,11 @@ public abstract class AbstractGetTOCActionHandler extends AbstractBaseActionHand
 
 	/**
 	 * Execute action handler.
-	 * 
+	 *
 	 * @exception RemoteException
 	 * @return
 	 */
+	@Override
 	protected void __execute() throws Exception {
 		prepareParameters();
 		doExecution();
@@ -94,7 +96,7 @@ public abstract class AbstractGetTOCActionHandler extends AbstractBaseActionHand
 
 	/**
 	 * Prepare required parameters
-	 * 
+	 *
 	 * @throws ReportServiceException
 	 * @throws RemoteException
 	 */
@@ -106,7 +108,7 @@ public abstract class AbstractGetTOCActionHandler extends AbstractBaseActionHand
 
 	/**
 	 * Process action hander execution
-	 * 
+	 *
 	 * @throws ReportServiceException
 	 * @throws RemoteException
 	 */
@@ -130,7 +132,7 @@ public abstract class AbstractGetTOCActionHandler extends AbstractBaseActionHand
 
 	/**
 	 * Prepare response
-	 * 
+	 *
 	 * @throws ReportServiceException
 	 * @throws RemoteException
 	 */
@@ -147,7 +149,7 @@ public abstract class AbstractGetTOCActionHandler extends AbstractBaseActionHand
 				childTOCNodes[i].setBookmark(child.getBookmark());
 				childTOCNodes[i].setStyle(child.getStyle());
 				childTOCNodes[i]
-						.setIsLeaf(Boolean.valueOf(child.getChildren() == null || child.getChildren().size() <= 0));
+						.setIsLeaf(child.getChildren() == null || child.getChildren().size() <= 0);
 			}
 			toc.setChild(childTOCNodes);
 		}

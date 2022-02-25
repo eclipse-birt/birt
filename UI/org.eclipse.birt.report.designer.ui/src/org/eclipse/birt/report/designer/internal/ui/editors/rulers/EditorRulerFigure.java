@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * add comment here
- * 
+ *
  */
 public class EditorRulerFigure extends Figure {
 
@@ -91,6 +91,7 @@ public class EditorRulerFigure extends Figure {
 
 	private ZoomListener zoomListener = new ZoomListener() {
 
+		@Override
 		public void zoomChanged(double newZoomValue) {
 			handleZoomChanged();
 		}
@@ -146,9 +147,10 @@ public class EditorRulerFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
 	 */
+	@Override
 	public Dimension getPreferredSize(int wHint, int hHint) {
 		Dimension prefSize = new Dimension();
 		if (isHorizontal()) {
@@ -161,7 +163,7 @@ public class EditorRulerFigure extends Figure {
 
 	/**
 	 * Gets the unit.
-	 * 
+	 *
 	 * @return
 	 */
 	public int getUnit() {
@@ -169,7 +171,7 @@ public class EditorRulerFigure extends Figure {
 	}
 
 	/**
-	 *  
+	 *
 	 */
 	protected void handleZoomChanged() {
 		dpu1 = -1.0;
@@ -179,9 +181,10 @@ public class EditorRulerFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#invalidate()
 	 */
+	@Override
 	public void invalidate() {
 		super.invalidate();
 		dpu1 = -1.0;
@@ -196,9 +199,10 @@ public class EditorRulerFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	protected void paintFigure(Graphics graphics) {
 
 		// set
@@ -475,27 +479,6 @@ public class EditorRulerFigure extends Figure {
 		return retValue;
 	}
 
-	private boolean canDrawNumber(String num, Point startPoint, Graphics g) {
-		Transposer transposer = new Transposer();
-		transposer.setEnabled(!isHorizontal());
-		Rectangle rect = transposer.t(g.getClip(Rectangle.SINGLETON));
-		Dimension strSize = FigureUtilities.getStringExtents(num, getFont());
-		startPoint = transposer.t(startPoint);
-
-		if (strSize.width + startPoint.x > rect.x + rect.width) {
-			return false;
-		}
-		rect = transposer.t(getEndRect(g.getClip(Rectangle.SINGLETON)));
-
-		if (rect.width == 0) {
-			return true;
-		}
-		if (strSize.width + startPoint.x > rect.x) {
-			return false;
-		}
-		return true;
-	}
-
 	/**
 	 * @param drawFocus
 	 */
@@ -517,9 +500,9 @@ public class EditorRulerFigure extends Figure {
 	/**
 	 * Allows the client to set the number of units to be displayed per major mark,
 	 * and the number of divisions to be shown per major mark.
-	 * 
+	 *
 	 * A number on the ruler is considered to be a major mark.
-	 * 
+	 *
 	 * @param unitsPerMajorMark     if less than 1, it will be ignored; if there is
 	 *                              not enough space to display that many units per
 	 *                              major mark, its smallest multiple that leaves
@@ -527,7 +510,7 @@ public class EditorRulerFigure extends Figure {
 	 * @param divisionsPerMajorMark if less than 1, it will be ignored; if
 	 *                              displaying that many divisions does not leave
 	 *                              enough room between marks, it will be ignored.
-	 * 
+	 *
 	 */
 	public void setInterval(int unitsPerMajorMark, int divisionsPerMajorMark) {
 		// don't use

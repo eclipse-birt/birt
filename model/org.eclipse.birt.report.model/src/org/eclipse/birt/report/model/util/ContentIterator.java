@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.core.Module;
  * guarantees the consistency between several rounds of visiting. That is, a
  * given element will get the same iterating results between two times of
  * iterating, as long as the element is not modified.
- * 
+ *
  */
 
 public class ContentIterator extends LevelContentIterator {
@@ -38,9 +38,9 @@ public class ContentIterator extends LevelContentIterator {
 	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given <code>element</code>
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param element the element to visit.
 	 */
 
@@ -51,7 +51,7 @@ public class ContentIterator extends LevelContentIterator {
 	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given slot id of the given <code>element</code>
-	 * 
+	 *
 	 * @param module        module where contents reside.
 	 * @param containerInfo container infor to traverse
 	 */

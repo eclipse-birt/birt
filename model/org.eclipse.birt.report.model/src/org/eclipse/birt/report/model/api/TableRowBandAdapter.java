@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,30 +36,33 @@ public class TableRowBandAdapter extends RowBandAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.TableRowBandAdapter#getElementHandle()
 	 */
 
+	@Override
 	protected ReportItemHandle getElementHandle() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.TableRowBandAdapter#getColumnCount()
 	 */
 
+	@Override
 	protected int getColumnCount() {
 		return element.getColumnCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.TableRowBandAdapter#getRowCount()
 	 */
 
+	@Override
 	protected int getRowCount() {
 		// treat the table as a regular layout.
 

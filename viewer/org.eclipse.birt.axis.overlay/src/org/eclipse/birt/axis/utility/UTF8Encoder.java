@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -52,6 +52,7 @@ public class UTF8Encoder extends AbstractXMLEncoder {
 	 * 
 	 * @return string
 	 */
+	@Override
 	public String getEncoding() {
 		return XMLEncoderFactory.ENCODING_UTF_8;
 	}
@@ -62,6 +63,7 @@ public class UTF8Encoder extends AbstractXMLEncoder {
 	 * @param writer    writer to write this string to
 	 * @param xmlString string to be encoded
 	 */
+	@Override
 	public void writeEncoded(Writer writer, String xmlString) throws IOException {
 		if (xmlString == null) {
 			return;

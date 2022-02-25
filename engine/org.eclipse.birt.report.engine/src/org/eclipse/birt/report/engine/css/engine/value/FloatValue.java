@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 
 /**
  * This class represents float values.
- * 
+ *
  */
 public class FloatValue extends Value implements CSSPrimitiveValue {
 
@@ -67,6 +67,7 @@ public class FloatValue extends Value implements CSSPrimitiveValue {
 	/**
 	 * The type of the value.
 	 */
+	@Override
 	public short getPrimitiveType() {
 		return unitType;
 	}
@@ -74,10 +75,12 @@ public class FloatValue extends Value implements CSSPrimitiveValue {
 	/**
 	 * Returns the float value.
 	 */
+	@Override
 	public float getFloatValue() {
 		return floatValue;
 	}
 
+	@Override
 	public float getFloatValue(short unitType) {
 		return convertFloatValue(unitType, this);
 	}
@@ -85,6 +88,7 @@ public class FloatValue extends Value implements CSSPrimitiveValue {
 	/**
 	 * A string representation of the current value.
 	 */
+	@Override
 	public String getCssText() {
 		return getCssText(unitType, floatValue);
 	}
@@ -92,6 +96,7 @@ public class FloatValue extends Value implements CSSPrimitiveValue {
 	/**
 	 * Returns a printable representation of this value.
 	 */
+	@Override
 	public String toString() {
 		return getCssText();
 	}
@@ -343,6 +348,7 @@ public class FloatValue extends Value implements CSSPrimitiveValue {
 		}
 	}
 
+	@Override
 	public boolean equals(Object value) {
 		if (value instanceof FloatValue) {
 			FloatValue f = (FloatValue) value;

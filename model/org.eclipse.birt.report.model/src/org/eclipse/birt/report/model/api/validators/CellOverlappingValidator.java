@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,13 +32,13 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
  * Validates all cells in one row don't overlap each other.
- * 
+ *
  * <h3>Rule</h3> The rule is that all cells in the given row shouldn't overlap
  * each other.
- * 
+ *
  * <h3>Applicability</h3> This validator is only applied to
  * <code>TableRow</code>.
- * 
+ *
  */
 
 public class CellOverlappingValidator extends AbstractElementValidator {
@@ -47,7 +47,7 @@ public class CellOverlappingValidator extends AbstractElementValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 * 
+	 *
 	 * @return the validator instance
 	 */
 
@@ -57,25 +57,24 @@ public class CellOverlappingValidator extends AbstractElementValidator {
 
 	/**
 	 * Validates whether any cell in the given row overlaps others.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the row to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
-		if (!(element instanceof TableRow))
+		if (!(element instanceof TableRow) || (element.getContainer() == null)) {
 			return Collections.emptyList();
-
-		if (element.getContainer() == null)
-			return Collections.emptyList();
+		}
 
 		return doValidate(module, (TableRow) element);
 	}
 
 	private List<SemanticException> doValidate(Module module, TableRow toValidate) {
-		List<SemanticException> list = new ArrayList<SemanticException>();
+		List<SemanticException> list = new ArrayList<>();
 
 		// Get the slot containing this row
 
@@ -92,8 +91,9 @@ public class CellOverlappingValidator extends AbstractElementValidator {
 		// errors are collected correctly. Therefore, we can jump it if
 		// the column count is not positive.
 
-		if (colCount <= 0)
+		if (colCount <= 0) {
 			return list;
+		}
 
 		boolean ok = true;
 		boolean cols[] = new boolean[colCount];
@@ -107,15 +107,17 @@ public class CellOverlappingValidator extends AbstractElementValidator {
 			int colSpan = cell.getColSpan(module);
 			int rowSpan = cell.getRowSpan(module);
 
-			if (colPosn > 0)
+			if (colPosn > 0) {
 				colPosn--;
-			else
+			} else {
 				colPosn = impliedPosn;
+			}
 
 			// Check the horizontal and vertical cell span
 
-			if (!checkColSpan(cols, colPosn, colSpan) || !checkRowSpan(rowCount, rowPosn, rowSpan))
+			if (!checkColSpan(cols, colPosn, colSpan) || !checkRowSpan(rowCount, rowPosn, rowSpan)) {
 				ok = false;
+			}
 
 			impliedPosn = colPosn + colSpan;
 		}
@@ -141,7 +143,7 @@ public class CellOverlappingValidator extends AbstractElementValidator {
 
 	/**
 	 * Checks whether the cell horizontal overlap exists.
-	 * 
+	 *
 	 * @param cols    column array which records the cell allocation
 	 * @param colPosn column position of the cell
 	 * @param colSpan column span of the cell
@@ -152,8 +154,9 @@ public class CellOverlappingValidator extends AbstractElementValidator {
 		boolean ok = true;
 
 		for (int j = 0; j < colSpan; j++) {
-			if (cols[colPosn + j])
+			if (cols[colPosn + j]) {
 				ok = false;
+			}
 			cols[colPosn + j] = true;
 		}
 
@@ -162,7 +165,7 @@ public class CellOverlappingValidator extends AbstractElementValidator {
 
 	/**
 	 * Checks whether the cell vertical overlap exists.
-	 * 
+	 *
 	 * @param rowCount row count of the band this cell belongs to
 	 * @param rowPosn  row position of this cell in the band
 	 * @param rowSpan  row span of the cell

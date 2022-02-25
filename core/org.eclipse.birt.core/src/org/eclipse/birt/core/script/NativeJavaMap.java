@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,12 +25,12 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
- * 
+ *
  */
 public class NativeJavaMap extends NativeJavaObject {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -3988584321233636629L;
 
@@ -43,22 +43,24 @@ public class NativeJavaMap extends NativeJavaObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.mozilla.javascript.Scriptable#has(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
 
+	@Override
 	public boolean has(String name, Scriptable start) {
 		return ((Map) javaObject).containsKey(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.mozilla.javascript.Scriptable#get(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
 
+	@Override
 	public Object get(String name, Scriptable start) {
 		if ("length".equals(name)) {
 			return Integer.valueOf(((Map) javaObject).size());
@@ -72,34 +74,37 @@ public class NativeJavaMap extends NativeJavaObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.mozilla.javascript.Scriptable#put(java.lang.String,
 	 * org.mozilla.javascript.Scriptable, java.lang.Object)
 	 */
 
+	@Override
 	public void put(String name, Scriptable start, Object value) {
 		((Map) javaObject).put(name, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.mozilla.javascript.Scriptable#delete(java.lang.String)
 	 */
 
+	@Override
 	public void delete(String name) {
 		((Map) javaObject).remove(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.mozilla.javascript.Scriptable#get(int,
 	 * org.mozilla.javascript.Scriptable)
 	 */
 
+	@Override
 	public Object get(int index, Scriptable start) {
-		String key = Integer.valueOf(index).toString();
+		String key = Integer.toString(index);
 		if (has(key, start)) {
 			return ((Map) javaObject).get(key);
 		}
@@ -107,10 +112,12 @@ public class NativeJavaMap extends NativeJavaObject {
 		throw new JavaScriptException(errorMessage, "<unknown>", -1); //$NON-NLS-1$
 	}
 
+	@Override
 	public void put(int index, Scriptable start, Object value) {
-		((Map) javaObject).put(Integer.valueOf(index).toString(), value);
+		((Map) javaObject).put(Integer.toString(index), value);
 	}
 
+	@Override
 	public Object[] getIds() {
 		return ((Map) javaObject).keySet().toArray();
 	}

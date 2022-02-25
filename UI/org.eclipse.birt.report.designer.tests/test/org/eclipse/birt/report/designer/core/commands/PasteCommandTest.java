@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 
 /**
  * @author xzhang
- * 
+ *
  *         TODO To change the template for this generated type comment go to
  *         Window - Preferences - Java - Code Style - Code Templates
  */
@@ -32,6 +32,7 @@ public class PasteCommandTest extends CmdBaseTestCase {
 
 	private CellHandle newCell = null;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		createFirstRow();
@@ -45,7 +46,7 @@ public class PasteCommandTest extends CmdBaseTestCase {
 		 * |-----------------------------------| |secondRow(no cell) |
 		 * |-----------------------------------| |firstRow(secondCell | firstCell)--|
 		 * |-----------------------------------|
-		 * 
+		 *
 		 **********************************************************************/
 	}
 
@@ -111,7 +112,7 @@ public class PasteCommandTest extends CmdBaseTestCase {
 		assertEquals(cell3, firstRow.getCells().get(2));
 		/***********************************************************************
 		 * firstRow -----cell1 -----cell2 -----cell3
-		 * 
+		 *
 		 **********************************************************************/
 		// pastecut cell1 and insert before cell3
 		PasteCommand pasteCmd = new PasteCommand(cell1, firstRow, cell3, true);
@@ -121,7 +122,7 @@ public class PasteCommandTest extends CmdBaseTestCase {
 		// is it right??
 		/***********************************************************************
 		 * firstRow -----cell2 -----cell3 -----copy of cell1
-		 * 
+		 *
 		 **********************************************************************/
 		assertEquals(3, firstRow.getCells().getCount());
 		assertEquals(cell2, firstRow.getCells().get(0));
@@ -157,8 +158,9 @@ public class PasteCommandTest extends CmdBaseTestCase {
 		assertEquals(2, firstRow.getCells().getCount());
 		assertEquals(secondCell, firstRow.getCells().get(0));
 		assertEquals(2, secondRow.getCells().getCount());
-		if (newCell == secondRow.getCells().get(0))
+		if (newCell == secondRow.getCells().get(0)) {
 			assertTrue(false);
+		}
 		assertEquals(newCell, secondRow.getCells().get(1));
 	}
 

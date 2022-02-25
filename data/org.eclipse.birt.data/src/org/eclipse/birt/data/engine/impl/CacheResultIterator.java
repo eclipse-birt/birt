@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public class CacheResultIterator implements IResultIterator {
@@ -70,7 +70,7 @@ public class CacheResultIterator implements IResultIterator {
 	private IQueryResults qsWithSubIterator = null;
 
 	/**
-	 * 
+	 *
 	 * @param context
 	 * @param queryResultID
 	 * @throws DataException
@@ -92,8 +92,9 @@ public class CacheResultIterator implements IResultIterator {
 			createCacheInputStream(tempDir);
 			resultClass = new ResultClass(this.metaInputStream, 0);
 			rowCount = IOUtil.readInt(rowInputStream);
-			if (rowCount == -1)
+			if (rowCount == -1) {
 				rowCount = Integer.MAX_VALUE;
+			}
 			int columnSize = IOUtil.readInt(rowInputStream);
 			columnList = new ArrayList();
 			for (int i = 0; i < columnSize; i++) {
@@ -108,7 +109,7 @@ public class CacheResultIterator implements IResultIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws FileNotFoundException
 	 * @throws DataException
 	 */
@@ -123,7 +124,7 @@ public class CacheResultIterator implements IResultIterator {
 
 	/**
 	 * indicate whether the cached file exist.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean existCachedFile() {
@@ -132,9 +133,10 @@ public class CacheResultIterator implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#close()
 	 */
+	@Override
 	public void close() throws BirtException {
 		closeCacheIntputStream();
 	}
@@ -142,7 +144,7 @@ public class CacheResultIterator implements IResultIterator {
 	/**
 	 * @throws DataException
 	 * @throws IOException
-	 * 
+	 *
 	 */
 	private void closeCacheIntputStream() throws DataException {
 		try {
@@ -161,11 +163,12 @@ public class CacheResultIterator implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#findGroup(java.lang.Object[]
 	 * )
 	 */
+	@Override
 	public boolean findGroup(Object[] groupKeyValues) throws BirtException {
 		throw new UnsupportedOperationException();
 	}
@@ -174,6 +177,7 @@ public class CacheResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getBoolean(java.lang.String)
 	 */
+	@Override
 	public Boolean getBoolean(String name) throws BirtException {
 		return DataTypeUtil.toBoolean(getValue(name));
 	}
@@ -182,6 +186,7 @@ public class CacheResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getInteger(java.lang.String)
 	 */
+	@Override
 	public Integer getInteger(String name) throws BirtException {
 		return DataTypeUtil.toInteger(getValue(name));
 	}
@@ -190,6 +195,7 @@ public class CacheResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getDouble(java.lang.String)
 	 */
+	@Override
 	public Double getDouble(String name) throws BirtException {
 		return DataTypeUtil.toDouble(getValue(name));
 	}
@@ -198,6 +204,7 @@ public class CacheResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getString(java.lang.String)
 	 */
+	@Override
 	public String getString(String name) throws BirtException {
 		return DataTypeUtil.toString(getValue(name));
 	}
@@ -207,6 +214,7 @@ public class CacheResultIterator implements IResultIterator {
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getBigDecimal(java.lang.
 	 * String)
 	 */
+	@Override
 	public BigDecimal getBigDecimal(String name) throws BirtException {
 		return DataTypeUtil.toBigDecimal(getValue(name));
 	}
@@ -215,6 +223,7 @@ public class CacheResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getDate(java.lang.String)
 	 */
+	@Override
 	public Date getDate(String name) throws BirtException {
 		return DataTypeUtil.toDate(getValue(name));
 	}
@@ -223,6 +232,7 @@ public class CacheResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getBlob(java.lang.String)
 	 */
+	@Override
 	public Blob getBlob(String name) throws BirtException {
 		return DataTypeUtil.toBlob(getValue(name));
 	}
@@ -231,75 +241,84 @@ public class CacheResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getBytes(java.lang.String)
 	 */
+	@Override
 	public byte[] getBytes(String name) throws BirtException {
 		return DataTypeUtil.toBytes(getValue(name));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getEndingGroupLevel()
 	 */
+	@Override
 	public int getEndingGroupLevel() throws BirtException {
 		return endingGroupLevel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getQueryResults()
 	 */
+	@Override
 	public IQueryResults getQueryResults() {
 		return this.queryResults;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getResultMetaData()
 	 */
+	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		return new ResultMetaData(resultClass);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
 	 */
+	@Override
 	public int getRowId() throws BirtException {
 		return rowIndex;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
 	 */
+	@Override
 	public int getRowIndex() throws BirtException {
 		return rowIndex;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getScope()
 	 */
+	@Override
 	public Scriptable getScope() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.
 	 * lang.String, org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public IResultIterator getSecondaryIterator(String subQueryName, Scriptable scope) throws BirtException {
 		throw new DataException(ResourceConstants.NOT_SUPPORT_REPORT_ITEM_SUBQUERY);
 	}
 
+	@Override
 	public IResultIterator getSecondaryIterator(ScriptContext context, String subQueryName) throws BirtException {
 		CachedQueryResults rs = new CachedQueryResults(this.session,
 				QuerySharingUtil.getSubQueryID(this.queryResults.getID(), subQueryName, this.rowIndex),
@@ -333,19 +352,21 @@ public class CacheResultIterator implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getStartingGroupLevel()
 	 */
+	@Override
 	public int getStartingGroupLevel() throws BirtException {
 		return startingGroupLevel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
 	 */
+	@Override
 	public Object getValue(String name) throws BirtException {
 		if (!existCachedFile) {
 			return null;
@@ -359,43 +380,49 @@ public class CacheResultIterator implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#isEmpty()
 	 */
+	@Override
 	public boolean isEmpty() throws BirtException {
 		return rowCount == 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
 	 */
+	@Override
 	public void moveTo(int rowIndex) throws BirtException {
-		if (rowIndex < 0 || rowIndex >= rowCount)
+		if (rowIndex < 0 || rowIndex >= rowCount) {
 			throw new DataException(ResourceConstants.INVALID_ROW_INDEX, Integer.valueOf(rowIndex));
-		else if (rowIndex < currRowIndex)
+		} else if (rowIndex < currRowIndex) {
 			throw new DataException(ResourceConstants.BACKWARD_SEEK_ERROR);
-		else if (rowIndex == currRowIndex)
+		} else if (rowIndex == currRowIndex) {
 			return;
+		}
 
 		int gapRows = rowIndex - currRowIndex;
-		for (int i = 0; i < gapRows; i++)
+		for (int i = 0; i < gapRows; i++) {
 			this.next();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#next()
 	 */
+	@Override
 	public boolean next() throws BirtException {
 		if (!existCachedFile) {
 			return false;
 		}
 		checkStarted();
-		if (this.columnValueMap == null)
+		if (this.columnValueMap == null) {
 			return false;
+		}
 
 		if (lastRowIndex < currRowIndex) {
 			currRowIndex++;
@@ -407,7 +434,7 @@ public class CacheResultIterator implements IResultIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void readCurrentRow() throws DataException {
@@ -435,9 +462,10 @@ public class CacheResultIterator implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
 	 */
+	@Override
 	public void skipToEnd(int groupLevel) throws BirtException {
 		while (getEndingGroupLevel() != groupLevel) {
 			if (!next()) {
@@ -447,7 +475,7 @@ public class CacheResultIterator implements IResultIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void checkStarted() throws DataException {
@@ -457,10 +485,12 @@ public class CacheResultIterator implements IResultIterator {
 		}
 	}
 
+	@Override
 	public boolean isBeforeFirst() throws BirtException {
 		return !isEmpty() && currRowIndex == -1;
 	}
 
+	@Override
 	public boolean isFirst() throws BirtException {
 		return !isEmpty() && currRowIndex == 0;
 	}

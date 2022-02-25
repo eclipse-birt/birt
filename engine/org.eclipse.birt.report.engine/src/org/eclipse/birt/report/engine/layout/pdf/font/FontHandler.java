@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,7 +66,7 @@ public class FontHandler {
 
 	/**
 	 * The constructor
-	 * 
+	 *
 	 * @param textContent      the textContent whose font need to be handled
 	 * @param fontSubstitution If it set to false, we needn't check if the character
 	 *                         exists in the selected font.
@@ -101,8 +101,9 @@ public class FontHandler {
 			for (int i = 0; i < fontFamilies.length; i++) {
 				String fontName = fontManager.getAliasedFont(fontFamilies[i]);
 				bf = fontManager.createFont(fontName, fontStyle);
-				if (bf != null)
+				if (bf != null) {
 					return;
+				}
 			}
 			bf = fontManager.createFont(FontMappingManager.DEFAULT_FONT, fontStyle);
 		}
@@ -121,8 +122,9 @@ public class FontHandler {
 			for (int i = 0; i < fontFamilies.length; i++) {
 				String fontName = fontManager.getAliasedFont(fontFamilies[i]);
 				bf = fontManager.createFont(fontName, fontStyle);
-				if (bf != null)
+				if (bf != null) {
 					return;
+				}
 			}
 			bf = fontManager.createFont(FontMappingManager.DEFAULT_FONT, fontStyle);
 		}
@@ -141,7 +143,7 @@ public class FontHandler {
 
 	/**
 	 * Selects a proper font for a character.
-	 * 
+	 *
 	 * @return true: we find a font which can be used to display the character.
 	 *         false: no font can display the character.
 	 */
@@ -163,13 +165,13 @@ public class FontHandler {
 
 	/**
 	 * Gets the BaseFont object to display the given character.
-	 * 
+	 *
 	 * The search sequence is:
 	 * <li>try the font family defined in the families to see if one can be used to
 	 * display the character.</li>
 	 * <li>try to use the default font to display the character.</li>
 	 * <li>if none of the above success, return NULL for the character.</li>
-	 * 
+	 *
 	 * @param c the given character.
 	 * @return the BaseFont. it always return a font.
 	 */
@@ -228,7 +230,7 @@ public class FontHandler {
 	private BaseFont createBaseFont(String physicalFont) {
 		BaseFont font = (BaseFont) fonts.get(physicalFont);
 		if (font == null) {
-			if (fonts.keySet().contains(physicalFont)) {
+			if (fonts.containsKey(physicalFont)) {
 				return null;
 			}
 			font = fontManager.createFont(physicalFont, fontStyle);
@@ -271,7 +273,7 @@ public class FontHandler {
 
 	/**
 	 * Gets the English font name or font family name from the given naming array
-	 * 
+	 *
 	 * @param names the naming array
 	 * @return the English name
 	 */

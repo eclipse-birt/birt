@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,12 +24,12 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Chart Type</b></em>', and utility methods for working with them. <!--
  * end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type defines the allowed values for Chart types. Any new Chart type
  * needs to be added here to be supported.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getChartType()
  * @model
  * @generated
@@ -42,7 +42,7 @@ public enum ChartType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #PIE
 	 * @generated
 	 * @ordered
@@ -55,7 +55,7 @@ public enum ChartType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #BAR
 	 * @generated
 	 * @ordered
@@ -68,7 +68,7 @@ public enum ChartType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #LINE
 	 * @generated
 	 * @ordered
@@ -81,7 +81,7 @@ public enum ChartType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #COMBO
 	 * @generated
 	 * @ordered
@@ -94,7 +94,7 @@ public enum ChartType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #SCATTER
 	 * @generated
 	 * @ordered
@@ -107,7 +107,7 @@ public enum ChartType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #STOCK
 	 * @generated
 	 * @ordered
@@ -117,7 +117,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * The '<em><b>Pie</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #PIE_LITERAL
 	 * @model name="Pie"
 	 * @generated
@@ -128,7 +128,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * The '<em><b>Bar</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #BAR_LITERAL
 	 * @model name="Bar"
 	 * @generated
@@ -139,7 +139,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * The '<em><b>Line</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #LINE_LITERAL
 	 * @model name="Line"
 	 * @generated
@@ -150,7 +150,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * The '<em><b>Combo</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #COMBO_LITERAL
 	 * @model name="Combo"
 	 * @generated
@@ -161,7 +161,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * The '<em><b>Scatter</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #SCATTER_LITERAL
 	 * @model name="Scatter"
 	 * @generated
@@ -172,7 +172,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * The '<em><b>Stock</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #STOCK_LITERAL
 	 * @model name="Stock"
 	 * @generated
@@ -183,16 +183,16 @@ public enum ChartType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Chart Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final ChartType[] VALUES_ARRAY = new ChartType[] { PIE_LITERAL, BAR_LITERAL, LINE_LITERAL,
-			COMBO_LITERAL, SCATTER_LITERAL, STOCK_LITERAL, };
+	private static final ChartType[] VALUES_ARRAY = { PIE_LITERAL, BAR_LITERAL, LINE_LITERAL, COMBO_LITERAL,
+			SCATTER_LITERAL, STOCK_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Chart Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<ChartType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -200,7 +200,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified literal
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static ChartType get(String literal) {
@@ -216,7 +216,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static ChartType getByName(String name) {
@@ -232,7 +232,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified integer
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static ChartType get(int value) {
@@ -255,21 +255,21 @@ public enum ChartType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -277,10 +277,10 @@ public enum ChartType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private ChartType(int value, String name, String literal) {
+	ChartType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -288,27 +288,30 @@ public enum ChartType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -316,7 +319,7 @@ public enum ChartType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

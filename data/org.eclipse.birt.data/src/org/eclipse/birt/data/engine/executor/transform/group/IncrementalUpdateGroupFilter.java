@@ -40,9 +40,9 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
  * <p>
  * While filtering groups, the group info and aggregation values are
  * incrementally updated.
- * 
+ *
  * @author fengbin
- * 
+ *
  */
 public class IncrementalUpdateGroupFilter extends IncrementalUpdateCaculator {
 	private GroupSpec[] groupSpecs;
@@ -60,13 +60,15 @@ public class IncrementalUpdateGroupFilter extends IncrementalUpdateCaculator {
 
 	@SuppressWarnings("unchecked")
 	public void doFilters() throws DataException {
-		if (!doFiltering)
+		if (!doFiltering) {
 			return;
+		}
 
 		for (int i = 1; i <= this.groupSpecs.length; i++) {
 			List<IFilterDefinition> filters = this.groupSpecs[i - 1].getFilters();
-			if (filters == null || filters.size() == 0)
+			if (filters == null || filters.size() == 0) {
 				continue;
+			}
 
 			populator.getResultIterator().first(0);
 			resultSetCache = new SimpleSmartCache(populator.getSession(), populator.getEventHandler(),
@@ -107,20 +109,22 @@ public class IncrementalUpdateGroupFilter extends IncrementalUpdateCaculator {
 	private void restFilters(List<IFilterDefinition> filters) {
 		for (int j = 0; j < filters.size(); j++) {
 			IFilterDefinition fd = filters.get(j);
-			if (FilterUtil.isFilterNeedMultiPass(fd))
+			if (FilterUtil.isFilterNeedMultiPass(fd)) {
 				fd.getExpression().setHandle(null);
+			}
 		}
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	private void populateFilterExpression() throws DataException {
-		ArrayList<Integer> levelList = new ArrayList<Integer>();
-		ArrayList<IBaseExpression> exprsList = new ArrayList<IBaseExpression>();
+		ArrayList<Integer> levelList = new ArrayList<>();
+		ArrayList<IBaseExpression> exprsList = new ArrayList<>();
 
 		for (int i = 0; i < this.groupSpecs.length; i++) {
 			List<IFilterDefinition> groupFilters = this.groupSpecs[i].getFilters();
-			if (groupFilters == null)
+			if (groupFilters == null) {
 				continue;
+			}
 
 			String name = this.groupSpecs[i].getName();
 			for (int j = 0; j < groupFilters.size(); j++) {
@@ -285,11 +289,13 @@ public class IncrementalUpdateGroupFilter extends IncrementalUpdateCaculator {
 		}
 
 		for (int i = level - 2; i >= 0; i--) {
-			if (groupUpdators[i].notOnGroup(getCurrentGroupIndex(i + 1)) < 0)
+			if (groupUpdators[i].notOnGroup(getCurrentGroupIndex(i + 1)) < 0) {
 				break;
+			}
 
-			if (i < groupUpdators.length - 1)
+			if (i < groupUpdators.length - 1) {
 				groupUpdators[i + 1].increaseParentIndex();
+			}
 		}
 
 		// Skip rows in current group.
@@ -302,8 +308,9 @@ public class IncrementalUpdateGroupFilter extends IncrementalUpdateCaculator {
 			Object result = evaluteFilterExpression(filters.get(j));
 
 			try {
-				if (!DataTypeUtil.toBoolean(result).booleanValue())
+				if (!DataTypeUtil.toBoolean(result).booleanValue()) {
 					return false;
+				}
 			} catch (BirtException e) {
 				throw new DataException(ResourceConstants.DATATYPEUTIL_ERROR, e);
 			}
@@ -322,10 +329,11 @@ public class IncrementalUpdateGroupFilter extends IncrementalUpdateCaculator {
 
 		if (result == null) {
 			Object info = null;
-			if (expr instanceof IScriptExpression)
+			if (expr instanceof IScriptExpression) {
 				info = ((IScriptExpression) expr).getText();
-			else
+			} else {
 				info = expr;
+			}
 			throw new DataException(ResourceConstants.INVALID_EXPRESSION_IN_FILTER, info);
 		}
 		return result;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,6 +53,7 @@ public class EngineEmitterServices implements IEmitterServices {
 	/**
 	 * @return Returns the emitterConfig.
 	 */
+	@Override
 	public HashMap getEmitterConfig() {
 		return configs;
 	}
@@ -60,6 +61,7 @@ public class EngineEmitterServices implements IEmitterServices {
 	/**
 	 * @return Returns the rendering options.
 	 */
+	@Override
 	public IRenderOption getRenderOption() {
 		return renderOptions;
 	}
@@ -67,6 +69,7 @@ public class EngineEmitterServices implements IEmitterServices {
 	/**
 	 * @return Returns the reportName.
 	 */
+	@Override
 	public String getReportName() {
 		IReportRunnable runnable = reportContext.getReportRunnable();
 		if (runnable != null) {
@@ -77,10 +80,11 @@ public class EngineEmitterServices implements IEmitterServices {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.IEmitterServices#getOption(java.lang.
 	 * String)
 	 */
+	@Override
 	public Object getOption(String name) {
 		if (renderOptions != null) {
 			return renderOptions.getOption(name);
@@ -90,9 +94,10 @@ public class EngineEmitterServices implements IEmitterServices {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.IEmitterServices#getRenderContext()
 	 */
+	@Override
 	public Object getRenderContext() {
 		if (reportContext != null) {
 			return reportContext.getAppContext();
@@ -102,9 +107,10 @@ public class EngineEmitterServices implements IEmitterServices {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.IEmitterServices#getReportRunnable()
 	 */
+	@Override
 	public IReportRunnable getReportRunnable() {
 		if (reportContext != null) {
 			return reportContext.getReportRunnable();
@@ -112,10 +118,12 @@ public class EngineEmitterServices implements IEmitterServices {
 		return null;
 	}
 
+	@Override
 	public IReportContext getReportContext() {
 		return reportContext;
 	}
 
+	@Override
 	public IReportEngine getReportEngine() {
 		if (reportContext != null) {
 			return reportContext.getReportRunnable().getReportEngine();

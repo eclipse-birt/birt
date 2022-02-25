@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public class ReportElementEntry extends ReportResourceEntry {
 
 	/**
 	 * Constructs a resource entry for the specified report element.
-	 * 
+	 *
 	 * @param element the specified report element.
 	 * @param parent  the parent entry.
 	 */
@@ -47,44 +47,48 @@ public class ReportElementEntry extends ReportResourceEntry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#
 	 * getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return provider.getNodeDisplayName(element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#
 	 * getImage()
 	 */
+	@Override
 	public Image getImage() {
 		return provider.getNodeIcon(element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#
 	 * getName()
 	 */
+	@Override
 	public String getName() {
 		return provider.getNodeDisplayName(element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#
 	 * getParent()
 	 */
+	@Override
 	public ResourceEntry getParent() {
 		return parent;
 	}
@@ -121,11 +125,12 @@ public class ReportElementEntry extends ReportResourceEntry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry
 	 * #getReportElement()
 	 */
+	@Override
 	public Object getReportElement() {
 		return element;
 	}

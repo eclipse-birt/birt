@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -125,16 +125,18 @@ public class SubTotalProvider extends TotalProvider
 	}
 
 	// private CellEditor[] editors;
-	private String[] columnNames = new String[] { "", Messages.getString("SubTotalProvider.Column.AggregateOn"), //$NON-NLS-2$
+	private String[] columnNames = { "", Messages.getString("SubTotalProvider.Column.AggregateOn"), //$NON-NLS-2$
 			Messages.getString("SubTotalProvider.Column.View"), //$NON-NLS-1$
 			Messages.getString("SubTotalProvider.Column.Position") //$NON-NLS-1$
 	};
 
+	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		SubTotalInfo info = (SubTotalInfo) element;
 		switch (columnIndex) {
@@ -173,9 +175,11 @@ public class SubTotalProvider extends TotalProvider
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
-		if (inputElement instanceof List)
+		if (inputElement instanceof List) {
 			return ((List) inputElement).toArray();
+		}
 		return new Object[] {};
 
 	}
@@ -191,6 +195,7 @@ public class SubTotalProvider extends TotalProvider
 		return cellEditor;
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 
@@ -204,6 +209,7 @@ public class SubTotalProvider extends TotalProvider
 		return new int[] { height + (int) ((((float) height) / 12) * 8), 210, 120, 120 };
 	}
 
+	@Override
 	public boolean canModify(Object element, String property) {
 		// TODO Auto-generated method stub
 		if (Arrays.asList(columnNames).indexOf(property) == 2 || Arrays.asList(columnNames).indexOf(property) == 3) {
@@ -217,6 +223,7 @@ public class SubTotalProvider extends TotalProvider
 		}
 	}
 
+	@Override
 	public Object getValue(Object element, String property) {
 		// TODO Auto-generated method stub
 		if (element instanceof Item) {
@@ -249,6 +256,7 @@ public class SubTotalProvider extends TotalProvider
 		return value;
 	}
 
+	@Override
 	public void modify(Object element, String property, Object value) {
 		// TODO Auto-generated method stub
 		if (element instanceof Item) {
@@ -334,8 +342,9 @@ public class SubTotalProvider extends TotalProvider
 
 		String dimensionName = ((DimensionViewHandle) levelView.getContainer()).getCubeDimensionName();
 		String levelName = levelView.getCubeLevelName();
-		if (levelName == null || dimensionName == null)
+		if (levelName == null || dimensionName == null) {
 			return cell;
+		}
 
 		if (axisType == ICrosstabConstants.ROW_AXIS_TYPE) {
 			rowDimension = dimensionName;

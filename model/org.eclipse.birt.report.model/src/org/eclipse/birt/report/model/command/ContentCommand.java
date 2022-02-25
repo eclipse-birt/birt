@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -72,13 +72,13 @@ import org.eclipse.birt.report.model.util.ContentExceptionFactory;
  * command verifies that the move can be done before starting the action. If you
  * instead do a drop followed by an add, you'll end up with the element deleted
  * if it cannot be added into its new location.
- * 
+ *
  */
 
 public class ContentCommand extends AbstractContentCommand {
 
 	/**
-	 * 
+	 *
 	 */
 
 	protected boolean unresolveReference;
@@ -92,7 +92,7 @@ public class ContentCommand extends AbstractContentCommand {
 
 	/**
 	 * Constructs the content command with container element.
-	 * 
+	 *
 	 * @param module        the module
 	 * @param containerInfo the container infor
 	 */
@@ -103,7 +103,7 @@ public class ContentCommand extends AbstractContentCommand {
 
 	/**
 	 * Constructs the content command with container element.
-	 * 
+	 *
 	 * @param module        the module
 	 * @param containerInfo the container information
 	 * @param flag
@@ -116,7 +116,7 @@ public class ContentCommand extends AbstractContentCommand {
 
 	/**
 	 * Constructs the content command with container element.
-	 * 
+	 *
 	 * @param module             the module
 	 * @param containerInfo      the container information
 	 * @param flag
@@ -135,7 +135,7 @@ public class ContentCommand extends AbstractContentCommand {
 	 * Container element defined in the XML schema.) Containers are identified by a
 	 * container ID. The application creates the element object, then adds it to the
 	 * container here. The undo of this operation effectively deletes the element.
-	 * 
+	 *
 	 * @param content the element to add
 	 * @param slotID  the slot in which to add the component
 	 * @param newPos  the position index at which the content to be inserted. If
@@ -144,6 +144,7 @@ public class ContentCommand extends AbstractContentCommand {
 	 * @throws NameException    if the name of the content exists in name space.
 	 */
 
+	@Override
 	protected void checkBeforeAdd(DesignElement content) throws ContentException, NameException {
 		assert content.getContainer() == null;
 
@@ -152,20 +153,24 @@ public class ContentCommand extends AbstractContentCommand {
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
-		if (element.isVirtualElement() || element.getExtendsName() != null)
+		if (element.isVirtualElement() || element.getExtendsName() != null) {
 			throw ContentExceptionFactory.createContentException(focus, content,
 					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN);
-
-		if (focus.getSlotID() == IModuleModel.COMPONENT_SLOT) {
-			if (StringUtil.isBlank(content.getName()))
-				throw ContentExceptionFactory.createContentException(focus, content,
-						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED);
 		}
 
-		if (!flag)
+		if (focus.getSlotID() == IModuleModel.COMPONENT_SLOT) {
+			if (StringUtil.isBlank(content.getName())) {
+				throw ContentExceptionFactory.createContentException(focus, content,
+						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED);
+			}
+		}
+
+		if (!flag) {
 			checkContainmentContext(content);
+		}
 	}
 
+	@Override
 	protected void doAdd(int newPos, DesignElement content) throws ContentException, NameException {
 
 		// Add the item to the container.
@@ -216,7 +221,7 @@ public class ContentCommand extends AbstractContentCommand {
 	/**
 	 * Determines if the slot can contain a given element with considering the
 	 * context.
-	 * 
+	 *
 	 * @param slotId  the slot id
 	 * @param element the element to insert
 	 * @throws NameException    if name duplicate occurs
@@ -229,11 +234,13 @@ public class ContentCommand extends AbstractContentCommand {
 			SemanticException e = errors.get(0);
 			assert e instanceof NameException || e instanceof ContentException;
 
-			if (e instanceof NameException)
+			if (e instanceof NameException) {
 				throw (NameException) e;
+			}
 
-			if (e instanceof ContentException)
+			if (e instanceof ContentException) {
 				throw (ContentException) e;
+			}
 		}
 	}
 
@@ -247,6 +254,7 @@ public class ContentCommand extends AbstractContentCommand {
 	 * @throws SemanticException if this content cannot be removed from container.
 	 */
 
+	@Override
 	protected void checkBeforeRemove(DesignElement content) throws SemanticException {
 		assert content != null;
 
@@ -257,9 +265,10 @@ public class ContentCommand extends AbstractContentCommand {
 		// Can not drop a virtual element. However, if it is called when
 		// dropping the child element, the check should be ignored.
 
-		if (!flag && !content.canDrop(module))
+		if (!flag && !content.canDrop(module)) {
 			throw ContentExceptionFactory.createContentException(focus, content,
 					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN);
+		}
 
 		// if the content is in component slot of report design and it has
 		// children, then the operation is forbidden.
@@ -272,7 +281,7 @@ public class ContentCommand extends AbstractContentCommand {
 
 	/**
 	 * Changes derived elements to derive from the parent (if any) instead.
-	 * 
+	 *
 	 * @param obj the element to clean up
 	 * @throws ExtendsException if an error occurs, but the operation should not
 	 *                          fail under normal conditions
@@ -282,8 +291,9 @@ public class ContentCommand extends AbstractContentCommand {
 		// Skip if this element does not have derived elements.
 
 		Collection<DesignElement> derived = obj.getDerived();
-		if (derived.isEmpty())
+		if (derived.isEmpty()) {
 			return;
+		}
 
 		DesignElement parent = obj.getExtendsElement();
 		Iterator<DesignElement> iter = derived.iterator();
@@ -306,18 +316,18 @@ public class ContentCommand extends AbstractContentCommand {
 	 * by <code>unresolveReference</code>. If <code>unresolveReference</code> is
 	 * <code>true</code>, the reference property is unresolved. Otherwise, it's
 	 * cleared.
-	 * 
+	 *
 	 * @param referred           the element to be deleted
 	 * @param unresolveReference the flag indicating the reference property should
 	 *                           be unresolved, instead of cleared
 	 * @throws SemanticException if an error occurs, but the operation should not
 	 *                           fail under normal conditions
-	 * 
+	 *
 	 * @see #adjustReferredClients(DesignElement)
 	 */
 
 	private void adjustReferenceClients(IReferencableElement referred) throws SemanticException {
-		List<BackRef> clients = new ArrayList<BackRef>(referred.getClientList());
+		List<BackRef> clients = new ArrayList<>(referred.getClientList());
 
 		boolean isDimension = referred instanceof Dimension;
 
@@ -333,46 +343,43 @@ public class ContentCommand extends AbstractContentCommand {
 				command.remove(client);
 			} else if (unresolveReference) {
 				BackRefRecord record = null;
-				if (client != null)
+				if (client != null) {
 					record = new ElementBackRefRecord(module, referred, client, ref.getPropertyName());
-				else
-					record = new ElementBackRefRecord(module, referred, ref.getStructure(), ref.getPropertyName());
-				getActivityStack().execute(record);
-			} else {
-				if (((DesignElement) referred).isStyle()) {
-					Structure struct = ref.getStructure();
-
-					if (struct != null) {
-						PropertyCommand cmd = new PropertyCommand(module, client);
-						cmd.setMember(
-								new StructureContext(struct,
-										(PropertyDefn) struct.getDefn().getMember(ref.getPropertyName()), struct),
-								null);
-					} else {
-						StyleCommand clientCmd = new StyleCommand(module, client);
-						clientCmd.setStyleElement((DesignElement) null);
-
-					}
 				} else {
-					Structure struct = ref.getStructure();
-					if (struct != null) {
-						ComplexPropertyCommand cmd = new ComplexPropertyCommand(module, client);
-						cmd.removeItem(struct.getContext(), struct);
-					} else if (ref.getPropertyName() != null) {
-						String propName = ref.getPropertyName();
-						ElementPropertyDefn propDefn = client.getPropertyDefn(propName);
-						if (propDefn.getTypeCode() == IPropertyType.LIST_TYPE
-								&& propDefn.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
-							// for this case, make sure only one corresponding
-							// element reference value is removed, not the whole
-							// list. Otherwise, some back references may be
-							// corrupted.
+					record = new ElementBackRefRecord(module, referred, ref.getStructure(), ref.getPropertyName());
+				}
+				getActivityStack().execute(record);
+			} else if (((DesignElement) referred).isStyle()) {
+				Structure struct = ref.getStructure();
 
-							clearMatchedElementRefInList(client, propDefn, referred);
-						} else {
-							PropertyCommand cmd = new PropertyCommand(module, client);
-							cmd.setProperty(ref.getPropertyName(), null);
-						}
+				if (struct != null) {
+					PropertyCommand cmd = new PropertyCommand(module, client);
+					cmd.setMember(new StructureContext(struct,
+							(PropertyDefn) struct.getDefn().getMember(ref.getPropertyName()), struct), null);
+				} else {
+					StyleCommand clientCmd = new StyleCommand(module, client);
+					clientCmd.setStyleElement((DesignElement) null);
+
+				}
+			} else {
+				Structure struct = ref.getStructure();
+				if (struct != null) {
+					ComplexPropertyCommand cmd = new ComplexPropertyCommand(module, client);
+					cmd.removeItem(struct.getContext(), struct);
+				} else if (ref.getPropertyName() != null) {
+					String propName = ref.getPropertyName();
+					ElementPropertyDefn propDefn = client.getPropertyDefn(propName);
+					if (propDefn.getTypeCode() == IPropertyType.LIST_TYPE
+							&& propDefn.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
+						// for this case, make sure only one corresponding
+						// element reference value is removed, not the whole
+						// list. Otherwise, some back references may be
+						// corrupted.
+
+						clearMatchedElementRefInList(client, propDefn, referred);
+					} else {
+						PropertyCommand cmd = new PropertyCommand(module, client);
+						cmd.setProperty(ref.getPropertyName(), null);
 					}
 				}
 			}
@@ -381,7 +388,7 @@ public class ContentCommand extends AbstractContentCommand {
 
 	/**
 	 * Clears one item that matches given elements in the element reference list.
-	 * 
+	 *
 	 * @param client   the element
 	 * @param propDefn the property definition
 	 * @param referred the referred element
@@ -395,8 +402,9 @@ public class ContentCommand extends AbstractContentCommand {
 				&& propDefn.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE;
 
 		List<Object> values = (List) client.getProperty(module, propDefn);
-		if (values == null || values.isEmpty())
+		if (values == null || values.isEmpty()) {
 			return;
+		}
 
 		int index = -1;
 		for (int i = 0; i < values.size(); i++) {
@@ -418,9 +426,9 @@ public class ContentCommand extends AbstractContentCommand {
 	 * except for extends and style element references. Unlike the method
 	 * {@link #adjustReferenceClients(ReferenceableElement,boolean)}, this method
 	 * removes references from those elements that are referred.
-	 * 
+	 *
 	 * @param element the element to be deleted
-	 * 
+	 *
 	 */
 
 	private void adjustReferredClients(DesignElement element) {
@@ -433,8 +441,9 @@ public class ContentCommand extends AbstractContentCommand {
 			// handled in remove method.
 
 			if (IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase(propDefn.getName())
-					|| IStyledElementModel.STYLE_PROP.equalsIgnoreCase(propDefn.getName()))
+					|| IStyledElementModel.STYLE_PROP.equalsIgnoreCase(propDefn.getName())) {
 				continue;
+			}
 
 			if (propDefn.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE
 					|| propDefn.getTypeCode() == IPropertyType.STRUCT_REF_TYPE) {
@@ -480,7 +489,7 @@ public class ContentCommand extends AbstractContentCommand {
 	/**
 	 * Deletes user properties. This will also remove property values from this
 	 * element and derived elements.
-	 * 
+	 *
 	 * @param obj the element to clean up
 	 * @throws UserPropertyException if an error occurs, but the operation should
 	 *                               not fail under normal conditions
@@ -503,7 +512,7 @@ public class ContentCommand extends AbstractContentCommand {
 	 * destination slot can be in the same element (unusual) or a different element
 	 * (usual case). Use the other form of this method to move an element within the
 	 * same slot.
-	 * 
+	 *
 	 * @param content the element to move.
 	 * @param newPos  the position in the target slot to which the content will be
 	 *                moved. If it is -1 or greater than the size of the target
@@ -511,6 +520,7 @@ public class ContentCommand extends AbstractContentCommand {
 	 * @throws ContentException if the content cannot be moved to new container.
 	 */
 
+	@Override
 	protected void checkBeforeMove(DesignElement content, ContainerContext toContainerInfor) throws ContentException {
 		assert content != null;
 		assert toContainerInfor != null;
@@ -519,9 +529,10 @@ public class ContentCommand extends AbstractContentCommand {
 
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
-		if (content.isVirtualElement() || content.getExtendsName() != null)
+		if (content.isVirtualElement() || content.getExtendsName() != null) {
 			throw ContentExceptionFactory.createContentException(focus, content,
 					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN);
+		}
 
 		// if the content is in component slot of report design and it has
 		// children, then the operation is forbidden.
@@ -532,6 +543,7 @@ public class ContentCommand extends AbstractContentCommand {
 		}
 	}
 
+	@Override
 	protected void checkBeforeMovePosition(DesignElement content, int newPosn) throws ContentException {
 		assert content != null;
 
@@ -540,19 +552,21 @@ public class ContentCommand extends AbstractContentCommand {
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
-		if (content.isVirtualElement())
+		if (content.isVirtualElement()) {
 			throw ContentExceptionFactory.createContentException(focus, content,
 					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN);
+		}
 
-		if (!canMovePosition(content, newPosn))
+		if (!canMovePosition(content, newPosn)) {
 			throw ContentExceptionFactory.createContentException(focus,
 					ContentException.DESIGN_EXCEPTION_MOVE_FORBIDDEN);
+		}
 	}
 
 	/**
 	 * Returns false if the content has ancestor behind the new position or has
 	 * children before the new position.
-	 * 
+	 *
 	 * @param content the element to move position
 	 * @param newPosn the new position within the slot.
 	 * @return true if the content can be moved within the slot, otherwise false.
@@ -568,16 +582,18 @@ public class ContentCommand extends AbstractContentCommand {
 				if (focus.contains(module, child)) {
 					// if content has child before the new position
 					// then the move of new position is forbidden.
-					if (focus.indexOf(module, child) <= newPosn)
+					if (focus.indexOf(module, child) <= newPosn) {
 						return false;
+					}
 				}
 			}
 			DesignElement e = content.getExtendsElement();
 			while (e != null) {
 				// if the content has ancestor behind the new position
 				// then the move of new position is forbidden.
-				if (focus.indexOf(module, e) >= newPosn)
+				if (focus.indexOf(module, e) >= newPosn) {
 					return false;
+				}
 				e = e.getExtendsElement();
 			}
 		}
@@ -587,7 +603,7 @@ public class ContentCommand extends AbstractContentCommand {
 	/**
 	 * Returns true if content in component slot of report design has descendants,
 	 * otherwise false.
-	 * 
+	 *
 	 * @param content the content to handle
 	 * @return true if content has descendants, otherwise false.
 	 */
@@ -601,7 +617,7 @@ public class ContentCommand extends AbstractContentCommand {
 	 * Does some transformation between template elements and report items or data
 	 * sets. Virtually all elements must reside in a container. Containers are
 	 * identified by a container ID.
-	 * 
+	 *
 	 * @param from               the old element to replace
 	 * @param to                 the new element to replace
 	 * @param slotID             the slot from which to replace the old element
@@ -618,7 +634,7 @@ public class ContentCommand extends AbstractContentCommand {
 
 	/**
 	 * @see #transformTemplate(DesignElement, DesignElement, int, boolean)
-	 * 
+	 *
 	 * @param oldElement         the old element to replace
 	 * @param newElement         the new element to replace
 	 * @param slotID             the slot from which to replace the old element
@@ -636,43 +652,49 @@ public class ContentCommand extends AbstractContentCommand {
 		// Ensure that the new element can be put into the container.
 
 		ElementDefn metaData = (ElementDefn) element.getDefn();
-		if (!metaData.isContainer())
+		if (!metaData.isContainer()) {
 			throw ContentExceptionFactory.createContentException(focus,
 					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER);
+		}
 		IContainerDefn containerDefn = focus.getContainerDefn();
-		if (containerDefn == null)
+		if (containerDefn == null) {
 			throw ContentExceptionFactory.createContentException(focus,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND);
-		if (!containerDefn.canContain(newElement))
+		}
+		if (!containerDefn.canContain(newElement)) {
 			throw ContentExceptionFactory.createContentException(focus, newElement,
 					ContentException.DESIGN_EXCEPTION_WRONG_TYPE);
+		}
 
 		// This element is already the content of the element to add.
-		if (element.isContentOf(newElement))
+		if (element.isContentOf(newElement)) {
 			throw ContentExceptionFactory.createContentException(focus, newElement,
 					ContentException.DESIGN_EXCEPTION_RECURSIVE);
+		}
 
 		if (focus.getSlotID() == IModuleModel.COMPONENT_SLOT) {
-			if (StringUtil.isBlank(newElement.getName()))
+			if (StringUtil.isBlank(newElement.getName())) {
 				throw ContentExceptionFactory.createContentException(focus, newElement,
 						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED);
+			}
 		}
 
 		// do some checks about the element to be replaced
-		if (!focus.contains(module, oldElement))
+		if (!focus.contains(module, oldElement)) {
 			throw ContentExceptionFactory.createContentException(focus, oldElement,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND);
+		}
 
 		// do all checks about the transformation state
 		if (oldElement instanceof TemplateElement) {
 			if (!oldElement.canDrop(module) || !oldElement.isTemplateParameterValue(module) || !newElement.getDefn()
-					.isKindOf(((TemplateElement) oldElement).getDefaultElement(module).getDefn()))
+					.isKindOf(((TemplateElement) oldElement).getDefaultElement(module).getDefn())) {
 				throw new TemplateException(oldElement,
 						TemplateException.DESIGN_EXCEPTION_REVERT_TO_TEMPLATE_FORBIDDEN);
-		} else {
-			if (!oldElement.canTransformToTemplate(module) || !(newElement instanceof TemplateElement))
-				throw ContentExceptionFactory.createContentException(focus,
-						ContentException.DESIGN_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN);
+			}
+		} else if (!oldElement.canTransformToTemplate(module) || !(newElement instanceof TemplateElement)) {
+			throw ContentExceptionFactory.createContentException(focus,
+					ContentException.DESIGN_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN);
 		}
 
 		// if the old element is in component slot of report design and it has
@@ -704,12 +726,6 @@ public class ContentCommand extends AbstractContentCommand {
 			stack.execute(replaceRecord);
 
 			addElementNames(newElement);
-		} catch (ContentException e) {
-			stack.rollback();
-			throw e;
-		} catch (NameException e) {
-			stack.rollback();
-			throw e;
 		} catch (SemanticException e) {
 			stack.rollback();
 			throw e;
@@ -720,26 +736,29 @@ public class ContentCommand extends AbstractContentCommand {
 
 	/**
 	 * Does some actions when the content is removed from the design tree.
-	 * 
+	 *
 	 * @param content            the content to remove
 	 * @param unresolveReference status whether to un-resolve the references
 	 * @throws SemanticException
 	 */
 
+	@Override
 	protected void doDelectAction(DesignElement content) throws SemanticException {
 		// if element is table/list, we must localize the group before they are
 		// removed, so handle this special case
 		if (content instanceof ListingElement) {
-			if (content.hasReferences())
+			if (content.hasReferences()) {
 				adjustReferenceClients((IReferencableElement) content);
+			}
 		}
 
 		super.doDelectAction(content);
 
 		// Clean up references to or from the element.
 		dropUserProperties(content);
-		if (!(element instanceof ListingElement) && content.hasReferences())
+		if (!(element instanceof ListingElement) && content.hasReferences()) {
 			adjustReferenceClients((IReferencableElement) content);
+		}
 		adjustReferredClients(content);
 		adjustDerived(content);
 
@@ -772,11 +791,12 @@ public class ContentCommand extends AbstractContentCommand {
 
 	/**
 	 * Does some actions when the content is removed from the design tree.
-	 * 
+	 *
 	 * @param content            the content to remove
 	 * @param unresolveReference status whether to un-resolve the references
 	 */
 
+	@Override
 	protected void doMove(DesignElement content, ContainerContext toContainerInfor, int newPos) {
 		ActivityStack stack = getActivityStack();
 
@@ -790,22 +810,25 @@ public class ContentCommand extends AbstractContentCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.command.AbstractContentCommand#doMovePosition
 	 * (org.eclipse.birt.report.model.core.DesignElement, int)
 	 */
 
+	@Override
 	protected void doMovePosition(DesignElement content, int newPosn) throws ContentException {
 
 		// Skip the step if the slotID/propName has only single content.
-		if (!focus.isContainerMultipleCardinality())
+		if (!focus.isContainerMultipleCardinality()) {
 			return;
+		}
 
 		int oldPosn = focus.indexOf(module, content);
 		int adjustedNewPosn = checkAndAdjustPosition(oldPosn, newPosn, focus.getContentCount(module));
-		if (oldPosn == adjustedNewPosn)
+		if (oldPosn == adjustedNewPosn) {
 			return;
+		}
 
 		super.doMovePosition(content, newPosn);
 	}

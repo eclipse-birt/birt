@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,6 +46,7 @@ public class RotatedTextGeneralPage extends AttributesUtil.PageWrapper {
 
 	private Text txtText, txtAngle;
 
+	@Override
 	public void buildUI(Composite parent) {
 		if (toolkit == null) {
 			toolkit = new FormToolkit(Display.getCurrent());
@@ -73,9 +74,10 @@ public class RotatedTextGeneralPage extends AttributesUtil.PageWrapper {
 			txtText.setLayoutData(gd);
 			txtText.addFocusListener(new FocusAdapter() {
 
+				@Override
 				public void focusLost(org.eclipse.swt.events.FocusEvent e) {
 					updateModel(RotatedTextItem.TEXT_PROP);
-				};
+				}
 			});
 
 			// XXX uncomment this block for expression support
@@ -84,6 +86,7 @@ public class RotatedTextGeneralPage extends AttributesUtil.PageWrapper {
 			btnExp.setToolTipText("Invoke Expression Builder"); //$NON-NLS-1$
 			btnExp.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					openExpression(txtText);
 				}
@@ -98,9 +101,10 @@ public class RotatedTextGeneralPage extends AttributesUtil.PageWrapper {
 			txtAngle.setLayoutData(gd);
 			txtAngle.addFocusListener(new FocusAdapter() {
 
+				@Override
 				public void focusLost(org.eclipse.swt.events.FocusEvent e) {
 					updateModel(RotatedTextItem.ROTATION_ANGLE_PROP);
-				};
+				}
 			});
 
 		}
@@ -129,10 +133,12 @@ public class RotatedTextGeneralPage extends AttributesUtil.PageWrapper {
 		}
 	}
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
 
+	@Override
 	public void dispose() {
 		if (toolkit != null) {
 			toolkit.dispose();
@@ -169,6 +175,7 @@ public class RotatedTextGeneralPage extends AttributesUtil.PageWrapper {
 		return null;
 	}
 
+	@Override
 	public void refresh() {
 		if (contentpane != null && !contentpane.isDisposed()) {
 			if (toolkit == null) {
@@ -182,6 +189,7 @@ public class RotatedTextGeneralPage extends AttributesUtil.PageWrapper {
 		}
 	}
 
+	@Override
 	public void postElementEvent() {
 		if (contentpane != null && !contentpane.isDisposed()) {
 			updateUI();

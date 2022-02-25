@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -56,7 +56,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Property page to preview the output parameters.
- * 
+ *
  */
 
 public class OutputParameterPreviewPage extends AbstractPropertyPage implements Listener {
@@ -74,6 +74,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#createPageControl(org.
 	 * eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createPageControl(Composite parent) {
 		outputParameterTable = new Table(parent, SWT.FULL_SELECTION | SWT.MULTI);
 		outputParameterTable.setHeaderVisible(true);
@@ -84,10 +85,11 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
 			 * MouseEvent)
 			 */
+			@Override
 			public void mouseUp(MouseEvent e) {
 				// if not mouse left button
 				if (e.button != 1) {
@@ -121,6 +123,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 	 * org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.
 	 * api.DesignElementHandle, org.eclipse.birt.model.activity.NotificationEvent)
 	 */
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (focus.equals(getContainer().getModel())) {
 			modelChanged = true;
@@ -129,9 +132,10 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#pageActivated()
 	 */
+	@Override
 	public void pageActivated() {
 		getContainer().setMessage(Messages.getString("dataset.editor.outputparameters"), //$NON-NLS-1$
 				IMessageProvider.NONE);
@@ -151,9 +155,10 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				/*
 				 * (non-Javadoc)
-				 * 
+				 *
 				 * @see java.lang.Runnable#run()
 				 */
+				@Override
 				public void run() {
 					if (outputParameterTable != null && !outputParameterTable.isDisposed()) {
 						updateResults();
@@ -181,12 +186,13 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 	 */
 	private void updateResults() {
 		int outputParamsSize = outputParametersSize();
-		if (outputParamsSize == 0)
+		if (outputParamsSize == 0) {
 			return;
+		}
 
 		DataRequestSession session = null;
 
-		ModuleHandle handle = null;
+		ModuleHandle handle;
 		DataSetHandle dsHandle = ((DataSetEditor) getContainer()).getHandle();
 		handle = dsHandle.getModuleHandle();
 		DataSetPreviewer previewer = new DataSetPreviewer(dsHandle, 1, PreviewType.OUTPUTPARAM);
@@ -254,6 +260,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 	private void resetPropertyBinding(final Map dataSetBindingMap, final Map dataSourceBindingMap) {
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				try {
 					DataSetHandle dsHandle = ((DataSetEditor) getContainer()).getHandle();
@@ -268,6 +275,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 	private void clearProperyBindingMap(final Map dataSetBindingMap, final Map dataSourceBindingMap) {
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				DataSetHandle dsHandle = ((DataSetEditor) getContainer()).getHandle();
 				try {
@@ -287,15 +295,16 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 		PropertyHandle propertyHandle = ((DataSetEditor) getContainer()).getHandle()
 				.getPropertyHandle(DataSetHandle.PARAMETERS_PROP);
 		List paramList = propertyHandle.getListValue();
-		if (paramList == null || paramList.size() == 0)
+		if (paramList == null || paramList.size() == 0) {
 			return 0;
+		}
 
 		// second check whether there is output parameter
 		int size = 0;
 		int paramSize = paramList.size();
 		for (int i = 0; i < paramSize; i++) {
 			DataSetParameter parameter = (DataSetParameter) paramList.get(i);
-			if (parameter.isOutput() == true) {
+			if (parameter.isOutput()) {
 				size++;
 			}
 		}
@@ -307,6 +316,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		((DataSetHandle) getContainer().getModel()).removeListener(this);
 		return super.performOk();
@@ -316,6 +326,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * performCancel()
 	 */
+	@Override
 	public boolean performCancel() {
 		((DataSetHandle) getContainer().getModel()).removeListener(this);
 		return super.performCancel();
@@ -325,6 +336,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage implements 
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
+	@Override
 	public String getToolTip() {
 		return Messages.getString("dataset.outputparameters.preview.tooltip"); //$NON-NLS-1$
 	}

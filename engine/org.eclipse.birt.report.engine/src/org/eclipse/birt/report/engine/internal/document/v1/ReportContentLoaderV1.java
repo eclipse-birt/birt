@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -147,10 +147,11 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 	/**
 	 * load the page from the content stream and output it to the emitter
-	 * 
+	 *
 	 * @param pageNumber
 	 * @param emitter
 	 */
+	@Override
 	public void loadPage(long pageNumber, int paginationType, IContentEmitter emitter) throws BirtException {
 		boolean bodyOnly = paginationType == IReportContentLoader.NO_PAGE
 				|| paginationType == IReportContentLoader.SINGLE_PAGE;
@@ -167,6 +168,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 		}
 	}
 
+	@Override
 	public void loadReportlet(long offset, IContentEmitter emitter) throws BirtException {
 		emitter.start(reportContent);
 		this.emitter = emitter;
@@ -239,10 +241,11 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 	/**
 	 * load the page from the content stream and output it to the emitter
-	 * 
+	 *
 	 * @param pageNumber
 	 * @param emitter
 	 */
+	@Override
 	public void loadPageRange(List pageList, int paginationType, IContentEmitter emitter) throws BirtException {
 		boolean bodyOnly = paginationType == IReportContentLoader.NO_PAGE
 				|| paginationType == IReportContentLoader.SINGLE_PAGE;
@@ -298,6 +301,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 		public DOMBuildingEmitter() {
 		}
 
+		@Override
 		public void startContent(IContent content) {
 			if (parent != null) {
 				parent.getChildren().add(content);
@@ -305,6 +309,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 			parent = content;
 		}
 
+		@Override
 		public void endContent(IContent content) {
 			if (parent != null) {
 				parent = (IContent) parent.getParent();
@@ -315,7 +320,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 	/**
 	 * load all the children of the root from the reader and output them into
 	 * emitter.
-	 * 
+	 *
 	 * @param root    content to be loaded.
 	 * @param reader  reader
 	 * @param emitter output emitter.
@@ -451,7 +456,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 	/**
 	 * find the report element by the design id. we need get the engine's IR from
 	 * the design id, so we can't use the mode's getElementByID().
-	 * 
+	 *
 	 * @param designId design id
 	 * @return design object (engine)
 	 */
@@ -465,10 +470,10 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 	/**
 	 * generate a hash map used to find the element by element id.
-	 * 
+	 *
 	 * It visits the report design, add the element id and design object into the
 	 * hash map.
-	 * 
+	 *
 	 */
 	protected static class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl {
 
@@ -479,7 +484,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 		/**
 		 * create a visitor, the maps should be stroe into map.
-		 * 
+		 *
 		 * @param map map used to store the id->design mapping.
 		 */
 		public GenerateIDMapVisitor(HashMap map) {
@@ -488,9 +493,9 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 		/**
 		 * visit the report, store the id->design mapping.
-		 * 
+		 *
 		 * It is the main entry of the class
-		 * 
+		 *
 		 * @param report the visited report
 		 */
 		public void visitReport(Report report) {
@@ -515,6 +520,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 		}
 
+		@Override
 		public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
 			IDMaps.put(Long.valueOf(container.getID()), container);
 			for (int i = 0; i < container.getItemCount(); i++) {
@@ -540,6 +546,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 			return value;
 		}
 
+		@Override
 		public Object visitGroup(GroupDesign group, Object value) {
 			IDMaps.put(Long.valueOf(group.getID()), group);
 			if (group.getHeader() != null) {
@@ -551,6 +558,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 			return value;
 		}
 
+		@Override
 		public Object visitBand(BandDesign band, Object value) {
 			if (band != null) {
 				IDMaps.put(Long.valueOf(band.getID()), band);
@@ -561,11 +569,13 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 			return value;
 		}
 
+		@Override
 		public Object visitReportItem(ReportItemDesign item, Object value) {
 			IDMaps.put(Long.valueOf(item.getID()), item);
 			return value;
 		}
 
+		@Override
 		public Object visitGridItem(GridItemDesign grid, Object value) {
 			IDMaps.put(Long.valueOf(grid.getID()), grid);
 			for (int i = 0; i < grid.getRowCount(); i++) {
@@ -574,6 +584,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 			return value;
 		}
 
+		@Override
 		public Object visitRow(RowDesign row, Object value) {
 			visitReportItem(row, value);
 			for (int i = 0; i < row.getCellCount(); i++) {
@@ -582,6 +593,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 			return value;
 		}
 
+		@Override
 		public Object visitCell(CellDesign cell, Object value) {
 			visitReportItem(cell, value);
 			for (int i = 0; i < cell.getContentCount(); i++) {
@@ -664,7 +676,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 	/**
 	 * output the content to emitter
-	 * 
+	 *
 	 * @param content output content
 	 */
 	protected void startContent(IContent content, IContentEmitter emitter) throws BirtException {
@@ -679,7 +691,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 	/**
 	 * output the content to emitter.
-	 * 
+	 *
 	 * @param content output content
 	 */
 	protected void endContent(IContent content, IContentEmitter emitter) throws BirtException {
@@ -690,63 +702,74 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 	protected IContentVisitor outputStartVisitor = new IContentVisitor() {
 
+		@Override
 		public Object visit(IContent content, Object value) throws BirtException {
 			return content.accept(this, value);
 		}
 
+		@Override
 		public Object visitContent(IContent content, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContent(content);
 			return value;
 		}
 
+		@Override
 		public Object visitPage(IPageContent page, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startPage(page);
 			return value;
 		}
 
+		@Override
 		public Object visitContainer(IContainerContent container, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContainer(container);
 			return value;
 		}
 
+		@Override
 		public Object visitTable(ITableContent table, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTable(table);
 			return value;
 		}
 
+		@Override
 		public Object visitTableBand(ITableBandContent tableBand, Object value) throws BirtException {
 			emitter.startTableBand(tableBand);
 			return value;
 		}
 
+		@Override
 		public Object visitRow(IRowContent row, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startRow(row);
 			return value;
 		}
 
+		@Override
 		public Object visitCell(ICellContent cell, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startCell(cell);
 			return value;
 		}
 
+		@Override
 		public Object visitText(ITextContent text, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startText(text);
 			return value;
 		}
 
+		@Override
 		public Object visitLabel(ILabelContent label, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startLabel(label);
 			return value;
 		}
 
+		@Override
 		public Object visitAutoText(IAutoTextContent autoText, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			if (autoText.getType() == IAutoTextContent.TOTAL_PAGE) {
@@ -756,48 +779,56 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 			return value;
 		}
 
+		@Override
 		public Object visitData(IDataContent data, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startData(data);
 			return value;
 		}
 
+		@Override
 		public Object visitImage(IImageContent image, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startImage(image);
 			return value;
 		}
 
+		@Override
 		public Object visitForeign(IForeignContent content, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startForeign(content);
 			return value;
 		}
 
+		@Override
 		public Object visitList(IListContent list, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startList(list);
 			return value;
 		}
 
+		@Override
 		public Object visitListBand(IListBandContent listBand, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startListBand(listBand);
 			return value;
 		}
 
+		@Override
 		public Object visitGroup(IGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startGroup(group);
 			return value;
 		}
 
+		@Override
 		public Object visitListGroup(IListGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startListGroup(group);
 			return value;
 		}
 
+		@Override
 		public Object visitTableGroup(ITableGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTableGroup(group);
@@ -808,100 +839,119 @@ public class ReportContentLoaderV1 implements IReportContentLoader {
 
 	protected IContentVisitor outputEndVisitor = new IContentVisitor() {
 
+		@Override
 		public Object visit(IContent content, Object value) throws BirtException {
 			return content.accept(this, value);
 		}
 
+		@Override
 		public Object visitContent(IContent content, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContent(content);
 			return value;
 		}
 
+		@Override
 		public Object visitPage(IPageContent page, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endPage(page);
 			return value;
 		}
 
+		@Override
 		public Object visitContainer(IContainerContent container, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContainer(container);
 			return value;
 		}
 
+		@Override
 		public Object visitTable(ITableContent table, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTable(table);
 			return value;
 		}
 
+		@Override
 		public Object visitTableBand(ITableBandContent tableBand, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTableBand(tableBand);
 			return value;
 		}
 
+		@Override
 		public Object visitRow(IRowContent row, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endRow(row);
 			return value;
 		}
 
+		@Override
 		public Object visitCell(ICellContent cell, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endCell(cell);
 			return value;
 		}
 
+		@Override
 		public Object visitText(ITextContent text, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitLabel(ILabelContent label, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitAutoText(IAutoTextContent autoText, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitData(IDataContent data, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitImage(IImageContent image, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitForeign(IForeignContent content, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitList(IListContent list, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endList(list);
 			return value;
 		}
 
+		@Override
 		public Object visitListBand(IListBandContent listBand, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endListBand(listBand);
 			return value;
 		}
 
+		@Override
 		public Object visitGroup(IGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endGroup(group);
 			return value;
 		}
 
+		@Override
 		public Object visitListGroup(IListGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endListGroup(group);
 			return value;
 		}
 
+		@Override
 		public Object visitTableGroup(ITableGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTableGroup(group);

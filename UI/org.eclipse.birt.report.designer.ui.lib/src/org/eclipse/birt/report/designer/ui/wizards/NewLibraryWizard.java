@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004-2008 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * BIRT Project Wizard.
- * 
+ *
  */
 public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableExtension {
 
@@ -87,12 +87,13 @@ public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
+	@Override
 	public boolean performFinish() {
 		boolean bool = newLibraryFileWizardPage.performFinish();
-		if (bool == true) {
+		if (bool) {
 			newLibraryFileWizardPage.updatePerspective(getConfigElement());
 		}
 		return bool;
@@ -101,10 +102,11 @@ public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		// check existing open project
 		// IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
@@ -138,18 +140,20 @@ public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#getDefaultPageImage()
 	 */
+	@Override
 	public Image getDefaultPageImage() {
 		return ReportPlugin.getImage("/icons/wizban/create_report_wizard.gif"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#addPages()
 	 */
+	@Override
 	public void addPages() {
 		Object adapter = Platform.getAdapterManager().getAdapter(this, INewLibraryCreationPage.class);
 
@@ -285,6 +289,7 @@ public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableE
 
 				res.accept(new IResourceVisitor() {
 
+					@Override
 					public boolean visit(IResource resource) throws CoreException {
 						if (resource.getType() == IResource.FILE) {
 							if (!Platform.getOS().equals(Platform.OS_WIN32)) {
@@ -315,7 +320,7 @@ public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableE
 	 * Creates a folder resource handle for the folder with the given workspace
 	 * path. This method does not create the folder resource; this is the
 	 * responsibility of <code>createFolder</code>.
-	 * 
+	 *
 	 * @param folderPath the path of the folder resource to create a handle for
 	 * @return the new folder resource handle
 	 */
@@ -326,11 +331,12 @@ public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.
 	 * eclipse.core.runtime.IConfigurationElement, java.lang.String,
 	 * java.lang.Object)
 	 */
+	@Override
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
 			throws CoreException {
 		this.configElement = config;

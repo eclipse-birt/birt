@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004,2005,2006,2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -116,12 +116,12 @@ public final class PieRenderer {
 
 	private final PieSeries ps;
 
-	private final List<PieSlice> pieSliceList = new ArrayList<PieSlice>();
+	private final List<PieSlice> pieSliceList = new ArrayList<>();
 
 	/**
 	 * Holds list of deferred planes (flat and curved) to be sorted before rendering
 	 */
-	private final List<IDrawable> deferredPlanes = new ArrayList<IDrawable>();
+	private final List<IDrawable> deferredPlanes = new ArrayList<>();
 
 	private final Palette pa;
 
@@ -167,7 +167,7 @@ public final class PieRenderer {
 	 * The constant variable is used to adjust start angle of plane for getting
 	 * correct rendering order of planes.
 	 * <p>
-	 * 
+	 *
 	 * Note: Since its value is very little, it will not affect computing the
 	 * coordinates of pie slice.
 	 */
@@ -176,7 +176,7 @@ public final class PieRenderer {
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine.extension/render"); //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 * @param cwoa
 	 * @param pie
 	 * @param dpha
@@ -258,24 +258,21 @@ public final class PieRenderer {
 
 				if (Math.abs(da[i]) >= Math.abs(dAbsoluteMinSlice)) {
 					pieSliceList.add(new PieSlice(da[i], dpha[i], i, false));
-				} else {
-					if (da[i] >= 0) {
-						residualPos += da[i];
-						if (dphPos == null) {
-							dphPos = dpha[i].getVirtualCopy();
-						} else {
-							dphPos.accumulate(dpha[i].getBaseValue(), dpha[i].getOrthogonalValue(),
-									dpha[i].getSeriesValue(), dpha[i].getPercentileOrthogonalValue());
-						}
+				} else if (da[i] >= 0) {
+					residualPos += da[i];
+					if (dphPos == null) {
+						dphPos = dpha[i].getVirtualCopy();
 					} else {
-						residualNeg += da[i];
-						if (dphNeg == null) {
-							dphNeg = dpha[i].getVirtualCopy();
-						} else {
-							dphNeg.accumulate(dpha[i].getBaseValue(), dpha[i].getOrthogonalValue(),
-									dpha[i].getSeriesValue(), dpha[i].getPercentileOrthogonalValue());
-						}
-
+						dphPos.accumulate(dpha[i].getBaseValue(), dpha[i].getOrthogonalValue(),
+								dpha[i].getSeriesValue(), dpha[i].getPercentileOrthogonalValue());
+					}
+				} else {
+					residualNeg += da[i];
+					if (dphNeg == null) {
+						dphNeg = dpha[i].getVirtualCopy();
+					} else {
+						dphNeg.accumulate(dpha[i].getBaseValue(), dpha[i].getOrthogonalValue(),
+								dpha[i].getSeriesValue(), dpha[i].getPercentileOrthogonalValue());
 					}
 
 				}
@@ -349,11 +346,11 @@ public final class PieRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param idr
 	 * @throws ChartException
 	 */
-	private final void renderDataPoints(IDeviceRenderer idr) throws ChartException {
+	private void renderDataPoints(IDeviceRenderer idr) throws ChartException {
 		final AbstractScriptHandler sh = pie.getRunTimeContext().getScriptHandler();
 		int iTextRenderType = TextRenderEvent.RENDER_TEXT_IN_BLOCK;
 		if (lpDataPoint.getValue() == Position.OUTSIDE) {
@@ -380,14 +377,14 @@ public final class PieRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bo
 	 */
 	/**
-	 * 
+	 *
 	 * @param bo
 	 */
-	private final void computeLabelBounds(Bounds bo, boolean isOutside) throws ChartException {
+	private void computeLabelBounds(Bounds bo, boolean isOutside) throws ChartException {
 		// compute additional bottom tick size due to series thickness.
 
 		for (PieSlice slice : pieSliceList) {
@@ -402,7 +399,7 @@ public final class PieRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * LabelOverlapResover
 	 */
 	private static class LabelOverlapResover {
@@ -464,13 +461,11 @@ public final class PieRenderer {
 						bCurrentIsLeft = false;
 						bLastFound = true;
 					}
-				} else {
-					if (isLeftSideSlice(src_sliceList.get(i))) {
-						this.idRightFirst = i - 1;
-						this.idLeftFirst = i;
-						bCurrentIsLeft = true;
-						bFirstFound = true;
-					}
+				} else if (isLeftSideSlice(src_sliceList.get(i))) {
+					this.idRightFirst = i - 1;
+					this.idLeftFirst = i;
+					bCurrentIsLeft = true;
+					bFirstFound = true;
 				}
 			}
 
@@ -622,7 +617,7 @@ public final class PieRenderer {
 
 			/**
 			 * add a slice label to the bottom of the list
-			 * 
+			 *
 			 * @param sLabel
 			 * @param bRight
 			 * @return true if label is added.
@@ -924,7 +919,7 @@ public final class PieRenderer {
 			private LabelGroup lgLast = null;
 			private LabelGroup lgNext = null;
 
-			protected List<SliceLabel> label_list = new ArrayList<SliceLabel>();
+			protected List<SliceLabel> label_list = new ArrayList<>();
 			protected double xStart, width = 0, top, height = 0;
 			private boolean isFull = false;
 
@@ -1039,30 +1034,28 @@ public final class PieRenderer {
 					// head of the list || no overlapping
 					top = Math.max(top_new, dTopMin);
 					return (top_new >= dTopMin);
+				} else // top_new < bottom_last
+				if (lgLast.pushUp(bottom_last - top_new)) {
+					// push succeeded
+					top = Math.max(top_new, dTopMin);
+					return (top_new >= dTopMin);
 				} else {
-					// top_new < bottom_last
-					if (lgLast.pushUp(bottom_last - top_new)) {
-						// push succeeded
-						top = Math.max(top_new, dTopMin);
-						return (top_new >= dTopMin);
-					} else {
-						// push failed
-						bottom_last = getBottomLast(); // lgLast may have changed
+					// push failed
+					bottom_last = getBottomLast(); // lgLast may have changed
 
-						if (top - lgLast.top >= dy) {
-							// if possible, merge myself to the last one
-							if (lgLast.merge(this)) {
-								return true;
-							} else {
-								top = Math.max(bottom_last, dTopMin);
-								return false;
-							}
+					if (top - lgLast.top >= dy) {
+						// if possible, merge myself to the last one
+						if (lgLast.merge(this)) {
+							return true;
 						} else {
-							if (!lgLast.merge(this)) {
-								top = Math.max(bottom_last, dTopMin);
-							}
+							top = Math.max(bottom_last, dTopMin);
 							return false;
 						}
+					} else {
+						if (!lgLast.merge(this)) {
+							top = Math.max(bottom_last, dTopMin);
+						}
+						return false;
 					}
 				}
 
@@ -1078,12 +1071,10 @@ public final class PieRenderer {
 					if (!addSliceLabel(sLabel)) {
 						this.isFull = true;
 						return false;
-					} else {
-						if (this.top < this.computeMinTop() || this.top > this.computeMaxTop()) {
-							removeLastLabel();
-							this.isFull = true;
-							return false;
-						}
+					} else if (this.top < this.computeMinTop() || this.top > this.computeMaxTop()) {
+						removeLastLabel();
+						this.isFull = true;
+						return false;
 					}
 				}
 
@@ -1106,7 +1097,7 @@ public final class PieRenderer {
 
 			@Override
 			public String toString() {
-				StringBuffer sBuf = new StringBuffer();
+				StringBuilder sBuf = new StringBuilder();
 				Iterator<SliceLabel> it = label_list.iterator();
 
 				while (it.hasNext()) {
@@ -1186,14 +1177,14 @@ public final class PieRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bo
 	 * @param boAdjusted
 	 * @param ins
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	private final Insets adjust(Bounds bo, Bounds boAdjusted, Insets ins) throws ChartException {
+	private Insets adjust(Bounds bo, Bounds boAdjusted, Insets ins) throws ChartException {
 		computeLabelBounds(boAdjusted, true);
 		ins.set(0, 0, 0, 0);
 		double dDelta = 0;
@@ -1229,12 +1220,12 @@ public final class PieRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bo
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
-	final void computeInsets(Bounds bo) throws ChartException {
+	void computeInsets(Bounds bo) throws ChartException {
 		boSetDuringComputation = goFactory.copyOf(bo);
 		xs = pie.getXServer();
 
@@ -1326,18 +1317,18 @@ public final class PieRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	final Insets getFittingInsets() {
+	Insets getFittingInsets() {
 		return insCA;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param insCA
 	 */
-	final void setFittingInsets(Insets insCA) throws ChartException {
+	void setFittingInsets(Insets insCA) throws ChartException {
 		this.insCA = insCA;
 		if (!bBoundsAdjustedForInsets) // CHECK IF PREVIOUSLY ADJUSTED
 		{
@@ -1359,12 +1350,12 @@ public final class PieRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param idr
 	 * @param bo
 	 * @throws ChartException
 	 */
-	public final void render(IDeviceRenderer idr, Bounds bo) throws ChartException {
+	public void render(IDeviceRenderer idr, Bounds bo) throws ChartException {
 		bo.adjust(insCA);
 
 		xs = idr.getDisplayServer();
@@ -1495,7 +1486,7 @@ public final class PieRenderer {
 
 	/**
 	 * Add curved planes to a list for deferring to draw them.
-	 * 
+	 *
 	 * @param planesList            the list is used to receive the planes.
 	 * @param startAngle            angle of pie slice, normally it should be the
 	 *                              start angle of pie slice.
@@ -1506,7 +1497,7 @@ public final class PieRenderer {
 	 * @param isInner
 	 * @return created drawable object.
 	 */
-	private final IDrawable deferCurvedPlane(List<IDrawable> list, double startAngle, double angleExtent,
+	private IDrawable deferCurvedPlane(List<IDrawable> list, double startAngle, double angleExtent,
 			AreaRenderEvent areBentOrTwistedCurve, double dX1, double dX2, boolean isInner) {
 		double newAngle = convertAngleForRenderingOrder(startAngle, startAngle + angleExtent);
 		IDrawable drawable = new CurvedPlane(newAngle, areBentOrTwistedCurve, isInner);
@@ -1516,7 +1507,7 @@ public final class PieRenderer {
 
 	/**
 	 * Defer to draw curved outline.
-	 * 
+	 *
 	 * @param startAngle            angle of pie slice, normally it should be the
 	 *                              start angle of pie slice.
 	 * @param angleExtent           length of pie slice.
@@ -1524,10 +1515,10 @@ public final class PieRenderer {
 	 * @param isInner
 	 * @param lre
 	 * @param planesList            the list is used to receive the planes.
-	 * 
+	 *
 	 * @return drawable object.
 	 */
-	private final IDrawable deferCurvedOutline(List<IDrawable> list, double startAngle, double angleExtent,
+	private IDrawable deferCurvedOutline(List<IDrawable> list, double startAngle, double angleExtent,
 			AreaRenderEvent areBentOrTwistedCurve, boolean isInner, LineRenderEvent lre) {
 		double newAngle = convertAngleForRenderingOrder(startAngle, startAngle + angleExtent);
 		return new CurvedPlane(newAngle, areBentOrTwistedCurve, lre, isInner);
@@ -1535,7 +1526,7 @@ public final class PieRenderer {
 
 	/**
 	 * Add flat planes to a list for deferring to draw them.
-	 * 
+	 *
 	 * @param planesList   the list is used to receive the planes.
 	 * @param angle        angle of pie slice, normally it should be the start angle
 	 *                     of pie slice.
@@ -1544,8 +1535,8 @@ public final class PieRenderer {
 	 * @param daYPoints
 	 * @param cd
 	 */
-	private final void deferFlatPlane(List<IDrawable> planesList, double angle, boolean isSliceStart,
-			double[] daXPoints, double[] daYPoints, Fill cd, DataPointHints dph) {
+	private void deferFlatPlane(List<IDrawable> planesList, double angle, boolean isSliceStart, double[] daXPoints,
+			double[] daYPoints, Fill cd, DataPointHints dph) {
 		// Here just plus/subtract 0.01 degree to make adjacent flat plane of
 		// slice get correct rendering orders.
 		double newAngle = isSliceStart ? angle + 0.01 : angle - 0.01;
@@ -1556,7 +1547,7 @@ public final class PieRenderer {
 	/**
 	 * Convert angle of pie slice for getting correct rendering order before
 	 * rendering each pie slice.
-	 * 
+	 *
 	 * @param startAngle angle of pie slice, normally it should be the start angle
 	 *                   of pie slice.
 	 * @param endAngle   end angle of pie slice.
@@ -1597,10 +1588,10 @@ public final class PieRenderer {
 
 	/**
 	 * Sort all planes and draw them.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	private final void sortAndRenderPlanes() throws ChartException {
+	private void sortAndRenderPlanes() throws ChartException {
 		// Revised rendering algorithm of planes, no need to render different
 		// planes in different steps again.
 		renderPlanes(deferredPlanes);
@@ -1609,7 +1600,7 @@ public final class PieRenderer {
 
 	/**
 	 * Render planes.
-	 * 
+	 *
 	 * @param planesList the list contains plane objects.
 	 * @throws ChartException
 	 */
@@ -1618,12 +1609,13 @@ public final class PieRenderer {
 		Arrays.sort(planes, new Comparator<IDrawable>() {
 
 			/**
-			 * 
+			 *
 			 * @param arg0
 			 * @param arg1
 			 * @return 1 if arg0 great than arg1, -1 if arg0 less than arg1, 0 if arg0
 			 *         equals arg1.
 			 */
+			@Override
 			public int compare(IDrawable arg0, IDrawable arg1) {
 				double angleA = 0d;
 				double angleB = 0d;
@@ -1673,7 +1665,7 @@ public final class PieRenderer {
 		}
 	}
 
-	private final ColorDefinition getSliceOutline(Fill f) {
+	private ColorDefinition getSliceOutline(Fill f) {
 		if (ps.getSliceOutline() == null) {
 			if (f instanceof ColorDefinition) {
 				return goFactory.darker((ColorDefinition) f);
@@ -1724,10 +1716,11 @@ public final class PieRenderer {
 			return goFactory.createGradient(goFactory.darker(((Gradient) cd).getStartColor()),
 					goFactory.darker(((Gradient) cd).getEndColor()), ((Gradient) cd).getDirection(),
 					((Gradient) cd).isCyclic());
-		} else
+		} else {
 			return goFactory.createGradient(
 					(cd instanceof ColorDefinition) ? goFactory.darker((ColorDefinition) cd) : goFactory.GREY(),
 					goFactory.BLACK(), 0, true);
+		}
 	}
 
 	/**
@@ -1787,7 +1780,7 @@ public final class PieRenderer {
 
 	/**
 	 * Used for deferred rendering
-	 * 
+	 *
 	 * @param topBound     The top round bounds of pie slice.
 	 * @param bottomBound  The bottom round bounds of pie slice.
 	 * @param dStartAngle  The start agnle of pie slice.
@@ -1803,9 +1796,9 @@ public final class PieRenderer {
 	 * @param sz           width and height of cycle.
 	 * @param isInner      indicates if it is inner radius's curved surface
 	 */
-	private final void registerCurvedSurface(Bounds topBound, Bounds bottomBound, double dStartAngle,
-			double dAngleExtent, LineRenderEvent lreStartB2T, LineRenderEvent lreEndB2T, Fill cd, DataPointHints dph,
-			Location loC, Location loCTop, Size sz, boolean isInner) {
+	private void registerCurvedSurface(Bounds topBound, Bounds bottomBound, double dStartAngle, double dAngleExtent,
+			LineRenderEvent lreStartB2T, LineRenderEvent lreEndB2T, Fill cd, DataPointHints dph, Location loC,
+			Location loCTop, Size sz, boolean isInner) {
 		// 1. Get all splited angles.
 		double[] anglePoints = new double[4];
 
@@ -1929,7 +1922,7 @@ public final class PieRenderer {
 	 * @param dph
 	 * @return
 	 */
-	private final Object[] getEdgeLines(double startAngle, double extentAngle, Location loC, Location loCTop, Size sz,
+	private Object[] getEdgeLines(double startAngle, double extentAngle, Location loC, Location loCTop, Size sz,
 			DataPointHints dph) {
 
 		final LineRenderEvent lreStartB2T = getLineByAngle(loC, loCTop, sz, dph, startAngle);
@@ -1958,11 +1951,11 @@ public final class PieRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iIndex
 	 * @return
 	 */
-	private final Fill getPaletteColor(int iIndex, DataPointHints dph) {
+	private Fill getPaletteColor(int iIndex, DataPointHints dph) {
 		Fill fiClone = FillUtil.getPaletteFill(pa.getEntries(), iIndex);
 		pie.updateTranslucency(fiClone, ps);
 
@@ -1993,8 +1986,8 @@ public final class PieRenderer {
 
 		/**
 		 * Constructor of the class.
-		 * 
-		 * 
+		 *
+		 *
 		 */
 		CurvedPlane(double angle, AreaRenderEvent are, boolean isInnerPlane) {
 			this(angle, are, null, isInnerPlane);
@@ -2008,16 +2001,18 @@ public final class PieRenderer {
 			_lre = lre;
 		}
 
-		public final Bounds getBounds() {
+		@Override
+		public Bounds getBounds() {
 			return _bo;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
-		public final int compareTo(IDrawable o) // Z-ORDER TEST
+		@Override
+		public int compareTo(IDrawable o) // Z-ORDER TEST
 		{
 			final CurvedPlane cp1 = this;
 			if (o instanceof CurvedPlane) {
@@ -2061,10 +2056,11 @@ public final class PieRenderer {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.prototype.Pie.IDrawable#draw(java.awt.Graphics2D)
 		 */
-		public final void draw() throws ChartException {
+		@Override
+		public void draw() throws ChartException {
 			idr.fillArea(_are);
 			idr.drawArea(_are);
 			if (_lre != null) {
@@ -2081,19 +2077,19 @@ public final class PieRenderer {
 			}
 		}
 
-		private final double getMinY() {
+		private double getMinY() {
 			return _bo.getTop();
 		}
 
-		private final double getMinX() {
+		private double getMinX() {
 			return _bo.getLeft();
 		}
 
-		private final double getMaxX() {
+		private double getMaxX() {
 			return _bo.getLeft() + _bo.getWidth();
 		}
 
-		private final double getMaxY() {
+		private double getMaxY() {
 			return _bo.getTop() + _bo.getHeight();
 		}
 
@@ -2101,10 +2097,12 @@ public final class PieRenderer {
 			return _angle;
 		}
 
+		@Override
 		public boolean isInnerPlane() {
 			return _isInnerPlane;
 		}
 
+		@Override
 		public void setNext(IDrawable next) {
 			_next = next;
 		}
@@ -2129,7 +2127,7 @@ public final class PieRenderer {
 
 		/**
 		 * Constructor of the class.
-		 * 
+		 *
 		 * @param angle     the start angle will be used to decide the painting order.
 		 * @param daXPoints
 		 * @param daYPoints
@@ -2181,16 +2179,18 @@ public final class PieRenderer {
 			// _p = new Polygon(iaX, iaY, nPoints);
 		}
 
+		@Override
 		public Bounds getBounds() {
 			return _bo;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.prototype.Pie.IDrawable#draw(java.awt.Graphics2D)
 		 */
-		public final void draw() throws ChartException {
+		@Override
+		public void draw() throws ChartException {
 			PolygonRenderEvent pre = ((EventObjectCache) idr)
 					.getEventObject(WrappedStructureSource.createSeriesDataPoint(ps, _dph), PolygonRenderEvent.class);
 			pre.setPoints(toLocationArray());
@@ -2208,10 +2208,11 @@ public final class PieRenderer {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
-		public final int compareTo(IDrawable o) // Z-ORDER TEST
+		@Override
+		public int compareTo(IDrawable o) // Z-ORDER TEST
 		{
 			final FlatPlane pi1 = this;
 			if (o instanceof FlatPlane) {
@@ -2283,23 +2284,23 @@ public final class PieRenderer {
 			return EQUAL;
 		}
 
-		private final double getMinY() {
+		private double getMinY() {
 			return _bo.getTop();
 		}
 
-		private final double getMinX() {
+		private double getMinX() {
 			return _bo.getLeft();
 		}
 
-		private final double getMaxX() {
+		private double getMaxX() {
 			return _bo.getLeft() + _bo.getWidth();
 		}
 
-		private final double getMaxY() {
+		private double getMaxY() {
 			return _bo.getTop() + _bo.getHeight();
 		}
 
-		private final Location[] toLocationArray() {
+		private Location[] toLocationArray() {
 			final int n = _daXPoints.length;
 			Location[] loa = new Location[n];
 			for (int i = 0; i < n; i++) {
@@ -2312,10 +2313,12 @@ public final class PieRenderer {
 			return _angle;
 		}
 
+		@Override
 		public boolean isInnerPlane() {
 			return false;
 		}
 
+		@Override
 		public void setNext(IDrawable next) {
 			_next = next;
 		}
@@ -2416,7 +2419,7 @@ public final class PieRenderer {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#clone()
 		 */
 		@Override
@@ -2515,7 +2518,7 @@ public final class PieRenderer {
 
 		/**
 		 * Set degrees of a slice in 360 circle.
-		 * 
+		 *
 		 * @param newLength
 		 */
 		public void setSliceLength(double newLength) {
@@ -2770,16 +2773,7 @@ public final class PieRenderer {
 
 		public boolean isLabelClipped(Bounds bo) {
 			if (labelBounding != null) {
-				if (labelBounding.getTop() < bo.getTop()) {
-					return true;
-				}
-				if (labelBounding.getLeft() < bo.getLeft()) {
-					return true;
-				}
-				if (labelBounding.getTop() + labelBounding.getHeight() > bo.getTop() + bo.getHeight()) {
-					return true;
-				}
-				if (labelBounding.getLeft() + labelBounding.getWidth() > bo.getLeft() + bo.getWidth()) {
+				if ((labelBounding.getTop() < bo.getTop()) || (labelBounding.getLeft() < bo.getLeft()) || (labelBounding.getTop() + labelBounding.getHeight() > bo.getTop() + bo.getHeight()) || (labelBounding.getLeft() + labelBounding.getWidth() > bo.getLeft() + bo.getWidth())) {
 					return true;
 				}
 			}
@@ -2912,31 +2906,29 @@ public final class PieRenderer {
 					dX = center.getX() + xDelta2 - dLeaderLength;
 					if (dLeaderLength > 0) {
 						iLL = IConstants.LEFT;
+					} else if (dMidAngleInDegrees < 135) {
+						iLL = IConstants.TOP;
+					} else if (dMidAngleInDegrees < 225) {
+						iLL = IConstants.LEFT;
+					} else if (dMidAngleInDegrees < 270) {
+						iLL = IConstants.BOTTOM;
 					} else {
-						if (dMidAngleInDegrees < 135) {
-							iLL = IConstants.TOP;
-						} else if (dMidAngleInDegrees < 225) {
-							iLL = IConstants.LEFT;
-						} else if (dMidAngleInDegrees < 270) {
-							iLL = IConstants.BOTTOM;
-						} else
-							assert false;
+						assert false;
 					}
 				} else {
 					dX = center.getX() + xDelta2 + dLeaderLength;
 					if (dLeaderLength > 0) {
 						iLL = IConstants.RIGHT;
+					} else if (dMidAngleInDegrees <= 45) {
+						iLL = IConstants.RIGHT;
+					} else if (dMidAngleInDegrees > 45 && dMidAngleInDegrees <= 90) {
+						iLL = IConstants.TOP;
+					} else if (dMidAngleInDegrees <= 315 && dMidAngleInDegrees >= 270) {
+						iLL = IConstants.BOTTOM;
+					} else if (dMidAngleInDegrees > 315) {
+						iLL = IConstants.RIGHT;
 					} else {
-						if (dMidAngleInDegrees <= 45) {
-							iLL = IConstants.RIGHT;
-						} else if (dMidAngleInDegrees > 45 && dMidAngleInDegrees <= 90) {
-							iLL = IConstants.TOP;
-						} else if (dMidAngleInDegrees <= 315 && dMidAngleInDegrees >= 270) {
-							iLL = IConstants.BOTTOM;
-						} else if (dMidAngleInDegrees > 315) {
-							iLL = IConstants.RIGHT;
-						} else
-							assert false;
+						assert false;
 					}
 
 				}

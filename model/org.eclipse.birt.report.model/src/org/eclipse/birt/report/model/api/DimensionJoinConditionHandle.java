@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 	 * Constructs a dimension join condition handle with the given
 	 * <code>SimpleValueHandle</code> and the index of the dimension join condition
 	 * in the dimension condition.
-	 * 
+	 *
 	 * @param valueHandle handle to a list property or member
 	 * @param index       index of the structure within the list
 	 */
@@ -43,7 +43,7 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 
 	/**
 	 * Gets the cube key in this dimension join condition.
-	 * 
+	 *
 	 * @return the cube key in this dimension join condition
 	 */
 	public String getCubeKey() {
@@ -52,7 +52,7 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 
 	/**
 	 * Sets the cube key in this dimension join condition.
-	 * 
+	 *
 	 * @param cubeKey the cube key to set
 	 */
 	public void setCubeKey(String cubeKey) {
@@ -61,7 +61,7 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 
 	/**
 	 * Gets the hierarchy key in this dimension join condition.
-	 * 
+	 *
 	 * @return the hierarchy key in this dimension join condition
 	 */
 	public String getHierarchyKey() {
@@ -70,7 +70,7 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 
 	/**
 	 * Sets the hierarchy key in this dimension join condition.
-	 * 
+	 *
 	 * @param hierarchyKey the hierarchy key to set
 	 */
 	public void setHierarchyKey(String hierarchyKey) {
@@ -79,21 +79,22 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 
 	/**
 	 * Gets the referred level element handle of this condition.
-	 * 
+	 *
 	 * @return level element handle of this condition if found, otherwise null
 	 */
 	public LevelHandle getLevel() {
 		ElementRefValue refValue = (ElementRefValue) ((Structure) getStructure()).getLocalProperty(getModule(),
 				DimensionJoinCondition.LEVEL_MEMBER);
-		if (refValue == null || !refValue.isResolved())
+		if (refValue == null || !refValue.isResolved()) {
 			return null;
+		}
 		DesignElement element = refValue.getElement();
 		return (LevelHandle) element.getHandle(element.getRoot());
 	}
 
 	/**
 	 * Gets the referred level full name of this condition.
-	 * 
+	 *
 	 * @return level full name of this condition if set, otherwise null
 	 */
 	public String getLevelName() {
@@ -102,7 +103,7 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 
 	/**
 	 * Sets the referred level by the name.
-	 * 
+	 *
 	 * @param levelName the full name of the level element to set
 	 * @throws SemanticException
 	 */
@@ -112,7 +113,7 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 
 	/**
 	 * Sets the referred level by the handle.
-	 * 
+	 *
 	 * @param levelHandle the level handle to set
 	 * @throws SemanticException
 	 */
@@ -123,14 +124,17 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj) {
-		if (obj == this)
+		if (obj == this) {
 			return true;
-		if (!(obj instanceof DimensionJoinConditionHandle))
+		}
+		if (!(obj instanceof DimensionJoinConditionHandle)) {
 			return false;
+		}
 
 		DimensionJoinConditionHandle temp = (DimensionJoinConditionHandle) obj;
 
@@ -139,10 +143,11 @@ public class DimensionJoinConditionHandle extends StructureHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 
+	@Override
 	public int hashCode() {
 		int hash = 1;
 

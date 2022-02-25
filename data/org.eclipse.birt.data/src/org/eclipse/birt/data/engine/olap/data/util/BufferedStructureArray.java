@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
- * 
+ *
  */
 
 public class BufferedStructureArray implements IDiskArray {
@@ -44,9 +44,10 @@ public class BufferedStructureArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#add(java.lang.Object)
 	 */
+	@Override
 	public boolean add(Object o) throws IOException {
 		if (bufferPos < buffer.length) {
 			buffer[bufferPos] = o;
@@ -73,16 +74,17 @@ public class BufferedStructureArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#close()
 	 */
+	@Override
 	public void close() throws IOException {
 		this.buffer = null;
 		clearTempDir();
 	}
 
 	/*
-	 * 
+	 *
 	 */
 	private void clearTempDir() throws IOException {
 		if (diskList != null) {
@@ -93,7 +95,7 @@ public class BufferedStructureArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#finalize()
 	 */
 //	public void finalize( )
@@ -110,9 +112,10 @@ public class BufferedStructureArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#get(int)
 	 */
+	@Override
 	public Object get(int index) throws IOException {
 		if (index < bufferPos) {
 			return buffer[index];
@@ -125,9 +128,10 @@ public class BufferedStructureArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#size()
 	 */
+	@Override
 	public int size() {
 		if (diskList == null) {
 			return bufferPos;
@@ -138,9 +142,10 @@ public class BufferedStructureArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#clear()
 	 */
+	@Override
 	public void clear() throws IOException {
 		bufferPos = 0;
 		Arrays.fill(buffer, null);

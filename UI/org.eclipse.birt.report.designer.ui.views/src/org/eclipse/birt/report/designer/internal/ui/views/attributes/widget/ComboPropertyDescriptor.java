@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,6 +45,7 @@ public class ComboPropertyDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
@@ -54,7 +55,7 @@ public class ComboPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor
 	 * #resetUIData()
 	 */
@@ -62,8 +63,9 @@ public class ComboPropertyDescriptor extends PropertyDescriptor {
 
 		if (getDescriptorProvider() instanceof IComboDescriptorProvider) {
 			String[] items = ((IComboDescriptorProvider) getDescriptorProvider()).getItems();
-			if (combo.getItems() == null || !Arrays.equals(combo.getItems(), items))
+			if (combo.getItems() == null || !Arrays.equals(combo.getItems(), items)) {
 				combo.setItems(items);
+			}
 
 			oldValue = ((IComboDescriptorProvider) getDescriptorProvider()).load().toString();
 
@@ -71,41 +73,43 @@ public class ComboPropertyDescriptor extends PropertyDescriptor {
 
 			if (((IComboDescriptorProvider) getDescriptorProvider()).isReadOnly()) {
 				combo.setEnabled(false);
-			} else {
-				if (stateFlag)
-					combo.setEnabled(oldValue != null);
+			} else if (stateFlag) {
+				combo.setEnabled(oldValue != null);
 			}
 			String displayName = ((IComboDescriptorProvider) getDescriptorProvider()).getDisplayName(oldValue);
 			if (displayName == null) {
-				if (oldValue != null && combo.indexOf(oldValue) > -1 && combo.getText().equals(oldValue))
+				if (oldValue != null && combo.indexOf(oldValue) > -1 && combo.getText().equals(oldValue)) {
 					return;
+				}
 				combo.deselectAll();
 				combo.setText(oldValue);
-				return;
 			} else {
 				int index = Arrays.asList(items).indexOf(displayName);
-				if (combo.getSelectionIndex() != index)
+				if (combo.getSelectionIndex() != index) {
 					combo.select(index);
+				}
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return combo;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		if (isFormStyle()) {
 			combo = FormWidgetFactory.getInstance().createCCombo(parent);
@@ -115,20 +119,24 @@ public class ComboPropertyDescriptor extends PropertyDescriptor {
 		}
 		combo.addControlListener(new ControlListener() {
 
+			@Override
 			public void controlMoved(ControlEvent e) {
 				combo.clearSelection();
 			}
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				combo.clearSelection();
 			}
 		});
 		combo.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleComboSelectEvent();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				handleComboSelectEvent();
 			}
@@ -148,6 +156,7 @@ public class ComboPropertyDescriptor extends PropertyDescriptor {
 		}
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		descriptorProvider.save(value);
 	}
@@ -168,6 +177,7 @@ public class ComboPropertyDescriptor extends PropertyDescriptor {
 		combo.setVisible(isVisible);
 	}
 
+	@Override
 	public void load() {
 		oldValue = getDescriptorProvider().load().toString();
 		refresh(oldValue);

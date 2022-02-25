@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ import org.eclipse.jface.action.IAction;
 
 /**
  * List band proxy edit part
- * 
+ *
  */
 public class ListBandEditPart extends ReportElementEditPart {
 
@@ -63,11 +63,12 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReportFlowLayoutEditPolicy());
@@ -76,11 +77,12 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		// fix bug
 		List list = controlFigure.getChildren();
@@ -93,9 +95,10 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		ListBandFigure figure = new ListBandFigure();
 		controlFigure = createControlFigure();
@@ -112,7 +115,7 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/**
 	 * Creates the render figure
-	 * 
+	 *
 	 */
 	private ListBandRenderFigure createRenderFigure() {
 		renderFigure = new ListBandRenderFigure();
@@ -121,7 +124,7 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/**
 	 * Creates the control figure
-	 * 
+	 *
 	 */
 	private ListBandControlFigure createControlFigure() {
 		controlFigure = new ListBandControlFigure(this);
@@ -142,9 +145,10 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/*
 	 * Sets the order in list edit part.
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
+	@Override
 	public void refreshChildren() {
 		super.refreshChildren();
 		((AbstractGraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), getConstraint());
@@ -162,35 +166,39 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/*
 	 * Gets the content pane, the child of list figures adds in this figure
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
 	 */
+	@Override
 	public IFigure getContentPane() {
 		return renderFigure;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 		return ((ListBandProxy) getModel()).getChildren();
 	}
 
 	/*
 	 * Gets the list band tracker, the tracker do nothing
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
+	@Override
 	public DragTracker getDragTracker(Request req) {
 
 		return new DragEditPartsTracker(this) {
 
+			@Override
 			protected boolean handleDragInProgress() {
 				return true;
 			}
@@ -199,7 +207,7 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/**
 	 * Sets the render figure visible
-	 * 
+	 *
 	 * @param bool
 	 */
 	public void setRenderVisile(boolean bool) {
@@ -212,7 +220,7 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/**
 	 * Gets the if the render figure is visible
-	 * 
+	 *
 	 * @return visible or not
 	 */
 	public boolean isRenderVisile() {
@@ -222,9 +230,10 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
 	 */
+	@Override
 	public void performDirectEdit() {
 		ListBandProxy listBand = (ListBandProxy) getModel();
 		if (listBand.getElemtHandle() instanceof ListGroupHandle) {
@@ -238,11 +247,12 @@ public class ListBandEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#updateLayoutPreference()
 	 */
+	@Override
 	protected void updateLayoutPreference() {
 		Object parentModel = getParent().getModel();
 		if (!(parentModel instanceof DesignElementHandle)) {

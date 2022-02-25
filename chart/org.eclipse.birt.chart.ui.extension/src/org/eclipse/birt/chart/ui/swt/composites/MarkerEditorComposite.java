@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -78,7 +78,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 
 /**
- * 
+ *
  */
 
 public class MarkerEditorComposite extends Composite implements MouseListener {
@@ -111,7 +111,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param parent
 	 * @param marker
 	 * @param defaultMarker
@@ -148,6 +148,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 
 			Listener listener = new Listener() {
 
+				@Override
 				public void handleEvent(Event event) {
 					canvasEvent(event);
 				}
@@ -176,6 +177,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 
 		addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (idrSWT != null) {
 					idrSWT.dispose();
@@ -198,8 +200,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 		case SWT.KeyDown: {
 			// At this point the widget may have been disposed.
 			// If so, do not continue.
-			if (isDisposed())
+			if (isDisposed()) {
 				break;
+			}
 
 			if (event.keyCode == SWT.ARROW_DOWN || event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR) {
 				event.doit = true;
@@ -277,15 +280,18 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 		cmpDropDown.setFocus();
 	}
 
+	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void mouseDown(MouseEvent e) {
 		toggleDropDown();
 	}
 
+	@Override
 	public void mouseUp(MouseEvent e) {
 		// TODO Auto-generated method stub
 
@@ -329,6 +335,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -336,6 +343,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -343,6 +351,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 				}
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -352,14 +361,17 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
@@ -370,7 +382,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 
 	/**
 	 * Set supported marker types.
-	 * 
+	 *
 	 * @param markerTypeSet
 	 */
 	public void setSupportedMarkerTypes(NameSet markerTypeSet) {
@@ -379,7 +391,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 
 	/**
 	 * Set outline text.
-	 * 
+	 *
 	 * @param text
 	 */
 	public void setOutlineText(String text) {
@@ -546,8 +558,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 					EObject o = getMarker();
 					while (!(o instanceof LineSeries)) {
 						o = o.eContainer();
-						if (o == null)
+						if (o == null) {
 							break;
+						}
 					}
 					if (o instanceof LineSeries) {
 						la.setVisible(((LineSeries) o).getLineAttributes().isVisible());
@@ -642,6 +655,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 			return false;
 		}
 
+		@Override
 		public void paintControl(PaintEvent e) {
 			GC gc = e.gc;
 			int markerIndex = ((Integer) e.widget.getData()).intValue();
@@ -730,7 +744,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 
 		/**
 		 * redraw only in windows platform according to bugzilla 276447
-		 * 
+		 *
 		 * @param oldIndex
 		 */
 		private void redrawMarkers(int newMarkerTypeIndex) {
@@ -760,6 +774,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 			}
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			switch (event.type) {
 			case SWT.FocusOut:
@@ -831,12 +846,15 @@ public class MarkerEditorComposite extends Composite implements MouseListener {
 			int index = 0;
 			int length = string.length();
 			do {
-				while (index < length && string.charAt(index) != '&')
+				while (index < length && string.charAt(index) != '&') {
 					index++;
-				if (++index >= length)
+				}
+				if (++index >= length) {
 					return '\0';
-				if (string.charAt(index) != '&')
+				}
+				if (string.charAt(index) != '&') {
 					return string.toLowerCase().charAt(index);
+				}
 				index++;
 			} while (index < length);
 			return '\0';

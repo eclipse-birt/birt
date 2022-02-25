@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -168,17 +168,21 @@ public abstract class BaseTestCase extends TestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (beforeSerializedDesignHandle != null)
+		if (beforeSerializedDesignHandle != null) {
 			designHandle = beforeSerializedDesignHandle;
+		}
 
-		if (designHandle != null)
+		if (designHandle != null) {
 			designHandle.close();
+		}
 
-		if (libraryHandle != null)
+		if (libraryHandle != null) {
 			libraryHandle.close();
+		}
 
-		if (os != null)
+		if (os != null) {
 			os.close();
+		}
 
 		super.tearDown();
 	}
@@ -289,8 +293,9 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 
 	protected void openDesign(String fileName, ULocale locale, boolean inSingleJarMode) throws DesignFileException {
-		if (inSingleJarMode)
+		if (inSingleJarMode) {
 			fileName = INPUT_FOLDER + fileName;
+		}
 
 		if (engine == null) {
 			engine = new DesignEngine(new DesignConfig());
@@ -309,9 +314,9 @@ public abstract class BaseTestCase extends TestCase {
 				e.printStackTrace();
 				throw e;
 			}
-		}
-		else
+		} else {
 			designHandle = sessionHandle.openDesign(fileName);
+		}
 
 		design = (ReportDesign) designHandle.getModule();
 	}
@@ -377,8 +382,9 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 
 	protected void openLibrary(String fileName, ULocale locale, boolean inSingleJarMode) throws DesignFileException {
-		if (inSingleJarMode)
+		if (inSingleJarMode) {
 			fileName = INPUT_FOLDER + fileName;
+		}
 
 		if (engine == null) {
 			engine = new DesignEngine(new DesignConfig());
@@ -387,10 +393,11 @@ public abstract class BaseTestCase extends TestCase {
 		sessionHandle = engine.newSessionHandle(locale);
 		assertNotNull(sessionHandle);
 
-		if (inSingleJarMode)
+		if (inSingleJarMode) {
 			libraryHandle = sessionHandle.openLibrary(getResource(fileName).toString(), getResourceAStream(fileName));
-		else
+		} else {
 			libraryHandle = sessionHandle.openLibrary(fileName);
+		}
 	}
 
 	/**
@@ -467,7 +474,7 @@ public abstract class BaseTestCase extends TestCase {
 		Reader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		try {
 			goldenFileName = GOLDEN_FOLDER + goldenFileName;
@@ -483,10 +490,12 @@ public abstract class BaseTestCase extends TestCase {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (readerA != null)
+				if (readerA != null) {
 					readerA.close();
-				if (readerB != null)
+				}
+				if (readerB != null) {
 					readerB.close();
+				}
 			} catch (Exception e) {
 				readerA = null;
 				readerB = null;
@@ -513,8 +522,9 @@ public abstract class BaseTestCase extends TestCase {
 		String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
 
 		InputStream streamA = getResourceAStream(tmpGoldenFileName);
-		if (os == null)
+		if (os == null) {
 			return false;
+		}
 
 		String outContent = os.toString("utf-8"); //$NON-NLS-1$
 
@@ -526,7 +536,7 @@ public abstract class BaseTestCase extends TestCase {
 		try {
 			ok = compareFile(readerA, readerB);
 		} catch (Exception e) {
-			String outFileName = goldenFileName.replaceAll("golden", "out");
+			String outFileName = goldenFileName.replace("golden", "out");
 			saveOutputFile(outFileName, outContent);
 
 			throw e;
@@ -548,7 +558,7 @@ public abstract class BaseTestCase extends TestCase {
 	protected boolean compareDesignModel(String goldenFileName, String[] ignoredAttrs) throws Exception {
 		InputStream goldenFileStream = getGoldenFileAsStream(GOLDEN_FOLDER + goldenFileName);
 		InputStream designFileStream = getTestDesignFileAsStream(os);
-		HashSet<String> ignoredSet = new HashSet<String>();
+		HashSet<String> ignoredSet = new HashSet<>();
 		for (String s : ignoredAttrs) {
 			ignoredSet.add(s);
 		}
@@ -592,7 +602,7 @@ public abstract class BaseTestCase extends TestCase {
 
 	private String[] readLines(Reader r1) throws IOException {
 		BufferedReader br = new BufferedReader(r1);
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 		String line = br.readLine();
 		while (line != null) {
 			lines.add(line.trim());
@@ -661,8 +671,9 @@ public abstract class BaseTestCase extends TestCase {
 		String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
 
 		InputStream streamA = getResourceAStream(tmpGoldenFileName);
-		if (os == null)
+		if (os == null) {
 			return false;
+		}
 
 		String outContent = os.toString("utf-8"); //$NON-NLS-1$
 
@@ -674,7 +685,7 @@ public abstract class BaseTestCase extends TestCase {
 		try {
 			ok = compareFile(readerA, readerB);
 		} catch (Exception e) {
-			String outFileName = goldenFileName.replaceAll("golden", "out");
+			String outFileName = goldenFileName.replace("golden", "out");
 			saveOutputFile(outFileName, outContent);
 
 			throw e;
@@ -700,8 +711,9 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 
 	protected void printSemanticError(ReportDesign design) {
-		if (design != null)
+		if (design != null) {
 			printErrorList(design.getAllErrors());
+		}
 	}
 
 	/**
@@ -712,8 +724,9 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 
 	protected void printSyntaxError(DesignFileException e) {
-		if (e != null)
+		if (e != null) {
 			printErrorList(e.getErrorList());
+		}
 	}
 
 	/**
@@ -745,8 +758,9 @@ public abstract class BaseTestCase extends TestCase {
 		}
 		filename = outputFolder + filename;
 
-		if (design == null)
+		if (design == null) {
 			return;
+		}
 		PrintWriter writer = new PrintWriter(new FileOutputStream(filename));
 		List errors = design.getAllErrors();
 		ErrorDetail ex = null;
@@ -782,8 +796,9 @@ public abstract class BaseTestCase extends TestCase {
 
 	protected void save(ModuleHandle moduleHandle) throws IOException {
 		os = new ByteArrayOutputStream();
-		if (moduleHandle != null)
+		if (moduleHandle != null) {
 			moduleHandle.serialize(os);
+		}
 		os.close();
 	}
 
@@ -806,8 +821,9 @@ public abstract class BaseTestCase extends TestCase {
 
 	protected String getTempFolder() {
 		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 
 		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
 				+ getFullQualifiedClassName();
@@ -884,8 +900,9 @@ public abstract class BaseTestCase extends TestCase {
 		folder = folder + "/" + INPUT_FOLDER; //$NON-NLS-1$
 
 		File tmpFolder = new File(folder);
-		if (!tmpFolder.exists())
+		if (!tmpFolder.exists()) {
 			tmpFolder.mkdirs();
+		}
 
 		String filename = ""; //$NON-NLS-1$
 		int lastSlash = resourceName.lastIndexOf("/"); //$NON-NLS-1$
@@ -928,8 +945,9 @@ public abstract class BaseTestCase extends TestCase {
 	protected void saveOutputFile(String fileName, String content) throws Exception {
 		String folder = getTempFolder() + OUTPUT_FOLDER;
 		File tmpFolder = new File(folder);
-		if (!tmpFolder.exists())
+		if (!tmpFolder.exists()) {
 			tmpFolder.mkdirs();
+		}
 
 		FileOutputStream fos = new FileOutputStream(folder + fileName);
 		fos.write(content.getBytes("UTF-8")); //$NON-NLS-1$
@@ -943,15 +961,17 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 
 	protected static String serializeStringList(List strs) {
-		if (strs == null)
+		if (strs == null) {
 			return null;
+		}
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < strs.size(); i++) {
 			sb.append((String) strs.get(i));
 
-			if (i != strs.size() - 1)
+			if (i != strs.size() - 1) {
 				sb.append(", "); //$NON-NLS-1$
+			}
 		}
 
 		return sb.toString();
@@ -990,8 +1010,9 @@ public abstract class BaseTestCase extends TestCase {
 			writer.write(os);
 			design.onSave();
 
-		} else
+		} else {
 			designHandle.serialize(os);
+		}
 
 		this.beforeSerializedDesignHandle = beforeSerializedDesignHandle;
 	}

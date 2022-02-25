@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.core.script.functionservice.impl.FunctionProviderBaseImp
 import org.osgi.framework.Bundle;
 
 /**
- * 
+ *
  */
 
 public class FunctionProviderImpl extends FunctionProviderBaseImpl {
@@ -41,11 +41,12 @@ public class FunctionProviderImpl extends FunctionProviderBaseImpl {
 	/**
 	 * Populate library resources. The library resources includes .js script lib and
 	 * .jar java lib.
-	 * 
+	 *
 	 * @param libs
 	 * @param suffix
 	 * @param confElement
 	 */
+	@Override
 	protected void populateResources(List<URL> libs, String suffix, IConfigurationElement confElement) {
 		String source = confElement.getAttribute(ATTRIBUTE_LOCATION);
 		IExtension extension = confElement.getDeclaringExtension();
@@ -66,13 +67,11 @@ public class FunctionProviderImpl extends FunctionProviderBaseImpl {
 						}
 					}
 				}
-			} else {
-				// the bundle denotes to a file.
-				if (source.toLowerCase().endsWith(suffix)) {
-					URL url = bundle.getEntry(source);
-					if (url != null) {
-						libs.add(url);
-					}
+			} else // the bundle denotes to a file.
+			if (source.toLowerCase().endsWith(suffix)) {
+				URL url = bundle.getEntry(source);
+				if (url != null) {
+					libs.add(url);
 				}
 			}
 		}
@@ -81,25 +80,24 @@ public class FunctionProviderImpl extends FunctionProviderBaseImpl {
 			File file = new File(source);
 			if (file.exists() && file.isDirectory()) {
 				libs.addAll(findFileList(file, suffix));
-			} else {
-				if (source.toLowerCase().endsWith(suffix))
-					try {
-						libs.add(new URL(source));
-					} catch (MalformedURLException e) {
-						// ignore it
-					}
+			} else if (source.toLowerCase().endsWith(suffix)) {
+				try {
+					libs.add(new URL(source));
+				} catch (MalformedURLException e) {
+					// ignore it
+				}
 			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @param suffix
 	 * @return
 	 */
 	private static List<URL> findFileList(File file, String suffix) {
-		List<URL> fileList = new ArrayList<URL>();
+		List<URL> fileList = new ArrayList<>();
 		for (File f : file.listFiles()) {
 			if (f.isFile() && f.getName().endsWith(suffix)) {
 				try {

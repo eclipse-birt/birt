@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -39,16 +39,19 @@ public abstract class InlineStackingArea extends ContainerArea {
 
 	public abstract int getMaxLineWidth();
 
+	@Override
 	public void update(AbstractArea area) throws BirtException {
 		currentIP += area.getAllocatedWidth();
 	}
 
+	@Override
 	public void add(AbstractArea area) {
 		children.add(area);
 		area.setAllocatedPosition(currentIP + getOffsetX(), currentBP + getOffsetY());
 
 	}
 
+	@Override
 	public int getBaseLine() {
 		if (baseLine == 0 && children.size() > 0) {
 			Iterator iter = children.iterator();
@@ -60,6 +63,7 @@ public abstract class InlineStackingArea extends ContainerArea {
 		return baseLine;
 	}
 
+	@Override
 	public void updateChildrenPosition() throws BirtException {
 		first = false;
 		currentIP = 0;

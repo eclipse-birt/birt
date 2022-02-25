@@ -1,24 +1,24 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 /*
  * Copyright 1999-2005 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,13 +45,12 @@ import org.xml.sax.SAXParseException;
 /**
  * A sample DOM writer. This sample program illustrates how to traverse a DOM
  * tree in order to print a document that is parsed.
- * 
+ *
  * @author Andy Clark, IBM
- * 
+ *
  * @version $Id: DomWriter.java,v 1.2 2007/01/07 13:23:12 anonymous Exp $
  */
-public class DomWriter
-{
+public class DomWriter {
 
 	//
 	// Constants
@@ -184,12 +183,10 @@ public class DomWriter
 	//
 
 	/** Default constructor. */
-	public DomWriter( )
-	{
+	public DomWriter() {
 	} // <init>()
 
-	public DomWriter( boolean canonical )
-	{
+	public DomWriter(boolean canonical) {
 		fCanonical = canonical;
 	} // <init>(boolean)
 
@@ -198,240 +195,193 @@ public class DomWriter
 	//
 
 	/** Sets whether output is canonical. */
-	public void setCanonical( boolean canonical )
-	{
+	public void setCanonical(boolean canonical) {
 		fCanonical = canonical;
 	} // setCanonical(boolean)
 
 	/** Sets the output stream for printing. */
-	public void setOutput( OutputStream stream, String encoding )
-			throws UnsupportedEncodingException
-	{
+	public void setOutput(OutputStream stream, String encoding) throws UnsupportedEncodingException {
 
-		if ( encoding == null )
-		{
+		if (encoding == null) {
 			encoding = "UTF8";
 		}
 
-		java.io.Writer writer = new OutputStreamWriter( stream, encoding );
-		fOut = new PrintWriter( writer );
+		java.io.Writer writer = new OutputStreamWriter(stream, encoding);
+		fOut = new PrintWriter(writer);
 
 	} // setOutput(OutputStream,String)
 
 	/** Sets the output writer. */
-	public void setOutput( java.io.Writer writer )
-	{
+	public void setOutput(java.io.Writer writer) {
 
-		fOut = writer instanceof PrintWriter
-				? (PrintWriter) writer
-				: new PrintWriter( writer );
+		fOut = writer instanceof PrintWriter ? (PrintWriter) writer : new PrintWriter(writer);
 
 	} // setOutput(java.io.Writer)
 
 	/** Writes the specified node, recursively. */
-	public void write( Node node )
-	{
+	public void write(Node node) {
 
 		// is there anything to do?
-		if ( node == null )
-		{
+		if (node == null) {
 			return;
 		}
 
-		short type = node.getNodeType( );
-		switch ( type )
-		{
-			case Node.DOCUMENT_NODE :
-			{
-				Document document = (Document) node;
-				fXML11 = "1.1".equals( getVersion( document ) );
-				if ( !fCanonical )
-				{
-					if ( fXML11 )
-					{
-						fOut
-								.println( "<?xml version=\"1.1\" encoding=\"UTF-8\"?>" );
-					}
-					else
-					{
-						fOut
-								.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" );
-					}
-					fOut.flush( );
-					write( document.getDoctype( ) );
+		short type = node.getNodeType();
+		switch (type) {
+		case Node.DOCUMENT_NODE: {
+			Document document = (Document) node;
+			fXML11 = "1.1".equals(getVersion(document));
+			if (!fCanonical) {
+				if (fXML11) {
+					fOut.println("<?xml version=\"1.1\" encoding=\"UTF-8\"?>");
+				} else {
+					fOut.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 				}
-				write( document.getDocumentElement( ) );
-				break;
+				fOut.flush();
+				write(document.getDoctype());
 			}
-
-			case Node.DOCUMENT_TYPE_NODE :
-			{
-				DocumentType doctype = (DocumentType) node;
-				fOut.print( "<!DOCTYPE " );
-				fOut.print( doctype.getName( ) );
-				String publicId = doctype.getPublicId( );
-				String systemId = doctype.getSystemId( );
-				if ( publicId != null )
-				{
-					fOut.print( " PUBLIC '" );
-					fOut.print( publicId );
-					fOut.print( "' '" );
-					fOut.print( systemId );
-					fOut.print( '\'' );
-				}
-				else if ( systemId != null )
-				{
-					fOut.print( " SYSTEM '" );
-					fOut.print( systemId );
-					fOut.print( '\'' );
-				}
-				String internalSubset = doctype.getInternalSubset( );
-				if ( internalSubset != null )
-				{
-					fOut.println( " [" );
-					fOut.print( internalSubset );
-					fOut.print( ']' );
-				}
-				fOut.println( '>' );
-				break;
-			}
-
-			case Node.ELEMENT_NODE :
-			{
-				fOut.print( '<' );
-				fOut.print( node.getNodeName( ) );
-				Attr attrs[] = sortAttributes( node.getAttributes( ) );
-				for ( int i = 0; i < attrs.length; i++ )
-				{
-					Attr attr = attrs[i];
-					fOut.print( ' ' );
-					fOut.print( attr.getNodeName( ) );
-					fOut.print( "=\"" );
-					normalizeAndPrint( attr.getNodeValue( ), true );
-					fOut.print( '"' );
-				}
-				fOut.print( '>' );
-				fOut.flush( );
-
-				Node child = node.getFirstChild( );
-				while ( child != null )
-				{
-					write( child );
-					child = child.getNextSibling( );
-				}
-				break;
-			}
-
-			case Node.ENTITY_REFERENCE_NODE :
-			{
-				if ( fCanonical )
-				{
-					Node child = node.getFirstChild( );
-					while ( child != null )
-					{
-						write( child );
-						child = child.getNextSibling( );
-					}
-				}
-				else
-				{
-					fOut.print( '&' );
-					fOut.print( node.getNodeName( ) );
-					fOut.print( ';' );
-					fOut.flush( );
-				}
-				break;
-			}
-
-			case Node.CDATA_SECTION_NODE :
-			{
-				if ( fCanonical )
-				{
-					normalizeAndPrint( node.getNodeValue( ), false );
-				}
-				else
-				{
-					fOut.print( "<![CDATA[" );
-					fOut.print( node.getNodeValue( ) );
-					fOut.print( "]]>" );
-				}
-				fOut.flush( );
-				break;
-			}
-
-			case Node.TEXT_NODE :
-			{
-				normalizeAndPrint( node.getNodeValue( ), false );
-				fOut.flush( );
-				break;
-			}
-
-			case Node.PROCESSING_INSTRUCTION_NODE :
-			{
-				fOut.print( "<?" );
-				fOut.print( node.getNodeName( ) );
-				String data = node.getNodeValue( );
-				if ( data != null && data.length( ) > 0 )
-				{
-					fOut.print( ' ' );
-					fOut.print( data );
-				}
-				fOut.print( "?>" );
-				fOut.flush( );
-				break;
-			}
-
-			case Node.COMMENT_NODE :
-			{
-				if ( !fCanonical )
-				{
-					fOut.print( "<!--" );
-					String comment = node.getNodeValue( );
-					if ( comment != null && comment.length( ) > 0 )
-					{
-						fOut.print( comment );
-					}
-					fOut.print( "-->" );
-					fOut.flush( );
-				}
-			}
+			write(document.getDocumentElement());
+			break;
 		}
 
-		if ( type == Node.ELEMENT_NODE )
-		{
-			fOut.print( "</" );
-			fOut.print( node.getNodeName( ) );
-			fOut.print( '>' );
-			fOut.flush( );
+		case Node.DOCUMENT_TYPE_NODE: {
+			DocumentType doctype = (DocumentType) node;
+			fOut.print("<!DOCTYPE ");
+			fOut.print(doctype.getName());
+			String publicId = doctype.getPublicId();
+			String systemId = doctype.getSystemId();
+			if (publicId != null) {
+				fOut.print(" PUBLIC '");
+				fOut.print(publicId);
+				fOut.print("' '");
+				fOut.print(systemId);
+				fOut.print('\'');
+			} else if (systemId != null) {
+				fOut.print(" SYSTEM '");
+				fOut.print(systemId);
+				fOut.print('\'');
+			}
+			String internalSubset = doctype.getInternalSubset();
+			if (internalSubset != null) {
+				fOut.println(" [");
+				fOut.print(internalSubset);
+				fOut.print(']');
+			}
+			fOut.println('>');
+			break;
+		}
+
+		case Node.ELEMENT_NODE: {
+			fOut.print('<');
+			fOut.print(node.getNodeName());
+			Attr attrs[] = sortAttributes(node.getAttributes());
+			for (int i = 0; i < attrs.length; i++) {
+				Attr attr = attrs[i];
+				fOut.print(' ');
+				fOut.print(attr.getNodeName());
+				fOut.print("=\"");
+				normalizeAndPrint(attr.getNodeValue(), true);
+				fOut.print('"');
+			}
+			fOut.print('>');
+			fOut.flush();
+
+			Node child = node.getFirstChild();
+			while (child != null) {
+				write(child);
+				child = child.getNextSibling();
+			}
+			break;
+		}
+
+		case Node.ENTITY_REFERENCE_NODE: {
+			if (fCanonical) {
+				Node child = node.getFirstChild();
+				while (child != null) {
+					write(child);
+					child = child.getNextSibling();
+				}
+			} else {
+				fOut.print('&');
+				fOut.print(node.getNodeName());
+				fOut.print(';');
+				fOut.flush();
+			}
+			break;
+		}
+
+		case Node.CDATA_SECTION_NODE: {
+			if (fCanonical) {
+				normalizeAndPrint(node.getNodeValue(), false);
+			} else {
+				fOut.print("<![CDATA[");
+				fOut.print(node.getNodeValue());
+				fOut.print("]]>");
+			}
+			fOut.flush();
+			break;
+		}
+
+		case Node.TEXT_NODE: {
+			normalizeAndPrint(node.getNodeValue(), false);
+			fOut.flush();
+			break;
+		}
+
+		case Node.PROCESSING_INSTRUCTION_NODE: {
+			fOut.print("<?");
+			fOut.print(node.getNodeName());
+			String data = node.getNodeValue();
+			if (data != null && data.length() > 0) {
+				fOut.print(' ');
+				fOut.print(data);
+			}
+			fOut.print("?>");
+			fOut.flush();
+			break;
+		}
+
+		case Node.COMMENT_NODE: {
+			if (!fCanonical) {
+				fOut.print("<!--");
+				String comment = node.getNodeValue();
+				if (comment != null && comment.length() > 0) {
+					fOut.print(comment);
+				}
+				fOut.print("-->");
+				fOut.flush();
+			}
+		}
+		}
+
+		if (type == Node.ELEMENT_NODE) {
+			fOut.print("</");
+			fOut.print(node.getNodeName());
+			fOut.print('>');
+			fOut.flush();
 		}
 
 	} // write(Node)
 
 	/** Returns a sorted list of attributes. */
-	protected Attr[] sortAttributes( NamedNodeMap attrs )
-	{
+	protected Attr[] sortAttributes(NamedNodeMap attrs) {
 
-		int len = ( attrs != null ) ? attrs.getLength( ) : 0;
+		int len = (attrs != null) ? attrs.getLength() : 0;
 		Attr array[] = new Attr[len];
-		for ( int i = 0; i < len; i++ )
-		{
-			array[i] = (Attr) attrs.item( i );
+		for (int i = 0; i < len; i++) {
+			array[i] = (Attr) attrs.item(i);
 		}
-		for ( int i = 0; i < len - 1; i++ )
-		{
-			String name = array[i].getNodeName( );
+		for (int i = 0; i < len - 1; i++) {
+			String name = array[i].getNodeName();
 			int index = i;
-			for ( int j = i + 1; j < len; j++ )
-			{
-				String curName = array[j].getNodeName( );
-				if ( curName.compareTo( name ) < 0 )
-				{
+			for (int j = i + 1; j < len; j++) {
+				String curName = array[j].getNodeName();
+				if (curName.compareTo(name) < 0) {
 					name = curName;
 					index = j;
 				}
 			}
-			if ( index != i )
-			{
+			if (index != i) {
 				Attr temp = array[i];
 				array[i] = array[index];
 				array[index] = temp;
@@ -447,123 +397,96 @@ public class DomWriter
 	//
 
 	/** Normalizes and prints the given string. */
-	protected void normalizeAndPrint( String s, boolean isAttValue )
-	{
+	protected void normalizeAndPrint(String s, boolean isAttValue) {
 
-		int len = ( s != null ) ? s.length( ) : 0;
-		for ( int i = 0; i < len; i++ )
-		{
-			char c = s.charAt( i );
-			normalizeAndPrint( c, isAttValue );
+		int len = (s != null) ? s.length() : 0;
+		for (int i = 0; i < len; i++) {
+			char c = s.charAt(i);
+			normalizeAndPrint(c, isAttValue);
 		}
 
 	} // normalizeAndPrint(String,boolean)
 
 	/** Normalizes and print the given character. */
-	protected void normalizeAndPrint( char c, boolean isAttValue )
-	{
+	protected void normalizeAndPrint(char c, boolean isAttValue) {
 
-		switch ( c )
-		{
-			case '<' :
-			{
-				fOut.print( "&lt;" );
+		switch (c) {
+		case '<': {
+			fOut.print("&lt;");
+			break;
+		}
+		case '>': {
+			fOut.print("&gt;");
+			break;
+		}
+		case '&': {
+			fOut.print("&amp;");
+			break;
+		}
+		case '"': {
+			// A '"' that appears in character data
+			// does not need to be escaped.
+			if (isAttValue) {
+				fOut.print("&quot;");
+			} else {
+				fOut.print("\"");
+			}
+			break;
+		}
+		case '\r': {
+			// If CR is part of the document's content, it
+			// must not be printed as a literal otherwise
+			// it would be normalized to LF when the document
+			// is reparsed.
+			fOut.print("&#xD;");
+			break;
+		}
+		case '\n': {
+			if (fCanonical) {
+				fOut.print("&#xA;");
 				break;
 			}
-			case '>' :
-			{
-				fOut.print( "&gt;" );
-				break;
+			// else, default print char
+		}
+		default: {
+			// In XML 1.1, control chars in the ranges [#x1-#x1F, #x7F-#x9F]
+			// must be escaped.
+			//
+			// Escape space characters that would be normalized to #x20 in
+			// attribute values
+			// when the document is reparsed.
+			//
+			// Escape NEL (0x85) and LSEP (0x2028) that appear in content
+			// if the document is XML 1.1, since they would be normalized to
+			// LF
+			// when the document is reparsed.
+			if (fXML11
+					&& ((c >= 0x01 && c <= 0x1F && c != 0x09 && c != 0x0A) || (c >= 0x7F && c <= 0x9F) || c == 0x2028)
+					|| isAttValue && (c == 0x09 || c == 0x0A)) {
+				fOut.print("&#x");
+				fOut.print(Integer.toHexString(c).toUpperCase());
+				fOut.print(";");
+			} else {
+				fOut.print(c);
 			}
-			case '&' :
-			{
-				fOut.print( "&amp;" );
-				break;
-			}
-			case '"' :
-			{
-				// A '"' that appears in character data
-				// does not need to be escaped.
-				if ( isAttValue )
-				{
-					fOut.print( "&quot;" );
-				}
-				else
-				{
-					fOut.print( "\"" );
-				}
-				break;
-			}
-			case '\r' :
-			{
-				// If CR is part of the document's content, it
-				// must not be printed as a literal otherwise
-				// it would be normalized to LF when the document
-				// is reparsed.
-				fOut.print( "&#xD;" );
-				break;
-			}
-			case '\n' :
-			{
-				if ( fCanonical )
-				{
-					fOut.print( "&#xA;" );
-					break;
-				}
-				// else, default print char
-			}
-			default :
-			{
-				// In XML 1.1, control chars in the ranges [#x1-#x1F, #x7F-#x9F]
-				// must be escaped.
-				//
-				// Escape space characters that would be normalized to #x20 in
-				// attribute values
-				// when the document is reparsed.
-				//
-				// Escape NEL (0x85) and LSEP (0x2028) that appear in content
-				// if the document is XML 1.1, since they would be normalized to
-				// LF
-				// when the document is reparsed.
-				if ( fXML11
-						&& ( ( c >= 0x01 && c <= 0x1F && c != 0x09 && c != 0x0A )
-								|| ( c >= 0x7F && c <= 0x9F ) || c == 0x2028 )
-						|| isAttValue && ( c == 0x09 || c == 0x0A ) )
-				{
-					fOut.print( "&#x" );
-					fOut.print( Integer.toHexString( c ).toUpperCase( ) );
-					fOut.print( ";" );
-				}
-				else
-				{
-					fOut.print( c );
-				}
-			}
+		}
 		}
 	} // normalizeAndPrint(char,boolean)
 
 	/** Extracts the XML version from the Document. */
-	protected String getVersion( Document document )
-	{
-		if ( document == null )
-		{
+	protected String getVersion(Document document) {
+		if (document == null) {
 			return null;
 		}
 		String version = null;
 		Method getXMLVersion = null;
-		try
-		{
-			getXMLVersion = document.getClass( ).getMethod( "getXmlVersion",
-					new Class[]{} );
+		try {
+			getXMLVersion = document.getClass().getMethod("getXmlVersion", new Class[] {});
 			// If Document class implements DOM L3, this method will exist.
-			if ( getXMLVersion != null )
-			{
-				version = (String) getXMLVersion.invoke( document,
-						(Object[]) null );
+			if (getXMLVersion != null) {
+				version = (String) getXMLVersion.invoke(document, (Object[]) null);
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			// Either this locator object doesn't have
 			// this method, or we're on an old JDK.
 		}
@@ -575,14 +498,12 @@ public class DomWriter
 	//
 
 	/** Main program entry point. */
-	public static void main( String argv[] )
-	{
+	public static void main(String argv[]) {
 
 		// is there anything to do?
-		if ( argv.length == 0 )
-		{
+		if (argv.length == 0) {
 			// printUsage( );
-			System.exit( 1 );
+			System.exit(1);
 		}
 
 		// variables
@@ -603,298 +524,189 @@ public class DomWriter
 		boolean canonical = DEFAULT_CANONICAL;
 
 		// process arguments
-		for ( int i = 0; i < argv.length; i++ )
-		{
+		for (int i = 0; i < argv.length; i++) {
 			String arg = argv[i];
-			if ( arg.startsWith( "-" ) )
-			{
-				String option = arg.substring( 1 );
-				if ( option.equals( "p" ) )
-				{
+			if (arg.startsWith("-")) {
+				String option = arg.substring(1);
+				if (option.equals("p")) {
 					// get parser name
-					if ( ++i == argv.length )
-					{
-						System.err
-								.println( "error: Missing argument to -p option." );
+					if (++i == argv.length) {
+						System.err.println("error: Missing argument to -p option.");
 					}
 					String parserName = argv[i];
 
 					// create parser
-					try
-					{
-						parser = (ParserWrapper) Class.forName( parserName )
-								.newInstance( );
-					}
-					catch ( Exception e )
-					{
+					try {
+						parser = (ParserWrapper) Class.forName(parserName).newInstance();
+					} catch (Exception e) {
 						parser = null;
-						System.err
-								.println( "error: Unable to instantiate parser ("
-										+ parserName + ")" );
+						System.err.println("error: Unable to instantiate parser (" + parserName + ")");
 					}
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "n" ) )
-				{
-					namespaces = option.equals( "n" );
+				if (option.equalsIgnoreCase("n")) {
+					namespaces = option.equals("n");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "v" ) )
-				{
-					validation = option.equals( "v" );
+				if (option.equalsIgnoreCase("v")) {
+					validation = option.equals("v");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "xd" ) )
-				{
-					externalDTD = option.equals( "xd" );
+				if (option.equalsIgnoreCase("xd")) {
+					externalDTD = option.equals("xd");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "s" ) )
-				{
-					schemaValidation = option.equals( "s" );
+				if (option.equalsIgnoreCase("s")) {
+					schemaValidation = option.equals("s");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "f" ) )
-				{
-					schemaFullChecking = option.equals( "f" );
+				if (option.equalsIgnoreCase("f")) {
+					schemaFullChecking = option.equals("f");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "hs" ) )
-				{
-					honourAllSchemaLocations = option.equals( "hs" );
+				if (option.equalsIgnoreCase("hs")) {
+					honourAllSchemaLocations = option.equals("hs");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "va" ) )
-				{
-					validateAnnotations = option.equals( "va" );
+				if (option.equalsIgnoreCase("va")) {
+					validateAnnotations = option.equals("va");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "ga" ) )
-				{
-					generateSyntheticAnnotations = option.equals( "ga" );
+				if (option.equalsIgnoreCase("ga")) {
+					generateSyntheticAnnotations = option.equals("ga");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "dv" ) )
-				{
-					dynamicValidation = option.equals( "dv" );
+				if (option.equalsIgnoreCase("dv")) {
+					dynamicValidation = option.equals("dv");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "xi" ) )
-				{
-					xincludeProcessing = option.equals( "xi" );
+				if (option.equalsIgnoreCase("xi")) {
+					xincludeProcessing = option.equals("xi");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "xb" ) )
-				{
-					xincludeFixupBaseURIs = option.equals( "xb" );
+				if (option.equalsIgnoreCase("xb")) {
+					xincludeFixupBaseURIs = option.equals("xb");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "xl" ) )
-				{
-					xincludeFixupLanguage = option.equals( "xl" );
+				if (option.equalsIgnoreCase("xl")) {
+					xincludeFixupLanguage = option.equals("xl");
 					continue;
 				}
-				if ( option.equalsIgnoreCase( "c" ) )
-				{
-					canonical = option.equals( "c" );
+				if (option.equalsIgnoreCase("c")) {
+					canonical = option.equals("c");
 					continue;
 				}
-				if ( option.equals( "h" ) )
-				{
+				if (option.equals("h")) {
 					// printUsage( );
 					continue;
 				}
 			}
 
 			// use default parser?
-			if ( parser == null )
-			{
+			if (parser == null) {
 
 				// create parser
-				try
-				{
-					parser = (ParserWrapper) Class
-							.forName( DEFAULT_PARSER_NAME ).newInstance( );
-				}
-				catch ( Exception e )
-				{
-					System.err.println( "error: Unable to instantiate parser ("
-							+ DEFAULT_PARSER_NAME + ")" );
+				try {
+					parser = (ParserWrapper) Class.forName(DEFAULT_PARSER_NAME).newInstance();
+				} catch (Exception e) {
+					System.err.println("error: Unable to instantiate parser (" + DEFAULT_PARSER_NAME + ")");
 					continue;
 				}
 			}
 
 			// set parser features
-			try
-			{
-				parser.setFeature( NAMESPACES_FEATURE_ID, namespaces );
+			try {
+				parser.setFeature(NAMESPACES_FEATURE_ID, namespaces);
+			} catch (SAXException e) {
+				System.err.println("warning: Parser does not support feature (" + NAMESPACES_FEATURE_ID + ")");
 			}
-			catch ( SAXException e )
-			{
+			try {
+				parser.setFeature(VALIDATION_FEATURE_ID, validation);
+			} catch (SAXException e) {
+				System.err.println("warning: Parser does not support feature (" + VALIDATION_FEATURE_ID + ")");
+			}
+			try {
+				parser.setFeature(LOAD_EXTERNAL_DTD_FEATURE_ID, externalDTD);
+			} catch (SAXException e) {
+				System.err.println("warning: Parser does not support feature (" + LOAD_EXTERNAL_DTD_FEATURE_ID + ")");
+			}
+			try {
+				parser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, schemaValidation);
+			} catch (SAXException e) {
+				System.err.println("warning: Parser does not support feature (" + SCHEMA_VALIDATION_FEATURE_ID + ")");
+			}
+			try {
+				parser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, schemaFullChecking);
+			} catch (SAXException e) {
 				System.err
-						.println( "warning: Parser does not support feature ("
-								+ NAMESPACES_FEATURE_ID + ")" );
+						.println("warning: Parser does not support feature (" + SCHEMA_FULL_CHECKING_FEATURE_ID + ")");
 			}
-			try
-			{
-				parser.setFeature( VALIDATION_FEATURE_ID, validation );
+			try {
+				parser.setFeature(HONOUR_ALL_SCHEMA_LOCATIONS_ID, honourAllSchemaLocations);
+			} catch (SAXException e) {
+				System.err.println("warning: Parser does not support feature (" + HONOUR_ALL_SCHEMA_LOCATIONS_ID + ")");
 			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ VALIDATION_FEATURE_ID + ")" );
+			try {
+				parser.setFeature(VALIDATE_ANNOTATIONS_ID, validateAnnotations);
+			} catch (SAXException e) {
+				System.err.println("warning: Parser does not support feature (" + VALIDATE_ANNOTATIONS_ID + ")");
 			}
-			try
-			{
-				parser.setFeature( LOAD_EXTERNAL_DTD_FEATURE_ID, externalDTD );
+			try {
+				parser.setFeature(GENERATE_SYNTHETIC_ANNOTATIONS_ID, generateSyntheticAnnotations);
+			} catch (SAXException e) {
+				System.err.println(
+						"warning: Parser does not support feature (" + GENERATE_SYNTHETIC_ANNOTATIONS_ID + ")");
 			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ LOAD_EXTERNAL_DTD_FEATURE_ID + ")" );
+			try {
+				parser.setFeature(DYNAMIC_VALIDATION_FEATURE_ID, dynamicValidation);
+			} catch (SAXException e) {
+				System.err.println("warning: Parser does not support feature (" + DYNAMIC_VALIDATION_FEATURE_ID + ")");
 			}
-			try
-			{
-				parser.setFeature( SCHEMA_VALIDATION_FEATURE_ID,
-						schemaValidation );
+			try {
+				parser.setFeature(XINCLUDE_FEATURE_ID, xincludeProcessing);
+			} catch (SAXException e) {
+				System.err.println("warning: Parser does not support feature (" + XINCLUDE_FEATURE_ID + ")");
 			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ SCHEMA_VALIDATION_FEATURE_ID + ")" );
+			try {
+				parser.setFeature(XINCLUDE_FIXUP_BASE_URIS_FEATURE_ID, xincludeFixupBaseURIs);
+			} catch (SAXException e) {
+				System.err.println(
+						"warning: Parser does not support feature (" + XINCLUDE_FIXUP_BASE_URIS_FEATURE_ID + ")");
 			}
-			try
-			{
-				parser.setFeature( SCHEMA_FULL_CHECKING_FEATURE_ID,
-						schemaFullChecking );
-			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ SCHEMA_FULL_CHECKING_FEATURE_ID + ")" );
-			}
-			try
-			{
-				parser.setFeature( HONOUR_ALL_SCHEMA_LOCATIONS_ID,
-						honourAllSchemaLocations );
-			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ HONOUR_ALL_SCHEMA_LOCATIONS_ID + ")" );
-			}
-			try
-			{
-				parser
-						.setFeature( VALIDATE_ANNOTATIONS_ID,
-								validateAnnotations );
-			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ VALIDATE_ANNOTATIONS_ID + ")" );
-			}
-			try
-			{
-				parser.setFeature( GENERATE_SYNTHETIC_ANNOTATIONS_ID,
-						generateSyntheticAnnotations );
-			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ GENERATE_SYNTHETIC_ANNOTATIONS_ID + ")" );
-			}
-			try
-			{
-				parser.setFeature( DYNAMIC_VALIDATION_FEATURE_ID,
-						dynamicValidation );
-			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ DYNAMIC_VALIDATION_FEATURE_ID + ")" );
-			}
-			try
-			{
-				parser.setFeature( XINCLUDE_FEATURE_ID, xincludeProcessing );
-			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ XINCLUDE_FEATURE_ID + ")" );
-			}
-			try
-			{
-				parser.setFeature( XINCLUDE_FIXUP_BASE_URIS_FEATURE_ID,
-						xincludeFixupBaseURIs );
-			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ XINCLUDE_FIXUP_BASE_URIS_FEATURE_ID + ")" );
-			}
-			try
-			{
-				parser.setFeature( XINCLUDE_FIXUP_LANGUAGE_FEATURE_ID,
-						xincludeFixupLanguage );
-			}
-			catch ( SAXException e )
-			{
-				System.err
-						.println( "warning: Parser does not support feature ("
-								+ XINCLUDE_FIXUP_LANGUAGE_FEATURE_ID + ")" );
+			try {
+				parser.setFeature(XINCLUDE_FIXUP_LANGUAGE_FEATURE_ID, xincludeFixupLanguage);
+			} catch (SAXException e) {
+				System.err.println(
+						"warning: Parser does not support feature (" + XINCLUDE_FIXUP_LANGUAGE_FEATURE_ID + ")");
 			}
 
 			// setup writer
-			if ( writer == null )
-			{
-				writer = new DomWriter( );
-				try
-				{
-					writer.setOutput( System.out, "UTF8" );
-				}
-				catch ( UnsupportedEncodingException e )
-				{
-					System.err
-							.println( "error: Unable to set output. Exiting." );
-					System.exit( 1 );
+			if (writer == null) {
+				writer = new DomWriter();
+				try {
+					writer.setOutput(System.out, "UTF8");
+				} catch (UnsupportedEncodingException e) {
+					System.err.println("error: Unable to set output. Exiting.");
+					System.exit(1);
 				}
 			}
 
 			// parse file
-			writer.setCanonical( canonical );
-			try
-			{
-				Document document = parser.parse( arg );
-				writer.write( document );
-			}
-			catch ( SAXParseException e )
-			{
+			writer.setCanonical(canonical);
+			try {
+				Document document = parser.parse(arg);
+				writer.write(document);
+			} catch (SAXParseException e) {
 				// ignore
-			}
-			catch ( Exception e )
-			{
-				System.err.println( "error: Parse error occurred - "
-						+ e.getMessage( ) );
-				if ( e instanceof SAXException )
-				{
-					Exception nested = ( (SAXException) e ).getException( );
-					if ( nested != null )
-					{
+			} catch (Exception e) {
+				System.err.println("error: Parse error occurred - " + e.getMessage());
+				if (e instanceof SAXException) {
+					Exception nested = ((SAXException) e).getException();
+					if (nested != null) {
 						e = nested;
 					}
 				}
-				e.printStackTrace( System.err );
+				e.printStackTrace(System.err);
 			}
 		}
 

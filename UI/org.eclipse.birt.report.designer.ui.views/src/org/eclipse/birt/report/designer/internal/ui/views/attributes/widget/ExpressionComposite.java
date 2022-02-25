@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,11 +59,12 @@ public class ExpressionComposite extends Composite {
 		layout.verticalSpacing = 2;
 		layout.horizontalSpacing = 3;
 		setLayout(layout);
-		if (isFormStyle)
+		if (isFormStyle) {
 			text = FormWidgetFactory.getInstance().createText(this, "", //$NON-NLS-1$
 					SWT.READ_ONLY | SWT.MULTI);
-		else
+		} else {
 			text = new Text(this, SWT.READ_ONLY | SWT.MULTI | SWT.BORDER);
+		}
 		GridData data = new GridData();
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = GridData.FILL;
@@ -73,6 +74,7 @@ public class ExpressionComposite extends Composite {
 
 		Listener listener = new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				notifyListeners(SWT.Modify, null);
 			}
@@ -95,6 +97,7 @@ public class ExpressionComposite extends Composite {
 		((ExpressionButton) text.getData(ExpressionButtonUtil.EXPR_BUTTON)).getControl().getAccessible()
 				.addAccessibleListener(new AccessibleAdapter() {
 
+					@Override
 					public void getHelp(AccessibleEvent e) {
 						e.result = ((ExpressionButton) text.getData(ExpressionButtonUtil.EXPR_BUTTON)).getControl()
 								.getToolTipText();
@@ -103,6 +106,7 @@ public class ExpressionComposite extends Composite {
 
 		text.getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = text.getEditable() ? ACC.ROLE_TEXT : ACC.ROLE_LABEL;
 			}
@@ -110,10 +114,12 @@ public class ExpressionComposite extends Composite {
 
 		getAccessible().addAccessibleTextListener(new AccessibleTextAdapter() {
 
+			@Override
 			public void getCaretOffset(AccessibleTextEvent e) {
 				e.offset = text.getCaretPosition();
 			}
 
+			@Override
 			public void getSelectionRange(AccessibleTextEvent e) {
 				Point sel = text.getSelection();
 				e.offset = sel.x;
@@ -123,6 +129,7 @@ public class ExpressionComposite extends Composite {
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(e.x, e.y);
 				if (getBounds().contains(testPoint)) {
@@ -130,6 +137,7 @@ public class ExpressionComposite extends Composite {
 				}
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(location.x, location.y);
@@ -139,18 +147,22 @@ public class ExpressionComposite extends Composite {
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_TEXT;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
+			@Override
 			public void getValue(AccessibleControlEvent e) {
 				e.result = text.getText();
 			}
@@ -159,7 +171,7 @@ public class ExpressionComposite extends Composite {
 
 	/**
 	 * Sets value of the Expression.
-	 * 
+	 *
 	 * @param string the String value.
 	 */
 	public void setExpression(Expression expression) {
@@ -168,7 +180,7 @@ public class ExpressionComposite extends Composite {
 
 	/**
 	 * Gets value of the Expression.
-	 * 
+	 *
 	 * @return a String value.
 	 */
 	public Expression getExpression() {
@@ -177,9 +189,10 @@ public class ExpressionComposite extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
+	@Override
 	public void setEnabled(boolean enabled) {
 		text.setEnabled(enabled);
 		((ExpressionButton) text.getData(ExpressionButtonUtil.EXPR_BUTTON)).setEnabled(enabled);

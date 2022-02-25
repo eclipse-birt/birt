@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class BgImageFieldEditor extends AbstractFieldEditor {
 
-	private static final String[] IMAGE_TYPES = new String[] { ".bmp", //$NON-NLS-1$
+	private static final String[] IMAGE_TYPES = { ".bmp", //$NON-NLS-1$
 			".jpg", //$NON-NLS-1$
 			".jpeg", //$NON-NLS-1$
 			".jpe", //$NON-NLS-1$
@@ -51,7 +51,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 			".svg" //$NON-NLS-1$
 	};
 
-	private static final String[] IMAGE_FILEFILTERS = new String[] {
+	private static final String[] IMAGE_FILEFILTERS = {
 			"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
 	};
 
@@ -77,18 +77,20 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#getNumberOfControls()
 	 */
+	@Override
 	public int getNumberOfControls() {
 		return 3;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#doLoad()
 	 */
+	@Override
 	protected void doLoad() {
 		String value = getPreferenceStore().getString(getPreferenceName());
 		if (value != null) {
@@ -101,9 +103,10 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#doLoadDefault()
 	 */
+	@Override
 	protected void doLoadDefault() {
 		String value = getPreferenceStore().getDefaultString(getPreferenceName());
 		if (value != null) {
@@ -114,19 +117,22 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 		setDefaultValue(value);
 		if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-			if (store.hasLocalValue(getPreferenceName()))
+			if (store.hasLocalValue(getPreferenceName())) {
 				markDirty(true);
-			else
+			} else {
 				markDirty(false);
-		} else
+			}
+		} else {
 			markDirty(true);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see EditableComboFieldEditor#adjustForNumColumns(int)
 	 */
+	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		Control control = getLabelControl();
 		if (control != null) {
@@ -144,9 +150,10 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#doFillIntoGrid()
 	 */
+	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		Control control = getLabelControl(parent);
 		control.setLayoutData(new GridData());
@@ -161,7 +168,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Lazily creates and returns the text control.
-	 * 
+	 *
 	 * @param parent The parent composite to hold the field editor.
 	 * @return Text The text control
 	 */
@@ -171,6 +178,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 			fText.setFont(parent.getFont());
 			fText.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					valueChanged(VALUE);
 				}
@@ -181,7 +189,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Lazily creates and returns the button control.
-	 * 
+	 *
 	 * @param parent The parent Composite contains the control.
 	 * @return Button The button control
 	 */
@@ -192,6 +200,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 			fButton.setFont(parent.getFont());
 			fButton.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent evt) {
 					ResourceSelectionValidator validator = new ResourceSelectionValidator(IMAGE_TYPES);
 					ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog(true, true,
@@ -204,7 +213,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 					if (dialog.open() == Window.OK) {
 						String file = dialog.getPath();
 						if (file != null) {
-							if (checkExtensions(IMAGE_TYPES, file) == false) {
+							if (!checkExtensions(IMAGE_TYPES, file)) {
 								ExceptionHandler.openErrorMessageBox(
 										Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Title"), //$NON-NLS-1$
 										Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Message")); //$NON-NLS-1$
@@ -222,9 +231,10 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Gets string value of the field editor.
-	 * 
+	 *
 	 * @return the field editor 's string value.
 	 */
+	@Override
 	protected String getStringValue() {
 		if (fText != null) {
 			return fText.getText();

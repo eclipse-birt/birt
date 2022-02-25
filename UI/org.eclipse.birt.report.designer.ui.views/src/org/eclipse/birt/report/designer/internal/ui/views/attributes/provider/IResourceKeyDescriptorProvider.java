@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -16,18 +16,18 @@ import java.net.URL;
 
 public interface IResourceKeyDescriptorProvider extends IDescriptorProvider {
 
-	public String[] getBaseNames();
+	String[] getBaseNames();
 
-	public URL[] getResourceURLs();
+	URL[] getResourceURLs();
 
-	public String getBrowseText();
+	String getBrowseText();
 
-	public String getResetText();
+	String getResetText();
 
-	public boolean isEnable();
+	boolean isEnable();
 
-	public String getBrowseTooltipText();
+	String getBrowseTooltipText();
 
-	public String getResetTooltipText();
+	String getResetTooltipText();
 
 }

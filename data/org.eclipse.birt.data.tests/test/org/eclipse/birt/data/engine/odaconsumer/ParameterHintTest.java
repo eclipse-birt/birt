@@ -4,14 +4,21 @@
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v2.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-2.0.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *  Actuate Corporation - initial API and implementation
- * 
+ *
  * *****************************************************************************
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.sql.Types;
 import java.util.Collection;
@@ -22,12 +29,10 @@ import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import testutil.JDBCOdaDataSource;
-
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
 public class ParameterHintTest extends ConnectionTest {
 
@@ -48,8 +53,9 @@ public class ParameterHintTest extends ConnectionTest {
 		ResultSet resultset = statement.getResultSet();
 
 		int count = 0;
-		while (resultset.fetch() != null)
+		while (resultset.fetch() != null) {
 			count++;
+		}
 
 		assertEquals(1, count);
 	}
@@ -74,8 +80,9 @@ public class ParameterHintTest extends ConnectionTest {
 		ResultSet resultset = statement.getResultSet();
 
 		int count = 0;
-		while (resultset.fetch() != null)
+		while (resultset.fetch() != null) {
 			count++;
+		}
 
 		assertEquals(2, count);
 	}

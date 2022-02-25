@@ -4,23 +4,23 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
 
 import java.util.logging.Level;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.report.engine.api.DefaultStatusHandler;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <b>EngineConfig test</b>
@@ -35,17 +35,19 @@ public class EngineConfigTest extends EngineCase {
 		return new TestSuite(EngineConfigTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 */
 	public EngineConfigTest(String name) {
@@ -74,7 +76,7 @@ public class EngineConfigTest extends EngineCase {
 	 * method
 	 */
 	public void testGetScriptObjects() {
-		engineConfig.addScriptableJavaObject("jo1", new String("jostring"));
+		engineConfig.addScriptableJavaObject("jo1", "jostring");
 		assertEquals("Not identical", engineConfig.getScriptObjects().get("jo1"), "jostring");
 
 	}

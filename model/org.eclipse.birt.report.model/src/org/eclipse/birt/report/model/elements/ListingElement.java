@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 /**
  * This class represents the properties and slots common to the List and Table
  * elements.
- * 
+ *
  */
 
 public abstract class ListingElement extends ReportItem implements IListingElementModel, ISupportThemeElement {
@@ -58,7 +58,7 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 
 	/**
 	 * Constructs the listing element with an optional name.
-	 * 
+	 *
 	 * @param theName the optional name
 	 */
 
@@ -73,7 +73,7 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 	 * <p>
 	 * The application MUST NOT modify this list. Use the handle class to make
 	 * modifications.
-	 * 
+	 *
 	 * @return the list of groups. The list contains <code>ListingGroup</code>
 	 *         elements.
 	 */
@@ -84,10 +84,11 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
+	@Override
 	public ContainerSlot getSlot(int slot) {
 		assert slot >= 0 && slot < getDefn().getSlotCount();
 		return slots[slot];
@@ -95,11 +96,12 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.
 	 * eclipse.birt.report.model.elements.ReportDesign, int)
 	 */
 
+	@Override
 	public String getDisplayLabel(Module module, int level) {
 		String displayLabel = super.getDisplayLabel(module, level);
 		if (level == IDesignElementModel.FULL_LABEL) {
@@ -114,11 +116,12 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module) {
 		List<SemanticException> list = super.validate(module);
 
@@ -141,7 +144,7 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
 	 * .birt.report.model.core.Module,
@@ -149,10 +152,12 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 
+	@Override
 	public List<SemanticException> checkContent(Module module, ContainerContext containerInfo, IElementDefn defn) {
 		List<SemanticException> errors = super.checkContent(module, containerInfo, defn);
-		if (!errors.isEmpty())
+		if (!errors.isEmpty()) {
 			return errors;
+		}
 
 		// do the check of the group name
 
@@ -171,7 +176,7 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
 	 * .birt.report.model.core.Module,
@@ -179,10 +184,12 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List<SemanticException> checkContent(Module module, ContainerContext containerInfo, DesignElement content) {
 		List<SemanticException> errors = super.checkContent(module, containerInfo, content);
-		if (!errors.isEmpty())
+		if (!errors.isEmpty()) {
 			return errors;
+		}
 
 		// do the check of the group name
 
@@ -196,8 +203,9 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 			}
 
 			String checkedName = (String) content.getLocalProperty(module, IGroupElementModel.GROUP_NAME_PROP);
-			if (StringUtil.isBlank(checkedName))
+			if (StringUtil.isBlank(checkedName)) {
 				return errors;
+			}
 
 			errors.addAll(GroupNameValidator.getInstance().validateForAddingGroup((ListingHandle) getHandle(module),
 					checkedName));
@@ -208,24 +216,22 @@ public abstract class ListingElement extends ReportItem implements IListingEleme
 
 	/**
 	 * Returns listing elements that refers to this listing element directly.
-	 * 
+	 *
 	 * @param module the root of the listing element
-	 * 
+	 *
 	 * @return a list containing listing elements.
 	 */
 
 	public List<DesignElement> findReferredListingElements(Module module) {
-		List<DesignElement> returnList = new ArrayList<DesignElement>();
+		List<DesignElement> returnList = new ArrayList<>();
 
 		List<BackRef> clients = getClientList();
 		for (int i = 0; i < clients.size(); i++) {
 			BackRef ref = clients.get(i);
 			DesignElement refElement = ref.getElement();
-			if (!IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase(ref.getPropertyName()))
+			if (!IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase(ref.getPropertyName()) || !ModelUtil.isCompatibleDataBindingElements(this, refElement)) {
 				continue;
-
-			if (!ModelUtil.isCompatibleDataBindingElements(this, refElement))
-				continue;
+			}
 
 			returnList.add(refElement);
 		}

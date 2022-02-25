@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ public class ExtendedItemState extends ReportItemState {
 	/**
 	 * Constructs the extended item state with the design parser handler, the
 	 * container element and the container slot of the extended item.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -69,7 +69,7 @@ public class ExtendedItemState extends ReportItemState {
 	/**
 	 * Constructs extended item state with the design parser handler, the container
 	 * element and the container property name of the report element.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param prop         the slot in which this element appears
@@ -81,11 +81,12 @@ public class ExtendedItemState extends ReportItemState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new ExtendedItem();
 		handler.addExtendedItem(element);
@@ -103,21 +104,23 @@ public class ExtendedItemState extends ReportItemState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#startElement(
 	 * java.lang.String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		if (element.getExtDefn() != null) {
 			return super.startElement(tagName);
@@ -128,10 +131,11 @@ public class ExtendedItemState extends ReportItemState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		try {
 			element.initializeReportItem(handler.module);
@@ -148,10 +152,9 @@ public class ExtendedItemState extends ReportItemState {
 			List<IElementPropertyDefn> properties = eDefn.getProperties();
 			for (int i = 0; i < properties.size(); i++) {
 				ElementPropertyDefn defn = (ElementPropertyDefn) properties.get(i);
-				if (defn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE)
+				if ((defn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE) || !defn.getTargetElementType().isKindOf(levelDefn)) {
 					continue;
-				if (!defn.getTargetElementType().isKindOf(levelDefn))
-					continue;
+				}
 				ElementRefValue value = (ElementRefValue) element.getLocalProperty(handler.module, defn);
 				if (value != null && !value.isResolved()) {
 					Level level = ((ModuleNameHelper) handler.module.getNameHelper()).findCachedLevel(value.getName());
@@ -168,15 +171,17 @@ public class ExtendedItemState extends ReportItemState {
 				for (int i = 0; i < columnBindings.size(); i++) {
 					ComputedColumn column = (ComputedColumn) columnBindings.get(i);
 					List aggregationList = column.getAggregateOnList();
-					if (aggregationList == null)
+					if (aggregationList == null) {
 						continue;
+					}
 					for (int j = 0; j < aggregationList.size(); j++) {
 						String aggregationOn = (String) aggregationList.get(j);
 						if (aggregationOn != null) {
 							Level level = ((ModuleNameHelper) handler.module.getNameHelper())
 									.findCachedLevel(aggregationOn);
-							if (level != null)
+							if (level != null) {
 								aggregationList.set(j, level.getFullName());
+							}
 						}
 					}
 				}
@@ -184,14 +189,14 @@ public class ExtendedItemState extends ReportItemState {
 		}
 
 		if (handler.versionNumber >= VersionUtil.VERSION_3_2_1) {
-			if (reportItem != null && reportItem instanceof ICompatibleReportItem) {
+			if (reportItem instanceof ICompatibleReportItem) {
 				((ICompatibleReportItem) reportItem).handleCompatibilityIssue();
 			}
 			super.end();
 			return;
 		}
 
-		if (reportItem != null && reportItem instanceof ICompatibleReportItem) {
+		if (reportItem instanceof ICompatibleReportItem) {
 			List<String> jsExprs = ((ICompatibleReportItem) reportItem).getRowExpressions();
 			Map<String, String> updatedExprs = BoundDataColumnUtil.handleJavaExpression(jsExprs, element,
 					handler.module, handler.tempValue);

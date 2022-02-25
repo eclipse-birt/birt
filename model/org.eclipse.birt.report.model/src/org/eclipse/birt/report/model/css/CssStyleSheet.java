@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 
 /**
  * This class represents one include style sheet of the module.
- * 
+ *
  */
 
 public final class CssStyleSheet implements Cloneable {
@@ -38,20 +38,20 @@ public final class CssStyleSheet implements Cloneable {
 	 * All the external styles the style sheet contains.
 	 */
 
-	protected LinkedHashMap<String, CssStyle> styles = new LinkedHashMap<String, CssStyle>();
+	protected LinkedHashMap<String, CssStyle> styles = new LinkedHashMap<>();
 
 	/**
 	 * All the collected warnings during the loading.
 	 */
 
-	private ArrayList<StyleSheetParserException> warnings = new ArrayList<StyleSheetParserException>();
+	private ArrayList<StyleSheetParserException> warnings = new ArrayList<>();
 
 	/**
 	 * The map of the all the style name that is not supported for the given
 	 * StyleSheetParserException.
 	 */
 
-	private HashMap<String, StyleSheetParserException> unsupportedStyles = new HashMap<String, StyleSheetParserException>();
+	private HashMap<String, StyleSheetParserException> unsupportedStyles = new HashMap<>();
 
 	/**
 	 * All the errors for each style. Key is the name of the style and value is all
@@ -59,7 +59,7 @@ public final class CssStyleSheet implements Cloneable {
 	 * style.
 	 */
 
-	private HashMap<String, List<StyleSheetParserException>> warningsForStyles = new HashMap<String, List<StyleSheetParserException>>();
+	private HashMap<String, List<StyleSheetParserException>> warningsForStyles = new HashMap<>();
 
 	/**
 	 * The error handler for the CSS parser.
@@ -101,7 +101,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Return a handle to deal with the style sheet.
-	 * 
+	 *
 	 * @param module the module of the style sheet
 	 * @return handle to deal with the style sheet
 	 */
@@ -112,7 +112,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Gets the style with the given name.
-	 * 
+	 *
 	 * @param name the style name to find
 	 * @return the style with the given name if found, otherwise null
 	 */
@@ -123,7 +123,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Adds a style into the style sheet.
-	 * 
+	 *
 	 * @param style the style to add
 	 */
 
@@ -135,7 +135,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Removes a style into the style sheet.
-	 * 
+	 *
 	 * @param name the name of the style
 	 */
 
@@ -147,17 +147,17 @@ public final class CssStyleSheet implements Cloneable {
 	/**
 	 * Gets all the styles in the style sheet. Each one in the list is instance of
 	 * <code>StyleElement</code>.
-	 * 
+	 *
 	 * @return all the styles in the style sheet
 	 */
 
 	public List<CssStyle> getStyles() {
-		return new ArrayList<CssStyle>(styles.values());
+		return new ArrayList<>(styles.values());
 	}
 
 	/**
 	 * Adds a style sheet parser exception into the warning list.
-	 * 
+	 *
 	 * @param warnings the warning list to add
 	 */
 
@@ -167,7 +167,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Gets the warning list during the loading.
-	 * 
+	 *
 	 * @return the warning list
 	 */
 
@@ -177,7 +177,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Adds an unsupported style exception to the list.
-	 * 
+	 *
 	 * @param styleName the style name that is not supported
 	 * @param e         the exception that is caused by the unsupported style
 	 */
@@ -188,20 +188,19 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Returns all the unsupported style names.
-	 * 
+	 *
 	 * @return the list of the unsupported style name
 	 */
 
 	public List<String> getUnsupportedStyle() {
-		List<String> styles = new ArrayList<String>();
-		styles.addAll(this.unsupportedStyles.keySet());
+		List<String> styles = new ArrayList<>(this.unsupportedStyles.keySet());
 		return styles;
 	}
 
 	/**
 	 * Adds the error list of the given style to the hash map. Key is the style
 	 * name, content is the error list of the style.
-	 * 
+	 *
 	 * @param styleName the style name
 	 * @param errors    the error list
 	 */
@@ -212,7 +211,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Gets the error list of the given style.
-	 * 
+	 *
 	 * @param styleName the style name
 	 * @return the error list of the given style, otherwise null
 	 */
@@ -223,7 +222,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Gets the error handler for the css parser.
-	 * 
+	 *
 	 * @return Returns the errorHandler.
 	 */
 
@@ -233,7 +232,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Sets the error handler for the css parser.
-	 * 
+	 *
 	 * @param errorHandler The errorHandler to set.
 	 */
 
@@ -243,7 +242,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Gets css file name
-	 * 
+	 *
 	 * @return css file name
 	 */
 
@@ -253,7 +252,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Sets css file name
-	 * 
+	 *
 	 * @param fileName
 	 */
 
@@ -264,7 +263,7 @@ public final class CssStyleSheet implements Cloneable {
 	/**
 	 * Gets container element. The container is the element that imports this style
 	 * sheet. It can be either report design or library theme.
-	 * 
+	 *
 	 * @return the container of this style sheet.
 	 */
 
@@ -274,7 +273,7 @@ public final class CssStyleSheet implements Cloneable {
 
 	/**
 	 * Sets container element.
-	 * 
+	 *
 	 * @param container
 	 */
 
@@ -291,7 +290,7 @@ public final class CssStyleSheet implements Cloneable {
 	public CssStyleSheet clone() throws CloneNotSupportedException {
 		CssStyleSheet cssStyleSheet = (CssStyleSheet) super.clone();
 		// clone CssStyle
-		LinkedHashMap<String, CssStyle> newStyles = new LinkedHashMap<String, CssStyle>();
+		LinkedHashMap<String, CssStyle> newStyles = new LinkedHashMap<>();
 		if (this.styles.size() > 0) {
 			Set<String> keySet = this.styles.keySet();
 			for (String key : keySet) {

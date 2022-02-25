@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,33 +41,36 @@ public class SectionBorder extends BaseBorder {
 
 	/*
 	 * gets the insets (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Border#getInsets(org.eclipse.draw2d.IFigure)
 	 */
+	@Override
 	public Insets getInsets(IFigure figure) {
 		return getTrueBorderInsets().add(insets);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
 	 * BaseBorder#getBorderInsets()
 	 */
+	@Override
 	public Insets getBorderInsets() {
 		return getTrueBorderInsets();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
 	 * BaseBorder#getTrueBorderInsets()
 	 */
+	@Override
 	public Insets getTrueBorderInsets() {
 		int t = 1, b = 1, l = 1, r = 1;
 
-		int style = 0;
+		int style;
 
 		style = getBorderStyle(bottomStyle);
 		if (style != 0) {
@@ -98,10 +101,11 @@ public class SectionBorder extends BaseBorder {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
 	 * BaseBorder#setPaddingInsets(org.eclipse.draw2d.geometry.Insets)
 	 */
+	@Override
 	public void setPaddingInsets(Insets in) {
 		if (in == null || (in.left == 0 && in.right == 0 && in.top == 0 && in.bottom == 0)) {
 			insets = new Insets(getDefaultPaddingInsets());
@@ -120,10 +124,11 @@ public class SectionBorder extends BaseBorder {
 	/*
 	 * paint the border ----------------------------- | | | | | | |
 	 * ------------------------- |___| (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Border#paint(org.eclipse.draw2d.IFigure,
 	 * org.eclipse.draw2d.Graphics, org.eclipse.draw2d.geometry.Insets)
 	 */
+	@Override
 	public void paint(IFigure figure, Graphics g, Insets in) {
 		i_bottom_style = getBorderStyle(bottomStyle);
 		i_bottom_width = getBorderWidth(bottomWidth);
@@ -159,7 +164,7 @@ public class SectionBorder extends BaseBorder {
 
 	/**
 	 * Draw border of the section
-	 * 
+	 *
 	 * @param figure
 	 * @param g
 	 * @param in
@@ -295,7 +300,7 @@ public class SectionBorder extends BaseBorder {
 
 	/**
 	 * Sets the left corner label
-	 * 
+	 *
 	 * @param indicatorLabel
 	 */
 	public void setIndicatorLabel(String indicatorLabel) {
@@ -306,7 +311,7 @@ public class SectionBorder extends BaseBorder {
 
 	/**
 	 * Sets the left corner
-	 * 
+	 *
 	 * @param image
 	 */
 	public void setIndicatorIcon(Image image) {
@@ -349,7 +354,7 @@ public class SectionBorder extends BaseBorder {
 
 	/**
 	 * gets the left corner size
-	 * 
+	 *
 	 * @return
 	 */
 	public Rectangle getIndicatorArea() {

@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public class FacttableMeasureJSObjectPopulator implements IJSObjectPopulator {
@@ -41,9 +41,10 @@ public class FacttableMeasureJSObjectPopulator implements IJSObjectPopulator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#doInit()
 	 */
+	@Override
 	public void doInit() throws DataException {
 		this.measureObj = new DummyJSFacttableMeasureAccessor(this.computedMeasures, scope, this.cx);
 		this.scope.put(ScriptConstants.MEASURE_SCRIPTABLE, this.scope, this.measureObj);
@@ -52,11 +53,12 @@ public class FacttableMeasureJSObjectPopulator implements IJSObjectPopulator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#setData(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void setData(Object resultRow) {
 		assert resultRow instanceof IFacttableRow;
 
@@ -65,9 +67,10 @@ public class FacttableMeasureJSObjectPopulator implements IJSObjectPopulator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#close()
 	 */
+	@Override
 	public void cleanUp() {
 		this.scope.delete(ScriptConstants.MEASURE_SCRIPTABLE);// $NON-NLS-1$
 		this.scope.setParentScope(null);

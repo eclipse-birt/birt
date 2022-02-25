@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.jface.wizard.WizardDialog;
 
 /**
- * 
+ *
  */
 
 public class PublishTemplateViewAction extends AbstractViewAction {
@@ -49,6 +49,7 @@ public class PublishTemplateViewAction extends AbstractViewAction {
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
+	@Override
 	public boolean isEnabled() {
 		Object object = getSelection();
 
@@ -66,9 +67,10 @@ public class PublishTemplateViewAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
+	@Override
 	public void run() {
 
 		WizardDialog dialog = new BaseWizardDialog(UIUtil.getDefaultShell(),

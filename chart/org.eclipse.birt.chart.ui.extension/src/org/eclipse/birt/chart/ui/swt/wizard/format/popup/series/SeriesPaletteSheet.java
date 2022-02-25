@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
 /**
- * 
+ *
  */
 
 public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionListener {
@@ -68,7 +68,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 	private Composite cmpContent;
 
 	/**
-	 * 
+	 *
 	 * @param title
 	 * @param context
 	 * @param cSeriesDefn
@@ -89,11 +89,12 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.ISheet#getComponent(org.eclipse.swt.
 	 * widgets.Composite)
 	 */
+	@Override
 	public Composite getComponent(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_SERIES_PALETTE);
 		// Sheet content composite
@@ -184,24 +185,22 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 			}
 			tf.setSelection(0);
 			slPalette.topControl = cmpMPE;
-		} else {
-			if (isMultiAxes() && isColoredByValue()) {
+		} else if (isMultiAxes() && isColoredByValue()) {
 
-				for (int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber(chart); i++) {
-					SeriesDefinition[] seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions(chart, i)
-							.toArray(new SeriesDefinition[] {});
-					TabItem ti = new TabItem(tf, SWT.NONE);
-					ti.setText(Messages.getString("SeriesPaletteSheet.Tab.Axis") + (i + 1)); //$NON-NLS-1$
-					PaletteEditorComposite pec = new PaletteEditorComposite(tf, getContext(),
-							seriesDefns[0].getSeriesPalette(), seriesDefns, iFillChooserStyle);
-					pec.setEnabled(!isAutoPalette);
-					ti.setControl(pec);
-				}
-				tf.setSelection(0);
-				slPalette.topControl = cmpMPE;
-			} else {
-				slPalette.topControl = cmpPE;
+			for (int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber(chart); i++) {
+				SeriesDefinition[] seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions(chart, i)
+						.toArray(new SeriesDefinition[] {});
+				TabItem ti = new TabItem(tf, SWT.NONE);
+				ti.setText(Messages.getString("SeriesPaletteSheet.Tab.Axis") + (i + 1)); //$NON-NLS-1$
+				PaletteEditorComposite pec = new PaletteEditorComposite(tf, getContext(),
+						seriesDefns[0].getSeriesPalette(), seriesDefns, iFillChooserStyle);
+				pec.setEnabled(!isAutoPalette);
+				ti.setControl(pec);
 			}
+			tf.setSelection(0);
+			slPalette.topControl = cmpMPE;
+		} else {
+			slPalette.topControl = cmpPE;
 		}
 	}
 
@@ -234,21 +233,23 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// Do nothing.
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (btnAutoPals == e.widget) {
 			if (btnAutoPals.getSelection()) {

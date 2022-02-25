@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -48,11 +48,11 @@ public interface CurveFitting extends IChartObject {
 	 * Returns the value of the '<em><b>Line Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specifies the formatting information for the curve.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #setLineAttributes(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getCurveFitting_LineAttributes()
@@ -67,7 +67,7 @@ public interface CurveFitting extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLineAttributes
 	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Line Attributes</em>' containment
 	 *              reference.
 	 * @see #getLineAttributes()
@@ -79,9 +79,9 @@ public interface CurveFitting extends IChartObject {
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> A label
 	 * instance to hold attributes for curve labels.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Label</em>' containment reference.
 	 * @see #setLabel(Label)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getCurveFitting_Label()
@@ -96,7 +96,7 @@ public interface CurveFitting extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabel
 	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
@@ -109,9 +109,9 @@ public interface CurveFitting extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.attribute.Anchor}. <!-- begin-user-doc
 	 * --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies where the labels
 	 * for the curve should be displayed.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Label Anchor</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Anchor
 	 * @see #isSetLabelAnchor()
@@ -128,7 +128,7 @@ public interface CurveFitting extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor
 	 * <em>Label Anchor</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Label Anchor</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Anchor
 	 * @see #isSetLabelAnchor()
@@ -143,7 +143,7 @@ public interface CurveFitting extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor
 	 * <em>Label Anchor</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetLabelAnchor()
 	 * @see #getLabelAnchor()
 	 * @see #setLabelAnchor(Anchor)
@@ -156,7 +156,7 @@ public interface CurveFitting extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor
 	 * <em>Label Anchor</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Label Anchor</em>' attribute is set.
 	 * @see #unsetLabelAnchor()
 	 * @see #getLabelAnchor()
@@ -168,6 +168,7 @@ public interface CurveFitting extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	CurveFitting copyInstance();
 
 } // CurveFitting

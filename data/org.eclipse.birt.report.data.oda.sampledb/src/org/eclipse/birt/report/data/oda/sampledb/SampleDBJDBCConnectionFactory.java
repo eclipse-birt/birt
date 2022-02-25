@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005, 2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.oda.sampledb;
@@ -31,10 +31,11 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory {
 
 	/**
 	 * Creates a new JDBC connection to the embedded sample database.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory#getConnection(java.lang.String,
 	 *      java.lang.String, java.util.Properties)
 	 */
+	@Override
 	public Connection getConnection(String driverClass, String url, Properties connectionProperties)
 			throws SQLException {
 		if (!driverClass.equals(SampleDBConstants.DRIVER_CLASS)) {
@@ -52,10 +53,11 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory {
 
 		// Copy connection properties and replace user and password with fixed value
 		Properties props;
-		if (connectionProperties != null)
+		if (connectionProperties != null) {
 			props = (Properties) connectionProperties.clone();
-		else
+		} else {
 			props = new Properties();
+		}
 		props.put("user", SampleDBConstants.SAMPLE_DB_SCHEMA);
 		props.put("password", "");
 
@@ -104,7 +106,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory {
 	 * ClassLoader defaultLoader, DerbyClassLoader derbyLoader) {
 	 * super(defaultLoader); assert derbyLoader != null; assert
 	 * derbyLoader.isGood(); this.derbyLoader = derbyLoader; }
-	 * 
+	 *
 	 *//**
 		 * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
 		 */
@@ -115,7 +117,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory {
 	 * derbyLoader.loadClass( name, resolve); } else { // Delegate to default
 	 * implementation, which will use parent classloader return super.loadClass(
 	 * name, resolve); } }
-	 * 
+	 *
 	 *//**
 		 * @see java.lang.ClassLoader#getResource(java.lang.String)
 		 *//*

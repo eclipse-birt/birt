@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
  */
 public abstract class AbstractModelEventProcessor implements IModelEventProcessor {
 
-	private List<IModelEventInfo> infoList = new ArrayList<IModelEventInfo>();
+	private List<IModelEventInfo> infoList = new ArrayList<>();
 	private IModelEventFactory factory;
 	private IModelEventFilter filter;
 	private IModelEventInfoFactory eventInfoFactory = createModelEventInfoFactory();
@@ -47,15 +47,16 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.
 	 * IModelEventProcessor
 	 * #addElementEvent(org.eclipse.birt.report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
+	@Override
 	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 		boolean isAccept = false;
-		List<IModelEventInfo> temp = new ArrayList<IModelEventInfo>(infoList);
+		List<IModelEventInfo> temp = new ArrayList<>(infoList);
 		int size = temp.size();
 		IModelEventInfo newInfo = eventInfoFactory.createModelEventInfo(focus, ev);
 		for (int i = 0; i < size; i++) {
@@ -78,20 +79,22 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.
 	 * IModelEventProcessor#clear()
 	 */
+	@Override
 	public void clear() {
 		infoList.clear();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.
 	 * IModelEventProcessor#postElementEvent()
 	 */
+	@Override
 	public void postElementEvent() {
 		int size = infoList.size();
 		for (int i = 0; i < size; i++) {
@@ -112,7 +115,7 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 
 		/**
 		 * Gets the reportrunnable from the model event infomation.
-		 * 
+		 *
 		 * @param focus
 		 * @param type
 		 * @param args
@@ -128,14 +131,16 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == IModelEventFilter.class) {
 			if (filter == null) {
 				filter = new IModelEventFilter() {
 
+					@Override
 					public boolean filterModelEvent(DesignElementHandle focus, NotificationEvent ev) {
 						if (includeEventType(ev.getEventType())) {
 							return false;
@@ -153,7 +158,7 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 
 	/**
 	 * Filter the event.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -202,6 +207,7 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 		 * @param ev
 		 * @return
 		 */
+		@Override
 		public boolean canAcceptModelEvent(IModelEventInfo info) {
 			return getTarget().equals(info.getTarget()) && info.getType() == getType();
 		}
@@ -210,6 +216,7 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 		 * @param focus
 		 * @param ev
 		 */
+		@Override
 		public void addModelEvent(IModelEventInfo info) {
 			// do nothing now
 		}
@@ -217,6 +224,7 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 		/**
 		 * @return
 		 */
+		@Override
 		public DesignElementHandle getTarget() {
 			return target;
 		}
@@ -231,6 +239,7 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 		/**
 		 * @return
 		 */
+		@Override
 		public int getType() {
 			return type;
 		}
@@ -245,6 +254,7 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 		/**
 		 * @return
 		 */
+		@Override
 		public Map getOtherInfo() {
 			// now retrun null
 			return otherInfo;
@@ -263,12 +273,12 @@ public abstract class AbstractModelEventProcessor implements IModelEventProcesso
 
 		/**
 		 * Creats the event info object for given event.
-		 * 
+		 *
 		 * @param focus
 		 * @param ev
 		 * @return
 		 */
-		public IModelEventInfo createModelEventInfo(DesignElementHandle focus, NotificationEvent ev);
+		IModelEventInfo createModelEventInfo(DesignElementHandle focus, NotificationEvent ev);
 
 	}
 

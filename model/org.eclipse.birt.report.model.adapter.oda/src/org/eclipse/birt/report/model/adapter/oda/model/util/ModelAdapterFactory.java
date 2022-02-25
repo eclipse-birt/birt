@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -18,27 +18,29 @@
  */
 package org.eclipse.birt.report.model.adapter.oda.model.util;
 
-import org.eclipse.birt.report.model.adapter.oda.model.*;
-
+import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter;
+import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters;
+import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
+import org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot;
+import org.eclipse.birt.report.model.adapter.oda.model.DynamicList;
+import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> The <b>Adapter Factory</b> for the model. It provides
  * an adapter <code>createXXX</code> method for each class of the model. <!--
  * end-user-doc -->
- * 
+ *
  * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage
  * @generated
  */
 public class ModelAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected static ModelPackage modelPackage;
@@ -46,7 +48,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * Creates an instance of the adapter factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public ModelAdapterFactory() {
@@ -60,7 +62,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * begin-user-doc --> This implementation returns <code>true</code> if the
 	 * object is either the model's package or is an instance object of the model.
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
@@ -78,10 +80,10 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The switch that delegates to the <code>createXXX</code> methods. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	protected ModelSwitch<Adapter> modelSwitch = new ModelSwitch<Adapter>() {
+	protected ModelSwitch<Adapter> modelSwitch = new ModelSwitch<>() {
 		@Override
 		public Adapter caseDataSetParameter(DataSetParameter object) {
 			return createDataSetParameterAdapter();
@@ -116,7 +118,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * Creates an adapter for the <code>target</code>. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param target the object to adapt.
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
@@ -133,7 +135,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * implementation returns null so that we can easily ignore cases; it's useful
 	 * to ignore a case when inheritance will catch all the cases anyway. <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter
 	 * @generated
@@ -149,7 +151,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * implementation returns null so that we can easily ignore cases; it's useful
 	 * to ignore a case when inheritance will catch all the cases anyway. <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters
 	 * @generated
@@ -164,7 +166,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * <em>Design Values</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DesignValues
 	 * @generated
@@ -179,7 +181,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * <em>Document Root</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot
 	 * @generated
@@ -194,7 +196,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * <em>Dynamic List</em>}'. <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.DynamicList
 	 * @generated
@@ -206,7 +208,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * Creates a new adapter for the default case. <!-- begin-user-doc --> This
 	 * default implementation returns null. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the new adapter.
 	 * @generated
 	 */

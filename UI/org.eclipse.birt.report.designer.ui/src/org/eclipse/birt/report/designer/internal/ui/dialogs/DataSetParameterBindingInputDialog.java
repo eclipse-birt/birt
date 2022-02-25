@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ *
  */
 
 public class DataSetParameterBindingInputDialog extends BaseDialog {
@@ -68,6 +68,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog {
 		this(UIUtil.getDefaultShell(), handle, provider);
 	}
 
+	@Override
 	protected boolean initDialog() {
 		nameLabel.setText(handle.getName());
 		typeLabel.setText(getParameterDataTypeDisplayName(handle.getParameterDataType()));
@@ -77,11 +78,13 @@ public class DataSetParameterBindingInputDialog extends BaseDialog {
 
 	private String getParameterDataTypeDisplayName(String type) {
 		IChoice choice = DATA_TYPE_CHOICE_SET.findChoice(type);
-		if (choice != null)
+		if (choice != null) {
 			return choice.getDisplayName();
+		}
 		return type;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -118,6 +121,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog {
 		return composite;
 	}
 
+	@Override
 	protected void okPressed() {
 		setResult(new Expression(valueEditor.getText(), (String) valueEditor.getData(ExpressionButtonUtil.EXPR_TYPE)));
 		super.okPressed();

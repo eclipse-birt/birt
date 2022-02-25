@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * A field editor for decoration that contains three check box button.
- * 
+ *
  */
 
 public class DecorationFieldEditor extends AbstractFieldEditor {
@@ -88,7 +88,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Constructs a new instance of decoration field editor.
-	 * 
+	 *
 	 * @param prop_name1 preference name of underline_prop
 	 * @param prop_name2 preference name of overline_prop
 	 * @param prop_name3 preference name of line_through_prop
@@ -113,6 +113,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#getNumberOfControls()
 	 */
+	@Override
 	public int getNumberOfControls() {
 		return 4;
 	}
@@ -120,6 +121,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#adjustForNumColumns(int)
 	 */
+	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		Control control = getLabelControl();
 		if (control != null) {
@@ -138,6 +140,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#doFillIntoGrid(Composite, int)
 	 */
+	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 
 		Control control = getLabelControl(parent);
@@ -167,7 +170,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Lazily creates and returns the Button control.
-	 * 
+	 *
 	 * @param parent The parent Composite contains the button.
 	 * @return Button
 	 */
@@ -177,6 +180,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 			bUnderLine.setText(underline_text);
 			bUnderLine.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent evt) {
 					underLineChanged();
 				}
@@ -187,7 +191,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Lazily creates and returns the Button button.
-	 * 
+	 *
 	 * @param parent The parent Composite contains the control.
 	 * @return Button
 	 */
@@ -197,6 +201,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 			bOverLine.setText(overline_text);
 			bOverLine.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent evt) {
 					overLineChanged();
 				}
@@ -207,7 +212,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Lazily creates and returns the Button control.
-	 * 
+	 *
 	 * @param parent The parent Composite contains the button.
 	 * @return Button
 	 */
@@ -217,6 +222,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 			bLineThrough.setText(line_through_text);
 			bLineThrough.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent evt) {
 					lineThroughChanged();
 				}
@@ -258,6 +264,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#doLoad()
 	 */
+	@Override
 	protected void doLoad() {
 		if (bUnderLine != null) {
 			String value = getPreferenceStore().getString(getUnderlinePropName());
@@ -279,6 +286,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#doLoadDefault()
 	 */
+	@Override
 	protected void doLoadDefault() {
 		if (bUnderLine != null) {
 			String value = getPreferenceStore().getDefaultString(getUnderlinePropName());
@@ -287,12 +295,14 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 			if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-				if (store.hasLocalValue(getUnderlinePropName()))
+				if (store.hasLocalValue(getUnderlinePropName())) {
 					isDirty1 = true;
-				else
+				} else {
 					isDirty1 = false;
-			} else
+				}
+			} else {
 				isDirty1 = true;
+			}
 
 			fireValueChanged(VALUE, null, null);
 		}
@@ -303,12 +313,14 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 			if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-				if (store.hasLocalValue(getOverLinePropName()))
+				if (store.hasLocalValue(getOverLinePropName())) {
 					isDirty2 = true;
-				else
+				} else {
 					isDirty2 = false;
-			} else
+				}
+			} else {
 				isDirty2 = true;
+			}
 
 			fireValueChanged(VALUE, null, null);
 		}
@@ -319,12 +331,14 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 			if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-				if (store.hasLocalValue(getLineThroughPropName()))
+				if (store.hasLocalValue(getLineThroughPropName())) {
 					isDirty3 = true;
-				else
+				} else {
 					isDirty3 = false;
-			} else
+				}
+			} else {
 				isDirty3 = true;
+			}
 
 			fireValueChanged(VALUE, null, null);
 		}
@@ -333,6 +347,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#doStore()
 	 */
+	@Override
 	protected void doStore() {
 		if (isDirty1) {
 			getPreferenceStore().setValue(underline_prop, propValue1);
@@ -347,16 +362,17 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns this field editor's label text.
-	 * 
+	 *
 	 * @return the label text
 	 */
+	@Override
 	public String getLabelText() {
 		return labelText;
 	}
 
 	/**
 	 * Returns the name of the preference this field editor operates on.
-	 * 
+	 *
 	 * @return the name of the preference
 	 */
 	public String getUnderlinePropName() {
@@ -365,7 +381,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns the name of the preference this field editor operates on.
-	 * 
+	 *
 	 * @return the name of the preference
 	 */
 	public String getOverLinePropName() {
@@ -374,7 +390,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns the name of the preference this field editor operates on.
-	 * 
+	 *
 	 * @return the name of the preference
 	 */
 	public String getLineThroughPropName() {
@@ -383,7 +399,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Gets values for the given property.
-	 * 
+	 *
 	 * @return
 	 */
 	private String getUnderLinePropValue() {
@@ -395,7 +411,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Gets values for the given property.
-	 * 
+	 *
 	 * @return
 	 */
 	private String getOverLinePropValue() {
@@ -407,7 +423,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Gets values for the given property.
-	 * 
+	 *
 	 * @return
 	 */
 	private String getLineThroughPropValue() {
@@ -419,10 +435,11 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
 	 * #getValue()
 	 */
+	@Override
 	protected String getStringValue() {
 		return null;
 	}
@@ -465,62 +482,63 @@ public class DecorationFieldEditor extends AbstractFieldEditor {
 	}
 
 	private boolean hasLocaleValue1() {
-		if (propValue1 == null)
+		if (propValue1 == null) {
 			return false;
-		else {
-			if (isDirty1)
-				return true;
-			else {
-				if (this.getPreferenceStore() instanceof StylePreferenceStore) {
-					StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-					if (store.hasLocalValue(getUnderlinePropName()))
-						return true;
-					else
-						return false;
-				} else
+		} else if (isDirty1) {
+			return true;
+		} else {
+			if (this.getPreferenceStore() instanceof StylePreferenceStore) {
+				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
+				if (store.hasLocalValue(getUnderlinePropName())) {
 					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return true;
 			}
 		}
 	}
 
 	private boolean hasLocaleValue2() {
-		if (propValue2 == null)
+		if (propValue2 == null) {
 			return false;
-		else {
-			if (isDirty2)
-				return true;
-			else {
-				if (this.getPreferenceStore() instanceof StylePreferenceStore) {
-					StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-					if (store.hasLocalValue(getOverLinePropName()))
-						return true;
-					else
-						return false;
-				} else
+		} else if (isDirty2) {
+			return true;
+		} else {
+			if (this.getPreferenceStore() instanceof StylePreferenceStore) {
+				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
+				if (store.hasLocalValue(getOverLinePropName())) {
 					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return true;
 			}
 		}
 	}
 
 	private boolean hasLocaleValue3() {
-		if (propValue3 == null)
+		if (propValue3 == null) {
 			return false;
-		else {
-			if (isDirty3)
-				return true;
-			else {
-				if (this.getPreferenceStore() instanceof StylePreferenceStore) {
-					StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-					if (store.hasLocalValue(getLineThroughPropName()))
-						return true;
-					else
-						return false;
-				} else
+		} else if (isDirty3) {
+			return true;
+		} else {
+			if (this.getPreferenceStore() instanceof StylePreferenceStore) {
+				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
+				if (store.hasLocalValue(getLineThroughPropName())) {
 					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return true;
 			}
 		}
 	}
 
+	@Override
 	public boolean hasLocaleValue() {
 		return hasLocaleValue1() || hasLocaleValue2() || hasLocaleValue3();
 	}

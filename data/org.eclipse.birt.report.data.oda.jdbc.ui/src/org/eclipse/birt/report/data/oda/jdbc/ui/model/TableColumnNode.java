@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,20 +45,23 @@ public class TableColumnNode implements IDBNode, Comparable<TableColumnNode> {
 
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
 	// (if required)
+	@Override
 	public String getDisplayName(String metadataBidiFormatStr) {
 		return BidiTransform.transform(columnName, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR) + " ("
 				+ typeName + ")";
 	}
 
+	@Override
 	public Image getImage() {
 		return JFaceResources.getImage(COLUMN_ICON);
 	}
 
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
 	// (if required)
+	@Override
 	public String getQualifiedNameInSQL(boolean useIdentifierQuoteString, boolean includeSchema,
 			String metadataBidiFormatStr) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		String quoteFlag = "";
 		if (useIdentifierQuoteString) {
 			quoteFlag = JdbcMetaDataProvider.getInstance().getIdentifierQuoteString();
@@ -84,6 +87,7 @@ public class TableColumnNode implements IDBNode, Comparable<TableColumnNode> {
 		return sb.toString();
 	}
 
+	@Override
 	public int compareTo(TableColumnNode o) {
 		/**
 		 * In our case, 2 <code>TableColumn</code> instances need to be compared

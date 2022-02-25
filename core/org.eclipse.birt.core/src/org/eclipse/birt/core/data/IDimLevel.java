@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,10 +15,10 @@
 package org.eclipse.birt.core.data;
 
 public interface IDimLevel {
-	public String getAttrName();
+	String getAttrName();
 
-	public String getDimensionName();
+	String getDimensionName();
 
-	public String getLevelName();
+	String getLevelName();
 
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.data.engine.olap.data.util.IStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
 
 /**
- * 
+ *
  */
 
 public class DimensionKey implements IComparableStructure {
@@ -41,7 +41,7 @@ public class DimensionKey implements IComparableStructure {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getKeyFieldsCount() {
@@ -50,9 +50,10 @@ public class DimensionKey implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IStructure#getFieldValues()
 	 */
+	@Override
 	public Object[] getFieldValues() {
 		List result = new ArrayList();
 		int nullIndicator = 0;
@@ -71,9 +72,10 @@ public class DimensionKey implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Object o) {
 		DimensionKey other = (DimensionKey) o;
 
@@ -82,9 +84,10 @@ public class DimensionKey implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		boolean result;
 		DimensionKey other = (DimensionKey) o;
@@ -106,6 +109,7 @@ public class DimensionKey implements IComparableStructure {
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		int result = 17;
 		for (int i = 0; i < getKeyValues().length; i++) {
@@ -116,11 +120,12 @@ public class DimensionKey implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < getKeyValues().length; i++) {
 			buffer.append(getKeyValues()[i]);
 			buffer.append(' ');
@@ -133,7 +138,7 @@ public class DimensionKey implements IComparableStructure {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param keyValues
 	 */
 	public void setKeyValues(Object[] keyValues) {
@@ -141,7 +146,7 @@ public class DimensionKey implements IComparableStructure {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Object[] getKeyValues() {
@@ -149,7 +154,7 @@ public class DimensionKey implements IComparableStructure {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensionPos
 	 */
 	public void setDimensionPos(int dimensionPos) {
@@ -157,7 +162,7 @@ public class DimensionKey implements IComparableStructure {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getDimensionPos() {
@@ -166,7 +171,7 @@ public class DimensionKey implements IComparableStructure {
 }
 
 /**
- * 
+ *
  * @author Administrator
  *
  */
@@ -174,11 +179,12 @@ class DimensionKeyCreator implements IStructureCreator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.util.IStructureCreator#createInstance(java.
 	 * lang.Object[])
 	 */
+	@Override
 	public IStructure createInstance(Object[] fields) {
 		int levelCount = ((Integer) fields[fields.length - 3]).intValue();
 		DimensionKey obj = new DimensionKey(levelCount);

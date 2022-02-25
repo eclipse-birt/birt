@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -28,6 +28,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.Property;
 
 public class OdaExtensibilityExtensionLoader implements IOdaExtensionLoader {
 
+	@Override
 	public void load() {
 		loadDataSources();
 	}
@@ -41,8 +42,8 @@ public class OdaExtensibilityExtensionLoader implements IOdaExtensionLoader {
 						MetaDataDictionary.getInstance().getElement(ReportDesignConstants.ODA_DATA_SOURCE));
 
 				try {
-					Property[] properties = null;
-					Properties visibilities = null;
+					Property[] properties;
+					Properties visibilities;
 
 					properties = manifest.getProperties();
 					visibilities = manifest.getPropertiesVisibility();
@@ -85,8 +86,8 @@ public class OdaExtensibilityExtensionLoader implements IOdaExtensionLoader {
 				ExtensionElementDefn cachedExtDefn = new ODAExtensionElementDefn(
 						MetaDataDictionary.getInstance().getElement(ReportDesignConstants.ODA_DATA_SET));
 				try {
-					Property[] properties = null;
-					Properties visibilities = null;
+					Property[] properties;
+					Properties visibilities;
 
 					properties = type.getProperties();
 					visibilities = type.getPropertiesVisibility();

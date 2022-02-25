@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -87,6 +87,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getExpression()
 	 */
+	@Override
 	public IScriptExpression getExpression() {
 		return expr;
 	}
@@ -94,6 +95,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperator()
 	 */
+	@Override
 	public int getOperator() {
 		return operator;
 	}
@@ -101,6 +103,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperand1()
 	 */
+	@Override
 	public IBaseExpression getOperand1() {
 		return op1;
 	}
@@ -112,6 +115,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperand2()
 	 */
+	@Override
 	public IBaseExpression getOperand2() {
 		return op2;
 	}
@@ -119,6 +123,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#getDataType()
 	 */
+	@Override
 	public int getDataType() {
 		// Conditional expression are expected to be Boolean type
 		return DataType.BOOLEAN_TYPE;
@@ -128,25 +133,31 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	 * Sets the data type of the expression. For conditional expression, only
 	 * <code>BOOLEAN_TYPE</code> is expected.
 	 */
+	@Override
 	public void setDataType(int dataType) {
-		if (dataType != DataType.BOOLEAN_TYPE)
+		if (dataType != DataType.BOOLEAN_TYPE) {
 			throw new UnsupportedOperationException("setDataType not supported for conditional expression.");
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseExpression#setGroupName(java.
 	 * lang.String)
 	 */
+	@Override
 	public void setGroupName(String groupName) {
-		if (this.expr != null)
+		if (this.expr != null) {
 			this.expr.setGroupName(groupName);
-		if (this.op1 != null)
+		}
+		if (this.op1 != null) {
 			this.op1.setGroupName(groupName);
-		if (this.op2 != null)
+		}
+		if (this.op2 != null) {
 			this.op2.setGroupName(groupName);
+		}
 		super.setGroupName(groupName);
 	}
 
@@ -155,7 +166,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 */

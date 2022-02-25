@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,40 +35,42 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ *
  */
 
 public class DefaultBreadcrumbNodeProvider implements IBreadcrumbNodeProvider, IBreadcrumbValidator {
 
 	protected GraphicalViewer viewer;
 
+	@Override
 	public Object getParent(Object element) {
 		Object model = getRealModel(element);
-		if (model == null)
+		if (model == null) {
 			return null;
+		}
 		EditPart parent = getEditPart(model).getParent();
 		if (parent instanceof MultipleEditPart) {
 			parent = parent.getParent();
 		}
-		if (parent != null && !(parent instanceof ReportRootEditPart))
+		if (parent != null && !(parent instanceof ReportRootEditPart)) {
 			return parent.getModel();
-		else
+		} else {
 			return null;
+		}
 	}
 
+	@Override
 	public Object[] getChildren(Object element) {
 		Object model = getRealModel(element);
-		if (model == null)
+		if ((model == null) || (getEditPart(element) == null)) {
 			return new Object[0];
-		if (getEditPart(element) == null)
-			return new Object[0];
+		}
 		List children = getEditPart(model).getChildren();
-		if (children == null)
+		if (children == null) {
 			return new Object[0];
-		else {
-			List childrenCopy = new ArrayList();
-			childrenCopy.addAll(children);
-			List<MultipleEditPart> multipleEditParts = new ArrayList<MultipleEditPart>();
+		} else {
+			List childrenCopy = new ArrayList(children);
+			List<MultipleEditPart> multipleEditParts = new ArrayList<>();
 			for (int i = 0; i < childrenCopy.size(); i++) {
 				if (childrenCopy.get(i) instanceof MultipleEditPart) {
 					multipleEditParts.add((MultipleEditPart) childrenCopy.get(i));
@@ -85,48 +87,61 @@ public class DefaultBreadcrumbNodeProvider implements IBreadcrumbNodeProvider, I
 		}
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
 		return getChildren(element).length > 0;
 	}
 
+	@Override
 	public Image getImage(Object element) {
 		Object model = getRealModel(element);
-		if (model == null)
+		if (model == null) {
 			return null;
+		}
 		INodeProvider provider = ProviderFactory.createProvider(model);
-		if (provider == null)
+		if (provider == null) {
 			return null;
+		}
 		return provider.getNodeIcon(model);
 	}
 
+	@Override
 	public String getText(Object element) {
 		Object model = getRealModel(element);
-		if (model == null)
+		if (model == null) {
 			return ""; //$NON-NLS-1$
+		}
 		INodeProvider provider = ProviderFactory.createProvider(model);
-		if (provider == null)
+		if (provider == null) {
 			return model.toString();
+		}
 		return provider.getNodeDisplayName(model);
 	}
 
+	@Override
 	public String getTooltipText(Object element) {
 		Object model = getRealModel(element);
-		if (model == null)
+		if (model == null) {
 			return ""; //$NON-NLS-1$
+		}
 		INodeProvider provider = ProviderFactory.createProvider(model);
-		if (provider == null)
+		if (provider == null) {
 			return model.toString();
+		}
 		String tooltip = provider.getNodeTooltip(model);
-		if (tooltip == null)
+		if (tooltip == null) {
 			return getText(element);
-		else
+		} else {
 			return tooltip;
+		}
 	}
 
+	@Override
 	public void createContextMenu(Object element, IMenuManager menu) {
 		Object model = getRealModel(element);
-		if (model == null)
+		if (model == null) {
 			return;
+		}
 		ProviderFactory.createProvider(model).createContextMenu(null, model, menu);
 	}
 
@@ -136,9 +151,11 @@ public class DefaultBreadcrumbNodeProvider implements IBreadcrumbNodeProvider, I
 		}
 	}
 
+	@Override
 	public boolean validate(Object element) {
-		if (getEditPart(element) == null)
+		if (getEditPart(element) == null) {
 			return false;
+		}
 		return true;
 	}
 
@@ -149,15 +166,17 @@ public class DefaultBreadcrumbNodeProvider implements IBreadcrumbNodeProvider, I
 		}
 		if (element instanceof SlotHandle) {
 			part = (EditPart) viewer.getEditPartRegistry().get(new ListBandProxy((SlotHandle) element));
-		} else
+		} else {
 			part = (EditPart) viewer.getEditPartRegistry().get(element);
+		}
 
 		if (part == null) {
 			part = getInterestEditPart(viewer.getRootEditPart(), element);
 		}
 		if (part == null) {
-			if (getEditPartModel(element) != null)
+			if (getEditPartModel(element) != null) {
 				part = getEditPart(getEditPartModel(element));
+			}
 		}
 
 		return part;
@@ -169,8 +188,9 @@ public class DefaultBreadcrumbNodeProvider implements IBreadcrumbNodeProvider, I
 				if (((ReportElementHandle) element).getContainer() instanceof ListingHandle
 						|| ((ReportElementHandle) element).getContainer() instanceof GridHandle) {
 					return ((ReportElementHandle) element).getContainer();
-				} else
+				} else {
 					element = ((ReportElementHandle) element).getContainer();
+				}
 			}
 		}
 		return null;
@@ -196,18 +216,20 @@ public class DefaultBreadcrumbNodeProvider implements IBreadcrumbNodeProvider, I
 		EditPart editpart = null;
 		if (!(element instanceof EditPart)) {
 			editpart = getEditPart(element);
-		} else
+		} else {
 			editpart = (EditPart) element;
+		}
 
 		if (editpart != null) {
 			Object model = editpart.getAdapter(IBreadcrumbNodeProvider.class);
-			if (model == null)
+			if (model == null) {
 				return editpart.getModel();
-			else if (model instanceof DefaultBreadcrumbNodeProvider) {
+			} else if (model instanceof DefaultBreadcrumbNodeProvider) {
 				((DefaultBreadcrumbNodeProvider) model).setContext(viewer);
 				return ((DefaultBreadcrumbNodeProvider) model).getRealModel(element);
-			} else
+			} else {
 				return model;
+			}
 		}
 		return element;
 	}

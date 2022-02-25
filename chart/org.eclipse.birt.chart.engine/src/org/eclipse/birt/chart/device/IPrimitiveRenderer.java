@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -38,152 +38,152 @@ public interface IPrimitiveRenderer extends EventListener {
 	/**
 	 * This method is responsible for clipping an arbitrary area on the target
 	 * rendering device's graphic context.
-	 * 
+	 *
 	 * @param cre Encapsulated information that defines the area to be clipped
 	 */
-	public void setClip(ClipRenderEvent cre);
+	void setClip(ClipRenderEvent cre);
 
 	/**
 	 * This method is responsible for drawing an image on the target rendering
 	 * device's graphic context.
-	 * 
+	 *
 	 * @param ire Encapsulated information that defines a polygon and its attributes
 	 * @throws ChartException
 	 */
-	public void drawImage(ImageRenderEvent ire) throws ChartException;
+	void drawImage(ImageRenderEvent ire) throws ChartException;
 
 	/**
 	 * This method is responsible for drawing a line on the target rendering
 	 * device's graphic context.
-	 * 
+	 *
 	 * @param lre Encapsulated information that defines a line and its attributes
 	 * @throws ChartException
 	 */
-	public void drawLine(LineRenderEvent lre) throws ChartException;
+	void drawLine(LineRenderEvent lre) throws ChartException;
 
 	/**
 	 * This method is responsible for drawing a rectangle on the target rendering
 	 * device's graphic context.
-	 * 
+	 *
 	 * @param rre Encapsulated information that defines a rectangle and its
 	 *            attributes
 	 * @throws ChartException
 	 */
-	public void drawRectangle(RectangleRenderEvent rre) throws ChartException;
+	void drawRectangle(RectangleRenderEvent rre) throws ChartException;
 
 	/**
 	 * This method is responsible for filling a rectangle on the target rendering
 	 * device's graphic context.
-	 * 
+	 *
 	 * @param rre Encapsulated information that defines a rectangle and its
 	 *            attributes
 	 * @throws ChartException
 	 */
-	public void fillRectangle(RectangleRenderEvent rre) throws ChartException;
+	void fillRectangle(RectangleRenderEvent rre) throws ChartException;
 
 	/**
 	 * This method is responsible for drawing a polygon on the target rendering
 	 * device's graphic context.
-	 * 
+	 *
 	 * @param pre Encapsulated information that defines a polygon and its attributes
 	 * @throws ChartException
 	 */
-	public void drawPolygon(PolygonRenderEvent pre) throws ChartException;
+	void drawPolygon(PolygonRenderEvent pre) throws ChartException;
 
 	/**
 	 * This method is responsible for filling a polygon on the target rendering
 	 * device's graphic context.
-	 * 
+	 *
 	 * @param pre Encapsulated information that defines a polygon and its attributes
 	 * @throws ChartException
 	 */
-	public void fillPolygon(PolygonRenderEvent pre) throws ChartException;
+	void fillPolygon(PolygonRenderEvent pre) throws ChartException;
 
 	/**
 	 * This method is responsible for drawing an elliptical arc on the target
 	 * rendering device's graphic context.
-	 * 
+	 *
 	 * @param are Encapsulated information that defines the arc and its attributes
 	 * @throws ChartException
 	 */
-	public void drawArc(ArcRenderEvent are) throws ChartException;
+	void drawArc(ArcRenderEvent are) throws ChartException;
 
 	/**
 	 * This method is responsible for filling an elliptical arc on the target
 	 * rendering device's graphic context.
-	 * 
+	 *
 	 * @param are Encapsulated information that defines an arc and its attributes
 	 * @throws ChartException
 	 */
-	public void fillArc(ArcRenderEvent are) throws ChartException;
+	void fillArc(ArcRenderEvent are) throws ChartException;
 
 	/**
-	 * 
+	 *
 	 * @param ie
 	 * @throws ChartException
 	 */
-	public void enableInteraction(InteractionEvent ie) throws ChartException;
+	void enableInteraction(InteractionEvent ie) throws ChartException;
 
 	/**
 	 * This method is responsible for drawing a custom defined area on the target
 	 * rendering device's graphic context.
-	 * 
+	 *
 	 * @param are Encapsulated information that defines the area and its attributes
 	 * @throws ChartException
 	 */
-	public void drawArea(AreaRenderEvent are) throws ChartException;
+	void drawArea(AreaRenderEvent are) throws ChartException;
 
 	/**
 	 * This method is responsible for filling a custom defined area on the target
 	 * rendering device's graphic context.
-	 * 
+	 *
 	 * @param are Encapsulated information that defines the area and its attributes
 	 * @throws ChartException
 	 */
-	public void fillArea(AreaRenderEvent are) throws ChartException;
+	void fillArea(AreaRenderEvent are) throws ChartException;
 
 	/**
 	 * This method is responsible for drawing an oval area on the target rendering
 	 * device's graphic context.
-	 * 
+	 *
 	 * @param ore Encapsulated information that defines the oval and its attributes
 	 * @throws ChartException
 	 */
-	public void drawOval(OvalRenderEvent ore) throws ChartException;
+	void drawOval(OvalRenderEvent ore) throws ChartException;
 
 	/**
 	 * This method is responsible for filling an oval area on the target rendering
 	 * device's graphic context.
-	 * 
+	 *
 	 * @param ore Encapsulated information that defines the oval and its attributes
 	 * @throws ChartException
 	 */
-	public void fillOval(OvalRenderEvent ore) throws ChartException;
+	void fillOval(OvalRenderEvent ore) throws ChartException;
 
 	/**
 	 * This method renders text on the target rendering device's graphic context
 	 * using one of the three methods:
-	 * 
+	 *
 	 * 1. Renders text (with optional insets, border, fill, etc) with the
 	 * encapsulating container rectangle's corner or edge aligning against a given
 	 * point 2. Renders a shadow offset with the encapsulating container rectangle's
 	 * corner or edge aligning against a given point 3. Renders text (with optional
 	 * insets, border, fill, etc) with the encapsulating container rectangle's
 	 * bounding box aligned with a parent block's bounding box
-	 * 
+	 *
 	 * @param ore Encapsulated information that defines the text being rendered, its
 	 *            position and various other attributes
 	 * @throws ChartException
 	 */
-	public void drawText(TextRenderEvent tre) throws ChartException;
+	void drawText(TextRenderEvent tre) throws ChartException;
 
 	/**
 	 * This method is capable of applying a global transformation on the device
 	 * specific graphics context Available transformation types are: SCALE,
 	 * TRANSLATE, ROTATE
-	 * 
+	 *
 	 * @param tev
 	 * @throws ChartException
 	 */
-	public void applyTransformation(TransformationEvent tev) throws ChartException;
+	void applyTransformation(TransformationEvent tev) throws ChartException;
 }

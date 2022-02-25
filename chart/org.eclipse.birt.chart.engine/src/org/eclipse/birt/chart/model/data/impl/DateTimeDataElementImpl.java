@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -42,7 +42,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -52,7 +52,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -62,7 +62,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 	/**
 	 * This is true if the Value attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -70,7 +70,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected DateTimeDataElementImpl() {
@@ -79,7 +79,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -89,55 +89,61 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public long getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setValue(long newValue) {
 		long oldValue = value;
 		value = newValue;
 		boolean oldValueESet = valueESet;
 		valueESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE, oldValue,
 					value, !oldValueESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetValue() {
 		long oldValue = value;
 		boolean oldValueESet = valueESet;
 		value = VALUE_EDEFAULT;
 		valueESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE, oldValue,
 					VALUE_EDEFAULT, oldValueESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetValue() {
 		return valueESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -151,7 +157,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -166,7 +172,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -181,7 +187,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -198,22 +204,24 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(this.getClass().getInterfaces()[0].getSimpleName());
+		StringBuilder result = new StringBuilder(this.getClass().getInterfaces()[0].getSimpleName());
 		result.append(" (value: "); //$NON-NLS-1$
-		if (valueESet)
+		if (valueESet) {
 			result.append(value);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * A convenience method provided to return an initialized DateTimeDataElement
-	 * 
+	 *
 	 * @param dtdeValue
 	 * @return
 	 */
@@ -225,7 +233,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * A convenience method provided to return an initialized DateTimeDataElement
-	 * 
+	 *
 	 * @param dtdeValue
 	 * @return
 	 */
@@ -237,10 +245,11 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.model.data.DateTimeDataElement#getValueAsCalendar()
 	 */
+	@Override
 	public final Calendar getValueAsCalendar() {
 		final Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(value);
@@ -249,10 +258,11 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.model.data.DateTimeDataElement#getValueAsCDateTime()
 	 */
+	@Override
 	public final CDateTime getValueAsCDateTime() {
 		return new CDateTime(value);
 	}
@@ -260,6 +270,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 	/**
 	 * @generated
 	 */
+	@Override
 	public DateTimeDataElement copyInstance() {
 		DateTimeDataElementImpl dest = new DateTimeDataElementImpl();
 		dest.set(this);

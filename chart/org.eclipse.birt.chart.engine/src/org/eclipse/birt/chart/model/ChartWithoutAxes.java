@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.emf.common.util.EList;
  * To create an instance use the factory method:<br/>
  * ChartWithoutAxesImpl.create( );
  * </p>
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -58,11 +58,11 @@ public interface ChartWithoutAxes extends Chart {
 	 * reference list. The list contents are of type
 	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition}. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Defines the source of the series.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Series Definitions</em>' containment reference
 	 *         list.
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_SeriesDefinitions()
@@ -82,7 +82,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * datapoint whose value is greater than this threshold, and all values less
 	 * than the threshold will be aggregated into one single slice called "min
 	 * slice". <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Min Slice</em>' attribute.
 	 * @see #isSetMinSlice()
 	 * @see #unsetMinSlice()
@@ -98,7 +98,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min
 	 * Slice</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Min Slice</em>' attribute.
 	 * @see #isSetMinSlice()
 	 * @see #unsetMinSlice()
@@ -111,7 +111,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min
 	 * Slice</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetMinSlice()
 	 * @see #getMinSlice()
 	 * @see #setMinSlice(double)
@@ -123,7 +123,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min
 	 * Slice</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Min Slice</em>' attribute is set.
 	 * @see #unsetMinSlice()
 	 * @see #getMinSlice()
@@ -136,9 +136,9 @@ public interface ChartWithoutAxes extends Chart {
 	 * Returns the value of the '<em><b>Min Slice Percent</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The boolean
 	 * attribute indicates whether the MinSlice value is defined as a percentage.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Min Slice Percent</em>' attribute.
 	 * @see #isSetMinSlicePercent()
 	 * @see #unsetMinSlicePercent()
@@ -156,7 +156,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent
 	 * <em>Min Slice Percent</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Min Slice Percent</em>' attribute.
 	 * @see #isSetMinSlicePercent()
 	 * @see #unsetMinSlicePercent()
@@ -170,7 +170,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent
 	 * <em>Min Slice Percent</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetMinSlicePercent()
 	 * @see #isMinSlicePercent()
 	 * @see #setMinSlicePercent(boolean)
@@ -183,7 +183,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent
 	 * <em>Min Slice Percent</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Min Slice Percent</em>' attribute is
 	 *         set.
 	 * @see #unsetMinSlicePercent()
@@ -197,9 +197,9 @@ public interface ChartWithoutAxes extends Chart {
 	 * Returns the value of the '<em><b>Min Slice Label</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The string
 	 * attribute "MinSliceLabel" specifies the label text of the MinSlice.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Min Slice Label</em>' attribute.
 	 * @see #setMinSliceLabel(String)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_MinSliceLabel()
@@ -214,7 +214,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel
 	 * <em>Min Slice Label</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Min Slice Label</em>' attribute.
 	 * @see #getMinSliceLabel()
 	 * @generated
@@ -227,9 +227,9 @@ public interface ChartWithoutAxes extends Chart {
 	 * "Coverage" specifies the percentage of size that the chart graphics (pie or
 	 * dial) takes from the client area of the plot. By default it's not set, which
 	 * means the size will be auto adjusted.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Coverage</em>' attribute.
 	 * @see #isSetCoverage()
 	 * @see #unsetCoverage()
@@ -245,7 +245,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage
 	 * <em>Coverage</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Coverage</em>' attribute.
 	 * @see #isSetCoverage()
 	 * @see #unsetCoverage()
@@ -258,7 +258,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage
 	 * <em>Coverage</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetCoverage()
 	 * @see #getCoverage()
 	 * @see #setCoverage(double)
@@ -271,7 +271,7 @@ public interface ChartWithoutAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage
 	 * <em>Coverage</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Coverage</em>' attribute is set.
 	 * @see #unsetCoverage()
 	 * @see #getCoverage()
@@ -281,7 +281,7 @@ public interface ChartWithoutAxes extends Chart {
 	boolean isSetCoverage();
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	Series[] getRunTimeSeries();
@@ -289,6 +289,7 @@ public interface ChartWithoutAxes extends Chart {
 	/**
 	 * @generated
 	 */
+	@Override
 	ChartWithoutAxes copyInstance();
 
 } // ChartWithoutAxes

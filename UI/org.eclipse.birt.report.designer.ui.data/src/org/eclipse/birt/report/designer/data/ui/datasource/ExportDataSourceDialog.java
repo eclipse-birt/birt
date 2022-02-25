@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,12 +54,14 @@ public class ExportDataSourceDialog extends StatusDialog {
 		initProfileName();
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		Control control = super.createContents(parent);
 		validate();
 		return control;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.None);
 
@@ -117,6 +119,7 @@ public class ExportDataSourceDialog extends StatusDialog {
 		nameText.setText(this.fileName == null ? "" : this.fileName);
 		nameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				fileName = nameText.getText().trim();
 				validate();
@@ -134,9 +137,11 @@ public class ExportDataSourceDialog extends StatusDialog {
 		externalButton.setSelection(true);
 		externalButton.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				isExternalToCP = !isExternalToCP;
 			}
@@ -150,9 +155,11 @@ public class ExportDataSourceDialog extends StatusDialog {
 		button.setLayoutData(btnData2);
 		button.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				doesCreateStore = !doesCreateStore;
 			}
@@ -200,32 +207,34 @@ public class ExportDataSourceDialog extends StatusDialog {
 
 	private boolean isDuplicatedName() {
 		if ((!fileName.equals(this.dataSourceHandle.getName()) && Utility.checkDataSourceName(fileName))
-				|| OdaProfileExplorer.isProfileNameUsed(fileName))
+				|| OdaProfileExplorer.isProfileNameUsed(fileName)) {
 			return true;
+		}
 
 		return false;
 	}
 
 	/**
 	 * whether name contains ".", "/", "\", "!", ";", "," characters
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
 	private boolean containInvalidCharactor(String name) {
-		if (name == null)
+		if (name == null) {
 			return false;
-		else if (name.indexOf(".") > -1 || //$NON-NLS-1$
+		} else if (name.indexOf(".") > -1 || //$NON-NLS-1$
 				name.indexOf("\\") > -1 || name.indexOf("/") > -1 || //$NON-NLS-1$ //$NON-NLS-2$
 				name.indexOf("!") > -1 || name.indexOf(";") > -1 || //$NON-NLS-1$ //$NON-NLS-2$
-				name.indexOf(",") > -1) //$NON-NLS-1$
+				name.indexOf(",") > -1) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	protected Status getOKStatus() {
@@ -233,7 +242,7 @@ public class ExportDataSourceDialog extends StatusDialog {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param severity
 	 * @param message
 	 * @return

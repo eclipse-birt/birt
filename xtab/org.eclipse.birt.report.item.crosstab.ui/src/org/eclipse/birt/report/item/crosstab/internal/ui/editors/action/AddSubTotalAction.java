@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,7 +66,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 	// private static final String DISPALY_NAME = "TOTAL";
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public AddSubTotalAction(DesignElementHandle handle) {
@@ -88,6 +88,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 				(ExtendedItemHandle) levelHandle.getCrosstab().getModelHandle());
 	}
 
+	@Override
 	public boolean isEnabled() {
 		boolean result = (levelHandle == null) || (levelHandle.getCrosstab() == null)
 				|| (levelHandle.getCrosstab().getCube() == null);
@@ -99,9 +100,10 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 		transStar(NAME);
 		try {
@@ -144,7 +146,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 	}
 
 	private List<AggregationDialog.SubTotalInfo> copySubTotal(List<AggregationDialog.SubTotalInfo> list) {
-		List<AggregationDialog.SubTotalInfo> retValue = new ArrayList<AggregationDialog.SubTotalInfo>();
+		List<AggregationDialog.SubTotalInfo> retValue = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			retValue.add(((SubTotalInfo) (list.get(i))).copy());
 		}
@@ -152,7 +154,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 	}
 
 	private List<AggregationDialog.GrandTotalInfo> copyGrandTotal(List<AggregationDialog.GrandTotalInfo> list) {
-		List<AggregationDialog.GrandTotalInfo> retValue = new ArrayList<AggregationDialog.GrandTotalInfo>();
+		List<AggregationDialog.GrandTotalInfo> retValue = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			retValue.add(((GrandTotalInfo) (list.get(i))).copy());
 		}
@@ -298,7 +300,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 
 	private AggregationCellHandle getGrandAggregationCell(MeasureViewHandle measureView, LevelViewHandle levelHandle,
 			int axisType) {
-		AggregationCellHandle cell = null;
+		AggregationCellHandle cell;
 		CrosstabReportItemHandle crosstab = levelHandle.getCrosstab();
 
 		int counterAxisType = getOppositeAxisType(axisType);
@@ -331,7 +333,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 	}
 
 	private AggregationCellHandle getSubAggregationCell(MeasureViewHandle measureView, LevelViewHandle levelView) {
-		AggregationCellHandle cell = null;
+		AggregationCellHandle cell;
 
 		String rowDimension = null;
 		String rowLevel = null;
@@ -354,8 +356,9 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 
 		String dimensionName = ((DimensionViewHandle) levelView.getContainer()).getCubeDimensionName();
 		String levelName = levelView.getCubeLevelName();
-		if (levelName == null || dimensionName == null)
+		if (levelName == null || dimensionName == null) {
 			return null;
+		}
 
 		if (axisType == ICrosstabConstants.ROW_AXIS_TYPE) {
 			rowDimension = dimensionName;
@@ -521,7 +524,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 	}
 
 	private List<MeasureViewHandle> findMeasureViewHandleList(List<String> list) {
-		List<MeasureViewHandle> retValue = new ArrayList<MeasureViewHandle>();
+		List<MeasureViewHandle> retValue = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			retValue.add(findMeasureViewHandle(list.get(i)));
 		}
@@ -560,9 +563,9 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 	static class SubOpration {
 
 		private LevelHandle levelHandle;
-		private List<String> functions = new ArrayList<String>();
-		private List<String> measures = new ArrayList<String>();
-		private List<String> expectedViews = new ArrayList<String>();
+		private List<String> functions = new ArrayList<>();
+		private List<String> measures = new ArrayList<>();
+		private List<String> expectedViews = new ArrayList<>();
 
 		public boolean isSameOperation(SubTotalInfo info) {
 			return info.getLevel() == levelHandle;
@@ -599,9 +602,9 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 
 	static class GrandOpration {
 
-		private List<String> functions = new ArrayList<String>();
-		private List<String> measures = new ArrayList<String>();
-		private List<String> expectedViews = new ArrayList<String>();
+		private List<String> functions = new ArrayList<>();
+		private List<String> measures = new ArrayList<>();
+		private List<String> expectedViews = new ArrayList<>();
 
 		public void addInfo(GrandTotalInfo info) {
 			if (info.isAggregationOn()) {
@@ -649,7 +652,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 	}
 
 	private List<AggregationDialog.SubTotalInfo> getSubTotalInfo(int axis) {
-		List<AggregationDialog.SubTotalInfo> retValue = new ArrayList<AggregationDialog.SubTotalInfo>();
+		List<AggregationDialog.SubTotalInfo> retValue = new ArrayList<>();
 		DimensionViewHandle viewHandle = getDimensionViewHandle();
 		CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab();
 		int dimCount = reportHandle.getDimensionCount(axis);
@@ -741,7 +744,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction {
 	}
 
 	private List<AggregationDialog.GrandTotalInfo> getGrandTotalInfo(int axis) {
-		List<AggregationDialog.GrandTotalInfo> retValue = new ArrayList<AggregationDialog.GrandTotalInfo>();
+		List<AggregationDialog.GrandTotalInfo> retValue = new ArrayList<>();
 		CrosstabReportItemHandle reportHandle = levelHandle.getCrosstab();
 		CrosstabViewHandle crosstabView = reportHandle.getCrosstabView(axis);
 		if (crosstabView == null || crosstabView.getDimensionCount() == 0) {

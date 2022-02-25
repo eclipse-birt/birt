@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.util.StyleUtil;
  * All string values are valid. However, if the caller provides a type other
  * than a string, the value is converted to a string using default conversion
  * rules.
- * 
+ *
  */
 
 public class StringPropertyType extends TextualPropertyType {
@@ -57,17 +57,19 @@ public class StringPropertyType extends TextualPropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		String stringValue = trimString(value.toString(), defn.getTrimOption());
 
@@ -78,8 +80,9 @@ public class StringPropertyType extends TextualPropertyType {
 		if (HideRule.FORMAT_MEMBER.equals(defn.getName())) {
 			IStructureDefn hideRuleStruct = MetaDataDictionary.getInstance().getStructure(HideRule.STRUCTURE_NAME);
 			IPropertyDefn formatProperty = null;
-			if (hideRuleStruct != null)
+			if (hideRuleStruct != null) {
 				formatProperty = hideRuleStruct.getMember(HideRule.FORMAT_MEMBER);
+			}
 			if (defn == formatProperty) {
 				return validateHideRuleFormat(stringValue);
 			}
@@ -89,7 +92,7 @@ public class StringPropertyType extends TextualPropertyType {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 * @throws PropertyValueException
@@ -99,28 +102,31 @@ public class StringPropertyType extends TextualPropertyType {
 			return value;
 		}
 
-		if (!hideRuleFormatPattern.matcher(value).matches())
+		if (!hideRuleFormatPattern.matcher(value).matches()) {
 			throw new PropertyValueException(value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					getTypeCode());
+		}
 		return value;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return STRING_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
+	@Override
 	public String getName() {
 		return STRING_TYPE_NAME;
 	}
@@ -130,6 +136,7 @@ public class StringPropertyType extends TextualPropertyType {
 	 * return 0.
 	 */
 
+	@Override
 	public double toDouble(Module module, Object value) {
 		// Strings cannot be converted to doubles because the conversion
 		// rules are locale-dependent.
@@ -139,14 +146,16 @@ public class StringPropertyType extends TextualPropertyType {
 
 	/**
 	 * Converts the string property value to an integer.
-	 * 
+	 *
 	 * @return integer value of the string representation, return <code>0</code> if
 	 *         <code>value</code> is null.
 	 */
 
+	@Override
 	public int toInteger(Module module, Object value) {
-		if (value == null)
+		if (value == null) {
 			return 0;
+		}
 
 		try {
 			return Integer.decode((String) value).intValue();

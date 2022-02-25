@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +65,7 @@ public class SelectValueDialog extends BaseDialog {
 	private int sortDir = SWT.UP;
 	private int[] selectedIndices = null;
 	private Object[] selectedItems = null;
-	private java.util.List<Object> modelValueList = new ArrayList<Object>();
+	private java.util.List<Object> modelValueList = new ArrayList<>();
 	private ParamBindingHandle[] bindingParams = null;
 	private final String nullValueDispaly = Messages.getString("SelectValueDialog.SelectValue.NullValue"); //$NON-NLS-1$
 
@@ -104,8 +104,9 @@ public class SelectValueDialog extends BaseDialog {
 				Object value = iter.next();
 				if (value == null) {
 					modelValueList.add(new NullValue());
-				} else
+				} else {
 					modelValueList.add(value);
+				}
 			}
 		}
 	}
@@ -126,11 +127,12 @@ public class SelectValueDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -154,6 +156,7 @@ public class SelectValueDialog extends BaseDialog {
 
 		column.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sortDir = sortDir == SWT.UP ? SWT.DOWN : SWT.UP;
 				table.setSortDirection(sortDir);
@@ -164,6 +167,7 @@ public class SelectValueDialog extends BaseDialog {
 
 		table.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				if (table.getSelectionCount() > 0) {
 					okPressed();
@@ -173,6 +177,7 @@ public class SelectValueDialog extends BaseDialog {
 
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				populateList();
 			}
@@ -185,9 +190,10 @@ public class SelectValueDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		selectedItems = new Object[table.getSelectionCount()];
 		for (int i = 0; i < table.getSelectionCount(); i++) {
@@ -203,10 +209,12 @@ public class SelectValueDialog extends BaseDialog {
 	 */
 	private void populateList() {
 		try {
-			if (this.getShell() == null || this.getShell().isDisposed())
+			if (this.getShell() == null || this.getShell().isDisposed()) {
 				return;
-			if (this.getOkButton() != null && !this.getOkButton().isDisposed())
+			}
+			if (this.getOkButton() != null && !this.getOkButton().isDisposed()) {
 				getOkButton().setEnabled(false);
+			}
 
 			table.removeAll();
 			tableViewer.setContentProvider(new ContentProvider());
@@ -219,8 +227,9 @@ public class SelectValueDialog extends BaseDialog {
 						Messages.getString("SelectValueDialog.noExpressionSet")); //$NON-NLS-1$
 			}
 			if (table.getItemCount() > 0) {
-				if (this.getOkButton() != null && !this.getOkButton().isDisposed())
+				if (this.getOkButton() != null && !this.getOkButton().isDisposed()) {
 					getOkButton().setEnabled(true);
+				}
 
 				for (int i = 0; i < table.getItemCount(); i++) {
 					table.getItem(i).setData(modelValueList.get(i));
@@ -260,10 +269,11 @@ public class SelectValueDialog extends BaseDialog {
 	 * number type: Integer value 1 to String value "1" Boolean type: Boolean value
 	 * true to String value "true" other types: String value "abc" to String value
 	 * "\"abc\"" Date value "2000-10-10" to String value "\"2000-10-10\""
-	 * 
+	 *
 	 * @deprecated
 	 * @return expression value
 	 */
+	@Deprecated
 	public String getSelectedExprValue() {
 		String exprValue = null;
 		if (selectedIndices != null && selectedIndices.length > 0) {
@@ -290,10 +300,11 @@ public class SelectValueDialog extends BaseDialog {
 	 * number type: Integer value 1 to String value "1" Boolean type: Boolean value
 	 * true to String value "true" other types: String value "abc" to String value
 	 * "\"abc\"" Date value "2000-10-10" to String value "\"2000-10-10\""
-	 * 
+	 *
 	 * @deprecated
 	 * @return expression value
 	 */
+	@Deprecated
 	public String[] getSelectedExprValues() {
 		String[] exprValues = null;
 		if (selectedIndices != null && selectedIndices.length > 0) {
@@ -303,17 +314,15 @@ public class SelectValueDialog extends BaseDialog {
 
 				if (modelValue instanceof NullValue) {
 					exprValues[i] = "null"; //$NON-NLS-1$
+				} else if (modelValue instanceof Boolean || modelValue instanceof Integer
+						|| modelValue instanceof Double) {
+					exprValues[i] = getDataText(modelValue);
+				} else if (modelValue instanceof BigDecimal) {
+					exprValues[i] = "new java.math.BigDecimal(\"" //$NON-NLS-1$
+							+ getDataText(modelValue) + "\")"; //$NON-NLS-1$
 				} else {
-					if (modelValue instanceof Boolean || modelValue instanceof Integer
-							|| modelValue instanceof Double) {
-						exprValues[i] = getDataText(modelValue);
-					} else if (modelValue instanceof BigDecimal) {
-						exprValues[i] = "new java.math.BigDecimal(\"" //$NON-NLS-1$
-								+ getDataText(modelValue) + "\")"; //$NON-NLS-1$
-					} else {
-						exprValues[i] = "\"" //$NON-NLS-1$
-								+ JavascriptEvalUtil.transformToJsConstants(getDataText(modelValue)) + "\""; //$NON-NLS-1$
-					}
+					exprValues[i] = "\"" //$NON-NLS-1$
+							+ JavascriptEvalUtil.transformToJsConstants(getDataText(modelValue)) + "\""; //$NON-NLS-1$
 				}
 			}
 		}
@@ -325,7 +334,7 @@ public class SelectValueDialog extends BaseDialog {
 	 * number type: Integer value 1 to String value "1" Boolean type: Boolean value
 	 * true to String value "true" other types: String value "abc" to String value
 	 * "\"abc\"" Date value "2000-10-10" to String value "\"2000-10-10\""
-	 * 
+	 *
 	 * @return expression value
 	 */
 	public String getSelectedExprValue(IExpressionConverter convert) {
@@ -336,8 +345,9 @@ public class SelectValueDialog extends BaseDialog {
 			if (!(modelValue instanceof NullValue)) {
 				dataType = DataSetUIUtil.toModelDataType(DataTypeUtil.toApiDataType(modelValue.getClass()));
 				String viewerValue = getDataText(modelValue);
-				if (convert != null)
+				if (convert != null) {
 					exprValue = convert.getConstantExpression(viewerValue, dataType);
+				}
 			}
 		}
 		return exprValue;
@@ -348,7 +358,7 @@ public class SelectValueDialog extends BaseDialog {
 	 * number type: Integer value 1 to String value "1" Boolean type: Boolean value
 	 * true to String value "true" other types: String value "abc" to String value
 	 * "\"abc\"" Date value "2000-10-10" to String value "\"2000-10-10\""
-	 * 
+	 *
 	 * @return expression value
 	 */
 	public String[] getSelectedExprValues(IExpressionConverter convert) {
@@ -361,8 +371,9 @@ public class SelectValueDialog extends BaseDialog {
 				if (!(modelValue instanceof NullValue)) {
 					dataType = DataSetUIUtil.toModelDataType(DataTypeUtil.toApiDataType(modelValue.getClass()));
 					String viewerValue = getDataText(modelValue);
-					if (convert != null)
+					if (convert != null) {
 						exprValues[i] = convert.getConstantExpression(viewerValue, dataType);
+					}
 				}
 
 			}
@@ -378,6 +389,7 @@ public class SelectValueDialog extends BaseDialog {
 			this.sortDir = sortDir;
 		}
 
+		@Override
 		public int compare(Viewer viewer, Object e1, Object e2) {
 			if (sortDir == SWT.UP) {
 				if (e1 instanceof NullValue) {
@@ -416,6 +428,7 @@ public class SelectValueDialog extends BaseDialog {
 
 	public static class ContentProvider implements IStructuredContentProvider {
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof List) {
 				return ((List) inputElement).toArray();
@@ -423,25 +436,30 @@ public class SelectValueDialog extends BaseDialog {
 			return new Object[0];
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
 
 	public class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 0) {
-				if (!(element instanceof NullValue))
+				if (!(element instanceof NullValue)) {
 					return getDataText(element);
-				else
+				} else {
 					return nullValueDispaly;
+				}
 			}
 			return null;
 		}
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}

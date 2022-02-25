@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,24 +47,25 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
- * 
+ *
  */
 
 public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	private CellEditor[] editors;
-	private String[] columnNames = new String[] { Messages.getString("GrandTotalProvider.Column.DataField") // $NON-NLS-2$
+	private String[] columnNames = { Messages.getString("GrandTotalProvider.Column.DataField") // $NON-NLS-2$
 	};
 
 	protected CrosstabReportItemHandle crosstabReportItemHandle;
-	private int[] columnWidths = new int[] { 200 };
+	private int[] columnWidths = { 200 };
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#canModify(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public boolean canModify(Object element, String property) {
 		return false;
 	}
@@ -77,10 +78,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doAddItem(int)
 	 */
+	@Override
 	public boolean doAddItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
 
@@ -100,10 +102,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doDeleteItem(int)
 	 */
+	@Override
 	public boolean doDeleteItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
 		Object obj[] = getGrandTotalInfo(crosstabReportItemHandle);
@@ -120,16 +123,18 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 			ExceptionUtil.handle(e);
 			return false;
 		}
-		if (crossTab == null)
+		if (crossTab == null) {
 			return false;
+		}
 
 		for (int i = 0; i < measureList.size(); i++) {
 			ExtendedItemHandle extMeasure = (ExtendedItemHandle) measureList.get(i);
 			if (extMeasure.getReportItem() == measure) {
-				if (CrosstabUtil.isAggregationAffectAllMeasures(crossTab, axis))
+				if (CrosstabUtil.isAggregationAffectAllMeasures(crossTab, axis)) {
 					crosstabReportItemHandle.removeGrandTotal(axis);
-				else
+				} else {
 					crosstabReportItemHandle.removeGrandTotal(axis, i);
+				}
 				return true;
 			}
 		}
@@ -138,10 +143,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doEditItem(int)
 	 */
+	@Override
 	public boolean doEditItem(int pos) {
 		// TODO Auto-generated method stub
 		CrosstabGrandTotalDialog grandTotalDialog = new CrosstabGrandTotalDialog(crosstabReportItemHandle, axis);
@@ -157,10 +163,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doMoveItem(int, int)
 	 */
+	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
@@ -168,10 +175,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getColumnNames()
 	 */
+	@Override
 	public String[] getColumnNames() {
 		// TODO Auto-generated method stub
 		return columnNames;
@@ -179,10 +187,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getColumnText(java.lang.Object, int)
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		GrandTotalInfo info = (GrandTotalInfo) element;
@@ -199,10 +208,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getColumnWidths()
 	 */
+	@Override
 	public int[] getColumnWidths() {
 		// TODO Auto-generated method stub
 		return columnWidths;
@@ -210,10 +220,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
+	@Override
 	public CellEditor[] getEditors(Table table) {
 		// TODO Auto-generated method stub
 		if (editors == null) {
@@ -225,10 +236,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getElements(java.lang.Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		// TODO Auto-generated method stub
 		input = inputElement;
@@ -250,10 +262,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getImagePath(java.lang.Object, int)
 	 */
+	@Override
 	public Image getImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
@@ -261,10 +274,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getValue(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public Object getValue(Object element, String property) {
 		// TODO Auto-generated method stub
 		int index = Arrays.asList(columnNames).indexOf(property);
@@ -274,10 +288,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#modify(java.lang.Object, java.lang.String, java.lang.Object)
 	 */
+	@Override
 	public boolean modify(Object data, String property, Object value) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
@@ -285,11 +300,12 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider
 	 * #needRefreshed(org.eclipse.birt.report.model.api.activity.NotificationEvent )
 	 */
+	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		if (event instanceof ContentEvent || event instanceof PropertyEvent) {
 			return true;
@@ -299,10 +315,11 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IDescriptorProvider#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return Messages.getString("CrosstabPageGenerator.List.GrandTotals"); //$NON-NLS-1$
@@ -310,8 +327,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	public String[] getFunctionDisplayNames() {
 		IChoice[] choices = getFunctions();
-		if (choices == null)
+		if (choices == null) {
 			return new String[0];
+		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -323,8 +341,9 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	public static String[] getFunctionNames() {
 		IChoice[] choices = getFunctions();
-		if (choices == null)
+		if (choices == null) {
 			return new String[0];
+		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -380,6 +399,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 
 	}
 
+	@Override
 	public boolean isAddEnable(Object selectedObject) {
 		return isAddEnable();
 	}
@@ -393,13 +413,15 @@ public class GrandTotalProvider extends AbstractFormHandleProvider {
 			ExceptionUtil.handle(e);
 			return false;
 		}
-		if (crossTab == null)
+		if (crossTab == null) {
 			return false;
+		}
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) crossTab.getModelHandle();
 		int measureCount = extendedItem.getPropertyHandle(ICrosstabReportItemConstants.MEASURES_PROP).getContentCount()
 				- crossTab.getComputedMeasures().size();
-		if (measureCount == 0 || getGrandTotalInfo(crossTab).length >= measureCount)
+		if (measureCount == 0 || getGrandTotalInfo(crossTab).length >= measureCount) {
 			return false;
+		}
 
 		// fix bug 202113
 		int dimCount = getDimensionCount(crosstabReportItemHandle);

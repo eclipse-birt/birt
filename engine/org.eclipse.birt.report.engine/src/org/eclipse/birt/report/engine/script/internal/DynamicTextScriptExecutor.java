@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +32,9 @@ public class DynamicTextScriptExecutor extends ScriptExecutor {
 		try {
 			IDynamicText text = new DynamicText(textDataHandle);
 			IDynamicTextEventHandler eh = getEventHandler(textDataHandle, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPrepare(text, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -46,11 +47,13 @@ public class DynamicTextScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IDynamicTextInstance text = createDynamicTextInstance(content, context, RunningState.CREATE);
-			if (handleScript(text, textItemDesign.getOnCreate(), context).didRun())
+			if (handleScript(text, textItemDesign.getOnCreate(), context).didRun()) {
 				return;
+			}
 			IDynamicTextEventHandler eh = getEventHandler(textItemDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onCreate(text, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, textItemDesign.getHandle());
 		}
@@ -63,11 +66,13 @@ public class DynamicTextScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IDynamicTextInstance text = createDynamicTextInstance(content, context, RunningState.RENDER);
-			if (handleScript(text, textItemDesign.getOnRender(), context).didRun())
+			if (handleScript(text, textItemDesign.getOnRender(), context).didRun()) {
 				return;
+			}
 			IDynamicTextEventHandler eh = getEventHandler(textItemDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onRender(text, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, textItemDesign.getHandle());
 		}
@@ -80,11 +85,13 @@ public class DynamicTextScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IDynamicTextInstance text = createDynamicTextInstance(content, context, RunningState.PAGEBREAK);
-			if (handleScript(text, textItemDesign.getOnPageBreak(), context).didRun())
+			if (handleScript(text, textItemDesign.getOnPageBreak(), context).didRun()) {
 				return;
+			}
 			IDynamicTextEventHandler eh = getEventHandler(textItemDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPageBreak(text, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, textItemDesign.getHandle());
 		}

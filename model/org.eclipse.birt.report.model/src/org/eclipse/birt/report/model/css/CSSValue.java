@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param value          the lexical unit of the value
 	 * @param forcePrimitive status identifying whether the value is forced to be
 	 *                       primitive
@@ -75,7 +75,7 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 
 	/**
 	 * Constructs the value with the lexical unit.
-	 * 
+	 *
 	 * @param value the lexical unit to handle
 	 */
 
@@ -85,10 +85,11 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSPrimitiveValue#getPrimitiveType()
 	 */
 
+	@Override
 	public short getPrimitiveType() {
 		if (value instanceof LexicalUnit) {
 			LexicalUnit lu = (LexicalUnit) value;
@@ -151,10 +152,11 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSPrimitiveValue#getFloatValue(short)
 	 */
 
+	@Override
 	public float getFloatValue(short unitType) throws DOMException {
 		if (value instanceof LexicalUnit) {
 			LexicalUnit lu = (LexicalUnit) value;
@@ -165,20 +167,22 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSPrimitiveValue#setFloatValue(short, float)
 	 */
 
+	@Override
 	public void setFloatValue(short unitType, float floatValue) throws DOMException {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSPrimitiveValue#getStringValue()
 	 */
 
+	@Override
 	public String getStringValue() throws DOMException {
 		if (value instanceof LexicalUnit) {
 			LexicalUnit lu = (LexicalUnit) value;
@@ -198,67 +202,73 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSPrimitiveValue#setStringValue(short,
 	 * java.lang.String)
 	 */
 
+	@Override
 	public void setStringValue(short stringType, String stringValue) throws DOMException {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSPrimitiveValue#getCounterValue()
 	 */
 
+	@Override
 	public Counter getCounterValue() throws DOMException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSPrimitiveValue#getRGBColorValue()
 	 */
 
+	@Override
 	public RGBColor getRGBColorValue() throws DOMException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSPrimitiveValue#getRectValue()
 	 */
 
+	@Override
 	public Rect getRectValue() throws DOMException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSValue#getCssValueType()
 	 */
 
+	@Override
 	public short getCssValueType() {
 		return (value instanceof Vector) ? CSS_VALUE_LIST : CSS_PRIMITIVE_VALUE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSValue#getCssText()
 	 */
 
+	@Override
 	public String getCssText() {
 		if (getCssValueType() == CSS_VALUE_LIST) {
 
 			// Create the string from the LexicalUnits so we include the correct
 			// operators in the string
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			Vector v = (Vector) value;
 			LexicalUnit lu = (LexicalUnit) ((CSSValue) v.elementAt(0)).value;
 			while (lu != null) {
@@ -283,40 +293,44 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSValue#setCssText(java.lang.String)
 	 */
 
+	@Override
 	public void setCssText(String cssText) throws DOMException {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSValueList#getLength()
 	 */
 
+	@Override
 	public int getLength() {
 		return (value instanceof Vector) ? ((Vector) value).size() : 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSValueList#item(int)
 	 */
 
+	@Override
 	public org.w3c.dom.css.CSSValue item(int index) {
 		return (value instanceof Vector) ? ((CSSValue) ((Vector) value).elementAt(index)) : null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
+	@Override
 	public String toString() {
 		return getCssText();
 	}

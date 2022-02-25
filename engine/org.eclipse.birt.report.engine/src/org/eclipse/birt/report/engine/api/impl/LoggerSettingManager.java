@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -52,8 +52,8 @@ public class LoggerSettingManager {
 	}
 
 	private LoggerSettingManager() {
-		this.settingList = new LinkedList<LoggerSetting>();
-		this.handlerMap = new HashMap<String, LogHandler>();
+		this.settingList = new LinkedList<>();
+		this.handlerMap = new HashMap<>();
 	}
 
 	synchronized public LoggerSetting createLoggerSetting(Logger logger, String directoryName, String fileName,
@@ -66,8 +66,9 @@ public class LoggerSettingManager {
 			logFileName = generateUniqueLogFileName(directoryName, fileName);
 		}
 
-		if (logFileName != null && logLevel != Level.OFF)
+		if (logFileName != null && logLevel != Level.OFF) {
 			logHandler = getLogHandler(logFileName, rollingSize, maxBackupIndex, logLevel);
+		}
 
 		setting = new LoggerSetting(logger, logFileName, logHandler == null ? null : logHandler.getHandler(), logLevel,
 				rollingSize, maxBackupIndex);
@@ -112,11 +113,12 @@ public class LoggerSettingManager {
 	synchronized public LoggerSetting getMergedSetting() {
 		Level mergedLevel = null;
 
-		if (settingList.size() == 0)
+		if (settingList.size() == 0) {
 			return null;
+		}
 
-		HashSet<Logger> userLoggerSet = new HashSet<Logger>();
-		HashSet<Handler> handlerSet = new HashSet<Handler>();
+		HashSet<Logger> userLoggerSet = new HashSet<>();
+		HashSet<Handler> handlerSet = new HashSet<>();
 
 		for (int i = 0; i < settingList.size(); i++) {
 			LoggerSetting setting = settingList.get(i);
@@ -218,9 +220,7 @@ public class LoggerSettingManager {
 			}
 			fileHandler.setEncoding("utf-8");
 			return new LogHandler(fileHandler);
-		} catch (SecurityException e) {
-			ROOT_LOGGER.log(Level.WARNING, e.getMessage(), e);
-		} catch (IOException e) {
+		} catch (SecurityException | IOException e) {
 			ROOT_LOGGER.log(Level.WARNING, e.getMessage(), e);
 		}
 		return null;

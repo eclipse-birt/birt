@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class HideRuleImpl implements IHideRule {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param ruleHandle
 	 */
 
@@ -42,7 +42,7 @@ public class HideRuleImpl implements IHideRule {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param ruleHandle
 	 */
 
@@ -52,7 +52,7 @@ public class HideRuleImpl implements IHideRule {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param rule
 	 */
 	public HideRuleImpl(HideRule rule) {
@@ -63,14 +63,17 @@ public class HideRuleImpl implements IHideRule {
 		hideRuleImpl = hideRule;
 	}
 
+	@Override
 	public String getFormat() {
 		return hideRuleImpl.getFormat();
 	}
 
+	@Override
 	public String getValueExpr() {
 		return hideRuleImpl.getValueExpr();
 	}
 
+	@Override
 	public void setFormat(String format) throws ScriptException {
 		try {
 			hideRuleImpl.setFormat(format);
@@ -80,6 +83,7 @@ public class HideRuleImpl implements IHideRule {
 
 	}
 
+	@Override
 	public void setValueExpr(String valueExpr) throws ScriptException {
 		try {
 
@@ -90,6 +94,7 @@ public class HideRuleImpl implements IHideRule {
 
 	}
 
+	@Override
 	public IStructure getStructure() {
 		return hideRuleImpl.getStructure();
 	}

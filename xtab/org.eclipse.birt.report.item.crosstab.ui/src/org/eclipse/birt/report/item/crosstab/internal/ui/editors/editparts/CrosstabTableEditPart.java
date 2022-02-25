@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -107,7 +107,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public CrosstabTableEditPart(Object model) {
@@ -117,10 +117,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#activate()
 	 */
+	@Override
 	public void activate() {
 		getViewer().addPropertyChangeListener(this);
 		super.activate();
@@ -128,10 +129,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#deactivate()
 	 */
+	@Override
 	public void deactivate() {
 		getViewer().removePropertyChangeListener(this);
 		super.deactivate();
@@ -139,10 +141,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#setModel(java.lang.Object)
 	 */
+	@Override
 	public void setModel(Object model) {
 		super.setModel(model);
 		if (model != null) {
@@ -157,10 +160,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createGuideHandle()
 	 */
+	@Override
 	protected AbstractGuideHandle createGuideHandle() {
 		TableGuideHandle handle = new TableGuideHandle(this);
 		handle.setIndicatorLabel(getGuideLabel());
@@ -176,28 +180,32 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#getGuideLabel()
 	 */
+	@Override
 	public String getGuideLabel() {
 		return GUIDEHANDLE_TEXT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy() {
 
+			@Override
 			public boolean understandsRequest(Request request) {
 				if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
 						|| RequestConstants.REQ_OPEN.equals(request.getType())
-						|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
+						|| ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
 					return true;
+				}
 				return super.understandsRequest(request);
 			}
 		});
@@ -209,10 +217,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		refreshBorder(getCrosstabHandleAdapter().getDesignElementHandle(), (BaseBorder) getFigure().getBorder());
 		refreshBackground(getCrosstabHandleAdapter().getDesignElementHandle());
@@ -224,9 +233,10 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		TableFigure viewport = new TableFigure();
 		viewport.setOpaque(false);
@@ -239,7 +249,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/**
 	 * Creates the top-most set of layers on the given layered pane.
-	 * 
+	 *
 	 * @param layeredPane the parent for the created layers
 	 */
 	protected void createLayers(LayeredPane layeredPane) {
@@ -253,20 +263,23 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/**
 	 * this layer may be a un-useful layer.
-	 * 
+	 *
 	 * @return the layered pane containing all printable content
 	 */
+	@Override
 	protected LayeredPane getPrintableLayers() {
-		if (printableLayers == null)
+		if (printableLayers == null) {
 			printableLayers = createPrintableLayers();
+		}
 		return printableLayers;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 		List retValue = getCrosstabHandleAdapter().getModelList();
 		return retValue;
@@ -293,7 +306,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/**
 	 * Gets the top, left, right, bottom of edit part.
-	 * 
+	 *
 	 * @param parts
 	 * @return cell edit parts.
 	 */
@@ -345,33 +358,33 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getColumnCount()
 	 */
+	@Override
 	public int getColumnCount() {
 		return getCrosstabHandleAdapter().getColumnCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getColumnWidth(int)
 	 */
+	@Override
 	public ITableLayoutOwner.DimensionInfomation getColumnWidth(final int number) {
 		// return getCrosstabHandleAdapter( ).getColumnWidth( number );
 		DimensionHandle handle = getCrosstabHandleAdapter().getColumnWidth(number);
 		if (handle == null)// all is virtual editpat
 		{
-			if (number > 1 && getCrosstabHandleAdapter().getColumnWidth(number - 1) != null) {
-				return new ITableLayoutOwner.DimensionInfomation(0, null);
-			}
-			if (number < getColumnCount() && getCrosstabHandleAdapter().getColumnWidth(number + 1) != null) {
+			if ((number > 1 && getCrosstabHandleAdapter().getColumnWidth(number - 1) != null) || (number < getColumnCount() && getCrosstabHandleAdapter().getColumnWidth(number + 1) != null)) {
 				return new ITableLayoutOwner.DimensionInfomation(0, null);
 			}
 			return getVirtualDimension(new Conditional() {
 
+				@Override
 				public boolean evaluate(EditPart editpart) {
 					Object obj = editpart.getModel();
 					if (obj instanceof VirtualCrosstabCellAdapter) {
@@ -461,10 +474,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getColumnWidthValue(int)
 	 */
+	@Override
 	public int getColumnWidthValue(int number) {
 		DimensionHandle handle = getCrosstabHandleAdapter().getColumnWidth(number);
 		if (handle == null) {
@@ -496,10 +510,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.core.model.IModelAdaptHelper#
 	 * getPreferredSize()
 	 */
+	@Override
 	public Dimension getPreferredSize() {
 		Dimension retValue = getFigure().getParent().getClientArea().getSize();
 		Rectangle rect = getBounds();
@@ -515,23 +530,20 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/**
 	 * Get the default width.
-	 * 
+	 *
 	 * @param colNumber The column number.
 	 * @return The default width.
 	 */
 	public int getDefaultWidth(int colNumber) {
 		Dimension size = getPreferredSize().shrink(getFigure().getInsets().getWidth(),
 				getFigure().getInsets().getHeight());
-		;
+
 		if (getRowCount() == 0) {
 			return size.width;
 		}
 
 		int allNumbers = getColumnCount();
-		if (allNumbers <= 0) {
-			return size.width;
-		}
-		if (colNumber <= 0) {
+		if ((allNumbers <= 0) || (colNumber <= 0)) {
 			return size.width;
 		}
 		int width = size.width;
@@ -563,30 +575,33 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getDefinedWidth()
 	 */
+	@Override
 	public String getDefinedWidth() {
 		return getCrosstabHandleAdapter().getDefinedWidth();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #isForceWidth()
 	 */
+	@Override
 	public boolean isForceWidth() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRawWidth(int)
 	 */
+	@Override
 	public String getRawWidth(int columNumber) {
 		DimensionHandle handle = getCrosstabHandleAdapter().getColumnWidth(columNumber);
 		if (handle == null) {
@@ -615,26 +630,29 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRowCount()
 	 */
+	@Override
 	public int getRowCount() {
 		return getCrosstabHandleAdapter().getRowCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRowHeight(int)
 	 */
+	@Override
 	public ITableLayoutOwner.DimensionInfomation getRowHeight(final int number) {
 		DimensionHandle handle = getCrosstabHandleAdapter().getRowHeight(number);
 		if (handle == null)// all is virtual editpat
 		{
 			return getVirtualDimension(new Conditional() {
 
+				@Override
 				public boolean evaluate(EditPart editpart) {
 					Object obj = editpart.getModel();
 					if (obj instanceof VirtualCrosstabCellAdapter) {
@@ -649,15 +667,17 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRowHeightValue(int)
 	 */
+	@Override
 	public int getRowHeightValue(final int number) {
 		DimensionHandle handle = getCrosstabHandleAdapter().getRowHeight(number);
 		if (handle == null) {
 			return getRowHeight(new Conditional() {
 
+				@Override
 				public boolean evaluate(EditPart editpart) {
 					if (editpart instanceof VirtualCellEditPart
 							&& ((VirtualCellEditPart) editpart).getRowNumber() == number) {
@@ -687,10 +707,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .AbstractTableEditPart#getCell(int, int)
 	 */
+	@Override
 	public AbstractCellEditPart getCell(int rowNumber, int columnNumber) {
 		List list = getChildren();
 		int size = list.size();
@@ -707,9 +728,10 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createChild(java.lang.Object)
 	 */
+	@Override
 	protected EditPart createChild(Object model) {
 		EditPart part = CrosstabGraphicsFactory.INSTANCEOF.createEditPart(this, model);
 		if (part != null) {
@@ -727,9 +749,10 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
+	@Override
 	public void refreshChildren() {
 		super.refreshChildren();
 		List list = getChildren();
@@ -746,21 +769,22 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 //			{
 //				public void run( )
 //				{
-//					
-//					
+//
+//
 //					//((GraphicalEditPart)part).getFigure( ).repaint( );
 //				}
-//				
+//
 //			});
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#notifyModelChange()
 	 */
+	@Override
 	public void notifyModelChange() {
 		super.notifyModelChange();
 		layoutManagerLayout();
@@ -768,10 +792,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
+	@Override
 	public boolean isinterest(Object model) {
 		if (!(model instanceof DesignElementHandle)) {
 			return false;
@@ -788,9 +813,10 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refresh()
 	 */
+	@Override
 	public void refresh() {
 		if (!isReload) {
 			super.refresh();
@@ -800,10 +826,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seejava.beans.PropertyChangeListener#propertyChange(java.beans.
 	 * PropertyChangeEvent)
 	 */
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(AbstractReportEditPart.MODEL_EVENT_DISPATCH)) {
 			if (AbstractReportEditPart.START.equals(evt.getNewValue())) {
@@ -814,10 +841,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#propertyChange(java.util.Map)
 	 */
+	@Override
 	protected void propertyChange(Map info) {
 		Set set = info.keySet();
 		Iterator itor = set.iterator();
@@ -841,21 +869,24 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 	 * @param parentPolice
 	 * @return
 	 */
+	@Override
 	public EditPolicy getResizePolice(EditPolicy parentPolice) {
 		return new ReportElementNonResizablePolicy();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getDefinedHeight()
 	 */
+	@Override
 	public String getDefinedHeight() {
 		// Crotab don't support the table height
 		return null;
 	}
 
+	@Override
 	public Object getAdapter(Class key) {
 		if (key == IBreadcrumbNodeProvider.class) {
 			return new CrosstabBreadcrumbNodeProvider();
@@ -873,11 +904,12 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * AbstractTableEditPart#getFixAllowMinRowHight()
 	 */
+	@Override
 	public int getFixAllowMinRowHight() {
 		return 18;
 	}

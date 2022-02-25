@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -274,9 +274,10 @@ public class Vector {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		if (v != null) {
 			return "X:" + v[0] + ",Y:" + v[1] + ",Z:" + v[2] + ",PV:" + v[3]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -307,6 +308,7 @@ public class Vector {
 
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Vector) {
 			Vector ot = (Vector) other;

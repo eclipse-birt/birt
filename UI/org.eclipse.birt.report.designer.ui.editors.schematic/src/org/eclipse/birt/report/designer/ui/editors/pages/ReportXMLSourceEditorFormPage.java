@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -70,11 +70,12 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.
 	 * FormEditor)
 	 */
+	@Override
 	public void initialize(FormEditor editor) {
 		this.editor = editor;
 		setRangeIndicator(new Annotation() {
@@ -83,20 +84,22 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
+	@Override
 	public FormEditor getEditor() {
 		return editor;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.texteditor.AbstractTextEditor#doSave(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
+	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
 		super.doSave(progressMonitor);
 		IReportProvider provider = getProvider();
@@ -188,7 +191,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 	private int getErrorLineFromModuleHandle(ModuleHandle handle) {
 		handle.checkReport();
 		List list = handle.getErrorList();
-		if (list != null)
+		if (list != null) {
 			for (int i = 0, m = list.size(); i < m; i++) {
 				Object obj = list.get(i);
 				if (obj instanceof ErrorDetail) {
@@ -197,23 +200,26 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 					return errorDetail.getLineNo();
 				}
 			}
+		}
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
+	@Override
 	public IManagedForm getManagedForm() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
+	@Override
 	public void setActive(boolean active) {
 		int errorLine = getErrorLIine(true);
 
@@ -226,18 +232,20 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
+	@Override
 	public boolean isActive() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
+	@Override
 	public boolean canLeaveThePage() {
 		if (isDirty()) {
 			MessageDialog prefDialog = new MessageDialog(UIUtil.getDefaultShell(),
@@ -296,54 +304,60 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
+	@Override
 	public Control getPartControl() {
 		return control;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
+	@Override
 	public String getId() {
 		return ID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
+	@Override
 	public int getIndex() {
 		return index;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
+	@Override
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
+	@Override
 	public boolean isEditor() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
+	@Override
 	public boolean selectReveal(Object marker) {
 		// int start = MarkerUtilities.getCharStart( (IMarker) marker );
 		// int end = MarkerUtilities.getCharEnd( (IMarker) marker );
@@ -408,10 +422,11 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 		Control[] children = parent.getChildren();
@@ -420,7 +435,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
 	 */
 	// protected void firePropertyChange( int type )
@@ -433,6 +448,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 	// else
 	// super.firePropertyChange( type );
 	// }
+	@Override
 	public boolean onBroughtToTop(IReportEditorPage prePage) {
 		if (getEditorInput() != prePage.getEditorInput()) {
 			setInput(prePage.getEditorInput());
@@ -487,7 +503,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/**
 	 * Get the MultiPageReportEditor.
-	 * 
+	 *
 	 * @return
 	 */
 	public MultiPageReportEditor getReportEditor() {
@@ -496,7 +512,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/**
 	 * Get editing report ModuleHandle.
-	 * 
+	 *
 	 * @return
 	 */
 	public ModuleHandle getModel() {
@@ -511,30 +527,33 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(
 	 * int)
 	 */
+	@Override
 	public void markPageStale(int type) {
 		staleType = type;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
 	 */
+	@Override
 	public int getStaleType() {
 		return staleType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
 	 */
+	@Override
 	protected void firePropertyChange(int type) {
 		super.firePropertyChange(type);
 		if (type == PROP_DIRTY) {
@@ -547,9 +566,10 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class required) {
 		if (required.equals(ActionRegistry.class)) {
 			if (registry == null) {
@@ -562,15 +582,17 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements IReportE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.xml.XMLEditor#
 	 * getProvider()
 	 */
+	@Override
 	protected IReportProvider getProvider() {
 		return (IReportProvider) editor.getAdapter(IReportProvider.class);
 	}
 
+	@Override
 	protected void finalize() throws Throwable {
 		if (Policy.TRACING_PAGE_CLOSE) {
 			System.out.println("Report source page finalized"); //$NON-NLS-1$

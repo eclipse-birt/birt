@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ public class LabelHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param labelHandle The label handle.
 	 * @param mark
 	 */
@@ -40,9 +40,10 @@ public class LabelHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets size of label item.
-	 * 
+	 *
 	 * @return the size of label item.
 	 */
+	@Override
 	public Dimension getSize() {
 		DimensionHandle widthHandle = ((ReportItemHandle) getHandle()).getWidth();
 

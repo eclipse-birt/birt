@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 
 /**
- * 
+ *
  */
 
 public class DimensionForTest implements IDatasetIterator {
@@ -48,6 +48,7 @@ public class DimensionForTest implements IDatasetIterator {
 
 	}
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -68,6 +69,7 @@ public class DimensionForTest implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		for (int i = 0; i < levelNames.length; i++) {
 			if (levelNames[i].equals(name)) {
@@ -77,6 +79,7 @@ public class DimensionForTest implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		int fieldIndex = getFieldIndex(name);
 		return DataType.getDataType(member[fieldIndex][0].getClass());
@@ -92,6 +95,7 @@ public class DimensionForTest implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		return this.member[fieldIndex][ptr];
 	}
@@ -100,12 +104,14 @@ public class DimensionForTest implements IDatasetIterator {
 		ptr = -1;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
-		if (ptr < this.member[0].length)
+		if (ptr < this.member[0].length) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 }

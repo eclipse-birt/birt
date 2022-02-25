@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,7 @@ abstract class AbstractMultiViewsHandle extends DesignElementHandle implements I
 	 * Constructs a handle for the given design and design element. The application
 	 * generally does not create handles directly. Instead, it uses one of the
 	 * navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -59,17 +59,18 @@ abstract class AbstractMultiViewsHandle extends DesignElementHandle implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/**
 	 * Returns the index for the current view.
-	 * 
+	 *
 	 * @return a 0-based integer
 	 */
 
@@ -79,15 +80,16 @@ abstract class AbstractMultiViewsHandle extends DesignElementHandle implements I
 
 	/**
 	 * Sets the index for the view to be used.
-	 * 
+	 *
 	 * @param index a 0-based integer
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
 	public void setCurrentViewIndex(int index) throws SemanticException {
-		if (index < HOST)
+		if (index < HOST) {
 			index = HOST;
+		}
 
 		setProperty(INDEX_PROP, Integer.valueOf(index));
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 	/**
 	 * Returns the instance of <code>CellPropSearchStrategy</code> which provide the
 	 * specific property searching route for <code>Cell</code>.
-	 * 
+	 *
 	 * @return the instance of <code>CellPropSearchStrategy</code>
 	 */
 
@@ -57,13 +57,14 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.core.PropertySearchStrategy#
 	 * getPropertyRelatedToContainer(org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
+	@Override
 	public Object getPropertyRelatedToContainer(Module module, DesignElement cell, ElementPropertyDefn prop) {
 		// Get property from the container of this cell. If the container
 		// has column, get property from column.
@@ -80,8 +81,9 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 			// check property values on the columns.
 
 			DesignElement tmpContainer = e.getContainer();
-			if (tmpContainer instanceof TableItem || tmpContainer instanceof GridItem)
+			if (tmpContainer instanceof TableItem || tmpContainer instanceof GridItem) {
 				return getColumnProperty(module, tmpContainer, (Cell) cell, prop);
+			}
 
 			e = tmpContainer;
 		}
@@ -93,7 +95,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 	 * Gets a property value on the container column with the given definition. If
 	 * <code>prop</code> is a style property definition, also check style values
 	 * defined on the Table/Grid columns.
-	 * 
+	 *
 	 * @param module    the module
 	 * @param container the container, must be Table or Grid
 	 * @param cell      the cell on which the property value to find
@@ -117,12 +119,12 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 	/**
 	 * Returns the style property defined on the column for the cell
 	 * <code>target</code>.
-	 * 
+	 *
 	 * @param module the module
 	 * @param table  the container
 	 * @param target the target cell to search
 	 * @param prop   the property definition.
-	 * 
+	 *
 	 * @return the value of a style property
 	 */
 
@@ -130,8 +132,9 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 		assert prop.isStyleProperty();
 
 		ContainerSlot columnSlot = table.getSlot(ITableItemModel.COLUMN_SLOT);
-		if (columnSlot.getCount() == 0)
+		if (columnSlot.getCount() == 0) {
 			return null;
+		}
 
 		TableColumn column = table.getColumn(module, columnSlot, target);
 
@@ -141,12 +144,12 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 	/**
 	 * Returns the style property defined on the column for the cell
 	 * <code>target</code>.
-	 * 
+	 *
 	 * @param module the report design
 	 * @param grid   the container
 	 * @param target the target cell to search
 	 * @param prop   the property definition.
-	 * 
+	 *
 	 * @return the value of a style property
 	 */
 
@@ -154,8 +157,9 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 		assert prop.isStyleProperty();
 
 		ContainerSlot columnSlot = grid.getSlot(IGridItemModel.COLUMN_SLOT);
-		if (columnSlot.getCount() == 0)
+		if (columnSlot.getCount() == 0) {
 			return null;
+		}
 
 		TableColumn column = grid.getColumn(module, columnSlot, target);
 
@@ -167,23 +171,25 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 	 * <p>
 	 * If the cell resides in the row and the property is "vertical-align", return
 	 * <code>true</code>. Otherwise, return the value from its super class.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#isInheritableProperty(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
+	@Override
 	protected boolean isInheritableProperty(DesignElement element, ElementPropertyDefn prop) {
 		assert prop != null;
 
 		if (IStyleModel.VERTICAL_ALIGN_PROP.equalsIgnoreCase(prop.getName())
-				&& element.getContainer() instanceof TableRow)
+				&& element.getContainer() instanceof TableRow) {
 			return true;
+		}
 
 		return super.isInheritableProperty(element, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.core.PropertySearchStrategy#
 	 * getPropertyFromSelfSelector(org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
@@ -191,6 +197,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 	 * .report.model.core.PropertySearchStrategy.PropertyValueInfo)
 	 */
 
+	@Override
 	public Object getPropertyFromSelfSelector(Module module, DesignElement element, ElementPropertyDefn prop,
 			PropertyValueInfo valueInfo) {
 		assert element instanceof Cell;
@@ -202,13 +209,15 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 			String selector = list.get(i);
 			Object selectValue = getPropertyFromSelector(module, element, prop, selector, valueInfo);
 			if (selectValue != null) {
-				if (value == null)
+				if (value == null) {
 					value = selectValue;
+				}
 
 				// if valueInfo is null, then do the short search; otherwise, we
 				// must do full search to collect all the selectors
-				if (valueInfo == null)
+				if (valueInfo == null) {
 					return value;
+				}
 			}
 
 		}
@@ -218,7 +227,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy {
 
 	/**
 	 * Gets the the style property defined on the column.
-	 * 
+	 *
 	 * @param module the module
 	 * @param column the column
 	 * @param prop   the property definition

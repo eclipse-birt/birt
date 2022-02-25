@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,7 +68,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 	private static final String DOCUMENT_FILE_EXT = "rptdocument"; //$NON-NLS-1$
 	private static final String LIB_FOLDER = "lib"; //$NON-NLS-1$
 
-	private static final String[] FILETYPE = new String[] { "jar", "zip" //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String[] FILETYPE = { "jar", "zip" //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
 	private static final String DEV_PROJECTNAME = "org.eclipse.birt.report.debug.core"; //$NON-NLS-1$
@@ -96,6 +96,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 
 	private ModifyListener modifyListener = new ModifyListener() {
 
+		@Override
 		public void modifyText(ModifyEvent e) {
 			updateLaunchConfigurationDialog();
 		}
@@ -103,6 +104,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 
 	private SelectionListener taskTypeListener = new SelectionAdapter() {
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			if (!((Button) e.widget).getSelection()) {
 				return;
@@ -135,6 +137,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 
 	private SelectionListener debugTypeListener = new SelectionAdapter() {
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			if (!((Button) e.widget).getSelection()) {
 				return;
@@ -157,11 +160,12 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.ILaunchConfigurationTab#createControl(org.eclipse.swt.
 	 * widgets.Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		Composite parentG = ScriptSWTFactory.createComposite(parent, parent.getFont(), 1, 1, GridData.FILL_BOTH);
 
@@ -201,6 +205,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 		cmbOutputFormat.setLayoutData(gd);
 		cmbOutputFormat.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateLaunchConfigurationDialog();
 			}
@@ -217,6 +222,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 
 		bOpenTarget.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateLaunchConfigurationDialog();
 			}
@@ -272,12 +278,14 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 
 		forderSearchButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IPath chosen = chooseDropLocation(Messages.getString("ScriptMainTab.title.temp.folder"), //$NON-NLS-1$
 						Messages.getString("ScriptMainTab.msg.select.temp.folder"), //$NON-NLS-1$
 						fTempFolder.getText());
-				if (chosen != null)
+				if (chosen != null) {
 					fTempFolder.setText(chosen.toOSString());
+				}
 			}
 		});
 
@@ -298,6 +306,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 		bUseDefaultEngineHome.setLayoutData(gd);
 		bUseDefaultEngineHome.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateLaunchConfigurationDialog();
 
@@ -319,12 +328,14 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 
 		engineHomeSearchButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IPath chosen = chooseDropLocation(Messages.getString("ScriptMainTab.title.engine.home"), //$NON-NLS-1$
 						Messages.getString("ScriptMainTab.msg.select.engine.home"), //$NON-NLS-1$
 						fEngineHome.getText());
-				if (chosen != null)
+				if (chosen != null) {
 					fEngineHome.setText(chosen.toOSString());
+				}
 			}
 		});
 
@@ -346,10 +357,12 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 				null);
 		fSearchButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent evt) {
 				File chosen = chooseReportDesign();
-				if (chosen != null)
+				if (chosen != null) {
 					fMainText.setText(chosen.getAbsolutePath());
+				}
 			}
 
 		});
@@ -400,14 +413,17 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 		return null;
 	}
 
+	@Override
 	public String getName() {
 		return Messages.getString("ScriptMainTab.title.report"); //$NON-NLS-1$
 	}
 
+	@Override
 	public Image getImage() {
 		return DebugUI.getDefault().getImageRegistry().get(DebugUI.IMAGE_DEBUGGER_ICON_NAME);
 	}
 
+	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
 
@@ -426,7 +442,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 			if (emitters == null || emitters.length == 0) {
 				supportedFormats = new String[] {};
 			} else {
-				List<String> temp = new ArrayList<String>();
+				List<String> temp = new ArrayList<>();
 				for (int i = 0; i < emitters.length; i++) {
 					EmitterInfo info = emitters[i];
 					if (!info.isHidden()) {
@@ -497,6 +513,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 		return System.getProperty("java.io.tmpdir", ""); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(ATTR_REPORT_FILE_NAME, fMainText.getText());
 		configuration.setAttribute(ATTR_ENGINE_HOME, fEngineHome.getText());
@@ -629,6 +646,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 		return file.getAbsolutePath() + File.separator + LIB_FOLDER;
 	}
 
+	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(ATTR_REPORT_FILE_NAME, getDefaultFileName());
 		configuration.setAttribute(ATTR_ENGINE_HOME, ""); //$NON-NLS-1$
@@ -640,19 +658,12 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 		configuration.setAttribute(ATTR_TASK_TYPE, DEFAULT_TASK_TYPE);
 	}
 
+	@Override
 	public boolean isValid(ILaunchConfiguration launchConfig) {
 		setErrorMessage(null);
 		setMessage(null);
 
-		if (!validateReportDesignFile(launchConfig)) {
-			return false;
-		}
-
-		if (!validateEngineHome(launchConfig)) {
-			return false;
-		}
-
-		if (!validateTempFloder(launchConfig)) {
+		if (!validateReportDesignFile(launchConfig) || !validateEngineHome(launchConfig) || !validateTempFloder(launchConfig)) {
 			return false;
 		}
 
@@ -741,10 +752,12 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements IRe
 		Button button = createPushButton(parent, text, null);
 		button.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent evt) {
 				StringVariableSelectionDialog dialog = new StringVariableSelectionDialog(source.getShell());
-				if (dialog.open() == Window.OK)
+				if (dialog.open() == Window.OK) {
 					source.insert(dialog.getVariableExpression());
+				}
 			}
 
 		});

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,27 +38,30 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 
 /**
- * 
- * 
+ *
+ *
  */
 public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvider {
 
+	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return Messages.getString("AdvancePropertyDescriptorProvider.DisplayName"); //$NON-NLS-1$
 	}
 
+	@Override
 	public Object load() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		// TODO Auto-generated method stub
 
@@ -66,6 +69,7 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 
 	private Object input;
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 
@@ -123,13 +127,14 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 	public boolean addNode(Memento element, MementoElement[] nodePath) {
 		if (nodePath != null && nodePath.length > 0) {
 			MementoElement memento = element.getMementoElement();
-			if (!memento.equals(nodePath[0]))
+			if (!memento.equals(nodePath[0])) {
 				return false;
+			}
 			for (int i = 1; i < nodePath.length; i++) {
 				MementoElement child = getChild(memento, nodePath[i]);
-				if (child != null)
+				if (child != null) {
 					memento = child;
-				else {
+				} else {
 					memento.addChild(nodePath[i]);
 					return true;
 				}
@@ -142,14 +147,16 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 	public boolean removeNode(Memento element, MementoElement[] nodePath) {
 		if (nodePath != null && nodePath.length > 0) {
 			MementoElement memento = element.getMementoElement();
-			if (!memento.equals(nodePath[0]))
+			if (!memento.equals(nodePath[0])) {
 				return false;
+			}
 			for (int i = 1; i < nodePath.length; i++) {
 				MementoElement child = getChild(memento, nodePath[i]);
-				if (child != null)
+				if (child != null) {
 					memento = child;
-				else
+				} else {
 					return false;
+				}
 			}
 			memento.getParent().removeChild(memento);
 			return true;
@@ -160,11 +167,12 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 	private MementoElement getChild(MementoElement parent, MementoElement key) {
 		MementoElement[] children = parent.getChildren();
 		for (int i = 0; i < children.length; i++) {
-			if (children[i].equals(key))
+			if (children[i].equals(key)) {
 				return children[i];
+			}
 		}
 		return null;
-	};
+	}
 
 	public MementoElement[] getNodePath(MementoElement node) {
 		LinkedList pathList = new LinkedList();
@@ -214,17 +222,21 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 					.getToolTipText(AdvancePropertyDescriptorProvider.MODE_GROUPED));
 		}
 
+		@Override
 		public void run() {
 			control.updateSorting(MODE_GROUPED);
 		}
 
+		@Override
 		public boolean isChecked() {
 			return contentProvider.getViewMode() == MODE_GROUPED;
 		}
 
+		@Override
 		public void setChecked(boolean check) {
-			if (contentProvider.getViewMode() != MODE_GROUPED)
+			if (contentProvider.getViewMode() != MODE_GROUPED) {
 				selectViewMode(MODE_GROUPED);
+			}
 			firePropertyChange(CHECKED, null, null);
 		}
 	}
@@ -241,17 +253,21 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 					.getToolTipText(AdvancePropertyDescriptorProvider.MODE_ALPHABETIC));
 		}
 
+		@Override
 		public void run() {
 			control.updateSorting(MODE_ALPHABETIC);
 		}
 
+		@Override
 		public boolean isChecked() {
 			return contentProvider.getViewMode() == MODE_ALPHABETIC;
 		}
 
+		@Override
 		public void setChecked(boolean check) {
-			if (contentProvider.getViewMode() != MODE_ALPHABETIC)
+			if (contentProvider.getViewMode() != MODE_ALPHABETIC) {
 				selectViewMode(MODE_ALPHABETIC);
+			}
 			firePropertyChange(CHECKED, null, null);
 		}
 	}
@@ -269,17 +285,21 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 					.getToolTipText(AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY));
 		}
 
+		@Override
 		public void run() {
 			control.updateSorting(MODE_LOCAL_ONLY);
 		}
 
+		@Override
 		public boolean isChecked() {
 			return contentProvider.getViewMode() == MODE_LOCAL_ONLY;
 		}
 
+		@Override
 		public void setChecked(boolean check) {
-			if (contentProvider.getViewMode() != MODE_LOCAL_ONLY)
+			if (contentProvider.getViewMode() != MODE_LOCAL_ONLY) {
 				selectViewMode(MODE_LOCAL_ONLY);
+			}
 			firePropertyChange(CHECKED, null, null);
 		}
 	}
@@ -293,11 +313,13 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 
 class AdvancedPropertyNameLabelProvider extends ColumnLabelProvider implements IStyledLabelProvider {
 
+	@Override
 	public String getText(Object element) {
 		String text = getStyledText(element).toString();
 		return text;
 	}
 
+	@Override
 	public StyledString getStyledText(Object element) {
 		String value = null;
 		if (element instanceof List) {
@@ -309,8 +331,9 @@ class AdvancedPropertyNameLabelProvider extends ColumnLabelProvider implements I
 			GroupPropertyHandle property = ((GroupPropertyHandleWrapper) element).getModel();
 			value = property.getPropertyDefn().getDisplayName();
 		}
-		if (value == null)
+		if (value == null) {
 			value = ""; //$NON-NLS-1$
+		}
 		StyledString styledString = new StyledString();
 		styledString.append(value);
 		return styledString;
@@ -322,11 +345,13 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements 
 
 	private static final String PASSWORD_REPLACEMENT = "********";//$NON-NLS-1$
 
+	@Override
 	public String getText(Object element) {
 		String text = getStyledText(element).toString();
 		return text;
 	}
 
+	@Override
 	public StyledString getStyledText(Object element) {
 		String value = null;
 		GroupPropertyHandle propertyHandle = null;
@@ -412,8 +437,9 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements 
 				}
 			}
 		}
-		if (values == null)
+		if (values == null) {
 			return new String[] {};
+		}
 
 		return values;
 	}
@@ -434,6 +460,7 @@ class AdvancedPropertyContentProvider implements ITreeContentProvider {
 		return this.viewMode;
 	}
 
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof List) {
 			return ((List) parentElement).toArray();
@@ -447,9 +474,9 @@ class AdvancedPropertyContentProvider implements ITreeContentProvider {
 				for (Iterator it = handle.visiblePropertyIterator(); it.hasNext();) {
 					GroupPropertyHandle property = (GroupPropertyHandle) it.next();
 					IElementPropertyDefn defn = property.getPropertyDefn();
-					if (defn.getGroupNameKey() == null)
+					if (defn.getGroupNameKey() == null) {
 						items.add(new GroupPropertyHandleWrapper(property));
-					else {
+					} else {
 						List group = (List) map.get(defn.getGroupNameKey());
 						if (group == null) {
 							group = new ArrayList();
@@ -468,8 +495,9 @@ class AdvancedPropertyContentProvider implements ITreeContentProvider {
 			} else if (viewMode == AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY) {
 				for (Iterator it = handle.visiblePropertyIterator(); it.hasNext();) {
 					GroupPropertyHandle property = (GroupPropertyHandle) it.next();
-					if (property != null && property.getLocalStringValue() != null)
+					if (property != null && property.getLocalStringValue() != null) {
 						items.add(new GroupPropertyHandleWrapper(property));
+					}
 				}
 			}
 			return items.toArray();
@@ -477,10 +505,12 @@ class AdvancedPropertyContentProvider implements ITreeContentProvider {
 		return null;
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		return null;
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
 		return ((element instanceof List && ((List) element).size() > 0)
 				|| element instanceof PropertySheetRootElement);
@@ -488,6 +518,7 @@ class AdvancedPropertyContentProvider implements ITreeContentProvider {
 
 	PropertySheetRootElement[] roots = new PropertySheetRootElement[1];
 
+	@Override
 	public Object[] getElements(Object input) {
 		GroupElementHandle inputElement = DEUtil.getGroupElementHandle(DEUtil.getInputElements(input));
 
@@ -516,9 +547,11 @@ class AdvancedPropertyContentProvider implements ITreeContentProvider {
 		return roots;
 	}
 
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 }

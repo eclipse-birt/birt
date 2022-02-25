@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004-2008 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -63,8 +63,8 @@ import org.eclipse.ui.part.IPageSite;
 /**
  * This class provides the context menu for the single selection and multiple
  * selection
- * 
- * 
+ *
+ *
  */
 public class LibraryExplorerContextMenuProvider extends ContextMenuProvider {
 
@@ -87,7 +87,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param page     the viewer
 	 * @param registry the registry
 	 */
@@ -115,10 +115,11 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
 			 * (org.eclipse.jface.viewers.SelectionChangedEvent)
 			 */
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				resetActionStatus();
 				updateActionBars();
@@ -184,10 +185,11 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider {
 	/**
 	 * Builds the context menu. Single selection menu and multiple selection menu
 	 * are created while selecting just single element or multiple elements
-	 * 
-	 * 
+	 *
+	 *
 	 * @param menu the menu
 	 */
+	@Override
 	public void buildContextMenu(IMenuManager menu) {
 		if (Policy.TRACING_MENU_SHOW) {
 			System.out.println("Menu(for Views) >> Shows for library"); //$NON-NLS-1$
@@ -321,8 +323,9 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider {
 		if (!(moduleHandle instanceof ReportDesignHandle || moduleHandle instanceof LibraryHandle)) {
 			return false;
 		}
-		if (transfer instanceof ReportResourceEntry)
+		if (transfer instanceof ReportResourceEntry) {
 			transfer = ((ReportResourceEntry) transfer).getReportElement();
+		}
 		if (transfer instanceof ReportElementHandle || transfer instanceof EmbeddedImageHandle) {
 			if (transfer instanceof ScalarParameterHandle
 					&& ((ScalarParameterHandle) transfer).getContainer() instanceof CascadingParameterGroupHandle) {

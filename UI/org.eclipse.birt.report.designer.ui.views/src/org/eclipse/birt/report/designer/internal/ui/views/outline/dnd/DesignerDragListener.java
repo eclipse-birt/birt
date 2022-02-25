@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ public class DesignerDragListener extends DesignElementDragAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param viewer
 	 */
 	public DesignerDragListener(StructuredViewer viewer) {
@@ -39,10 +39,12 @@ public class DesignerDragListener extends DesignElementDragAdapter {
 	/**
 	 * @see DesignElementDragAdapter#validateTransfer(Object)
 	 */
+	@Override
 	protected boolean validateTransfer(Object transfer) {
 		// new DNDService
-		if (DNDService.getInstance().validDrag(transfer))
+		if (DNDService.getInstance().validDrag(transfer)) {
 			return true;
+		}
 		// for compatible
 		if (transfer instanceof StyleHandle && ((StyleHandle) transfer).getContainer() instanceof ThemeHandle) {
 			return false;

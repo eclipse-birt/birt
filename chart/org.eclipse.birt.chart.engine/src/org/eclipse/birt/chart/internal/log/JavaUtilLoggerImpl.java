@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,7 +69,7 @@ public class JavaUtilLoggerImpl implements ILogger {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param name
 	 */
 	public JavaUtilLoggerImpl(String name) {
@@ -90,7 +90,7 @@ public class JavaUtilLoggerImpl implements ILogger {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param name
 	 */
 	public JavaUtilLoggerImpl(String name, int verboseLevel) {
@@ -107,9 +107,10 @@ public class JavaUtilLoggerImpl implements ILogger {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.log.ILogger#setVerboseLevel(int)
 	 */
+	@Override
 	public void setVerboseLevel(int iVerboseLevel) {
 		this.javaLevel = toJavaUtilLevel(iVerboseLevel);
 
@@ -118,9 +119,10 @@ public class JavaUtilLoggerImpl implements ILogger {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.log.ILogger#log(int, java.lang.String)
 	 */
+	@Override
 	public void log(int iCode, String sMessage) {
 		Level level = toJavaUtilLevel(iCode);
 
@@ -135,9 +137,10 @@ public class JavaUtilLoggerImpl implements ILogger {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.log.ILogger#log(java.lang.Exception)
 	 */
+	@Override
 	public void log(Exception ex) {
 		if (logger.isLoggable(Level.WARNING)) {
 			LogRecord lr = new LogRecord(Level.WARNING, "Exception"); //$NON-NLS-1$
@@ -221,6 +224,7 @@ public class JavaUtilLoggerImpl implements ILogger {
 		try {
 			fileHandler = AccessController.doPrivileged(new PrivilegedExceptionAction<FileHandler>() {
 
+				@Override
 				public FileHandler run() throws Exception {
 					Level logLevel = level != null ? level : Level.FINEST;
 

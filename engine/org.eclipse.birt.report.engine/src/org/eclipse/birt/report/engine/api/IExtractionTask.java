@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -21,21 +21,21 @@ public interface IExtractionTask extends IEngineTask {
 
 	/**
 	 * the filter conditions
-	 * 
+	 *
 	 * @param filters
 	 */
 	void setFilters(IFilterDefinition[] filters);
 
 	/**
 	 * set sorting conditions
-	 * 
+	 *
 	 * @param sorts
 	 */
 	void setSorts(ISortDefinition[] sorts);
 
 	/**
 	 * set sorting conditions
-	 * 
+	 *
 	 * @param simpleSortExpression
 	 * @param overrideExistingSorts
 	 */
@@ -43,7 +43,7 @@ public interface IExtractionTask extends IEngineTask {
 
 	/**
 	 * execute this extraction task
-	 * 
+	 *
 	 * @return the extraction result
 	 * @throws BirtException
 	 */
@@ -51,7 +51,7 @@ public interface IExtractionTask extends IEngineTask {
 
 	/**
 	 * execute this extraction task
-	 * 
+	 *
 	 * @param option the extraction option
 	 * @throws BirtException
 	 */

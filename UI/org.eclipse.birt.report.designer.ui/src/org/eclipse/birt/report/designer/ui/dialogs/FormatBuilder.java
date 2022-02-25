@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,9 +65,9 @@ public class FormatBuilder extends BaseDialog {
 
 	/**
 	 * Constructs a new instance of the format builder
-	 * 
+	 *
 	 * @param style the style of the format builder
-	 * 
+	 *
 	 */
 	public FormatBuilder(int type) {
 		super(DLG_TITLE);
@@ -75,6 +75,7 @@ public class FormatBuilder extends BaseDialog {
 		this.type = type;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		ScrolledComposite scrollContent = new ScrolledComposite(composite, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -119,12 +120,14 @@ public class FormatBuilder extends BaseDialog {
 		this.formatLocale = formatLocale;
 	}
 
+	@Override
 	protected boolean initDialog() {
 		page.setInput(formatCategory, formatPattern, formatLocale);
 		page.setPreviewText(previewText);
 		return true;
 	}
 
+	@Override
 	protected void okPressed() {
 		if (page.isFormatModified()) {
 

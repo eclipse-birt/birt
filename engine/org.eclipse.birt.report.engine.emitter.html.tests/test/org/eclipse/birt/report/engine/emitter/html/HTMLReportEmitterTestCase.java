@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -35,9 +34,11 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 
+import junit.framework.TestCase;
+
 /**
  * Unit test for resource manager and HTML report emitter.
- * 
+ *
  */
 abstract public class HTMLReportEmitterTestCase extends TestCase {
 
@@ -48,6 +49,7 @@ abstract public class HTMLReportEmitterTestCase extends TestCase {
 
 	protected IReportEngine engine;
 
+	@Override
 	public void setUp() {
 		removeFile(REPORT_DOCUMENT);
 		removeFile(REPORT_DESIGN);
@@ -55,6 +57,7 @@ abstract public class HTMLReportEmitterTestCase extends TestCase {
 		engine = createReportEngine(config);
 	}
 
+	@Override
 	public void tearDown() {
 		engine.shutdown();
 		removeFile(REPORT_DESIGN);
@@ -124,7 +127,7 @@ abstract public class HTMLReportEmitterTestCase extends TestCase {
 
 	/**
 	 * create the report document.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void createReportDocument() throws EngineException {
@@ -140,7 +143,7 @@ abstract public class HTMLReportEmitterTestCase extends TestCase {
 
 	/**
 	 * Get the content of the stream as string
-	 * 
+	 *
 	 * @param in the input stream
 	 * @return the string content of the input stream
 	 * @throws Exception

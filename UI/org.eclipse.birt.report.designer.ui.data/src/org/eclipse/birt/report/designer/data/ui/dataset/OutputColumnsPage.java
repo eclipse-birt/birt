@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -104,21 +104,21 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 	protected String originalDisplayName = ""; //$NON-NLS-1$
 	protected String originalDisplayNameKey = ""; //$NON-NLS-1$
 
-	protected static String[] cellLabels = new String[] { Messages.getString("dataset.editor.title.name"), //$NON-NLS-1$
+	protected static String[] cellLabels = { Messages.getString("dataset.editor.title.name"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.type"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.alias"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.displayName"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.displayNameKey") //$NON-NLS-1$
 	};
 
-	protected static String[] dialogLabels = new String[] { Messages.getString("dataset.editor.inputDialog.name"), //$NON-NLS-1$
+	protected static String[] dialogLabels = { Messages.getString("dataset.editor.inputDialog.name"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.type"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.alias"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.displayName"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.displayNameKey") //$NON-NLS-1$
 	};
 
-	protected static String[] cellProperties = new String[] { "name", "dataTypeDisplayName", "alias", "realDisplayName", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	protected static String[] cellProperties = { "name", "dataTypeDisplayName", "alias", "realDisplayName", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			"displayNameKey"//$NON-NLS-1$
 	};
 
@@ -144,10 +144,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#createPageControl(org.
 	 * eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createContents(Composite parent) {
 		createTableViewer(parent);
 		addListeners();
@@ -181,6 +182,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 	private void addListeners() {
 		viewer.getNewButton().addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doEdit();
 			}
@@ -188,6 +190,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 		viewer.getViewer().getTable().addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				doEdit();
 			}
@@ -196,8 +199,9 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	private void doEdit() {
 		int index = viewer.getViewer().getTable().getSelectionIndex();
-		if (index == -1)
+		if (index == -1) {
 			return;
+		}
 
 		DataSetViewData data = (DataSetViewData) viewer.getViewer().getTable().getItem(index).getData();
 		originalAlias = data.getAlias();
@@ -218,9 +222,10 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#pageActivated()
 	 */
+	@Override
 	public void pageActivated() {
 		if (modelChanged) {
 			updateOutputColumns();
@@ -247,11 +252,12 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#canLeave
 	 * ()
 	 */
+	@Override
 	public boolean canLeave() {
 		if (isValid()) {
 			saveOutputColumns();
@@ -262,8 +268,9 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 			}
 			this.pageActivated = false;
 			return super.canLeave();
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	protected void updateColumnCache() {
@@ -276,10 +283,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		if (isValid()) {
 			saveOutputColumns();
@@ -307,27 +315,29 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.
 	 * AbstractDescriptionPropertyPage#getPageDescription()
 	 */
+	@Override
 	public String getPageDescription() {
 		return Messages.getString("OutputColumnsPage.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
+	@Override
 	public String getToolTip() {
 		return Messages.getString("OutputColumnPage.OutputColumns.Tooltip"); //$NON-NLS-1$
 	}
 
 	/**
 	 * update output columns page
-	 * 
+	 *
 	 */
 	protected final void updateOutputColumns() {
 		clearOutputColumns();
@@ -340,14 +350,15 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/**
 	 * populate output columns
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	protected void populateOutputColums() throws BirtException {
 		ClassLoader oldContextLoader = Thread.currentThread().getContextClassLoader();
 		ClassLoader parentLoader = oldContextLoader;
-		if (parentLoader == null)
+		if (parentLoader == null) {
 			parentLoader = this.getClass().getClassLoader();
+		}
 		ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader(parentLoader,
 				((DataSetEditor) getContainer()).getHandle().getModuleHandle());
 
@@ -451,16 +462,18 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 		if (ds instanceof OdaDataSetHandle) {
 			String queryText = ((OdaDataSetHandle) ds).getQueryText();
 			if (queryText != null && (!queryText.equals(sourceQueryText))) {
-				if (sourceQueryText == null)
+				if (sourceQueryText == null) {
 					getDefaultAnalysisForNullValue = false;
-				else
+				} else {
 					getDefaultAnalysisForNullValue = true;
+				}
 				sourceQueryText = queryText;
 
-				if (isNewlyCreated)
+				if (isNewlyCreated) {
 					getDefaultAnalysisForNullValue = true;
-				else
+				} else {
 					updateAnalysisTypes(viewDatas, true);
+				}
 			}
 
 			if (!isNewlyCreated && modelChanged) {
@@ -490,7 +503,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/**
 	 * clear output columns table viewer
-	 * 
+	 *
 	 */
 	protected final void clearOutputColumns() {
 		viewer.getViewer().getTable().removeAll();
@@ -530,7 +543,6 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 									ExceptionHandler.handle(e, true);
 								}
 							}
-							continue;
 						}
 					}
 				}
@@ -635,7 +647,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/**
 	 * The alias name is unique or not
-	 * 
+	 *
 	 * @param newValue
 	 * @return
 	 */
@@ -668,7 +680,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 	/**
 	 * validates that the new name/alias from a column hint or a new custom column
 	 * doesn't conflict with existing column names or aliases
-	 * 
+	 *
 	 */
 	private boolean isValid() {
 		boolean validate = true;
@@ -691,8 +703,9 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 			newColumnNameOrAlias = items[i].getAlias();
 			if (newColumnNameOrAlias != null && newColumnNameOrAlias.length() > 0) {
 				for (int n = 0; n < items.length; n++) {
-					if (i == n)
+					if (i == n) {
 						continue;
+					}
 					if ((items[n].getName() != null && items[n].getName().equals(newColumnNameOrAlias))
 							|| (items[n].getAlias() != null && items[n].getAlias().equals(newColumnNameOrAlias))) {
 						validate = false;
@@ -711,16 +724,17 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/**
 	 * update message
-	 * 
+	 *
 	 */
 	protected void updateMessage() {
-		if (isValid())
+		if (isValid()) {
 			getContainer().setMessage(Messages.getString("dataset.editor.outputColumns"), //$NON-NLS-1$
 					IMessageProvider.NONE);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 * @return
 	 */
@@ -733,11 +747,12 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.
 	 * api.DesignElementHandle, org.eclipse.birt.model.activity.NotificationEvent)
 	 */
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (focus.equals(getContainer().getModel())) {
 			modelChanged = true;
@@ -746,10 +761,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * performCancel()
 	 */
+	@Override
 	public boolean performCancel() {
 		if (viewer != null && viewer.getViewer() != null && viewer.getViewer().getInput() != null) {
 			// Update the cached list from the model
@@ -807,8 +823,9 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 		} else if (DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals(dataType)) {
 			compatibleTypes = new String[] { DesignChoiceConstants.COLUMN_DATA_TYPE_STRING };
 		}
-		if (compatibleTypes == null)
+		if (compatibleTypes == null) {
 			return new String[0];
+		}
 		for (int i = 0; i < compatibleTypes.length; i++) {
 			compatibleTypes[i] = dataTypes.findChoice(compatibleTypes[i]).getDisplayName();
 		}
@@ -828,17 +845,19 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 			data = (DataSetViewData) structureOrHandle;
 		}
 
+		@Override
 		protected void setSystemHelp(Composite composite) {
 			Utility.setSystemHelp(composite, IHelpConstants.CONEXT_ID_OUTPUT_COLUMNS_DIALOG);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * createCustomControls(org.eclipse.swt.widgets.Composite)
 		 */
+		@Override
 		protected void createCustomControls(Composite parent) {
 			try {
 				createCells(parent);
@@ -914,14 +933,16 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 						}
 					}
 				}
-			} else
+			} else {
 				cmbDataType.setEnabled(false);
+			}
 
 			if (data.isComputedColumn()) {
 				cmbDataType.setEnabled(false);
 			}
 
 			cmbDataType.addSelectionListener(new SelectionListener() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					if (checkForPotentialProblems(originalDataType)) {
 						if (MessageDialog.openQuestion(getShell(),
@@ -940,6 +961,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 					}
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 
 				}
@@ -958,19 +980,22 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 			} else {
 				tx.addModifyListener(new ModifyListener() {
 
+					@Override
 					public void modifyText(ModifyEvent e) {
 						try {
 							if (index == 2) {
 								boolean isUniqueName = isUnique(tx.getText(), data);
-								if (!isUniqueName)
+								if (!isUniqueName) {
 									updateStatus(getMiscStatus(IStatus.ERROR,
 											Messages.getString("OutputColumnPage.OutputColumns.DuplicatedName"))); //$NON-NLS-1$
-								else
+								} else {
 									updateStatus(getOKStatus());
+								}
 							}
 							Object txText = tx.getText();
-							if (tx.getText().trim().length() == 0)
+							if (tx.getText().trim().length() == 0) {
 								txText = null;
+							}
 
 							Utility.setProperty(data, cellProperties[index], txText);
 						} catch (Exception e1) {
@@ -993,6 +1018,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 			tx.setLayoutData(ControlProvider.getGridDataWithHSpan(1));
 			tx.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					try {
 						Utility.setProperty(data, cellProperties[index], tx.getText());
@@ -1011,6 +1037,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 			SelectionAdapter listener = new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					ResourceEditDialog dlg = new ResourceEditDialog(getShell(),
 							Messages.getString("ResourceKeyDescriptor.title.SelectKey")); //$NON-NLS-1$
@@ -1025,23 +1052,25 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 			Button bt = new Button(parent, SWT.PUSH);
 			bt.setText("..."); //$NON-NLS-1$
 			bt.addSelectionListener(listener);
-			if (getBaseName() == null)
+			if (getBaseName() == null) {
 				bt.setEnabled(false);
+			}
 		}
 
 		private String[] getBaseNames() {
 			List<String> resources = SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResources();
-			if (resources == null)
+			if (resources == null) {
 				return null;
-			else
+			} else {
 				return resources.toArray(new String[0]);
+			}
 		}
 
 		private URL[] getResourceURLs() {
 			String[] baseNames = getBaseNames();
-			if (baseNames == null)
+			if (baseNames == null) {
 				return null;
-			else {
+			} else {
 				URL[] urls = new URL[baseNames.length];
 				for (int i = 0; i < baseNames.length; i++) {
 					urls[i] = SessionHandleAdapter.getInstance().getReportDesignHandle().findResource(baseNames[i],
@@ -1057,11 +1086,12 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * rollback()
 		 */
+		@Override
 		protected void rollback() {
 			data.setAlias(originalAlias);
 			data.setRealDisplayName(originalDisplayName);
@@ -1070,33 +1100,36 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage implement
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * validateSemantics(java.lang.Object)
 		 */
+		@Override
 		protected IStatus validateSemantics(Object structureOrHandle) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * validateSyntax(java.lang.Object)
 		 */
+		@Override
 		protected IStatus validateSyntax(Object structureOrHandle) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#
 		 * getTitle()
 		 */
+		@Override
 		protected String getTitle() {
 			return Messages.getString("OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn");//$NON-NLS-1$
 		}
@@ -1109,31 +1142,34 @@ class OutputColumnsContentProvider implements IStructuredContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.
 	 * Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		return (DataSetViewData[]) inputElement;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
+	@Override
 	public void dispose() {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.
 	 * viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 	}
@@ -1142,21 +1178,23 @@ class OutputColumnsContentProvider implements IStructuredContentProvider {
 class OutputColumnsLabelProvider implements ITableLabelProvider {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.
 	 * Object, int)
 	 */
+	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
 	 * int)
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		String value = null;
 		DataSetViewData item = (DataSetViewData) element;
@@ -1187,41 +1225,45 @@ class OutputColumnsLabelProvider implements ITableLabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.
 	 * viewers.ILabelProviderListener)
 	 */
+	@Override
 	public void addListener(ILabelProviderListener listener) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 	 */
+	@Override
 	public void dispose() {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.
 	 * Object, java.lang.String)
 	 */
+	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface
 	 * .viewers.ILabelProviderListener)
 	 */
+	@Override
 	public void removeListener(ILabelProviderListener listener) {
 
 	}

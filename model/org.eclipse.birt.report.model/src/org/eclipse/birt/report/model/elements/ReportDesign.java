@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,24 +26,25 @@ import org.eclipse.birt.report.model.writer.ModuleWriter;
  * specifications for global scripts that apply to the report as a whole.Report
  * design is valid if it is opened without error or with semantic error.
  * Otherwise, it's invalid.
- * 
+ *
  */
 
 public class ReportDesign extends ReportDesignImpl {
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public ReportDesign() {
 		super(null);
 	}
 
 	/**
 	 * Constructs the report design with the session.
-	 * 
+	 *
 	 * @param session the session that owns this design
 	 */
 
@@ -53,20 +54,22 @@ public class ReportDesign extends ReportDesignImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitReportDesign(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ReportDesignImpl#handle()
 	 */
+	@Override
 	public ReportDesignHandle handle() {
 		if (handle == null) {
 			handle = new ReportDesignHandle(this);
@@ -76,10 +79,11 @@ public class ReportDesign extends ReportDesignImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Module#getWriter()
 	 */
 
+	@Override
 	public ModuleWriter getWriter() {
 		return new DesignWriter(this);
 	}

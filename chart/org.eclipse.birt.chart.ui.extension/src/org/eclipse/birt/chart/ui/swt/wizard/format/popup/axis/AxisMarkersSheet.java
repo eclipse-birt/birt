@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -180,6 +180,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements SelectionLis
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_AXIS_MARKERS);
 	}
 
+	@Override
 	protected Composite getComponent(Composite parent) {
 		// Layout for the main composite
 		GridLayout glContent = new GridLayout();
@@ -428,6 +429,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements SelectionLis
 				Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties"), //$NON-NLS-1$
 				null, null, "label", //$NON-NLS-1$
 				defAxis.getMarkerLines().get(0), getChart().getUnits()) {
+			@Override
 			protected void placeComponents() {
 				super.placeComponents();
 				btnVisible.setText(Messages.getString("AxisMarkersSheet.Label.IsVisible")); //$NON-NLS-1$
@@ -474,10 +476,11 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements SelectionLis
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
 		if (event.widget.equals(lacLabel)) {
@@ -638,10 +641,11 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements SelectionLis
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(btnAddLine)) {
 			MarkerLine line = createMarkerLine(getAxisForProcessing(), createDefaultDataElement(), getContext());
@@ -756,7 +760,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements SelectionLis
 
 		getContext().getUIServiceProvider().getFormatSpecifierHandler().handleFormatSpecifier(cmpContent.getShell(),
 				new MessageFormat(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange")) //$NON-NLS-1$
-						.format(new Object[] { Integer.valueOf(getMarkerIndex() + 1), sAxisTitle }), new AxisType[] { getDataElementType(
+						.format(new Object[] { Integer.valueOf(getMarkerIndex() + 1), sAxisTitle }),
+				new AxisType[] { getDataElementType(
 						getAxisForProcessing().getMarkerRanges().get(getMarkerIndex()).getStartValue()) },
 				formatspecifier, getAxisForProcessing().getMarkerRanges().get(getMarkerIndex()), "formatSpecifier", //$NON-NLS-1$
 				getContext());
@@ -777,7 +782,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements SelectionLis
 
 		getContext().getUIServiceProvider().getFormatSpecifierHandler().handleFormatSpecifier(cmpContent.getShell(),
 				new MessageFormat(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine")) //$NON-NLS-1$
-						.format(new Object[] { Integer.valueOf(getMarkerIndex() + 1), sAxisTitle }), new AxisType[] {
+						.format(new Object[] { Integer.valueOf(getMarkerIndex() + 1), sAxisTitle }),
+				new AxisType[] {
 						getDataElementType(getAxisForProcessing().getMarkerLines().get(getMarkerIndex()).getValue()) },
 				formatspecifier, getAxisForProcessing().getMarkerLines().get(getMarkerIndex()), "formatSpecifier", //$NON-NLS-1$
 				getContext());
@@ -785,11 +791,12 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements SelectionLis
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 

@@ -1,13 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. 
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
- * Contributors: 
+ *
+ * Contributors:
  * Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -83,7 +83,7 @@ public class SerializerImpl implements Serializer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return A singleton instance of the chart serializer
 	 */
 	public static synchronized final Serializer instance() {
@@ -95,10 +95,11 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart
 	 * .model.Chart, java.io.OutputStream)
 	 */
+	@Override
 	public void write(Chart cModel, OutputStream os) throws IOException {
 		// REMOVE ANY TRANSIENT RUNTIME SERIES
 		cModel.clearSections(IConstants.RUN_TIME);
@@ -114,7 +115,7 @@ public class SerializerImpl implements Serializer {
 		// Add the chart to the resource
 		rChart.getContents().add(cModel);
 
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
 
 		// Save the resource to disk
@@ -123,10 +124,11 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart
 	 * .model.Chart, org.eclipse.emf.common.util.URI)
 	 */
+	@Override
 	public void write(Chart cModel, URI uri) throws IOException {
 		// REMOVE ANY TRANSIENT RUNTIME SERIES
 		cModel.clearSections(IConstants.RUN_TIME);
@@ -137,7 +139,7 @@ public class SerializerImpl implements Serializer {
 
 		// Create resources to represent the disk files to be used to store the
 		// models
-		Resource rChart = null;
+		Resource rChart;
 
 		// Create resources to represent the disk files to be used to store the
 		// models
@@ -146,7 +148,7 @@ public class SerializerImpl implements Serializer {
 		// Add the chart to the resource
 		rChart.getContents().add(cModel);
 
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
 
 		// Save the resource to disk
@@ -155,10 +157,11 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.ISerialization#asXml(org.eclipse.birt.chart
 	 * .model.Chart, boolean)
 	 */
+	@Override
 	public ByteArrayOutputStream asXml(Chart cModel, boolean bStripHeaders) throws IOException {
 		// REMOVE ANY TRANSIENT RUNTIME SERIES
 		cModel.clearSections(IConstants.RUN_TIME);
@@ -176,7 +179,7 @@ public class SerializerImpl implements Serializer {
 		// Add the chart to the resource
 		rChart.getContents().add(cModel);
 
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
 		if (bStripHeaders) {
 			options.put(XMLResource.OPTION_DECLARE_XML, Boolean.FALSE);
@@ -189,10 +192,11 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.Serializer#savePreferences(org.eclipse.birt
 	 * .chart.model.component.ChartPreferences, java.io.OutputStream)
 	 */
+	@Override
 	public void savePreferences(ChartPreferences preferences, OutputStream os) throws IOException {
 		// Create and setup local ResourceSet
 		ResourceSet rsChart = new ResourceSetImpl();
@@ -205,7 +209,7 @@ public class SerializerImpl implements Serializer {
 		// Add the chart to the resource
 		rChart.getContents().add(preferences);
 
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
 
 		// Save the resource to disk
@@ -214,9 +218,10 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
 	 */
+	@Override
 	public Chart read(InputStream is) throws IOException {
 		// Create and setup local ResourceSet
 		ResourceSet rsChart = new ResourceSetImpl();
@@ -226,7 +231,7 @@ public class SerializerImpl implements Serializer {
 		// models
 		Resource rChart = rsChart.createResource(URI.createFileURI("test.chart")); //$NON-NLS-1$
 
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
 
 		rChart.load(is, options);
@@ -262,8 +267,6 @@ public class SerializerImpl implements Serializer {
 					}
 				}
 			}
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -284,10 +287,11 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.ISerialization#read(org.eclipse.emf.common
 	 * .util.URI)
 	 */
+	@Override
 	public Chart read(URI uri) throws IOException {
 		// Create and setup local ResourceSet
 		ResourceSet rsChart = new ResourceSetImpl();
@@ -295,22 +299,24 @@ public class SerializerImpl implements Serializer {
 
 		// Create resources to represent the disk files to be used to store the
 		// models
-		Resource rChart = null;
+		Resource rChart;
 
 		rChart = rsChart.createResource(uri);
 
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
 
 		rChart.load(options);
 		return (Chart) rChart.getContents().get(0);
 	}
 
+	@Override
 	public Chart readEmbedded(final URI uri) throws IOException {
 		Chart chart = null;
 		try {
 			chart = AccessController.doPrivileged(new PrivilegedExceptionAction<Chart>() {
 
+				@Override
 				public Chart run() throws Exception {
 					// Create and setup local ResourceSet
 					ResourceSet rsChart = new ResourceSetImpl();
@@ -366,9 +372,10 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.ISerialization#fromXml(byte[], boolean)
 	 */
+	@Override
 	public Chart fromXml(ByteArrayInputStream byais, boolean bStripHeaders) throws IOException {
 		// Create and setup local ResourceSet
 		ResourceSet rsChart = new ResourceSetImpl();
@@ -378,7 +385,7 @@ public class SerializerImpl implements Serializer {
 		// models
 		Resource rChart = rsChart.createResource(URI.createFileURI("test.chart")); //$NON-NLS-1$
 
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
 		if (bStripHeaders) {
 			options.put(XMLResource.OPTION_DECLARE_XML, Boolean.FALSE);
@@ -396,10 +403,11 @@ public class SerializerImpl implements Serializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.model.Serializer#loadPreferences(java.io.InputStream )
 	 */
+	@Override
 	public ChartPreferences loadPreferences(InputStream is) throws IOException {
 		// Create and setup local ResourceSet
 		ResourceSet rsChart = new ResourceSetImpl();
@@ -409,7 +417,7 @@ public class SerializerImpl implements Serializer {
 		// models
 		Resource rChart = rsChart.createResource(URI.createFileURI("test.chart")); //$NON-NLS-1$
 
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
 
 		rChart.load(is, options);

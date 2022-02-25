@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +53,7 @@ public class DateTimeDataElementComposite extends Composite implements IDataElem
 
 		placeComponents(style);
 
-		vListeners = new Vector<Listener>();
+		vListeners = new Vector<>();
 
 		setDataElement(data);
 	}
@@ -88,6 +88,7 @@ public class DateTimeDataElementComposite extends Composite implements IDataElem
 		pickerTime.addListener(SWT.Selection, this);
 	}
 
+	@Override
 	public void setEnabled(boolean enabled) {
 		btnDate.setEnabled(enabled);
 		btnTime.setEnabled(enabled);
@@ -95,6 +96,7 @@ public class DateTimeDataElementComposite extends Composite implements IDataElem
 		pickerTime.setEnabled(enabled && btnTime.getSelection());
 	}
 
+	@Override
 	public DataElement getDataElement() {
 		if (isNullAllowed && !btnDate.getSelection() && !btnTime.getSelection()) {
 			return null;
@@ -121,6 +123,7 @@ public class DateTimeDataElementComposite extends Composite implements IDataElem
 		return DateTimeDataElementImpl.create(calendar);
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget == btnDate) {
 			pickerDate.setEnabled(btnDate.getSelection());
@@ -139,10 +142,12 @@ public class DateTimeDataElementComposite extends Composite implements IDataElem
 		}
 	}
 
+	@Override
 	public void addListener(Listener listener) {
 		vListeners.add(listener);
 	}
 
+	@Override
 	public void setDataElement(DataElement data) {
 		if (!(data == null || data instanceof DateTimeDataElement)) {
 			return;
@@ -179,6 +184,7 @@ public class DateTimeDataElementComposite extends Composite implements IDataElem
 		pickerTime.setSeconds(calendar.getSecond());
 	}
 
+	@Override
 	public void setEObjectParent(EObject eParent) {
 		this.eParent = eParent;
 	}

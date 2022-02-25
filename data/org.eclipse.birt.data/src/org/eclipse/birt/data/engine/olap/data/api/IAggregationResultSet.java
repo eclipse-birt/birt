@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,220 +25,220 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 
 public interface IAggregationResultSet {
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public int getLevelCount();
+	int getLevelCount();
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public DimLevel[] getAllLevels();
+	DimLevel[] getAllLevels();
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @return
 	 */
-	public int getLevelIndex(DimLevel level);
+	int getLevelIndex(DimLevel level);
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @return
 	 */
-	public int getLevelKeyColCount(int levelIndex);
+	int getLevelKeyColCount(int levelIndex);
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @return
 	 */
-	public int getLevelAttributeColCount(int levelIndex);
+	int getLevelAttributeColCount(int levelIndex);
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @return
 	 */
-	public int getLevelKeyDataType(DimLevel level, String keyName);
+	int getLevelKeyDataType(DimLevel level, String keyName);
 
 	/**
-	 * 
+	 *
 	 * @param levelName
 	 * @return
 	 */
-	public int getLevelKeyDataType(int levelIndex, String keyName);
+	int getLevelKeyDataType(int levelIndex, String keyName);
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @param attributeName
 	 * @return
 	 */
-	public int getLevelAttributeIndex(int levelIndex, String attributeName);
+	int getLevelAttributeIndex(int levelIndex, String attributeName);
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @param attributeName
 	 * @return
 	 */
-	public int getLevelAttributeIndex(DimLevel level, String attributeName);
+	int getLevelAttributeIndex(DimLevel level, String attributeName);
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @param attributeName
 	 * @return
 	 */
-	public int getLevelKeyIndex(int levelIndex, String keyName);
+	int getLevelKeyIndex(int levelIndex, String keyName);
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @param attributeName
 	 * @return
 	 */
-	public int getLevelKeyIndex(DimLevel level, String keyName);
+	int getLevelKeyIndex(DimLevel level, String keyName);
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @return
 	 */
-	public String[] getLevelAttributes(int levelIndex);
+	String[] getLevelAttributes(int levelIndex);
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @return
 	 */
-	public Object[] getLevelAttributesValue(int levelIndex);
+	Object[] getLevelAttributesValue(int levelIndex);
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @param attributeName
 	 * @return
 	 */
-	public int getLevelAttributeDataType(DimLevel level, String attributeName);
+	int getLevelAttributeDataType(DimLevel level, String attributeName);
 
 	/**
-	 * 
+	 *
 	 * @param levelName
 	 * @param attributeName
 	 * @return
 	 */
-	public int getLevelAttributeDataType(int levelIndex, String attributeName);
+	int getLevelAttributeDataType(int levelIndex, String attributeName);
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
-	public int getAggregationDataType(int aggregationIndex) throws IOException;
+	int getAggregationDataType(int aggregationIndex) throws IOException;
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @throws IOException
 	 */
-	public void seek(int index) throws IOException;
+	void seek(int index) throws IOException;
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public int length();
+	int length();
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @return
 	 */
-	public Object[] getLevelKeyValue(int levelIndex);
+	Object[] getLevelKeyValue(int levelIndex);
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @param attributeIndex
 	 * @return
 	 */
-	public Object getLevelAttribute(int levelIndex, int attributeIndex);
+	Object getLevelAttribute(int levelIndex, int attributeIndex);
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 * @throws IOException
 	 */
-	public int getAggregationIndex(String name) throws IOException;
+	int getAggregationIndex(String name) throws IOException;
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 */
-	public String getAggregationName(int index);
+	String getAggregationName(int index);
 
 	/**
-	 * 
+	 *
 	 * @param aggregationIndex
 	 * @return
 	 * @throws IOException
 	 */
-	public Object getAggregationValue(int aggregationIndex) throws IOException;
+	Object getAggregationValue(int aggregationIndex) throws IOException;
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @return
 	 */
-	public int getSortType(int levelIndex);
+	int getSortType(int levelIndex);
 
-	public IAggregationResultRow getCurrentRow() throws IOException;
+	IAggregationResultRow getCurrentRow() throws IOException;
 
-	public DimLevel getLevel(int levelIndex);
+	DimLevel getLevel(int levelIndex);
 
-	public String getLevelKeyName(int levelIndex, int keyIndex);
+	String getLevelKeyName(int levelIndex, int keyIndex);
 
-	public AggregationDefinition getAggregationDefinition();
+	AggregationDefinition getAggregationDefinition();
 
-	public String[][] getAttributeNames();
+	String[][] getAttributeNames();
 
-	public String[][] getKeyNames();
+	String[][] getKeyNames();
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public int getPosition();
+	int getPosition();
 
-	public int getAggregationCount();
+	int getAggregationCount();
 
-	public String[][] getLevelKeys();
+	String[][] getLevelKeys();
 
-	public int[][] getLevelKeyDataType();
+	int[][] getLevelKeyDataType();
 
-	public String[][] getLevelAttributes();
+	String[][] getLevelAttributes();
 
-	public int[][] getLevelAttributeDataType();
+	int[][] getLevelAttributeDataType();
 
-	public int[] getSortType();
+	int[] getSortType();
 
-	public int[] getAggregationDataType();
-
-	/**
-	 * 
-	 * @throws IOException
-	 */
-	public void close() throws IOException;
+	int[] getAggregationDataType();
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
-	public void clear() throws IOException;
+	void close() throws IOException;
+
+	/**
+	 *
+	 * @throws IOException
+	 */
+	void clear() throws IOException;
 }

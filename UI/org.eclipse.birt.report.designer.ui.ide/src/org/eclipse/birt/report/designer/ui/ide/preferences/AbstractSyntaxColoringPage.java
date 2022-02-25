@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,6 +35,7 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 
 	final private IPropertyChangeListener fListener = new IPropertyChangeListener() {
 
+		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			final String property = event.getProperty();
 			if (AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND.equals(property)
@@ -60,7 +61,7 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 	/**
 	 * Initializes the colors of the source preview window based on the values in
 	 * the Editors' UI preference store
-	 * 
+	 *
 	 * @param viewer the {@link ISourceViewer} used as the source preview
 	 */
 	protected void initializeSourcePreviewColors(ISourceViewer viewer) {
@@ -74,8 +75,9 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 					: createColor(store, AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND, styledText.getDisplay());
 			styledText.setForeground(color);
 
-			if (fForegroundColor != null)
+			if (fForegroundColor != null) {
 				fForegroundColor.dispose();
+			}
 
 			fForegroundColor = color;
 
@@ -84,8 +86,9 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 					: createColor(store, AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND, styledText.getDisplay());
 			styledText.setBackground(color);
 
-			if (fBackgroundColor != null)
+			if (fBackgroundColor != null) {
 				fBackgroundColor.dispose();
+			}
 
 			fBackgroundColor = color;
 
@@ -95,8 +98,9 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 							styledText.getDisplay());
 			styledText.setSelectionForeground(color);
 
-			if (fSelectionForegroundColor != null)
+			if (fSelectionForegroundColor != null) {
 				fSelectionForegroundColor.dispose();
+			}
 
 			fSelectionForegroundColor = color;
 
@@ -106,8 +110,9 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 							styledText.getDisplay());
 			styledText.setSelectionBackground(color);
 
-			if (fSelectionBackgroundColor != null)
+			if (fSelectionBackgroundColor != null) {
 				fSelectionBackgroundColor.dispose();
+			}
 
 			fSelectionBackgroundColor = color;
 		}
@@ -115,7 +120,7 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 
 	/**
 	 * Provides the {@link ISourceViewer} that is acting as the source preview
-	 * 
+	 *
 	 * @return
 	 */
 	protected ISourceViewer getSourcePreviewViewer() {
@@ -124,9 +129,10 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
 	 */
+	@Override
 	public void dispose() {
 		if (fForegroundColor != null) {
 			fForegroundColor.dispose();
@@ -156,7 +162,7 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 	/**
 	 * Creates a color from the information stored in the given preference store.
 	 * Returns <code>null</code> if there is no such information available.
-	 * 
+	 *
 	 * @param store   the store to read from
 	 * @param key     the key used for the lookup in the preference store
 	 * @param display the display used create the color
@@ -170,13 +176,15 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 
 		if (store.contains(key)) {
 
-			if (store.isDefault(key))
+			if (store.isDefault(key)) {
 				rgb = PreferenceConverter.getDefaultColor(store, key);
-			else
+			} else {
 				rgb = PreferenceConverter.getColor(store, key);
+			}
 
-			if (rgb != null)
+			if (rgb != null) {
 				return new Color(display, rgb);
+			}
 		}
 
 		return null;

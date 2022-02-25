@@ -37,6 +37,7 @@ public abstract class AbstractLineStyleChooserComposite extends CustomChooserCom
 
 	abstract public void setLineStyle(LineStyle style, EObject eParent);
 
+	@Override
 	protected void initAccessible() {
 		super.initAccessible();
 		ChartUIUtil.addScreenReaderAccessibility(this, (Canvas) cnvSelection);

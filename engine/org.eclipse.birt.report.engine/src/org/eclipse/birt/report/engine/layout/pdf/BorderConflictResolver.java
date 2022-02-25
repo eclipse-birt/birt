@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -53,8 +53,8 @@ import org.w3c.dom.css.CSSValue;
  * lastly, table. It is undefined which color is used when two elements of the
  * same type disagree.
  * </ul>
- * 
- * 
+ *
+ *
  */
 ///TODO: change the border style's resolve.
 public class BorderConflictResolver {
@@ -73,7 +73,7 @@ public class BorderConflictResolver {
 
 	static HashMap<Value, Integer> styleMap = null;
 	static {
-		styleMap = new HashMap<Value, Integer>();
+		styleMap = new HashMap<>();
 		styleMap.put(IStyle.NONE_VALUE, 0);
 		styleMap.put(IStyle.INSET_VALUE, 1);
 		styleMap.put(IStyle.GROOVE_VALUE, 2);
@@ -85,21 +85,21 @@ public class BorderConflictResolver {
 		styleMap.put(IStyle.DOUBLE_VALUE, 8);
 	}
 
-	final static int[] BORDER_COLOR_POPERTIES = new int[] { IStyle.STYLE_BORDER_LEFT_COLOR,
-			IStyle.STYLE_BORDER_TOP_COLOR, IStyle.STYLE_BORDER_RIGHT_COLOR, IStyle.STYLE_BORDER_BOTTOM_COLOR };
+	final static int[] BORDER_COLOR_POPERTIES = { IStyle.STYLE_BORDER_LEFT_COLOR, IStyle.STYLE_BORDER_TOP_COLOR,
+			IStyle.STYLE_BORDER_RIGHT_COLOR, IStyle.STYLE_BORDER_BOTTOM_COLOR };
 
-	final static int[] BORDER_WIDTH_POPERTIES = new int[] { IStyle.STYLE_BORDER_LEFT_WIDTH,
-			IStyle.STYLE_BORDER_TOP_WIDTH, IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.STYLE_BORDER_BOTTOM_WIDTH };
+	final static int[] BORDER_WIDTH_POPERTIES = { IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.STYLE_BORDER_TOP_WIDTH,
+			IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.STYLE_BORDER_BOTTOM_WIDTH };
 
-	final static int[] BORDER_STYLE_POPERTIES = new int[] { IStyle.STYLE_BORDER_LEFT_STYLE,
-			IStyle.STYLE_BORDER_TOP_STYLE, IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.STYLE_BORDER_BOTTOM_STYLE };
+	final static int[] BORDER_STYLE_POPERTIES = { IStyle.STYLE_BORDER_LEFT_STYLE, IStyle.STYLE_BORDER_TOP_STYLE,
+			IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.STYLE_BORDER_BOTTOM_STYLE };
 
 	protected BorderCache tableLeftBorderCache = new BorderCache(4);
 
 	/**
 	 * The used style should be style of area which is writable, and the others are
 	 * styles of content which is read-only.
-	 * 
+	 *
 	 * @param tableLeft
 	 * @param columnLeft
 	 * @param cellLeft
@@ -119,7 +119,7 @@ public class BorderConflictResolver {
 	/**
 	 * The used style should be style of area which is writable, and the others are
 	 * styles of content which is read-only.
-	 * 
+	 *
 	 * @param tableTop
 	 * @param rowTop
 	 * @param cellTop
@@ -139,7 +139,7 @@ public class BorderConflictResolver {
 	/**
 	 * The used style should be style of area which is writable, and the others are
 	 * styles of content which is read-only.
-	 * 
+	 *
 	 * @param tableBottom
 	 * @param rowBottom
 	 * @param cellBottom
@@ -173,7 +173,7 @@ public class BorderConflictResolver {
 	/**
 	 * The used style should be style of area which is writable, and the others are
 	 * styles of content which is read-only.
-	 * 
+	 *
 	 * @param tableRight
 	 * @param columnRight
 	 * @param cellRight
@@ -193,7 +193,7 @@ public class BorderConflictResolver {
 	/**
 	 * The used style should be style of area which is writable, and the others are
 	 * styles of content which is read-only.
-	 * 
+	 *
 	 * @param preColumnRight
 	 * @param columnLeft
 	 * @param preCellRight
@@ -212,7 +212,7 @@ public class BorderConflictResolver {
 	/**
 	 * The used style should be style of area which is writable, and the others are
 	 * styles of content which is read-only.
-	 * 
+	 *
 	 * @param preRowBottom
 	 * @param rowTop
 	 * @param preCellBottom
@@ -266,7 +266,6 @@ public class BorderConflictResolver {
 			CSSValue color = styles[maxFirstIndex].getBorderColor();
 			usedStyle.setBorder(borderStyles[maxFirstIndex], borderWidths[maxFirstIndex], color);
 			cache.setValues(styles, borderStyles[maxFirstIndex], borderWidths[maxFirstIndex], color);
-			return;
 		} else {
 			// resolve border style
 			int max = 0;

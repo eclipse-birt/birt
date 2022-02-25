@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,12 +32,11 @@ import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.javascript.Context;
 
 import testutil.ConfigText;
-
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Nested query test. This test can be used to demonstrate how nested query are
@@ -72,6 +71,7 @@ public class NestedQueryTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestDataCustomer.TableName"),
 				ConfigText.getString("Api.TestDataCustomer.TableSQL"),
@@ -80,7 +80,7 @@ public class NestedQueryTest extends APITestCase {
 
 	/**
 	 * The inner query with a parameter rows[0].CustomerID , which will be prepared.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -101,7 +101,7 @@ public class NestedQueryTest extends APITestCase {
 
 	/**
 	 * The inner query with a parameter row.CustomerID of outer query.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -122,7 +122,7 @@ public class NestedQueryTest extends APITestCase {
 	/**
 	 * The inner query with a parameter rows[0].CustomerID , which will not be
 	 * prepared.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -143,7 +143,7 @@ public class NestedQueryTest extends APITestCase {
 
 	/**
 	 * The inner query with a filter row["CustomerID"] equals rows[0].CustomerID
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -170,7 +170,7 @@ public class NestedQueryTest extends APITestCase {
 	/**
 	 * The inner query with a filter row["CustomerID"] equals
 	 * row._outer["ROW_CUSTOMERID"]
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -199,7 +199,7 @@ public class NestedQueryTest extends APITestCase {
 
 	/**
 	 * The inner query with a group using column in outer group as group key.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -219,7 +219,7 @@ public class NestedQueryTest extends APITestCase {
 	/**
 	 * The inner query with a TopN filter. The TopN filter will lead to a multipass
 	 * processing.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -260,7 +260,7 @@ public class NestedQueryTest extends APITestCase {
 
 	/**
 	 * Create customer query definition
-	 * 
+	 *
 	 * @return QueryDefinition
 	 */
 	private QueryDefinition createCustomerQueryDefn() throws Exception {
@@ -271,8 +271,7 @@ public class NestedQueryTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.CUSTOMERID");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.NAME");
-		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group0"),
-				new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = { new GroupDefinition("group0"), new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.GROUP_CUSTOMERID");
 		groupDefn[1].setKeyExpression("row.GROUP_NAME");
 
@@ -280,7 +279,7 @@ public class NestedQueryTest extends APITestCase {
 		bindingNameSort[0] = "SORT_CUSTOMERID";
 		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
 		bindingExprSort[0] = new ScriptExpression("dataSetRow.CUSTOMERID");
-		SortDefinition[] sortDefn = new SortDefinition[] { new SortDefinition() };
+		SortDefinition[] sortDefn = { new SortDefinition() };
 		sortDefn[0].setColumn("SORT_CUSTOMERID");
 		sortDefn[0].setSortDirection(ISortDefinition.SORT_DESC);
 
@@ -300,7 +299,7 @@ public class NestedQueryTest extends APITestCase {
 
 	/**
 	 * Create call query definition
-	 * 
+	 *
 	 * @return QueryDefinition
 	 */
 	private QueryDefinition createCallQueryDefn() throws Exception {

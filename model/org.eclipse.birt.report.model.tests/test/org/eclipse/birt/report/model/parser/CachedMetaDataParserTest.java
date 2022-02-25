@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,10 +46,11 @@ public class CachedMetaDataParserTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -57,7 +58,7 @@ public class CachedMetaDataParserTest extends BaseTestCase {
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of line.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -73,7 +74,7 @@ public class CachedMetaDataParserTest extends BaseTestCase {
 	/**
 	 * This test sets properties, writes the design file and compares it with golden
 	 * file.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -108,7 +109,7 @@ public class CachedMetaDataParserTest extends BaseTestCase {
 	 * <p>
 	 * Set a new CachedMetaData on a data set, it contains a list of Result set
 	 * column, a list of input parameters and a list of output parameters.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Splits cell action
- * 
+ *
  */
 public class SplitAction extends ContextSelectionAction {
 
@@ -36,7 +36,7 @@ public class SplitAction extends ContextSelectionAction {
 
 	/**
 	 * Constructs new instance
-	 * 
+	 *
 	 * @param part current work bench part
 	 */
 	public SplitAction(IWorkbenchPart part) {
@@ -47,9 +47,10 @@ public class SplitAction extends ContextSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		if (getRowHandles().isEmpty() && getColumnHandles().isEmpty()) {
 			return getTableEditPart() != null && cellCanSplit();
@@ -59,7 +60,7 @@ public class SplitAction extends ContextSelectionAction {
 
 	/**
 	 * Determines whether selected cell can be splited.
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean cellCanSplit() {
@@ -79,8 +80,9 @@ public class SplitAction extends ContextSelectionAction {
 
 	/**
 	 * Runs action.
-	 * 
+	 *
 	 */
+	@Override
 	public void run() {
 
 		try {
@@ -90,14 +92,5 @@ public class SplitAction extends ContextSelectionAction {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
-	}
-
-	/**
-	 * Gets cell edit part.
-	 * 
-	 * @return current table cell edit part
-	 */
-	private TableCellEditPart getTableCellEditPart() {
-		return (TableCellEditPart) getSelectedObjects().get(0);
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.w3c.dom.css.CSSValue;
 /**
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
- * 
+ *
  */
 public class AttributeBuilder {
 
@@ -48,7 +48,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Builds the Visual style string.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
@@ -65,14 +65,14 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the PagedMedia style string.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
 	 */
 //	private static void buildPagedMedia( StringBuffer styleBuffer, IStyle style )
 //	{
-//		We should not write the extra pagination information in style classes. 
+//		We should not write the extra pagination information in style classes.
 //		buildProperty( styleBuffer, HTMLTags.ATTR_ORPHANS, style.getOrphans( ) );
 //		buildProperty( styleBuffer, HTMLTags.ATTR_WIDOWS, style.getWidows( ) );
 //		buildProperty( styleBuffer, HTMLTags.ATTR_PAGE_BREAK_BEFORE, style
@@ -85,7 +85,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the background style string.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
@@ -130,7 +130,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the Box style string.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
@@ -143,7 +143,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the margins.
-	 * 
+	 *
 	 * @param styleBuffer
 	 * @param style
 	 */
@@ -196,7 +196,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the paddings.
-	 * 
+	 *
 	 * @param styleBuffer
 	 * @param style
 	 */
@@ -248,7 +248,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the borders.
-	 * 
+	 *
 	 * @param styleBuffer
 	 * @param style
 	 */
@@ -298,7 +298,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the Text style string.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
@@ -325,7 +325,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build Font style string.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
@@ -346,7 +346,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the Text-Decoration style string.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param linethrough The line-through value.
@@ -379,7 +379,7 @@ public class AttributeBuilder {
 	 * <li>ignore all the border styles is style is null
 	 * <li>CSS default border-color is the font-color, while BIRT is black
 	 * <li>border-color is not inheritable.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param name        The proerty name.
@@ -400,7 +400,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build size style string say, "width: 10.0mm;".
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param name        The property name
@@ -430,7 +430,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build size style, set height and width
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
@@ -442,7 +442,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the style property.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param name        The name of the property
@@ -466,7 +466,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Add property name to the Style string.
-	 * 
+	 *
 	 * @param styleBuffer The StringBuffer to which the result should be output.
 	 * @param name        The property name.
 	 */
@@ -478,7 +478,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Add property value to the Style styleBuffer.
-	 * 
+	 *
 	 * @param styleBuffer - specifies the StringBuffer to which the result should be
 	 *                    output
 	 * @param value       - specifies the values of the property
@@ -492,7 +492,7 @@ public class AttributeBuilder {
 
 	/**
 	 * Add URL property name to the Style styleBuffer.
-	 * 
+	 *
 	 * @param styleBuffer - specifies the StringBuffer to which the result should be
 	 *                    output
 	 * @param url         - specifies the values of the property
@@ -511,11 +511,11 @@ public class AttributeBuilder {
 		 * '%' ) { replacement = "%25"; //$NON-NLS-1$ } else if ( c == '\'' ) {
 		 * replacement = "%27"; //$NON-NLS-1$ } else if ( c >= 0x80 ) { replacement =
 		 * '%' + Integer.toHexString( c ); }
-		 * 
+		 *
 		 * if ( replacement != null ) { if ( escapedUrl == null ) { escapedUrl = new
 		 * StringBuffer( url ); } escapedUrl.replace( i + delta, i + delta + 1,
 		 * replacement ); delta += ( replacement.length( ) - 1 ); } }
-		 * 
+		 *
 		 * if ( escapedUrl != null ) { url = escapedUrl.toString( ); }
 		 */
 		if (url.length() > 0) {
@@ -527,11 +527,11 @@ public class AttributeBuilder {
 
 	/**
 	 * Builds the direction style.
-	 * 
+	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 	public static void buildBidiDirection(StringBuffer styleBuffer, IStyle style) {

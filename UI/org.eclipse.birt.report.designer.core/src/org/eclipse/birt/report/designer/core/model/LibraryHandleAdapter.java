@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.core.runtime.IAdaptable;
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement ReportDesignHandleAdapter responds to model
  * LibraryHandle
- * 
+ *
  */
 public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
@@ -44,7 +44,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle The moudle handle
 	 */
 	public LibraryHandleAdapter(ModuleHandle handle) {
@@ -54,7 +54,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle The moudle handle
 	 */
 	public LibraryHandleAdapter(ModuleHandle handle, IModelAdapterHelper mark) {
@@ -64,7 +64,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 	/**
 	 * Add listener
-	 * 
+	 *
 	 * @param listener The listener to add
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -76,7 +76,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 	/**
 	 * Remove listener
-	 * 
+	 *
 	 * @param listener The listener to remove
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
@@ -85,7 +85,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 	/**
 	 * Fire property change
-	 * 
+	 *
 	 * @param event The property change event
 	 */
 	public void firePropertyChangeEvent(PropertyChangeEvent event) {
@@ -98,10 +98,11 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter
 	 * #getChildren()
 	 */
+	@Override
 	public List getChildren() {
 		// if currentEditorModel is a compound componnet , gets its childrem
 		List list = new ArrayList();
@@ -112,7 +113,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 	/**
 	 * Get top container
-	 * 
+	 *
 	 * @param currentModel The specified object
 	 * @return The sepecifed object's container
 	 */
@@ -130,15 +131,16 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 		} else if (currentModel instanceof IAdaptable) {
 			Object adapter = ((IAdaptable) currentModel).getAdapter(this.getClass());
-			if (adapter instanceof DesignElementHandle)
+			if (adapter instanceof DesignElementHandle) {
 				return getTopContainer(adapter);
+			}
 		}
 		return obj;
 	}
 
 	/**
 	 * Get current eitor model
-	 * 
+	 *
 	 * @return Returns the currentEditorModel.
 	 */
 	public Object getCurrentEditorModel() {
@@ -147,7 +149,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 	/**
 	 * Get current eitor model
-	 * 
+	 *
 	 * @param current The current editor model to set.
 	 * @param type    The type
 	 */

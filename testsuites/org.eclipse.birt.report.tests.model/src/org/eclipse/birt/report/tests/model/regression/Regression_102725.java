@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -36,7 +36,7 @@ import com.ibm.icu.util.ULocale;
  * <li>Get exception as follwing: ava.lang.NumberFormatException: For input
  * string: "1,2"
  * </ol>
- * 
+ *
  * <p>
  * Test description:
  * <p>
@@ -48,6 +48,7 @@ public class Regression_102725 extends BaseTestCase {
 
 	private final static String INPUT = "regression_102725.xml"; //$NON-NLS-1$
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();

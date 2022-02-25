@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,17 +24,19 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.gef.EditPart;
 
 /**
- * 
+ *
  */
 
 public class CrosstabCellBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
+	@Override
 	public Object getRealModel(Object element) {
 		EditPart editpart = null;
 		if (!(element instanceof EditPart)) {
 			editpart = getEditPart(element);
-		} else
+		} else {
 			editpart = (EditPart) element;
+		}
 
 		if (editpart != null && editpart.getModel() instanceof BaseCrosstabAdapter) {
 			if (editpart.getModel() instanceof VirtualCrosstabCellAdapter) {
@@ -45,10 +47,12 @@ public class CrosstabCellBreadcrumbNodeProvider extends DefaultBreadcrumbNodePro
 		return element;
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		Object model = getRealModel(element);
-		if (model instanceof ExtendedItemHandle)
+		if (model instanceof ExtendedItemHandle) {
 			return getAvailableParent(model);
+		}
 		return super.getParent(element);
 	}
 
@@ -57,9 +61,9 @@ public class CrosstabCellBreadcrumbNodeProvider extends DefaultBreadcrumbNodePro
 		while (true) {
 			INodeProvider provider = ProviderFactory.createProvider(model);
 			model = provider.getParent(model);
-			if (model == null)
+			if (model == null) {
 				return null;
-			else if (model instanceof ExtendedItemHandle && ICrosstabConstants.CROSSTAB_EXTENSION_NAME
+			} else if (model instanceof ExtendedItemHandle && ICrosstabConstants.CROSSTAB_EXTENSION_NAME
 					.equals(((ExtendedItemHandle) model).getExtensionName())) {
 				return model;
 			}

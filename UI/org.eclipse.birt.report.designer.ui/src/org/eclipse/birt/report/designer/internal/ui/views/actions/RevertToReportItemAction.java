@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
- * 
+ *
  */
 
 public class RevertToReportItemAction extends AbstractElementAction {
@@ -51,10 +51,11 @@ public class RevertToReportItemAction extends AbstractElementAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#doAction()
 	 */
+	@Override
 	protected boolean doAction() throws Exception {
 		if (getSelectedElement() == null) {
 			return false;
@@ -100,6 +101,7 @@ public class RevertToReportItemAction extends AbstractElementAction {
 		return null;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		if (getSelectedElement() == null) {
 			return false;

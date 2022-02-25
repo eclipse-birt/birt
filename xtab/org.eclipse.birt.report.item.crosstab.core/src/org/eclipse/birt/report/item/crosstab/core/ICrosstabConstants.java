@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -116,14 +116,14 @@ public interface ICrosstabConstants {
 
 	/**
 	 * Name of the row area page break interval property.
-	 * 
+	 *
 	 * @since 2.6.1
 	 */
 	String ROW_PAGE_BREAK_INTERVAL_PROP = "rowPageBreakInterval"; //$NON-NLS-1$
 
 	/**
 	 * Name of the column area page break interval property.
-	 * 
+	 *
 	 * @since 2.6.1
 	 */
 	String COLUMN_PAGE_BREAK_INTERVAL_PROP = "columnPageBreakInterval"; //$NON-NLS-1$
@@ -131,7 +131,7 @@ public interface ICrosstabConstants {
 	/**
 	 * Name of the hide detail property. Value can be either
 	 * {@link #HIDE_DETAIL_ROW} or #{@link HIDE_DETAIL_COLUMN}.
-	 * 
+	 *
 	 * @since 4.6
 	 */
 	String HIDE_DETAIL_PROP = "hideDetail";//$NON-NLS-1$
@@ -139,7 +139,7 @@ public interface ICrosstabConstants {
 	/**
 	 * The value of hide detail property. It means all cells of row dimensions,
 	 * measures and grand total in row direction will be hidden.
-	 * 
+	 *
 	 * @since 4.6
 	 */
 	String HIDE_DETAIL_ROW = "row";//$NON-NLS-1$
@@ -147,7 +147,7 @@ public interface ICrosstabConstants {
 	/**
 	 * The value of hide detail property. It means all cells of column dimensions,
 	 * measures and grand total in column direction will be hidden.
-	 * 
+	 *
 	 * @since 4.6
 	 */
 	String HIDE_DETAIL_COLUMN = "column";//$NON-NLS-1$

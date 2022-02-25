@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2005, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -153,13 +153,14 @@ public final class Bar extends AxesRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.AxesRenderer#renderSeries(org.eclipse.birt.
 	 * chart.output.IRenderer, Chart.Plot,
 	 * org.eclipse.birt.chart.render.axes.SeriesRenderingHints)
 	 */
-	public final void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
+	@Override
+	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		// VALIDATE CONSISTENT DATASET COUNT BETWEEN BASE AND ORTHOGONAL
 		try {
 			validateDataSetCount(isrh);
@@ -323,10 +324,8 @@ public final class Bar extends AxesRenderer {
 			Fill f = null;
 			if (bPaletteByCategory) {
 				f = FillUtil.getPaletteFill(elPalette, i);
-			} else {
-				if (iThisSeriesIndex >= 0) {
-					f = FillUtil.getPaletteFill(elPalette, iThisSeriesIndex);
-				}
+			} else if (iThisSeriesIndex >= 0) {
+				f = FillUtil.getPaletteFill(elPalette, iThisSeriesIndex);
 			}
 
 			updateTranslucency(f, bs);
@@ -412,34 +411,32 @@ public final class Bar extends AxesRenderer {
 					} catch (Exception ex) {
 						throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING, ex);
 					}
+				} else if (!ChartUtil.isStudyLayout(cwa)) {
+					dBaseLocation = dZeroLocation;
 				} else {
-					if (!ChartUtil.isStudyLayout(cwa)) {
-						dBaseLocation = dZeroLocation;
-					} else {
-						// Adjusts last position for the study layout.
-						au = ssl.getUnit(bs, i); // UNIT POSITIONS (MAX, MIN) FOR
-						// INDEX = 'i'
-						dValue = Methods.asDouble(dpha[i].getOrthogonalValue());
-						try {
-							// Calculate orthogonal X position
-							// and save it as next base location.
-							double dMargin = srh.getLocationOnOrthogonal(dpha[i].getOrthogonalValue())
-									- srh.getLocationOnOrthogonal(srh.getOrthogonalScale().getMinimum());
-							double lastPosition = au.getLastPosition(dValue);
-							double precisionDelta = 0.00000001d;
-							if (Double.isNaN(lastPosition)) {
-								dBaseLocation = srh.getLocationOnOrthogonal(srh.getOrthogonalScale().getMinimum())
-										- precisionDelta;
-							} else {
-								dBaseLocation = au.getLastPosition(dValue) - precisionDelta;
-							}
-							au.setLastPosition(dValue, dBaseLocation, dMargin);
-						} catch (Exception ex) {
-							throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING, ex);
+					// Adjusts last position for the study layout.
+					au = ssl.getUnit(bs, i); // UNIT POSITIONS (MAX, MIN) FOR
+					// INDEX = 'i'
+					dValue = Methods.asDouble(dpha[i].getOrthogonalValue());
+					try {
+						// Calculate orthogonal X position
+						// and save it as next base location.
+						double dMargin = srh.getLocationOnOrthogonal(dpha[i].getOrthogonalValue())
+								- srh.getLocationOnOrthogonal(srh.getOrthogonalScale().getMinimum());
+						double lastPosition = au.getLastPosition(dValue);
+						double precisionDelta = 0.00000001d;
+						if (Double.isNaN(lastPosition)) {
+							dBaseLocation = srh.getLocationOnOrthogonal(srh.getOrthogonalScale().getMinimum())
+									- precisionDelta;
+						} else {
+							dBaseLocation = au.getLastPosition(dValue) - precisionDelta;
 						}
-
-						dX = au.getLastPosition(dValue);
+						au.setLastPosition(dValue, dBaseLocation, dMargin);
+					} catch (Exception ex) {
+						throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING, ex);
 					}
+
+					dX = au.getLastPosition(dValue);
 				}
 
 				// RANGE CHECK (WITHOUT CLIPPING)
@@ -555,33 +552,31 @@ public final class Bar extends AxesRenderer {
 					} catch (Exception ex) {
 						throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING, ex);
 					}
+				} else if (!ChartUtil.isStudyLayout(cwa)) {
+					dBaseLocation = dZeroLocation;
 				} else {
-					if (!ChartUtil.isStudyLayout(cwa)) {
-						dBaseLocation = dZeroLocation;
-					} else {
-						// Adjusts last position for the study layout.
-						au = ssl.getUnit(bs, i); // UNIT POSITIONS (MAX, MIN) FOR
-						// INDEX = 'i'
-						Object oValue = dpha[i].getOrthogonalValue();
-						dValue = oValue == null ? 0 : Methods.asDouble(oValue);
-						try {
-							// Calculate orthogonal Y position and save it as next
-							// base location.
-							double dMargin = srh.getLocationOnOrthogonal(oValue == null ? 0 : oValue)
-									- srh.getLocationOnOrthogonal(srh.getOrthogonalScale().getMinimum());
-							double lastPosition = au.getLastPosition(dValue);
-							if (Double.isNaN(lastPosition)) {
-								dBaseLocation = srh.getLocationOnOrthogonal(srh.getOrthogonalScale().getMinimum());
-							} else {
-								dBaseLocation = au.getLastPosition(dValue);
-							}
-							au.setLastPosition(dValue, dBaseLocation, dMargin);
-
-						} catch (Exception ex) {
-							throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING, ex);
+					// Adjusts last position for the study layout.
+					au = ssl.getUnit(bs, i); // UNIT POSITIONS (MAX, MIN) FOR
+					// INDEX = 'i'
+					Object oValue = dpha[i].getOrthogonalValue();
+					dValue = oValue == null ? 0 : Methods.asDouble(oValue);
+					try {
+						// Calculate orthogonal Y position and save it as next
+						// base location.
+						double dMargin = srh.getLocationOnOrthogonal(oValue == null ? 0 : oValue)
+								- srh.getLocationOnOrthogonal(srh.getOrthogonalScale().getMinimum());
+						double lastPosition = au.getLastPosition(dValue);
+						if (Double.isNaN(lastPosition)) {
+							dBaseLocation = srh.getLocationOnOrthogonal(srh.getOrthogonalScale().getMinimum());
+						} else {
+							dBaseLocation = au.getLastPosition(dValue);
 						}
-						dY = au.getLastPosition(dValue);
+						au.setLastPosition(dValue, dBaseLocation, dMargin);
+
+					} catch (Exception ex) {
+						throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING, ex);
 					}
+					dY = au.getLastPosition(dValue);
 				}
 
 				// Range check.
@@ -678,24 +673,22 @@ public final class Bar extends AxesRenderer {
 			else if (rt.getValue() == RiserType.TRIANGLE) {
 				if (bRendering3D) {
 					loa3dFace = computeRiserTriangle3D(bInverted, dX, dY, dZ, dHeight, dWidth, dWidthZ);
-				} else {
-					// Bugzilla 187473. - Henry
-					if (isStackedOrPercent(bs)) {
-						StackedSizeHints slh = getCurrentStackedSizeHints(i);
-						double[] size = null;
-						// Compute bottom and top size for series painting.
-						if (isTransposed()) {
-							size = computeStacked2DTopNBottomSize(slh, au, dValue, dHeight);
-						} else {
-							size = computeStacked2DTopNBottomSize(slh, au, dValue, dWidth);
-						}
-
-						// Compute four locations of triangle.
-						loaFrontFace = computeStackedRiserTriangle2D(bInverted, i, faX, faY, dX, dY, dHeight, dWidth,
-								size[0], size[1], getCurrentStackedSizeHints(i));
+				} else // Bugzilla 187473. - Henry
+				if (isStackedOrPercent(bs)) {
+					StackedSizeHints slh = getCurrentStackedSizeHints(i);
+					double[] size = null;
+					// Compute bottom and top size for series painting.
+					if (isTransposed()) {
+						size = computeStacked2DTopNBottomSize(slh, au, dValue, dHeight);
 					} else {
-						loaFrontFace = computeRiserTriangle2D(bInverted, i, faX, faY, dX, dY, dHeight, dWidth);
+						size = computeStacked2DTopNBottomSize(slh, au, dValue, dWidth);
 					}
+
+					// Compute four locations of triangle.
+					loaFrontFace = computeStackedRiserTriangle2D(bInverted, i, faX, faY, dX, dY, dHeight, dWidth,
+							size[0], size[1], getCurrentStackedSizeHints(i));
+				} else {
+					loaFrontFace = computeRiserTriangle2D(bInverted, i, faX, faY, dX, dY, dHeight, dWidth);
 				}
 			}
 			// COMPUTE EACH TUBE FACE
@@ -708,25 +701,23 @@ public final class Bar extends AxesRenderer {
 			} else if (rt.getValue() == RiserType.CONE) {
 				if (bRendering3D) {
 					loa3dFace = computeRiserCone3D(bInverted, dX, dY, dZ, dHeight, dWidth, dWidthZ);
-				} else {
-					// Bugzilla 187473. - Henry
-					if (isStackedOrPercent(bs)) {
-						StackedSizeHints slh = getCurrentStackedSizeHints(i);
-						double[] size = null;
-						// Compute bottom and top size of cone for series
-						// painting.
-						if (isTransposed()) {
-							size = computeStacked2DTopNBottomSize(slh, au, dValue, dHeight);
-						} else {
-							size = computeStacked2DTopNBottomSize(slh, au, dValue, dWidth);
-						}
-
-						// Compute four locations of cone.
-						loaFrontFace = computeStackedRiserCone2D(bInverted, i, faX, faY, dX, dY, dHeight, dWidth,
-								size[0], size[1]);
+				} else // Bugzilla 187473. - Henry
+				if (isStackedOrPercent(bs)) {
+					StackedSizeHints slh = getCurrentStackedSizeHints(i);
+					double[] size = null;
+					// Compute bottom and top size of cone for series
+					// painting.
+					if (isTransposed()) {
+						size = computeStacked2DTopNBottomSize(slh, au, dValue, dHeight);
 					} else {
-						loaFrontFace = computeRiserCone2D(bInverted, i, faX, faY, dX, dY, dHeight, dWidth);
+						size = computeStacked2DTopNBottomSize(slh, au, dValue, dWidth);
 					}
+
+					// Compute four locations of cone.
+					loaFrontFace = computeStackedRiserCone2D(bInverted, i, faX, faY, dX, dY, dHeight, dWidth, size[0],
+							size[1]);
+				} else {
+					loaFrontFace = computeRiserCone2D(bInverted, i, faX, faY, dX, dY, dHeight, dWidth);
 				}
 			} else {
 				throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING,
@@ -786,17 +777,15 @@ public final class Bar extends AxesRenderer {
 									hotspotLoa[2].setX(hotspotLoa[1].getX() + MIN_HEIGHT);
 									hotspotLoa[3].setX(hotspotLoa[0].getX() + MIN_HEIGHT);
 								}
+							} else if (isConeOrTriangle) {
+								if (hotspotLoa[0].getY() - hotspotLoa[1].getY() < MIN_HEIGHT) {
+									hotspotLoa[1].setY(hotspotLoa[0].getY() - MIN_HEIGHT);
+									hotspotLoa[2].setY(hotspotLoa[3].getY() - MIN_HEIGHT);
+								}
 							} else {
-								if (isConeOrTriangle) {
-									if (hotspotLoa[0].getY() - hotspotLoa[1].getY() < MIN_HEIGHT) {
-										hotspotLoa[1].setY(hotspotLoa[0].getY() - MIN_HEIGHT);
-										hotspotLoa[2].setY(hotspotLoa[3].getY() - MIN_HEIGHT);
-									}
-								} else {
-									if (hotspotLoa[1].getY() - hotspotLoa[0].getY() < MIN_HEIGHT) {
-										hotspotLoa[0].setY(hotspotLoa[1].getY() - MIN_HEIGHT);
-										hotspotLoa[3].setY(hotspotLoa[2].getY() - MIN_HEIGHT);
-									}
+								if (hotspotLoa[1].getY() - hotspotLoa[0].getY() < MIN_HEIGHT) {
+									hotspotLoa[0].setY(hotspotLoa[1].getY() - MIN_HEIGHT);
+									hotspotLoa[3].setY(hotspotLoa[2].getY() - MIN_HEIGHT);
 								}
 							}
 						} else if (hotspotLoa.length == 3) {
@@ -804,10 +793,8 @@ public final class Bar extends AxesRenderer {
 								if (hotspotLoa[1].getX() - hotspotLoa[0].getX() < MIN_HEIGHT) {
 									hotspotLoa[1].setX(hotspotLoa[0].getX() + MIN_HEIGHT);
 								}
-							} else {
-								if (hotspotLoa[0].getY() - hotspotLoa[1].getY() < MIN_HEIGHT) {
-									hotspotLoa[1].setY(hotspotLoa[0].getY() - MIN_HEIGHT);
-								}
+							} else if (hotspotLoa[0].getY() - hotspotLoa[1].getY() < MIN_HEIGHT) {
+								hotspotLoa[1].setY(hotspotLoa[0].getY() - MIN_HEIGHT);
 							}
 						}
 						pre.setPoints(hotspotLoa);
@@ -877,45 +864,41 @@ public final class Bar extends AxesRenderer {
 						render3DPlane(ipr, WrappedStructureSource.createSeriesDataPoint(bs, dpha[i]), loa3dFace,
 								fixedFill, lia);
 					}
-				} else {
-					if (rt.getValue() == RiserType.TUBE) {
-						renderRiserTube2D(ipr, WrappedStructureSource.createSeriesDataPoint(bs, dpha[i]), dpha[i],
-								loaFrontFace, fixedFill, lia, cwa.getDimension(),
-								cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL
-										? dSeriesThickness / 2
-										: dSeriesThickness / 4,
-								cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, isTransposed(),
-								true, bInverted, isStackedOrPercent(bs), 0, compareBounds);
-					} else if (rt.getValue() == RiserType.CONE) {
-						boolean isStacked = isStackedOrPercent(bs);
-						double coneThickness = cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL
-								? dSeriesThickness / 2
-								: dSeriesThickness / 4;
-						// Bugzilla 187473
-						// Compute related height of bottom oval by related width.
-						double coneBottomHeight = computeBottomOvalHeightOfCone(i, coneThickness, loaFrontFace, dValue,
-								isStacked);
+				} else if (rt.getValue() == RiserType.TUBE) {
+					renderRiserTube2D(ipr, WrappedStructureSource.createSeriesDataPoint(bs, dpha[i]), dpha[i],
+							loaFrontFace, fixedFill, lia, cwa.getDimension(),
+							cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL
+									? dSeriesThickness / 2
+									: dSeriesThickness / 4,
+							cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, isTransposed(),
+							true, bInverted, isStackedOrPercent(bs), 0, compareBounds);
+				} else if (rt.getValue() == RiserType.CONE) {
+					boolean isStacked = isStackedOrPercent(bs);
+					double coneThickness = cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL
+							? dSeriesThickness / 2
+							: dSeriesThickness / 4;
+					// Bugzilla 187473
+					// Compute related height of bottom oval by related width.
+					double coneBottomHeight = computeBottomOvalHeightOfCone(i, coneThickness, loaFrontFace, dValue,
+							isStacked);
 
-						renderRiserCone2D(ipr, WrappedStructureSource.createSeriesDataPoint(bs, dpha[i]), dpha[i],
-								loaFrontFace, fixedFill, lia, cwa.getDimension(), coneThickness,
-								cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, isTransposed(),
-								true, bInverted, isStackedOrPercent(bs), coneBottomHeight, 0, compareBounds);
-					} else if (rt.getValue() == RiserType.TRIANGLE) {
-						// The method invoking is to paint fliped triangle
-						// correctly.
-						double[] thicknesses = computeThicknessesWithTriangle2D(loaFrontFace, dWidth, dHeight,
-								dSeriesThickness);
-						if (cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL) {
-							adjustLocationsWithTriangle2D(loaFrontFace, thicknesses[0], thicknesses[1],
-									dSeriesThickness);
-						}
-						renderRiserTriangle2D(ipr, WrappedStructureSource.createSeriesDataPoint(bs, dpha[i]),
-								loaFrontFace, fixedFill, lia, cwa.getDimension(), thicknesses[0], thicknesses[1], true,
-								0, compareBounds);
-					} else {
-						renderPlane(ipr, WrappedStructureSource.createSeriesDataPoint(bs, dpha[i]), loaFrontFace,
-								fixedFill, lia, cwa.getDimension(), dSeriesThickness, true, 0, compareBounds);
+					renderRiserCone2D(ipr, WrappedStructureSource.createSeriesDataPoint(bs, dpha[i]), dpha[i],
+							loaFrontFace, fixedFill, lia, cwa.getDimension(), coneThickness,
+							cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, isTransposed(),
+							true, bInverted, isStackedOrPercent(bs), coneBottomHeight, 0, compareBounds);
+				} else if (rt.getValue() == RiserType.TRIANGLE) {
+					// The method invoking is to paint fliped triangle
+					// correctly.
+					double[] thicknesses = computeThicknessesWithTriangle2D(loaFrontFace, dWidth, dHeight,
+							dSeriesThickness);
+					if (cwa.getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL) {
+						adjustLocationsWithTriangle2D(loaFrontFace, thicknesses[0], thicknesses[1], dSeriesThickness);
 					}
+					renderRiserTriangle2D(ipr, WrappedStructureSource.createSeriesDataPoint(bs, dpha[i]), loaFrontFace,
+							fixedFill, lia, cwa.getDimension(), thicknesses[0], thicknesses[1], true, 0, compareBounds);
+				} else {
+					renderPlane(ipr, WrappedStructureSource.createSeriesDataPoint(bs, dpha[i]), loaFrontFace, fixedFill,
+							lia, cwa.getDimension(), dSeriesThickness, true, 0, compareBounds);
 				}
 			}
 			ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_ELEMENT, dpha[i], fixedFill);
@@ -1110,7 +1093,7 @@ public final class Bar extends AxesRenderer {
 		}
 
 		if (!bRendering3D) {
-			List<double[]> points = new ArrayList<double[]>();
+			List<double[]> points = new ArrayList<>();
 			for (int i = 0; i < faX.length; i++) {
 				points.add(new double[] { faX[i], faY[i] });
 			}
@@ -1172,7 +1155,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Returns specified instance of StackedSizeHints.
-	 * 
+	 *
 	 * @param i
 	 * @return
 	 */
@@ -1203,7 +1186,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Compute top and bottom size when it is stacked 2D case.
-	 * 
+	 *
 	 * @param stackedSizeHints
 	 * @param au
 	 * @param dValue
@@ -1214,7 +1197,7 @@ public final class Bar extends AxesRenderer {
 			double dValue, double size) {
 		double stackedSizePercent = computeStacked2DTopSizePercent(stackedSizeHints, au, dValue);
 
-		double topSize = 0d;
+		double topSize;
 		double bottomSize = 0d;
 
 		if (dValue >= 0) {
@@ -1241,7 +1224,7 @@ public final class Bar extends AxesRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bs
 	 * @return
 	 */
@@ -1251,7 +1234,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Compute top size percent of stacked 2D series.
-	 * 
+	 *
 	 * @param stackedSizeHints
 	 * @param au
 	 * @param dValue
@@ -1309,7 +1292,7 @@ public final class Bar extends AxesRenderer {
 
 	private List<Location3D[]> computeRiserRectangle3D(boolean bInverted, double dX, double dY, double dZ,
 			double dHeight, double dWidth, double dWidthZ) {
-		List<Location3D[]> loa3dFace = new ArrayList<Location3D[]>();
+		List<Location3D[]> loa3dFace = new ArrayList<>();
 		Location3D[] a3dFace;
 		if (!bInverted) {
 			// downward
@@ -1415,7 +1398,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Compute locations of stacked triangle.
-	 * 
+	 *
 	 * @param bInverted
 	 * @param i
 	 * @param faX
@@ -1508,7 +1491,7 @@ public final class Bar extends AxesRenderer {
 
 	private List<Location3D[]> computeRiserTriangle3D(boolean bInverted, double dX, double dY, double dZ,
 			double dHeight, double dWidth, double dWidthZ) {
-		List<Location3D[]> loa3dFace = new ArrayList<Location3D[]>();
+		List<Location3D[]> loa3dFace = new ArrayList<>();
 		Location3D[] a3dFace;
 		if (!bInverted) {
 			// front
@@ -1607,7 +1590,7 @@ public final class Bar extends AxesRenderer {
 
 	private List<Location3D[]> computeRiserTube3D(double dX, double dY, double dZ, double dHeight, double dWidth,
 			double dWidthZ) {
-		List<Location3D[]> loa3dFace = new ArrayList<Location3D[]>();
+		List<Location3D[]> loa3dFace = new ArrayList<>();
 		Location3D[] a3dFace = new Location3D[4];
 
 		// top
@@ -1630,7 +1613,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Compute locations of stacked cone.
-	 * 
+	 *
 	 * @param bInverted
 	 * @param i
 	 * @param faX
@@ -1718,7 +1701,7 @@ public final class Bar extends AxesRenderer {
 
 	private List<Location3D[]> computeRiserCone3D(boolean bInverted, double dX, double dY, double dZ, double dHeight,
 			double dWidth, double dWidthZ) {
-		List<Location3D[]> loa3dFace = new ArrayList<Location3D[]>();
+		List<Location3D[]> loa3dFace = new ArrayList<>();
 		Location3D[] a3dFace;
 		if (!bInverted) {
 			// bottom
@@ -1752,7 +1735,7 @@ public final class Bar extends AxesRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.
 	 * birt.chart.device.IPrimitiveRenderer,
@@ -1760,7 +1743,8 @@ public final class Bar extends AxesRenderer {
 	 * org.eclipse.birt.chart.model.attribute.Fill,
 	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
-	public final void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
+	@Override
+	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
 			throws ChartException {
 		if ((bo.getWidth() == 0) && (bo.getHeight() == 0)) {
 			return;
@@ -1839,7 +1823,7 @@ public final class Bar extends AxesRenderer {
 	/**
 	 * Returns a Location array from given list, each entry in the list should be a
 	 * double[2] array object.
-	 * 
+	 *
 	 * @param ll
 	 */
 	private Location[] createLocationArray(List ll) {
@@ -1853,12 +1837,13 @@ public final class Bar extends AxesRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#compute(org.eclipse.birt.chart.
 	 * model.attribute.Bounds, org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
+	@Override
 	public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		// NOTE: This method is not used by the BAR renderer
 	}
@@ -1881,7 +1866,7 @@ public final class Bar extends AxesRenderer {
 	 * @param compareBounds    this bounds is used to adjust the order of polygon,
 	 *                         if this bound isn't null, chart will use this bounds
 	 *                         instead of actual bounds of polygon for order.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	private void renderRiserTube2D(IPrimitiveRenderer ipr, Object oSource, DataPointHints dpha, Location[] loaFront,
@@ -2061,7 +2046,7 @@ public final class Bar extends AxesRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ipr
 	 * @param oSource
 	 * @param dpha
@@ -2078,7 +2063,7 @@ public final class Bar extends AxesRenderer {
 	 * @param compareBounds    this bounds is used to adjust the order of polygon,
 	 *                         if this bound isn't null, chart will use this bounds
 	 *                         instead of actual bounds of polygon for order.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	private void renderRiserCone2D(IPrimitiveRenderer ipr, Object oSource, DataPointHints dpha, Location[] loaFront,
@@ -2174,12 +2159,10 @@ public final class Bar extends AxesRenderer {
 				topBounds = bottomBounds;
 				bottomBounds = tmpBounds;
 			}
-		} else {
-			if (!bInverted) {
-				Bounds tmpBounds = topBounds;
-				topBounds = bottomBounds;
-				bottomBounds = tmpBounds;
-			}
+		} else if (!bInverted) {
+			Bounds tmpBounds = topBounds;
+			topBounds = bottomBounds;
+			bottomBounds = tmpBounds;
 		}
 
 		// 4. Do renderer.
@@ -2274,7 +2257,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Render triangle.
-	 * 
+	 *
 	 * @param ipr              A handle to the primitive rendering device
 	 * @param oSource          The object wrapped in the polygon rendering event
 	 * @param loaFront         The co-ordinates of the front face polygon
@@ -2284,7 +2267,7 @@ public final class Bar extends AxesRenderer {
 	 * @param compareBounds    this bounds is used to adjust the order of polygon,
 	 *                         if this bound isn't null, chart will use this bounds
 	 *                         instead of actual bounds of polygon for order.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	private void renderRiserTriangle2D(IPrimitiveRenderer ipr, Object oSource, Location[] loaFront, Fill f,
@@ -2332,8 +2315,9 @@ public final class Bar extends AxesRenderer {
 		double dY, dSmallestY = 0;
 		for (int j, i = 0; i < nSides; i++) {
 			j = i + 1;
-			if (j >= loaFront.length)
+			if (j >= loaFront.length) {
 				j = 0;
+			}
 
 			double[] correctThicknesses = computeCorrectThicknessesWithTriangle2D(nSides, i, dTopThickness,
 					dBottomThickness);
@@ -2456,7 +2440,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Renders Tube as 3D presentation.
-	 * 
+	 *
 	 * @param ipr
 	 * @param oSource
 	 * @param loaFace
@@ -2590,7 +2574,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Renders Cone as 3D presentation.
-	 * 
+	 *
 	 * @param ipr
 	 * @param oSource
 	 * @param loaFace
@@ -2701,7 +2685,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Computes the points array to simulate an oval
-	 * 
+	 *
 	 * @param size   the points size, to determine the smoothness
 	 * @param pointA the first point of the oval bounds
 	 * @param pointB the diagonal point of the first point
@@ -2734,7 +2718,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Compute the height of bottom oval for cone renderer.
-	 * 
+	 *
 	 * @param iSeriesIndex     the index of which series.
 	 * @param defaultThickness the specified thickness.
 	 * @param loaFrontFace     locations points of cone.
@@ -2775,7 +2759,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * The class stores top and bottom size of series for stacked cases.
-	 * 
+	 *
 	 */
 	public static class StackedSizeHints {
 
@@ -2865,7 +2849,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Compute thickness of top and bottom with specified triangle 2D locations.
-	 * 
+	 *
 	 * @param loaFrontFace     specified locations.
 	 * @param dWidth           largest width.
 	 * @param dHeight          largest height.
@@ -2885,13 +2869,11 @@ public final class Bar extends AxesRenderer {
 			} else {
 				bottomWidth = loaFrontFace[2].getX() - loaFrontFace[0].getX();
 			}
+		} else if (loaFrontFace.length == 4) {
+			topWidth = loaFrontFace[1].getY() - loaFrontFace[2].getY();
+			bottomWidth = loaFrontFace[0].getY() - loaFrontFace[3].getY();
 		} else {
-			if (loaFrontFace.length == 4) {
-				topWidth = loaFrontFace[1].getY() - loaFrontFace[2].getY();
-				bottomWidth = loaFrontFace[0].getY() - loaFrontFace[3].getY();
-			} else {
-				bottomWidth = loaFrontFace[0].getY() - loaFrontFace[2].getY();
-			}
+			bottomWidth = loaFrontFace[0].getY() - loaFrontFace[2].getY();
 		}
 		double width = dWidth;
 		if (isTransposed()) {
@@ -2905,7 +2887,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Adjust locations with triangle 2D.
-	 * 
+	 *
 	 * @param loaFrontFace     specified locations.
 	 * @param dTopThickness    the thickness of top side.
 	 * @param dBottomThickness the thickness of bottom side.
@@ -2937,7 +2919,7 @@ public final class Bar extends AxesRenderer {
 
 	/**
 	 * Compute correct top side and bottom side thickness with triangle 2D.
-	 * 
+	 *
 	 * @param nSides           computed sides of triangle.
 	 * @param nCurrentSide     current side.
 	 * @param dTopThickness    top side thickness.

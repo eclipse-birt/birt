@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -27,9 +27,9 @@ public class EngineIRIOTest extends EngineCase {
 	// "org/eclipse/birt/report/engine/ir/ir_io_test.rptdesign";
 
 	public void testIO() throws Exception {
-		String[] designStreams = new String[] { "ir_io_test.rptdesign", "action_test.rptdesign",
-				"bookmark_test.rptdesign", "cell_test.rptdesign", "highlight_test.rptdesign", "image_test.rptdesign",
-				"map_test.rptdesign", "report_item_test.rptdesign", "text_test.rptdesign", "toc_test.rptdesign",
+		String[] designStreams = { "ir_io_test.rptdesign", "action_test.rptdesign", "bookmark_test.rptdesign",
+				"cell_test.rptdesign", "highlight_test.rptdesign", "image_test.rptdesign", "map_test.rptdesign",
+				"report_item_test.rptdesign", "text_test.rptdesign", "toc_test.rptdesign",
 				"user_property_test.rptdesign", "visibility_test.rptdesign" };
 
 		for (int i = 0; i < designStreams.length; i++) {

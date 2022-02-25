@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,7 +75,7 @@ public class PlatformConfig implements IPlatformConfig {
 	 * <li>3. osgi.noShutDown, be true.</li>
 	 * <li>4. osgi.framework, using the one defined by BIRT_HOME</li>
 	 * <li>5. osgi.framework.useSystemProperties, be false.</li>
-	 * 
+	 *
 	 * @param osgiConfigMap
 	 */
 	public void setOSGiConfig(Map osgiConfigMap) {
@@ -104,7 +104,7 @@ public class PlatformConfig implements IPlatformConfig {
 
 	/**
 	 * sets the directory for temporary files
-	 * 
+	 *
 	 * @param tmpDir the directory for temporary files
 	 */
 	public void setTempDir(String tmpDir) {
@@ -113,7 +113,7 @@ public class PlatformConfig implements IPlatformConfig {
 
 	/**
 	 * returns engine temporary directory for temporary files
-	 * 
+	 *
 	 * @return Returns the Temp Directory for engine to write temp files
 	 */
 	public String getTempDir() {
@@ -121,6 +121,7 @@ public class PlatformConfig implements IPlatformConfig {
 		if (tempDir == null) {
 			return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
+				@Override
 				public String run() {
 					return System.getProperty("java.io.tmpdir");
 				}

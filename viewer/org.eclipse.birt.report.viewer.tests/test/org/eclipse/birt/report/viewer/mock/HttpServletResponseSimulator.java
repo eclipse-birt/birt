@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -29,7 +29,7 @@ import junit.framework.AssertionFailedError;
 
 /**
  * Mock a HttpServletResponse class for Viewer UnitTest
- * 
+ *
  */
 public class HttpServletResponseSimulator implements HttpServletResponse {
 
@@ -100,130 +100,145 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.servlet.http.HttpServletResponse#addCookie(javax.servlet.http.Cookie)
 	 */
+	@Override
 	public void addCookie(Cookie cookie) {
-		if (cookie == null)
+		if (cookie == null) {
 			return;
+		}
 
 		this.cookies.put(cookie.getName(), cookie);
 	}
 
 	/**
 	 * Get Cookie by Name
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
 	public Cookie getCookie(String name) {
 		Object cookie = this.cookies.get(name);
-		if (cookie != null)
+		if (cookie != null) {
 			return (Cookie) cookie;
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#addDateHeader(java.lang.String,
 	 * long)
 	 */
+	@Override
 	public void addDateHeader(String name, long header) {
 		throw new UnsupportedOperationException("Do not support addDateHeader operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#addHeader(java.lang.String,
 	 * java.lang.String)
 	 */
+	@Override
 	public void addHeader(String name, String header) {
-		if (name == null)
+		if (name == null) {
 			return;
+		}
 
 		this.headers.put(name, header);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#addIntHeader(java.lang.String,
 	 * int)
 	 */
+	@Override
 	public void addIntHeader(String name, int header) {
 		throw new UnsupportedOperationException("Do not support addIntHeader operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#containsHeader(java.lang.String)
 	 */
+	@Override
 	public boolean containsHeader(String name) {
 		return this.headers.containsKey(name);
 	}
 
 	/**
 	 * Get Header by Name
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
+	@Override
 	public String getHeader(String name) {
 		Object header = this.headers.get(name);
-		if (header != null)
+		if (header != null) {
 			return (String) header;
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.servlet.http.HttpServletResponse#encodeRedirectURL(java.lang.String)
 	 */
+	@Override
 	public String encodeRedirectURL(String url) {
 		return url;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.servlet.http.HttpServletResponse#encodeRedirectUrl(java.lang.String)
 	 */
+	@Override
 	public String encodeRedirectUrl(String url) {
 		return encodeRedirectURL(url);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#encodeURL(java.lang.String)
 	 */
+	@Override
 	public String encodeURL(String url) {
 		return url;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#encodeUrl(java.lang.String)
 	 */
+	@Override
 	public String encodeUrl(String url) {
 		return encodeURL(url);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#sendError(int)
 	 */
+	@Override
 	public void sendError(int status) throws IOException {
 		setStatus(status);
 		throw new AssertionFailedError(" Response error :" + status); //$NON-NLS-1$
@@ -231,9 +246,10 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#sendError(int, java.lang.String)
 	 */
+	@Override
 	public void sendError(int status, String message) throws IOException {
 		setStatus(status, message);
 		throw new AssertionFailedError(" Response error :" + status + " " //$NON-NLS-1$//$NON-NLS-2$
@@ -242,32 +258,36 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#sendRedirect(java.lang.String)
 	 */
+	@Override
 	public void sendRedirect(String url) throws IOException {
 		throw new UnsupportedOperationException("Do not support sendRedirect operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#setDateHeader(java.lang.String,
 	 * long)
 	 */
+	@Override
 	public void setDateHeader(String name, long header) {
 		this.addDateHeader(name, header);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#setHeader(java.lang.String,
 	 * java.lang.String)
 	 */
+	@Override
 	public void setHeader(String name, String header) {
-		if (name == null)
+		if (name == null) {
 			return;
+		}
 
 		if (HEADER_CONTENT_TYPE.equalsIgnoreCase(name)) {
 			setContentType(header);
@@ -282,17 +302,18 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#setIntHeader(java.lang.String,
 	 * int)
 	 */
+	@Override
 	public void setIntHeader(String name, int header) {
 		this.addIntHeader(name, header);
 	}
 
 	/**
 	 * Remove header by name
-	 * 
+	 *
 	 * @param name
 	 */
 	public void removeHeader(String name) {
@@ -301,18 +322,20 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#setStatus(int)
 	 */
+	@Override
 	public void setStatus(int status) {
 		setStatus(status, null);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletResponse#setStatus(int, java.lang.String)
 	 */
+	@Override
 	public void setStatus(int status, String message) {
 		this.status = status;
 		this.message = message;
@@ -320,63 +343,71 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#flushBuffer()
 	 */
+	@Override
 	public void flushBuffer() throws IOException {
 		throw new UnsupportedOperationException("Do not support flushBuffer operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#getBufferSize()
 	 */
+	@Override
 	public int getBufferSize() {
 		return -1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#getCharacterEncoding()
 	 */
+	@Override
 	public String getCharacterEncoding() {
 		return this.characterEncoding;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#getContentType()
 	 */
+	@Override
 	public String getContentType() {
 		return this.contentType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#getLocale()
 	 */
+	@Override
 	public Locale getLocale() {
 		return this.locale;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#getOutputStream()
 	 */
+	@Override
 	public ServletOutputStream getOutputStream() throws IOException {
-		if (this.isWriter)
+		if (this.isWriter) {
 			throw new IllegalStateException("Has called getWriter method !"); //$NON-NLS-1$
+		}
 
 		ServletOutputStream servletOutputStream = null;
-		if (this.out == null)
+		if (this.out == null) {
 			servletOutputStream = new ServletOutputStreamSimulator();
-		else
+		} else {
 			servletOutputStream = new ServletOutputStreamSimulator(this.out);
+		}
 
 		this.out = null;
 		this.isOutputStream = true;
@@ -385,12 +416,14 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#getWriter()
 	 */
+	@Override
 	public PrintWriter getWriter() throws IOException {
-		if (this.isOutputStream)
+		if (this.isOutputStream) {
 			throw new IllegalStateException("Has called getOutputStream method !"); //$NON-NLS-1$
+		}
 
 		this.stringWriter = new StringWriter();
 		this.printWriter = new PrintWriter(this.stringWriter);
@@ -401,28 +434,30 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/**
 	 * Return StringBuffer for test
-	 * 
+	 *
 	 * @return
 	 */
 	public StringBuffer getStringBuffer() {
-		if (this.stringWriter == null)
+		if (this.stringWriter == null) {
 			return null;
+		}
 
 		return this.stringWriter.getBuffer();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#isCommitted()
 	 */
+	@Override
 	public boolean isCommitted() {
 		return this.isCommitted;
 	}
 
 	/**
 	 * Set isCommitted flag
-	 * 
+	 *
 	 * @param isCommitted
 	 */
 	public void setIsCommitted(boolean isCommitted) {
@@ -431,9 +466,10 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#reset()
 	 */
+	@Override
 	public void reset() {
 		this.headers = new Hashtable();
 		this.cookies = new Hashtable();
@@ -449,54 +485,60 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#resetBuffer()
 	 */
+	@Override
 	public void resetBuffer() {
 		throw new UnsupportedOperationException("Do not support resetBuffer operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#setBufferSize(int)
 	 */
+	@Override
 	public void setBufferSize(int size) {
 		throw new UnsupportedOperationException("Do not support setBufferSize operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#setCharacterEncoding(java.lang.String)
 	 */
+	@Override
 	public void setCharacterEncoding(String encoding) {
 		this.characterEncoding = encoding;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#setContentLength(int)
 	 */
+	@Override
 	public void setContentLength(int contentLength) {
 		this.contentLength = contentLength;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#setContentType(java.lang.String)
 	 */
+	@Override
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletResponse#setLocale(java.util.Locale)
 	 */
+	@Override
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
@@ -510,9 +552,10 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 
 	/**
 	 * Return the status code.
-	 * 
+	 *
 	 * @return the status code.
 	 */
+	@Override
 	public int getStatus() {
 		return this.status;
 	}

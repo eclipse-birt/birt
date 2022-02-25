@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  * Utility class to do conversions between units.
- * 
+ *
  */
 public class DimensionUtil {
 
@@ -62,79 +62,86 @@ public class DimensionUtil {
 	/**
 	 * Convert a measure from one units to another. The conversion is between
 	 * absolute the units should be one of the absolute units(CM, IN, MM, PT, PC).
-	 * 
+	 *
 	 * @param measure     the numeric measure of the dimension.
 	 * @param fromUnits   unit of the measure, it must be one of the absolute unit.
 	 * @param targetUnits the desired units, it must be one of the absolute unit.
-	 * 
+	 *
 	 * @return <code>DimensionValue</code> in the target unit.
 	 */
 	public static DimensionValue convertTo(double measure, String fromUnits, String targetUnits) {
 
-		if (targetUnits.equalsIgnoreCase(fromUnits))
+		if (targetUnits.equalsIgnoreCase(fromUnits)) {
 			return new DimensionValue(measure, fromUnits);
+		}
 
 		double targetMeasure = 0.0;
 
 		if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(targetUnits)) {
-			if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnits))
+			if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure / CM_PER_INCH;
-			else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure / CM_PER_INCH / 10;
-			else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure / POINTS_PER_INCH;
-			else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_INCH;
-			else
+			} else {
 				throw new IllegalArgumentException("\"fromUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
+			}
 		} else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(targetUnits)) {
-			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnits))
+			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * CM_PER_INCH;
-			else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure / 10;
-			else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure / POINTS_PER_CM;
-			else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_CM;
-			else
+			} else {
 				throw new IllegalArgumentException("\"fromUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
+			}
 		} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(targetUnits)) {
-			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnits))
+			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * CM_PER_INCH * 10;
-			else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * 10;
-			else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * 10 / POINTS_PER_CM;
-			else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_PICA * 10 / POINTS_PER_CM;
-			else
+			} else {
 				throw new IllegalArgumentException("\"fromUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
+			}
 		} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(targetUnits)) {
-			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnits))
+			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_INCH;
-			else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_CM;
-			else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_CM / 10;
-			else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_PICA;
-			else if (DesignChoiceConstants.UNITS_PX.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_PX.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_INCH / DEFAULT_DPI;
-			else
+			} else {
 				throw new IllegalArgumentException("\"fromUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
+			}
 		} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(targetUnits)) {
-			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnits))
+			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_INCH / POINTS_PER_PICA;
-			else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_CM / POINTS_PER_PICA;
-			else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_CM / 10 / POINTS_PER_PICA;
-			else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnits))
+			} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure / POINTS_PER_PICA;
-			else
+			} else {
 				throw new IllegalArgumentException("\"fromUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
-		} else
+			}
+		} else {
 			throw new IllegalArgumentException("\"targetUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
+		}
 
 		return new DimensionValue(targetMeasure, targetUnits);
 	}
@@ -143,7 +150,7 @@ public class DimensionUtil {
 	 * Convert a <code>DimensionValue</code> from one units to another, The
 	 * conversion is between absolute the units should be one of the absolute
 	 * units(CM, IN, MM, PT, PC).
-	 * 
+	 *
 	 * @param dimension   the numeric measure of the dimension.
 	 * @param appUnit     the application unit of the dimension, if the dimension
 	 *                    has not specified a unit, the the application unit will be
@@ -154,8 +161,9 @@ public class DimensionUtil {
 
 	public static DimensionValue convertTo(DimensionValue dimension, String appUnit, String targetUnits) {
 		String fromUnit = dimension.getUnits();
-		if (DimensionValue.DEFAULT_UNIT.equalsIgnoreCase(fromUnit))
+		if (DimensionValue.DEFAULT_UNIT.equalsIgnoreCase(fromUnit)) {
 			fromUnit = appUnit;
+		}
 
 		return convertTo(dimension.getMeasure(), fromUnit, targetUnits);
 	}
@@ -165,7 +173,7 @@ public class DimensionUtil {
 	 * 12cm" is composed of two parts: "measure" and "units". The conversion is
 	 * between absolute the units should be one of the absolute units(CM, IN, MM,
 	 * PT, PC).
-	 * 
+	 *
 	 * @param dimension   a string representing a absolute dimension value like
 	 *                    "12pt, 12pc...".
 	 * @param appUnit     the application unit of the dimension, if the dimension
@@ -198,7 +206,7 @@ public class DimensionUtil {
 	 * <li>UNITS_PT
 	 * <li>UNITS_PC
 	 * </ul>
-	 * 
+	 *
 	 * @param unit a given unit.
 	 * @return <code>true</code> if the unit is an absolute unit like cm, in, mm, pt
 	 *         and pc. Return <code>false</code> if the unit is not an absolute
@@ -223,7 +231,7 @@ public class DimensionUtil {
 	 * <li>UNITS_PERCENTAGE
 	 * <li>UNITS_PX
 	 * </ul>
-	 * 
+	 *
 	 * @param unit a given unit.
 	 * @return <code>true</code> if the unit is a relative unit like em, ex, % and
 	 *         px. Return <code>false</code> if the unit is not a relative unit.( it
@@ -242,7 +250,7 @@ public class DimensionUtil {
 	 * Returns whether the dimension string value is absolute font size constant.
 	 * The absolute font size constants are defined in
 	 * <code>DesignChoiceConstants</code> as followed.
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>FONT_SIZE_XX_SMALL</code>
 	 * <li><code>FONT_SIZE_X_SMALL</code>
@@ -252,7 +260,7 @@ public class DimensionUtil {
 	 * <li><code>FONT_SIZE_X_LARGE</code>
 	 * <li><code>FONT_SIZE_XX_LARGE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value dimension string value
 	 * @return true if the given value is absolute font size constant.
 	 */
@@ -271,12 +279,12 @@ public class DimensionUtil {
 	 * Returns whether the dimension string value is relative font size constant.
 	 * The relative font size constants are defined in
 	 * <code>DesignChoiceConstants</code> as followed.
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>FONT_SIZE_SMALLER</code>
 	 * <li><code>FONT_SIZE_LARGER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value dimension string value
 	 * @return true if the given value is relative font size constant.
 	 */
@@ -296,7 +304,7 @@ public class DimensionUtil {
 	 * <li><code>DimensionValue</code>
 	 * <li><code>DimensionHandle</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value       the input dimension value to be converted
 	 * @param appUnits    the application units, used as default to convert from
 	 *                    when units part of the input value is empty or null
@@ -305,7 +313,7 @@ public class DimensionUtil {
 	 *                    as em, ex and %, this value must be computed in units of
 	 *                    <code>DesignChoiceConstants.UNITS_PT</code>.
 	 * @param dpi         int value that represents the pixel per inch
-	 * 
+	 *
 	 * @return double value in the target unit.
 	 */
 
@@ -324,7 +332,7 @@ public class DimensionUtil {
 	 * <li><code>DimensionValue</code>
 	 * <li><code>DimensionHandle</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value         the input dimension value to be converted
 	 * @param appUnits      the application units, used as the original units to
 	 *                      convert from when units part of the input value is empty
@@ -338,14 +346,15 @@ public class DimensionUtil {
 	 *                      absolute units(CM, IN, MM, PT, PC). By default it is
 	 *                      <code>DesignChoiceConstants.UNITS_PT</code>
 	 * @param dpi           int value that represents the pixel per inch
-	 * 
+	 *
 	 * @return double value in the target unit.
 	 */
 
 	public static double convertTo(Object value, String appUnits, String targetUnits, double baseSize,
 			String baseSizeUnits, int dpi) {
-		if (value == null)
+		if (value == null) {
 			return 0.0;
+		}
 
 		double measure = 0.0;
 		String fromUnits = ""; //$NON-NLS-1$
@@ -370,20 +379,24 @@ public class DimensionUtil {
 			DimensionHandle dimensionHandle = (DimensionHandle) value;
 			measure = dimensionHandle.getMeasure();
 			fromUnits = dimensionHandle.getUnits();
-			if (StringUtil.isBlank(fromUnits))
+			if (StringUtil.isBlank(fromUnits)) {
 				fromUnits = dimensionHandle.getDefaultUnit();
+			}
 		}
 		// not supported value format
-		else
+		else {
 			throw new IllegalArgumentException("Given dimension value is a not supported format!"); //$NON-NLS-1$
+		}
 
 		// if units is null or empty, set it to application unit
-		if (StringUtil.isBlank(fromUnits))
+		if (StringUtil.isBlank(fromUnits)) {
 			fromUnits = appUnits;
+		}
 
 		// if baseSizeUnit is empty or null, set it to 'pt'
-		if (StringUtil.isBlank(baseSizeUnits))
+		if (StringUtil.isBlank(baseSizeUnits)) {
 			baseSizeUnits = DesignChoiceConstants.UNITS_PT;
+		}
 
 		DimensionValue convertedValue = null;
 		// do some prepare for the relative units
@@ -395,8 +408,9 @@ public class DimensionUtil {
 			convertedValue = DimensionUtil.convertTo(measure * baseSize / 100, baseSizeUnits, targetUnits);
 		} else if (DesignChoiceConstants.UNITS_PX.equals(fromUnits)) {
 			convertedValue = convertTo(measure / dpi, DesignChoiceConstants.UNITS_IN, targetUnits);
-		} else
+		} else {
 			convertedValue = convertTo(measure, fromUnits, targetUnits);
+		}
 		return convertedValue.getMeasure();
 
 	}
@@ -407,7 +421,7 @@ public class DimensionUtil {
 	 * can be merged. The unit of the merged result will be according to the first
 	 * dimension value except its unit is is pixel. If one of them is null, the
 	 * other value will be returned.
-	 * 
+	 *
 	 * @param dimension1 the first dimension value to merge
 	 * @param dimension2 the second dimension value to merge
 	 * @return the merged dimension value, or null if these two dimension value
@@ -423,7 +437,7 @@ public class DimensionUtil {
 	 * pixels can be merged. The unit of the merged result will be according to the
 	 * first dimension value except its unit is pixel.If one of them is null, the
 	 * other value will be returned.
-	 * 
+	 *
 	 * @param dimension1 the first dimension value to merge
 	 * @param dimension2 the second dimension value to merge
 	 * @param dpi        the dpi value
@@ -452,25 +466,28 @@ public class DimensionUtil {
 			meature = convertTo(dimension1, null, unit2, 0, validateDPI(dpi)) + dimension2.getMeasure();
 			unit = unit2;
 		}
-		if (meature != null)
+		if (meature != null) {
 			return new DimensionValue(meature, unit);
+		}
 		return null;
 	}
 
 	/**
 	 * Validates the dpi value. If the value is invalid, try to use the JVM defined
 	 * value and model defined default value.
-	 * 
+	 *
 	 * @param dpi the dpi value
 	 * @return the validated dpi value
 	 */
 	private static int validateDPI(int dpi) {
-		if (dpi <= 0)
+		if (dpi <= 0) {
 			// Try to use JVM defined value if the dpi value is invalid.
 			dpi = ResolutionSyntax.DPI;
-		if (dpi <= 0)
+		}
+		if (dpi <= 0) {
 			// Use the default value if the JVM defined is invalid.
 			dpi = DEFAULT_DPI;
+		}
 		return dpi;
 	}
 }

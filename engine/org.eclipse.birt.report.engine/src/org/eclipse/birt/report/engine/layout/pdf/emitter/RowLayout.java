@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,10 +37,12 @@ public class RowLayout extends ContainerLayout {
 		tbl = getTableLayoutManager();
 	}
 
+	@Override
 	protected void createRoot() {
 		currentContext.root = AreaFactory.createRowArea((IRowContent) content);
 	}
 
+	@Override
 	protected void initialize() throws BirtException {
 		calculateSpecifiedHeight();
 		if (specifiedHeight > parent.getCurrentMaxContentHeight()) {
@@ -66,6 +68,7 @@ public class RowLayout extends ContainerLayout {
 	 * protected void closeLayout( ) { super.closeLayout(); parent.gotoLastPage(); }
 	 */
 
+	@Override
 	protected void closeLayout() throws BirtException {
 		int size = contextList.size();
 		for (int i = 0; i < size; i++) {
@@ -81,7 +84,7 @@ public class RowLayout extends ContainerLayout {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param currentContext the context containing the sub-row which is going to be
 	 *                       closed.
 	 * @param parentIndex    the parent(sub-table) index.
@@ -113,12 +116,14 @@ public class RowLayout extends ContainerLayout {
 		}
 	}
 
+	@Override
 	protected void closeExcludingLast() throws BirtException {
 		// Current layout should be in block stacking.
 		int size = contextList.size();
 		closeFirstN(size - 1);
 	}
 
+	@Override
 	protected void closeFirstN(int size) throws BirtException {
 		int rowSize = contextList.size();
 		for (int i = 0; i < size; i++) {
@@ -130,6 +135,7 @@ public class RowLayout extends ContainerLayout {
 		}
 	}
 
+	@Override
 	protected void closeLayout(ContainerContext currentContext, int index, boolean finished) {
 		/*
 		 * if ( currentContext.root != null ) { if ( unresolvedRow != null ) {
@@ -155,6 +161,7 @@ public class RowLayout extends ContainerLayout {
 		return true;
 	}
 
+	@Override
 	protected void addToRoot(AbstractArea area) {
 		CellArea cArea = (CellArea) area;
 		currentContext.root.addChild(area);

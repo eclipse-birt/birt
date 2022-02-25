@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,33 +68,33 @@ import com.ibm.icu.util.ULocale;
  * * * * * * * * * * * * * * style="border-collapse: collapse"
  * bordercolor="#111111" width="100%" * * * * * * * * * * * * * *
  * id="AutoNumber6">
- * 
+ *
  * <tr>
  * <td width="33%"><b>Method </b></td>
  * <td width="33%"><b>Test Case </b></td>
  * <td width="34%"><b>Expected Result </b></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td width="33%">{@link #testParserDesignFile()}</td>
  * <td width="33%">Test all properties</td>
  * <td width="34%">the correct value returned.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td width="33%">{@link #testWriterDesignFile()}</td>
  * <td width="33%">Set new value to properties and save it.</td>
  * <td width="34%">new value should be save into the output file, and output
  * file is same as golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testQueryConflictCheck()}</td>
  * <td>The query conflict is forbidden.</td>
  * <td>Property value error found</td>
  * </tr>
  * </table>
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.OdaDataSource
  * @see org.eclipse.birt.report.model.elements.OdaDataSet
  */
@@ -121,6 +121,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 	 * @see BaseTestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -128,7 +129,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of line.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -167,7 +168,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 	/**
 	 * This test sets properties, writes the design file and compares it with golden
 	 * file.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -266,7 +267,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of line.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -281,7 +282,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of line.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -466,7 +467,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 	/**
 	 * This test sets properties, writes the design file and compares it with golden
 	 * file.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -620,7 +621,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 
 	/**
 	 * Tests to write empty string of queryText to the design file.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -642,7 +643,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 
 	/**
 	 * Tests all properties on an data set. JdbcSelectDataSet is used.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -950,7 +951,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 
 	/**
 	 * Returns the data set for testing.
-	 * 
+	 *
 	 * @return the data set for testing.
 	 * @throws Exception if any exception.
 	 */
@@ -987,7 +988,7 @@ public class OdaDataSetParseTest extends BaseTestCase {
 
 	/**
 	 * The structure context for the extended property is valid. Should not null.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

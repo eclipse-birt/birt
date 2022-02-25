@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,27 +19,27 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
- * 
+ *
  */
 
 public interface IFilterConditionElement extends IDesignElement {
 
 	/**
 	 * Returns the filter expression.
-	 * 
+	 *
 	 * @return the filter expression
 	 */
 
-	public String getExpr();
+	String getExpr();
 
 	/**
 	 * Sets the filter expression.
-	 * 
+	 *
 	 * @param filterExpr the filter expression to set
 	 * @throws SemanticException value required exception
 	 */
 
-	public void setExpr(String filterExpr) throws SemanticException;
+	void setExpr(String filterExpr) throws SemanticException;
 
 	/**
 	 * Returns the operator of this filter condition. The possible values are
@@ -66,11 +66,11 @@ public interface IFilterConditionElement extends IDesignElement {
 	 * <li><code>FILTER_OPERATOR_BOTTOM_PERCENT</code>
 	 * <li><code>FILTER_OPERATOR_ANY</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the operator of this filter condition
 	 */
 
-	public String getOperator();
+	String getOperator();
 
 	/**
 	 * Sets the operator of this filter condition. The allowed values are defined in
@@ -96,48 +96,48 @@ public interface IFilterConditionElement extends IDesignElement {
 	 * <li><code>FILTER_OPERATOR_BOTTOM_PERCENT</code>
 	 * <li><code>FILTER_OPERATOR_ANY</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param operator the operator to set
 	 * @throws SemanticException if operator is not in the choice list.
 	 */
 
-	public void setOperator(String operator) throws SemanticException;
+	void setOperator(String operator) throws SemanticException;
 
 	/**
 	 * Gets the value1 expression list of this filter condition. For most filter
 	 * operator, there is only one expression in the returned list. However, filter
 	 * operator 'in' may contain more than one expression.
-	 * 
+	 *
 	 * @return the value1 expression list of this filter condition.
 	 */
 
-	public List getValue1List();
+	List getValue1List();
 
 	/**
 	 * Sets the value 1 expression list of this filter condition.
-	 * 
+	 *
 	 * @param value1List the value 1 expression list to set
 	 * @throws SemanticException if the instance in the list is not valid
 	 */
 
-	public void setValue1(List value1List) throws SemanticException;
+	void setValue1(List value1List) throws SemanticException;
 
 	/**
 	 * Returns the value 2 expression of this filter condition.
-	 * 
+	 *
 	 * @return the value 2 expression of this filter condition
 	 */
 
-	public String getValue2();
+	String getValue2();
 
 	/**
 	 * Sets the value 2 expression of this filter condition.
-	 * 
+	 *
 	 * @param value2Expr the value 2 expression to set
 	 * @throws SemanticException
 	 */
 
-	public void setValue2(String value2Expr) throws SemanticException;
+	void setValue2(String value2Expr) throws SemanticException;
 
 	/**
 	 * Returns the filter target. The possible values are defined in
@@ -147,11 +147,11 @@ public interface IFilterConditionElement extends IDesignElement {
 	 * <li><code>FILTER_TARGET_DATA_SET</code>
 	 * <li><code>FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the target type
 	 */
 
-	public String getFilterTarget();
+	String getFilterTarget();
 
 	/**
 	 * Sets the filter target. The allowed values are defined in
@@ -161,28 +161,28 @@ public interface IFilterConditionElement extends IDesignElement {
 	 * <li><code>FILTER_TARGET_DATA_SET</code>
 	 * <li><code>FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param filterTarget the filter target to set
-	 * 
+	 *
 	 * @throws SemanticException if the value is not one of the above.
 	 */
 
-	public void setFilterTarget(String filterTarget) throws SemanticException;
+	void setFilterTarget(String filterTarget) throws SemanticException;
 
 	/**
 	 * Determines whether this filter condition is optional or not.
-	 * 
+	 *
 	 * @return true if this filter is optional, otherwise false
 	 */
 
-	public boolean isOptional();
+	boolean isOptional();
 
 	/**
 	 * Sets the optional status for this filter condition.
-	 * 
+	 *
 	 * @param isOptional true if this filter is optional, otherwise false
 	 * @throws SemanticException
 	 */
 
-	public void setOptional(boolean isOptional) throws SemanticException;
+	void setOptional(boolean isOptional) throws SemanticException;
 }

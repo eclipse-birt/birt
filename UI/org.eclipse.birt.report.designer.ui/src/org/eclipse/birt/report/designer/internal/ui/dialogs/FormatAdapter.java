@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ public abstract class FormatAdapter {
 
 	public static final String NONE = Messages.getString("FormatAdapter.DisplayName.None"); //$NON-NLS-1$
 
-	public final static TreeMap<String, ULocale> LOCALE_TABLE = new TreeMap<String, ULocale>(Collator.getInstance());
+	public final static TreeMap<String, ULocale> LOCALE_TABLE = new TreeMap<>(Collator.getInstance());
 
 	static {
 		// Initialize the locale mapping table
@@ -47,10 +47,11 @@ public abstract class FormatAdapter {
 	}
 
 	public static String getLocaleDisplayName(ULocale locale) {
-		if (locale == null)
+		if (locale == null) {
 			return NONE;
-		else
+		} else {
 			return locale.getDisplayName();
+		}
 	}
 
 	public static String[] getLocaleDisplayNames() {
@@ -62,8 +63,9 @@ public abstract class FormatAdapter {
 	}
 
 	public static ULocale getLocaleByDisplayName(String localeDisplayName) {
-		if (NONE.equals(localeDisplayName) || localeDisplayName == null)
+		if (NONE.equals(localeDisplayName) || localeDisplayName == null) {
 			return null;
+		}
 		return LOCALE_TABLE.get(localeDisplayName);
 	}
 

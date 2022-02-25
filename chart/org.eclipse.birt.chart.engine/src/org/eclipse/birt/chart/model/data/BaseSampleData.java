@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,9 +21,9 @@ import org.eclipse.birt.chart.model.IChartObject;
  * Sample Data</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
+ *
  * This type sample data for a base series.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -44,12 +44,12 @@ public interface BaseSampleData extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Data Set Representation</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the sample data for a single data set as a string in the form expected
 	 * by the DataSetProcessor for the series.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Data Set Representation</em>' attribute.
 	 * @see #setDataSetRepresentation(String)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getBaseSampleData_DataSetRepresentation()
@@ -64,7 +64,7 @@ public interface BaseSampleData extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation
 	 * <em>Data Set Representation</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Data Set Representation</em>'
 	 *              attribute.
 	 * @see #getDataSetRepresentation()
@@ -75,6 +75,7 @@ public interface BaseSampleData extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	BaseSampleData copyInstance();
 
 } // BaseSampleData

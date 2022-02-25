@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +51,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMeasureViewConstants, ICrosstabConstants {
 
 	/**
-	 * 
+	 *
 	 * @param handle
 	 */
 	MeasureViewHandle(DesignElementHandle handle) {
@@ -60,7 +60,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets the referred OLAP measure handle of this measure view.
-	 * 
+	 *
 	 * @return the referred OLAP measure handle
 	 */
 	public MeasureHandle getCubeMeasure() {
@@ -84,7 +84,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets name of the referred OLAP measure handle in this measure view.
-	 * 
+	 *
 	 * @return name of the referred OLAP measure handle
 	 */
 	public String getCubeMeasureName() {
@@ -95,7 +95,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	 * Gets the data type of this measure view. It is identical with the data type
 	 * set in the referred cube measure element. If linked data set, should get data
 	 * type from binding.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getDataType() {
@@ -107,7 +107,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 			if (cell != null) {
 				List contents = cell.getContents();
 				for (Object obj : contents) {
-					if (obj != null && obj instanceof DataItemHandle) {
+					if (obj instanceof DataItemHandle) {
 						String bindingName = ((DataItemHandle) obj).getResultSetColumn();
 						ComputedColumnHandle column = CrosstabUtil.getColumnHandle(crosstabItem, bindingName);
 						dataType = (column != null) ? column.getDataType() : null;
@@ -129,7 +129,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets the aggregations property handle of this measure view.
-	 * 
+	 *
 	 * @return the aggregations property handle
 	 */
 	PropertyHandle getAggregationsProperty() {
@@ -138,7 +138,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets the detail slot handle of this measure view.
-	 * 
+	 *
 	 * @return the detail slot handle
 	 */
 	PropertyHandle getDetailProperty() {
@@ -147,7 +147,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets the header slot handle of this measure view.
-	 * 
+	 *
 	 * @return the header slot handle
 	 */
 	public PropertyHandle getHeaderProperty() {
@@ -156,7 +156,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets the detail cell of this measure view.
-	 * 
+	 *
 	 * @return the detail cell of this measure view if set, otherwise null
 	 */
 	public AggregationCellHandle getCell() {
@@ -168,7 +168,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Adds an aggregation cell with the specific row/column dimension and level.
-	 * 
+	 *
 	 * @param rowDimension qualified name of the row dimension
 	 * @param rowLevel     qualified name of the row level
 	 * @param colDimension qualified name of the column dimension
@@ -202,7 +202,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	}
 
 	/**
-	 * 
+	 *
 	 * @param rowDimension qualified name of the row dimension
 	 * @param rowLevel     qualified name of the row level
 	 * @param colDimension qualified name of the column dimension
@@ -220,7 +220,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	/**
 	 * Finds an aggregation cell which uses the given row/column dimension and
 	 * level.
-	 * 
+	 *
 	 * @param rowDimension qualified name of the row dimension
 	 * @param rowLevel     qualified name of the row level
 	 * @param colDimension qualified name of the column dimension
@@ -230,8 +230,9 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	public AggregationCellHandle getAggregationCell(String rowDimension, String rowLevel, String colDimension,
 			String colLevel) {
 		int count = getAggregationCount();
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 		DesignElementHandle found = null;
 		for (int i = 0; i < count; i++) {
 			DesignElementHandle element = getAggregationsProperty().getContent(i);
@@ -249,7 +250,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets the aggregation cell count for this measure.
-	 * 
+	 *
 	 * @return count of aggregation cell for this measure
 	 */
 	public int getAggregationCount() {
@@ -259,7 +260,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	/**
 	 * Gets the aggregation cell with the given index. Position index is 0-based
 	 * integer.
-	 * 
+	 *
 	 * @param index a 0-based integer of the aggregation cell position
 	 * @return the aggregation cell handle if found, otherwise null
 	 */
@@ -271,7 +272,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	/**
 	 * Removes aggregation cell at the given position. The position index is 0-based
 	 * integer.
-	 * 
+	 *
 	 * @param index the position index of the aggregation cell to remove
 	 * @throws SemanticException
 	 */
@@ -283,7 +284,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	 * Gets the position index where this measure lies in the crosstab container.
 	 * The returned value is a 0-based integer if this level is in the design tree.
 	 * Otherwise return -1.
-	 * 
+	 *
 	 * @return position index if found, otherwise -1
 	 */
 	public int getIndex() {
@@ -292,7 +293,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets the first header cell for this measure.
-	 * 
+	 *
 	 * @return the header cell
 	 */
 	public CrosstabCellHandle getHeader() {
@@ -306,10 +307,10 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	 * area; otherwise, it returns the header associated with the subtotal. The
 	 * result may be null if the given level view doesn't yield a grandtotal or
 	 * subtotal, or is in the wrong axis.
-	 * 
+	 *
 	 * @param lv
 	 * @return
-	 * 
+	 *
 	 * @since 2.5
 	 */
 	public CrosstabCellHandle getHeader(LevelViewHandle levelView) {
@@ -359,10 +360,10 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets header cell for this measure by given index.
-	 * 
+	 *
 	 * @param index the header index
 	 * @return the header cell which refers the given dimension and level
-	 * 
+	 *
 	 * @since 2.5
 	 */
 	public CrosstabCellHandle getHeader(int index) {
@@ -373,7 +374,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * @return Returns the header cell count for this measure.
-	 * 
+	 *
 	 * @since 2.5
 	 */
 	public int getHeaderCount() {
@@ -382,20 +383,21 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/**
 	 * Gets measure header cell.
-	 * 
+	 *
 	 * @return the design element handle for the header cell if found, otherwise
 	 *         null
 	 */
 	private DesignElementHandle getHeaderCell(int index) {
 		PropertyHandle propHandle = getHeaderProperty();
-		if (index < 0 || propHandle.getContentCount() <= index)
+		if (index < 0 || propHandle.getContentCount() <= index) {
 			return null;
+		}
 		return propHandle.getContent(index);
 	}
 
 	/**
 	 * Removes header cell for current measure.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void removeHeader() throws SemanticException {
@@ -405,7 +407,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	/**
 	 * Adds header cell for current measure. If header cell already exists, this
 	 * method just does nothing.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void addHeader() throws SemanticException {
@@ -416,7 +418,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 	 * Returns the iterator for filter list defined on this measure view. The
 	 * element in the iterator is the corresponding <code>DesignElementHandle</code>
 	 * that deal with a <code>FilterConditionElementHandle</code> in the list.
-	 * 
+	 *
 	 * @return the iterator for <code>FilterConditionElementHandle</code> element
 	 *         list
 	 */
@@ -445,10 +447,11 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility ()
 	 */
+	@Override
 	public CompatibilityStatus checkCompatibility() {
 		// update old version
 		CrosstabReportItemHandle crosstab = getCrosstab();

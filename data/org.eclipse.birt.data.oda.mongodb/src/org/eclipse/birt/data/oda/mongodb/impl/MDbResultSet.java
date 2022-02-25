@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -32,9 +32,9 @@ import org.apache.commons.codec.binary.Base64;
 import org.bson.Document;
 import org.bson.types.BSONTimestamp;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.DriverUtil;
+import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.ResultDataHandler;
-import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData;
 import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
@@ -65,21 +65,24 @@ public class MDbResultSet implements IResultSet {
 	private static Logger sm_logger = DriverUtil.getLogger();
 
 	public MDbResultSet(Iterator<Document> resultsIterator, MDbResultSetMetaData rsmd, QueryProperties queryProps) {
-		if (resultsIterator == null || rsmd == null)
+		if (resultsIterator == null || rsmd == null) {
 			throw new IllegalArgumentException("null DBCursor"); //$NON-NLS-1$
+		}
 
 		m_resultsIterator = resultsIterator;
 		// if( resultsIterator instanceof DBCursor )
 		// m_mongoCursor = (DBCursor)resultsIterator;
 		m_metadata = rsmd;
 		m_queryProps = queryProps != null ? queryProps : QueryProperties.defaultValues();
-		if (projectsFlattenedRows())
+		if (projectsFlattenedRows()) {
 			m_dataHandler = new ResultDataHandler(m_metadata);
+		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getMetaData()
 	 */
+	@Override
 	public IResultSetMetaData getMetaData() throws OdaException {
 		return m_metadata;
 	}
@@ -87,15 +90,17 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#setMaxRows(int)
 	 */
+	@Override
 	public void setMaxRows(int max) throws OdaException {
 		m_maxRows = max;
-		if (m_maxRows > 0 && m_mongoCursor != null)
+		if (m_maxRows > 0 && m_mongoCursor != null) {
 			m_mongoCursor.limit(m_maxRows);
+		}
 	}
 
 	/**
 	 * Returns the maximum number of rows that can be fetched from this result set.
-	 * 
+	 *
 	 * @return the maximum number of rows to fetch.
 	 */
 	protected int getMaxRows() {
@@ -113,17 +118,20 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#next()
 	 */
+	@Override
 	public boolean next() throws OdaException {
 		// handle automatic flattening of embedded objects - default is false
 		if (projectsFlattenedRows()) {
-			if (m_dataHandler != null && m_dataHandler.next())
+			if (m_dataHandler != null && m_dataHandler.next()) {
 				return true;
+			}
 		}
 
 		// get next row from the iterator
 		m_currentRow = null; // reset
-		if (m_resultsIterator == null || !m_resultsIterator.hasNext())
+		if (m_resultsIterator == null || !m_resultsIterator.hasNext()) {
 			return false;
+		}
 
 		// has next row; check the maximum rows limit
 		if (hasNoMaxLimit() || m_currentRowId < getMaxRows()) {
@@ -138,6 +146,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#close()
 	 */
+	@Override
 	public void close() throws OdaException {
 		m_currentRow = null;
 		m_currentRowId = 0; // reset row counter
@@ -151,6 +160,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getRow()
 	 */
+	@Override
 	public int getRow() throws OdaException {
 		return m_currentRowId;
 	}
@@ -158,6 +168,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getString(int)
 	 */
+	@Override
 	public String getString(int index) throws OdaException {
 		return getString(findFieldName(index));
 	}
@@ -166,10 +177,12 @@ public class MDbResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getString(java.lang.String)
 	 */
+	@Override
 	public String getString(String columnName) throws OdaException {
 		Object columnValue = getFieldValue(columnName);
-		if (columnValue instanceof String)
+		if (columnValue instanceof String) {
 			return (String) columnValue;
+		}
 
 		if (columnValue instanceof List && !(columnValue instanceof BasicDBList)) {
 			// convert generic List to JSON-formattable list
@@ -184,8 +197,9 @@ public class MDbResultSet implements IResultSet {
 			}
 		}
 
-		if (columnValue instanceof byte[])
+		if (columnValue instanceof byte[]) {
 			return convertToString((byte[]) columnValue);
+		}
 
 		return columnValue != null ? columnValue.toString() : null;
 	}
@@ -193,6 +207,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getInt(int)
 	 */
+	@Override
 	public int getInt(int index) throws OdaException {
 		return getInt(findFieldName(index));
 	}
@@ -201,14 +216,17 @@ public class MDbResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getInt(java.lang.String)
 	 */
+	@Override
 	public int getInt(String columnName) throws OdaException {
 		Object columnValue = getFieldValue(columnName);
 		columnValue = tryConvertToDataType(columnValue, Integer.class);
 
-		if (columnValue instanceof List)
+		if (columnValue instanceof List) {
 			columnValue = getFirstFieldValue((List<?>) columnValue, Integer.class, columnName);
-		if (columnValue instanceof Integer)
+		}
+		if (columnValue instanceof Integer) {
 			return (Integer) columnValue;
+		}
 
 		// not convertible
 		if (columnValue != null) {
@@ -225,6 +243,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(int)
 	 */
+	@Override
 	public double getDouble(int index) throws OdaException {
 		return getDouble(findFieldName(index));
 	}
@@ -233,14 +252,17 @@ public class MDbResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(java.lang.String)
 	 */
+	@Override
 	public double getDouble(String columnName) throws OdaException {
 		Object columnValue = getFieldValue(columnName);
 		columnValue = tryConvertToDataType(columnValue, Double.class);
 
-		if (columnValue instanceof List)
+		if (columnValue instanceof List) {
 			columnValue = getFirstFieldValue((List<?>) columnValue, Double.class, columnName);
-		if (columnValue instanceof Double)
+		}
+		if (columnValue instanceof Double) {
 			return (Double) columnValue;
+		}
 
 		// not convertible
 		if (columnValue != null) {
@@ -257,6 +279,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(int)
 	 */
+	@Override
 	public BigDecimal getBigDecimal(int index) throws OdaException {
 		return getBigDecimal(findFieldName(index));
 	}
@@ -266,14 +289,17 @@ public class MDbResultSet implements IResultSet {
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(java.lang.
 	 * String)
 	 */
+	@Override
 	public BigDecimal getBigDecimal(String columnName) throws OdaException {
 		Object columnValue = getFieldValue(columnName);
 		columnValue = tryConvertToDataType(columnValue, BigDecimal.class);
-		if (columnValue instanceof BigDecimal)
+		if (columnValue instanceof BigDecimal) {
 			return (BigDecimal) columnValue;
+		}
 
-		if (columnValue instanceof List)
+		if (columnValue instanceof List) {
 			return (BigDecimal) getFirstFieldValue((List<?>) columnValue, BigDecimal.class, columnName);
+		}
 
 		// not convertible
 		if (columnValue != null) {
@@ -289,6 +315,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDate(int)
 	 */
+	@Override
 	public Date getDate(int index) throws OdaException {
 		return getDate(findFieldName(index));
 	}
@@ -297,14 +324,17 @@ public class MDbResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getDate(java.lang.String)
 	 */
+	@Override
 	public Date getDate(String columnName) throws OdaException {
 		Object columnValue = getFieldValue(columnName);
 		columnValue = tryConvertToDataType(columnValue, Date.class);
-		if (columnValue instanceof Date)
+		if (columnValue instanceof Date) {
 			return (Date) columnValue;
+		}
 
-		if (columnValue instanceof List)
+		if (columnValue instanceof List) {
 			return (Date) getFirstFieldValue((List<?>) columnValue, Date.class, columnName);
+		}
 
 		// not convertible
 		if (columnValue != null) {
@@ -320,6 +350,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(int)
 	 */
+	@Override
 	public Time getTime(int index) throws OdaException {
 		return getTime(findFieldName(index));
 	}
@@ -328,16 +359,19 @@ public class MDbResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getTime(java.lang.String)
 	 */
+	@Override
 	public Time getTime(String columnName) throws OdaException {
 		Date dateValue = getDate(columnName);
-		if (dateValue == null)
+		if (dateValue == null) {
 			return null;
+		}
 		return new Time(dateValue.getTime());
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(int)
 	 */
+	@Override
 	public Timestamp getTimestamp(int index) throws OdaException {
 		return getTimestamp(findFieldName(index));
 	}
@@ -347,14 +381,17 @@ public class MDbResultSet implements IResultSet {
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(java.lang.
 	 * String)
 	 */
+	@Override
 	public Timestamp getTimestamp(String columnName) throws OdaException {
 		Object columnValue = getFieldValue(columnName);
 		columnValue = tryConvertToDataType(columnValue, Timestamp.class);
 
-		if (columnValue instanceof List)
+		if (columnValue instanceof List) {
 			columnValue = getFirstFieldValue((List<?>) columnValue, Timestamp.class, columnName);
-		if (columnValue instanceof Timestamp)
+		}
+		if (columnValue instanceof Timestamp) {
 			return (Timestamp) columnValue;
+		}
 
 		// not convertible
 		if (columnValue != null) {
@@ -370,6 +407,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBlob(int)
 	 */
+	@Override
 	public IBlob getBlob(int index) throws OdaException {
 		return getBlob(findFieldName(index));
 	}
@@ -378,14 +416,17 @@ public class MDbResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getBlob(java.lang.String)
 	 */
+	@Override
 	public IBlob getBlob(String columnName) throws OdaException {
 		Object columnValue = getFieldValue(columnName);
 		columnValue = tryConvertToDataType(columnValue, byte[].class);
 
-		if (columnValue instanceof List)
+		if (columnValue instanceof List) {
 			columnValue = getFirstFieldValue((List<?>) columnValue, byte[].class, columnName);
-		if (columnValue instanceof byte[])
+		}
+		if (columnValue instanceof byte[]) {
 			return new Blob((byte[]) columnValue);
+		}
 
 		// not convertible
 		if (columnValue != null) {
@@ -401,6 +442,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getClob(int)
 	 */
+	@Override
 	public IClob getClob(int index) throws OdaException {
 		throw MDbQuery.sm_unSupportedOpEx;
 	}
@@ -409,33 +451,38 @@ public class MDbResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getClob(java.lang.String)
 	 */
+	@Override
 	public IClob getClob(String columnName) throws OdaException {
 		throw MDbQuery.sm_unSupportedOpEx;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(int)
 	 */
+	@Override
 	public boolean getBoolean(int index) throws OdaException {
 		return getBoolean(findFieldName(index));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(java.lang.
 	 * String)
 	 */
+	@Override
 	public boolean getBoolean(String columnName) throws OdaException {
 		Object columnValue = getFieldValue(columnName);
 		columnValue = tryConvertToDataType(columnValue, Boolean.class);
 
-		if (columnValue instanceof List)
+		if (columnValue instanceof List) {
 			columnValue = getFirstFieldValue((List<?>) columnValue, Boolean.class, columnName);
-		if (columnValue instanceof Boolean)
+		}
+		if (columnValue instanceof Boolean) {
 			return (Boolean) columnValue;
+		}
 
 		// not convertible
 		if (columnValue != null) {
@@ -451,19 +498,21 @@ public class MDbResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(int)
 	 */
+	@Override
 	public Object getObject(int index) throws OdaException {
 		return getObject(findFieldName(index));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getObject(java.lang.String)
 	 */
+	@Override
 	public Object getObject(String columnName) throws OdaException {
 		return getFieldValue(columnName);
 	}
@@ -471,6 +520,7 @@ public class MDbResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#wasNull()
 	 */
+	@Override
 	public boolean wasNull() throws OdaException {
 		return m_wasNull;
 	}
@@ -479,6 +529,7 @@ public class MDbResultSet implements IResultSet {
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#findColumn(java.lang.
 	 * String)
 	 */
+	@Override
 	public int findColumn(String columnName) throws OdaException {
 		return m_metadata.getColumnNumber(columnName);
 	}
@@ -513,30 +564,35 @@ public class MDbResultSet implements IResultSet {
 			throws OdaException {
 		Object value = getFirstElementFromList(valuesList, logColumnName);
 		value = tryConvertToDataType(value, valueDataType);
-		if (valueDataType.isInstance(value))
+		if (valueDataType.isInstance(value)) {
 			return value;
-		if (value instanceof List) // nested array
+		}
+		if (value instanceof List) { // nested array
 			return getFirstFieldValue((List<?>) value, valueDataType, logColumnName);
+		}
 
 		// not convertible
-		if (value != null && getLogger().isLoggable(Level.FINE))
+		if (value != null && getLogger().isLoggable(Level.FINE)) {
 			getLogger().fine(Messages.bind(
 					"Unable to get the '{0}' field's first array value ({1}) in {2} data type as a {3} value.", //$NON-NLS-1$
 					new Object[] { logColumnName, value, value.getClass().getSimpleName(),
 							valueDataType.getSimpleName() }));
+		}
 
 		m_wasNull = true;
 		return null;
 	}
 
 	private static Object getFirstElementFromList(List<?> valuesList, String columnName) {
-		if (valuesList.size() == 0)
+		if (valuesList.size() == 0) {
 			return null;
+		}
 		Object firstValue = null;
-		if (valuesList instanceof BasicDBList)
+		if (valuesList instanceof BasicDBList) {
 			firstValue = ((BasicDBList) valuesList).get(String.valueOf(0));
-		else
+		} else {
 			firstValue = valuesList.get(0);
+		}
 
 		// log that only first value in array is returned
 		logFetchedFirstElementFromArray(columnName, valuesList.size());
@@ -544,51 +600,66 @@ public class MDbResultSet implements IResultSet {
 	}
 
 	private static Object tryConvertToDataType(Object value, Class<?> toDataType) throws OdaException {
-		if (value == null || toDataType.isInstance(value)) // already in specified data type
+		if (value == null || toDataType.isInstance(value)) { // already in specified data type
 			return value;
+		}
 
 		try {
 			if (value instanceof String) {
 				String stringValue = (String) value;
-				if (toDataType == Integer.class)
+				if (toDataType == Integer.class) {
 					return Integer.valueOf(stringValue);
-				if (toDataType == Double.class)
+				}
+				if (toDataType == Double.class) {
 					return Double.valueOf(stringValue);
-				if (toDataType == BigDecimal.class)
+				}
+				if (toDataType == BigDecimal.class) {
 					return new BigDecimal(stringValue);
-				if (toDataType == Boolean.class)
+				}
+				if (toDataType == Boolean.class) {
 					return Boolean.valueOf(stringValue);
-				if (toDataType == Date.class)
+				}
+				if (toDataType == Date.class) {
 					return Date.valueOf(stringValue);
-				if (toDataType == Timestamp.class)
+				}
+				if (toDataType == Timestamp.class) {
 					return Timestamp.valueOf(stringValue);
-				if (toDataType == byte[].class)
+				}
+				if (toDataType == byte[].class) {
 					return tryConvertToBytes(stringValue);
+				}
 			}
 
 			if (value instanceof java.util.Date) // the object type returned by MongoDB for a Date field
 			{
 				long msTime = ((java.util.Date) value).getTime();
-				if (toDataType == Date.class)
+				if (toDataType == Date.class) {
 					return new Date(msTime);
-				if (toDataType == Timestamp.class)
+				}
+				if (toDataType == Timestamp.class) {
 					return new Timestamp(msTime);
+				}
 			}
 
 			if (value instanceof BSONTimestamp) {
 				long msTime = ((BSONTimestamp) value).getTime() * 1000L;
-				if (toDataType == Date.class)
+				if (toDataType == Date.class) {
 					return new Date(msTime);
-				if (toDataType == Timestamp.class)
+				}
+				if (toDataType == Timestamp.class) {
 					return new Timestamp(msTime);
+				}
 			}
 
-			if (toDataType == Integer.class)
+			if (toDataType == Integer.class) {
 				return tryConvertToInteger(value);
-			if (toDataType == Double.class)
+			}
+			if (toDataType == Double.class) {
 				return tryConvertToDouble(value);
-			if (toDataType == Boolean.class)
+			}
+			if (toDataType == Boolean.class) {
 				return tryConvertToBoolean(value);
+			}
 		} catch (Exception ex) {
 			String errMsg = Messages.bind(Messages.mDbResultSet_cannotConvertFieldData, new Object[] {
 					DriverUtil.EMPTY_STRING, value, value.getClass().getSimpleName(), toDataType.getSimpleName() });
@@ -604,24 +675,29 @@ public class MDbResultSet implements IResultSet {
 	}
 
 	private static Object tryConvertToInteger(Object value) {
-		if (value instanceof Number)
+		if (value instanceof Number) {
 			return Integer.valueOf(((Number) value).intValue());
-		if (value instanceof Boolean)
+		}
+		if (value instanceof Boolean) {
 			return ((Boolean) value) ? Integer.valueOf(1) : Integer.valueOf(0);
+		}
 		return value; // not able to convert; return value as is
 	}
 
 	private static Object tryConvertToDouble(Object value) {
-		if (value instanceof Number)
+		if (value instanceof Number) {
 			return Double.valueOf(((Number) value).doubleValue());
-		if (value instanceof Boolean)
+		}
+		if (value instanceof Boolean) {
 			return ((Boolean) value) ? Double.valueOf(1d) : Double.valueOf(0d);
+		}
 		return value; // not able to convert; return value as is
 	}
 
 	private static Object tryConvertToBoolean(Object value) {
-		if (value instanceof Number)
+		if (value instanceof Number) {
 			return ((Number) value).doubleValue() != 0 ? Boolean.TRUE : Boolean.FALSE;
+		}
 		return value; // not able to convert; return value as is
 	}
 
@@ -632,10 +708,11 @@ public class MDbResultSet implements IResultSet {
 			// DatatypeConverter could be un-initialized,
 			// log and continue; note that Base64Codec#decode might be unavailable in some
 			// versions
-			if (getLogger().isLoggable(Level.FINE))
+			if (getLogger().isLoggable(Level.FINE)) {
 				getLogger().fine(
 						Messages.bind("Unable to convert the String field value ({0}) to a bytes[] value.\n Cause: {1}", //$NON-NLS-1$
 								stringValue, ex.getMessage()));
+			}
 		}
 		return stringValue; // not able to convert; return value as is
 	}
@@ -651,9 +728,10 @@ public class MDbResultSet implements IResultSet {
 
 	private static void logFetchedFirstElementFromArray(String columnName, int arraySize) {
 		// log that only first value in set is returned
-		if (arraySize > 1 && getLogger().isLoggable(Level.FINER))
+		if (arraySize > 1 && getLogger().isLoggable(Level.FINER)) {
 			getLogger().finer(Messages.bind("Fetching only the first value out of {0} for the field {1}.", //$NON-NLS-1$
 					Integer.valueOf(arraySize), columnName));
+		}
 	}
 
 	private static Logger getLogger() {

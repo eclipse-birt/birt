@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,6 +30,7 @@ public class SizeBasedPageSection extends PageSection {
 		end = new SizeBasedContent();
 	}
 
+	@Override
 	public void write(DataOutputStream out) throws IOException {
 		IOUtil.writeInt(out, TYPE_FIXED_LAYOUT_PAGE_SECTION);
 		IOUtil.writeInt(out, start.floatPos);
@@ -44,6 +45,7 @@ public class SizeBasedPageSection extends PageSection {
 		writeInstanceIndex(out, ends);
 	}
 
+	@Override
 	public void read(DataInputStream in) throws IOException {
 		start.floatPos = IOUtil.readInt(in);
 		start.offsetInContent = IOUtil.readInt(in);

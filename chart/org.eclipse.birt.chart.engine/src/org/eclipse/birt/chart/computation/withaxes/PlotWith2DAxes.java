@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -70,7 +70,7 @@ import com.ibm.icu.util.Calendar;
  * This class is capable of computing the content of a chart (with axes) based
  * on preferred sizes, text rotation, fit ability, scaling, etc and prepares it
  * for rendering.
- * 
+ *
  * WARNING: This is an internal class and subject to change
  */
 public final class PlotWith2DAxes extends PlotWithAxes {
@@ -86,7 +86,7 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 
 	/**
 	 * The default constructor
-	 * 
+	 *
 	 * @param _ids The display server using which the chart is computed
 	 * @param _cwa An instance of the model (ChartWithAxes)
 	 * @throws IllegalArgumentException
@@ -104,7 +104,8 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 	 * Internally maps the EMF model to internal (non-public) rendering fast data
 	 * structures
 	 */
-	final void buildAxes() throws IllegalArgumentException, ChartException {
+	@Override
+	void buildAxes() throws IllegalArgumentException, ChartException {
 		ChartWithAxes cwa = getModel();
 		final Axis[] axa = cwa.getPrimaryBaseAxes();
 		// NOTE: FOR REL 1 AXIS RENDERS, WE SUPPORT A SINGLE PRIMARY BASE AXIS
@@ -234,12 +235,12 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#getMinMax(org
 	 * .eclipse.birt.chart.model.component.Axis, int)
 	 */
 	@Override
-	protected final Object getMinMax(Axis ax, int iType) throws ChartException, IllegalArgumentException {
+	protected Object getMinMax(Axis ax, int iType) throws ChartException, IllegalArgumentException {
 		if (ax.getType().getValue() == AxisType.LINEAR && ax.isAligned() && azHelper != null) {
 			double[] minmax = azHelper.getCachedMinMax(ax);
 			if (minmax != null) {
@@ -291,14 +292,12 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 						{
 							if (oMin == null) {
 								oMin = oV1;
+							} else if (NumberUtil.isBigNumber(oV1)) {
+								oMin = ((BigNumber) oMin).min((BigNumber) oV1);
 							} else {
-								if (NumberUtil.isBigNumber(oV1)) {
-									oMin = ((BigNumber) oMin).min((BigNumber) oV1);
-								} else {
-									final double dV1 = asDouble(oV1).doubleValue();
-									if (Math.min(asDouble(oMin).doubleValue(), dV1) == dV1) {
-										oMin = oV1;
-									}
+								final double dV1 = asDouble(oV1).doubleValue();
+								if (Math.min(asDouble(oMin).doubleValue(), dV1) == dV1) {
+									oMin = oV1;
 								}
 							}
 						}
@@ -308,15 +307,13 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 						{
 							if (oMax == null) {
 								oMax = oV2;
+							} else if (NumberUtil.isBigNumber(oV2)) {
+								oMax = ((BigNumber) oMax).max((BigNumber) oV2);
 							} else {
-								if (NumberUtil.isBigNumber(oV2)) {
-									oMax = ((BigNumber) oMax).max((BigNumber) oV2);
-								} else {
-									final double dV2 = asDouble(oV2).doubleValue();
+								final double dV2 = asDouble(oV2).doubleValue();
 
-									if (Math.max(asDouble(oMax).doubleValue(), dV2) == dV2) {
-										oMax = oV2;
-									}
+								if (Math.max(asDouble(oMax).doubleValue(), dV2) == dV2) {
+									oMax = oV2;
 								}
 							}
 						}
@@ -483,10 +480,12 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 			}
 			if (ax.isPercent()) // HANDLE PERCENT
 			{
-				if (dPercentMax > 100)
+				if (dPercentMax > 100) {
 					dPercentMax = 100;
-				if (dPercentMin < -100)
+				}
+				if (dPercentMin < -100) {
 					dPercentMin = -100;
+				}
 				if (dPercentMax == 0 && dPercentMin == 0) {
 					dPercentMax = 100;
 				}
@@ -594,7 +593,7 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 
 	/**
 	 * Computes while current is study layout.
-	 * 
+	 *
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
@@ -666,11 +665,12 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 	 * This method computes the entire chart within the given bounds. If the dataset
 	 * has changed but none of the axis attributes have changed, simply re-compute
 	 * without 'rebuilding axes'.
-	 * 
+	 *
 	 * @param bo
-	 * 
+	 *
 	 */
-	public final void compute(Bounds bo) throws ChartException, IllegalArgumentException {
+	@Override
+	public void compute(Bounds bo) throws ChartException, IllegalArgumentException {
 		ChartWithAxes cwa = getModel();
 		initInnerFields(bo, cwa);
 
@@ -722,7 +722,7 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 
 	/**
 	 * Computes for non-study-layout case.
-	 * 
+	 *
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
@@ -756,7 +756,7 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 		final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis(axPrimaryBase);
 
 		// 2. Compute primary-base-axis properties and its scale
-		AutoScale scPrimaryBase = null;
+		AutoScale scPrimaryBase;
 		OneAxis oaxPrimaryBase = aax.getPrimaryBase();
 		int iAxisType = getAxisType(axPrimaryBase);
 
@@ -785,7 +785,7 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 		oaxPrimaryBase.set(scPrimaryBase);
 
 		// 3. Compute primary-orthogonal-axis properties and its scale
-		AutoScale scPrimaryOrthogonal = null;
+		AutoScale scPrimaryOrthogonal;
 		OneAxis oaxPrimaryOrthogonal = aax.getPrimaryOrthogonal();
 		iAxisType = getAxisType(axPrimaryOrthogonal);
 		oaData = null;
@@ -922,7 +922,7 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 
 	/**
 	 * Compute plot background by related <code>OneAxis</code>.
-	 * 
+	 *
 	 * @param axPrimaryBase the primary base OneAxis.
 	 * @param axOrthogonals The array of related orthogonal OneAxis[s] to used to
 	 *                      compute plot bounds.
@@ -1002,20 +1002,20 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 	/**
 	 * Returns the plot bounds with margin area. Only valid when margin percent is
 	 * set, otherwise will return plot bounds.
-	 * 
+	 *
 	 * @return The plot bounds with margin area
 	 */
-	public final Bounds getPlotBoundsWithMargin() {
+	public Bounds getPlotBoundsWithMargin() {
 		return boPlotWithMargin;
 	}
 
 	/**
 	 * This method attempts to stretch the base axis so it fits snugly (w.r.t.
 	 * horizontal/vertical spacing) with the overlay axes (if any)
-	 * 
+	 *
 	 * @param aax
 	 */
-	private final void growBaseAxis(AllAxes aax, Bounds bo) throws ChartException {
+	private void growBaseAxis(AllAxes aax, Bounds bo) throws ChartException {
 		OneAxis oaxBase = aax.getPrimaryBase();
 		OneAxis oaxOrthogonal = aax.getPrimaryOrthogonal();
 		AutoScale scBase = oaxBase.getScale();
@@ -1069,47 +1069,41 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 					}
 				}
 			}
-		} else {
-			// !Note if it's transposed, the intersection is not swapped.
-
-			// IF PRIMARY ORTHOGONAL AXIS IS NOT AT THE TOP
-			// If primary orthogonal axis is not at the top.
-			if (oaxOrthogonal.getIntersectionValue().getType() != IConstants.MAX) {
-				// IF ANY OVERLAY ORTHOGONAL AXES ARE AT THE TOP
-				if (aax.anyOverlayPositionedAt(IConstants.MAX)) {
-					scBase.computeAxisStartEndShifts(ids, oaxBase.getLabel(), VERTICAL, oaxBase.getLabelPosition(),
-							aax);
-					{
-						double dTopThreshold = bo.getTop();
-						double dEnd = scBase.getEnd();
-						final double dEndShift = Math.floor(scBase.getEndShift());
-						if (dEnd - dEndShift > dTopThreshold) {
-							dEnd = dEnd - dEndShift;
-							final double dStart = scBase.getStart();
-							scBase.computeTicks(ids, oaxBase.getLabel(), oaxBase.getLabelPosition(), VERTICAL, dStart,
-									dEnd, false, null);
-						}
+		} else // IF PRIMARY ORTHOGONAL AXIS IS NOT AT THE TOP
+		// If primary orthogonal axis is not at the top.
+		if (oaxOrthogonal.getIntersectionValue().getType() != IConstants.MAX) {
+			// IF ANY OVERLAY ORTHOGONAL AXES ARE AT THE TOP
+			if (aax.anyOverlayPositionedAt(IConstants.MAX)) {
+				scBase.computeAxisStartEndShifts(ids, oaxBase.getLabel(), VERTICAL, oaxBase.getLabelPosition(), aax);
+				{
+					double dTopThreshold = bo.getTop();
+					double dEnd = scBase.getEnd();
+					final double dEndShift = Math.floor(scBase.getEndShift());
+					if (dEnd - dEndShift > dTopThreshold) {
+						dEnd = dEnd - dEndShift;
+						final double dStart = scBase.getStart();
+						scBase.computeTicks(ids, oaxBase.getLabel(), oaxBase.getLabelPosition(), VERTICAL, dStart, dEnd,
+								false, null);
 					}
 				}
 			}
+		}
 
-			// IF PRIMARY ORTHOGONAL AXIS IS NOT AT THE BOTTOM
-			// If primary orthogonal axis is not at the bottom.
-			else if (oaxOrthogonal.getIntersectionValue().getType() != IConstants.MIN) {
-				// IF ANY OVERLAY ORTHOGONAL AXES IS AT THE BOTTOM
-				if (aax.anyOverlayPositionedAt(IConstants.MIN)) {
-					scBase.computeAxisStartEndShifts(ids, oaxBase.getLabel(), VERTICAL, oaxBase.getLabelPosition(),
-							aax);
-					{
-						double dBottomThreshold = bo.getTop() + bo.getHeight();
-						double dStart = scBase.getStart();
-						final double dStartShift = scBase.getStartShift();
-						if (dStart + dStartShift < dBottomThreshold) {
-							dStart += dStartShift;
-							final double dEnd = scBase.getEnd();
-							scBase.computeTicks(ids, oaxBase.getLabel(), oaxBase.getLabelPosition(), VERTICAL, dStart,
-									dEnd, false, null);
-						}
+		// IF PRIMARY ORTHOGONAL AXIS IS NOT AT THE BOTTOM
+		// If primary orthogonal axis is not at the bottom.
+		else if (oaxOrthogonal.getIntersectionValue().getType() != IConstants.MIN) {
+			// IF ANY OVERLAY ORTHOGONAL AXES IS AT THE BOTTOM
+			if (aax.anyOverlayPositionedAt(IConstants.MIN)) {
+				scBase.computeAxisStartEndShifts(ids, oaxBase.getLabel(), VERTICAL, oaxBase.getLabelPosition(), aax);
+				{
+					double dBottomThreshold = bo.getTop() + bo.getHeight();
+					double dStart = scBase.getStart();
+					final double dStartShift = scBase.getStartShift();
+					if (dStart + dStartShift < dBottomThreshold) {
+						dStart += dStartShift;
+						final double dEnd = scBase.getEnd();
+						scBase.computeTicks(ids, oaxBase.getLabel(), oaxBase.getLabelPosition(), VERTICAL, dStart, dEnd,
+								false, null);
 					}
 				}
 			}
@@ -1117,17 +1111,17 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aax
 	 * @param dAxisStart
 	 * @param dAxisEnd
 	 * @param dBlockStart
 	 * @param dBlockLength
-	 * 
+	 *
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
-	private final void updateOverlayScales(AllAxes aax, double dAxisStart, double dAxisEnd, double dBlockStart,
+	private void updateOverlayScales(AllAxes aax, double dAxisStart, double dAxisEnd, double dBlockStart,
 			double dBlockLength) throws ChartException, IllegalArgumentException {
 		final Axis[] axa = ((ChartWithAxesImpl) getModel()).getPrimaryBaseAxes();
 		final Axis axPrimaryBase = axa[0];
@@ -1521,7 +1515,7 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 		aax.setBlockCordinates(dBlockStart, dBlockLength);
 	}
 
-	private final void updateOverlayAxes(AllAxes aax) throws ChartException, IllegalArgumentException {
+	private void updateOverlayAxes(AllAxes aax) throws ChartException, IllegalArgumentException {
 		int iDirection = (aax.getOrientation() == HORIZONTAL) ? 1 : -1;
 		final Axis[] axa = getModel().getPrimaryBaseAxes();
 		final Axis axPrimaryBase = axa[0]; // NOTE: FOR REL 1 AXIS RENDERS, WE
@@ -1568,12 +1562,13 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#
 	 * getSeriesRenderingHints(org.eclipse.birt.chart.model.data.SeriesDefinition,
 	 * org.eclipse.birt.chart.model.component.Series)
 	 */
-	public final ISeriesRenderingHints getSeriesRenderingHints(SeriesDefinition sdOrthogonal, Series seOrthogonal)
+	@Override
+	public ISeriesRenderingHints getSeriesRenderingHints(SeriesDefinition sdOrthogonal, Series seOrthogonal)
 			throws ChartException, IllegalArgumentException {
 		if (seOrthogonal == null || seOrthogonal.getClass() == SeriesImpl.class) {
 			// EMPTY PLOT RENDERING TECHNIQUE
@@ -1734,22 +1729,13 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 					// SCATTER CHARTS (BASE AXIS != CATEGORY AXIS)
 					try {
 						dX = getLocation(scBase, oDataBase);
-					} catch (IllegalArgumentException nvex) {
-						dX = dBaseZero;
-					} catch (ChartException dfex) {
+					} catch (IllegalArgumentException | ChartException dfex) {
 						dX = dBaseZero; // FOR CUSTOM DATA ELEMENTS
 					}
 
 					try {
 						dY = getLocation(scOrthogonal, oDataOrthogonal);
-					} catch (IllegalArgumentException nvex) {
-						dY = dOrthogonalZero; // MAP TO ZERO
-						// TED#11755: not set NaN to x coordinate if first
-						// orthogonal value is null, so that subsequent runtime
-						// series can still use x coordinate to compute bar
-						// width correctly.
-						// dX = Double.NaN;
-					} catch (ChartException dfex) {
+					} catch (IllegalArgumentException | ChartException dfex) {
 						dY = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
 					}
 
@@ -1777,14 +1763,12 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 								dLength = daTickCoordinates.getCoordinate(j + 1) - daTickCoordinates.getCoordinate(j);
 								break;
 							}
-						} else {
-							if ((dX <= daTickCoordinates.getCoordinate(j + 1)
-									&& dX >= daTickCoordinates.getCoordinate(j))
-									|| (dX <= daTickCoordinates.getCoordinate(j)
-											&& dX >= daTickCoordinates.getCoordinate(j + 1))) {
-								dLength = daTickCoordinates.getCoordinate(j + 1) - daTickCoordinates.getCoordinate(j);
-								break;
-							}
+						} else if ((dX <= daTickCoordinates.getCoordinate(j + 1)
+								&& dX >= daTickCoordinates.getCoordinate(j))
+								|| (dX <= daTickCoordinates.getCoordinate(j)
+										&& dX >= daTickCoordinates.getCoordinate(j + 1))) {
+							dLength = daTickCoordinates.getCoordinate(j + 1) - daTickCoordinates.getCoordinate(j);
+							break;
 						}
 					}
 				}
@@ -1803,16 +1787,14 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 						percentileValue = new Double(
 								au.valuePercentage(((NumberDataElement) oDataOrthogonal).getValue()) / 100);
 					}
-				} else {
-					if (total != 0) {
-						if (oDataOrthogonal instanceof Number) {
-							percentileValue = new Double(((Number) oDataOrthogonal).doubleValue() / total);
-						} else if (oDataOrthogonal instanceof NumberDataElement) {
-							percentileValue = new Double(((NumberDataElement) oDataOrthogonal).getValue() / total);
-						}
-					} else if (isZeroValue == true) {
-						percentileValue = new Double(1.0 / iOrthogonalCount);
+				} else if (total != 0) {
+					if (oDataOrthogonal instanceof Number) {
+						percentileValue = new Double(((Number) oDataOrthogonal).doubleValue() / total);
+					} else if (oDataOrthogonal instanceof NumberDataElement) {
+						percentileValue = new Double(((NumberDataElement) oDataOrthogonal).getValue() / total);
 					}
+				} else if (isZeroValue) {
+					percentileValue = new Double(1.0 / iOrthogonalCount);
 				}
 
 				dpa[i] = new DataPointHints(oDataBase, oDataOrthogonal, seOrthogonal.getSeriesIdentifier(),
@@ -1870,7 +1852,7 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 		srh.setClientAreaBounds(boClientArea);
 	}
 
-	public final StackedSeriesLookup getStackedSeriesLookup() {
+	public StackedSeriesLookup getStackedSeriesLookup() {
 		return ssl;
 	}
 
@@ -1882,12 +1864,12 @@ public final class PlotWith2DAxes extends PlotWithAxes {
 
 	/**
 	 * Initializes the chart plot bounds for the dynamic size case.
-	 * 
+	 *
 	 * @param bo bounds with dynamic size, such as 0 or negative value
 	 * @throws ChartException
 	 * @since 2.3
 	 */
-	public final void initDynamicPlotBounds(Bounds bo) throws ChartException {
+	public void initDynamicPlotBounds(Bounds bo) throws ChartException {
 		// If one of the dimension is zero, to replace it with axis label height
 		if (bo.getWidth() * bo.getHeight() == 0) {
 			final Axis[] axa = getModel().getPrimaryBaseAxes();

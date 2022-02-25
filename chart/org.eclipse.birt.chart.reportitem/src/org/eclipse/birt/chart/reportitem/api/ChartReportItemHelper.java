@@ -85,7 +85,7 @@ public class ChartReportItemHelper {
 
 	/**
 	 * Returns all bindings used by chart.
-	 * 
+	 *
 	 * @param cm
 	 * @param handle
 	 * @param validExtensionNames
@@ -97,7 +97,7 @@ public class ChartReportItemHelper {
 
 	/**
 	 * Returns all bindings used by chart.
-	 * 
+	 *
 	 * @param cm
 	 * @param handle
 	 * @return all bindings used by chart.
@@ -111,7 +111,7 @@ public class ChartReportItemHelper {
 	}
 
 	public List<String> getLevelBindingNamesOfCrosstab(CrosstabViewHandle viewHandle, ReportItemHandle chartHandle) {
-		ArrayList<String> names = new ArrayList<String>();
+		ArrayList<String> names = new ArrayList<>();
 		for (int i = 0; i < viewHandle.getDimensionCount(); i++) {
 			DimensionViewHandle dimensionHandle = viewHandle.getDimension(i);
 			dimensionHandle.availableBindings();

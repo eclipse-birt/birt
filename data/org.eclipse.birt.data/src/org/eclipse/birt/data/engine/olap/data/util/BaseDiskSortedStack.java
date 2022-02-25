@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ public class BaseDiskSortedStack {
 	private boolean useMemoryOnly = false;
 
 	/**
-	 * 
+	 *
 	 * @param bufferSize
 	 * @param isAscending
 	 * @param forceDistinct
@@ -53,7 +53,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bufferSize
 	 * @param forceDistinct
 	 * @param comparator
@@ -88,7 +88,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param useMemoryOnly
 	 */
 	public void setUseMemoryOnly(boolean useMemoryOnly) {
@@ -96,13 +96,14 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param isAscending
 	 */
 	private static Comparator createComparator(boolean isAscending) {
 		if (isAscending) {
 			return new Comparator() {
 
+				@Override
 				public int compare(Object obj1, Object obj2) {
 					Comparable data1 = (Comparable) obj1;
 					Comparable data2 = (Comparable) obj2;
@@ -112,6 +113,7 @@ public class BaseDiskSortedStack {
 		} else {
 			return new Comparator() {
 
+				@Override
 				public int compare(Object obj1, Object obj2) {
 					Comparable data1 = (Comparable) obj1;
 					Comparable data2 = (Comparable) obj2;
@@ -122,7 +124,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param o
 	 * @return
 	 * @throws IOException
@@ -168,7 +170,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int size() {
@@ -177,8 +179,8 @@ public class BaseDiskSortedStack {
 
 	/**
 	 * @throws IOException
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	protected void saveToDisk(int fromIndex, int toIndex) throws IOException {
 		throw new UnsupportedOperationException();
@@ -186,7 +188,7 @@ public class BaseDiskSortedStack {
 
 	/**
 	 * Sort an array of ResultObjects using stored comparator.
-	 * 
+	 *
 	 * @param self, which needs to be sorted
 	 */
 	private void sort(Object[] objectArray) {
@@ -194,7 +196,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param objectArray
 	 * @param fromIndex
 	 * @param toIndex
@@ -204,7 +206,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param objectArray
 	 * @return
 	 */
@@ -213,7 +215,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param objectArray
 	 * @param fromIndex
 	 * @param toIndex
@@ -231,7 +233,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -262,11 +264,13 @@ public class BaseDiskSortedStack {
 			if (popBufferSize > 1) {
 				pos = Arrays.binarySearch(popBuffer, mValueIndex);
 
-				if (pos < 0)
+				if (pos < 0) {
 					pos = (pos + 1) * -1;
+				}
 				pos--;
-				if (pos == -1)
+				if (pos == -1) {
 					pos = 0;
+				}
 				if (pos > 0) {
 					System.arraycopy(popBuffer, 1, popBuffer, 0, pos);
 				}
@@ -277,10 +281,8 @@ public class BaseDiskSortedStack {
 		if (forceDistinct) {
 			if (lastPopObject == null) {
 				lastPopObject = reValue;
-			} else {
-				if (((Comparable) lastPopObject).compareTo(reValue) == 0) {
-					return pop();
-				}
+			} else if (((Comparable) lastPopObject).compareTo(reValue) == 0) {
+				return pop();
 			}
 		}
 		lastPopObject = reValue;
@@ -288,7 +290,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	private void initPop() throws IOException {
@@ -302,13 +304,13 @@ public class BaseDiskSortedStack {
 
 		for (int i = 0; i < popBuffer.length; i++) {
 			popBuffer[i] = new ValueIndex(readNext(i), i, this.comparator);
-			;
+
 		}
 		Arrays.sort(popBuffer);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private int getSegmentCount() {
@@ -316,7 +318,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param segmentNo
 	 * @return
 	 * @throws IOException
@@ -324,10 +326,11 @@ public class BaseDiskSortedStack {
 	private Object readNext(int segmentNo) throws IOException {
 		if (segmentNo < segments.size()) {
 			BaseDiskArray diskList = (BaseDiskArray) (segments.get(segmentNo));
-			if (pointers[segmentNo] < diskList.size())
+			if (pointers[segmentNo] < diskList.size()) {
 				return diskList.get(pointers[segmentNo]++);
-			else
+			} else {
 				return null;
+			}
 
 		}
 		if (pointers[segmentNo] >= bufferPos) {
@@ -337,7 +340,7 @@ public class BaseDiskSortedStack {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void close() throws IOException {
@@ -358,16 +361,18 @@ public class BaseDiskSortedStack {
 			this.comparator = comparator;
 		}
 
+		@Override
 		public int compareTo(Object o) {
 			ValueIndex other = ((ValueIndex) o);
 			int result = comparator.compare(value, other.value);
 			if (result == 0) {
-				if (index > other.index)
+				if (index > other.index) {
 					return 1;
-				else if (index == other.index)
+				} else if (index == other.index) {
 					return 0;
-				else
+				} else {
 					return -1;
+				}
 
 			}
 			return result;

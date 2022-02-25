@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ class DerivedElementIterator implements Iterator {
 
 	/**
 	 * Constructs a iterator with the given design and the design element handle.
-	 * 
+	 *
 	 * @param module        module
 	 * @param elementHandle handle to the element over which to iterate its derived
 	 *                      elements
@@ -63,10 +63,11 @@ class DerivedElementIterator implements Iterator {
 	/**
 	 * Inherited method that is disabled in this iterator; the caller cannot remove
 	 * descendents using this class.
-	 * 
+	 *
 	 * @see java.util.Iterator#remove()
 	 */
 
+	@Override
 	public void remove() {
 		// This iterator can not be used to remove anything.
 
@@ -75,24 +76,26 @@ class DerivedElementIterator implements Iterator {
 
 	/**
 	 * Returns true if there is another descendent to retrieve.
-	 * 
+	 *
 	 * @return true if there is another descendent to retrieve, false otherwise
 	 * @see java.util.Iterator#hasNext()
 	 */
 
+	@Override
 	public boolean hasNext() {
 		return iter.hasNext();
 	}
 
 	/**
 	 * Returns a handle of a derived element.
-	 * 
+	 *
 	 * @return the handle of a derived element
-	 * 
+	 *
 	 * @see java.util.Iterator#next()
 	 * @see DesignElementHandle
 	 */
 
+	@Override
 	public Object next() {
 		DesignElement derived = (DesignElement) iter.next();
 

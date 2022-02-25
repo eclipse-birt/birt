@@ -1,29 +1,27 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
 package org.eclipse.birt.report.model.adapter.oda.util;
 
-import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
-
 import junit.framework.TestCase;
 
 /**
  * Test cases for trim and add single quotation for the default value.
- * 
+ *
  */
 
 public class ParameterValueUtilTest extends TestCase {

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -76,7 +76,7 @@ public class WizardBase implements IRegistrationListener {
 	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and the
 	 * specified task sets as the 'Active' task.
-	 * 
+	 *
 	 * @param sTasks         Array of task IDs to add. Null indicates nothing added.
 	 * @param topTaskId      Task to open at first. Null indicates the first task
 	 *                       will be the top.
@@ -95,7 +95,7 @@ public class WizardBase implements IRegistrationListener {
 	/**
 	 * Launches the wizard with the first tasks in 'Available' state. Ensure the
 	 * task is registered at first.
-	 * 
+	 *
 	 * @param initialContext Initial Context for the wizard
 	 * @return Wizard Context
 	 */
@@ -105,7 +105,7 @@ public class WizardBase implements IRegistrationListener {
 
 	/**
 	 * Sets the minimum size of the wizard
-	 * 
+	 *
 	 * @param iWidth  width minimum
 	 * @param iHeight height minimum
 	 */
@@ -120,7 +120,7 @@ public class WizardBase implements IRegistrationListener {
 	/**
 	 * Sets if wizard should be closed when Enter key is pressed. Default value is
 	 * true.
-	 * 
+	 *
 	 * @param bClosed true then close wizard when Enter key is pressed
 	 * @since 2.3.1 and 2.5
 	 */
@@ -131,7 +131,7 @@ public class WizardBase implements IRegistrationListener {
 	/**
 	 * Adds a custom button after built-in buttons. This method must be invoked
 	 * before invoking {@link #open(String[], String, IWizardContext)}
-	 * 
+	 *
 	 * @param buttonHandler Custom button handler
 	 */
 	public void addCustomButton(IButtonHandler buttonHandler) {
@@ -144,7 +144,7 @@ public class WizardBase implements IRegistrationListener {
 
 	/**
 	 * Adds tab tool button.
-	 * 
+	 *
 	 * @param buttonHandler
 	 */
 	public void addTabToolButton(IButtonHandler buttonHandler) {
@@ -153,7 +153,7 @@ public class WizardBase implements IRegistrationListener {
 
 	/**
 	 * Returns all tab tool buttons.
-	 * 
+	 *
 	 * @return all tab tool buttons.
 	 */
 	public List<IButtonHandler> getTabToolButtons() {
@@ -241,7 +241,7 @@ public class WizardBase implements IRegistrationListener {
 
 	/**
 	 * Attaches the popup window.
-	 * 
+	 *
 	 * @param sPopupTitle popup title
 	 */
 	public void attachPopup(String sPopupTitle, int iWidth, int iHeight) {
@@ -263,7 +263,7 @@ public class WizardBase implements IRegistrationListener {
 	/**
 	 * Creates an instance of the wizard. Needs to invoke <code>open</code> method
 	 * to create the wizard dialog.
-	 * 
+	 *
 	 * @param sID            wizard id
 	 * @param iInitialWidth  width minimum
 	 * @param iInitialHeight height minimum
@@ -271,10 +271,11 @@ public class WizardBase implements IRegistrationListener {
 	 * @param imgTitle       wizard image
 	 * @param strHeader      the header description
 	 * @param imgHeader      image displayed in the task bar. If null, leave blank.
-	 * *
+	 *                       *
 	 * @deprecated To use
 	 *             {@link #WizardBase(Shell, String, int, int, String, Image, String, Image)}
 	 */
+	@Deprecated
 	public WizardBase(String sID, int iInitialWidth, int iInitialHeight, String strTitle, Image imgTitle,
 			String strHeader, Image imgHeader) {
 		this(null, sID, iInitialWidth, iInitialHeight, strTitle, imgTitle, strHeader, imgHeader);
@@ -283,7 +284,7 @@ public class WizardBase implements IRegistrationListener {
 	/**
 	 * Creates an instance of the wizard. Needs to invoke <code>open</code> method
 	 * to create the wizard dialog.
-	 * 
+	 *
 	 * @param parentShell    parent shell
 	 * @param sID            wizard id
 	 * @param iInitialWidth  width minimum
@@ -304,10 +305,10 @@ public class WizardBase implements IRegistrationListener {
 		// Initialize error manager
 		ErrorsManager.instance();
 		// Initialize instance variables
-		availableTasks = new LinkedHashMap<String, ITask>();
-		vTaskIDs = new Vector<String>();
-		buttonList = new ArrayList<IButtonHandler>(1);
-		tabToolButtonList = new ArrayList<IButtonHandler>(1);
+		availableTasks = new LinkedHashMap<>();
+		vTaskIDs = new Vector<>();
+		buttonList = new ArrayList<>(1);
+		tabToolButtonList = new ArrayList<>(1);
 
 		Shell shell = shellParent;
 		if (shell == null) {
@@ -345,7 +346,7 @@ public class WizardBase implements IRegistrationListener {
 
 	/**
 	 * Displays the exception in a common Error Display UI mechanism.
-	 * 
+	 *
 	 * @param t exception to be displayed to the user
 	 */
 	public static void displayException(Throwable t) {
@@ -356,7 +357,7 @@ public class WizardBase implements IRegistrationListener {
 
 	/**
 	 * Displays the exception in an Eclipse error mechanism.
-	 * 
+	 *
 	 * @param t exception to be displayed to the user
 	 */
 	public static void showException(String errorMessage) {
@@ -379,7 +380,7 @@ public class WizardBase implements IRegistrationListener {
 	 * are possible solutions to the problems. The user can also be given the option
 	 * of switching to a different task where the fix needs to be made. (This is not
 	 * implemented yet).
-	 * 
+	 *
 	 * @param sErrors        Array of error strings
 	 * @param sFixes         Array of strings listing possible solutions to above
 	 *                       errors
@@ -412,9 +413,10 @@ public class WizardBase implements IRegistrationListener {
 	 * org.eclipse.birt.frameworks.taskwizard.interfaces.TasksManager instance when
 	 * a new ITask instance is successfully registered. Default behavior is to do
 	 * nothing.
-	 * 
+	 *
 	 * @param sTaskID The ID for the newly registered task
 	 */
+	@Override
 	public void taskRegistered(String sTaskID) {
 		// DO NOTHING...NEWLY REGISTERED TASKS DO NOT AFFECT AN EXISTING WIZARD
 		// IN MOST CASES
@@ -426,9 +428,10 @@ public class WizardBase implements IRegistrationListener {
 	 * an existing ITask instance is successfully deregistered. Default behavior is
 	 * to do nothing. This can be overridden by individual wizards to handle
 	 * deregistration of tasks currently available in the wizard.
-	 * 
+	 *
 	 * @param sTaskID The ID for the deregistered task
 	 */
+	@Override
 	public void taskDeregistered(String sTaskID) {
 		// DO NOTHING...IF EXISTING TASKS ARE DEREGISTERED, THEY WOULD NOT
 		// DIRECTLY AFFECT A RUNNING WIZARD...
@@ -439,9 +442,9 @@ public class WizardBase implements IRegistrationListener {
 
 	/**
 	 * Validates before pressing OK.
-	 * 
+	 *
 	 * @return validation results
-	 * 
+	 *
 	 */
 	protected String[] validate() {
 		return null;
@@ -476,7 +479,7 @@ public class WizardBase implements IRegistrationListener {
 
 	/**
 	 * Packs the wizard to display enough size
-	 * 
+	 *
 	 */
 	public void packWizard() {
 		dialog.packWizard();
@@ -484,7 +487,7 @@ public class WizardBase implements IRegistrationListener {
 
 	/**
 	 * The method makes user can do custom pack actions for current dialog.
-	 * 
+	 *
 	 * @return <code>true</code> means custom pack has been done.
 	 */
 	protected boolean applyCustomPack() {

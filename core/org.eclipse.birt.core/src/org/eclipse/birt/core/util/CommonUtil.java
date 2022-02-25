@@ -28,7 +28,7 @@ public class CommonUtil {
 
 	/**
 	 * Creates SAX parser and disables XXE
-	 * 
+	 *
 	 * @return new SAX parser
 	 * @throws ParserConfigurationException
 	 * @throws SAXException

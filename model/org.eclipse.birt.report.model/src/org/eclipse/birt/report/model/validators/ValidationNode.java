@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ public class ValidationNode {
 
 	/**
 	 * Constructs the validation node.
-	 * 
+	 *
 	 * @param element     the element to validate
 	 * @param triggerDefn the trigger definition
 	 */
@@ -67,7 +67,7 @@ public class ValidationNode {
 
 	/**
 	 * Returns the element to validate
-	 * 
+	 *
 	 * @return the element to validate
 	 */
 
@@ -77,7 +77,7 @@ public class ValidationNode {
 
 	/**
 	 * Performs the validation of this node.
-	 * 
+	 *
 	 * @param module    the module
 	 * @param sendEvent indicates whether to send event is needed
 	 * @return error list. Each one is the instance of
@@ -87,8 +87,9 @@ public class ValidationNode {
 	final List<SemanticException> perform(Module module, boolean sendEvent) {
 		AbstractSemanticValidator validator = triggerDefn.getValidator();
 		if (module instanceof ReportDesign && !validator.canApplyToDesign()
-				|| module instanceof Library && !validator.canApplyToLibrary())
+				|| module instanceof Library && !validator.canApplyToLibrary()) {
 			return Collections.emptyList();
+		}
 
 		// Locate the target element of validation.
 
@@ -99,8 +100,9 @@ public class ValidationNode {
 
 			while (toValidate != null) {
 				ElementDefn elementDefn = (ElementDefn) toValidate.getDefn();
-				if (elementDefn.isKindOf(targetDefn))
+				if (elementDefn.isKindOf(targetDefn)) {
 					break;
+				}
 
 				toValidate = toValidate.getContainer();
 			}
@@ -109,8 +111,9 @@ public class ValidationNode {
 		// If the target is not found, no validation is needed. This case is
 		// usually for the element which is not added into report.
 
-		if (toValidate == null)
+		if (toValidate == null) {
 			return Collections.emptyList();
+		}
 
 		// Perform validation.
 
@@ -126,10 +129,11 @@ public class ValidationNode {
 
 		// Returns if validation events are not needed
 
-		if (!sendEvent)
+		if (!sendEvent) {
 			return errors;
+		}
 
-		List<ErrorDetail> errorDetailList = new ArrayList<ErrorDetail>();
+		List<ErrorDetail> errorDetailList = new ArrayList<>();
 
 		Iterator<SemanticException> iter = errors.iterator();
 		while (iter.hasNext()) {
@@ -149,7 +153,7 @@ public class ValidationNode {
 
 	/**
 	 * Returns the trigger definition.
-	 * 
+	 *
 	 * @return the trigger definition
 	 */
 
@@ -159,12 +163,13 @@ public class ValidationNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
+	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		sb.append("element="); //$NON-NLS-1$
 		sb.append(element.getElementName());

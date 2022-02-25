@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -109,7 +109,7 @@ import com.ibm.icu.util.ULocale;
  * <code>HTMLReportEmitter</code> is a subclass of
  * <code>ContentEmitterAdapter</code> that implements IContentEmitter interface
  * to output IARD Report ojbects to HTML file.
- * 
+ *
  * <br>
  * Metadata information:<br>
  * <table border="solid;1px">
@@ -156,7 +156,7 @@ import com.ibm.icu.util.ULocale;
  * <td>Only bookmark is output on self</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter {
 	/**
@@ -328,7 +328,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack();
-	protected Stack<DimensionType> fixedRowHeightStack = new Stack<DimensionType>();
+	protected Stack<DimensionType> fixedRowHeightStack = new Stack<>();
 
 	/**
 	 * This set is used to store the style class which has been outputted.
@@ -349,11 +349,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#initialize(org.eclipse
 	 * .birt.report.engine.emitter.IEmitterServices)
 	 */
+	@Override
 	public void initialize(IEmitterServices services) throws EngineException {
 		this.services = services;
 
@@ -361,18 +362,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 		// FIXME: code review: solve the deprecated problem.
 		Object emitterConfig = services.getEmitterConfig().get("html"); //$NON-NLS-1$
-		if (emitterConfig != null && emitterConfig instanceof HTMLEmitterConfig) {
+		if (emitterConfig instanceof HTMLEmitterConfig) {
 			imageHandler = ((HTMLEmitterConfig) emitterConfig).getImageHandler();
 			actionHandler = ((HTMLEmitterConfig) emitterConfig).getActionHandler();
 		}
 
 		Object im = services.getOption(HTMLRenderOption.IMAGE_HANDLER);
-		if (im != null && im instanceof IHTMLImageHandler) {
+		if (im instanceof IHTMLImageHandler) {
 			imageHandler = (IHTMLImageHandler) im;
 		}
 
 		Object ac = services.getOption(HTMLRenderOption.ACTION_HANDLER);
-		if (ac != null && ac instanceof IHTMLActionHandler) {
+		if (ac instanceof IHTMLActionHandler) {
 			actionHandler = (IHTMLActionHandler) ac;
 		}
 
@@ -430,7 +431,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 					|| browserVersion == HTMLEmitterUtil.BROWSER_FIREFOX2) {
 				browserSupportsInlineBlock = false;
 			}
-//  Single Metric: Dont provide alt attribute to the img element in single metric			
+//  Single Metric: Dont provide alt attribute to the img element in single metric
 			if (browserVersion == HTMLEmitterUtil.BROWSER_FIREFOX || browserVersion == HTMLEmitterUtil.BROWSER_FIREFOX1
 					|| browserVersion == HTMLEmitterUtil.BROWSER_FIREFOX2) {
 				browserSupportsBrokenImageIcon = true;
@@ -455,9 +456,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#getOutputFormat()
 	 */
+	@Override
 	public String getOutputFormat() {
 		return OUTPUT_FORMAT_HTML;
 	}
@@ -601,11 +603,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#start(org.eclipse.birt
 	 * .report.engine.content.IReportContent)
 	 */
+	@Override
 	public void start(IReportContent report) {
 		logger.log(Level.FINEST, "[HTMLReportEmitter] Start emitter."); //$NON-NLS-1$
 
@@ -622,7 +625,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			Map appContext = reportContext.getAppContext();
 			if (appContext != null) {
 				Object tmp = appContext.get(EngineConstants.APPCONTEXT_CHART_RESOLUTION);
-				if (tmp != null && tmp instanceof Number) {
+				if (tmp instanceof Number) {
 					imageDpi = ((Number) tmp).intValue();
 				}
 			}
@@ -678,12 +681,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 						if (defaultStyleBuffer.length() > 0) {
 							writer.attribute(HTMLTags.ATTR_STYLE, defaultStyleBuffer.toString());
 						}
+					} else if (htmlIDNamespace != null) {
+						writer.attribute(HTMLTags.ATTR_CLASS, htmlIDNamespace + defaultStyleName);
 					} else {
-						if (htmlIDNamespace != null) {
-							writer.attribute(HTMLTags.ATTR_CLASS, htmlIDNamespace + defaultStyleName);
-						} else {
-							writer.attribute(HTMLTags.ATTR_CLASS, defaultStyleName);
-						}
+						writer.attribute(HTMLTags.ATTR_CLASS, defaultStyleName);
 					}
 				}
 			}
@@ -755,12 +756,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				if (enableInlineStyle) {
 					IStyle defaultStyle = report.findStyle(defaultStyleName);
 					htmlEmitter.buildDefaultStyle(defaultStyleBuffer, defaultStyle);
+				} else if (htmlIDNamespace != null) {
+					writer.attribute(HTMLTags.ATTR_CLASS, htmlIDNamespace + defaultStyleName);
 				} else {
-					if (htmlIDNamespace != null) {
-						writer.attribute(HTMLTags.ATTR_CLASS, htmlIDNamespace + defaultStyleName);
-					} else {
-						writer.attribute(HTMLTags.ATTR_CLASS, defaultStyleName);
-					}
+					writer.attribute(HTMLTags.ATTR_CLASS, defaultStyleName);
 				}
 			}
 		}
@@ -871,39 +870,37 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	private void outputCSSStyles(Report reportDesign, ReportDesignHandle designHandle) {
 		if (report == null) {
 			logger.log(Level.WARNING, "[HTMLReportEmitter] Report object is null."); //$NON-NLS-1$
-		} else {
-			// output the report CSS styles
-			if (!enableInlineStyle) {
-				openStyleSheet();
-				String styleNamePrefix;
-				if (null != htmlIDNamespace) {
-					styleNamePrefix = "." + htmlIDNamespace;
-				} else {
-					styleNamePrefix = ".";
-				}
-				String defaultStyleName = reportDesign.getRootStyleName();
-				Map styles = reportDesign.getStyles();
-				Iterator iter = styles.entrySet().iterator();
-				while (iter.hasNext()) {
-					Map.Entry entry = (Map.Entry) iter.next();
-					String styleName = (String) entry.getKey();
-					if (styleName != null) {
-						IStyle style = (IStyle) entry.getValue();
-						StringBuffer styleBuffer = new StringBuffer();
-						if (styleName.equals(defaultStyleName)) {
-							htmlEmitter.buildDefaultStyle(styleBuffer, style);
-						} else {
-							htmlEmitter.buildStyle(styleBuffer, style);
-						}
+		} else // output the report CSS styles
+		if (!enableInlineStyle) {
+			openStyleSheet();
+			String styleNamePrefix;
+			if (null != htmlIDNamespace) {
+				styleNamePrefix = "." + htmlIDNamespace;
+			} else {
+				styleNamePrefix = ".";
+			}
+			String defaultStyleName = reportDesign.getRootStyleName();
+			Map styles = reportDesign.getStyles();
+			Iterator iter = styles.entrySet().iterator();
+			while (iter.hasNext()) {
+				Map.Entry entry = (Map.Entry) iter.next();
+				String styleName = (String) entry.getKey();
+				if (styleName != null) {
+					IStyle style = (IStyle) entry.getValue();
+					StringBuffer styleBuffer = new StringBuffer();
+					if (styleName.equals(defaultStyleName)) {
+						htmlEmitter.buildDefaultStyle(styleBuffer, style);
+					} else {
+						htmlEmitter.buildStyle(styleBuffer, style);
+					}
 
-						if (styleBuffer.length() > 0) {
-							writer.style(styleNamePrefix + styleName, styleBuffer.toString());
-							outputtedStyles.add(styleName);
-						}
+					if (styleBuffer.length() > 0) {
+						writer.style(styleNamePrefix + styleName, styleBuffer.toString());
+						outputtedStyles.add(styleName);
 					}
 				}
-				closeStyleSheet();
 			}
+			closeStyleSheet();
 		}
 
 		// export the CSS links in the HTML
@@ -1028,11 +1025,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#end(org.eclipse.birt.
 	 * report.engine.content.IReportContent)
 	 */
+	@Override
 	public void end(IReportContent report) {
 		logger.log(Level.FINEST, "[HTMLReportEmitter] End body."); //$NON-NLS-1$
 		if (report != null) {
@@ -1060,10 +1058,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	}
 
 	private boolean isSameUnit(String unit1, String unit2) {
-		if (unit1 == unit2) {
-			return true;
-		}
-		if (unit1 != null && unit1.equals(unit2)) {
+		if ((unit1 == unit2) || (unit1 != null && unit1.equals(unit2))) {
 			return true;
 		}
 		return false;
@@ -1098,24 +1093,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		if (leftMargin != null) {
 			if (isSameUnit(unit, leftMargin.getUnits())) {
 				measure -= leftMargin.getMeasure();
-			} else {
-				if (DimensionUtil.isAbsoluteUnit(unit) && DimensionUtil.isAbsoluteUnit(leftMargin.getUnits())) {
-					DimensionValue converted = DimensionUtil.convertTo(leftMargin.getMeasure(), leftMargin.getUnits(),
-							unit);
-					measure -= converted.getMeasure();
-				}
+			} else if (DimensionUtil.isAbsoluteUnit(unit) && DimensionUtil.isAbsoluteUnit(leftMargin.getUnits())) {
+				DimensionValue converted = DimensionUtil.convertTo(leftMargin.getMeasure(), leftMargin.getUnits(),
+						unit);
+				measure -= converted.getMeasure();
 			}
 		}
 		if (rightMargin != null) {
 			if (isSameUnit(unit, rightMargin.getUnits())) {
 				measure -= rightMargin.getMeasure();
 
-			} else {
-				if (DimensionUtil.isAbsoluteUnit(unit) && DimensionUtil.isAbsoluteUnit(rightMargin.getUnits())) {
-					DimensionValue converted = DimensionUtil.convertTo(rightMargin.getMeasure(), rightMargin.getUnits(),
-							unit);
-					measure -= converted.getMeasure();
-				}
+			} else if (DimensionUtil.isAbsoluteUnit(unit) && DimensionUtil.isAbsoluteUnit(rightMargin.getUnits())) {
+				DimensionValue converted = DimensionUtil.convertTo(rightMargin.getMeasure(), rightMargin.getUnits(),
+						unit);
+				measure -= converted.getMeasure();
 			}
 		}
 		if (measure > 0) {
@@ -1127,7 +1118,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	protected void outputColumn(DimensionType dm) {
 		writer.openTag(HTMLTags.TAG_COL);
 
-		StringBuffer styleBuffer = new StringBuffer();
+		StringBuilder styleBuffer = new StringBuilder();
 		styleBuffer.append("width: ");
 		if (dm != null) {
 			styleBuffer.append(dm.toString());
@@ -1143,7 +1134,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		// If margin isn't null, output a row to implement it.
 		if (null != margin) {
 			writer.openTag(HTMLTags.TAG_TR);
-			StringBuffer styleBuffer = new StringBuffer();
+			StringBuilder styleBuffer = new StringBuilder();
 			styleBuffer.append("height: ");
 			styleBuffer.append(margin.toString());
 			styleBuffer.append(";");
@@ -1159,7 +1150,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		writer.openTag(HTMLTags.TAG_TD);
 		if (null != margin) {
 			writer.openTag(HTMLTags.TAG_DIV);
-			StringBuffer styleBuffer = new StringBuffer();
+			StringBuilder styleBuffer = new StringBuilder();
 			styleBuffer.append("width: ");
 			styleBuffer.append(margin.toString());
 			styleBuffer.append(";");
@@ -1230,15 +1221,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * The page layout is controlled by three render options:
-	 * 
+	 *
 	 * <ul>
 	 * <li>OUTPUT-MASTER-PAGE</li>
 	 * <li>OUTPUT-MARGIN</li>
 	 * <li>FLOATING-FOOTER</li>
 	 * </ul>
-	 * 
+	 *
 	 * The layout effect matrix are demostrate in following table:
-	 * 
+	 *
 	 * <table border="all">
 	 * <tr>
 	 * <th>PAGE</th>
@@ -1346,7 +1337,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * <td>ANY</td>
 	 * <td>ANY</td>
 	 * <td>
-	 * 
+	 *
 	 * <table border="all" style="width:1.6in;">
 	 * <tr>
 	 * <td>BODY</td>
@@ -1356,10 +1347,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * </tr>
 	 * </table>
 	 */
+	@Override
 	public void startPage(IPageContent page) throws BirtException {
 		pageNo++;
 
-		if (pageNo > 1 && outputMasterPageContent == false) {
+		if (pageNo > 1 && !outputMasterPageContent) {
 			writer.openTag("hr");
 			writer.closeTag("hr");
 		}
@@ -1375,8 +1367,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		if (page != null && outputMasterPageContent) {
 			width = getPageWidth(page);
 			height = getPageHeight(page);
-			if (width != null && height != null && fixedReport && !pageFooterFloatFlag)
+			if (width != null && height != null && fixedReport && !pageFooterFloatFlag) {
 				startBackgroundContainer(page.getStyle(), width, height);
+			}
 		}
 
 		StringBuffer styleBuffer = new StringBuffer();
@@ -1488,13 +1481,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	}
 
 	protected String parseBackgroundSize(String backgroundHeight, DimensionType pageHeight) {
-		if (backgroundHeight == null)
+		if (backgroundHeight == null) {
 			return null;
+		}
 		backgroundHeight = backgroundHeight.trim();
 		if (backgroundHeight.endsWith("%")) {
 			try {
 				String percent = backgroundHeight.substring(0, backgroundHeight.length() - 1);
-				int percentValue = Integer.valueOf(percent).intValue();
+				int percentValue = Integer.parseInt(percent);
 				return pageHeight.getMeasure() * percentValue / 100 + pageHeight.getUnits();
 			} catch (NumberFormatException e) {
 				return null;
@@ -1509,11 +1503,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#endPage(org.eclipse.
 	 * birt.report.engine.content.IPageContent)
 	 */
+	@Override
 	public void endPage(IPageContent page) throws BirtException {
 
 		logger.log(Level.FINEST, "[HTMLReportEmitter] End page."); //$NON-NLS-1$
@@ -1555,11 +1550,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startTable(org.eclipse
 	 * .birt.report.engine.content.ITableContent)
 	 */
+	@Override
 	public void startTable(ITableContent table) {
 		cachedStartTable = table;
 	}
@@ -1692,11 +1688,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#endTable(org.eclipse.
 	 * birt.report.engine.content.ITableContent)
 	 */
+	@Override
 	public void endTable(ITableContent table) {
 		if (cachedStartTable != null) {
 			cachedStartTable = null;
@@ -1724,7 +1721,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	/**
 	 * Judge needing implement the align table or not. The align table should be
 	 * align according to the page box.
-	 * 
+	 *
 	 * @param table
 	 * @return
 	 */
@@ -1770,7 +1767,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startTableHeader(org.
 	 * eclipse.birt.report.engine.content.ITableBandContent)
@@ -1781,7 +1778,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#endTableHeader(org.
 	 * eclipse.birt.report.engine.content.ITableBandContent)
@@ -1792,7 +1789,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startTableBody(org.
 	 * eclipse.birt.report.engine.content.ITableBandContent)
@@ -1803,7 +1800,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#endTableBody(org.
 	 * eclipse.birt.report.engine.content.ITableBandContent)
 	 */
@@ -1813,7 +1810,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startTableFooter(org.
 	 * eclipse.birt.report.engine.content.ITableBandContent)
@@ -1824,7 +1821,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#endTableFooter(org.
 	 * eclipse.birt.report.engine.content.ITableBandContent)
@@ -1835,11 +1832,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startRow(org.eclipse.
 	 * birt.report.engine.content.IRowContent)
 	 */
+	@Override
 	public void startRow(IRowContent row) {
 		assert row != null;
 
@@ -1895,11 +1893,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#endRow(org.eclipse.
 	 * birt.report.engine.content.IRowContent)
 	 */
+	@Override
 	public void endRow(IRowContent row) {
 		tableLayout.endRow();
 		if (enableMetadata) {
@@ -1938,11 +1937,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startCell(org.eclipse.
 	 * birt.report.engine.content.ICellContent)
 	 */
+	@Override
 	public void startCell(ICellContent cell) {
 		logger.log(Level.FINEST, "[HTMLTableEmitter] Start cell."); //$NON-NLS-1$
 
@@ -2052,7 +2052,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			IStyle style = cell.getStyle();
 			if (style != null) {
 				String overflow = style.getOverflow();
-				if (overflow != null && CSSConstants.CSS_OVERFLOW_SCROLL_VALUE.equals(overflow)) {
+				if (CSSConstants.CSS_OVERFLOW_SCROLL_VALUE.equals(overflow)) {
 					DimensionType cellHeight = (DimensionType) fixedRowHeightStack.peek();
 					if (cellHeight != null) {
 						return true;
@@ -2105,7 +2105,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			writer.openTag(HTMLTags.TAG_IMAGE);
 			writer.attributeAllowEmpty(HTMLTags.ATTR_ALT, "");
 			writer.attribute(HTMLTags.ATTR_SRC, imgUri);
-			StringBuffer styleBuffer = new StringBuffer();
+			StringBuilder styleBuffer = new StringBuilder();
 			styleBuffer.append(" min-height: ");
 			styleBuffer.append(cellHeight.toString());
 			styleBuffer.append("; height: 100%; width: 100%; position: absolute; z-index: auto; left: 0px;");
@@ -2139,11 +2139,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#endCell(org.eclipse.
 	 * birt.report.engine.content.ICellContent)
 	 */
+	@Override
 	public void endCell(ICellContent cell) {
 		logger.log(Level.FINEST, "[HTMLReportEmitter] End cell."); //$NON-NLS-1$
 
@@ -2172,13 +2173,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startContainer(org.
 	 * eclipse.birt.report.engine.content.IContainerContent)
 	 */
 	// FIXME: code review: only the list element using the startContainer. So
 	// rename this method to startList.
+	@Override
 	public void startContainer(IContainerContent container) {
 		logger.log(Level.FINEST, "[HTMLReportEmitter] Start container"); //$NON-NLS-1$
 
@@ -2213,10 +2215,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#endContainer(org.
 	 * eclipse.birt.report.engine.content.IContainerContent)
 	 */
+	@Override
 	public void endContainer(IContainerContent container) {
 		htmlEmitter.closeContainerTag();
 
@@ -2228,11 +2231,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	// metadata shouldn't open a new tag, and so on.
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startText(org.eclipse.
 	 * birt.report.engine.content.ITextContent)
 	 */
+	@Override
 	public void startText(ITextContent text) {
 		IStyle mergedStyle = text.getStyle();
 
@@ -2312,10 +2316,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#startForeign(org.
 	 * eclipse.birt.report.engine.content.IForeignContent)
 	 */
+	@Override
 	public void startForeign(IForeignContent foreign) {
 		IStyle mergedStyle = foreign.getStyle();
 
@@ -2461,7 +2466,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * Visits the children nodes of the specific node
-	 * 
+	 *
 	 * @param visitor the ITextNodeVisitor instance
 	 * @param ele     the specific node
 	 */
@@ -2501,7 +2506,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * test if the text node is in the script
-	 * 
+	 *
 	 * @param node text node
 	 * @return true if the text is a script, otherwise, false.
 	 */
@@ -2541,7 +2546,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			}
 		}
 		if (cssStyle != null) {
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			Iterator ite = cssStyle.entrySet().iterator();
 			while (ite.hasNext()) {
 				Map.Entry entry = (Map.Entry) ite.next();
@@ -2579,11 +2584,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startLabel(org.eclipse
 	 * .birt.report.engine.content.ILabelContent)
 	 */
+	@Override
 	public void startLabel(ILabelContent label) {
 		String bookmark = label.getBookmark();
 		if (bookmark == null) {
@@ -2595,22 +2601,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startData(org.eclipse.
 	 * birt.report.engine.content.IDataContent)
 	 */
+	@Override
 	public void startData(IDataContent data) {
 		startText(data);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.IContentEmitter#startImage(org.eclipse
 	 * .birt.report.engine.content.IImageContent)
 	 */
+	@Override
 	public void startImage(IImageContent image) {
 		assert image != null;
 		IStyle mergedStyle = image.getStyle();
@@ -2694,7 +2702,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				if (!hasAction) {
 					resetImageDefaultBorders(image, styleBuffer);
 				}
-				writer.attribute(HTMLTags.ATTR_USEMAP, "#" + imageMapId); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.attribute(HTMLTags.ATTR_USEMAP, "#" + imageMapId); //$NON-NLS-1$
 			}
 
 			// alternative text
@@ -2748,7 +2756,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * output image's part of metadata, style class and bookmark.
-	 * 
+	 *
 	 * @param image
 	 * @param tag
 	 */
@@ -2770,7 +2778,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * output the svg image
-	 * 
+	 *
 	 * @param image
 	 * @param styleBuffer
 	 * @param display
@@ -2811,7 +2819,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param image
 	 * @param styleBuffer
 	 */
@@ -2822,40 +2830,32 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		if (style.getBorderTopStyle() == null) {
 			// user doesn't define the border, remove it.
 			styleBuffer.append("border-top-style:none;");
-		} else {
-			// use define the border-style, but not define the
-			// border color, use the default
-			// color.
-			if (style.getBorderTopColor() == null) {
-				styleBuffer.append("border-top-color:black");
-			}
+		} else // use define the border-style, but not define the
+		// border color, use the default
+		// color.
+		if (style.getBorderTopColor() == null) {
+			styleBuffer.append("border-top-color:black");
 		}
 		if (style.getBorderBottomStyle() == null) {
 			styleBuffer.append("border-bottom-style:none;");
-		} else {
-			if (style.getBorderBottomColor() == null) {
-				styleBuffer.append("border-bottom-color:black");
-			}
+		} else if (style.getBorderBottomColor() == null) {
+			styleBuffer.append("border-bottom-color:black");
 		}
 		if (style.getBorderLeftStyle() == null) {
 			styleBuffer.append("border-left-style:none;");
-		} else {
-			if (style.getBorderLeftColor() == null) {
-				styleBuffer.append("border-left-color:black");
-			}
+		} else if (style.getBorderLeftColor() == null) {
+			styleBuffer.append("border-left-color:black");
 		}
 		if (style.getBorderRightStyle() == null) {
 			styleBuffer.append("border-right-style:none;");
-		} else {
-			if (style.getBorderRightColor() == null) {
-				styleBuffer.append("border-right-color:black");
-			}
+		} else if (style.getBorderRightColor() == null) {
+			styleBuffer.append("border-right-color:black");
 		}
 	}
 
 	/**
 	 * gets the image's URI
-	 * 
+	 *
 	 * @param image the image content
 	 * @return image's URI
 	 */
@@ -2895,11 +2895,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	/**
 	 * Sets the <code>'class'</code> property and stores the style to styleMap
 	 * object.
-	 * 
+	 *
 	 * @param styleName the style name
 	 */
 	protected void setStyleName(String styleName, IContent content) {
-		StringBuffer classBuffer = new StringBuffer();
+		StringBuilder classBuffer = new StringBuilder();
 
 		if (enableMetadata) {
 			String metadataStyleClass = metadataEmitter.getMetadataStyleClass(content);
@@ -2958,7 +2958,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * treated as a block level element regardless of the 'Display' property set in
 	 * style. When designating width or height value to an inline element, it will
 	 * be treated as inline-block.
-	 * 
+	 *
 	 * @param x           Specifies how far a box's left margin edge is offset to
 	 *                    the right of the left edge of the box's containing block.
 	 * @param y           Specifies how far an absolutely positioned box's top
@@ -3010,7 +3010,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * <td>SPAN</td>
 	 * </tr>
 	 * </table>
-	 * 
+	 *
 	 * @param display The display type.
 	 * @param mask    The mask value.
 	 * @return Tag name.
@@ -3025,7 +3025,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * Checks the Action object and then output corresponding tag and property.
-	 * 
+	 *
 	 * @param action The <code>IHyperlinkAction</code> object.
 	 * @return A <code>boolean</code> value indicating whether the Action object is
 	 *         valid or not.
@@ -3036,7 +3036,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param action
 	 * @param url
 	 * @return
@@ -3050,7 +3050,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * Outputs an hyperlink action.
-	 * 
+	 *
 	 * @param action the hyperlink action.
 	 */
 	protected void outputAction(IHyperlinkAction action, String url) {
@@ -3062,7 +3062,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * Judges if a hyperlink is valid.
-	 * 
+	 *
 	 * @param action the hyperlink action
 	 * @return
 	 */
@@ -3087,7 +3087,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * handle style image
-	 * 
+	 *
 	 * @param uri uri in style image
 	 * @return
 	 */
@@ -3101,7 +3101,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	// directly here
 	/**
 	 * handle style image
-	 * 
+	 *
 	 * @param uri          uri in style image
 	 * @param isBackground Is this image a used for a background?
 	 * @return
@@ -3162,10 +3162,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/**
 	 * setup chart template and table template element for output.
-	 * 
+	 *
 	 * <li>1. set the bookmark if there is no bookmark.</li>
 	 * <li>2. chage the styles of the element.</li>
-	 * 
+	 *
 	 * @param template the design used to create the contnet.
 	 * @param content  the styled element content
 	 */
@@ -3201,77 +3201,84 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endGroup(org.
 	 * eclipse.birt.report.engine.content.IGroupContent)
 	 */
+	@Override
 	public void endGroup(IGroupContent group) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endListBand(org.
 	 * eclipse.birt.report.engine.content.IListBandContent)
 	 */
+	@Override
 	public void endListBand(IListBandContent listBand) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endListGroup(org
 	 * .eclipse.birt.report.engine.content.IListGroupContent)
 	 */
+	@Override
 	public void endListGroup(IListGroupContent group) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endTableBand(org
 	 * .eclipse.birt.report.engine.content.ITableBandContent)
 	 */
+	@Override
 	public void endTableBand(ITableBandContent band) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#endTableGroup(
 	 * org.eclipse.birt.report.engine.content.ITableGroupContent)
 	 */
+	@Override
 	public void endTableGroup(ITableGroupContent group) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startGroup(org.
 	 * eclipse.birt.report.engine.content.IGroupContent)
 	 */
+	@Override
 	public void startGroup(IGroupContent group) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startListBand(
 	 * org.eclipse.birt.report.engine.content.IListBandContent)
 	 */
+	@Override
 	public void startListBand(IListBandContent listBand) {
 	}
 
 	/**
 	 * used to control the output of group bookmarks.
-	 * 
+	 *
 	 * @see {@link #startTableGroup(ITableGroupContent)}
 	 * @see {@link #startListGroup(IListGroupContent)}
 	 */
@@ -3279,32 +3286,35 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startListGroup(
 	 * org.eclipse.birt.report.engine.content.IListGroupContent)
 	 */
+	@Override
 	public void startListGroup(IListGroupContent group) {
 		outputBookmark(group);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startTableBand(
 	 * org.eclipse.birt.report.engine.content.ITableBandContent)
 	 */
+	@Override
 	public void startTableBand(ITableBandContent band) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startTableGroup(
 	 * org.eclipse.birt.report.engine.content.ITableGroupContent)
 	 */
+	@Override
 	public void startTableGroup(ITableGroupContent group) {
 		startedGroups.push(group);
 	}
@@ -3405,7 +3415,7 @@ class TableLayout {
 	/**
 	 * stack used save status of nested table.
 	 */
-	private Stack<LayoutStatus> statuses = new Stack<LayoutStatus>();
+	private Stack<LayoutStatus> statuses = new Stack<>();
 	/**
 	 * current table content
 	 */
@@ -3563,10 +3573,8 @@ class TableLayout {
 				ICellContent newCell = null;
 				if (currentCell != null) {
 					newCell = newCell(currentCell, i, i + 1);
-				} else {
-					if (table != null) {
-						newCell = newCell(table.getReportContent().createCellContent(), i, i + 1);
-					}
+				} else if (table != null) {
+					newCell = newCell(table.getReportContent().createCellContent(), i, i + 1);
 				}
 				if (newCell != null) {
 					emitter.startCell(newCell);
@@ -3615,7 +3623,7 @@ class TableLayout {
 
 	/**
 	 * append invisible cells before the current one.
-	 * 
+	 *
 	 * @param startCol start col
 	 * @param endCol   end col
 	 * @param cell     next visible cell

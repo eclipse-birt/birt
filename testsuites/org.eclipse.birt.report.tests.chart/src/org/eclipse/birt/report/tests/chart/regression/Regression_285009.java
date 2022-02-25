@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,7 +50,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The selector of charts in SWT.
- * 
+ *
  */
 public final class Regression_285009 extends ChartTestCase {
 	private static String GOLDEN = "Regression_285009.jpg"; //$NON-NLS-1$
@@ -64,7 +64,7 @@ public final class Regression_285009 extends ChartTestCase {
 
 	/**
 	 * main() method for constructing the layout.
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -110,7 +110,7 @@ public final class Regression_285009 extends ChartTestCase {
 		}
 	}
 
-	private static final Chart createSimpleChart() {
+	private static Chart createSimpleChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		cwaBar.getLegend().setItemType(LegendItemType.SERIES_LITERAL);

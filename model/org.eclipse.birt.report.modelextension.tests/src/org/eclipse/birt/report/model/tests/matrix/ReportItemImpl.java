@@ -111,7 +111,7 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/**
 	 * Constructs an element.
-	 * 
+	 *
 	 * @param extDefn
 	 * @param elementHandle
 	 */
@@ -219,14 +219,15 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.model.extension.IExtendedElement#serialize(java.lang.String)
 	 */
+	@Override
 	public ByteArrayOutputStream serialize(String propName) {
 		if (TEST3_PROP.equalsIgnoreCase(propName)) {
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 
 			if (TYPE_PIE.equalsIgnoreCase(type)) {
 				sb.append(TYPE_RPOP + "=" + TYPE_PIE); //$NON-NLS-1$
@@ -263,7 +264,7 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 			return stream;
 		} else if (WIDTH_PROP.equalsIgnoreCase(propName)) {
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 
 			sb.append(WIDTH_PROP + "=" + widthValue);//$NON-NLS-1$
 
@@ -281,19 +282,21 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IReportItem#deserialize(java.lang.
 	 * String, java.io.ByteArrayInputStream)
 	 */
+	@Override
 	public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException {
 		if (TEST3_PROP.equalsIgnoreCase(propName)) {
 			assert data != null;
 
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			int b;
-			while ((b = data.read()) > -1)
+			while ((b = data.read()) > -1) {
 				out.write(b);
+			}
 
 			String allValue = out.toString();
 			if (allValue == null || allValue.length() == 0) {
@@ -308,24 +311,25 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 				String name = string.substring(0, string.indexOf('='));
 				String value = string.substring(string.indexOf('=') + 1);
 
-				if (TYPE_RPOP.equalsIgnoreCase(name))
+				if (TYPE_RPOP.equalsIgnoreCase(name)) {
 					type = value;
-				else if (RADIUS_RPOP.equalsIgnoreCase(name))
+				} else if (RADIUS_RPOP.equalsIgnoreCase(name)) {
 					radius = Integer.parseInt(value);
-				else if (WIDTH_RPOP.equalsIgnoreCase(name))
+				} else if (WIDTH_RPOP.equalsIgnoreCase(name)) {
 					width = Integer.parseInt(value);
-				else if (HEIGHT_RPOP.equalsIgnoreCase(name))
+				} else if (HEIGHT_RPOP.equalsIgnoreCase(name)) {
 					height = Integer.parseInt(value);
-				else if (X_SCALE_RPOP.equalsIgnoreCase(name))
+				} else if (X_SCALE_RPOP.equalsIgnoreCase(name)) {
 					xScale = Integer.parseInt(value);
-				else if (Y_SCALE_RPOP.equalsIgnoreCase(name))
+				} else if (Y_SCALE_RPOP.equalsIgnoreCase(name)) {
 					yScale = Integer.parseInt(value);
-				else if (COMPANY_RPOP.equalsIgnoreCase(name))
+				} else if (COMPANY_RPOP.equalsIgnoreCase(name)) {
 					company = value;
-				else if (LINE_STYLE_PROP.equalsIgnoreCase(name))
+				} else if (LINE_STYLE_PROP.equalsIgnoreCase(name)) {
 					lineStyle = value;
-				else if (SCRIPT_PROP.equalsIgnoreCase(name))
+				} else if (SCRIPT_PROP.equalsIgnoreCase(name)) {
 					script = value;
+				}
 			}
 			refreshNeeded = true;
 
@@ -334,10 +338,11 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang.
 	 * String)
 	 */
+	@Override
 	public Object getProperty(String propName) {
 		if (TEST1_PROP.equalsIgnoreCase(propName)) {
 			return test1;
@@ -384,11 +389,12 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.model.extension.IExtendedElement#checkProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
+	@Override
 	public void checkProperty(String propName, Object value) throws ExtendedElementException {
 		if (LINE_STYLE_PROP.equalsIgnoreCase(propName)) {
 
@@ -397,11 +403,12 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#setProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
 
+	@Override
 	public void setProperty(String propName, Object value) {
 		IElementCommand command = new ElementCommandImpl(this, propName, value, extItemHandle);
 		moduleHandle.getCommandStack().execute(command);
@@ -409,14 +416,15 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/**
 	 * Sets the property.
-	 * 
+	 *
 	 * @param propName the property name
 	 * @param value    the value to set
 	 */
 
 	public void doSetProperty(String propName, Object value) {
-		if (value == null)
+		if (value == null) {
 			return;
+		}
 
 		if (TEST1_PROP.equalsIgnoreCase(propName)) {
 			test1 = value.toString();
@@ -464,9 +472,10 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#validate()
 	 */
+	@Override
 	public List validate() {
 
 		ExtendedElementException exception = new ExtendedElementException(extItemHandle.getElement(),
@@ -480,9 +489,10 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#copy()
 	 */
+	@Override
 	public IReportItem copy() {
 		try {
 			return (IReportItem) clone();
@@ -495,23 +505,26 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#getPropertyDefinitions()
 	 */
+	@Override
 	public IPropertyDefinition[] getPropertyDefinitions() {
-		if (TYPE_PIE.equalsIgnoreCase(type))
+		if (TYPE_PIE.equalsIgnoreCase(type)) {
 			return piePropertyList;
+		}
 
 		return barPropertyList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#refreshPropertyDefinition()
 	 */
+	@Override
 	public boolean refreshPropertyDefinition() {
 		if (refreshNeeded) {
 			refreshNeeded = false;
@@ -523,21 +536,23 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods()
 	 */
 
+	@Override
 	public IPropertyDefinition[] getMethods() {
 		return methods;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * getRowExpressions()
 	 */
 
+	@Override
 	public List getRowExpressions() {
 		List exprs = new ArrayList();
 		exprs.add("row[\"value1\"] = row[\"value2\"] + row[\"value3\"]"); //$NON-NLS-1$
@@ -548,21 +563,23 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * updateRowExpressions(java.util.Map)
 	 */
 
+	@Override
 	public void updateRowExpressions(Map newExpressions) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#getPredefinedStyles()
 	 */
+	@Override
 	public List getPredefinedStyles() {
 		List styles = new ArrayList();
 
@@ -576,8 +593,9 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 			{
 				styles.add("testing-box-detail"); //$NON-NLS-1$
 				StyleHandle style = this.moduleHandle.findStyle("testPredefinedStyle"); //$NON-NLS-1$
-				if (style != null)
+				if (style != null) {
 					styles.add(new MatrixStyle(style));
+				}
 				break;
 			}
 			e = e.getContainer();
@@ -588,11 +606,12 @@ public class ReportItemImpl extends ReportItem implements IReportItem, ICompatib
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#getSimpleElement()
 	 */
 
+	@Override
 	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement() {
 		return new Matrix((ExtendedItemHandle) extItemHandle);
 	}

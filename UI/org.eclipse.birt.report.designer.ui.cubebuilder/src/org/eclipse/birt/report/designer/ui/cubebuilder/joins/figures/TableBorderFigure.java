@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * The Border used by the TableNodeFigure for representing a Table object
- * 
+ *
  */
 public class TableBorderFigure extends CompoundBorder implements LabeledBorder {
 
@@ -53,23 +53,27 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder {
 		titleBar.setPadding(3);
 	}
 
+	@Override
 	public String getLabel() {
 		return titleBar.getLabel();
 	}
 
+	@Override
 	public void setFont(Font f) {
 		titleBar.setFont(f);
 	}
 
+	@Override
 	public void setLabel(String s) {
 		titleBar.setLabel(s);
 	}
 
 	public void setSelectedColors(boolean isFact) {
-		if (!isFact)
+		if (!isFact) {
 			titleBar.setBackgroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_BACKGROUND));
-		else
+		} else {
 			titleBar.setBackgroundColor(Fact_BACKGROUND);
+		}
 		titleBar.setTextColor(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 		titleBar.setFont(selectedFont);
 	}
@@ -78,10 +82,11 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder {
 	private Color Fact_BACKGROUND = ColorManager.getColor(25, 25, 25);
 
 	public void setDeselectedColors(boolean isFact) {
-		if (!isFact)
+		if (!isFact) {
 			titleBar.setBackgroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
-		else
+		} else {
 			titleBar.setBackgroundColor(Fact_INACTIVE_BACKGROUND);
+		}
 		titleBar.setTextColor(Display.getCurrent().getSystemColor(SWT.COLOR_GRAY));
 		titleBar.setFont(selectedFont);
 	}

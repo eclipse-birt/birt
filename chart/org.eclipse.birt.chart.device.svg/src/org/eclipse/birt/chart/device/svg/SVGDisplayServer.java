@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005 IBM Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -34,15 +34,17 @@ public class SVGDisplayServer extends SwingDisplayServer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#loadImage(java.net.URL)
 	 */
+	@Override
 	public Object loadImage(URL url) throws ChartException {
 		URL urlFound = findResource(url);
 		Image image = (Image) super.loadImage(urlFound);
 		return new SVGImage(image, urlFound);
 	}
 
+	@Override
 	public ITextMetrics getTextMetrics(Label la, boolean autoReuse) {
 		ChartTextMetrics tm = new ChartTextMetrics(this, la, autoReuse);
 		return tm;

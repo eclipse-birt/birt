@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,14 +39,14 @@ import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 /**
  * Validates one list property of element. The property type should structure
  * list.
- * 
+ *
  * <h3>Rule</h3> The rule is that
  * <ul>
  * <li>all structures in this list property should be valid.
  * <li>the value of the property with <code>NamePropertyType</code> should be
  * unique in the structure list.
  * </ul>
- * 
+ *
  * <h3>Applicability</h3> This validator is only applied to the property whose
  * type is structure list of one <code>DesignElement</code>.
  */
@@ -63,7 +63,7 @@ public class StructureListValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 * 
+	 *
 	 * @return the validator instance
 	 */
 
@@ -73,7 +73,7 @@ public class StructureListValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Validates whether a new structure can be added to structure list.
-	 * 
+	 *
 	 * @param element  the element holding the structure list
 	 * @param propDefn definition of the list property
 	 * @param list     the structure list
@@ -90,15 +90,16 @@ public class StructureListValidator extends AbstractPropertyValidator {
 	/**
 	 * Validates whether the list property specified by <code>propName</code> is
 	 * invalid.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param element  the element to validate
 	 * @param propName the name of the list property to validate
-	 * 
+	 *
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element, String propName) {
 		ElementPropertyDefn propDefn = element.getPropertyDefn(propName);
 
@@ -113,14 +114,14 @@ public class StructureListValidator extends AbstractPropertyValidator {
 	/**
 	 * Checks all structures in the specific property whose type is structure list
 	 * property type.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param element  the design element to validate
 	 * @param propDefn the property definition of the list property
 	 * @param list     the structure list to check
 	 * @param toAdd    the structure to add. This parameter maybe is
 	 *                 <code>null</code>.
-	 * 
+	 *
 	 * @return the error list
 	 */
 
@@ -128,10 +129,11 @@ public class StructureListValidator extends AbstractPropertyValidator {
 			List<Object> list, IStructure toAdd) {
 		boolean checkList = toAdd == null;
 
-		List<SemanticException> errorList = new ArrayList<SemanticException>();
+		List<SemanticException> errorList = new ArrayList<>();
 
-		if (list == null || list.size() == 0)
+		if (list == null || list.size() == 0) {
 			return errorList;
+		}
 
 		assert propDefn != null;
 		assert propDefn.getTypeCode() == IPropertyType.STRUCT_TYPE;
@@ -157,7 +159,7 @@ public class StructureListValidator extends AbstractPropertyValidator {
 				}
 			}
 
-			HashSet<String> values = new HashSet<String>();
+			HashSet<String> values = new HashSet<>();
 
 			// Check whether there two structure has the same value of
 			// the unique member.
@@ -165,15 +167,17 @@ public class StructureListValidator extends AbstractPropertyValidator {
 			for (int i = 0; i < list.size(); i++) {
 				Structure struct = (Structure) list.get(i);
 
-				if (checkList)
+				if (checkList) {
 					errorList.addAll(struct.validate(module, element));
+				}
 
 				if (uniqueMember != null) {
 					String value = (String) struct.getProperty(module, uniqueMember);
 					if (values.contains(value)) {
-						if (checkList)
+						if (checkList) {
 							errorList.add(new PropertyValueException(element, propDefn, value,
 									PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS));
+						}
 					} else {
 						values.add(value);
 					}
@@ -194,7 +198,7 @@ public class StructureListValidator extends AbstractPropertyValidator {
 		}
 		// the list is property binding list, we check them by both name and id
 		else {
-			HashMap<BigDecimal, List<String>> values = new HashMap<BigDecimal, List<String>>();
+			HashMap<BigDecimal, List<String>> values = new HashMap<>();
 
 			// Check whether there two property binding have the same name and
 			// element id.
@@ -202,22 +206,24 @@ public class StructureListValidator extends AbstractPropertyValidator {
 			for (int i = 0; i < list.size(); i++) {
 				PropertyBinding struct = (PropertyBinding) list.get(i);
 
-				if (checkList)
+				if (checkList) {
 					errorList.addAll(struct.validate(module, element));
+				}
 
 				String name = struct.getName();
 				BigDecimal id = struct.getID();
 				List<String> names = values.get(id);
 				if (names != null) {
 					if (names.contains(name)) {
-						if (checkList)
+						if (checkList) {
 							errorList.add(new PropertyValueException(element, propDefn, name,
 									PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS));
+						}
 					} else {
 						names.add(name);
 					}
 				} else {
-					names = new ArrayList<String>();
+					names = new ArrayList<>();
 					names.add(name);
 					values.put(id, names);
 				}
@@ -246,7 +252,7 @@ public class StructureListValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Validates whether a structure can be renamed to the given name.
-	 * 
+	 *
 	 * @param element    the element holding the structure list
 	 * @param propDefn   definition of the list property
 	 * @param list       the structure list
@@ -259,10 +265,11 @@ public class StructureListValidator extends AbstractPropertyValidator {
 
 	public List<SemanticException> validateForRenaming(DesignElementHandle element, IPropertyDefn propDefn,
 			List<Object> list, IStructure toRenamed, IPropertyDefn memberDefn, String newName) {
-		List<SemanticException> errorList = new ArrayList<SemanticException>();
+		List<SemanticException> errorList = new ArrayList<>();
 
-		if (list == null || list.size() == 0)
+		if (list == null || list.size() == 0) {
 			return errorList;
+		}
 
 		assert propDefn != null;
 		assert propDefn.getTypeCode() == IPropertyType.STRUCT_TYPE;

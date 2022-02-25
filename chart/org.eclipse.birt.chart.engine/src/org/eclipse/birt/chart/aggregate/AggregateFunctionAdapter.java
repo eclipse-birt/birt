@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -35,29 +35,32 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.aggregate.IAggregateFunction#accumulate(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void accumulate(Object oValue) throws IllegalArgumentException {
 		detectTypeChange(oValue);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getAggregatedValue()
 	 */
+	@Override
 	public Object getAggregatedValue() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#initialize()
 	 */
+	@Override
 	public void initialize() {
 		iDataType = UNKNOWN;
 	}
@@ -65,13 +68,12 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction {
 	/**
 	 * Internally detects if the accumulated data's data type has changed in the
 	 * aggregate function.
-	 * 
+	 *
 	 * @param oValue
 	 */
 	private final void detectTypeChange(Object oValue) throws IllegalArgumentException {
 		if (iDataType == UNKNOWN) {
 			if (oValue == null) {
-				return;
 			} else if (oValue instanceof Number) {
 				iDataType = NUMBER;
 			} else if (oValue instanceof BigDecimal) {
@@ -114,7 +116,7 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction {
 
 	/**
 	 * Sets a locale associated with this aggregate function instance
-	 * 
+	 *
 	 * @param lcl A locale associated with this aggregate function instance
 	 */
 	public final void setLocale(ULocale lcl) {
@@ -124,7 +126,7 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction {
 	/**
 	 * Returns the locale associated with this aggregate function instance to be
 	 * used by this aggregate function
-	 * 
+	 *
 	 * @return The locale associated with this aggregate function instance
 	 */
 	protected final ULocale getLocale() {
@@ -132,7 +134,7 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	protected final int getDataType() {
@@ -141,32 +143,36 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
 	 */
+	@Override
 	public String[] getDisplayParameters() {
 		return new String[] {};
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getParametersCount()
 	 */
+	@Override
 	public int getParametersCount() {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getType()
 	 */
+	@Override
 	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
+	@Override
 	public int getBIRTDataType() {
 		return DataType.UNKNOWN_TYPE;
 	}

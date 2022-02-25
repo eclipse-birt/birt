@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ public class ReportHyperlinkParameterProvider implements IHyperlinkParameterProv
 	// TODO localize
 	public static final String CATEGORY_REPORT = Messages.getString("ReportHyperlinkParameterProvider.Category.Report"); //$NON-NLS-1$
 
-	private static final String[] CATS = new String[] { CATEGORY_REPORT };
+	private static final String[] CATS = { CATEGORY_REPORT };
 
 	private ReportDesignHandle design;
 
@@ -37,13 +37,15 @@ public class ReportHyperlinkParameterProvider implements IHyperlinkParameterProv
 		this.design = design;
 	}
 
+	@Override
 	public String[] getCategories() {
 		return CATS;
 	}
 
+	@Override
 	public IHyperlinkParameter[] getParameters(String category, String format) {
 		if (design != null && CATEGORY_REPORT.equals(category)) {
-			ArrayList<IHyperlinkParameter> params = new ArrayList<IHyperlinkParameter>();
+			ArrayList<IHyperlinkParameter> params = new ArrayList<>();
 
 			for (Iterator iter = design.getAllParameters().iterator(); iter.hasNext();) {
 				Object obj = iter.next();

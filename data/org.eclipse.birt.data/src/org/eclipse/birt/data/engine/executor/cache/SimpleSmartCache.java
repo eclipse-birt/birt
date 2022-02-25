@@ -37,7 +37,6 @@ public class SimpleSmartCache implements ResultSetCache {
 
 	private ResultSetCache resultSetCache;
 	private boolean isOpen = false;
-	private IEventHandler eventHandler;
 	private int count;
 	private long usedMemorySize;
 	private long memoryCacheSize;
@@ -55,11 +54,10 @@ public class SimpleSmartCache implements ResultSetCache {
 	public SimpleSmartCache(DataEngineSession session, IEventHandler eventHandler, IResultClass rsMeta)
 			throws DataException {
 		this.session = session;
-		this.eventHandler = eventHandler;
 		this.count = 0;
 		this.usedMemorySize = 0;
 		this.memoryCacheSize = CacheUtil.computeMemoryBufferSize(eventHandler.getAppContext());
-		this.resultObjectsList = new ArrayList<IResultObject>();
+		this.resultObjectsList = new ArrayList<>();
 		this.rsMeta = rsMeta;
 		this.sizeOfUtil = new SizeOfUtil(rsMeta);
 		this.maxRows = CacheUtil.getMaxRows(eventHandler.getAppContext());
@@ -102,13 +100,15 @@ public class SimpleSmartCache implements ResultSetCache {
 			odaObject = new ResultObject(rsMeta, obs);
 		}
 		resultObjectsList.add(odaObject);
-		if (memoryCacheSize != 0)
+		if (memoryCacheSize != 0) {
 			usedMemorySize += sizeOfUtil.sizeOf(odaObject);
+		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCount()
 	 */
+	@Override
 	public int getCount() throws DataException {
 		open();
 
@@ -135,6 +135,7 @@ public class SimpleSmartCache implements ResultSetCache {
 	 * @see
 	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCurrentIndex ()
 	 */
+	@Override
 	public int getCurrentIndex() throws DataException {
 		open();
 
@@ -146,6 +147,7 @@ public class SimpleSmartCache implements ResultSetCache {
 	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCurrentResult
 	 * ()
 	 */
+	@Override
 	public IResultObject getCurrentResult() throws DataException {
 		open();
 
@@ -155,6 +157,7 @@ public class SimpleSmartCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#nextRow()
 	 */
+	@Override
 	public boolean next() throws DataException {
 		open();
 
@@ -164,6 +167,7 @@ public class SimpleSmartCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#fetch()
 	 */
+	@Override
 	public IResultObject fetch() throws DataException {
 		open();
 
@@ -173,6 +177,7 @@ public class SimpleSmartCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#moveTo(int)
 	 */
+	@Override
 	public void moveTo(int destIndex) throws DataException {
 		open();
 
@@ -182,6 +187,7 @@ public class SimpleSmartCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#reset()
 	 */
+	@Override
 	public void reset() throws DataException {
 		open();
 
@@ -191,6 +197,7 @@ public class SimpleSmartCache implements ResultSetCache {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#close()
 	 */
+	@Override
 	public void close() throws DataException {
 		open();
 
@@ -203,6 +210,7 @@ public class SimpleSmartCache implements ResultSetCache {
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream
 	 * (java.io.OutputStream)
 	 */
+	@Override
 	public void doSave(DataOutputStream outputStream, DataOutputStream rowLensStream,
 			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap,
 			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators, boolean saveRowId) throws DataException {
@@ -216,6 +224,7 @@ public class SimpleSmartCache implements ResultSetCache {
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream
 	 * (java.io.OutputStream)
 	 */
+	@Override
 	public void incrementalUpdate(OutputStream outputStream, OutputStream rowLensStream, int originalRowCount,
 			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
 			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators) throws DataException {
@@ -227,11 +236,12 @@ public class SimpleSmartCache implements ResultSetCache {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#setResultClass
 	 * (org.eclipse.birt.data.engine.odi.IResultClass)
 	 */
+	@Override
 	public void setResultClass(IResultClass rsMeta) throws DataException {
 		open();
 

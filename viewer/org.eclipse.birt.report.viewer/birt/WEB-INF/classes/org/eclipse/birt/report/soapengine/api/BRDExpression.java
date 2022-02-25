@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,7 +36,7 @@ public class BRDExpression implements java.io.Serializable {
 
 	/**
 	 * Gets the expression value for this BRDExpression.
-	 * 
+	 *
 	 * @return expression
 	 */
 	public java.lang.String getExpression() {
@@ -45,7 +45,7 @@ public class BRDExpression implements java.io.Serializable {
 
 	/**
 	 * Sets the expression value for this BRDExpression.
-	 * 
+	 *
 	 * @param expression
 	 */
 	public void setExpression(java.lang.String expression) {
@@ -54,7 +54,7 @@ public class BRDExpression implements java.io.Serializable {
 
 	/**
 	 * Gets the isValid value for this BRDExpression.
-	 * 
+	 *
 	 * @return isValid
 	 */
 	public java.lang.Boolean getIsValid() {
@@ -63,7 +63,7 @@ public class BRDExpression implements java.io.Serializable {
 
 	/**
 	 * Sets the isValid value for this BRDExpression.
-	 * 
+	 *
 	 * @param isValid
 	 */
 	public void setIsValid(java.lang.Boolean isValid) {
@@ -72,7 +72,7 @@ public class BRDExpression implements java.io.Serializable {
 
 	/**
 	 * Gets the parserError value for this BRDExpression.
-	 * 
+	 *
 	 * @return parserError
 	 */
 	public java.lang.String getParserError() {
@@ -81,7 +81,7 @@ public class BRDExpression implements java.io.Serializable {
 
 	/**
 	 * Sets the parserError value for this BRDExpression.
-	 * 
+	 *
 	 * @param parserError
 	 */
 	public void setParserError(java.lang.String parserError) {
@@ -90,14 +90,18 @@ public class BRDExpression implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof BRDExpression))
+		if (!(obj instanceof BRDExpression)) {
 			return false;
+		}
 		BRDExpression other = (BRDExpression) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -116,6 +120,7 @@ public class BRDExpression implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ public class PasteResourceAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for pasting resource.
-	 * 
+	 *
 	 * @param page      the resource explorer page
 	 * @param clipboard the clipboard for pasting resource
 	 */
@@ -104,13 +104,15 @@ public class PasteResourceAction extends ResourceAction {
 							Messages.getString("PasteResourceAction.Dialog.Title"), //$NON-NLS-1$
 							Messages.getString("PasteResourceAction.Dialog.Message"), //$NON-NLS-1$
 							Messages.getString("PasteResourceAction.Dialog.FilenameSuffix.CopyOf") + " " //$NON-NLS-1$ //$NON-NLS-2$
-									+ srcFile.getName(), existedNames, IHelpContextIds.RENAME_INPUT_DIALOG_ID);
+									+ srcFile.getName(),
+							existedNames, IHelpContextIds.RENAME_INPUT_DIALOG_ID);
 					inputDialog.create();
 
 					if (inputDialog.open() == Window.OK) {
 						targetFile = new File(container, inputDialog.getResult().toString().trim());
-					} else
+					} else {
 						return;
+					}
 
 					// No need to check the attribute of the target file for the
 					// target file doesn't exist at this point.
@@ -134,16 +136,14 @@ public class PasteResourceAction extends ResourceAction {
 
 	/**
 	 * Copies files in a monitor dialog.
-	 * 
+	 *
 	 * @param srcFile    the source file
 	 * @param targetFile the target file
 	 */
 	private void doCopy(final File srcFile, final File targetFile) {
 		try {
 			new ProgressMonitorDialog(getShell()).run(true, true, createCopyFileRunnable(srcFile, targetFile));
-		} catch (InvocationTargetException e) {
-			ExceptionUtil.handle(e);
-		} catch (InterruptedException e) {
+		} catch (InvocationTargetException | InterruptedException e) {
 			ExceptionUtil.handle(e);
 		}
 	}

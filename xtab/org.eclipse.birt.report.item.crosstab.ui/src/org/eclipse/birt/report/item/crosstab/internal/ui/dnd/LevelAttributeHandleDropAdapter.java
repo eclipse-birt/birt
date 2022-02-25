@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,11 +45,12 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#canDrop
 	 * (java.lang.Object, java.lang.Object, int,
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
 	 */
+	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (transfer instanceof IAdaptable) {
 			if (((IAdaptable) transfer).getAdapter(StructureHandle.class) instanceof LevelAttributeHandle) {
@@ -63,10 +64,11 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter {
 		if (target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
 			if (editPart.getModel() instanceof IVirtualValidator) {
-				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer))
+				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer)) {
 					return DNDService.LOGIC_TRUE;
-				else
+				} else {
 					return DNDService.LOGIC_FALSE;
+				}
 			}
 		}
 		return DNDService.LOGIC_UNKNOW;
@@ -76,8 +78,9 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter {
 		if (transfer instanceof Object[]) {
 			Object[] items = (Object[]) transfer;
 			for (int i = 0; i < items.length; i++) {
-				if (!isLevelAttributeHandle(items[i]))
+				if (!isLevelAttributeHandle(items[i])) {
 					return false;
+				}
 			}
 			return true;
 		}
@@ -107,12 +110,13 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#performDrop
 	 * (java.lang.Object, java.lang.Object, int,
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
 	 */
+	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (transfer instanceof IAdaptable) {
 			if (((IAdaptable) transfer).getAdapter(StructureHandle.class) instanceof LevelAttributeHandle) {
@@ -141,8 +145,9 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter {
 					}
 					stack.commit();
 					return true;
-				} else
+				} else {
 					return false;
+				}
 			}
 		}
 		return false;

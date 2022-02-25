@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 IBM Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -53,6 +53,7 @@ public class BidiSettingsSupport {
 		bidiButton.setLayoutData(new GridData(GridData.END));
 		bidiButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doSetAdvancedBidiSettings();
 			}
@@ -93,62 +94,73 @@ public class BidiSettingsSupport {
 		Properties p = new Properties();
 		BidiFormat externalDefaultBDiFormat = new BidiFormat(JdbcPlugin.getDefault().getPluginPreferences()
 				.getString(JDBCDataSourcePreferencePage.EXTERNAL_BIDI_FORMAT));
-		if (contentBidiFormat != null)
+		if (contentBidiFormat != null) {
 			p.setProperty(BidiConstants.CONTENT_FORMAT_PROP_NAME, contentBidiFormat.getBiDiFormatString());
-		else
+		} else {
 			p.setProperty(BidiConstants.CONTENT_FORMAT_PROP_NAME, externalDefaultBDiFormat.getBiDiFormatString());
-		if (metadataBidiFormat != null)
+		}
+		if (metadataBidiFormat != null) {
 			p.setProperty(BidiConstants.METADATA_FORMAT_PROP_NAME, metadataBidiFormat.getBiDiFormatString());
-		else
+		} else {
 			p.setProperty(BidiConstants.METADATA_FORMAT_PROP_NAME, externalDefaultBDiFormat.getBiDiFormatString());
+		}
 		return p;
 	}
 
 	private void initBidiFormats(Properties props) {
 		BidiFormat contentFormat = null;
 		BidiFormat metadataFormat = null;
-		if (props == null)
+		if (props == null) {
 			return;
+		}
 		String str = props.getProperty(BidiConstants.CONTENT_FORMAT_PROP_NAME);
-		if (str != null && !str.equals(""))
+		if (str != null && !str.equals("")) {
 			contentFormat = new BidiFormat(str);
-		else
+		} else {
 			contentFormat = new BidiFormat(BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+		}
 		str = props.getProperty(BidiConstants.METADATA_FORMAT_PROP_NAME);
-		if (str != null && !str.equals(""))
+		if (str != null && !str.equals("")) {
 			metadataFormat = new BidiFormat(str);
-		else
+		} else {
 			metadataFormat = new BidiFormat(BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+		}
 		str = props.getProperty(BidiConstants.DISABLED_CONTENT_FORMAT_PROP_NAME);
-		if (str != null && !str.equals(""))
+		if (str != null && !str.equals("")) {
 			disabledContentBidiFormat = new BidiFormat(str);
-		else
+		} else {
 			disabledContentBidiFormat = null;
+		}
 		str = props.getProperty(BidiConstants.DISABLED_METADATA_FORMAT_PROP_NAME);
-		if (str != null && !str.equals(""))
+		if (str != null && !str.equals("")) {
 			disabledMetadataBidiFormat = new BidiFormat(str);
-		else
+		} else {
 			disabledMetadataBidiFormat = null;
+		}
 
 		setBidiFormats(metadataFormat, contentFormat, disabledMetadataBidiFormat, disabledContentBidiFormat);
 	}
 
 	public Properties addBidiProperties(Properties props) {
 		if (props != null) {
-			if (contentBidiFormat != null)
+			if (contentBidiFormat != null) {
 				props.setProperty(BidiConstants.CONTENT_FORMAT_PROP_NAME, contentBidiFormat.toString());
-			if (metadataBidiFormat != null)
+			}
+			if (metadataBidiFormat != null) {
 				props.setProperty(BidiConstants.METADATA_FORMAT_PROP_NAME, metadataBidiFormat.toString());
-			if (disabledContentBidiFormat != null)
+			}
+			if (disabledContentBidiFormat != null) {
 				props.setProperty(BidiConstants.DISABLED_CONTENT_FORMAT_PROP_NAME,
 						disabledContentBidiFormat.toString());
-			else
+			} else {
 				props.setProperty(BidiConstants.DISABLED_CONTENT_FORMAT_PROP_NAME, BidiConstants.EMPTY_STR);
-			if (disabledMetadataBidiFormat != null)
+			}
+			if (disabledMetadataBidiFormat != null) {
 				props.setProperty(BidiConstants.DISABLED_METADATA_FORMAT_PROP_NAME,
 						disabledMetadataBidiFormat.toString());
-			else
+			} else {
 				props.setProperty(BidiConstants.DISABLED_METADATA_FORMAT_PROP_NAME, BidiConstants.EMPTY_STR);
+			}
 		}
 		return props;
 	}

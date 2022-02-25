@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,8 +24,8 @@ import org.eclipse.birt.report.engine.extension.IRowMetaData;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
- * 
- * 
+ *
+ *
  */
 public class RowSet implements IRowSet {
 	protected IQueryResultSet rset;
@@ -38,14 +38,17 @@ public class RowSet implements IRowSet {
 		this.rset = rset;
 		metaData = new IRowMetaData() {
 
+			@Override
 			public int getColumnCount() {
 				return 0;
 			}
 
+			@Override
 			public String getColumnName(int index) throws BirtException {
 				return null;
 			}
 
+			@Override
 			public int getColumnType(int index) throws BirtException {
 				return -1;
 			}
@@ -61,13 +64,15 @@ public class RowSet implements IRowSet {
 
 	/**
 	 * returns the definition for the data row
-	 * 
+	 *
 	 * @return the definition for the data row
 	 */
+	@Override
 	public IRowMetaData getMetaData() {
 		return metaData;
 	}
 
+	@Override
 	public boolean next() {
 		if (rset != null) {
 			try {
@@ -80,6 +85,7 @@ public class RowSet implements IRowSet {
 		return false;
 	}
 
+	@Override
 	public Object evaluate(String expr) {
 		try {
 			if (rset != null) {
@@ -91,6 +97,7 @@ public class RowSet implements IRowSet {
 		return null;
 	}
 
+	@Override
 	public Object evaluate(IBaseExpression expr) {
 		try {
 			if (rset != null) {
@@ -105,7 +112,7 @@ public class RowSet implements IRowSet {
 	/**
 	 * Returns the value of a bound column by column index. So far it's a dummy
 	 * implementation.
-	 * 
+	 *
 	 * @param columnIndex
 	 * @return
 	 */
@@ -115,7 +122,7 @@ public class RowSet implements IRowSet {
 
 	/**
 	 * Returns the value of a bound column by column name.
-	 * 
+	 *
 	 * @param name of bound column
 	 * @return value of bound column
 	 * @throws BirtException
@@ -133,9 +140,10 @@ public class RowSet implements IRowSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getEndingGroupLevel()
 	 */
+	@Override
 	public int getEndingGroupLevel() {
 		if (rset != null) {
 			try {
@@ -149,9 +157,10 @@ public class RowSet implements IRowSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getStartingGroupLevel()
 	 */
+	@Override
 	public int getStartingGroupLevel() {
 		if (rset != null) {
 			try {
@@ -164,10 +173,11 @@ public class RowSet implements IRowSet {
 		return 0;
 	}
 
+	@Override
 	public void close() {
-		return;
 	}
 
+	@Override
 	public boolean isEmpty() throws BirtException {
 		if (rset == null) {
 			return true;

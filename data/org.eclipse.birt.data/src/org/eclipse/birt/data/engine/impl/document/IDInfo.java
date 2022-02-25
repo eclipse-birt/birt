@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,7 +14,7 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 /**
- * 
+ *
  */
 public class IDInfo {
 	// the id of query result, includes: rootQueryResultID and selfQueryResultID
@@ -36,7 +36,7 @@ public class IDInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param queryResultID
 	 * @param subQueryName
 	 */
@@ -99,17 +99,18 @@ public class IDInfo {
 
 	public String buildSubQueryID(String parentQueryID) {
 		// if self is a sub query
-		if (subQueryName == null)
+		if (subQueryName == null) {
 			return parentQueryID;
-		else
+		} else {
 			// support sub query of sub query
 			return parentQueryID + "/" + QueryResultIDUtil.buildSubQueryID(this.subQueryName, this.subQueryIndex);
+		}
 	}
 
 	/**
 	 * Generate sub query definition for such a sub query which is applied to each
 	 * row of parent query.
-	 * 
+	 *
 	 * @param count
 	 * @return [0, 1, 1, 2, 2, 3...]
 	 */

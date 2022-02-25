@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,10 +26,12 @@ public class ColumnMetaData implements IColumnMetaData {
 		this.meta = meta;
 	}
 
+	@Override
 	public int getColumnCount() {
 		return meta.getColumnCount();
 	}
 
+	@Override
 	public String getColumnName(int index) throws ScriptException {
 		try {
 			return meta.getColumnName(index);
@@ -38,6 +40,7 @@ public class ColumnMetaData implements IColumnMetaData {
 		}
 	}
 
+	@Override
 	public String getColumnAlias(int index) throws ScriptException {
 		try {
 			return meta.getColumnAlias(index);
@@ -46,6 +49,7 @@ public class ColumnMetaData implements IColumnMetaData {
 		}
 	}
 
+	@Override
 	public int getColumnType(int index) throws ScriptException {
 		try {
 			return meta.getColumnType(index);
@@ -54,6 +58,7 @@ public class ColumnMetaData implements IColumnMetaData {
 		}
 	}
 
+	@Override
 	public String getColumnTypeName(int index) throws ScriptException {
 		try {
 			return meta.getColumnTypeName(index);
@@ -62,6 +67,7 @@ public class ColumnMetaData implements IColumnMetaData {
 		}
 	}
 
+	@Override
 	public String getColumnNativeTypeName(int index) throws ScriptException {
 		try {
 			return meta.getColumnNativeTypeName(index);
@@ -70,6 +76,7 @@ public class ColumnMetaData implements IColumnMetaData {
 		}
 	}
 
+	@Override
 	public String getColumnLabel(int index) throws ScriptException {
 		try {
 			return meta.getColumnLabel(index);
@@ -78,6 +85,7 @@ public class ColumnMetaData implements IColumnMetaData {
 		}
 	}
 
+	@Override
 	public boolean isComputedColumn(int index) throws ScriptException {
 		try {
 			return meta.isComputedColumn(index);

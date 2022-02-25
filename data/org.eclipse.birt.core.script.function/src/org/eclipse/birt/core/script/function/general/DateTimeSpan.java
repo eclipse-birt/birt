@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import com.ibm.icu.util.Calendar;
 /**
  * Provides a set of functions for working with the difference between two
  * dates.
- * 
+ *
  */
 public class DateTimeSpan {
 	private static final String YEARS = "years";
@@ -98,10 +98,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 2)
+			if (arguments == null || arguments.length != 2) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.year()");
+			}
 			return years(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toDate(arguments[1]));
 		}
 
@@ -145,10 +147,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 2)
+			if (arguments == null || arguments.length != 2) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.months()");
+			}
 			return months(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toDate(arguments[1]));
 		}
 	}
@@ -177,10 +181,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 2)
+			if (arguments == null || arguments.length != 2) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.days()");
+			}
 			return days(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toDate(arguments[1]));
 		}
 	}
@@ -208,10 +214,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 2)
+			if (arguments == null || arguments.length != 2) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.hours()");
+			}
 			return hours(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toDate(arguments[1]));
 		}
 	}
@@ -239,10 +247,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 2)
+			if (arguments == null || arguments.length != 2) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.minutes()");
+			}
 			return minutes(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toDate(arguments[1]));
 		}
 	}
@@ -271,10 +281,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 2)
+			if (arguments == null || arguments.length != 2) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.seconds()");
+			}
 			return seconds(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toDate(arguments[1]));
 		}
 	}
@@ -306,10 +318,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 4)
+			if (arguments == null || arguments.length != 4) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.addDate()");
+			}
 			return addDate(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toInteger(arguments[1]),
 					DataTypeUtil.toInteger(arguments[2]), DataTypeUtil.toInteger(arguments[3]));
 		}
@@ -342,10 +356,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 4)
+			if (arguments == null || arguments.length != 4) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.addTime()");
+			}
 			return addTime(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toInteger(arguments[1]),
 					DataTypeUtil.toInteger(arguments[2]), DataTypeUtil.toInteger(arguments[3]));
 		}
@@ -370,10 +386,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 4)
+			if (arguments == null || arguments.length != 4) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.subDate()");
+			}
 			return subDate(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toInteger(arguments[1]),
 					DataTypeUtil.toInteger(arguments[2]), DataTypeUtil.toInteger(arguments[3]));
 		}
@@ -395,10 +413,12 @@ public class DateTimeSpan {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
-			if (arguments == null || arguments.length != 4)
+			if (arguments == null || arguments.length != 4) {
 				throw new BirtException("org.eclipse.birt.core.script.general", null,
 						Messages.getString("invalid.number.of.argument") + "DateTimeSpan.subTime()");
+			}
 			return subTime(DataTypeUtil.toDate(arguments[0]), DataTypeUtil.toInteger(arguments[1]),
 					DataTypeUtil.toInteger(arguments[2]), DataTypeUtil.toInteger(arguments[3]));
 		}
@@ -406,7 +426,7 @@ public class DateTimeSpan {
 
 	/**
 	 * validate the order of the date arguments
-	 * 
+	 *
 	 * @param start start date
 	 * @param end   end date
 	 * @return whether start date is before end date
@@ -416,26 +436,27 @@ public class DateTimeSpan {
 	}
 
 	static IScriptFunctionExecutor getExecutor(String functionName) throws BirtException {
-		if (YEARS.equals(functionName))
+		if (YEARS.equals(functionName)) {
 			return new YearsScriptFunctionExecutor();
-		else if (ADDDATE.equals(functionName))
+		} else if (ADDDATE.equals(functionName)) {
 			return new AddDateScriptFunctionExecutor();
-		else if (ADDTIME.equals(functionName))
+		} else if (ADDTIME.equals(functionName)) {
 			return new AddTimeScriptFunctionExecutor();
-		else if (DAYS.equals(functionName))
+		} else if (DAYS.equals(functionName)) {
 			return new DaysScriptFunctionExecutor();
-		else if (HOURS.equals(functionName))
+		} else if (HOURS.equals(functionName)) {
 			return new HoursScriptFunctionExecutor();
-		else if (MINUTES.equals(functionName))
+		} else if (MINUTES.equals(functionName)) {
 			return new MinutesScriptFunctionExecutor();
-		else if (SECONDS.equals(functionName))
+		} else if (SECONDS.equals(functionName)) {
 			return new SecondsScriptFunctionExecutor();
-		else if (SUBDATE.equals(functionName))
+		} else if (SUBDATE.equals(functionName)) {
 			return new SubDateScriptFunctionExecutor();
-		else if (SUBTIME.equals(functionName))
+		} else if (SUBTIME.equals(functionName)) {
 			return new SubTimeScriptFunctionExecutor();
-		else if (MONTHS.equals(functionName))
+		} else if (MONTHS.equals(functionName)) {
 			return new MonthsScriptFunctionExecutor();
+		}
 
 		throw new BirtException("org.eclipse.birt.core.script.function.general", null,
 				Messages.getString("invalid.function.name") + "DateTimeSpan." + functionName);

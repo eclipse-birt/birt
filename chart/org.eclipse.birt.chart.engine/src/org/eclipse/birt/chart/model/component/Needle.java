@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -46,7 +46,7 @@ public interface Needle extends IChartObject {
 	 * Returns the value of the '<em><b>Line Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * --> Specify the line properties for the needle. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #setLineAttributes(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getNeedle_LineAttributes()
@@ -61,7 +61,7 @@ public interface Needle extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Needle#getLineAttributes
 	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Line Attributes</em>' containment
 	 *              reference.
 	 * @see #getLineAttributes()
@@ -75,7 +75,7 @@ public interface Needle extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.attribute.LineDecorator}. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Specify the
 	 * line decorator for the needle. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Decorator</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.LineDecorator
 	 * @see #isSetDecorator()
@@ -92,7 +92,7 @@ public interface Needle extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator
 	 * <em>Decorator</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Decorator</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.LineDecorator
 	 * @see #isSetDecorator()
@@ -106,7 +106,7 @@ public interface Needle extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator
 	 * <em>Decorator</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetDecorator()
 	 * @see #getDecorator()
 	 * @see #setDecorator(LineDecorator)
@@ -119,7 +119,7 @@ public interface Needle extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator
 	 * <em>Decorator</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Decorator</em>' attribute is set.
 	 * @see #unsetDecorator()
 	 * @see #getDecorator()
@@ -131,6 +131,7 @@ public interface Needle extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	Needle copyInstance();
 
 } // Needle
